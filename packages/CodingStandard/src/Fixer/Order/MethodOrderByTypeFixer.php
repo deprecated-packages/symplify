@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
-use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -17,7 +16,7 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 /**
  * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
  */
-final class MethodOrderByTypeFixer extends AbstractFixer implements ConfigurableFixerInterface
+final class MethodOrderByTypeFixer implements DefinedFixerInterface, ConfigurableFixerInterface
 {
     /**
      * @var string[][]
@@ -36,7 +35,6 @@ final class MethodOrderByTypeFixer extends AbstractFixer implements Configurable
 
     public function __construct(ClassWrapperFactory $classWrapperFactory, ClassElementSorter $classElementSorter)
     {
-        parent::__construct();
         $this->classWrapperFactory = $classWrapperFactory;
         $this->classElementSorter = $classElementSorter;
     }
@@ -72,7 +70,7 @@ CODE_SAMPLE
         );
     }
 
-    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($i = 1, $count = $tokens->count(); $i < $count; ++$i) {
             if (! $tokens[$i]->isClassy()) {
@@ -165,19 +163,6 @@ CODE_SAMPLE
         return array_merge($publicMethodElements, $restOfMethods);
     }
 
-    private function matchClassType(ClassWrapper $classWrapper): ?string
-    {
-        $classTypesToCheck = array_keys($this->methodOrderByType);
-
-        $matchTypes = array_intersect($classWrapper->getClassTypes(), $classTypesToCheck);
-        if (! $matchTypes) {
-            return null;
-        }
-
-        // return first matching type
-        return array_pop($matchTypes);
-    }
-
     /**
      * @return string[]
      */
@@ -205,5 +190,18 @@ CODE_SAMPLE
         }
 
         return array_merge($sorted, $methodElements);
+    }
+
+    private function matchClassType(ClassWrapper $classWrapper): ?string
+    {
+        $classTypesToCheck = array_keys($this->methodOrderByType);
+
+        $matchTypes = array_intersect($classWrapper->getClassTypes(), $classTypesToCheck);
+        if (! $matchTypes) {
+            return null;
+        }
+
+        // return first matching type
+        return array_pop($matchTypes);
     }
 }

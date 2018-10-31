@@ -44,6 +44,42 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
     }
 
+    private function shouldSkipDefinition(ContainerBuilder $containerBuilder, Definition $definition): bool
+    {
+        if ($definition->isAbstract()) {
+            return true;
+        }
+
+        if ($definition->getClass() === null) {
+            return true;
+        }
+
+        if ($definition->getFactory()) {
+            return true;
+        }
+
+        if (! class_exists($definition->getClass())) {
+            return true;
+        }
+
+        $reflectionClass = $containerBuilder->getReflectionClass($definition->getClass());
+        if ($reflectionClass === null) {
+            return true;
+        }
+
+        if (! $reflectionClass->hasMethod('__construct')) {
+            return true;
+        }
+
+        /** @var MethodReflection $constructorMethodReflection */
+        $constructorMethodReflection = $reflectionClass->getConstructor();
+        if (! $constructorMethodReflection->getParameters()) {
+            return true;
+        }
+
+        return false;
+    }
+
     private function processParameters(
         ContainerBuilder $containerBuilder,
         ReflectionMethod $reflectionMethod,
@@ -91,42 +127,6 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         return Reflection::expandClassName($result['type'], $reflectionMethod->getDeclaringClass());
-    }
-
-    private function shouldSkipDefinition(ContainerBuilder $containerBuilder, Definition $definition): bool
-    {
-        if ($definition->isAbstract()) {
-            return true;
-        }
-
-        if ($definition->getClass() === null) {
-            return true;
-        }
-
-        if ($definition->getFactory()) {
-            return true;
-        }
-
-        if (! class_exists($definition->getClass())) {
-            return true;
-        }
-
-        $reflectionClass = $containerBuilder->getReflectionClass($definition->getClass());
-        if ($reflectionClass === null) {
-            return true;
-        }
-
-        if (! $reflectionClass->hasMethod('__construct')) {
-            return true;
-        }
-
-        /** @var MethodReflection $constructorMethodReflection */
-        $constructorMethodReflection = $reflectionClass->getConstructor();
-        if (! $constructorMethodReflection->getParameters()) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

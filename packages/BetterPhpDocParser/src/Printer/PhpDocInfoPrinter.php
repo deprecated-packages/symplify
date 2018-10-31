@@ -117,6 +117,25 @@ final class PhpDocInfoPrinter
         return $this->printEnd($output);
     }
 
+    private function isPhpDocNodeEmpty(PhpDocNode $phpDocNode): bool
+    {
+        if (count($phpDocNode->children) === 0) {
+            return true;
+        }
+
+        foreach ($phpDocNode->children as $phpDocChildNode) {
+            if ($phpDocChildNode instanceof PhpDocTextNode) {
+                if ($phpDocChildNode->text) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private function printNode(
         Node $node,
         ?PhpDocNodeInfo $phpDocNodeInfo = null,
@@ -158,6 +177,41 @@ final class PhpDocInfoPrinter
         }
 
         return $output . (string) $node;
+    }
+
+    private function printEnd(string $output): string
+    {
+        return $this->addTokensFromTo($output, $this->getLastNodeTokenEndPosition(), $this->tokenCount, true);
+    }
+
+    private function addTokensFromTo(
+        string $output,
+        int $from,
+        int $to,
+        bool $shouldSkipEmptyLinesAbove = false
+    ): string {
+        // skip removed nodes
+        $positionJumpSet = [];
+        foreach ($this->getRemovedNodesPositions() as $removedTokensPosition) {
+            $positionJumpSet[$removedTokensPosition->getStart()] = $removedTokensPosition->getEnd();
+        }
+
+        // include also space before, in case of inlined docs
+        if (isset($this->tokens[$from - 1]) && $this->tokens[$from - 1][1] === Lexer::TOKEN_HORIZONTAL_WS) {
+            --$from;
+        }
+
+        if ($shouldSkipEmptyLinesAbove) {
+            // skip extra empty lines above if this is the last one
+            if (Strings::contains($this->tokens[$from][0], PHP_EOL) && Strings::contains(
+                $this->tokens[$from + 1][0],
+                PHP_EOL
+            )) {
+                ++$from;
+            }
+        }
+
+        return $this->appendToOutput($output, $from, $to, $positionJumpSet);
     }
 
     private function printPhpDocTagNode(
@@ -207,41 +261,6 @@ final class PhpDocInfoPrinter
         return $this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode]->getEnd();
     }
 
-    private function printEnd(string $output): string
-    {
-        return $this->addTokensFromTo($output, $this->getLastNodeTokenEndPosition(), $this->tokenCount, true);
-    }
-
-    private function addTokensFromTo(
-        string $output,
-        int $from,
-        int $to,
-        bool $shouldSkipEmptyLinesAbove = false
-    ): string {
-        // skip removed nodes
-        $positionJumpSet = [];
-        foreach ($this->getRemovedNodesPositions() as $removedTokensPosition) {
-            $positionJumpSet[$removedTokensPosition->getStart()] = $removedTokensPosition->getEnd();
-        }
-
-        // include also space before, in case of inlined docs
-        if (isset($this->tokens[$from - 1]) && $this->tokens[$from - 1][1] === Lexer::TOKEN_HORIZONTAL_WS) {
-            --$from;
-        }
-
-        if ($shouldSkipEmptyLinesAbove) {
-            // skip extra empty lines above if this is the last one
-            if (Strings::contains($this->tokens[$from][0], PHP_EOL) && Strings::contains(
-                $this->tokens[$from + 1][0],
-                PHP_EOL
-            )) {
-                ++$from;
-            }
-        }
-
-        return $this->appendToOutput($output, $from, $to, $positionJumpSet);
-    }
-
     /**
      * @return PhpDocNodeInfo[]
      */
@@ -269,25 +288,6 @@ final class PhpDocInfoPrinter
         }
 
         return $this->removedNodePositions = $removedNodesPositions;
-    }
-
-    private function isPhpDocNodeEmpty(PhpDocNode $phpDocNode): bool
-    {
-        if (count($phpDocNode->children) === 0) {
-            return true;
-        }
-
-        foreach ($phpDocNode->children as $phpDocChildNode) {
-            if ($phpDocChildNode instanceof PhpDocTextNode) {
-                if ($phpDocChildNode->text) {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**

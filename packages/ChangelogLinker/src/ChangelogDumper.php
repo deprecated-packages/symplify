@@ -69,50 +69,6 @@ final class ChangelogDumper
         return $this->changelogFormatter->format($this->content);
     }
 
-    private function displayTag(Change $change): void
-    {
-        if ($this->previousTag === $change->getTag()) {
-            return;
-        }
-
-        $this->content .= '## ' . $this->createTagLine($change) . PHP_EOL;
-        $this->previousTag = $change->getTag();
-    }
-
-    private function displayCategoryIfDesired(Change $change, bool $withCategories, ?string $priority): void
-    {
-        if ($withCategories === false || $this->previousCategory === $change->getCategory()) {
-            return;
-        }
-
-        $headlineLevel = $priority === ChangeSorter::PRIORITY_PACKAGES ? 4 : 3;
-        $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getCategory() . PHP_EOL;
-        $this->previousCategory = $change->getCategory();
-    }
-
-    private function displayPackageIfDesired(Change $change, bool $withPackages, ?string $priority): void
-    {
-        if ($withPackages === false || $this->previousPackage === $change->getPackage()) {
-            return;
-        }
-
-        $headlineLevel = $priority === ChangeSorter::PRIORITY_CATEGORIES ? 4 : 3;
-        $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getPackage() . PHP_EOL;
-        $this->previousPackage = $change->getPackage();
-    }
-
-    private function createTagLine(Change $change): string
-    {
-        $tagLine = $change->getTag();
-
-        $tagDate = $this->gitCommitDateTagResolver->resolveDateForTag($change->getTag());
-        if ($tagDate) {
-            $tagLine .= ' - ' . $tagDate;
-        }
-
-        return $tagLine;
-    }
-
     private function displayHeadlines(
         bool $withCategories,
         bool $withPackages,
@@ -128,5 +84,49 @@ final class ChangelogDumper
             $this->displayCategoryIfDesired($change, $withCategories, $priority);
             $this->displayPackageIfDesired($change, $withPackages, $priority);
         }
+    }
+
+    private function displayTag(Change $change): void
+    {
+        if ($this->previousTag === $change->getTag()) {
+            return;
+        }
+
+        $this->content .= '## ' . $this->createTagLine($change) . PHP_EOL;
+        $this->previousTag = $change->getTag();
+    }
+
+    private function displayPackageIfDesired(Change $change, bool $withPackages, ?string $priority): void
+    {
+        if ($withPackages === false || $this->previousPackage === $change->getPackage()) {
+            return;
+        }
+
+        $headlineLevel = $priority === ChangeSorter::PRIORITY_CATEGORIES ? 4 : 3;
+        $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getPackage() . PHP_EOL;
+        $this->previousPackage = $change->getPackage();
+    }
+
+    private function displayCategoryIfDesired(Change $change, bool $withCategories, ?string $priority): void
+    {
+        if ($withCategories === false || $this->previousCategory === $change->getCategory()) {
+            return;
+        }
+
+        $headlineLevel = $priority === ChangeSorter::PRIORITY_PACKAGES ? 4 : 3;
+        $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getCategory() . PHP_EOL;
+        $this->previousCategory = $change->getCategory();
+    }
+
+    private function createTagLine(Change $change): string
+    {
+        $tagLine = $change->getTag();
+
+        $tagDate = $this->gitCommitDateTagResolver->resolveDateForTag($change->getTag());
+        if ($tagDate) {
+            $tagLine .= ' - ' . $tagDate;
+        }
+
+        return $tagLine;
     }
 }

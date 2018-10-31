@@ -121,22 +121,6 @@ final class DocBlockWrapper
         }
     }
 
-    private function removeExtraWhitespaceAfterRemovedDocBlock(): void
-    {
-        $previousToken = $this->tokens[$this->position - 1];
-        if ($previousToken->isWhitespace()) {
-            $previousWhitespaceContent = $previousToken->getContent();
-
-            $lastLineBreak = strrpos($previousWhitespaceContent, PHP_EOL);
-            $newWhitespaceContent = Strings::substring($previousWhitespaceContent, 0, $lastLineBreak);
-            if ($newWhitespaceContent) {
-                $this->tokens[$this->position - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);
-            } else {
-                $this->tokens->clearAt($this->position - 1);
-            }
-        }
-    }
-
     /**
      * @todo move to some Analyzer
      */
@@ -157,5 +141,21 @@ final class DocBlockWrapper
         }
 
         return $typeNode instanceof ArrayTypeNode;
+    }
+
+    private function removeExtraWhitespaceAfterRemovedDocBlock(): void
+    {
+        $previousToken = $this->tokens[$this->position - 1];
+        if ($previousToken->isWhitespace()) {
+            $previousWhitespaceContent = $previousToken->getContent();
+
+            $lastLineBreak = strrpos($previousWhitespaceContent, PHP_EOL);
+            $newWhitespaceContent = Strings::substring($previousWhitespaceContent, 0, $lastLineBreak);
+            if ($newWhitespaceContent) {
+                $this->tokens[$this->position - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);
+            } else {
+                $this->tokens->clearAt($this->position - 1);
+            }
+        }
     }
 }

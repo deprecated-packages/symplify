@@ -9,8 +9,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
+use function Safe\usort;
 
-final class PrivateMethodOrderFixer extends AbstractFixer
+final class PrivateMethodOrderByUseFixer extends AbstractFixer
 {
     /**
      * @var ClassWrapperFactory

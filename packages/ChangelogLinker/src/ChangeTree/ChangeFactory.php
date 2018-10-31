@@ -69,6 +69,13 @@ final class ChangeFactory
         return new Change($message, $category, $package, $messageWithoutPackage, $pullRequestTag);
     }
 
+    private function escapeMarkdown(string $content): string
+    {
+        $content = trim($content);
+
+        return Strings::replace($content, '#(\*)#', '\\\$1');
+    }
+
     private function resolveMessageWithoutPackage(string $message, ?string $package): string
     {
         if ($package === null) {
@@ -77,12 +84,5 @@ final class ChangeFactory
 
         // can be aliased (not the $package variable), so we need to check any naming
         return Strings::replace($message, PackageResolver::PACKAGE_NAME_PATTERN);
-    }
-
-    private function escapeMarkdown(string $content): string
-    {
-        $content = trim($content);
-
-        return Strings::replace($content, '#(\*)#', '\\\$1');
     }
 }

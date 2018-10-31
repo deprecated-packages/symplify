@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Order\PrivateMethodOrderFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Order\PrivateMethodOrderByUseFixer;
 
 use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
- * @see \Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderFixer
+ * @see \Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer
  */
-final class PrivateMethodOrderFixerTest extends AbstractCheckerTestCase
+final class PrivateMethodOrderByUseFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()

@@ -162,6 +162,28 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
     }
 
+    /**
+     * Skip tests as there might be many unused public methods
+     *
+     * Skip anything that implements interface or extends class,
+     * because methods can be enforced by them.
+     */
+    private function shouldSkipFile(File $file): bool
+    {
+        if (Strings::contains($file->getFilename(), '/tests/')
+            && ! Strings::contains($file->getFilename(), 'CodingStandard/tests/')
+        ) {
+            return true;
+        }
+
+        $classWrapper = $this->classWrapperFactory->createFromFirstClassInFile($file);
+        if ($classWrapper === null) {
+            return true;
+        }
+
+        return $classWrapper->implementsInterface() || $classWrapper->extends();
+    }
+
     private function checkUnusedPublicMethods(): void
     {
         $token = $this->tokens[$this->position];
@@ -191,25 +213,16 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     }
 
     /**
-     * Skip tests as there might be many unused public methods
-     *
-     * Skip anything that implements interface or extends class,
-     * because methods can be enforced by them.
+     * @return mixed[]|null
      */
-    private function shouldSkipFile(File $file): bool
+    private function findNextStringToken(int $position): ?array
     {
-        if (Strings::contains($file->getFilename(), '/tests/')
-            && ! Strings::contains($file->getFilename(), 'CodingStandard/tests/')
-        ) {
-            return true;
+        $possibleNextStringPosition = $this->file->findNext(T_STRING, $position + 1, $position + 3);
+        if ($possibleNextStringPosition === false) {
+            return null;
         }
 
-        $classWrapper = $this->classWrapperFactory->createFromFirstClassInFile($file);
-        if ($classWrapper === null) {
-            return true;
-        }
-
-        return $classWrapper->implementsInterface() || $classWrapper->extends();
+        return $this->tokens[$possibleNextStringPosition];
     }
 
     private function processObjectOperatorToken(): void
@@ -226,19 +239,6 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
 
         $this->calledMethodNames[] = $methodNameToken['content'];
-    }
-
-    /**
-     * @return mixed[]|null
-     */
-    private function findNextStringToken(int $position): ?array
-    {
-        $possibleNextStringPosition = $this->file->findNext(T_STRING, $position + 1, $position + 3);
-        if ($possibleNextStringPosition === false) {
-            return null;
-        }
-
-        return $this->tokens[$possibleNextStringPosition];
     }
 
     /**

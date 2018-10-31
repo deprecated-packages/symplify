@@ -17,6 +17,126 @@ composer require symplify/coding-standard --dev
 
 - Rules with :wrench: are configurable.
 
+### Order Private Methods by Their Use Order
+
+- class: [`Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer`](src/Fixer/Order/PrivateMethodOrderByUseFixer.php)
+
+```yaml
+# ecs.yml
+services:
+    Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        $this->call1();
+        $this->call2();
+    }
+
+    private function call2()
+    {
+    }
+
+    private function call1()
+    {
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        $this->call1();
+        $this->call2();
+    }
+
+    private function call1()
+    {
+    }
+
+    private function call2()
+    {
+    }
+}
+```
+
+<br>
+
+### Order Properties From Simple to Complex
+
+Properties are ordered by visibility first, then by complexity.
+
+- class: [`Symplify\CodingStandard\Fixer\Order\PropertyOrderByComplexityFixer`](src/Fixer/Order/PropertyOrderByComplexityFixer.php)
+
+```yaml
+# ecs.yml
+services:
+    Symplify\CodingStandard\Fixer\Order\PropertyOrderByComplexityFixer: ~
+```
+
+:x:
+
+```php
+<?php
+
+final class SomeFixer
+{
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var Type
+     */
+    private $service;
+
+    /**
+     * @var int
+     */
+    private $price;
+}
+```
+
+:+1:
+
+```php
+<?php
+
+final class SomeFixer
+{
+    /**
+     * @var int
+     */
+    private $price;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var Type
+     */
+    private $service;
+}
+```
+
+<br>
+
 ### Prefer Another Class
 
 - :wrench:

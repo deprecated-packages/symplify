@@ -42,6 +42,13 @@ final class Application extends SymfonyApplication
         return $inputDefinition;
     }
 
+    private function getPrettyVersion(): string
+    {
+        $version = PrettyVersions::getVersion('symplify/statie');
+
+        return $version->getPrettyVersion();
+    }
+
     private function addExtraOptions(InputDefinition $inputDefinition): void
     {
         $inputDefinition->addOption(new InputOption(
@@ -51,12 +58,5 @@ final class Application extends SymfonyApplication
             'Path to config file.',
             'statie.(yml|yaml)'
         ));
-    }
-
-    private function getPrettyVersion(): string
-    {
-        $version = PrettyVersions::getVersion('symplify/statie');
-
-        return $version->getPrettyVersion();
     }
 }

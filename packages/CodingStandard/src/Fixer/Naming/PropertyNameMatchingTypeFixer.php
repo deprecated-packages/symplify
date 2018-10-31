@@ -152,103 +152,6 @@ class SomeClass
         }
     }
 
-    private function getExpectedNameFromTypes(string $type): string
-    {
-        $rawName = $type;
-
-        // is FQN namespace
-        if (Strings::contains($rawName, '\\')) {
-            $rawNameParts = explode('\\', $rawName);
-            $rawName = array_pop($rawNameParts);
-        }
-
-        $rawName = $this->removePrefixesAndSuffixes($rawName);
-
-        // if all is upper-cased, it should be lower-cased
-        if ($rawName === strtoupper($rawName)) {
-            $rawName = strtolower($rawName);
-        }
-
-        // remove "_"
-        $rawName = Strings::replace($rawName, '#_#', '');
-
-        // turns $SOMEUppercase => $someUppercase
-        for ($i = 0; $i <= strlen($rawName); ++$i) {
-            if (ctype_upper($rawName[$i]) && ctype_upper($rawName[$i + 1])) {
-                $rawName[$i] = strtolower($rawName[$i]);
-            } else {
-                break;
-            }
-        }
-
-        return lcfirst($rawName);
-    }
-
-    private function shouldSkipClass(string $class): bool
-    {
-        $skippedClasses = array_merge($this->skippedClasses, $this->extraSkippedClasses);
-
-        foreach ($skippedClasses as $skippedClass) {
-            if (fnmatch($skippedClass, $class, FNM_NOESCAPE)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string[] $types
-     */
-    private function isAllowedNameOrType(string $name, array $types, string $fqnType): bool
-    {
-        if ($this->shouldSkipClass($fqnType)) {
-            return true;
-        }
-
-        // unable to determine correctly
-        if (count($types) > 1) {
-            return true;
-        }
-
-        /** @var string $type */
-        $type = array_pop($types);
-
-        if ($this->typeAnalyzer->isPhpReservedType($type)) {
-            return true;
-        }
-
-        // starts with adjective, e.g. (Post $firstPost, Post $secondPost)
-        $expectedName = $this->getExpectedNameFromTypes($type);
-
-        return Strings::contains($name, ucfirst($expectedName)) && Strings::endsWith($name, ucfirst($expectedName));
-    }
-
-    /**
-     * @param ArgumentWrapper|PropertyWrapper $typeWrapper
-     */
-    private function shouldSkipWrapper($typeWrapper): bool
-    {
-        if ($typeWrapper->getTypes() === [] || $typeWrapper->isClassType() === false) {
-            return true;
-        }
-
-        $oldName = $typeWrapper->getName();
-
-        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getTypes(), (string) $typeWrapper->getFqnType())) {
-            return true;
-        }
-
-        foreach ($typeWrapper->getTypes() as $type) {
-            $expectedName = $this->getExpectedNameFromTypes($type);
-            if ($oldName === $expectedName) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     /**
      * @param ArgumentWrapper[]|PropertyWrapper[] $typeWrappers
      * @return string[]
@@ -286,6 +189,90 @@ class SomeClass
         return $changedNames;
     }
 
+    /**
+     * @param ArgumentWrapper|PropertyWrapper $typeWrapper
+     */
+    private function shouldSkipWrapper($typeWrapper): bool
+    {
+        if ($typeWrapper->getTypes() === [] || $typeWrapper->isClassType() === false) {
+            return true;
+        }
+
+        $oldName = $typeWrapper->getName();
+
+        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getTypes(), (string) $typeWrapper->getFqnType())) {
+            return true;
+        }
+
+        foreach ($typeWrapper->getTypes() as $type) {
+            $expectedName = $this->getExpectedNameFromTypes($type);
+            if ($oldName === $expectedName) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function getExpectedNameFromTypes(string $type): string
+    {
+        $rawName = $type;
+
+        // is FQN namespace
+        if (Strings::contains($rawName, '\\')) {
+            $rawNameParts = explode('\\', $rawName);
+            $rawName = array_pop($rawNameParts);
+        }
+
+        $rawName = $this->removePrefixesAndSuffixes($rawName);
+
+        // if all is upper-cased, it should be lower-cased
+        if ($rawName === strtoupper($rawName)) {
+            $rawName = strtolower($rawName);
+        }
+
+        // remove "_"
+        $rawName = Strings::replace($rawName, '#_#', '');
+
+        // turns $SOMEUppercase => $someUppercase
+        for ($i = 0; $i <= strlen($rawName); ++$i) {
+            if (ctype_upper($rawName[$i]) && ctype_upper($rawName[$i + 1])) {
+                $rawName[$i] = strtolower($rawName[$i]);
+            } else {
+                break;
+            }
+        }
+
+        return lcfirst($rawName);
+    }
+
+    /**
+     * @param string[] $types
+     */
+    private function isAllowedNameOrType(string $name, array $types, string $fqnType): bool
+    {
+        if ($this->shouldSkipClass($fqnType)) {
+            return true;
+        }
+
+        // unable to determine correctly
+        if (count($types) > 1) {
+            return true;
+        }
+
+        /** @var string $type */
+        $type = array_pop($types);
+
+        if ($this->typeAnalyzer->isPhpReservedType($type)) {
+            return true;
+        }
+
+        // starts with adjective, e.g. (Post $firstPost, Post $secondPost)
+        $expectedName = $this->getExpectedNameFromTypes($type);
+
+        return Strings::contains($name, ucfirst($expectedName)) && Strings::endsWith($name, ucfirst($expectedName));
+    }
+
     private function removePrefixesAndSuffixes(string $rawName): string
     {
         // is SomeInterface
@@ -304,6 +291,19 @@ class SomeClass
         }
 
         return $rawName;
+    }
+
+    private function shouldSkipClass(string $class): bool
+    {
+        $skippedClasses = array_merge($this->skippedClasses, $this->extraSkippedClasses);
+
+        foreach ($skippedClasses as $skippedClass) {
+            if (fnmatch($skippedClass, $class, FNM_NOESCAPE)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function isPrefixedInterface(string $rawName): bool

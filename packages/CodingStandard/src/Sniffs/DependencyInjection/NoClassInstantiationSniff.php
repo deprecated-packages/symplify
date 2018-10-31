@@ -150,35 +150,6 @@ final class NoClassInstantiationSniff implements Sniff
         $file->addError(sprintf(self::ERROR_MESSAGE, $className), $position, self::class);
     }
 
-    private function isClassInstantiationAllowed(string $class, int $classTokenPosition): bool
-    {
-        $allowedClasses = array_merge($this->allowedClasses, $this->extraAllowedClasses);
-
-        foreach ($allowedClasses as $allowedClass) {
-            if (fnmatch($allowedClass, $class, FNM_NOESCAPE)) {
-                return true;
-            }
-        }
-
-        return ! $this->includeEntities && $this->isEntityClass($class, $classTokenPosition);
-    }
-
-    private function isEntityClass(string $class, int $classTokenPosition): bool
-    {
-        $className = $this->naming->getClassName($this->file, $classTokenPosition);
-
-        if (! $this->classLikeExistenceChecker->exists($className)) {
-            return false;
-        }
-
-        $docComment = (new ReflectionClass($class))->getDocComment();
-        if ($docComment === false) {
-            return false;
-        }
-
-        return Strings::contains($docComment, '@ORM\Entity');
-    }
-
     private function shouldSkipFile(): bool
     {
         if ($this->isTrait()) {
@@ -204,6 +175,51 @@ final class NoClassInstantiationSniff implements Sniff
         return false;
     }
 
+    private function isClassInstantiationAllowed(string $class, int $classTokenPosition): bool
+    {
+        $allowedClasses = array_merge($this->allowedClasses, $this->extraAllowedClasses);
+
+        foreach ($allowedClasses as $allowedClass) {
+            if (fnmatch($allowedClass, $class, FNM_NOESCAPE)) {
+                return true;
+            }
+        }
+
+        return ! $this->includeEntities && $this->isEntityClass($class, $classTokenPosition);
+    }
+
+    private function isTrait(): bool
+    {
+        return (bool) $this->file->findNext(T_TRAIT, 1);
+    }
+
+    private function isAllowedFileClass(): bool
+    {
+        $fileClassName = $this->getFileClassName();
+        if ($fileClassName === null) {
+            return false;
+        }
+
+        foreach ($this->allowedFileClasses as $allowedFileClass) {
+            if (fnmatch($allowedFileClass, $fileClassName, FNM_NOESCAPE)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isBinFile(): bool
+    {
+        return Strings::contains($this->file->getFilename(), DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR)
+            || Strings::startsWith($this->file->getFilename(), 'bin' . DIRECTORY_SEPARATOR);
+    }
+
+    private function isBootstrapFile(): bool
+    {
+        return Strings::endsWith($this->file->getFilename(), 'bootstrap.php');
+    }
+
     private function isTestFile(): bool
     {
         if (Strings::endsWith($this->file->getFilename(), 'TestCase.php')) {
@@ -221,36 +237,20 @@ final class NoClassInstantiationSniff implements Sniff
         return false;
     }
 
-    private function isTrait(): bool
+    private function isEntityClass(string $class, int $classTokenPosition): bool
     {
-        return (bool) $this->file->findNext(T_TRAIT, 1);
-    }
+        $className = $this->naming->getClassName($this->file, $classTokenPosition);
 
-    private function isBinFile(): bool
-    {
-        return Strings::contains($this->file->getFilename(), DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR)
-            || Strings::startsWith($this->file->getFilename(), 'bin' . DIRECTORY_SEPARATOR);
-    }
-
-    private function isBootstrapFile(): bool
-    {
-        return Strings::endsWith($this->file->getFilename(), 'bootstrap.php');
-    }
-
-    private function isAllowedFileClass(): bool
-    {
-        $fileClassName = $this->getFileClassName();
-        if ($fileClassName === null) {
+        if (! $this->classLikeExistenceChecker->exists($className)) {
             return false;
         }
 
-        foreach ($this->allowedFileClasses as $allowedFileClass) {
-            if (fnmatch($allowedFileClass, $fileClassName, FNM_NOESCAPE)) {
-                return true;
-            }
+        $docComment = (new ReflectionClass($class))->getDocComment();
+        if ($docComment === false) {
+            return false;
         }
 
-        return false;
+        return Strings::contains($docComment, '@ORM\Entity');
     }
 
     private function getFileClassName(): ?string

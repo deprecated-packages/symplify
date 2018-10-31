@@ -68,12 +68,6 @@ final class ConfigurationFileDecorator implements FileDecoratorInterface
         }
     }
 
-    private function setConfigurationToFileIfFoundAny(string $content, AbstractFile $file): void
-    {
-        $configuration = $this->yamlParser->decodeInSource($content, $file->getFilePath());
-        $file->addConfiguration($configuration);
-    }
-
     private function getConfigAndContentPattern(): string
     {
         return sprintf(
@@ -81,5 +75,11 @@ final class ConfigurationFileDecorator implements FileDecoratorInterface
             self::SLASHES_WITH_SPACES_PATTERN,
             self::SLASHES_WITH_SPACES_PATTERN
         );
+    }
+
+    private function setConfigurationToFileIfFoundAny(string $content, AbstractFile $file): void
+    {
+        $configuration = $this->yamlParser->decodeInSource($content, $file->getFilePath());
+        $file->addConfiguration($configuration);
     }
 }

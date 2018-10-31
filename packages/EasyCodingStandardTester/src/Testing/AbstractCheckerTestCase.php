@@ -126,6 +126,18 @@ abstract class AbstractCheckerTestCase extends TestCase
         $this->assertGreaterThanOrEqual(1, $this->errorAndDiffCollector->getErrorCount());
     }
 
+    private function getContainer(): ContainerInterface
+    {
+        $fileHash = md5_file($this->provideConfig());
+        if (isset(self::$cachedContainers[$fileHash])) {
+            return self::$cachedContainers[$fileHash];
+        }
+
+        return self::$cachedContainers[$fileHash] = (new ContainerFactory())->createWithConfigs(
+            [$this->provideConfig()]
+        );
+    }
+
     private function ensureSomeCheckersAreRegistered(): void
     {
         $totalCheckersLoaded = count($this->sniffFileProcessor->getCheckers())
@@ -137,17 +149,5 @@ abstract class AbstractCheckerTestCase extends TestCase
                 . 'section, load them via "--config <file>.yml" or "--level <level> option.'
             );
         }
-    }
-
-    private function getContainer(): ContainerInterface
-    {
-        $fileHash = md5_file($this->provideConfig());
-        if (isset(self::$cachedContainers[$fileHash])) {
-            return self::$cachedContainers[$fileHash];
-        }
-
-        return self::$cachedContainers[$fileHash] = (new ContainerFactory())->createWithConfigs(
-            [$this->provideConfig()]
-        );
     }
 }

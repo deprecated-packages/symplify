@@ -44,18 +44,18 @@ final class DetectParametersCompilerPass implements CompilerPassInterface
         }
     }
 
-    private function detectRepositoryName(ContainerBuilder $containerBuilder): ?string
-    {
-        $repositoryUrl = $containerBuilder->getParameter(self::OPTION_REPOSITORY_URL);
-
-        return substr($repositoryUrl, strlen('https://github.com/'));
-    }
-
     private function detectRepositoryUrlFromGit(): string
     {
         $process = new Process('git config --get remote.origin.url');
         $process->run();
 
         return $this->githubRepositoryFromRemoteResolver->resolveFromUrl(trim($process->getOutput()));
+    }
+
+    private function detectRepositoryName(ContainerBuilder $containerBuilder): ?string
+    {
+        $repositoryUrl = $containerBuilder->getParameter(self::OPTION_REPOSITORY_URL);
+
+        return substr($repositoryUrl, strlen('https://github.com/'));
     }
 }
