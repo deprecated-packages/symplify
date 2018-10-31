@@ -3,11 +3,8 @@
 namespace Symplify\CodingStandard\Fixer\Naming;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
-use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -20,13 +17,8 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\PropertyWrapper;
 
-final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
+final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, ConfigurableFixerInterface
 {
-    /**
-     * @var string
-     */
-    private const EXTRA_SKIPPED_CLASSES_OPTION = 'extra_skipped_classes';
-
     /**
      * @var string[]
      */
@@ -48,9 +40,9 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
     ];
 
     /**
-     * @var mixed[]
+     * @var string[]
      */
-    private $configuration = [];
+    private $extraSkippedClasses = [];
 
     /**
      * @var ClassWrapperFactory
@@ -134,25 +126,7 @@ class SomeClass
      */
     public function configure(?array $configuration = null): void
     {
-        if ($configuration === null) {
-            return;
-        }
-
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve($configuration);
-    }
-
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
-    {
-        $fixerOptionBuilder = new FixerOptionBuilder(
-            self::EXTRA_SKIPPED_CLASSES_OPTION,
-            'Classes that are skipped using fnmatch().'
-        );
-
-        $skippedClassesOption = $fixerOptionBuilder->setAllowedTypes(['array'])
-            ->getOption();
-
-        return new FixerConfigurationResolver([$skippedClassesOption]);
+        $this->extraSkippedClasses = $configuration['extra_skipped_classes'] ?? [];
     }
 
     private function fixClassProperties(ClassWrapper $classWrapper): void
@@ -212,10 +186,7 @@ class SomeClass
 
     private function shouldSkipClass(string $class): bool
     {
-        $skippedClasses = array_merge(
-            $this->skippedClasses,
-            $this->configuration[self::EXTRA_SKIPPED_CLASSES_OPTION] ?? []
-        );
+        $skippedClasses = array_merge($this->skippedClasses, $this->extraSkippedClasses);
 
         foreach ($skippedClasses as $skippedClass) {
             if (fnmatch($skippedClass, $class, FNM_NOESCAPE)) {

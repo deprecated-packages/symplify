@@ -3,11 +3,8 @@
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
-use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -19,27 +16,22 @@ use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Throwable;
 
-final class LineLengthFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
+final class LineLengthFixer implements DefinedFixerInterface, ConfigurableFixerInterface
 {
     /**
-     * @var string
+     * @var int
      */
-    private const LINE_LENGHT_OPTION = 'line_length';
+    private $lineLength = 120;
 
     /**
-     * @var string
+     * @var bool
      */
-    private const BREAK_LONG_LINES_OPTION = 'break_long_lines';
+    private $breakLongLines = true;
 
     /**
-     * @var string
+     * @var bool
      */
-    private const INLINE_SHORT_LINES_OPTION = 'inline_short_lines';
-
-    /**
-     * @var mixed[]
-     */
-    private $configuration = [];
+    private $inlineShortLines = true;
 
     /**
      * @var LineLengthTransformer
@@ -142,33 +134,9 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
      */
     public function configure(?array $configuration = null): void
     {
-        if ($configuration === null) {
-            return;
-        }
-
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve($configuration);
-    }
-
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
-    {
-        $options = [];
-        $options[] = (new FixerOptionBuilder(self::LINE_LENGHT_OPTION, 'Limit of line length.'))
-            ->setAllowedTypes(['int'])
-            ->setDefault(120)
-            ->getOption();
-
-        $options[] = (new FixerOptionBuilder(self::BREAK_LONG_LINES_OPTION, ' Should break long lines.'))
-            ->setAllowedValues([true, false])
-            ->setDefault(true)
-            ->getOption();
-
-        $options[] = (new FixerOptionBuilder(self::INLINE_SHORT_LINES_OPTION, ' Should inline short lines.'))
-            ->setAllowedValues([true, false])
-            ->setDefault(true)
-            ->getOption();
-
-        return new FixerConfigurationResolver($options);
+        $this->lineLength = $configuration['line_length'] ?? 120;
+        $this->breakLongLines = $configuration['break_long_lines'] ?? true;
+        $this->inlineShortLines = $configuration['inline_short_lines'] ?? true;
     }
 
     private function processFunctionOrArray(Tokens $tokens, int $position): void
@@ -185,9 +153,9 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         $this->lineLengthTransformer->fixStartPositionToEndPosition(
             $blockInfo,
             $tokens,
-            $this->configuration[self::LINE_LENGHT_OPTION],
-            $this->configuration[self::BREAK_LONG_LINES_OPTION],
-            $this->configuration[self::INLINE_SHORT_LINES_OPTION]
+            $this->lineLength,
+            $this->breakLongLines,
+            $this->inlineShortLines
         );
     }
 
@@ -274,9 +242,9 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         $this->lineLengthTransformer->fixStartPositionToEndPosition(
             $blockInfo,
             $tokens,
-            $this->configuration[self::LINE_LENGHT_OPTION],
-            $this->configuration[self::BREAK_LONG_LINES_OPTION],
-            $this->configuration[self::INLINE_SHORT_LINES_OPTION]
+            $this->lineLength,
+            $this->breakLongLines,
+            $this->inlineShortLines
         );
     }
 }

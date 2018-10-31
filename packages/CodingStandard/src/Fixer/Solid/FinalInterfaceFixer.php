@@ -2,11 +2,8 @@
 
 namespace Symplify\CodingStandard\Fixer\Solid;
 
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
-use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -16,17 +13,12 @@ use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 
-final class FinalInterfaceFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
+final class FinalInterfaceFixer implements DefinedFixerInterface, ConfigurableFixerInterface
 {
     /**
-     * @var string
+     * @var string[]
      */
-    private const ONLY_INTERFACES_OPTION = 'only_interfaces';
-
-    /**
-     * @var mixed[]
-     */
-    private $configuration = [];
+    private $onlyInterfaces = [];
 
     /**
      * @var ClassWrapperFactory
@@ -36,10 +28,6 @@ final class FinalInterfaceFixer implements DefinedFixerInterface, ConfigurationD
     public function __construct(ClassWrapperFactory $classWrapperFactory)
     {
         $this->classWrapperFactory = $classWrapperFactory;
-
-        // set defaults
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve([]);
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -106,21 +94,7 @@ class SomeClass implements SomeInterface {};')]
      */
     public function configure(?array $configuration = null): void
     {
-        if ($configuration === null) {
-            return;
-        }
-
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve($configuration);
-    }
-
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
-    {
-        $option = (new FixerOptionBuilder(self::ONLY_INTERFACES_OPTION, 'List of interfaces to check.'))
-            ->setDefault([])
-            ->getOption();
-
-        return new FixerConfigurationResolver([$option]);
+        $this->onlyInterfaces = $configuration['only_interfaces'] ?? [];
     }
 
     private function fixClass(Tokens $tokens, int $position): void
@@ -142,10 +116,8 @@ class SomeClass implements SomeInterface {};')]
             return true;
         }
 
-        if ($this->configuration[self::ONLY_INTERFACES_OPTION]) {
-            $interfaces = $this->configuration[self::ONLY_INTERFACES_OPTION];
-
-            return ! (bool) array_intersect($interfaces, $classWrapper->getInterfaceNames());
+        if ($this->onlyInterfaces) {
+            return ! (bool) array_intersect($this->onlyInterfaces, $classWrapper->getInterfaceNames());
         }
 
         return false;
