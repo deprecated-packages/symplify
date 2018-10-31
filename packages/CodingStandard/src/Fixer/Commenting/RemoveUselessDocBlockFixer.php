@@ -125,8 +125,7 @@ public function getCount(): int
      */
     public function configure(?array $configuration = null): void
     {
-        $uselessTypes = $configuration['useless_types'] ?? [];
-        $this->paramAndReturnTagAnalyzer->setUselessTypes($uselessTypes);
+        $this->paramAndReturnTagAnalyzer->setUselessTypes($configuration['useless_types'] ?? []);
     }
 
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
