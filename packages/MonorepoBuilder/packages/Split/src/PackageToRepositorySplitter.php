@@ -59,8 +59,11 @@ final class PackageToRepositorySplitter
     /**
      * @param mixed[] $splitConfig
      */
-    public function splitDirectoriesToRepositories(array $splitConfig, string $rootDirectory): void
-    {
+    public function splitDirectoriesToRepositories(
+        array $splitConfig,
+        string $rootDirectory,
+        int $maxProcesses = 0
+    ): void {
         $theMostRecentTag = $this->gitManager->getMostRecentTag($rootDirectory);
 
         foreach ($splitConfig as $localDirectory => $remoteRepository) {
@@ -81,6 +84,10 @@ final class PackageToRepositorySplitter
 
             $this->activeProcesses[] = $process;
             $this->processInfos[] = new SplitProcessInfo($process, $localDirectory, $remoteRepository);
+
+            if (count($this->activeProcesses) === $maxProcesses) {
+                $this->processActiveProcesses(1);
+            }
         }
 
         $this->symfonyStyle->success(sprintf('Running %d jobs in parallel', count($this->activeProcesses)));
@@ -89,9 +96,12 @@ final class PackageToRepositorySplitter
         $this->reportFinishedProcesses();
     }
 
-    private function processActiveProcesses(): void
+    private function processActiveProcesses(?int $numberOfProcessesToWaitFor = null): void
     {
-        while (count($this->activeProcesses)) {
+        $numberOfActiveProcesses = count($this->activeProcesses);
+        $numberOfProcessesToWaitFor = $numberOfProcessesToWaitFor ?? $numberOfActiveProcesses;
+
+        while ($numberOfActiveProcesses - count($this->activeProcesses) < $numberOfProcessesToWaitFor) {
             foreach ($this->activeProcesses as $i => $runningProcess) {
                 if (! $runningProcess->isRunning()) {
                     unset($this->activeProcesses[$i]);
