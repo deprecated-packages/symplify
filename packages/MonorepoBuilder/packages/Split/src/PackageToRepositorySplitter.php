@@ -92,14 +92,13 @@ final class PackageToRepositorySplitter
 
         $this->symfonyStyle->success(sprintf('Running %d jobs in parallel', count($this->activeProcesses)));
 
-        $this->processActiveProcesses();
+        $this->processActiveProcesses(count($this->activeProcesses));
         $this->reportFinishedProcesses();
     }
 
-    private function processActiveProcesses(?int $numberOfProcessesToWaitFor = null): void
+    private function processActiveProcesses(int $numberOfProcessesToWaitFor): void
     {
         $numberOfActiveProcesses = count($this->activeProcesses);
-        $numberOfProcessesToWaitFor = $numberOfProcessesToWaitFor ?? $numberOfActiveProcesses;
 
         while ($numberOfActiveProcesses - count($this->activeProcesses) < $numberOfProcessesToWaitFor) {
             foreach ($this->activeProcesses as $i => $runningProcess) {
