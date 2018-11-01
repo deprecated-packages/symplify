@@ -62,7 +62,7 @@ final class PackageToRepositorySplitter
     public function splitDirectoriesToRepositories(
         array $splitConfig,
         string $rootDirectory,
-        int $maxProcesses = 0
+        ?int $maxProcesses = null
     ): void {
         $theMostRecentTag = $this->gitManager->getMostRecentTag($rootDirectory);
 
@@ -85,7 +85,7 @@ final class PackageToRepositorySplitter
             $this->activeProcesses[] = $process;
             $this->processInfos[] = new SplitProcessInfo($process, $localDirectory, $remoteRepository);
 
-            if (count($this->activeProcesses) === $maxProcesses) {
+            if ($maxProcesses && count($this->activeProcesses) === $maxProcesses) {
                 $this->processActiveProcesses(1);
             }
         }

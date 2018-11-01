@@ -64,8 +64,7 @@ final class SplitCommand extends Command
             'max-processes',
             null,
             InputOption::VALUE_REQUIRED,
-            'Maximum number of processes to run in parallel',
-            0
+            'Maximum number of processes to run in parallel'
         );
     }
 
@@ -76,7 +75,7 @@ final class SplitCommand extends Command
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
             $this->rootDirectory,
-            intval($input->getOption('max-processes'))
+            $input->getOption('max-processes') ? intval($input->getOption('max-processes')) : null
         );
 
         // success
