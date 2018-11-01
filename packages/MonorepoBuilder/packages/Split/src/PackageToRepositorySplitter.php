@@ -98,12 +98,11 @@ final class PackageToRepositorySplitter
 
     private function processActiveProcesses(int $numberOfProcessesToWaitFor): void
     {
-        $numberOfActiveProcesses = count($this->activeProcesses);
-
-        while ($numberOfActiveProcesses - count($this->activeProcesses) < $numberOfProcessesToWaitFor) {
+        while ($numberOfProcessesToWaitFor > 0) {
             foreach ($this->activeProcesses as $i => $runningProcess) {
                 if (! $runningProcess->isRunning()) {
                     unset($this->activeProcesses[$i]);
+                    $numberOfProcessesToWaitFor--;
                 }
             }
 
