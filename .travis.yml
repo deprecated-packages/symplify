@@ -3,78 +3,78 @@ language: php
 # required for "git tag" presence for MonorepoBuilder split and ChangelogLinker git tags resolver
 # see https://github.com/travis-ci/travis-ci/issues/7422
 git:
-  depth: false
+    depth: false
 
 matrix:
-  include:
-    - php: 7.1
-      env: PHPUNIT_FLAGS="--coverage-clover coverage.xml"
-    - php: 7.1
-      env: CODING_STANDARD=true
-    - php: 7.1
-      env: COMPOSER_FLAGS="--prefer-lowest"
-    - php: 7.2
-      env: PHPSTAN=true MONOREPO_SPLIT=true
-    - php: 7.2
-      env: STANDALONE=true
+    include:
+        - php: 7.1
+          env: COVERAGE="--coverage-clover coverage.xml"
+        - php: 7.1
+          env: CODE_ANALYSIS=true # STANDALONE=true - disable for time being due weird Travis bug
+        - php: 7.1
+          env: COMPOSER_FLAGS="--prefer-lowest"
+        - php: 7.2
+          env: MONOREPO_SPLIT=true
 
 install:
-  - composer update $COMPOSER_FLAGS
+    - composer update $COMPOSER_FLAGS
 
 before_script:
-  # make the script fail for any failed command
-  - set -e
+    # make the script fail for any failed command
+    - set -e
 
-  # disable xdebug if not coverage
-  - if [[ $PHPUNIT_FLAGS == "" ]]; then phpenv config-rm xdebug.ini; fi
+    # disable xdebug if not coverage
+    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini; fi
 
 script:
-  - vendor/bin/phpunit $PHPUNIT_FLAGS
-  # disable xdebug
-  - phpenv config-rm xdebug.ini || return 0
+    - vendor/bin/phpunit
+    # disable xdebug
 
-  # static analysis
-  - if [[ $CODING_STANDARD == true ]]; then packages/EasyCodingStandard/bin/ecs check packages; fi
-  - if [[ $PHPSTAN == true ]]; then vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon; fi
+    - |
+        if [[ $CODE_ANALYSIS == true ]];
+            then packages/EasyCodingStandard/bin/ecs check packages
+            then vendor/bin/phpstan analyse packages --level max
+        fi
 
-  # each package standalone run https://stackoverflow.com/a/6787956/1348344
-  - |
-    if [[ $STANDALONE == true ]]; then
-      for DIRECTORY in `find packages -mindepth 1 -maxdepth 1 -type d`;
-      do
-        CMD="vendor/bin/phpunit $DIRECTORY"
-        echo "Running '$CMD'"
-        $CMD
-      done
+    # each package standalone run https://stackoverflow.com/a/6787956/1348344
+    - |
+        if [[ $STANDALONE == true ]]; then
+            for DIRECTORY in `find packages -mindepth 1 -maxdepth 1 -type d`;
+            do
+                CMD="vendor/bin/phpunit $DIRECTORY"
+                echo "Running '$CMD'"
+                $CMD
+            done
 
-      # test run bin files
-      packages/EasyCodingStandard/bin/ecs
-      packages/ChangelogLinker/bin/changelog-linker
-      packages/Statie/bin/statie
-      packages/LatteToTwigConverter/bin/latte-to-twig-converter
-      packages/MonorepoBuilder/bin/monorepo-builder
-    fi
+            # test run bin files
+            packages/EasyCodingStandard/bin/ecs
+            packages/ChangelogLinker/bin/changelog-linker
+            packages/Statie/bin/statie
+            packages/LatteToTwigConverter/bin/latte-to-twig-converter
+            packages/MonorepoBuilder/bin/monorepo-builder
+        fi
 
-  # validate monorepo <=> packages composer dependencies
-  - packages/MonorepoBuilder/bin/monorepo-builder validate
+    # validate monorepo <=> packages composer dependencies
+    - packages/MonorepoBuilder/bin/monorepo-builder validate
 
 after_script:
-  # upload coverage.xml to Coveralls
-  - |
-    if [[ $PHPUNIT_FLAGS != "" ]]; then
-      wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar;
-      php php-coveralls.phar --verbose;
-    fi
+    # code coverage run + upload to coveralls.io
+    - |
+        if [[ $TRAVIS_EVENT_TYPE == "push" &&  $TRAVIS_BRANCH == "master" && $COVERAGE == true ]]; then
+            vendor/bin/phpunit --coverage-clover coverage.xml
+            wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar;
+            php php-coveralls.phar --verbose;
+        fi
 
-  - |
-    if [[ $TRAVIS_EVENT_TYPE == "push" && $MONOREPO_SPLIT == true && $TRAVIS_BRANCH == "master" ]]; then
-      # split monorepo to packages - only on merge to master
-      # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
-      packages/MonorepoBuilder/bin/monorepo-builder split -v
+    - |
+        if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_BRANCH == "master" && $MONOREPO_SPLIT == true ]]; then
+            # split monorepo to packages - only on merge to master
+            # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
+            packages/MonorepoBuilder/bin/monorepo-builder split -v
 
-      # run slow api test only on master, because they require token
-      vendor/bin/phpunit --group api
-    fi
+            # run slow api test only on master, because they require token
+            vendor/bin/phpunit --group api
+        fi
 
 notifications:
-  email: false
+    email: false
