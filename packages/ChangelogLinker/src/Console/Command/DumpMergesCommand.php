@@ -128,7 +128,6 @@ final class DumpMergesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $content = $this->changelogFileSystem->readChangelog();
-
         $sinceId = $this->getSinceIdFromInputAndContent($input, $content);
         $pullRequests = $this->githubApi->getMergedPullRequestsSinceId($sinceId);
         if (count($pullRequests) === 0) {
@@ -141,7 +140,6 @@ final class DumpMergesCommand extends Command
         }
 
         $sortPriority = $this->priorityResolver->resolveFromInput($input);
-
         $changes = $this->changeResolver->resolveSortedChangesFromPullRequestsWithSortPriority(
             $pullRequests,
             $sortPriority
@@ -175,9 +173,9 @@ final class DumpMergesCommand extends Command
 
     private function getSinceIdFromInputAndContent(InputInterface $input, string $content): int
     {
-        /** @var string|int $sinceId */
+        /** @var string|int|null $sinceId */
         $sinceId = $input->getOption(Option::SINCE_ID);
-        if ($sinceId) {
+        if ($sinceId !== null) {
             return (int) $sinceId;
         }
 
