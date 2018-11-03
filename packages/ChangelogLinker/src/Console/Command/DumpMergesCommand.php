@@ -128,7 +128,7 @@ final class DumpMergesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $content = $this->changelogFileSystem->readChangelog();
-        $sinceId = $this->getSinceIdFromInputAndContent($input, $content);
+        $sinceId = $this->getSinceIdFromInputAndContent($input, $content) ?: 1;
         $pullRequests = $this->githubApi->getMergedPullRequestsSinceId($sinceId);
         if (count($pullRequests) === 0) {
             $this->symfonyStyle->note(
@@ -171,7 +171,7 @@ final class DumpMergesCommand extends Command
         return 0;
     }
 
-    private function getSinceIdFromInputAndContent(InputInterface $input, string $content): int
+    private function getSinceIdFromInputAndContent(InputInterface $input, string $content): ?int
     {
         /** @var string|int|null $sinceId */
         $sinceId = $input->getOption(Option::SINCE_ID);
