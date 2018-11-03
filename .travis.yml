@@ -60,7 +60,7 @@ script:
 after_script:
     # code coverage run + upload to coveralls.io
     - |
-        if [[ $TRAVIS_EVENT_TYPE == "push" &&  $TRAVIS_BRANCH == "master" && $COVERAGE == true ]]; then
+        if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_BRANCH == "master" && $COVERAGE == true ]]; then
             vendor/bin/phpunit --coverage-clover coverage.xml
             wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar;
             php php-coveralls.phar --verbose;
