@@ -31,28 +31,28 @@ script:
     # disable xdebug
 
     - |
-        if [[ $CODE_ANALYSIS == true ]];
-            then packages/EasyCodingStandard/bin/ecs check packages
-            then vendor/bin/phpstan analyse packages --level max
-        fi
+      if [[ $CODE_ANALYSIS == true ]]; then
+          packages/EasyCodingStandard/bin/ecs check packages
+          vendor/bin/phpstan analyse packages --level max
+      fi
 
     # each package standalone run https://stackoverflow.com/a/6787956/1348344
     - |
-        if [[ $STANDALONE == true ]]; then
-            for DIRECTORY in `find packages -mindepth 1 -maxdepth 1 -type d`;
-            do
-                CMD="vendor/bin/phpunit $DIRECTORY"
-                echo "Running '$CMD'"
-                $CMD
-            done
+      if [[ $STANDALONE == true ]]; then
+          for DIRECTORY in `find packages -mindepth 1 -maxdepth 1 -type d`
+          do
+              CMD="vendor/bin/phpunit $DIRECTORY"
+              echo "Running '$CMD'"
+              $CMD
+          done
 
-            # test run bin files
-            packages/EasyCodingStandard/bin/ecs
-            packages/ChangelogLinker/bin/changelog-linker
-            packages/Statie/bin/statie
-            packages/LatteToTwigConverter/bin/latte-to-twig-converter
-            packages/MonorepoBuilder/bin/monorepo-builder
-        fi
+          # test run bin files
+          packages/EasyCodingStandard/bin/ecs
+          packages/ChangelogLinker/bin/changelog-linker
+          packages/Statie/bin/statie
+          packages/LatteToTwigConverter/bin/latte-to-twig-converter
+          packages/MonorepoBuilder/bin/monorepo-builder
+      fi
 
     # validate monorepo <=> packages composer dependencies
     - packages/MonorepoBuilder/bin/monorepo-builder validate
@@ -60,21 +60,21 @@ script:
 after_script:
     # code coverage run + upload to coveralls.io
     - |
-        if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_BRANCH == "master" && $COVERAGE == true ]]; then
-            vendor/bin/phpunit --coverage-clover coverage.xml
-            wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar;
-            php php-coveralls.phar --verbose;
-        fi
+      if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_BRANCH == "master" && $COVERAGE == true ]]; then
+          vendor/bin/phpunit --coverage-clover coverage.xml
+          wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
+          php php-coveralls.phar --verbose
+      fi
 
     - |
-        if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_BRANCH == "master" && $MONOREPO_SPLIT == true ]]; then
-            # split monorepo to packages - only on merge to master
-            # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
-            packages/MonorepoBuilder/bin/monorepo-builder split -v
+      if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_BRANCH == "master" && $MONOREPO_SPLIT == true ]]; then
+          # split monorepo to packages - only on merge to master
+          # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
+          packages/MonorepoBuilder/bin/monorepo-builder split -v
 
-            # run slow api test only on master, because they require token
-            vendor/bin/phpunit --group api
-        fi
+          # run slow api test only on master, because they require token
+          vendor/bin/phpunit --group api
+      fi
 
 notifications:
     email: false
