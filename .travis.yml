@@ -42,8 +42,9 @@ script:
     if [[ $STANDALONE == true ]]; then
       for DIRECTORY in `find packages -mindepth 1 -maxdepth 1 -type d`;
       do
-        echo "Running tests in ${DIRECTORY}"
-        vendor/bin/phpunit $DIRECTORY
+        CMD="vendor/bin/phpunit $DIRECTORY"
+        echo "Running '$CMD'"
+        $CMD
       done
 
       # test run bin files
