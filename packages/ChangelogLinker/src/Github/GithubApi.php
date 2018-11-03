@@ -71,11 +71,17 @@ final class GithubApi
         $mergedPullRequests = $this->filterMergedPullRequests($pullRequests);
 
         // include all
-        if ($id === 0) {
+        if ($id <= 1) {
             return $mergedPullRequests;
         }
 
-        return $this->filterPullRequestsNewerThanMergedAt($mergedPullRequests, $this->getMergedAtByPullRequest($id));
+        $sinceMergedAt = $this->getMergedAtByPullRequest($id);
+        // include all
+        if ($sinceMergedAt === null) {
+            return $mergedPullRequests;
+        }
+
+        return $this->filterPullRequestsNewerThanMergedAt($mergedPullRequests, $sinceMergedAt);
     }
 
     /**
@@ -119,6 +125,15 @@ final class GithubApi
         });
     }
 
+    private function getMergedAtByPullRequest(int $id): ?string
+    {
+        $url = sprintf(self::URL_PULL_REQUEST_BY_ID, $this->repositoryName, $id);
+        $response = $this->getResponseToUrl($url);
+        $json = $this->responseFormatter->formatToJson($response);
+
+        return $json['merged_at'] ?? null;
+    }
+
     /**
      * @param mixed[] $pullRequests
      * @return mixed[]
@@ -128,15 +143,6 @@ final class GithubApi
         return array_filter($pullRequests, function (array $pullRequest) use ($mergedAt): bool {
             return $pullRequest['merged_at'] > $mergedAt;
         });
-    }
-
-    private function getMergedAtByPullRequest(int $id): string
-    {
-        $url = sprintf(self::URL_PULL_REQUEST_BY_ID, $this->repositoryName, $id);
-        $response = $this->getResponseToUrl($url);
-        $json = $this->responseFormatter->formatToJson($response);
-
-        return $json['merged_at'];
     }
 
     private function getResponseToUrl(string $url): ResponseInterface
