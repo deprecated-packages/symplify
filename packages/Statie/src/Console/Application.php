@@ -5,33 +5,13 @@ namespace Symplify\Statie\Console;
 use Jean85\PrettyVersions;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 final class Application extends SymfonyApplication
 {
-    /**
-     * @var InputInterface
-     */
-    private $input;
-
-    /**
-     * @var OutputInterface
-     */
-    private $output;
-
-    public function __construct(InputInterface $input, OutputInterface $output)
+    public function __construct()
     {
-        $this->input = $input;
-        $this->output = $output;
-
         parent::__construct('Statie', $this->getPrettyVersion());
-    }
-
-    public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
-    {
-        return parent::run($input ?: $this->input, $output ?: $this->output);
     }
 
     protected function getDefaultInputDefinition(): InputDefinition
