@@ -442,13 +442,13 @@ In case you need to do more work in YamlFileLoader, just extend the abstract par
 
 <br>
 
-### Smart Compiler Passes for Lazy Programmers
+### Smart Compiler Passes for Lazy Programmers ↓
 
 [How to add compiler pass](https://symfony.com/doc/current/service_container/compiler_passes.html#working-with-compiler-passes-in-bundles)?
 
 <br>
 
-#### Collect Services in Short Configs
+### Collect Services in Short Configs
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass`
 
@@ -467,7 +467,7 @@ Read more about [collector pattern](https://www.tomasvotruba.cz/clusters/#collec
 
 <br>
 
-#### Autowire Singly-Implemented Interfaces
+### Autowire Singly-Implemented Interfaces
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass`
 
@@ -481,7 +481,7 @@ Read more about [collector pattern](https://www.tomasvotruba.cz/clusters/#collec
 
 <br>
 
-#### Autobind Parameters
+### Autobind Parameters
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass`
 
@@ -500,7 +500,9 @@ Read more about [collector pattern](https://www.tomasvotruba.cz/clusters/#collec
          resource: ..
 ```
 
-#### Always Autowire this Type
+<br>
+
+### Always Autowire this Type
 
 Do you want to allow users to register services without worrying about autowiring? After all, they might forget it and that would break their code. Set types to always autowire:
 
@@ -523,7 +525,7 @@ This will make sure, that `PhpCsFixer\Fixer\FixerInterface` is always registered
 
 <br>
 
-#### Use Public Services only in Tests
+### Use Public Services only in Tests
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass`
 - Read [How to Test Private Services in Symfony](https://www.tomasvotruba.cz/blog/2018/05/17/how-to-test-private-services-in-symfony/)
