@@ -11,7 +11,7 @@ final class IdsAnalyzer
      *
      * Covers cases like:
      * - #5 Add this => 5
-     * - [#10] Change tha => 10
+     * - [#10] Change that => 10
      */
     private const PR_REFERENCE_IN_LIST = '#- \[?(\#(?<id>\d+))\]?#';
 
@@ -19,7 +19,7 @@ final class IdsAnalyzer
     {
         $matches = Strings::matchAll($content, self::PR_REFERENCE_IN_LIST);
         if (! $matches) {
-            return 1;
+            return 0;
         }
 
         $ids = array_column($matches, 'id');
