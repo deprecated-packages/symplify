@@ -4,6 +4,7 @@ namespace Symplify\MonorepoBuilder\Split\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
@@ -59,6 +60,12 @@ final class SplitCommand extends Command
                 'monorepo-builder.yml'
             )
         );
+        $this->addOption(
+            'max-processes',
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Maximum number of processes to run in parallel'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -67,7 +74,8 @@ final class SplitCommand extends Command
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
-            $this->rootDirectory
+            $this->rootDirectory,
+            $input->getOption('max-processes') ? intval($input->getOption('max-processes')) : null
         );
 
         // success
