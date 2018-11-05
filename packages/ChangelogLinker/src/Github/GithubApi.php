@@ -150,8 +150,8 @@ final class GithubApi
     private function getResponseToUrl(string $url): ResponseInterface
     {
         try {
-            $request = new Request('GET', $url, $this->options);
-            $response = $this->client->send($request);
+            $request = new Request('GET', $url);
+            $response = $this->client->send($request, $this->options);
         } catch (RequestException $requestException) {
             if (Strings::contains($requestException->getMessage(), 'API rate limit exceeded')) {
                 throw $this->createGithubApiTokenException('Github API rate limit exceeded.', $requestException);
