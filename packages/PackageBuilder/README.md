@@ -481,6 +481,35 @@ Read more about [collector pattern](https://www.tomasvotruba.cz/clusters/#collec
 
 <br>
 
+### Autowire Array Parameters
+
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass`
+
+This feature surpasses YAML-defined, tag-based or CompilerPass-based collectors in minimalistic way:
+
+```php
+<?php
+
+class Application
+{
+    /**
+     * @var Command[]
+     */
+    private $commands = [];
+
+    /**
+     * @param Command[] $commands
+     */
+    public function __construct(array $commands)
+    {
+        $this->commands = $commands;
+        var_dump($commands); // instnace of Command collected from all services
+    }
+}
+```
+
+<br>
+
 ### Autobind Parameters
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass`
