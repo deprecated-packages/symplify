@@ -3,7 +3,9 @@
 namespace Symplify\ChangelogLinker\Github;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
 use Nette\Utils\Strings;
 use Psr\Http\Message\ResponseInterface;
 use Symplify\ChangelogLinker\Exception\Github\GithubApiException;
@@ -148,7 +150,8 @@ final class GithubApi
     private function getResponseToUrl(string $url): ResponseInterface
     {
         try {
-            $response = $this->client->request('GET', $url, $this->options);
+            $request = new Request('GET', $url, $this->options);
+            $response = $this->client->send($request);
         } catch (RequestException $requestException) {
             if (Strings::contains($requestException->getMessage(), 'API rate limit exceeded')) {
                 throw $this->createGithubApiTokenException('Github API rate limit exceeded.', $requestException);
@@ -163,11 +166,7 @@ final class GithubApi
         }
 
         if ($response->getStatusCode() !== 200) {
-            throw new GithubApiException(sprintf(
-                'Response to GET request "%s" failed: "%s"',
-                $url,
-                $response->getReasonPhrase()
-            ));
+            throw BadResponseException::create($request, $response);
         }
 
         return $response;
