@@ -30,6 +30,7 @@ services:
 
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
+            - 'GuzzleHttp\Psr7\Request'
             - 'Symplify\EasyCodingStandard\Error\Error'
             - 'Symplify\EasyCodingStandard\Yaml\*'
             - 'Symplify\PackageBuilder\*'
