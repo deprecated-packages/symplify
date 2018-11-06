@@ -41,6 +41,11 @@ final class SmartFileInfo extends SplFileInfo
         return $this->getRelativePath();
     }
 
+    public function getNormalizedRealPath(): string
+    {
+        return str_replace('\\', '/', $this->getRealPath());
+    }
+
     public function getRelativeFilePathFromDirectory(string $directory): string
     {
         if (! file_exists($directory)) {
