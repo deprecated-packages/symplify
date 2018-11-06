@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -95,14 +96,9 @@ public function getCount(): int
         }
     }
 
-    /**
-     * Runs before:
-     * - @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer (5).
-     * - @see \PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer (20).
-     */
     public function getPriority(): int
     {
-        return 30;
+        return $this->getPriorityBefore(PhpdocIndentFixer::class);
     }
 
     /**

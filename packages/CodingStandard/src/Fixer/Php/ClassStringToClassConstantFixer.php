@@ -72,8 +72,7 @@ final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implem
             }
 
             $potentialClassInterfaceOrTrait = $this->getNameFromToken($token);
-            $potentialClassInterfaceOrTrait = str_replace('\\\\', '\\', $potentialClassInterfaceOrTrait);
-
+            $potentialClassInterfaceOrTrait = $this->normalizeClassyName($potentialClassInterfaceOrTrait);
             if (! $this->isValidClassLike($potentialClassInterfaceOrTrait)) {
                 continue;
             }
@@ -81,11 +80,6 @@ final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implem
             unset($tokens[$index]);
             $tokens->insertAt($index, $this->convertNameToTokens($potentialClassInterfaceOrTrait));
         }
-    }
-
-    public function getPriority(): int
-    {
-        return 15;
     }
 
     /**
@@ -104,6 +98,11 @@ final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implem
 
         // remove "\" prefix
         return ltrim($name, '\\');
+    }
+
+    private function normalizeClassyName(string $classyName): string
+    {
+        return str_replace('\\\\', '\\', $classyName);
     }
 
     private function isValidClassLike(string $classLike): bool

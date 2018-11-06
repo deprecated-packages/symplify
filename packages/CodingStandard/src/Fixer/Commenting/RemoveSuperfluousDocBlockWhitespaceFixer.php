@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\Comment\NoEmptyCommentFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -48,11 +49,8 @@ final class RemoveSuperfluousDocBlockWhitespaceFixer extends AbstractSymplifyFix
         }
     }
 
-    /**
-     * Runs before @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer.
-     */
     public function getPriority(): int
     {
-        return 10;
+        return $this->getPriorityBefore(NoEmptyCommentFixer::class);
     }
 }

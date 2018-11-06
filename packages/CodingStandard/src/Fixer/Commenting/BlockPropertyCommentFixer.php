@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -57,13 +58,7 @@ private $property;
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        for ($index = count($tokens) - 1; $index > 1; --$index) {
-            $token = $tokens[$index];
-
-            if (! $token->isGivenKind([T_CLASS, T_TRAIT])) {
-                continue;
-            }
-
+        foreach ($this->getReversedClassAndTraitPositions($tokens) as $index) {
             $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             foreach ($classWrapper->getPropertyWrappers() as $propertyWrapper) {
                 $docBlockWrapper = $propertyWrapper->getDocBlockWrapper();
@@ -78,12 +73,9 @@ private $property;
         }
     }
 
-    /**
-     * Must run before @see \PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer
-     */
     public function getPriority(): int
     {
-        return 1;
+        return $this->getPriorityBefore(PhpdocVarWithoutNameFixer::class);
     }
 
     private function convertDocBlockToMultiline(string $docBlock): string

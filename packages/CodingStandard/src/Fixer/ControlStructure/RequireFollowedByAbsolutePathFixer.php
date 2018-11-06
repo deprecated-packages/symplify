@@ -57,12 +57,9 @@ final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
         }
     }
 
-    /**
-     * Must run before @see ConcatSpaceFixer.
-     */
     public function getPriority(): int
     {
-        return 5;
+        return $this->getPriorityBefore(ConcatSpaceFixer::class);
     }
 
     private function shouldSkipToken(Token $token): bool

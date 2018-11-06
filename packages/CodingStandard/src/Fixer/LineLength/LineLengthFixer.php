@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -103,12 +104,9 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         }
     }
 
-    /**
-     * Execute before @see \PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer::getPriority()
-     */
     public function getPriority(): int
     {
-        return 5;
+        return $this->getPriorityBefore(TrimArraySpacesFixer::class);
     }
 
     /**

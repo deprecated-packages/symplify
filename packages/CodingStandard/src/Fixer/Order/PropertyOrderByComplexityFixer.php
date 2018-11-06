@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
+use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -145,12 +146,9 @@ CODE_SAMPLE
         }
     }
 
-    /**
-     * Needs to run before @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
-     */
     public function getPriority(): int
     {
-        return 70;
+        return $this->getPriorityBefore(OrderedClassElementsFixer::class);
     }
 
     /**
