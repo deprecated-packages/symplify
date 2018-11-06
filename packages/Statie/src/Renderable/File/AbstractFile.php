@@ -49,17 +49,17 @@ abstract class AbstractFile
     private $dateTime;
 
     public function __construct(
-        SmartFileInfo $fileInfo,
+        SmartFileInfo $smartFileInfo,
         string $relativeSource,
         string $filePath,
         string $filenameWithoutDate,
         ?DateTimeInterface $dateTime
     ) {
         $this->relativeSource = $relativeSource;
-        $this->fileInfo = $fileInfo;
+        $this->fileInfo = $smartFileInfo;
 
         $this->filePath = $filePath;
-        $this->content = FileSystem::read($fileInfo->getRealPath());
+        $this->content = FileSystem::read($smartFileInfo->getRealPath());
 
         // optional values
         $this->dateTime = $dateTime;
