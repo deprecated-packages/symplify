@@ -375,7 +375,7 @@ In case you need to do more work in YamlFileLoader, just extend the abstract par
 
 <br>
 
-#### Do you Need to Merge YAML files Outside Kernel?
+### Do you Need to Merge YAML files Outside Kernel?
 
 Instead of creating all the classes use this helper class:
 
@@ -480,6 +480,43 @@ Read more about [collector pattern](https://www.tomasvotruba.cz/clusters/#collec
 ```
 
 <br>
+
+### Do not Repeat Simple Factories
+
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass`
+
+This prevent repeating factory definitions for obvious 1-instance factories:
+
+```diff
+ services:
+     Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
+     Symfony\Component\Console\Style\SymfonyStyle:
+         factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
+```
+
+**How this works?**
+
+The factory class needs to have return type + `create()` method:
+
+```php
+<?php
+
+namespace Symplify\PackageBuilder\Console\Style;
+
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+final class SymfonyStyleFactory
+{
+    public function create(): SymfonyStyle
+    {
+        // ...
+    }
+}
+```
+
+That's all! The "factory" definition is generated from this obvious usage.
+
+**Put this compiler pass first**, as it creates new definitions that other compiler passes might work with.
 
 ### Autowire Array Parameters
 
