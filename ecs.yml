@@ -66,11 +66,7 @@ parameters:
             # "Exception" is string part of the name
             - 'packages/CodingStandard/src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
             # class might not exist
-            - '*packages/EasyCodingStandard/src/DependencyInjection/CompilerPass/*CompilerPass.php'
-            - 'packages/PackageBuilder/src/DependencyInjection/CompilerPass/ConfigurableCollectorCompilerPass.php'
-            # tests
-            - 'packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/ClassWrapperTest.php'
-            - 'packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutoReturnFactoryCompilerPass.php'
+            - '*packages/*/src/DependencyInjection/CompilerPass/*CompilerPass.php'
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             # static helper
