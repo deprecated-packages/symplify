@@ -18,12 +18,6 @@ services:
                 - 'isRisky'
                 - 'supports'
 
-    Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
-        maxCognitiveComplexity: 8
-
-    # class should be Abstact or Final
-    SlamCsFixer\FinalInternalClassFixer: ~
-
     Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
         extraParentTypesToSuffixes:
             - 'FileDecorator'
