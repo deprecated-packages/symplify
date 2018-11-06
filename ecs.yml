@@ -77,16 +77,12 @@ parameters:
             # todo: decouple later
             - 'packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
             # cheap dependency injection
-            - 'packages/PackageBuilder/src/Yaml/ParameterMergingYamlLoader.php'
-            # poor constructor injection for non-container approach
-            - 'packages/EasyCodingStandard/src/Yaml/FileLoader/CheckerTolerantYamlFileLoader.php'
+            - 'packages/*/src/Yaml/*YamlLoader.php'
             - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect 3rd party code typehint
-            - 'packages/EasyCodingStandard/src/Yaml/FileLoader/CheckerTolerantYamlFileLoader.php'
-            - 'packages/PackageBuilder/src/Yaml/FileLoader/AbstractParameterImportsYamlFileLoader.php'
-            - 'packages/PackageBuilder/tests/Yaml/ParameterInImportResolverSource/ImportParameterAwareYamlFileLoader.php'
+            - 'packages/*/Yaml/*FileLoader.php'
 
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
