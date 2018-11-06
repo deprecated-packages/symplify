@@ -3,12 +3,12 @@
 namespace Symplify\CodingStandard\Fixer\Order;
 
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
@@ -16,7 +16,7 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 /**
  * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
  */
-final class MethodOrderByTypeFixer implements DefinedFixerInterface, ConfigurableFixerInterface
+final class MethodOrderByTypeFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**
      * @var string[][]
@@ -72,12 +72,8 @@ CODE_SAMPLE
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        for ($i = 1, $count = $tokens->count(); $i < $count; ++$i) {
-            if (! $tokens[$i]->isClassy()) {
-                continue;
-            }
-
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $i);
+        foreach ($this->getReversedClassyPositions($tokens) as $index) {
+            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             if ($this->shouldSkip($classWrapper)) {
                 continue;
             }
@@ -96,26 +92,6 @@ CODE_SAMPLE
 
             $this->classElementSorter->apply($tokens, $methodElements, $sortedMethodElements);
         }
-    }
-
-    public function getPriority(): int
-    {
-        return 0;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
     }
 
     /**

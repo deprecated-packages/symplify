@@ -2,12 +2,13 @@
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
-use PhpCsFixer\AbstractFixer;
+use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\PackageBuilder\Php\TypeAnalyzer;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
@@ -18,7 +19,7 @@ use function Safe\usort;
 /**
  * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
  */
-final class PropertyOrderByComplexityFixer extends AbstractFixer
+final class PropertyOrderByComplexityFixer extends AbstractSymplifyFixer
 {
     /**
      * @var string
@@ -57,7 +58,6 @@ final class PropertyOrderByComplexityFixer extends AbstractFixer
         DocBlockWrapperFactory $docBlockWrapperFactory,
         ClassElementSorter $classElementSorter
     ) {
-        parent::__construct();
         $this->classWrapperFactory = $classWrapperFactory;
         $this->typeAnalyzer = $typeAnalyzer;
         $this->docBlockFinder = $docBlockFinder;
@@ -121,20 +121,7 @@ CODE_SAMPLE
         return $tokens->isAllTokenKindsFound([T_CLASS, T_VARIABLE]);
     }
 
-    /**
-     * Needs to run before @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
-     */
-    public function getPriority(): int
-    {
-        return 70;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
+    public function fix(SplFileInfo $splFileInfo, Tokens $tokens): void
     {
         for ($i = 1; $i < $tokens->count(); ++$i) {
             if (! $tokens[$i]->isClassy()) {
@@ -157,6 +144,11 @@ CODE_SAMPLE
 
             $this->classElementSorter->apply($tokens, $propertyElements, $sortedPropertyElements);
         }
+    }
+
+    public function getPriority(): int
+    {
+        return $this->getPriorityBefore(OrderedClassElementsFixer::class);
     }
 
     /**

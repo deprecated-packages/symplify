@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\ControlStructure;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -11,8 +10,9 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
-final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
+final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
 {
     /**
      * @var int[]
@@ -22,7 +22,7 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Include/Require should be followed by absolute path.',
+            'include/require should be followed by absolute path.',
             [new CodeSample('require "vendor/autoload.php"')]
         );
     }
@@ -57,27 +57,9 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
         }
     }
 
-    /**
-     * Must run before @see ConcatSpaceFixer.
-     */
     public function getPriority(): int
     {
-        return 5;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
+        return $this->getPriorityBefore(ConcatSpaceFixer::class);
     }
 
     private function shouldSkipToken(Token $token): bool

@@ -3,17 +3,17 @@
 namespace Symplify\CodingStandard\Fixer\Solid;
 
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 
-final class FinalInterfaceFixer implements DefinedFixerInterface, ConfigurableFixerInterface
+final class FinalInterfaceFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**
      * @var string[]
@@ -48,14 +48,7 @@ class SomeClass implements SomeInterface {};')]
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $tokensReversed = array_reverse(iterator_to_array($tokens), true);
-
-        /** @var Token $token */
-        foreach ($tokensReversed as $index => $token) {
-            if (! $token->isGivenKind(T_CLASS)) {
-                continue;
-            }
-
+        foreach ($this->getReversedClassyPositions($tokens) as $index) {
             $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             if ($this->shouldBeSkipped($classWrapper)) {
                 continue;
@@ -63,30 +56,6 @@ class SomeClass implements SomeInterface {};')]
 
             $tokens->insertAt($index, [new Token([T_FINAL, 'final']), new Token([T_WHITESPACE, ' '])]);
         }
-    }
-
-    public function getPriority(): int
-    {
-        return 0;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    /**
-     * Classes implementing interface that are further extended
-     * can break the code.
-     */
-    public function isRisky(): bool
-    {
-        return true;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
     }
 
     /**

@@ -2,16 +2,16 @@
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
-use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 use function Safe\usort;
 
-final class PrivateMethodOrderByUseFixer extends AbstractFixer
+final class PrivateMethodOrderByUseFixer extends AbstractSymplifyFixer
 {
     /**
      * @var ClassWrapperFactory
@@ -25,7 +25,6 @@ final class PrivateMethodOrderByUseFixer extends AbstractFixer
 
     public function __construct(ClassWrapperFactory $classWrapperFactory, ClassElementSorter $classElementSorter)
     {
-        parent::__construct();
         $this->classWrapperFactory = $classWrapperFactory;
         $this->classElementSorter = $classElementSorter;
     }
@@ -40,19 +39,10 @@ final class PrivateMethodOrderByUseFixer extends AbstractFixer
         return $tokens->isAllTokenKindsFound([T_CLASS, T_FUNCTION]);
     }
 
-    public function getName(): string
+    public function fix(SplFileInfo $splFileInfo, Tokens $tokens): void
     {
-        return self::class;
-    }
-
-    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
-    {
-        for ($i = 1, $count = $tokens->count(); $i < $count; ++$i) {
-            if (! $tokens[$i]->isClassy()) {
-                continue;
-            }
-
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $i);
+        foreach ($this->getReversedClassyPositions($tokens) as $index) {
+            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
 
             $desiredMethodOrder = $classWrapper->getThisMethodCallsByOrderOfAppearance();
             $privateMethodElements = $classWrapper->getPrivateMethodElements();

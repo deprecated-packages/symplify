@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -11,13 +11,14 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 use function Safe\sprintf;
 
 /**
  * possible future-successor https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/3810
  */
-final class BlockPropertyCommentFixer implements DefinedFixerInterface
+final class BlockPropertyCommentFixer extends AbstractSymplifyFixer
 {
     /**
      * @var ClassWrapperFactory
@@ -57,13 +58,7 @@ private $property;
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        for ($index = count($tokens) - 1; $index > 1; --$index) {
-            $token = $tokens[$index];
-
-            if (! $token->isGivenKind([T_CLASS, T_TRAIT])) {
-                continue;
-            }
-
+        foreach ($this->getReversedClassAndTraitPositions($tokens) as $index) {
             $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             foreach ($classWrapper->getPropertyWrappers() as $propertyWrapper) {
                 $docBlockWrapper = $propertyWrapper->getDocBlockWrapper();
@@ -78,27 +73,9 @@ private $property;
         }
     }
 
-    /**
-     * Must run before @see \PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer
-     */
     public function getPriority(): int
     {
-        return 1;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
+        return $this->getPriorityBefore(PhpdocVarWithoutNameFixer::class);
     }
 
     private function convertDocBlockToMultiline(string $docBlock): string

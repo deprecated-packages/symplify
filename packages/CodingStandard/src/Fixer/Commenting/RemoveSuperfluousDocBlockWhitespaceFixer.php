@@ -3,15 +3,15 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\FixerDefinition\CodeSample;
+use PhpCsFixer\Fixer\Comment\NoEmptyCommentFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
-final class RemoveSuperfluousDocBlockWhitespaceFixer implements DefinedFixerInterface
+final class RemoveSuperfluousDocBlockWhitespaceFixer extends AbstractSymplifyFixer
 {
     /**
      * @var string
@@ -20,20 +20,7 @@ final class RemoveSuperfluousDocBlockWhitespaceFixer implements DefinedFixerInte
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition(
-            'Block comment should not have 2 empty lines in a row.',
-            [new CodeSample('<?php
-/**
- * Description
- *
- *
- * @return int
- */
-public function getCount()
-{
-}
-')]
-        );
+        return new FixerDefinition('Block comment should not have 2 empty lines in a row.', []);
     }
 
     public function isCandidate(Tokens $tokens): bool
@@ -62,26 +49,8 @@ public function getCount()
         }
     }
 
-    /**
-     * Runs before @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer.
-     */
     public function getPriority(): int
     {
-        return 10;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
+        return $this->getPriorityBefore(NoEmptyCommentFixer::class);
     }
 }

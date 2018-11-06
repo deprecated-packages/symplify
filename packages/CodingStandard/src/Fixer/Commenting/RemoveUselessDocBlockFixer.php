@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -12,13 +12,14 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use SplFileInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
-final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, ConfigurableFixerInterface
+final class RemoveUselessDocBlockFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**
      * @var DescriptionAnalyzer
@@ -95,29 +96,9 @@ public function getCount(): int
         }
     }
 
-    /**
-     * Runs before:
-     * - @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer (5).
-     * - @see \PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer (20).
-     */
     public function getPriority(): int
     {
-        return 30;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
+        return $this->getPriorityBefore(PhpdocIndentFixer::class);
     }
 
     /**
