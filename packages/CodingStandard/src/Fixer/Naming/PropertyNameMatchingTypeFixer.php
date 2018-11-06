@@ -4,20 +4,20 @@ namespace Symplify\CodingStandard\Fixer\Naming;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\PackageBuilder\Php\TypeAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\PropertyWrapper;
 
-final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, ConfigurableFixerInterface
+final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**
      * @var string[]
@@ -84,14 +84,8 @@ class SomeClass
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        for ($index = $tokens->count() - 1; $index >= 0; --$index) {
-            $token = $tokens[$index];
-
-            if (! $token->isClassy()) {
-                continue;
-            }
-
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
+        foreach ($this->getReversedClassyPositions($tokens) as $position) {
+            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $position);
 
             if ($classWrapper->isGivenKind([T_CLASS, T_TRAIT])) {
                 $this->fixClassProperties($classWrapper);
@@ -99,26 +93,6 @@ class SomeClass
 
             $this->fixClassMethods($classWrapper);
         }
-    }
-
-    public function getPriority(): int
-    {
-        return 0;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
     }
 
     /**

@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Fixer\Php;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -12,10 +11,11 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 use function Safe\substr;
 
-final class ClassStringToClassConstantFixer implements DefinedFixerInterface, ConfigurableFixerInterface
+final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**
      * @var string
@@ -86,21 +86,6 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
     public function getPriority(): int
     {
         return 15;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
     }
 
     /**

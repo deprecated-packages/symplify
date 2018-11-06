@@ -4,19 +4,19 @@ namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Throwable;
 
-final class LineLengthFixer implements DefinedFixerInterface, ConfigurableFixerInterface
+final class LineLengthFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**
      * @var int
@@ -109,21 +109,6 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     public function getPriority(): int
     {
         return 5;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
     }
 
     /**

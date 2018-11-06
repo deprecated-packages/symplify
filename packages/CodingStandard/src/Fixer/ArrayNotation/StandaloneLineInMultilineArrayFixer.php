@@ -2,20 +2,19 @@
 
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
-final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
+final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
 {
     /**
      * @var int[]
@@ -49,9 +48,7 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Indexed PHP arrays with 2 and more items should have 1 item per line.', [
-            new CodeSample('<?php [1 => \'hey\', 2 => \'hello\'];'),
-        ]);
+        return new FixerDefinition('Indexed PHP arrays with 2 and more items should have 1 item per line.', []);
     }
 
     public function isCandidate(Tokens $tokens): bool
@@ -80,26 +77,6 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
 
             $this->lineLengthTransformer->breakItems($blockInfo, $tokens);
         }
-    }
-
-    public function getPriority(): int
-    {
-        return 0;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
     }
 
     private function shouldSkip(ArrayWrapper $arrayWrapper): bool

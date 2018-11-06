@@ -3,19 +3,19 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
 /**
  * Inspired by https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/2.8/src/Fixer/Phpdoc/NoEmptyPhpdocFixer.php
  * With difference: it doesn't add extra spaces instead of docblock.
  */
-final class RemoveEmptyDocBlockFixer extends AbstractFixer
+final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
 {
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -33,7 +33,7 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
         return $tokens->isTokenKindFound(T_DOC_COMMENT);
     }
 
-    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
+    public function fix(SplFileInfo $splFileInfo, Tokens $tokens): void
     {
         for ($index = count($tokens); $index > 0; --$index) {
             if ($this->shouldSkip($tokens, $index)) {

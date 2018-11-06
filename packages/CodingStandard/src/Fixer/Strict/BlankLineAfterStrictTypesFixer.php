@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\Strict;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -10,13 +9,14 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
 /**
  * Inspired at https://github.com/aidantwoods/PHP-CS-Fixer/tree/feature/DeclareStrictTypesFixer-split
  *
  * @thanks Aidan Woods
  */
-final class BlankLineAfterStrictTypesFixer implements DefinedFixerInterface
+final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
 {
     /**
      * @var Token[]|null
@@ -66,29 +66,6 @@ namespace SomeNamespace;')]
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 
         $tokens->ensureWhitespaceAtIndex($semicolonPosition + 1, 0, $lineEnding . $lineEnding);
-    }
-
-    /**
-     * Must run after @see \PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer
-     */
-    public function getPriority(): int
-    {
-        return 0;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
     }
 
     /**

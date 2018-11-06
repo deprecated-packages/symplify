@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\Property;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -10,11 +9,12 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
 
-final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
+final class ArrayPropertyDefaultValueFixer extends AbstractSymplifyFixer
 {
     /**
      * @var Tokens|null
@@ -67,36 +67,11 @@ public $property;')]
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        for ($index = count($tokens) - 1; $index > 1; --$index) {
-            $token = $tokens[$index];
-            if (! $token->isClassy()) {
-                continue;
-            }
+        foreach ($this->getReversedClassyPositions($tokens) as $index) {
+            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
 
-            $classTokensAnalyzer = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
-
-            $this->fixProperties($tokens, $classTokensAnalyzer->getProperties());
+            $this->fixProperties($tokens, $classWrapper->getProperties());
         }
-    }
-
-    public function getPriority(): int
-    {
-        return 0;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
     }
 
     /**
