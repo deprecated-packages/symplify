@@ -16,8 +16,6 @@ services:
         alias: 'Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication'
 
     Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
-    Symfony\Component\Console\Style\SymfonyStyle:
-        factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
 
     # alias needed for Symfony Console setter
     Symfony\Component\EventDispatcher\EventDispatcher: ~

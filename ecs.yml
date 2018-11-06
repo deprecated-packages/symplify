@@ -70,6 +70,7 @@ parameters:
             - 'packages/PackageBuilder/src/DependencyInjection/CompilerPass/ConfigurableCollectorCompilerPass.php'
             # tests
             - 'packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/ClassWrapperTest.php'
+            - 'packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutoReturnFactoryCompilerPass.php'
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             # static helper

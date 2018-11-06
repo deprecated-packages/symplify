@@ -91,6 +91,9 @@ parameters:
         # mixed type
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::getParameter\(\)#'
 
+        # false positives
+        - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutoReturnFactoryCompilerPass::findFactoriesWithoutUsage\(\) should return array<string> but returns array<int, string\|null>#'
+
         # variadic
         - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'
         - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'

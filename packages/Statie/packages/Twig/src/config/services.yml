@@ -11,8 +11,4 @@ services:
 
     # twig setup
     Twig\Loader\ArrayLoader:
-
-    Twig\Environment:
-        factory: ['@Symplify\Statie\Twig\TwigFactory', 'create']
-
     Latte\Runtime\FilterExecutor:

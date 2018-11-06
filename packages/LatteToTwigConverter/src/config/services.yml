@@ -10,5 +10,3 @@ services:
     Symfony\Component\Console\Application: ~
 
     Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
-    Symfony\Component\Console\Style\SymfonyStyle:
-        factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
