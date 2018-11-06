@@ -13,5 +13,3 @@ services:
     Symfony\Component\Yaml\Parser: ~
 
     Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
-    Symfony\Component\Console\Style\SymfonyStyle:
-        factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']

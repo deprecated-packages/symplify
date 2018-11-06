@@ -30,11 +30,11 @@ final class LatteRenderer implements RendererInterface
     private $codeBlocksProtector;
 
     public function __construct(
-        LatteFactory $latteFactory,
+        Engine $engine,
         ArrayLoader $arrayLoader,
         CodeBlocksProtector $codeBlocksProtector
     ) {
-        $this->engine = $latteFactory->create();
+        $this->engine = $engine;
         $this->arrayLoader = $arrayLoader;
         $this->codeBlocksProtector = $codeBlocksProtector;
     }

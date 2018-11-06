@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
@@ -38,6 +39,9 @@ final class MonorepoBuilderKernel extends Kernel
 
     protected function build(ContainerBuilder $containerBuilder): void
     {
+        // needs to be first, since it's adding new service definitions
+        $containerBuilder->addCompilerPass(new AutoReturnFactoryCompilerPass());
+
         $containerBuilder->addCompilerPass(new ConfigurableCollectorCompilerPass());
         $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());
         $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());

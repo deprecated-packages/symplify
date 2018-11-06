@@ -8,28 +8,25 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
+use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 use Symplify\PackageBuilder\Yaml\FileLoader\ParameterMergingYamlFileLoader;
 
 final class StatieKernel extends Kernel
 {
+    use SimpleKernelTrait;
+
     /**
      * @var string|null
      */
     private $configFile;
-
-    public function __construct()
-    {
-        // random_int is used to prevent container name duplication during tests
-        parent::__construct((string) random_int(1, 1000000), false);
-    }
 
     public function bootWithConfig(string $configFile): void
     {
@@ -46,26 +43,11 @@ final class StatieKernel extends Kernel
         }
     }
 
-    public function getCacheDir(): string
-    {
-        return sys_get_temp_dir() . '/_statie_kernel';
-    }
-
-    public function getLogDir(): string
-    {
-        return sys_get_temp_dir() . '/_statie_kernel_log';
-    }
-
-    /**
-     * @return BundleInterface[]
-     */
-    public function registerBundles(): array
-    {
-        return [];
-    }
-
     protected function build(ContainerBuilder $containerBuilder): void
     {
+        // needs to be run first, since it creates new definitions
+        $containerBuilder->addCompilerPass(new AutoReturnFactoryCompilerPass());
+
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
         $containerBuilder->addCompilerPass(new ConfigurableCollectorCompilerPass());
         $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
