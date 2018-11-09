@@ -29,6 +29,7 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
 
             // register factory
             $containerBuilder->autowire($returnType)
+                ->setPublic(true)
                 ->setClass($returnType)
                 ->setFactory([new Reference($passiveFactoryClass), 'create']);
         }
