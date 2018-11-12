@@ -42,17 +42,6 @@ parameters:
         - 'repositories'
 ```
 
-You can configure it and add `minimum-stablity` for example or remove any of those default values:
-
-```yaml
-# monorepo-builder.yml
-parameters:
-    merge_sections:
-        - 'require'
-        - 'require-dev'
-        - 'minimum-stability'
-```
-
 To merge just run:
 
 ```bash
@@ -69,17 +58,7 @@ parameters:
         - 'projects'
 ```
 
-Sections are nicely sorted by saint defaults. Do you want to order them yourself?
-
-```yaml
-parameters:
-    section_order:
-        - 'name'
-        - 'autoload'
-        - 'autoload-dev'
-        - 'require'
-        - 'require-dev'
-```
+Sections are sorted for you by saint defaults. Do you want change the order? Just override `section_order` parameter.
 
 #### After Merge Options
 
@@ -97,14 +76,13 @@ parameters:
 
     data_to_remove:
         require:
+            # the line is removed by key, so version is irrelevant, thus *
             'phpunit/phpunit': '*'
 ```
 
 ### 2. Bump Package Inter-dependencies
 
-Let's say you release `symplify/symplify` 4.0 and you need package to depend on version `^4.0` for each other.
-
-Just run this:
+Let's say you release `symplify/symplify` 4.0 and you need package to depend on version `^4.0` for each other:
 
 ```bash
 vendor/bin/monorepo-builder bump-interdependency "^4.0"
@@ -120,7 +98,7 @@ vendor/bin/monorepo-builder validate
 
 ### 4. Keep Package Alias Up-To-Date
 
-You can see this
+You can see this even if there is already version 3.0 out:
 
 ```json
 {
@@ -132,9 +110,7 @@ You can see this
 }
 ```
 
-even if there is already version 3.0 out.
-
-Get rid of this manual work! Add this command to your release workflow:
+**Not good.** Get rid of this manual work and add this command to your release workflow:
 
 ```bash
 vendor/bin/monorepo-builder package-alias
@@ -169,6 +145,32 @@ vendor/bin/monorepo-builder split
 ```
 
 To speed up the process about 50-60 %, all repositories are synchronized in parallel.
+
+### 6. Release Flow
+
+When a new version of your package is released, you have to do many manual steps:
+
+- bump mutual dependencies,
+- tag this version,
+- `git push` with tag,
+- change `CHANGELOG.md` title *Unreleated* to `v<version> - Y-m-d` format
+- bump alias and mutual dependency to next version alias
+
+But what if **you forget one or do it in wrong order**? Everything will crash!
+
+The `release` command will make you safe:
+
+```bash
+vendor/bin/changelog-inker release v7.0
+```
+
+Are you afraid to tag and push? Use `--dry-run`
+
+```bash
+vendor/bin/changelog-inker release v7.0 --dry-run
+```
+
+It will perform all actions **without tagging and pushing**. That way you can run `git diff` and see what has changed.
 
 ## Contributing
 
