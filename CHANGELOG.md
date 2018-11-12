@@ -7,9 +7,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
-<!-- changelog-linker -->
+## [v5.2.1] - 2018-11-12
 
-## v5.2.0 - 2018-11-04
+### Added
+
+#### CodingStandard
+
+- [#1189] Add `AbstractSymplifyFixer`
+
+#### PackageBuilder
+
+- [#1185] Add `AutoReturnFactoryCompilerPass`
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#1192] fix [#1191] add `Fixer::rollbackChangeset`, Thanks to [@ostrolucky]
+
+### Changed
+
+- [#1188] Use `FileInfo` instead of real/absolute paths
+
+### Removed
+
+#### EasyCodingStandard
+
+- [#1187] Drop buggy unused `skip` reporting
+
+## [v5.2.0] - 2018-11-04
 
 ### Added
 
@@ -37,7 +63,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### ChangelogLinker
 
-- [#1179] Fix dump-merges for empty PR stack [closes #1176]
+- [#1179] Fix dump-merges for empty PR stack [closes [#1176]]
 
 ## [v5.1.4] - 2018-10-27
 
@@ -211,14 +237,21 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1168]: https://github.com/Symplify/Symplify/pull/1168
 [#1166]: https://github.com/Symplify/Symplify/pull/1166
 [v5.1.3]: https://github.com/Symplify/Symplify/compare/v5.1.2...v5.1.3
-[#1178]: https://github.com/Symplify/Symplify/pull/1178
 [#1177]: https://github.com/Symplify/Symplify/pull/1177
 [#1175]: https://github.com/Symplify/Symplify/pull/1175
 [#1174]: https://github.com/Symplify/Symplify/pull/1174
 [#1173]: https://github.com/Symplify/Symplify/pull/1173
 [#1171]: https://github.com/Symplify/Symplify/pull/1171
 [#1170]: https://github.com/Symplify/Symplify/pull/1170
-[#1169]: https://github.com/Symplify/Symplify/pull/1169
-[#1165]: https://github.com/Symplify/Symplify/pull/1165
 [@mantiz]: https://github.com/mantiz
 [v5.1.4]: https://github.com/Symplify/Symplify/compare/v5.1.3...v5.1.4
+[#1192]: https://github.com/Symplify/Symplify/pull/1192
+[#1191]: https://github.com/Symplify/Symplify/pull/1191
+[#1189]: https://github.com/Symplify/Symplify/pull/1189
+[#1188]: https://github.com/Symplify/Symplify/pull/1188
+[#1187]: https://github.com/Symplify/Symplify/pull/1187
+[#1185]: https://github.com/Symplify/Symplify/pull/1185
+[#1179]: https://github.com/Symplify/Symplify/pull/1179
+[#1176]: https://github.com/Symplify/Symplify/pull/1176
+[v5.2.1]: https://github.com/Symplify/Symplify/compare/v5.2.0...v5.2.1
+[v5.2.0]: https://github.com/Symplify/Symplify/compare/v5.1.4...v5.2.0
