@@ -49,6 +49,15 @@ final class TypeNodeToStringsConvertor
             return implode('&', $resolvedDocTypes);
         }
 
+        if ($typeNode instanceof GenericTypeNode) {
+            $resolvedDocTypes = [];
+            foreach ($typeNode->genericTypes as $subTypeNode) {
+                $resolvedDocTypes[] = $this->resolveTypeNodeToString($subTypeNode);
+            }
+
+            return $this->resolveTypeNodeToString($typeNode->type) . '<' . implode(', ', $resolvedDocTypes) . '>';
+        }
+
         throw new NotImplementedYetException(sprintf(
             'Add new "%s" type format to "%s" method',
             get_class($typeNode),
