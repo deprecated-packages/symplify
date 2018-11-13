@@ -10,13 +10,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Configuration\Option;
-use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
-use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use Symplify\MonorepoBuilder\InterdependencyUpdater;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
+use Symplify\MonorepoBuilder\Release\Exception\ConflictingPriorityException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
-use Symplify\MonorepoBuilder\Utils\Utils;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use function Safe\getcwd;
@@ -25,14 +22,9 @@ use function Safe\sprintf;
 final class ReleaseCommand extends Command
 {
     /**
-     * @var array
+     * @var ReleaseWorkerInterface[]
      */
     private $releaseWorkersByPriority = [];
-
-    /**
-     * @var array|ReleaseWorkerInterface[]
-     */
-    private $releaseWorkers = [];
 
     /**
      * @var SymfonyStyle
@@ -45,60 +37,23 @@ final class ReleaseCommand extends Command
     private $gitManager;
 
     /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
-     * @var InterdependencyUpdater
-     */
-    private $interdependencyUpdater;
-
-    /**
-     * @var Utils
-     */
-    private $utils;
-
-    /**
-     * @var DevMasterAliasUpdater
-     */
-    private $devMasterAliasUpdater;
-
-    /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
      */
-    public function __construct(
-        SymfonyStyle $symfonyStyle,
-        GitManager $gitManager,
-        ComposerJsonProvider $composerJsonProvider,
-        InterdependencyUpdater $interdependencyUpdater,
-        Utils $utils,
-        DevMasterAliasUpdater $devMasterAliasUpdater,
-        array $releaseWorkers
-    ) {
+    public function __construct(SymfonyStyle $symfonyStyle, GitManager $gitManager, array $releaseWorkers)
+    {
         parent::__construct();
 
         $this->symfonyStyle = $symfonyStyle;
         $this->gitManager = $gitManager;
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->interdependencyUpdater = $interdependencyUpdater;
-        $this->utils = $utils;
-        $this->devMasterAliasUpdater = $devMasterAliasUpdater;
 
-        foreach ($releaseWorkers as $releaseWorker) {
-            $this->releaseWorkersByPriority[$releaseWorker->getPriority()] = $releaseWorker;
-        }
-        krsort($this->releaseWorkersByPriority);
-
-        dump($this->releaseWorkersByPriority);
+        $this->setWorkersAndSortByPriority($releaseWorkers);
     }
 
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription(
-            'Release new version, with tag, bump mutual dependency to pass, push with tag, then bump alias and mutual dependency to next version alias.'
-        );
+        $this->setDescription('Perform release process with set Release Workers.');
+
         $this->addArgument(
             Option::VERSION,
             InputArgument::REQUIRED,
@@ -125,13 +80,29 @@ final class ReleaseCommand extends Command
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
 
         foreach ($this->releaseWorkersByPriority as $releaseWorker) {
-            dump(get_class($releaseWorker));
-//            $releaseWorker->work($version, $isDryRun);
+            $releaseWorker->work($version, $isDryRun);
         }
 
         $this->symfonyStyle->success(sprintf('Version "%s" is now released!', $version->getVersionString()));
 
         return ShellCode::SUCCESS;
+    }
+
+    /**
+     * @param ReleaseWorkerInterface[] $releaseWorkers
+     */
+    private function setWorkersAndSortByPriority(array $releaseWorkers): void
+    {
+        foreach ($releaseWorkers as $releaseWorker) {
+            $priority = $releaseWorker->getPriority();
+            if (isset($this->releaseWorkersByPriority[$priority])) {
+                throw new ConflictingPriorityException($releaseWorker, $this->releaseWorkersByPriority[$priority]);
+            }
+
+            $this->releaseWorkersByPriority[$priority] = $releaseWorker;
+        }
+
+        krsort($this->releaseWorkersByPriority);
     }
 
     private function ensureVersionIsNewerThanLastOne(Version $version): void
