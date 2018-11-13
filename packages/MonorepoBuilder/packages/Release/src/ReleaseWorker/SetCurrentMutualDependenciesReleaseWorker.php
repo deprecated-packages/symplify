@@ -4,15 +4,12 @@ namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
 use PharIo\Version\Version;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\InterdependencyUpdater;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Utils\Utils;
 
-final class SetCurrentMutualDependenciesReleaseWorker
-    implements ReleaseWorkerInterface
+final class SetCurrentMutualDependenciesReleaseWorker implements ReleaseWorkerInterface
 {
     /**
      * @var SymfonyStyle
@@ -23,17 +20,23 @@ final class SetCurrentMutualDependenciesReleaseWorker
      * @var ComposerJsonProvider
      */
     private $composerJsonProvider;
+
     /**
      * @var InterdependencyUpdater
      */
     private $interdependencyUpdater;
+
     /**
      * @var Utils
      */
     private $utils;
 
-    public function __construct(SymfonyStyle $symfonyStyle, ComposerJsonProvider $composerJsonProvider, InterdependencyUpdater $interdependencyUpdater, Utils $utils)
-    {
+    public function __construct(
+        SymfonyStyle $symfonyStyle,
+        ComposerJsonProvider $composerJsonProvider,
+        InterdependencyUpdater $interdependencyUpdater,
+        Utils $utils
+    ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->composerJsonProvider = $composerJsonProvider;
         $this->interdependencyUpdater = $interdependencyUpdater;

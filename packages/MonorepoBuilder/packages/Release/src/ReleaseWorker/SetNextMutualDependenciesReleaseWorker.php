@@ -4,14 +4,12 @@ namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
 use PharIo\Version\Version;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\InterdependencyUpdater;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
+use Symplify\MonorepoBuilder\Utils\Utils;
 
-final class SetNextMutualDependenciesReleaseWorker
-    implements ReleaseWorkerInterface
+final class SetNextMutualDependenciesReleaseWorker implements ReleaseWorkerInterface
 {
     /**
      * @var SymfonyStyle
@@ -22,17 +20,23 @@ final class SetNextMutualDependenciesReleaseWorker
      * @var ComposerJsonProvider
      */
     private $composerJsonProvider;
+
     /**
      * @var InterdependencyUpdater
      */
     private $interdependencyUpdater;
+
     /**
-     * @var \Symplify\MonorepoBuilder\Utils\Utils
+     * @var Utils
      */
     private $utils;
 
-    public function __construct(SymfonyStyle $symfonyStyle, ComposerJsonProvider $composerJsonProvider, InterdependencyUpdater $interdependencyUpdater, \Symplify\MonorepoBuilder\Utils\Utils $utils)
-    {
+    public function __construct(
+        SymfonyStyle $symfonyStyle,
+        ComposerJsonProvider $composerJsonProvider,
+        InterdependencyUpdater $interdependencyUpdater,
+        Utils $utils
+    ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->composerJsonProvider = $composerJsonProvider;
         $this->interdependencyUpdater = $interdependencyUpdater;
@@ -46,7 +50,7 @@ final class SetNextMutualDependenciesReleaseWorker
 
     public function work(Version $version, bool $isDryRun): void
     {
-        $versionInString  = $this->utils->getRequiredNextFormat($version);
+        $versionInString = $this->utils->getRequiredNextFormat($version);
 
         $this->symfonyStyle->note(sprintf('Setting packages mutual dependencies to "%s" version', $versionInString));
 

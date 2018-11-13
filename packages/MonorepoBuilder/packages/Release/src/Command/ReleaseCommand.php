@@ -2,9 +2,6 @@
 
 namespace Symplify\MonorepoBuilder\Release\Command;
 
-use DateTime;
-use Nette\Utils\FileSystem;
-use Nette\Utils\Strings;
 use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,12 +18,22 @@ use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterfa
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\Utils\Utils;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 use function Safe\getcwd;
 use function Safe\sprintf;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ReleaseCommand extends Command
 {
+    /**
+     * @var array
+     */
+    private $releaseWorkersByPriority = [];
+
+    /**
+     * @var array|ReleaseWorkerInterface[]
+     */
+    private $releaseWorkers = [];
+
     /**
      * @var SymfonyStyle
      */
@@ -56,15 +63,6 @@ final class ReleaseCommand extends Command
      * @var DevMasterAliasUpdater
      */
     private $devMasterAliasUpdater;
-
-    /**
-     * @var array
-     */
-    private $releaseWorkersByPriority = [];
-    /**
-     * @var array|ReleaseWorkerInterface[]
-     */
-    private $releaseWorkers;
 
     /**
      * @param ReleaseWorkerInterface[] $releaseWorkers

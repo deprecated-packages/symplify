@@ -5,6 +5,7 @@ namespace Symplify\PHPStanExtensions\ErrorFormatter;
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use Symfony\Component\Console\Style\OutputStyle;
+use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PHPStanExtensions\Error\ErrorGrouper;
 use function Safe\sprintf;
 
@@ -24,8 +25,7 @@ final class IgnoreErrorFormatter implements ErrorFormatter
     {
         if ($analysisResult->getTotalErrorsCount() === 0) {
             $outputStyle->success('No errors');
-            // success
-            return 0;
+            return ShellCode::SUCCESS;
         }
 
         $messagesToFrequency = $this->errorGrouper->groupErrorsToMessagesToFrequency(
@@ -35,8 +35,7 @@ final class IgnoreErrorFormatter implements ErrorFormatter
         if (! $messagesToFrequency) {
             $outputStyle->error(sprintf('Found %d non-ignorable errors', $analysisResult->getTotalErrorsCount()));
 
-            // fail
-            return 1;
+            return ShellCode::ERROR;
         }
 
         $ignoredMessages = [];
@@ -60,7 +59,6 @@ final class IgnoreErrorFormatter implements ErrorFormatter
 
         $outputStyle->error(sprintf('Found %d errors', $analysisResult->getTotalErrorsCount()));
 
-        // fail
-        return 1;
+        return ShellCode::ERROR;
     }
 }

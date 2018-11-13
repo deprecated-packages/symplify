@@ -10,6 +10,7 @@ use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\MonorepoBuilder\Utils\Utils;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 use function Safe\sprintf;
 
 final class PackageAliasCommand extends Command
@@ -59,7 +60,7 @@ final class PackageAliasCommand extends Command
         $composerPackageFiles = $this->packageComposerFinder->getPackageComposerFiles();
         if (! count($composerPackageFiles)) {
             $this->symfonyStyle->error('No "composer.json" were found in packages.');
-            return 1;
+            return ShellCode::ERROR;
         }
 
         $alias = $this->getExpectedAlias();
@@ -67,8 +68,7 @@ final class PackageAliasCommand extends Command
         $this->devMasterAliasUpdater->updateFileInfosWithAlias($composerPackageFiles, $alias);
         $this->symfonyStyle->success(sprintf('Alias "dev-master" was updated to "%s" in all packages.', $alias));
 
-        // success
-        return 0;
+        return ShellCode::SUCCESS;
     }
 
     private function getExpectedAlias(): string

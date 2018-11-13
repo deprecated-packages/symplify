@@ -9,7 +9,6 @@ use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 
 final class PushTagReleaseWorker implements ReleaseWorkerInterface
-
 {
     /**
      * @var SymfonyStyle

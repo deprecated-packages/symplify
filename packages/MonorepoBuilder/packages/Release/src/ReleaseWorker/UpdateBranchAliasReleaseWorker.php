@@ -4,14 +4,11 @@ namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
 use PharIo\Version\Version;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 
 final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
-
 {
     /**
      * @var SymfonyStyle
@@ -28,8 +25,11 @@ final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
      */
     private $composerJsonProvider;
 
-    public function __construct(SymfonyStyle $symfonyStyle, DevMasterAliasUpdater $devMasterAliasUpdater, ComposerJsonProvider $composerJsonProvider)
-    {
+    public function __construct(
+        SymfonyStyle $symfonyStyle,
+        DevMasterAliasUpdater $devMasterAliasUpdater,
+        ComposerJsonProvider $composerJsonProvider
+    ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->devMasterAliasUpdater = $devMasterAliasUpdater;
         $this->composerJsonProvider = $composerJsonProvider;
