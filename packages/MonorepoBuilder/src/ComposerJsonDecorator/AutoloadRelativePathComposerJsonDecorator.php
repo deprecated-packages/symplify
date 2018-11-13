@@ -149,8 +149,8 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
         }
 
         $composerDirectory = dirname($packageComposerFile->getRealPath());
-        $relativeDirectory = Strings::substring($composerDirectory, strlen(rtrim(getcwd(), '/') . '/'));
+        $relativeDirectory = Strings::substring($composerDirectory, strlen(rtrim(getcwd(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR));
 
-        return $relativeDirectory . DIRECTORY_SEPARATOR . $path;
+        return str_replace(DIRECTORY_SEPARATOR, '/', $relativeDirectory . '/' . $path);
     }
 }
