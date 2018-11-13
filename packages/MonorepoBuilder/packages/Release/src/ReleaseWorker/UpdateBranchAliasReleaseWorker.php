@@ -3,18 +3,12 @@
 namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
 use PharIo\Version\Version;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 
 final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
     /**
      * @var DevMasterAliasUpdater
      */
@@ -26,11 +20,9 @@ final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
     private $composerJsonProvider;
 
     public function __construct(
-        SymfonyStyle $symfonyStyle,
         DevMasterAliasUpdater $devMasterAliasUpdater,
         ComposerJsonProvider $composerJsonProvider
     ) {
-        $this->symfonyStyle = $symfonyStyle;
         $this->devMasterAliasUpdater = $devMasterAliasUpdater;
         $this->composerJsonProvider = $composerJsonProvider;
     }
@@ -40,15 +32,16 @@ final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
         return 100;
     }
 
-    public function work(Version $version, bool $isDryRun): void
+    public function work(Version $version): void
     {
-        $this->symfonyStyle->note(sprintf('Setting "%s" as branch dev alias to packages', $version));
-
         $this->devMasterAliasUpdater->updateFileInfosWithAlias(
             $this->composerJsonProvider->getPackagesFileInfos(),
             $version->getVersionString()
         );
+    }
 
-        $this->symfonyStyle->success('Done!');
+    public function getDescription(): string
+    {
+        return 'Set next dev version as branch alias to packages';
     }
 }

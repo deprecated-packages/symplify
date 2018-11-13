@@ -7,9 +7,14 @@ use PharIo\Version\Version;
 interface ReleaseWorkerInterface
 {
     /**
+     * 1 line description of what this worker does
+     */
+    public function getDescription(): string;
+
+    /**
      * Higher first
      */
     public function getPriority(): int;
 
-    public function work(Version $version, bool $isDryRun): void;
+    public function work(Version $version): void;
 }

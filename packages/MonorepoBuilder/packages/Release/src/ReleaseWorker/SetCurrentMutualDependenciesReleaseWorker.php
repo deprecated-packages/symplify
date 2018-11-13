@@ -3,56 +3,17 @@
 namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
 use PharIo\Version\Version;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use Symplify\MonorepoBuilder\InterdependencyUpdater;
-use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use Symplify\MonorepoBuilder\Utils\Utils;
 
-final class SetCurrentMutualDependenciesReleaseWorker implements ReleaseWorkerInterface
+final class SetCurrentMutualDependenciesReleaseWorker extends AbstractMutualDependencyReleaseWorker
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
-     * @var InterdependencyUpdater
-     */
-    private $interdependencyUpdater;
-
-    /**
-     * @var Utils
-     */
-    private $utils;
-
-    public function __construct(
-        SymfonyStyle $symfonyStyle,
-        ComposerJsonProvider $composerJsonProvider,
-        InterdependencyUpdater $interdependencyUpdater,
-        Utils $utils
-    ) {
-        $this->symfonyStyle = $symfonyStyle;
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->interdependencyUpdater = $interdependencyUpdater;
-        $this->utils = $utils;
-    }
-
     public function getPriority(): int
     {
         return 800;
     }
 
-    public function work(Version $version, bool $isDryRun): void
+    public function work(Version $version): void
     {
         $versionInString = $this->utils->getRequiredFormat($version);
-
-        $this->symfonyStyle->note(sprintf('Setting packages mutual dependencies to "%s" version', $versionInString));
 
         $rootComposerJson = $this->composerJsonProvider->getRootJson();
 
@@ -65,7 +26,10 @@ final class SetCurrentMutualDependenciesReleaseWorker implements ReleaseWorkerIn
             $vendor,
             $versionInString
         );
+    }
 
-        $this->symfonyStyle->success('Done!');
+    public function getDescription(): string
+    {
+        return 'Set packages mutual dependencies to release version';
     }
 }

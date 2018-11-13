@@ -79,8 +79,16 @@ final class ReleaseCommand extends Command
 
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
 
+        if ($isDryRun) {
+            $this->symfonyStyle->note('Running dry mode, nothing is changed');
+        }
+
         foreach ($this->releaseWorkersByPriority as $releaseWorker) {
-            $releaseWorker->work($version, $isDryRun);
+            if ($isDryRun) {
+                $this->symfonyStyle->writeln(' * ' . $releaseWorker->getDescription());
+            } else {
+                $releaseWorker->work($version);
+            }
         }
 
         $this->symfonyStyle->success(sprintf('Version "%s" is now released!', $version->getVersionString()));
