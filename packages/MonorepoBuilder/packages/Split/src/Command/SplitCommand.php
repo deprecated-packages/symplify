@@ -10,6 +10,7 @@ use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use function Safe\sprintf;
+use Symplify\PackageBuilder\Console\ShellCode;
 
 final class SplitCommand extends Command
 {
@@ -78,7 +79,6 @@ final class SplitCommand extends Command
             $input->getOption('max-processes') ? intval($input->getOption('max-processes')) : null
         );
 
-        // success
-        return 0;
+        return ShellCode::SUCCESS;
     }
 }
