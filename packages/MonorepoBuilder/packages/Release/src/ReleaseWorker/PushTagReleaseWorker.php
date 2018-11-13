@@ -3,12 +3,21 @@
 namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
 use PharIo\Version\Version;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
+use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
 
 final class PushTagReleaseWorker implements ReleaseWorkerInterface
 {
+    /**
+     * @var ProcessRunner
+     */
+    private $processRunner;
+
+    public function __construct(ProcessRunner $processRunner)
+    {
+        $this->processRunner = $processRunner;
+    }
+
     public function getPriority(): int
     {
         return 300;
@@ -16,12 +25,7 @@ final class PushTagReleaseWorker implements ReleaseWorkerInterface
 
     public function work(Version $version): void
     {
-        $process = new Process('git push --tags');
-        $process->run();
-
-        if (! $process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
+        $this->processRunner->run('git push --tags');
     }
 
     public function getDescription(): string

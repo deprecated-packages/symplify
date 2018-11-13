@@ -17,6 +17,7 @@ use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use function Safe\getcwd;
+use function Safe\krsort;
 use function Safe\sprintf;
 
 final class ReleaseCommand extends Command
@@ -77,21 +78,22 @@ final class ReleaseCommand extends Command
         $version = new Version($versionArgument);
         $this->ensureVersionIsNewerThanLastOne($version);
 
+        $this->symfonyStyle->newLine();
+
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
-
-        if ($isDryRun) {
-            $this->symfonyStyle->note('Running dry mode, nothing is changed');
-        }
-
         foreach ($this->releaseWorkersByPriority as $releaseWorker) {
-            if ($isDryRun) {
-                $this->symfonyStyle->writeln(' * ' . $releaseWorker->getDescription());
-            } else {
+            $this->symfonyStyle->writeln(' * ' . $releaseWorker->getDescription());
+
+            if ($isDryRun === false) {
                 $releaseWorker->work($version);
             }
         }
 
-        $this->symfonyStyle->success(sprintf('Version "%s" is now released!', $version->getVersionString()));
+        if ($isDryRun) {
+            $this->symfonyStyle->success(sprintf('Version "%s" is now released!', $version->getVersionString()));
+        } else {
+            $this->symfonyStyle->note('Running dry mode, nothing is changed');
+        }
 
         return ShellCode::SUCCESS;
     }
