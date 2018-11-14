@@ -17,7 +17,6 @@ final class DevMasterAliasUpdaterTest extends AbstractContainerAwareTestCase
     protected function setUp(): void
     {
         $this->devMasterAliasUpdater = $this->container->get(DevMasterAliasUpdater::class);
-        $this->devMasterAliasUpdater = $this->container->get(DevMasterAliasUpdater::class);
     }
 
     protected function tearDown(): void

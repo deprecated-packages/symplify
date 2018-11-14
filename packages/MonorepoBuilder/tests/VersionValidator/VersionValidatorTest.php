@@ -20,7 +20,9 @@ final class VersionValidatorTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
-        $fileInfos = iterator_to_array(Finder::create()->name('*.json')->in(__DIR__ . '/Source') ->getIterator());
+        $fileInfos = iterator_to_array(
+            Finder::create()->name('*.json')->in(__DIR__ . DIRECTORY_SEPARATOR . 'Source') ->getIterator()
+        );
 
         $conflictingPackageVersionsPerFile = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
             $fileInfos
@@ -29,8 +31,8 @@ final class VersionValidatorTest extends AbstractContainerAwareTestCase
         $this->assertArrayHasKey('some/package', $conflictingPackageVersionsPerFile);
 
         $expectedConflictingPackageVersionsPerFile = [
-            __DIR__ . '/Source/first.json' => '^1.0',
-            __DIR__ . '/Source/second.json' => '^2.0',
+            sprintf('%s%sSource%2$sfirst.json', __DIR__, DIRECTORY_SEPARATOR) => '^1.0',
+            sprintf('%s%sSource%2$ssecond.json', __DIR__, DIRECTORY_SEPARATOR) => '^2.0',
         ];
 
         $this->assertSame(

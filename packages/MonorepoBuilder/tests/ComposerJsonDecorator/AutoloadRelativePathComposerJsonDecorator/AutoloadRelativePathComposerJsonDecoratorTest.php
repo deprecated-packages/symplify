@@ -4,6 +4,7 @@ namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator\AutoloadRelativeP
 
 use PHPUnit\Framework\TestCase;
 use Symplify\MonorepoBuilder\ComposerJsonDecorator\AutoloadRelativePathComposerJsonDecorator;
+use Symplify\MonorepoBuilder\FileSystem\FileSystem;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 
 final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
@@ -44,9 +45,11 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
     protected function setUp(): void
     {
         $packageComposerFinder = new PackageComposerFinder([__DIR__ . '/Source']);
+        $fileSystem = new FileSystem();
 
         $this->autoloadRelativePathComposerJsonDecorator = new AutoloadRelativePathComposerJsonDecorator(
-            $packageComposerFinder
+            $packageComposerFinder,
+            $fileSystem
         );
     }
 
@@ -63,9 +66,11 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
             __DIR__ . '/SourceOverlappingNamespaces/PackageA',
             __DIR__ . '/SourceOverlappingNamespaces/PackageB',
         ]);
+        $fileSystem = new FileSystem();
 
         $autoloadRelativePathComposerJsonDecorator = new AutoloadRelativePathComposerJsonDecorator(
-            $packageComposerFinder
+            $packageComposerFinder,
+            $fileSystem
         );
 
         $decorated = $autoloadRelativePathComposerJsonDecorator->decorate($this->composerJsonWithOverlappingNamespaces);

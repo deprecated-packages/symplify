@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
+use Symplify\MonorepoBuilder\FileSystem\FileSystem;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use function Safe\getcwd;
 
@@ -16,9 +17,15 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
      */
     private $packageComposerFinder;
 
-    public function __construct(PackageComposerFinder $packageComposerFinder)
+    /**
+     * @var FileSystem
+     */
+    private $fileSystem;
+
+    public function __construct(PackageComposerFinder $packageComposerFinder, FileSystem $fileSystem)
     {
         $this->packageComposerFinder = $packageComposerFinder;
+        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -149,8 +156,11 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
         }
 
         $composerDirectory = dirname($packageComposerFile->getRealPath());
-        $relativeDirectory = Strings::substring($composerDirectory, strlen(rtrim(getcwd(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR));
+        $relativeDirectory = Strings::substring(
+            $composerDirectory,
+            strlen(rtrim(getcwd(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR)
+        );
 
-        return str_replace(DIRECTORY_SEPARATOR, '/', $relativeDirectory . '/' . $path);
+        return $this->fileSystem->normalizeSlashes($relativeDirectory . '/' . $path);
     }
 }

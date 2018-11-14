@@ -56,6 +56,6 @@ final class JsonFileManager
      */
     private function encodeJsonToFileContent(array $json): string
     {
-        return Json::encode($json, Json::PRETTY) . PHP_EOL;
+        return Json::encode($json, Json::PRETTY) . "\n";
     }
 }
