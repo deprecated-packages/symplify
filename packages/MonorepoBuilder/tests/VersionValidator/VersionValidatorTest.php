@@ -5,6 +5,7 @@ namespace Symplify\MonorepoBuilder\Tests\VersionValidator;
 use Symfony\Component\Finder\Finder;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 use Symplify\MonorepoBuilder\VersionValidator;
+use function Safe\sprintf;
 
 final class VersionValidatorTest extends AbstractContainerAwareTestCase
 {
