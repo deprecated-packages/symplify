@@ -1,3 +1,6 @@
+parameters:
+    enable_default_release_workers: true
+
 services:
     _defaults:
         public: true

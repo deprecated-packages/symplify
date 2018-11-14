@@ -2,6 +2,7 @@
 
 namespace Symplify\MonorepoBuilder\Release\Command;
 
+use Nette\Utils\Strings;
 use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -40,14 +41,18 @@ final class ReleaseCommand extends Command
     /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
      */
-    public function __construct(SymfonyStyle $symfonyStyle, GitManager $gitManager, array $releaseWorkers)
-    {
+    public function __construct(
+        SymfonyStyle $symfonyStyle,
+        GitManager $gitManager,
+        array $releaseWorkers,
+        bool $enableDefaultReleaseWorkers
+    ) {
         parent::__construct();
 
         $this->symfonyStyle = $symfonyStyle;
         $this->gitManager = $gitManager;
 
-        $this->setWorkersAndSortByPriority($releaseWorkers);
+        $this->setWorkersAndSortByPriority($releaseWorkers, $enableDefaultReleaseWorkers);
     }
 
     protected function configure(): void
@@ -101,9 +106,13 @@ final class ReleaseCommand extends Command
     /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
      */
-    private function setWorkersAndSortByPriority(array $releaseWorkers): void
+    private function setWorkersAndSortByPriority(array $releaseWorkers, bool $enableDefaultReleaseWorkers): void
     {
         foreach ($releaseWorkers as $releaseWorker) {
+            if ($this->shouldSkip($releaseWorker, $enableDefaultReleaseWorkers)) {
+                continue;
+            }
+
             $priority = $releaseWorker->getPriority();
             if (isset($this->releaseWorkersByPriority[$priority])) {
                 throw new ConflictingPriorityException($releaseWorker, $this->releaseWorkersByPriority[$priority]);
@@ -127,5 +136,14 @@ final class ReleaseCommand extends Command
             $version->getVersionString(),
             $mostRecentVersion->getVersionString()
         ));
+    }
+
+    private function shouldSkip(ReleaseWorkerInterface $releaseWorker, bool $enableDefaultReleaseWorkers): bool
+    {
+        if ($enableDefaultReleaseWorkers) {
+            return false;
+        }
+
+        return Strings::startsWith(get_class($releaseWorker), 'Symplify\MonorepoBuilder\Release');
     }
 }
