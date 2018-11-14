@@ -164,13 +164,31 @@ The `release` command will make you safe:
 vendor/bin/changelog-inker release v7.0
 ```
 
-Are you afraid to tag and push? Use `--dry-run`
+Are you afraid to tag and push? Use `--dry-run` to see only descriptions:
 
 ```bash
 vendor/bin/changelog-inker release v7.0 --dry-run
 ```
 
-It will perform all actions **without tagging and pushing**. That way you can run `git diff` and see what has changed.
+### 7. Set Your Own Release Flow
+
+There is set of few default release workers - classes that implement `Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface`.
+
+You can extend it by adding your own:
+
+```yaml
+# monorepo-builder.yml
+services:
+    App\Release\ShareOnTwitterReleaseWorker: ~
+```
+
+And or disable default ones:
+
+```yaml
+# monorepo-builder.yml
+parameters:
+    enable_default_release_workers: false
+```
 
 ## Contributing
 
