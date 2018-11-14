@@ -10,6 +10,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\InterdependencyUpdater;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 use function Safe\sprintf;
 
 final class BumpInterdependencyCommand extends Command
@@ -76,7 +77,6 @@ final class BumpInterdependencyCommand extends Command
 
         $this->symfonyStyle->success(sprintf('Inter-dependencies of packages were updated to "%s".', $version));
 
-        // success
-        return 0;
+        return ShellCode::SUCCESS;
     }
 }

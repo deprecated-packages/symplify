@@ -55,6 +55,7 @@
             "Symplify\\LatteToTwigConverter\\": "packages/LatteToTwigConverter/src",
             "Symplify\\MonorepoBuilder\\": "packages/MonorepoBuilder/src",
             "Symplify\\MonorepoBuilder\\Init\\": "packages/MonorepoBuilder/packages/Init/src",
+            "Symplify\\MonorepoBuilder\\Release\\": "packages/MonorepoBuilder/packages/Release/src",
             "Symplify\\MonorepoBuilder\\Split\\": "packages/MonorepoBuilder/packages/Split/src",
             "Symplify\\PHPStanExtensions\\": "packages/PHPStanExtensions/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",

@@ -9,6 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangelogCleaner;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 
 final class CleanupCommand extends Command
 {
@@ -54,7 +55,6 @@ final class CleanupCommand extends Command
 
         $this->symfonyStyle->success('Changleog is now clean from duplicates!');
 
-        // success
-        return 0;
+        return ShellCode::SUCCESS;
     }
 }

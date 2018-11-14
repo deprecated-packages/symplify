@@ -16,6 +16,7 @@ use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 use function Safe\sprintf;
 
 /**
@@ -135,8 +136,7 @@ final class DumpMergesCommand extends Command
                 sprintf('There are no new pull requests to be added since ID "%d".', $sinceId)
             );
 
-            // success
-            return 0;
+            return ShellCode::SUCCESS;
         }
 
         $sortPriority = $this->priorityResolver->resolveFromInput($input);
@@ -157,8 +157,7 @@ final class DumpMergesCommand extends Command
 
             $this->symfonyStyle->writeln($content);
 
-            // success
-            return 0;
+            return ShellCode::SUCCESS;
         }
 
         $content = $this->changelogLinker->processContent($content);
@@ -167,8 +166,7 @@ final class DumpMergesCommand extends Command
 
         $this->symfonyStyle->success('The CHANGELOG.md was updated');
 
-        // success
-        return 0;
+        return ShellCode::SUCCESS;
     }
 
     private function getSinceIdFromInputAndContent(InputInterface $input, string $content): ?int

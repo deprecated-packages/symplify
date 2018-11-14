@@ -7,8 +7,8 @@ use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\MonorepoBuilder\Console\Command\BumpInterdependencyCommand;
 use Symplify\MonorepoBuilder\Console\Command\MergeCommand;
-use Symplify\MonorepoBuilder\Console\Command\ReleaseCommand;
 use Symplify\MonorepoBuilder\Console\Command\ValidateCommand;
+use Symplify\MonorepoBuilder\Release\Command\ReleaseCommand;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 
 final class ValidateBeforeCommandEventSubscriber implements EventSubscriberInterface

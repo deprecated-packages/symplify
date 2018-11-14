@@ -9,6 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 
 final class LinkCommand extends Command
 {
@@ -53,7 +54,6 @@ final class LinkCommand extends Command
 
         $this->symfonyStyle->success('Changelog PRs, links, users and versions are now linked!');
 
-        // success
-        return 0;
+        return ShellCode::SUCCESS;
     }
 }

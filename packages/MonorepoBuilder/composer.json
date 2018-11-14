@@ -23,6 +23,7 @@
         "psr-4": {
             "Symplify\\MonorepoBuilder\\": "src",
             "Symplify\\MonorepoBuilder\\Split\\": "packages/Split/src",
+            "Symplify\\MonorepoBuilder\\Release\\": "packages/Release/src",
             "Symplify\\MonorepoBuilder\\Init\\": "packages/Init/src"
         }
     },
