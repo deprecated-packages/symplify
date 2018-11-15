@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
@@ -21,7 +22,7 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
         $boundArguments = $this->createBoundArgumentsFromParameterBag($containerBuilder->getParameterBag());
 
         foreach ($containerBuilder->getDefinitions() as $definition) {
-            if ($definition instanceof ChildDefinition) {
+            if ($this->shouldSkipDefinition($definition)) {
                 continue;
             }
 
@@ -38,12 +39,10 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
     {
         $boundArguments = [];
         foreach ($parameterBag->all() as $name => $value) {
-            // skip system
-            if (Strings::startsWith($name, 'kernel.')) {
+            // not ready to autowire
+            if (Strings::contains($name, '.') || Strings::contains($name, 'env(')) {
                 continue;
             }
-
-            $parameterGuess = '$' . $this->undescoredToCamelCase($name);
 
             $boundArgument = new BoundArgument($value);
 
@@ -51,10 +50,24 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
             [$value, $identifier] = $boundArgument->getValues();
             $boundArgument->setValues([$value, $identifier, true]);
 
+            $parameterGuess = '$' . $this->undescoredToCamelCase($name);
             $boundArguments[$parameterGuess] = $boundArgument;
         }
 
         return $boundArguments;
+    }
+
+    private function shouldSkipDefinition(Definition $definition): bool
+    {
+        if ($definition->isAbstract()) {
+            return true;
+        }
+
+        if ($definition instanceof ChildDefinition) {
+            return true;
+        }
+
+        return $definition->getClass() === null && $definition->getFactory() === null;
     }
 
     /**
