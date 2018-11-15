@@ -4,6 +4,7 @@ namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use function Safe\class_implements;
 
 /**
@@ -14,8 +15,7 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
 {
     public function process(ContainerBuilder $containerBuilder): void
     {
-        $singlyImplemented = $this->collectSinglyImplementedInterfaces($containerBuilder);
-
+        $singlyImplemented = $this->filterSinglyImplementedInterfaces($containerBuilder->getDefinitions());
         foreach ($singlyImplemented as $interface => $class) {
             $alias = $containerBuilder->setAlias($interface, $class);
             $alias->setPublic(true);
@@ -23,23 +23,44 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
     }
 
     /**
+     * @param Definition[] $definitions
      * @return string[]
      */
-    private function collectSinglyImplementedInterfaces(ContainerBuilder $containerBuilder): array
+    private function filterSinglyImplementedInterfaces(array $definitions): array
     {
         $singlyImplemented = [];
 
-        foreach ($containerBuilder->getDefinitions() as $definition) {
-            $class = $definition->getClass();
-            if (! is_string($class) || ! class_exists($class)) {
+        foreach ($definitions as $name => $definition) {
+            if ($this->shouldSkipDefinition($definition)) {
                 continue;
             }
 
+            $class = $definition->getClass();
             foreach (class_implements($class, false) as $interface) {
-                $singlyImplemented[$interface] = isset($singlyImplemented[$interface]) ? false : $class;
+                $singlyImplemented[$interface] = isset($singlyImplemented[$interface]) ? false : $name;
             }
         }
 
+        $singlyImplemented = array_filter($singlyImplemented);
+
         return array_filter($singlyImplemented);
+    }
+
+    private function shouldSkipDefinition(Definition $definition): bool
+    {
+        if ($definition->isAbstract()) {
+            return true;
+        }
+
+        if ($definition->getClass() === null) {
+            return true;
+        }
+
+        $class = $definition->getClass();
+        if (! is_string($class) || ! class_exists($class)) {
+            return true;
+        }
+
+        return false;
     }
 }
