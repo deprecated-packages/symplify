@@ -53,6 +53,13 @@ final class Utils
             $version = new Version($version);
         }
 
-        return '^' . $version->getMajor()->getValue() . '.' . ($version->getMinor()->getValue());
+        $requireVersion = '^' . $version->getMajor()->getValue() . '.' . $version->getMinor()->getValue();
+
+        $patchVersion = $version->getPatch()->getValue();
+        if ($patchVersion > 0) {
+            $requireVersion .= '.' . $patchVersion;
+        }
+
+        return $requireVersion;
     }
 }
