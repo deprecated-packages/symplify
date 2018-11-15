@@ -6,6 +6,7 @@ use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
+use Symplify\MonorepoBuilder\Utils\Utils;
 
 final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
 {
@@ -19,12 +20,19 @@ final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
      */
     private $composerJsonProvider;
 
+    /**
+     * @var Utils
+     */
+    private $utils;
+
     public function __construct(
         DevMasterAliasUpdater $devMasterAliasUpdater,
-        ComposerJsonProvider $composerJsonProvider
+        ComposerJsonProvider $composerJsonProvider,
+        Utils $utils
     ) {
         $this->devMasterAliasUpdater = $devMasterAliasUpdater;
         $this->composerJsonProvider = $composerJsonProvider;
+        $this->utils = $utils;
     }
 
     public function getPriority(): int
@@ -36,7 +44,7 @@ final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
     {
         $this->devMasterAliasUpdater->updateFileInfosWithAlias(
             $this->composerJsonProvider->getPackagesFileInfos(),
-            $version->getVersionString()
+            $this->utils->getNextAliasFormat($version)
         );
     }
 
