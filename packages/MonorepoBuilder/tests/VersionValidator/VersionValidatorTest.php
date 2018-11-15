@@ -5,7 +5,6 @@ namespace Symplify\MonorepoBuilder\Tests\VersionValidator;
 use Symfony\Component\Finder\Finder;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 use Symplify\MonorepoBuilder\VersionValidator;
-use function Safe\sprintf;
 
 final class VersionValidatorTest extends AbstractContainerAwareTestCase
 {
@@ -31,9 +30,11 @@ final class VersionValidatorTest extends AbstractContainerAwareTestCase
 
         $this->assertArrayHasKey('some/package', $conflictingPackageVersionsPerFile);
 
+        $sourcePath = __DIR__ . DIRECTORY_SEPARATOR . 'Source';
+
         $expectedConflictingPackageVersionsPerFile = [
-            sprintf('%s%sSource%2$sfirst.json', __DIR__, DIRECTORY_SEPARATOR) => '^1.0',
-            sprintf('%s%sSource%2$ssecond.json', __DIR__, DIRECTORY_SEPARATOR) => '^2.0',
+            $sourcePath . DIRECTORY_SEPARATOR . 'first.json' => '^1.0',
+            $sourcePath . DIRECTORY_SEPARATOR . 'second.json' => '^2.0',
         ];
 
         $this->assertSame(
