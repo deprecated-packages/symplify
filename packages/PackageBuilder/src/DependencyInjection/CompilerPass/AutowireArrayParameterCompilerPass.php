@@ -7,6 +7,7 @@ use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionParameter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -86,29 +87,49 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         Definition $definition
     ): void {
         foreach ($reflectionMethod->getParameters() as $parameterReflection) {
-            if (! $parameterReflection->isArray()) {
-                continue;
-            }
-
-            // already set
-            $argumentName = '$' . $parameterReflection->getName();
-            if (isset($definition->getArguments()[$argumentName])) {
+            if ($this->shouldSkipParameter($reflectionMethod, $definition, $parameterReflection)) {
                 continue;
             }
 
             $parameterType = $this->resolveParameterType($parameterReflection->getName(), $reflectionMethod);
-            if ($parameterType === null) {
-                continue;
-            }
-
-            if (! class_exists($parameterType) && ! interface_exists($parameterType)) {
-                continue;
-            }
-
             $definitionsOfType = $this->definitionFinder->findAllByType($containerBuilder, $parameterType);
+            $definitionsOfType = $this->filterOutAbstractDefinitions($definitionsOfType);
 
+            $argumentName = '$' . $parameterReflection->getName();
             $definition->setArgument($argumentName, $this->createReferencesFromDefinitions($definitionsOfType));
         }
+    }
+
+    private function shouldSkipParameter(
+        ReflectionMethod $reflectionMethod,
+        Definition $definition,
+        ReflectionParameter $reflectionParameter
+    ): bool {
+        if (! $reflectionParameter->isArray()) {
+            return true;
+        }
+
+        // already set
+        $argumentName = '$' . $reflectionParameter->getName();
+        if (isset($definition->getArguments()[$argumentName])) {
+            return true;
+        }
+
+        $parameterType = $this->resolveParameterType($reflectionParameter->getName(), $reflectionMethod);
+        if ($parameterType === null) {
+            return true;
+        }
+
+        if (! class_exists($parameterType) && ! interface_exists($parameterType)) {
+            return true;
+        }
+
+        // prevent circular dependency
+        if (is_a($definition->getClass(), $parameterType, true)) {
+            return true;
+        }
+
+        return false;
     }
 
     private function resolveParameterType(string $parameterName, ReflectionMethod $reflectionMethod): ?string
@@ -127,6 +148,23 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         return Reflection::expandClassName($result['type'], $reflectionMethod->getDeclaringClass());
+    }
+
+    /**
+     * Abstract definitions cannot be the target of references
+     *
+     * @param Definition[] $definitions
+     * @return Definition[]
+     */
+    private function filterOutAbstractDefinitions(array $definitions): array
+    {
+        foreach ($definitions as $key => $definition) {
+            if ($definition->isAbstract()) {
+                unset($definitions[$key]);
+            }
+        }
+
+        return $definitions;
     }
 
     /**
