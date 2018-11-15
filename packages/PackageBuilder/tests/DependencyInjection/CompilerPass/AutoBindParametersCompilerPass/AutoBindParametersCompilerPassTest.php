@@ -12,7 +12,7 @@ final class AutoBindParametersCompilerPassTest extends TestCase
 {
     public function test(): void
     {
-        $autoBindParametersKernel = new AutoBindParametersKernel('dev', true);
+        $autoBindParametersKernel = new AutoBindParametersKernel();
         $autoBindParametersKernel->boot();
 
         /** @var ContainerInterface $container */
