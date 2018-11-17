@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\VarConstantComment;
+namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\VarConstantCommentSniff;
 
 use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;

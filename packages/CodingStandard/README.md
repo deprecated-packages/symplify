@@ -17,6 +17,68 @@ composer require symplify/coding-standard --dev
 
 - Rules with :wrench: are configurable.
 
+### Make sure That `@param`, `@var`, `@return` and `@throw` Types Exist
+
+- class: [`Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff`](src/Sniffs/Commenting/AnnotationTypeExistsSniff.php)
+
+```yaml
+services:
+    Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff: ~
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    /**
+     * @var NonExistingClass
+     */
+    private $property;
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class SomeClass
+{
+    /**
+     * @var ExistingClass
+     */
+    private $property;
+}
+```
+
+<br>
+
+### Make `@param` use United Format
+
+- class: [`Symplify\CodingStandard\Fixer\Commenting\ParamAndReturnTagMalformsFixer`](src/Fixer/Commenting/ParamAndReturnTagMalformsFixer.php)
+
+```yaml
+services:
+    Symplify\CodingStandard\Fixer\Commenting\ParamAndReturnTagMalformsFixer: ~
+```
+
+```diff
+ <?php
+
+ /**
+- * @param $name string
++ * @param string $name
+- * @return int $value
++ * @return int
+  */
+ function someFunction($name)
+ {
+ }
+```
+
 ### Order Private Methods by Their Use Order
 
 - class: [`Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer`](src/Fixer/Order/PrivateMethodOrderByUseFixer.php)

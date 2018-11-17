@@ -31,9 +31,7 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
         return true;
     }
 
-
     /**
-     * @param Tokens $tokens
      * @return Token[]
      */
     protected function reverseTokens(Tokens $tokens): array
