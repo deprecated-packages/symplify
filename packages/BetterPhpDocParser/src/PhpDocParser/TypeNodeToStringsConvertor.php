@@ -12,8 +12,51 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\Exception\NotImplementedYetException;
 use function Safe\sprintf;
 
+/**
+ * @inspiration https://github.com/rectorphp/rector/blob/6006a75c8f3bec3aa976f48c7394d4a4b3a0e2ac/src/PhpParser/Node/Resolver/NameResolver.php#L21
+ */
 final class TypeNodeToStringsConvertor
 {
+    /**
+     * @var callable[]
+     */
+    private $resolverPerNode = [];
+
+    public function __construct()
+    {
+        $this->resolverPerNode[ArrayTypeNode::class] = function (ArrayTypeNode $arrayTypeNode) {
+            return $this->resolveTypeNodeToString($arrayTypeNode->type) . '[]';
+        };
+
+        $this->resolverPerNode[IdentifierTypeNode::class] = function (IdentifierTypeNode $identifierTypeNode) {
+            return (string) $identifierTypeNode;
+        };
+
+        $this->resolverPerNode[ThisTypeNode::class] = function (ThisTypeNode $thisTypeNode): string {
+            return (string) $thisTypeNode;
+        };
+
+        $this->resolverPerNode[UnionTypeNode::class] = function (UnionTypeNode $unionTypeNode): string {
+            $resolvedDocTypes = [];
+            foreach ($unionTypeNode->types as $subTypeNode) {
+                $resolvedDocTypes[] = $this->resolveTypeNodeToString($subTypeNode);
+            }
+
+            return implode('|', $resolvedDocTypes);
+        };
+
+        $this->resolverPerNode[IntersectionTypeNode::class] = function (
+            IntersectionTypeNode $intersectionTypeNode
+        ): string {
+            $resolvedDocTypes = [];
+            foreach ($intersectionTypeNode->types as $subTypeNode) {
+                $resolvedDocTypes[] = $this->resolveTypeNodeToString($subTypeNode);
+            }
+
+            return implode('&', $resolvedDocTypes);
+        };
+    }
+
     /**
      * @return string[]
      */
@@ -26,28 +69,10 @@ final class TypeNodeToStringsConvertor
 
     private function resolveTypeNodeToString(TypeNode $typeNode): string
     {
-        if ($typeNode instanceof ArrayTypeNode) {
-            return $this->resolveTypeNodeToString($typeNode->type) . '[]';
-        }
-
-        if ($typeNode instanceof IdentifierTypeNode || $typeNode instanceof ThisTypeNode) {
-            return (string) $typeNode;
-        }
-
-        if ($typeNode instanceof UnionTypeNode) {
-            $resolvedDocTypes = [];
-            foreach ($typeNode->types as $subTypeNode) {
-                $resolvedDocTypes[] = $this->resolveTypeNodeToString($subTypeNode);
+        foreach ($this->resolverPerNode as $type => $resolver) {
+            if (is_a($typeNode, $type, true)) {
+                return $resolver($typeNode);
             }
-            return implode('|', $resolvedDocTypes);
-        }
-
-        if ($typeNode instanceof IntersectionTypeNode) {
-            $resolvedDocTypes = [];
-            foreach ($typeNode->types as $subTypeNode) {
-                $resolvedDocTypes[] = $this->resolveTypeNodeToString($subTypeNode);
-            }
-            return implode('&', $resolvedDocTypes);
         }
 
         if ($typeNode instanceof GenericTypeNode) {
