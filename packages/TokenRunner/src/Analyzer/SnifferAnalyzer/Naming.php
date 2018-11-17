@@ -14,6 +14,21 @@ final class Naming
      */
     private const NAMESPACE_SEPARATOR = '\\';
 
+    /**
+     * @var mixed[][]
+     */
+    private $useStatementsByFilePath = [];
+
+    /**
+     * @var mixed[][]
+     */
+    private $referencedNamesByFilePath = [];
+
+    /**
+     * @var string[][]
+     */
+    private $fqnClassNameByFilePathAndClassName = [];
+
     public function getClassName(File $file, int $classNameStartPosition): string
     {
         $tokens = $file->getTokens();
@@ -40,10 +55,14 @@ final class Naming
 
     private function getFqnClassName(File $file, string $className, int $classTokenPosition): string
     {
-        $useStatements = UseStatementHelper::getUseStatements($file, 0);
-        $referencedNames = ReferencedNameHelper::getAllReferencedNames($file, 0);
+        $useStatements = $this->getUseStatements($file);
+        $referencedNames = $this->getReferencedNames($file);
 
         foreach ($referencedNames as $referencedName) {
+            if (isset($this->fqnClassNameByFilePathAndClassName[$file->path][$className])) {
+                return $this->fqnClassNameByFilePathAndClassName[$file->path][$className];
+            }
+
             $resolvedName = NamespaceHelper::resolveClassName(
                 $file,
                 $referencedName->getNameAsReferencedInFile(),
@@ -52,10 +71,44 @@ final class Naming
             );
 
             if ($referencedName->getNameAsReferencedInFile() === $className) {
+                $this->fqnClassNameByFilePathAndClassName[$file->path][$className] = $resolvedName;
+
                 return $resolvedName;
             }
         }
 
         return '';
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function getUseStatements(File $file): array
+    {
+        if (isset($this->useStatementsByFilePath[$file->path])) {
+            return $this->useStatementsByFilePath[$file->path];
+        }
+
+        $useStatements = UseStatementHelper::getUseStatements($file, 0);
+
+        $this->useStatementsByFilePath[$file->path] = $useStatements;
+
+        return $useStatements;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function getReferencedNames(File $file): array
+    {
+        if (isset($this->referencedNamesByFilePath[$file->path])) {
+            return $this->referencedNamesByFilePath[$file->path];
+        }
+
+        $referencedNames = ReferencedNameHelper::getAllReferencedNames($file, 0);
+
+        $this->referencedNamesByFilePath[$file->path] = $referencedNames;
+
+        return $referencedNames;
     }
 }
