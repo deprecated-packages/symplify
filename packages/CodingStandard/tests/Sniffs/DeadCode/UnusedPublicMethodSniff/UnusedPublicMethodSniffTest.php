@@ -15,7 +15,7 @@ final class UnusedPublicMethodSniffTest extends AbstractCheckerTestCase
         parent::setUp();
 
         // to reset the cache inside the Sniff
-        unset(parent::$cachedContainers[md5_file($this->provideConfig())]);
+        unset(parent::$cachedContainers[$this->getConfigHash()]);
     }
 
     public function testCorrect(): void
