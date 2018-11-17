@@ -3,6 +3,7 @@
 namespace Symplify\BetterPhpDocParser\PhpDocParser;
 
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\CallableTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\GenericTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
@@ -82,6 +83,10 @@ final class TypeNodeToStringsConvertor
             }
 
             return $this->resolveTypeNodeToString($typeNode->type) . '<' . implode(', ', $resolvedDocTypes) . '>';
+        }
+
+        if ($typeNode instanceof CallableTypeNode) {
+            return 'callable';
         }
 
         throw new NotImplementedYetException(sprintf(
