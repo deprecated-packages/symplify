@@ -59,10 +59,7 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        /** @var Token[] $reversedTokens */
-        $reversedTokens = array_reverse($tokens->toArray(), true);
-
-        foreach ($reversedTokens as $index => $token) {
+        foreach ($this->reverseTokens($tokens) as $index => $token) {
             if (! $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
                 continue;
             }
