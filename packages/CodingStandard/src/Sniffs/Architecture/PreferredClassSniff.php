@@ -37,6 +37,10 @@ final class PreferredClassSniff implements Sniff
      */
     public function process(File $file, $position): void
     {
+        if ($this->oldToPreferredClasses === []) {
+            return;
+        }
+
         $className = $this->naming->getClassName($file, $position);
         if (! isset($this->oldToPreferredClasses[$className])) {
             return;

@@ -91,6 +91,9 @@ abstract class AbstractVariableWrapper
         }
 
         $name = (new NameFactory())->createFromTokensAndEnd($this->tokens, $previousTokenPosition);
+        if ($name === null) {
+            return null;
+        }
 
         return $name->getName();
     }

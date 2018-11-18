@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Naming;
 
+use Closure;
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -26,6 +27,7 @@ final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implemen
         'self',
         'static',
         'this',
+        Closure::class,
         '*DateTime*',
         '*Spl*',
         '*FileInfo',

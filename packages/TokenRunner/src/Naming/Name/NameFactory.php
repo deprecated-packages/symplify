@@ -8,11 +8,14 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class NameFactory
 {
-    public function createFromTokensAndEnd(Tokens $tokens, int $end): Name
+    public function createFromTokensAndEnd(Tokens $tokens, int $end): ?Name
     {
         $previousTokenPointer = $end;
-
         [$nameTokens, $previousTokenPointer] = $this->collectNameTokens($tokens, $previousTokenPointer);
+
+        if ($nameTokens === []) {
+            return null;
+        }
 
         /** @var Token[] $nameTokens */
         $nameTokens = array_reverse($nameTokens);
