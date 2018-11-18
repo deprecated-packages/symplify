@@ -4,6 +4,7 @@ namespace Symplify\EasyCodingStandardTester\Testing;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
@@ -39,6 +40,11 @@ abstract class AbstractCheckerTestCase extends TestCase
      */
     private $fileGuard;
 
+    /**
+     * @var CurrentFileProvider
+     */
+    private $currentFileProvider;
+
     protected function setUp(): void
     {
         $this->fileGuard = new FileGuard();
@@ -49,6 +55,7 @@ abstract class AbstractCheckerTestCase extends TestCase
         $this->fixerFileProcessor = $container->get(FixerFileProcessor::class);
         $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
         $this->errorAndDiffCollector = $container->get(ErrorAndDiffCollector::class);
+        $this->currentFileProvider = $container->get(CurrentFileProvider::class);
 
         // reset error count from previous possibly container cached run
         $this->errorAndDiffCollector->resetCounters();
@@ -67,16 +74,17 @@ abstract class AbstractCheckerTestCase extends TestCase
         $this->ensureSomeCheckersAreRegistered();
         $this->fileGuard->ensureFileExists($correctFile, __METHOD__);
 
-        $symfonyFileInfo = new SmartFileInfo($correctFile);
+        $smartFileInfo = new SmartFileInfo($correctFile);
+        $this->currentFileProvider->setFileInfo($smartFileInfo);
 
         if ($this->fixerFileProcessor->getCheckers()) {
-            $processedFileContent = $this->fixerFileProcessor->processFile($symfonyFileInfo);
+            $processedFileContent = $this->fixerFileProcessor->processFile($smartFileInfo);
 
             $this->assertStringEqualsFile($correctFile, $processedFileContent);
         }
 
         if ($this->sniffFileProcessor->getCheckers()) {
-            $processedFileContent = $this->sniffFileProcessor->processFile($symfonyFileInfo);
+            $processedFileContent = $this->sniffFileProcessor->processFile($smartFileInfo);
 
             $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount());
             $this->assertStringEqualsFile($correctFile, $processedFileContent);
@@ -93,6 +101,7 @@ abstract class AbstractCheckerTestCase extends TestCase
         $this->fileGuard->ensureFileExists($fixedFile, __METHOD__);
 
         $smartFileInfo = new SmartFileInfo($wrongFile);
+        $this->currentFileProvider->setFileInfo($smartFileInfo);
 
         if ($this->fixerFileProcessor->getCheckers()) {
             $processedFileContent = $this->fixerFileProcessor->processFile($smartFileInfo);
@@ -117,6 +126,7 @@ abstract class AbstractCheckerTestCase extends TestCase
         $this->ensureSomeCheckersAreRegistered();
 
         $smartFileInfo = new SmartFileInfo($wrongFile);
+        $this->currentFileProvider->setFileInfo($smartFileInfo);
 
         $this->sniffFileProcessor->processFile($smartFileInfo);
         if ($this->sniffFileProcessor->getDualRunCheckers()) {
