@@ -18,11 +18,6 @@ use function Safe\getcwd;
 final class MergeCommand extends Command
 {
     /**
-     * @var string[]
-     */
-    private $mergeSections = [];
-
-    /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
@@ -52,11 +47,7 @@ final class MergeCommand extends Command
      */
     private $conflictingPackageVersionsReporter;
 
-    /**
-     * @param string[] $mergeSections
-     */
     public function __construct(
-        array $mergeSections,
         SymfonyStyle $symfonyStyle,
         PackageComposerJsonMerger $packageComposerJsonMerger,
         DependenciesMerger $dependenciesMerger,
@@ -68,7 +59,6 @@ final class MergeCommand extends Command
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerJsonMerger = $packageComposerJsonMerger;
         $this->dependenciesMerger = $dependenciesMerger;
-        $this->mergeSections = $mergeSections;
         $this->versionValidator = $versionValidator;
         $this->composerJsonProvider = $composerJsonProvider;
 
@@ -92,10 +82,7 @@ final class MergeCommand extends Command
             return ShellCode::ERROR;
         }
 
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos(
-            $this->composerJsonProvider->getPackagesFileInfos(),
-            $this->mergeSections
-        );
+        $merged = $this->packageComposerJsonMerger->mergeFileInfos($this->composerJsonProvider->getPackagesFileInfos());
 
         if ($merged === []) {
             $this->symfonyStyle->note('Nothing to merge.');

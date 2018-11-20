@@ -7,7 +7,7 @@ use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 
-final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
+final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var PackageComposerJsonMerger
@@ -19,37 +19,21 @@ final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
         $this->packageComposerJsonMerger = $this->container->get(PackageComposerJsonMerger::class);
     }
 
-    public function test(): void
+    public function testSharedNamespaces(): void
     {
         $merged = $this->packageComposerJsonMerger->mergeFileInfos(
-            $this->getFileInfosFromDirectory(__DIR__ . '/Source')
+            $this->getFileInfosFromDirectory(__DIR__ . '/SourceAutoloadSharedNamespaces')
         );
 
         $this->assertSame([
-            'require' => [
-                'rector/rector' => '^2.0',
-                'phpunit/phpunit' => '^2.0',
-                'symplify/symplify' => '^2.0',
-            ],
             'autoload' => [
                 'psr-4' => [
-                    'Symplify\Statie\\' => 'src',
-                    'Symplify\MonorepoBuilder\\' => 'src',
+                    'ACME\Model\Core\\' => ['packages/A', 'packages/B'],
+                    'ACME\Another\\' => 'packages/A',
+                    'ACME\\YetAnother\\' => ['packages/A'],
+                    'ACME\\YetYetAnother\\' => 'packages/A',
                 ],
             ],
-        ], $merged);
-    }
-
-    public function testUniqueRepositories(): void
-    {
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos(
-            $this->getFileInfosFromDirectory(__DIR__ . '/SourceUniqueRepositories')
-        );
-        $this->assertSame([
-            'repositories' => [[
-                'type' => 'composer',
-                'url' => 'https://packages.example.org/',
-            ]],
         ], $merged);
     }
 

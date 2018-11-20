@@ -11,6 +11,11 @@ use Symplify\PackageBuilder\Yaml\ParametersMerger;
 final class PackageComposerJsonMerger
 {
     /**
+     * @var string[]
+     */
+    private $mergeSections = [];
+
+    /**
      * @var ParametersMerger
      */
     private $parametersMerger;
@@ -25,22 +30,26 @@ final class PackageComposerJsonMerger
      */
     private $jsonFileManager;
 
+    /**
+     * @param string[] $mergeSections
+     */
     public function __construct(
         ParametersMerger $parametersMerger,
         MergedPackagesCollector $mergedPackagesCollector,
-        JsonFileManager $jsonFileManager
+        JsonFileManager $jsonFileManager,
+        array $mergeSections
     ) {
         $this->parametersMerger = $parametersMerger;
         $this->mergedPackagesCollector = $mergedPackagesCollector;
         $this->jsonFileManager = $jsonFileManager;
+        $this->mergeSections = $mergeSections;
     }
 
     /**
      * @param SplFileInfo[] $composerPackageFileInfos
-     * @param string[] $sections
      * @return string[]
      */
-    public function mergeFileInfos(array $composerPackageFileInfos, array $sections): array
+    public function mergeFileInfos(array $composerPackageFileInfos): array
     {
         $merged = [];
 
@@ -51,12 +60,12 @@ final class PackageComposerJsonMerger
                 $this->mergedPackagesCollector->addPackage($packageComposerJson['name']);
             }
 
-            foreach ($sections as $section) {
-                if (! isset($packageComposerJson[$section])) {
+            foreach ($this->mergeSections as $mergeSection) {
+                if (! isset($packageComposerJson[$mergeSection])) {
                     continue;
                 }
 
-                $merged = $this->mergeSection($packageComposerJson, $section, $merged);
+                $merged = $this->mergeSection($packageComposerJson, $mergeSection, $merged);
             }
         }
 
@@ -72,7 +81,7 @@ final class PackageComposerJsonMerger
     {
         // array sections
         if (is_array($packageComposerJson[$section])) {
-            $merged[$section] = $this->parametersMerger->merge(
+            $merged[$section] = $this->parametersMerger->mergeWithCombine(
                 $merged[$section] ?? [],
                 $packageComposerJson[$section]
             );
