@@ -66,7 +66,7 @@ function someFunction(type $name)
             }
 
             $docContent = $token->getContent();
-            if (! Strings::match($docContent, '#@(param|return)#')) {
+            if (! Strings::match($docContent, '#@(param|return|var)#')) {
                 continue;
             }
 

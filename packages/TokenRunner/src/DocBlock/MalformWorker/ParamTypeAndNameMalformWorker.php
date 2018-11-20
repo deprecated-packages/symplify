@@ -9,14 +9,18 @@ use Symplify\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 
 final class ParamTypeAndNameMalformWorker implements MalformWorkerInterface
 {
+    /**
+     * @var string
+     */
+    private const PARAM_WITH_NAME_AND_TYPE_PATTERN = '#@param(\s+)(?<name>\$\w+)(\s+)(?<type>[\\\\\w\[\]]+)#';
+
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $docBlock = new DocBlock($docContent);
 
         foreach ($docBlock->getLines() as $line) {
             // $value is first, instead of type is first
-            // @todo const
-            $match = Strings::match($line->getContent(), '#@param[\s+](?<name>\$\w+)[\s+](?<type>[\\\\\w\[\]]+)#');
+            $match = Strings::match($line->getContent(), self::PARAM_WITH_NAME_AND_TYPE_PATTERN);
 
             if ($match === null) {
                 continue;
@@ -31,10 +35,7 @@ final class ParamTypeAndNameMalformWorker implements MalformWorkerInterface
                 continue;
             }
 
-            // @todo const
-            $pattern = '#@param(\s+)(\$\w+)(\s+)([\\\\\w\[\]]+)#';
-            $newLine = Strings::replace($line->getContent(), $pattern, '@param$1$4$3$2');
-
+            $newLine = Strings::replace($line->getContent(), self::PARAM_WITH_NAME_AND_TYPE_PATTERN, '@param$1$4$3$2');
             $line->setContent($newLine);
         }
 
