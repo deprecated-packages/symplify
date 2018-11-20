@@ -77,6 +77,11 @@ final class PackageComposerJsonMerger
                 $packageComposerJson[$section]
             );
 
+            // uniquate special cases, ref https://github.com/Symplify/Symplify/issues/1197
+            if ($section === 'repositories') {
+                $merged[$section] = array_unique($merged[$section], SORT_REGULAR);
+            }
+
             return $merged;
         }
 

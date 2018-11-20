@@ -42,11 +42,6 @@ final class PackageComposerJsonMergerTest extends AbstractConfigAwareContainerTe
         ], $merged);
     }
 
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/Source/config.yml';
-    }
-
     public function testUniqueRepositories(): void
     {
         $merged = $this->packageComposerJsonMerger->mergeFileInfos(
@@ -59,6 +54,11 @@ final class PackageComposerJsonMergerTest extends AbstractConfigAwareContainerTe
                 'url' => 'https://packages.example.org/',
             ]],
         ], $merged);
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/Source/config.yml';
     }
 
     /**
