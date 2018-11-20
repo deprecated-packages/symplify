@@ -3,11 +3,17 @@
 namespace Symplify\TokenRunner\DocBlock\MalformWorker;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Tokens;
 
 final class ParamNameTypoMalformWorker extends AbstractMalformWorker
 {
+    /**
+     * @var string
+     */
+    private const PARAM_NAME_PATTERN = '#@param(.*?)(?<paramName>\$\w+)#';
+
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $argumentNames = $this->getDocRelatedArgumentNames($tokens, $position);
@@ -51,16 +57,26 @@ final class ParamNameTypoMalformWorker extends AbstractMalformWorker
      */
     private function getParamNames(string $docContent): array
     {
-        $docBlock = new DocBlock($docContent);
+        $paramAnnotations = $this->getAnnotationsOfType($docContent, 'param');
 
         $paramNames = [];
-        foreach ($docBlock->getAnnotationsOfType('param') as $paramLine) {
-            $match = Strings::match($paramLine->getContent(), '#@param(.*?)(?<paramName>\$\w+)#');
+        foreach ($paramAnnotations as $paramAnnotation) {
+            $match = Strings::match($paramAnnotation->getContent(), self::PARAM_NAME_PATTERN);
             if (isset($match['paramName'])) {
                 $paramNames[] = $match['paramName'];
             }
         }
 
         return $paramNames;
+    }
+
+    /**
+     * @return Annotation[]
+     */
+    private function getAnnotationsOfType(string $docContent, string $type): array
+    {
+        $docBlock = new DocBlock($docContent);
+
+        return $docBlock->getAnnotationsOfType($type);
     }
 }

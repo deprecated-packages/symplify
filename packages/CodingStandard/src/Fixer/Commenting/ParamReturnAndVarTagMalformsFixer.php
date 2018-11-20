@@ -16,14 +16,16 @@ use Symplify\TokenRunner\DocBlock\MalformWorker\MissingParamNameMalformWorker;
 use Symplify\TokenRunner\DocBlock\MalformWorker\ParamNameTypoMalformWorker;
 use Symplify\TokenRunner\DocBlock\MalformWorker\ParamTypeAndNameMalformWorker;
 use Symplify\TokenRunner\DocBlock\MalformWorker\SuperfluousReturnNameMalformWorker;
+use Symplify\TokenRunner\DocBlock\MalformWorker\SuperfluousVarNameMalformWorker;
 
 /**
  * @see ParamNameTypoMalformWorker
  * @see MissingParamNameMalformWorker
  * @see ParamTypeAndNameMalformWorker
  * @see SuperfluousReturnNameMalformWorker
+ * @see SuperfluousVarNameMalformWorker
  */
-final class ParamAndReturnTagMalformsFixer extends AbstractSymplifyFixer
+final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
 {
     /**
      * @var MalformWorkerInterface[]
@@ -55,7 +57,9 @@ function someFunction(type $name)
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_FUNCTION, T_DOC_COMMENT]);
+        return $tokens->isAllTokenKindsFound([T_DOC_COMMENT]) && $tokens->isAnyTokenKindsFound(
+            [T_FUNCTION, T_VARIABLE]
+        );
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void

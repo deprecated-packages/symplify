@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Commenting\ParamAndReturnTagMalformsFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
 
 use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
- * @see \Symplify\CodingStandard\Fixer\Commenting\ParamAndReturnTagMalformsFixer
+ * @see \Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer
  */
-final class ParamAndReturnTagMalformsFixerTest extends AbstractCheckerTestCase
+final class ParamReturnAndVarTagMalformsFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -27,6 +27,7 @@ final class ParamAndReturnTagMalformsFixerTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/wrong/wrong5.php.inc', __DIR__ . '/fixed/fixed5.php.inc'];
         yield [__DIR__ . '/wrong/wrong6.php.inc', __DIR__ . '/fixed/fixed6.php.inc'];
         yield [__DIR__ . '/wrong/wrong7.php.inc', __DIR__ . '/fixed/fixed7.php.inc'];
+        yield [__DIR__ . '/wrong/wrong8.php.inc', __DIR__ . '/fixed/fixed8.php.inc'];
     }
 
     protected function provideConfig(): string

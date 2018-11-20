@@ -56,13 +56,13 @@ class SomeClass
 
 <br>
 
-### Make `@param` use United Format
+### Make `@param`, `@return` and `@var` Format United
 
-- class: [`Symplify\CodingStandard\Fixer\Commenting\ParamAndReturnTagMalformsFixer`](src/Fixer/Commenting/ParamAndReturnTagMalformsFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
 
 ```yaml
 services:
-    Symplify\CodingStandard\Fixer\Commenting\ParamAndReturnTagMalformsFixer: ~
+    Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: ~
 ```
 
 ```diff
@@ -76,6 +76,15 @@ services:
   */
  function someFunction($name)
  {
+ }
+
+ class SomeClass
+ {
+     /**
+-     * @var int $property
++     * @var int
+      */
+     private $property;
  }
 ```
 
