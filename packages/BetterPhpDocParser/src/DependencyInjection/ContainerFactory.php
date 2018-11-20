@@ -16,6 +16,9 @@ final class ContainerFactory
         $appKernel = new BetterPhpDocParserKernel();
         $appKernel->boot();
 
+        // this is require to keep CLI verbosity independent on AppKernel dev/prod mode
+        putenv('SHELL_VERBOSITY=0');
+
         return $appKernel->getContainer();
     }
 }
