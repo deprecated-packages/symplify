@@ -14,6 +14,7 @@ use Symplify\ChangelogLinker\ChangeTree\ChangeResolver;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
+use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystemGuard;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -70,6 +71,11 @@ final class DumpMergesCommand extends Command
      */
     private $changelogLinker;
 
+    /**
+     * @var ChangelogFileSystemGuard
+     */
+    private $changelogFileSystemGuard;
+
     public function __construct(
         GithubApi $githubApi,
         SymfonyStyle $symfonyStyle,
@@ -78,7 +84,8 @@ final class DumpMergesCommand extends Command
         ChangelogLinker $changelogLinker,
         ChangelogFileSystem $changelogFileSystem,
         PriorityResolver $priorityResolver,
-        ChangeResolver $changeResolver
+        ChangeResolver $changeResolver,
+        ChangelogFileSystemGuard $changelogFileSystemGuard
     ) {
         parent::__construct();
         $this->githubApi = $githubApi;
@@ -89,6 +96,7 @@ final class DumpMergesCommand extends Command
         $this->changelogFileSystem = $changelogFileSystem;
         $this->priorityResolver = $priorityResolver;
         $this->changeResolver = $changeResolver;
+        $this->changelogFileSystemGuard = $changelogFileSystemGuard;
     }
 
     protected function configure(): void
@@ -129,6 +137,9 @@ final class DumpMergesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $content = $this->changelogFileSystem->readChangelog();
+
+        $this->changelogFileSystemGuard->ensurePlaceholderIsPresent($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
+
         $sinceId = $this->getSinceIdFromInputAndContent($input, $content) ?: 1;
         $pullRequests = $this->githubApi->getMergedPullRequestsSinceId($sinceId);
         if (count($pullRequests) === 0) {
