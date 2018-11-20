@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "psr-4": {
+            "ACME\\Model\\Core\\": "packages/A",
+            "ACME\\Another\\": "packages/A",
+            "ACME\\YetAnother\\": ["packages/A"],
+            "ACME\\YetYetAnother\\": "packages/A"
+        }
+    }
+}
