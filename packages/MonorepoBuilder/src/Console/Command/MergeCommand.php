@@ -84,7 +84,7 @@ final class MergeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
-            $this->composerJsonProvider->getRootAndPackageFileInfos()
+            $this->composerJsonProvider->getPackagesFileInfos()
         );
         if (count($conflictingPackageVersions) > 0) {
             $this->conflictingPackageVersionsReporter->report($conflictingPackageVersions);
