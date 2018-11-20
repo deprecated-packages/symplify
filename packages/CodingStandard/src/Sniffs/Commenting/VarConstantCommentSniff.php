@@ -22,11 +22,10 @@ final class VarConstantCommentSniff implements Sniff
     public function process(File $file, $position): void
     {
         $propertyAnnotations = AnnotationHelper::getAnnotations($file, $position);
-
         if (isset($propertyAnnotations['@var'])) {
             return;
         }
 
-        $file->addError('Constant should have docblock comment.', $position, self::class);
+        $file->addError('Constant should have a docblock comment with "@var type".', $position, self::class);
     }
 }

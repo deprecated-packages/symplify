@@ -63,10 +63,7 @@ final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implem
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        /** @var Token[] $revertedTokens */
-        $revertedTokens = array_reverse($tokens->toArray(), true);
-
-        foreach ($revertedTokens as $index => $token) {
+        foreach ($this->reverseTokens($tokens) as $index => $token) {
             if (! $token->isGivenKind(T_CONSTANT_ENCAPSED_STRING)) {
                 continue;
             }

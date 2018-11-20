@@ -5,7 +5,6 @@ namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
-use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
@@ -59,10 +58,7 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        /** @var Token[] $reversedTokens */
-        $reversedTokens = array_reverse($tokens->toArray(), true);
-
-        foreach ($reversedTokens as $index => $token) {
+        foreach ($this->reverseTokens($tokens) as $index => $token) {
             if (! $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
                 continue;
             }

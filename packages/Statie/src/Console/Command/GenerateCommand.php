@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Statie\Application\StatieApplication;
 use function Safe\getcwd;
 use function Safe\sprintf;
@@ -72,6 +73,6 @@ final class GenerateCommand extends Command
             sprintf('Web was generated from "%s" source to "%s" output', $source, $output)
         );
 
-        return 0;
+        return ShellCode::SUCCESS;
     }
 }

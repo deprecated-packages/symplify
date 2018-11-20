@@ -136,9 +136,14 @@ abstract class AbstractCheckerTestCase extends TestCase
         $this->assertGreaterThanOrEqual(1, $this->errorAndDiffCollector->getErrorCount());
     }
 
+    protected function getConfigHash(): string
+    {
+        return md5_file($this->provideConfig());
+    }
+
     private function getContainer(): ContainerInterface
     {
-        $fileHash = md5_file($this->provideConfig());
+        $fileHash = $this->getConfigHash();
         if (isset(self::$cachedContainers[$fileHash])) {
             return self::$cachedContainers[$fileHash];
         }

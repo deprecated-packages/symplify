@@ -65,6 +65,9 @@ parameters:
         - '#does not accept object#'
         - '#Call to an undefined method object#'
 
+        # waits for "safe" function calls
+        - '#Method Symplify\\EasyCodingStandardTester\\Testing\\AbstractCheckerTestCase::getConfigHash\(\) should return string but returns string\|false#'
+
         # intersect/union buggy
         - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'

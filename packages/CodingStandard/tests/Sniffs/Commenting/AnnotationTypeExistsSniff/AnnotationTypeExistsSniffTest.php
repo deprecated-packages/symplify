@@ -1,28 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Sniffs\DeadCode\UnusedPublicMethodSniff;
+namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\AnnotationTypeExistsSniff;
 
 use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
- * @see \Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff
+ * @see \Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff
  */
-final class UnusedPublicMethodSniffTest extends AbstractCheckerTestCase
+final class AnnotationTypeExistsSniffTest extends AbstractCheckerTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // to reset the cache inside the Sniff
-        unset(parent::$cachedContainers[$this->getConfigHash()]);
-    }
-
-    public function testCorrect(): void
-    {
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct.php.inc');
-    }
-
     /**
      * @dataProvider provideWrongCases()
      */
@@ -35,6 +22,19 @@ final class UnusedPublicMethodSniffTest extends AbstractCheckerTestCase
     {
         yield [__DIR__ . '/wrong/wrong.php.inc'];
         yield [__DIR__ . '/wrong/wrong2.php.inc'];
+    }
+
+    /**
+     * @dataProvider provideCorrectCases()
+     */
+    public function testCorrect(string $file): void
+    {
+        $this->doTestCorrectFile($file);
+    }
+
+    public function provideCorrectCases(): Iterator
+    {
+        yield [__DIR__ . '/correct/correct.php.inc'];
     }
 
     protected function provideConfig(): string

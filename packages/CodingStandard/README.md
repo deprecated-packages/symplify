@@ -17,6 +17,77 @@ composer require symplify/coding-standard --dev
 
 - Rules with :wrench: are configurable.
 
+### Make sure That `@param`, `@var`, `@return` and `@throw` Types Exist
+
+- class: [`Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff`](src/Sniffs/Commenting/AnnotationTypeExistsSniff.php)
+
+```yaml
+services:
+    Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff: ~
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    /**
+     * @var NonExistingClass
+     */
+    private $property;
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class SomeClass
+{
+    /**
+     * @var ExistingClass
+     */
+    private $property;
+}
+```
+
+<br>
+
+### Make `@param`, `@return` and `@var` Format United
+
+- class: [`Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
+
+```yaml
+services:
+    Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: ~
+```
+
+```diff
+ <?php
+
+ /**
+- * @param $name string
++ * @param string $name
+- * @return int $value
++ * @return int
+  */
+ function someFunction($name)
+ {
+ }
+
+ class SomeClass
+ {
+     /**
+-     * @var int $property
++     * @var int
+      */
+     private $property;
+ }
+```
+
 ### Order Private Methods by Their Use Order
 
 - class: [`Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer`](src/Fixer/Order/PrivateMethodOrderByUseFixer.php)
