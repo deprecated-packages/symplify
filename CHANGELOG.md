@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
+<!-- changelog-linker -->
+
+## Unreleased
+
+### Added
+
+#### BetterPhpDocParser
+
+- [#1196] Add support for `GenericTypeNode`, Thanks to [@enumag]
+
+#### CodingStandard
+
+- [#1206] Add `AnnotationTypeExistsSniff` and `ParamReturnAndVarTagMalformsFixer` 
+
+#### EasyCodingStandard
+
+- [#1210] Add support for 2 spaces indent
+
+### Fixed
+
+#### MonorepoBuilder
+
+- [#1209] Fix merging of scalar values in `composer.json`
+- [#1207] Fix merging of duplicated items
+
+## [v5.2.2] - 2018-11-15
+
+### Added
+
+#### MonoporeBuilder
+
+- [#1202] Add way to disable default workers
+- [#1200] Open for extension by `ReleaseWorkers`
+
 ## [v5.2.1] - 2018-11-12
 
 ### Added
@@ -255,3 +289,11 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1176]: https://github.com/Symplify/Symplify/pull/1176
 [v5.2.1]: https://github.com/Symplify/Symplify/compare/v5.2.0...v5.2.1
 [v5.2.0]: https://github.com/Symplify/Symplify/compare/v5.1.4...v5.2.0
+[#1210]: https://github.com/Symplify/Symplify/pull/1210
+[#1209]: https://github.com/Symplify/Symplify/pull/1209
+[#1207]: https://github.com/Symplify/Symplify/pull/1207
+[#1206]: https://github.com/Symplify/Symplify/pull/1206
+[#1202]: https://github.com/Symplify/Symplify/pull/1202
+[#1200]: https://github.com/Symplify/Symplify/pull/1200
+[#1196]: https://github.com/Symplify/Symplify/pull/1196
+[@doc]: https://github.com/doc
