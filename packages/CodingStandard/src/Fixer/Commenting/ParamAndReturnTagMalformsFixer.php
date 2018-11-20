@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -80,5 +81,10 @@ function someFunction(type $name)
 
             $tokens[$index] = new Token([T_DOC_COMMENT, $docContent]);
         }
+    }
+
+    public function getPriority(): int
+    {
+        return $this->getPriorityBefore(PhpdocAlignFixer::class);
     }
 }
