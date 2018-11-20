@@ -19,7 +19,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### CodingStandard
 
-- [#1206] Add `AnnotationTypeExistsSniff` and `ParamReturnAndVarTagMalformsFixer` 
+- [#1206] Add `AnnotationTypeExistsSniff` and `ParamReturnAndVarTagMalformsFixer`
 
 #### EasyCodingStandard
 
