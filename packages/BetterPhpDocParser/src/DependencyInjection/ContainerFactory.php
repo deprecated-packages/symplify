@@ -5,6 +5,7 @@ namespace Symplify\BetterPhpDocParser\DependencyInjection;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
+use function Safe\putenv;
 
 final class ContainerFactory
 {
