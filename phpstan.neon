@@ -97,6 +97,7 @@ parameters:
 
         # false positives
         - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutoReturnFactoryCompilerPass::findFactoriesWithoutUsage\(\) should return array<string> but returns array<int, string\|null>#'
+        - '#Array \(array<string>\) does not accept string\|null#'
 
         # variadic
         - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'

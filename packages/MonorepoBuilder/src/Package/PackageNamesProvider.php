@@ -39,10 +39,11 @@ final class PackageNamesProvider
         }
 
         foreach ($this->composerJsonProvider->getPackagesFileInfos() as $splFileInfo) {
-            $this->names[] = $this->extractNameFromFileInfo($splFileInfo);
+            $name = $this->extractNameFromFileInfo($splFileInfo);
+            if ($name !== null) {
+                $this->names[] = $name;
+            }
         }
-
-        $this->names = array_filter($this->names);
 
         return $this->names;
     }

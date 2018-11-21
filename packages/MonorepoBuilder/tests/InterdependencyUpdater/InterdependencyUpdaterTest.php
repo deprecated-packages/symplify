@@ -3,9 +3,9 @@
 namespace Symplify\MonorepoBuilder\Tests\InterdependencyUpdater;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\InterdependencyUpdater;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class InterdependencyUpdaterTest extends AbstractContainerAwareTestCase
 {
@@ -27,17 +27,28 @@ final class InterdependencyUpdaterTest extends AbstractContainerAwareTestCase
 
     protected function tearDown(): void
     {
-        $this->filesystem->copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json');
+        $this->filesystem->copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json', true);
     }
 
-    public function test(): void
+    public function testVendor(): void
     {
         $this->interdependencyUpdater->updateFileInfosWithVendorAndVersion(
-            [new SplFileInfo(__DIR__ . '/Source/first.json', 'Source/first.json', 'Source')],
+            [new SmartFileInfo(__DIR__ . '/Source/first.json')],
             'symplify',
-            '^4.0'
+            '^5.0'
         );
 
-        $this->assertFileEquals(__DIR__ . '/Source/expected-first.json', __DIR__ . '/Source/first.json');
+        $this->assertFileEquals(__DIR__ . '/Source/expected-first-vendor.json', __DIR__ . '/Source/first.json');
+    }
+
+    public function testPackages(): void
+    {
+        $this->interdependencyUpdater->updateFileInfosWithPackagesAndVersion(
+            [new SmartFileInfo(__DIR__ . '/Source/first.json')],
+            ['symplify/coding-standard'],
+            '^6.0'
+        );
+
+        $this->assertFileEquals(__DIR__ . '/Source/expected-first-packages.json', __DIR__ . '/Source/first.json');
     }
 }
