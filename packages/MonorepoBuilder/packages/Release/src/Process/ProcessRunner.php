@@ -7,13 +7,13 @@ use Symfony\Component\Process\Process;
 
 final class ProcessRunner
 {
-    public function run(string $commandLine): void
+    public function run(string $commandLine): string
     {
         $process = new Process($commandLine);
         $process->run();
 
         if ($process->isSuccessful()) {
-            return;
+            return trim($process->getOutput());
         }
 
         throw new ProcessFailedException($process);
