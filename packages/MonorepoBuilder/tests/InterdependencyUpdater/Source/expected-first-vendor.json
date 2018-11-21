@@ -1,0 +1,6 @@
+{
+    "require": {
+        "symplify/coding-standard": "^5.0",
+        "symplify/monorepo-builder": "^5.0"
+    }
+}

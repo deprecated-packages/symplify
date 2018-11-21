@@ -15,15 +15,9 @@ final class SetNextMutualDependenciesReleaseWorker extends AbstractMutualDepende
     {
         $versionInString = $this->utils->getRequiredNextFormat($version);
 
-        $rootComposerJson = $this->composerJsonProvider->getRootJson();
-
-        // @todo resolve better for only found packages
-        // see https://github.com/Symplify/Symplify/pull/1037/files
-        [$vendor,] = explode('/', $rootComposerJson['name']);
-
-        $this->interdependencyUpdater->updateFileInfosWithVendorAndVersion(
+        $this->interdependencyUpdater->updateFileInfosWithPackagesAndVersion(
             $this->composerJsonProvider->getPackagesFileInfos(),
-            $vendor,
+            $this->packageNamesProvider->provide(),
             $versionInString
         );
     }
