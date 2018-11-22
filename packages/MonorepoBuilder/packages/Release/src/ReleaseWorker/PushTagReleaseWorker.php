@@ -5,6 +5,7 @@ namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
+use function Safe\sprintf;
 
 final class PushTagReleaseWorker implements ReleaseWorkerInterface
 {
@@ -28,8 +29,8 @@ final class PushTagReleaseWorker implements ReleaseWorkerInterface
         $this->processRunner->run('git push --tags');
     }
 
-    public function getDescription(): string
+    public function getDescription(Version $version): string
     {
-        return 'Push tag to remote repository';
+        return sprintf('Push "%s" tag to remote repository', $version->getVersionString());
     }
 }

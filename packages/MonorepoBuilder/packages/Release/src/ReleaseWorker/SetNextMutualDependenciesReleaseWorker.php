@@ -3,6 +3,7 @@
 namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
 use PharIo\Version\Version;
+use function Safe\sprintf;
 
 final class SetNextMutualDependenciesReleaseWorker extends AbstractMutualDependencyReleaseWorker
 {
@@ -22,8 +23,10 @@ final class SetNextMutualDependenciesReleaseWorker extends AbstractMutualDepende
         );
     }
 
-    public function getDescription(): string
+    public function getDescription(Version $version): string
     {
-        return 'Set packages mutual dependencies to alias of dev version';
+        $versionInString = $this->utils->getRequiredNextFormat($version);
+
+        return sprintf('Set packages mutual dependencies to "%s" (alias of dev version)', $versionInString);
     }
 }

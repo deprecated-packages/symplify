@@ -7,10 +7,12 @@ use PharIo\Version\Version;
 interface ReleaseWorkerInterface
 {
     /**
-     * 1 line description of what this worker does, in command! form, e.g.:
+     * 1 line description of what this worker does, in a commanding form! e.g.:
      * - "Add new tag"
+     * - "Dump new items to CHANGELOG.md"
+     * - "Run coding standards"
      */
-    public function getDescription(): string;
+    public function getDescription(Version $version): string;
 
     /**
      * Higher first
