@@ -9,7 +9,39 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.2.4 - 2018-11-20
+## Unreleased
+
+### Added
+
+#### MonorepoBuilder
+
+- [#1219] Integrate feedback - show priority, add version to description, add `Confirmable`, add `--stage`
+- [#1217] Add `inline_sections` to dump `*.json` content into single line
+
+### Changed
+
+#### CodingStandard
+
+- [#1213] Improve `ParamReturnAndVarTagMalformsFixer` for this and missing dollar signs
+
+## [v5.2.8] - 2018-11-22
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#1216] Fix dual run
+- [#1215] Fix --no-progress-bar conflict with uninitialized advance
+
+## [v5.2.7] - 2018-11-21
+
+### Added
+
+#### MonorepoBuilder
+
+- [#1212] Add interdependency update only for existing local packages
+
+## [v5.2.4] - 2018-11-20
 
 ### Added
 
@@ -296,4 +328,15 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1202]: https://github.com/Symplify/Symplify/pull/1202
 [#1200]: https://github.com/Symplify/Symplify/pull/1200
 [#1196]: https://github.com/Symplify/Symplify/pull/1196
-[@doc]: https://github.com/doc
+[#1219]: https://github.com/Symplify/Symplify/pull/1219
+[#1218]: https://github.com/Symplify/Symplify/pull/1218
+[#1217]: https://github.com/Symplify/Symplify/pull/1217
+[#1216]: https://github.com/Symplify/Symplify/pull/1216
+[#1215]: https://github.com/Symplify/Symplify/pull/1215
+[#1213]: https://github.com/Symplify/Symplify/pull/1213
+[#1212]: https://github.com/Symplify/Symplify/pull/1212
+[v5.2.8]: https://github.com/Symplify/Symplify/compare/v5.2.7...v5.2.8
+[@rodrigowebjump]: https://github.com/rodrigowebjump
+[v5.2.7]: https://github.com/Symplify/Symplify/compare/v5.2.4...v5.2.7
+[v5.2.4]: https://github.com/Symplify/Symplify/compare/v5.2.2...v5.2.4
+[v5.2.2]: https://github.com/Symplify/Symplify/compare/v5.2.1...v5.2.2
