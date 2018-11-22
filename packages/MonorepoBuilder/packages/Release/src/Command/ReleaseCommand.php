@@ -89,7 +89,7 @@ final class ReleaseCommand extends Command
         $i = 0;
 
         foreach ($this->releaseWorkersByPriority as $releaseWorker) {
-            $title = sprintf('%d/%d) %s', ++$i, $totalWorkerCount, $releaseWorker->getDescription());
+            $title = sprintf('%d/%d) %s', ++$i, $totalWorkerCount, $releaseWorker->getDescription($version));
             $this->symfonyStyle->title($title);
 
             // show priority on -v/--verbose/--debug

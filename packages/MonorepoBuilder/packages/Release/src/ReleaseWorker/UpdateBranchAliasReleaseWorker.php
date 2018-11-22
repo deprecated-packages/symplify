@@ -7,6 +7,7 @@ use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Utils\Utils;
+use function Safe\sprintf;
 
 final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
 {
@@ -42,14 +43,18 @@ final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
 
     public function work(Version $version): void
     {
+        $nextAlias = $this->utils->getNextAliasFormat($version);
+
         $this->devMasterAliasUpdater->updateFileInfosWithAlias(
             $this->composerJsonProvider->getPackagesFileInfos(),
-            $this->utils->getNextAliasFormat($version)
+            $nextAlias
         );
     }
 
-    public function getDescription(): string
+    public function getDescription(Version $version): string
     {
-        return 'Set next dev version as branch alias to packages';
+        $nextAlias = $this->utils->getNextAliasFormat($version);
+
+        return sprintf('Set branch alias "%s" to all packages', $nextAlias);
     }
 }

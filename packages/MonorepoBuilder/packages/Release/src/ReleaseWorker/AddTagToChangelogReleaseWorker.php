@@ -31,7 +31,7 @@ final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
         FileSystem::write($changelogFilePath, $changelogFileContent);
     }
 
-    public function getDescription(): string
+    public function getDescription(Version $version): string
     {
         return 'Change "Unreleased" in `CHANGELOG.md` to new version + today date';
     }
