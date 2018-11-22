@@ -8,4 +8,4 @@ parameters:
     # for "split" command
     directories_to_repositories:
         packages/first-package: 'git@github.com:your-monorepo/first-package.git'
-        packages/secnod-package: 'git@github.com:your-monorepo/second-package.git'
+        packages/second-package: 'git@github.com:your-monorepo/second-package.git'
