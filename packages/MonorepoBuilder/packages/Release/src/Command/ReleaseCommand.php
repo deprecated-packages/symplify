@@ -101,7 +101,7 @@ final class ReleaseCommand extends Command
             if ($isDryRun === false) {
                 // wait for confirmation
                 if ($releaseWorker instanceof ConfirmableReleaseWorkerInterface) {
-                    $this->symfonyStyle->ask('Press ENTER to run this Worker');
+                    $this->symfonyStyle->confirm('Press ENTER to run this Worker');
                 }
 
                 $releaseWorker->work($version);
