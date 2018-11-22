@@ -10,7 +10,7 @@ matrix:
         - php: 7.1
           env: COVERAGE="--coverage-clover coverage.xml"
         - php: 7.1
-          env: CODE_ANALYSIS=true # STANDALONE=true - disable for time being due weird Travis bug
+          env: CODE_ANALYSIS=true STANDALONE=true
         - php: 7.1
           env: COMPOSER_FLAGS="--prefer-lowest"
         - php: 7.2
@@ -48,6 +48,8 @@ script:
 
           # test run bin files
           packages/EasyCodingStandard/bin/ecs
+          # test "check" options
+          packages/EasyCodingStandard/bin/ecs check packages/ChangelogLinker/src --no-progress-bar --no-error-table --clear-cache
           packages/ChangelogLinker/bin/changelog-linker
           packages/Statie/bin/statie
           packages/LatteToTwigConverter/bin/latte-to-twig-converter
