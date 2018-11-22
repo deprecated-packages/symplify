@@ -3,9 +3,9 @@
 namespace Symplify\MonorepoBuilder\Tests\DevMasterAliasUpdater;
 
 use Nette\Utils\FileSystem;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class DevMasterAliasUpdaterTest extends AbstractContainerAwareTestCase
 {
@@ -27,7 +27,7 @@ final class DevMasterAliasUpdaterTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
-        $fileInfos = [new SplFileInfo(__DIR__ . '/Source/first.json', 'Source/first.json', 'Source')];
+        $fileInfos = [new SmartFileInfo(__DIR__ . '/Source/first.json')];
 
         $this->devMasterAliasUpdater->updateFileInfosWithAlias($fileInfos, '4.5-dev');
 

@@ -8,7 +8,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 use ReflectionClass;
 use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
-use SplFileInfo;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use function Safe\sprintf;

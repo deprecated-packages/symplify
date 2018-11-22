@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Generator\Renderable\File;
 
 use Nette\Utils\Strings;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Utils\PathAnalyzer;
@@ -75,13 +74,13 @@ final class GeneratorFileFactory
         );
     }
 
-    private function findAndGetValidId(SplFileInfo $fileInfo, string $className): int
+    private function findAndGetValidId(SmartFileInfo $smartFileInfo, string $className): int
     {
-        $match = Strings::match($fileInfo->getContents(), self::ID_PATTERN);
-        $this->generatorFileGuard->ensureIdIsSet($fileInfo, $match);
+        $match = Strings::match($smartFileInfo->getContents(), self::ID_PATTERN);
+        $this->generatorFileGuard->ensureIdIsSet($smartFileInfo, $match);
 
         $id = (int) $match['id'];
-        $this->generatorFileGuard->ensureIdIsUnique($id, $className, $fileInfo);
+        $this->generatorFileGuard->ensureIdIsUnique($id, $className, $smartFileInfo);
 
         return $id;
     }

@@ -9,9 +9,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\LatteToTwigConverter\LatteToTwigConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use function Safe\sprintf;
 
 final class ConvertCommand extends Command
@@ -31,11 +31,20 @@ final class ConvertCommand extends Command
      */
     private $symfonyStyle;
 
-    public function __construct(LatteToTwigConverter $latteToTwigConverter, SymfonyStyle $symfonyStyle)
-    {
+    /**
+     * @var FinderSanitizer
+     */
+    private $finderSanitizer;
+
+    public function __construct(
+        LatteToTwigConverter $latteToTwigConverter,
+        SymfonyStyle $symfonyStyle,
+        FinderSanitizer $finderSanitizer
+    ) {
         parent::__construct();
         $this->latteToTwigConverter = $latteToTwigConverter;
         $this->symfonyStyle = $symfonyStyle;
+        $this->finderSanitizer = $finderSanitizer;
     }
 
     protected function configure(): void
@@ -55,8 +64,9 @@ final class ConvertCommand extends Command
             ->in($input->getArgument(self::ARGUMENT_SOURCE))
             ->name('*.twig');
 
-        /** @var SplFileInfo $twigFileInfo */
-        foreach ($twigFileFinder as $twigFileInfo) {
+        $smartFileInfos = $this->finderSanitizer->sanitize($twigFileFinder);
+
+        foreach ($smartFileInfos as $twigFileInfo) {
             $convertedContent = $this->latteToTwigConverter->convertFile($twigFileInfo->getRealPath());
 
             if ($twigFileInfo->getContents() !== $convertedContent) {

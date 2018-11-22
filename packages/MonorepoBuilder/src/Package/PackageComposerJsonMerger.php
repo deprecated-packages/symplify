@@ -2,10 +2,10 @@
 
 namespace Symplify\MonorepoBuilder\Package;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Configuration\MergedPackagesCollector;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
 final class PackageComposerJsonMerger
@@ -46,7 +46,7 @@ final class PackageComposerJsonMerger
     }
 
     /**
-     * @param SplFileInfo[] $composerPackageFileInfos
+     * @param SmartFileInfo[] $composerPackageFileInfos
      * @return string[]
      */
     public function mergeFileInfos(array $composerPackageFileInfos): array

@@ -3,10 +3,10 @@
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
 use Nette\Utils\Strings;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use function Safe\getcwd;
 
 final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDecoratorInterface
@@ -51,7 +51,7 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
     /**
      * @param mixed[] $composerJson
      * @param string[] $autoloadPaths
-     * @param SplFileInfo[] $packageComposerFiles
+     * @param SmartFileInfo[] $packageComposerFiles
      * @return mixed[]
      */
     private function processAutoloadPaths(
@@ -138,7 +138,7 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
      * @param string[]|string $path
      * @return string[]|string
      */
-    private function prefixPath(SplFileInfo $packageComposerFile, $path)
+    private function prefixPath(SmartFileInfo $packageComposerFile, $path)
     {
         if (is_array($path)) {
             foreach ($path as $i => $singlePath) {

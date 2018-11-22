@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\FileSystem;
 
-use SplFileInfo as NativeSplFileInfo;
 use Symfony\Component\Finder\Finder;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
@@ -46,7 +45,7 @@ final class FileFinder
      */
     public function findInDirectoryForGenerator(string $directoryPath): array
     {
-        $directoryInfo = new NativeSplFileInfo($directoryPath);
+        $directoryInfo = new SmartFileInfo($directoryPath);
         $path = $this->normalizePath($directoryInfo->getFilename() . DIRECTORY_SEPARATOR);
         $pathPattern = '#' . preg_quote($path, '#') . '#';
 

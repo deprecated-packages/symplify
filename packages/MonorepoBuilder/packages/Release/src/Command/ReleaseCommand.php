@@ -132,7 +132,7 @@ final class ReleaseCommand extends Command
         }
 
         throw new InvalidGitVersionException(sprintf(
-            'Version "%s" is older than the last one "%s"',
+            'Provided version "%s" must be never than the last one: "%s"',
             $version->getVersionString(),
             $mostRecentVersion->getVersionString()
         ));

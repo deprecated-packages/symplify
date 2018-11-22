@@ -3,9 +3,9 @@
 namespace Symplify\MonorepoBuilder\Tests\FileSystem\JsonFileManager;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class JsonFileManagerTest extends AbstractContainerAwareTestCase
 {
@@ -39,21 +39,22 @@ final class JsonFileManagerTest extends AbstractContainerAwareTestCase
 
         $this->assertSame([
             'key' => 'value',
-        ], $this->jsonFileManager->loadFromFileInfo(new SplFileInfo(__DIR__ . '/Source/first.json', '...', '...')));
+        ], $this->jsonFileManager->loadFromFileInfo(new SmartFileInfo(__DIR__ . '/Source/first.json')));
     }
 
-    public function testSave(): void
+    public function testEncodeArrayToString(): void
     {
-        $this->jsonFileManager->saveJsonWithFilePath(
-            ['another_key' => 'another_value'],
-            __DIR__ . '/Source/second.json'
-        );
-        $this->assertFileEquals(__DIR__ . '/Source/expected-second.json', __DIR__ . '/Source/second.json');
+        $jsonContent = $this->jsonFileManager->encodeJsonToFileContent(['another_key' => 'another_value']);
+        $this->assertStringEqualsFile(__DIR__ . '/Source/expected-second.json', $jsonContent);
+    }
 
-        $this->jsonFileManager->saveJsonWithFileInfo(
-            ['yet_another_key' => 'yet_another_value'],
-            new SplFileInfo(__DIR__ . '/Source/third.json', '', '')
-        );
-        $this->assertFileEquals(__DIR__ . '/Source/expected-third.json', __DIR__ . '/Source/third.json');
+    public function testSaveWithInlinedSections(): void
+    {
+        $fileContent = $this->jsonFileManager->encodeJsonToFileContent([
+            'inline_section' => [1, 2, 3],
+            'normal_section' => [1, 2, 3],
+        ], ['inline_section']);
+
+        $this->assertStringEqualsFile(__DIR__ . '/Source/expected-inlined.json', $fileContent);
     }
 }

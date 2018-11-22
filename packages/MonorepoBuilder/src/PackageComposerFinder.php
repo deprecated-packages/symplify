@@ -3,7 +3,8 @@
 namespace Symplify\MonorepoBuilder;
 
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class PackageComposerFinder
 {
@@ -13,20 +14,26 @@ final class PackageComposerFinder
     private $packageDirectories = [];
 
     /**
+     * @var FinderSanitizer
+     */
+    private $finderSanitizer;
+
+    /**
      * @param string[] $packageDirectories
      */
-    public function __construct(array $packageDirectories)
+    public function __construct(array $packageDirectories, FinderSanitizer $finderSanitizer)
     {
         $this->packageDirectories = $packageDirectories;
+        $this->finderSanitizer = $finderSanitizer;
     }
 
-    public function getRootPackageComposerFile(): SplFileInfo
+    public function getRootPackageComposerFile(): SmartFileInfo
     {
-        return new SplFileInfo('composer.json', '', 'composer.json');
+        return new SmartFileInfo('composer.json');
     }
 
     /**
-     * @return SplFileInfo[]
+     * @return SmartFileInfo[]
      */
     public function getPackageComposerFiles(): array
     {
@@ -40,7 +47,7 @@ final class PackageComposerFinder
             $finder->notPath('#tests#');
         }
 
-        return iterator_to_array($finder->getIterator());
+        return $this->finderSanitizer->sanitize($finder);
     }
 
     private function isPHPUnit(): bool

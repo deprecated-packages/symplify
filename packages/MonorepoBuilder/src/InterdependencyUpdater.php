@@ -3,9 +3,9 @@
 namespace Symplify\MonorepoBuilder;
 
 use Nette\Utils\Strings;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class InterdependencyUpdater
 {
@@ -20,12 +20,15 @@ final class InterdependencyUpdater
     }
 
     /**
-     * @param SplFileInfo[] $fileInfos
+     * @param SmartFileInfo[] $smartFileInfos
      * @param string[] $packageNames
      */
-    public function updateFileInfosWithPackagesAndVersion(array $fileInfos, array $packageNames, string $version): void
-    {
-        foreach ($fileInfos as $packageComposerFileInfo) {
+    public function updateFileInfosWithPackagesAndVersion(
+        array $smartFileInfos,
+        array $packageNames,
+        string $version
+    ): void {
+        foreach ($smartFileInfos as $packageComposerFileInfo) {
             $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFileInfo);
 
             $json = $this->processSectionWithPackages($json, $packageNames, $version, Section::REQUIRE);
@@ -36,11 +39,11 @@ final class InterdependencyUpdater
     }
 
     /**
-     * @param SplFileInfo[] $fileInfos
+     * @param SmartFileInfo[] $smartFileInfos
      */
-    public function updateFileInfosWithVendorAndVersion(array $fileInfos, string $vendor, string $version): void
+    public function updateFileInfosWithVendorAndVersion(array $smartFileInfos, string $vendor, string $version): void
     {
-        foreach ($fileInfos as $packageComposerFileInfo) {
+        foreach ($smartFileInfos as $packageComposerFileInfo) {
             $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFileInfo);
 
             $json = $this->processSection($json, $vendor, $version, Section::REQUIRE);

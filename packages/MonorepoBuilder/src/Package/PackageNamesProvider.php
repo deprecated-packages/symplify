@@ -2,9 +2,9 @@
 
 namespace Symplify\MonorepoBuilder\Package;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class PackageNamesProvider
 {
@@ -48,9 +48,9 @@ final class PackageNamesProvider
         return $this->names;
     }
 
-    private function extractNameFromFileInfo(SplFileInfo $splFileInfo): ?string
+    private function extractNameFromFileInfo(SmartFileInfo $smartFileInfo): ?string
     {
-        $json = $this->jsonFileManager->loadFromFileInfo($splFileInfo);
+        $json = $this->jsonFileManager->loadFromFileInfo($smartFileInfo);
 
         return $json['name'] ?? null;
     }

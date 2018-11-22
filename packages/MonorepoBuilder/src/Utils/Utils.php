@@ -21,9 +21,7 @@ final class Utils
      */
     public function getNextAliasFormat($version): string
     {
-        if (is_string($version)) {
-            $version = new Version($version);
-        }
+        $version = $this->normalizeVersion($version);
 
         return str_replace(
             ['<major>', '<minor>'],
@@ -37,9 +35,7 @@ final class Utils
      */
     public function getRequiredNextFormat($version): string
     {
-        if (is_string($version)) {
-            $version = new Version($version);
-        }
+        $version = $this->normalizeVersion($version);
 
         return '^' . $version->getMajor()->getValue() . '.' . ($version->getMinor()->getValue() + 1);
     }
@@ -49,9 +45,7 @@ final class Utils
      */
     public function getRequiredFormat($version): string
     {
-        if (is_string($version)) {
-            $version = new Version($version);
-        }
+        $version = $this->normalizeVersion($version);
 
         $requireVersion = '^' . $version->getMajor()->getValue() . '.' . $version->getMinor()->getValue();
 
@@ -61,5 +55,17 @@ final class Utils
         }
 
         return $requireVersion;
+    }
+
+    /**
+     * @param Version|string $version
+     */
+    private function normalizeVersion($version): Version
+    {
+        if (is_string($version)) {
+            return new Version($version);
+        }
+
+        return $version;
     }
 }
