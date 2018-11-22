@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Generator\Renderable\File;
 
-use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Generator\Exception\Configuration\GeneratorException;
 use function Safe\sprintf;
 
@@ -22,7 +22,7 @@ final class GeneratorFileGuard
         throw new GeneratorException(sprintf('"%s" must inherit from "%s"', $class, AbstractGeneratorFile::class));
     }
 
-    public function ensureIdIsUnique(int $id, string $className, SplFileInfo $fileInfo): void
+    public function ensureIdIsUnique(int $id, string $className, SmartFileInfo $smartFileInfo): void
     {
         if (! isset($this->idsByAbstractGeneratorFileClass[$className])) {
             $this->idsByAbstractGeneratorFileClass[$className][] = $id;
@@ -38,14 +38,14 @@ final class GeneratorFileGuard
             'Id "%d" was already set for "%s" class. Pick an another one for "%s" file.',
             $id,
             $className,
-            $fileInfo->getRealPath()
+            $smartFileInfo->getRealPath()
         ));
     }
 
     /**
      * @param mixed[]|null $match
      */
-    public function ensureIdIsSet(SplFileInfo $fileInfo, ?array $match): void
+    public function ensureIdIsSet(SmartFileInfo $smartFileInfo, ?array $match): void
     {
         if (isset($match['id'])) {
             return;
@@ -53,7 +53,7 @@ final class GeneratorFileGuard
 
         throw new GeneratorException(sprintf(
             'File "%s" must have "id: [0-9]+" in the header in --- blocks.',
-            $fileInfo->getRealPath()
+            $smartFileInfo->getRealPath()
         ));
     }
 }

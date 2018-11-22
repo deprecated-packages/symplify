@@ -3,9 +3,10 @@
 namespace Symplify\MonorepoBuilder\Tests\Package;
 
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
 {
@@ -14,9 +15,15 @@ final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
      */
     private $packageComposerJsonMerger;
 
+    /**
+     * @var FinderSanitizer
+     */
+    private $finderSanitizer;
+
     protected function setUp(): void
     {
         $this->packageComposerJsonMerger = $this->container->get(PackageComposerJsonMerger::class);
+        $this->finderSanitizer = $this->container->get(FinderSanitizer::class);
     }
 
     public function test(): void
@@ -54,15 +61,14 @@ final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
     }
 
     /**
-     * @return SplFileInfo[]
+     * @return SmartFileInfo[]
      */
     private function getFileInfosFromDirectory(string $directory): array
     {
-        $iterator = Finder::create()->files()
+        $finder = Finder::create()->files()
             ->in($directory)
-            ->name('*.json')
-            ->getIterator();
+            ->name('*.json');
 
-        return iterator_to_array($iterator);
+        return $this->finderSanitizer->sanitize($finder);
     }
 }

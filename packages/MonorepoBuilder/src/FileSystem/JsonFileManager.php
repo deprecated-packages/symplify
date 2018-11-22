@@ -11,14 +11,14 @@ use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 final class JsonFileManager
 {
     /**
-     * @var SymfonyFilesystem
-     */
-    private $symfonyFilesystem;
-
-    /**
      * @var string[]
      */
     private $inlineSections = [];
+
+    /**
+     * @var SymfonyFilesystem
+     */
+    private $symfonyFilesystem;
 
     /**
      * @param string[] $inlineSections
@@ -65,13 +65,14 @@ final class JsonFileManager
 
     /**
      * @param mixed[] $json
+     * @param string[] $inlineSections
      */
     public function encodeJsonToFileContent(array $json, array $inlineSections = []): string
     {
         $jsonContent = Json::encode($json, Json::PRETTY) . PHP_EOL;
 
         foreach ($inlineSections as $inlineSection) {
-            $pattern  = '#("' . preg_quote($inlineSection, '#') . '": )\[(.*?)\](,)#ms';
+            $pattern = '#("' . preg_quote($inlineSection, '#') . '": )\[(.*?)\](,)#ms';
 
             $jsonContent = Strings::replace($jsonContent, $pattern, function (array $match) {
                 $inlined = Strings::replace($match[2], '#\s+#', ' ');

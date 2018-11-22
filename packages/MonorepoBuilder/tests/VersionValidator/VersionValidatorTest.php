@@ -5,6 +5,7 @@ namespace Symplify\MonorepoBuilder\Tests\VersionValidator;
 use Symfony\Component\Finder\Finder;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 use Symplify\MonorepoBuilder\VersionValidator;
+use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 
 final class VersionValidatorTest extends AbstractContainerAwareTestCase
 {
@@ -13,14 +14,24 @@ final class VersionValidatorTest extends AbstractContainerAwareTestCase
      */
     private $versionValidator;
 
+    /**
+     * @var FinderSanitizer
+     */
+    private $finderSanitizer;
+
     protected function setUp(): void
     {
         $this->versionValidator = $this->container->get(VersionValidator::class);
+        $this->finderSanitizer = $this->container->get(FinderSanitizer::class);
     }
 
     public function test(): void
     {
-        $fileInfos = iterator_to_array(Finder::create()->name('*.json')->in(__DIR__ . '/Source') ->getIterator());
+        $finder = Finder::create()
+            ->name('*.json')
+            ->in(__DIR__ . '/Source');
+
+        $fileInfos = $this->finderSanitizer->sanitize($finder);
 
         $conflictingPackageVersionsPerFile = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
             $fileInfos
