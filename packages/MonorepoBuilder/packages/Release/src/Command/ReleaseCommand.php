@@ -83,11 +83,20 @@ final class ReleaseCommand extends Command
         $version = new Version($versionArgument);
         $this->ensureVersionIsNewerThanLastOne($version);
 
-        $this->symfonyStyle->newLine();
-
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
+
+        $totalWorkerCount = count($this->releaseWorkersByPriority);
+        $i = 0;
+
         foreach ($this->releaseWorkersByPriority as $releaseWorker) {
-            $this->symfonyStyle->writeln(' * ' . $releaseWorker->getDescription());
+            $title = sprintf('%d/%d) %s', ++$i, $totalWorkerCount, $releaseWorker->getDescription());
+            $this->symfonyStyle->title($title);
+
+            // show priority on -v/--verbose/--debug
+            if ($this->symfonyStyle->isVerbose()) {
+                $this->symfonyStyle->writeln('priority: ' . $releaseWorker->getPriority());
+                $this->symfonyStyle->writeln('class: ' . get_class($releaseWorker));
+            }
 
             if ($isDryRun === false) {
                 $releaseWorker->work($version);
