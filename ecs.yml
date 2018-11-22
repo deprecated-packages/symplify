@@ -7,6 +7,12 @@ imports:
     - { resource: 'packages/EasyCodingStandard/config/psr12.yml' }
 
 services:
+    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
+        oldToPreferredClasses:
+            SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
+            Symfony\Component\Finder\SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
+            DateTime: 'Nette\Utils\DateTime'
+
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
             PhpCsFixer\Fixer\FixerInterface:
@@ -51,6 +57,21 @@ parameters:
         - 'packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory.php'
 
     skip:
+        Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
+            # converts non-preferred type
+            - 'packages/PackageBuilder/src/FileSystem/SmartFileInfo.php'
+            - 'packages/PackageBuilder/src/FileSystem/FinderSanitizer.php'
+            - 'packages/EasyCodingStandard/src/Finder/FinderSanitizer.php'
+            - 'packages/PackageBuilder/tests/FileSystem/FinderSanitizerTest.php'
+            # uses 3rd-party API
+            - 'packages/PackageBuilder/src/Configuration/LevelFileFinder.php'
+            - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Correct/FixerWithAbstractParent.php'
+            # SplFileInfo extension
+            - 'packages/PHPStanExtensions/src/Type/SplFileInfoTolerantDynamicMethodReturnTypeExtension.php'
+            # tests
+            - 'packages/MonorepoBuilder/tests/Package/PackageComposerJsonMergerTest.php'
+            - 'packages/MonorepoBuilder/tests/Package/CombineStringsToArrayJsonMergerTest.php'
+
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
             - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
             - 'packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php'
