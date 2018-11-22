@@ -2,7 +2,6 @@
 
 namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator;
 
-use PHPUnit\Framework\TestCase;
 use Symplify\MonorepoBuilder\ComposerJsonDecorator\SortRequireComposerJsonDecorator;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 
