@@ -27,8 +27,4 @@ final class DocBlockFinder
 
         return null;
     }
-
-    public function findRelatedPosition(Tokens $tokens, int $index): ?int
-    {
-    }
 }
