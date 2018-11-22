@@ -36,6 +36,10 @@ final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
                         $replacement .= $match['type'];
                     }
 
+                    if (Strings::match($match[0], '#\$this$#')) {
+                        return Strings::replace($match[0], '#\$this$#', 'self');
+                    }
+
                     return $replacement;
                 }
             );

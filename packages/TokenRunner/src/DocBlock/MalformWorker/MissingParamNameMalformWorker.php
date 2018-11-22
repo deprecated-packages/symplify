@@ -65,9 +65,7 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
                     continue;
                 }
 
-                $replacement = '@param $1 ' . $newArgumentName . '$2' . PHP_EOL;
-                $newLineContent = Strings::replace($line->getContent(), self::PARAM_WITHOUT_NAME_PATTERN, $replacement);
-
+                $newLineContent = $this->createNewLineContent($newArgumentName, $line);
                 $line->setContent($newLineContent);
                 continue 2;
             }
@@ -103,5 +101,20 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
         }
 
         return false;
+    }
+
+    private function createNewLineContent(string $newArgumentName, Line $line): string
+    {
+        // @see https://regex101.com/r/4FL49H/1
+        $missingDollarSignPattern = '#(@param\s+([\w\|\[\]\\\\]+\s)?)(' . ltrim($newArgumentName, '$') . ')#';
+
+        // missing \$ case - possibly own worker
+        if (Strings::match($line->getContent(), $missingDollarSignPattern)) {
+            return Strings::replace($line->getContent(), $missingDollarSignPattern, '$1$$3');
+        }
+
+        $replacement = '@param $1 ' . $newArgumentName . '$2' . PHP_EOL;
+
+        return Strings::replace($line->getContent(), self::PARAM_WITHOUT_NAME_PATTERN, $replacement);
     }
 }
