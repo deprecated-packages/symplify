@@ -23,16 +23,23 @@ final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
             return;
         }
 
-        $newHeadline = '## ' . $version->getVersionString() . ' - ' . (new DateTime())->format('Y-m-d');
+        $newHeadline = $this->createNewHeadline($version);
 
         $changelogFileContent = FileSystem::read($changelogFilePath);
-        $changelogFileContent = Strings::replace($changelogFileContent, '#\#\# Unreleased#', $newHeadline);
+        $changelogFileContent = Strings::replace($changelogFileContent, '#\#\# Unreleased#', '## ' . $newHeadline);
 
         FileSystem::write($changelogFilePath, $changelogFileContent);
     }
 
     public function getDescription(Version $version): string
     {
-        return 'Change "Unreleased" in `CHANGELOG.md` to new version + today date';
+        $newHeadline = $this->createNewHeadline($version);
+
+        return sprintf('Change "Unreleased" in `CHANGELOG.md` to "%s"', $newHeadline);
+    }
+
+    private function createNewHeadline(Version $version): string
+    {
+        return $version->getVersionString() . ' - ' . (new DateTime())->format('Y-m-d');
     }
 }
