@@ -4,8 +4,9 @@ namespace Symplify\MonorepoBuilder\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Json;
+use Nette\Utils\Strings;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
-use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class JsonFileManager
 {
@@ -14,17 +15,26 @@ final class JsonFileManager
      */
     private $symfonyFilesystem;
 
-    public function __construct(SymfonyFilesystem $symfonyFilesystem)
+    /**
+     * @var string[]
+     */
+    private $inlineSections = [];
+
+    /**
+     * @param string[] $inlineSections
+     */
+    public function __construct(SymfonyFilesystem $symfonyFilesystem, array $inlineSections)
     {
         $this->symfonyFilesystem = $symfonyFilesystem;
+        $this->inlineSections = $inlineSections;
     }
 
     /**
      * @return mixed[]
      */
-    public function loadFromFileInfo(SplFileInfo $fileInfo): array
+    public function loadFromFileInfo(SmartFileInfo $smartFileInfo): array
     {
-        return Json::decode($fileInfo->getContents(), Json::FORCE_ARRAY);
+        return Json::decode($smartFileInfo->getContents(), Json::FORCE_ARRAY);
     }
 
     /**
@@ -38,9 +48,10 @@ final class JsonFileManager
     /**
      * @param mixed[] $json
      */
-    public function saveJsonWithFileInfo(array $json, SplFileInfo $fileInfo): void
+    public function saveJsonWithFileInfo(array $json, SmartFileInfo $smartFileInfo): void
     {
-        $this->symfonyFilesystem->dumpFile($fileInfo->getPathname(), $this->encodeJsonToFileContent($json));
+        $jsonString = $this->encodeJsonToFileContent($json, $this->inlineSections);
+        $this->symfonyFilesystem->dumpFile($smartFileInfo->getPathname(), $jsonString);
     }
 
     /**
@@ -48,14 +59,29 @@ final class JsonFileManager
      */
     public function saveJsonWithFilePath(array $json, string $filePath): void
     {
-        $this->symfonyFilesystem->dumpFile($filePath, $this->encodeJsonToFileContent($json));
+        $jsonString = $this->encodeJsonToFileContent($json, $this->inlineSections);
+        $this->symfonyFilesystem->dumpFile($filePath, $jsonString);
     }
 
     /**
      * @param mixed[] $json
      */
-    private function encodeJsonToFileContent(array $json): string
+    public function encodeJsonToFileContent(array $json, array $inlineSections = []): string
     {
-        return Json::encode($json, Json::PRETTY) . PHP_EOL;
+        $jsonContent = Json::encode($json, Json::PRETTY) . PHP_EOL;
+
+        foreach ($inlineSections as $inlineSection) {
+            $pattern  = '#("' . preg_quote($inlineSection, '#') . '": )\[(.*?)\](,)#ms';
+
+            $jsonContent = Strings::replace($jsonContent, $pattern, function (array $match) {
+                $inlined = Strings::replace($match[2], '#\s+#', ' ');
+                $inlined = trim($inlined);
+                $inlined = '[' . $inlined . ']';
+
+                return $match[1] . $inlined . $match[3];
+            });
+        }
+
+        return $jsonContent;
     }
 }

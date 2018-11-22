@@ -25,3 +25,4 @@ services:
     Symfony\Component\Filesystem\Filesystem: ~
 
     Symplify\PackageBuilder\Reflection\PrivatesCaller: ~
+    Symplify\PackageBuilder\FileSystem\FinderSanitizer: ~
