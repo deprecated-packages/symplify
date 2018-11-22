@@ -10,6 +10,16 @@ use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 final class SortRequireComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {
     /**
+     * @var PrivatesCaller
+     */
+    private $privatesCaller;
+
+    public function __construct(PrivatesCaller $privatesCaller)
+    {
+        $this->privatesCaller = $privatesCaller;
+    }
+
+    /**
      * @param mixed[] $composerJson
      * @return mixed[]
      */
@@ -37,7 +47,7 @@ final class SortRequireComposerJsonDecorator implements ComposerJsonDecoratorInt
      */
     private function sortPackages(array $packages): array
     {
-        return (new PrivatesCaller())->callPrivateMethodWithReference(
+        return $this->privatesCaller->callPrivateMethodWithReference(
             JsonManipulator::class,
             'sortPackages',
             $packages

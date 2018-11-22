@@ -11,7 +11,7 @@ services:
 
     Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication:
         calls:
-        - ['setDispatcher', ['@Symfony\Component\EventDispatcher\EventDispatcher']]
+            - ['setDispatcher', ['@Symfony\Component\EventDispatcher\EventDispatcher']]
     Symfony\Component\Console\Application:
         alias: 'Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication'
 
@@ -23,3 +23,5 @@ services:
         alias: 'Symfony\Component\EventDispatcher\EventDispatcher'
 
     Symfony\Component\Filesystem\Filesystem: ~
+
+    Symplify\PackageBuilder\Reflection\PrivatesCaller: ~
