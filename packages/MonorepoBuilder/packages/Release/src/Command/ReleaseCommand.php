@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Configuration\Option;
 use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
-use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ConfirmableInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Exception\ConflictingPriorityException;
@@ -99,11 +98,6 @@ final class ReleaseCommand extends Command
             $this->printReleaseWorkerMetadata($releaseWorker);
 
             if ($isDryRun === false) {
-                // wait for confirmation
-                if ($releaseWorker instanceof ConfirmableInterface) {
-                    $this->symfonyStyle->confirm('Press ENTER to run this Worker');
-                }
-
                 $releaseWorker->work($version);
             }
         }
