@@ -12,9 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Configuration\Option;
 use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
-use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ConfirmableReleaseWorkerInterface;
+use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ConfirmableInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareReleaseWorkerInterface;
+use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Exception\ConflictingPriorityException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -100,7 +100,7 @@ final class ReleaseCommand extends Command
 
             if ($isDryRun === false) {
                 // wait for confirmation
-                if ($releaseWorker instanceof ConfirmableReleaseWorkerInterface) {
+                if ($releaseWorker instanceof ConfirmableInterface) {
                     $this->symfonyStyle->confirm('Press ENTER to run this Worker');
                 }
 
@@ -158,7 +158,7 @@ final class ReleaseCommand extends Command
 
         $activeReleaseWorkers = [];
         foreach ($this->releaseWorkersByPriority as $releaseWorker) {
-            if ($releaseWorker instanceof StageAwareReleaseWorkerInterface) {
+            if ($releaseWorker instanceof StageAwareInterface) {
                 if ($stage === $releaseWorker->getStage()) {
                     $activeReleaseWorkers[] = $releaseWorker;
                 }

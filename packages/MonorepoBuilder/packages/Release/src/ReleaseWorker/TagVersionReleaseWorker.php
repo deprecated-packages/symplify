@@ -3,12 +3,12 @@
 namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
 use PharIo\Version\Version;
-use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ConfirmableReleaseWorkerInterface;
+use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ConfirmableInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
 use function Safe\sprintf;
 
-final class TagVersionReleaseWorker implements ReleaseWorkerInterface, ConfirmableReleaseWorkerInterface
+final class TagVersionReleaseWorker implements ReleaseWorkerInterface, ConfirmableInterface
 {
     /**
      * @var ProcessRunner

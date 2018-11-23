@@ -2,6 +2,6 @@
 
 namespace Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker;
 
-interface ConfirmableReleaseWorkerInterface
+interface ConfirmableInterface
 {
 }
