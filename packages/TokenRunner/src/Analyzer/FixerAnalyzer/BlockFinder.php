@@ -46,7 +46,6 @@ final class BlockFinder
             $position = $tokens->getNextTokenOfKind($position, ['(', ';']);
             $token = $tokens[$position];
 
-            // end of line was sooner => has no block
             if ($token->equals(';')) {
                 return null;
             }

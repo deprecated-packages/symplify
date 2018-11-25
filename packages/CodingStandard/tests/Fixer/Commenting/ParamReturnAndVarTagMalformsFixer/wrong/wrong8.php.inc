@@ -8,6 +8,11 @@ class SomeClass
     private $property;
 
     /**
+     * @var $anotherProperty \PhpMyAdmin\SqlParser\Statements\CreateStatement
+     */
+    private $anotherProperty;
+
+    /**
      * @var $this
      */
     private $self;
