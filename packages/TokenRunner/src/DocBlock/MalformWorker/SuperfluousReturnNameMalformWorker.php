@@ -21,9 +21,10 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $docBlock = new DocBlock($docContent);
+
         foreach ($docBlock->getLines() as $line) {
             $match = Strings::match($line->getContent(), self::RETURN_VARIABLE_NAME_PATTERN);
-            if ($this->shouldSkip($match)) {
+            if ($this->shouldSkip($match, $line->getContent())) {
                 continue;
             }
 
@@ -49,12 +50,21 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
     /**
      * @param mixed[]|null $match
      */
-    private function shouldSkip(?array $match): bool
+    private function shouldSkip(?array $match, string $content): bool
     {
         if ($match === null) {
             return true;
         }
 
-        return in_array($match['variableName'], $this->allowedVariableNames, true);
+        if (in_array($match['variableName'], $this->allowedVariableNames, true)) {
+            return true;
+        }
+
+        // has multiple return values? "@return array $one, $two"
+        if (count(Strings::matchAll($content, '#\$\w+#')) >= 2) {
+            return true;
+        }
+
+        return false;
     }
 }
