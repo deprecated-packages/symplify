@@ -1,0 +1,2 @@
+services:
+    Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer: ~
