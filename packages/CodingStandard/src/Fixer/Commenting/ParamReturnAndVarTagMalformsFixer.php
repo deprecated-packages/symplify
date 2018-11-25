@@ -14,15 +14,15 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 use Symplify\TokenRunner\DocBlock\MalformWorker\MissingParamNameMalformWorker;
 use Symplify\TokenRunner\DocBlock\MalformWorker\ParamNameTypoMalformWorker;
-use Symplify\TokenRunner\DocBlock\MalformWorker\ParamTypeAndNameMalformWorker;
 use Symplify\TokenRunner\DocBlock\MalformWorker\SuperfluousReturnNameMalformWorker;
 use Symplify\TokenRunner\DocBlock\MalformWorker\SuperfluousVarNameMalformWorker;
+use Symplify\TokenRunner\DocBlock\MalformWorker\SwitchedTypeAndNameMalformWorker;
 
 /**
  * @see ParamNameTypoMalformWorker
  * @see InlineVarNameTypoMalformWorker
  * @see MissingParamNameMalformWorker
- * @see ParamTypeAndNameMalformWorker
+ * @see SwitchedTypeAndNameMalformWorker
  * @see SuperfluousReturnNameMalformWorker
  * @see SuperfluousVarNameMalformWorker
  */
