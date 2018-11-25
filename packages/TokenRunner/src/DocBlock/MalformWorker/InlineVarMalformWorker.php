@@ -10,7 +10,7 @@ final class InlineVarMalformWorker extends AbstractMalformWorker
     /**
      * @var string
      */
-    private const SINGLE_ASTERISK_START_PATTERN = '#^/\*(\s+@var)#';
+    private const SINGLE_ASTERISK_START_PATTERN = '#^/\*(\n?\s+@var)#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {

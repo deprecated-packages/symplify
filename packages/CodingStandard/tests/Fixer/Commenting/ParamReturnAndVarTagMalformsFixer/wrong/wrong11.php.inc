@@ -5,3 +5,13 @@ $variable = 5;
 
 /** @var $variable int */
 $variable = 5;
+
+/**
+ * @var $variable int
+ */
+$variable = 5;
+
+/*
+ * @var $variable int
+ */
+$variable = 5;
