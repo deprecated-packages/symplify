@@ -12,7 +12,7 @@ final class ParamTypeAndNameMalformWorker implements MalformWorkerInterface
     /**
      * @var string
      */
-    private const PARAM_WITH_NAME_AND_TYPE_PATTERN = '#@param(\s+)(?<name>\$\w+)(\s+)(?<type>[\\\\\w\[\]]+)#';
+    private const PARAM_WITH_NAME_AND_TYPE_PATTERN = '#@(param|var)(\s+)(?<name>\$\w+)(\s+)(?<type>[\\\\\w\[\]]+)#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
@@ -35,7 +35,7 @@ final class ParamTypeAndNameMalformWorker implements MalformWorkerInterface
                 continue;
             }
 
-            $newLine = Strings::replace($line->getContent(), self::PARAM_WITH_NAME_AND_TYPE_PATTERN, '@param$1$4$3$2');
+            $newLine = Strings::replace($line->getContent(), self::PARAM_WITH_NAME_AND_TYPE_PATTERN, '@$1$2$5$4$3');
             $line->setContent($newLine);
         }
 

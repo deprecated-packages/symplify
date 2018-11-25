@@ -20,6 +20,7 @@ use Symplify\TokenRunner\DocBlock\MalformWorker\SuperfluousVarNameMalformWorker;
 
 /**
  * @see ParamNameTypoMalformWorker
+ * @see InlineVarNameTypoMalformWorker
  * @see MissingParamNameMalformWorker
  * @see ParamTypeAndNameMalformWorker
  * @see SuperfluousReturnNameMalformWorker
@@ -57,7 +58,7 @@ function someFunction(type $name)
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_DOC_COMMENT]) && $tokens->isAnyTokenKindsFound(
+        return $tokens->isAnyTokenKindsFound([T_DOC_COMMENT, T_COMMENT]) && $tokens->isAnyTokenKindsFound(
             [T_FUNCTION, T_VARIABLE]
         );
     }
@@ -65,7 +66,7 @@ function someFunction(type $name)
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->reverseTokens($tokens) as $index => $token) {
-            if (! $token->isGivenKind(T_DOC_COMMENT)) {
+            if (! $token->isGivenKind([T_DOC_COMMENT, T_COMMENT])) {
                 continue;
             }
 
