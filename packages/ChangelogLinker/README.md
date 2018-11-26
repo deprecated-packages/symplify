@@ -139,7 +139,7 @@ GITHUB_TOKEN super-secret-token vendor/bin/changelog-linker dump-merges
 ## B. Decorate `CHANGELOG.md`
 
 ```bash
-vendor/bin/changelog-linker linkify
+vendor/bin/changelog-linker link
 ```
 
 ### 1. Link PR and Issues
