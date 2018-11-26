@@ -9,7 +9,16 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.2.9 - 2018-11-22
+## Unreleased
+
+### Added
+
+#### CodingStandard
+
+- [#1221] Add `RemoveEndOfFunctionCommentFixer`, improve `@var` malform fixers
+- [#1220] Add support for return multi vars in `ParamReturnAndVarTagMalformsFixer`
+
+## [v5.2.9] - 2018-11-22
 
 ### Added
 
@@ -329,14 +338,15 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1200]: https://github.com/Symplify/Symplify/pull/1200
 [#1196]: https://github.com/Symplify/Symplify/pull/1196
 [#1219]: https://github.com/Symplify/Symplify/pull/1219
-[#1218]: https://github.com/Symplify/Symplify/pull/1218
 [#1217]: https://github.com/Symplify/Symplify/pull/1217
 [#1216]: https://github.com/Symplify/Symplify/pull/1216
 [#1215]: https://github.com/Symplify/Symplify/pull/1215
 [#1213]: https://github.com/Symplify/Symplify/pull/1213
 [#1212]: https://github.com/Symplify/Symplify/pull/1212
 [v5.2.8]: https://github.com/Symplify/Symplify/compare/v5.2.7...v5.2.8
-[@rodrigowebjump]: https://github.com/rodrigowebjump
 [v5.2.7]: https://github.com/Symplify/Symplify/compare/v5.2.4...v5.2.7
 [v5.2.4]: https://github.com/Symplify/Symplify/compare/v5.2.2...v5.2.4
 [v5.2.2]: https://github.com/Symplify/Symplify/compare/v5.2.1...v5.2.2
+[#1221]: https://github.com/Symplify/Symplify/pull/1221
+[#1220]: https://github.com/Symplify/Symplify/pull/1220
+[v5.2.9]: https://github.com/Symplify/Symplify/compare/v5.2.8...v5.2.9
