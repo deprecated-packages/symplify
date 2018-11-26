@@ -28,18 +28,25 @@ final class PushNextDevReleaseWorker implements ReleaseWorkerInterface
 
     public function getPriority(): int
     {
-        return 280;
+        return 50;
     }
 
     public function work(Version $version): void
     {
-        $versionInString = $this->utils->getRequiredNextFormat($version);
+        $versionInString = $this->getVersionDev($version);
 
         $this->processRunner->run(sprintf('git commit -m "open %s"', $versionInString . '-dev'));
     }
 
     public function getDescription(Version $version): string
     {
-        return sprintf('Push "%s" tag to remote repository', $version->getVersionString());
+        $versionInString = $this->getVersionDev($version);
+
+        return sprintf('Push "%s" open to remote repository', $versionInString);
+    }
+
+    private function getVersionDev(Version $version): string
+    {
+        return $this->utils->getNextAliasFormat($version);
     }
 }
