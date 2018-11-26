@@ -17,6 +17,8 @@ composer require symplify/coding-standard --dev
 
 - Rules with :wrench: are configurable.
 
+<br>
+
 ### Make sure That `@param`, `@var`, `@return` and `@throw` Types Exist
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff`](src/Sniffs/Commenting/AnnotationTypeExistsSniff.php)
@@ -96,6 +98,8 @@ services:
  $value = 5;
 ```
 
+<br>
+
 ### Remove // end of ... Legacy Comments
 
 - class: [`\Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer`](src/Fixer/Commenting/RemoveEndOfFunctionCommentFixer.php)
@@ -115,6 +119,8 @@ services:
 -} // end of someFunction
 +}
 ```
+
+<br>
 
 ### Order Private Methods by Their Use Order
 

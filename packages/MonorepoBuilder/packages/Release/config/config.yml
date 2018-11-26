@@ -1,5 +1,6 @@
 parameters:
     enable_default_release_workers: true
+    is_stage_required: false
 
 services:
     _defaults:
