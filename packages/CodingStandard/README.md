@@ -86,6 +86,34 @@ services:
       */
      private $property;
  }
+
+-/* @var int $value */
++/** @var int $value */
+ $value = 5;
+
+-/** @var $value int */
++/** @var int $value */
+ $value = 5;
+```
+
+### Remove // end of ... Legacy Comments
+
+- class: [`\Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer`](src/Fixer/Commenting/RemoveEndOfFunctionCommentFixer.php)
+
+```yaml
+# ecs.yml
+services:
+    Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer: ~
+```
+
+```diff
+ <?php
+
+ function someFunction()
+ {
+
+-} // end of someFunction
++}
 ```
 
 ### Order Private Methods by Their Use Order
