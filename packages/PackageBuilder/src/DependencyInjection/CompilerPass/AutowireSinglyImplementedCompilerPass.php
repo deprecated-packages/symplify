@@ -5,6 +5,7 @@ namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Throwable;
 use function Safe\class_implements;
 
 /**
@@ -57,10 +58,20 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
         }
 
         $class = $definition->getClass();
-        if (! is_string($class) || ! class_exists($class)) {
+        if (! is_string($class) || ! $this->classExists($class)) {
             return true;
         }
 
         return false;
+    }
+
+    private function classExists(string $class): bool
+    {
+        // Note: Catching the fatal error works only in PHP 7.3+.
+        try {
+            return class_exists($class);
+        } catch (Throwable $exception) {
+            return false;
+        }
     }
 }
