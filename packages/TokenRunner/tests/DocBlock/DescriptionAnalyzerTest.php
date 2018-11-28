@@ -23,7 +23,8 @@ final class DescriptionAnalyzerTest extends TestCase
     }
 
     /**
-     * @dataProvider provideDescriptionTypeNameAndResult()
+     * @dataProvider provideUseful()
+     * @dataProvider provideNotUseful()
      */
     public function test(string $description, TypeNode $typeNode, string $name, bool $expectedIsUseful): void
     {
@@ -32,14 +33,25 @@ final class DescriptionAnalyzerTest extends TestCase
         $this->assertSame($expectedIsUseful, $isUseful);
     }
 
-    public function provideDescriptionTypeNameAndResult(): Iterator
+    public function provideUseful(): Iterator
     {
-        # useful
         yield ['this is description', new IdentifierTypeNode('type'), 'name', true];
-        # not useful
+        yield ['column list', new IdentifierTypeNode('string'), 'columnsList', true];
+    }
+
+    public function provideNotUseful(): Iterator
+    {
+        yield ['current table', new IdentifierTypeNode('string'), 'table', false];
+        yield ['columns list', new IdentifierTypeNode('string'), 'columnsList', false];
+        yield ['Form name', new IdentifierTypeNode('string'), 'formName', false];
+        yield ['rule itself', new IdentifierTypeNode('string'), 'rule', false];
+        yield ['rule                  itself', new IdentifierTypeNode('string'), 'rule', false];
+
         yield ['a Type instance', new IdentifierTypeNode('Type'), 'name', false];
         yield ['an Type instance', new IdentifierTypeNode('Type'), 'name', false];
+        yield ['an     Type      instance', new IdentifierTypeNode('Type'), 'name', false];
         yield ['an \Type instance', new IdentifierTypeNode('Type'), 'name', false];
+        yield ['an    \Type instance', new IdentifierTypeNode('Type'), 'name', false];
         yield ['an TypeInterface instance', new IdentifierTypeNode('Type'), 'name', false];
         yield ['the TypeInterface instance', new IdentifierTypeNode('Type'), 'name', false];
         yield ['the \TypeInterface instance', new IdentifierTypeNode('Type'), 'name', false];

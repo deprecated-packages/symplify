@@ -75,7 +75,7 @@ public function getCount(): int
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        for ($index = count($tokens) - 1; $index > 1; --$index) {
+        foreach ($this->reverseTokens($tokens) as $index => $token) {
             $token = $tokens[$index];
             if (! $this->isNamedFunctionToken($tokens, $token, $index)) {
                 continue;
@@ -132,9 +132,8 @@ public function getCount(): int
         $typehintTypes = $methodWrapper->getReturnTypes();
         $returnTypes = $docBlockWrapper->getPhpDocInfo()->getReturnTypes();
 
-        $returnTagDescription = $returnTagValue->description;
         $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
-            $returnTagDescription,
+            $returnTagValue->description,
             $returnTagValue->type,
             null
         );
@@ -146,7 +145,7 @@ public function getCount(): int
 
         if ($this->paramAndReturnTagAnalyzer->isTagUseful(
             $returnTagValue->type,
-            $returnTagDescription,
+            $returnTagValue->description,
             $typehintTypes
         )) {
             return;
@@ -229,10 +228,6 @@ public function getCount(): int
             return true;
         }
 
-        if ($this->typeNodeAnalyzer->isIntersectionAndNotNullable($typeNode)) {
-            return true;
-        }
-
-        return false;
+        return $this->typeNodeAnalyzer->isIntersectionAndNotNullable($typeNode);
     }
 }
