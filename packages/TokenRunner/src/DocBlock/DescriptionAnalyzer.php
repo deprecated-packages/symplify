@@ -7,14 +7,13 @@ use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
 use function Safe\sprintf;
-use function Safe\substr;
 
 final class DescriptionAnalyzer
 {
     /**
      * @var string
      */
-    private const COMMENTED_PATTERN = '#^((A|An|The|the)( )?)?(\\\\)?%s(Interface)?( instance)?$#i';
+    private const COMMENTED_PATTERN = '#^((A|An|The|the|current)(\s+)?)?(\\\\)?%s(Interface)?(\s+instance|itself)?$#i';
 
     /**
      * @var TypeNodeAnalyzer
@@ -50,19 +49,19 @@ final class DescriptionAnalyzer
         // only 1 type can be analyzed
         $type = array_pop($types);
 
-        if (Strings::endsWith($type, 'Interface')) {
-            // SomeTypeInterface => SomeType
-            $type = substr($type, 0, -strlen('Interface'));
-        }
+        $type = $this->normalizeType($type);
 
-        $typeUselessPattern = sprintf(self::COMMENTED_PATTERN, preg_quote((string) $type, '/'));
-
+        $typeUselessPattern = sprintf(self::COMMENTED_PATTERN, preg_quote($type, '#'));
         if ($type && $this->isDummyDescription($description, $typeUselessPattern, $type)) {
             return false;
         }
 
         // e.g. description: "The object manager" => "Theobjectmanager"
         $descriptionWithoutSpaces = str_replace(' ', '', $description);
+
+        if (Strings::compare($name, $descriptionWithoutSpaces)) {
+            return false;
+        }
 
         // e.g. name "$objectManagerName"
         $nameUselessPattern = sprintf(self::COMMENTED_PATTERN, preg_quote((string) $name, '#'));
@@ -72,7 +71,7 @@ final class DescriptionAnalyzer
 
         // e.g. description: "The URL Generator"
         // e.g. type "UrlGenerator"
-        $typeUselessPattern = sprintf(self::COMMENTED_PATTERN, preg_quote((string) $type, '#'));
+        $typeUselessPattern = sprintf(self::COMMENTED_PATTERN, preg_quote($type, '#'));
         if ((bool) Strings::match($descriptionWithoutSpaces, $typeUselessPattern)) {
             return false;
         }
@@ -85,6 +84,16 @@ final class DescriptionAnalyzer
         }
 
         return true;
+    }
+
+    private function normalizeType(string $type): string
+    {
+        if (Strings::endsWith($type, 'Interface')) {
+            // SomeTypeInterface => SomeType
+            return Strings::substring($type, 0, -strlen('Interface'));
+        }
+
+        return $type;
     }
 
     /**
