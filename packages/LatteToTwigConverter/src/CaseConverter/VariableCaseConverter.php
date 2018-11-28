@@ -14,7 +14,7 @@ final class VariableCaseConverter implements CaseConverterInterface
      * Matches:
      * ->someMethodCall()
      */
-    private const PATTERN_METHOD_CALL = '->([\w-()]+)';
+    private const PATTERN_METHOD_CALL = '->([\w\-\(\)]+)';
 
     /**
      * @var string
@@ -22,7 +22,7 @@ final class VariableCaseConverter implements CaseConverterInterface
      * Matches:
      * ['someValue']
      */
-    private const PATTERN_ARRAY_ACCESS = '\[\'([\w-]+)\'\]';
+    private const PATTERN_ARRAY_ACCESS = '\[\'([\w\-]+)\'\]';
 
     public function convertContent(string $content): string
     {
