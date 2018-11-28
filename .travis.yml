@@ -15,6 +15,8 @@ matrix:
           env: COMPOSER_FLAGS="--prefer-lowest"
         - php: 7.2
           env: MONOREPO_SPLIT=true
+        - php: 7.3
+          env: COMPOSER_FLAGS="--ignore-platform-reqs"
 
 install:
     - composer update $COMPOSER_FLAGS
@@ -24,7 +26,7 @@ before_script:
     - set -e
 
     # disable xdebug if not coverage
-    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini; fi
+    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || echo "xdebug not available"; fi
 
 script:
     - vendor/bin/phpunit
