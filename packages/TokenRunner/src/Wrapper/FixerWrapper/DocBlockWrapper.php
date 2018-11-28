@@ -106,7 +106,7 @@ final class DocBlockWrapper
 
     public function saveNewPhpDocInfo(): void
     {
-        $newDocCommentContent = $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
+        $newDocCommentContent = $this->getContent();
         if ($newDocCommentContent) {
             // create and save new doc comment
             $this->tokens[$this->position] = new Token([T_DOC_COMMENT, $newDocCommentContent]);

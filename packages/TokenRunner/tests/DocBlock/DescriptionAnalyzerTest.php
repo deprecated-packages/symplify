@@ -42,7 +42,6 @@ final class DescriptionAnalyzerTest extends TestCase
     public function provideNotUseful(): Iterator
     {
         yield ['current table', new IdentifierTypeNode('string'), 'table', false];
-        yield ['current table', new IdentifierTypeNode('string'), 'table', false];
         yield ['columns list', new IdentifierTypeNode('string'), 'columnsList', false];
         yield ['Form name', new IdentifierTypeNode('string'), 'formName', false];
         yield ['rule itself', new IdentifierTypeNode('string'), 'rule', false];
