@@ -9,7 +9,27 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.2.11 - 2018-11-26
+## Unreleased
+
+### Added
+
+- [#1227] travis: add PHP 7.3 build
+
+### Changed
+
+#### ChanelogLinker
+
+- [#1224] Fixing some small typos and adding description to link command, Thanks to [@jawira]
+
+#### EasyCodingStandard
+
+- [#1226] Decouple reporting from `CheckCommand` to `CheckCommandReporter`, Thanks to [@azdanov]
+
+#### TokenRunner
+
+- [#1228] Improve `DescriptionAnalyzer`
+
+## [v5.2.11] - 2018-11-26
 
 ### Added
 
@@ -350,3 +370,9 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1221]: https://github.com/Symplify/Symplify/pull/1221
 [#1220]: https://github.com/Symplify/Symplify/pull/1220
 [v5.2.9]: https://github.com/Symplify/Symplify/compare/v5.2.8...v5.2.9
+[#1228]: https://github.com/Symplify/Symplify/pull/1228
+[#1227]: https://github.com/Symplify/Symplify/pull/1227
+[#1226]: https://github.com/Symplify/Symplify/pull/1226
+[#1224]: https://github.com/Symplify/Symplify/pull/1224
+[@jawira]: https://github.com/jawira
+[v5.2.11]: https://github.com/Symplify/Symplify/compare/v5.2.9...v5.2.11
