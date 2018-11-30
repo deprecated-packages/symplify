@@ -9,6 +9,12 @@ use Symfony\Component\Process\Process;
 final class ProcessRunner
 {
     /**
+     * Reasonable timeout to report hang off: 10 minutes
+     * @var float
+     */
+    private const TIMEOUT = 10 * 60.0;
+
+    /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
@@ -18,17 +24,44 @@ final class ProcessRunner
         $this->symfonyStyle = $symfonyStyle;
     }
 
-    public function run(string $commandLine, bool $shouldDisplayOutput = false): void
+    /**
+     * @param string|string[] $commandLine
+     */
+    public function run($commandLine, bool $shouldDisplayOutput = false): void
     {
         if ($this->symfonyStyle->isVerbose()) {
-            $this->symfonyStyle->note('Running process: ' . $commandLine);
+            $this->symfonyStyle->note('Running process: ' . $this->normalizeToString($commandLine));
         }
 
-        // set reasonable timeout to report hang off, 10 minutes
-        $process = new Process($commandLine, null, null, null, 10 * 60.0);
+        $process = $this->createProcess($commandLine);
         $process->run();
 
         $this->reportResult($shouldDisplayOutput, $process);
+    }
+
+    /**
+     * @param string|string[] $content
+     */
+    private function normalizeToString($content): string
+    {
+        if (is_array($content)) {
+            return implode(' ', $content);
+        }
+
+        return $content;
+    }
+
+    /**
+     * @param string|string[] $commandLine
+     */
+    private function createProcess($commandLine): Process
+    {
+        // @since Symfony 4.2: https://github.com/symfony/symfony/pull/27821
+        if (is_string($commandLine) && method_exists(Process::class, 'fromShellCommandline')) {
+            return Process::fromShellCommandline($commandLine, null, null, null, self::TIMEOUT);
+        }
+
+        return new Process($commandLine, null, null, null, self::TIMEOUT);
     }
 
     private function reportResult(bool $shouldDisplayOutput, Process $process): void

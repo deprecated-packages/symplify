@@ -96,6 +96,7 @@ parameters:
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::getParameter\(\)#'
 
         # false positives
+        - '#Call to function method_exists\(\) with (.*?) and (.*?)fromShellCommandline(.*?) will always evaluate to false#'
         - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutoReturnFactoryCompilerPass::findFactoriesWithoutUsage\(\) should return array<string> but returns array<int, string\|null>#'
         - '#Array \(array<string>\) does not accept string\|null#'
 
@@ -117,6 +118,9 @@ parameters:
 
         # unclear
         - '#Parameter \#1 \$string of function strlen expects string, string\|false given#'
+
+        # Symfony 4.2 typehint BC-break
+        - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
 services:
     -

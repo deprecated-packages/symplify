@@ -46,7 +46,7 @@ final class DetectParametersCompilerPass implements CompilerPassInterface
 
     private function detectRepositoryUrlFromGit(): string
     {
-        $process = new Process('git config --get remote.origin.url');
+        $process = new Process(['git', 'config', '--get', 'remote.origin.url']);
         $process->run();
 
         return $this->githubRepositoryFromRemoteResolver->resolveFromUrl(trim($process->getOutput()));
