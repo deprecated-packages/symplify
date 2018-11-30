@@ -56,7 +56,7 @@ final class GitCommitDateTagResolver
         if (isset($this->commitHashToTag[$commitHash])) {
             $tag = $this->commitHashToTag[$commitHash];
         } else {
-            $process = new Process('git describe --contains ' . $commitHash);
+            $process = new Process(['git', 'describe', '--contains', $commitHash]);
             $process->run();
             $tag = trim($process->getOutput());
             $this->commitHashToTag[$commitHash] = $tag;
@@ -76,7 +76,7 @@ final class GitCommitDateTagResolver
 
     private function getDatesWithTagsInString(): string
     {
-        $process = new Process('git log --tags --simplify-by-decoration --pretty="format:%ai %d"');
+        $process = new Process(['git', 'log', '--tags', '--simplify-by-decoration', '--pretty="format:%ai %d"']);
         $process->run();
 
         return trim($process->getOutput());
