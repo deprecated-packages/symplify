@@ -20,7 +20,7 @@ final class GitManager
 
     public function getMostRecentTag(string $gitDirectory): string
     {
-        $process = new Process('git tag -l --sort=committerdate', $gitDirectory);
+        $process = new Process(['git', 'tag', '-l', '--sort=committerdate'], $gitDirectory);
         $process->run();
 
         $tags = $process->getOutput();
