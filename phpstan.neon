@@ -125,6 +125,9 @@ parameters:
         # false positive, known string
         - '#Cannot cast array<string>\|bool\|string\|null to string#'
 
+        # false positive
+        - '#Call to an undefined method Psr\\Container\\ContainerInterface::set\(\)#'
+
 services:
     -
         class: Symplify\PHPStanExtensions\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension
