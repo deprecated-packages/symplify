@@ -7,20 +7,23 @@ use function Safe\ksort;
 trait RecursiveKeySortTrait
 {
     /**
-     * @param mixed[] $array
+     * @param mixed $array
+     * @return mixed
      */
-    private static function recursiveSort(array &$array): void
+    private function recursiveSort($array)
     {
         if (! is_array($array)) {
-            return;
+            return $array;
         }
 
         ksort($array);
 
-        foreach ($array as $key => &$value) {
+        foreach ($array as $key => $value) {
             if (is_array($value)) {
-                self::recursiveSort($value);
+                $array[$key] = $this->recursiveSort($value);
             }
         }
+
+        return $array;
     }
 }

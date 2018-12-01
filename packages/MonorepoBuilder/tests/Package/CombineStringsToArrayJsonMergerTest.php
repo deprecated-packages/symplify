@@ -45,8 +45,8 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTe
             ],
         ];
 
-        $this->recursiveSort($original);
-        $this->recursiveSort($merged);
+        $original = $this->recursiveSort($original);
+        $merged = $this->recursiveSort($merged);
 
         $this->assertSame($original, $merged);
     }

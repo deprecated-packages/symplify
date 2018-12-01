@@ -49,8 +49,8 @@ final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
             ],
         ];
 
-        $this->recursiveSort($original);
-        $this->recursiveSort($merged);
+        $original = $this->recursiveSort($original);
+        $merged = $this->recursiveSort($merged);
 
         $this->assertSame($original, $merged);
     }
