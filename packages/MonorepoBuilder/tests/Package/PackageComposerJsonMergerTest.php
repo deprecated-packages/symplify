@@ -5,11 +5,14 @@ namespace Symplify\MonorepoBuilder\Tests\Package;
 use Symfony\Component\Finder\Finder;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\Tests\RecursiveKeySortTrait;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
 {
+    use RecursiveKeySortTrait;
+
     /**
      * @var PackageComposerJsonMerger
      */
@@ -32,7 +35,7 @@ final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
             $this->getFileInfosFromDirectory(__DIR__ . '/Source')
         );
 
-        $this->assertSame([
+        $original = [
             'require' => [
                 'rector/rector' => '^2.0',
                 'phpunit/phpunit' => '^2.0',
@@ -44,7 +47,12 @@ final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
                     'Symplify\MonorepoBuilder\\' => 'src',
                 ],
             ],
-        ], $merged);
+        ];
+
+        $this->recursiveSort($original);
+        $this->recursiveSort($merged);
+
+        $this->assertSame($original, $merged);
     }
 
     public function testUniqueRepositories(): void
