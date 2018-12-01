@@ -5,6 +5,7 @@ namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Throwable;
 use function Safe\class_implements;
 
 /**
@@ -13,6 +14,26 @@ use function Safe\class_implements;
  */
 final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterface
 {
+    /**
+     * Classes that are definitions, but extend/implement non-existing code
+     * @see https://github.com/Symplify/Symplify/issues/1223
+     * @var string[]
+     */
+    private $excludedPossibleFatalClasses = [];
+
+    /**
+     * @param string[] $excludedPossibleFatalClasses
+     */
+    public function __construct(array $excludedPossibleFatalClasses = [
+        'Symfony\Bundle\SecurityBundle\Templating\Helper\LogoutUrlHelper',
+        'Symfony\Bundle\SecurityBundle\Templating\Helper\SecurityHelper',
+        'Symfony\Bridge\Doctrine\Form\Type\EntityType',
+        'JK\MoneyBundle\Form\Type\MoneyType',
+    ])
+    {
+        $this->excludedPossibleFatalClasses = $excludedPossibleFatalClasses;
+    }
+
     public function process(ContainerBuilder $containerBuilder): void
     {
         $singlyImplemented = $this->filterSinglyImplementedInterfaces($containerBuilder->getDefinitions());
@@ -41,8 +62,6 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
             }
         }
 
-        $singlyImplemented = array_filter($singlyImplemented);
-
         return array_filter($singlyImplemented);
     }
 
@@ -56,11 +75,25 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
             return true;
         }
 
+        if (in_array($definition->getClass(), $this->excludedPossibleFatalClasses, true)) {
+            return true;
+        }
+
         $class = $definition->getClass();
-        if (! is_string($class) || ! class_exists($class)) {
+        if (! is_string($class) || ! $this->classExists($class)) {
             return true;
         }
 
         return false;
+    }
+
+    private function classExists(string $class): bool
+    {
+        // Note: Catching the fatal error works only in PHP 7.3+.
+        try {
+            return class_exists($class);
+        } catch (Throwable $throwable) {
+            return false;
+        }
     }
 }
