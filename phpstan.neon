@@ -122,6 +122,9 @@ parameters:
         # Symfony 4.2 typehint BC-break
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
+        # false positive, known string
+        - '#Cannot cast array<string>\|bool\|string\|null to string#'
+
 services:
     -
         class: Symplify\PHPStanExtensions\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension
