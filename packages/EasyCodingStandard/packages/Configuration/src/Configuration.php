@@ -2,8 +2,11 @@
 
 namespace Symplify\EasyCodingStandard\Configuration;
 
+use Jean85\PrettyVersions;
 use Symfony\Component\Console\Input\InputInterface;
+use Symplify\EasyCodingStandard\Console\Output\JsonOutputFormatter;
 use Symplify\EasyCodingStandard\Exception\Configuration\SourceNotFoundException;
+use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 use function Safe\sprintf;
 
 final class Configuration
@@ -29,10 +32,23 @@ final class Configuration
     private $showErrorTable = true;
 
     /**
+     * @var string
+     */
+    private $outputFormat;
+
+    /**
+     * @var string|null
+     */
+    private $configFilePath;
+
+    /**
      * @var string[]
      */
     private $sources = [];
 
+    /**
+     * Needs to run in the start of the life cycle, since the rest of workflow uses it.
+     */
     public function resolveFromInput(InputInterface $input): void
     {
         /** @var string[] $sources */
@@ -40,8 +56,9 @@ final class Configuration
         $this->setSources($sources);
         $this->isFixer = (bool) $input->getOption(Option::FIX);
         $this->shouldClearCache = (bool) $input->getOption(Option::CLEAR_CACHE);
-        $this->showProgressBar = ! (bool) $input->getOption(Option::NO_PROGRESS_BAR);
+        $this->showProgressBar = $this->canShowProgressBar($input);
         $this->showErrorTable = ! (bool) $input->getOption(Option::NO_ERROR_TABLE);
+        $this->outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT_OPTION);
     }
 
     /**
@@ -80,6 +97,33 @@ final class Configuration
         return $this->showErrorTable;
     }
 
+    public function getOutputFormat(): string
+    {
+        return $this->outputFormat;
+    }
+
+    public function setConfigFilePathFromInput(InputInterface $input): void
+    {
+        if ($input->getParameterOption('--config')) {
+            $this->configFilePath = $input->getParameterOption('--config');
+            return;
+        }
+
+        $this->configFilePath = ConfigFileFinder::provide('ecs');
+    }
+
+    public function getConfigFilePath(): ?string
+    {
+        return $this->configFilePath;
+    }
+
+    public function getPrettyVersion(): string
+    {
+        $version = PrettyVersions::getVersion('symplify/easy-coding-standard');
+
+        return $version->getPrettyVersion();
+    }
+
     /**
      * @param string[] $sources
      */
@@ -87,6 +131,14 @@ final class Configuration
     {
         $this->ensureSourcesExists($sources);
         $this->sources = $this->normalizeSources($sources);
+    }
+
+    private function canShowProgressBar(InputInterface $input): bool
+    {
+        $notJsonOutput = $input->getOption(Option::OUTPUT_FORMAT_OPTION) !== JsonOutputFormatter::NAME;
+        $progressBarEnabled = ! (bool) $input->getOption(Option::NO_PROGRESS_BAR);
+
+        return $notJsonOutput && $progressBarEnabled;
     }
 
     /**

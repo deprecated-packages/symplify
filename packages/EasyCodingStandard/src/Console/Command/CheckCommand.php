@@ -11,7 +11,8 @@ use Symplify\EasyCodingStandard\Application\Application;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\Configuration\Option;
-use Symplify\EasyCodingStandard\Console\Output\CheckCommandReporter;
+use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
+use Symplify\EasyCodingStandard\Console\Output\TableOutputFormatter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class CheckCommand extends Command
@@ -27,20 +28,20 @@ final class CheckCommand extends Command
     private $configuration;
 
     /**
-     * @var CheckCommandReporter
+     * @var OutputFormatterCollector
      */
-    private $checkCommandReporter;
+    private $outputFormatterCollector;
 
     public function __construct(
         Application $application,
         Configuration $configuration,
-        CheckCommandReporter $checkCommandReporter
+        OutputFormatterCollector $outputFormatterCollector
     ) {
         parent::__construct();
 
         $this->ecsApplication = $application;
         $this->configuration = $configuration;
-        $this->checkCommandReporter = $checkCommandReporter;
+        $this->outputFormatterCollector = $outputFormatterCollector;
     }
 
     protected function configure(): void
@@ -66,16 +67,27 @@ final class CheckCommand extends Command
             InputOption::VALUE_NONE,
             'Hide error table. Useful e.g. for fast check of error count.'
         );
+        $this->addOption(
+            Option::OUTPUT_FORMAT_OPTION,
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Select output format',
+            TableOutputFormatter::NAME
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $outputFormat = $input->getOption(Option::OUTPUT_FORMAT_OPTION);
+        $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
+
         $this->ensureSomeCheckersAreRegistered();
 
         $this->configuration->resolveFromInput($input);
+
         $processedFilesCount = $this->ecsApplication->run();
 
-        return $this->checkCommandReporter->report($processedFilesCount);
+        return $outputFormatter->report($processedFilesCount);
     }
 
     private function ensureSomeCheckersAreRegistered(): void
@@ -83,7 +95,7 @@ final class CheckCommand extends Command
         $totalCheckersLoaded = $this->ecsApplication->getCheckerCount();
         if ($totalCheckersLoaded === 0) {
             throw new NoCheckersLoadedException(
-                'No checkers were found. Registers them in your config in "services:" '
+                'No checkers were found. Register them in your config in "services:" '
                 . 'section, load them via "--config <file>.yml" or "--level <level> option.'
             );
         }
