@@ -4,13 +4,13 @@ namespace Symplify\MonorepoBuilder\Tests;
 
 use function Safe\ksort;
 
-trait RecursiveKeySortTrait
+final class ArraySorter
 {
     /**
      * @param mixed $array
      * @return mixed
      */
-    private function recursiveSort($array)
+    public function recursiveSort($array)
     {
         if (! is_array($array)) {
             return $array;
