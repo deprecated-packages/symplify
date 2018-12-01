@@ -5,14 +5,12 @@ namespace Symplify\MonorepoBuilder\Tests\Package;
 use Symfony\Component\Finder\Finder;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
-use Symplify\MonorepoBuilder\Tests\RecursiveKeySortTrait;
+use Symplify\MonorepoBuilder\Tests\ArraySorter;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTestCase
 {
-    use RecursiveKeySortTrait;
-
     /**
      * @var PackageComposerJsonMerger
      */
@@ -23,10 +21,16 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTe
      */
     private $finderSanitizer;
 
+    /**
+     * @var ArraySorter
+     */
+    private $arraySorter;
+
     protected function setUp(): void
     {
         $this->packageComposerJsonMerger = $this->container->get(PackageComposerJsonMerger::class);
         $this->finderSanitizer = $this->container->get(FinderSanitizer::class);
+        $this->arraySorter = new $this->container->get(ArraySorter::class);
     }
 
     public function testSharedNamespaces(): void
@@ -45,8 +49,8 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTe
             ],
         ];
 
-        $original = $this->recursiveSort($original);
-        $merged = $this->recursiveSort($merged);
+        $original = $this->arraySorter->recursiveSort($original);
+        $merged = $this->arraySorter->recursiveSort($merged);
 
         $this->assertSame($original, $merged);
     }
