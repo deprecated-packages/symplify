@@ -5,11 +5,14 @@ namespace Symplify\MonorepoBuilder\Tests\Package;
 use Symfony\Component\Finder\Finder;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\Tests\RecursiveKeySortTrait;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTestCase
 {
+    use RecursiveKeySortTrait;
+
     /**
      * @var PackageComposerJsonMerger
      */
@@ -31,8 +34,7 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTe
         $merged = $this->packageComposerJsonMerger->mergeFileInfos(
             $this->getFileInfosFromDirectory(__DIR__ . '/SourceAutoloadSharedNamespaces')
         );
-
-        $this->assertSame([
+        $original = [
             'autoload' => [
                 'psr-4' => [
                     'ACME\Model\Core\\' => ['packages/A', 'packages/B'],
@@ -41,7 +43,12 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTe
                     'ACME\\YetYetAnother\\' => 'packages/A',
                 ],
             ],
-        ], $merged);
+        ];
+
+        $this->recursiveSort($original);
+        $this->recursiveSort($merged);
+
+        $this->assertSame($original, $merged);
     }
 
     /**
