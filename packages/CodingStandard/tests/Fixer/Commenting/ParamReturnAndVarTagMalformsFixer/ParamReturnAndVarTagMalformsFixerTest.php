@@ -31,6 +31,7 @@ final class ParamReturnAndVarTagMalformsFixerTest extends AbstractCheckerTestCas
         yield [__DIR__ . '/wrong/wrong9.php.inc', __DIR__ . '/fixed/fixed9.php.inc'];
         yield [__DIR__ . '/wrong/wrong10.php.inc', __DIR__ . '/fixed/fixed10.php.inc'];
         yield [__DIR__ . '/wrong/wrong11.php.inc', __DIR__ . '/fixed/fixed11.php.inc'];
+        yield [__DIR__ . '/wrong/wrong12.php.inc', __DIR__ . '/fixed/fixed12.php.inc'];
     }
 
     protected function provideConfig(): string
