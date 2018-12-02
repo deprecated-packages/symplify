@@ -12,6 +12,7 @@ services:
             SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
             Symfony\Component\Finder\SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
+            Symfony\Component\DependencyInjection\ContainerInterface: "Use constructor injection, collectors or factory instead"
 
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
@@ -58,6 +59,12 @@ parameters:
 
     skip:
         Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
+            # allowed spots for Container
+            - '*/ContainerFactory.php'
+            - '*Kernel.php'
+            - 'packages/PackageBuilder/src/Parameter/ParameterProvider.php'
+            - 'packages/PackageBuilder/src/Parameter/ParameterTypoProofreader.php'
+            - 'packages/EasyCodingStandardTester/src/Testing/AbstractCheckerTestCase.php'
             # converts non-preferred type
             - 'packages/PackageBuilder/src/FileSystem/SmartFileInfo.php'
             - 'packages/PackageBuilder/src/FileSystem/FinderSanitizer.php'
