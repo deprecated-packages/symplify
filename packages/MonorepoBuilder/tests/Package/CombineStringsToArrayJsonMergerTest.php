@@ -3,7 +3,6 @@
 namespace Symplify\MonorepoBuilder\Tests\Package;
 
 use Symfony\Component\Finder\Finder;
-use Symplify\MonorepoBuilder\ArraySorter;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
@@ -21,16 +20,10 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTe
      */
     private $finderSanitizer;
 
-    /**
-     * @var ArraySorter
-     */
-    private $arraySorter;
-
     protected function setUp(): void
     {
         $this->packageComposerJsonMerger = $this->container->get(PackageComposerJsonMerger::class);
         $this->finderSanitizer = $this->container->get(FinderSanitizer::class);
-        $this->arraySorter = $this->container->get(ArraySorter::class);
     }
 
     public function testSharedNamespaces(): void
@@ -38,21 +31,17 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTe
         $merged = $this->packageComposerJsonMerger->mergeFileInfos(
             $this->getFileInfosFromDirectory(__DIR__ . '/SourceAutoloadSharedNamespaces')
         );
-        $original = [
+
+        $this->assertSame([
             'autoload' => [
                 'psr-4' => [
-                    'ACME\Model\Core\\' => ['packages/A', 'packages/B'],
                     'ACME\Another\\' => 'packages/A',
+                    'ACME\Model\Core\\' => ['packages/A', 'packages/B'],
                     'ACME\\YetAnother\\' => ['packages/A'],
                     'ACME\\YetYetAnother\\' => 'packages/A',
                 ],
             ],
-        ];
-
-        $original = $this->arraySorter->recursiveSort($original);
-        $merged = $this->arraySorter->recursiveSort($merged);
-
-        $this->assertSame($original, $merged);
+        ], $merged);
     }
 
     /**
