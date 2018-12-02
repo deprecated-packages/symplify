@@ -8,12 +8,12 @@ use function Safe\sort;
 final class ArraySorter
 {
     /**
-     * @param mixed $array
-     * @return mixed
+     * @param mixed[] $array
+     * @return mixed[]
      */
-    public function recursiveSort($array)
+    public function recursiveSort(array $array): array
     {
-        if (! is_array($array) || empty($array)) {
+        if (empty($array)) {
             return $array;
         }
 
