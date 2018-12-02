@@ -24,7 +24,7 @@ final class GeneratorElementGuardForObjectSorterTest extends AbstractGeneratorTe
         $this->generator->run();
     }
 
-    protected function getConfig(): string
+    protected function provideConfig(): string
     {
         return __DIR__ . '/GeneratorElementGuardSource/config-invalid-object-sorter.yml';
     }
