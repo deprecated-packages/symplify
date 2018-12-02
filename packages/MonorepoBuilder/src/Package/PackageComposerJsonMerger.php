@@ -94,7 +94,7 @@ final class PackageComposerJsonMerger
                 $packageComposerJson[$section]
             );
 
-            $merged = $this->arraySorter->recursiveSort($merged);
+            $merged[$section] = $this->arraySorter->recursiveSort($merged[$section]);
 
             // uniquate special cases, ref https://github.com/Symplify/Symplify/issues/1197
             if ($section === 'repositories') {
