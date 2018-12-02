@@ -121,6 +121,20 @@ final class DocBlockWrapper
         }
     }
 
+    public function isBoolProperty(): bool
+    {
+        $varTagValue = $this->phpDocInfo->getVarTagValue();
+        if ($varTagValue === null) {
+            return false;
+        }
+
+        if (! $varTagValue->type instanceof IdentifierTypeNode) {
+            return false;
+        }
+
+        return in_array($varTagValue->type->name, ['bool', 'boolean'], true);
+    }
+
     /**
      * @todo move to some Analyzer
      */
