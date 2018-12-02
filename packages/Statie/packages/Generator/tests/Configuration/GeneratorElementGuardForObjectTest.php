@@ -25,7 +25,7 @@ final class GeneratorElementGuardForObjectTest extends AbstractGeneratorTest
         $this->generator->run();
     }
 
-    protected function getConfig(): string
+    protected function provideConfig(): string
     {
         return __DIR__ . '/GeneratorElementGuardSource/config-invalid-object.yml';
     }

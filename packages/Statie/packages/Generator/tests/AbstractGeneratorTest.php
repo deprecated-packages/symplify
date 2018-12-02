@@ -3,15 +3,13 @@
 namespace Symplify\Statie\Generator\Tests;
 
 use Nette\Utils\FileSystem;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
+use Symplify\Statie\Tests\AbstractConfigAwareContainerTestCase;
 
-abstract class AbstractGeneratorTest extends TestCase
+abstract class AbstractGeneratorTest extends AbstractConfigAwareContainerTestCase
 {
     /**
      * @var string
@@ -29,11 +27,6 @@ abstract class AbstractGeneratorTest extends TestCase
     protected $generator;
 
     /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
      * @var FileSystemWriter
      */
     protected $fileSystemWriter;
@@ -45,7 +38,6 @@ abstract class AbstractGeneratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->container = (new ContainerFactory())->createWithConfig($this->getConfig());
         $this->generator = $this->container->get(Generator::class);
         $this->fileSystemWriter = $this->container->get(FileSystemWriter::class);
 
@@ -57,8 +49,6 @@ abstract class AbstractGeneratorTest extends TestCase
     {
         FileSystem::delete($this->outputDirectory);
     }
-
-    abstract protected function getConfig(): string;
 
     private function prepareConfiguration(): void
     {

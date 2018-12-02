@@ -32,7 +32,7 @@ final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
         $this->assertSame('Statie 4: How to Create The Simplest Blog', $relatedItem['title']);
     }
 
-    protected function getConfig(): string
+    protected function provideConfig(): string
     {
         return __DIR__ . '/GeneratorSource/statie.yml';
     }

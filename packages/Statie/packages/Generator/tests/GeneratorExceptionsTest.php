@@ -50,7 +50,7 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
         $post['key'];
     }
 
-    protected function getConfig(): string
+    protected function provideConfig(): string
     {
         return __DIR__ . '/GeneratorSource/statie.yml';
     }
