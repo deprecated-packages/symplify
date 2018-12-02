@@ -3,6 +3,7 @@
 namespace Symplify\MonorepoBuilder;
 
 use function Safe\ksort;
+use function Safe\sort;
 
 final class ArraySorter
 {
@@ -12,11 +13,15 @@ final class ArraySorter
      */
     public function recursiveSort($array)
     {
-        if (! is_array($array)) {
+        if (! is_array($array) || empty($array)) {
             return $array;
         }
 
-        ksort($array);
+        if ($this->isSequential($array)) {
+            sort($array);
+        } else {
+            ksort($array);
+        }
 
         foreach ($array as $key => $value) {
             if (is_array($value)) {
@@ -25,5 +30,13 @@ final class ArraySorter
         }
 
         return $array;
+    }
+
+    /**
+     * @param mixed[] $array
+     */
+    private function isSequential(array $array): bool
+    {
+        return array_keys($array) === range(0, count($array) - 1);
     }
 }
