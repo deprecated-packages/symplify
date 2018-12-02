@@ -23,7 +23,7 @@ abstract class AbstractParameterImportsYamlFileLoader extends YamlFileLoader
 
     /**
      * @param string $file
-     * @return array|mixed|mixed[]
+     * @return mixed|mixed[]
      */
     protected function loadFile($file)
     {
