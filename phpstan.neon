@@ -4,6 +4,7 @@ includes:
     - 'vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon'
 
 parameters:
+    level: max
     reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
@@ -12,6 +13,7 @@ parameters:
         - *packages/CodingStandard/tests/**/wrong*
         - *packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*
         # tests
+        - packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php
         - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
         - packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
         - packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/AbstractSomeClass.php
