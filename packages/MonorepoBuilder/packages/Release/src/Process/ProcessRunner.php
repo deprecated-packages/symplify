@@ -27,7 +27,7 @@ final class ProcessRunner
     /**
      * @param string|string[] $commandLine
      */
-    public function run($commandLine, bool $shouldDisplayOutput = false): Process
+    public function run($commandLine, bool $shouldDisplayOutput = false): string
     {
         if ($this->symfonyStyle->isVerbose()) {
             $this->symfonyStyle->note('Running process: ' . $this->normalizeToString($commandLine));
@@ -38,7 +38,7 @@ final class ProcessRunner
 
         $this->reportResult($shouldDisplayOutput, $process);
 
-        return $process;
+        return $process->getOutput();
     }
 
     /**
