@@ -14,8 +14,8 @@ use Symplify\MonorepoBuilder\Configuration\Option;
 use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
-use Symplify\MonorepoBuilder\Release\Exception\ConfigurationException;
 use Symplify\MonorepoBuilder\Release\Exception\ConflictingPriorityException;
+use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -25,11 +25,6 @@ use function Safe\sprintf;
 
 final class ReleaseCommand extends Command
 {
-    /**
-     * @var bool
-     */
-    private $isStageRequired = false;
-
     /**
      * @var ReleaseWorkerInterface[]
      */
@@ -46,6 +41,11 @@ final class ReleaseCommand extends Command
     private $gitManager;
 
     /**
+     * @var ReleaseGuard
+     */
+    private $releaseGuard;
+
+    /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
      */
     public function __construct(
@@ -53,13 +53,13 @@ final class ReleaseCommand extends Command
         GitManager $gitManager,
         array $releaseWorkers,
         bool $enableDefaultReleaseWorkers,
-        bool $isStageRequired
+        ReleaseGuard $releaseGuard
     ) {
         parent::__construct();
 
         $this->symfonyStyle = $symfonyStyle;
         $this->gitManager = $gitManager;
-        $this->isStageRequired = $isStageRequired;
+        $this->releaseGuard = $releaseGuard;
 
         $this->setWorkersAndSortByPriority($releaseWorkers, $enableDefaultReleaseWorkers);
     }
@@ -85,30 +85,11 @@ final class ReleaseCommand extends Command
         $this->addOption(Option::STAGE, null, InputOption::VALUE_REQUIRED, 'Name of stage to perform');
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output): void
-    {
-        if ($this->isStageRequired) {
-            $stage = $input->getOption(Option::STAGE);
-            if ($stage === null) {
-                $availableStages = $this->getAvailableStages();
-                // there are no stages → nothing to filter by
-                if ($availableStages === []) {
-                    return;
-                }
-
-                throw new ConfigurationException(sprintf(
-                    'Set "--%s <name>" option first. Pick one of: "%s"',
-                    Option::STAGE,
-                    implode(', ', $availableStages)
-                ));
-            }
-        }
-
-        parent::initialize($input, $output);
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        // validation phase
+        $this->releaseGuard->guardStage($input->getOption(Option::STAGE));
+
         /** @var string $versionArgument */
         $versionArgument = $input->getArgument(Option::VERSION);
 
@@ -133,7 +114,7 @@ final class ReleaseCommand extends Command
         }
 
         if ($isDryRun) {
-            $this->symfonyStyle->note('Running dry mode, nothing is changed');
+            $this->symfonyStyle->note('Running in dry mode, nothing is changed');
         } else {
             $this->symfonyStyle->success(sprintf('Version "%s" is now released!', $version->getVersionString()));
         }
@@ -160,22 +141,6 @@ final class ReleaseCommand extends Command
         }
 
         krsort($this->releaseWorkersByPriority);
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getAvailableStages(): array
-    {
-        $availableStages = [];
-
-        foreach ($this->releaseWorkersByPriority as $releaseWorker) {
-            if ($releaseWorker instanceof StageAwareInterface) {
-                $availableStages[] = $releaseWorker->getStage();
-            }
-        }
-
-        return array_unique($availableStages);
     }
 
     private function createValidVersion(string $versionArgument): Version
@@ -214,7 +179,7 @@ final class ReleaseCommand extends Command
             return;
         }
 
-        // show priority on -v/--verbose/--debug
+        // show priority and class on -v/--verbose/--debug
         $this->symfonyStyle->writeln('priority: ' . $releaseWorker->getPriority());
         $this->symfonyStyle->writeln('class: ' . get_class($releaseWorker));
         $this->symfonyStyle->newLine();
