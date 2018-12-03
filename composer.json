@@ -79,6 +79,7 @@
             "Symplify\\LatteToTwigConverter\\Tests\\": "packages/LatteToTwigConverter/tests",
             "Symplify\\MonorepoBuilder\\Split\\Tests\\": "packages/MonorepoBuilder/packages/Split/tests",
             "Symplify\\MonorepoBuilder\\Tests\\": "packages/MonorepoBuilder/tests",
+            "Symplify\\PHPStanExtensions\\Tests\\": "packages/PHPStanExtensions/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
             "Symplify\\Statie\\Latte\\Tests\\": "packages/Statie/packages/Latte/tests",
@@ -103,8 +104,8 @@
             "packages/EasyCodingStandard/bin/ecs check packages --fix",
             "bin/clear_readmes.sh"
         ],
-        "phpstan": "vendor/bin/phpstan analyse packages --level max",
-        "phpstan-stats": "vendor/bin/phpstan analyse packages --level max --error-format stats",
+        "phpstan": "vendor/bin/phpstan analyse packages",
+        "phpstan-stats": "vendor/bin/phpstan analyse packages --error-format stats",
         "changelog": [
             "packages/ChangelogLinker/bin/changelog-linker dump-merges --in-categories --in-packages",
             "packages/ChangelogLinker/bin/changelog-linker link",

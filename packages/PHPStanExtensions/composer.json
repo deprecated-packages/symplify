@@ -12,6 +12,11 @@
             "Symplify\\PHPStanExtensions\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\PHPStanExtensions\\Tests\\": "tests"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "5.3-dev"

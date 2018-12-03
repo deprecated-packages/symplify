@@ -7,3 +7,8 @@ services:
 
     - Symfony\Component\Console\Terminal
     - Symplify\PHPStanExtensions\Error\ErrorGrouper
+
+    -
+        class: Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
+        tags:
+            - phpstan.rules.rule

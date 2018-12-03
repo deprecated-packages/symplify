@@ -22,7 +22,7 @@ install:
     - composer update $COMPOSER_FLAGS
 
 before_script:
-    # make the script fail for any failed command
+    # make the script fail for any failed multi-line command (starts with "|" then new line)
     - set -e
 
     # disable xdebug if not coverage
@@ -35,7 +35,7 @@ script:
     - |
       if [[ $CODE_ANALYSIS == true ]]; then
           packages/EasyCodingStandard/bin/ecs check packages
-          vendor/bin/phpstan analyse packages --level max
+          vendor/bin/phpstan analyse packages
       fi
 
     # each package standalone run https://stackoverflow.com/a/6787956/1348344
