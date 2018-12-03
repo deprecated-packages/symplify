@@ -2,7 +2,6 @@
 
 namespace Symplify\MonorepoBuilder\Release\Command;
 
-use Nette\Utils\Strings;
 use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,23 +12,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Configuration\Option;
 use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
-use Symplify\MonorepoBuilder\Release\Exception\ConflictingPriorityException;
 use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
+use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use function Safe\getcwd;
-use function Safe\krsort;
 use function Safe\sprintf;
 
 final class ReleaseCommand extends Command
 {
-    /**
-     * @var ReleaseWorkerInterface[]
-     */
-    private $releaseWorkersByPriority = [];
-
     /**
      * @var SymfonyStyle
      */
@@ -46,13 +38,14 @@ final class ReleaseCommand extends Command
     private $releaseGuard;
 
     /**
-     * @param ReleaseWorkerInterface[] $releaseWorkers
+     * @var ReleaseWorkerProvider
      */
+    private $releaseWorkerProvider;
+
     public function __construct(
         SymfonyStyle $symfonyStyle,
         GitManager $gitManager,
-        array $releaseWorkers,
-        bool $enableDefaultReleaseWorkers,
+        ReleaseWorkerProvider $releaseWorkerProvider,
         ReleaseGuard $releaseGuard
     ) {
         parent::__construct();
@@ -61,7 +54,8 @@ final class ReleaseCommand extends Command
         $this->gitManager = $gitManager;
         $this->releaseGuard = $releaseGuard;
 
-        $this->setWorkersAndSortByPriority($releaseWorkers, $enableDefaultReleaseWorkers);
+//        $this->setWorkersAndSortByPriority($releaseWorkers, $enableDefaultReleaseWorkers);
+        $this->releaseWorkerProvider = $releaseWorkerProvider;
     }
 
     protected function configure(): void
@@ -92,15 +86,13 @@ final class ReleaseCommand extends Command
 
         /** @var string $versionArgument */
         $versionArgument = $input->getArgument(Option::VERSION);
-
         $version = $this->createValidVersion($versionArgument);
 
-        $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
-
-        $activeReleaseWorkers = $this->resolveActiveReleaseWorkers($input->getOption(Option::STAGE));
+        $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($input->getOption(Option::STAGE));
 
         $totalWorkerCount = count($activeReleaseWorkers);
         $i = 0;
+        $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
 
         foreach ($activeReleaseWorkers as $releaseWorker) {
             $title = sprintf('%d/%d) %s', ++$i, $totalWorkerCount, $releaseWorker->getDescription($version));
@@ -122,27 +114,6 @@ final class ReleaseCommand extends Command
         return ShellCode::SUCCESS;
     }
 
-    /**
-     * @param ReleaseWorkerInterface[] $releaseWorkers
-     */
-    private function setWorkersAndSortByPriority(array $releaseWorkers, bool $enableDefaultReleaseWorkers): void
-    {
-        foreach ($releaseWorkers as $releaseWorker) {
-            if ($this->shouldSkip($releaseWorker, $enableDefaultReleaseWorkers)) {
-                continue;
-            }
-
-            $priority = $releaseWorker->getPriority();
-            if (isset($this->releaseWorkersByPriority[$priority])) {
-                throw new ConflictingPriorityException($releaseWorker, $this->releaseWorkersByPriority[$priority]);
-            }
-
-            $this->releaseWorkersByPriority[$priority] = $releaseWorker;
-        }
-
-        krsort($this->releaseWorkersByPriority);
-    }
-
     private function createValidVersion(string $versionArgument): Version
     {
         // this object performs validation of version
@@ -150,27 +121,6 @@ final class ReleaseCommand extends Command
         $this->ensureVersionIsNewerThanLastOne($version);
 
         return $version;
-    }
-
-    /**
-     * @return ReleaseWorkerInterface[]
-     */
-    private function resolveActiveReleaseWorkers(?string $stage): array
-    {
-        if ($stage === null) {
-            return $this->releaseWorkersByPriority;
-        }
-
-        $activeReleaseWorkers = [];
-        foreach ($this->releaseWorkersByPriority as $releaseWorker) {
-            if ($releaseWorker instanceof StageAwareInterface) {
-                if ($stage === $releaseWorker->getStage()) {
-                    $activeReleaseWorkers[] = $releaseWorker;
-                }
-            }
-        }
-
-        return $activeReleaseWorkers;
     }
 
     private function printReleaseWorkerMetadata(ReleaseWorkerInterface $releaseWorker): void
@@ -183,15 +133,6 @@ final class ReleaseCommand extends Command
         $this->symfonyStyle->writeln('priority: ' . $releaseWorker->getPriority());
         $this->symfonyStyle->writeln('class: ' . get_class($releaseWorker));
         $this->symfonyStyle->newLine();
-    }
-
-    private function shouldSkip(ReleaseWorkerInterface $releaseWorker, bool $enableDefaultReleaseWorkers): bool
-    {
-        if ($enableDefaultReleaseWorkers) {
-            return false;
-        }
-
-        return Strings::startsWith(get_class($releaseWorker), 'Symplify\MonorepoBuilder\Release');
     }
 
     private function ensureVersionIsNewerThanLastOne(Version $version): void
