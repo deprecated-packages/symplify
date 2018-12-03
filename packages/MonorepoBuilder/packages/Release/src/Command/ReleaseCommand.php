@@ -10,14 +10,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Configuration\Option;
-use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
 use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
-use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use function Safe\getcwd;
 use function Safe\sprintf;
 
 final class ReleaseCommand extends Command
@@ -26,11 +23,6 @@ final class ReleaseCommand extends Command
      * @var SymfonyStyle
      */
     private $symfonyStyle;
-
-    /**
-     * @var GitManager
-     */
-    private $gitManager;
 
     /**
      * @var ReleaseGuard
@@ -44,17 +36,13 @@ final class ReleaseCommand extends Command
 
     public function __construct(
         SymfonyStyle $symfonyStyle,
-        GitManager $gitManager,
         ReleaseWorkerProvider $releaseWorkerProvider,
         ReleaseGuard $releaseGuard
     ) {
         parent::__construct();
 
         $this->symfonyStyle = $symfonyStyle;
-        $this->gitManager = $gitManager;
         $this->releaseGuard = $releaseGuard;
-
-//        $this->setWorkersAndSortByPriority($releaseWorkers, $enableDefaultReleaseWorkers);
         $this->releaseWorkerProvider = $releaseWorkerProvider;
     }
 
@@ -82,13 +70,14 @@ final class ReleaseCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // validation phase
-        $this->releaseGuard->guardStage($input->getOption(Option::STAGE));
+        $stage = $input->getOption(Option::STAGE);
+        $this->releaseGuard->guardStage($stage);
 
         /** @var string $versionArgument */
         $versionArgument = $input->getArgument(Option::VERSION);
-        $version = $this->createValidVersion($versionArgument);
+        $version = $this->createValidVersion($versionArgument, $stage);
 
-        $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($input->getOption(Option::STAGE));
+        $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($stage);
 
         $totalWorkerCount = count($activeReleaseWorkers);
         $i = 0;
@@ -114,11 +103,12 @@ final class ReleaseCommand extends Command
         return ShellCode::SUCCESS;
     }
 
-    private function createValidVersion(string $versionArgument): Version
+    private function createValidVersion(string $versionArgument, ?string $stage): Version
     {
         // this object performs validation of version
         $version = new Version($versionArgument);
-        $this->ensureVersionIsNewerThanLastOne($version);
+
+        $this->releaseGuard->guardVersion($version, $stage);
 
         return $version;
     }
@@ -133,19 +123,5 @@ final class ReleaseCommand extends Command
         $this->symfonyStyle->writeln('priority: ' . $releaseWorker->getPriority());
         $this->symfonyStyle->writeln('class: ' . get_class($releaseWorker));
         $this->symfonyStyle->newLine();
-    }
-
-    private function ensureVersionIsNewerThanLastOne(Version $version): void
-    {
-        $mostRecentVersion = new Version($this->gitManager->getMostRecentTag(getcwd()));
-        if ($version->isGreaterThan($mostRecentVersion)) {
-            return;
-        }
-
-        throw new InvalidGitVersionException(sprintf(
-            'Provided version "%s" must be never than the last one: "%s"',
-            $version->getVersionString(),
-            $mostRecentVersion->getVersionString()
-        ));
     }
 }

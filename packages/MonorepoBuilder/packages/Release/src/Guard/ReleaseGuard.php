@@ -2,10 +2,14 @@
 
 namespace Symplify\MonorepoBuilder\Release\Guard;
 
+use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Configuration\Option;
+use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Exception\ConfigurationException;
+use Symplify\MonorepoBuilder\Split\Git\GitManager;
+use function Safe\getcwd;
 use function Safe\sprintf;
 
 final class ReleaseGuard
@@ -26,12 +30,29 @@ final class ReleaseGuard
     private $stages = [];
 
     /**
-     * @param ReleaseWorkerInterface[] $releaseWorkers
+     * @var string[]
      */
-    public function __construct(array $releaseWorkers, bool $isStageRequired)
-    {
+    private $stagesToAllowExistingTag = [];
+
+    /**
+     * @var GitManager
+     */
+    private $gitManager;
+
+    /**
+     * @param ReleaseWorkerInterface[] $releaseWorkers
+     * @param string[] $stagesToAllowExistingTag
+     */
+    public function __construct(
+        GitManager $gitManager,
+        array $releaseWorkers,
+        bool $isStageRequired,
+        array $stagesToAllowExistingTag
+    ) {
+        $this->gitManager = $gitManager;
         $this->releaseWorkers = $releaseWorkers;
         $this->isStageRequired = $isStageRequired;
+        $this->stagesToAllowExistingTag = $stagesToAllowExistingTag;
     }
 
     public function guardStage(?string $stage): void
@@ -68,6 +89,16 @@ final class ReleaseGuard
         ));
     }
 
+    public function guardVersion(Version $version, ?string $stage): void
+    {
+        // stage is set and it doesn't need a validatoin
+        if ($stage && in_array($stage, $this->stagesToAllowExistingTag, true)) {
+            return;
+        }
+
+        $this->ensureVersionIsNewerThanLastOne($version);
+    }
+
     /**
      * @return string[]
      */
@@ -87,5 +118,19 @@ final class ReleaseGuard
         $this->stages = array_unique($stages);
 
         return $this->stages;
+    }
+
+    private function ensureVersionIsNewerThanLastOne(Version $version): void
+    {
+        $mostRecentVersion = new Version($this->gitManager->getMostRecentTag(getcwd()));
+        if ($version->isGreaterThan($mostRecentVersion)) {
+            return;
+        }
+
+        throw new InvalidGitVersionException(sprintf(
+            'Provided version "%s" must be never than the last one: "%s"',
+            $version->getVersionString(),
+            $mostRecentVersion->getVersionString()
+        ));
     }
 }
