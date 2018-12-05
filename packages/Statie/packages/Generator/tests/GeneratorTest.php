@@ -3,9 +3,10 @@
 namespace Symplify\Statie\Generator\Tests;
 
 use DateTimeInterface;
-use Symplify\Statie\Generator\Tests\GeneratorSource\File\LectureFile;
-use Symplify\Statie\Renderable\File\PostFile;
 
+/**
+ * @covers \Symplify\Statie\Generator\Generator
+ */
 final class GeneratorTest extends AbstractGeneratorTest
 {
     public function testIdsAreKeys(): void
@@ -22,7 +23,7 @@ final class GeneratorTest extends AbstractGeneratorTest
     public function testPosts(): void
     {
         $generatorFilesByType = $this->generator->run();
-        $postFiles = $generatorFilesByType[PostFile::class];
+        $postFiles = $generatorFilesByType['posts'];
 
         $this->assertCount(6, $postFiles);
 
@@ -47,7 +48,7 @@ final class GeneratorTest extends AbstractGeneratorTest
     public function testLectures(): void
     {
         $generatorFilesByType = $this->generator->run();
-        $lectureFiles = $generatorFilesByType[LectureFile::class];
+        $lectureFiles = $generatorFilesByType['lectures'];
 
         $this->assertCount(1, $lectureFiles);
 
