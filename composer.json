@@ -5,6 +5,7 @@
     "require": {
         "php": "^7.1",
         "composer/composer": "^1.6",
+        "composer/xdebug-handler": "^1.3",
         "erusev/parsedown": "^1.7",
         "erusev/parsedown-extra": "^0.7.1",
         "friendsofphp/php-cs-fixer": "^2.13",
