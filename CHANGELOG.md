@@ -9,7 +9,52 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.2.13 - 2018-11-28
+## Unreleased
+
+### Added
+
+#### EasyCodingStandard
+
+- [#1243] Add xdebug-handler to improve performance while xdebug is on
+
+### Fixed
+
+#### Statie
+
+- [#1242] Fix bug for multiple generator elements
+
+## [v5.2.14] - 2018-12-03
+
+### Added
+
+#### CodingStandard
+
+- [#1237] Add `BoolPropertyDefaultValueFixer`
+- [#1236] Add duplicated array type remover
+
+#### MonorepoBuilder
+
+- [#1240] Add `stages_to_allow_existing_tag` to "release" command
+
+#### PHPStanExtensions
+
+- [#1239] Add `MatchingTypeConstantRule`
+
+### Fixed
+
+- [#1231] fix Symfony 4.2 compat
+
+#### PackageBuiler
+
+- [#1232] Fix `AutowireSinglyImplementedCompilerPass` for invalid Symfony definitions
+
+### Added
+
+#### EasyCodingStandard
+
+- [#1234] Add JSON Formatter, thanks to [@azdanov]
+
+## [v5.2.13] - 2018-11-28
 
 ### Added
 
@@ -376,3 +421,15 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1224]: https://github.com/Symplify/Symplify/pull/1224
 [@jawira]: https://github.com/jawira
 [v5.2.11]: https://github.com/Symplify/Symplify/compare/v5.2.9...v5.2.11
+[#1243]: https://github.com/Symplify/Symplify/pull/1243
+[#1242]: https://github.com/Symplify/Symplify/pull/1242
+[#1240]: https://github.com/Symplify/Symplify/pull/1240
+[#1239]: https://github.com/Symplify/Symplify/pull/1239
+[#1238]: https://github.com/Symplify/Symplify/pull/1238
+[#1237]: https://github.com/Symplify/Symplify/pull/1237
+[#1236]: https://github.com/Symplify/Symplify/pull/1236
+[#1234]: https://github.com/Symplify/Symplify/pull/1234
+[#1232]: https://github.com/Symplify/Symplify/pull/1232
+[#1231]: https://github.com/Symplify/Symplify/pull/1231
+[v5.2.14]: https://github.com/Symplify/Symplify/compare/v5.2.13...v5.2.14
+[v5.2.13]: https://github.com/Symplify/Symplify/compare/v5.2.11...v5.2.13
