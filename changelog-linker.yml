@@ -3,6 +3,7 @@ parameters:
 
     package_aliases:
         CS: 'CodingStandard'
+        PB: 'PackageBuilder'
         MB: 'MonorepoBuilder'
         ECS: 'EasyCodingStandard'
         CL: 'ChangelogLinker'
