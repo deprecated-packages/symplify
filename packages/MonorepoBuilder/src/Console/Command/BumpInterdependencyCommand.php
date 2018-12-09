@@ -7,8 +7,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use Symplify\MonorepoBuilder\InterdependencyUpdater;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use function Safe\sprintf;
@@ -26,9 +26,9 @@ final class BumpInterdependencyCommand extends Command
     private $symfonyStyle;
 
     /**
-     * @var InterdependencyUpdater
+     * @var DependencyUpdater
      */
-    private $interdependencyUpdater;
+    private $dependencyUpdater;
 
     /**
      * @var ComposerJsonProvider
@@ -37,13 +37,13 @@ final class BumpInterdependencyCommand extends Command
 
     public function __construct(
         SymfonyStyle $symfonyStyle,
-        InterdependencyUpdater $interdependencyUpdater,
+        DependencyUpdater $dependencyUpdater,
         ComposerJsonProvider $composerJsonProvider
     ) {
         parent::__construct();
 
         $this->symfonyStyle = $symfonyStyle;
-        $this->interdependencyUpdater = $interdependencyUpdater;
+        $this->dependencyUpdater = $dependencyUpdater;
         $this->composerJsonProvider = $composerJsonProvider;
     }
 
@@ -69,7 +69,7 @@ final class BumpInterdependencyCommand extends Command
         // see https://github.com/Symplify/Symplify/pull/1037/files
         [$vendor,] = explode('/', $rootComposerJson['name']);
 
-        $this->interdependencyUpdater->updateFileInfosWithVendorAndVersion(
+        $this->dependencyUpdater->updateFileInfosWithVendorAndVersion(
             $this->composerJsonProvider->getPackagesFileInfos(),
             $vendor,
             $version

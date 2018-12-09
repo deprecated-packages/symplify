@@ -16,7 +16,7 @@ final class SetNextMutualDependenciesReleaseWorker extends AbstractMutualDepende
     {
         $versionInString = $this->utils->getRequiredNextFormat($version);
 
-        $this->interdependencyUpdater->updateFileInfosWithPackagesAndVersion(
+        $this->dependencyUpdater->updateFileInfosWithPackagesAndVersion(
             $this->composerJsonProvider->getPackagesFileInfos(),
             $this->packageNamesProvider->provide(),
             $versionInString

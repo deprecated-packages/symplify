@@ -2,8 +2,8 @@
 
 namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
+use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use Symplify\MonorepoBuilder\InterdependencyUpdater;
 use Symplify\MonorepoBuilder\Package\PackageNamesProvider;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Utils\Utils;
@@ -16,9 +16,9 @@ abstract class AbstractMutualDependencyReleaseWorker implements ReleaseWorkerInt
     protected $composerJsonProvider;
 
     /**
-     * @var InterdependencyUpdater
+     * @var DependencyUpdater
      */
-    protected $interdependencyUpdater;
+    protected $dependencyUpdater;
 
     /**
      * @var Utils
@@ -32,12 +32,12 @@ abstract class AbstractMutualDependencyReleaseWorker implements ReleaseWorkerInt
 
     public function __construct(
         ComposerJsonProvider $composerJsonProvider,
-        InterdependencyUpdater $interdependencyUpdater,
+        DependencyUpdater $dependencyUpdater,
         PackageNamesProvider $packageNamesProvider,
         Utils $utils
     ) {
         $this->composerJsonProvider = $composerJsonProvider;
-        $this->interdependencyUpdater = $interdependencyUpdater;
+        $this->dependencyUpdater = $dependencyUpdater;
         $this->utils = $utils;
         $this->packageNamesProvider = $packageNamesProvider;
     }

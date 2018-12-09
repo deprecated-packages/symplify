@@ -3,16 +3,16 @@
 namespace Symplify\MonorepoBuilder\Tests\InterdependencyUpdater;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symplify\MonorepoBuilder\InterdependencyUpdater;
+use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class InterdependencyUpdaterTest extends AbstractContainerAwareTestCase
 {
     /**
-     * @var InterdependencyUpdater
+     * @var DependencyUpdater
      */
-    private $interdependencyUpdater;
+    private $dependencyUpdater;
 
     /**
      * @var Filesystem
@@ -21,7 +21,7 @@ final class InterdependencyUpdaterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->interdependencyUpdater = $this->container->get(InterdependencyUpdater::class);
+        $this->dependencyUpdater = $this->container->get(DependencyUpdater::class);
         $this->filesystem = $this->container->get(Filesystem::class);
     }
 
@@ -32,7 +32,7 @@ final class InterdependencyUpdaterTest extends AbstractContainerAwareTestCase
 
     public function testVendor(): void
     {
-        $this->interdependencyUpdater->updateFileInfosWithVendorAndVersion(
+        $this->dependencyUpdater->updateFileInfosWithVendorAndVersion(
             [new SmartFileInfo(__DIR__ . '/Source/first.json')],
             'symplify',
             '^5.0'
@@ -43,7 +43,7 @@ final class InterdependencyUpdaterTest extends AbstractContainerAwareTestCase
 
     public function testPackages(): void
     {
-        $this->interdependencyUpdater->updateFileInfosWithPackagesAndVersion(
+        $this->dependencyUpdater->updateFileInfosWithPackagesAndVersion(
             [new SmartFileInfo(__DIR__ . '/Source/first.json')],
             ['symplify/coding-standard'],
             '^6.0'

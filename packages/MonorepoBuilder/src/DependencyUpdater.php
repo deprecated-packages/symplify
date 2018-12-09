@@ -7,7 +7,7 @@ use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
-final class InterdependencyUpdater
+final class DependencyUpdater
 {
     /**
      * @var JsonFileManager
