@@ -10,6 +10,11 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class ParamReturnAndVarTagMalformsFixerTest extends AbstractCheckerTestCase
 {
+    public function test(): void
+    {
+        $this->doTestCorrectFile(__DIR__ . '/correct/correct.php.inc');
+    }
+
     /**
      * @dataProvider provideWrongToFixedCases()
      */

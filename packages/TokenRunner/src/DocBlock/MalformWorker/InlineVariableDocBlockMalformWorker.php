@@ -35,6 +35,15 @@ final class InlineVariableDocBlockMalformWorker extends AbstractMalformWorker
             return false;
         }
 
+        $nextNextPosition = $tokens->getNextMeaningfulToken($nextPosition + 2);
+        if ($nextNextPosition === null) {
+            return false;
+        }
+
+        if ($tokens[$nextNextPosition]->isGivenKind([T_STATIC, T_FUNCTION])) {
+            return false;
+        }
+
         // is inline variable
         return $tokens[$nextPosition]->isGivenKind(T_VARIABLE);
     }
