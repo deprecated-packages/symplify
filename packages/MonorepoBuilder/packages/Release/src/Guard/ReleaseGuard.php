@@ -122,7 +122,15 @@ final class ReleaseGuard
 
     private function ensureVersionIsNewerThanLastOne(Version $version): void
     {
-        $mostRecentVersion = new Version($this->gitManager->getMostRecentTag(getcwd()));
+        $mostRecentVersion = $this->gitManager->getMostRecentTag(getcwd());
+
+        // no tag yet
+        if ($mostRecentVersion === null) {
+            return;
+        }
+
+        // validation
+        $mostRecentVersion = new Version($mostRecentVersion);
         if ($version->isGreaterThan($mostRecentVersion)) {
             return;
         }
