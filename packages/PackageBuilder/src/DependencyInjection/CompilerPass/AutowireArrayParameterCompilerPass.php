@@ -20,7 +20,7 @@ use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 {
     /**
-     * Classes that are definitions, but extend/implement non-existing code
+     * Classes that create circular dependencies
      * @var string[]
      */
     private $excludedPossibleFatalClasses = [];
@@ -76,10 +76,6 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         if ($definition->getFactory()) {
-            return true;
-        }
-
-        if (! class_exists($definition->getClass())) {
             return true;
         }
 
