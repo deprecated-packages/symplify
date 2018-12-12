@@ -35,8 +35,8 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTe
         $this->assertSame([
             'autoload' => [
                 'psr-4' => [
-                    'ACME\Model\Core\\' => ['packages/A', 'packages/B'],
                     'ACME\Another\\' => 'packages/A',
+                    'ACME\Model\Core\\' => ['packages/A', 'packages/B'],
                     'ACME\\YetAnother\\' => ['packages/A'],
                     'ACME\\YetYetAnother\\' => 'packages/A',
                 ],

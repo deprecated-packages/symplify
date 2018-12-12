@@ -34,14 +34,14 @@ final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
 
         $this->assertSame([
             'require' => [
-                'rector/rector' => '^2.0',
                 'phpunit/phpunit' => '^2.0',
+                'rector/rector' => '^2.0',
                 'symplify/symplify' => '^2.0',
             ],
             'autoload' => [
                 'psr-4' => [
-                    'Symplify\Statie\\' => 'src',
                     'Symplify\MonorepoBuilder\\' => 'src',
+                    'Symplify\Statie\\' => 'src',
                 ],
             ],
         ], $merged);

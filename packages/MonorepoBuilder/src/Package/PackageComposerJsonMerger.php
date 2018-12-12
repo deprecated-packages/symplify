@@ -2,6 +2,7 @@
 
 namespace Symplify\MonorepoBuilder\Package;
 
+use Symplify\MonorepoBuilder\ArraySorter;
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Configuration\MergedPackagesCollector;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
@@ -31,18 +32,25 @@ final class PackageComposerJsonMerger
     private $jsonFileManager;
 
     /**
+     * @var ArraySorter
+     */
+    private $arraySorter;
+
+    /**
      * @param string[] $mergeSections
      */
     public function __construct(
         ParametersMerger $parametersMerger,
         MergedPackagesCollector $mergedPackagesCollector,
         JsonFileManager $jsonFileManager,
+        ArraySorter $arraySorter,
         array $mergeSections
     ) {
         $this->parametersMerger = $parametersMerger;
         $this->mergedPackagesCollector = $mergedPackagesCollector;
         $this->jsonFileManager = $jsonFileManager;
         $this->mergeSections = $mergeSections;
+        $this->arraySorter = new $arraySorter();
     }
 
     /**
@@ -85,6 +93,8 @@ final class PackageComposerJsonMerger
                 $merged[$section] ?? [],
                 $packageComposerJson[$section]
             );
+
+            $merged[$section] = $this->arraySorter->recursiveSort($merged[$section]);
 
             // uniquate special cases, ref https://github.com/Symplify/Symplify/issues/1197
             if ($section === 'repositories') {
