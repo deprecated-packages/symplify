@@ -20,13 +20,29 @@ use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 {
     /**
+     * Classes that are definitions, but extend/implement non-existing code
+     * @var string[]
+     */
+    private $excludedPossibleFatalClasses = [];
+
+    /**
      * @var DefinitionFinder
      */
     private $definitionFinder;
 
-    public function __construct()
+    /**
+     * @param string[] $excludedPossibleFatalClasses
+     */
+    public function __construct(array $excludedPossibleFatalClasses = [
+        'Symfony\Component\Form\FormExtensionInterface',
+        'Symfony\Component\Asset\PackageInterface',
+        'Symfony\Component\Config\Loader\LoaderInterface',
+        'Symfony\Component\VarDumper\Dumper\ContextProvider\ContextProviderInterface',
+        'EasyCorp\Bundle\EasyAdminBundle\Form\Type\Configurator\TypeConfiguratorInterface',
+    ])
     {
         $this->definitionFinder = new DefinitionFinder();
+        $this->excludedPossibleFatalClasses = $excludedPossibleFatalClasses;
     }
 
     public function process(ContainerBuilder $containerBuilder): void
@@ -52,6 +68,10 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         if ($definition->getClass() === null) {
+            return true;
+        }
+
+        if (in_array($definition->getClass(), $this->excludedPossibleFatalClasses, true)) {
             return true;
         }
 
@@ -117,6 +137,10 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 
         $parameterType = $this->resolveParameterType($reflectionParameter->getName(), $reflectionMethod);
         if ($parameterType === null) {
+            return true;
+        }
+
+        if (in_array($parameterType, $this->excludedPossibleFatalClasses, true)) {
             return true;
         }
 
