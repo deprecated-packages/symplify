@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveEndOfFunctionCommentFixer;
 
-use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -10,18 +9,9 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class RemoveEndOfFunctionCommentFixerTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testWrongToFixedCases(string $wrongFile, string $correctFile): void
+    public function test(): void
     {
-        $this->doTestWrongToFixedFile($wrongFile, $correctFile);
-    }
-
-    public function provideWrongToFixedCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'];
+        $this->doTestFiles([__DIR__ . '/Fixture/wrong.php.inc', __DIR__ . '/Fixture/wrong2.php.inc']);
     }
 
     protected function provideConfig(): string

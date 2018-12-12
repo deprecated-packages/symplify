@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveUselessDocBlockFixer;
 
-use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -10,18 +9,9 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class ConfiguredTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testFix(string $wrongFile, string $fixedFile): void
+    public function testFix(): void
     {
-        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
-    }
-
-    public function provideWrongToFixedCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/wrong13.php.inc', __DIR__ . '/fixed/fixed13.php.inc'];
-        yield [__DIR__ . '/wrong/wrong14.php.inc', __DIR__ . '/fixed/fixed14.php.inc'];
+        $this->doTestFiles([__DIR__ . '/Fixture/wrong13.php.inc', __DIR__ . '/Fixture/wrong14.php.inc']);
     }
 
     protected function provideConfig(): string

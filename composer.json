@@ -36,7 +36,7 @@
     },
     "require-dev": {
         "nette/application": "^2.4",
-        "phpstan/phpstan": "^0.10.3",
+        "phpstan/phpstan": "^0.10.6",
         "phpunit/phpunit": "^7.3",
         "thecodingmachine/phpstan-safe-rule": "@dev",
         "thecodingmachine/phpstan-strict-rules": "0.10.6",
@@ -64,7 +64,8 @@
             "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
             "Symplify\\Statie\\Latte\\": "packages/Statie/packages/Latte/src",
             "Symplify\\Statie\\Twig\\": "packages/Statie/packages/Twig/src",
-            "Symplify\\TokenRunner\\": "packages/TokenRunner/src"
+            "Symplify\\TokenRunner\\": "packages/TokenRunner/src",
+            "Symplify\\Rector\\": "dev/Rector/src"
         }
     },
     "autoload-dev": {

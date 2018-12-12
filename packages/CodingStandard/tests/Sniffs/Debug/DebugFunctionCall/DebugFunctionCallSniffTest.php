@@ -9,14 +9,9 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class DebugFunctionCallSniffTest extends AbstractCheckerTestCase
 {
-    public function testWrong(): void
+    public function test(): void
     {
-        $this->doTestWrongFile(__DIR__ . '/wrong/wrong.php.inc');
-    }
-
-    public function testCorrect(): void
-    {
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct.php.inc');
+        $this->doTestFiles([__DIR__ . '/Fixture/wrong.php.inc', __DIR__ . '/Fixture/correct.php.inc']);
     }
 
     protected function provideConfig(): string

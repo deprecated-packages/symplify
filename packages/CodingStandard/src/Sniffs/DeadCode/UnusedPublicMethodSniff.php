@@ -75,6 +75,12 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         $this->classWrapperFactory = $classWrapperFactory;
     }
 
+    public function reset(): void
+    {
+        $this->publicMethodNames = [];
+        $this->calledMethodNames = [];
+    }
+
     /**
      * @return int[]
      */

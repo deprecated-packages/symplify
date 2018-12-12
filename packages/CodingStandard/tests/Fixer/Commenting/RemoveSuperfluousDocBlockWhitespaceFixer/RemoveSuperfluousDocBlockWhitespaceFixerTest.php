@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer;
 
-use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -10,17 +9,9 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class RemoveSuperfluousDocBlockWhitespaceFixerTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testWrongToFixedCases(string $wrongFile, string $correctFile): void
+    public function test(): void
     {
-        $this->doTestWrongToFixedFile($wrongFile, $correctFile);
-    }
-
-    public function provideWrongToFixedCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
+        $this->doTestFiles([__DIR__ . '/Fixture/wrong.php.inc']);
     }
 
     protected function provideConfig(): string

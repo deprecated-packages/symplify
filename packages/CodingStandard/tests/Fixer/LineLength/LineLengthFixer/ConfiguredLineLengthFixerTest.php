@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer;
 
-use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -10,17 +9,9 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class ConfiguredLineLengthFixerTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider wrongToFixedCases()
-     */
-    public function test(string $wrongFile, string $fixedFile): void
+    public function test(): void
     {
-        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
-    }
-
-    public function wrongToFixedCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/configured-wrong.php.inc', __DIR__ . '/fixed/configured-fixed.php.inc'];
+        $this->doTestFiles([__DIR__ . '/Fixture/configured-wrong.php.inc']);
     }
 
     protected function provideConfig(): string

@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Solid\FinalInterfaceFixer;
 
-use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -10,35 +9,17 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class FinalInterfaceFixerTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideCorrectCases()
-     */
-    public function testCorrectCases(string $file): void
+    public function test(): void
     {
-        $this->doTestCorrectFile($file);
-    }
-
-    public function provideCorrectCases(): Iterator
-    {
-        yield [__DIR__ . '/correct/correct.php.inc'];
-        yield [__DIR__ . '/correct/correct2.php.inc'];
-        yield [__DIR__ . '/correct/correct3.php.inc'];
-        yield [__DIR__ . '/correct/correct4.php.inc'];
-        yield [__DIR__ . '/correct/correct5.php.inc'];
-    }
-
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testWrongToFixed(string $wrongFile, string $fixedFile): void
-    {
-        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
-    }
-
-    public function provideWrongToFixedCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'];
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/correct.php.inc',
+            __DIR__ . '/Fixture/correct2.php.inc',
+            __DIR__ . '/Fixture/correct3.php.inc',
+            __DIR__ . '/Fixture/correct4.php.inc',
+            __DIR__ . '/Fixture/correct5.php.inc',
+            __DIR__ . '/Fixture/wrong.php.inc',
+            __DIR__ . '/Fixture/wrong2.php.inc',
+        ]);
     }
 
     protected function provideConfig(): string

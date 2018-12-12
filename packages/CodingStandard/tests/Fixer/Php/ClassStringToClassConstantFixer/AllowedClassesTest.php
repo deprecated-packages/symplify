@@ -11,7 +11,7 @@ final class AllowedClassesTest extends AbstractCheckerTestCase
 {
     public function testWrongToFixed(): void
     {
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct2.php.inc');
+        $this->doTestFiles([__DIR__ . '/Fixture/correct2.php.inc']);
     }
 
     protected function provideConfig(): string

@@ -8,7 +8,7 @@ final class Issue855Test extends AbstractCheckerTestCase
 {
     public function test(): void
     {
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct855.php.inc');
+        $this->doTestFiles([__DIR__ . '/Fixture/correct855.php.inc']);
     }
 
     protected function provideConfig(): string

@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 
-use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -10,31 +9,13 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class BlankLineAfterStrictTypesFixerTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideCorrectCases()
-     */
-    public function testCorrectCases(string $file): void
+    public function testFix(): void
     {
-        $this->doTestCorrectFile($file);
-    }
-
-    public function provideCorrectCases(): Iterator
-    {
-        yield [__DIR__ . '/correct/correct.php.inc'];
-    }
-
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testFix(string $wrongFile, string $fixedFile): void
-    {
-        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
-    }
-
-    public function provideWrongToFixedCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/correct.php.inc',
+            __DIR__ . '/Fixture/wrong.php.inc',
+            __DIR__ . '/Fixture/wrong2.php.inc',
+        ]);
     }
 
     protected function provideConfig(): string

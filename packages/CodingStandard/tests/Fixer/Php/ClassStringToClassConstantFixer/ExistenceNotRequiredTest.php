@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
-use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -10,18 +9,9 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class ExistenceNotRequiredTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testWrongToFixed(string $wrongFile, string $fixedFile): void
+    public function test(): void
     {
-        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
-    }
-
-    public function provideWrongToFixedCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc'];
-        yield [__DIR__ . '/wrong/wrong5.php.inc', __DIR__ . '/fixed/fixed5.php.inc'];
+        $this->doTestFiles([__DIR__ . '/Fixture/wrong4.php.inc', __DIR__ . '/Fixture/wrong5.php.inc']);
     }
 
     protected function provideConfig(): string

@@ -40,7 +40,8 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
     private function filterOutExistingParamNames(string $docContent, array $functionArgumentNames): array
     {
         foreach ($functionArgumentNames as $key => $functionArgumentName) {
-            if (Strings::match($docContent, '# ' . preg_quote($functionArgumentName, '#') . '\n#')) {
+            $pattern = '# ' . preg_quote($functionArgumentName, '#') . '\b#';
+            if (Strings::match($docContent, $pattern)) {
                 unset($functionArgumentNames[$key]);
             }
         }
