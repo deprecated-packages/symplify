@@ -3,7 +3,8 @@
 namespace Symplify\MonorepoBuilder\Split\Git;
 
 use Nette\Utils\Strings;
-use Symfony\Component\Process\Process;
+use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
+use function Safe\getcwd;
 use function Safe\sprintf;
 
 final class GitManager
@@ -13,20 +14,40 @@ final class GitManager
      */
     private $githubToken;
 
-    public function __construct(?string $githubToken)
+    /**
+     * @var ProcessRunner
+     */
+    private $processRunner;
+
+    public function __construct(ProcessRunner $processRunner, ?string $githubToken)
     {
+        $this->processRunner = $processRunner;
         $this->githubToken = $githubToken;
     }
 
-    public function getMostRecentTag(string $gitDirectory): string
+    /**
+     * Returns null, when there are no local tags yet
+     */
+    public function getMostRecentTag(string $gitDirectory): ?string
     {
-        $process = new Process(['git', 'tag', '-l', '--sort=committerdate'], $gitDirectory);
-        $process->run();
+        $command = ['git', 'tag', '-l', '--sort=committerdate'];
 
-        $tags = $process->getOutput();
+        if (getcwd() !== $gitDirectory) {
+            $command[] = '--git-dir';
+            $command[] = $gitDirectory;
+        }
+
+        $tags = $this->processRunner->run($command);
         $tagList = explode(PHP_EOL, trim($tags));
 
-        return (string) array_pop($tagList);
+        /** @var string $theMostRecentTag */
+        $theMostRecentTag = array_pop($tagList);
+
+        if (empty($theMostRecentTag)) {
+            return null;
+        }
+
+        return $theMostRecentTag;
     }
 
     /**

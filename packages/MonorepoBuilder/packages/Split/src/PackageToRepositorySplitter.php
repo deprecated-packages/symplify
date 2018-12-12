@@ -65,7 +65,6 @@ final class PackageToRepositorySplitter
         ?int $maxProcesses = null
     ): void {
         $theMostRecentTag = $this->gitManager->getMostRecentTag($rootDirectory);
-
         foreach ($splitConfig as $localDirectory => $remoteRepository) {
             $this->fileSystemGuard->ensureDirectoryExists($localDirectory);
 

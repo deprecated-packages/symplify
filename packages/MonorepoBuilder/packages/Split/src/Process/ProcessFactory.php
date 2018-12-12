@@ -42,7 +42,7 @@ final class ProcessFactory
     }
 
     public function createSubsplit(
-        string $theMostRecentTag,
+        ?string $theMostRecentTag,
         string $directory,
         string $remoteRepository
     ): Process {
