@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
+use PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
@@ -73,6 +74,11 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
 
             $this->lineLengthTransformer->breakItems($blockInfo, $tokens);
         }
+    }
+
+    public function getPriority(): int
+    {
+        return $this->getPriorityBefore(TrailingCommaInMultilineArrayFixer::class);
     }
 
     private function shouldSkip(ArrayWrapper $arrayWrapper): bool
