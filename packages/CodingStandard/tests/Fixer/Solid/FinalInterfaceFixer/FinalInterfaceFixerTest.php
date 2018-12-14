@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Solid\FinalInterfaceFixer;
 
+use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer
- */
 final class FinalInterfaceFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -22,8 +20,8 @@ final class FinalInterfaceFixerTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return FinalInterfaceFixer::class;
     }
 }

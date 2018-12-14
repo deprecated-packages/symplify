@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\ControlStructure\ForbiddenDoubleAssign;
 
+use Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff
- */
 final class ForbiddenDoubleAssignSniffTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -18,8 +16,8 @@ final class ForbiddenDoubleAssignSniffTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return ForbiddenDoubleAssignSniff::class;
     }
 }

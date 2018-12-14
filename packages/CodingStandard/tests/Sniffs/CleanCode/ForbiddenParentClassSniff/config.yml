@@ -1,6 +1,0 @@
-services:
-    Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff:
-        forbiddenParentClasses:
-            - '*\SomeForbiddenParentClass'
-            - 'SomeOtherNamespace\ExactClassMatch'
-            - 'PreslashExactClassMatch'

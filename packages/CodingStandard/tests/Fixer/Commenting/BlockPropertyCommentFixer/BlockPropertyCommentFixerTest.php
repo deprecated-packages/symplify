@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\BlockPropertyCommentFixer;
 
+use Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer
- */
 final class BlockPropertyCommentFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -14,8 +12,8 @@ final class BlockPropertyCommentFixerTest extends AbstractCheckerTestCase
         $this->doTestFiles([__DIR__ . '/Fixture/wrong.php.inc', __DIR__ . '/Fixture/wrong2.php.inc']);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return BlockPropertyCommentFixer::class;
     }
 }

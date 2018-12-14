@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveEmptyDocBlockFixer;
 
+use Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer
- */
 final class RemoveEmptyDocBlockFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -18,8 +16,8 @@ final class RemoveEmptyDocBlockFixerTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return RemoveEmptyDocBlockFixer::class;
     }
 }

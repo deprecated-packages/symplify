@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer;
 
+use Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer
- */
 final class RemoveSuperfluousDocBlockWhitespaceFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -14,8 +12,8 @@ final class RemoveSuperfluousDocBlockWhitespaceFixerTest extends AbstractChecker
         $this->doTestFiles([__DIR__ . '/Fixture/wrong.php.inc']);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return RemoveSuperfluousDocBlockWhitespaceFixer::class;
     }
 }

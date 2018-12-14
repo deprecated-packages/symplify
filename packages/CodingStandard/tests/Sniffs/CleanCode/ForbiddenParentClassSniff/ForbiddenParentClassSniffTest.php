@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\CleanCode\ForbiddenParentClassSniff;
 
+use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff
- */
 final class ForbiddenParentClassSniffTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -21,8 +19,20 @@ final class ForbiddenParentClassSniffTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return ForbiddenParentClassSniff::class;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    protected function getCheckerConfiguration(): array
+    {
+        return ['forbiddenParentClasses' => [
+            '*\SomeForbiddenParentClass',
+            'SomeOtherNamespace\ExactClassMatch',
+            'PreslashExactClassMatch',
+        ]];
     }
 }

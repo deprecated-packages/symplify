@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\TraitName;
 
+use Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff
- */
 final class TraitNameSniffTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -20,8 +18,8 @@ final class TraitNameSniffTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return TraitNameSniff::class;
     }
 }

@@ -2,11 +2,11 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Order\MethodOrderByTypeFixer;
 
+use PhpCsFixer\Fixer\FixerInterface as PhpCsFixerFixerInterface;
+use Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer;
+use Symplify\CodingStandard\Tests\Fixer\Order\MethodOrderByTypeFixer\Source\FixerInterface;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer
- */
 final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -21,8 +21,22 @@ final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return MethodOrderByTypeFixer::class;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    protected function getCheckerConfiguration(): array
+    {
+        return [
+            'method_order_by_type' => [
+                FixerInterface::class => ['firstMethod', 'secondMethod'],
+                PhpCsFixerFixerInterface::class => ['firstMethod', 'secondMethod', 'getDefinition', 'isCandidate'],
+                'Rector\Contract\Rector\PhpRectorInterface' => ['getDefinition', 'getNodeTypes', 'refactor'],
+            ],
+        ];
     }
 }

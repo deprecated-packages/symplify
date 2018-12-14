@@ -3,9 +3,11 @@
 namespace Symplify\EasyCodingStandardTester\Testing;
 
 use Nette\Utils\FileSystem;
+use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Yaml\Yaml;
 use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
@@ -105,7 +107,46 @@ abstract class AbstractCheckerTestCase extends TestCase
         }
     }
 
-    abstract protected function provideConfig(): string;
+    protected function getCheckerClass(): string
+    {
+        // to be implemented
+    }
+
+    protected function provideConfig(): string
+    {
+        if ($this->getCheckerClass()) { // use local if not overloaded
+            $hash = $this->createConfigHash();
+
+            $configFileTempPath = sprintf(sys_get_temp_dir() . '/ecs_temp_tests/config_%s.yaml', $hash);
+
+            // cache for 2nd run, similar to original config one
+            if (file_exists($configFileTempPath)) {
+                return $configFileTempPath;
+            }
+
+            $servicesConfiguration = [
+                'services' => [
+                    $this->getCheckerClass() => $this->getCheckerConfiguration() ?: null,
+                ],
+            ];
+
+            $yamlContent = Yaml::dump($servicesConfiguration, Yaml::DUMP_OBJECT_AS_MAP);
+
+            FileSystem::write($configFileTempPath, $yamlContent);
+
+            return $configFileTempPath;
+        }
+        // to be implemented
+    }
+
+    /**
+     * @return mixed[]
+     */
+    protected function getCheckerConfiguration(): ?array
+    {
+        // to be implemented
+        return null;
+    }
 
     /**
      * File should stay the same and contain 0 errors
@@ -127,7 +168,11 @@ abstract class AbstractCheckerTestCase extends TestCase
         if ($this->sniffFileProcessor->getCheckers()) {
             $processedFileContent = $this->sniffFileProcessor->processFile($smartFileInfo);
 
-            $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount());
+            $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount(), sprintf(
+                'There should be no error in "%s" file, but %d errors found.',
+                $this->errorAndDiffCollector->getErrorCount(),
+                $smartFileInfo->getRealPath()
+            ));
             $this->assertStringEqualsWithFileLocation($file, $processedFileContent);
         }
     }
@@ -205,6 +250,15 @@ abstract class AbstractCheckerTestCase extends TestCase
         } elseif (Strings::match($file, '#wrong#i')) {
             $this->doTestWrongFile($file);
         }
+    }
+
+    private function createConfigHash(): string
+    {
+        return Strings::substring(
+            md5($this->getCheckerClass() . Json::encode($this->getCheckerConfiguration())),
+            0,
+            10
+        );
     }
 
     private function ensureSomeCheckersAreRegistered(): void

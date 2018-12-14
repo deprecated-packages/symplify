@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer;
 
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer
- */
 final class ConfiguredLineLengthFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -14,8 +12,20 @@ final class ConfiguredLineLengthFixerTest extends AbstractCheckerTestCase
         $this->doTestFiles([__DIR__ . '/Fixture/configured-wrong.php.inc']);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/configured-config.yml';
+        return LineLengthFixer::class;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    protected function getCheckerConfiguration(): array
+    {
+        return [
+            'line_length' => 100,
+            'break_long_lines' => true,
+            'inline_short_lines' => false,
+        ];
     }
 }

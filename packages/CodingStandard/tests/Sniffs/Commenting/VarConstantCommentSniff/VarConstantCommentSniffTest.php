@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\VarConstantCommentSniff;
 
+use Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff
- */
 final class VarConstantCommentSniffTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -20,8 +18,8 @@ final class VarConstantCommentSniffTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return VarConstantCommentSniff::class;
     }
 }

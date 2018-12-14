@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
+use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
- */
 final class ClassStringToClassConstantFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -19,8 +17,8 @@ final class ClassStringToClassConstantFixerTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return ClassStringToClassConstantFixer::class;
     }
 }

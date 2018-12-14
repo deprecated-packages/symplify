@@ -5,9 +5,6 @@ namespace Symplify\CodingStandard\Tests\Sniffs\DeadCode\UnusedPublicMethodSniff;
 use Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff
- */
 final class UnusedPublicMethodSniffTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -23,8 +20,8 @@ final class UnusedPublicMethodSniffTest extends AbstractCheckerTestCase
         });
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return UnusedPublicMethodSniff::class;
     }
 }

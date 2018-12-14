@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Order\PrivateMethodOrderByUseFixer;
 
+use Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer
- */
 final class PrivateMethodOrderByUseFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -14,8 +12,8 @@ final class PrivateMethodOrderByUseFixerTest extends AbstractCheckerTestCase
         $this->doTestFiles([__DIR__ . '/Fixture/wrong.php.inc', __DIR__ . '/Fixture/wrong2.php.inc']);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return PrivateMethodOrderByUseFixer::class;
     }
 }

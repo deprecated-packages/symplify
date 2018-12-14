@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Property\BoolPropertyDefaultValueFixer;
 
+use Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer
- */
 final class BoolPropertyDefaultValueFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -14,8 +12,8 @@ final class BoolPropertyDefaultValueFixerTest extends AbstractCheckerTestCase
         $this->doTestFiles([__DIR__ . '/Integration/simple.php.inc']);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return BoolPropertyDefaultValueFixer::class;
     }
 }

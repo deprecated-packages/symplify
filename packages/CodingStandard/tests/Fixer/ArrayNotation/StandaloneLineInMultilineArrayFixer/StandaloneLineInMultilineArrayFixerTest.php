@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 
+use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer
- */
 final class StandaloneLineInMultilineArrayFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -23,8 +21,8 @@ final class StandaloneLineInMultilineArrayFixerTest extends AbstractCheckerTestC
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return StandaloneLineInMultilineArrayFixer::class;
     }
 }

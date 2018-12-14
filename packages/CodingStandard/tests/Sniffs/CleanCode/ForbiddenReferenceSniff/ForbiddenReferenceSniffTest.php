@@ -3,11 +3,9 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\CleanCode\ForbiddenReferenceSniff;
 
 use Iterator;
+use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff
- */
 final class ForbiddenReferenceSniffTest extends AbstractCheckerTestCase
 {
     /**
@@ -23,8 +21,8 @@ final class ForbiddenReferenceSniffTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/wrong/wrong.php.inc'];
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return ForbiddenReferenceSniff::class;
     }
 }

@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Debug\CommentedOutCode;
 
+use Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff
- */
 final class CommentedOutCodeSniffTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -27,8 +25,8 @@ final class CommentedOutCodeSniffTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return CommentedOutCodeSniff::class;
     }
 }

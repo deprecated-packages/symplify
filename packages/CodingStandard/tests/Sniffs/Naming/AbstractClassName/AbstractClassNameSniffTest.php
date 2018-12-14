@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\AbstractClassName;
 
+use Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
- */
 final class AbstractClassNameSniffTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -18,8 +16,8 @@ final class AbstractClassNameSniffTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return AbstractClassNameSniff::class;
     }
 }

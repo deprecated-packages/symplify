@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Architecture\PreferredClassSniff;
 
+use Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff
- */
 final class PreferredClassSniffTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -18,8 +16,16 @@ final class PreferredClassSniffTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return PreferredClassSniff::class;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    protected function getCheckerConfiguration(): array
+    {
+        return ['oldToPreferredClasses' => ['Invalid\OldClass' => 'NewOne']];
     }
 }
