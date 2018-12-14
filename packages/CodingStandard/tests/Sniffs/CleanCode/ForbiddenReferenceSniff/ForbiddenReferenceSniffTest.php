@@ -13,9 +13,9 @@ final class ForbiddenReferenceSniffTest extends AbstractCheckerTestCase
     /**
      * @dataProvider provideWrongCases()
      */
-    public function testWrong(string $file): void
+    public function test(string $file): void
     {
-        $this->doTestWrongFile($file);
+        $this->doTestFiles([$file]);
     }
 
     public function provideWrongCases(): Iterator

@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\DeadCode\UnusedPublicMethodSniff;
 
-use Iterator;
+use Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -10,31 +10,17 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class UnusedPublicMethodSniffTest extends AbstractCheckerTestCase
 {
-    protected function setUp(): void
+    public function test(): void
     {
-        parent::setUp();
-
-        // to reset the cache inside the Sniff
-        unset(parent::$cachedContainers[$this->getConfigHash()]);
-    }
-
-    public function testCorrect(): void
-    {
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct.php.inc');
-    }
-
-    /**
-     * @dataProvider provideWrongCases()
-     */
-    public function testWrong(string $file): void
-    {
-        $this->doTestWrongFile($file);
-    }
-
-    public function provideWrongCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/wrong.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc'];
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/correct.php.inc',
+            __DIR__ . '/Fixture/wrong.php.inc',
+            __DIR__ . '/Fixture/wrong2.php.inc',
+        ], function (): void {
+            // to reset the cache inside the Sniff
+            $unusedPublicMethodSniff = $this->getContainer()->get(UnusedPublicMethodSniff::class);
+            $unusedPublicMethodSniff->reset();
+        });
     }
 
     protected function provideConfig(): string

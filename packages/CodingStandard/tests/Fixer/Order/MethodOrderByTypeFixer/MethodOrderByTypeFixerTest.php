@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Order\MethodOrderByTypeFixer;
 
-use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -10,32 +9,16 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideCorrectCases()
-     */
-    public function testCorrect(string $correctFile): void
+    public function test(): void
     {
-        $this->doTestCorrectFile($correctFile);
-    }
+        $this->autoloadTestFixture = true;
 
-    public function provideCorrectCases(): Iterator
-    {
-        yield [__DIR__ . '/Correct/AbstractClass.php.inc'];
-        yield [__DIR__ . '/Correct/FixerWithAbstractParent.php'];
-    }
-
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testWrongToFixed(string $wrongFile, string $fixedFile): void
-    {
-        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
-    }
-
-    public function provideWrongToFixedCases(): Iterator
-    {
-        yield [__DIR__ . '/Wrong/SomeFixer.php', __DIR__ . '/fixed/fixed.php.inc'];
-        yield [__DIR__ . '/Wrong/RealFixer.php', __DIR__ . '/fixed/fixed2.php.inc'];
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/AbstractClass.php.inc',
+            __DIR__ . '/Fixture/FixerWithAbstractParent.php',
+            __DIR__ . '/Fixture/SomeFixer.php.inc',
+            __DIR__ . '/Fixture/RealFixer.php.inc',
+        ]);
     }
 
     protected function provideConfig(): string

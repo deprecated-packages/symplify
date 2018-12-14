@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Debug\CommentedOutCode;
 
-use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -10,40 +9,22 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class CommentedOutCodeSniffTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideWrongCases()
-     */
-    public function testWrong(string $file): void
+    public function test(): void
     {
-        $this->doTestWrongFile($file);
-    }
-
-    public function provideWrongCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/wrong.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc'];
-        yield [__DIR__ . '/wrong/wrong3.php.inc'];
-        yield [__DIR__ . '/wrong/wrong4.php.inc'];
-    }
-
-    /**
-     * @dataProvider provideCorrectCases()
-     */
-    public function testCorrect(string $file): void
-    {
-        $this->doTestCorrectFile($file);
-    }
-
-    public function provideCorrectCases(): Iterator
-    {
-        yield [__DIR__ . '/correct/correct.php.inc'];
-        yield [__DIR__ . '/correct/correct2.php.inc'];
-        yield [__DIR__ . '/correct/correct3.php.inc'];
-        yield [__DIR__ . '/correct/correct4.php.inc'];
-        yield [__DIR__ . '/correct/correct5.php.inc'];
-        yield [__DIR__ . '/correct/correct6.php.inc'];
-        yield [__DIR__ . '/correct/correct7.php.inc'];
-        yield [__DIR__ . '/correct/correct8.php.inc'];
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/wrong.php.inc',
+            __DIR__ . '/Fixture/wrong2.php.inc',
+            __DIR__ . '/Fixture/wrong3.php.inc',
+            __DIR__ . '/Fixture/wrong4.php.inc',
+            __DIR__ . '/Fixture/correct.php.inc',
+            __DIR__ . '/Fixture/correct2.php.inc',
+            __DIR__ . '/Fixture/correct3.php.inc',
+            __DIR__ . '/Fixture/correct4.php.inc',
+            __DIR__ . '/Fixture/correct5.php.inc',
+            __DIR__ . '/Fixture/correct6.php.inc',
+            __DIR__ . '/Fixture/correct7.php.inc',
+            __DIR__ . '/Fixture/correct8.php.inc',
+        ]);
     }
 
     protected function provideConfig(): string
