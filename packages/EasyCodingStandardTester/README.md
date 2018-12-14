@@ -15,27 +15,9 @@ composer require symplify/easy-coding-standard-tester --dev
 
 ## Usage
 
-1. Create a config with checker(s) you want to test
+1. Extend `Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase` class
 
-```yaml
-# /tests/Fixer/YourFixer/config.yml
-services:
-    Your\CondingStandard\Fixer\YourFixer: ~
-
-    # or
-    Your\CondingStandard\Sniff\YourSniff: ~
-
-    # or even more, if you want to test whole sets (like PSR-12)
-```
-
-2. Create a test case extending `Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase` class
-
-3. Provide path to the config above in `provideConfig()` method
-
-4. Make use of testing methods in your test case
-
-- `doTestCorrectFile($correctFile)` - the file should not be affected by this checker
-- `doTestWrongToFixedFile($wrongFile, $fixedFile)` - classic before/after testing
+2. Provide files to `doTestFiles()` method
 
 ```php
 <?php declare(strict_types=1);
@@ -46,21 +28,42 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class YourFixerTest extends AbstractCheckerTestCase
 {
-    public function testCorrectCases(): void
+    public function test(): void
     {
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct.php.inc');
+        $this->doTestFiles([
+            __DIR__ . '/correct/correct.php.inc', // matches "correct" → 0 errors
+            __DIR__ . '/wrong/wrong.php.inc', // matches "wrong" → at least 1 error
+            [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'] // 2 items in array → wrong to fixed
+        ]);
     }
 
-    public function testWrongToFixedCases(): void
+    protected function getCheckerClass(): string
     {
-        $this->doTestWrongToFixedFile(__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc');
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
+        return \Your\CondingStandard\Fixer\YourFixer::class;
     }
 }
+```
+
+Instead of `[__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc']` you can use single file: `__DIR__ . '/fixture/fixture.php.inc'` in this format:
+
+```php
+<?php
+
+$array = array();
+
+?>
+-----
+<?php
+
+$array = [];
+
+?>
+```
+
+```bash
+before
+------
+after
 ```
 
 ### Non-Fixing Sniff?

@@ -115,23 +115,25 @@ abstract class AbstractCheckerTestCase extends TestCase
     protected function provideConfig(): string
     {
         if ($this->getCheckerClass()) { // use local if not overloaded
-            $hash = Strings::substring(
-                md5($this->getCheckerClass() . Json::encode($this->getCheckerConfiguration())),
-                0,
-                10
-            );
+            $hash = $this->createConfigHash();
 
             $configFileTempPath = sprintf(sys_get_temp_dir() . '/ecs_temp_tests/config_%s.yaml', $hash);
+
             // cache for 2nd run, similar to original config one
             if (file_exists($configFileTempPath)) {
                 return $configFileTempPath;
             }
 
-            $yamlContent = Yaml::dump(['services' => [
-                $this->getCheckerClass() => $this->getCheckerConfiguration() ?: null,
-            ]], Yaml::DUMP_OBJECT_AS_MAP);
+            $servicesConfiguration = [
+                'services' => [
+                    $this->getCheckerClass() => $this->getCheckerConfiguration() ?: null,
+                ],
+            ];
+
+            $yamlContent = Yaml::dump($servicesConfiguration, Yaml::DUMP_OBJECT_AS_MAP);
 
             FileSystem::write($configFileTempPath, $yamlContent);
+
             return $configFileTempPath;
         }
         // to be implemented
@@ -167,7 +169,7 @@ abstract class AbstractCheckerTestCase extends TestCase
             $processedFileContent = $this->sniffFileProcessor->processFile($smartFileInfo);
 
             $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount(), sprintf(
-                'There should be at no error in "%s" file, but %d found.',
+                'There should be no error in "%s" file, but %d errors found.',
                 $this->errorAndDiffCollector->getErrorCount(),
                 $smartFileInfo->getRealPath()
             ));
@@ -248,6 +250,15 @@ abstract class AbstractCheckerTestCase extends TestCase
         } elseif (Strings::match($file, '#wrong#i')) {
             $this->doTestWrongFile($file);
         }
+    }
+
+    private function createConfigHash(): string
+    {
+        return Strings::substring(
+            md5($this->getCheckerClass() . Json::encode($this->getCheckerConfiguration())),
+            0,
+            10
+        );
     }
 
     private function ensureSomeCheckersAreRegistered(): void
