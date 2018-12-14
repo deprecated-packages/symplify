@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\PropertyNameMatchingTypeFixer;
 
+use Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer
- */
 final class PropertyNameMatchingTypeFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -29,8 +27,8 @@ final class PropertyNameMatchingTypeFixerTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return PropertyNameMatchingTypeFixer::class;
     }
 }

@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Property\ArrayPropertyDefaultValueFixer;
 
+use Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
- */
 final class ArrayPropertyDefaultValueFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -20,8 +18,8 @@ final class ArrayPropertyDefaultValueFixerTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return ArrayPropertyDefaultValueFixer::class;
     }
 }

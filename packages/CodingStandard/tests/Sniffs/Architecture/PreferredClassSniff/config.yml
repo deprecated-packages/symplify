@@ -1,4 +1,0 @@
-services:
-    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
-        oldToPreferredClasses:
-            Invalid\OldClass: 'NewOne'

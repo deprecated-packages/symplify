@@ -4,9 +4,6 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveEmptyDocBlockFixe
 
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer
- */
 final class OtherFixerPrioritiesTest extends AbstractCheckerTestCase
 {
     public function test(): void

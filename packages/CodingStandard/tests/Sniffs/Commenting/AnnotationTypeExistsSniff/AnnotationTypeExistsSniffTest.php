@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\AnnotationTypeExistsSniff;
 
+use Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff
- */
 final class AnnotationTypeExistsSniffTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -18,8 +16,8 @@ final class AnnotationTypeExistsSniffTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return AnnotationTypeExistsSniff::class;
     }
 }

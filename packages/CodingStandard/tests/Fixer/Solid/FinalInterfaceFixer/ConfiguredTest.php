@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Solid\FinalInterfaceFixer;
 
+use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer
- */
 final class ConfiguredTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -14,8 +12,16 @@ final class ConfiguredTest extends AbstractCheckerTestCase
         $this->doTestFiles([__DIR__ . '/Fixture/wrong3.php.inc']);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config-configured.yml';
+        return FinalInterfaceFixer::class;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    protected function getCheckerConfiguration(): array
+    {
+        return ['only_interfaces' => ['SomeInterface']];
     }
 }

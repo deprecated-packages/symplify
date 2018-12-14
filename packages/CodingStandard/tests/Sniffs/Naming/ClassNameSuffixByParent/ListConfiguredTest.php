@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\ClassNameSuffixByParent;
 
+use Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff
- */
 final class ListConfiguredTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -21,8 +19,18 @@ final class ListConfiguredTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/list-configured-config.yml';
+        return ClassNameSuffixByParentSniff::class;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    protected function getCheckerConfiguration(): array
+    {
+        return [
+            'extraParentTypesToSuffixes' => ['RandomInterface', 'RandomAbstract', 'AbstractRandom'],
+        ];
     }
 }

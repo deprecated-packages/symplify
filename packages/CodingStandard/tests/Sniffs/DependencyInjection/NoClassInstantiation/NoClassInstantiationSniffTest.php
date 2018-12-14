@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\DependencyInjection\NoClassInstantiation;
 
+use Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff
- */
 final class NoClassInstantiationSniffTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -24,8 +22,8 @@ final class NoClassInstantiationSniffTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return NoClassInstantiationSniff::class;
     }
 }

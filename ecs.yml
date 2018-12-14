@@ -107,6 +107,7 @@ parameters:
             # cheap dependency injection
             - 'packages/*/src/Yaml/*YamlLoader.php'
             - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
+            - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/MethodOrderByTypeFixerTest.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect 3rd party code typehint

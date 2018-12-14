@@ -1,3 +1,0 @@
-services:
-    Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer: ~
-

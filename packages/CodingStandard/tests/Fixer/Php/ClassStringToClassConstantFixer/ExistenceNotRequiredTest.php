@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
+use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
- */
 final class ExistenceNotRequiredTest extends AbstractCheckerTestCase
 {
     public function test(): void
@@ -14,8 +12,16 @@ final class ExistenceNotRequiredTest extends AbstractCheckerTestCase
         $this->doTestFiles([__DIR__ . '/Fixture/wrong4.php.inc', __DIR__ . '/Fixture/wrong5.php.inc']);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config-with-non-existance.yml';
+        return ClassStringToClassConstantFixer::class;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    protected function getCheckerConfiguration(): array
+    {
+        return ['class_must_exist' => false];
     }
 }

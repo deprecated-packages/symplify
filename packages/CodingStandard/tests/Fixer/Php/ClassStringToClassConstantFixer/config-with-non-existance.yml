@@ -1,3 +1,0 @@
-services:
-    Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
-        class_must_exist: false

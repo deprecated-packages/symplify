@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 
+use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer
- */
 final class BlankLineAfterStrictTypesFixerTest extends AbstractCheckerTestCase
 {
     public function testFix(): void
@@ -18,8 +16,8 @@ final class BlankLineAfterStrictTypesFixerTest extends AbstractCheckerTestCase
         ]);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config.yml';
+        return BlankLineAfterStrictTypesFixer::class;
     }
 }
