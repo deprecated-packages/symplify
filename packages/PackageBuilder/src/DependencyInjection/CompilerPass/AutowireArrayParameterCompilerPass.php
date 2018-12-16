@@ -23,7 +23,16 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
      * Classes that create circular dependencies
      * @var string[]
      */
-    private $excludedPossibleFatalClasses = [];
+    private $excludedFatalClasses = [
+        'Symfony\Component\Form\FormExtensionInterface',
+        'Symfony\Component\Asset\PackageInterface',
+        'Symfony\Component\Config\Loader\LoaderInterface',
+        'Symfony\Component\VarDumper\Dumper\ContextProvider\ContextProviderInterface',
+        'EasyCorp\Bundle\EasyAdminBundle\Form\Type\Configurator\TypeConfiguratorInterface',
+        'Sonata\CoreBundle\Model\Adapter\AdapterInterface',
+        'Sonata\Doctrine\Adapter\AdapterChain',
+        'Sonata\Twig\Extension\TemplateExtension',
+    ];
 
     /**
      * @var DefinitionFinder
@@ -31,18 +40,12 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
     private $definitionFinder;
 
     /**
-     * @param string[] $excludedPossibleFatalClasses
+     * @param string[] $excludedFatalClasses
      */
-    public function __construct(array $excludedPossibleFatalClasses = [
-        'Symfony\Component\Form\FormExtensionInterface',
-        'Symfony\Component\Asset\PackageInterface',
-        'Symfony\Component\Config\Loader\LoaderInterface',
-        'Symfony\Component\VarDumper\Dumper\ContextProvider\ContextProviderInterface',
-        'EasyCorp\Bundle\EasyAdminBundle\Form\Type\Configurator\TypeConfiguratorInterface',
-    ])
+    public function __construct(array $excludedFatalClasses = [])
     {
         $this->definitionFinder = new DefinitionFinder();
-        $this->excludedPossibleFatalClasses = $excludedPossibleFatalClasses;
+        $this->excludedFatalClasses = array_merge($this->excludedFatalClasses, $excludedFatalClasses);
     }
 
     public function process(ContainerBuilder $containerBuilder): void
@@ -71,7 +74,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             return true;
         }
 
-        if (in_array($definition->getClass(), $this->excludedPossibleFatalClasses, true)) {
+        if (in_array($definition->getClass(), $this->excludedFatalClasses, true)) {
             return true;
         }
 
@@ -136,7 +139,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             return true;
         }
 
-        if (in_array($parameterType, $this->excludedPossibleFatalClasses, true)) {
+        if (in_array($parameterType, $this->excludedFatalClasses, true)) {
             return true;
         }
 
