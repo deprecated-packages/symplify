@@ -545,6 +545,14 @@ class Application
 }
 ```
 
+If there are failing cases, just exclude them in constructor:
+
+```php
+$this->addCompilerPass(new AutowireArrayParameterCompilerPass([
+    'Sonata\CoreBundle\Model\Adapter\AdapterInterface'
+]);
+```
+
 <br>
 
 ### Autobind Parameters
