@@ -241,15 +241,25 @@ abstract class AbstractCheckerTestCase extends TestCase
     {
         $fileInfo = new SmartFileInfo($file);
 
+        // ----- fixture regardless the file name
         if (Strings::match($fileInfo->getContents(), self::SPLIT_LINE)) {
             $this->activeFileInfo = $fileInfo;
-
             $this->doTestFiles([$this->splitContentToOriginalFileAndExpectedFile($fileInfo)]);
-        } elseif (Strings::match($file, '#correct#i')) {
+            return;
+        }
+
+        if (Strings::match($file, '#correct#i')) {
             $this->doTestCorrectFile($file);
+            return;
         } elseif (Strings::match($file, '#wrong#i')) {
             $this->doTestWrongFile($file);
+            return;
         }
+
+        // fall back to split ----- fixture
+        $this->activeFileInfo = $fileInfo;
+        $this->doTestFiles([$this->splitContentToOriginalFileAndExpectedFile($fileInfo)]);
+        return;
     }
 
     private function createConfigHash(): string
