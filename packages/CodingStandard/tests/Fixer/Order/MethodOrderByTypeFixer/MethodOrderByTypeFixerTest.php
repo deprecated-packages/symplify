@@ -14,7 +14,6 @@ final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
         $this->autoloadTestFixture = true;
 
         $this->doTestFiles([
-            __DIR__ . '/Fixture/AbstractClass.php.inc',
             __DIR__ . '/Fixture/FixerWithAbstractParent.php',
             __DIR__ . '/Fixture/SomeFixer.php.inc',
             __DIR__ . '/Fixture/RealFixer.php.inc',
@@ -35,7 +34,6 @@ final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
             'method_order_by_type' => [
                 FixerInterface::class => ['firstMethod', 'secondMethod'],
                 PhpCsFixerFixerInterface::class => ['firstMethod', 'secondMethod', 'getDefinition', 'isCandidate'],
-                'Rector\Contract\Rector\PhpRectorInterface' => ['getDefinition', 'getNodeTypes', 'refactor'],
             ],
         ];
     }
