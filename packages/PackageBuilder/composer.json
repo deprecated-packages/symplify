@@ -13,10 +13,10 @@
         "symfony/finder": "^3.4|^4.1",
         "symfony/http-kernel": "^3.4|^4.1",
         "symfony/yaml": "^3.4|^4.1",
-        "thecodingmachine/safe": "^0.1.6"
+        "thecodingmachine/safe": "^0.1.8"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.3"
+        "phpunit/phpunit": "^7.5"
     },
     "autoload": {
         "psr-4": {
