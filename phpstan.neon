@@ -56,6 +56,7 @@ parameters:
         # known values
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, bool\|int given#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, int\|true given#'
+        - '#Property Symplify\\Autodiscovery\\Tests\\Twig\\TwigPathAutodiscoveryTest::\$twigFilesystemLoader \(Twig_Loader_Filesystem\) does not accept Twig_LoaderInterface#'
 
         # Token Runner
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
@@ -95,13 +96,9 @@ parameters:
         - '#Cannot call method getStart\(\) on Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Method Symplify\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
 
-        # mixed type
-        - '#Call to an undefined method Psr\\Container\\ContainerInterface::getParameter\(\)#'
-
         # false positives
         - '#Call to function method_exists\(\) with (.*?) and (.*?)fromShellCommandline(.*?) will always evaluate to false#'
         - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutoReturnFactoryCompilerPass::findFactoriesWithoutUsage\(\) should return array<string> but returns array<int, string\|null>#'
-        - '#Array \(array<string>\) does not accept string\|null#'
 
         # variadic
         - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'
@@ -110,7 +107,6 @@ parameters:
         # mixed up iterables
         - '#Parameter \#1 \$files of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, (array<int, SplFileInfo\>|iterable<SplFileInfo\|string>) given#'
         - '#Parameter \#1 \$files of method Symplify\\PackageBuilder\\FileSystem\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo|string>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo> given#'
-        - '#Method Symplify\\BetterPhpDocParser\\DependencyInjection\\ContainerFactory::create\(\) should return Psr\\Container\\ContainerInterface but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
 
         # intentionally
         - '#Empty catch block#'
@@ -125,11 +121,13 @@ parameters:
         # Symfony 4.2 typehint BC-break
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
-        # false positive, known string
+        # false positive, known
         - '#Cannot cast array<string>\|bool\|string\|null to string#'
+        - '#Property Symplify\\Autodiscovery\\Tests\\Doctrine\\DoctrineEntityAutodiscoverTest::\$mappingDriver \(Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\) does not accept Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\|null#'
 
         # false positive
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::set\(\)#'
+        - '#Method Symplify\\Autodiscovery\\Tests\\AbstractContainerAwareTestCase::createContainer\(\) should return Symfony\\Component\\DependencyInjection\\Container but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
 
 services:
     -

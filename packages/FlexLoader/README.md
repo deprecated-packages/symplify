@@ -1,11 +1,9 @@
-# Load Entities, Twig paths, Routes and Services in Few Lines with Flex Loader
+# Get Flex Loader code out of Kernel and Keep it Clean
 
 [![Build Status](https://img.shields.io/travis/Symplify/FlexLoader/master.svg?style=flat-square)](https://travis-ci.org/Symplify/FlexLoader)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/flex-loader.svg?style=flat-square)](https://packagist.org/packages/symplify/flex-loader/stats)
 
-Keep your Symfony `Kernel` clean from boiler plate code. Why write to configs, for every new Entity namespace, Twig paths and Routes, when your application can do it for you?
-
-Do you autoload each Controller manually? :)
+Keep your Symfony `Kernel` clean from boiler plate code. It easier work with Kernel when you can easily separate your code from *the Flex code*.
 
 ## Install
 
@@ -86,10 +84,10 @@ use Symplify\FlexLoader\Flex\FlexLoader;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-final class MyProjectKernel extends BaseKernel
+final class MyProjectKernel extends Kernel
 {
     use MicroKernelTrait;
 

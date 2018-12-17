@@ -1,0 +1,43 @@
+{
+    "name": "symplify/autodiscovery",
+    "description": "Forget manual registration of Doctrine entities, Twig templates and routes. Let autodiscovery handle that for you.",
+    "license": "MIT",
+    "require": {
+        "php": "^7.1",
+        "nette/utils": "^2.5",
+        "symfony/dependency-injection": "^3.4|^4.1",
+        "symfony/finder": "^3.4|^4.1",
+        "symfony/routing": "^3.4|^4.1",
+        "symplify/package-builder": "^5.3",
+        "thecodingmachine/safe": "^0.1.8"
+    },
+    "require-dev": {
+        "doctrine/doctrine-bundle": "^1.9",
+        "doctrine/orm": "^2.6",
+        "symfony/framework-bundle": "^3.4|^4.1",
+        "symfony/http-kernel": "^3.4|^4.1",
+        "symfony/twig-bundle": "^3.4|^4.1",
+        "symfony/templating": "^3.4|^4.1",
+        "phpunit/phpunit": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\Autodiscovery\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\Autodiscovery\\Tests\\": "tests"
+        },
+        "classmap": [
+            "tests/KernelProjectDir"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.3-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
