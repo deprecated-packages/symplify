@@ -5,10 +5,10 @@ parameters:
             psr-4:
                 'Symplify\Tests\': 'tests'
         require-dev:
-            phpstan/phpstan: '^0.10.3'
-            phpunit/phpunit: '^7.3'
-            tracy/tracy: '^2.4'
-            thecodingmachine/phpstan-safe-rule: '@@dev'
+            phpstan/phpstan: '^0.10.6'
+            phpunit/phpunit: '^7.5'
+            tracy/tracy: '^2.5'
+            thecodingmachine/phpstan-safe-rule: '^0.1'
             thecodingmachine/phpstan-strict-rules: '0.10.6'
 
     # remove these to merge of packages' composer.json
@@ -29,3 +29,4 @@ parameters:
         packages/ChangelogLinker: 'git@github.com:Symplify/ChangelogLinker.git'
         packages/MonorepoBuilder: 'git@github.com:Symplify/MonorepoBuilder.git'
         packages/PHPStanExtensions: 'git@github.com:Symplify/PHPStanExtensions.git'
+        packages/FlexLoader: 'git@github.com:Symplify/FlexLoader.git'

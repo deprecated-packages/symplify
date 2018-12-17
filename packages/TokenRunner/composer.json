@@ -10,10 +10,10 @@
         "symplify/better-phpdoc-parser": "^5.3",
         "friendsofphp/php-cs-fixer": "^2.13",
         "squizlabs/php_codesniffer": "^3.3",
-        "thecodingmachine/safe": "^0.1.6"
+        "thecodingmachine/safe": "^0.1.8"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.3"
+        "phpunit/phpunit": "^7.5"
     },
     "autoload": {
         "psr-4": {

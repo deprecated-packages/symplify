@@ -59,6 +59,7 @@ parameters:
 
         # Token Runner
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
+        - '#Cannot call method (.*?) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
 
         # buggy
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
