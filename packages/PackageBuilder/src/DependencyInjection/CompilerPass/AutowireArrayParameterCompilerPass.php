@@ -29,10 +29,17 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         'Symfony\Component\Config\Loader\LoaderInterface',
         'Symfony\Component\VarDumper\Dumper\ContextProvider\ContextProviderInterface',
         'EasyCorp\Bundle\EasyAdminBundle\Form\Type\Configurator\TypeConfiguratorInterface',
+        'Twig\Extension\AbstractExtension',
         'Sonata\CoreBundle\Model\Adapter\AdapterInterface',
         'Sonata\Doctrine\Adapter\AdapterChain',
         'Sonata\Twig\Extension\TemplateExtension',
     ];
+
+    /**
+     * These namespaces are already configured by their bundles/extensions.
+     * @var string[]
+     */
+    private $excludedNamespaces = ['Doctrine', 'Symfony', 'Sensio', 'Knp', 'EasyCorp', 'Sonata', 'Twig'];
 
     /**
      * @var DefinitionFinder
@@ -74,12 +81,15 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             return true;
         }
 
-        // skip known 3rd party classes, they're autowired by own config
-        if (Strings::match($definition->getClass(), '#^(Doctrine|Symfony)\\\\#')) {
+        // here class name can be "%parameter.class%"
+        $resolvedClassName = $containerBuilder->getParameterBag()->resolveValue($definition->getClass());
+
+        // skip 3rd party classes, they're autowired by own config
+        if (Strings::match($resolvedClassName, '#^(' . implode('|', $this->excludedNamespaces) . ')\\\\#')) {
             return true;
         }
 
-        if (in_array($definition->getClass(), $this->excludedFatalClasses, true)) {
+        if (in_array($resolvedClassName, $this->excludedFatalClasses, true)) {
             return true;
         }
 
