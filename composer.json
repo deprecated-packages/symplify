@@ -36,16 +36,21 @@
         "twig/twig": "^2.5"
     },
     "require-dev": {
+        "doctrine/doctrine-bundle": "^1.9",
+        "doctrine/orm": "^2.6",
         "nette/application": "^2.4",
         "phpstan/phpstan": "^0.10.6",
         "phpunit/phpunit": "^7.5",
         "symfony/framework-bundle": "^3.4|^4.1",
+        "symfony/templating": "^3.4|^4.1",
+        "symfony/twig-bundle": "^3.4|^4.1",
         "thecodingmachine/phpstan-safe-rule": "^0.1",
         "thecodingmachine/phpstan-strict-rules": "0.10.6",
         "tracy/tracy": "^2.5"
     },
     "autoload": {
         "psr-4": {
+            "Symplify\\Autodiscovery\\": "packages/Autodiscovery/src",
             "Symplify\\BetterPhpDocParser\\": "packages/BetterPhpDocParser/src",
             "Symplify\\ChangelogLinker\\": "packages/ChangelogLinker/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
@@ -71,7 +76,11 @@
         }
     },
     "autoload-dev": {
+        "classmap": [
+            "packages/Autodiscovery/tests/KernelProjectDir"
+        ],
         "psr-4": {
+            "Symplify\\Autodiscovery\\Tests\\": "packages/Autodiscovery/tests",
             "Symplify\\BetterPhpDocParser\\Tests\\": "packages/BetterPhpDocParser/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/ChangelogLinker/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",

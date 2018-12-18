@@ -31,6 +31,7 @@ services:
 
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
+            - 'Symplify\Autodiscovery\*'
             - 'Symplify\FlexLoader\Flex\FlexPathsFactory'
             - 'GuzzleHttp\Psr7\Request'
             - 'Symplify\EasyCodingStandard\Error\Error'

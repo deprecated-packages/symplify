@@ -30,3 +30,4 @@ parameters:
         packages/MonorepoBuilder: 'git@github.com:Symplify/MonorepoBuilder.git'
         packages/PHPStanExtensions: 'git@github.com:Symplify/PHPStanExtensions.git'
         packages/FlexLoader: 'git@github.com:Symplify/FlexLoader.git'
+        packages/Autodiscovery: 'git@github.com:Symplify/Autodiscovery.git'
