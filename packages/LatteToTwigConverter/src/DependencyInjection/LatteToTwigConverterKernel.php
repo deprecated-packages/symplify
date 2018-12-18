@@ -7,7 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 
 final class LatteToTwigConverterKernel extends Kernel
@@ -28,6 +27,5 @@ final class LatteToTwigConverterKernel extends Kernel
         $containerBuilder->addCompilerPass(new AutoReturnFactoryCompilerPass());
 
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
-        $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
     }
 }

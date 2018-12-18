@@ -21,6 +21,12 @@ use function Safe\sprintf;
 abstract class AbstractCheckerTestCase extends TestCase
 {
     /**
+     * To invalidate new versions
+     * @var string
+     */
+    private const CACHE_VERSION_ID = 'v1';
+
+    /**
      * @var string
      */
     private const SPLIT_LINE = '#-----\n#';
@@ -126,6 +132,9 @@ abstract class AbstractCheckerTestCase extends TestCase
 
             $servicesConfiguration = [
                 'services' => [
+                    '_defaults' => [
+                        'public' => true, // for tests
+                    ],
                     $this->getCheckerClass() => $this->getCheckerConfiguration() ?: null,
                 ],
             ];
@@ -265,7 +274,7 @@ abstract class AbstractCheckerTestCase extends TestCase
     private function createConfigHash(): string
     {
         return Strings::substring(
-            md5($this->getCheckerClass() . Json::encode($this->getCheckerConfiguration())),
+            md5($this->getCheckerClass() . Json::encode($this->getCheckerConfiguration()) . self::CACHE_VERSION_ID),
             0,
             10
         );
