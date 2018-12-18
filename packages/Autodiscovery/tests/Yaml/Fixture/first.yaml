@@ -1,0 +1,10 @@
+services:
+    Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass: ~
+    Symplify\Autodiscovery\Tests\Yaml\Source\SomeClass: ~
+
+---
+services:
+    _defaults:
+        autowire: true
+    Symplify\Autodiscovery\:
+        resource: "../Source"

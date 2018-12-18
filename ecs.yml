@@ -125,6 +125,7 @@ parameters:
             - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
             - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
             - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
+            - 'packages/Autodiscovery/src/Arrays.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
             # 3rd party code copy-pasted; kept as is for easier comparison to original
