@@ -9,7 +9,41 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.2.15 - 2018-12-07
+## Unreleased
+
+### Added
+
+#### Autodiscovery
+
+- [#1257] Add new package
+
+#### FlexLoader
+
+- [#1256] Add new package
+
+### Changed
+
+#### PackageBuilder
+
+- [#1260] Improve `LevelFileFinder` exception reporting
+
+## [v5.2.16] - 2018-12-12
+
+### Added
+
+#### MonorepoBuilder
+
+- [#1246] Add `PropagateCommand`
+
+### Changed
+
+- [#1248] Allow first tag for release command + throw exception on missing .git
+
+### Fixed
+
+- [#1233] Fix tests for MacOS, Thanks to [@azdanov]
+
+## [v5.2.15] - 2018-12-07
 
 ### Added
 
@@ -425,7 +459,6 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1242]: https://github.com/Symplify/Symplify/pull/1242
 [#1240]: https://github.com/Symplify/Symplify/pull/1240
 [#1239]: https://github.com/Symplify/Symplify/pull/1239
-[#1238]: https://github.com/Symplify/Symplify/pull/1238
 [#1237]: https://github.com/Symplify/Symplify/pull/1237
 [#1236]: https://github.com/Symplify/Symplify/pull/1236
 [#1234]: https://github.com/Symplify/Symplify/pull/1234
@@ -433,3 +466,15 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1231]: https://github.com/Symplify/Symplify/pull/1231
 [v5.2.14]: https://github.com/Symplify/Symplify/compare/v5.2.13...v5.2.14
 [v5.2.13]: https://github.com/Symplify/Symplify/compare/v5.2.11...v5.2.13
+[#1260]: https://github.com/Symplify/Symplify/pull/1260
+[#1259]: https://github.com/Symplify/Symplify/pull/1259
+[#1257]: https://github.com/Symplify/Symplify/pull/1257
+[#1256]: https://github.com/Symplify/Symplify/pull/1256
+[#1254]: https://github.com/Symplify/Symplify/pull/1254
+[#1252]: https://github.com/Symplify/Symplify/pull/1252
+[#1251]: https://github.com/Symplify/Symplify/pull/1251
+[#1248]: https://github.com/Symplify/Symplify/pull/1248
+[#1246]: https://github.com/Symplify/Symplify/pull/1246
+[#1233]: https://github.com/Symplify/Symplify/pull/1233
+[v5.2.16]: https://github.com/Symplify/Symplify/compare/v5.2.15...v5.2.16
+[v5.2.15]: https://github.com/Symplify/Symplify/compare/v5.2.14...v5.2.15
