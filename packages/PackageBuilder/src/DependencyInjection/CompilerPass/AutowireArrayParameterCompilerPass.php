@@ -74,6 +74,11 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             return true;
         }
 
+        // skip known 3rd party classes, they're autowired by own config
+        if (Strings::match($definition->getClass(), '#^(Doctrine|Symfony)\\\\#')) {
+            return true;
+        }
+
         if (in_array($definition->getClass(), $this->excludedFatalClasses, true)) {
             return true;
         }
