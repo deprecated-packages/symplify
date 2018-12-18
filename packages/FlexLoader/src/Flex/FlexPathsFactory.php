@@ -2,6 +2,7 @@
 
 namespace Symplify\FlexLoader\Flex;
 
+use Nette\Utils\Strings;
 use function Safe\glob;
 
 final class FlexPathsFactory
@@ -44,7 +45,14 @@ final class FlexPathsFactory
     {
         $existingGlobPaths = [];
         foreach ($globPaths as $globPath) {
-            if (glob($globPath)) {
+            // the final glob is decorated with *, so we need to check it here too
+            if (! Strings::endsWith($globPath, '*')) {
+                $checkedGlobPath = $globPath . '*';
+            } else {
+                $checkedGlobPath = $globPath;
+            }
+
+            if (glob($checkedGlobPath)) {
                 $existingGlobPaths[] = $globPath;
             }
         }
