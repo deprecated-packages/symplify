@@ -2,6 +2,7 @@
 
 namespace Symplify\PackageBuilder\Configuration;
 
+use Nette\Utils\ObjectHelpers;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -43,11 +44,22 @@ final class LevelFileFinder
     {
         $allLevels = $this->findAllLevelsInDirectory($configDirectory);
 
-        throw new LevelNotFoundException(sprintf(
-            'Level "%s" was not found. Pick one of: "%s"',
+        $suggestedLevel = ObjectHelpers::getSuggestion($allLevels, $levelName);
+
+        $levelsInList = array_map(function (string $level) {
+            return ' * ' . $level . PHP_EOL;
+        }, $allLevels);
+
+        $pickOneOfMessage = sprintf('Pick "--level" of:%s%s%s', PHP_EOL . PHP_EOL, implode('', $levelsInList), PHP_EOL);
+
+        $levelNotFoundMessage = sprintf(
+            'Level "%s" was not found.%s%s',
             $levelName,
-            implode('", "', $allLevels)
-        ));
+            PHP_EOL,
+            $suggestedLevel ? sprintf('Did you mean "%s"?', $suggestedLevel) . PHP_EOL : 'Pick one of above.'
+        );
+
+        throw new LevelNotFoundException($pickOneOfMessage . $levelNotFoundMessage);
     }
 
     /**
