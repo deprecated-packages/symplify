@@ -80,6 +80,10 @@ class SomeClass implements SomeInterface {};')]
             return true;
         }
 
+        if ($classWrapper->isAnonymous()) {
+            return true;
+        }
+
         if ($this->onlyInterfaces) {
             return ! array_intersect($this->onlyInterfaces, $classWrapper->getInterfaceNames());
         }

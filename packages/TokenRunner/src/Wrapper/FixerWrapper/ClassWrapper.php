@@ -279,6 +279,11 @@ final class ClassWrapper
         return Strings::contains($this->tokens[$docCommentPosition]->getContent(), 'Entity');
     }
 
+    public function isAnonymous(): bool
+    {
+        return (new TokensAnalyzer($this->tokens))->isAnonymousClass($this->startIndex);
+    }
+
     /**
      * @return mixed[]
      */
