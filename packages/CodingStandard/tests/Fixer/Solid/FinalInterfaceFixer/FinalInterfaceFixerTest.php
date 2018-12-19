@@ -15,8 +15,10 @@ final class FinalInterfaceFixerTest extends AbstractCheckerTestCase
             __DIR__ . '/Fixture/correct3.php.inc',
             __DIR__ . '/Fixture/correct4.php.inc',
             __DIR__ . '/Fixture/correct5.php.inc',
+            __DIR__ . '/Fixture/correct6.php.inc',
             __DIR__ . '/Fixture/wrong.php.inc',
             __DIR__ . '/Fixture/wrong2.php.inc',
+            __DIR__ . '/Fixture/wrong4.php.inc',
         ]);
     }
 
