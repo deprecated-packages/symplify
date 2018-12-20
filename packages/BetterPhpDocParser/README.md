@@ -30,6 +30,8 @@ imports:
 or register the needed services from `services.yml` in config of your other framework.
 
 ```php
+<?php
+
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 
@@ -49,7 +51,7 @@ class SomeClass
 
         // modify `$phpDocInfo` using its methods
 
-        return $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
+        return $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo);
     }
 }
 ```
