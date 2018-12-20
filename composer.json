@@ -20,7 +20,7 @@
         "phpstan/phpdoc-parser": "^0.3",
         "slam/php-cs-fixer-extensions": "^1.17",
         "slevomat/coding-standard": "^4.8",
-        "squizlabs/php_codesniffer": "^3.3",
+        "squizlabs/php_codesniffer": "^3.4",
         "symfony/cache": "^3.4|^4.1",
         "symfony/config": "^3.4|^4.1",
         "symfony/console": "^3.4|^4.1",
@@ -125,7 +125,8 @@
             "packages/ChangelogLinker/bin/changelog-linker link",
             "packages/ChangelogLinker/bin/changelog-linker cleanup"
         ],
-        "merge": "packages/MonorepoBuilder/bin/monorepo-builder merge"
+        "merge": "packages/MonorepoBuilder/bin/monorepo-builder merge",
+        "propagate": "packages/MonorepoBuilder/bin/monorepo-builder propagate"
     },
     "config": {
         "sort-packages": true
