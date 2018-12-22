@@ -15,7 +15,7 @@ final class FlexLoader
     /**
      * @var string
      */
-    private const CONFIG_EXTENSIONS = '.{php,xml,yaml,yml}';
+    private $configExtensions;
 
     /**
      * @var string
@@ -32,12 +32,13 @@ final class FlexLoader
      */
     private $flexPathsFactory;
 
-    public function __construct(string $environment, string $projectDir)
+    public function __construct(string $environment, string $projectDir, string $configExtensions = '.{php,xml,yaml,yml}')
     {
         $this->ensureArgumentsAreNotSwapped($environment, $projectDir);
 
         $this->environment = $environment;
         $this->projectDir = $projectDir;
+        $this->configExtensions = $configExtensions;
 
         $this->flexPathsFactory = new FlexPathsFactory();
     }
@@ -59,7 +60,7 @@ final class FlexLoader
         $servicePaths = array_merge($servicePaths, $extraServicePaths);
 
         foreach ($servicePaths as $servicePath) {
-            $loader->load($servicePath . self::CONFIG_EXTENSIONS, 'glob');
+            $loader->load($servicePath . $this->configExtensions, 'glob');
         }
     }
 
@@ -72,7 +73,7 @@ final class FlexLoader
         $routingPaths = array_merge($routingPaths, $extraRoutingPaths);
 
         foreach ($routingPaths as $routingPath) {
-            $routeCollectionBuilder->import($routingPath . self::CONFIG_EXTENSIONS, '/', 'glob');
+            $routeCollectionBuilder->import($routingPath . $this->configExtensions, '/', 'glob');
         }
     }
 
