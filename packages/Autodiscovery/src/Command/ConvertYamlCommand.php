@@ -13,6 +13,7 @@ use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
+use function Safe\realpath;
 use function Safe\sprintf;
 
 final class ConvertYamlCommand extends Command
@@ -50,12 +51,11 @@ final class ConvertYamlCommand extends Command
         $this->addOption(
             self::OPTION_REMOVE_SINGLY_IMPLEMENTED,
             'r',
-            InputOption::VALUE_REQUIRED,
+            InputOption::VALUE_NONE,
             sprintf(
                 'Remove aliases added only for only-implementations, useful in combination with "%s".',
                 AutowireSinglyImplementedCompilerPass::class
-            ),
-            false
+            )
         );
 
         $this->addOption(
@@ -73,16 +73,20 @@ final class ConvertYamlCommand extends Command
         $removeSinglyImplemented = (bool) $input->getOption(self::OPTION_REMOVE_SINGLY_IMPLEMENTED);
         $nestingLevel = (int) $input->getOption(self::OPTION_NESTING_LEVEL);
 
+        $output->writeln('Processing ' . realpath($servicesFile));
+        $output->writeln(PHP_EOL);
+
         $servicesContent = FileSystem::read($servicesFile);
         $servicesYaml = Yaml::parse($servicesContent);
 
-        $convertedContent = $this->explicitToAutodiscoveryConverter->convert(
+        $convertedYaml = $this->explicitToAutodiscoveryConverter->convert(
             $servicesYaml,
             $servicesFile,
             $nestingLevel,
             $removeSinglyImplemented
         );
 
+        $convertedContent = Yaml::dump($convertedYaml, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
         $output->writeln($convertedContent);
 
         return ShellCode::SUCCESS;

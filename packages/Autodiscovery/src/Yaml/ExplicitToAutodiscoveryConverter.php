@@ -37,6 +37,21 @@ final class ExplicitToAutodiscoveryConverter
     private $classes = [];
 
     /**
+     * These namespaces are already configured by their bundles/extensions.
+     * @var string[]
+     */
+    private $autodiscoveryExcludedNamespaces = [
+        'Doctrine',
+        'JMS',
+        'Symfony',
+        'Sensio',
+        'Knp',
+        'EasyCorp',
+        'Sonata',
+        'Twig',
+    ];
+
+    /**
      * @var Filesystem
      */
     private $filesystem;
@@ -119,6 +134,10 @@ final class ExplicitToAutodiscoveryConverter
     {
         $this->removeService = false;
 
+        if ($this->shouldSkipService($service, $name)) {
+            return $yaml;
+        }
+
         if (is_array($service)) {
             [$yaml, $service, $name] = $this->processArrayService($yaml, $service, $name);
         }
@@ -149,7 +168,12 @@ final class ExplicitToAutodiscoveryConverter
         $groupedServices = $this->groupServicesByNamespaces($this->classes, $commonNamespaces);
 
         foreach ($groupedServices as $namespace => $services) {
-            $yaml[YamlKey::SERVICES][$namespace . '\\'] = [
+            $namespaceKey = $namespace . '\\';
+            if (isset($yaml[YamlKey::SERVICES][$namespaceKey])) {
+                continue;
+            }
+
+            $yaml[YamlKey::SERVICES][$namespaceKey] = [
                 YamlKey::RESOURCE => $this->getRelativeClassLocation($services[0], $filePath),
             ];
 
@@ -184,6 +208,26 @@ final class ExplicitToAutodiscoveryConverter
         $yaml[YamlKey::SERVICES] = array_merge([YamlKey::DEFAULTS => [$key => true]], $yaml[YamlKey::SERVICES]);
 
         return $yaml;
+    }
+
+    /**
+     * @param mixed|mixed[] $service
+     */
+    private function shouldSkipService($service, string $name): bool
+    {
+        $class = $service['class'] ?? $name;
+
+        // skip 3rd party classes, they're autowired by own config
+        if (Strings::match($class, '#^(' . implode('|', $this->autodiscoveryExcludedNamespaces) . ')\\\\#')) {
+            return true;
+        }
+
+        // skip no-namespace class naming
+        if (! Strings::contains($class, '\\')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -252,7 +296,8 @@ final class ExplicitToAutodiscoveryConverter
             $classDirectory = dirname($reflectionClass->getFileName());
         }
 
-        $configDirectory = dirname($configFilePath);
+        $configDirectory = realpath(dirname($configFilePath));
+
         $relativePath = $this->filesystem->makePathRelative($classDirectory, $configDirectory);
 
         return rtrim($relativePath, '/');

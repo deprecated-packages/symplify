@@ -4,15 +4,11 @@ namespace Symplify\Autodiscovery\Tests\Yaml;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symfony\Component\Yaml\Yaml;
-use Symplify\Autodiscovery\Php\InterfaceAnalyzer;
-use Symplify\Autodiscovery\Yaml\CommonNamespaceResolver;
+use Symplify\Autodiscovery\Tests\AbstractContainerAwareTestCase;
 use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
-use Symplify\Autodiscovery\Yaml\TagAnalyzer;
 
-final class ExplicitToAutodiscoveryConverterTest extends TestCase
+final class ExplicitToAutodiscoveryConverterTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var string
@@ -26,12 +22,7 @@ final class ExplicitToAutodiscoveryConverterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->explicitToAutodiscoveryConverter = new ExplicitToAutodiscoveryConverter(
-            new SymfonyFilesystem(),
-            new CommonNamespaceResolver(),
-            new InterfaceAnalyzer(),
-            new TagAnalyzer()
-        );
+        $this->explicitToAutodiscoveryConverter = $this->container->get(ExplicitToAutodiscoveryConverter::class);
     }
 
     public function test(): void
@@ -42,6 +33,8 @@ final class ExplicitToAutodiscoveryConverterTest extends TestCase
         $this->doTestFile(__DIR__ . '/Fixture/tags_with_values.yaml', 2);
         $this->doTestFile(__DIR__ . '/Fixture/shopsys.yaml', 3);
         $this->doTestFile(__DIR__ . '/Fixture/elasticr.yaml', 3);
+        $this->doTestFile(__DIR__ . '/Fixture/untouch.yaml', 3);
+        $this->doTestFile(__DIR__ . '/Fixture/existing_autodiscovery.yaml', 3);
         $this->doTestFile(__DIR__ . '/Fixture/blog_post_votruba.yaml', 1);
     }
 

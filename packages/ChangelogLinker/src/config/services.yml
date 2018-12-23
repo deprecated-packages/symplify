@@ -9,7 +9,6 @@ services:
 
     Symplify\PackageBuilder\Yaml\ParametersMerger: ~
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
+    Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
 
     GuzzleHttp\Client: ~
-
-    Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
