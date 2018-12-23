@@ -41,6 +41,8 @@ final class PackageComposerFinder
             ->files()
             ->in($this->packageDirectories)
             ->exclude('templates') // "init" command template data
+            ->exclude('vendor')
+            ->exclude('node_modules')
             ->name('composer.json');
 
         if (! $this->isPHPUnit()) {
