@@ -32,8 +32,11 @@ final class FlexLoader
      */
     private $flexPathsFactory;
 
-    public function __construct(string $environment, string $projectDir, string $configExtensions = '.{php,xml,yaml,yml}')
-    {
+    public function __construct(
+        string $environment,
+        string $projectDir,
+        string $configExtensions = '.{php,xml,yaml,yml}'
+    ) {
         $this->ensureArgumentsAreNotSwapped($environment, $projectDir);
 
         $this->environment = $environment;
