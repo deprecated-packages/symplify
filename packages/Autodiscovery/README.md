@@ -13,7 +13,6 @@ you need to modify your config. Why do it, when your application can do it for y
 
 Another feature is YAML convertor - from old pre-Symfony 3.3 to new autodiscovery, autowire and autoconfigure format.
 
-
 ## Install
 
 ```bash

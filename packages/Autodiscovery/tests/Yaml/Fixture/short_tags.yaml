@@ -1,0 +1,17 @@
+services:
+    first_command:
+        class: App\Command\FirstCommand
+        autowire: true
+        tags: [console.command]
+    second_command:
+        class: App\Command\SecondCommand
+        autowire: true
+        tags: [console.command]
+---
+services:
+    _defaults:
+        autowire: true
+        autodiscovery: true
+
+    App\Command\:
+        resource: '../../../src'

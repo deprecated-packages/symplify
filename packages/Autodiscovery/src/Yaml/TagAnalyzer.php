@@ -36,10 +36,19 @@ final class TagAnalyzer
      */
     public function isAutoconfiguredTags(array $tags): bool
     {
+        if (isset($tags[0]) && is_string($tags[0])) {
+            return $this->isAutoconfiguredTagName($tags[0]);
+        }
+
         if (! Arrays::hasOnlyKey($tags[0], 'name')) {
             return false;
         }
 
-        return in_array($tags[0]['name'], $this->autoconfiguredTagNames, true);
+        return $this->isAutoconfiguredTagName($tags[0]['name']);
+    }
+
+    private function isAutoconfiguredTagName(string $tag): bool
+    {
+        return in_array($tag, $this->autoconfiguredTagNames, true);
     }
 }

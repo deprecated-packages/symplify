@@ -27,6 +27,7 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractContainerAwareT
 
     public function test(): void
     {
+        $this->doTestFile(__DIR__ . '/Fixture/short_tags.yaml', 2);
         $this->doTestFile(__DIR__ . '/Fixture/singly_implemented_interfaces.yaml', 2);
         $this->doTestFile(__DIR__ . '/Fixture/singly_implemented_interfaces_excluded.yaml', 2, true);
         $this->doTestFile(__DIR__ . '/Fixture/first.yaml', 2);
