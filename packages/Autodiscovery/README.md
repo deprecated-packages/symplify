@@ -11,6 +11,9 @@ For every
 
 you need to modify your config. Why do it, when your application can do it for you? Do you autoload each Controller manually? :)
 
+Another feature is YAML convertor - from old pre-Symfony 3.3 to new autodiscovery, autowire and autoconfigure format.
+
+
 ## Install
 
 ```bash
@@ -193,3 +196,76 @@ final class MyProjectKernel extends Kernel
 ```
 
 This works very well with [local packages](https://www.tomasvotruba.cz/blog/2017/12/25/composer-local-packages-for-dummies/) or [monorepo architecture](https://www.tomasvotruba.cz/clusters/#monorepo-from-zero-to-hero).
+
+## YAML Convertor
+
+```bash
+vendor/bin/autodiscovery convert-yaml path/to/servcies.yml
+```
+
+It will convert service definitions from config, to new [Symfony 3.3 DI features described here](https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/).
+
+In short, from this:
+
+```yaml
+services:
+    some_service:
+        class: App\SomeService
+        autowire: true
+
+    some_controller:
+        class: App\Controller\SomeController
+        autowire: true
+
+    first_repository:
+        class: App\Repository\FirstRepository
+        autowire: true
+        calls:
+            - ["setEntityManager", ["@entity_manager"]]
+    second_repository:
+        class: App\Repository\SecondRepository
+        autowire: true
+        calls:
+            - ["setEntityManager", ["@entity_manager"]]
+
+    first_command:
+        class: App\Command\FirstCommand
+        autowire: true
+        tags:
+            - { name: console.command }
+    second_command:
+        class: App\Command\SecondCommand
+        autowire: true
+        tags:
+            - { name: console.command }
+
+    first_subscriber:
+        class: App\EventSubscriber\FirstSubscriber
+        autowire: true
+        tags:
+            - { name: kernel.event_subscriber }
+    second_subscriber:
+        class: App\EventSubscriber\SecondSubscriber
+        autowire: true
+        tags:
+            - { name: kernel.event_subscriber }
+```
+
+To this:
+
+```yaml
+services:
+    _defaults:
+        autowire: true
+        autodiscovery: true
+
+    App\Repository\FirstRepository:
+        calls:
+            - ["setEntityManager", ["@entity_manager"]]
+    App\Repository\SecondRepository:
+        calls:
+            - ["setEntityManager", ["@entity_manager"]]
+
+    App\:
+        resource: '../../../src'
+```
