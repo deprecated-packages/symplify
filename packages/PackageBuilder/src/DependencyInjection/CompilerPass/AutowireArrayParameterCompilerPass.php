@@ -39,7 +39,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
      * These namespaces are already configured by their bundles/extensions.
      * @var string[]
      */
-    private $excludedNamespaces = ['Doctrine', 'Symfony', 'Sensio', 'Knp', 'EasyCorp', 'Sonata', 'Twig'];
+    private $excludedNamespaces = ['Doctrine', 'JMS', 'Symfony', 'Sensio', 'Knp', 'EasyCorp', 'Sonata', 'Twig'];
 
     /**
      * @var DefinitionFinder

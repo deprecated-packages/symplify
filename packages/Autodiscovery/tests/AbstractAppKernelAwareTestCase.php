@@ -3,14 +3,14 @@
 namespace Symplify\Autodiscovery\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\Autodiscovery\DependencyInjection\AutodiscoveryKernel;
+use Symplify\Autodiscovery\Tests\DependencyInjection\AudiscoveryTestingKernel;
 
-abstract class AbstractContainerAwareTestCase extends TestCase
+abstract class AbstractAppKernelAwareTestCase extends TestCase
 {
     use ContainerAwareTestCaseTrait;
 
     protected function getKernelClass(): string
     {
-        return AutodiscoveryKernel::class;
+        return AudiscoveryTestingKernel::class;
     }
 }

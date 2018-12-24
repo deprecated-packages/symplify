@@ -3,7 +3,7 @@
 namespace Symplify\Autodiscovery\Tests\Twig;
 
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
-use Symplify\Autodiscovery\Tests\AbstractContainerAwareTestCase;
+use Symplify\Autodiscovery\Tests\AbstractAppKernelAwareTestCase;
 use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
 use Twig_Environment;
 use function Safe\realpath;
@@ -11,7 +11,7 @@ use function Safe\realpath;
 /**
  * @covers \Symplify\Autodiscovery\Twig\TwigPathAutodiscoverer
  */
-final class TwigPathAutodiscoveryTest extends AbstractContainerAwareTestCase
+final class TwigPathAutodiscoveryTest extends AbstractAppKernelAwareTestCase
 {
     /**
      * @var TwigFilesystemLoader

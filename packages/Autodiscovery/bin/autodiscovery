@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+require_once __DIR__ . '/autoload.php';
+
+use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Application;
+use Symplify\PackageBuilder\Console\ThrowableRenderer;
+
+try {
+    /** @var ContainerInterface $container */
+    $container = require_once __DIR__ . '/container.php';
+
+    $application = $container->get(Application::class);
+    exit($application->run());
+} catch (Throwable $throwable) {
+    (new ThrowableRenderer())->render($throwable);
+}

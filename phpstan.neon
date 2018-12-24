@@ -60,7 +60,7 @@ parameters:
 
         # Token Runner
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
-        - '#Cannot call method (.*?) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
+        - '#(.*?) Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
 
         # buggy
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
@@ -99,6 +99,7 @@ parameters:
         # false positives
         - '#Call to function method_exists\(\) with (.*?) and (.*?)fromShellCommandline(.*?) will always evaluate to false#'
         - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutoReturnFactoryCompilerPass::findFactoriesWithoutUsage\(\) should return array<string> but returns array<int, string\|null>#'
+        - '#Method Symplify\\Autodiscovery\\Yaml\\ExplicitToAutodiscoveryConverter::groupServicesByNamespaces\(\) should return array<string> but returns array<string, array<int, string>>#'
 
         # variadic
         - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'
@@ -124,6 +125,8 @@ parameters:
         # false positive, known
         - '#Cannot cast array<string>\|bool\|string\|null to string#'
         - '#Property Symplify\\Autodiscovery\\Tests\\Doctrine\\DoctrineEntityAutodiscoverTest::\$mappingDriver \(Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\) does not accept Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\|null#'
+        - '#If condition is always false#'
+        - '#Cannot cast array<string>\|bool\|string\|null to int#'
 
         # false positive
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::set\(\)#'

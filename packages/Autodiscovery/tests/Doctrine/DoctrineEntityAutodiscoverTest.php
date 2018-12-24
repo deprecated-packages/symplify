@@ -6,13 +6,13 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\EntityManager;
-use Symplify\Autodiscovery\Tests\AbstractContainerAwareTestCase;
+use Symplify\Autodiscovery\Tests\AbstractAppKernelAwareTestCase;
 use Symplify\Autodiscovery\Tests\KernelProjectDir\Entity\Product;
 
 /**
  * @covers \Symplify\Autodiscovery\Doctrine\DoctrineEntityMappingAutodiscoverer
  */
-final class DoctrineEntityAutodiscoverTest extends AbstractContainerAwareTestCase
+final class DoctrineEntityAutodiscoverTest extends AbstractAppKernelAwareTestCase
 {
     /**
      * @var MappingDriver
