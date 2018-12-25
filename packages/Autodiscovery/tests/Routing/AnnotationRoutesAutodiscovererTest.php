@@ -2,9 +2,13 @@
 
 namespace Symplify\Autodiscovery\Tests\Routing;
 
+use Symplify\Autodiscovery\Routing\AnnotationRoutesAutodiscoverer;
 use Symplify\Autodiscovery\Tests\AbstractAppKernelAwareTestCase;
 
-final class AnnotationRoutesAutodiscoverTest extends AbstractAppKernelAwareTestCase
+/**
+ * @see AnnotationRoutesAutodiscoverer
+ */
+final class AnnotationRoutesAutodiscovererTest extends AbstractAppKernelAwareTestCase
 {
     public function test(): void
     {

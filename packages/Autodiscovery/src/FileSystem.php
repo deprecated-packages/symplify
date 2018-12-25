@@ -52,6 +52,14 @@ final class FileSystem
     /**
      * @return SmartFileInfo[]
      */
+    public function getTranslationDirectories(): array
+    {
+        return $this->getDirectoriesInSourceByName('translations');
+    }
+
+    /**
+     * @return SmartFileInfo[]
+     */
     private function getDirectoriesInSourceByName(string $name): array
     {
         if (! $this->getDirectories()) {
@@ -76,6 +84,7 @@ final class FileSystem
             $this->projectDir . '/src',
             $this->projectDir . '/templates',
             $this->projectDir . '/packages',
+            $this->projectDir . '/projects',
             // WTF? this must be configurable
             __DIR__ . '/../../../../packages',
         ];

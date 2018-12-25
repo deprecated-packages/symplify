@@ -7,7 +7,7 @@ use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symplify\Autodiscovery\Contract\AutodiscovererInterface;
 use Symplify\Autodiscovery\FileSystem;
 
-final class AnnotationRoutesAutodiscover implements AutodiscovererInterface
+final class AnnotationRoutesAutodiscoverer implements AutodiscovererInterface
 {
     /**
      * @var RouteCollectionBuilder

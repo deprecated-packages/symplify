@@ -7,6 +7,7 @@ For every
 
 - **new Entity namespace**,
 - **new Twig path**
+- **new Translation catalogue path**
 - and **new routes files**,
 
 you need to modify your config. Why do it, when your application can do it for you? Do you autoload each Controller manually? :)
@@ -141,7 +142,55 @@ final class MyProjectKernel extends Kernel
 }
 ```
 
-### 3. Routing
+### 3. Translation Paths
+
+When you create a new package with translations, you need to register them:
+
+```yaml
+# app/config/packages/framework.yml
+framework:
+    translator:
+        paths:
+            # new line for each new package
+            - "%kernel.root_dir%/../package/Product/translations"
+            # new line for each new package
+            - "%kernel.root_dir%/../package/Social/translations"
+```
+
+#### With Autodiscovery
+
+```diff
+ # app/config/packages/framework.yml
+ framework:
+     translator:
+-        paths:
+-            - "%kernel.root_dir%/../package/Product/translations"
+-            - "%kernel.root_dir%/../package/Social/translations"
+```
+
+```php
+<?php declare(strict_types=1);
+
+namespace App;
+
+use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symplify\Autodiscovery\Translation\TranslationPathAutodiscoverer;
+
+final class MyProjectKernel extends Kernel
+{
+    use MicroKernelTrait;
+
+    protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
+    {
+        (new TranslationPathAutodiscoverer($containerBuilder))->autodiscover();
+    }
+}
+```
+
+### 4. Routing
 
 ```yaml
 # app/config/routes.yaml
@@ -181,7 +230,7 @@ namespace App;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symplify\Autodiscovery\Routing\AnnotationRoutesAutodiscover;
+use Symplify\Autodiscovery\Routing\AnnotationRoutesAutodiscoverer;
 
 final class MyProjectKernel extends Kernel
 {
@@ -189,7 +238,7 @@ final class MyProjectKernel extends Kernel
 
     protected function configureRoutes(RouteCollectionBuilder $routeCollectionBuilder): void
     {
-        (new AnnotationRoutesAutodiscover($routeCollectionBuilder, $this->getContainerBuilder()))->autodiscover();
+        (new AnnotationRoutesAutodiscoverer($routeCollectionBuilder, $this->getContainerBuilder()))->autodiscover();
     }
 }
 ```
