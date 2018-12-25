@@ -81,6 +81,7 @@
             "packages/Autodiscovery/tests/KernelProjectDir"
         ],
         "psr-4": {
+            "Symplify\\Util\\Composer\\": "util/Composer/src",
             "Symplify\\Autodiscovery\\Tests\\": "packages/Autodiscovery/tests",
             "Symplify\\BetterPhpDocParser\\Tests\\": "packages/BetterPhpDocParser/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/ChangelogLinker/tests",
@@ -127,7 +128,8 @@
             "packages/ChangelogLinker/bin/changelog-linker cleanup"
         ],
         "merge": "packages/MonorepoBuilder/bin/monorepo-builder merge",
-        "propagate": "packages/MonorepoBuilder/bin/monorepo-builder propagate"
+        "propagate": "packages/MonorepoBuilder/bin/monorepo-builder propagate",
+        "pre-autoload-dump": "Symplify\\Util\\Composer\\PackagePsr4Autoloader::autoload"
     },
     "config": {
         "sort-packages": true
