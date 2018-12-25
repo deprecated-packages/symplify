@@ -14,7 +14,7 @@ final class FlexPathsFactory
     {
         $servicePaths = [
             $projectDir . '/config/packages/*',
-            $projectDir . '/config/packages/' . $environment . '/**/*',
+            $projectDir . '/config/packages/' . $environment . '/*',
             $projectDir . '/config/services',
             $projectDir . '/config/services_' . $environment,
         ];
@@ -29,7 +29,7 @@ final class FlexPathsFactory
     {
         $routingPaths = [
             $projectDir . '/config/routes/*',
-            $projectDir . '/config/routes/' . $environment . '/**/*',
+            $projectDir . '/config/routes/' . $environment . '/*',
             $projectDir . '/config/routes',
         ];
 
