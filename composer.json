@@ -43,6 +43,7 @@
         "phpunit/phpunit": "^7.5",
         "symfony/framework-bundle": "^3.4|^4.1",
         "symfony/templating": "^3.4|^4.1",
+        "symfony/translation": "^3.4|^4.1",
         "symfony/twig-bundle": "^3.4|^4.1",
         "thecodingmachine/phpstan-safe-rule": "^0.1",
         "thecodingmachine/phpstan-strict-rules": "0.10.6",

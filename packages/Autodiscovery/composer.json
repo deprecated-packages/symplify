@@ -22,6 +22,7 @@
         "symfony/http-kernel": "^3.4|^4.1",
         "symfony/twig-bundle": "^3.4|^4.1",
         "symfony/templating": "^3.4|^4.1",
+        "symfony/translation": "^3.4|^4.1",
         "phpunit/phpunit": "^7.5"
     },
     "autoload": {
