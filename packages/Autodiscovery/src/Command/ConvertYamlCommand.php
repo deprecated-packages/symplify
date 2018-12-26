@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -33,10 +34,18 @@ final class ConvertYamlCommand extends Command
      */
     private $explicitToAutodiscoveryConverter;
 
-    public function __construct(ExplicitToAutodiscoveryConverter $explicitToAutodiscoveryConverter)
-    {
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
+    public function __construct(
+        ExplicitToAutodiscoveryConverter $explicitToAutodiscoveryConverter,
+        SymfonyStyle $symfonyStyle
+    ) {
         parent::__construct();
         $this->explicitToAutodiscoveryConverter = $explicitToAutodiscoveryConverter;
+        $this->symfonyStyle = $symfonyStyle;
     }
 
     protected function configure(): void
@@ -73,8 +82,8 @@ final class ConvertYamlCommand extends Command
         $removeSinglyImplemented = (bool) $input->getOption(self::OPTION_REMOVE_SINGLY_IMPLEMENTED);
         $nestingLevel = (int) $input->getOption(self::OPTION_NESTING_LEVEL);
 
-        $output->writeln('Processing ' . realpath($servicesFile));
-        $output->writeln(PHP_EOL);
+        $this->symfonyStyle->note('Processing ' . realpath($servicesFile));
+        $this->symfonyStyle->newLine();
 
         $servicesContent = FileSystem::read($servicesFile);
         $servicesYaml = Yaml::parse($servicesContent);
@@ -87,7 +96,8 @@ final class ConvertYamlCommand extends Command
         );
 
         $convertedContent = Yaml::dump($convertedYaml, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
-        $output->writeln($convertedContent);
+
+        $this->symfonyStyle->writeln($convertedContent);
 
         return ShellCode::SUCCESS;
     }
