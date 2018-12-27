@@ -16,9 +16,12 @@ final class Discovery
      */
     private $fileSystem;
 
-    public function __construct(string $projectDir)
+    /**
+     * @param string[] $packageDirectories
+     */
+    public function __construct(string $projectDirectory, array $packageDirectories = [])
     {
-        $this->fileSystem = new FileSystem($projectDir);
+        $this->fileSystem = new FileSystem($projectDirectory, $packageDirectories);
     }
 
     public function discoverTemplates(ContainerBuilder $containerBuilder): void
