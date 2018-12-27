@@ -11,7 +11,7 @@ final class FileSystem
     /**
      * @var string
      */
-    private $projectDiretory;
+    private $projectDirectory;
 
     /**
      * @var string[]
@@ -29,7 +29,7 @@ final class FileSystem
     public function __construct(string $projectDirectory, array $packageDirectories = [])
     {
         $this->finderSanitizer = new FinderSanitizer();
-        $this->projectDiretory = $projectDirectory;
+        $this->projectDirectory = $projectDirectory;
         $this->packageDirectories = $packageDirectories;
     }
 
@@ -68,6 +68,14 @@ final class FileSystem
     /**
      * @return SmartFileInfo[]
      */
+    public function getEntityXmlFiles(): array
+    {
+        return $this->getFilesInSourceByName('*.orm.xml');
+    }
+
+    /**
+     * @return SmartFileInfo[]
+     */
     private function getDirectoriesInSourceByName(string $name): array
     {
         if (! $this->getDirectories()) {
@@ -84,27 +92,38 @@ final class FileSystem
     }
 
     /**
+     * @return SmartFileInfo[]
+     */
+    private function getFilesInSourceByName(string $name): array
+    {
+        if (! $this->getDirectories()) {
+            return [];
+        }
+
+        $finder = Finder::create()
+            ->files()
+            ->name($name)
+            ->in($this->getDirectories())
+            ->notPath('#tests#');
+
+        return $this->finderSanitizer->sanitize($finder);
+    }
+
+    /**
      * @return string[]
      */
     private function getDirectories(): array
     {
         $possibleDirectories = [
-            $this->projectDiretory . '/src',
-            $this->projectDiretory . '/templates',
-            $this->projectDiretory . '/translations',
-            $this->projectDiretory . '/packages',
-            $this->projectDiretory . '/projects',
+            $this->projectDirectory . '/src',
+            $this->projectDirectory . '/templates',
+            $this->projectDirectory . '/translations',
+            $this->projectDirectory . '/packages',
+            $this->projectDirectory . '/projects',
         ];
 
         $possibleDirectories = array_merge($possibleDirectories, $this->packageDirectories);
 
-        $directories = [];
-        foreach ($possibleDirectories as $possibleDirectory) {
-            if (file_exists($possibleDirectory)) {
-                $directories[] = $possibleDirectory;
-            }
-        }
-
-        return $directories;
+        return array_filter($possibleDirectories, 'file_exists');
     }
 }

@@ -26,7 +26,7 @@ final class AudiscoveryTestingKernel extends Kernel
 
     public function __construct()
     {
-        parent::__construct('dev', true);
+        parent::__construct('dev' . random_int(1, 10000), true);
         $this->discovery = new Discovery($this->getProjectDir());
     }
 
