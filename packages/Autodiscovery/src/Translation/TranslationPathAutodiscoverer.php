@@ -21,10 +21,10 @@ final class TranslationPathAutodiscoverer implements AutodiscovererInterface
      */
     private $fileSystem;
 
-    public function __construct(ContainerBuilder $containerBuilder)
+    public function __construct(ContainerBuilder $containerBuilder, FileSystem $fileSystem)
     {
         $this->containerBuilder = $containerBuilder;
-        $this->fileSystem = new FileSystem($containerBuilder);
+        $this->fileSystem = $fileSystem;
     }
 
     public function autodiscover(): void

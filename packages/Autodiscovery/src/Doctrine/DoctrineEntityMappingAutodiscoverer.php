@@ -24,11 +24,11 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
      */
     private $fileSystem;
 
-    public function __construct(ContainerBuilder $containerBuilder)
+    public function __construct(ContainerBuilder $containerBuilder, FileSystem $fileSystem)
     {
         $this->containerBuilder = $containerBuilder;
         $this->namespaceDetector = new NamespaceDetector();
-        $this->fileSystem = new Filesystem($containerBuilder);
+        $this->fileSystem = $fileSystem;
     }
 
     /**

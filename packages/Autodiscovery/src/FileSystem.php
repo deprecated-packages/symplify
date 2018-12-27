@@ -2,7 +2,6 @@
 
 namespace Symplify\Autodiscovery;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Finder\Finder;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
@@ -19,10 +18,10 @@ final class FileSystem
      */
     private $finderSanitizer;
 
-    public function __construct(ContainerBuilder $containerBuilder)
+    public function __construct(string $projectDir)
     {
         $this->finderSanitizer = new FinderSanitizer();
-        $this->projectDir = $containerBuilder->getParameter('kernel.project_dir');
+        $this->projectDir = $projectDir;
     }
 
     /**
