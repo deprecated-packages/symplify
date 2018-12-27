@@ -21,6 +21,23 @@ final class NamespaceDetector
         return $this->detectFromFile($entityFilePath);
     }
 
+    public function detectFromXmlFileInfo(SmartFileInfo $entityXmlFileInfo): ?string
+    {
+        $fileContent = $entityXmlFileInfo->getContents();
+
+        $match = Strings::match($fileContent, '#entity name="(?<className>.*?)"#');
+        if (! isset($match['className'])) {
+            return null;
+        }
+
+        $result = Strings::before($match['className'], '\\', -1);
+        if ($result === false) {
+            return null;
+        }
+
+        return $result;
+    }
+
     private function detectFromFile(string $filePath): ?string
     {
         $fileContent = FileSystem::read($filePath);

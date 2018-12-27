@@ -97,6 +97,7 @@ parameters:
         - '#Method Symplify\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
 
         # false positives
+        - '#Method Symplify\\Autodiscovery\\Doctrine\\DoctrineEntityMappingAutodiscoverer::resolveDirectoryByNamespace\(\) should return array<string> but returns array<string, int\|string>#'
         - '#Call to function method_exists\(\) with (.*?) and (.*?)fromShellCommandline(.*?) will always evaluate to false#'
         - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutoReturnFactoryCompilerPass::findFactoriesWithoutUsage\(\) should return array<string> but returns array<int, string\|null>#'
         - '#Method Symplify\\Autodiscovery\\Yaml\\ExplicitToAutodiscoveryConverter::groupServicesByNamespaces\(\) should return array<string> but returns array<string, array<int, string>>#'

@@ -32,6 +32,12 @@ final class DoctrineEntityAutodiscoverTest extends AbstractAppKernelAwareTestCas
 
     public function test(): void
     {
-        $this->assertSame([Product::class], $this->mappingDriver->getAllClassNames());
+        $entityClasses = [
+            Product::class,
+            'Kedlubna\Component\Tagging\Context\Context',
+            'Kedlubna\Component\Tagging\Tag\Tag',
+        ];
+
+        $this->assertSame($entityClasses, $this->mappingDriver->getAllClassNames());
     }
 }
