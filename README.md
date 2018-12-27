@@ -63,11 +63,13 @@ A static site generator with aim on community websites.
 
 You'll find them all in [`/packages`](/packages) directory:
 
+- [Autodiscovery](https://github.com/Symplify/Autodiscovery) - Forget manual registration of translations, templates, mappings and routes
+- [FlexLoader](https://github.com/Symplify/FlexLoader) - Keep your Kernel slim again and let FlexLoader load all the configs
 - [LatteToTwigConverter](https://github.com/Symplify/LatteToTwigConverter) - Converts Latte templates to Twig
-- [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Not only Composer tools to build a Monorepo
-- [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Make CHANGELOG.md useful with links
+- [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Validate, split and maintain monorepo like a boss
+- [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Why write `CHANGELOG.md` if you can generate it
 - [PackageBuilder](https://github.com/Symplify/PackageBuilder) - Speed up your package DI Containers integration and Console apps to Symfony
-- [BetterPhpDocParser](https://github.com/Symplify/BetterPhpDocParser) - Slim wrapper around [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser) with format preserving printer
+- [BetterPhpDocParser](https://github.com/Symplify/BetterPhpDocParser) - Format preserving printer for [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser)
 - [TokenRunner](https://github.com/Symplify/TokenRunner) - Building own Sniffs and Fixers made easy
 - [EasyCodingStandardTester](https://github.com/Symplify/EasyCodingStandardTester) - The Best Way to Test Sniffs and Fixers
 
