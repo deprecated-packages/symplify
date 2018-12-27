@@ -2,7 +2,6 @@
 
 namespace Symplify\Autodiscovery;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Finder\Finder;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
@@ -12,17 +11,26 @@ final class FileSystem
     /**
      * @var string
      */
-    private $projectDir;
+    private $projectDiretory;
+
+    /**
+     * @var string[]
+     */
+    private $packageDirectories = [];
 
     /**
      * @var FinderSanitizer
      */
     private $finderSanitizer;
 
-    public function __construct(ContainerBuilder $containerBuilder)
+    /**
+     * @param string[] $packageDirectories
+     */
+    public function __construct(string $projectDirectory, array $packageDirectories = [])
     {
         $this->finderSanitizer = new FinderSanitizer();
-        $this->projectDir = $containerBuilder->getParameter('kernel.project_dir');
+        $this->projectDiretory = $projectDirectory;
+        $this->packageDirectories = $packageDirectories;
     }
 
     /**
@@ -80,22 +88,23 @@ final class FileSystem
      */
     private function getDirectories(): array
     {
-        $possibleDirs = [
-            $this->projectDir . '/src',
-            $this->projectDir . '/templates',
-            $this->projectDir . '/packages',
-            $this->projectDir . '/projects',
-            // WTF? this must be configurable
-            __DIR__ . '/../../../../packages',
+        $possibleDirectories = [
+            $this->projectDiretory . '/src',
+            $this->projectDiretory . '/templates',
+            $this->projectDiretory . '/translations',
+            $this->projectDiretory . '/packages',
+            $this->projectDiretory . '/projects',
         ];
 
-        $dirs = [];
-        foreach ($possibleDirs as $possibleDir) {
-            if (file_exists($possibleDir)) {
-                $dirs[] = $possibleDir;
+        $possibleDirectories = array_merge($possibleDirectories, $this->packageDirectories);
+
+        $directories = [];
+        foreach ($possibleDirectories as $possibleDirectory) {
+            if (file_exists($possibleDirectory)) {
+                $directories[] = $possibleDirectory;
             }
         }
 
-        return $dirs;
+        return $directories;
     }
 }

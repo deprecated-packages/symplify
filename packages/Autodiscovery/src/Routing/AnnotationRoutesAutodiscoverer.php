@@ -2,7 +2,6 @@
 
 namespace Symplify\Autodiscovery\Routing;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symplify\Autodiscovery\Contract\AutodiscovererInterface;
 use Symplify\Autodiscovery\FileSystem;
@@ -19,10 +18,10 @@ final class AnnotationRoutesAutodiscoverer implements AutodiscovererInterface
      */
     private $fileSystem;
 
-    public function __construct(RouteCollectionBuilder $routeCollectionBuilder, ContainerBuilder $containerBuilder)
+    public function __construct(RouteCollectionBuilder $routeCollectionBuilder, FileSystem $fileSystem)
     {
         $this->routeCollectionBuilder = $routeCollectionBuilder;
-        $this->fileSystem = new Filesystem($containerBuilder);
+        $this->fileSystem = $fileSystem;
     }
 
     public function autodiscover(): void

@@ -83,15 +83,26 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symplify\Autodiscovery\Doctrine\DoctrineEntityMappingAutodiscoverer;
+use Symplify\Autodiscovery\Discovery;
 
 final class MyProjectKernel extends Kernel
 {
     use MicroKernelTrait;
 
+    /**
+     * @var Discovery
+     */
+    private $discovery;
+
+    public function __construct()
+    {
+        parent::__construct('dev', true);
+        $this->discovery = new Discovery($this->getProjectDir());
+    }
+
     protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
     {
-        (new DoctrineEntityMappingAutodiscoverer($containerBuilder))->autodiscover();
+        $this->discovery->discoverEntityMappings($containerBuilder);
     }
 }
 ```
@@ -129,15 +140,16 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symplify\Autodiscovery\Twig\TwigPathAutodiscoverer;
 
 final class MyProjectKernel extends Kernel
 {
     use MicroKernelTrait;
 
+    // ...
+
     protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
     {
-        (new TwigPathAutodiscoverer($containerBuilder))->autodiscover();
+        $this->discovery->discoverTemplates($containerBuilder);
     }
 }
 ```
@@ -177,15 +189,16 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symplify\Autodiscovery\Translation\TranslationPathAutodiscoverer;
 
 final class MyProjectKernel extends Kernel
 {
     use MicroKernelTrait;
 
+    // ...
+
     protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
     {
-        (new TranslationPathAutodiscoverer($containerBuilder))->autodiscover();
+        $this->discovery->discoverTranslations($containerBuilder);
     }
 }
 ```
@@ -238,7 +251,7 @@ final class MyProjectKernel extends Kernel
 
     protected function configureRoutes(RouteCollectionBuilder $routeCollectionBuilder): void
     {
-        (new AnnotationRoutesAutodiscoverer($routeCollectionBuilder, $this->getContainerBuilder()))->autodiscover();
+        $this->discovery->discoverRoutes($routeCollectionBuilder);
     }
 }
 ```

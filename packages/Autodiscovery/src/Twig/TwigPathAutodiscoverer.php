@@ -21,9 +21,9 @@ final class TwigPathAutodiscoverer implements AutodiscovererInterface
      */
     private $filesystem;
 
-    public function __construct(ContainerBuilder $containerBuilder)
+    public function __construct(ContainerBuilder $containerBuilder, FileSystem $fileSystem)
     {
-        $this->filesystem = new Filesystem($containerBuilder);
+        $this->filesystem = $fileSystem;
         $this->containerBuilder = $containerBuilder;
     }
 

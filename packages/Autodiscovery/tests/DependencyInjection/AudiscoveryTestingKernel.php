@@ -11,16 +11,24 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
-use Symplify\Autodiscovery\Doctrine\DoctrineEntityMappingAutodiscoverer;
-use Symplify\Autodiscovery\Routing\AnnotationRoutesAutodiscoverer;
-use Symplify\Autodiscovery\Translation\TranslationPathAutodiscoverer;
-use Symplify\Autodiscovery\Twig\TwigPathAutodiscoverer;
+use Symplify\Autodiscovery\Discovery;
 use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 
 final class AudiscoveryTestingKernel extends Kernel
 {
     use SimpleKernelTrait;
     use MicroKernelTrait;
+
+    /**
+     * @var Discovery
+     */
+    private $discovery;
+
+    public function __construct()
+    {
+        parent::__construct('dev', true);
+        $this->discovery = new Discovery($this->getProjectDir());
+    }
 
     public function getProjectDir(): string
     {
@@ -39,13 +47,13 @@ final class AudiscoveryTestingKernel extends Kernel
     {
         $loader->load(__DIR__ . '/../config/config_test.yaml');
 
-        (new TranslationPathAutodiscoverer($containerBuilder))->autodiscover();
-        (new DoctrineEntityMappingAutodiscoverer($containerBuilder))->autodiscover();
-        (new TwigPathAutodiscoverer($containerBuilder))->autodiscover();
+        $this->discovery->discoverTranslations($containerBuilder);
+        $this->discovery->discoverEntityMappings($containerBuilder);
+        $this->discovery->discoverTemplates($containerBuilder);
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routeCollectionBuilder): void
     {
-        (new AnnotationRoutesAutodiscoverer($routeCollectionBuilder, $this->getContainerBuilder()))->autodiscover();
+        $this->discovery->discoverRoutes($routeCollectionBuilder);
     }
 }
