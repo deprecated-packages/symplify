@@ -261,10 +261,10 @@ This works very well with [local packages](https://www.tomasvotruba.cz/blog/2017
 ## YAML Convertor
 
 ```bash
-vendor/bin/autodiscovery convert-yaml path/to/servcies.yml
+vendor/bin/autodiscovery convert-yaml /src
 ```
 
-It will convert service definitions from config, to new [Symfony 3.3 DI features described here](https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/).
+It will convert service definitions from (config|services).(yml|yaml) configs, to new [Symfony 3.3 DI features described here](https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/).
 
 In short, from this:
 
