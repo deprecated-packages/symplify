@@ -12,6 +12,10 @@ final class CommonNamespaceResolver
      */
     public function resolve(array $classes, int $nestingLevel): array
     {
+        if ($classes === []) {
+            return [];
+        }
+
         $namespaces = [];
         foreach ($classes as $class) {
             $namespace = Strings::before($class, '\\', $nestingLevel);
@@ -20,6 +24,11 @@ final class CommonNamespaceResolver
             }
         }
 
-        return array_unique($namespaces);
+        if (count($namespaces)) {
+            return array_unique($namespaces);
+        }
+
+        // reiterate with less strict nesting
+        return $this->resolve($classes, --$nestingLevel);
     }
 }

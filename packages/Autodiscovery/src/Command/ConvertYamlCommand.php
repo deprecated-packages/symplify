@@ -9,12 +9,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
-use function Safe\realpath;
+use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use function Safe\sprintf;
 
 final class ConvertYamlCommand extends Command
@@ -30,6 +32,11 @@ final class ConvertYamlCommand extends Command
     private const OPTION_NESTING_LEVEL = 'nesting-level';
 
     /**
+     * @var string
+     */
+    private const ARGUMENT_DIRECTORY = 'directory';
+
+    /**
      * @var ExplicitToAutodiscoveryConverter
      */
     private $explicitToAutodiscoveryConverter;
@@ -39,23 +46,30 @@ final class ConvertYamlCommand extends Command
      */
     private $symfonyStyle;
 
+    /**
+     * @var FinderSanitizer
+     */
+    private $finderSanitizer;
+
     public function __construct(
         ExplicitToAutodiscoveryConverter $explicitToAutodiscoveryConverter,
-        SymfonyStyle $symfonyStyle
+        SymfonyStyle $symfonyStyle,
+        FinderSanitizer $finderSanitizer
     ) {
         parent::__construct();
         $this->explicitToAutodiscoveryConverter = $explicitToAutodiscoveryConverter;
         $this->symfonyStyle = $symfonyStyle;
+        $this->finderSanitizer = $finderSanitizer;
     }
 
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription(
-            'Convert "services.yml" from pre-Symfony 3.3 format to modern format using autodiscovery, autowire and autoconfigure'
+            'Convert "(services|config).(yml|yaml)" from pre-Symfony 3.3 format to modern format using autodiscovery, autowire and autoconfigure'
         );
 
-        $this->addArgument('file', InputArgument::REQUIRED, 'Path to "services.yml" to convert');
+        $this->addArgument(self::ARGUMENT_DIRECTORY, InputArgument::REQUIRED, 'Path to your application');
 
         $this->addOption(
             self::OPTION_REMOVE_SINGLY_IMPLEMENTED,
@@ -71,34 +85,59 @@ final class ConvertYamlCommand extends Command
             self::OPTION_NESTING_LEVEL,
             'l',
             InputOption::VALUE_REQUIRED,
-            'How many namespace levels should be separated in autodiscovery, e.g 1 → "App\", 2 → "App\SomeProject\"',
+            'How many namespace levels should be separated in autodiscovery, e.g 2 → "App\SomeProject\", 3 → "App\SomeProject\InnerNamespace\"',
             2
         );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $servicesFile = $input->getArgument('file');
-        $removeSinglyImplemented = (bool) $input->getOption(self::OPTION_REMOVE_SINGLY_IMPLEMENTED);
-        $nestingLevel = (int) $input->getOption(self::OPTION_NESTING_LEVEL);
+        $directory = $input->getArgument(self::ARGUMENT_DIRECTORY);
 
-        $this->symfonyStyle->note('Processing ' . realpath($servicesFile));
-        $this->symfonyStyle->newLine();
+        $yamlFileInfos = $this->findServiceYamlFilesInDirectory($directory);
 
-        $servicesContent = FileSystem::read($servicesFile);
-        $servicesYaml = Yaml::parse($servicesContent);
+        foreach ($yamlFileInfos as $yamlFileInfo) {
+            $this->symfonyStyle->section('Processing ' . $yamlFileInfo->getRealPath());
 
-        $convertedYaml = $this->explicitToAutodiscoveryConverter->convert(
-            $servicesYaml,
-            $servicesFile,
-            $nestingLevel,
-            $removeSinglyImplemented
-        );
+            $removeSinglyImplemented = (bool) $input->getOption(self::OPTION_REMOVE_SINGLY_IMPLEMENTED);
+            $nestingLevel = (int) $input->getOption(self::OPTION_NESTING_LEVEL);
 
-        $convertedContent = Yaml::dump($convertedYaml, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+            $servicesYaml = Yaml::parse($yamlFileInfo->getContents());
 
-        $this->symfonyStyle->writeln($convertedContent);
+            $convertedYaml = $this->explicitToAutodiscoveryConverter->convert(
+                $servicesYaml,
+                $yamlFileInfo->getRealPath(),
+                $nestingLevel,
+                $removeSinglyImplemented
+            );
+
+            if ($servicesYaml === $convertedYaml) {
+                $this->symfonyStyle->note('No changes');
+                continue;
+            }
+
+            $convertedContent = Yaml::dump($convertedYaml, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+
+            // save
+            FileSystem::write($yamlFileInfo->getRealPath(), $convertedContent);
+
+            $this->symfonyStyle->note('File converted');
+        }
+
+        $this->symfonyStyle->success('Done');
 
         return ShellCode::SUCCESS;
+    }
+
+    /**
+     * @return SmartFileInfo[]
+     */
+    private function findServiceYamlFilesInDirectory(string $directory): array
+    {
+        $finder = Finder::create()->files()
+            ->name('#(config|services)\.(\w+\.)?(yml|yaml)$#')
+            ->in($directory);
+
+        return $this->finderSanitizer->sanitize($finder);
     }
 }

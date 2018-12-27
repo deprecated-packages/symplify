@@ -217,8 +217,10 @@ final class ExplicitToAutodiscoveryConverter
     {
         $class = $service['class'] ?? $name;
 
+        $excludedNamespacePattern = '#^(' . implode('|', $this->autodiscoveryExcludedNamespaces) . ')\\\\#';
+
         // skip 3rd party classes, they're autowired by own config
-        if (Strings::match($class, '#^(' . implode('|', $this->autodiscoveryExcludedNamespaces) . ')\\\\#')) {
+        if (Strings::match($class, $excludedNamespacePattern)) {
             return true;
         }
 

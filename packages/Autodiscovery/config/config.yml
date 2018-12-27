@@ -9,4 +9,5 @@ services:
 
     Symfony\Component\Console\Application: ~
     Symfony\Component\Filesystem\Filesystem: ~
+    Symplify\PackageBuilder\FileSystem\FinderSanitizer: ~
     Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
