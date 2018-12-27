@@ -9,7 +9,26 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.2.18 - 2018-12-18
+## Unreleased
+
+### Added
+
+#### Autodiscovery
+
+- [#1276] Use single service approach
+- [#1277] Add xml Doctrine mapping discovery
+- [#1271] Add Translation path autodiscovery
+- [#1263] Add Yaml explicit to autodiscovery converter
+- [#1278] Run `convert-yaml` over directory, not just single file
+- [#1268] Add posibility to setup config extensions to `FlexLoader`, Thanks to [@tavy315]
+
+### Fixed
+
+#### CodingStandard
+
+- [#1262] fix `FinalInterfaceFixer `false positive for anonymous class, Thanks to [@suin]
+
+## [v5.2.18] - 2018-12-18
 
 ### Added
 
@@ -467,14 +486,22 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [v5.2.14]: https://github.com/Symplify/Symplify/compare/v5.2.13...v5.2.14
 [v5.2.13]: https://github.com/Symplify/Symplify/compare/v5.2.11...v5.2.13
 [#1260]: https://github.com/Symplify/Symplify/pull/1260
-[#1259]: https://github.com/Symplify/Symplify/pull/1259
 [#1257]: https://github.com/Symplify/Symplify/pull/1257
 [#1256]: https://github.com/Symplify/Symplify/pull/1256
-[#1254]: https://github.com/Symplify/Symplify/pull/1254
-[#1252]: https://github.com/Symplify/Symplify/pull/1252
-[#1251]: https://github.com/Symplify/Symplify/pull/1251
 [#1248]: https://github.com/Symplify/Symplify/pull/1248
 [#1246]: https://github.com/Symplify/Symplify/pull/1246
 [#1233]: https://github.com/Symplify/Symplify/pull/1233
 [v5.2.16]: https://github.com/Symplify/Symplify/compare/v5.2.15...v5.2.16
 [v5.2.15]: https://github.com/Symplify/Symplify/compare/v5.2.14...v5.2.15
+[#1278]: https://github.com/Symplify/Symplify/pull/1278
+[#1277]: https://github.com/Symplify/Symplify/pull/1277
+[#1276]: https://github.com/Symplify/Symplify/pull/1276
+[#1275]: https://github.com/Symplify/Symplify/pull/1275
+[#1272]: https://github.com/Symplify/Symplify/pull/1272
+[#1271]: https://github.com/Symplify/Symplify/pull/1271
+[#1268]: https://github.com/Symplify/Symplify/pull/1268
+[#1263]: https://github.com/Symplify/Symplify/pull/1263
+[#1262]: https://github.com/Symplify/Symplify/pull/1262
+[@tavy315]: https://github.com/tavy315
+[@suin]: https://github.com/suin
+[v5.2.18]: https://github.com/Symplify/Symplify/compare/v5.2.16...v5.2.18
