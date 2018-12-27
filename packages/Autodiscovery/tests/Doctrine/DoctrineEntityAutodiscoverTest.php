@@ -4,7 +4,6 @@ namespace Symplify\Autodiscovery\Tests\Doctrine;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\EntityManager;
 use Symplify\Autodiscovery\Tests\AbstractAppKernelAwareTestCase;
 use Symplify\Autodiscovery\Tests\KernelProjectDir\Entity\Product;
@@ -33,10 +32,6 @@ final class DoctrineEntityAutodiscoverTest extends AbstractAppKernelAwareTestCas
 
     public function test(): void
     {
-        $this->assertInstanceOf(MappingDriverChain::class, $this->mappingDriver);
-        $this->assertNotEmpty($this->mappingDriver->getAllClassNames());
-
-        $this->assertFalse($this->mappingDriver->isTransient(Product::class));
-        $this->assertTrue($this->mappingDriver->isTransient('NonExisting'));
+        $this->assertSame([Product::class], $this->mappingDriver->getAllClassNames());
     }
 }
