@@ -37,21 +37,6 @@ final class ExplicitToAutodiscoveryConverter
     private $classes = [];
 
     /**
-     * These namespaces are already configured by their bundles/extensions.
-     * @var string[]
-     */
-    private $autodiscoveryExcludedNamespaces = [
-        'Doctrine',
-        'JMS',
-        'Symfony',
-        'Sensio',
-        'Knp',
-        'EasyCorp',
-        'Sonata',
-        'Twig',
-    ];
-
-    /**
      * @var Filesystem
      */
     private $filesystem;
@@ -217,16 +202,17 @@ final class ExplicitToAutodiscoveryConverter
     {
         $class = $service['class'] ?? $name;
 
-        $excludedNamespacePattern = '#^(' . implode('|', $this->autodiscoveryExcludedNamespaces) . ')\\\\#';
-
-        // skip 3rd party classes, they're autowired by own config
-        if (Strings::match($class, $excludedNamespacePattern)) {
-            return true;
-        }
-
         // skip no-namespace class naming
         if (! Strings::contains($class, '\\')) {
             return true;
+        }
+
+        // is in vendor?
+        if (class_exists($class)) {
+            $reflectionClass = new ReflectionClass($class);
+            if (Strings::match($reflectionClass->getFileName(), '#/vendor/#')) {
+                return true;
+            }
         }
 
         return false;
