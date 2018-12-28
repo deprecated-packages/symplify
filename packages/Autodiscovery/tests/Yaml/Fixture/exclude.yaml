@@ -1,0 +1,14 @@
+services:
+    some_controller:
+        class: Symplify\Autodiscovery\Tests\KernelProjectDir\Controller\SomeController
+        autowire: true
+
+    Symplify\Autodiscovery\Tests\KernelProjectDir\Service\SomeService: ~
+---
+services:
+    _defaults:
+        autowire: true
+
+    Symplify\Autodiscovery\Tests\KernelProjectDir\:
+        resource: '../../KernelProjectDir/src'
+        exclude: '../../KernelProjectDir/src/{Entity,Exception}'

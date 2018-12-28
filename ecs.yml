@@ -96,6 +96,7 @@ parameters:
 
         Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
             # name parts, not classes
+            - 'packages/Autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php'
             - 'packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php'
             # "Exception" is string part of the name
             - 'packages/CodingStandard/src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'

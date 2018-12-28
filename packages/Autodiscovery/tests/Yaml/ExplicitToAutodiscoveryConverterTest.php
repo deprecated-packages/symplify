@@ -38,6 +38,7 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractContainerAwareT
         $this->doTestFile(__DIR__ . '/Fixture/untouch.yaml', 3);
         $this->doTestFile(__DIR__ . '/Fixture/existing_autodiscovery.yaml', 3);
         $this->doTestFile(__DIR__ . '/Fixture/blog_post_votruba.yaml', 1);
+        $this->doTestFile(__DIR__ . '/Fixture/exclude.yaml', 4);
     }
 
     private function doTestFile(string $file, int $nestingLevel, bool $removeSinglyImplemented = false): void
@@ -56,7 +57,8 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractContainerAwareT
                 $file,
                 $nestingLevel,
                 $removeSinglyImplemented
-            )
+            ),
+            'Caused by ' . $file
         );
     }
 

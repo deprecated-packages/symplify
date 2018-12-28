@@ -128,6 +128,7 @@ parameters:
         - '#Property Symplify\\Autodiscovery\\Tests\\Doctrine\\DoctrineEntityAutodiscoverTest::\$mappingDriver \(Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\) does not accept Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\|null#'
         - '#If condition is always false#'
         - '#Cannot cast array<string>\|bool\|string\|null to int#'
+        - '#Strict comparison using === between string and false will always evaluate to false#'
 
         # false positive
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::set\(\)#'

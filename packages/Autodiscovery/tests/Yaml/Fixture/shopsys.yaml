@@ -198,9 +198,13 @@ services:
 
     Shopsys\FrameworkBundle\Model\:
         resource: '../../../src'
+        exclude: '../../../src/{Contract}'
     Shopsys\FrameworkBundle\Form\:
         resource: '../../../src'
+        exclude: '../../../src/{Contract}'
     Shopsys\FrameworkBundle\Component\:
         resource: '../../../src'
+        exclude: '../../../src/{Contract}'
     Shopsys\FrameworkBundle\DataFixtures\:
         resource: '../../../src'
+        exclude: '../../../src/{Contract}'
