@@ -3,6 +3,7 @@
 namespace Symplify\Autodiscovery\Command;
 
 use Nette\Utils\FileSystem;
+use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -117,6 +118,9 @@ final class ConvertYamlCommand extends Command
             }
 
             $convertedContent = Yaml::dump($convertedYaml, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+
+            // "SomeNamespace\SomeService: null" → "SomeNamespace\SomeService: ~"
+            $convertedContent = Strings::replace($convertedContent, '#^( {4}([A-Z].*?): )(null)$#m', '$1~');
 
             // save
             FileSystem::write($yamlFileInfo->getRealPath(), $convertedContent);
