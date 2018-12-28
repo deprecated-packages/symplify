@@ -5,9 +5,12 @@ namespace Symplify\MonorepoBuilder\Console;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
+use Symplify\PackageBuilder\Console\HelpfulApplicationTrait;
 
 final class MonorepoBuilderApplication extends Application
 {
+    use HelpfulApplicationTrait;
+
     protected function getDefaultInputDefinition(): InputDefinition
     {
         $inputDefinition = parent::getDefaultInputDefinition();

@@ -12,7 +12,7 @@ services:
             SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
             Symfony\Component\Finder\SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
-            Symfony\Component\DependencyInjection\ContainerInterface: "Use constructor injection, collectors or factory instead"
+            Symfony\Component\DependencyInjection\ContainerInterface: 'Use constructor injection, collectors or factory instead'
 
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
@@ -31,6 +31,7 @@ services:
 
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
+            - 'Symfony\Component\Console\Descriptor\TextDescriptor'
             - 'Symplify\Autodiscovery\*'
             - 'Symplify\FlexLoader\Flex\FlexPathsFactory'
             - 'GuzzleHttp\Psr7\Request'
