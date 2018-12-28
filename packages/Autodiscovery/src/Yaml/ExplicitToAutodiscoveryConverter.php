@@ -8,6 +8,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symplify\Autodiscovery\Arrays;
 use Symplify\Autodiscovery\Php\InterfaceAnalyzer;
 use function Safe\realpath;
+use function Safe\sprintf;
 
 final class ExplicitToAutodiscoveryConverter
 {
@@ -35,6 +36,18 @@ final class ExplicitToAutodiscoveryConverter
      * @var string[]
      */
     private $classes = [];
+
+    /**
+     * @var string[]
+     */
+    private $possibleExcludedDirectories = [
+        'Entity',
+        'Entities',
+        'Exception',
+        'Exceptions',
+        'Contract',
+        'Contracts',
+    ];
 
     /**
      * @var Filesystem
@@ -152,15 +165,22 @@ final class ExplicitToAutodiscoveryConverter
         $commonNamespaces = $this->commonNamespaceResolver->resolve($this->classes, $nestingLevel);
         $groupedServices = $this->groupServicesByNamespaces($this->classes, $commonNamespaces);
 
-        foreach ($groupedServices as $namespace => $services) {
+        foreach ($groupedServices as $namespace => $classes) {
             $namespaceKey = $namespace . '\\';
             if (isset($yaml[YamlKey::SERVICES][$namespaceKey])) {
                 continue;
             }
 
+            $relativeServicesLocation = $this->resolveCommonRelativePath($classes, $filePath);
             $yaml[YamlKey::SERVICES][$namespaceKey] = [
-                YamlKey::RESOURCE => $this->getRelativeClassLocation($services[0], $filePath),
+                YamlKey::RESOURCE => $relativeServicesLocation,
             ];
+
+            $excludedDirectories = $this->resolveExcludedDirectories($filePath, $relativeServicesLocation);
+            if (count($excludedDirectories)) {
+                $exclude = $relativeServicesLocation . sprintf('/{%s}', implode(',', $excludedDirectories));
+                $yaml[YamlKey::SERVICES][$namespaceKey]['exclude'] = $exclude;
+            }
 
             $this->enableAutowire = true;
         }
@@ -256,7 +276,7 @@ final class ExplicitToAutodiscoveryConverter
     /**
      * @param string[] $services
      * @param string[] $commonNamespaces
-     * @return string[]
+     * @return string[][]
      */
     private function groupServicesByNamespaces(array $services, array $commonNamespaces): array
     {
@@ -273,22 +293,38 @@ final class ExplicitToAutodiscoveryConverter
         return $groupedServicesByNamespace;
     }
 
-    private function getRelativeClassLocation(string $class, string $configFilePath): string
+    /**
+     * @param string[] $classes
+     */
+    private function resolveCommonRelativePath(array $classes, string $filePath): string
     {
-        if (! class_exists($class)) {
-            // assumption of traditional location
-            $classDirectory = realpath(__DIR__ . '/../../src');
-        } else {
-            $reflectionClass = new ReflectionClass($class);
-
-            $classDirectory = dirname($reflectionClass->getFileName());
+        $relativeClassLocations = [];
+        foreach ($classes as $class) {
+            $relativeClassLocations[] = $this->getRelativeClassLocation($class, $filePath);
         }
 
-        $configDirectory = realpath(dirname($configFilePath));
+        return rtrim(Strings::findPrefix($relativeClassLocations), '/');
+    }
 
-        $relativePath = $this->filesystem->makePathRelative($classDirectory, $configDirectory);
+    /**
+     * @return string[]
+     */
+    private function resolveExcludedDirectories(string $configFilePath, string $absoluteServicesLocation): array
+    {
+        $absoluteServicesLocation = realpath(dirname($configFilePath) . '/' . $absoluteServicesLocation);
+        if ($absoluteServicesLocation === false) {
+            return [];
+        }
 
-        return rtrim($relativePath, '/');
+        $excludedDirectories = [];
+        foreach ($this->possibleExcludedDirectories as $possibleExcludedDirectory) {
+            $possibleDirectoryPath = $absoluteServicesLocation . '/' . $possibleExcludedDirectory;
+            if (is_dir($possibleDirectoryPath)) {
+                $excludedDirectories[] = $possibleExcludedDirectory;
+            }
+        }
+
+        return $excludedDirectories;
     }
 
     /**
@@ -332,5 +368,23 @@ final class ExplicitToAutodiscoveryConverter
                 $this->removeService = true;
             }
         }
+    }
+
+    private function getRelativeClassLocation(string $class, string $configFilePath): string
+    {
+        if (! class_exists($class)) {
+            // assumption of traditional location
+            $classDirectory = realpath(__DIR__ . '/../../src');
+        } else {
+            $reflectionClass = new ReflectionClass($class);
+
+            $classDirectory = dirname($reflectionClass->getFileName());
+        }
+
+        $configDirectory = realpath(dirname($configFilePath));
+
+        $relativePath = $this->filesystem->makePathRelative($classDirectory, $configDirectory);
+
+        return rtrim($relativePath, '/');
     }
 }
