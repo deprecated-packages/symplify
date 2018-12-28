@@ -270,6 +270,11 @@ final class ExplicitToAutodiscoveryConverter
             $yaml[YamlKey::SERVICES][$name] = $service;
         }
 
+        // normalize empty service
+        if ($service === []) {
+            $service = null;
+        }
+
         return [$yaml, $service, $name];
     }
 
