@@ -1,6 +1,4 @@
 parameters:
-    templating: 'latte' # or 'twig'
-
     # see https://www.statie.org/docs/generators/
     generators:
         posts:

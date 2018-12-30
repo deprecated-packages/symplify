@@ -8,19 +8,11 @@ use Symplify\Statie\Twig\TwigFactory;
 
 final class TwigFactoryTest extends AbstractConfigAwareContainerTestCase
 {
-    /**
-     * @var TwigFactory
-     */
-    private $twigFactory;
-
-    protected function setUp(): void
-    {
-        $this->twigFactory = $this->container->get(TwigFactory::class);
-    }
-
     public function test(): void
     {
-        $twig = $this->twigFactory->create();
+        /** @var TwigFactory $twigFactory */
+        $twigFactory = $this->container->get(TwigFactory::class);
+        $twig = $twigFactory->create();
 
         $template = $twig->createTemplate(FileSystem::read(__DIR__ . '/Source/someFileToRender.twig'));
 

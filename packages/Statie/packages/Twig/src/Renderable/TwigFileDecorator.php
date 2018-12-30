@@ -8,6 +8,7 @@ use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Templating\AbstractTemplatingFileDecorator;
+use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
 use Symplify\Statie\Twig\TwigRenderer;
 
 final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements FileDecoratorInterface
@@ -52,7 +53,8 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
             $this->attachExtendsAndBlockContentToFileContent($file, $file->getLayout());
 
             $parameters = $this->createParameters($file, 'file');
-            $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
+
+            $content = $this->renderFileWithParameters($file, $parameters);
 
             $file->changeContent($content);
         }
@@ -74,7 +76,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
             $this->attachExtendsAndBlockContentToFileContent($file, $generatorElement->getLayout());
 
             $parameters = $this->createParameters($file, $generatorElement->getVariable());
-            $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
+            $content = $this->renderFileWithParameters($file, $parameters);
 
             $content = $this->trimExtendsAndBlockContent($content);
 
@@ -117,6 +119,23 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
         );
 
         $file->changeContent($content);
+    }
+
+    /**
+     * @param mixed[] $parameters
+     */
+    private function renderFileWithParameters(AbstractFile $file, array $parameters): string
+    {
+        try {
+            return $this->twigRenderer->renderFileWithParameters($file, $parameters);
+        } catch (InvalidTwigSyntaxException $invalidTwigSyntaxException) {
+            // probably not a twig file
+            if (Strings::contains($file->getContent(), '.latte')) {
+                return $file->getContent();
+            }
+
+            throw $invalidTwigSyntaxException;
+        }
     }
 
     private function trimExtendsAndBlockContent(string $content): string

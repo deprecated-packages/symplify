@@ -9,19 +9,12 @@ use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
 final class LatteFactoryTest extends AbstractContainerAwareTestCase
 {
-    /**
-     * @var LatteFactory
-     */
-    private $latteFactory;
-
-    protected function setUp(): void
-    {
-        $this->latteFactory = $this->container->get(LatteFactory::class);
-    }
-
     public function test(): void
     {
-        $latte = $this->latteFactory->create();
+        /** @var LatteFactory $latteFactory */
+        $latteFactory = $this->container->get(LatteFactory::class);
+        $latte = $latteFactory->create();
+
         $this->assertInstanceOf(Engine::class, $latte);
         $this->assertInstanceOf(ArrayLoader::class, $latte->getLoader());
         $this->assertGreaterThanOrEqual(36, $latte->getFilters());
