@@ -7,10 +7,8 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
-use Symplify\Statie\Latte\Renderable\LatteFileDecorator;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Twig\Renderable\TwigFileDecorator;
 use function Safe\usort;
 
 final class RenderableFilesProcessor
@@ -38,10 +36,7 @@ final class RenderableFilesProcessor
         $this->fileFactory = $fileFactory;
         $this->configuration = $configuration;
 
-        $fileDecorators = $this->sortFileDecorators($fileDecorators);
-        foreach ($fileDecorators as $fileDecorator) {
-            $this->addFileDecorator($fileDecorator);
-        }
+        $this->fileDecorators = $this->sortFileDecorators($fileDecorators);
     }
 
     /**
@@ -104,19 +99,5 @@ final class RenderableFilesProcessor
         });
 
         return $fileDecorators;
-    }
-
-    private function addFileDecorator(FileDecoratorInterface $fileDecorator): void
-    {
-        $templating = $this->configuration->getOption('templating');
-        if ($templating === 'latte' && $fileDecorator instanceof TwigFileDecorator) {
-            return;
-        }
-
-        if ($templating === 'twig' && $fileDecorator instanceof LatteFileDecorator) {
-            return;
-        }
-
-        $this->fileDecorators[] = $fileDecorator;
     }
 }

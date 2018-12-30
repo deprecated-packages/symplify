@@ -99,15 +99,6 @@ services:
 
 See documentation at [www.statie.org](https://www.statie.org).
 
-### Pick a Templating You Like
-
-```yaml
-parameters:
-    templating: 'latte'
-    # or
-    templating: 'twig'
-```
-
 ## Who Runs on Statie?
 
 See what Statie can do and how community uses it:

@@ -57,7 +57,6 @@ Statie will do 3 steps:
 <!-- source/_posts/2017-03-05-my-last-post.md -->
 
 ---
-layout: "post"
 title: "This my Last Post, Ever!"
 ---
 
