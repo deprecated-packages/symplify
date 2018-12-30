@@ -45,10 +45,10 @@ npm install
 vendor/bin/statie generate source
 ```
 
-3. Run local PHP server
+3. Run website locally
 
 ```bash
-php -S localhost:8000 -t output
+gulp
 ```
 
 4. And see web in browser [localhost:8000](http://localhost:8000).
@@ -73,11 +73,11 @@ parameters:
 ...that are available in every template:
 
 ```twig
-# source/_layouts/default.latte
+# source/_layouts/default.twig
 
-<p>Welcome to: {$site_url}</p>
+<p>Welcome to: {{ site_url }}</p>
 
-<p>Checkout my FB page: {$socials['facebook']}</p>
+<p>Checkout my FB page: {{ socials.facebook }}</p>
 ```
 
 **2. [Import other configs](http://symfony.com/doc/current/service_container/import.html)**
@@ -119,18 +119,36 @@ services:
 
 See documentation at [www.statie.org](https://www.statie.org).
 
-## Who Runs on Statie?
+### Do You Write Posts?
 
-See what Statie can do and how community uses it:
+Create a new empty `.md` file with date, webalized title and ID:
 
-- [github.com/tomasvotruba/tomasvotruba.cz](https://github.com/tomasvotruba/tomasvotruba.cz)
-- [github.com/pehapkari/pehapkari.cz](https://github.com/pehapkari/pehapkari.cz)
-- [github.com/crazko/romanvesely.com](https://github.com/crazko/romanvesely.com)
-- [github.com/ikvasnica/ikvasnica.com](https://github.com/ikvasnica/ikvasnica.com)
-- [github.com/enumag/enumag.cz](https://github.com/enumag/enumag.cz)
-- [posobota.cz](https://www.posobota.cz/)
+```bash
+vendor/bin/statie create-post "My new post"
+```
 
-*Do you run on Statie too? Let the world know and [send a PR to add your website here](https://github.com/Symplify/Symplify/edit/master/packages/Statie/README.md).*
+Statie privides default template:
+
+```twig
+id: __ID__
+title: "__TITLE__"
+---
+
+```
+
+Do you want your own template? Configure path to it:
+
+```yaml
+# statie.yaml
+parameters:
+    post_template_path: 'templates/my_own_post.twig'
+```
+
+That's it!
+
+## Documentation
+
+Thanks to [@crazko](https://github.com/crazko) you can enjoy neat documentation and see projects that use Statie at [statie.org](https://www.statie.org). 
 
 ## Contributing
 
