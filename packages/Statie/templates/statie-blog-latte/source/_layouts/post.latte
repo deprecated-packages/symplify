@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    {* this file is located in "/source/_snippets/head.latte" *}
+    {include "_snippets/head.latte"}
+
+    <body>
+        <div class="container">
+            <h1>{$post['title']}</h1>
+
+            <p>
+                <strong>{$post['perex']}</strong>
+            </p>
+
+            <hr>
+
+            {* $post['content'] is internal variable with generated HTML content of the post part after "---" *}
+            <p>{$post['content']}</p>
+
+            <hr>
+
+            <a href="/">Read more posts</a>
+        </div>
+
+        {* this file is located in "/source/_snippets/footer.latte" *}
+        {include "_snippets/footer.latte"}
+    </body>
+</html>
