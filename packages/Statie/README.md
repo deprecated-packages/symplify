@@ -17,7 +17,27 @@ composer require symplify/statie
 
 ## How to Generate and See the Website?
 
-1. Prepare content for Statie... Simple `index.twig` would do for start, but you can also inspire in [tomasvotruba.cz personal website](https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/source).
+1. Prepare content for Statie
+
+```bash
+vendor/bin/statie init
+```
+
+Do you prefer [Latte](https://github.com/nette/latte)?
+
+```bash
+vendor/bin/statie init --templating latte
+# that is same as
+vendor/bin/statie init -t latte
+```
+
+This will generate config, templates, layouts and gulp code, so you can enjoy live preview.
+
+Last step is install node dependencies:
+
+```
+npm install
+```
 
 2. Generate static site from `/source` (argument) to `/output` (default value) in HTML:
 
