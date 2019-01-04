@@ -16,7 +16,6 @@ matrix:
         - php: 7.2
           env: MONOREPO_SPLIT=true
         - php: 7.3
-          env: COMPOSER_FLAGS="--ignore-platform-reqs"
 
 install:
     - composer update $COMPOSER_FLAGS

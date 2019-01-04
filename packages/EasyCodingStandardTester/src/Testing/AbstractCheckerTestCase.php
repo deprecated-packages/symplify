@@ -16,6 +16,7 @@ use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\PackageBuilder\FileSystem\FileGuard;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use function Safe\md5_file;
 use function Safe\sprintf;
 
 abstract class AbstractCheckerTestCase extends TestCase

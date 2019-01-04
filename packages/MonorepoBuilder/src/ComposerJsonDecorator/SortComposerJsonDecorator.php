@@ -27,11 +27,11 @@ final class SortComposerJsonDecorator implements ComposerJsonDecoratorInterface
     public function decorate(array $composerJson): array
     {
         uksort($composerJson, function ($key1, $key2) {
-            return array_search($key1, $this->sectionOrder, true) > array_search(
+            return array_search($key1, $this->sectionOrder, true) <=> array_search(
                 $key2,
                 $this->sectionOrder,
                 true
-            ) ? 1 : -1;
+            );
         });
 
         return $composerJson;

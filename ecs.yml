@@ -29,23 +29,6 @@ services:
         extraParentTypesToSuffixes:
             - 'FileDecorator'
 
-    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-        extraAllowedClasses:
-            - 'Symfony\Component\Console\Descriptor\TextDescriptor'
-            - 'Symplify\Autodiscovery\*'
-            - 'Symplify\FlexLoader\Flex\FlexPathsFactory'
-            - 'GuzzleHttp\Psr7\Request'
-            - 'Symplify\EasyCodingStandard\Error\Error'
-            - 'Symplify\EasyCodingStandard\Yaml\*'
-            - 'Symplify\PackageBuilder\*'
-            - 'phpDocumentor\Reflection\Fqsen'
-            - 'PharIo\Version\Version'
-            # Symfony\DependencyInjection
-            - 'Symfony\Component\DependencyInjection\ContainerBuilder'
-            - 'Symfony\Component\DependencyInjection\ParameterBag\ParameterBag'
-            - 'Symfony\Component\*\Exception\*'
-            - 'Symfony\Component\Config\Loader\*'
-
 parameters:
     exclude_checkers:
         # exclude from psr12.yml

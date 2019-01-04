@@ -41,17 +41,24 @@ final class NoClassInstantiationSniff implements Sniff
         'Nette\DI\Config\Loader',
         '*DateTime',
 
-        // Symfony Console
-        'Symfony\Component\Console\Input\InputArgument',
-        'Symfony\Component\Console\Input\InputDefinition',
-        'Symfony\Component\Console\Input\InputOption',
+        // Symplify
+        'Symplify\Autodiscovery\*',
+        'Symplify\FlexLoader\*',
+        'Symplify\EasyCodingStandard\Error\Error',
+        'Symplify\EasyCodingStandard\Yaml\*',
+        'Symplify\PackageBuilder\*',
+
+        'GuzzleHttp\Psr7\Request',
+        'PharIo\Version\Version',
+        'phpDocumentor\Reflection\Fqsen',
+
+        // Symfony
+        'Symfony\Component\Console\Descriptor\TextDescriptor',
+        'Symfony\Component\Console\Input\*',
         'Symfony\Component\Console\Helper\Table',
-        'Symfony\Component\Console\Input\ArgvInput',
-        // Symfony DependencyInjection
-        'Symfony\Component\DependencyInjection\Loader\YamlFileLoader',
-        'Symfony\Component\Config\FileLocator',
-        'Symfony\Component\Config\Resource\*',
-        // Symfony Validator
+        'Symfony\Component\DependencyInjection\*',
+        'Symfony\Component\Config\*',
+        '*Exception',
         '*Constraint',
 
         // Symfony misc

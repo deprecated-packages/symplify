@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\DocBlock\Line;
 use PhpCsFixer\Tokenizer\Tokens;
+use function Safe\array_search;
 
 final class MissingParamNameMalformWorker extends AbstractMalformWorker
 {

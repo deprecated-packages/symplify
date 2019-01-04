@@ -148,7 +148,7 @@ That's it!
 
 ## Documentation
 
-Thanks to [@crazko](https://github.com/crazko) you can enjoy neat documentation and see projects that use Statie at [statie.org](https://www.statie.org). 
+Thanks to [@crazko](https://github.com/crazko) you can enjoy neat documentation and see projects that use Statie at [statie.org](https://www.statie.org).
 
 ## Contributing
 

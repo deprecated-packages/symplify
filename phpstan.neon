@@ -69,13 +69,9 @@ parameters:
         - '#does not accept object#'
         - '#Call to an undefined method object#'
 
-        # waits for "safe" function calls
-        - '#Method Symplify\\EasyCodingStandardTester\\Testing\\AbstractCheckerTestCase::getConfigHash\(\) should return string but returns string\|false#'
-
         # intersect/union buggy
         - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
-        - '#Method (.*) should return (Symfony\\Component\\DependencyInjection\\ContainerInterface|Psr\\Container\\ContainerInterface) but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
 
         # phpstan 0.10 news
         - '#Cannot access property \$type on PHPStan\\PhpDocParser\\Ast\\PhpDoc\\VarTagValueNode\|null#'
@@ -100,7 +96,6 @@ parameters:
         - '#Method Symplify\\Autodiscovery\\Doctrine\\DoctrineEntityMappingAutodiscoverer::resolveDirectoryByNamespace\(\) should return array<string> but returns array<string, int\|string>#'
         - '#Call to function method_exists\(\) with (.*?) and (.*?)fromShellCommandline(.*?) will always evaluate to false#'
         - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutoReturnFactoryCompilerPass::findFactoriesWithoutUsage\(\) should return array<string> but returns array<int, string\|null>#'
-        - '#Method Symplify\\Autodiscovery\\Yaml\\ExplicitToAutodiscoveryConverter::groupServicesByNamespaces\(\) should return array<string> but returns array<string, array<int, string>>#'
 
         # variadic
         - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'
@@ -126,15 +121,16 @@ parameters:
         # false positive, known
         - '#Cannot cast array<string>\|bool\|string\|null to string#'
         - '#Property Symplify\\Autodiscovery\\Tests\\Doctrine\\DoctrineEntityAutodiscoverTest::\$mappingDriver \(Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\) does not accept Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\|null#'
-        - '#If condition is always false#'
         - '#Cannot cast array<string>\|bool\|string\|null to int#'
         - '#Strict comparison using === between string and false will always evaluate to false#'
 
         # false positive
         - '#Strict comparison using === between \(array&hasOffset\((.*?)\)\)\|null and array\(\) will always evaluate to false#'
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::set\(\)#'
-        - '#Method Symplify\\Autodiscovery\\Tests\\AbstractContainerAwareTestCase::createContainer\(\) should return Symfony\\Component\\DependencyInjection\\Container but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
         - '#Cannot cast array<string>\|string\|null to string#'
+
+        # intentionally
+        - '#Function array_search is unsafe to use#'
 
 services:
     -
