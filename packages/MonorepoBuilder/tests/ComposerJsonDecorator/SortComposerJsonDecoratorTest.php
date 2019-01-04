@@ -21,6 +21,7 @@ final class SortComposerJsonDecoratorTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
+        /** @var SortComposerJsonDecorator $sortComposerJsonDecorator */
         $sortComposerJsonDecorator = $this->container->get(SortComposerJsonDecorator::class);
 
         $sortedComposerJson = $sortComposerJsonDecorator->decorate($this->composerJson);

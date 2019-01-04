@@ -136,6 +136,9 @@ parameters:
         - '#Method Symplify\\Autodiscovery\\Tests\\AbstractContainerAwareTestCase::createContainer\(\) should return Symfony\\Component\\DependencyInjection\\Container but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
         - '#Cannot cast array<string>\|string\|null to string#'
 
+        # intentionally
+        - '#Function array_search is unsafe to use#'
+
 services:
     -
         class: Symplify\PHPStanExtensions\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension
