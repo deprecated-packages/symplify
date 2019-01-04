@@ -136,6 +136,8 @@ class SomeClass
     {
         $changedNames = [];
 
+        $duplicatedTypes = $this->resolveDuplicatedTypes($typeWrappers);
+
         foreach ($typeWrappers as $typeWrapper) {
             if ($this->shouldSkipWrapper($typeWrapper)) {
                 continue;
@@ -152,6 +154,12 @@ class SomeClass
 
             /** @var string $type */
             $type = array_pop($types);
+
+            // duplicated type → skip
+            if (in_array($type, $duplicatedTypes, true)) {
+                continue;
+            }
+
             $expectedName = $this->getExpectedNameFromTypes($type);
             if ($expectedName === '') {
                 continue;
@@ -163,6 +171,37 @@ class SomeClass
         }
 
         return $changedNames;
+    }
+
+    /**
+     * @param ArgumentWrapper[]|PropertyWrapper[] $typeWrappers
+     * @return string[]
+     */
+    private function resolveDuplicatedTypes(array $typeWrappers): array
+    {
+        $allTypes = [];
+        foreach ($typeWrappers as $typeWrapper) {
+            $types = $typeWrapper->getTypes();
+
+            // unable to resolve correctly
+            if (count($types) !== 1) {
+                continue;
+            }
+
+            $allTypes = array_merge($allTypes, $types);
+        }
+
+        $typesByCount = array_count_values($allTypes);
+
+        $duplicatedTypes = [];
+        foreach ($typesByCount as $type => $count) {
+            if ($count >= 2) {
+                /** @var string $type */
+                $duplicatedTypes[] = $type;
+            }
+        }
+
+        return $duplicatedTypes;
     }
 
     /**
