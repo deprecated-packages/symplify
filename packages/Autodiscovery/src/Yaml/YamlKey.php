@@ -27,7 +27,7 @@ final class YamlKey
     /**
      * @var string
      */
-    public const AUTODISCOVERY = 'autodiscovery';
+    public const AUTOCONFIGURE = 'autoconfigure';
 
     /**
      * @var string
