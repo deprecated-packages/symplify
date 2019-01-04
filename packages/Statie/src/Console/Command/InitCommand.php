@@ -52,6 +52,8 @@ final class InitCommand extends Command
         'blog' => __DIR__ . '/../../../templates/statie-blog',
         'blog-twig' => __DIR__ . '/../../../templates/statie-blog-twig',
         'blog-latte' => __DIR__ . '/../../../templates/statie-blog-latte',
+        // travis-deploy
+        'travis-deploy' => __DIR__ . '/../../../templates/travis-deploy',
     ];
 
     /**
@@ -101,6 +103,7 @@ final class InitCommand extends Command
         $this->copyTemplates($templating);
 
         $this->generateBlog($templating);
+        $this->generateTravis();
 
         $this->symfonyStyle->success('Your new Statie is now generated');
 
@@ -138,6 +141,16 @@ final class InitCommand extends Command
 
         $this->copyTemplates('blog');
         $this->copyTemplates('blog-' . $templating);
+    }
+
+    private function generateTravis(): void
+    {
+        $isTravis = $this->symfonyStyle->confirm('Do you want deploy via Travis to Github Pages?');
+        if ($isTravis === false) {
+            return;
+        }
+
+        $this->copyTemplates('travis-deploy');
     }
 
     private function ensureTemplateDirectoriesNameIsValid(string $name): void
