@@ -30,10 +30,6 @@ services:
             - 'FileDecorator'
 
 parameters:
-    exclude_checkers:
-        # exclude from psr12.yml
-        - 'PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer'
-        - 'PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer'
     exclude_files:
         # tests
         - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
@@ -45,6 +41,8 @@ parameters:
         - 'packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory.php'
 
     skip:
+        PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
+        PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
         Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
             # allowed spots for Container
             - '*/ContainerFactory.php'
