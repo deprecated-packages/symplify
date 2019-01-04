@@ -318,7 +318,7 @@ To this:
 services:
     _defaults:
         autowire: true
-        autodiscovery: true
+        autoconfigure: true
 
     App\Repository\FirstRepository:
         calls:

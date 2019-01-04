@@ -105,7 +105,7 @@ final class ExplicitToAutodiscoveryConverter
         $yaml = $this->completeAutodiscovery($yaml, $filePath, $nestingLevel);
 
         if ($this->enableAutoconfigure) {
-            $yaml = $this->completeDefaultsKeyTrue($yaml, YamlKey::AUTODISCOVERY);
+            $yaml = $this->completeDefaultsKeyTrue($yaml, YamlKey::AUTOCONFIGURE);
         }
 
         if ($this->enableAutowire) {
