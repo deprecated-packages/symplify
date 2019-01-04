@@ -13,7 +13,7 @@
         "symfony/finder": "^3.4|^4.1",
         "symfony/routing": "^3.4|^4.1",
         "symplify/package-builder": "^5.3",
-        "thecodingmachine/safe": "^0.1.8"
+        "thecodingmachine/safe": "^0.1.9"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^1.9",
