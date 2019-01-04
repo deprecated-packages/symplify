@@ -7,9 +7,61 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
-<!-- changelog-linker -->
+## Unreleased
 
-## v5.2.19 - 2018-12-27
+### Added
+
+#### Statie
+
+- [#1300] Add .travis.yml to InitCommand
+- [#1288] Add `create-post` command
+- [#1285] Add `init` command
+
+### Changed
+
+#### EasyCodingStandard
+
+- [#1301] allow various format to skip
+- [#1299] PHP CS Fixer finally on PHP 7.3
+- [#1298] Move `exclude_checkers` to `skip` parameter
+
+### Fixed
+
+#### Autodiscovery
+
+- [#1297] autodiscovery should be autoconfigure, Thanks to [@bendavies]
+
+#### CodingStandard
+
+- [#1302] Fix `PropertyNameMatchingTypeFixer` for double types
+
+#### EasyCodingStandard
+
+- [#1287] Fix color support with xdebug, Thanks to [@ostrolucky]
+
+#### Statie
+
+- [#1290] Configure templating for user
+
+## [v5.2.20] - 2018-12-28
+
+### Added
+
+#### Autodiscovery
+
+- [#1281] Add exclude support
+
+#### PackageBuilder
+
+- [#1279] Add `HelpfulApplicationTrait`
+
+### Changed
+
+#### Autodiscovery
+
+- [#1280] Skip classes in vendor
+
+## [v5.2.19] - 2018-12-27
 
 ### Added
 
@@ -496,8 +548,6 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1278]: https://github.com/Symplify/Symplify/pull/1278
 [#1277]: https://github.com/Symplify/Symplify/pull/1277
 [#1276]: https://github.com/Symplify/Symplify/pull/1276
-[#1275]: https://github.com/Symplify/Symplify/pull/1275
-[#1272]: https://github.com/Symplify/Symplify/pull/1272
 [#1271]: https://github.com/Symplify/Symplify/pull/1271
 [#1268]: https://github.com/Symplify/Symplify/pull/1268
 [#1263]: https://github.com/Symplify/Symplify/pull/1263
@@ -505,3 +555,19 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [@tavy315]: https://github.com/tavy315
 [@suin]: https://github.com/suin
 [v5.2.18]: https://github.com/Symplify/Symplify/compare/v5.2.16...v5.2.18
+[#1302]: https://github.com/Symplify/Symplify/pull/1302
+[#1301]: https://github.com/Symplify/Symplify/pull/1301
+[#1300]: https://github.com/Symplify/Symplify/pull/1300
+[#1299]: https://github.com/Symplify/Symplify/pull/1299
+[#1298]: https://github.com/Symplify/Symplify/pull/1298
+[#1297]: https://github.com/Symplify/Symplify/pull/1297
+[#1290]: https://github.com/Symplify/Symplify/pull/1290
+[#1288]: https://github.com/Symplify/Symplify/pull/1288
+[#1287]: https://github.com/Symplify/Symplify/pull/1287
+[#1285]: https://github.com/Symplify/Symplify/pull/1285
+[#1281]: https://github.com/Symplify/Symplify/pull/1281
+[#1280]: https://github.com/Symplify/Symplify/pull/1280
+[#1279]: https://github.com/Symplify/Symplify/pull/1279
+[@bendavies]: https://github.com/bendavies
+[v5.2.20]: https://github.com/Symplify/Symplify/compare/v5.2.19...v5.2.20
+[v5.2.19]: https://github.com/Symplify/Symplify/compare/v5.2.18...v5.2.19
