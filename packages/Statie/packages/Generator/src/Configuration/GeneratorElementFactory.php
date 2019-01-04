@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Generator\Configuration;
 
+use Nette\Utils\FileSystem;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Generator\FileNameObjectSorter;
 use Symplify\Statie\Generator\Renderable\File\GeneratorFile;
@@ -51,10 +52,21 @@ final class GeneratorElementFactory
      */
     private function makePathAbsolute(array $configuration): array
     {
+        $this->ensureSourceDirectoryExists();
+
         $configuration['path'] = realpath($this->configuration->getSourceDirectory()) .
             DIRECTORY_SEPARATOR .
             $configuration['path'];
 
         return $configuration;
+    }
+
+    private function ensureSourceDirectoryExists(): void
+    {
+        if (file_exists($this->configuration->getSourceDirectory())) {
+            return;
+        }
+
+        FileSystem::createDir($this->configuration->getSourceDirectory());
     }
 }

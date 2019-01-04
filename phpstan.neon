@@ -134,6 +134,7 @@ parameters:
         - '#Strict comparison using === between \(array&hasOffset\((.*?)\)\)\|null and array\(\) will always evaluate to false#'
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::set\(\)#'
         - '#Method Symplify\\Autodiscovery\\Tests\\AbstractContainerAwareTestCase::createContainer\(\) should return Symfony\\Component\\DependencyInjection\\Container but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
+        - '#Cannot cast array<string>\|string\|null to string#'
 
 services:
     -

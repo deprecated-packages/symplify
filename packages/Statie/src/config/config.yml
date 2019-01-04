@@ -1,4 +1,6 @@
 parameters:
+    post_template_path: '%kernel.project_dir%/templates/post/post.md'
+
     # see https://www.statie.org/docs/generators/
     generators:
         posts:
