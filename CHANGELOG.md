@@ -11,6 +11,8 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ## [v5.3.1] - 2019-01-05
 
+- [#1303] Standardize config location to root `/config`
+
 ### Fixed
 
 #### Statie
@@ -583,3 +585,4 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [v5.2.19]: https://github.com/Symplify/Symplify/compare/v5.2.18...v5.2.19
 [#1303]: https://github.com/Symplify/Symplify/pull/1303
 [v5.3.0]: https://github.com/Symplify/Symplify/compare/v5.2.20...v5.3.0
+[v5.3.1]: https://github.com/Symplify/Symplify/compare/v5.3.0...v5.3.1
