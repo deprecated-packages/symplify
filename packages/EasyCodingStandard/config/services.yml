@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+        public: true
+
+    Symplify\EasyCodingStandard\:
+        resource: '../src'
+        exclude: '../src/{Contract,DependencyInjection,Exception,Error/Error.php,Error/FileDiff.php,Yaml}'
+
+    Symplify\EasyCodingStandard\Console\Application: ~
+    Symfony\Component\EventDispatcher\EventDispatcher: ~
+
+    _instanceof:
+        Symplify\EasyCodingStandard\Contract\Application\FileProcessorCollectorInterface:
+            calls:
+                # orders matters, so Fixer can cleanup after Sniffer
+                - ['addFileProcessor', ['@Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor']]
+                - ['addFileProcessor', ['@Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor']]

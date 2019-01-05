@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        public: true
-        autowire: true
-
-    Symplify\Statie\Latte\:
-        resource: '..'
-        exclude: '../{Exception}'

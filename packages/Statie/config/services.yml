@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    Symplify\Statie\:
+        resource: '../src'
+        exclude: '../src/{Exception,Renderable/File/File.php,Renderable/File/PostFile.php,Event}'
+
+    # bin file
+    Symplify\Statie\Console\Application: ~

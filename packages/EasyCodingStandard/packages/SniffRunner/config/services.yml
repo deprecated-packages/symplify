@@ -4,5 +4,6 @@ services:
         autowire: true
         autoconfigure: true
 
-    Symplify\MonorepoBuilder\Init\:
+    Symplify\EasyCodingStandard\SniffRunner\:
         resource: '../src'
+        exclude: '../src/{Exception,File/File.php,Event}'

@@ -31,7 +31,7 @@ final class ChangelogLinkerKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
-        $loader->load(__DIR__ . '/../config/config.yml');
+        $loader->load(__DIR__ . '/../../config/config.yml');
 
         if ($this->configFile) {
             $loader->load($this->configFile);

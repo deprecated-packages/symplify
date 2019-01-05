@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        public: true
-        autowire: true
-
-    Symplify\EasyCodingStandard\Configuration\:
-        resource: '..'
-        exclude: '../{Exception}'

@@ -4,5 +4,6 @@ services:
         autowire: true
         autoconfigure: true
 
-    Symplify\MonorepoBuilder\Init\:
+    Symplify\EasyCodingStandard\Configuration\:
         resource: '../src'
+        exclude: '../src/{Exception}'
