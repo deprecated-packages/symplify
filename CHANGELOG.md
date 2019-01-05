@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
-## v5.3.0 - 2019-01-05
+<!-- changelog-linker -->
+
+## [v5.3.1] - 2019-01-05
+
+### Fixed
+
+#### Statie
+
+- [89eab9](https://github.com/Symplify/Symplify/commit/89eab9337d720e2f399e7e1b4ba56b187d881a84) Fix `*.twig` parsing by Latte
+
+## [v5.3.0] - 2019-01-05
 
 ### Added
 
@@ -571,3 +581,5 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [@bendavies]: https://github.com/bendavies
 [v5.2.20]: https://github.com/Symplify/Symplify/compare/v5.2.19...v5.2.20
 [v5.2.19]: https://github.com/Symplify/Symplify/compare/v5.2.18...v5.2.19
+[#1303]: https://github.com/Symplify/Symplify/pull/1303
+[v5.3.0]: https://github.com/Symplify/Symplify/compare/v5.2.20...v5.3.0
