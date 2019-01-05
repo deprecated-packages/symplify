@@ -24,7 +24,7 @@ Register services in your Symfony config:
 ```yaml
 # services.yml
 imports:
-    - { resource: 'vendor/symplify/better-phpdoc-parser/src/config/services.yml' }
+    - { resource: 'vendor/symplify/better-phpdoc-parser/config/services.yml' }
 ```
 
 or register the needed services from `services.yml` in config of your other framework.

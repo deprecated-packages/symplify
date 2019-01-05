@@ -1,0 +1,15 @@
+parameters:
+    twig_cache_directory: '%kernel.cache_dir%/twig'
+
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    Symplify\Statie\Twig\:
+        resource: '../src'
+
+    # twig setup
+    Twig\Loader\ArrayLoader:
+    Latte\Runtime\FilterExecutor:

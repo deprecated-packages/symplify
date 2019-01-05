@@ -4,5 +4,6 @@ services:
         autowire: true
         autoconfigure: true
 
-    Symplify\MonorepoBuilder\Init\:
+    Symplify\Statie\Latte\:
         resource: '../src'
+        exclude: '../src/{Exception}'

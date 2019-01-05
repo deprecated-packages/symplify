@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    Symplify\EasyCodingStandard\FixerRunner\:
+        resource: '../src'
+        exclude: '../src/{Exception}'
+
+    # differ
+    PhpCsFixer\Differ\UnifiedDiffer: ~
+
+    Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor:
