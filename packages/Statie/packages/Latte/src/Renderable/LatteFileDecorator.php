@@ -5,6 +5,7 @@ namespace Symplify\Statie\Latte\Renderable;
 use Nette\Utils\Strings;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
+use Symplify\Statie\Latte\Exception\MissingLatteTemplateException;
 use Symplify\Statie\Latte\LatteRenderer;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -52,7 +53,7 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
             $this->attachLayoutAndBlockContentToFileContent($file, $file->getLayout());
 
             $parameters = $this->createParameters($file, 'file');
-            $content = $this->latteRenderer->renderFileWithParameters($file, $parameters);
+            $content = $this->renderFileWithParameters($file, $parameters);
 
             $file->changeContent($content);
         }
@@ -75,7 +76,7 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
 
             $parameters = $this->createParameters($file, $generatorElement->getVariable());
 
-            $content = $this->latteRenderer->renderFileWithParameters($file, $parameters);
+            $content = $this->renderFileWithParameters($file, $parameters);
             $content = $this->trimLayoutLeftover($content);
 
             $file->changeContent($content);
@@ -114,6 +115,23 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
         );
 
         $file->changeContent($content);
+    }
+
+    /**
+     * @param mixed[] $parameters
+     */
+    private function renderFileWithParameters(AbstractFile $file, array $parameters): string
+    {
+        try {
+            return $this->latteRenderer->renderFileWithParameters($file, $parameters);
+        } catch (MissingLatteTemplateException $invalidTwigSyntaxException) {
+            // probably not a latte file
+            if (Strings::contains($file->getContent(), '.twig')) {
+                return $file->getContent();
+            }
+
+            throw $invalidTwigSyntaxException;
+        }
     }
 
     private function trimLayoutLeftover(string $content): string

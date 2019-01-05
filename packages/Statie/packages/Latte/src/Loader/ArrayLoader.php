@@ -33,7 +33,7 @@ final class ArrayLoader implements ILoader
         }
 
         $message = sprintf(
-            'Missing template "%s". It must be placed in "/_layouts" or "/_snippets" and full relative path have to be used, e.g. "_layouts/default.latte".',
+            'Missing template "%s". It must be placed in "/_layouts" or "/_snippets" and full relative path have to be used, e.g. "_layouts/default.twig".',
             $name
         );
 
