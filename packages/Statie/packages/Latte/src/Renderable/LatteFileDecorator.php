@@ -124,13 +124,13 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
     {
         try {
             return $this->latteRenderer->renderFileWithParameters($file, $parameters);
-        } catch (MissingLatteTemplateException $invalidTwigSyntaxException) {
+        } catch (MissingLatteTemplateException $missingLatteTemplateException) {
             // probably not a latte file
             if (Strings::contains($file->getContent(), '.twig')) {
                 return $file->getContent();
             }
 
-            throw $invalidTwigSyntaxException;
+            throw $missingLatteTemplateException;
         }
     }
 
