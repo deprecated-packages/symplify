@@ -50,6 +50,11 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
                 continue;
             }
 
+            // twig file
+            if (Strings::match($file->getLayout(), '#\.twig$#')) {
+                continue;
+            }
+
             $this->attachLayoutAndBlockContentToFileContent($file, $file->getLayout());
 
             $parameters = $this->createParameters($file, 'file');
@@ -69,6 +74,11 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
     {
         foreach ($files as $file) {
             if (! in_array($file->getExtension(), ['latte', 'md'], true)) {
+                continue;
+            }
+
+            // twig file
+            if (Strings::match($generatorElement->getLayout(), '#\.twig$#')) {
                 continue;
             }
 
