@@ -18,15 +18,15 @@ trait HelpfulApplicationTrait
     {
         try {
             return parent::doRunCommand($command, $input, $output);
-        } catch (RuntimeException $throwable) {
-            if (Strings::match($throwable->getMessage(), '#Not enough arguments#')) {
+        } catch (RuntimeException $runtimeException) {
+            if (Strings::match($runtimeException->getMessage(), '#Not enough arguments#')) {
                 $this->cleanExtraCommandArgument($command);
                 (new TextDescriptor())->describe($output, $command);
 
                 return ShellCode::SUCCESS;
             }
 
-            throw $throwable;
+            throw $runtimeException;
         }
     }
 
