@@ -51,7 +51,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
             }
 
             // latte file
-            if (Strings::match($file->getLayout(), '#\.latte#')) {
+            if (Strings::match($file->getLayout(), '#\.latte$#')) {
                 continue;
             }
 
@@ -79,7 +79,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
             }
 
             // latte file
-            if (Strings::match($file->getLayout(), '#\.latte#')) {
+            if (Strings::match($file->getLayout(), '#\.latte$#')) {
                 continue;
             }
 
