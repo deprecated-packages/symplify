@@ -349,6 +349,17 @@ services:
 
 <br>
 
+### Consistent Delimiter in Regular Expression
+
+- class: [`Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer`](src/Fixer/ControlStructure/PregDelimiterFixer.php)
+
+```diff
+-preg_match('~pattern~', $value);
++preg_match('#pattern#', $value);
+```
+
+<br>
+
 ### Include/Require should be followed by absolute path
 
 - class: [`Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer`](src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php)

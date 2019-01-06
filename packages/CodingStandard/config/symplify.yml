@@ -1,5 +1,8 @@
 # set for EasyCodingStandard
 services:
+    _defaults:
+        autowire: true
+
     # class has to be final, abstract or Doctrine entity
     SlamCsFixer\FinalInternalClassFixer: ~
 
@@ -18,5 +21,5 @@ services:
         exclude: '../src/{Sniffs/DeadCode/UnusedPublicMethodSniff.php,Sniffs/CleanCode/ForbiddenParentClassSniff.php,Fixer/Order/MethodOrderByTypeFixer.php}'
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
-
     Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter: ~
+    PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: ~
