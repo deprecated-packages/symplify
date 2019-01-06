@@ -439,6 +439,21 @@ services:
 
 <br>
 
+### Exception name should match its type, if possible
+
+- class: [`Symplify\CodingStandard\Fixer\Naming\ExceptionNameMatchingTypeFixer`](src/Fixer/Naming/ExceptionNameMatchingTypeFixer.php)
+
+```diff
+ try {
+-} catch (SomeException $typoException) {
++} catch (SomeException $someException) {
+-    $typeException->getMessage();
++    $someException->getMessage();
+ }
+```
+
+<br>
+
 ### Public Methods Should have Specific Order by Interface/Parent Class
 
 - :wrench:
