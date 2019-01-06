@@ -135,6 +135,7 @@ abstract class AbstractCheckerTestCase extends TestCase
                 'services' => [
                     '_defaults' => [
                         'public' => true, // for tests
+                        'autowire' => true,
                     ],
                     $this->getCheckerClass() => $this->getCheckerConfiguration() ?: null,
                 ],
