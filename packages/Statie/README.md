@@ -27,8 +27,6 @@ Do you prefer [Latte](https://github.com/nette/latte)?
 
 ```bash
 vendor/bin/statie init --templating latte
-# that is same as
-vendor/bin/statie init -t latte
 ```
 
 This will generate config, templates, layouts and gulp code, so you can enjoy live preview.
@@ -57,30 +55,11 @@ gulp
 
 ### `statie.yml` Config
 
-This is basically `config.yml` Symfony Kernel that you know from Symfony apps. You can.
+This is basically Symfony Kernel `config.yml` that you know from Symfony application. You can:
 
-**1. [Add Parameters](https://symfony.com/doc/current/service_container/parameters.html)**
-
-```yaml
-# statie.yml
-parameters:
-    site_url: http://github.com
-
-    socials:
-        facebook: http://facebook.com/github
-```
-
-...that are available in every template:
-
-```twig
-# source/_layouts/default.twig
-
-<p>Welcome to: {{ site_url }}</p>
-
-<p>Checkout my FB page: {{ socials.facebook }}</p>
-```
-
-**2. [Import other configs](http://symfony.com/doc/current/service_container/import.html)**
+- [add parameters](https://symfony.com/doc/current/service_container/parameters.html)
+- [import configs](http://symfony.com/doc/current/service_container/import.html)
+- [register services](https://symfony.com/doc/current/service_container.html)
 
 ```yaml
 # statie.yml
@@ -88,36 +67,23 @@ imports:
     - { resource: 'data/favorite_links.yml' }
 
 parameters:
-    site_url: http://github.com
+    site_url: 'http://github.com'
     socials:
-        facebook: http://facebook.com/github
-```
+        facebook: 'http://facebook.com/github'
 
-...and split long configuration into more smaller files:
-
-```yaml
-# data/favorite_links.yml
-parameters:
-    favorite_links:
-        blog:
-            name: "Suis Marco"
-            url: "http://ocramius.github.io/"
-```
-
-**3. And [Register Services](https://symfony.com/doc/current/service_container.html)**
-
-```yaml
 services:
     App\SomeService: ~
-
-    App\TweetService:
-        arguments:
-          - '%twitter.api_key%'
 ```
 
-## Documentation
+Parameters are available in every template:
 
-See documentation at [www.statie.org](https://www.statie.org).
+```twig
+{# source/_layouts/default.twig #}
+
+<p>Welcome to: {{ site_url }}</p>
+
+<p>Checkout my FB page: {{ socials.facebook }}</p>
+```
 
 ### Do You Write Posts?
 
@@ -149,6 +115,8 @@ That's it!
 ## Documentation
 
 Thanks to [@crazko](https://github.com/crazko) you can enjoy neat documentation and see projects that use Statie at [statie.org](https://www.statie.org).
+
+- [How to Tweet your Posts with Travis](/docs/tweeting.md)
 
 ## Contributing
 
