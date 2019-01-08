@@ -5,8 +5,8 @@
     "require": {
         "php": "^7.1",
         "phpunit/phpunit": "^7.5",
-        "symplify/easy-coding-standard": "^5.3.5",
-        "symplify/package-builder": "^5.3.5",
+        "symplify/easy-coding-standard": "^5.4",
+        "symplify/package-builder": "^5.4",
         "thecodingmachine/safe": "^0.1.9"
     },
     "autoload": {
