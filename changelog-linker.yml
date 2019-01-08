@@ -7,3 +7,4 @@ parameters:
         MB: 'MonorepoBuilder'
         ECS: 'EasyCodingStandard'
         CL: 'ChangelogLinker'
+        "Flex Loader": 'FlexLoader'

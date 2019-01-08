@@ -9,6 +9,25 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## Unreleased
+
+### Added
+
+#### CodingStandard
+
+- [#1305] Add `CatchExceptionNameMatchingTypeFixer`
+- [#1306] Add `PregDelimiterFixer`
+
+### Fixed
+
+#### FlexLoader
+
+- [#1310] Fix missing dependency `Nette\Utils`, Thanks to [@tavy315]
+
+#### Statie
+
+- [f17caf](https://github.com/Symplify/Symplify/commit/f17caf2a391e377f4e3b2276057dff1b3f65d76e) Fix missing dot file in `init`
+
 ## [v5.3.1] - 2019-01-05
 
 - [#1303] Standardize config location to root `/config`
@@ -586,3 +605,6 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1303]: https://github.com/Symplify/Symplify/pull/1303
 [v5.3.0]: https://github.com/Symplify/Symplify/compare/v5.2.20...v5.3.0
 [v5.3.1]: https://github.com/Symplify/Symplify/compare/v5.3.0...v5.3.1
+[#1310]: https://github.com/Symplify/Symplify/pull/1310
+[#1306]: https://github.com/Symplify/Symplify/pull/1306
+[#1305]: https://github.com/Symplify/Symplify/pull/1305
