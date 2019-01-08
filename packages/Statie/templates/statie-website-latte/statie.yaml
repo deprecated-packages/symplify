@@ -1,3 +1,7 @@
 # see https://www.statie.org/docs/configuration/ for more
 parameters:
     google_analytics_tracking_id: 'ABC123'
+
+    generators:
+        posts:
+            layout: '_layouts/post.latte'
