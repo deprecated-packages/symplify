@@ -79,12 +79,26 @@ final class NoClassInstantiationSniff implements Sniff
         '*Iterator',
         '*Reference', // Symfony DI Reference class
         '*ContainerFactory',
+
         // value objects or build elements, like SplFileInfo
         '*Info',
         '*Node',
+        '*Request',
+        '*Response',
+        '*Collection',
+        '*Resource',
+        '*Error',
+        '*Token',
 
         // Doctrine
         'Doctrine\ORM\Query\Expr',
+
+        // misc
+        'K0nias\FakturoidApi\*',
+        'setasign\Fpdi\*',
+        'ZipStream\ZipStream',
+        # pre-container used classes
+        'Symplify\Autodiscovery\Util\*',
     ];
 
     /**
