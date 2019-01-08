@@ -9,7 +9,15 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.3.2 - 2019-01-08
+## Unreleased
+
+### Added
+
+#### CodingStandard
+
+- [#1315] Add flags support to `PregDelimiterFixer` + cover quotes + make configurable
+
+## [v5.3.2] - 2019-01-08
 
 ### Added
 
@@ -608,3 +616,5 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1310]: https://github.com/Symplify/Symplify/pull/1310
 [#1306]: https://github.com/Symplify/Symplify/pull/1306
 [#1305]: https://github.com/Symplify/Symplify/pull/1305
+[#1315]: https://github.com/Symplify/Symplify/pull/1315
+[v5.3.2]: https://github.com/Symplify/Symplify/compare/v5.3.1...v5.3.2
