@@ -14,6 +14,7 @@
         "symfony/dependency-injection": "^3.4|^4.1",
         "symfony/event-dispatcher": "^3.4|^4.1",
         "symfony/http-kernel": "^3.4|^4.1",
+        "J7mbo/twitter-api-php": "^1.0",
         "nette/finder": "^2.4",
         "nette/utils": "^2.5",
         "tracy/tracy": "^2.5",
@@ -34,7 +35,8 @@
             "Symplify\\Statie\\": "src",
             "Symplify\\Statie\\Latte\\": "packages/Latte/src",
             "Symplify\\Statie\\Generator\\": "packages/Generator/src",
-            "Symplify\\Statie\\Twig\\": "packages/Twig/src"
+            "Symplify\\Statie\\Twig\\": "packages/Twig/src",
+            "Symplify\\Statie\\Tweeter\\": "packages/Tweeter/src"
         }
     },
     "autoload-dev": {

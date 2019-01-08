@@ -1,0 +1,30 @@
+parameters:
+    site_url: 'complete "site_url" parameter for tweeter'
+    twitter_name: 'complete "twitter_name" parameter for tweeter'
+
+    # set 0 for testing
+    twitter_minimal_gap_in_days: 1 # how many days to wait before publishing another Tweet
+
+    env(TWITTER_CONSUMER_KEY): '...'
+    env(TWITTER_CONSUMER_SECRET): '...'
+    env(TWITTER_OAUTH_ACCESS_TOKEN): '...'
+    env(TWITTER_OAUTH_ACCESS_TOKEN_SECRET): '...'
+
+    twitter_consumer_key: '%env(TWITTER_CONSUMER_KEY)%'
+    twitter_consumer_secret: '%env(TWITTER_CONSUMER_SECRET)%'
+    twitter_oauth_access_token: '%env(TWITTER_OAUTH_ACCESS_TOKEN)%'
+    twitter_oauth_access_token_secret: '%env(TWITTER_OAUTH_ACCESS_TOKEN_SECRET)%'
+
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    Symplify\Statie\Tweeter\:
+        resource: '../src'
+        exclude: '../src/{Exception}'
+
+    TwitterAPIExchange:
+        class: 'TwitterAPIExchange'
+        factory: ['@Symplify\Statie\Tweeter\TwitterApi\TwitterApiFactory', 'create']

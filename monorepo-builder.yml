@@ -1,9 +1,11 @@
 parameters:
+    merge_sections:
+        - "require"
+        - "require-dev"
+        # skip autoload merging - handled by \Symplify\Util\Composer\PackagePsr4Autoloader
+
     # add these to merge of packages' composer.json
     data_to_append:
-        autoload-dev:
-            psr-4:
-                'Symplify\Tests\': 'tests'
         require-dev:
             phpstan/phpstan: '^0.10.6'
             phpunit/phpunit: '^7.5'
