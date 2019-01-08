@@ -1,0 +1,20 @@
+parameters:
+    thanker_repository_name: "complete 'thanker_repository_name' parameter, e.g. 'tomasvotruba/tomasvotruba.cz'"
+    thanker_author_name: "complete 'thanker_author_name' parameter, e.g. 'TomasVotruba'"
+
+    # create token here: https://github.com/settings/tokens/new
+    # use in cli like: "GITHUB_TOKEN=%s vendor/bin/monorepo-builder split ..."
+    env(GITHUB_TOKEN): null
+    github_token: '%env(GITHUB_TOKEN)%'
+
+services:
+    _defaults:
+        autowire: true
+        public: true
+
+    Symplify\Statie\GithubContributorsThanker\:
+        resource: '../src'
+        exclude: '../src/{Exception}'
+
+    GuzzleHttp\Client: ~
+    Symfony\Component\Filesystem\Filesystem: ~

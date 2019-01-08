@@ -10,15 +10,16 @@
         "erusev/parsedown-extra": "^0.7.1",
         "erusev/parsedown": "^1.7",
         "latte/latte": "^2.4",
-        "symfony/config": "^3.4|^4.1",
-        "symfony/dependency-injection": "^3.4|^4.1",
-        "symfony/event-dispatcher": "^3.4|^4.1",
-        "symfony/http-kernel": "^3.4|^4.1",
+        "guzzlehttp/guzzle": "^6.3",
         "J7mbo/twitter-api-php": "^1.0",
         "nette/finder": "^2.4",
         "nette/utils": "^2.5",
         "tracy/tracy": "^2.5",
         "twig/twig": "^2.5",
+        "symfony/config": "^3.4|^4.1",
+        "symfony/dependency-injection": "^3.4|^4.1",
+        "symfony/event-dispatcher": "^3.4|^4.1",
+        "symfony/http-kernel": "^3.4|^4.1",
         "symfony/console": "^3.4|^4.1",
         "symfony/finder": "^3.4|^4.1",
         "symfony/yaml": "^3.4|^4.1",
@@ -36,7 +37,8 @@
             "Symplify\\Statie\\Latte\\": "packages/Latte/src",
             "Symplify\\Statie\\Generator\\": "packages/Generator/src",
             "Symplify\\Statie\\Twig\\": "packages/Twig/src",
-            "Symplify\\Statie\\Tweeter\\": "packages/Tweeter/src"
+            "Symplify\\Statie\\Tweeter\\": "packages/Tweeter/src",
+            "Symplify\\Statie\\GithubContributorsThanker\\": "packages/GithubContributorsThanker/src"
         }
     },
     "autoload-dev": {
@@ -44,7 +46,8 @@
             "Symplify\\Statie\\Tests\\": "tests",
             "Symplify\\Statie\\Latte\\Tests\\": "packages/Latte/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests",
-            "Symplify\\Statie\\Twig\\Tests\\": "packages/Twig/tests"
+            "Symplify\\Statie\\Twig\\Tests\\": "packages/Twig/tests",
+            "Symplify\\Statie\\Tweeter\\Tests\\": "packages/Tweeter/tests"
         }
     },
     "extra": {
