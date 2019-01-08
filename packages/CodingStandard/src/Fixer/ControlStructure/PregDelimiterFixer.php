@@ -2,6 +2,8 @@
 
 namespace Symplify\CodingStandard\Fixer\ControlStructure;
 
+use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -12,8 +14,14 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
-final class PregDelimiterFixer extends AbstractSymplifyFixer
+final class PregDelimiterFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
+    /**
+     * @var string
+     * @see https://regex101.com/r/pd1KvP/1/
+     */
+    private const INNER_PATTERN_PATTERN = '#(?<open>[\'|"])(?<content>.*?)(?<close>[A-z]*[\'|"])#';
+
     /**
      * All with pattern as 1st argument
      * @var int[]
@@ -44,7 +52,7 @@ final class PregDelimiterFixer extends AbstractSymplifyFixer
     /**
      * @var string
      */
-    private const PREFERRED_DELIMITER = '#';
+    private $delimiter = '#';
 
     /**
      * @var ArgumentsAnalyzer
@@ -89,6 +97,16 @@ final class PregDelimiterFixer extends AbstractSymplifyFixer
 
             $argumentInfo = $argumentInfos[$regexArgumentPosition];
             $this->processArgumentInfo($argumentInfo, $tokens);
+        }
+    }
+
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        if (isset($configuration['delimiter']) && $configuration['delimiter']) {
+            $this->delimiter = $configuration['delimiter'];
         }
     }
 
@@ -140,36 +158,41 @@ final class PregDelimiterFixer extends AbstractSymplifyFixer
             return;
         }
 
-        $argumentValue = $argumentAnalysis->getTypeAnalysis()->getName();
-
-        // clean
-        $argumentValue = trim($argumentValue, '\'');
-
-        // is delimiter wrapped?
-        if ($argumentValue[0] !== $argumentValue[strlen($argumentValue) - 1]) {
-            return;
-        }
-
-        if ($argumentValue[0] === self::PREFERRED_DELIMITER) {
-            return;
-        }
-
-        $argumentValue[0] = self::PREFERRED_DELIMITER;
-        $argumentValue[strlen($argumentValue) - 1] = self::PREFERRED_DELIMITER;
         $argumentPosition = $argumentAnalysis->getTypeAnalysis()->getStartIndex();
-
-        // not a string, cannot replace it
-        if (! $tokens[$argumentPosition]->isGivenKind(T_CONSTANT_ENCAPSED_STRING)) {
+        if ($tokens[$argumentPosition]->isGivenKind(T_CONSTANT_ENCAPSED_STRING) === false) {
             return;
         }
 
-        $tokens[$argumentPosition] = new Token([T_CONSTANT_ENCAPSED_STRING, "'" . $argumentValue . "'"]);
+        $argumentValue = $argumentAnalysis->getTypeAnalysis()->getName();
+        $newArgumentValue = Strings::replace(
+            $argumentValue,
+            self::INNER_PATTERN_PATTERN,
+            function (array $match) {
+                $innerPattern = $match['content'];
+
+                if (strlen($innerPattern) > 2) {
+                    // change delimiter
+                    if ($innerPattern[0] === $innerPattern[strlen($innerPattern) - 1]) {
+                        $innerPattern[0] = $this->delimiter;
+                        $innerPattern[strlen($innerPattern) - 1] = $this->delimiter;
+                    }
+                }
+
+                return $match['open'] . $innerPattern . $match['close'];
+            }
+        );
+
+        // no change
+        if ($newArgumentValue === $argumentValue) {
+            return;
+        }
+
+        $tokens[$argumentPosition] = new Token([T_CONSTANT_ENCAPSED_STRING, $newArgumentValue]);
     }
 
     private function isStaticCall(Tokens $tokens, int $position, string $class, string $method): bool
     {
         $token = $tokens[$position];
-
         if (! $tokens[$position - 1]->isGivenKind(T_PAAMAYIM_NEKUDOTAYIM)) {
             return false;
         }
