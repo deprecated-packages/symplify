@@ -112,6 +112,20 @@ parameters:
 
 That's it!
 
+### How to turn make Post Shareable with Anchors?
+
+```yaml
+# statie.yml
+parameters:
+    post_headline_linker_enabled: true
+
+    # default values
+    post_headline_linker_min_level: 1
+    post_headline_linker_max_level: 6
+```
+
+Now people can share specific headlines in your posts.
+
 ## Documentation
 
 Thanks to [@crazko](https://github.com/crazko) you can enjoy neat documentation and see projects that use Statie at [statie.org](https://www.statie.org).
