@@ -3,12 +3,12 @@
 namespace Symplify\Statie\Twig\Renderable;
 
 use Nette\Utils\Strings;
+use Symplify\Statie\Configuration\TemplatingDetector;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Templating\AbstractTemplatingFileDecorator;
-use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
 use Symplify\Statie\Twig\TwigRenderer;
 
 final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements FileDecoratorInterface
@@ -33,10 +33,19 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
      */
     private $codeBlocksProtector;
 
-    public function __construct(TwigRenderer $twigRenderer, CodeBlocksProtector $codeBlocksProtector)
-    {
+    /**
+     * @var TemplatingDetector
+     */
+    private $templatingDetector;
+
+    public function __construct(
+        TwigRenderer $twigRenderer,
+        CodeBlocksProtector $codeBlocksProtector,
+        TemplatingDetector $templatingDetector
+    ) {
         $this->twigRenderer = $twigRenderer;
         $this->codeBlocksProtector = $codeBlocksProtector;
+        $this->templatingDetector = $templatingDetector;
     }
 
     /**
@@ -50,16 +59,16 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
                 continue;
             }
 
-            // latte file
-            if (Strings::match($file->getLayout(), '#\.latte$#')) {
+            if ($file->getExtension() === 'md' && $this->templatingDetector->detect() === 'latte') {
                 continue;
             }
 
-            $this->attachExtendsAndBlockContentToFileContent($file, $file->getLayout());
+            $layout = $this->normalizeLayoutSuffix($file->getLayout());
+            $this->attachExtendsAndBlockContentToFileContent($file, $layout);
 
             $parameters = $this->createParameters($file, 'file');
 
-            $content = $this->renderFileWithParameters($file, $parameters);
+            $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
 
             $file->changeContent($content);
         }
@@ -78,15 +87,15 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
                 continue;
             }
 
-            // latte file
-            if (Strings::match($file->getLayout(), '#\.latte$#')) {
+            if ($file->getExtension() === 'md' && $this->templatingDetector->detect() === 'latte') {
                 continue;
             }
 
-            $this->attachExtendsAndBlockContentToFileContent($file, $generatorElement->getLayout());
+            $layout = $this->normalizeLayoutSuffix($file->getLayout() ?: $generatorElement->getLayout());
+            $this->attachExtendsAndBlockContentToFileContent($file, $layout);
 
             $parameters = $this->createParameters($file, $generatorElement->getVariable());
-            $content = $this->renderFileWithParameters($file, $parameters);
+            $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
 
             $content = $this->trimExtendsAndBlockContent($content);
 
@@ -102,6 +111,15 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
     public function getPriority(): int
     {
         return 700;
+    }
+
+    private function normalizeLayoutSuffix(?string $layout): ?string
+    {
+        if (Strings::endsWith($layout, '.latte')) {
+            return Strings::replace($layout, '#\.latte$#', '.twig');
+        }
+
+        return $layout;
     }
 
     /**
@@ -129,23 +147,6 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
         );
 
         $file->changeContent($content);
-    }
-
-    /**
-     * @param mixed[] $parameters
-     */
-    private function renderFileWithParameters(AbstractFile $file, array $parameters): string
-    {
-        try {
-            return $this->twigRenderer->renderFileWithParameters($file, $parameters);
-        } catch (InvalidTwigSyntaxException $invalidTwigSyntaxException) {
-            // probably not a twig file
-            if (Strings::contains($file->getContent(), '.latte')) {
-                return $file->getContent();
-            }
-
-            throw $invalidTwigSyntaxException;
-        }
     }
 
     private function trimExtendsAndBlockContent(string $content): string

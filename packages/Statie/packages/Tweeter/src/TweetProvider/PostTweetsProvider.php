@@ -72,7 +72,11 @@ final class PostTweetsProvider
      */
     private function getPosts(): array
     {
-        return $this->generator->run()['post'] ?? [];
+        if ($this->configuration->getOption('posts') === null) {
+            $this->generator->run();
+        }
+
+        return $this->configuration->getOption('posts') ?? [];
     }
 
     private function appendAbsoluteUrlToTweet(PostFile $postFile, string $rawTweetText): string

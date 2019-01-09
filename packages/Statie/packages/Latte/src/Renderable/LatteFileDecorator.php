@@ -3,9 +3,9 @@
 namespace Symplify\Statie\Latte\Renderable;
 
 use Nette\Utils\Strings;
+use Symplify\Statie\Configuration\TemplatingDetector;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
-use Symplify\Statie\Latte\Exception\MissingLatteTemplateException;
 use Symplify\Statie\Latte\LatteRenderer;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -33,10 +33,19 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
      */
     private $codeBlocksProtector;
 
-    public function __construct(LatteRenderer $latteRenderer, CodeBlocksProtector $codeBlocksProtector)
-    {
+    /**
+     * @var TemplatingDetector
+     */
+    private $templatingDetector;
+
+    public function __construct(
+        LatteRenderer $latteRenderer,
+        CodeBlocksProtector $codeBlocksProtector,
+        TemplatingDetector $templatingDetector
+    ) {
         $this->latteRenderer = $latteRenderer;
         $this->codeBlocksProtector = $codeBlocksProtector;
+        $this->templatingDetector = $templatingDetector;
     }
 
     /**
@@ -50,15 +59,15 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
                 continue;
             }
 
-            // twig file
-            if (Strings::match($file->getLayout(), '#\.twig$#')) {
+            if ($file->getExtension() === 'md' && $this->templatingDetector->detect() === 'twig') {
                 continue;
             }
 
-            $this->attachLayoutAndBlockContentToFileContent($file, $file->getLayout());
+            $layout = $this->normalizeLayoutSuffix($file->getLayout());
+            $this->attachLayoutAndBlockContentToFileContent($file, $layout);
 
             $parameters = $this->createParameters($file, 'file');
-            $content = $this->renderFileWithParameters($file, $parameters);
+            $content = $this->latteRenderer->renderFileWithParameters($file, $parameters);
 
             $file->changeContent($content);
         }
@@ -77,16 +86,16 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
                 continue;
             }
 
-            // twig file
-            if (Strings::match($generatorElement->getLayout(), '#\.twig$#')) {
+            if ($file->getExtension() === 'md' && $this->templatingDetector->detect() === 'twig') {
                 continue;
             }
 
-            $this->attachLayoutAndBlockContentToFileContent($file, $generatorElement->getLayout());
+            $layout = $this->normalizeLayoutSuffix($file->getLayout() ?: $generatorElement->getLayout());
+            $this->attachLayoutAndBlockContentToFileContent($file, $layout);
 
             $parameters = $this->createParameters($file, $generatorElement->getVariable());
 
-            $content = $this->renderFileWithParameters($file, $parameters);
+            $content = $this->latteRenderer->renderFileWithParameters($file, $parameters);
             $content = $this->trimLayoutLeftover($content);
 
             $file->changeContent($content);
@@ -101,6 +110,15 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
     public function getPriority(): int
     {
         return 700;
+    }
+
+    private function normalizeLayoutSuffix(?string $layout): ?string
+    {
+        if (Strings::endsWith($layout, '.twig')) {
+            return Strings::replace($layout, '#\.twig$#', '.latte');
+        }
+
+        return $layout;
     }
 
     private function attachLayoutAndBlockContentToFileContent(AbstractFile $file, ?string $layout): void
@@ -125,23 +143,6 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
         );
 
         $file->changeContent($content);
-    }
-
-    /**
-     * @param mixed[] $parameters
-     */
-    private function renderFileWithParameters(AbstractFile $file, array $parameters): string
-    {
-        try {
-            return $this->latteRenderer->renderFileWithParameters($file, $parameters);
-        } catch (MissingLatteTemplateException $missingLatteTemplateException) {
-            // probably not a latte file
-            if (Strings::contains($file->getContent(), '.twig')) {
-                return $file->getContent();
-            }
-
-            throw $missingLatteTemplateException;
-        }
     }
 
     private function trimLayoutLeftover(string $content): string
