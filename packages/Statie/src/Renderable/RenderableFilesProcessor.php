@@ -35,7 +35,6 @@ final class RenderableFilesProcessor
     {
         $this->fileFactory = $fileFactory;
         $this->configuration = $configuration;
-
         $this->fileDecorators = $this->sortFileDecorators($fileDecorators);
     }
 

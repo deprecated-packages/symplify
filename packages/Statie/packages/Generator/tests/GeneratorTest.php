@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Generator\Tests;
 
 use DateTimeInterface;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 
 /**
  * @covers \Symplify\Statie\Generator\Generator
@@ -15,6 +16,7 @@ final class GeneratorTest extends AbstractGeneratorTest
 
         foreach ($generatorFilesByType as $generatorFiles) {
             foreach ($generatorFiles as $key => $generatorFile) {
+                /** @var AbstractGeneratorFile */
                 $this->assertSame($key, $generatorFile->getId());
             }
         }

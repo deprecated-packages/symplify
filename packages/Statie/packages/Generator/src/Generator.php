@@ -15,6 +15,11 @@ use function Safe\sprintf;
 final class Generator
 {
     /**
+     * @var mixed[]
+     */
+    private $generatorFilesByType = [];
+
+    /**
      * @var GeneratorConfiguration
      */
     private $generatorConfiguration;
@@ -58,6 +63,10 @@ final class Generator
      */
     public function run(): array
     {
+        if ($this->generatorFilesByType) {
+            return $this->generatorFilesByType;
+        }
+
         foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
             if (! is_dir($generatorElement->getPath())) {
                 $this->reportMissingPath($generatorElement);
@@ -90,7 +99,9 @@ final class Generator
             );
         }
 
-        return $generatorFilesByType;
+        $this->generatorFilesByType = $generatorFilesByType;
+
+        return $this->generatorFilesByType;
     }
 
     private function reportMissingPath(GeneratorElement $generatorElement): void

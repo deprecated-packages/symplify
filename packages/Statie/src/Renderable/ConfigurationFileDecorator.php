@@ -71,7 +71,7 @@ final class ConfigurationFileDecorator implements FileDecoratorInterface
     private function getConfigAndContentPattern(): string
     {
         return sprintf(
-            '/^\s*%s(?<config>.*?)%s(?<content>.*?)$/s',
+            '#^\s*%s?(?<config>.*?)%s(?<content>.*?)$#s',
             self::SLASHES_WITH_SPACES_PATTERN,
             self::SLASHES_WITH_SPACES_PATTERN
         );

@@ -66,6 +66,6 @@ final class StatieApplicationTest extends TestCase
         );
 
         $this->expectExceptionMessageRegExp('#Did you mean "_layouts/default.latte"#');
-        $this->assertNotEmpty($this->arrayLoader->getContent('layoutdefault.latte'));
+        $this->assertNotEmpty($this->arrayLoader->getContent('layout/default.latte'));
     }
 }
