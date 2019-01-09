@@ -38,7 +38,8 @@
             "Symplify\\Statie\\Generator\\": "packages/Generator/src",
             "Symplify\\Statie\\Twig\\": "packages/Twig/src",
             "Symplify\\Statie\\Tweeter\\": "packages/Tweeter/src",
-            "Symplify\\Statie\\GithubContributorsThanker\\": "packages/GithubContributorsThanker/src"
+            "Symplify\\Statie\\GithubContributorsThanker\\": "packages/GithubContributorsThanker/src",
+            "Symplify\\Statie\\PostHeadlineLinker\\": "packages/PostHeadlineLinker/src"
         }
     },
     "autoload-dev": {
@@ -47,7 +48,8 @@
             "Symplify\\Statie\\Latte\\Tests\\": "packages/Latte/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests",
             "Symplify\\Statie\\Twig\\Tests\\": "packages/Twig/tests",
-            "Symplify\\Statie\\Tweeter\\Tests\\": "packages/Tweeter/tests"
+            "Symplify\\Statie\\Tweeter\\Tests\\": "packages/Tweeter/tests",
+            "Symplify\\Statie\\PostHeadlineLinker\\Tests\\": "packages/PostHeadlineLinker/tests"
         }
     },
     "extra": {
