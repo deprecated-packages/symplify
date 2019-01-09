@@ -3,6 +3,7 @@
 namespace Symplify\Statie\PostHeadlineLinker;
 
 use Nette\Utils\Strings;
+use function Safe\sprintf;
 
 final class PostHeadlineLinker
 {
