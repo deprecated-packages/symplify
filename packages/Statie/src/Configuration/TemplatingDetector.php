@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Configuration;
 
-use PhpCsFixer\Finder;
+use Symfony\Component\Finder\Finder;
 
 final class TemplatingDetector
 {

@@ -13,6 +13,7 @@ services:
             Symfony\Component\Finder\SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
             Symfony\Component\DependencyInjection\ContainerInterface: 'Use constructor injection, collectors or factory instead'
+            PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
 
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
