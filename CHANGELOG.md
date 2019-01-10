@@ -9,7 +9,18 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.3.5 - 2019-01-08
+## Unreleased
+
+### Added
+
+#### Statie
+
+- [#1321] Add post headline linker
+- [#1320] Add TemplatingDetector to resolve templating detection
+- [#1317] Add Github Contributors Thanker
+- [#1316] Add Tweeter for post tweeting
+
+## [v5.3.5] - 2019-01-08
 
 ### Added
 
@@ -618,3 +629,8 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1305]: https://github.com/Symplify/Symplify/pull/1305
 [#1315]: https://github.com/Symplify/Symplify/pull/1315
 [v5.3.2]: https://github.com/Symplify/Symplify/compare/v5.3.1...v5.3.2
+[#1321]: https://github.com/Symplify/Symplify/pull/1321
+[#1320]: https://github.com/Symplify/Symplify/pull/1320
+[#1317]: https://github.com/Symplify/Symplify/pull/1317
+[#1316]: https://github.com/Symplify/Symplify/pull/1316
+[v5.3.5]: https://github.com/Symplify/Symplify/compare/v5.3.2...v5.3.5
