@@ -9,6 +9,20 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## [v5.3.9] - 2019-01-11
+
+### Added
+
+#### LatteToTwigConverter
+
+- [#1330] Add `rename` command
+
+### Fixed
+
+### LatteToTwigConverter
+
+- [#1329] Actually display `convert` command
+
 ## [v5.3.8] - 2019-01-11
 
 ### Fixed
@@ -645,3 +659,6 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1325]: https://github.com/Symplify/Symplify/pull/1325
 [v5.3.8]: https://github.com/Symplify/Symplify/compare/v5.3.6...v5.3.8
 [v5.3.6]: https://github.com/Symplify/Symplify/compare/v5.3.5...v5.3.6
+[#1330]: https://github.com/Symplify/Symplify/pull/1330
+[#1329]: https://github.com/Symplify/Symplify/pull/1329
+[v5.3.9]: https://github.com/Symplify/Symplify/compare/v5.3.8...v5.3.9
