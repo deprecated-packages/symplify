@@ -41,6 +41,14 @@ final class VariableCaseConverter implements CaseConverterInterface
         // {{ post.relativeUrl }}
         $content = Strings::replace($content, '#{\$([\w-]+)' . self::PATTERN_ARRAY_ACCESS . '(.*?)}#', '{{ $1.$2$3 }}');
 
+        // {    $post['relativeUrl']    } =>
+        // {    post.relativeUrl    }
+        $content = Strings::replace(
+            $content,
+            '#{(.*?)\$?([\w-]+)' . self::PATTERN_ARRAY_ACCESS . '(.*?)}#',
+            '{$1$2.$3$4$5}'
+        );
+
         // {$google_analytics_tracking_id} =>
         // {{ google_analytics_tracking_id }}
         // {$google_analytics_tracking_id|someFilter} =>
