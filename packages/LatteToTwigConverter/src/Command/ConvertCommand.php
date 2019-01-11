@@ -55,6 +55,7 @@ final class ConvertCommand extends Command
             InputArgument::REQUIRED,
             'Directory to convert *.twig files to Latte syntax in.'
         );
+        $this->setDescription('Converts Latte syntax to Twig in all *.twig files');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
