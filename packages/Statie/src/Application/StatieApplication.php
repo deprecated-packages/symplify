@@ -8,9 +8,8 @@ use Symplify\Statie\Event\BeforeRenderEvent;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Generator;
-use Symplify\Statie\Latte\Loader\ArrayLoader as LatteArrayLoader;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
-use Twig\Loader\ArrayLoader as TwigArrayLoader;
+use Symplify\Statie\Templating\LayoutsAndSnippetsLoader;
 
 final class StatieApplication
 {
@@ -30,11 +29,6 @@ final class StatieApplication
     private $renderableFilesProcessor;
 
     /**
-     * @var LatteArrayLoader
-     */
-    private $latteArrayLoader;
-
-    /**
      * @var Generator
      */
     private $generator;
@@ -50,28 +44,26 @@ final class StatieApplication
     private $eventDispatcher;
 
     /**
-     * @var TwigArrayLoader
+     * @var LayoutsAndSnippetsLoader
      */
-    private $twigArrayLoader;
+    private $layoutsAndSnippetsLoader;
 
     public function __construct(
         Configuration $configuration,
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
-        LatteArrayLoader $latteArrayLoader,
         Generator $generator,
         FileFinder $fileFinder,
         EventDispatcherInterface $eventDispatcher,
-        TwigArrayLoader $twigArrayLoader
+        LayoutsAndSnippetsLoader $layoutsAndSnippetsLoader
     ) {
         $this->configuration = $configuration;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
-        $this->latteArrayLoader = $latteArrayLoader;
         $this->generator = $generator;
         $this->fileFinder = $fileFinder;
         $this->eventDispatcher = $eventDispatcher;
-        $this->twigArrayLoader = $twigArrayLoader;
+        $this->layoutsAndSnippetsLoader = $layoutsAndSnippetsLoader;
     }
 
     public function run(string $source, string $destination, bool $dryRun = false): void
@@ -81,7 +73,7 @@ final class StatieApplication
         $this->configuration->setDryRun($dryRun);
 
         // load layouts and snippets
-        $this->loadLayoutsAndSnippetsFromSource($source);
+        $this->layoutsAndSnippetsLoader->loadFromSource($source);
 
         // process generator items
         $generatorFilesByType = $this->generator->run();
@@ -104,23 +96,6 @@ final class StatieApplication
 
             foreach ($generatorFilesByType as $generatorFiles) {
                 $this->fileSystemWriter->copyRenderableFiles($generatorFiles);
-            }
-        }
-    }
-
-    private function loadLayoutsAndSnippetsFromSource(string $source): void
-    {
-        foreach ($this->fileFinder->findLayoutsAndSnippets($source) as $fileInfo) {
-            $relativePathInSource = $fileInfo->getRelativeFilePathFromDirectory($source);
-
-            if ($fileInfo->getExtension() === 'twig') {
-                $this->twigArrayLoader->setTemplate($relativePathInSource, $fileInfo->getContents());
-            }
-
-            if ($fileInfo->getExtension() === 'latte') {
-                // before: "post"
-                // now: "_layouts/post.latte"
-                $this->latteArrayLoader->changeContent($relativePathInSource, $fileInfo->getContents());
             }
         }
     }
