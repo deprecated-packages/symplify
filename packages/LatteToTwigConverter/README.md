@@ -52,4 +52,10 @@ That way you can keep `*.latte` files you need.
 vendor/bin/latte-to-twig-converter convert /directory
 ```
 
+Do you have all files with `*.latte` suffix? Rename them first:
+
+```bash
+vendor/bin/latte-to-twig-converter rename /directory
+```
+
 That's it :)
