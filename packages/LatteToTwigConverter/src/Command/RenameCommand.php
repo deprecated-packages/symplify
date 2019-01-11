@@ -2,29 +2,24 @@
 
 namespace Symplify\LatteToTwigConverter\Command;
 
-use Nette\Utils\FileSystem;
+use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Symplify\LatteToTwigConverter\LatteToTwigConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use function Safe\sprintf;
 
-final class ConvertCommand extends Command
+final class RenameCommand extends Command
 {
     /**
      * @var string
      */
     private const ARGUMENT_SOURCE = 'source';
-
-    /**
-     * @var LatteToTwigConverter
-     */
-    private $latteToTwigConverter;
 
     /**
      * @var SymfonyStyle
@@ -36,51 +31,52 @@ final class ConvertCommand extends Command
      */
     private $finderSanitizer;
 
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
     public function __construct(
-        LatteToTwigConverter $latteToTwigConverter,
         SymfonyStyle $symfonyStyle,
-        FinderSanitizer $finderSanitizer
+        FinderSanitizer $finderSanitizer,
+        Filesystem $filesystem
     ) {
         parent::__construct();
-        $this->latteToTwigConverter = $latteToTwigConverter;
         $this->symfonyStyle = $symfonyStyle;
         $this->finderSanitizer = $finderSanitizer;
+        $this->filesystem = $filesystem;
     }
 
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->addArgument(
-            self::ARGUMENT_SOURCE,
-            InputArgument::REQUIRED,
-            'Directory to convert *.twig files to Latte syntax in.'
+        $this->addArgument(self::ARGUMENT_SOURCE, InputArgument::REQUIRED, 'Directory with *.latte files');
+        $this->setDescription(
+            sprintf('Renames *.latte files to *.twig files. Run before "%s" command', CommandNaming::classToName(
+                ConvertCommand::class
+            ))
         );
-        $this->setDescription('Converts Latte syntax to Twig in all *.twig files');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $twigFileFinder = Finder::create()
+        $sourceDirectory = $input->getArgument(self::ARGUMENT_SOURCE);
+
+        $latteFileFinder = Finder::create()
             ->files()
-            ->in($input->getArgument(self::ARGUMENT_SOURCE))
-            ->name('*.twig');
+            ->in($sourceDirectory)
+            ->name('#\.latte$#');
 
-        $smartFileInfos = $this->finderSanitizer->sanitize($twigFileFinder);
+        $smartFileInfos = $this->finderSanitizer->sanitize($latteFileFinder);
 
-        foreach ($smartFileInfos as $twigFileInfo) {
-            $convertedContent = $this->latteToTwigConverter->convertFile($twigFileInfo->getRealPath());
+        foreach ($smartFileInfos as $smartFileInfo) {
+            $newFilePath = Strings::replace($smartFileInfo->getPathname(), '#\.latte$#', '.twig');
 
-            if ($twigFileInfo->getContents() !== $convertedContent) {
-                FileSystem::write($twigFileInfo->getPathname(), $convertedContent);
+            $this->filesystem->rename($smartFileInfo->getPathname(), $newFilePath);
 
-                $this->symfonyStyle->note(sprintf('File "%s" was converted to Twig', $twigFileInfo->getPathname()));
-            } else {
-                $this->symfonyStyle->note(
-                    sprintf('File "%s" was skipped for no match of latte syntax', $twigFileInfo->getPathname())
-                );
-            }
+            $this->symfonyStyle->note(sprintf('File "%s" renamed', $smartFileInfo->getPathname()));
         }
 
-        $this->symfonyStyle->success('Convert process finished');
+        $this->symfonyStyle->success('Rename process finished');
     }
 }

@@ -60,10 +60,12 @@ final class ConvertCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
+        $sourceDirectory = $input->getArgument(self::ARGUMENT_SOURCE);
+
         $twigFileFinder = Finder::create()
             ->files()
-            ->in($input->getArgument(self::ARGUMENT_SOURCE))
-            ->name('*.twig');
+            ->in($sourceDirectory)
+            ->name('#\.twig$#');
 
         $smartFileInfos = $this->finderSanitizer->sanitize($twigFileFinder);
 
