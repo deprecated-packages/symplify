@@ -68,12 +68,16 @@ final class VariableCaseConverter implements CaseConverterInterface
             '{%$1$2.$3$4%}'
         );
 
-        // {... $variable['someKey'] ...}
-        // {... variable.someKey ...}
+        // {... $variable['someKey'], $variable['anotherKey'] ...}
+        // {... variable.someKey, variable.anotherKey ...}
         $content = Strings::replace(
             $content,
-            '#{%(.*?)\$([\w-]+)' . self::PATTERN_ARRAY_ACCESS . '(.*?)%}#',
-            '{%$1$2.$3$4%}'
+            '#{(.*?)}#',
+            function (array $match) {
+                $match[1] = Strings::replace($match[1], '#' . self::PATTERN_ARRAY_ACCESS . '#', '.$1');
+
+                return '{' . $match[1] . '}';
+            }
         );
 
         // {... $variable ...}
