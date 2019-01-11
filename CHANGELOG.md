@@ -9,7 +9,15 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.3.6 - 2019-01-10
+## [v5.3.8] - 2019-01-11
+
+### Fixed
+
+#### Statie
+
+- [#1325] Add `LayoutsAndSnippetsLoader` to fix missing layouts in tweet post command
+
+## [v5.3.6] - 2019-01-10
 
 ### Added
 
@@ -634,3 +642,6 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1317]: https://github.com/Symplify/Symplify/pull/1317
 [#1316]: https://github.com/Symplify/Symplify/pull/1316
 [v5.3.5]: https://github.com/Symplify/Symplify/compare/v5.3.2...v5.3.5
+[#1325]: https://github.com/Symplify/Symplify/pull/1325
+[v5.3.8]: https://github.com/Symplify/Symplify/compare/v5.3.6...v5.3.8
+[v5.3.6]: https://github.com/Symplify/Symplify/compare/v5.3.5...v5.3.6
