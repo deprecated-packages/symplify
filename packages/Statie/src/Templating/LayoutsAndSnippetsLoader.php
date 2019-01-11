@@ -9,6 +9,11 @@ use Twig\Loader\ArrayLoader as TwigArrayLoader;
 final class LayoutsAndSnippetsLoader
 {
     /**
+     * @var bool
+     */
+    private $isLoaded = false;
+
+    /**
      * @var FileFinder
      */
     private $fileFinder;
@@ -35,6 +40,10 @@ final class LayoutsAndSnippetsLoader
 
     public function loadFromSource(string $source): void
     {
+        if ($this->isLoaded) {
+            return;
+        }
+
         foreach ($this->fileFinder->findLayoutsAndSnippets($source) as $fileInfo) {
             $relativePathInSource = $fileInfo->getRelativeFilePathFromDirectory($source);
 
@@ -48,5 +57,7 @@ final class LayoutsAndSnippetsLoader
                 $this->latteArrayLoader->changeContent($relativePathInSource, $fileInfo->getContents());
             }
         }
+
+        $this->isLoaded = true;
     }
 }

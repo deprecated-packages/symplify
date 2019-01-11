@@ -5,6 +5,7 @@ namespace Symplify\Statie\Tweeter\TweetProvider;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\File\PostFile;
+use Symplify\Statie\Templating\LayoutsAndSnippetsLoader;
 use Symplify\Statie\Tweeter\Configuration\Keys;
 use Symplify\Statie\Tweeter\Tweet\Tweet;
 use Symplify\Statie\Tweeter\TweetGuard;
@@ -31,16 +32,23 @@ final class PostTweetsProvider
      */
     private $generator;
 
+    /**
+     * @var LayoutsAndSnippetsLoader
+     */
+    private $layoutsAndSnippetsLoader;
+
     public function __construct(
         string $siteUrl,
         Configuration $configuration,
         TweetGuard $tweetGuard,
-        Generator $generator
+        Generator $generator,
+        LayoutsAndSnippetsLoader $layoutsAndSnippetsLoader
     ) {
         $this->siteUrl = $siteUrl;
         $this->tweetGuard = $tweetGuard;
         $this->configuration = $configuration;
         $this->generator = $generator;
+        $this->layoutsAndSnippetsLoader = $layoutsAndSnippetsLoader;
     }
 
     /**
@@ -48,6 +56,8 @@ final class PostTweetsProvider
      */
     public function provide(): array
     {
+        $this->layoutsAndSnippetsLoader->loadFromSource($this->configuration->getSourceDirectory());
+
         $postTweets = [];
         foreach ($this->getPosts() as $post) {
             $postConfiguration = $post->getConfiguration();
