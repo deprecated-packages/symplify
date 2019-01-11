@@ -14,7 +14,7 @@
         "symfony/dependency-injection": "^3.4|^4.1",
         "symfony/console": "^3.4|^4.1",
         "symplify/package-builder": "^5.4",
-        "thecodingmachine/safe": "^0.1.9"
+        "thecodingmachine/safe": "^0.1.11"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.5"

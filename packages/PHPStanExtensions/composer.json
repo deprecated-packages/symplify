@@ -5,7 +5,7 @@
     "require": {
         "php": "^7.1",
         "nette/utils": "^2.5",
-        "thecodingmachine/safe": "^0.1.9"
+        "thecodingmachine/safe": "^0.1.11"
     },
     "autoload": {
         "psr-4": {

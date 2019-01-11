@@ -12,7 +12,7 @@
         "symfony/console": "^3.4|^4.1",
         "symfony/http-kernel": "^3.4|^4.1",
         "symfony/finder": "^3.4|^4.1",
-        "thecodingmachine/safe": "^0.1.9",
+        "thecodingmachine/safe": "^0.1.11",
         "symplify/package-builder": "^5.4"
     },
     "require-dev": {

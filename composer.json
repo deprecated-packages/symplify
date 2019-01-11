@@ -33,14 +33,14 @@
         "symfony/process": "^3.4|^4.1",
         "symfony/routing": "^3.4|^4.1",
         "symfony/yaml": "^3.4|^4.1",
-        "thecodingmachine/safe": "^0.1.9",
+        "thecodingmachine/safe": "^0.1.11",
         "twig/twig": "^2.5"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^1.9",
         "doctrine/orm": "^2.6",
         "nette/application": "^2.4",
-        "phpstan/phpstan": "^0.10.6",
+        "phpstan/phpstan": "^0.10.8",
         "phpunit/phpunit": "^7.5",
         "symfony/framework-bundle": "^3.4|^4.1",
         "symfony/templating": "^3.4|^4.1",
