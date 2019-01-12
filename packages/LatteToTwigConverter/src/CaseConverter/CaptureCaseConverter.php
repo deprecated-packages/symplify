@@ -13,10 +13,6 @@ final class CaptureCaseConverter implements CaseConverterInterface
         // {% set var = anotherVar %}
         $content = Strings::replace($content, '#{var \$?(.*?) = \$?(.*?)}#s', '{% set $1 = $2 %}');
 
-        // {default $var = true} =>
-        // {% set var = true %}
-        $content = Strings::replace($content, '#{default \$?(.*?) = \$?(.*?)}#s', '{% set $1 = $2 %}');
-
         // {capture $var}...{/capture} =>
         // {% set var %}...{% endset %}
         return Strings::replace($content, '#{capture \$(\w+)}(.*?){\/capture}#s', '{% set $1 %}$2{% endset %}');

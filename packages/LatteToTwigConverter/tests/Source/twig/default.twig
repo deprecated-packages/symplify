@@ -1,3 +1,2 @@
-{% set showReadingTime = true %}
-{% set showCommentsCount = post.showCommentsCount ?? true %}
-{% set showSuggestEdit = false %}
+{% if showReadingTime is not defined %}{% set showReadingTime = true %}{% endif %}
+{% if showCommentsCount is not defined %}{% set showCommentsCount = post.showCommentsCount ?? true %}{% endif %}
