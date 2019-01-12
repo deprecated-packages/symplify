@@ -23,7 +23,7 @@ final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase
     public function test(string $latteFile, string $expectedTwigFile): void
     {
         $convertedFile = $this->latteToTwigConverter->convertFile($latteFile);
-        $this->assertStringEqualsFile($expectedTwigFile, $convertedFile);
+        $this->assertStringEqualsFile($expectedTwigFile, $convertedFile, 'Caused in file: ' . $latteFile);
     }
 
     public function provideData(): Iterator
