@@ -1,3 +1,8 @@
-{$value|date:'j. n. Y'}
+{$post['updated_message']|someFilter}
 
-{11874|number:0:',':' '}
+{$post|noescape}
+{$post| noescape}
+
+{$post|someComplexFilter: "one", "two"}
+
+{if count(5)}...{/if}

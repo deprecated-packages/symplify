@@ -1,3 +1,8 @@
-{{ value|date('j. n. Y') }}
+{{ post.updated_message|someFilter }}
 
-{{ 11874|number_format(0, ',', ' ') }}
+{{ post|raw }}
+{{ post| raw }}
+
+{{ post|someComplexFilter: "one", "two" }}
+
+{% if 5|length %}...{% endif %}
