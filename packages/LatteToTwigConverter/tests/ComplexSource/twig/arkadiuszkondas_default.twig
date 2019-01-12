@@ -3,22 +3,22 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>{include "_snippets/layout/title.latte"}</title>
+	<title>{% include "_snippets/layout/title.twig" %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="google-site-verification" content="MU-mYXXVQILTbPp2VGm6FVvg9Q-oXXfFaHVJrjv14vI" />
 
-	{include "_snippets/layout/googleAnalytics.latte"}
+	{% include "_snippets/layout/googleAnalytics.twig" %}
 
-	{* @link http://realfavicongenerator.net/ *}
+	{# @link http://realfavicongenerator.net/ #}
 	<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
 	<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
 	<link rel="alternate" type="application/rss+xml" title="Arkadiusz Kondas Posts" href="/rss.xml">
 	<link rel="alternate" type="application/json" title="Arkadiusz Kondas Posts" href="/feed.json">
-	{block meta}{/block}
+	{% block meta %}{% endblock %}
 
-	{include "_snippets/layout/styles.latte"}
+	{% include "_snippets/layout/styles.twig" %}
 
-	{block styles}{/block}
+	{% block styles %}{% endblock %}
 </head>
 <body>
 	<div class="wrapper wrapper--side">
@@ -27,7 +27,7 @@
 				<li class="nav__item nav__item--logo">
 					<a href="/">
 						<div class="logo">
-							<div class="logo__background">{include "_snippets/layout/gravatar.latte", size => 200, class => 'logo__image'}</div>
+							<div class="logo__background">{% include "_snippets/layout/gravatar.twig" with { size: 200, class: 'logo__image' } %}</div>
 						</div>
 						Arkadiusz Kondas
 					</a> <strong class="title">software architect</strong>
@@ -54,13 +54,13 @@
 
 	<div class="wrapper wrapper--content">
 		<main role="main" class="content">
-			{ifset $title}<h1>{$title}</h1>{/ifset}
-			{block content}{/block}
+			{% if title is defined %}<h1>{{ title }}</h1>{% endif %}
+			{% block content %}{% endblock %}
 		</main>
 	</div>
 
-	{block scripts}{/block}
-	{include "_snippets/layout/scripts.latte"}
+	{% block scripts %}{% endblock %}
+	{% include "_snippets/layout/scripts.twig" %}
 </body>
 </html>
 {/spaceless}

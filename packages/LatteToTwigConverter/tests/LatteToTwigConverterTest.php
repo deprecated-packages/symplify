@@ -43,7 +43,9 @@ final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase
         yield [__DIR__ . '/Source/latte/nested_variable.latte', __DIR__ . '/Source/twig/nested_variable.twig'];
         yield [__DIR__ . '/Source/latte/first_last.latte', __DIR__ . '/Source/twig/first_last.twig'];
         yield [__DIR__ . '/Source/latte/filter.latte', __DIR__ . '/Source/twig/filter.twig'];
+        yield [__DIR__ . '/Source/latte/include.latte', __DIR__ . '/Source/twig/include.twig'];
 
+        // complex
         yield [
             __DIR__ . '/ComplexSource/latte/arkadiuszkondas_default.latte',
             __DIR__ . '/ComplexSource/twig/arkadiuszkondas_default.twig',
