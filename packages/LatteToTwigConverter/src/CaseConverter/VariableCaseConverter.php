@@ -41,11 +41,23 @@ final class VariableCaseConverter implements CaseConverterInterface
         // {{ post.relativeUrl }}
         $content = Strings::replace($content, '#{\$([\w-]+)' . self::PATTERN_ARRAY_ACCESS . '(.*?)}#', '{{ $1.$2$3 }}');
 
+        // {    $post['relativeUrl']    } =>
+        // {    post.relativeUrl    }
+        $content = Strings::replace(
+            $content,
+            '#{(.*?)\$?([\w-]+)' . self::PATTERN_ARRAY_ACCESS . '(.*?)}#',
+            '{$1$2.$3$4$5}'
+        );
+
         // {$google_analytics_tracking_id} =>
         // {{ google_analytics_tracking_id }}
         // {$google_analytics_tracking_id|someFilter} =>
         // {{ google_analytics_tracking_id|someFilter }}
         $content = Strings::replace($content, '#{\$(\w+)(\|.*?)?}#', '{{ $1$2 }}');
+
+        // {11874|number(0:',':' ')} =>
+        // {{ 11874|number(0:',':' ') }}
+        $content = Strings::replace($content, '#{(\d+)(\|.*?)}#', '{{ $1$2 }}');
 
         return $this->processLoopAndConditionsVariables($content);
     }
@@ -60,12 +72,16 @@ final class VariableCaseConverter implements CaseConverterInterface
             '{%$1$2.$3$4%}'
         );
 
-        // {... $variable['someKey'] ...}
-        // {... variable.someKey ...}
+        // {... $variable['someKey'], $variable['anotherKey'] ...}
+        // {... variable.someKey, variable.anotherKey ...}
         $content = Strings::replace(
             $content,
-            '#{%(.*?)\$([\w-]+)' . self::PATTERN_ARRAY_ACCESS . '(.*?)%}#',
-            '{%$1$2.$3$4%}'
+            '#{(.*?)}#',
+            function (array $match) {
+                $match[1] = Strings::replace($match[1], '#' . self::PATTERN_ARRAY_ACCESS . '#', '.$1');
+
+                return '{' . $match[1] . '}';
+            }
         );
 
         // {... $variable ...}
