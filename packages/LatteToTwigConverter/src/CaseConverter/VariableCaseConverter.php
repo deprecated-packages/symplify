@@ -55,6 +55,10 @@ final class VariableCaseConverter implements CaseConverterInterface
         // {{ google_analytics_tracking_id|someFilter }}
         $content = Strings::replace($content, '#{\$(\w+)(\|.*?)?}#', '{{ $1$2 }}');
 
+        // {11874|number(0:',':' ')} =>
+        // {{ 11874|number(0:',':' ') }}
+        $content = Strings::replace($content, '#{(\d+)(\|.*?)}#', '{{ $1$2 }}');
+
         return $this->processLoopAndConditionsVariables($content);
     }
 
