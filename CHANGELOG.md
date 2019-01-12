@@ -9,6 +9,16 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## Unreleased
+
+### Added
+
+#### LatteToTwigConverter
+
+- [#1336] Add n:ifset, n:inner-foreach, n:class
+- [#1335] Add n:if and n:foreach macros
+- [#1332] Cover more Latte cases
+
 ## [v5.3.9] - 2019-01-11
 
 ### Added
@@ -662,3 +672,6 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1330]: https://github.com/Symplify/Symplify/pull/1330
 [#1329]: https://github.com/Symplify/Symplify/pull/1329
 [v5.3.9]: https://github.com/Symplify/Symplify/compare/v5.3.8...v5.3.9
+[#1336]: https://github.com/Symplify/Symplify/pull/1336
+[#1335]: https://github.com/Symplify/Symplify/pull/1335
+[#1332]: https://github.com/Symplify/Symplify/pull/1332
