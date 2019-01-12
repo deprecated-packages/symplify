@@ -75,11 +75,30 @@ final class NMacrosCaseConverter implements CaseConverterInterface
             }
         );
 
+        // n:inner-foreach
+        $content = Strings::replace(
+            $content,
+            $this->createPattern('inner-foreach'),
+            function (array $match) {
+                return sprintf(
+                    '%s%s%s{foreach %s}%s{/foreach}%s%s',
+                    $match['openTagStart'],
+                    $match['openTagEnd'],
+                    PHP_EOL,
+                    $match['expression'],
+                    $match['inner'],
+                    PHP_EOL,
+                    $match['closeTag']
+                );
+            }
+        );
+
         return $content;
     }
 
     private function createPattern(string $macro): string
     {
-        return '#(?<openTagStart><.*?) n:' . $macro . '="(?<expression>.*?)"(?<openTagEnd>.*?>)(?<inner>.*?)(?<closeTag><\/(.*?)>)#sm';
+        /*        return '#(?<openTagStart><(?<tag>\w+).*?) n:' . $macro . '="(?<expression>.*?)"(?<openTagEnd>.*?>)(?<inner>.*?)(?<closeTag><\/\2>)#sm';*/
+        return '#(?<openTagStart><(?<tag>\w+)[^<]*?) n:' . $macro . '="(?<expression>.*?)"(?<openTagEnd>.*?>)(?<inner>.*?)(?<closeTag><\/\2>)#sm';
     }
 }

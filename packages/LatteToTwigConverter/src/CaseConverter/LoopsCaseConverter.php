@@ -4,6 +4,7 @@ namespace Symplify\LatteToTwigConverter\CaseConverter;
 
 use Nette\Utils\Strings;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
+use function Safe\sprintf;
 
 final class LoopsCaseConverter implements CaseConverterInterface
 {
@@ -18,8 +19,18 @@ final class LoopsCaseConverter implements CaseConverterInterface
         // {% for key, value in values %}...{% endfor %}
         $content = Strings::replace(
             $content,
-            '#{foreach \$?(.*?) as \$([()\w ]+) => \$(\w+)}#',
+            '#{foreach \$?(.*?) as \$([()\w ]+) => \$(\w+)}#i',
             '{% for $2, $3 in $1 %}'
+        );
+
+        // {foreach $values as [$value1, $value2]}...{/foreach} =>
+        // {% for [value1, value2] in values %}...{% endfor %}
+        $content = Strings::replace(
+            $content,
+            '#{foreach \$?(?<list>.*?) as (?<items>\[.*?\])}#i',
+            function (array $match) {
+                return sprintf('{%% for %s in %s %%}', str_replace('$', '', $match['items']), $match['list']);
+            }
         );
 
         // {foreach $values as $value}...{/foreach} =>
