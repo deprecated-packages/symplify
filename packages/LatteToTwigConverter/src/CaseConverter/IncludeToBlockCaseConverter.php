@@ -5,15 +5,15 @@ namespace Symplify\LatteToTwigConverter\CaseConverter;
 use Nette\Utils\Strings;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 
-final class CommentCaseConverter implements CaseConverterInterface
+final class IncludeToBlockCaseConverter implements CaseConverterInterface
 {
     public function getPriority(): int
     {
-        return 800;
+        return 100;
     }
 
     public function convertContent(string $content): string
     {
-        return Strings::replace($content, '#{\*(.*?)\*}#s', '{#$1#}');
+        return Strings::replace($content, '#{% include \'?(\w+)\'? %}#', '{{ block(\'$1\') }}');
     }
 }

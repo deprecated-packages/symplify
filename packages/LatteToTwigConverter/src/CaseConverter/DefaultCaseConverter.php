@@ -10,6 +10,11 @@ use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
  */
 final class DefaultCaseConverter implements CaseConverterInterface
 {
+    public function getPriority(): int
+    {
+        return 600;
+    }
+
     public function convertContent(string $content): string
     {
         return Strings::replace(

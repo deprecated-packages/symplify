@@ -7,6 +7,11 @@ use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 
 final class BlockCaseConverter implements CaseConverterInterface
 {
+    public function getPriority(): int
+    {
+        return 1000;
+    }
+
     public function convertContent(string $content): string
     {
         // block/include:

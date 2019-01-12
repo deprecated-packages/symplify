@@ -7,6 +7,11 @@ use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 
 final class LoopsCaseConverter implements CaseConverterInterface
 {
+    public function getPriority(): int
+    {
+        return 400;
+    }
+
     public function convertContent(string $content): string
     {
         // {foreach $values as $key => $value}...{/foreach} =>
