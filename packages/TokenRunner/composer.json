@@ -6,8 +6,8 @@
         "php": "^7.1",
         "nette/utils": "^2.5",
         "nette/finder": "^2.4",
-        "symplify/package-builder": "^5.3.10",
-        "symplify/better-phpdoc-parser": "^5.3.10",
+        "symplify/package-builder": "^5.4",
+        "symplify/better-phpdoc-parser": "^5.4",
         "friendsofphp/php-cs-fixer": "^2.14",
         "squizlabs/php_codesniffer": "^3.4",
         "thecodingmachine/safe": "^0.1.11"
