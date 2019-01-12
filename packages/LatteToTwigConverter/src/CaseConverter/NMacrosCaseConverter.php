@@ -39,6 +39,24 @@ final class NMacrosCaseConverter implements CaseConverterInterface
             }
         );
 
+        // n:ifset
+        $content = Strings::replace(
+            $content,
+            $this->createPattern('ifset'),
+            function (array $match) {
+                return sprintf(
+                    '{ifset %s}%s%s%s%s%s%s{/ifset}',
+                    $match['expression'],
+                    PHP_EOL,
+                    $match['openTagStart'],
+                    $match['openTagEnd'],
+                    $match['inner'],
+                    $match['closeTag'],
+                    PHP_EOL
+                );
+            }
+        );
+
         // n:foreach
         $content = Strings::replace(
             $content,
