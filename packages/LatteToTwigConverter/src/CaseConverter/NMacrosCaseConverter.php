@@ -21,13 +21,32 @@ final class NMacrosCaseConverter implements CaseConverterInterface
 
     public function convertContent(string $content): string
     {
+        // n:if
         $content = Strings::replace(
             $content,
-            '#(?<openTagStart><.*?) n:if="(?<condition>.*?)"(?<openTagEnd>.*?>)(?<inner>.*?)(?<closeTag><\/(.*?)>)#sm',
+            $this->createPattern('if'),
             function (array $match) {
                 return sprintf(
                     '{if %s}%s%s%s%s%s%s{/if}',
-                    $match['condition'],
+                    $match['expression'],
+                    PHP_EOL,
+                    $match['openTagStart'],
+                    $match['openTagEnd'],
+                    $match['inner'],
+                    $match['closeTag'],
+                    PHP_EOL
+                );
+            }
+        );
+
+        // n:foreach
+        $content = Strings::replace(
+            $content,
+            $this->createPattern('foreach'),
+            function (array $match) {
+                return sprintf(
+                    '{foreach %s}%s%s%s%s%s%s{/foreach}',
+                    $match['expression'],
                     PHP_EOL,
                     $match['openTagStart'],
                     $match['openTagEnd'],
@@ -39,5 +58,10 @@ final class NMacrosCaseConverter implements CaseConverterInterface
         );
 
         return $content;
+    }
+
+    private function createPattern(string $macro): string
+    {
+        return '#(?<openTagStart><.*?) n:' . $macro . '="(?<expression>.*?)"(?<openTagEnd>.*?>)(?<inner>.*?)(?<closeTag><\/(.*?)>)#sm';
     }
 }
