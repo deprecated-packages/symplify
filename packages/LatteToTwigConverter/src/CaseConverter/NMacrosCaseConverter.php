@@ -98,7 +98,6 @@ final class NMacrosCaseConverter implements CaseConverterInterface
 
     private function createPattern(string $macro): string
     {
-        /*        return '#(?<openTagStart><(?<tag>\w+).*?) n:' . $macro . '="(?<expression>.*?)"(?<openTagEnd>.*?>)(?<inner>.*?)(?<closeTag><\/\2>)#sm';*/
         return '#(?<openTagStart><(?<tag>\w+)[^<]*?) n:' . $macro . '="(?<expression>.*?)"(?<openTagEnd>.*?>)(?<inner>.*?)(?<closeTag><\/\2>)#sm';
     }
 }

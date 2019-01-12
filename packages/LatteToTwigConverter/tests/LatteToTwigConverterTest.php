@@ -61,6 +61,8 @@ final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase
         yield [__DIR__ . '/Source/latte/n-macro/n-if.latte', __DIR__ . '/Source/twig/n-macro/n-if.twig'];
         yield [__DIR__ . '/Source/latte/n-macro/n-ifset.latte', __DIR__ . '/Source/twig/n-macro/n-ifset.twig'];
         yield [__DIR__ . '/Source/latte/n-macro/n-foreach.latte', __DIR__ . '/Source/twig/n-macro/n-foreach.twig'];
+
+        yield [__DIR__ . '/Source/latte/n-macro/n-class.latte', __DIR__ . '/Source/twig/n-macro/n-class.twig'];
     }
 
     public function provideDataForFilters(): Iterator
