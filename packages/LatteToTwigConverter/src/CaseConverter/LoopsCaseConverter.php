@@ -13,13 +13,13 @@ final class LoopsCaseConverter implements CaseConverterInterface
         // {% for key, value in values %}...{% endfor %}
         $content = Strings::replace(
             $content,
-            '#{foreach \$([()\w ]+) as \$([()\w ]+) => \$(\w+)}#',
+            '#{foreach \$?(.*?) as \$([()\w ]+) => \$(\w+)}#',
             '{% for $2, $3 in $1 %}'
         );
 
         // {foreach $values as $value}...{/foreach} =>
         // {% for value in values %}...{% endfor %}
-        $content = Strings::replace($content, '#{foreach \$([()\w ]+) as \$([()\w ]+)}#', '{% for $2 in $1 %}');
+        $content = Strings::replace($content, '#{foreach \$?(.*?) as \$([()\w ]+)}#', '{% for $2 in $1 %}');
         $content = Strings::replace($content, '#{/foreach}#', '{% endfor %}');
 
         // {first}...{/first} =>

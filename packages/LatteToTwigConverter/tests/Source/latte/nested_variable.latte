@@ -3,3 +3,7 @@
 {var $url = $post['external']}
 
 {var $appendix = $site['title'] . ' | ' . $site['subtitle']}
+
+{include "_snippets/layout/image.latte", src => $project['image'], url => $project['repository'], alt => $project['name']}
+
+{$page['training']['phpstorm']['date']|date:'j. n. Y'}
