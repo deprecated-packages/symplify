@@ -88,5 +88,10 @@ final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase
             __DIR__ . '/LatteToTwigConverterSource/latte/multiple_nested_variable.latte',
             __DIR__ . '/LatteToTwigConverterSource/twig/multiple_nested_variable.twig',
         ];
+
+        yield [
+            __DIR__ . '/LatteToTwigConverterSource/latte/first_last.latte',
+            __DIR__ . '/LatteToTwigConverterSource/twig/first_last.twig',
+        ];
     }
 }
