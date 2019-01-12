@@ -33,21 +33,32 @@ final class FilterCaseConverter implements CaseConverterInterface
         $content = Strings::replace($content, '#{(.*?)}#ms', function (array $match) {
             // has some filter with args?
             if (! Strings::match($match[1], '#(.*?)\|(.*?):(.*?)#ms')) {
-                return '{' . $match[1] . '}';
+                return $match[0];
             }
 
             // https://regex101.com/r/04QMgW/1
-            $match[1] = Strings::replace($match[1], '#\|(?<filter>[a-z]+):(?<args>(.*))[\n|\|]?#ms', function (
+            $match[0] = Strings::replace($match[0], '#{(?<value>.*)\|(?<filter>[a-z]+):(?<args>(.*))[\n|\||}]#ms', function (
                 array $subMatch
             ) {
                 // filter renames
                 $filterName = $this->filterRenames[$subMatch['filter']] ?? $subMatch['filter'];
                 $arguments = $this->replaceSeparator($subMatch['args']);
 
-                return sprintf('|%s(%s)', $filterName, $arguments);
+                $value = $subMatch['value'];
+                $value = ltrim($value, '$');
+
+                if ($filterName !== 'number_format') {
+                    return sprintf('{{ %s|%s(%s) }}', $value, $filterName, $arguments);
+                }
+
+                if ($this->shouldWrapNumber($value)) {
+                    return sprintf('{{ (%s)|%s(%s) }}', $value, $filterName, $arguments);
+                }
+
+                return sprintf('{{ %s|%s(%s) }}', $value, $filterName, $arguments);
             });
 
-            return '{' . $match[1] . '}';
+            return $match[0];
         });
 
         // ... count(5) =>
@@ -58,5 +69,10 @@ final class FilterCaseConverter implements CaseConverterInterface
     private function replaceSeparator(string $arguments): string
     {
         return Strings::replace($arguments, '#:#', ', ');
+    }
+
+    private function shouldWrapNumber(string $value): bool
+    {
+        return ! is_numeric($value);
     }
 }
