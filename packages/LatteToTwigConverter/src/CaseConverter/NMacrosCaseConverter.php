@@ -9,6 +9,8 @@ use function Safe\sprintf;
 /**
  * This needs to be run first, since it only move n:sytax to {syntax}...{/syntax} - all in Latte
  * Other case converters will change it then to Twig.
+ *
+ * @see https://regex101.com/r/sOgdcK/1
  */
 final class NMacrosCaseConverter implements CaseConverterInterface
 {
@@ -21,18 +23,17 @@ final class NMacrosCaseConverter implements CaseConverterInterface
     {
         $content = Strings::replace(
             $content,
-            '#(?<openTagStart><.*?)n:if="(?<condition>.*?)"(?<openTagEnd>.*?)>(?<inner>.*?)(?<closeTag><\/(.*?)>)#sm',
+            '#(?<openTagStart><.*?) n:if="(?<condition>.*?)"(?<openTagEnd>.*?>)(?<inner>.*?)(?<closeTag><\/(.*?)>)#sm',
             function (array $match) {
                 return sprintf(
-                    '{if %s}%s%s %s%s%s%s%s',
+                    '{if %s}%s%s%s%s%s%s{/if}',
                     $match['condition'],
                     PHP_EOL,
                     $match['openTagStart'],
                     $match['openTagEnd'],
-                    PHP_EOL,
                     $match['inner'],
-                    PHP_EOL,
-                    $match['closeTag']
+                    $match['closeTag'],
+                    PHP_EOL
                 );
             }
         );

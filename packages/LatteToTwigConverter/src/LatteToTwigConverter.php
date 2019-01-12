@@ -5,6 +5,7 @@ namespace Symplify\LatteToTwigConverter;
 use Nette\Utils\FileSystem;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 use Symplify\LatteToTwigConverter\Exception\ConfigurationException;
+use function Safe\krsort;
 use function Safe\sprintf;
 
 final class LatteToTwigConverter
