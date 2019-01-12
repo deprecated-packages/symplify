@@ -23,10 +23,6 @@ final class FilterCaseConverter implements CaseConverterInterface
 
     public function convertContent(string $content): string
     {
-        // {$post['updated_message']|noescape} =>
-        // {{ post.updated_message|noescape }}
-        $content = Strings::replace($content, '#{\$([\w-]+)\[\'([\w-]+)\'\]\|([^}]+)}#', '{{ $1.$2|$3 }}');
-
         // | noescape =>
         // | raw
         $content = Strings::replace($content, '#\|(\s+)?noescape#', '|$1raw');
