@@ -58,4 +58,28 @@ Do you have all files with `*.latte` suffix? Rename them first:
 vendor/bin/latte-to-twig-converter rename /directory
 ```
 
+## Handle These Cases to Manually
+
+Some code doesn't have a clear path - you have more options in Twig, so better to migrate it manually.
+
+### `continueIf`
+
+```diff
+-{continueIf $cond}
++{% if cond %}
+-{$value}
++    {{ value }}
++{% endif %}
+```
+
+### `breakIf`
+
+```diff
+-{breakIf $cond}
++{% if cond === false %}
+-{$value}
++    {{ value }}
++{% endif %}
+```
+
 That's it :)
