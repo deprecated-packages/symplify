@@ -19,6 +19,8 @@ final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase
 
     /**
      * @dataProvider provideData()
+     * @dataProvider provideDataForNMacros()
+     * @dataProvider provideDataForFilters()
      */
     public function test(string $latteFile, string $expectedTwigFile): void
     {
@@ -41,7 +43,21 @@ final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase
         yield [__DIR__ . '/Source/latte/nested_variable.latte', __DIR__ . '/Source/twig/nested_variable.twig'];
         yield [__DIR__ . '/Source/latte/first_last.latte', __DIR__ . '/Source/twig/first_last.twig'];
 
-        // filters
+        // complex
+        yield [
+            __DIR__ . '/ComplexSource/latte/arkadiuszkondas_default.latte',
+            __DIR__ . '/ComplexSource/twig/arkadiuszkondas_default.twig',
+        ];
+    }
+
+    public function provideDataForNMacros(): Iterator
+    {
+        yield [__DIR__ . '/Source/latte/n-macro/n-if.latte', __DIR__ . '/Source/twig/n-macro/n-if.twig'];
+        yield [__DIR__ . '/Source/latte/n-macro/n-foreach.latte', __DIR__ . '/Source/twig/n-macro/n-foreach.twig'];
+    }
+
+    public function provideDataForFilters(): Iterator
+    {
         yield [__DIR__ . '/Source/latte/filter.latte', __DIR__ . '/Source/twig/filter.twig'];
         yield [
             __DIR__ . '/Source/latte/filter_with_arguments.latte',
@@ -51,11 +67,5 @@ final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase
 
         yield [__DIR__ . '/Source/latte/include.latte', __DIR__ . '/Source/twig/include.twig'];
         yield [__DIR__ . '/Source/latte/spaceless.latte', __DIR__ . '/Source/twig/spaceless.twig'];
-
-        // complex
-        yield [
-            __DIR__ . '/ComplexSource/latte/arkadiuszkondas_default.latte',
-            __DIR__ . '/ComplexSource/twig/arkadiuszkondas_default.twig',
-        ];
     }
 }

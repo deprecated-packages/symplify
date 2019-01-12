@@ -16,6 +16,11 @@ final class FilterCaseConverter implements CaseConverterInterface
         'number' => 'number_format',
     ];
 
+    public function getPriority(): int
+    {
+        return 500;
+    }
+
     public function convertContent(string $content): string
     {
         // {$post['updated_message']|noescape} =>

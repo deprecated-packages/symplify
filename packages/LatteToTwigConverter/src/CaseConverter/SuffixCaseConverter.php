@@ -5,15 +5,16 @@ namespace Symplify\LatteToTwigConverter\CaseConverter;
 use Nette\Utils\Strings;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 
-final class CommentCaseConverter implements CaseConverterInterface
+final class SuffixCaseConverter implements CaseConverterInterface
 {
     public function getPriority(): int
     {
-        return 800;
+        return 150;
     }
 
     public function convertContent(string $content): string
     {
-        return Strings::replace($content, '#{\*(.*?)\*}#s', '{#$1#}');
+        // suffix: "_snippets/menu.latte" => "_snippets/menu.twig"
+        return Strings::replace($content, '#([\w/"]+).latte#', '$1.twig');
     }
 }

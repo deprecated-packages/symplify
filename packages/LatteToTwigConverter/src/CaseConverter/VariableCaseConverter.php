@@ -24,6 +24,11 @@ final class VariableCaseConverter implements CaseConverterInterface
      */
     private const PATTERN_ARRAY_ACCESS = '\[\'([\w\-]+)\'\]';
 
+    public function getPriority(): int
+    {
+        return 200;
+    }
+
     public function convertContent(string $content): string
     {
         // quote in-script variables, they're auto-quoted by Latte
