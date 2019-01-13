@@ -74,7 +74,7 @@ final class PackageComposerJsonMerger
                     continue;
                 }
 
-                $packageComposerJson = $this->prepareAutoloadClassmap(
+                $packageComposerJson = $this->prepareAutoloadClassmapAndFiles(
                     $mergeSection,
                     $packageComposerJson,
                     $packageFile
@@ -93,7 +93,7 @@ final class PackageComposerJsonMerger
      * @param mixed[] $packageComposerJson
      * @return mixed[]
      */
-    private function prepareAutoloadClassmap(
+    private function prepareAutoloadClassmapAndFiles(
         string $mergeSection,
         array $packageComposerJson,
         SmartFileInfo $packageFile
@@ -102,14 +102,19 @@ final class PackageComposerJsonMerger
             return $packageComposerJson;
         }
 
-        if (! isset($packageComposerJson[$mergeSection]['classmap'])) {
-            return $packageComposerJson;
+        if (isset($packageComposerJson[$mergeSection]['classmap'])) {
+            $packageComposerJson[$mergeSection]['classmap'] = $this->relativizePath(
+                $packageComposerJson[$mergeSection]['classmap'],
+                $packageFile
+            );
         }
 
-        $packageComposerJson[$mergeSection]['classmap'] = $this->relativizePath(
-            $packageComposerJson[$mergeSection]['classmap'],
-            $packageFile
-        );
+        if (isset($packageComposerJson[$mergeSection]['files'])) {
+            $packageComposerJson[$mergeSection]['files'] = $this->relativizePath(
+                $packageComposerJson[$mergeSection]['files'],
+                $packageFile
+            );
+        }
 
         return $packageComposerJson;
     }
