@@ -50,7 +50,7 @@ final class PackageComposerJsonMerger
         $this->mergedPackagesCollector = $mergedPackagesCollector;
         $this->jsonFileManager = $jsonFileManager;
         $this->mergeSections = $mergeSections;
-        $this->arraySorter = new $arraySorter();
+        $this->arraySorter = $arraySorter;
     }
 
     /**
