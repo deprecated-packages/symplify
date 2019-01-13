@@ -46,16 +46,68 @@
         "symfony/templating": "^3.4|^4.1",
         "symfony/translation": "^3.4|^4.1",
         "symfony/twig-bundle": "^3.4|^4.1",
-        "thecodingmachine/phpstan-safe-rule": "^0.1.0",
+        "thecodingmachine/phpstan-safe-rule": "^0.1.11",
         "thecodingmachine/phpstan-strict-rules": "^0.10.7",
         "tracy/tracy": "^2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\Autodiscovery\\": "packages/Autodiscovery/src",
+            "Symplify\\BetterPhpDocParser\\": "packages/BetterPhpDocParser/src",
+            "Symplify\\ChangelogLinker\\": "packages/ChangelogLinker/src",
+            "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
+            "Symplify\\EasyCodingStandardTester\\": "packages/EasyCodingStandardTester/src",
+            "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
+            "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/src",
+            "Symplify\\EasyCodingStandard\\Configuration\\": "packages/EasyCodingStandard/packages/Configuration/src",
+            "Symplify\\EasyCodingStandard\\FixerRunner\\": "packages/EasyCodingStandard/packages/FixerRunner/src",
+            "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
+            "Symplify\\FlexLoader\\": "packages/FlexLoader/src",
+            "Symplify\\LatteToTwigConverter\\": "packages/LatteToTwigConverter/src",
+            "Symplify\\MonorepoBuilder\\": "packages/MonorepoBuilder/src",
+            "Symplify\\MonorepoBuilder\\Init\\": "packages/MonorepoBuilder/packages/Init/src",
+            "Symplify\\MonorepoBuilder\\Release\\": "packages/MonorepoBuilder/packages/Release/src",
+            "Symplify\\MonorepoBuilder\\Split\\": "packages/MonorepoBuilder/packages/Split/src",
+            "Symplify\\PHPStanExtensions\\": "packages/PHPStanExtensions/src",
+            "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
+            "Symplify\\Statie\\": "packages/Statie/src",
+            "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
+            "Symplify\\Statie\\GithubContributorsThanker\\": "packages/Statie/packages/GithubContributorsThanker/src",
+            "Symplify\\Statie\\Latte\\": "packages/Statie/packages/Latte/src",
+            "Symplify\\Statie\\MigratorJekyll\\": "packages/Statie/packages/MigratorJekyll/src",
+            "Symplify\\Statie\\PostHeadlineLinker\\": "packages/Statie/packages/PostHeadlineLinker/src",
+            "Symplify\\Statie\\Tweeter\\": "packages/Statie/packages/Tweeter/src",
+            "Symplify\\Statie\\Twig\\": "packages/Statie/packages/Twig/src",
+            "Symplify\\TokenRunner\\": "packages/TokenRunner/src"
+        }
     },
     "autoload-dev": {
         "classmap": [
             "packages/Autodiscovery/tests/KernelProjectDir"
         ],
         "psr-4": {
-            "Symplify\\Util\\Composer\\": "util/Composer/src"
+            "Symplify\\Autodiscovery\\Tests\\": "packages/Autodiscovery/tests",
+            "Symplify\\BetterPhpDocParser\\Tests\\": "packages/BetterPhpDocParser/tests",
+            "Symplify\\ChangelogLinker\\Tests\\": "packages/ChangelogLinker/tests",
+            "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
+            "Symplify\\EasyCodingStandardTester\\Tests\\": "packages/EasyCodingStandardTester/tests",
+            "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\Tests\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/tests",
+            "Symplify\\EasyCodingStandard\\FixerRunner\\Tests\\": "packages/EasyCodingStandard/packages/FixerRunner/tests",
+            "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
+            "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
+            "Symplify\\FlexLoader\\Tests\\": "packages/FlexLoader/tests",
+            "Symplify\\LatteToTwigConverter\\Tests\\": "packages/LatteToTwigConverter/tests",
+            "Symplify\\MonorepoBuilder\\Split\\Tests\\": "packages/MonorepoBuilder/packages/Split/tests",
+            "Symplify\\MonorepoBuilder\\Tests\\": "packages/MonorepoBuilder/tests",
+            "Symplify\\PHPStanExtensions\\Tests\\": "packages/PHPStanExtensions/tests",
+            "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
+            "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
+            "Symplify\\Statie\\Latte\\Tests\\": "packages/Statie/packages/Latte/tests",
+            "Symplify\\Statie\\PostHeadlineLinker\\Tests\\": "packages/Statie/packages/PostHeadlineLinker/tests",
+            "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
+            "Symplify\\Statie\\Tweeter\\Tests\\": "packages/Statie/packages/Tweeter/tests",
+            "Symplify\\Statie\\Twig\\Tests\\": "packages/Statie/packages/Twig/tests",
+            "Symplify\\TokenRunner\\Tests\\": "packages/TokenRunner/tests"
         }
     },
     "replace": {
