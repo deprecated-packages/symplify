@@ -46,7 +46,7 @@
         "symfony/templating": "^3.4|^4.1",
         "symfony/translation": "^3.4|^4.1",
         "symfony/twig-bundle": "^3.4|^4.1",
-        "thecodingmachine/phpstan-safe-rule": "^0.1.11",
+        "thecodingmachine/phpstan-safe-rule": "^0.1.0",
         "thecodingmachine/phpstan-strict-rules": "^0.10.7",
         "tracy/tracy": "^2.5"
     },
@@ -133,8 +133,7 @@
             "packages/ChangelogLinker/bin/changelog-linker cleanup"
         ],
         "merge": "packages/MonorepoBuilder/bin/monorepo-builder merge",
-        "propagate": "packages/MonorepoBuilder/bin/monorepo-builder propagate",
-        "pre-autoload-dump": "Symplify\\Util\\Composer\\PackagePsr4Autoloader::autoload"
+        "propagate": "packages/MonorepoBuilder/bin/monorepo-builder propagate"
     },
     "config": {
         "sort-packages": true
