@@ -18,6 +18,6 @@ parameters:
             object: 'Symplify\Statie\Renderable\File\PostFile'
 
 imports:
-    - { resource: '../packages/**/config/services.yml' }
+    - { resource: '../packages/**/config/*.yml' }
     - { resource: 'services.yml' }
     - { resource: 'external-services.yml' }

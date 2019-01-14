@@ -44,4 +44,4 @@ services:
 
     Symplify\Statie\MigratorJekyll\:
         resource: '../src'
-        exlude: '../src/{Contract}'
+        exclude: '../src/{Contract}'
