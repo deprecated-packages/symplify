@@ -51,6 +51,16 @@ gulp
 
 4. And see web in browser [localhost:8000](http://localhost:8000).
 
+## Do you use Jekyll? Migrate!
+
+Read the post [9 Steps to Migrate From Jekyll to Statie](https://www.tomasvotruba.cz/blog/2019/01/10/9-steps-to-migrate-from-jekyll-to-statie/)
+
+Or use command to help:
+
+```bash
+vendor/bin/statie migrate-jekyll
+```
+
 ## Configuration
 
 ### `statie.yml` Config

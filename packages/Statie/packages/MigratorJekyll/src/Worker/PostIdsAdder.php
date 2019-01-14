@@ -1,0 +1,62 @@
+<?php declare(strict_types=1);
+
+namespace Symplify\Statie\MigratorJekyll\Worker;
+
+use Nette\Utils\FileSystem;
+use Nette\Utils\Strings;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\Statie\MigratorJekyll\Contract\MigratorJekyllWorkerInterface;
+use Symplify\Statie\MigratorJekyll\Filesystem\MigratorFilesystem;
+use function Safe\getcwd;
+use function Safe\sprintf;
+
+final class PostIdsAdder implements MigratorJekyllWorkerInterface
+{
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
+    /**
+     * @var MigratorFilesystem
+     */
+    private $migratorFilesystem;
+
+    public function __construct(SymfonyStyle $symfonyStyle, MigratorFilesystem $migratorFilesystem)
+    {
+        $this->symfonyStyle = $symfonyStyle;
+        $this->migratorFilesystem = $migratorFilesystem;
+    }
+
+    public function processSourceDirectory(string $sourceDirectory): void
+    {
+        $postFileInfos = $this->migratorFilesystem->findPostFiles($sourceDirectory . '/_posts');
+        $id = 1;
+
+        foreach ($postFileInfos as $postFileInfo) {
+            if (Strings::match($postFileInfo->getContents(), '#^\-\-\-\s+id:#')) {
+                // has ID
+                continue;
+            }
+
+            $oldContent = $postFileInfo->getContents();
+            $newContent = Strings::replace($oldContent, '#^\-\-\-#', '---' . PHP_EOL . 'id: ' . $id);
+            if ($newContent === $oldContent) {
+                continue;
+            }
+
+            // save file
+            FileSystem::write($postFileInfo->getRealPath(), $newContent);
+
+            $this->symfonyStyle->note(
+                sprintf('Post id "%d" was completed to "%s" file', $id, $postFileInfo->getRelativeFilePathFromDirectory(
+                    getcwd()
+                ))
+            );
+
+            ++$id;
+        }
+
+        $this->symfonyStyle->success('Ids were completed to posts');
+    }
+}

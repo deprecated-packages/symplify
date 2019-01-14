@@ -59,6 +59,7 @@ parameters:
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, bool\|int given#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, int\|true given#'
         - '#Property Symplify\\Autodiscovery\\Tests\\Twig\\TwigPathAutodiscoveryTest::\$twigFilesystemLoader \(Twig_Loader_Filesystem\) does not accept Twig_LoaderInterface#'
+        - '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\MigratorJekyll\\Worker\\StatieImportsAdder::addImportSection\(\) expects array<string>, array<int, array<string, string>> given#'
 
         # Token Runner
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'

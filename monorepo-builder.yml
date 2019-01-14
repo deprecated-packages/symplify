@@ -1,16 +1,11 @@
 parameters:
-    merge_sections:
-        - "require"
-        - "require-dev"
-        # skip autoload merging - handled by \Symplify\Util\Composer\PackagePsr4Autoloader
-
     # add these to merge of packages' composer.json
     data_to_append:
         require-dev:
             phpstan/phpstan: '^0.10.8'
             phpunit/phpunit: '^7.5'
             tracy/tracy: '^2.5'
-            thecodingmachine/phpstan-safe-rule: '^0.1.11'
+            thecodingmachine/phpstan-safe-rule: '^0.1.0'
             thecodingmachine/phpstan-strict-rules: '^0.10.7'
 
     # remove these to merge of packages' composer.json

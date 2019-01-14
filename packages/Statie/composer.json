@@ -37,6 +37,7 @@
             "Symplify\\Statie\\Latte\\": "packages/Latte/src",
             "Symplify\\Statie\\Generator\\": "packages/Generator/src",
             "Symplify\\Statie\\Twig\\": "packages/Twig/src",
+            "Symplify\\Statie\\MigratorJekyll\\": "packages/MigratorJekyll/src",
             "Symplify\\Statie\\Tweeter\\": "packages/Tweeter/src",
             "Symplify\\Statie\\GithubContributorsThanker\\": "packages/GithubContributorsThanker/src",
             "Symplify\\Statie\\PostHeadlineLinker\\": "packages/PostHeadlineLinker/src"
