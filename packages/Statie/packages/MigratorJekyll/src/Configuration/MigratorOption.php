@@ -17,5 +17,5 @@ final class MigratorOption
     /**
      * @var string
      */
-    public const CLEAR_REGULAR_IN_PATHS = 'clear_regular_in_paths';
+    public const APPLY_REGULAR_IN_PATHS = 'apply_regular_in_paths';
 }

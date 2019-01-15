@@ -9,7 +9,7 @@ use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use function Safe\getcwd;
 use function Safe\sprintf;
 
-final class RegularCleaner
+final class FilesystemRegularApplicator
 {
     /**
      * @var MigratorFilesystem
@@ -32,9 +32,8 @@ final class RegularCleaner
      */
     public function processPaths(array $pathsToRegulars): void
     {
-        foreach ($pathsToRegulars as $regular => $path) {
+        foreach ($pathsToRegulars as $path => $regulars) {
             // null → this directory
-            $path = $path ?: getcwd();
             $path = $this->migratorFilesystem->absolutizePath($path);
             if (! file_exists($path) || ! is_dir($path)) {
                 continue;
@@ -42,18 +41,20 @@ final class RegularCleaner
 
             $fileInfos = $this->migratorFilesystem->findFiles($path);
 
-            $this->processFoundFiles($fileInfos, $regular);
+            foreach ($regulars as $regularPattern => $replacePattern) {
+                $this->processFoundFiles($fileInfos, $regularPattern, $replacePattern);
+            }
         }
     }
 
     /**
      * @param SmartFileInfo[] $fileInfos
      */
-    private function processFoundFiles(array $fileInfos, string $regular): void
+    private function processFoundFiles(array $fileInfos, string $regularPattern, string $replacePattern): void
     {
         foreach ($fileInfos as $fileInfo) {
             $oldContent = $fileInfo->getContents();
-            $newContent = Strings::replace($oldContent, $regular);
+            $newContent = Strings::replace($oldContent, $regularPattern, $replacePattern);
             if ($newContent === $oldContent) {
                 continue;
             }
@@ -63,7 +64,7 @@ final class RegularCleaner
             $this->symfonyStyle->note(sprintf(
                 'File "%s" was cleared by %s regular',
                 $fileInfo->getRelativeFilePathFromDirectory(getcwd()),
-                $regular
+                $regularPattern
             ));
         }
     }

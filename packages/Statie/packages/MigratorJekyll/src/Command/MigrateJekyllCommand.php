@@ -10,8 +10,8 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Statie\MigratorJekyll\Configuration\MigratorOption;
 use Symplify\Statie\MigratorJekyll\Filesystem\FilesystemMover;
+use Symplify\Statie\MigratorJekyll\Filesystem\FilesystemRegularApplicator;
 use Symplify\Statie\MigratorJekyll\Filesystem\FilesystemRemover;
-use Symplify\Statie\MigratorJekyll\Filesystem\RegularCleaner;
 use Symplify\Statie\MigratorJekyll\Worker\IncludePathsCompleter;
 use Symplify\Statie\MigratorJekyll\Worker\ParametersAdder;
 use Symplify\Statie\MigratorJekyll\Worker\PostIdsAdder;
@@ -67,9 +67,9 @@ final class MigrateJekyllCommand extends Command
     private $filesystemRemover;
 
     /**
-     * @var RegularCleaner
+     * @var FilesystemRegularApplicator
      */
-    private $regularCleaner;
+    private $filesystemRegularApplicator;
 
     /**
      * @param mixed[] $migratorJekyll
@@ -84,7 +84,7 @@ final class MigrateJekyllCommand extends Command
         ParametersAdder $parametersAdder,
         FilesystemMover $filesystemMover,
         FilesystemRemover $filesystemRemover,
-        RegularCleaner $regularCleaner
+        FilesystemRegularApplicator $filesystemRegularApplicator
     ) {
         parent::__construct();
         $this->migratorJekyll = $migratorJekyll;
@@ -96,7 +96,7 @@ final class MigrateJekyllCommand extends Command
         $this->parametersAdder = $parametersAdder;
         $this->filesystemMover = $filesystemMover;
         $this->filesystemRemover = $filesystemRemover;
-        $this->regularCleaner = $regularCleaner;
+        $this->filesystemRegularApplicator = $filesystemRegularApplicator;
     }
 
     protected function configure(): void
@@ -120,8 +120,10 @@ final class MigrateJekyllCommand extends Command
         // now all website files are in "/source" directory
 
         // 3. clear regulars by paths
-        if ($this->migratorJekyll[MigratorOption::CLEAR_REGULAR_IN_PATHS]) {
-            $this->regularCleaner->processPaths($this->migratorJekyll[MigratorOption::CLEAR_REGULAR_IN_PATHS]);
+        if ($this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS]) {
+            $this->filesystemRegularApplicator->processPaths(
+                $this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS]
+            );
         }
 
         $sourceDirectory = getcwd() . '/source';
