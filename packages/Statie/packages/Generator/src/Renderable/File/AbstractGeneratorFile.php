@@ -13,6 +13,12 @@ abstract class AbstractGeneratorFile extends AbstractFile
      */
     private $id;
 
+    /**
+     * Content without configuratoin, without markdown, just text
+     * @var string
+     */
+    private $rawContent;
+
     public function __construct(
         int $id,
         SmartFileInfo $smartFileInfo,
@@ -28,5 +34,15 @@ abstract class AbstractGeneratorFile extends AbstractFile
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setRawContent(string $rawContent): void
+    {
+        $this->rawContent = $rawContent;
+    }
+
+    public function getRawContent(): string
+    {
+        return $this->rawContent;
     }
 }

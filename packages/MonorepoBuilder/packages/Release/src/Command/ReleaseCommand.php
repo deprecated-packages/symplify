@@ -99,7 +99,9 @@ final class ReleaseCommand extends Command
         } elseif ($stage === null) {
             $this->symfonyStyle->success(sprintf('Version "%s" is now released!', $version->getVersionString()));
         } else {
-            $this->symfonyStyle->success(sprintf('Stage "%s" for version "%s" is now finished!', $stage, $version->getVersionString()));
+            $this->symfonyStyle->success(
+                sprintf('Stage "%s" for version "%s" is now finished!', $stage, $version->getVersionString())
+            );
         }
 
         return ShellCode::SUCCESS;
