@@ -28,7 +28,7 @@ final class FilesystemRegularApplicator
     }
 
     /**
-     * @param string[] $pathsToRegulars
+     * @param string[][] $pathsToRegulars
      */
     public function processPaths(array $pathsToRegulars): void
     {
