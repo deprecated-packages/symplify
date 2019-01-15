@@ -75,8 +75,8 @@ final class StatieImportsAdder implements MigratorJekyllWorkerInterface
         }
 
         // 2. we need to create the file
-        $yamlContent = Yaml::dump($filesToImport, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
-        FileSystem::write($this->rootStatieYamlFile, $yamlContent);
+        $importsSection = Yaml::dump(['imports' => $filesToImport], 2, 4, Yaml::DUMP_OBJECT_AS_MAP);
+        FileSystem::write($this->rootStatieYamlFile, $importsSection);
 
         $this->symfonyStyle->note(sprintf('Imports were added to "%s" file', $this->rootStatieYamlFile));
     }
