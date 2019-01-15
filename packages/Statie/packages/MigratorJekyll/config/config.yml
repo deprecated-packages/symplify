@@ -28,15 +28,15 @@ parameters:
             '_sass': 'source/_sass'
             'CNAME': 'source/CNAME'
 
-        clear_regular_in_paths:
-            # remove layout from posts, not needed
-            '#layout: \w+\s+#ms': 'source/_posts'
-            # parameters are accessed directly, without any prefix
-            '#site\.#': 'source' # ~ = everywhere
-            '#page\.#': 'source'
-            '#site\.data\.#': 'source'
-            # remove --- --- in the start
-            '#^\-\-\-\n\-\-\-\n#gm': 'source'
+        apply_regular_in_paths:
+            'source/_posts':
+                 # remove layout from posts, not needed
+                '#^layout: \w+\s+#ms': ''
+            'source':
+                # parameters are accessed directly, without any prefix - see https://regex101.com/r/PvaeHS/1
+                '#{{\s+?\b(site\.data\.|site\.)[\w+]#': '$1$3'
+                # remove --- --- in the start
+                '#^\-\-\-\n\-\-\-\n#gm': ''
 
 services:
     _defaults:
