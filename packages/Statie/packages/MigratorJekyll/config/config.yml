@@ -4,7 +4,7 @@ parameters:
             - 'Gemfile'
             - 'Gemfile.lock'
             - 'Guardfile'
-            - '/_templates'
+            - '_templates'
 
         paths_to_move:
             # renames
@@ -19,8 +19,8 @@ parameters:
             '_config.yml': 'source/_config.yml'
             'feed.xml': 'source/feed.xml'
             'Gruntfile.js': 'source/Gruntfile.js'
-            '/assets': 'source/assets'
-            '/images': 'source/images'
+            'assets': 'source/assets'
+            'images': 'source/images'
             '_posts': 'source/_posts'
             '_layouts': 'source/_layouts'
             '_drafts': 'source/_drafts'
