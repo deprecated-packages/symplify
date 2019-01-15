@@ -40,6 +40,10 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
         $boundArguments = [];
         foreach ($parameterBag->all() as $name => $value) {
             // not ready to autowire
+            if (! is_string($name)) {
+                continue;
+            }
+
             if (Strings::contains($name, '.') || Strings::contains($name, 'env(')) {
                 continue;
             }
