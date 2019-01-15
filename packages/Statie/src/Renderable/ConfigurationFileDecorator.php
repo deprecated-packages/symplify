@@ -3,9 +3,11 @@
 namespace Symplify\Statie\Renderable;
 
 use Nette\Utils\Strings;
+use ParsedownExtra;
 use Symplify\Statie\Configuration\Parser\YamlParser;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use function Safe\sprintf;
 
@@ -21,9 +23,15 @@ final class ConfigurationFileDecorator implements FileDecoratorInterface
      */
     private $yamlParser;
 
-    public function __construct(YamlParser $yamlParser)
+    /**
+     * @var ParsedownExtra
+     */
+    private $parsedownExtra;
+
+    public function __construct(YamlParser $yamlParser, ParsedownExtra $parsedownExtra)
     {
         $this->yamlParser = $yamlParser;
+        $this->parsedownExtra = $parsedownExtra;
     }
 
     /**
@@ -62,6 +70,14 @@ final class ConfigurationFileDecorator implements FileDecoratorInterface
 
         if ($matches) {
             $file->changeContent($matches['content']);
+
+            if ($file instanceof AbstractGeneratorFile) {
+                // create text-only content - without html, without configuration, without markdown
+                $htmlContent = $this->parsedownExtra->parse($matches['content']);
+                $rawContent = strip_tags($htmlContent);
+                $file->setRawContent($rawContent);
+            }
+
             if ($matches['config']) {
                 $this->setConfigurationToFileIfFoundAny($matches['config'], $file);
             }
