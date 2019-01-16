@@ -31,11 +31,11 @@ final class LinkifyWorker implements WorkerInterface
     public function processContent(string $content): string
     {
         foreach ($this->namesToUrls as $name => $url) {
-            if (! Strings::match($content, sprintf('#(%s)#', $name))) {
+            if (! Strings::match($content, sprintf('#\b(%s)\b#', $name))) {
                 continue;
             }
 
-            $content = Strings::replace($content, sprintf('#(%s)#', $name), '[$1]');
+            $content = Strings::replace($content, sprintf('#\b(%s)\b#', $name), '[$1]');
 
             $link = sprintf('[%s]: %s', $name, $url);
             $this->linkAppender->add($name, $link);
