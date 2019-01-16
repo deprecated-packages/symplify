@@ -11,6 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symplify\LatteToTwigConverter\LatteToTwigConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use function Safe\sprintf;
 
@@ -58,7 +59,7 @@ final class ConvertCommand extends Command
         $this->setDescription('Converts Latte syntax to Twig in all *.twig files');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sourceDirectory = $input->getArgument(self::ARGUMENT_SOURCE);
 
@@ -84,5 +85,7 @@ final class ConvertCommand extends Command
         }
 
         $this->symfonyStyle->success('Convert process finished');
+
+        return ShellCode::SUCCESS;
     }
 }

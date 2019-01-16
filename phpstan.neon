@@ -36,7 +36,6 @@ parameters:
         - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
 
         # is valid code, known values
-        - '#Method Symplify\\Statie\\Tweeter\\TweetProvider\\PostTweetsProvider::getPosts\(\) should return array<Symplify\\Statie\\Renderable\\File\\PostFile> but returns array<Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile>#'
         - '#Method Symplify\\MonorepoBuilder\\ComposerJsonDecorator\\AutoloadRelativePathComposerJsonDecorator::prefixPath\(\) should return array<string>\|string but returns array<array<string>\|string>#'
         - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\(Type\\TypeNode::\$name|PhpDoc\\PhpDocTagValueNode::\$type)#'
         - '#Method Symplify\\CodingStandard\\Fixer\\Naming\\PropertyNameMatchingTypeFixer::resolveDuplicatedTypes\(\) should return array<string> but returns array<int, int\|string>#'
@@ -84,7 +83,6 @@ parameters:
         - '#If condition is always true#'
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
-        - "#Casting to array something that's already array#"
         - '#Property Symplify\\EasyCodingStandard\\Yaml\\CheckerServiceParametersShifter::\$serviceKeywords \(array<string>\) does not accept ReflectionProperty#'
         - '#Method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest::getIndentationTypeFixerFromContainer\(\) should return PhpCsFixer\\Fixer\\Whitespace\\IndentationTypeFixer but returns PhpCsFixer\\Fixer\\FixerInterface\|null#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
@@ -128,12 +126,25 @@ parameters:
         - '#Strict comparison using === between string and false will always evaluate to false#'
 
         # false positive
-        - '#Strict comparison using === between \(array&hasOffset\((.*?)\)\)\|null and array\(\) will always evaluate to false#'
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::set\(\)#'
         - '#Cannot cast array<string>\|string\|null to string#'
 
         # intentionally
         - '#Function array_search is unsafe to use#'
+
+        # false positive
+        -
+            message: '#Strict comparison using === between \(array\)\|null and array\(\) will always evaluate to false#'
+            path: 'packages/Autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php'
+
+        # 3rd party invalid docblock
+        -
+            message: '#Return type \(array<string>\) of method Symplify\\CodingStandard\\Sniffs\\ControlStructure\\SprintfOverContactSniff::register\(\) should be compatible with return type \(array<int>\) of method PHP_CodeSniffer\\Sniffs\\Sniff::register\(\)#'
+            path: 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
+
+        -
+            message: '#Cannot assign offset int to int#'
+            path: 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
 
 services:
     -

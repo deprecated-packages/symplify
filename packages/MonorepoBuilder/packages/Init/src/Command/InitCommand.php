@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 use function Safe\getcwd;
 
 final class InitCommand extends Command
@@ -42,7 +43,7 @@ final class InitCommand extends Command
         $this->addArgument(self::OUTPUT, InputArgument::OPTIONAL, 'Directory to generate monorepo into.', getcwd());
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var string $output */
         $output = $input->getArgument(self::OUTPUT);
@@ -55,5 +56,7 @@ final class InitCommand extends Command
             PHP_EOL .
             '"vendor/bin/monorepo-builder merge"'
         );
+
+        return ShellCode::SUCCESS;
     }
 }
