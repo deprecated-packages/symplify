@@ -14,6 +14,7 @@ services:
 
     # symfony console
     Symfony\Component\Console\Application:
+        public: true
         calls:
             - ['setDispatcher', ['@Symfony\Component\EventDispatcher\EventDispatcher']]
 
