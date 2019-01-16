@@ -51,5 +51,6 @@ final class ChangelogLinkerTest extends AbstractContainerAwareTestCase
         yield [__DIR__ . '/Source/before/08.md', __DIR__ . '/Source/after/08.md'];
         yield [__DIR__ . '/Source/before/09.md', __DIR__ . '/Source/after/09.md'];
         yield [__DIR__ . '/Source/before/10.md', __DIR__ . '/Source/after/10.md'];
+        yield [__DIR__ . '/Source/before/11.md', __DIR__ . '/Source/after/11.md'];
     }
 }

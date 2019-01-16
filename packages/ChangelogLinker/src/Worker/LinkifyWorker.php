@@ -31,11 +31,13 @@ final class LinkifyWorker implements WorkerInterface
     public function processContent(string $content): string
     {
         foreach ($this->namesToUrls as $name => $url) {
-            if (! Strings::match($content, sprintf('#(%s)#', $name))) {
+            // https://regex101.com/r/4C9MwZ/3
+            $pattern = '#([^-\[]\b)(' . preg_quote($name) . ')(\b[^-\]])#';
+            if (! Strings::match($content, $pattern)) {
                 continue;
             }
 
-            $content = Strings::replace($content, sprintf('#(%s)#', $name), '[$1]');
+            $content = Strings::replace($content, $pattern, '$1[$2]$3');
 
             $link = sprintf('[%s]: %s', $name, $url);
             $this->linkAppender->add($name, $link);
