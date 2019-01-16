@@ -6,8 +6,10 @@ use Nette\Utils\Strings;
 use ReflectionClass;
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\Autodiscovery\Arrays;
+use Symplify\Autodiscovery\Exception\ClassNotFoundException;
 use Symplify\Autodiscovery\Php\InterfaceAnalyzer;
 use function Safe\realpath;
+use function Safe\sort;
 use function Safe\sprintf;
 
 final class ExplicitToAutodiscoveryConverter
@@ -177,7 +179,7 @@ final class ExplicitToAutodiscoveryConverter
             ];
 
             $excludedDirectories = $this->resolveExcludedDirectories($filePath, $relativeServicesLocation);
-            if (count($excludedDirectories)) {
+            if (count($excludedDirectories) > 0) {
                 $exclude = $relativeServicesLocation . sprintf('/{%s}', implode(',', $excludedDirectories));
                 $yaml[YamlKey::SERVICES][$namespaceKey]['exclude'] = $exclude;
             }
@@ -329,6 +331,8 @@ final class ExplicitToAutodiscoveryConverter
             }
         }
 
+        sort($excludedDirectories);
+
         return $excludedDirectories;
     }
 
@@ -383,7 +387,16 @@ final class ExplicitToAutodiscoveryConverter
         } else {
             $reflectionClass = new ReflectionClass($class);
 
-            $classDirectory = dirname($reflectionClass->getFileName());
+            $fileName = $reflectionClass->getFileName();
+            if ($fileName === false) {
+                throw new ClassNotFoundException(sprintf(
+                    'Class "%s" from config "%s" was not found in any file. Make sure it exists.',
+                    $class,
+                    $configFilePath
+                ));
+            }
+
+            $classDirectory = dirname($fileName);
         }
 
         $configDirectory = realpath(dirname($configFilePath));

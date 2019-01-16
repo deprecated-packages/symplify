@@ -3,6 +3,7 @@
 namespace Symplify\BetterPhpDocParser\Tests\PhpDocInfo;
 
 use Nette\Utils\FileSystem;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
@@ -95,11 +96,15 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
 
     public function testReplacePhpDocTypeByAnother(): void
     {
-        $this->assertSame('SomeType', $this->phpDocInfo->getVarTypeNode()->name);
+        /** @var IdentifierTypeNode $varTypeNode */
+        $varTypeNode = $this->phpDocInfo->getVarTypeNode();
+        $this->assertSame('SomeType', $varTypeNode->name);
 
         $this->phpDocInfo->replacePhpDocTypeByAnother('SomeType', 'AnotherType');
 
-        $this->assertSame('AnotherType', $this->phpDocInfo->getVarTypeNode()->name);
+        /** @var IdentifierTypeNode $varTypeNode */
+        $varTypeNode = $this->phpDocInfo->getVarTypeNode();
+        $this->assertSame('AnotherType', $varTypeNode->name);
 
         $this->assertStringEqualsFile(
             __DIR__ . '/PhpDocInfoSource/expected-with-replaced-type.txt',

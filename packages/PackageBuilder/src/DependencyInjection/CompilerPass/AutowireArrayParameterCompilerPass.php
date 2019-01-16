@@ -163,6 +163,10 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         // prevent circular dependency
+        if ($definition->getClass() === null) {
+            return false;
+        }
+
         if (is_a($definition->getClass(), $parameterType, true)) {
             return true;
         }

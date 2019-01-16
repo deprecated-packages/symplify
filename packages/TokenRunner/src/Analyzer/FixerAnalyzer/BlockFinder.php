@@ -68,6 +68,7 @@ final class BlockFinder
                 $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
             }
         } catch (Throwable $throwable) {
+            // intentionally, no edge found
             return null;
         }
 

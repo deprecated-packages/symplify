@@ -13,6 +13,7 @@ use Symplify\LatteToTwigConverter\LatteToTwigConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use function Safe\sprintf;
 
 final class ConvertCommand extends Command
@@ -61,31 +62,39 @@ final class ConvertCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $sourceDirectory = $input->getArgument(self::ARGUMENT_SOURCE);
+        $sourceDirectory = (string) $input->getArgument(self::ARGUMENT_SOURCE);
+        $twigFileInfos = $this->findTwigFilesInDirectory($sourceDirectory);
 
-        $twigFileFinder = Finder::create()
-            ->files()
-            ->in($sourceDirectory)
-            ->name('#\.twig$#');
-
-        $smartFileInfos = $this->finderSanitizer->sanitize($twigFileFinder);
-
-        foreach ($smartFileInfos as $twigFileInfo) {
+        foreach ($twigFileInfos as $twigFileInfo) {
             $convertedContent = $this->latteToTwigConverter->convertFile($twigFileInfo->getRealPath());
 
             if ($twigFileInfo->getContents() !== $convertedContent) {
                 FileSystem::write($twigFileInfo->getPathname(), $convertedContent);
 
                 $this->symfonyStyle->note(sprintf('File "%s" was converted to Twig', $twigFileInfo->getPathname()));
-            } else {
-                $this->symfonyStyle->note(
-                    sprintf('File "%s" was skipped for no match of latte syntax', $twigFileInfo->getPathname())
-                );
+                continue;
             }
+
+            $this->symfonyStyle->note(
+                sprintf('File "%s" was skipped for no match of latte syntax', $twigFileInfo->getPathname())
+            );
         }
 
         $this->symfonyStyle->success('Convert process finished');
 
         return ShellCode::SUCCESS;
+    }
+
+    /**
+     * @return SmartFileInfo[]
+     */
+    private function findTwigFilesInDirectory(string $sourceDirectory): array
+    {
+        $twigFileFinder = Finder::create()
+            ->files()
+            ->in($sourceDirectory)
+            ->name('#\.twig$#');
+
+        return $this->finderSanitizer->sanitize($twigFileFinder);
     }
 }
