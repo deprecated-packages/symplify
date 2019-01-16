@@ -11,6 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use function Safe\sprintf;
 
@@ -58,7 +59,7 @@ final class RenameCommand extends Command
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sourceDirectory = $input->getArgument(self::ARGUMENT_SOURCE);
 
@@ -78,5 +79,7 @@ final class RenameCommand extends Command
         }
 
         $this->symfonyStyle->success('Rename process finished');
+
+        return ShellCode::SUCCESS;
     }
 }

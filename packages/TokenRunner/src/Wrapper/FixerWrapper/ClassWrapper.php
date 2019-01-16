@@ -165,8 +165,7 @@ final class ClassWrapper
             return null;
         }
 
-        reset($extendsTokens);
-        $extendsPosition = key($extendsTokens);
+        $extendsPosition = $this->getArrayFirstKey($extendsTokens);
 
         /** @var Token[] $stringTokens */
         $stringTokens = $this->tokens->findGivenKind(T_STRING, $extendsPosition, $this->startBracketIndex);
@@ -174,7 +173,7 @@ final class ClassWrapper
             return null;
         }
 
-        $parentClassNamePosition = key($stringTokens);
+        $parentClassNamePosition = (int) key($stringTokens);
         $parentClassName = $this->nameFactory->createFromTokensAndStart($this->tokens, $parentClassNamePosition);
 
         return $parentClassName->getName();
@@ -302,14 +301,11 @@ final class ClassWrapper
     public function getInterfaceNames(): array
     {
         $implementTokens = $this->tokens->findGivenKind(T_IMPLEMENTS, $this->startIndex, $this->startBracketIndex);
-        if (! $implementTokens) {
+        if ($implementTokens === []) {
             return [];
         }
 
-        reset($implementTokens);
-
-        $implementPosition = key($implementTokens);
-
+        $implementPosition = $this->getArrayFirstKey($implementTokens);
         $interfacePartialNameTokens = $this->tokens->findGivenKind(
             T_STRING,
             $implementPosition,
@@ -411,12 +407,20 @@ final class ClassWrapper
         }
 
         $stringTokens = $this->tokens->findGivenKind(T_STRING, $this->startIndex);
-        if (! count($stringTokens)) {
+        if (count($stringTokens) === 0) {
             return null;
         }
-        reset($stringTokens);
 
-        return (int) key($stringTokens);
+        return $this->getArrayFirstKey($stringTokens);
+    }
+
+    /**
+     * @param mixed[] $items
+     */
+    private function getArrayFirstKey(array $items): int
+    {
+        reset($items);
+        return (int) key($items);
     }
 
     /**

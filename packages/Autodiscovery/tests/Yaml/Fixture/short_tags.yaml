@@ -15,4 +15,4 @@ services:
 
     App\Command\:
         resource: '../../../src'
-        exclude: '../../../src/{Contract}'
+        exclude: '../../../src/{Contract,Exception}'

@@ -245,15 +245,11 @@ final class PhpDocInfoPrinter
     private function getLastNodeTokenEndPosition(): int
     {
         $originalChildren = $this->originalPhpDocNode->children;
-        if (! $originalChildren) {
+        if ($originalChildren === []) {
             return $this->currentTokenPosition;
         }
 
         $lastOriginalChildrenNode = array_pop($originalChildren);
-        if (! $lastOriginalChildrenNode) {
-            return $this->currentTokenPosition;
-        }
-
         if (! isset($this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode])) {
             return $this->currentTokenPosition;
         }

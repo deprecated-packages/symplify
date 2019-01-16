@@ -134,7 +134,9 @@ final class PhpDocModifier
                 continue;
             }
 
-            $phpDocChildNode->value->type = $this->replaceTypeNode($phpDocChildNode->value->type, $oldType, $newType);
+            /** @var VarTagValueNode|ParamTagValueNode|ReturnTagValueNode $tagValueNode */
+            $tagValueNode = $phpDocChildNode->value;
+            $phpDocChildNode->value->type = $this->replaceTypeNode($tagValueNode->type, $oldType, $newType);
         }
     }
 

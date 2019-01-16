@@ -61,11 +61,8 @@ final class GenerateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var string $source */
-        $source = $input->getArgument(self::OPTION_SOURCE);
-
-        /** @var string $output */
-        $output = $input->getOption(self::OPTION_OUTPUT);
+        $source = (string) $input->getArgument(self::OPTION_SOURCE);
+        $output = (string) $input->getOption(self::OPTION_OUTPUT);
 
         $this->statieApplication->run($source, $output);
 

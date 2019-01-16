@@ -93,7 +93,7 @@ final class ConvertYamlCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $directory = $input->getArgument(self::ARGUMENT_DIRECTORY);
+        $directory = (string) $input->getArgument(self::ARGUMENT_DIRECTORY);
 
         $yamlFileInfos = $this->findServiceYamlFilesInDirectory($directory);
 

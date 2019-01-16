@@ -6,11 +6,11 @@ use Psr\Container\ContainerInterface;
 
 new class implements ContainerInterface
 {
-    public function get($id): void
+    public function get($id): bool
     {
     }
 
-    public function has($id): void
+    public function has($id): bool
     {
     }
 };

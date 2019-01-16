@@ -55,4 +55,4 @@ services:
 
     App\:
         resource: '../../../src'
-        exclude:  '../../../src/{Contract}'
+        exclude:  '../../../src/{Contract,Exception}'

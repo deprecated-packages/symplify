@@ -54,7 +54,12 @@ class SomeClass implements SomeInterface {};')]
                 continue;
             }
 
-            $tokens->insertAt($index, [new Token([T_FINAL, 'final']), new Token([T_WHITESPACE, ' '])]);
+            $finalWithSpaceTokens = Tokens::fromArray([
+                new Token([T_FINAL, 'final']),
+                new Token([T_WHITESPACE, ' ']),
+            ]);
+
+            $tokens->insertAt($index, $finalWithSpaceTokens);
         }
     }
 
