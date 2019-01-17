@@ -20,4 +20,3 @@ parameters:
 imports:
     - { resource: '../packages/**/config/*.yml' }
     - { resource: 'services.yml' }
-    - { resource: 'external-services.yml' }
