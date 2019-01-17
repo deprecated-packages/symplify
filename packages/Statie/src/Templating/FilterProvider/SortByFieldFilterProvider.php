@@ -26,8 +26,9 @@ final class SortByFieldFilterProvider implements FilterProviderInterface
     public function provide(): array
     {
         return [
-            // usage {% set entries = sortByField(entries, 'name', 'desc') %}
-            'sortByField' => function (array $items, $sortBy, $direction = 'ASC'): array {
+            // usage in Twig: {% set entries = sort_by_field(entries, 'name', 'desc') %}
+            // usage in Latte: {var $entries = ($entries|sort_by_field:'name', 'desc')}
+            'sort_by_field' => function (array $items, $sortBy, $direction = 'ASC'): array {
                 return $this->arraySorter->sortByField($items, $sortBy, $direction);
             },
         ];

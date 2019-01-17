@@ -22,14 +22,14 @@ final class ArraySorterTest extends TestCase
         $items = [
             ['name' => 'b'],
             ['name' => 'a'],
-            ['name' => 'c']
+            ['name' => 'c'],
         ];
 
         $sortedItems = $this->arraySorter->sortByField($items, 'name');
         $expectedSortedItems = [
             ['name' => 'a'],
             ['name' => 'b'],
-            ['name' => 'c']
+            ['name' => 'c'],
         ];
         $this->assertSame($expectedSortedItems, $sortedItems);
 
@@ -37,7 +37,7 @@ final class ArraySorterTest extends TestCase
         $expectedSortedItems = [
             ['name' => 'c'],
             ['name' => 'b'],
-            ['name' => 'a']
+            ['name' => 'a'],
         ];
         $this->assertSame($expectedSortedItems, $sortedItems);
     }

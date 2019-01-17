@@ -6,7 +6,7 @@ use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\Generator\RelatedItemsResolver;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 
-final class RelatedItemsFilter implements FilterProviderInterface
+final class RelatedItemsFilterProvider implements FilterProviderInterface
 {
     /**
      * @var RelatedItemsResolver
@@ -24,7 +24,13 @@ final class RelatedItemsFilter implements FilterProviderInterface
     public function provide(): array
     {
         return [
-            // use in *.latte: {var $relatedPosts = ($post|relatedItems)}
+            // use in Twig: {% set relatedPosts = related_items(post) %}
+            // use in Latte: {var $relatedPosts = ($post|related_items)}
+            'related_items' => function (AbstractGeneratorFile $generatorFile): array {
+                return $this->relatedItemsResolver->resolveForFile($generatorFile);
+            },
+
+            // for BC
             'relatedItems' => function (AbstractGeneratorFile $generatorFile): array {
                 return $this->relatedItemsResolver->resolveForFile($generatorFile);
             },

@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Templating;
 
 use Symplify\Statie\Exception\Templating\InvalidSortByCriteriaException;
+use function Safe\usort;
 
 final class ArraySorter
 {
@@ -28,13 +29,6 @@ final class ArraySorter
         return $items;
     }
 
-    private function resolveInverseConstant(string $direction): int
-    {
-        $direction = strtolower($direction);
-
-        return in_array($direction, ['d', 'des', 'desc']) ? -1 : 1;
-    }
-
     /**
      * @param mixed[]|object[] $items
      */
@@ -46,5 +40,12 @@ final class ArraySorter
         }
 
         throw new InvalidSortByCriteriaException($field, array_keys($singleItem));
+    }
+
+    private function resolveInverseConstant(string $direction): int
+    {
+        $direction = strtolower($direction);
+
+        return in_array($direction, ['d', 'des', 'desc'], true) ? -1 : 1;
     }
 }
