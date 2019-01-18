@@ -147,12 +147,13 @@ All from [Latte basic set](https://latte.nette.org/en/filters) and more:
 {% set users = sort_by_field(users, 'name', 'desc') %}
 
 <!-- picks all posts defined in "related_items: [1]" in post -->
-{% set relatedPosts = related_items(post)}  
-            
+{% set relatedPosts = related_items(post)}
+
 {{ content|reading_time }} mins
 {{ post.getRawContent|reading_time }} mins
 
 {{ perexDeprecated|markdown }}
+{% set daysToFuture = diff_from_today_in_days(meetup.startDateTime) %}
 ```
 
 **Latte**
@@ -162,12 +163,13 @@ All from [Latte basic set](https://latte.nette.org/en/filters) and more:
 {var $users = ($users|sort_by_field:'name', 'desc')}
 
 <!-- picks all posts defined in "related_items: [1]" in post -->
-{var $relatedPosts = (post|related_items)} 
-           
+{var $relatedPosts = (post|related_items)}
+
 {$content|reading_time} mins
 {$post->getRawContent()|reading_time} mins
 
 {$perexDeprecated|markdown}
+{var $daysToFuture = diff_from_today_in_days($meetup->startDateTime())}
 ```
 
 ## Documentation
