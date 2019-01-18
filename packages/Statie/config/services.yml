@@ -11,6 +11,10 @@ services:
     # bin file
     Symplify\Statie\Console\Application: ~
 
+    # rest api
+    Symplify\PackageBuilder\Http\BetterGuzzleClient: ~
+    GuzzleHttp\Client: ~
+
     ParsedownExtra:
         class: ParsedownExtra
 
