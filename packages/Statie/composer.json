@@ -49,6 +49,7 @@
             "Symplify\\Statie\\Tests\\": "tests",
             "Symplify\\Statie\\Latte\\Tests\\": "packages/Latte/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests",
+            "Symplify\\Statie\\MigratorJekyll\\Tests\\": "packages/MigratorJekyll/tests",
             "Symplify\\Statie\\Twig\\Tests\\": "packages/Twig/tests",
             "Symplify\\Statie\\Tweeter\\Tests\\": "packages/Tweeter/tests",
             "Symplify\\Statie\\PostHeadlineLinker\\Tests\\": "packages/PostHeadlineLinker/tests"

@@ -30,11 +30,11 @@ final class FilesystemRegularApplicator
     /**
      * @param string[][] $pathsToRegulars
      */
-    public function processPaths(array $pathsToRegulars): void
+    public function processPaths(string $workingDirectory, array $pathsToRegulars): void
     {
         foreach ($pathsToRegulars as $path => $regulars) {
             // null → this directory
-            $path = $this->migratorFilesystem->absolutizePath($path);
+            $path = $this->migratorFilesystem->absolutizePath($path, $workingDirectory);
             if (! file_exists($path) || ! is_dir($path)) {
                 continue;
             }

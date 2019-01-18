@@ -45,13 +45,13 @@ final class MigratorFilesystem
         return $this->finderSanitizer->sanitize($finder);
     }
 
-    public function absolutizePath(string $path): string
+    public function absolutizePath(string $path, string $workingDirectory): string
     {
         if (FileSystem::isAbsolute($path)) {
             return $path;
         }
 
-        return getcwd() . '/' . ltrim($path, '/');
+        return $workingDirectory . '/' . ltrim($path, '/');
     }
 
     /**
