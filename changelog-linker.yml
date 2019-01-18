@@ -6,5 +6,8 @@ parameters:
         PB: 'PackageBuilder'
         MB: 'MonorepoBuilder'
         ECS: 'EasyCodingStandard'
+        ECST: 'EasyCodingStandardTester'
         CL: 'ChangelogLinker'
         "Flex Loader": 'FlexLoader'
+        FL: 'FlexLoader'
+        LT: 'LatteToTwigConverter'
