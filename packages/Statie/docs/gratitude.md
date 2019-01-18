@@ -23,7 +23,7 @@ vendor/bin/statie dump-contributors
         <h2>Thanks to all <strong>{{ contributors|length }} contributors</strong> who help me create content!</h2>
 
         <p>
-            {% set contributors = sortItemsByKey(contributors, 'name') %}
+            {% set contributors = sort_by_field(contributors, 'name') %}
             
             {% for contributor in contributors %}
                 {% if loop.last %}and{% endif %}
