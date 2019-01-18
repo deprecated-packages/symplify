@@ -40,14 +40,12 @@
         "doctrine/doctrine-bundle": "^1.9",
         "doctrine/orm": "^2.6",
         "nette/application": "^2.4",
-        "phpstan/phpstan": "0.11 as 0.10",
+        "phpstan/phpstan": "^0.11",
         "phpunit/phpunit": "^7.5",
         "symfony/framework-bundle": "^3.4|^4.1",
         "symfony/templating": "^3.4|^4.1",
         "symfony/translation": "^3.4|^4.1",
         "symfony/twig-bundle": "^3.4|^4.1",
-        "thecodingmachine/phpstan-safe-rule": "^0.1.0",
-        "thecodingmachine/phpstan-strict-rules": "^0.10.7",
         "tracy/tracy": "^2.5"
     },
     "autoload": {
@@ -73,6 +71,7 @@
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
             "Symplify\\Statie\\GithubContributorsThanker\\": "packages/Statie/packages/GithubContributorsThanker/src",
+            "Symplify\\Statie\\JoindIn\\": "packages/Statie/packages/JoindIn/src",
             "Symplify\\Statie\\Latte\\": "packages/Statie/packages/Latte/src",
             "Symplify\\Statie\\MigratorJekyll\\": "packages/Statie/packages/MigratorJekyll/src",
             "Symplify\\Statie\\PostHeadlineLinker\\": "packages/Statie/packages/PostHeadlineLinker/src",

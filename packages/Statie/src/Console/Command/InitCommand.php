@@ -77,7 +77,7 @@ final class InitCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Generate a basic site and blog.');
+        $this->setDescription('Generate a basic site and blog');
 
         $templatingDescription = sprintf(
             'Template framework to use [%s]',

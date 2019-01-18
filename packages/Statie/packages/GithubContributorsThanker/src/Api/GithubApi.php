@@ -2,9 +2,7 @@
 
 namespace Symplify\Statie\GithubContributorsThanker\Api;
 
-use GuzzleHttp\Client;
 use Symplify\PackageBuilder\Http\BetterGuzzleClient;
-use Symplify\Statie\GithubContributorsThanker\Guzzle\ResponseFormatter;
 use function Safe\rsort;
 use function Safe\sprintf;
 
@@ -33,27 +31,16 @@ final class GithubApi
     private $options = [];
 
     /**
-     * @var Client
-     */
-    private $client;
-
-    /**
-     * @var ResponseFormatter
-     */
-    private $responseFormatter;
-    /**
      * @var BetterGuzzleClient
      */
     private $betterGuzzleClient;
 
     public function __construct(
         BetterGuzzleClient $betterGuzzleClient,
-        ResponseFormatter $responseFormatter,
         string $thankerRepositoryName,
         string $thankerAuthorName,
         ?string $githubToken
     ) {
-        $this->responseFormatter = $responseFormatter;
         $this->thankerRepositoryName = $thankerRepositoryName;
         $this->thankerAuthorName = $thankerAuthorName;
         $this->betterGuzzleClient = $betterGuzzleClient;
