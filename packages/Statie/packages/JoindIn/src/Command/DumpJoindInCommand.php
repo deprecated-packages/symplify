@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\GithubContributorsThanker\Command;
+namespace Symplify\Statie\JoindIn\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -9,15 +9,20 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Statie\FileSystem\GeneratedFilesDumper;
-use Symplify\Statie\GithubContributorsThanker\Api\GithubApi;
+use Symplify\Statie\JoindIn\Api\JoindInApi;
 use function Safe\sprintf;
 
-final class DumpContributorsCommand extends Command
+final class DumpJoindInCommand extends Command
 {
     /**
-     * @var GithubApi
+     * @var string
      */
-    private $githubApi;
+    private $joinedInName;
+
+    /**
+     * @var JoindInApi
+     */
+    private $joindInApi;
 
     /**
      * @var SymfonyStyle
@@ -30,12 +35,14 @@ final class DumpContributorsCommand extends Command
     private $generatedFilesDumper;
 
     public function __construct(
-        GithubApi $githubApi,
+        string $joindInUsername,
+        JoindInApi $joindInApi,
         SymfonyStyle $symfonyStyle,
         GeneratedFilesDumper $generatedFilesDumper
     ) {
         parent::__construct();
-        $this->githubApi = $githubApi;
+        $this->joinedInName = $joindInUsername;
+        $this->joindInApi = $joindInApi;
         $this->symfonyStyle = $symfonyStyle;
         $this->generatedFilesDumper = $generatedFilesDumper;
     }
@@ -43,21 +50,22 @@ final class DumpContributorsCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Dump contributors.yaml file with your Github repository contributors');
+        $this->setDescription('Dump joind_in_talks.yaml file with your JoindIn talks');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $contributors = $this->githubApi->getContributors();
-        if (count($contributors) === 0) {
-            $this->symfonyStyle->note('Found 0 contributions - stick with the current dump');
+        $talks = $this->joindInApi->getTalks($this->joinedInName);
+
+        if (count($talks) === 0) {
+            $this->symfonyStyle->note(sprintf('Found 0 talks for "%s" username', $this->joinedInName));
 
             return ShellCode::SUCCESS;
         }
 
-        $this->generatedFilesDumper->dump('contributors', $contributors);
+        $this->generatedFilesDumper->dump('joind_in_talks', $talks);
 
-        $this->symfonyStyle->success(sprintf('Dump %d contributors', count($contributors)));
+        $this->symfonyStyle->success(sprintf('Dump %d talks', count($talks)));
 
         return ShellCode::SUCCESS;
     }

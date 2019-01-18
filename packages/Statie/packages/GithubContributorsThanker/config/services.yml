@@ -16,5 +16,4 @@ services:
         resource: '../src'
         exclude: '../src/{Exception}'
 
-    GuzzleHttp\Client: ~
     Symfony\Component\Filesystem\Filesystem: ~

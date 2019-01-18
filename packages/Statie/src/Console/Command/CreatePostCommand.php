@@ -60,7 +60,7 @@ final class CreatePostCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Generate a new post.');
+        $this->setDescription('Create a new post with id, date and title');
         $this->addArgument('title', InputArgument::REQUIRED, 'Title of new post');
     }
 

@@ -2,10 +2,7 @@
 
 namespace Symplify\Statie\GithubContributorsThanker\Api;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Psr7\Request;
-use Symplify\Statie\GithubContributorsThanker\Guzzle\ResponseFormatter;
+use Symplify\PackageBuilder\Http\BetterGuzzleClient;
 use function Safe\rsort;
 use function Safe\sprintf;
 
@@ -34,26 +31,19 @@ final class GithubApi
     private $options = [];
 
     /**
-     * @var Client
+     * @var BetterGuzzleClient
      */
-    private $client;
-
-    /**
-     * @var ResponseFormatter
-     */
-    private $responseFormatter;
+    private $betterGuzzleClient;
 
     public function __construct(
-        Client $client,
-        ResponseFormatter $responseFormatter,
+        BetterGuzzleClient $betterGuzzleClient,
         string $thankerRepositoryName,
         string $thankerAuthorName,
         ?string $githubToken
     ) {
-        $this->client = $client;
-        $this->responseFormatter = $responseFormatter;
         $this->thankerRepositoryName = $thankerRepositoryName;
         $this->thankerAuthorName = $thankerAuthorName;
+        $this->betterGuzzleClient = $betterGuzzleClient;
 
         if ($githubToken) {
             $this->options['headers']['Authorization'] = 'token ' . $githubToken;
@@ -66,7 +56,7 @@ final class GithubApi
     public function getContributors(): array
     {
         $url = sprintf(self::API_CONTRIBUTORS, $this->thankerRepositoryName);
-        $json = $this->callRequestToJson($url);
+        $json = $this->betterGuzzleClient->requestToJson($url);
 
         // reverse to max → min
         rsort($json);
@@ -87,20 +77,5 @@ final class GithubApi
         }
 
         return $contributors;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function callRequestToJson(string $url): array
-    {
-        $request = new Request('GET', $url);
-        $response = $this->client->send($request, $this->options);
-
-        if ($response->getStatusCode() >= 300) {
-            throw BadResponseException::create($request, $response);
-        }
-
-        return $this->responseFormatter->formatResponseToJson($response, $url);
     }
 }

@@ -47,7 +47,7 @@ final class GenerateCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Generate a site from source.');
+        $this->setDescription('Generate a site from source');
 
         $this->addArgument(self::OPTION_SOURCE, InputArgument::REQUIRED, 'Directory to load page FROM.');
         $this->addOption(
