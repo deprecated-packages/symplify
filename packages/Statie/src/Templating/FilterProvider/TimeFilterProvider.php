@@ -26,7 +26,23 @@ final class TimeFilterProvider implements FilterProviderInterface
 
                 return (int) $dateInterval->days;
             },
+
+            'time_to_seconds' => function (string $time): int {
+                return $this->convertTimeToSeconds($time);
+            },
+            // for BC
+            'timeToSeconds' => function (string $time): int {
+                return $this->convertTimeToSeconds($time);
+            },
         ];
+    }
+
+    private function convertTimeToSeconds(string $time): int
+    {
+        sscanf($time, '%d:%d:%d', $hours, $minutes, $seconds);
+        $seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
+
+        return (int) $seconds;
     }
 
     /**
