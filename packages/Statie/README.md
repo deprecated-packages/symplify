@@ -136,6 +136,40 @@ parameters:
 
 Now people can share specific headlines in your posts.
 
+## Useful Twig and Latte Filters
+
+All from [Latte basic set](https://latte.nette.org/en/filters) and more:
+
+**Twig**
+
+```twig
+{% set users = sort_by_field(users, 'name') %}
+{% set users = sort_by_field(users, 'name', 'desc') %}
+
+<!-- picks all posts defined in "related_items: [1]" in post -->
+{% set relatedPosts = related_items(post)}  
+            
+{{ content|reading_time }} mins
+{{ post.getRawContent|reading_time }} mins
+
+{{ perexDeprecated|markdown }}
+```
+
+**Latte**
+
+```html
+{var $users = ($users|sort_by_field:'name')}
+{var $users = ($users|sort_by_field:'name', 'desc')}
+
+<!-- picks all posts defined in "related_items: [1]" in post -->
+{var $relatedPosts = (post|related_items)} 
+           
+{$content|reading_time} mins
+{$post->getRawContent()|reading_time} mins
+
+{$perexDeprecated|markdown}
+```
+
 ## Documentation
 
 Thanks to [@crazko](https://github.com/crazko) you can enjoy neat documentation and see projects that use Statie at [statie.org](https://www.statie.org).

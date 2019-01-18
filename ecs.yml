@@ -126,3 +126,4 @@ parameters:
         Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
             # useful comments
             - 'packages/LatteToTwigConverter/src/CaseConverter/*CaseConverter.php'
+            - 'packages/Statie/*/*FilterProvider.php'
