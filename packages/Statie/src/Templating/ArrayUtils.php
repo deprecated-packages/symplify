@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Templating;
 
 use Symplify\Statie\Exception\Templating\InvalidSortByCriteriaException;
+use function Safe\ksort;
 use function Safe\usort;
 
 final class ArrayUtils

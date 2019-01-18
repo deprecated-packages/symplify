@@ -37,19 +37,19 @@ final class TimeFilterProvider implements FilterProviderInterface
         ];
     }
 
-    private function convertTimeToSeconds(string $time): int
-    {
-        sscanf($time, '%d:%d:%d', $hours, $minutes, $seconds);
-        $seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
-
-        return (int) $seconds;
-    }
-
     /**
      * @param mixed $dateTime
      */
     private function normalizeDateTime($dateTime): DateTimeInterface
     {
         return DateTime::from($dateTime);
+    }
+
+    private function convertTimeToSeconds(string $time): int
+    {
+        sscanf($time, '%d:%d:%d', $hours, $minutes, $seconds);
+        $seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
+
+        return (int) $seconds;
     }
 }
