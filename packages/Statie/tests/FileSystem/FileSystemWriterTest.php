@@ -4,7 +4,7 @@ namespace Symplify\Statie\Tests\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -33,8 +33,8 @@ final class FileSystemWriterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        /** @var StatieConfiguration $configuration */
+        $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory($this->sourceDirectory);
         $configuration->setOutputDirectory($this->outputDirectory);
 

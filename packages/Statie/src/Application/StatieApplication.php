@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Application;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Event\BeforeRenderEvent;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;
@@ -14,9 +14,9 @@ use Symplify\Statie\Templating\LayoutsAndSnippetsLoader;
 final class StatieApplication
 {
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
     /**
      * @var FileSystemWriter
@@ -49,7 +49,7 @@ final class StatieApplication
     private $layoutsAndSnippetsLoader;
 
     public function __construct(
-        Configuration $configuration,
+        StatieConfiguration $statieConfiguration,
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
         Generator $generator,
@@ -57,7 +57,7 @@ final class StatieApplication
         EventDispatcherInterface $eventDispatcher,
         LayoutsAndSnippetsLoader $layoutsAndSnippetsLoader
     ) {
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
         $this->generator = $generator;
@@ -68,9 +68,9 @@ final class StatieApplication
 
     public function run(string $source, string $destination, bool $dryRun = false): void
     {
-        $this->configuration->setSourceDirectory($source);
-        $this->configuration->setOutputDirectory($destination);
-        $this->configuration->setDryRun($dryRun);
+        $this->statieConfiguration->setSourceDirectory($source);
+        $this->statieConfiguration->setOutputDirectory($destination);
+        $this->statieConfiguration->setDryRun($dryRun);
 
         // load layouts and snippets
         $this->layoutsAndSnippetsLoader->loadFromSource($source);
@@ -79,7 +79,7 @@ final class StatieApplication
         $generatorFilesByType = $this->generator->run();
 
         // process rest of files (config call is due to absolute path)
-        $fileInfos = $this->fileFinder->findRestOfRenderableFiles($this->configuration->getSourceDirectory());
+        $fileInfos = $this->fileFinder->findRestOfRenderableFiles($this->statieConfiguration->getSourceDirectory());
         $files = $this->renderableFilesProcessor->processFileInfos($fileInfos);
 
         $this->eventDispatcher->dispatch(

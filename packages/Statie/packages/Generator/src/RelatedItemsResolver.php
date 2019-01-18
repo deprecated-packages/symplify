@@ -2,25 +2,27 @@
 
 namespace Symplify\Statie\Generator;
 
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 
 final class RelatedItemsResolver
 {
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
     /**
      * @var GeneratorConfiguration
      */
     private $generatorConfiguration;
 
-    public function __construct(Configuration $configuration, GeneratorConfiguration $generatorConfiguration)
-    {
-        $this->configuration = $configuration;
+    public function __construct(
+        StatieConfiguration $statieConfiguration,
+        GeneratorConfiguration $generatorConfiguration
+    ) {
+        $this->statieConfiguration = $statieConfiguration;
         $this->generatorConfiguration = $generatorConfiguration;
     }
 
@@ -53,7 +55,7 @@ final class RelatedItemsResolver
                 continue;
             }
 
-            return $this->configuration->getOption($generatorElement->getVariableGlobal());
+            return $this->statieConfiguration->getOption($generatorElement->getVariableGlobal());
         }
 
         return [];

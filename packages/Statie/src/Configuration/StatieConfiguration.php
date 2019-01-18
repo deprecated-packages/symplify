@@ -9,7 +9,7 @@ use function Safe\getcwd;
 use function Safe\realpath;
 use function Safe\sprintf;
 
-final class Configuration
+final class StatieConfiguration
 {
     /**
      * @var string
@@ -17,9 +17,9 @@ final class Configuration
     private const OPTION_GITHUB_REPOSITORY_SOURCE_DIRECTORY = 'github_repository_source_directory';
 
     /**
-     * @var array
+     * @var string
      */
-    private $options = [];
+    private $outputDirectory;
 
     /**
      * @var string
@@ -27,14 +27,14 @@ final class Configuration
     private $sourceDirectory;
 
     /**
-     * @var string
-     */
-    private $outputDirectory;
-
-    /**
      * @var bool
      */
     private $isDryRun = false;
+
+    /**
+     * @var mixed[]
+     */
+    private $options = [];
 
     /**
      * @var FileSystemGuard

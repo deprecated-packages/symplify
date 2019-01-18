@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Renderable;
 
 use Nette\Utils\Strings;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -12,18 +12,18 @@ use Symplify\Statie\Utils\PathNormalizer;
 final class RouteFileDecorator implements FileDecoratorInterface
 {
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
     /**
      * @var PathNormalizer
      */
     private $pathNormalizer;
 
-    public function __construct(Configuration $configuration, PathNormalizer $pathNormalizer)
+    public function __construct(StatieConfiguration $statieConfiguration, PathNormalizer $pathNormalizer)
     {
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
         $this->pathNormalizer = $pathNormalizer;
     }
 
@@ -128,13 +128,13 @@ final class RouteFileDecorator implements FileDecoratorInterface
     {
         return Strings::contains(
             $file->getFilePath(),
-            $this->configuration->getSourceDirectory() . DIRECTORY_SEPARATOR . 'index'
+            $this->statieConfiguration->getSourceDirectory() . DIRECTORY_SEPARATOR . 'index'
         );
     }
 
     private function getRelativeDirectory(AbstractFile $file): string
     {
-        $sourceParts = explode(DIRECTORY_SEPARATOR, $this->configuration->getSourceDirectory());
+        $sourceParts = explode(DIRECTORY_SEPARATOR, $this->statieConfiguration->getSourceDirectory());
         $sourceDirectory = array_pop($sourceParts);
 
         $relativeParts = explode($sourceDirectory, $file->getRelativeDirectory());

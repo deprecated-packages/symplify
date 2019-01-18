@@ -4,19 +4,19 @@ namespace Symplify\Statie\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class FileSystemWriter
 {
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
-    public function __construct(Configuration $configuration)
+    public function __construct(StatieConfiguration $statieConfiguration)
     {
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
     }
 
     /**
@@ -25,8 +25,10 @@ final class FileSystemWriter
     public function copyStaticFiles(array $files): void
     {
         foreach ($files as $file) {
-            $relativePathToSource = $file->getRelativeFilePathFromDirectory($this->configuration->getSourceDirectory());
-            $absoluteDestination = $this->configuration->getOutputDirectory() . DIRECTORY_SEPARATOR . $relativePathToSource;
+            $relativePathToSource = $file->getRelativeFilePathFromDirectory(
+                $this->statieConfiguration->getSourceDirectory()
+            );
+            $absoluteDestination = $this->statieConfiguration->getOutputDirectory() . DIRECTORY_SEPARATOR . $relativePathToSource;
 
             FileSystem::copy($file->getRelativeFilePath(), $absoluteDestination, true);
         }
@@ -38,7 +40,7 @@ final class FileSystemWriter
     public function copyRenderableFiles(array $files): void
     {
         foreach ($files as $file) {
-            $absoluteDestination = $this->configuration->getOutputDirectory()
+            $absoluteDestination = $this->statieConfiguration->getOutputDirectory()
                 . DIRECTORY_SEPARATOR
                 . $file->getOutputPath();
 

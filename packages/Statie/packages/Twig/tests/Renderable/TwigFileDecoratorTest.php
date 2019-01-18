@@ -4,7 +4,7 @@ namespace Symplify\Statie\Twig\Tests\Renderable;
 
 use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -29,8 +29,8 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->twigFileDecorator = $this->container->get(TwigFileDecorator::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
 
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        /** @var StatieConfiguration $configuration */
+        $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/TwigFileDecoratorSource');
 
         /** @var ArrayLoader $arrayLoader */

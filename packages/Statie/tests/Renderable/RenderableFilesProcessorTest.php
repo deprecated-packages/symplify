@@ -4,7 +4,7 @@ namespace Symplify\Statie\Tests\Renderable;
 
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
@@ -38,8 +38,8 @@ final class RenderableFilesProcessorTest extends TestCase
         $this->renderableFilesProcessor = $container->get(RenderableFilesProcessor::class);
         $this->fileFinder = $container->get(FileFinder::class);
 
-        /** @var Configuration $configuration */
-        $configuration = $container->get(Configuration::class);
+        /** @var StatieConfiguration $configuration */
+        $configuration = $container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory($this->sourceDirectory);
         $configuration->setOutputDirectory($this->outputDirectory);
     }

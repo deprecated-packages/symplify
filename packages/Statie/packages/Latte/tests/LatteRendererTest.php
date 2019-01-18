@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Latte\Tests;
 
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Latte\LatteRenderer;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -25,8 +25,8 @@ final class LatteRendererTest extends AbstractContainerAwareTestCase
         $this->latteRenderer = $this->container->get(LatteRenderer::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
 
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        /** @var StatieConfiguration $configuration */
+        $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/LatteRendererSource');
     }
 

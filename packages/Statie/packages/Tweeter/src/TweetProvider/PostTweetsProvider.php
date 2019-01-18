@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Tweeter\TweetProvider;
 
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Templating\LayoutsAndSnippetsLoader;
@@ -23,9 +23,9 @@ final class PostTweetsProvider
     private $tweetGuard;
 
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
     /**
      * @var Generator
@@ -39,14 +39,14 @@ final class PostTweetsProvider
 
     public function __construct(
         string $siteUrl,
-        Configuration $configuration,
+        StatieConfiguration $statieConfiguration,
         TweetGuard $tweetGuard,
         Generator $generator,
         LayoutsAndSnippetsLoader $layoutsAndSnippetsLoader
     ) {
         $this->siteUrl = $siteUrl;
         $this->tweetGuard = $tweetGuard;
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
         $this->generator = $generator;
         $this->layoutsAndSnippetsLoader = $layoutsAndSnippetsLoader;
     }
@@ -56,7 +56,7 @@ final class PostTweetsProvider
      */
     public function provide(): array
     {
-        $this->layoutsAndSnippetsLoader->loadFromSource($this->configuration->getSourceDirectory());
+        $this->layoutsAndSnippetsLoader->loadFromSource($this->statieConfiguration->getSourceDirectory());
 
         $postTweets = [];
         foreach ($this->getPosts() as $post) {
@@ -82,11 +82,11 @@ final class PostTweetsProvider
      */
     private function getPosts(): array
     {
-        if ($this->configuration->getOption('posts') === null) {
+        if ($this->statieConfiguration->getOption('posts') === null) {
             $this->generator->run();
         }
 
-        return $this->configuration->getOption('posts') ?? [];
+        return $this->statieConfiguration->getOption('posts') ?? [];
     }
 
     private function appendAbsoluteUrlToTweet(PostFile $postFile, string $rawTweetText): string
@@ -105,7 +105,7 @@ final class PostTweetsProvider
             return null;
         }
 
-        $localFilePath = $this->configuration->getSourceDirectory() . $postConfiguration[Keys::TWEET_IMAGE];
+        $localFilePath = $this->statieConfiguration->getSourceDirectory() . $postConfiguration[Keys::TWEET_IMAGE];
 
         $this->tweetGuard->ensureTweetImageExists($postFile, $localFilePath);
 

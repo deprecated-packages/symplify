@@ -11,7 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\GithubContributorsThanker\Api\GithubApi;
 use function Safe\sprintf;
 
@@ -33,21 +33,21 @@ final class DumpContributorsCommand extends Command
     private $symfonyStyle;
 
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
     public function __construct(
         GithubApi $githubApi,
         Filesystem $filesystem,
         SymfonyStyle $symfonyStyle,
-        Configuration $configuration
+        StatieConfiguration $statieConfiguration
     ) {
         parent::__construct();
         $this->githubApi = $githubApi;
         $this->filesystem = $filesystem;
         $this->symfonyStyle = $symfonyStyle;
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
     }
 
     protected function configure(): void
@@ -69,7 +69,7 @@ final class DumpContributorsCommand extends Command
             (new DateTime())->format('Y-m-d H:i:s')
         );
 
-        $dumpFilePath = $this->configuration->getSourceDirectory() . '/_data/contributors.yml';
+        $dumpFilePath = $this->statieConfiguration->getSourceDirectory() . '/_data/contributors.yml';
 
         if (count($contributors) === 0) {
             $this->symfonyStyle->note('Found 0 contributions - stick with the current dump');

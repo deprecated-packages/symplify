@@ -2,22 +2,22 @@
 
 namespace Symplify\Statie\Templating;
 
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 abstract class AbstractTemplatingFileDecorator
 {
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    protected $configuration;
+    protected $statieConfiguration;
 
     /**
      * @required
      */
-    public function addConfiguration(Configuration $configuration): void
+    public function addConfiguration(StatieConfiguration $statieConfiguration): void
     {
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
     }
 
     /**
@@ -26,7 +26,7 @@ abstract class AbstractTemplatingFileDecorator
     protected function createParameters(AbstractFile $file, string $fileKey): array
     {
         $parameters = $file->getConfiguration();
-        $parameters += $this->configuration->getOptions();
+        $parameters += $this->statieConfiguration->getOptions();
         $parameters[$fileKey] = $file;
         $parameters['layout'] = $file->getLayout();
 

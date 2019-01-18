@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Generator\Tests;
 
 use Nette\Utils\FileSystem;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
@@ -17,9 +17,9 @@ abstract class AbstractGeneratorTest extends AbstractConfigAwareContainerTestCas
     protected $outputDirectory = __DIR__ . '/GeneratorSource/output';
 
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    protected $configuration;
+    protected $statieConfiguration;
 
     /**
      * @var Generator
@@ -52,9 +52,9 @@ abstract class AbstractGeneratorTest extends AbstractConfigAwareContainerTestCas
 
     private function prepareConfiguration(): void
     {
-        $this->configuration = $this->container->get(Configuration::class);
-        $this->configuration->setSourceDirectory($this->sourceDirectory);
-        $this->configuration->setOutputDirectory($this->outputDirectory);
+        $this->statieConfiguration = $this->container->get(StatieConfiguration::class);
+        $this->statieConfiguration->setSourceDirectory($this->sourceDirectory);
+        $this->statieConfiguration->setOutputDirectory($this->outputDirectory);
     }
 
     /**
