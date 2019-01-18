@@ -5,7 +5,7 @@ namespace Symplify\Statie\FileSystem;
 use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
-use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Contract\File\RenderableFileInterface;
 
 final class FileSystemWriter
 {
@@ -35,9 +35,9 @@ final class FileSystemWriter
     }
 
     /**
-     * @param AbstractFile[] $files
+     * @param RenderableFileInterface[] $files
      */
-    public function copyRenderableFiles(array $files): void
+    public function renderFiles(array $files): void
     {
         foreach ($files as $file) {
             $absoluteDestination = $this->statieConfiguration->getOutputDirectory()

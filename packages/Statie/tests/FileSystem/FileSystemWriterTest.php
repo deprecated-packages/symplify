@@ -62,7 +62,7 @@ final class FileSystemWriterTest extends AbstractContainerAwareTestCase
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
         $file->setOutputPath('contact.html');
 
-        $this->fileSystemWriter->copyRenderableFiles([$file]);
+        $this->fileSystemWriter->renderFiles([$file]);
 
         $this->assertFileEquals(
             $this->sourceDirectory . '/contact.latte',

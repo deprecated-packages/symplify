@@ -21,7 +21,7 @@ final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
     public function testRelatedItems(): void
     {
         $this->generator->run();
-        $posts = $this->configuration->getOption('posts');
+        $posts = $this->statieConfiguration->getOption('posts');
         $postWithRelatedItems = $posts[1];
 
         $relatedItems = $this->relatedItemsResolver->resolveForFile($postWithRelatedItems);

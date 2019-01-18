@@ -136,6 +136,16 @@ parameters:
 
 Now people can share specific headlines in your posts.
 
+### How to Redirect old page?
+
+```yaml
+# statie.yml
+parameters:
+    redirects:
+        old_page: 'new_page'
+        old_local_page: 'https://external-link.com'
+```
+
 ## Useful Twig and Latte Filters
 
 All from [Latte basic set](https://latte.nette.org/en/filters) and more:
