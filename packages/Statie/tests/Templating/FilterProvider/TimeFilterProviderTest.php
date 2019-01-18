@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Latte\Tests\Filter;
+namespace Symplify\Statie\Tests\Templating\FilterProvider;
 
-use Symplify\Statie\Latte\Filter\TimeFilterProvider;
+use Symplify\Statie\Templating\FilterProvider\TimeFilterProvider;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
 final class TimeFilterProviderTest extends AbstractContainerAwareTestCase
