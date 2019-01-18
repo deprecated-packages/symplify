@@ -4,7 +4,7 @@ namespace Symplify\Statie\Generator\Renderable\File;
 
 use Nette\Utils\Strings;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Utils\PathAnalyzer;
 
 final class GeneratorFileFactory
@@ -26,18 +26,18 @@ final class GeneratorFileFactory
     private $generatorFileGuard;
 
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
     public function __construct(
         PathAnalyzer $pathAnalyzer,
         GeneratorFileGuard $generatorFileGuard,
-        Configuration $configuration
+        StatieConfiguration $statieConfiguration
     ) {
         $this->pathAnalyzer = $pathAnalyzer;
         $this->generatorFileGuard = $generatorFileGuard;
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
     }
 
     /**
@@ -67,7 +67,7 @@ final class GeneratorFileFactory
         return new $className(
             $id,
             $smartFileInfo,
-            $smartFileInfo->getRelativeFilePathFromDirectory($this->configuration->getSourceDirectory()),
+            $smartFileInfo->getRelativeFilePathFromDirectory($this->statieConfiguration->getSourceDirectory()),
             $smartFileInfo->getPathname(),
             $this->pathAnalyzer->detectFilenameWithoutDate($smartFileInfo),
             $this->pathAnalyzer->detectDate($smartFileInfo)

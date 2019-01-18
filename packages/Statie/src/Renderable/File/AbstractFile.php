@@ -5,8 +5,9 @@ namespace Symplify\Statie\Renderable\File;
 use DateTimeInterface;
 use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\Statie\Contract\File\RenderableFileInterface;
 
-abstract class AbstractFile
+abstract class AbstractFile implements RenderableFileInterface
 {
     /**
      * @var mixed[]

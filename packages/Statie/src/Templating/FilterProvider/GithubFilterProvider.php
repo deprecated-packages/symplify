@@ -2,20 +2,20 @@
 
 namespace Symplify\Statie\Templating\FilterProvider;
 
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class GithubFilterProvider implements FilterProviderInterface
 {
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
-    public function __construct(Configuration $configuration)
+    public function __construct(StatieConfiguration $statieConfiguration)
     {
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
     }
 
     /**
@@ -27,7 +27,7 @@ final class GithubFilterProvider implements FilterProviderInterface
             // in Latte: <a href="{$post|githubEditPostUrl}">Typo? Fix me please</a>
             // in Twig: <a href="{{ post|githubEditPostUrl }}">Typo? Fix me please</a>
             'githubEditPostUrl' => function (AbstractFile $file): string {
-                $editPrefix = $this->renameTreeToEdit($this->configuration->getGithubRepositorySourceDirectory());
+                $editPrefix = $this->renameTreeToEdit($this->statieConfiguration->getGithubRepositorySourceDirectory());
                 return $editPrefix . '/' . $file->getRelativeSource();
             },
         ];

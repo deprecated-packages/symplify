@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Tweeter\Tests\TweetProvider;
 
 use Nette\Utils\FileSystem;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Tweeter\Tweet\Tweet;
 use Symplify\Statie\Tweeter\TweetProvider\PostTweetsProvider;
@@ -32,8 +32,8 @@ final class UnpublishedTweetsResolverTest extends AbstractContainerAwareTestCase
     {
         parent::setUp();
 
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        /** @var StatieConfiguration $configuration */
+        $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/Source');
 
         $this->postTweetsProvider = $this->container->get(PostTweetsProvider::class);

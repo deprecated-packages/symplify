@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Twig\Tests;
 
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Twig\TwigRenderer;
@@ -25,8 +25,8 @@ final class TwigRendererTest extends AbstractContainerAwareTestCase
         $this->twigRenderer = $this->container->get(TwigRenderer::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
 
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        /** @var StatieConfiguration $configuration */
+        $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/TwigRendererSource');
     }
 

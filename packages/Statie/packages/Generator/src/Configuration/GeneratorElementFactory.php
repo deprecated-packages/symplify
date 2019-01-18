@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Generator\Configuration;
 
 use Nette\Utils\FileSystem;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Generator\FileNameObjectSorter;
 use Symplify\Statie\Generator\Renderable\File\GeneratorFile;
 use function Safe\realpath;
@@ -16,14 +16,14 @@ final class GeneratorElementFactory
     private $generatorElementGuard;
 
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
-    public function __construct(GeneratorElementGuard $generatorElementGuard, Configuration $configuration)
+    public function __construct(GeneratorElementGuard $generatorElementGuard, StatieConfiguration $statieConfiguration)
     {
         $this->generatorElementGuard = $generatorElementGuard;
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
     }
 
     /**
@@ -54,7 +54,7 @@ final class GeneratorElementFactory
     {
         $this->ensureSourceDirectoryExists();
 
-        $configuration['path'] = realpath($this->configuration->getSourceDirectory()) .
+        $configuration['path'] = realpath($this->statieConfiguration->getSourceDirectory()) .
             DIRECTORY_SEPARATOR .
             $configuration['path'];
 
@@ -63,10 +63,10 @@ final class GeneratorElementFactory
 
     private function ensureSourceDirectoryExists(): void
     {
-        if (file_exists($this->configuration->getSourceDirectory())) {
+        if (file_exists($this->statieConfiguration->getSourceDirectory())) {
             return;
         }
 
-        FileSystem::createDir($this->configuration->getSourceDirectory());
+        FileSystem::createDir($this->statieConfiguration->getSourceDirectory());
     }
 }

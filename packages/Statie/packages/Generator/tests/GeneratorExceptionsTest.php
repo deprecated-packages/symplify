@@ -59,7 +59,7 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
     {
         $this->generator->run();
 
-        $posts = $this->configuration->getOption('posts');
+        $posts = $this->statieConfiguration->getOption('posts');
 
         return $posts[4];
     }

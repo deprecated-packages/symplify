@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Renderable\File;
 
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Utils\PathAnalyzer;
 
 final class FileFactory
@@ -14,14 +14,14 @@ final class FileFactory
     private $pathAnalyzer;
 
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
-    public function __construct(PathAnalyzer $pathAnalyzer, Configuration $configuration)
+    public function __construct(PathAnalyzer $pathAnalyzer, StatieConfiguration $statieConfiguration)
     {
         $this->pathAnalyzer = $pathAnalyzer;
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
     }
 
     /**
@@ -42,7 +42,7 @@ final class FileFactory
     {
         return new File(
             $smartFileInfo,
-            $smartFileInfo->getRelativeFilePathFromDirectory($this->configuration->getSourceDirectory()),
+            $smartFileInfo->getRelativeFilePathFromDirectory($this->statieConfiguration->getSourceDirectory()),
             $smartFileInfo->getRealPath(),
             $this->pathAnalyzer->detectFilenameWithoutDate($smartFileInfo),
             $this->pathAnalyzer->detectDate($smartFileInfo)

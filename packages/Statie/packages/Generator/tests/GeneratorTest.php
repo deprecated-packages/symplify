@@ -29,7 +29,7 @@ final class GeneratorTest extends AbstractGeneratorTest
 
         $this->assertCount(6, $postFiles);
 
-        $this->fileSystemWriter->copyRenderableFiles($postFiles);
+        $this->fileSystemWriter->renderFiles($postFiles);
 
         // posts
         $this->assertFileExists($this->outputDirectory . '/blog/2016/10/10/title/index.html');
@@ -47,7 +47,7 @@ final class GeneratorTest extends AbstractGeneratorTest
         $generatorFilesByType = $this->generator->run();
         $postFiles = $generatorFilesByType['posts'];
 
-        $this->fileSystemWriter->copyRenderableFiles($postFiles);
+        $this->fileSystemWriter->renderFiles($postFiles);
 
         $this->assertFileEquals(
             __DIR__ . '/GeneratorSource/expected/post-with-latte-blocks-expected.html',
@@ -62,7 +62,7 @@ final class GeneratorTest extends AbstractGeneratorTest
 
         $this->assertCount(1, $lectureFiles);
 
-        $this->fileSystemWriter->copyRenderableFiles($lectureFiles);
+        $this->fileSystemWriter->renderFiles($lectureFiles);
 
         // lectures
         $this->assertFileExists($this->outputDirectory . '/lecture/open-source-lecture/index.html');
@@ -70,18 +70,18 @@ final class GeneratorTest extends AbstractGeneratorTest
 
     public function testConfiguration(): void
     {
-        $this->assertArrayNotHasKey('posts', $this->configuration->getOptions());
-        $this->assertArrayNotHasKey('lectures', $this->configuration->getOptions());
+        $this->assertArrayNotHasKey('posts', $this->statieConfiguration->getOptions());
+        $this->assertArrayNotHasKey('lectures', $this->statieConfiguration->getOptions());
 
         $this->generator->run();
 
-        $this->assertArrayHasKey('posts', $this->configuration->getOptions());
-        $this->assertArrayHasKey('lectures', $this->configuration->getOptions());
+        $this->assertArrayHasKey('posts', $this->statieConfiguration->getOptions());
+        $this->assertArrayHasKey('lectures', $this->statieConfiguration->getOptions());
 
-        $posts = $this->configuration->getOption('posts');
+        $posts = $this->statieConfiguration->getOption('posts');
         $this->assertCount(6, $posts);
 
-        $lectures = $this->configuration->getOption('lectures');
+        $lectures = $this->statieConfiguration->getOption('lectures');
         $this->assertCount(1, $lectures);
 
         // detect date correctly from name

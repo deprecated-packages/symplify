@@ -33,7 +33,7 @@ final class DumpFileDecoratorsCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Dump loaded file decorators with their priority.');
+        $this->setDescription('Dump loaded file decorators with their priority');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

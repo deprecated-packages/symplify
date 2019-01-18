@@ -1,0 +1,3 @@
+parameters:
+    redirects:
+        old_page: new_page

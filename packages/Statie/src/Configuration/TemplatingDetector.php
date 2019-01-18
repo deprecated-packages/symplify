@@ -12,13 +12,13 @@ final class TemplatingDetector
     private $detectedTemplating;
 
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
-    public function __construct(Configuration $configuration)
+    public function __construct(StatieConfiguration $statieConfiguration)
     {
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
     }
 
     public function detect(): string
@@ -39,7 +39,7 @@ final class TemplatingDetector
     {
         $finder = Finder::create()
             ->files()
-            ->in($this->configuration->getSourceDirectory())
+            ->in($this->statieConfiguration->getSourceDirectory())
             ->name('*.' . $suffix);
 
         return count(iterator_to_array($finder->getIterator()));
