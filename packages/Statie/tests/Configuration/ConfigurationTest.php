@@ -13,7 +13,6 @@ final class ConfigurationTest extends TestCase
     {
         $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/ConfigurationSource/statie-settings.yml');
 
-        /** @var StatieConfiguration $configuration */
         $configuration = $container->get(StatieConfiguration::class);
 
         $this->assertSame(

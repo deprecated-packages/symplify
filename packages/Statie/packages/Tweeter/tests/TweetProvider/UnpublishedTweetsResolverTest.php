@@ -32,7 +32,6 @@ final class UnpublishedTweetsResolverTest extends AbstractContainerAwareTestCase
     {
         parent::setUp();
 
-        /** @var StatieConfiguration $configuration */
         $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/Source');
 
@@ -41,7 +40,6 @@ final class UnpublishedTweetsResolverTest extends AbstractContainerAwareTestCase
         $this->unpublishedTweetsResolver = $this->container->get(UnpublishedTweetsResolver::class);
 
         // set twig templates
-        /** @var ArrayLoader $arrayLoader */
         $arrayLoader = $this->container->get(ArrayLoader::class);
         $arrayLoader->setTemplate('_layouts/post.twig', FileSystem::read(__DIR__ . '/Source/_layouts/post.twig'));
     }

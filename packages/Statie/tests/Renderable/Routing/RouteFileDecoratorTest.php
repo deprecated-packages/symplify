@@ -23,14 +23,12 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        /** @var StatieConfiguration $configuration */
         $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/RouteFileDecoratorSource');
 
         $this->fileFactory = $this->container->get(FileFactory::class);
         $this->routeFileDecorator = $this->container->get(RouteFileDecorator::class);
 
-        /** @var StatieConfiguration $configuration */
         $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/RouteFileDecoratorSource');
     }

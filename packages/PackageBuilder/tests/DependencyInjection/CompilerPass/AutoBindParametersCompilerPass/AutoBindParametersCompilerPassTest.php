@@ -15,7 +15,6 @@ final class AutoBindParametersCompilerPassTest extends TestCase
         $autoBindParametersKernel = new AutoBindParametersKernel();
         $autoBindParametersKernel->boot();
 
-        /** @var ContainerInterface $container */
         $container = $autoBindParametersKernel->getContainer();
         $serviceWithAutowiredParameter = $container->get(ServiceWithAutowiredParameter::class);
 

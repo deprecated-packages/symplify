@@ -28,7 +28,6 @@ final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCas
         $this->configurationFileDecorator = $this->container->get(ConfigurationFileDecorator::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
 
-        /** @var StatieConfiguration $configuration */
         $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/ConfigurationFileDecoratorSource');
     }

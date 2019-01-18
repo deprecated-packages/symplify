@@ -26,7 +26,6 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->markdownFileDecorator = $this->container->get(MarkdownFileDecorator::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
 
-        /** @var StatieConfiguration $configuration */
         $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/MarkdownFileDecoratorSource');
     }

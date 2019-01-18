@@ -38,7 +38,6 @@ final class RenderableFilesProcessorTest extends TestCase
         $this->renderableFilesProcessor = $container->get(RenderableFilesProcessor::class);
         $this->fileFinder = $container->get(FileFinder::class);
 
-        /** @var StatieConfiguration $configuration */
         $configuration = $container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory($this->sourceDirectory);
         $configuration->setOutputDirectory($this->outputDirectory);
