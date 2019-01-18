@@ -27,7 +27,7 @@ final class BetterGuzzleClient
     {
         $request = new Request('GET', $url);
         $response = $this->client->send($request);
-        // unable to resolve country
+
         if ($response->getStatusCode() !== 200) {
             throw BadResponseException::create($request, $response);
         }

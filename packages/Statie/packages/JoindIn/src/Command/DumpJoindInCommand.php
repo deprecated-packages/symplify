@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\Statie\FileSystem\GeneratedFilesDumper;
 use Symplify\Statie\JoindIn\Api\JoindInApi;
 use function Safe\sprintf;
 
@@ -28,18 +29,28 @@ final class DumpJoindInCommand extends Command
      */
     private $symfonyStyle;
 
-    public function __construct(string $joindInUsername, JoindInApi $joindInApi, SymfonyStyle $symfonyStyle)
-    {
+    /**
+     * @var GeneratedFilesDumper
+     */
+    private $generatedFilesDumper;
+
+    public function __construct(
+        string $joindInUsername,
+        JoindInApi $joindInApi,
+        SymfonyStyle $symfonyStyle,
+        GeneratedFilesDumper $generatedFilesDumper
+    ) {
         parent::__construct();
         $this->joinedInName = $joindInUsername;
         $this->joindInApi = $joindInApi;
         $this->symfonyStyle = $symfonyStyle;
+        $this->generatedFilesDumper = $generatedFilesDumper;
     }
 
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Generate joindin talks and data by username');
+        $this->setDescription('Dump joind_in_talks.yaml file with your JoindIn talks');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -52,7 +63,10 @@ final class DumpJoindInCommand extends Command
             return ShellCode::SUCCESS;
         }
 
-        // dump to "$source_directory%/_data/generated/joindin.yaml"
-        die;
+        $this->generatedFilesDumper->dump('joind_in_talks', $talks);
+
+        $this->symfonyStyle->success(sprintf('Dump %d talks', count($talks)));
+
+        return ShellCode::SUCCESS;
     }
 }

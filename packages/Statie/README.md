@@ -146,6 +146,34 @@ parameters:
         old_local_page: 'https://external-link.com'
 ```
 
+### Are you Speaker? Use your JoindIn Talks
+
+```yaml
+# statie.yml
+parameters:
+    joind_in_username: 'tomasvotruba'
+```
+
+```bash
+vendor/bin/statie dump-joind-in
+```
+
+This will generated `source/_data/generated/joind_in_talks.yaml` file with your talks:
+
+```yaml
+parameters:
+    joind_in_talks:
+        # ...
+```
+
+Then you can use them like any other parameter in your Statie templates:
+
+```twig
+{% for joind_in_talk in joind_in_talks %}
+    ...
+{% endfor %}
+```
+
 ## Useful Twig and Latte Filters
 
 All from [Latte basic set](https://latte.nette.org/en/filters) and more:
