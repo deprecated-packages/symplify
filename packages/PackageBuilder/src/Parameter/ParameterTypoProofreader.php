@@ -39,9 +39,14 @@ final class ParameterTypoProofreader
         $parameterNames = array_keys($parameters);
         $parameterNames = $this->filterOutSystemParameterNames($parameterNames);
 
+        $correctNames = array_keys($this->correctToTypos);
         foreach ($parameterNames as $parameterName) {
             foreach ($this->correctToTypos as $correctParameterName => $missplacedNames) {
                 if ($parameterName === $correctParameterName) {
+                    continue;
+                }
+
+                if (in_array($parameterName, $correctNames, true)) {
                     continue;
                 }
 
