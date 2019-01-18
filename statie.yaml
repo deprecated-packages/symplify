@@ -1,5 +1,0 @@
-parameters:
-    joind_in_username: 'tomasvotruba'
-
-    redirects:
-        old_page: new_page
