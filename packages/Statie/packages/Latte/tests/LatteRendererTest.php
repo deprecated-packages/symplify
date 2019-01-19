@@ -25,7 +25,6 @@ final class LatteRendererTest extends AbstractContainerAwareTestCase
         $this->latteRenderer = $this->container->get(LatteRenderer::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
 
-        /** @var StatieConfiguration $configuration */
         $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/LatteRendererSource');
     }

@@ -33,7 +33,6 @@ final class FileSystemWriterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        /** @var StatieConfiguration $configuration */
         $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory($this->sourceDirectory);
         $configuration->setOutputDirectory($this->outputDirectory);

@@ -36,15 +36,15 @@ final class FilesystemRemover
     /**
      * @param string[] $paths
      */
-    public function processPaths(array $paths): void
+    public function processPaths(string $workingDirectory, array $paths): void
     {
         foreach ($paths as $path) {
-            $absolutePath = $this->migratorFilesystem->absolutizePath($path);
+            $absolutePath = $this->migratorFilesystem->absolutizePath($path, $workingDirectory);
             if (! file_exists($absolutePath)) {
                 continue;
             }
 
-            $this->migrateJekyllReporter->reportPathOperation('Deleted', $absolutePath, '/source');
+            $this->migrateJekyllReporter->reportPathOperation('Deleted', $absolutePath);
             FileSystem::delete($absolutePath);
         }
 

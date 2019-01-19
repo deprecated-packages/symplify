@@ -62,7 +62,6 @@ abstract class AbstractGeneratorTest extends AbstractConfigAwareContainerTestCas
      */
     private function prepareLayouts(): void
     {
-        /** @var ArrayLoader $arrayLoader */
         $arrayLoader = $this->container->get(ArrayLoader::class);
         $arrayLoader->changeContent(
             '_layouts/post.latte',

@@ -17,12 +17,15 @@ final class MigrateJekyllReporter
         $this->symfonyStyle = $symfonyStyle;
     }
 
-    public function reportPathOperation(string $action, string $oldPath, string $newPath): void
+    public function reportPathOperation(string $action, string $oldPath, ?string $newPath = null): void
     {
-        if (is_dir($oldPath)) {
-            $this->symfonyStyle->note(sprintf('%s directory "%s" to "%s"', $action, $oldPath, $newPath));
-        } elseif (is_file($oldPath)) {
-            $this->symfonyStyle->note(sprintf('%s file "%s" to "%s', $action, $oldPath, $newPath));
+        $directoryOrFile = is_dir($oldPath) ? 'directory' : 'file';
+
+        $message = sprintf('%s %s "%s"', $action, $directoryOrFile, $oldPath);
+        if ($newPath !== null) {
+            $message .= sprintf(' to "%s"', $newPath);
         }
+
+        $this->symfonyStyle->note($message);
     }
 }

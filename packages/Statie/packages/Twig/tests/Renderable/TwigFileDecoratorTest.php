@@ -29,11 +29,9 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->twigFileDecorator = $this->container->get(TwigFileDecorator::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
 
-        /** @var StatieConfiguration $configuration */
         $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/TwigFileDecoratorSource');
 
-        /** @var ArrayLoader $arrayLoader */
         $arrayLoader = $this->container->get(ArrayLoader::class);
         $arrayLoader->setTemplate('default', FileSystem::read(__DIR__ . '/TwigFileDecoratorSource/default.twig'));
     }

@@ -9,7 +9,6 @@ final class TimeFilterProviderTest extends AbstractContainerAwareTestCase
 {
     public function test(): void
     {
-        /** @var TimeFilterProvider $timeFilterProvider */
         $timeFilterProvider = $this->container->get(TimeFilterProvider::class);
         $timeToSecondsFilter = $timeFilterProvider->provide()['timeToSeconds'];
 

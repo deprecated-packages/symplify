@@ -7,7 +7,6 @@ use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\Statie\MigratorJekyll\Contract\MigratorJekyllWorkerInterface;
 use Symplify\Statie\MigratorJekyll\Filesystem\MigratorFilesystem;
-use function Safe\getcwd;
 use function Safe\sprintf;
 
 final class PostIdsAdder implements MigratorJekyllWorkerInterface
@@ -28,7 +27,7 @@ final class PostIdsAdder implements MigratorJekyllWorkerInterface
         $this->migratorFilesystem = $migratorFilesystem;
     }
 
-    public function processSourceDirectory(string $sourceDirectory): void
+    public function processSourceDirectory(string $sourceDirectory, string $workingDirectory): void
     {
         $postFileInfos = $this->migratorFilesystem->findPostFiles($sourceDirectory . '/_posts');
         $id = 1;
@@ -48,11 +47,8 @@ final class PostIdsAdder implements MigratorJekyllWorkerInterface
             // save file
             FileSystem::write($postFileInfo->getRealPath(), $newContent);
 
-            $this->symfonyStyle->note(
-                sprintf('Post id "%d" was completed to "%s" file', $id, $postFileInfo->getRelativeFilePathFromDirectory(
-                    getcwd()
-                ))
-            );
+            $fileRelativePath = $postFileInfo->getRelativeFilePathFromDirectory($workingDirectory);
+            $this->symfonyStyle->note(sprintf('Post id "%d" was completed to "%s" file', $id, $fileRelativePath));
 
             ++$id;
         }

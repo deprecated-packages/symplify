@@ -29,7 +29,6 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        /** @var PhpDocInfoFactory $phpDocInfoFactory */
         $phpDocInfoFactory = $this->container->get(PhpDocInfoFactory::class);
 
         $this->phpDocInfo = $phpDocInfoFactory->createFrom(FileSystem::read(__DIR__ . '/PhpDocInfoSource/doc.txt'));

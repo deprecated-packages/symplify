@@ -6,7 +6,6 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\Statie\MigratorJekyll\Command\Reporter\MigrateJekyllReporter;
-use function Safe\getcwd;
 
 final class FilesystemMover
 {
@@ -38,44 +37,47 @@ final class FilesystemMover
     /**
      * @param mixed[] $paths
      */
-    public function processPaths(array $paths): void
+    public function processPaths(string $workingDirectory, array $paths): void
     {
         foreach ($paths as $oldPath => $newPath) {
             if (Strings::contains($oldPath, '*')) { // is match
-                $this->processMatchPath($oldPath, $newPath);
+                $this->processMatchPath($oldPath, $newPath, $workingDirectory);
             } else {
-                $this->processMove($oldPath, $newPath);
+                $this->processMove($oldPath, $newPath, $workingDirectory);
             }
         }
 
         $this->symfonyStyle->success('Files moved');
     }
 
-    private function processMatchPath(string $oldPath, string $newPath): void
+    private function processMatchPath(string $oldPath, string $newPath, string $workingDirectory): void
     {
-        $foundFileInfos = $this->migratorFilesystem->findFilesWithGlob($oldPath);
+        $foundFileInfos = $this->migratorFilesystem->findFilesWithGlob($oldPath, $workingDirectory);
 
         foreach ($foundFileInfos as $foundFileInfo) {
             $oldPath = $foundFileInfo->getRealPath();
 
             // new path is only directory
-            $currentPath = rtrim($newPath, '/') . '/' . $foundFileInfo->getRelativeFilePathFromDirectory(getcwd());
+            $currentPath = rtrim($newPath, '/') . '/' . $foundFileInfo->getRelativeFilePathFromDirectory(
+                $workingDirectory
+            );
 
-            $currentPath = $this->migratorFilesystem->absolutizePath($currentPath);
+            $currentPath = $this->migratorFilesystem->absolutizePath($currentPath, $workingDirectory);
 
             $this->migrateJekyllReporter->reportPathOperation('Moved', $oldPath, $currentPath);
+
             FileSystem::rename($oldPath, $currentPath);
         }
     }
 
-    private function processMove(string $oldPath, string $newPath): void
+    private function processMove(string $oldPath, string $newPath, string $workingDirectory): void
     {
-        $oldPath = $this->migratorFilesystem->absolutizePath($oldPath);
+        $oldPath = $this->migratorFilesystem->absolutizePath($oldPath, $workingDirectory);
         if (! file_exists($oldPath)) {
             return;
         }
 
-        $newPath = $this->migratorFilesystem->absolutizePath($newPath);
+        $newPath = $this->migratorFilesystem->absolutizePath($newPath, $workingDirectory);
         $this->migrateJekyllReporter->reportPathOperation('Moved', $oldPath, $newPath);
         FileSystem::rename($oldPath, $newPath);
     }

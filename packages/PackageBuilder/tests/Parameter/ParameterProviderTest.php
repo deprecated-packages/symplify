@@ -12,7 +12,6 @@ final class ParameterProviderTest extends TestCase
     {
         $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/ParameterProviderSource/config.yml');
 
-        /** @var ParameterProvider $parameterProvider */
         $parameterProvider = $container->get(ParameterProvider::class);
         $this->assertContains([
             'key' => 'value',
@@ -32,7 +31,6 @@ final class ParameterProviderTest extends TestCase
             __DIR__ . '/ParameterProviderSource/Yaml/including-config.yml'
         );
 
-        /** @var ParameterProvider $parameterProvider */
         $parameterProvider = $container->get(ParameterProvider::class);
 
         $this->assertContains([

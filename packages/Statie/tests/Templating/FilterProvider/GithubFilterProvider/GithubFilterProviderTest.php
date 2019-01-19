@@ -32,14 +32,12 @@ final class GithubFilterProviderTest extends TestCase
 
         $this->fileFactory = $this->container->get(FileFactory::class);
 
-        /** @var StatieConfiguration $configuration */
         $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/GithubFilterProviderSource/source');
     }
 
     public function test(): void
     {
-        /** @var GithubFilterProvider $githubFilterProvider */
         $githubFilterProvider = $this->container->get(GithubFilterProvider::class);
         $githubEditPostUrlFilter = $githubFilterProvider->provide()['githubEditPostUrl'];
 

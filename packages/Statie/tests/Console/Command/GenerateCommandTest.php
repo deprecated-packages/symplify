@@ -30,7 +30,6 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
         $this->application->setCatchExceptions(false);
         $this->application->setAutoExit(false);
 
-        /** @var SymfonyStyle $symfonyStyle */
         $symfonyStyle = $this->container->get(SymfonyStyle::class);
         $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
     }

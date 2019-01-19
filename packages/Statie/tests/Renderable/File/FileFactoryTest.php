@@ -18,7 +18,6 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        /** @var StatieConfiguration $configuration */
         $configuration = $this->container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/FileFactorySource');
 

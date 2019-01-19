@@ -10,7 +10,6 @@ final class TwigFactoryTest extends AbstractConfigAwareContainerTestCase
 {
     public function test(): void
     {
-        /** @var TwigFactory $twigFactory */
         $twigFactory = $this->container->get(TwigFactory::class);
         $twig = $twigFactory->create();
 

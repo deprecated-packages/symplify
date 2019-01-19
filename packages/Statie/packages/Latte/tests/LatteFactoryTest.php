@@ -11,7 +11,6 @@ final class LatteFactoryTest extends AbstractContainerAwareTestCase
 {
     public function test(): void
     {
-        /** @var LatteFactory $latteFactory */
         $latteFactory = $this->container->get(LatteFactory::class);
         $latte = $latteFactory->create();
 

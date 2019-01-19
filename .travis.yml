@@ -49,6 +49,7 @@ script:
           done
 
           # test run bin files
+          packages/Autodiscovery/bin/autodiscovery
           packages/EasyCodingStandard/bin/ecs
           # test "check" options
           packages/EasyCodingStandard/bin/ecs check packages/ChangelogLinker/src --no-progress-bar --no-error-table --clear-cache

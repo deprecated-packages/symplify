@@ -23,7 +23,6 @@ final class ParameterTypoProofreaderTest extends TestCase
 
     public function testConsole(): void
     {
-        /** @var Application $application */
         $application = $this->container->get(Application::class);
         $application->setCatchExceptions(false);
 

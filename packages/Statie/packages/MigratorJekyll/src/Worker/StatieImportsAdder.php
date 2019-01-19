@@ -7,21 +7,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Statie\MigratorJekyll\Contract\MigratorJekyllWorkerInterface;
 use Symplify\Statie\MigratorJekyll\Filesystem\MigratorFilesystem;
-use function Safe\getcwd;
 use function Safe\sprintf;
 
 final class StatieImportsAdder implements MigratorJekyllWorkerInterface
 {
-    /**
-     * @var string
-     */
-    private $rootStatieYamlFile;
-
-    /**
-     * @var string[]
-     */
-    private $possibleStatieYamlFiles = [];
-
     /**
      * @var SymfonyStyle
      */
@@ -34,22 +23,18 @@ final class StatieImportsAdder implements MigratorJekyllWorkerInterface
 
     public function __construct(SymfonyStyle $symfonyStyle, MigratorFilesystem $migratorFilesystem)
     {
-        // init
-        $this->rootStatieYamlFile = getcwd() . '/statie.yaml';
-        $this->possibleStatieYamlFiles = [getcwd() . '/statie.yml', getcwd() . '/statie.yaml'];
-
         $this->symfonyStyle = $symfonyStyle;
         $this->migratorFilesystem = $migratorFilesystem;
     }
 
-    public function processSourceDirectory(string $sourceDirectory): void
+    public function processSourceDirectory(string $sourceDirectory, string $workingDirectory): void
     {
         $yamlFileInfos = $this->migratorFilesystem->findYamlFiles($sourceDirectory);
 
         $filesToImport = [];
         foreach ($yamlFileInfos as $yamlFileInfo) {
             $filesToImport[] = [
-                'resource' => $yamlFileInfo->getRelativeFilePathFromDirectory(getcwd()),
+                'resource' => $yamlFileInfo->getRelativeFilePathFromDirectory($workingDirectory),
             ];
         }
 
@@ -59,26 +44,37 @@ final class StatieImportsAdder implements MigratorJekyllWorkerInterface
         }
 
         // 1. is file existing already?
-        foreach ($this->possibleStatieYamlFiles as $statieYamlFilePath) {
-            if (! file_exists($statieYamlFilePath)) {
+        foreach ($this->getPossibleStatieConfigLocations($workingDirectory) as $possibleStatieConfigFile) {
+            if (! file_exists($possibleStatieConfigFile)) {
                 continue;
             }
 
             /** @var string[] $filesToImport */
-            $yamlContent = $this->addImportSection($statieYamlFilePath, $filesToImport);
+            $yamlContent = $this->addImportSection($possibleStatieConfigFile, $filesToImport);
 
-            FileSystem::write($statieYamlFilePath, $yamlContent);
+            FileSystem::write($possibleStatieConfigFile, $yamlContent);
 
-            $this->symfonyStyle->note(sprintf('Imports were added to "%s" file', $statieYamlFilePath));
+            $this->symfonyStyle->note(sprintf('Imports were added to "%s" file', $possibleStatieConfigFile));
 
             return;
         }
 
         // 2. we need to create the file
         $importsSection = Yaml::dump(['imports' => $filesToImport], 2, 4, Yaml::DUMP_OBJECT_AS_MAP);
-        FileSystem::write($this->rootStatieYamlFile, $importsSection);
 
-        $this->symfonyStyle->note(sprintf('Imports were added to "%s" file', $this->rootStatieYamlFile));
+        $statieConfigFile = $this->getRootStatieConfigFile($workingDirectory);
+
+        FileSystem::write($statieConfigFile, $importsSection);
+
+        $this->symfonyStyle->note(sprintf('Imports were added to "%s" file', $statieConfigFile));
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getPossibleStatieConfigLocations(string $workingDirectory): array
+    {
+        return [$workingDirectory . '/statie.yml', $workingDirectory . '/statie.yaml'];
     }
 
     /**
@@ -97,5 +93,10 @@ final class StatieImportsAdder implements MigratorJekyllWorkerInterface
         }
 
         return $yamlContent;
+    }
+
+    private function getRootStatieConfigFile(string $workingDirectory): string
+    {
+        return $workingDirectory . '/statie.yaml';
     }
 }

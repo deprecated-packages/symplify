@@ -16,7 +16,7 @@ final class GeneratorTest extends AbstractGeneratorTest
 
         foreach ($generatorFilesByType as $generatorFiles) {
             foreach ($generatorFiles as $key => $generatorFile) {
-                /** @var AbstractGeneratorFile */
+                /** @var AbstractGeneratorFile $generatorFile */
                 $this->assertSame($key, $generatorFile->getId());
             }
         }
