@@ -8,6 +8,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Statie\Migrator\Contract\MigratorWorkerInterface;
 use Symplify\Statie\Migrator\Filesystem\MigratorFilesystem;
+use function Safe\sprintf;
 
 final class RoutePrefixMigrateWorker implements MigratorWorkerInterface
 {

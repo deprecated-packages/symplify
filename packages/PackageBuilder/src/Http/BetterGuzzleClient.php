@@ -40,7 +40,11 @@ final class BetterGuzzleClient
         try {
             return Json::decode($content, Json::FORCE_ARRAY);
         } catch (JsonException $jsonException) {
-            throw new JsonException('Syntax error while decoding:' . $content);
+            throw new JsonException(
+                'Syntax error while decoding:' . $content,
+                $jsonException->getLine(),
+                $jsonException
+            );
         }
     }
 }
