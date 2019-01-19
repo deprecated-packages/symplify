@@ -17,7 +17,7 @@ final class FilesystemMover
     /**
      * @var MigrateReporter
      */
-    private $migrateJekyllReporter;
+    private $migrateReporter;
 
     /**
      * @var SymfonyStyle
@@ -26,11 +26,11 @@ final class FilesystemMover
 
     public function __construct(
         MigratorFilesystem $migratorFilesystem,
-        MigrateReporter $migrateJekyllReporter,
+        MigrateReporter $migrateReporter,
         SymfonyStyle $symfonyStyle
     ) {
         $this->migratorFilesystem = $migratorFilesystem;
-        $this->migrateJekyllReporter = $migrateJekyllReporter;
+        $this->migrateReporter = $migrateReporter;
         $this->symfonyStyle = $symfonyStyle;
     }
 
@@ -64,7 +64,7 @@ final class FilesystemMover
 
             $currentPath = $this->migratorFilesystem->absolutizePath($currentPath, $workingDirectory);
 
-            $this->migrateJekyllReporter->reportPathOperation('Moved', $oldPath, $currentPath);
+            $this->migrateReporter->reportPathOperation('Moved', $oldPath, $currentPath);
 
             FileSystem::rename($oldPath, $currentPath);
         }
@@ -78,7 +78,7 @@ final class FilesystemMover
         }
 
         $newPath = $this->migratorFilesystem->absolutizePath($newPath, $workingDirectory);
-        $this->migrateJekyllReporter->reportPathOperation('Moved', $oldPath, $newPath);
+        $this->migrateReporter->reportPathOperation('Moved', $oldPath, $newPath);
         FileSystem::rename($oldPath, $newPath);
     }
 }

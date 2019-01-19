@@ -3,15 +3,18 @@
 namespace Symplify\Statie\MigratorSculpin;
 
 use Symplify\Statie\Migrator\Configuration\MigratorOption;
+use Symplify\Statie\Migrator\Contract\MigratorInterface;
 use Symplify\Statie\Migrator\Filesystem\FilesystemMover;
 use Symplify\Statie\Migrator\Filesystem\FilesystemRegularApplicator;
 use Symplify\Statie\Migrator\Filesystem\FilesystemRemover;
 use Symplify\Statie\Migrator\Worker\IncludePathsCompleter;
+use Symplify\Statie\Migrator\Worker\ParametersAdder;
 use Symplify\Statie\Migrator\Worker\PostIdsAdder;
 use Symplify\Statie\Migrator\Worker\StatieImportsAdder;
 use Symplify\Statie\Migrator\Worker\TwigSuffixChanger;
+use Symplify\Statie\MigratorSculpin\Worker\RoutePrefixMigrateWorker;
 
-final class SculpinToStatieMigrator
+final class SculpinToStatieMigrator implements MigratorInterface
 {
     /**
      * @var mixed[]
@@ -54,6 +57,16 @@ final class SculpinToStatieMigrator
     private $filesystemRegularApplicator;
 
     /**
+     * @var ParametersAdder
+     */
+    private $parametersAdder;
+
+    /**
+     * @var RoutePrefixMigrateWorker
+     */
+    private $routePrefixMigrateWorker;
+
+    /**
      * @param mixed[] $migratorSculpin
      */
     public function __construct(
@@ -64,7 +77,9 @@ final class SculpinToStatieMigrator
         TwigSuffixChanger $twigSuffixChanger,
         FilesystemMover $filesystemMover,
         FilesystemRemover $filesystemRemover,
-        FilesystemRegularApplicator $filesystemRegularApplicator
+        FilesystemRegularApplicator $filesystemRegularApplicator,
+        ParametersAdder $parametersAdder,
+        RoutePrefixMigrateWorker $routePrefixMigrateWorker
     ) {
         $this->statieImportsAdder = $statieImportsAdder;
         $this->includePathsCompleter = $includePathsCompleter;
@@ -74,6 +89,8 @@ final class SculpinToStatieMigrator
         $this->filesystemRemover = $filesystemRemover;
         $this->filesystemRegularApplicator = $filesystemRegularApplicator;
         $this->migratorSculpin = $migratorSculpin;
+        $this->parametersAdder = $parametersAdder;
+        $this->routePrefixMigrateWorker = $routePrefixMigrateWorker;
     }
 
     public function migrate(string $workingDirectory): void
@@ -110,11 +127,17 @@ final class SculpinToStatieMigrator
             );
         }
 
+        // prepend yaml files with `parameters`
+        $this->parametersAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
+
         // complete "include" file name to full paths
         $this->includePathsCompleter->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // complete id to posts
         $this->postIdsAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
+
+        // migrate route prefix
+        $this->routePrefixMigrateWorker->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // import .(yml|yaml) data files in statie.yaml
         $this->statieImportsAdder->processSourceDirectory($sourceDirectory, $workingDirectory);

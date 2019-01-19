@@ -3,16 +3,17 @@
 namespace Symplify\Statie\MigratorJekyll;
 
 use Symplify\Statie\Migrator\Configuration\MigratorOption;
+use Symplify\Statie\Migrator\Contract\MigratorInterface;
 use Symplify\Statie\Migrator\Filesystem\FilesystemMover;
 use Symplify\Statie\Migrator\Filesystem\FilesystemRegularApplicator;
 use Symplify\Statie\Migrator\Filesystem\FilesystemRemover;
-use Symplify\Statie\Migrator\Worker\PostIdsAdder;
 use Symplify\Statie\Migrator\Worker\IncludePathsCompleter;
-use Symplify\Statie\MigratorJekyll\Worker\ParametersAdder;
+use Symplify\Statie\Migrator\Worker\ParametersAdder;
+use Symplify\Statie\Migrator\Worker\PostIdsAdder;
 use Symplify\Statie\Migrator\Worker\StatieImportsAdder;
 use Symplify\Statie\Migrator\Worker\TwigSuffixChanger;
 
-final class JekyllToStatieMigrator
+final class JekyllToStatieMigrator implements MigratorInterface
 {
     /**
      * @var mixed[]

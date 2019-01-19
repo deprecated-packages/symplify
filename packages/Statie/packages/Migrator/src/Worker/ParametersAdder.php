@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\MigratorJekyll\Worker;
+namespace Symplify\Statie\Migrator\Worker;
 
 use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Style\SymfonyStyle;

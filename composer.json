@@ -105,6 +105,8 @@
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
             "Symplify\\Statie\\Latte\\Tests\\": "packages/Statie/packages/Latte/tests",
             "Symplify\\Statie\\MigratorJekyll\\Tests\\": "packages/Statie/packages/MigratorJekyll/tests",
+            "Symplify\\Statie\\MigratorSculpin\\Tests\\": "packages/Statie/packages/MigratorSculpin/tests",
+            "Symplify\\Statie\\Migrator\\Tests\\": "packages/Statie/packages/Migrator/tests",
             "Symplify\\Statie\\PostHeadlineLinker\\Tests\\": "packages/Statie/packages/PostHeadlineLinker/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Statie\\Tweeter\\Tests\\": "packages/Statie/packages/Tweeter/tests",

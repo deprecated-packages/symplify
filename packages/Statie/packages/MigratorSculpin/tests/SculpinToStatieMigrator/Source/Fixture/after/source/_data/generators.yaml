@@ -1,0 +1,4 @@
+parameters:
+    generators:
+        posts:
+            route_prefix: blog/
