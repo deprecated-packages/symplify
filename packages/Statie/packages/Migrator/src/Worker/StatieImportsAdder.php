@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\MigratorJekyll\Worker;
+namespace Symplify\Statie\Migrator\Worker;
 
 use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
-use Symplify\Statie\MigratorJekyll\Contract\MigratorJekyllWorkerInterface;
-use Symplify\Statie\MigratorJekyll\Filesystem\MigratorFilesystem;
+use Symplify\Statie\Migrator\Contract\MigratorWorkerInterface;
+use Symplify\Statie\Migrator\Filesystem\MigratorFilesystem;
 use function Safe\sprintf;
 
-final class StatieImportsAdder implements MigratorJekyllWorkerInterface
+final class StatieImportsAdder implements MigratorWorkerInterface
 {
     /**
      * @var SymfonyStyle

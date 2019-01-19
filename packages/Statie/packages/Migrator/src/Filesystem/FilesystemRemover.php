@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\MigratorJekyll\Filesystem;
+namespace Symplify\Statie\Migrator\Filesystem;
 
 use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\Statie\MigratorJekyll\Command\Reporter\MigrateJekyllReporter;
+use Symplify\Statie\Migrator\Command\Reporter\MigrateReporter;
 
 final class FilesystemRemover
 {
@@ -14,9 +14,9 @@ final class FilesystemRemover
     private $migratorFilesystem;
 
     /**
-     * @var MigrateJekyllReporter
+     * @var MigrateReporter
      */
-    private $migrateJekyllReporter;
+    private $migrateReporter;
 
     /**
      * @var SymfonyStyle
@@ -25,11 +25,11 @@ final class FilesystemRemover
 
     public function __construct(
         MigratorFilesystem $migratorFilesystem,
-        MigrateJekyllReporter $migrateJekyllReporter,
+        MigrateReporter $migrateReporter,
         SymfonyStyle $symfonyStyle
     ) {
         $this->migratorFilesystem = $migratorFilesystem;
-        $this->migrateJekyllReporter = $migrateJekyllReporter;
+        $this->migrateReporter = $migrateReporter;
         $this->symfonyStyle = $symfonyStyle;
     }
 
@@ -44,7 +44,7 @@ final class FilesystemRemover
                 continue;
             }
 
-            $this->migrateJekyllReporter->reportPathOperation('Deleted', $absolutePath);
+            $this->migrateReporter->reportPathOperation('Deleted', $absolutePath);
             FileSystem::delete($absolutePath);
         }
 

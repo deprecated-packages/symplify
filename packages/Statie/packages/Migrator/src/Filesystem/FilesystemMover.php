@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\MigratorJekyll\Filesystem;
+namespace Symplify\Statie\Migrator\Filesystem;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\Statie\MigratorJekyll\Command\Reporter\MigrateJekyllReporter;
+use Symplify\Statie\Migrator\Command\Reporter\MigrateReporter;
 
 final class FilesystemMover
 {
@@ -15,7 +15,7 @@ final class FilesystemMover
     private $migratorFilesystem;
 
     /**
-     * @var MigrateJekyllReporter
+     * @var MigrateReporter
      */
     private $migrateJekyllReporter;
 
@@ -26,7 +26,7 @@ final class FilesystemMover
 
     public function __construct(
         MigratorFilesystem $migratorFilesystem,
-        MigrateJekyllReporter $migrateJekyllReporter,
+        MigrateReporter $migrateJekyllReporter,
         SymfonyStyle $symfonyStyle
     ) {
         $this->migratorFilesystem = $migratorFilesystem;

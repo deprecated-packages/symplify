@@ -1,33 +1,12 @@
 parameters:
-    migrator_jekyll:
+    migrator_sculpin:
         paths_to_remove:
-            - 'Gemfile'
-            - 'Gemfile.lock'
-            - 'Guardfile'
-            - '_templates'
+            - 'sculpin.json'
+            - 'sculpin.lock'
 
         paths_to_move:
             # renames
-            '_includes': 'source/_snippets'
-
-            # fnmatch match
-            '*.html': 'source/'
-            '*.md': 'source/'
-
-            # same
-            'favicon.ico': 'source/favicon.ico'
-            'favicon.png': 'source/favicon.png'
-            '_config.yml': 'source/_config.yml'
-            'feed.xml': 'source/feed.xml'
-            'Gruntfile.js': 'source/Gruntfile.js'
-            'assets': 'source/assets'
-            'images': 'source/images'
-            '_posts': 'source/_posts'
-            '_layouts': 'source/_layouts'
-            '_drafts': 'source/_drafts'
-            '_data': 'source/_data'
-            '_sass': 'source/_sass'
-            'CNAME': 'source/CNAME'
+            #'_includes': 'source/_snippets'
 
         apply_regular_in_paths:
             'source':
@@ -66,5 +45,5 @@ services:
         public: true
         autowire: true
 
-    Symplify\Statie\MigratorJekyll\:
+    Symplify\Statie\MigratorSculpin\:
         resource: '../src'

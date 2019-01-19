@@ -1,23 +1,22 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\MigratorJekyll;
+namespace Symplify\Statie\MigratorSculpin;
 
 use Symplify\Statie\Migrator\Configuration\MigratorOption;
 use Symplify\Statie\Migrator\Filesystem\FilesystemMover;
 use Symplify\Statie\Migrator\Filesystem\FilesystemRegularApplicator;
 use Symplify\Statie\Migrator\Filesystem\FilesystemRemover;
-use Symplify\Statie\Migrator\Worker\PostIdsAdder;
 use Symplify\Statie\Migrator\Worker\IncludePathsCompleter;
-use Symplify\Statie\MigratorJekyll\Worker\ParametersAdder;
+use Symplify\Statie\Migrator\Worker\PostIdsAdder;
 use Symplify\Statie\Migrator\Worker\StatieImportsAdder;
 use Symplify\Statie\Migrator\Worker\TwigSuffixChanger;
 
-final class JekyllToStatieMigrator
+final class SculpinToStatieMigrator
 {
     /**
      * @var mixed[]
      */
-    private $migratorJekyll = [];
+    private $migratorSculpin = [];
 
     /**
      * @var StatieImportsAdder
@@ -40,11 +39,6 @@ final class JekyllToStatieMigrator
     private $twigSuffixChanger;
 
     /**
-     * @var ParametersAdder
-     */
-    private $parametersAdder;
-
-    /**
      * @var FilesystemMover
      */
     private $filesystemMover;
@@ -60,15 +54,14 @@ final class JekyllToStatieMigrator
     private $filesystemRegularApplicator;
 
     /**
-     * @param mixed[] $migratorJekyll
+     * @param mixed[] $migratorSculpin
      */
     public function __construct(
-        array $migratorJekyll,
+        array $migratorSculpin,
         StatieImportsAdder $statieImportsAdder,
         IncludePathsCompleter $includePathsCompleter,
         PostIdsAdder $postIdsAdder,
         TwigSuffixChanger $twigSuffixChanger,
-        ParametersAdder $parametersAdder,
         FilesystemMover $filesystemMover,
         FilesystemRemover $filesystemRemover,
         FilesystemRegularApplicator $filesystemRegularApplicator
@@ -77,11 +70,10 @@ final class JekyllToStatieMigrator
         $this->includePathsCompleter = $includePathsCompleter;
         $this->postIdsAdder = $postIdsAdder;
         $this->twigSuffixChanger = $twigSuffixChanger;
-        $this->parametersAdder = $parametersAdder;
         $this->filesystemMover = $filesystemMover;
         $this->filesystemRemover = $filesystemRemover;
         $this->filesystemRegularApplicator = $filesystemRegularApplicator;
-        $this->migratorJekyll = $migratorJekyll;
+        $this->migratorSculpin = $migratorSculpin;
     }
 
     public function migrate(string $workingDirectory): void
@@ -89,18 +81,18 @@ final class JekyllToStatieMigrator
         $workingDirectory = rtrim($workingDirectory, '/');
 
         // remove unwated files
-        if ($this->migratorJekyll[MigratorOption::PATHS_TO_REMOVE]) {
+        if ($this->migratorSculpin[MigratorOption::PATHS_TO_REMOVE]) {
             $this->filesystemRemover->processPaths(
                 $workingDirectory,
-                $this->migratorJekyll[MigratorOption::PATHS_TO_REMOVE]
+                $this->migratorSculpin[MigratorOption::PATHS_TO_REMOVE]
             );
         }
 
         // move files, rename
-        if ($this->migratorJekyll[MigratorOption::PATHS_TO_MOVE]) {
+        if ($this->migratorSculpin[MigratorOption::PATHS_TO_MOVE]) {
             $this->filesystemMover->processPaths(
                 $workingDirectory,
-                $this->migratorJekyll[MigratorOption::PATHS_TO_MOVE]
+                $this->migratorSculpin[MigratorOption::PATHS_TO_MOVE]
             );
         }
 
@@ -111,15 +103,12 @@ final class JekyllToStatieMigrator
         $this->twigSuffixChanger->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // clear regulars by paths
-        if ($this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS]) {
+        if ($this->migratorSculpin[MigratorOption::APPLY_REGULAR_IN_PATHS]) {
             $this->filesystemRegularApplicator->processPaths(
                 $workingDirectory,
-                $this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS]
+                $this->migratorSculpin[MigratorOption::APPLY_REGULAR_IN_PATHS]
             );
         }
-
-        // prepend yaml files with `parameters`
-        $this->parametersAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // complete "include" file name to full paths
         $this->includePathsCompleter->processSourceDirectory($sourceDirectory, $workingDirectory);

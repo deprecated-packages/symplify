@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\MigratorJekyll\Filesystem;
+namespace Symplify\Statie\Migrator\Filesystem;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;

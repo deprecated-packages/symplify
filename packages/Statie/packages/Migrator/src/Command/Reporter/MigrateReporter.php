@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\MigratorJekyll\Command\Reporter;
+namespace Symplify\Statie\Migrator\Command\Reporter;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function Safe\sprintf;
 
-final class MigrateJekyllReporter
+final class MigrateReporter
 {
     /**
      * @var SymfonyStyle

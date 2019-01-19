@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\MigratorJekyll\Worker;
+namespace Symplify\Statie\Migrator\Worker;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\MigratorJekyll\Contract\MigratorJekyllWorkerInterface;
-use Symplify\Statie\MigratorJekyll\Filesystem\MigratorFilesystem;
+use Symplify\Statie\Migrator\Contract\MigratorWorkerInterface;
+use Symplify\Statie\Migrator\Filesystem\MigratorFilesystem;
 use function Safe\sprintf;
 
-final class IncludePathsCompleter implements MigratorJekyllWorkerInterface
+final class IncludePathsCompleter implements MigratorWorkerInterface
 {
     /**
      * @var SymfonyStyle

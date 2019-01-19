@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\MigratorJekyll\Contract;
+namespace Symplify\Statie\Migrator\Contract;
 
-interface MigratorJekyllWorkerInterface
+interface MigratorWorkerInterface
 {
     public function processSourceDirectory(string $sourceDirectory, string $workingDirectory): void;
 }
