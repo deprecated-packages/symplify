@@ -6,7 +6,6 @@ use Nette\Utils\FileSystem;
 use Symfony\Component\Finder\Finder;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\getcwd;
 use function Safe\glob;
 
 final class MigratorFilesystem
@@ -26,9 +25,13 @@ final class MigratorFilesystem
      */
     public function findYamlFiles(string $directory): array
     {
+        if (! file_exists($directory)) {
+            return [];
+        }
+
         $finder = $this->createBasicFinder()
             ->in($directory)
-            ->name('#\.y(a)?ml$#');
+            ->name('#\.(yml|yaml)$#');
 
         return $this->finderSanitizer->sanitize($finder);
     }
@@ -38,6 +41,10 @@ final class MigratorFilesystem
      */
     public function findPostFiles(string $directory): array
     {
+        if (! file_exists($directory)) {
+            return [];
+        }
+
         $finder = $this->createBasicFinder()
             ->name('#\.(html|md)$#')
             ->in($directory);
@@ -57,8 +64,13 @@ final class MigratorFilesystem
     /**
      * @return SmartFileInfo[]
      */
-    public function findFiles(string $path): array
+    public function findFiles(string $path, string $workingDirectory): array
     {
+        $path = $this->absolutizePath($path, $workingDirectory);
+        if (! file_exists($path)) {
+            return [];
+        }
+
         $finder = $this->createBasicFinder()
             ->in($path);
 
@@ -68,14 +80,14 @@ final class MigratorFilesystem
     /**
      * @return SmartFileInfo[]
      */
-    public function findFilesWithGlob(string $globPattern): array
+    public function findFilesWithGlob(string $globPattern, string $workingDirectory): array
     {
-        $globPath = getcwd() . '/' . $globPattern;
+        $globPath = $workingDirectory . '/' . $globPattern;
 
         $foundFiles = glob($globPath);
         foreach ($foundFiles as $key => $foundFile) {
             // skip README.md
-            if ($foundFile === getcwd() . '/README.md') {
+            if ($foundFile === $workingDirectory . '/README.md') {
                 unset($foundFiles[$key]);
             }
         }
@@ -86,10 +98,16 @@ final class MigratorFilesystem
     /**
      * @return SmartFileInfo[]
      */
-    public function findIncludeableFiles(string $path): array
+    public function findIncludeableFiles(string $path, string $workingDirectory): array
     {
+        $path = $this->absolutizePath($path, $workingDirectory);
+        if (! file_exists($path)) {
+            return [];
+        }
+
         $finder = $this->createBasicFinder()
             ->in($path)
+            ->path('_layouts')
             ->path('_snippets');
 
         return $this->finderSanitizer->sanitize($finder);
@@ -98,8 +116,13 @@ final class MigratorFilesystem
     /**
      * @return SmartFileInfo[]
      */
-    public function getPossibleTwigFiles(string $path): array
+    public function getPossibleTwigFiles(string $path, string $workingDirectory): array
     {
+        $path = $this->absolutizePath($path, $workingDirectory);
+        if (! file_exists($path)) {
+            return [];
+        }
+
         $finder = $this->createBasicFinder()
             ->in($path)
             ->name('#\.(html|twig|xml|md)$#')

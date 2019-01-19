@@ -6,7 +6,6 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\getcwd;
 use function Safe\sprintf;
 
 final class FilesystemRegularApplicator
@@ -35,14 +34,14 @@ final class FilesystemRegularApplicator
         foreach ($pathsToRegulars as $path => $regulars) {
             // null → this directory
             $path = $this->migratorFilesystem->absolutizePath($path, $workingDirectory);
+
             if (! file_exists($path) || ! is_dir($path)) {
                 continue;
             }
 
-            $fileInfos = $this->migratorFilesystem->findFiles($path);
-
+            $fileInfos = $this->migratorFilesystem->findFiles($path, $workingDirectory);
             foreach ($regulars as $regularPattern => $replacePattern) {
-                $this->processFoundFiles($fileInfos, $regularPattern, $replacePattern);
+                $this->processFoundFiles($fileInfos, $regularPattern, $replacePattern, $workingDirectory);
             }
         }
     }
@@ -50,8 +49,12 @@ final class FilesystemRegularApplicator
     /**
      * @param SmartFileInfo[] $fileInfos
      */
-    private function processFoundFiles(array $fileInfos, string $regularPattern, string $replacePattern): void
-    {
+    private function processFoundFiles(
+        array $fileInfos,
+        string $regularPattern,
+        string $replacePattern,
+        string $workingDirectory
+    ): void {
         foreach ($fileInfos as $fileInfo) {
             $oldContent = $fileInfo->getContents();
             $newContent = Strings::replace($oldContent, $regularPattern, $replacePattern);
@@ -63,7 +66,7 @@ final class FilesystemRegularApplicator
 
             $this->symfonyStyle->note(sprintf(
                 'File "%s" was cleared by %s regular',
-                $fileInfo->getRelativeFilePathFromDirectory(getcwd()),
+                $fileInfo->getRelativeFilePathFromDirectory($workingDirectory),
                 $regularPattern
             ));
         }

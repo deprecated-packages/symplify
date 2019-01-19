@@ -7,7 +7,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Statie\MigratorJekyll\Contract\MigratorJekyllWorkerInterface;
 use Symplify\Statie\MigratorJekyll\Filesystem\MigratorFilesystem;
-use function Safe\getcwd;
 use function Safe\sprintf;
 
 final class ParametersAdder implements MigratorJekyllWorkerInterface
@@ -28,7 +27,7 @@ final class ParametersAdder implements MigratorJekyllWorkerInterface
         $this->migratorFilesystem = $migratorFilesystem;
     }
 
-    public function processSourceDirectory(string $sourceDirectory): void
+    public function processSourceDirectory(string $sourceDirectory, string $workingDirectory): void
     {
         $yamlFileInfos = $this->migratorFilesystem->findYamlFiles($sourceDirectory);
 
@@ -45,7 +44,7 @@ final class ParametersAdder implements MigratorJekyllWorkerInterface
             $dumpedYaml = Yaml::dump($newYaml, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
             FileSystem::write($yamlFileInfo->getRealPath(), $dumpedYaml);
 
-            $relativePath = $yamlFileInfo->getRelativeFilePathFromDirectory(getcwd());
+            $relativePath = $yamlFileInfo->getRelativeFilePathFromDirectory($workingDirectory);
             $this->symfonyStyle->note(sprintf('File "%s" was prepended "parameters:"', $relativePath));
         }
     }

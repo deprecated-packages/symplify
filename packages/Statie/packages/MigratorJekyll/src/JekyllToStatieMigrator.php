@@ -15,6 +15,11 @@ use Symplify\Statie\MigratorJekyll\Worker\TwigSuffixChanger;
 final class JekyllToStatieMigrator
 {
     /**
+     * @var mixed[]
+     */
+    private $migratorJekyll = [];
+
+    /**
      * @var StatieImportsAdder
      */
     private $statieImportsAdder;
@@ -54,7 +59,11 @@ final class JekyllToStatieMigrator
      */
     private $filesystemRegularApplicator;
 
+    /**
+     * @param mixed[] $migratorJekyll
+     */
     public function __construct(
+        array $migratorJekyll,
         StatieImportsAdder $statieImportsAdder,
         IncludePathsCompleter $includePathsCompleter,
         PostIdsAdder $postIdsAdder,
@@ -72,48 +81,54 @@ final class JekyllToStatieMigrator
         $this->filesystemMover = $filesystemMover;
         $this->filesystemRemover = $filesystemRemover;
         $this->filesystemRegularApplicator = $filesystemRegularApplicator;
+        $this->migratorJekyll = $migratorJekyll;
     }
 
-    /**
-     * @param mixed[] $configuration
-     */
-    public function migrate(string $workingDirectory, array $configuration): void
+    public function migrate(string $workingDirectory): void
     {
+        $workingDirectory = rtrim($workingDirectory, '/');
+
         // 1. remove unwated files
-        if ($configuration[MigratorOption::PATHS_TO_REMOVE]) {
-            $this->filesystemRemover->processPaths($workingDirectory, $configuration[MigratorOption::PATHS_TO_REMOVE]);
+        if ($this->migratorJekyll[MigratorOption::PATHS_TO_REMOVE]) {
+            $this->filesystemRemover->processPaths(
+                $workingDirectory,
+                $this->migratorJekyll[MigratorOption::PATHS_TO_REMOVE]
+            );
         }
 
         // 2. move files, rename
-        if ($configuration[MigratorOption::PATHS_TO_MOVE]) {
-            $this->filesystemMover->processPaths($workingDirectory, $configuration[MigratorOption::PATHS_TO_MOVE]);
+        if ($this->migratorJekyll[MigratorOption::PATHS_TO_MOVE]) {
+            $this->filesystemMover->processPaths(
+                $workingDirectory,
+                $this->migratorJekyll[MigratorOption::PATHS_TO_MOVE]
+            );
         }
 
         // now all website files are in "/source" directory
 
         // 3. clear regulars by paths
-        if ($configuration[MigratorOption::APPLY_REGULAR_IN_PATHS]) {
+        if ($this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS]) {
             $this->filesystemRegularApplicator->processPaths(
                 $workingDirectory,
-                $configuration[MigratorOption::APPLY_REGULAR_IN_PATHS]
+                $this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS]
             );
         }
 
         $sourceDirectory = $workingDirectory . '/source';
 
         // 4. prepend yaml files with `parameters`
-        $this->parametersAdder->processSourceDirectory($sourceDirectory);
+        $this->parametersAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // 5. complete "include" file name to full paths
-        $this->includePathsCompleter->processSourceDirectory($sourceDirectory);
+        $this->includePathsCompleter->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // 6. change suffixes - html/md → twig, where there is a "{% X %}" also inside files to be included
-        $this->twigSuffixChanger->processSourceDirectory($sourceDirectory);
+        $this->twigSuffixChanger->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // 7. complete id to posts
-        $this->postIdsAdder->processSourceDirectory($sourceDirectory);
+        $this->postIdsAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // 8. import .(yml|yaml) data files in statie.yaml
-        $this->statieImportsAdder->processSourceDirectory($sourceDirectory);
+        $this->statieImportsAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
     }
 }

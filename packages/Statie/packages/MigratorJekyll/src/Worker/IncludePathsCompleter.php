@@ -8,7 +8,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\MigratorJekyll\Contract\MigratorJekyllWorkerInterface;
 use Symplify\Statie\MigratorJekyll\Filesystem\MigratorFilesystem;
-use function Safe\getcwd;
 use function Safe\sprintf;
 
 final class IncludePathsCompleter implements MigratorJekyllWorkerInterface
@@ -29,11 +28,11 @@ final class IncludePathsCompleter implements MigratorJekyllWorkerInterface
         $this->migratorFilesystem = $migratorFilesystem;
     }
 
-    public function processSourceDirectory(string $sourceDirectory): void
+    public function processSourceDirectory(string $sourceDirectory, string $workingDirectory): void
     {
-        $fileInfos = $this->migratorFilesystem->findFiles($sourceDirectory);
+        $fileInfos = $this->migratorFilesystem->findFiles($sourceDirectory, $workingDirectory);
 
-        $includeableFileInfos = $this->migratorFilesystem->findIncludeableFiles($sourceDirectory);
+        $includeableFileInfos = $this->migratorFilesystem->findIncludeableFiles($sourceDirectory, $workingDirectory);
 
         foreach ($fileInfos as $fileInfo) {
             $oldContent = $fileInfo->getContents();
@@ -46,7 +45,7 @@ final class IncludePathsCompleter implements MigratorJekyllWorkerInterface
 
             $this->symfonyStyle->note(sprintf(
                 'Include paths changed in "%s" file',
-                $fileInfo->getRelativeFilePathFromDirectory(getcwd())
+                $fileInfo->getRelativeFilePathFromDirectory($workingDirectory)
             ));
         }
 
@@ -58,11 +57,24 @@ final class IncludePathsCompleter implements MigratorJekyllWorkerInterface
      */
     private function completePaths(string $sourceDirectory, string $oldContent, array $includeableFileInfos): string
     {
-        return Strings::replace(
+        $newContent = Strings::replace(
             $oldContent,
             '#(?<open>{% include )(?<shortPath>.*?)(?<close> %})#',
             function (array $match) use ($includeableFileInfos, $sourceDirectory) {
                 $fullPath = $this->matchShortPathToFull($match['shortPath'], $includeableFileInfos, $sourceDirectory);
+                $fullPath = Strings::replace($fullPath, '#\.html$#', '.twig');
+
+                return sprintf('%s\'%s\'%s', $match['open'], $fullPath, $match['close']);
+            }
+        );
+
+        // https://regex101.com/r/C0tbeX/1
+        return Strings::replace(
+            $newContent,
+            '#(?<open>---.*?\s*layout:\s*)(?<shortPath>.*?)(?<close>\n)#',
+            function (array $match) use ($includeableFileInfos, $sourceDirectory) {
+                $fullPath = $this->matchShortPathToFull($match['shortPath'], $includeableFileInfos, $sourceDirectory);
+                $fullPath = Strings::replace($fullPath, '#\.html$#', '.twig');
 
                 return $match['open'] . $fullPath . $match['close'];
             }
@@ -79,6 +91,10 @@ final class IncludePathsCompleter implements MigratorJekyllWorkerInterface
     ): string {
         foreach ($includeableFileInfos as $includeableFileInfo) {
             if ($includeableFileInfo->getBasename() === $shortPath) {
+                return $includeableFileInfo->getRelativeFilePathFromDirectory($sourceDirectory);
+            }
+
+            if ($includeableFileInfo->getBasename('.html') === $shortPath) {
                 return $includeableFileInfo->getRelativeFilePathFromDirectory($sourceDirectory);
             }
         }

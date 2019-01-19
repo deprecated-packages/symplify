@@ -6,7 +6,6 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\Statie\MigratorJekyll\Command\Reporter\MigrateJekyllReporter;
-use function Safe\getcwd;
 
 final class FilesystemMover
 {
@@ -53,17 +52,20 @@ final class FilesystemMover
 
     private function processMatchPath(string $oldPath, string $newPath, string $workingDirectory): void
     {
-        $foundFileInfos = $this->migratorFilesystem->findFilesWithGlob($oldPath);
+        $foundFileInfos = $this->migratorFilesystem->findFilesWithGlob($oldPath, $workingDirectory);
 
         foreach ($foundFileInfos as $foundFileInfo) {
             $oldPath = $foundFileInfo->getRealPath();
 
             // new path is only directory
-            $currentPath = rtrim($newPath, '/') . '/' . $foundFileInfo->getRelativeFilePathFromDirectory(getcwd());
+            $currentPath = rtrim($newPath, '/') . '/' . $foundFileInfo->getRelativeFilePathFromDirectory(
+                $workingDirectory
+            );
 
             $currentPath = $this->migratorFilesystem->absolutizePath($currentPath, $workingDirectory);
 
             $this->migrateJekyllReporter->reportPathOperation('Moved', $oldPath, $currentPath);
+
             FileSystem::rename($oldPath, $currentPath);
         }
     }

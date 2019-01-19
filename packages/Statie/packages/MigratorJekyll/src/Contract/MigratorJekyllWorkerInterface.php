@@ -4,5 +4,5 @@ namespace Symplify\Statie\MigratorJekyll\Contract;
 
 interface MigratorJekyllWorkerInterface
 {
-    public function processSourceDirectory(string $sourceDirectory): void;
+    public function processSourceDirectory(string $sourceDirectory, string $workingDirectory): void;
 }

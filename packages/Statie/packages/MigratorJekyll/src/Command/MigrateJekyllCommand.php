@@ -14,11 +14,6 @@ use function Safe\getcwd;
 final class MigrateJekyllCommand extends Command
 {
     /**
-     * @var mixed[]
-     */
-    private $migratorJekyll = [];
-
-    /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
@@ -28,18 +23,11 @@ final class MigrateJekyllCommand extends Command
      */
     private $jekyllToStatieMigrator;
 
-    /**
-     * @param mixed[] $migratorJekyll
-     */
-    public function __construct(
-        array $migratorJekyll,
-        SymfonyStyle $symfonyStyle,
-        JekyllToStatieMigrator $jekyllToStatieMigrator
-    ) {
+    public function __construct(SymfonyStyle $symfonyStyle, JekyllToStatieMigrator $jekyllToStatieMigrator)
+    {
         parent::__construct();
         $this->symfonyStyle = $symfonyStyle;
         $this->jekyllToStatieMigrator = $jekyllToStatieMigrator;
-        $this->migratorJekyll = $migratorJekyll;
     }
 
     protected function configure(): void
@@ -50,7 +38,7 @@ final class MigrateJekyllCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->jekyllToStatieMigrator->migrate(getcwd(), $this->migratorJekyll);
+        $this->jekyllToStatieMigrator->migrate(getcwd());
 
         $this->symfonyStyle->success('Migration finished!');
         $this->symfonyStyle->note('Run "npm install" and "gulp" to see your new website');

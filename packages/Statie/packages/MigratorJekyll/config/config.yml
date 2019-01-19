@@ -11,6 +11,7 @@ parameters:
             '_includes': 'source/_snippets'
 
             # fnmatch match
+            '*.html': 'source/'
             '*.md': 'source/'
 
             # same
@@ -29,17 +30,24 @@ parameters:
             'CNAME': 'source/CNAME'
 
         apply_regular_in_paths:
-            'source/_posts':
-                 # remove layout from posts, not needed
-                '#^layout: \w+\s+#ms': ''
             'source':
                 # parameters are accessed directly, without any prefix - see https://regex101.com/r/PvaeHS/1
-                '#{{\s+?\b(site\.data\.|site\.)[\w+]#': '$1$3'
+                '#({%|{{)(.*?\b)(site\.data\.|site\.)#': '$1$2'
                 # remove --- --- in the start
                 '#^\-\-\-\n\-\-\-\n#m': ''
+                # join: to join()
+                '#({{\s*tags\s*\|\s*join):(\s*[^|}|]+)#': '$1($2)'
+                # strip_html
+                '#(.*|\*)strip_html(.*)#': '$1striphtml$2'
+
+            source/_posts:
+                # remove layout from posts, not needed
+                '#^layout: \w+\s+#ms': ''
+                '#^(date|date_gmt): (.*?)$\s*#m': ''
 
 services:
     _defaults:
+        public: true
         autowire: true
 
     Symplify\Statie\MigratorJekyll\:
