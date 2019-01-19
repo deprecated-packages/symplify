@@ -1,8 +1,7 @@
 includes:
     - 'packages/PHPStanExtensions/config/config.neon'
-#    return after compatibility with phpstan 0.11
-#    - 'vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon'
-#    - 'vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon'
+    - 'vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon'
+    - 'vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon'
 
 parameters:
     level: max
@@ -18,6 +17,7 @@ parameters:
         - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
         - packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
         - packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/AbstractSomeClass.php
+        - packages/Statie/packages/MigratorSculpin/tests/SculpinToStatieMigrator/Source/Fixture/before/app/SculpinKernel.php
         # Symfony workaround
         - packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
 
@@ -85,7 +85,7 @@ parameters:
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, bool\|int given#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, int\|true given#'
         - '#Property Symplify\\Autodiscovery\\Tests\\Twig\\TwigPathAutodiscoveryTest::\$twigFilesystemLoader \(Twig_Loader_Filesystem\) does not accept Twig_LoaderInterface#'
-        - '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\MigratorJekyll\\Worker\\StatieImportsAdder::addImportSection\(\) expects array<string>, array<int, array<string, string>> given#'
+        - '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\Migrator\\Worker\\StatieImportsAdder::addImportSection\(\) expects array<string>, array<int, array<string, string>> given#'
 
         # Token Runner
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'

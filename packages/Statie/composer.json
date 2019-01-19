@@ -38,6 +38,8 @@
             "Symplify\\Statie\\Generator\\": "packages/Generator/src",
             "Symplify\\Statie\\Twig\\": "packages/Twig/src",
             "Symplify\\Statie\\MigratorJekyll\\": "packages/MigratorJekyll/src",
+            "Symplify\\Statie\\MigratorSculpin\\": "packages/MigratorSculpin/src",
+            "Symplify\\Statie\\Migrator\\": "packages/Migrator/src",
             "Symplify\\Statie\\JoindIn\\": "packages/JoindIn/src",
             "Symplify\\Statie\\Tweeter\\": "packages/Tweeter/src",
             "Symplify\\Statie\\GithubContributorsThanker\\": "packages/GithubContributorsThanker/src",
@@ -50,6 +52,8 @@
             "Symplify\\Statie\\Latte\\Tests\\": "packages/Latte/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests",
             "Symplify\\Statie\\MigratorJekyll\\Tests\\": "packages/MigratorJekyll/tests",
+            "Symplify\\Statie\\MigratorSculpin\\Tests\\": "packages/MigratorSculpin/tests",
+            "Symplify\\Statie\\Migrator\\Tests\\": "packages/Migrator/tests",
             "Symplify\\Statie\\Twig\\Tests\\": "packages/Twig/tests",
             "Symplify\\Statie\\Tweeter\\Tests\\": "packages/Tweeter/tests",
             "Symplify\\Statie\\PostHeadlineLinker\\Tests\\": "packages/PostHeadlineLinker/tests"

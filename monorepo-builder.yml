@@ -5,9 +5,8 @@ parameters:
             phpstan/phpstan: '^0.11'
             phpunit/phpunit: '^7.5'
             tracy/tracy: '^2.5'
-#            return after compat with phpstan 0.11
-#            thecodingmachine/phpstan-safe-rule: '^0.1.0'
-#            thecodingmachine/phpstan-strict-rules: '^0.10.7'
+            thecodingmachine/phpstan-safe-rule: '^0.1.1'
+            thecodingmachine/phpstan-strict-rules: '^0.11.0'
 
     # remove these to merge of packages' composer.json
     data_to_remove:

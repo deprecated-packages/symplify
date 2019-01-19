@@ -46,8 +46,8 @@
         "symfony/templating": "^3.4|^4.1",
         "symfony/translation": "^3.4|^4.1",
         "symfony/twig-bundle": "^3.4|^4.1",
-        "thecodingmachine/phpstan-safe-rule": "^0.1.0",
-        "thecodingmachine/phpstan-strict-rules": "^0.10.7",
+        "thecodingmachine/phpstan-safe-rule": "^0.1.1",
+        "thecodingmachine/phpstan-strict-rules": "^0.11.0",
         "tracy/tracy": "^2.5"
     },
     "autoload": {
@@ -76,6 +76,8 @@
             "Symplify\\Statie\\JoindIn\\": "packages/Statie/packages/JoindIn/src",
             "Symplify\\Statie\\Latte\\": "packages/Statie/packages/Latte/src",
             "Symplify\\Statie\\MigratorJekyll\\": "packages/Statie/packages/MigratorJekyll/src",
+            "Symplify\\Statie\\MigratorSculpin\\": "packages/Statie/packages/MigratorSculpin/src",
+            "Symplify\\Statie\\Migrator\\": "packages/Statie/packages/Migrator/src",
             "Symplify\\Statie\\PostHeadlineLinker\\": "packages/Statie/packages/PostHeadlineLinker/src",
             "Symplify\\Statie\\Tweeter\\": "packages/Statie/packages/Tweeter/src",
             "Symplify\\Statie\\Twig\\": "packages/Statie/packages/Twig/src",
@@ -105,6 +107,8 @@
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
             "Symplify\\Statie\\Latte\\Tests\\": "packages/Statie/packages/Latte/tests",
             "Symplify\\Statie\\MigratorJekyll\\Tests\\": "packages/Statie/packages/MigratorJekyll/tests",
+            "Symplify\\Statie\\MigratorSculpin\\Tests\\": "packages/Statie/packages/MigratorSculpin/tests",
+            "Symplify\\Statie\\Migrator\\Tests\\": "packages/Statie/packages/Migrator/tests",
             "Symplify\\Statie\\PostHeadlineLinker\\Tests\\": "packages/Statie/packages/PostHeadlineLinker/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Statie\\Tweeter\\Tests\\": "packages/Statie/packages/Tweeter/tests",

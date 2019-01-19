@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\MigratorJekyll;
+namespace Symplify\Statie\MigratorSculpin;
 
 use Symplify\Statie\Migrator\Configuration\MigratorOption;
 use Symplify\Statie\Migrator\Contract\MigratorInterface;
@@ -12,13 +12,14 @@ use Symplify\Statie\Migrator\Worker\ParametersAdder;
 use Symplify\Statie\Migrator\Worker\PostIdsAdder;
 use Symplify\Statie\Migrator\Worker\StatieImportsAdder;
 use Symplify\Statie\Migrator\Worker\TwigSuffixChanger;
+use Symplify\Statie\MigratorSculpin\Worker\RoutePrefixMigrateWorker;
 
-final class JekyllToStatieMigrator implements MigratorInterface
+final class SculpinToStatieMigrator implements MigratorInterface
 {
     /**
      * @var mixed[]
      */
-    private $migratorJekyll = [];
+    private $migratorSculpin = [];
 
     /**
      * @var StatieImportsAdder
@@ -41,11 +42,6 @@ final class JekyllToStatieMigrator implements MigratorInterface
     private $twigSuffixChanger;
 
     /**
-     * @var ParametersAdder
-     */
-    private $parametersAdder;
-
-    /**
      * @var FilesystemMover
      */
     private $filesystemMover;
@@ -61,28 +57,40 @@ final class JekyllToStatieMigrator implements MigratorInterface
     private $filesystemRegularApplicator;
 
     /**
-     * @param mixed[] $migratorJekyll
+     * @var ParametersAdder
+     */
+    private $parametersAdder;
+
+    /**
+     * @var RoutePrefixMigrateWorker
+     */
+    private $routePrefixMigrateWorker;
+
+    /**
+     * @param mixed[] $migratorSculpin
      */
     public function __construct(
-        array $migratorJekyll,
+        array $migratorSculpin,
         StatieImportsAdder $statieImportsAdder,
         IncludePathsCompleter $includePathsCompleter,
         PostIdsAdder $postIdsAdder,
         TwigSuffixChanger $twigSuffixChanger,
-        ParametersAdder $parametersAdder,
         FilesystemMover $filesystemMover,
         FilesystemRemover $filesystemRemover,
-        FilesystemRegularApplicator $filesystemRegularApplicator
+        FilesystemRegularApplicator $filesystemRegularApplicator,
+        ParametersAdder $parametersAdder,
+        RoutePrefixMigrateWorker $routePrefixMigrateWorker
     ) {
         $this->statieImportsAdder = $statieImportsAdder;
         $this->includePathsCompleter = $includePathsCompleter;
         $this->postIdsAdder = $postIdsAdder;
         $this->twigSuffixChanger = $twigSuffixChanger;
-        $this->parametersAdder = $parametersAdder;
         $this->filesystemMover = $filesystemMover;
         $this->filesystemRemover = $filesystemRemover;
         $this->filesystemRegularApplicator = $filesystemRegularApplicator;
-        $this->migratorJekyll = $migratorJekyll;
+        $this->migratorSculpin = $migratorSculpin;
+        $this->parametersAdder = $parametersAdder;
+        $this->routePrefixMigrateWorker = $routePrefixMigrateWorker;
     }
 
     public function migrate(string $workingDirectory): void
@@ -90,18 +98,18 @@ final class JekyllToStatieMigrator implements MigratorInterface
         $workingDirectory = rtrim($workingDirectory, '/');
 
         // remove unwated files
-        if ($this->migratorJekyll[MigratorOption::PATHS_TO_REMOVE]) {
+        if ($this->migratorSculpin[MigratorOption::PATHS_TO_REMOVE]) {
             $this->filesystemRemover->processPaths(
                 $workingDirectory,
-                $this->migratorJekyll[MigratorOption::PATHS_TO_REMOVE]
+                $this->migratorSculpin[MigratorOption::PATHS_TO_REMOVE]
             );
         }
 
         // move files, rename
-        if ($this->migratorJekyll[MigratorOption::PATHS_TO_MOVE]) {
+        if ($this->migratorSculpin[MigratorOption::PATHS_TO_MOVE]) {
             $this->filesystemMover->processPaths(
                 $workingDirectory,
-                $this->migratorJekyll[MigratorOption::PATHS_TO_MOVE]
+                $this->migratorSculpin[MigratorOption::PATHS_TO_MOVE]
             );
         }
 
@@ -112,10 +120,10 @@ final class JekyllToStatieMigrator implements MigratorInterface
         $this->twigSuffixChanger->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // clear regulars by paths
-        if ($this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS]) {
+        if ($this->migratorSculpin[MigratorOption::APPLY_REGULAR_IN_PATHS]) {
             $this->filesystemRegularApplicator->processPaths(
                 $workingDirectory,
-                $this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS]
+                $this->migratorSculpin[MigratorOption::APPLY_REGULAR_IN_PATHS]
             );
         }
 
@@ -127,6 +135,9 @@ final class JekyllToStatieMigrator implements MigratorInterface
 
         // complete id to posts
         $this->postIdsAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
+
+        // migrate route prefix
+        $this->routePrefixMigrateWorker->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // import .(yml|yaml) data files in statie.yaml
         $this->statieImportsAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
