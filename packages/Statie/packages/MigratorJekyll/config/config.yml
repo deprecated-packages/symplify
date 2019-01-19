@@ -33,12 +33,28 @@ parameters:
             'source':
                 # parameters are accessed directly, without any prefix - see https://regex101.com/r/PvaeHS/1
                 '#({%|{{)(.*?\b)(site\.data\.|site\.)#': '$1$2'
+
                 # remove --- --- in the start
                 '#^\-\-\-\n\-\-\-\n#m': ''
+
                 # join: to join()
                 '#({{\s*tags\s*\|\s*join):(\s*[^|}|]+)#': '$1($2)'
+
                 # strip_html
                 '#(.*|\*)strip_html(.*)#': '$1striphtml$2'
+
+                # change include html suffix to twig
+                '#({% include )(.*?).html( %})#': "$1'$2.twig'$3"
+
+                # change "remove" to "replace" - @see https://regex101.com/r/iTaipb/2
+                '#(\|(\s+)?)(?<filter>remove):\s*(?<value>.*?)\s*(\||}})#': "$1replace($4, '')$5"
+
+                # replace "contains" with "in" - @see https://regex101.com/r/iTaipb/3
+                '#({(%|{).*?)\s*(?<value>\w+)\s*contains\s*(?<needle>.*?)(\s)#': '$1 $4 in $3$5'
+
+                # replace "assign" with "set"
+                '#({%)\s*assign\s*(.*?)#': '$1 set $2'
+                '#{% capture (.*?) endcapture %}#': '{% set $1 endset %}'
 
             source/_posts:
                 # remove layout from posts, not needed

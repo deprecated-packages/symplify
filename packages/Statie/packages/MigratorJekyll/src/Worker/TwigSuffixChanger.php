@@ -32,47 +32,16 @@ final class TwigSuffixChanger implements MigratorJekyllWorkerInterface
         $twigFileInfos = $this->migratorFilesystem->getPossibleTwigFiles($sourceDirectory, $workingDirectory);
 
         foreach ($twigFileInfos as $twigFileInfo) {
-            // replace "include *.html" with "include *.twig"
-            $newContent = Strings::replace(
-                $twigFileInfo->getContents(),
-                '#({% include )(.*?).html( %})#',
-                '$1\'$2.twig\'$3'
-            );
-
-            // replace "remove" with "replace" - @see https://regex101.com/r/iTaipb/2
-            $newContent = Strings::replace(
-                $newContent,
-                '#(\|(\s+)?)(?<filter>remove):\s*(?<value>.*?)\s*(\||}})#',
-                '$1replace($4, \'\')$5'
-            );
-
-            // replace "contains" with "in" - @see https://regex101.com/r/iTaipb/3
-            $newContent = Strings::replace(
-                $newContent,
-                '#({(%|{).*?)\s*(?<value>\w+)\s*contains\s*(?<needle>.*?)(\s)#',
-                '$1 $4 in $3$5'
-            );
-
-            // replace "assign" with "set"
-            $newContent = Strings::replace($newContent, '#({%)\s*assign\s*(.*?)#', '$1 set $2');
-            $newContent = Strings::replace($newContent, '#{% capture (.*?) endcapture %}#', '{% set $1 endset %}');
-
-            // save to `*.twig` file
-            $oldPath = $twigFileInfo->getRelativeFilePathFromDirectory($workingDirectory);
+            $oldPath = $twigFileInfo->getRealPath();
 
             $newPath = Strings::replace($oldPath, '#\.(html|xml|md)$#', '.twig');
-            $newPath = $this->migratorFilesystem->absolutizePath($newPath, $workingDirectory);
-
-            FileSystem::write($newPath, $newContent);
-
-            $oldPath = $this->migratorFilesystem->absolutizePath($oldPath, $workingDirectory);
-
-            // remove old file
-            if ($oldPath !== $newPath) {
-                FileSystem::delete($oldPath);
+            if ($oldPath === $newPath) {
+                continue;
             }
 
-            $this->symfonyStyle->note(sprintf('File "%s" changed to "%s" including paths in it', $oldPath, $newPath));
+            FileSystem::rename($oldPath, $newPath);
+
+            $this->symfonyStyle->note(sprintf('File "%s" suffix renamed to "%s"', $oldPath, $newPath));
         }
 
         $this->symfonyStyle->success('Suffixes changed to .twig');

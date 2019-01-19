@@ -90,11 +90,13 @@ final class IncludePathsCompleter implements MigratorJekyllWorkerInterface
         string $sourceDirectory
     ): string {
         foreach ($includeableFileInfos as $includeableFileInfo) {
-            if ($includeableFileInfo->getBasename() === $shortPath) {
+            $shortPath = trim($shortPath, '\'');
+
+            if (Strings::match($includeableFileInfo->getBasename(), '#' . $shortPath . '\.#')) {
                 return $includeableFileInfo->getRelativeFilePathFromDirectory($sourceDirectory);
             }
 
-            if ($includeableFileInfo->getBasename('.html') === $shortPath) {
+            if ($includeableFileInfo->getBasename() === $shortPath) {
                 return $includeableFileInfo->getRelativeFilePathFromDirectory($sourceDirectory);
             }
         }

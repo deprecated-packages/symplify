@@ -105,6 +105,10 @@ final class JekyllToStatieMigrator
         }
 
         // now all website files are in "/source" directory
+        $sourceDirectory = $workingDirectory . '/source';
+
+        // 6. change suffixes - html/md → twig, where there is a "{% X %}" also inside files to be included
+        $this->twigSuffixChanger->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // 3. clear regulars by paths
         if ($this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS]) {
@@ -114,16 +118,11 @@ final class JekyllToStatieMigrator
             );
         }
 
-        $sourceDirectory = $workingDirectory . '/source';
-
         // 4. prepend yaml files with `parameters`
         $this->parametersAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // 5. complete "include" file name to full paths
         $this->includePathsCompleter->processSourceDirectory($sourceDirectory, $workingDirectory);
-
-        // 6. change suffixes - html/md → twig, where there is a "{% X %}" also inside files to be included
-        $this->twigSuffixChanger->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // 7. complete id to posts
         $this->postIdsAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
