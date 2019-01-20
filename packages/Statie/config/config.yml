@@ -4,6 +4,9 @@ parameters:
     # old url: new url
     redirects: []
 
+    # parameters that will be printed as /api/<parameter-name>.json
+    api_parameters: []
+
     # see https://www.statie.org/docs/generators/
     generators:
         posts:

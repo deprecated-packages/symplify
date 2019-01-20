@@ -51,7 +51,7 @@ gulp
 
 4. And see web in browser [localhost:8000](http://localhost:8000).
 
-## Do you use Jekyll or Sculpin? 
+## Do you use Jekyll or Sculpin?
 
 We'll help you migrate:
 
@@ -60,7 +60,7 @@ vendor/bin/statie migrate-jekyll
 vendor/bin/statie migrate-sculpin
 ```
 
-They will do 95 % of migration for you. If you still struggle with migration, look at: 
+They will do 95 % of migration for you. If you still struggle with migration, look at:
 
 - [9 Steps to Migrate From Jekyll to Statie](https://www.tomasvotruba.cz/blog/2019/01/10/9-steps-to-migrate-from-jekyll-to-statie/)
 - [11 Steps to Migrate From Sculpin to Statie](https://www.tomasvotruba.cz/blog/2019/01/14/11-steps-to-migrate-from-sculpin-to-statie/)
@@ -139,6 +139,26 @@ parameters:
 ```
 
 Now people can share specific headlines in your posts.
+
+### How to Generate API?
+
+Statie web [Friendsofphp.org](https://friendsofphp.org/) provide info about PHP meetups and groups. They're already stored in parameters. Do you want to publish them as JSON API?
+
+```yaml
+parameters:
+    api_parameters:
+        - 'groups'
+        - 'meetups'
+```
+
+This will generate 2 pages:
+
+```bash
+/api/groups.json
+/api/meetups.json
+```
+
+With parameters as JSON, that anyone can use now.
 
 ### How to Redirect old page?
 

@@ -8,6 +8,7 @@ use Symplify\Statie\Event\BeforeRenderEvent;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Generator;
+use Symplify\Statie\Renderable\ApiGenerator;
 use Symplify\Statie\Renderable\RedirectGenerator;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 use Symplify\Statie\Templating\LayoutsAndSnippetsLoader;
@@ -54,6 +55,11 @@ final class StatieApplication
      */
     private $redirectGenerator;
 
+    /**
+     * @var ApiGenerator
+     */
+    private $apiGenerator;
+
     public function __construct(
         StatieConfiguration $statieConfiguration,
         FileSystemWriter $fileSystemWriter,
@@ -62,7 +68,8 @@ final class StatieApplication
         FileFinder $fileFinder,
         EventDispatcherInterface $eventDispatcher,
         LayoutsAndSnippetsLoader $layoutsAndSnippetsLoader,
-        RedirectGenerator $redirectGenerator
+        RedirectGenerator $redirectGenerator,
+        ApiGenerator $apiGenerator
     ) {
         $this->statieConfiguration = $statieConfiguration;
         $this->fileSystemWriter = $fileSystemWriter;
@@ -72,6 +79,7 @@ final class StatieApplication
         $this->eventDispatcher = $eventDispatcher;
         $this->layoutsAndSnippetsLoader = $layoutsAndSnippetsLoader;
         $this->redirectGenerator = $redirectGenerator;
+        $this->apiGenerator = $apiGenerator;
     }
 
     public function run(string $source, string $destination, bool $dryRun = false): void
@@ -95,7 +103,8 @@ final class StatieApplication
             new BeforeRenderEvent($files, $generatorFilesByType)
         );
 
-        $virtualFiles = $this->redirectGenerator->generate();
+        $redirectFiles = $this->redirectGenerator->generate();
+        $apiFiles = $this->apiGenerator->generate();
 
         if ($dryRun === false) {
             // process static files
@@ -103,7 +112,8 @@ final class StatieApplication
             $this->fileSystemWriter->copyStaticFiles($staticFiles);
 
             $this->fileSystemWriter->renderFiles($files);
-            $this->fileSystemWriter->renderFiles($virtualFiles);
+            $this->fileSystemWriter->renderFiles($redirectFiles);
+            $this->fileSystemWriter->renderFiles($apiFiles);
 
             foreach ($generatorFilesByType as $generatorFiles) {
                 $this->fileSystemWriter->renderFiles($generatorFiles);
