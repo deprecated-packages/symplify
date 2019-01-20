@@ -12,12 +12,12 @@ gulp.task('default', function () {
     exec('vendor/bin/statie generate source', function (err, stdout, stderr) {
         stdout ? log.info(stdout.trim()) : null;
         stderr ? log.error("Error:\n" + stderr.trim()) : null;
-    });
 
-    // Run local server, open localhost:8000 in your browser
-    // needs to listen on 0.0.0.0 to work in Docker on windows
-    exec('php -S 0.0.0.0:8000 -t output');
-    console.log('Local PHP server started at "http://localhost:8000", open browser to see it.');
+        // Run local server, open localhost:8000 in your browser
+        // needs to listen on 0.0.0.0 to work in Docker on windows
+        exec('php -S 0.0.0.0:8000 -t output');
+        log.info('Local PHP server started at "http://localhost:8000", open browser to see it.');
+    });
 
     // For the second arg see: https://github.com/floatdrop/gulp-watch/issues/242#issuecomment-230209702
     return watch(['source/**/*', '!**/*___jb_tmp___'], function () {
