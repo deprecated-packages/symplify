@@ -15,6 +15,10 @@ services:
             Symfony\Component\DependencyInjection\ContainerInterface: 'Use constructor injection, collectors or factory instead'
             PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
 
+    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+        extraAllowedClasses:
+            - '*File'
+
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
             PhpCsFixer\Fixer\FixerInterface:
