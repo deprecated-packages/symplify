@@ -10,8 +10,8 @@ gulp.task('default', function () {
     // Generate current version
     log.info('Generating...');
     exec('vendor/bin/statie generate source', function (err, stdout, stderr) {
-        console.log(stdout);
-        console.error(stderr);
+        stdout ? log.info(stdout.trim()) : null;
+        stderr ? log.error("Error:\n" + stderr.trim()) : null;
     });
 
     // Run local server, open localhost:8000 in your browser
@@ -23,8 +23,8 @@ gulp.task('default', function () {
     return watch(['source/**/*', '!**/*___jb_tmp___'], function () {
         log.info('Regenerating...');
         exec('vendor/bin/statie generate source', function (err, stdout, stderr) {
-            console.log(stdout);
-            console.error(stderr);
+            stdout ? log.info(stdout.trim()) : null;
+            stderr ? log.error("Error:\n" + stderr.trim()) : null;
         });
     });
 });
