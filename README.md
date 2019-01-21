@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>Symplify Monorepo</h1>
+    <h1>Symplify</h1>
     <a href="https://travis-ci.org/Symplify/Symplify">
         <img src="https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square" alt="CI Status">
     </a>
