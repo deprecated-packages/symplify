@@ -9,7 +9,55 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.3.10 - 2019-01-13
+## Unreleased
+
+### Added
+
+#### Statie
+
+- [#1352] Add "markdown", "reading_time", "sort_by_field", "date_to_xmlschema", "xml_escape" and "related_items" filters/functions
+- [#1339] Add `migrate-jekyll` command
+- [#1362] Add `migrate-sculpin` command
+- [#1347] Add raw-content support for generated files
+- [#1359] Add `dump-joind-in` command
+- [#1358] Add redirect support directly to config
+- [#1356] Add "group_by_field" filter
+- [#1355] Add "diff_from_today_in_days" filter
+- [#1366] Add api generator
+
+### Changed
+
+#### MonorepoBuilder
+
+- [#1349] Extend dependency updater to allow skip callback
+
+### Fixed
+
+#### BetterPhpDocParser
+
+- [#1368] TYPO in name of class: `TypeNodeToStringsConvertor` instead `TypeNodeToStringsConverter`, Thanks to [@themark147]
+
+#### ChangelogLinker
+
+- [#1350] link only full matching names
+
+#### MonorepoBuilder
+
+- [#1323] ReleaseCommand: stage is taken into account in success message, Thanks to [@vitek-rostislav]
+
+#### Statie
+
+- [#1363] Listen on every address, Thanks to [@tomasfejfar]
+
+## [v5.3.12] - 2019-01-13
+
+### Fixed
+
+#### MonorepoBuilder
+
+- [#1338] Fix package classmap merging
+
+## [v5.3.10] - 2019-01-13
 
 ### Added
 
@@ -675,3 +723,26 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1336]: https://github.com/Symplify/Symplify/pull/1336
 [#1335]: https://github.com/Symplify/Symplify/pull/1335
 [#1332]: https://github.com/Symplify/Symplify/pull/1332
+[#1368]: https://github.com/Symplify/Symplify/pull/1368
+[#1366]: https://github.com/Symplify/Symplify/pull/1366
+[#1363]: https://github.com/Symplify/Symplify/pull/1363
+[#1362]: https://github.com/Symplify/Symplify/pull/1362
+[#1360]: https://github.com/Symplify/Symplify/pull/1360
+[#1359]: https://github.com/Symplify/Symplify/pull/1359
+[#1358]: https://github.com/Symplify/Symplify/pull/1358
+[#1356]: https://github.com/Symplify/Symplify/pull/1356
+[#1355]: https://github.com/Symplify/Symplify/pull/1355
+[#1352]: https://github.com/Symplify/Symplify/pull/1352
+[#1351]: https://github.com/Symplify/Symplify/pull/1351
+[#1350]: https://github.com/Symplify/Symplify/pull/1350
+[#1349]: https://github.com/Symplify/Symplify/pull/1349
+[#1347]: https://github.com/Symplify/Symplify/pull/1347
+[#1344]: https://github.com/Symplify/Symplify/pull/1344
+[#1339]: https://github.com/Symplify/Symplify/pull/1339
+[#1338]: https://github.com/Symplify/Symplify/pull/1338
+[#1323]: https://github.com/Symplify/Symplify/pull/1323
+[@vitek-rostislav]: https://github.com/vitek-rostislav
+[@tomasfejfar]: https://github.com/tomasfejfar
+[@themark147]: https://github.com/themark147
+[v5.3.12]: https://github.com/Symplify/Symplify/compare/v5.3.10...v5.3.12
+[v5.3.10]: https://github.com/Symplify/Symplify/compare/v5.3.9...v5.3.10
