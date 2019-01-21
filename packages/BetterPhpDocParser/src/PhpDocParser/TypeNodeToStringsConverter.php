@@ -16,7 +16,7 @@ use function Safe\sprintf;
 /**
  * @inspiration https://github.com/rectorphp/rector/blob/6006a75c8f3bec3aa976f48c7394d4a4b3a0e2ac/src/PhpParser/Node/Resolver/NameResolver.php#L21
  */
-final class TypeNodeToStringsConvertor
+final class TypeNodeToStringsConverter
 {
     /**
      * @var callable[]

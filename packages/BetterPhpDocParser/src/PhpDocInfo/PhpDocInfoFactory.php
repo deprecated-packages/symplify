@@ -6,7 +6,7 @@ use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
 
 final class PhpDocInfoFactory
 {
@@ -26,20 +26,20 @@ final class PhpDocInfoFactory
     private $phpDocModifier;
 
     /**
-     * @var TypeNodeToStringsConvertor
+     * @var TypeNodeToStringsConverter
      */
-    private $typeNodeToStringsConvertor;
+    private $typeNodeToStringsConverter;
 
     public function __construct(
         PhpDocParser $phpDocParser,
         Lexer $lexer,
         PhpDocModifier $phpDocModifier,
-        TypeNodeToStringsConvertor $typeNodeToStringsConvertor
+        TypeNodeToStringsConverter $typeNodeToStringsConverter
     ) {
         $this->phpDocParser = $phpDocParser;
         $this->lexer = $lexer;
         $this->phpDocModifier = $phpDocModifier;
-        $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
+        $this->typeNodeToStringsConverter = $typeNodeToStringsConverter;
     }
 
     public function createFrom(string $content): PhpDocInfo
@@ -53,7 +53,7 @@ final class PhpDocInfoFactory
             $tokens,
             $content,
             $this->phpDocModifier,
-            $this->typeNodeToStringsConvertor
+            $this->typeNodeToStringsConverter
         );
     }
 }

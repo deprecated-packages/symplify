@@ -5,7 +5,7 @@ namespace Symplify\TokenRunner\DocBlock;
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
 use function Safe\sprintf;
 
 final class DescriptionAnalyzer
@@ -21,16 +21,16 @@ final class DescriptionAnalyzer
     private $typeNodeAnalyzer;
 
     /**
-     * @var TypeNodeToStringsConvertor
+     * @var TypeNodeToStringsConverter
      */
-    private $typeNodeToStringsConvertor;
+    private $typeNodeToStringsConverter;
 
     public function __construct(
         TypeNodeAnalyzer $typeNodeAnalyzer,
-        TypeNodeToStringsConvertor $typeNodeToStringsConvertor
+        TypeNodeToStringsConverter $typeNodeToStringsConverter
     ) {
         $this->typeNodeAnalyzer = $typeNodeAnalyzer;
-        $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
+        $this->typeNodeToStringsConverter = $typeNodeToStringsConverter;
     }
 
     public function isDescriptionUseful(string $description, ?TypeNode $typeNode, ?string $name): bool
@@ -44,7 +44,7 @@ final class DescriptionAnalyzer
             return true;
         }
 
-        $types = $this->typeNodeToStringsConvertor->convert($typeNode);
+        $types = $this->typeNodeToStringsConverter->convert($typeNode);
 
         // only 1 type can be analyzed
         $type = array_pop($types);
