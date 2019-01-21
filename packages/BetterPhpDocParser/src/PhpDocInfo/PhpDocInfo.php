@@ -13,7 +13,7 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
 
 final class PhpDocInfo
 {
@@ -43,9 +43,9 @@ final class PhpDocInfo
     private $phpDocModifier;
 
     /**
-     * @var TypeNodeToStringsConvertor
+     * @var TypeNodeToStringsConverter
      */
-    private $typeNodeToStringsConvertor;
+    private $typeNodeToStringsConverter;
 
     /**
      * @param mixed[] $tokens
@@ -55,14 +55,14 @@ final class PhpDocInfo
         array $tokens,
         string $originalContent,
         PhpDocModifier $phpDocModifier,
-        TypeNodeToStringsConvertor $typeNodeToStringsConvertor
+        TypeNodeToStringsConverter $typeNodeToStringsConverter
     ) {
         $this->phpDocNode = $phpDocNode;
         $this->tokens = $tokens;
         $this->originalPhpDocNode = clone $phpDocNode;
         $this->originalContent = $originalContent;
         $this->phpDocModifier = $phpDocModifier;
-        $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
+        $this->typeNodeToStringsConverter = $typeNodeToStringsConverter;
     }
 
     public function getOriginalContent(): string
@@ -177,7 +177,7 @@ final class PhpDocInfo
             return [];
         }
 
-        return $this->typeNodeToStringsConvertor->convert($paramTagValue->type);
+        return $this->typeNodeToStringsConverter->convert($paramTagValue->type);
     }
 
     /**
@@ -190,7 +190,7 @@ final class PhpDocInfo
             return [];
         }
 
-        return $this->typeNodeToStringsConvertor->convert($varTypeNode);
+        return $this->typeNodeToStringsConverter->convert($varTypeNode);
     }
 
     /**
@@ -203,7 +203,7 @@ final class PhpDocInfo
             return [];
         }
 
-        return $this->typeNodeToStringsConvertor->convert($returnTypeValueNode->type);
+        return $this->typeNodeToStringsConverter->convert($returnTypeValueNode->type);
     }
 
     // replace section

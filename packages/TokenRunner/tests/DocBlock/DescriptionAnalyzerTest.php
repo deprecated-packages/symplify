@@ -7,7 +7,7 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPUnit\Framework\TestCase;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 
 final class DescriptionAnalyzerTest extends TestCase
@@ -19,7 +19,7 @@ final class DescriptionAnalyzerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->descriptionAnalyzer = new DescriptionAnalyzer(new TypeNodeAnalyzer(), new TypeNodeToStringsConvertor());
+        $this->descriptionAnalyzer = new DescriptionAnalyzer(new TypeNodeAnalyzer(), new TypeNodeToStringsConverter());
     }
 
     /**

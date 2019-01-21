@@ -8,19 +8,19 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
 
-final class TypeNodeToStringsConvertorTest extends AbstractContainerAwareTestCase
+final class TypeNodeToStringsConverterTest extends AbstractContainerAwareTestCase
 {
     /**
-     * @var TypeNodeToStringsConvertor
+     * @var TypeNodeToStringsConverter
      */
-    private $typeNodeToStringsConvertor;
+    private $typeNodeToStringsConverter;
 
     protected function setUp(): void
     {
-        $this->typeNodeToStringsConvertor = $this->container->get(TypeNodeToStringsConvertor::class);
+        $this->typeNodeToStringsConverter = $this->container->get(TypeNodeToStringsConverter::class);
     }
 
     /**
@@ -29,7 +29,7 @@ final class TypeNodeToStringsConvertorTest extends AbstractContainerAwareTestCas
      */
     public function testConvert(TypeNode $typeNode, array $expectedTypeStrings): void
     {
-        $this->assertSame($expectedTypeStrings, $this->typeNodeToStringsConvertor->convert($typeNode));
+        $this->assertSame($expectedTypeStrings, $this->typeNodeToStringsConverter->convert($typeNode));
     }
 
     public function provideDataForConvert(): Iterator
