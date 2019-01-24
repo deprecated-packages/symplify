@@ -4,33 +4,57 @@ namespace Symplify\Statie\Tweeter\TweetFilter;
 
 use Symplify\Statie\Tweeter\Tweet\PostTweet;
 use Symplify\Statie\Tweeter\Tweet\PublishedTweet;
+use Symplify\Statie\Tweeter\TwitterApi\TwitterApiWrapper;
 
 final class PublishedTweetsFilter
 {
     /**
-     * @param PostTweet[] $allTweets
-     * @param PublishedTweet[] $publishedTweets
-     * @return PostTweet[]
+     * @var PublishedTweet[]
      */
-    public function filter(array $allTweets, array $publishedTweets): array
+    private $publishedTweets = [];
+
+    /**
+     * @var TwitterApiWrapper
+     */
+    private $twitterApiWrapper;
+
+    public function __construct(TwitterApiWrapper $twitterApiWrapper)
     {
-        return array_filter($allTweets, function ($tweet) use ($publishedTweets) {
-            // true if unpublished, false if published
-            return ! $this->wasTweetPublished($tweet, $publishedTweets);
-        });
+        $this->twitterApiWrapper = $twitterApiWrapper;
     }
 
     /**
-     * @param PublishedTweet[] $publishedTweets
+     * @param PostTweet[] $allTweets
+     * @return PostTweet[]
      */
-    private function wasTweetPublished(PostTweet $postTweet, array $publishedTweets): bool
+    public function filter(array $allTweets): array
     {
-        foreach ($publishedTweets as $publishedTweet) {
+        return array_filter($allTweets, function ($tweet) {
+            // true if unpublished, false if published
+            return ! $this->wasTweetPublished($tweet);
+        });
+    }
+
+    private function wasTweetPublished(PostTweet $postTweet): bool
+    {
+        foreach ($this->getPublishedTweets() as $publishedTweet) {
             if ($postTweet->isSimilarToPublishedTweet($publishedTweet)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * @return PublishedTweet[]
+     */
+    private function getPublishedTweets(): array
+    {
+        if ($this->publishedTweets) {
+            return $this->publishedTweets;
+        }
+
+        return $this->publishedTweets = $this->twitterApiWrapper->getPublishedTweets();
     }
 }

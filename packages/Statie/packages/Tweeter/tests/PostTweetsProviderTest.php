@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Tweeter\Tests\TweetProvider\PostTweetsProvider;
+namespace Symplify\Statie\Tweeter\Tests;
 
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -15,21 +15,23 @@ final class PostTweetsProviderTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $statieConfiguration = $this->container->get(StatieConfiguration::class);
-        $statieConfiguration->setSourceDirectory(__DIR__ . '/Source');
+        parent::setUp();
+
+        $configuration = $this->container->get(StatieConfiguration::class);
+        $configuration->setSourceDirectory(__DIR__ . '/Source');
 
         $this->postTweetsProvider = $this->container->get(PostTweetsProvider::class);
     }
 
-    public function testPostDateTime(): void
+    public function test(): void
     {
         $postTweets = $this->postTweetsProvider->provide();
 
         $this->assertCount(1, $postTweets);
-        $tweet = $postTweets[0];
 
-        $postDate = $tweet->getPostDateTime()->format('Y-m-d');
+        $postTweet = $postTweets[0];
 
-        $this->assertSame('2019-01-30', $postDate);
+        $postDate = $postTweet->getPostDateTime()->format('Y-m-d');
+        $this->assertSame('2018-10-30', $postDate);
     }
 }

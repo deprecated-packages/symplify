@@ -7,10 +7,10 @@
 parameters:
     twitter_name: 'TomasVotruba'
     
-    # how many days to wait before publishing another Tweet - 0 days
-    twitter_minimal_gap_in_days: 1 # default 
+    # how many days to wait before publishing another Tweet - set 0 days for testing
+    twitter_minimal_gap_in_days: 1 
     # how old Tweets should be tweeted, to prevent 2-years old posting
-    twitter_maximal_days_in_past: 60 # default 
+    twitter_maximal_days_in_past: 60 
 ```
 
 ## Setup Twitter API 

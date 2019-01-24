@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Tweeter\TweetFilter;
 
 use Symplify\Statie\Tweeter\Tweet\PostTweet;
-use Symplify\Statie\Tweeter\TwitterApi\TwitterApiWrapper;
 
 final class TweetsFilter
 {
@@ -17,19 +16,12 @@ final class TweetsFilter
      */
     private $publishedTweetsFilter;
 
-    /**
-     * @var TwitterApiWrapper
-     */
-    private $twitterApiWrapper;
-
     public function __construct(
         OldTweetsFilter $oldTweetsFilter,
-        PublishedTweetsFilter $publishedTweetsFilter,
-        TwitterApiWrapper $twitterApiWrapper
+        PublishedTweetsFilter $publishedTweetsFilter
     ) {
         $this->oldTweetsFilter = $oldTweetsFilter;
         $this->publishedTweetsFilter = $publishedTweetsFilter;
-        $this->twitterApiWrapper = $twitterApiWrapper;
     }
 
     /**
@@ -39,8 +31,7 @@ final class TweetsFilter
     public function filter(array $postTweets): array
     {
         $postTweets = $this->oldTweetsFilter->filter($postTweets);
-        $publishedTweets = $this->twitterApiWrapper->getPublishedTweets();
 
-        return $this->publishedTweetsFilter->filter($postTweets, $publishedTweets);
+        return $this->publishedTweetsFilter->filter($postTweets);
     }
 }
