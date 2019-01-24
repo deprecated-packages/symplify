@@ -16,10 +16,8 @@ final class TweetsFilter
      */
     private $publishedTweetsFilter;
 
-    public function __construct(
-        OldTweetsFilter $oldTweetsFilter,
-        PublishedTweetsFilter $publishedTweetsFilter
-    ) {
+    public function __construct(OldTweetsFilter $oldTweetsFilter, PublishedTweetsFilter $publishedTweetsFilter)
+    {
         $this->oldTweetsFilter = $oldTweetsFilter;
         $this->publishedTweetsFilter = $publishedTweetsFilter;
     }

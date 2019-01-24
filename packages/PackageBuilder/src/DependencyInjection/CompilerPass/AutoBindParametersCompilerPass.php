@@ -3,6 +3,7 @@
 namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 
 use Nette\Utils\Strings;
+use ReflectionMethod;
 use Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -26,8 +27,24 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
                 continue;
             }
 
+            $reflectionClass = $containerBuilder->getReflectionClass($definition->getClass());
+            if ($reflectionClass === null) {
+                continue;
+            }
+
+            $constructorReflection = $reflectionClass->getConstructor();
+            if ($constructorReflection === null) {
+                continue;
+            }
+
+            // exclude non-scalar parameters
+            $parameterNamesToExclude = $this->resolveMethodReflectionNonScalarArgumentNames($constructorReflection);
+            $parameterNamesToExclude = array_flip($parameterNamesToExclude);
+            $bindings = array_diff_key($boundArguments, $parameterNamesToExclude);
+
             // config binding has priority over default one
-            $bindings = array_merge($definition->getBindings(), $boundArguments);
+            $bindings = array_merge($definition->getBindings(), $bindings);
+
             $definition->setBindings($bindings);
         }
     }
@@ -71,7 +88,30 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
             return true;
         }
 
-        return $definition->getClass() === null && $definition->getFactory() === null;
+        if ($definition->getClass() === null && $definition->getFactory() === null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function resolveMethodReflectionNonScalarArgumentNames(ReflectionMethod $reflectionMethod): array
+    {
+        $argumentNames = [];
+        foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
+            $typeName = (string) $reflectionParameter->getType();
+
+            // probably not scalar type
+            if (isset($typeName[0]) && (Strings::contains($typeName, '\\') || ctype_upper($typeName[0]))) {
+                // '$' to be consistent with bind parameter naming
+                $argumentNames[] = '$' . $reflectionParameter->name;
+            }
+        }
+
+        return $argumentNames;
     }
 
     /**
