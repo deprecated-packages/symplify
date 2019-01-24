@@ -4,6 +4,7 @@ parameters:
 
     # set 0 for testing
     twitter_minimal_gap_in_days: 1 # how many days to wait before publishing another Tweet
+    twitter_maximal_days_in_past: 60 # how old Tweets should be tweeted, to prevent 2-years old posting
 
     env(TWITTER_CONSUMER_KEY): '...'
     env(TWITTER_CONSUMER_SECRET): '...'
@@ -23,7 +24,7 @@ services:
 
     Symplify\Statie\Tweeter\:
         resource: '../src'
-        exclude: '../src/{Exception}'
+        exclude: '../src/{Exception,Tweet}'
 
     TwitterAPIExchange:
         class: 'TwitterAPIExchange'

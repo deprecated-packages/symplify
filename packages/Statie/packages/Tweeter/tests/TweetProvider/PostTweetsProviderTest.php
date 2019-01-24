@@ -5,18 +5,19 @@ namespace Symplify\Statie\Tweeter\Tests\TweetProvider;
 use Nette\Utils\FileSystem;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use Symplify\Statie\Tweeter\Tweet\Tweet;
+use Symplify\Statie\Tweeter\Tweet\PostTweet;
+use Symplify\Statie\Tweeter\Tweet\PublishedTweet;
+use Symplify\Statie\Tweeter\TweetFilter\PublishedTweetsFilter;
 use Symplify\Statie\Tweeter\TweetProvider\PostTweetsProvider;
-use Symplify\Statie\Tweeter\TweetProvider\UnpublishedTweetsResolver;
 use Symplify\Statie\Tweeter\TwitterApi\TwitterApiWrapper;
 use Twig\Loader\ArrayLoader;
 
-final class UnpublishedTweetsResolverTest extends AbstractContainerAwareTestCase
+final class PostTweetsProviderTest extends AbstractContainerAwareTestCase
 {
     /**
-     * @var UnpublishedTweetsResolver
+     * @var PublishedTweetsFilter
      */
-    private $unpublishedTweetsResolver;
+    private $publishedTweetsFilter;
 
     /**
      * @var PostTweetsProvider
@@ -37,7 +38,7 @@ final class UnpublishedTweetsResolverTest extends AbstractContainerAwareTestCase
 
         $this->postTweetsProvider = $this->container->get(PostTweetsProvider::class);
         $this->twitterApiWrapper = $this->container->get(TwitterApiWrapper::class);
-        $this->unpublishedTweetsResolver = $this->container->get(UnpublishedTweetsResolver::class);
+        $this->publishedTweetsFilter = $this->container->get(PublishedTweetsFilter::class);
 
         // set twig templates
         $arrayLoader = $this->container->get(ArrayLoader::class);
@@ -50,7 +51,7 @@ final class UnpublishedTweetsResolverTest extends AbstractContainerAwareTestCase
             $this->markTestSkipped('Run Twitter test only with access tokens.');
         }
 
-        $unpublishedTweets = $this->unpublishedTweetsResolver->excludePublishedTweets(
+        $unpublishedTweets = $this->publishedTweetsFilter->filter(
             $this->postTweetsProvider->provide(),
             $this->twitterApiWrapper->getPublishedTweets()
         );
@@ -71,7 +72,7 @@ final class UnpublishedTweetsResolverTest extends AbstractContainerAwareTestCase
         $postTweets = $this->postTweetsProvider->provide();
         $this->assertCount(1, $postTweets);
 
-        $this->assertInstanceOf(Tweet::class, $postTweets[0]);
+        $this->assertInstanceOf(PostTweet::class, $postTweets[0]);
     }
 
     public function testTwitterApiWrapper(): void
@@ -83,7 +84,7 @@ final class UnpublishedTweetsResolverTest extends AbstractContainerAwareTestCase
         $publishedTweets = $this->twitterApiWrapper->getPublishedTweets();
         $this->assertGreaterThanOrEqual(41, count($publishedTweets));
 
-        $this->assertInstanceOf(Tweet::class, $publishedTweets[0]);
+        $this->assertInstanceOf(PublishedTweet::class, $publishedTweets[0]);
     }
 
     protected function provideConfig(): string

@@ -7,7 +7,7 @@ use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Templating\LayoutsAndSnippetsLoader;
 use Symplify\Statie\Tweeter\Configuration\Keys;
-use Symplify\Statie\Tweeter\Tweet\Tweet;
+use Symplify\Statie\Tweeter\Tweet\PostTweet;
 use Symplify\Statie\Tweeter\TweetGuard;
 
 final class PostTweetsProvider
@@ -52,7 +52,7 @@ final class PostTweetsProvider
     }
 
     /**
-     * @return Tweet[]
+     * @return PostTweet[]
      */
     public function provide(): array
     {
@@ -69,9 +69,9 @@ final class PostTweetsProvider
             $this->tweetGuard->ensureTweetFitsAllowedLength($rawTweetText, $post);
 
             $postTweet = $this->appendAbsoluteUrlToTweet($post, $rawTweetText);
-
             $tweetImage = $this->resolveTweetImage($post, $postConfiguration);
-            $postTweets[] = Tweet::createFromTextAndImage($postTweet, $tweetImage);
+
+            $postTweets[] = new PostTweet($postTweet, $post->getDate(), $tweetImage);
         }
 
         return $postTweets;

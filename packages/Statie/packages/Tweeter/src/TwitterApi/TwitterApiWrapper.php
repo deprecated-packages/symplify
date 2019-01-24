@@ -6,7 +6,7 @@ use Nette\Utils\DateTime;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Json;
 use Symplify\Statie\Tweeter\Exception\TwitterApi\TwitterApiException;
-use Symplify\Statie\Tweeter\Tweet\Tweet;
+use Symplify\Statie\Tweeter\Tweet\PublishedTweet;
 use Symplify\Statie\Tweeter\TweetEntityCompleter;
 use TwitterAPIExchange;
 use function Safe\sprintf;
@@ -40,7 +40,7 @@ final class TwitterApiWrapper
     private $twitterName;
 
     /**
-     * @var Tweet[]
+     * @var PublishedTweet[]
      */
     private $rawTweets = [];
 
@@ -65,7 +65,7 @@ final class TwitterApiWrapper
     }
 
     /**
-     * @return Tweet[]
+     * @return PublishedTweet[]
      */
     public function getPublishedTweets(): array
     {
@@ -78,7 +78,7 @@ final class TwitterApiWrapper
 
         $tweets = [];
         foreach ($rawTweets as $fullTweet) {
-            $tweets[] = Tweet::createFromText($fullTweet['text']);
+            $tweets[] = new PublishedTweet($fullTweet['text']);
         }
 
         return $this->rawTweets = $tweets;
@@ -181,7 +181,7 @@ final class TwitterApiWrapper
     }
 
     /**
-     * This is needed, because setting setGetfield() prevents using setPostfields()
+     * The clone is needed, because setting setGetfield() prevents using setPostfields()
      */
     private function getTwitterApiExchange(): TwitterAPIExchange
     {

@@ -13,19 +13,19 @@ final class PostTweet
     private $text;
 
     /**
-     * @var DateTimeInterface
-     */
-    private $createdAt;
-
-    /**
      * @var string|null
      */
     private $image;
 
-    public function __construct(string $text, DateTimeInterface $createdAt, ?string $image)
+    /**
+     * @var DateTimeInterface
+     */
+    private $postDateTime;
+
+    public function __construct(string $text, DateTimeInterface $postDateTime, ?string $image)
     {
         $this->text = htmlspecialchars_decode($text);
-        $this->createdAt = $createdAt;
+        $this->postDateTime = $postDateTime;
         $this->image = $image;
     }
 
@@ -34,9 +34,9 @@ final class PostTweet
         return $this->text;
     }
 
-    public function getCreatedAt(): DateTimeInterface
+    public function getPostDateTime(): DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->postDateTime;
     }
 
     public function getImage(): ?string

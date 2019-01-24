@@ -1,8 +1,57 @@
 # How to Tweet your Posts with Travis
 
-## Setup Local
+## Enable in `statie.yaml` Config
+
+```yaml
+# statie.yaml
+parameters:
+    twitter_name: 'TomasVotruba'
+    
+    # how many days to wait before publishing another Tweet - 0 days
+    twitter_minimal_gap_in_days: 1 # default 
+    # how old Tweets should be tweeted, to prevent 2-years old posting
+    twitter_maximal_days_in_past: 60 # default 
+```
+
+## Setup Twitter API 
  
-1. Write "tweet" in your post.
+1. Get Twitter Access Tokens
+
+- Go to [apps.twitter.com/app/new](https://developer.twitter.com/app/new)
+- Login under account you want to publish in and create new Application
+- Then go to "Keys and Access Tokens"
+- In the bottom click to "Create my access token"
+
+2. Put them to `statie.yml.local` config:
+
+```yaml
+# statie.yml.local
+parameters:
+    twitter_consumer_key: 'TgnmCuTSH7gftcWOaFBUXPZzH'
+    twitter_consumer_secret: '9oenODoyFsF2mG3zNevUY4HPwG76zGQBTBoWzfHUKCIorR2lJ0'
+    twitter_oauth_access_token: '2463691352-mAMTJjo6kowEYddGTPpqdjUTWueQwWrLUdHpB9O'
+    twitter_oauth_access_token_secret: 'ltb12xYHdWAHrtPWm5h31T6Rptfa1IyutensM5EsX47Dt'
+```
+
+**Never share them publicly**, if you don't want to have child porn tweets under your name. 
+
+3. Add `statie.yml.local` to `statie.yml`
+
+```diff
+ # statie.yml
++imports:
++    - { resource: 'statie.yml.local', ignore_errors: true }
+```
+
+4. Add it to `.gitignore` so it's secret
+
+```diff
++statie.yml.local
+```
+
+## Write a Tweet
+
+Write "tweet" in your post.
 
 ```yaml
 id: 252
@@ -17,41 +66,7 @@ It's a long journey...
 
 ```
 
-2. Get Twitter Access Tokens
-
-- Go to [apps.twitter.com/app/new](https://developer.twitter.com/app/new)
-- Login under account you want to publish in and create new Application
-- Then go to "Keys and Access Tokens"
-- In the bottom click to "Create my access token"
-
-3. Put them to `statie.yml.local` config:
-
-```yaml
-# statie.yml.local
-parameters:
-    twitter_consumer_key: 'TgnmCuTSH7gftcWOaFBUXPZzH'
-    twitter_consumer_secret: '9oenODoyFsF2mG3zNevUY4HPwG76zGQBTBoWzfHUKCIorR2lJ0'
-    twitter_oauth_access_token: '2463691352-mAMTJjo6kowEYddGTPpqdjUTWueQwWrLUdHpB9O'
-    twitter_oauth_access_token_secret: 'ltb12xYHdWAHrtPWm5h31T6Rptfa1IyutensM5EsX47Dt'
-```
-
-**Never share them publicly**, if you don't want to have child porn tweets under your name. 
-
-4. Add `statie.yml.local` to `statie.yml`
-
-```diff
- # statie.yml
-+imports:
-+    - { resource: 'statie.yml.local', ignore_errors: true }
-```
-
-5. Add it to `.gitignore` so it's secret
-
-```diff
-+statie.yml.local
-```
-
-6. Test it
+And test it
 
 ```bsah
 vendor/bin/statie tweet-post
