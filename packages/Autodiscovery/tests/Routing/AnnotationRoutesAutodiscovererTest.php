@@ -2,6 +2,7 @@
 
 namespace Symplify\Autodiscovery\Tests\Routing;
 
+use Symfony\Component\Routing\Router;
 use Symplify\Autodiscovery\Routing\AnnotationRoutesAutodiscoverer;
 use Symplify\Autodiscovery\Tests\AbstractAppKernelAwareTestCase;
 
@@ -12,6 +13,7 @@ final class AnnotationRoutesAutodiscovererTest extends AbstractAppKernelAwareTes
 {
     public function test(): void
     {
+        /** @var Router $router */
         $router = $this->container->get('router');
         $annotationNames = array_keys($router->getRouteCollection()->all());
 
