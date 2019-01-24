@@ -2,9 +2,10 @@
 
 namespace Symplify\Statie\Tweeter\Tweet;
 
+use DateTimeInterface;
 use Nette\Utils\Strings;
 
-final class Tweet
+final class PostTweet
 {
     /**
      * @var string
@@ -16,20 +17,16 @@ final class Tweet
      */
     private $image;
 
-    private function __construct(string $text, ?string $image = null)
+    /**
+     * @var DateTimeInterface
+     */
+    private $postDateTime;
+
+    public function __construct(string $text, DateTimeInterface $postDateTime, ?string $image)
     {
         $this->text = htmlspecialchars_decode($text);
+        $this->postDateTime = $postDateTime;
         $this->image = $image;
-    }
-
-    public static function createFromText(string $text): self
-    {
-        return new self($text);
-    }
-
-    public static function createFromTextAndImage(string $text, ?string $image): self
-    {
-        return new self($text, $image);
     }
 
     public function getText(): string
@@ -37,17 +34,22 @@ final class Tweet
         return $this->text;
     }
 
+    public function getPostDateTime(): DateTimeInterface
+    {
+        return $this->postDateTime;
+    }
+
     public function getImage(): ?string
     {
         return $this->image;
     }
 
-    public function isSimilarTo(self $anotherTweet): bool
+    public function isSimilarToPublishedTweet(PublishedTweet $publishedTweet): bool
     {
         return Strings::startsWith(
             $this->text,
             // published tweet is usually modified by Twitter API, so we just use starting part of it
-            Strings::substring($anotherTweet->getText(), 0, 50)
+            Strings::substring($publishedTweet->getText(), 0, 50)
         );
     }
 }

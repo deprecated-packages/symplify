@@ -18,6 +18,7 @@ services:
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
             - '*File'
+            - '*Tweet'
 
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
@@ -115,8 +116,6 @@ parameters:
             - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
             - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
             - 'packages/Autodiscovery/src/Arrays.php'
-            # value object with static factories
-            - 'packages/Statie/packages/Tweeter/src/Tweet/Tweet.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
             # 3rd party code copy-pasted; kept as is for easier comparison to original
