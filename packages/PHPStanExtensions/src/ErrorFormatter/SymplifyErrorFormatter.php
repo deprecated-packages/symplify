@@ -10,6 +10,7 @@ use Symfony\Component\Console\Terminal;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PHPStanExtensions\Error\ErrorGrouper;
+use function Safe\getcwd;
 use function Safe\sprintf;
 
 final class SymplifyErrorFormatter implements ErrorFormatter
@@ -21,7 +22,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
     private const BULGARIAN_CONSTANT = 8;
 
     /**
-     * @var
+     * @var SymfonyStyle
      */
     private $symfonyStyle;
 
@@ -35,11 +36,8 @@ final class SymplifyErrorFormatter implements ErrorFormatter
      */
     private $terminal;
 
-    public function __construct(
-        ErrorGrouper $errorGrouper,
-        SymfonyStyle $symfonyStyle,
-        Terminal $terminal
-    ) {
+    public function __construct(ErrorGrouper $errorGrouper, SymfonyStyle $symfonyStyle, Terminal $terminal)
+    {
         $this->errorGrouper = $errorGrouper;
         $this->symfonyStyle = $symfonyStyle;
         $this->terminal = $terminal;
@@ -90,14 +88,6 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $this->symfonyStyle->writeln(' ' . $separator);
     }
 
-    private function regexMessage(string $message): string
-    {
-        // remove extra ".", that is really not part of message
-        $message = rtrim($message, '.');
-
-        return preg_quote($message, '#');
-    }
-
     private function getRelativePath(string $filePath): string
     {
         if (! file_exists($filePath)) {
@@ -105,5 +95,13 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         }
 
         return (new SmartFileInfo($filePath))->getRelativeFilePathFromDirectory(getcwd());
+    }
+
+    private function regexMessage(string $message): string
+    {
+        // remove extra ".", that is really not part of message
+        $message = rtrim($message, '.');
+
+        return preg_quote($message, '#');
     }
 }
