@@ -727,17 +727,14 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1366]: https://github.com/Symplify/Symplify/pull/1366
 [#1363]: https://github.com/Symplify/Symplify/pull/1363
 [#1362]: https://github.com/Symplify/Symplify/pull/1362
-[#1360]: https://github.com/Symplify/Symplify/pull/1360
 [#1359]: https://github.com/Symplify/Symplify/pull/1359
 [#1358]: https://github.com/Symplify/Symplify/pull/1358
 [#1356]: https://github.com/Symplify/Symplify/pull/1356
 [#1355]: https://github.com/Symplify/Symplify/pull/1355
 [#1352]: https://github.com/Symplify/Symplify/pull/1352
-[#1351]: https://github.com/Symplify/Symplify/pull/1351
 [#1350]: https://github.com/Symplify/Symplify/pull/1350
 [#1349]: https://github.com/Symplify/Symplify/pull/1349
 [#1347]: https://github.com/Symplify/Symplify/pull/1347
-[#1344]: https://github.com/Symplify/Symplify/pull/1344
 [#1339]: https://github.com/Symplify/Symplify/pull/1339
 [#1338]: https://github.com/Symplify/Symplify/pull/1338
 [#1323]: https://github.com/Symplify/Symplify/pull/1323

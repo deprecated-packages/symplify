@@ -1,14 +1,22 @@
 services:
-    errorFormatter.stats:
-        class: 'Symplify\PHPStanExtensions\ErrorFormatter\StatsErrorFormatter'
-
-    errorFormatter.ignore:
-        class: 'Symplify\PHPStanExtensions\ErrorFormatter\IgnoreErrorFormatter'
+    errorFormatter.symplify:
+        class: 'Symplify\PHPStanExtensions\ErrorFormatter\SymplifyErrorFormatter'
 
     - Symfony\Component\Console\Terminal
     - Symplify\PHPStanExtensions\Error\ErrorGrouper
 
+    - Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory
     -
-        class: Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
-        tags:
-            - phpstan.rules.rule
+        class: Symfony\Component\Console\Style\SymfonyStyle
+        factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
+
+    - { class: Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule, tags: [phpstan.rules.rule] }
+
+    # Symfony SplFileInfo::getContent() => string type
+    - { class: Symplify\PHPStanExtensions\Symfony\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension, tags: [phpstan.broker.dynamicMethodReturnTypeExtension] }
+
+    # Symfony Container::get($1) => $1 type
+    - { class: Symplify\PHPStanExtensions\Symfony\Type\ContainerGetTypeExtension, tags: [phpstan.broker.dynamicMethodReturnTypeExtension] }
+
+    # Symfony Kernel::getContainer() after Kernel::boot() => ContainerInterface type
+    - { class: Symplify\PHPStanExtensions\Symfony\Type\KernelGetContainerAfterBootReturnTypeExtension, tags: [phpstan.broker.dynamicMethodReturnTypeExtension] }

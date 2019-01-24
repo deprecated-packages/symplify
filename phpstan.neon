@@ -5,13 +5,13 @@ includes:
 
 parameters:
     level: max
-    reportUnmatchedIgnoredErrors: false
+    # reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
         - *packages/MonorepoBuilder/packages/Init/templates/*
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
-        - *packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*
+        - *packages/CodingStandard/tests/**/Wrong*
         # tests
         - packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php
         - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
@@ -41,7 +41,7 @@ parameters:
             message: '#Cannot assign offset int to int#'
             path: 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
 
-        # false positive: Container is alraedy present, initialized in previously called boot() method
+        # false positive: Container is already present, initialized in previously called boot() method
         -
             message: '#Method Symplify\\(.*?)\\DependencyInjection\\ContainerFactory::create\(\) should return (.*?)\\ContainerInterface but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
             path: '*packages/*/ContainerFactory.php'
@@ -60,7 +60,6 @@ parameters:
 
         # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
-        - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
 
         # is valid code, known values
         - '#Method Symplify\\MonorepoBuilder\\ComposerJsonDecorator\\AutoloadRelativePathComposerJsonDecorator::prefixPath\(\) should return array<string>\|string but returns array<array<string>\|string>#'
@@ -74,7 +73,6 @@ parameters:
         # invalid 3rd party-code
         - '#Call to an undefined method Psr\\Cache\\CacheItemInterface::tag\(\)#'
         - '#Parameter \#1 \$types of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects array\|int, string given#'
-
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
@@ -94,10 +92,6 @@ parameters:
         # buggy
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
 
-        # object
-        - '#does not accept object#'
-        - '#Call to an undefined method object#'
-
         # intersect/union buggy
         - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
@@ -110,7 +104,6 @@ parameters:
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Property Symplify\\EasyCodingStandard\\Yaml\\CheckerServiceParametersShifter::\$serviceKeywords \(array<string>\) does not accept ReflectionProperty#'
-        - '#Method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest::getIndentationTypeFixerFromContainer\(\) should return PhpCsFixer\\Fixer\\Whitespace\\IndentationTypeFixer but returns PhpCsFixer\\Fixer\\FixerInterface\|null#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Cannot access offset (.*?) on Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile#'
@@ -138,9 +131,6 @@ parameters:
         # not for a BC
         - '#In method "Symplify\\EasyCodingStandard\\Contract\\Finder\\CustomSourceProviderInterface::find", a "iterable\<SplFileInfo\|string\>" return type can be added#'
 
-        # unclear
-        - '#Parameter \#1 \$string of function strlen expects string, string\|false given#'
-
         # Symfony 4.2 typehint BC-break
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
@@ -155,9 +145,3 @@ parameters:
 
         # intentionally - array_search return false is needed, as key might be missed
         - '#Function array_search is unsafe to use#'
-
-services:
-    -
-        class: Symplify\PHPStanExtensions\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension
-        tags:
-            - phpstan.broker.dynamicMethodReturnTypeExtension

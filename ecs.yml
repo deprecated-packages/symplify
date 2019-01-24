@@ -12,7 +12,6 @@ services:
             SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
             Symfony\Component\Finder\SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
-            Symfony\Component\DependencyInjection\ContainerInterface: 'Use constructor injection, collectors or factory instead'
             PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
 
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
@@ -67,7 +66,7 @@ parameters:
             - 'packages/CodingStandard/src/Fixer/*'
             - 'packages/CodingStandard/tests/Fixer/*'
             # SplFileInfo extension
-            - 'packages/PHPStanExtensions/src/Type/SplFileInfoTolerantDynamicMethodReturnTypeExtension.php'
+            - 'packages/PHPStanExtensions/src/Symfony/Type/SplFileInfoTolerantDynamicMethodReturnTypeExtension.php'
             # tests
             - 'packages/MonorepoBuilder/tests/Package/PackageComposerJsonMergerTest.php'
             - 'packages/MonorepoBuilder/tests/Package/CombineStringsToArrayJsonMergerTest.php'
@@ -89,6 +88,7 @@ parameters:
             - 'packages/CodingStandard/src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
             # class might not exist
             - '*packages/*/src/DependencyInjection/CompilerPass/*CompilerPass.php'
+            - 'packages/PHPStanExtensions/src/Symfony/Type/ContainerGetTypeExtension.php'
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             # static helper

@@ -2,7 +2,7 @@
 
 namespace Symplify\Autodiscovery\Tests;
 
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
@@ -11,12 +11,12 @@ use Symfony\Component\HttpKernel\Kernel;
 trait ContainerAwareTestCaseTrait
 {
     /**
-     * @var Container
+     * @var ContainerInterface
      */
     protected $container;
 
     /**
-     * @var Container|null
+     * @var ContainerInterface|null
      */
     private static $cachedContainer;
 
@@ -35,7 +35,7 @@ trait ContainerAwareTestCaseTrait
 
     abstract protected function getKernelClass(): string;
 
-    private function createContainer(): Container
+    private function createContainer(): ContainerInterface
     {
         $kernelClass = $this->getKernelClass();
         /** @var Kernel $kernel */

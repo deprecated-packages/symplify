@@ -131,8 +131,7 @@
             "packages/EasyCodingStandard/bin/ecs check packages --fix",
             "bin/clear_readmes.sh"
         ],
-        "phpstan": "vendor/bin/phpstan analyse packages",
-        "phpstan-stats": "vendor/bin/phpstan analyse packages --error-format stats",
+        "phpstan": "vendor/bin/phpstan analyse packages --error-format symplify",
         "changelog": [
             "packages/ChangelogLinker/bin/changelog-linker dump-merges --in-categories --in-packages",
             "packages/ChangelogLinker/bin/changelog-linker link",

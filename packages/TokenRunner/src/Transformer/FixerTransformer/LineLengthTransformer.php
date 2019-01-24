@@ -119,7 +119,10 @@ final class LineLengthTransformer
             // in case of multiline string, we are interested in length of the part on current line only
             $explode = explode("\n", $tokens[$currentPosition]->getContent());
             // string precedes current token, so we are interested in end part only
-            $lineLength += strlen(end($explode));
+            if (count($explode) !== 0) {
+                $lastSection = end($explode);
+                $lineLength += strlen($lastSection);
+            }
 
             --$currentPosition;
 

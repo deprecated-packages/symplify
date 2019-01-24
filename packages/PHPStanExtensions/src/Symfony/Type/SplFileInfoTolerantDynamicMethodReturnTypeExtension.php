@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Type;
+namespace Symplify\PHPStanExtensions\Symfony\Type;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;

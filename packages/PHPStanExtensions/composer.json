@@ -5,6 +5,7 @@
     "require": {
         "php": "^7.1",
         "nette/utils": "^2.5",
+        "symplify/package-builder": "^5.4",
         "thecodingmachine/safe": "^0.1.11"
     },
     "autoload": {
