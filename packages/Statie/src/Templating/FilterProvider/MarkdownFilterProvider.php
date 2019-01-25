@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Templating\FilterProvider;
 
+use Nette\Utils\Strings;
 use ParsedownExtra;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 
@@ -26,7 +27,15 @@ final class MarkdownFilterProvider implements FilterProviderInterface
             // usage in Twig: {{ content|markdown }}
             // usage in Latte: {$content|markdown}
             'markdown' => function (string $content): string {
-                return $this->parsedownExtra->parse($content);
+                $content = $this->parsedownExtra->parse($content);
+
+                // remove <p></p>, it adds extra unwanted spaces
+                $match = Strings::match($content, '#<p>(?<content>.*?)<\/p>#sm');
+                if (isset($match['content'])) {
+                    return $match['content'];
+                }
+
+                return $content;
             },
         ];
     }
