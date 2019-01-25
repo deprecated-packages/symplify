@@ -9,7 +9,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Terminal;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\PHPStanExtensions\Error\ErrorGrouper;
 use function Safe\getcwd;
 use function Safe\sprintf;
 

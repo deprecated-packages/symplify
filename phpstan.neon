@@ -5,7 +5,7 @@ includes:
 
 parameters:
     level: max
-    # reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
         - *packages/MonorepoBuilder/packages/Init/templates/*
@@ -41,11 +41,6 @@ parameters:
             message: '#Cannot assign offset int to int#'
             path: 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
 
-        # false positive: Container is already present, initialized in previously called boot() method
-        -
-            message: '#Method Symplify\\(.*?)\\DependencyInjection\\ContainerFactory::create\(\) should return (.*?)\\ContainerInterface but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
-            path: '*packages/*/ContainerFactory.php'
-
         # intentionally
         - '#In method "(.*?)", caught "Throwable" must be rethrown. Either catch a more specific exception or add a "throw" clause in the "catch" block to propagate the exception#'
 
@@ -71,7 +66,6 @@ parameters:
         - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutowireSinglyImplementedCompilerPass::filterSinglyImplementedInterfaces\(\) should return array<string> but returns array<int\|string, int\|string>#'
 
         # invalid 3rd party-code
-        - '#Call to an undefined method Psr\\Cache\\CacheItemInterface::tag\(\)#'
         - '#Parameter \#1 \$types of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects array\|int, string given#'
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
@@ -85,9 +79,8 @@ parameters:
         - '#Property Symplify\\Autodiscovery\\Tests\\Twig\\TwigPathAutodiscoveryTest::\$twigFilesystemLoader \(Twig_Loader_Filesystem\) does not accept Twig_LoaderInterface#'
         - '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\Migrator\\Worker\\StatieImportsAdder::addImportSection\(\) expects array<string>, array<int, array<string, string>> given#'
 
-        # Token Runner
+        # required for autowiring, since only interface is autowired
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
-        - '#(.*?) Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
 
         # buggy
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
@@ -103,7 +96,6 @@ parameters:
         - '#If condition is always true#'
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
-        - '#Property Symplify\\EasyCodingStandard\\Yaml\\CheckerServiceParametersShifter::\$serviceKeywords \(array<string>\) does not accept ReflectionProperty#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Cannot access offset (.*?) on Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile#'
@@ -139,9 +131,6 @@ parameters:
         - '#Property Symplify\\Autodiscovery\\Tests\\Doctrine\\DoctrineEntityAutodiscoverTest::\$mappingDriver \(Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\) does not accept Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\|null#'
         - '#Cannot cast array<string>\|bool\|string\|null to int#'
         - '#Strict comparison using === between string and false will always evaluate to false#'
-
-        # false positive
-        - '#Call to an undefined method Psr\\Container\\ContainerInterface::set\(\)#'
 
         # intentionally - array_search return false is needed, as key might be missed
         - '#Function array_search is unsafe to use#'
