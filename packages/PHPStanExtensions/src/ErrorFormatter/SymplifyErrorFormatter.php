@@ -9,7 +9,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Terminal;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\PHPStanExtensions\Error\ErrorGrouper;
 use function Safe\getcwd;
 use function Safe\sprintf;
 
@@ -27,18 +26,12 @@ final class SymplifyErrorFormatter implements ErrorFormatter
     private $symfonyStyle;
 
     /**
-     * @var ErrorGrouper
-     */
-    private $errorGrouper;
-
-    /**
      * @var Terminal
      */
     private $terminal;
 
-    public function __construct(ErrorGrouper $errorGrouper, SymfonyStyle $symfonyStyle, Terminal $terminal)
+    public function __construct(SymfonyStyle $symfonyStyle, Terminal $terminal)
     {
-        $this->errorGrouper = $errorGrouper;
         $this->symfonyStyle = $symfonyStyle;
         $this->terminal = $terminal;
     }
@@ -48,16 +41,6 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         if ($analysisResult->getTotalErrorsCount() === 0) {
             $outputStyle->success('No errors');
             return ShellCode::SUCCESS;
-        }
-
-        $messagesToFrequency = $this->errorGrouper->groupErrorsToMessagesToFrequency(
-            $analysisResult->getFileSpecificErrors()
-        );
-
-        if (! $messagesToFrequency) {
-            $outputStyle->error(sprintf('Found %d non-ignorable errors', $analysisResult->getTotalErrorsCount()));
-
-            return ShellCode::ERROR;
         }
 
         foreach ($analysisResult->getFileSpecificErrors() as $fileSpecificError) {
@@ -74,6 +57,10 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
             $this->separator();
             $this->symfonyStyle->newLine();
+        }
+
+        foreach ($analysisResult->getNotFileSpecificErrors() as $notFileSpecificError) {
+            $this->symfonyStyle->writeln($notFileSpecificError);
         }
 
         $outputStyle->newLine(1);

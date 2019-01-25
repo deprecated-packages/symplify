@@ -10,7 +10,6 @@ use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
-use Symplify\Statie\Generator\Renderable\File\GeneratorFile;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\VirtualFile;
 use Symplify\Statie\Renderable\RedirectGenerator;
