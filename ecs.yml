@@ -46,6 +46,9 @@ parameters:
         - 'packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory.php'
 
     skip:
+        # run form time to time, very slow and making many changes
+        Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
+
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
         Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
