@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
+use Psr\Http\Message\ResponseInterface;
 
 final class BetterGuzzleClient
 {
@@ -28,7 +29,7 @@ final class BetterGuzzleClient
         $request = new Request('GET', $url);
         $response = $this->client->send($request);
 
-        if ($response->getStatusCode() !== 200) {
+        if ($this->isSuccessCode($response) === false) {
             throw BadResponseException::create($request, $response);
         }
 
@@ -46,5 +47,10 @@ final class BetterGuzzleClient
                 $jsonException
             );
         }
+    }
+
+    private function isSuccessCode(ResponseInterface $response): bool
+    {
+        return $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
     }
 }
