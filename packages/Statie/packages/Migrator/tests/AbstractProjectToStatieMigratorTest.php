@@ -10,6 +10,7 @@ use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Migrator\Contract\MigratorInterface;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use function Safe\sprintf;
 
 abstract class AbstractProjectToStatieMigratorTest extends AbstractContainerAwareTestCase
 {
@@ -63,8 +64,11 @@ abstract class AbstractProjectToStatieMigratorTest extends AbstractContainerAwar
         $this->assertFileNamesEqual($firstFileInfos, $firstDirectory, $secondFileInfos, $secondDirectory);
 
         foreach ($firstFileInfos as $fileInfo) {
-            $mirrorFile = $secondDirectory . '/' . $fileInfo->getRelativeFilePathFromDirectory($firstDirectory);
-            $this->assertFileEquals($fileInfo->getRealPath(), $mirrorFile);
+            $relativeFilePath = $fileInfo->getRelativeFilePathFromDirectory($firstDirectory);
+            $mirrorFile = $secondDirectory . '/' . $relativeFilePath;
+
+            $message = sprintf('File "%s" has invalid content', $relativeFilePath);
+            $this->assertFileEquals($fileInfo->getRealPath(), $mirrorFile, $message);
         }
     }
 

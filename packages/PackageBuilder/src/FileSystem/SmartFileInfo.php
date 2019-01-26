@@ -31,6 +31,11 @@ final class SmartFileInfo extends SplFileInfo
         parent::__construct($filePath, $relativeDirectoryPath, $relativeFilePath);
     }
 
+    public function getBasenameWithoutSuffix(): string
+    {
+        return pathinfo($this->getFilename())['filename'];
+    }
+
     public function getRelativeFilePath(): string
     {
         return $this->getRelativePathname();

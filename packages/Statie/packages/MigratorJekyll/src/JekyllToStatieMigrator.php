@@ -120,7 +120,7 @@ final class JekyllToStatieMigrator implements MigratorInterface
         }
 
         // prepend yaml files with `parameters`
-        $this->parametersAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
+        $this->parametersAdder->processSourceDirectoryWithParameterName($sourceDirectory, $workingDirectory);
 
         // complete "include" file name to full paths
         $this->includePathsCompleter->processSourceDirectory($sourceDirectory, $workingDirectory);

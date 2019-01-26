@@ -1,4 +1,5 @@
 parameters:
-    values:
-        - one
-        - two
+    some_config:
+        values:
+            - one
+            - two
