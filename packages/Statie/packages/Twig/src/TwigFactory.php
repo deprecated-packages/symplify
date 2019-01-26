@@ -53,6 +53,9 @@ final class TwigFactory
             'cache' => $this->twigCacheDirectory,
         ]);
 
+        // report missing variables, it's easier to debug code then in case of typo
+        $twigEnvironment->enableStrictVariables();
+
         $this->loadLatteFilters($twigEnvironment);
 
         foreach ($this->filterProviders as $filterProvider) {
