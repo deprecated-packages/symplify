@@ -12,6 +12,7 @@ use Symplify\Statie\Migrator\Worker\ParametersAdder;
 use Symplify\Statie\Migrator\Worker\PostIdsAdder;
 use Symplify\Statie\Migrator\Worker\StatieImportsAdder;
 use Symplify\Statie\Migrator\Worker\TwigSuffixChanger;
+use Symplify\Statie\MigratorJekyll\Worker\DashToUnderscoreParameterNameMigratorWorker;
 
 final class JekyllToStatieMigrator implements MigratorInterface
 {
@@ -61,6 +62,11 @@ final class JekyllToStatieMigrator implements MigratorInterface
     private $filesystemRegularApplicator;
 
     /**
+     * @var DashToUnderscoreParameterNameMigratorWorker
+     */
+    private $dashToUnderscoreParameterNameMigratorWorker;
+
+    /**
      * @param mixed[] $migratorJekyll
      */
     public function __construct(
@@ -72,7 +78,8 @@ final class JekyllToStatieMigrator implements MigratorInterface
         ParametersAdder $parametersAdder,
         FilesystemMover $filesystemMover,
         FilesystemRemover $filesystemRemover,
-        FilesystemRegularApplicator $filesystemRegularApplicator
+        FilesystemRegularApplicator $filesystemRegularApplicator,
+        DashToUnderscoreParameterNameMigratorWorker $dashToUnderscoreParameterNameMigratorWorker
     ) {
         $this->statieImportsAdder = $statieImportsAdder;
         $this->includePathsCompleter = $includePathsCompleter;
@@ -83,6 +90,7 @@ final class JekyllToStatieMigrator implements MigratorInterface
         $this->filesystemRemover = $filesystemRemover;
         $this->filesystemRegularApplicator = $filesystemRegularApplicator;
         $this->migratorJekyll = $migratorJekyll;
+        $this->dashToUnderscoreParameterNameMigratorWorker = $dashToUnderscoreParameterNameMigratorWorker;
     }
 
     public function migrate(string $workingDirectory): void
@@ -130,5 +138,11 @@ final class JekyllToStatieMigrator implements MigratorInterface
 
         // import .(yml|yaml) data files in statie.yaml
         $this->statieImportsAdder->processSourceDirectory($sourceDirectory, $workingDirectory);
+
+        // key-name → key_name, so PHP YAML can understand it
+        $this->dashToUnderscoreParameterNameMigratorWorker->processSourceDirectory(
+            $sourceDirectory,
+            $workingDirectory
+        );
     }
 }

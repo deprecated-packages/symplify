@@ -3,3 +3,4 @@ parameters:
         values:
             - one
             - two
+        some_value: dash
