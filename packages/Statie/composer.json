@@ -9,6 +9,7 @@
         "php": "^7.1",
         "erusev/parsedown-extra": "^0.7.1",
         "erusev/parsedown": "^1.7",
+        "composer/xdebug-handler": "^1.3",
         "latte/latte": "^2.4",
         "guzzlehttp/guzzle": "^6.3",
         "J7mbo/twitter-api-php": "^1.0",
