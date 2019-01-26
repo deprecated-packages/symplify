@@ -4,12 +4,14 @@ namespace Symplify\Statie\Application;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Event\BeforeRenderEvent;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
+use Symplify\Statie\Renderable\ApiGenerator;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\VirtualFile;
 use Symplify\Statie\Renderable\RedirectGenerator;
@@ -64,6 +66,11 @@ final class StatieApplication
      */
     private $symfonyStyle;
 
+    /**
+     * @var ApiGenerator
+     */
+    private $apiGenerator;
+
     public function __construct(
         StatieConfiguration $statieConfiguration,
         FileSystemWriter $fileSystemWriter,
@@ -73,7 +80,8 @@ final class StatieApplication
         EventDispatcherInterface $eventDispatcher,
         LayoutsAndSnippetsLoader $layoutsAndSnippetsLoader,
         RedirectGenerator $redirectGenerator,
-        SymfonyStyle $symfonyStyle
+        SymfonyStyle $symfonyStyle,
+        ApiGenerator $apiGenerator
     ) {
         $this->statieConfiguration = $statieConfiguration;
         $this->fileSystemWriter = $fileSystemWriter;
@@ -84,6 +92,7 @@ final class StatieApplication
         $this->layoutsAndSnippetsLoader = $layoutsAndSnippetsLoader;
         $this->redirectGenerator = $redirectGenerator;
         $this->symfonyStyle = $symfonyStyle;
+        $this->apiGenerator = $apiGenerator;
     }
 
     public function run(string $source, string $destination, bool $dryRun = false): void
@@ -103,18 +112,12 @@ final class StatieApplication
             $this->symfonyStyle->note('Processing generator files');
         }
         $generatorFilesByType = $this->generator->run();
-        if ($this->symfonyStyle->isVerbose()) {
-            foreach ($generatorFilesByType as $type => $generatorFiles) {
-                $this->symfonyStyle->note(sprintf('Generated %d %s', count($generatorFiles), $type));
-            }
-        }
+        $this->reportGeneratorFiles($generatorFilesByType);
 
         // process rest of files (config call is due to absolute path)
         $fileInfos = $this->fileFinder->findRestOfRenderableFiles($source);
+        $this->reportRenderableFiles($fileInfos);
 
-        if ($this->symfonyStyle->isVerbose()) {
-            $this->symfonyStyle->note(sprintf('Processing %d renderable files', count($fileInfos)));
-        }
         $files = $this->renderableFilesProcessor->processFileInfos($fileInfos);
 
         $this->eventDispatcher->dispatch(
@@ -122,12 +125,14 @@ final class StatieApplication
             new BeforeRenderEvent($files, $generatorFilesByType)
         );
 
-        $virtualFiles = $this->redirectGenerator->generate();
-        if ($this->symfonyStyle->isVerbose()) {
-            $this->symfonyStyle->note(sprintf('Generating %d virtual files', count($virtualFiles)));
-        }
+        $redirectFiles = $this->redirectGenerator->generate();
+        $this->reportRedirectFiles($redirectFiles);
+
+        $apiFiles = $this->apiGenerator->generate();
+        $this->reportApiFiles($apiFiles);
 
         if ($dryRun === false) {
+            $virtualFiles = array_merge($redirectFiles, $apiFiles);
             $this->renderFiles($source, $files, $virtualFiles, $generatorFilesByType);
         }
     }
@@ -147,6 +152,54 @@ final class StatieApplication
 
         foreach ($generatorFilesByType as $generatorFiles) {
             $this->fileSystemWriter->renderFiles($generatorFiles);
+        }
+    }
+
+    /**
+     * @param VirtualFile[] $apiFiles
+     */
+    private function reportApiFiles(array $apiFiles): void
+    {
+        if ($this->symfonyStyle->isVerbose() && count($apiFiles)) {
+            $this->symfonyStyle->note(sprintf('Generating %d api files', count($apiFiles)));
+        }
+    }
+
+    /**
+     * @param VirtualFile[] $redirectFiles
+     */
+    private function reportRedirectFiles(array $redirectFiles): void
+    {
+        if ($this->symfonyStyle->isVerbose() && count($redirectFiles)) {
+            $this->symfonyStyle->note(sprintf('Generating %d redirect files', count($redirectFiles)));
+        }
+    }
+
+    /**
+     * @param SmartFileInfo[] $fileInfos
+     */
+    private function reportRenderableFiles(array $fileInfos): void
+    {
+        if ($this->symfonyStyle->isVerbose() && count($fileInfos)) {
+            $this->symfonyStyle->note(sprintf('Processing %d renderable files', count($fileInfos)));
+        }
+    }
+
+    /**
+     * @param AbstractGeneratorFile[][] $generatorFilesByType
+     */
+    private function reportGeneratorFiles(array $generatorFilesByType): void
+    {
+        if ($this->symfonyStyle->isVerbose() === false) {
+            return;
+        }
+
+        foreach ($generatorFilesByType as $type => $generatorFiles) {
+            if (count($generatorFiles) === 0) {
+                continue;
+            }
+
+            $this->symfonyStyle->note(sprintf('Generated %d %s', count($generatorFiles), $type));
         }
     }
 }
