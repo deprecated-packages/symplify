@@ -18,6 +18,11 @@ final class PackageComposerJsonMerger
     private $mergeSections = [];
 
     /**
+     * @var string[]
+     */
+    private $sectionsWithPath = ['classmap', 'files', 'exclude-from-classmap'];
+
+    /**
      * @var ParametersMerger
      */
     private $parametersMerger;
@@ -74,7 +79,7 @@ final class PackageComposerJsonMerger
                     continue;
                 }
 
-                $packageComposerJson = $this->prepareAutoloadClassmapAndFiles(
+                $packageComposerJson = $this->prepareAutoloadPaths(
                     $mergeSection,
                     $packageComposerJson,
                     $packageFile
@@ -93,7 +98,7 @@ final class PackageComposerJsonMerger
      * @param mixed[] $packageComposerJson
      * @return mixed[]
      */
-    private function prepareAutoloadClassmapAndFiles(
+    private function prepareAutoloadPaths(
         string $mergeSection,
         array $packageComposerJson,
         SmartFileInfo $packageFile
@@ -102,16 +107,13 @@ final class PackageComposerJsonMerger
             return $packageComposerJson;
         }
 
-        if (isset($packageComposerJson[$mergeSection]['classmap'])) {
-            $packageComposerJson[$mergeSection]['classmap'] = $this->relativizePath(
-                $packageComposerJson[$mergeSection]['classmap'],
-                $packageFile
-            );
-        }
+        foreach ($this->sectionsWithPath as $sectionWithPath) {
+            if (! isset($packageComposerJson[$mergeSection][$sectionWithPath])) {
+                continue;
+            }
 
-        if (isset($packageComposerJson[$mergeSection]['files'])) {
-            $packageComposerJson[$mergeSection]['files'] = $this->relativizePath(
-                $packageComposerJson[$mergeSection]['files'],
+            $packageComposerJson[$mergeSection][$sectionWithPath] = $this->relativizePath(
+                $packageComposerJson[$mergeSection][$sectionWithPath],
                 $packageFile
             );
         }
