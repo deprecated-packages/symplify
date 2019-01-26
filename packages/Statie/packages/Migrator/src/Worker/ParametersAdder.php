@@ -39,13 +39,44 @@ final class ParametersAdder implements MigratorWorkerInterface
                 continue;
             }
 
-            $newYaml['parameters'] = $yaml;
+            $newYaml = [
+                'parameters' => $yaml,
+            ];
 
             $dumpedYaml = Yaml::dump($newYaml, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
             FileSystem::write($yamlFileInfo->getRealPath(), $dumpedYaml);
 
             $relativePath = $yamlFileInfo->getRelativeFilePathFromDirectory($workingDirectory);
             $this->symfonyStyle->note(sprintf('File "%s" was prepended "parameters:"', $relativePath));
+        }
+    }
+
+    public function processSourceDirectoryWithParameterName(string $sourceDirectory, string $workingDirectory): void
+    {
+        $yamlFileInfos = $this->migratorFilesystem->findYamlFiles($sourceDirectory);
+
+        foreach ($yamlFileInfos as $yamlFileInfo) {
+            $yaml = Yaml::parseFile($yamlFileInfo->getPathname());
+
+            // already has parameters section → skip
+            if (isset($yaml['parameters'])) {
+                continue;
+            }
+
+            $parameterName = $yamlFileInfo->getBasenameWithoutSuffix();
+            $newYaml = [
+                'parameters' => [
+                    $parameterName => $yaml,
+                ],
+            ];
+
+            $dumpedYaml = Yaml::dump($newYaml, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+            FileSystem::write($yamlFileInfo->getRealPath(), $dumpedYaml);
+
+            $relativePath = $yamlFileInfo->getRelativeFilePathFromDirectory($workingDirectory);
+            $this->symfonyStyle->note(
+                sprintf('File "%s" was prepended "parameters:" and "%s"', $relativePath, $parameterName)
+            );
         }
     }
 }
