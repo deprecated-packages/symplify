@@ -109,6 +109,13 @@ final class PackageComposerJsonMerger
             );
         }
 
+        if (isset($packageComposerJson[$mergeSection]['exclude-from-classmap'])) {
+            $packageComposerJson[$mergeSection]['exclude-from-classmap'] = $this->relativizePath(
+                $packageComposerJson[$mergeSection]['exclude-from-classmap'],
+                $packageFile
+            );
+        }
+
         if (isset($packageComposerJson[$mergeSection]['files'])) {
             $packageComposerJson[$mergeSection]['files'] = $this->relativizePath(
                 $packageComposerJson[$mergeSection]['files'],
