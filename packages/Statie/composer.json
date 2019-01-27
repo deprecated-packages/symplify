@@ -44,7 +44,7 @@
             "Symplify\\Statie\\JoindIn\\": "packages/JoindIn/src",
             "Symplify\\Statie\\Tweeter\\": "packages/Tweeter/src",
             "Symplify\\Statie\\GithubContributorsThanker\\": "packages/GithubContributorsThanker/src",
-            "Symplify\\Statie\\PostHeadlineLinker\\": "packages/PostHeadlineLinker/src"
+            "Symplify\\Statie\\HeadlineAnchorLinker\\": "packages/HeadlineAnchorLinker/src"
         }
     },
     "autoload-dev": {
@@ -57,7 +57,7 @@
             "Symplify\\Statie\\Migrator\\Tests\\": "packages/Migrator/tests",
             "Symplify\\Statie\\Twig\\Tests\\": "packages/Twig/tests",
             "Symplify\\Statie\\Tweeter\\Tests\\": "packages/Tweeter/tests",
-            "Symplify\\Statie\\PostHeadlineLinker\\Tests\\": "packages/PostHeadlineLinker/tests"
+            "Symplify\\Statie\\HeadlineAnchorLinker\\Tests\\": "packages/HeadlineAnchorLinker/tests"
         }
     },
     "extra": {

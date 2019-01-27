@@ -1,28 +1,30 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\PostHeadlineLinker\EventSubscriber;
+namespace Symplify\Statie\HeadlineAnchorLinker\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\Statie\Event\BeforeRenderEvent;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
-use Symplify\Statie\PostHeadlineLinker\PostHeadlineLinker;
+use Symplify\Statie\HeadlineAnchorLinker\HeadlineAnchorLinker;
 
-final class DecoratePostHeadlinesEventSubscriber implements EventSubscriberInterface
+final class GeneratorFilesHeadlineAnchorLinkerEventSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var PostHeadlineLinker
+     * @var HeadlineAnchorLinker
      */
-    private $postHeadlineLinker;
+    private $headlineAnchorLinker;
 
     /**
      * @var GeneratorConfiguration
      */
     private $generatorConfiguration;
 
-    public function __construct(PostHeadlineLinker $postHeadlineLinker, GeneratorConfiguration $generatorConfiguration)
-    {
-        $this->postHeadlineLinker = $postHeadlineLinker;
+    public function __construct(
+        HeadlineAnchorLinker $headlineAnchorLinker,
+        GeneratorConfiguration $generatorConfiguration
+    ) {
+        $this->headlineAnchorLinker = $headlineAnchorLinker;
         $this->generatorConfiguration = $generatorConfiguration;
     }
 
@@ -46,12 +48,12 @@ final class DecoratePostHeadlinesEventSubscriber implements EventSubscriberInter
                 continue;
             }
 
-            if ($generatorElement->hasLinkedHeadlines() === false) {
+            if ($generatorElement->hasHeadlineAnchors() === false) {
                 continue;
             }
 
             foreach ($generatorFiles as $generatorFile) {
-                $newContent = $this->postHeadlineLinker->processContent($generatorFile->getContent());
+                $newContent = $this->headlineAnchorLinker->processContent($generatorFile->getContent());
                 $generatorFile->changeContent($newContent);
             }
         }

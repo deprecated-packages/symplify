@@ -40,7 +40,7 @@ final class GeneratorElement
     /**
      * @var bool
      */
-    private $hasLinkedHeadlines = false;
+    private $hasHeadlineAnchors = false;
 
     /**
      * @var AbstractGeneratorFile[]
@@ -60,7 +60,7 @@ final class GeneratorElement
         string $routePrefix,
         string $object,
         ObjectSorterInterface $objectSorter,
-        bool $hasLinkedHeadlines
+        bool $hasHeadlineAnchors
     ) {
         $this->variable = $variable;
         $this->variableGlobal = $variableGlobal;
@@ -69,7 +69,7 @@ final class GeneratorElement
         $this->routePrefix = $routePrefix;
         $this->object = $object;
         $this->objectSorter = $objectSorter;
-        $this->hasLinkedHeadlines = $hasLinkedHeadlines;
+        $this->hasHeadlineAnchors = $hasHeadlineAnchors;
     }
 
     public function getVariable(): string
@@ -123,8 +123,8 @@ final class GeneratorElement
         return $this->objectSorter;
     }
 
-    public function hasLinkedHeadlines(): bool
+    public function hasHeadlineAnchors(): bool
     {
-        return $this->hasLinkedHeadlines;
+        return $this->hasHeadlineAnchors;
     }
 }

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\PostHeadlineLinker;
+namespace Symplify\Statie\HeadlineAnchorLinker;
 
 use Nette\Utils\Strings;
 use function Safe\sprintf;
 
-final class PostHeadlineLinker
+final class HeadlineAnchorLinker
 {
     /**
      * @var string

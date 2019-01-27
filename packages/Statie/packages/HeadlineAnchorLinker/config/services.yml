@@ -2,5 +2,5 @@ services:
     _defaults:
         autowire: true
 
-    Symplify\Statie\PostHeadlineLinker\:
+    Symplify\Statie\HeadlineAnchorLinker\:
         resource: '../src'
