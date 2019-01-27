@@ -11,17 +11,39 @@ includes:
     - 'vendor/symplify/phpstan-extensions/config/config.neon'
 ```
 
-## 1. Stats Formatter - the Best Way to Start with PHPStan
+## Use
 
-Do you have zillion errors in you project? That's common... and frustrating. Why not start with the most wide-spread errors? **Solve one type of problem to get rid of dozens of errors**.
+### Symplify Error Formatter
 
-Run:
+*Works best with [anthraxx/intellij-awesome-console](https://github.com/anthraxx/intellij-awesome-console)* 
+
+- Do you want to **click the error and get right to the line in the file** it's reported at?
+- Do you want to **copy-paste regex escaped error to your `ignoreErrors`**?
+
+```bash
+vendor/bin/phpstan analyse src --level max --error-format symplify
+```
+
+↓
+
+```bash
+-----------------------------------------------------------------------------------------------------------------
+packages/MonorepoBuilder/packages/Release/src/Command/ReleaseCommand.php:51
+-----------------------------------------------------------------------------------------------------------------
+"Call to an undefined method Symplify\\MonorepoBuilder\\Release\\Command\\ReleaseCommand\:\:nonExistingCall\(\)"
+-----------------------------------------------------------------------------------------------------------------
+```
+
+### Stats Error Formatter
+
+- Why fixing unique errors, when you can kill 2 birds with one stone? 
+- Do you want to know **the 5 most repeated errors** in your code?
 
 ```bash
 vendor/bin/phpstan analyse src --level max --error-format stats
 ```
 
-to get this nice overview of **top 5 errors**:
+↓
 
 ```bash
 These are 5 most frequent errors
@@ -32,31 +54,4 @@ These are 5 most frequent errors
 
  * packages/EasyCodingStandard/packages/ChangedFilesDetector/src/ChangedFilesDetector.php:50
  * packages/EasyCodingStandard/packages/ChangedFilesDetector/src/ChangedFilesDetector.php:62
-
-2 x - "Parameter #2 $absoluteFilePath of method Symplify\EasyCodingStandard\Skipper::shouldSkipCodeAndFile() expects string, string|false given."
--------------------------------------------------------------------------------------------------------------------------------------------------
-
- * packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php:132
- * packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php:145
-```
-
-## 2. Ignore Formatter
-
-Do you need to ignore few errors but don't want to play with regex? Run:
-
-```bash
-vendor/bin/phpstan analyse src --level max --error-format ignore
-```
-
-to get it on silver plate, ready for copy-paste:
-
-```bash
-
-Add to "parameters > ignoreErrors" section in "phpstan.neon"
-============================================================
-
-# phpstan.neon
-parameters:
-    ignoreErrors:
-        - '#Parameter \#1 \$errors of method Symplify\\PHPStan\\Error\\ErrorGrouper\:\:groupErrorsToMessagesToFrequency\(\) expects array<Symplify\\EasyCodingStandard\\Error\\Error\>, array<PHPStan\\Analyser\\Error\> given#' # found 2x
 ```
