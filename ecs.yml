@@ -8,14 +8,14 @@ imports:
 
 services:
     Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
-        oldToPreferredClasses:
+        old_to_preferred_classes:
             SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
             Symfony\Component\Finder\SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
             PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
 
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-        extraAllowedClasses:
+        extra_allowed_classes:
             - '*File'
             - '*Tweet'
 
@@ -31,7 +31,7 @@ services:
                 - 'supports'
 
     Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
-        extraParentTypesToSuffixes:
+        extra_parent_types_to_suffixes:
             - 'FileDecorator'
 
 parameters:
