@@ -56,15 +56,4 @@ final class GeneratorConfiguration
 
         return $this->generatorElements = $generatorElements;
     }
-
-    public function getGeneratorElementByVariableGlobal(string $variableGlobal): ?GeneratorElement
-    {
-        foreach ($this->getGeneratorElements() as $generatorElement) {
-            if ($generatorElement->getVariableGlobal() === $variableGlobal) {
-                return $generatorElement;
-            }
-        }
-
-        return null;
-    }
 }
