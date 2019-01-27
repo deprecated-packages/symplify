@@ -42,7 +42,9 @@ final class GeneratorElementFactory
             $configuration['layout'],
             $configuration['route_prefix'],
             $configuration['object'] ?? GeneratorFile::class,
-            isset($configuration['object_sorter']) ? new $configuration['object_sorter']() : new FileNameObjectSorter()
+            isset($configuration['object_sorter']) ? new $configuration['object_sorter']() : new FileNameObjectSorter(),
+            // headline linker is on by default
+            isset($configuration['has_linked_headlines']) ? (bool) $configuration['has_linked_headlines'] : true
         );
     }
 

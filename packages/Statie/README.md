@@ -126,16 +126,6 @@ parameters:
 
 That's it!
 
-### How to turn make Post Shareable with Anchors?
-
-```yaml
-# statie.yml
-parameters:
-    post_headline_linker_enabled: true
-```
-
-Now people can share specific headlines in your posts.
-
 ### How to Generate API?
 
 Statie web [Friendsofphp.org](https://friendsofphp.org/) provide info about PHP meetups and groups. They're already stored in parameters. Do you want to publish them as JSON API?

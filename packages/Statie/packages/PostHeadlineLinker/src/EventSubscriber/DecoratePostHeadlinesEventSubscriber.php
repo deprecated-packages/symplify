@@ -4,25 +4,26 @@ namespace Symplify\Statie\PostHeadlineLinker\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\Statie\Event\BeforeRenderEvent;
+use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\PostHeadlineLinker\PostHeadlineLinker;
-use Symplify\Statie\Renderable\File\PostFile;
 
 final class DecoratePostHeadlinesEventSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var bool
-     */
-    private $postHeadlineLinkerEnabled = false;
-
     /**
      * @var PostHeadlineLinker
      */
     private $postHeadlineLinker;
 
-    public function __construct(PostHeadlineLinker $postHeadlineLinker, bool $postHeadlineLinkerEnabled)
+    /**
+     * @var GeneratorConfiguration
+     */
+    private $generatorConfiguration;
+
+    public function __construct(PostHeadlineLinker $postHeadlineLinker, GeneratorConfiguration $generatorConfiguration)
     {
         $this->postHeadlineLinker = $postHeadlineLinker;
-        $this->postHeadlineLinkerEnabled = $postHeadlineLinkerEnabled;
+        $this->generatorConfiguration = $generatorConfiguration;
     }
 
     /**
@@ -30,24 +31,29 @@ final class DecoratePostHeadlinesEventSubscriber implements EventSubscriberInter
      */
     public static function getSubscribedEvents(): array
     {
-        return [BeforeRenderEvent::class => 'decoratePostHeadlines'];
+        return [BeforeRenderEvent::class => 'linkHeadlines'];
     }
 
-    public function decoratePostHeadlines(BeforeRenderEvent $beforeRenderEvent): void
+    public function linkHeadlines(BeforeRenderEvent $beforeRenderEvent): void
     {
-        if ($this->postHeadlineLinkerEnabled === false) {
-            return;
-        }
-
         $generatorFilesByType = $beforeRenderEvent->getGeneratorFilesByType();
 
-        /** @var PostFile[] $postFiles */
-        $postFiles = $generatorFilesByType['posts'];
+        /** @var AbstractGeneratorFile[] $generatorFiles */
+        foreach ($generatorFilesByType as $type => $generatorFiles) {
+            $generatorElement = $this->generatorConfiguration->getGeneratorElementByVariableGlobal($type);
+            if ($generatorElement === null) {
+                // invalid $type value
+                continue;
+            }
 
-        foreach ($postFiles as $postFile) {
-            $newContent = $this->postHeadlineLinker->processContent($postFile->getContent());
+            if ($generatorElement->hasLinkedHeadlines() === false) {
+                continue;
+            }
 
-            $postFile->changeContent($newContent);
+            foreach ($generatorFiles as $generatorFile) {
+                $newContent = $this->postHeadlineLinker->processContent($generatorFile->getContent());
+                $generatorFile->changeContent($newContent);
+            }
         }
     }
 }
