@@ -216,6 +216,8 @@ All from [Latte basic set](https://latte.nette.org/en/filters) and more:
 
 {{ perexDeprecated|markdown }}
 {% set daysToFuture = diff_from_today_in_days(meetup.startDateTime) %}
+
+{{ post|link }}
 ```
 
 **Latte**
@@ -232,6 +234,8 @@ All from [Latte basic set](https://latte.nette.org/en/filters) and more:
 
 {$perexDeprecated|markdown}
 {var $daysToFuture = diff_from_today_in_days($meetup->startDateTime())}
+
+{$post|link}
 ```
 
 ## Documentation
