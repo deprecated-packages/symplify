@@ -2,23 +2,14 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\CleanCode\ForbiddenReferenceSniff;
 
-use Iterator;
 use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class ForbiddenReferenceSniffTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideWrongCases()
-     */
-    public function test(string $file): void
+    public function test(): void
     {
-        $this->doTestFiles([$file]);
-    }
-
-    public function provideWrongCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/wrong.php.inc'];
+        $this->doTestFiles([__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/wrong/function_with_space.php.inc']);
     }
 
     protected function getCheckerClass(): string

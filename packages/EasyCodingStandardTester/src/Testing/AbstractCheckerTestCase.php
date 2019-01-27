@@ -220,6 +220,7 @@ abstract class AbstractCheckerTestCase extends TestCase
     protected function doTestWrongFile(string $wrongFile): void
     {
         $this->ensureSomeCheckersAreRegistered();
+        $this->errorAndDiffCollector->resetCounters();
 
         $smartFileInfo = new SmartFileInfo($wrongFile);
         $this->currentFileProvider->setFileInfo($smartFileInfo);
