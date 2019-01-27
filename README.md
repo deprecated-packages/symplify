@@ -63,12 +63,12 @@ A static site generator with aim on community websites.
 
 You'll find them all in [`/packages`](/packages) directory:
 
-- [Autodiscovery](https://github.com/Symplify/Autodiscovery) - Forget manual registration of translations, templates, mappings and routes
-- [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Why write `CHANGELOG.md` if you can generate it
-- [EasyCodingStandardTester](https://github.com/Symplify/EasyCodingStandardTester) - The Best Way to Test Sniffs and Fixers
-- [FlexLoader](https://github.com/Symplify/FlexLoader) - Keep your Kernel slim again and let FlexLoader load all the configs
+- [Autodiscovery](https://github.com/Symplify/Autodiscovery) - Forget manual registration of translations, templates, mappings and routes in Symfony Application
+- [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Why write `CHANGELOG.md`, when you can generate it
+- [EasyCodingStandardTester](https://github.com/Symplify/EasyCodingStandardTester) - Sniffs and Fixers testing tool
+- [FlexLoader](https://github.com/Symplify/FlexLoader) - Keep your Symfony Kernel slim again and let FlexLoader load all the configs
 - [LatteToTwigConverter](https://github.com/Symplify/LatteToTwigConverter) - Converts Latte templates to Twig
-- [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Validate, split, release and maintain monorepo like a boss
+- [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Validate, split, release and maintain Monorepo like a boss
 - [PackageBuilder](https://github.com/Symplify/PackageBuilder) - Speed up your package DI Containers integration and Console apps to Symfony
 
 ## Install
