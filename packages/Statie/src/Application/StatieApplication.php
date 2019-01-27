@@ -3,10 +3,8 @@
 namespace Symplify\Statie\Application;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
-use Symplify\Statie\Event\BeforeRenderEvent;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Generator;
@@ -47,11 +45,6 @@ final class StatieApplication
     private $fileFinder;
 
     /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    /**
      * @var LayoutsAndSnippetsLoader
      */
     private $layoutsAndSnippetsLoader;
@@ -77,7 +70,6 @@ final class StatieApplication
         RenderableFilesProcessor $renderableFilesProcessor,
         Generator $generator,
         FileFinder $fileFinder,
-        EventDispatcherInterface $eventDispatcher,
         LayoutsAndSnippetsLoader $layoutsAndSnippetsLoader,
         RedirectGenerator $redirectGenerator,
         SymfonyStyle $symfonyStyle,
@@ -88,7 +80,6 @@ final class StatieApplication
         $this->renderableFilesProcessor = $renderableFilesProcessor;
         $this->generator = $generator;
         $this->fileFinder = $fileFinder;
-        $this->eventDispatcher = $eventDispatcher;
         $this->layoutsAndSnippetsLoader = $layoutsAndSnippetsLoader;
         $this->redirectGenerator = $redirectGenerator;
         $this->symfonyStyle = $symfonyStyle;
@@ -119,11 +110,6 @@ final class StatieApplication
         $this->reportRenderableFiles($fileInfos);
 
         $files = $this->renderableFilesProcessor->processFileInfos($fileInfos);
-
-        $this->eventDispatcher->dispatch(
-            BeforeRenderEvent::class,
-            new BeforeRenderEvent($files, $generatorFilesByType)
-        );
 
         $redirectFiles = $this->redirectGenerator->generate();
         $this->reportRedirectFiles($redirectFiles);
