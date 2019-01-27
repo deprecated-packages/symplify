@@ -21,15 +21,24 @@ final class ForbiddenReferenceSniff implements Sniff
      */
     public function process(File $file, $position): void
     {
-        $previousToken = $file->getTokens()[$position - 1];
-        if ($previousToken['code'] !== T_BITWISE_AND) {
+        $tokens = $file->getTokens();
+        if (! isset($tokens[$position - 1]) || ! isset($tokens[$position - 2])) {
             return;
         }
 
-        $file->addError(
-            sprintf('Use explicit return values over magic "&%s" reference', $file->getTokens()[$position]['content']),
-            $position,
-            self::class
-        );
+        $previousToken = $tokens[$position - 1];
+        $previousPreviousToken = $tokens[$position - 2];
+
+        // check for "&$var" and "& $var"
+        if ($previousToken['code'] === T_BITWISE_AND || ($previousPreviousToken['code'] === T_BITWISE_AND && $previousToken['code'] === T_WHITESPACE)) {
+            $file->addError(
+                sprintf(
+                    'Use explicit return values over magic "&%s" reference',
+                    $file->getTokens()[$position]['content']
+                ),
+                $position,
+                self::class
+            );
+        }
     }
 }
