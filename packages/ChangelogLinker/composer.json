@@ -12,7 +12,7 @@
         "symfony/console": "^3.4|^4.1",
         "symfony/http-kernel": "^3.4|^4.1",
         "symfony/process": "^3.4|^4.1",
-        "symplify/package-builder": "^5.4",
+        "symplify/package-builder": "^5.5",
         "thecodingmachine/safe": "^0.1.11"
     },
     "require-dev": {
@@ -30,7 +30,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "5.4-dev"
+            "dev-master": "5.5-dev"
         }
     },
     "minimum-stability": "dev",
