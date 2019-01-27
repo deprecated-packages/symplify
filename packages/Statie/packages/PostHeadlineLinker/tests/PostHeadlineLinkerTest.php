@@ -9,7 +9,7 @@ final class PostHeadlineLinkerTest extends TestCase
 {
     public function test(): void
     {
-        $postHeadlineLinker = new PostHeadlineLinker(1, 3);
+        $postHeadlineLinker = new PostHeadlineLinker();
 
         $this->assertSame(
             '<h2 id="hey"><a href="#hey">Hey</a></h2>',
@@ -19,6 +19,5 @@ final class PostHeadlineLinkerTest extends TestCase
             '<h3 id="hi-tom"><a href="#hi-tom">Hi Tom</a></h3>',
             $postHeadlineLinker->processContent('<h3>Hi Tom</h3>')
         );
-        $this->assertSame('<h4>Hey</h4>', $postHeadlineLinker->processContent('<h4>Hey</h4>'));
     }
 }

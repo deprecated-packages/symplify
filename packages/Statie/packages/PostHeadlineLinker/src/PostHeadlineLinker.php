@@ -13,22 +13,6 @@ final class PostHeadlineLinker
     private const HEADLINE_PATTERN = '#<h(?<level>[1-6])>(?<title>.*?)<\/h[1-6]>#';
 
     /**
-     * @var int
-     */
-    private $postHeadlineLinkerMinLevel;
-
-    /**
-     * @var int
-     */
-    private $postHeadlineLinkerMaxLevel;
-
-    public function __construct(int $postHeadlineLinkerMinLevel, int $postHeadlineLinkerMaxLevel)
-    {
-        $this->postHeadlineLinkerMinLevel = $postHeadlineLinkerMinLevel;
-        $this->postHeadlineLinkerMaxLevel = $postHeadlineLinkerMaxLevel;
-    }
-
-    /**
      * Before:
      * - <h1>Some headline</h1>
      *
@@ -40,10 +24,6 @@ final class PostHeadlineLinker
         return Strings::replace($content, self::HEADLINE_PATTERN, function (array $result): string {
             $headlineId = Strings::webalize($result['title']);
 
-            if (! $this->isLevelIncluded((int) $result['level'])) {
-                return $result[0];
-            }
-
             return sprintf(
                 '<h%s id="%s"><a href="#%s">%s</a></h%s>',
                 $result['level'],
@@ -53,14 +33,5 @@ final class PostHeadlineLinker
                 $result['level']
             );
         });
-    }
-
-    private function isLevelIncluded(int $level): bool
-    {
-        if ($level < $this->postHeadlineLinkerMinLevel) {
-            return false;
-        }
-
-        return $level <= $this->postHeadlineLinkerMaxLevel;
     }
 }

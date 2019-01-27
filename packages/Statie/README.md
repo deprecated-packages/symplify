@@ -132,10 +132,6 @@ That's it!
 # statie.yml
 parameters:
     post_headline_linker_enabled: true
-
-    # default values
-    post_headline_linker_min_level: 1
-    post_headline_linker_max_level: 6
 ```
 
 Now people can share specific headlines in your posts.
