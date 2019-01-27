@@ -13,8 +13,19 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Added
 
+#### EasyCodingStandard
+
+- [#1357] Add links to files with lines in reported errors
+- [#1397] Add typo-proof configuration of checkers
+
 #### Statie
 
+- [#1394] Add `|link` filter to link generator files
+- [#1393] Add `-` to `_` param name converter to `migrate-jekyll`
+- [#1375] Add `twitter_maximal_days_in_past` break with default value of 60 days
+- [#1391] Add parameter name by file to `migrate-jekyll`
+- [#1387] Add xdebug-handler to improve performance
+- [#1383] Display process info on `-v`
 - [#1352] Add "markdown", "reading_time", "sort_by_field", "date_to_xmlschema", "xml_escape" and "related_items" filters/functions
 - [#1339] Add `migrate-jekyll` command
 - [#1362] Add `migrate-sculpin` command
@@ -23,13 +34,22 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1358] Add redirect support directly to config
 - [#1356] Add "group_by_field" filter
 - [#1355] Add "diff_from_today_in_days" filter
-- [#1366] Add api generator
+- [#1366] Add api generator via `api_parameters` parameter
 
 ### Changed
+
+#### PHPStanExtensions
+
+- [#1377] Improve Symfony and clickable error formatter support
 
 #### MonorepoBuilder
 
 - [#1349] Extend dependency updater to allow skip callback
+- [#1323] `release` command stage is taken into account in success message, Thanks to [@vitek-rostislav]
+
+#### Statie
+
+- [#1365] Improve gulpfile for Docker, Thanks to [@tomasfejfar]
 
 ### Fixed
 
@@ -41,13 +61,31 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#1350] link only full matching names
 
-#### MonorepoBuilder
+#### CodingStandard
 
-- [#1323] ReleaseCommand: stage is taken into account in success message, Thanks to [@vitek-rostislav]
+- [#1396] Fix `ForbiddenReferenceSniff` for extra space before &
 
 #### Statie
 
+- [#1380] Fix `markdown` filter extra spaces
+- [#1389] Make Twig report syntax errors on generate
+- [#1395] Configure headline links per generator element + enable by default
 - [#1363] Listen on every address, Thanks to [@tomasfejfar]
+
+#### MonorepoBuilder
+
+- [#1386] Resolve complete paths for `exclude-from-classmap`
+
+#### PackageBuilder
+
+- [#1376] Skip non-scalar params on `AutoBindParametersCompilerPass`
+- [#1392] Make `BetterGuzzleClient` pass on success code
+
+### Removed
+
+#### PHPStanExtensions
+
+- [#1384] Remove old grouping from `SymplifyErrorFormatter`, show all errors
 
 ## [v5.3.12] - 2019-01-13
 
@@ -743,3 +781,23 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [@themark147]: https://github.com/themark147
 [v5.3.12]: https://github.com/Symplify/Symplify/compare/v5.3.10...v5.3.12
 [v5.3.10]: https://github.com/Symplify/Symplify/compare/v5.3.9...v5.3.10
+[#1398]: https://github.com/Symplify/Symplify/pull/1398
+[#1397]: https://github.com/Symplify/Symplify/pull/1397
+[#1396]: https://github.com/Symplify/Symplify/pull/1396
+[#1395]: https://github.com/Symplify/Symplify/pull/1395
+[#1394]: https://github.com/Symplify/Symplify/pull/1394
+[#1393]: https://github.com/Symplify/Symplify/pull/1393
+[#1392]: https://github.com/Symplify/Symplify/pull/1392
+[#1391]: https://github.com/Symplify/Symplify/pull/1391
+[#1389]: https://github.com/Symplify/Symplify/pull/1389
+[#1387]: https://github.com/Symplify/Symplify/pull/1387
+[#1386]: https://github.com/Symplify/Symplify/pull/1386
+[#1385]: https://github.com/Symplify/Symplify/pull/1385
+[#1384]: https://github.com/Symplify/Symplify/pull/1384
+[#1383]: https://github.com/Symplify/Symplify/pull/1383
+[#1380]: https://github.com/Symplify/Symplify/pull/1380
+[#1377]: https://github.com/Symplify/Symplify/pull/1377
+[#1376]: https://github.com/Symplify/Symplify/pull/1376
+[#1375]: https://github.com/Symplify/Symplify/pull/1375
+[#1365]: https://github.com/Symplify/Symplify/pull/1365
+[#1357]: https://github.com/Symplify/Symplify/pull/1357
