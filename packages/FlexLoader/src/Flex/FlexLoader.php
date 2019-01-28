@@ -59,8 +59,7 @@ final class FlexLoader
             $containerBuilder->setParameter('container.dumper.inline_class_loader', true);
         }
 
-        $servicePaths = $this->flexPathsFactory->createServicePaths($this->projectDir, $this->environment);
-        $servicePaths = array_merge($servicePaths, $extraServicePaths);
+        $servicePaths = $this->flexPathsFactory->createServicePaths($this->projectDir, $this->environment, $extraServicePaths);
 
         foreach ($servicePaths as $servicePath) {
             $loader->load($servicePath . $this->configExtensions, 'glob');
