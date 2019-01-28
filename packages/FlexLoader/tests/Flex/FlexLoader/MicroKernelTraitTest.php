@@ -20,5 +20,7 @@ final class MicroKernelTraitTest extends TestCase
 
         $this->assertTrue($container->has(SomeService::class));
         $this->assertTrue($container->has(ExtraService::class));
+        $this->assertTrue($container->hasParameter('default.parameter'));
+        $this->assertTrue($container->hasParameter('dev.environment.parameter'));
     }
 }

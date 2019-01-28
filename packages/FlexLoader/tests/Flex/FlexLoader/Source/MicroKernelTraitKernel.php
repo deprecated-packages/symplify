@@ -52,8 +52,6 @@ final class MicroKernelTraitKernel extends Kernel
 
     protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
     {
-        $loader->load(__DIR__ . '/project-dir-micro-kernel/config/main-config.yaml');
-
         $this->flexLoader->loadConfigs($containerBuilder, $loader, [__DIR__ . '/extra-dir/*']);
     }
 }

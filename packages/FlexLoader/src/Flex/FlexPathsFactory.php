@@ -17,6 +17,8 @@ final class FlexPathsFactory
             $projectDir . '/config/packages/' . $environment . '/*',
             $projectDir . '/config/services',
             $projectDir . '/config/services_' . $environment,
+            $projectDir . '/config/parameters',
+            $projectDir . '/config/parameters_' . $environment,
         ];
 
         return $this->filterExistingPaths($servicePaths);
