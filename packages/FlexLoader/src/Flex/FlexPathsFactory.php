@@ -10,7 +10,7 @@ final class FlexPathsFactory
     /**
      * @return string[]
      */
-    public function createServicePaths(string $projectDir, string $environment, array $extraServicePaths = []): array
+    public function createServicePaths(string $projectDir, string $environment, array $extraServicePaths): array
     {
         $servicePaths = [
             $projectDir . '/config/packages/*',
