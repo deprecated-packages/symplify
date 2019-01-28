@@ -10,7 +10,7 @@ final class FlexPathsFactory
     /**
      * @return string[]
      */
-    public function createServicePaths(string $projectDir, string $environment): array
+    public function createServicePaths(string $projectDir, string $environment, array $extraServicePaths = []): array
     {
         $servicePaths = [
             $projectDir . '/config/packages/*',
@@ -21,7 +21,7 @@ final class FlexPathsFactory
             $projectDir . '/config/parameters_' . $environment,
         ];
 
-        return $this->filterExistingPaths($servicePaths);
+        return $this->filterExistingPaths(array_merge($servicePaths, $extraServicePaths));
     }
 
     /**
