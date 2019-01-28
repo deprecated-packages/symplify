@@ -24,13 +24,23 @@ final class GithubFilterProvider implements FilterProviderInterface
     public function provide(): array
     {
         return [
-            // in Latte: <a href="{$post|githubEditPostUrl}">Typo? Fix me please</a>
-            // in Twig: <a href="{{ post|githubEditPostUrl }}">Typo? Fix me please</a>
+            // in Twig (common format): <a href="{{ post|github_edit_post_url }}">Typo? Fix me please</a>
+            'github_edit_post_url' => function (AbstractFile $file): string {
+                return $this->createGithubEditFileUrl($file);
+            },
+
+            // in Latte (common format): <a href="{$post|githubEditPostUrl}">Typo? Fix me please</a>
             'githubEditPostUrl' => function (AbstractFile $file): string {
-                $editPrefix = $this->renameTreeToEdit($this->statieConfiguration->getGithubRepositorySourceDirectory());
-                return $editPrefix . '/' . $file->getRelativeSource();
+                return $this->createGithubEditFileUrl($file);
             },
         ];
+    }
+
+    private function createGithubEditFileUrl(AbstractFile $file): string
+    {
+        $editPrefix = $this->renameTreeToEdit($this->statieConfiguration->getGithubRepositorySourceDirectory());
+
+        return $editPrefix . '/' . $file->getRelativeSource();
     }
 
     private function renameTreeToEdit(string $string): string
