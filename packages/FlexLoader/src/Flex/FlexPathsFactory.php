@@ -8,7 +8,7 @@ use function Safe\glob;
 final class FlexPathsFactory
 {
     /**
-     * @parma string[] $extraServicePaths
+     * @param string[] $extraServicePaths
      * @return string[]
      */
     public function createServicePaths(string $projectDir, string $environment, array $extraServicePaths): array
