@@ -6,7 +6,6 @@ use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Tokens;
-use function Safe\array_search;
 
 final class ParamNameTypoMalformWorker extends AbstractMalformWorker
 {

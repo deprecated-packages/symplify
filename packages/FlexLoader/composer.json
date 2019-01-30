@@ -7,7 +7,7 @@
         "nette/utils": "^2.5",
         "symfony/dependency-injection": "^3.4|^4.1",
         "symfony/routing": "^3.4|^4.1",
-        "thecodingmachine/safe": "^0.1.11"
+        "thecodingmachine/safe": "^0.1.13"
     },
     "require-dev": {
         "symfony/framework-bundle": "^3.4|^4.1",
