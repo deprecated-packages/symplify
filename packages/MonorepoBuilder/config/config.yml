@@ -30,6 +30,7 @@ parameters:
         - 'replace'
         - 'provide'
         - 'scripts'
+        - 'suggest'
         - 'config'
         - 'minimum-stability'
         - 'prefer-stable'
