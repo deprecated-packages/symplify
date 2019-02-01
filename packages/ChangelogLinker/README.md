@@ -26,7 +26,7 @@ The config is autodiscovered in the root directory or by `--config` option.
 ## A. Dump Merges
 
 ```bash
-vendor/bin/changelog-linker dump-mergers
+vendor/bin/changelog-linker dump-merges
 ```
 
 ### Write or Dry-run?
@@ -36,7 +36,7 @@ The `--dry-run` option prints the result to the output. Without that, I looks fo
 It finds the last #ID in the `CHANGELOG.md`, than looks on Github via API and dumps all the merged PRs since the last #ID in nice format. In case you want to **specify minimal PR id yourself**, use this:
 
 ```bash
-vendor/bin/changelog-linker dump-mergers --since-id 125
+vendor/bin/changelog-linker dump-merges --since-id 125
 ```
 
 But that is a mash-up of everything. Not very nice:
