@@ -33,7 +33,7 @@
         "symfony/process": "^3.4|^4.1",
         "symfony/routing": "^3.4|^4.1",
         "symfony/yaml": "^3.4|^4.1",
-        "thecodingmachine/safe": "^0.1.13",
+        "thecodingmachine/safe": "0.1.13",
         "twig/twig": "^2.5"
     },
     "require-dev": {
