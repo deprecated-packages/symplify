@@ -1,21 +1,21 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Tests\Utils;
+namespace Symplify\PackageBuilder\Tests\Strings;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
-use Symplify\EasyCodingStandard\Utils\StringConverter;
+use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
-final class StringConverterTest extends TestCase
+final class StringFormatConverterTest extends TestCase
 {
     /**
-     * @var StringConverter
+     * @var StringFormatConverter
      */
-    private $stringConverter;
+    private $stringFormatConverter;
 
     protected function setUp(): void
     {
-        $this->stringConverter = new StringConverter();
+        $this->stringFormatConverter = new StringFormatConverter();
     }
 
     /**
@@ -23,7 +23,7 @@ final class StringConverterTest extends TestCase
      */
     public function testCamelCaseToUnderscore(string $input, string $expected): void
     {
-        $this->assertSame($expected, $this->stringConverter->camelCaseToUnderscore($input));
+        $this->assertSame($expected, $this->stringFormatConverter->camelCaseToUnderscore($input));
     }
 
     public function provideCasesForCamelCaseToUnderscore(): Iterator
@@ -36,7 +36,7 @@ final class StringConverterTest extends TestCase
      */
     public function testUnderscoreToCamelCase(string $input, string $expected): void
     {
-        $this->assertSame($expected, $this->stringConverter->underscoreToCamelCase($input));
+        $this->assertSame($expected, $this->stringFormatConverter->underscoreToCamelCase($input));
     }
 
     public function provideCasesForUnderscoreToCamelCase(): Iterator

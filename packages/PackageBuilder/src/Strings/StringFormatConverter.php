@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Utils;
+namespace Symplify\PackageBuilder\Strings;
 
-final class StringConverter
+final class StringFormatConverter
 {
     public function underscoreToCamelCase(string $value): string
     {
