@@ -2,9 +2,6 @@
 
 namespace Symplify\MonorepoBuilder;
 
-use function Safe\ksort;
-use function Safe\sort;
-
 final class ArraySorter
 {
     /**

@@ -6,9 +6,6 @@ use Nette\Utils\Strings;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\PackageBuilder\Exception\FileSystem\DirectoryNotFoundException;
 use Symplify\PackageBuilder\Exception\FileSystem\FileNotFoundException;
-use function Safe\getcwd;
-use function Safe\realpath;
-use function Safe\sprintf;
 
 final class SmartFileInfo extends SplFileInfo
 {
@@ -17,7 +14,9 @@ final class SmartFileInfo extends SplFileInfo
      */
     public function __construct($filePath)
     {
-        if (! file_exists($filePath)) {
+        $realPath = realpath($filePath);
+
+        if (! file_exists($filePath) || $realPath === false) {
             throw new FileNotFoundException(sprintf(
                 'File path "%s" was not found while creating "%s" object.',
                 $filePath,
@@ -25,7 +24,7 @@ final class SmartFileInfo extends SplFileInfo
             ));
         }
 
-        $relativeFilePath = Strings::substring(realpath($filePath), strlen(getcwd()) + 1);
+        $relativeFilePath = Strings::substring($realPath, strlen(getcwd()) + 1);
         $relativeDirectoryPath = dirname($relativeFilePath);
 
         parent::__construct($filePath, $relativeDirectoryPath, $relativeFilePath);
@@ -49,10 +48,14 @@ final class SmartFileInfo extends SplFileInfo
     public function getRelativeFilePathFromDirectory(string $directory): string
     {
         if (! file_exists($directory)) {
-            throw new DirectoryNotFoundException(sprintf('Directory "%s" was not found.', $directory, self::class));
+            throw new DirectoryNotFoundException(sprintf(
+                'Directory "%s" was not found in %s.',
+                $directory,
+                self::class
+            ));
         }
 
-        return Strings::substring($this->getRealPath(), strlen(realpath($directory)) + 1);
+        return Strings::substring($this->getRealPath(), Strings::length(realpath($directory)) + 1);
     }
 
     public function endsWith(string $string): bool

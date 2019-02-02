@@ -9,8 +9,6 @@ use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterfa
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Exception\ConfigurationException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
-use function Safe\getcwd;
-use function Safe\sprintf;
 
 final class ReleaseGuard
 {

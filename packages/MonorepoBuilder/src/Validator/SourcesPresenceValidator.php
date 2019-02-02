@@ -4,7 +4,6 @@ namespace Symplify\MonorepoBuilder\Validator;
 
 use Symplify\MonorepoBuilder\Exception\Validator\InvalidComposerJsonSetupException;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use function Safe\sprintf;
 
 final class SourcesPresenceValidator
 {

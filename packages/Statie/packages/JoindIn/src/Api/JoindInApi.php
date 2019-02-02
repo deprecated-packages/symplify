@@ -4,7 +4,6 @@ namespace Symplify\Statie\JoindIn\Api;
 
 use Symplify\PackageBuilder\Http\BetterGuzzleClient;
 use Symplify\Statie\JoindIn\Exception\JoindInException;
-use function Safe\sprintf;
 
 final class JoindInApi
 {

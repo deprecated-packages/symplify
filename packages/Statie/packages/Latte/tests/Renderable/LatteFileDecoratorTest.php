@@ -11,7 +11,6 @@ use Symplify\Statie\Latte\Renderable\LatteFileDecorator;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use function Safe\sprintf;
 
 final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
 {

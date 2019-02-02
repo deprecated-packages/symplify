@@ -13,7 +13,6 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
-use function Safe\sprintf;
 
 /**
  * possible future-successor https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/3810

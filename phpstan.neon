@@ -1,7 +1,6 @@
 includes:
     - 'packages/PHPStanExtensions/config/config.neon'
     - 'vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon'
-    - 'vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon'
 
 parameters:
     level: max
@@ -134,3 +133,11 @@ parameters:
 
         # intentionally - array_search return false is needed, as key might be missed
         - '#Function array_search is unsafe to use#'
+
+        # console argument/option
+        - '#Cannot cast array<string\>\|bool\|string to string#'
+
+        # known values
+        - '#Method Symplify\\EasyCodingStandardTester\\Testing\\AbstractCheckerTestCase\:\:getConfigHash\(\) should return string but returns string\|false#'
+        - '#Parameter \#1 \$code of static method PhpCsFixer\\Tokenizer\\Tokens\:\:fromCode\(\) expects string, string\|false given#'
+        - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutowireSinglyImplementedCompilerPass\:\:filterSinglyImplementedInterfaces\(\) should return array<string\> but returns array<string, int\|string\>#'

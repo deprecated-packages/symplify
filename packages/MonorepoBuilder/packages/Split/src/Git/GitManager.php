@@ -4,8 +4,6 @@ namespace Symplify\MonorepoBuilder\Split\Git;
 
 use Nette\Utils\Strings;
 use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
-use function Safe\getcwd;
-use function Safe\sprintf;
 
 final class GitManager
 {

@@ -6,7 +6,6 @@ use Nette\Utils\FileSystem;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Generator\FileNameObjectSorter;
 use Symplify\Statie\Generator\Renderable\File\GeneratorFile;
-use function Safe\realpath;
 
 final class GeneratorElementFactory
 {

@@ -10,7 +10,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\Statie\Console\Application;
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use function Safe\sprintf;
 
 final class GenerateCommandTest extends AbstractContainerAwareTestCase
 {

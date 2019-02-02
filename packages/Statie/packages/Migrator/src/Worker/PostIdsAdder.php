@@ -7,7 +7,6 @@ use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\Statie\Migrator\Contract\MigratorWorkerInterface;
 use Symplify\Statie\Migrator\Filesystem\MigratorFilesystem;
-use function Safe\sprintf;
 
 final class PostIdsAdder implements MigratorWorkerInterface
 {

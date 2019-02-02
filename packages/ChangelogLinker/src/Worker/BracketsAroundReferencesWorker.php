@@ -5,7 +5,6 @@ namespace Symplify\ChangelogLinker\Worker;
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
-use function Safe\sprintf;
 
 /**
  * Comletes [] around commit, pull-request, issues and version references

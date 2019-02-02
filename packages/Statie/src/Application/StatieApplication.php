@@ -15,7 +15,6 @@ use Symplify\Statie\Renderable\File\VirtualFile;
 use Symplify\Statie\Renderable\RedirectGenerator;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 use Symplify\Statie\Templating\LayoutsAndSnippetsLoader;
-use function Safe\sprintf;
 
 final class StatieApplication
 {

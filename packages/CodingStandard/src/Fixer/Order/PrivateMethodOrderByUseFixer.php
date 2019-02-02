@@ -9,7 +9,6 @@ use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
-use function Safe\usort;
 
 final class PrivateMethodOrderByUseFixer extends AbstractSymplifyFixer
 {

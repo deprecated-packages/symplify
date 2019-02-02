@@ -7,7 +7,6 @@ use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Exception\Configuration\DuplicatedPostException;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
-use function Safe\sprintf;
 
 final class CreatePostFileSystem
 {

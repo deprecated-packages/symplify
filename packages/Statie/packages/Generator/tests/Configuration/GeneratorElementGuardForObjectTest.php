@@ -6,7 +6,6 @@ use Symplify\Statie\Generator\Exception\Configuration\InvalidGeneratorElementDef
 use Symplify\Statie\Generator\Tests\AbstractGeneratorTest;
 use Symplify\Statie\Generator\Tests\Configuration\GeneratorElementGuardSource\InvalidObject;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use function Safe\sprintf;
 
 final class GeneratorElementGuardForObjectTest extends AbstractGeneratorTest
 {

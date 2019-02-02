@@ -5,8 +5,6 @@ namespace Symplify\EasyCodingStandardTester\Testing;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\sprintf;
-use function Safe\substr;
 
 /**
  * @inspiration https://github.com/rectorphp/rector/blob/7039ce87c666d787c1d744343d449170d1655355/src/Testing/PHPUnit/IntegrationRectorTestCaseTrait.php

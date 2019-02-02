@@ -2,12 +2,10 @@
 
 namespace Symplify\Statie\Configuration;
 
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
 use Symplify\Statie\FileSystem\FileSystemGuard;
-use function Safe\getcwd;
-use function Safe\realpath;
-use function Safe\sprintf;
 
 final class StatieConfiguration
 {
@@ -51,7 +49,7 @@ final class StatieConfiguration
     {
         $sourceDirectory = rtrim($sourceDirectory, '/');
         $this->fileSystemGuard->ensureDirectoryExists($sourceDirectory);
-        $this->sourceDirectory = realpath($sourceDirectory);
+        $this->sourceDirectory = (new SmartFileInfo($sourceDirectory))->getRealPath();
     }
 
     public function setOutputDirectory(string $outputDirectory): void

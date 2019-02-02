@@ -3,7 +3,6 @@
 namespace Symplify\Statie\HeadlineAnchorLinker;
 
 use Nette\Utils\Strings;
-use function Safe\sprintf;
 
 final class HeadlineAnchorLinker
 {

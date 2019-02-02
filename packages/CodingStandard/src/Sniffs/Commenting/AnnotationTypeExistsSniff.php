@@ -10,7 +10,6 @@ use SlevomatCodingStandard\Helpers\AnnotationHelper;
 use SlevomatCodingStandard\Helpers\TypeHelper;
 use SlevomatCodingStandard\Helpers\TypeHintHelper;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
-use function Safe\sprintf;
 
 /**
  * @inspiration https://github.com/slevomat/coding-standard/blob/90dbcb3258dd1dcd5fa7d960a8bd30c6cb915b3a/SlevomatCodingStandard/Sniffs/Namespaces/FullyQualifiedClassNameInAnnotationSniff.php

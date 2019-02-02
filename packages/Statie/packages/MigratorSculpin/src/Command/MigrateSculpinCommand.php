@@ -9,7 +9,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Statie\MigratorJekyll\JekyllToStatieMigrator;
-use function Safe\getcwd;
 
 final class MigrateSculpinCommand extends Command
 {

@@ -15,7 +15,6 @@ use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
 use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use function Safe\sprintf;
 
 final class ReleaseCommand extends Command
 {
@@ -71,6 +70,8 @@ final class ReleaseCommand extends Command
     {
         // validation phase
         $stage = $input->getOption(Option::STAGE);
+        $stage = $stage !== null ? (string) $stage : $stage;
+
         $this->releaseGuard->guardStage($stage);
 
         /** @var string $versionArgument */

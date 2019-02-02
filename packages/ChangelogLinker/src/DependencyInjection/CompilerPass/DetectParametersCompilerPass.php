@@ -6,7 +6,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Process\Process;
 use Symplify\ChangelogLinker\Github\GithubRepositoryFromRemoteResolver;
-use function Safe\substr;
 
 final class DetectParametersCompilerPass implements CompilerPassInterface
 {

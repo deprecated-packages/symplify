@@ -6,11 +6,10 @@ use Nette\Utils\Strings;
 use ReflectionClass;
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\Autodiscovery\Arrays;
+use Symplify\Autodiscovery\Exception\ClassLocationNotFoundException;
 use Symplify\Autodiscovery\Exception\ClassNotFoundException;
 use Symplify\Autodiscovery\Php\InterfaceAnalyzer;
-use function Safe\realpath;
-use function Safe\sort;
-use function Safe\sprintf;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class ExplicitToAutodiscoveryConverter
 {
@@ -399,7 +398,12 @@ final class ExplicitToAutodiscoveryConverter
             $classDirectory = dirname($fileName);
         }
 
-        $configDirectory = realpath(dirname($configFilePath));
+        if ($classDirectory === false) {
+            throw new ClassLocationNotFoundException(sprintf('Location for "%s" class was not found.', $class));
+        }
+
+        $fileInfo = new SmartFileInfo($configFilePath);
+        $configDirectory = dirname($fileInfo->getRealPath());
 
         $relativePath = $this->filesystem->makePathRelative($classDirectory, $configDirectory);
 

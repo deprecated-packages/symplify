@@ -6,7 +6,6 @@ use Nette\Utils\Strings;
 use Symplify\MonorepoBuilder\Split\Exception\DirectoryNotFoundException;
 use Symplify\MonorepoBuilder\Split\Exception\InvalidGitRepositoryException;
 use Symplify\MonorepoBuilder\Split\Exception\InvalidRepositoryFormatException;
-use function Safe\sprintf;
 
 final class RepositoryGuard
 {

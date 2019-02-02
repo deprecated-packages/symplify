@@ -11,7 +11,6 @@ use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\MonorepoBuilder\Utils\Utils;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use function Safe\sprintf;
 
 final class PackageAliasCommand extends Command
 {

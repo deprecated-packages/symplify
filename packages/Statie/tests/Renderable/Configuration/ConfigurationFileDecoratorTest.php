@@ -9,7 +9,6 @@ use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Renderable\ConfigurationFileDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use function Safe\sprintf;
 
 final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCase
 {

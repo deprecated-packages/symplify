@@ -6,7 +6,6 @@ use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
 use Symplify\Statie\Generator\Exception\Configuration\InvalidGeneratorElementDefinitionException;
 use Symplify\Statie\Generator\Tests\AbstractGeneratorTest;
 use Symplify\Statie\Generator\Tests\Configuration\GeneratorElementGuardSource\InvalidLectureSorter;
-use function Safe\sprintf;
 
 final class GeneratorElementGuardForObjectSorterTest extends AbstractGeneratorTest
 {

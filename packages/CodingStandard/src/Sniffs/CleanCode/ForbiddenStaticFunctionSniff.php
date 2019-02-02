@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Sniffs\CleanCode;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use function Safe\sprintf;
 
 final class ForbiddenStaticFunctionSniff implements Sniff
 {

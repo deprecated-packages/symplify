@@ -7,7 +7,6 @@ use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\getcwd;
 
 final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {

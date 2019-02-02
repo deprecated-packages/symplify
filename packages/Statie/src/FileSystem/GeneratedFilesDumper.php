@@ -6,7 +6,6 @@ use Nette\Utils\DateTime;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Statie\Configuration\StatieConfiguration;
-use function Safe\sprintf;
 
 final class GeneratedFilesDumper
 {

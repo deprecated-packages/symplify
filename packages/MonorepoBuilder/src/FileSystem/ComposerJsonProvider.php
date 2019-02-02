@@ -4,7 +4,6 @@ namespace Symplify\MonorepoBuilder\FileSystem;
 
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\getcwd;
 
 final class ComposerJsonProvider
 {

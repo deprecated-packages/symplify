@@ -33,7 +33,6 @@
         "symfony/process": "^3.4|^4.1",
         "symfony/routing": "^3.4|^4.1",
         "symfony/yaml": "^3.4|^4.1",
-        "thecodingmachine/safe": "0.1.13",
         "twig/twig": "^2.5"
     },
     "require-dev": {
@@ -46,7 +45,6 @@
         "symfony/templating": "^3.4|^4.1",
         "symfony/translation": "^3.4|^4.1",
         "symfony/twig-bundle": "^3.4|^4.1",
-        "thecodingmachine/phpstan-safe-rule": "^0.1.1",
         "thecodingmachine/phpstan-strict-rules": "^0.11.0",
         "tracy/tracy": "^2.5"
     },

@@ -5,7 +5,6 @@ namespace Symplify\ChangelogLinker;
 use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
-use function Safe\usort;
 
 final class ChangelogLinker
 {

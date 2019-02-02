@@ -7,8 +7,6 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use function Safe\getcwd;
-use function Safe\sprintf;
 
 final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
 {

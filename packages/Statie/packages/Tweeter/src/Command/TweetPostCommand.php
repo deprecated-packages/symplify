@@ -13,7 +13,6 @@ use Symplify\Statie\Tweeter\Tweet\PostTweet;
 use Symplify\Statie\Tweeter\TweetFilter\TweetsFilter;
 use Symplify\Statie\Tweeter\TweetProvider\PostTweetsProvider;
 use Symplify\Statie\Tweeter\TwitterApi\TwitterApiWrapper;
-use function Safe\sprintf;
 
 final class TweetPostCommand extends Command
 {

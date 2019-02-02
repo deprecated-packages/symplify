@@ -2,8 +2,6 @@
 
 namespace Symplify\ChangelogLinker\ChangeTree;
 
-use function Safe\usort;
-
 final class ChangeSorter
 {
     /**

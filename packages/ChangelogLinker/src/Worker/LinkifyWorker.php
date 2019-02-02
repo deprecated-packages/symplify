@@ -5,7 +5,6 @@ namespace Symplify\ChangelogLinker\Worker;
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
-use function Safe\sprintf;
 
 final class LinkifyWorker implements WorkerInterface
 {

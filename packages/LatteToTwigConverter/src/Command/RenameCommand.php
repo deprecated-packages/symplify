@@ -13,7 +13,6 @@ use Symfony\Component\Finder\Finder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
-use function Safe\sprintf;
 
 final class RenameCommand extends Command
 {
