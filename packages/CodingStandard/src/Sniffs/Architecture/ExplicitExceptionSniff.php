@@ -19,7 +19,6 @@ use RuntimeException;
 use Throwable;
 use UnderflowException;
 use UnexpectedValueException;
-use function Safe\sprintf;
 
 final class ExplicitExceptionSniff implements Sniff
 {
