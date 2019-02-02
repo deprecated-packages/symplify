@@ -34,7 +34,7 @@ final class OriginalSpacingRestorer
         }
 
         // remove first space, added by the printer above
-        return substr($newNodeOutput, 1);
+        return Strings::substring($newNodeOutput, 1);
     }
 
     /**

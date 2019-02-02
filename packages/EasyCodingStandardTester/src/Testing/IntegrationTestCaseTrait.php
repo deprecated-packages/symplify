@@ -39,7 +39,7 @@ trait IntegrationTestCaseTrait
 
     private function createTemporaryPathWithPrefix(SmartFileInfo $smartFileInfo, string $prefix): string
     {
-        $hash = substr(md5($smartFileInfo->getPathname()), 0, 5);
+        $hash = Strings::substring(md5($smartFileInfo->getPathname()), 0, 5);
         return sprintf(
             sys_get_temp_dir() . '/ecs_temp_tests/%s_%s_%s',
             $prefix,

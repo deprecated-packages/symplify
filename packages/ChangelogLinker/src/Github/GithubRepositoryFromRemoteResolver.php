@@ -17,7 +17,7 @@ final class GithubRepositoryFromRemoteResolver
         if (Strings::startsWith($url, 'git@')) {
             $url = rtrim($url, '.git');
             $url = str_replace(':', '/', $url);
-            $url = substr($url, strlen('git@'));
+            $url = Strings::substring($url, Strings::length('git@'));
 
             return 'https://' . $url;
         }
