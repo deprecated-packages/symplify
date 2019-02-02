@@ -14,11 +14,7 @@ final class NativeFunctionDynamicFunctionReturnTypeExtension implements DynamicF
 {
     public function isFunctionSupported(FunctionReflection $functionReflection): bool
     {
-        if (in_array($functionReflection->getName(), ['getcwd', 'tmpfile', 'dirname'], true)) {
-            return true;
-        }
-
-        return false;
+        return in_array($functionReflection->getName(), ['getcwd', 'tmpfile', 'dirname'], true);
     }
 
     public function getTypeFromFunctionCall(
