@@ -8,7 +8,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Migrator\Contract\MigratorWorkerInterface;
 use Symplify\Statie\Migrator\Filesystem\MigratorFilesystem;
-use function Safe\sprintf;
 
 final class IncludePathsCompleter implements MigratorWorkerInterface
 {

@@ -8,7 +8,6 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Exception\Parameter\ParameterTypoException;
-use function Safe\sprintf;
 
 final class ParameterTypoProofreader
 {

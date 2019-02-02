@@ -3,7 +3,6 @@
 namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
 use PharIo\Version\Version;
-use function Safe\sprintf;
 
 final class SetCurrentMutualDependenciesReleaseWorker extends AbstractMutualDependencyReleaseWorker
 {

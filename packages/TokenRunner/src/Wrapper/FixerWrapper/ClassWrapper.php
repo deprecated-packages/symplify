@@ -11,8 +11,6 @@ use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
-use function Safe\class_implements;
-use function Safe\class_parents;
 
 final class ClassWrapper
 {

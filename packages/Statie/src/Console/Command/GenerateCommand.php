@@ -11,8 +11,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Statie\Application\StatieApplication;
-use function Safe\getcwd;
-use function Safe\sprintf;
 
 final class GenerateCommand extends Command
 {

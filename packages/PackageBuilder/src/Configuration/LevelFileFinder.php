@@ -7,8 +7,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\PackageBuilder\Exception\Configuration\LevelNotFoundException;
-use function Safe\sort;
-use function Safe\sprintf;
 
 final class LevelFileFinder
 {

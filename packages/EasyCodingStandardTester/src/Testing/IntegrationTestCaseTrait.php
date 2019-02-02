@@ -5,8 +5,6 @@ namespace Symplify\EasyCodingStandardTester\Testing;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\sprintf;
-use function Safe\substr;
 
 /**
  * @inspiration https://github.com/rectorphp/rector/blob/7039ce87c666d787c1d744343d449170d1655355/src/Testing/PHPUnit/IntegrationRectorTestCaseTrait.php
@@ -41,7 +39,7 @@ trait IntegrationTestCaseTrait
 
     private function createTemporaryPathWithPrefix(SmartFileInfo $smartFileInfo, string $prefix): string
     {
-        $hash = substr(md5($smartFileInfo->getPathname()), 0, 5);
+        $hash = Strings::substring(md5($smartFileInfo->getPathname()), 0, 5);
         return sprintf(
             sys_get_temp_dir() . '/ecs_temp_tests/%s_%s_%s',
             $prefix,

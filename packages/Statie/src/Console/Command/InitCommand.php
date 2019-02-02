@@ -11,8 +11,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Statie\Exception\Configuration\ConfigurationException;
-use function Safe\getcwd;
-use function Safe\sprintf;
 
 final class InitCommand extends Command
 {

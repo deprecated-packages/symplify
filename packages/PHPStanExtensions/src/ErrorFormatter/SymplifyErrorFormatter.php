@@ -9,8 +9,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Terminal;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\getcwd;
-use function Safe\sprintf;
 
 final class SymplifyErrorFormatter implements ErrorFormatter
 {

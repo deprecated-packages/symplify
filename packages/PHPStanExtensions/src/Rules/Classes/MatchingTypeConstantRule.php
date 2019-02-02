@@ -14,7 +14,6 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use function Safe\sprintf;
 
 final class MatchingTypeConstantRule implements Rule
 {

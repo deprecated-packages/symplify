@@ -6,7 +6,6 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\sprintf;
 
 final class FilesystemRegularApplicator
 {

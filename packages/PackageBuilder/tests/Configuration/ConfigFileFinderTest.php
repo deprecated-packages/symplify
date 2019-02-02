@@ -7,8 +7,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 use Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException;
-use function Safe\getcwd;
-use function Safe\sprintf;
 
 final class ConfigFileFinderTest extends TestCase
 {

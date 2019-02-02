@@ -3,8 +3,6 @@
 namespace Symplify\Statie\GithubContributorsThanker\Api;
 
 use Symplify\PackageBuilder\Http\BetterGuzzleClient;
-use function Safe\rsort;
-use function Safe\sprintf;
 
 final class GithubApi
 {

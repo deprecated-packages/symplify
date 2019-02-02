@@ -9,7 +9,6 @@ use Symplify\Statie\Tweeter\Exception\TwitterApi\TwitterApiException;
 use Symplify\Statie\Tweeter\Tweet\PublishedTweet;
 use Symplify\Statie\Tweeter\TweetEntityCompleter;
 use TwitterAPIExchange;
-use function Safe\sprintf;
 
 final class TwitterApiWrapper
 {

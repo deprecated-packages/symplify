@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Migrator\Command\Reporter;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
-use function Safe\sprintf;
 
 final class MigrateReporter
 {

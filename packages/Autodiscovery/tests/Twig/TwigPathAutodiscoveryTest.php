@@ -6,7 +6,6 @@ use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symplify\Autodiscovery\Tests\AbstractAppKernelAwareTestCase;
 use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
 use Twig_Environment;
-use function Safe\realpath;
 
 /**
  * @covers \Symplify\Autodiscovery\Twig\TwigPathAutodiscoverer

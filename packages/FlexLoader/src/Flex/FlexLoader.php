@@ -8,7 +8,6 @@ use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symplify\FlexLoader\Exception\ConfigurationException;
-use function Safe\sprintf;
 
 final class FlexLoader
 {

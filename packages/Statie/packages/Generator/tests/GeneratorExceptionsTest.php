@@ -5,7 +5,6 @@ namespace Symplify\Statie\Generator\Tests;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
 use Symplify\Statie\Renderable\File\PostFile;
-use function Safe\sprintf;
 
 final class GeneratorExceptionsTest extends AbstractGeneratorTest
 {

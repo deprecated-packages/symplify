@@ -4,8 +4,6 @@ namespace Symplify\ChangelogLinker\Github;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Exception\Git\InvalidGitRemoteException;
-use function Safe\sprintf;
-use function Safe\substr;
 
 final class GithubRepositoryFromRemoteResolver
 {
@@ -19,7 +17,7 @@ final class GithubRepositoryFromRemoteResolver
         if (Strings::startsWith($url, 'git@')) {
             $url = rtrim($url, '.git');
             $url = str_replace(':', '/', $url);
-            $url = substr($url, strlen('git@'));
+            $url = Strings::substring($url, Strings::length('git@'));
 
             return 'https://' . $url;
         }

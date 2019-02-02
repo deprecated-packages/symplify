@@ -5,7 +5,6 @@ namespace Symplify\MonorepoBuilder;
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\asort;
 
 final class VersionValidator
 {

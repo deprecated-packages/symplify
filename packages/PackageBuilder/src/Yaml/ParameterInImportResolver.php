@@ -4,7 +4,6 @@ namespace Symplify\PackageBuilder\Yaml;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symplify\PackageBuilder\Composer\VendorDirProvider;
-use function Safe\getcwd;
 
 /**
  * This service resolve parameters in import section, e.g:

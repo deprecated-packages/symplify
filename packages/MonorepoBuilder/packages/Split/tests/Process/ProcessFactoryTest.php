@@ -4,7 +4,6 @@ namespace Symplify\MonorepoBuilder\Split\Tests\Process;
 
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
 use Symplify\MonorepoBuilder\Split\Tests\AbstractContainerAwareTestCase;
-use function Safe\realpath;
 
 final class ProcessFactoryTest extends AbstractContainerAwareTestCase
 {

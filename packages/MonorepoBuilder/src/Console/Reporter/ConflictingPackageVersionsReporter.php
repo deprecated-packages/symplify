@@ -3,7 +3,6 @@
 namespace Symplify\MonorepoBuilder\Console\Reporter;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
-use function Safe\sprintf;
 
 final class ConflictingPackageVersionsReporter
 {

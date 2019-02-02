@@ -3,7 +3,6 @@
 namespace Symplify\Statie\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use function Safe\putenv;
 
 final class ContainerFactory
 {

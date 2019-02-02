@@ -4,7 +4,6 @@ namespace Symplify\MonorepoBuilder\Release\Exception;
 
 use Exception;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use function Safe\sprintf;
 
 final class ConflictingPriorityException extends Exception
 {

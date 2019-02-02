@@ -10,7 +10,6 @@ use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Migrator\Contract\MigratorInterface;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use function Safe\sprintf;
 
 abstract class AbstractProjectToStatieMigratorTest extends AbstractContainerAwareTestCase
 {

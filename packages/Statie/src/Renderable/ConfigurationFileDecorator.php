@@ -9,7 +9,6 @@ use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use function Safe\sprintf;
 
 final class ConfigurationFileDecorator implements FileDecoratorInterface
 {

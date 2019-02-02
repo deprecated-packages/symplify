@@ -11,7 +11,6 @@ use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\Exception\NotImplementedYetException;
-use function Safe\sprintf;
 
 /**
  * @inspiration https://github.com/rectorphp/rector/blob/6006a75c8f3bec3aa976f48c7394d4a4b3a0e2ac/src/PhpParser/Node/Resolver/NameResolver.php#L21

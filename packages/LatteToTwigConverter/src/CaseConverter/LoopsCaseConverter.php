@@ -4,7 +4,6 @@ namespace Symplify\LatteToTwigConverter\CaseConverter;
 
 use Nette\Utils\Strings;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
-use function Safe\sprintf;
 
 final class LoopsCaseConverter implements CaseConverterInterface
 {

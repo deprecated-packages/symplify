@@ -13,7 +13,6 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
-use function Safe\substr;
 
 final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
@@ -91,7 +90,7 @@ final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implem
     private function getNameFromToken(Token $token): string
     {
         // remove quotes "" around the string
-        $name = substr($token->getContent(), 1, -1);
+        $name = Strings::substring($token->getContent(), 1, -1);
 
         // remove "\" prefix
         return ltrim($name, '\\');

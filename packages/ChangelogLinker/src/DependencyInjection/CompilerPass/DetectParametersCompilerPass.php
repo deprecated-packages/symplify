@@ -2,11 +2,11 @@
 
 namespace Symplify\ChangelogLinker\DependencyInjection\CompilerPass;
 
+use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Process\Process;
 use Symplify\ChangelogLinker\Github\GithubRepositoryFromRemoteResolver;
-use function Safe\substr;
 
 final class DetectParametersCompilerPass implements CompilerPassInterface
 {
@@ -56,6 +56,6 @@ final class DetectParametersCompilerPass implements CompilerPassInterface
     {
         $repositoryUrl = $containerBuilder->getParameter(self::OPTION_REPOSITORY_URL);
 
-        return substr($repositoryUrl, strlen('https://github.com/'));
+        return Strings::substring($repositoryUrl, Strings::length('https://github.com/'));
     }
 }

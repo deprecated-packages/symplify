@@ -8,8 +8,6 @@ use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use Symfony\Component\Console\Style\OutputStyle;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PHPStanExtensions\Error\ErrorGrouper;
-use function Safe\getcwd;
-use function Safe\sprintf;
 
 final class StatsErrorFormatter implements ErrorFormatter
 {

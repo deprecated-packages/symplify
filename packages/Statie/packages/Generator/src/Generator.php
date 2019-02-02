@@ -10,7 +10,6 @@ use Symplify\Statie\Generator\Exception\Configuration\GeneratorException;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Generator\Renderable\File\GeneratorFileFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
-use function Safe\sprintf;
 
 final class Generator
 {

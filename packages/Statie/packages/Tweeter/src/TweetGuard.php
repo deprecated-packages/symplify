@@ -6,8 +6,6 @@ use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Tweeter\Configuration\Keys;
 use Symplify\Statie\Tweeter\Exception\TweetImageNotFoundException;
 use Symplify\Statie\Tweeter\Exception\TweetTooLongException;
-use function Safe\realpath;
-use function Safe\sprintf;
 
 final class TweetGuard
 {

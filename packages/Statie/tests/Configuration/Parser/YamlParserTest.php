@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 use Symplify\Statie\Configuration\Parser\YamlParser;
-use function Safe\sprintf;
 
 final class YamlParserTest extends TestCase
 {

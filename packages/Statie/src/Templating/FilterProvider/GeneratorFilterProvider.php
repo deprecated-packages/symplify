@@ -5,7 +5,6 @@ namespace Symplify\Statie\Templating\FilterProvider;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\Exception\Configuration\ConfigurationException;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
-use function Safe\sprintf;
 
 final class GeneratorFilterProvider implements FilterProviderInterface
 {

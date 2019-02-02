@@ -6,7 +6,6 @@ use Nette\Utils\Strings;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Exception\ConflictingPriorityException;
-use function Safe\krsort;
 
 final class ReleaseWorkerProvider
 {

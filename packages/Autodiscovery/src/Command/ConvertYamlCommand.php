@@ -18,7 +18,6 @@ use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\sprintf;
 
 final class ConvertYamlCommand extends Command
 {

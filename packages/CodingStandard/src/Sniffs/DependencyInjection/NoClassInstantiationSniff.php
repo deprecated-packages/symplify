@@ -10,7 +10,6 @@ use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
-use function Safe\sprintf;
 
 final class NoClassInstantiationSniff implements Sniff
 {

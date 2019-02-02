@@ -3,7 +3,6 @@
 namespace Symplify\PackageBuilder\FileSystem;
 
 use Symplify\PackageBuilder\Exception\FileSystem\DirectoryNotFoundException;
-use function Safe\sprintf;
 
 final class FileSystemGuard
 {

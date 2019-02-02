@@ -8,7 +8,6 @@ use Symplify\MonorepoBuilder\Configuration\MergedPackagesCollector;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
-use function Safe\getcwd;
 
 final class PackageComposerJsonMerger
 {

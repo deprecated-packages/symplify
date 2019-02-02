@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Exception\Templating;
 
 use Exception;
-use function Safe\sprintf;
 
 final class InvalidSortByCriteriaException extends Exception
 {

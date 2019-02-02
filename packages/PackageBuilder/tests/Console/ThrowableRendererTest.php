@@ -9,9 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
-use function Safe\fclose;
-use function Safe\fread;
-use function Safe\tmpfile;
 
 final class ThrowableRendererTest extends TestCase
 {
@@ -79,6 +76,6 @@ final class ThrowableRendererTest extends TestCase
         $output = fread($this->tempFile, 4096);
         fclose($this->tempFile);
 
-        return $output;
+        return (string) $output;
     }
 }

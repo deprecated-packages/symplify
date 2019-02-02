@@ -4,7 +4,6 @@ namespace Symplify\Statie\Configuration\Parser;
 
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
-use function Safe\sprintf;
 
 final class YamlParser
 {

@@ -18,7 +18,6 @@ use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystemGuard;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use function Safe\sprintf;
 
 /**
  * @inspired by https://github.com/weierophinney/changelog_generator

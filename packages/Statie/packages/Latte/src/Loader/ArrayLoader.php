@@ -6,7 +6,6 @@ use Latte\ILoader;
 use Nette\Utils\ObjectHelpers;
 use Nette\Utils\Strings;
 use Symplify\Statie\Latte\Exception\MissingLatteTemplateException;
-use function Safe\sprintf;
 
 /**
  * Inspired by @see \Latte\Loaders\StringLoader.

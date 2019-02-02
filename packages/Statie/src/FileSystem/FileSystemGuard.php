@@ -3,7 +3,6 @@
 namespace Symplify\Statie\FileSystem;
 
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
-use function Safe\sprintf;
 
 final class FileSystemGuard
 {

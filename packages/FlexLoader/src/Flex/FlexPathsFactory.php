@@ -3,7 +3,6 @@
 namespace Symplify\FlexLoader\Flex;
 
 use Nette\Utils\Strings;
-use function Safe\glob;
 
 final class FlexPathsFactory
 {

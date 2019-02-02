@@ -4,7 +4,6 @@ namespace Symplify\LatteToTwigConverter\CaseConverter;
 
 use Nette\Utils\Strings;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
-use function Safe\sprintf;
 
 /**
  * This needs to be run first, since it only move n:sytax to {syntax}...{/syntax} - all in Latte

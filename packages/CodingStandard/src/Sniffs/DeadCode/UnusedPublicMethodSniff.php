@@ -7,7 +7,6 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory;
-use function Safe\sprintf;
 
 /**
  * @experimental

@@ -10,7 +10,6 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Statie\FileSystem\GeneratedFilesDumper;
 use Symplify\Statie\JoindIn\Api\JoindInApi;
-use function Safe\sprintf;
 
 final class DumpJoindInCommand extends Command
 {

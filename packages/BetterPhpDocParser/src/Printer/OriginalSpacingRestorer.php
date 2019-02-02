@@ -6,7 +6,6 @@ use Nette\Utils\Arrays;
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
-use function Safe\substr;
 
 final class OriginalSpacingRestorer
 {
@@ -35,7 +34,7 @@ final class OriginalSpacingRestorer
         }
 
         // remove first space, added by the printer above
-        return substr($newNodeOutput, 1);
+        return Strings::substring($newNodeOutput, 1);
     }
 
     /**

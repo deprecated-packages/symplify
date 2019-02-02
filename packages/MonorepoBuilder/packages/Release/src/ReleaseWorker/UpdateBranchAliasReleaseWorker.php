@@ -7,7 +7,6 @@ use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Utils\Utils;
-use function Safe\sprintf;
 
 final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
 {

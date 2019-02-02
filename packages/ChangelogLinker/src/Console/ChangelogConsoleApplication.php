@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\PackageBuilder\Console\HelpfulApplicationTrait;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use function Safe\getcwd;
 
 final class ChangelogConsoleApplication extends Application
 {

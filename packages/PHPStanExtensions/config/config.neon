@@ -20,3 +20,6 @@ services:
 
     # Symfony Kernel::getContainer() after Kernel::boot() => ContainerInterface type
     - { class: Symplify\PHPStanExtensions\Symfony\Type\KernelGetContainerAfterBootReturnTypeExtension, tags: [phpstan.broker.dynamicMethodReturnTypeExtension] }
+
+    # getcwd -> string
+    - { class: Symplify\PHPStanExtensions\Php\Type\NativeFunctionDynamicFunctionReturnTypeExtension, tags: [phpstan.broker.dynamicFunctionReturnTypeExtension] }

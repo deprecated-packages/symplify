@@ -2,8 +2,6 @@
 
 namespace Symplify\Autodiscovery\Php;
 
-use function Safe\class_implements;
-
 final class InterfaceAnalyzer
 {
     public function isInterfaceOnlyImplementation(string $interface, string $class): bool

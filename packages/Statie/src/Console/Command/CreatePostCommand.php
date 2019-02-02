@@ -15,7 +15,6 @@ use Symplify\Statie\Exception\Configuration\ConfigurationException;
 use Symplify\Statie\FileSystem\CreatePostFileSystem;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
-use function Safe\sprintf;
 
 final class CreatePostCommand extends Command
 {
