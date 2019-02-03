@@ -161,13 +161,13 @@ But what if **you forget one or do it in wrong order**? Everything will crash!
 The `release` command will make you safe:
 
 ```bash
-vendor/bin/changelog-inker release v7.0
+vendor/bin/monorepo-builder release v7.0
 ```
 
 Are you afraid to tag and push? Use `--dry-run` to see only descriptions:
 
 ```bash
-vendor/bin/changelog-inker release v7.0 --dry-run
+vendor/bin/monorepo-builder release v7.0 --dry-run
 ```
 
 ### 7. Set Your Own Release Flow
