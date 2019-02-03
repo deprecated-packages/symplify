@@ -190,7 +190,7 @@ final class LineLengthTransformer
 
         // get length from end or arguments to first line break
         $currentPosition = $blockInfo->getEnd();
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
+        while (! $this->isEndOfLine($tokens, $currentPosition)) {
             $currentToken = $tokens[$currentPosition];
 
             $lineLength += strlen($currentToken->getContent());
@@ -278,20 +278,12 @@ final class LineLengthTransformer
 
     private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
     {
-        if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
-            return true;
-        }
-
-        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
+        return $this->isEndOfLine($tokens, $position) || $tokens[$position]->isGivenKind(T_OPEN_TAG);
     }
 
     private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
     {
-        if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
-            return true;
-        }
-
-        return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
+        return $this->isEndOfLine($tokens, $position) || $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
     }
 
     private function isBlockStartOrEnd(Token $previousToken, Token $nextToken): bool
@@ -301,5 +293,10 @@ final class LineLengthTransformer
         }
 
         return in_array($nextToken->getContent(), [')', ']'], true);
+    }
+
+    private function isEndOfLine(Tokens $tokens, int $position): bool
+    {
+        return ! isset($tokens[$position]) || Strings::startsWith($tokens[$position]->getContent(), PHP_EOL);
     }
 }
