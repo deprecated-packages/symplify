@@ -115,21 +115,7 @@ final class LineLengthTransformer
         $currentPosition = $startPosition;
 
         // collect length of tokens on current line which precede token at $currentPosition
-        while (! $this->isNewLineOrOpenTag($tokens, $currentPosition)) {
-            // in case of multiline string, we are interested in length of the part on current line only
-            $explode = explode("\n", $tokens[$currentPosition]->getContent());
-            // string precedes current token, so we are interested in end part only
-            if (count($explode) !== 0) {
-                $lastSection = end($explode);
-                $lineLength += strlen($lastSection);
-            }
-
-            --$currentPosition;
-
-            if (count($explode) > 1) {
-                break; // no longer need to continue searching for newline
-            }
-        }
+        [$lineLength, $currentPosition] = $this->getLengthToStartOfLine($tokens, $currentPosition);
 
         $currentToken = $tokens[$currentPosition];
 
@@ -155,6 +141,10 @@ final class LineLengthTransformer
             if (count($explode) > 1) {
                 break; // no longer need to continue searching for end of arguments
             }
+
+            if (! isset($tokens[$currentPosition])) {
+                break;
+            }
         }
 
         return $lineLength;
@@ -169,33 +159,20 @@ final class LineLengthTransformer
         while (! $this->isNewLineOrOpenTag($tokens, $currentPosition)) {
             $lineLength += strlen($tokens[$currentPosition]->getContent());
             --$currentPosition;
+
+            if (! isset($tokens[$currentPosition])) {
+                break;
+            }
         }
 
         // get spaces to first line
         $lineLength += strlen($tokens[$currentPosition]->getContent());
 
         // get length from start of function till end of arguments - with spaces as one
-        $currentPosition = $blockInfo->getStart();
-        while ($currentPosition < $blockInfo->getEnd()) {
-            $currentToken = $tokens[$currentPosition];
-            if ($currentToken->isGivenKind(T_WHITESPACE)) {
-                ++$lineLength;
-                ++$currentPosition;
-                continue;
-            }
-
-            $lineLength += strlen($tokens[$currentPosition]->getContent());
-            ++$currentPosition;
-        }
+        $lineLength += $this->getLenthFromFunctionStartToEndOfArguments($blockInfo, $tokens);
 
         // get length from end or arguments to first line break
-        $currentPosition = $blockInfo->getEnd();
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
-            $currentToken = $tokens[$currentPosition];
-
-            $lineLength += strlen($currentToken->getContent());
-            ++$currentPosition;
-        }
+        $lineLength += $this->getLengthFromEndOfArgumentToLineBreak($blockInfo, $tokens);
 
         return $lineLength;
     }
@@ -301,5 +278,78 @@ final class LineLengthTransformer
         }
 
         return in_array($nextToken->getContent(), [')', ']'], true);
+    }
+
+    private function getLenthFromFunctionStartToEndOfArguments(BlockInfo $blockInfo, Tokens $tokens): int
+    {
+        $length = 0;
+
+        $currentPosition = $blockInfo->getStart();
+        while ($currentPosition < $blockInfo->getEnd()) {
+            $currentToken = $tokens[$currentPosition];
+            if ($currentToken->isGivenKind(T_WHITESPACE)) {
+                ++$length;
+                ++$currentPosition;
+                continue;
+            }
+
+            $length += strlen($tokens[$currentPosition]->getContent());
+            ++$currentPosition;
+
+            if (! isset($tokens[$currentPosition])) {
+                break;
+            }
+        }
+
+        return $length;
+    }
+
+    private function getLengthFromEndOfArgumentToLineBreak(BlockInfo $blockInfo, Tokens $tokens): int
+    {
+        $length = 0;
+
+        $currentPosition = $blockInfo->getEnd();
+        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
+            $currentToken = $tokens[$currentPosition];
+
+            $length += strlen($currentToken->getContent());
+            ++$currentPosition;
+
+            if (! isset($tokens[$currentPosition])) {
+                break;
+            }
+        }
+
+        return $length;
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getLengthToStartOfLine(Tokens $tokens, int $currentPosition): array
+    {
+        $length = 0;
+
+        while (! $this->isNewLineOrOpenTag($tokens, $currentPosition)) {
+            // in case of multiline string, we are interested in length of the part on current line only
+            $explode = explode("\n", $tokens[$currentPosition]->getContent());
+            // string precedes current token, so we are interested in end part only
+            if (count($explode) !== 0) {
+                $lastSection = end($explode);
+                $length += strlen($lastSection);
+            }
+
+            --$currentPosition;
+
+            if (count($explode) > 1) {
+                break; // no longer need to continue searching for newline
+            }
+
+            if (! isset($tokens[$currentPosition])) {
+                break;
+            }
+        }
+
+        return [$length, $currentPosition];
     }
 }
