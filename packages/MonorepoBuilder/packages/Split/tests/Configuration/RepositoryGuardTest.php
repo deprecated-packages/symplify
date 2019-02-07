@@ -5,7 +5,7 @@ namespace Symplify\MonorepoBuilder\Split\Tests\Configuration;
 use Iterator;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\Exception\InvalidRepositoryFormatException;
-use Symplify\MonorepoBuilder\Split\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 
 final class RepositoryGuardTest extends AbstractContainerAwareTestCase
 {

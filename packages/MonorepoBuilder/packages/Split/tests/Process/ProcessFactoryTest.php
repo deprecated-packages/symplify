@@ -3,7 +3,7 @@
 namespace Symplify\MonorepoBuilder\Split\Tests\Process;
 
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
-use Symplify\MonorepoBuilder\Split\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 
 final class ProcessFactoryTest extends AbstractContainerAwareTestCase
 {
