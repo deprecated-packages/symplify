@@ -4,7 +4,7 @@ namespace Symplify\LatteToTwigConverter\Tests;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
-use Symplify\LatteToTwigConverter\DependencyInjection\LatteToTwigConverterKernel;
+use Symplify\LatteToTwigConverter\HttpKernel\LatteToTwigConverterKernel;
 use Symplify\LatteToTwigConverter\LatteToTwigConverter;
 
 final class LatteToTwigConverterTest extends TestCase
