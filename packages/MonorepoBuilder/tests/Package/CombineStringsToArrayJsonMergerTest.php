@@ -51,7 +51,8 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTe
     {
         $finder = Finder::create()->files()
             ->in($directory)
-            ->name('*.json');
+            ->name('*.json')
+            ->sortByName();
 
         return $this->finderSanitizer->sanitize($finder);
     }
