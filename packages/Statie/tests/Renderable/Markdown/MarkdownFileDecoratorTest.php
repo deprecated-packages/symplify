@@ -40,7 +40,7 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->markdownFileDecorator->decorateFiles([$file]);
 
-        $this->assertContains($expectedContent, $file->getContent(), $message);
+        $this->assertStringContainsString($expectedContent, $file->getContent(), $message);
     }
 
     public function provideFilesToHtml(): Iterator
