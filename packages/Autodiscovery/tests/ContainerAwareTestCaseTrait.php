@@ -21,7 +21,7 @@ trait ContainerAwareTestCaseTrait
     private static $cachedContainer;
 
     /**
-     * @param mixed[]    $data
+     * @param mixed[] $data
      * @param int|string $dataName
      */
     public function __construct(?string $name = null, array $data = [], $dataName = '')
