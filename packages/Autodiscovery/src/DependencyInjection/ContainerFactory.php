@@ -3,6 +3,7 @@
 namespace Symplify\Autodiscovery\DependencyInjection;
 
 use Psr\Container\ContainerInterface;
+use Symplify\LatteToTwigConverter\HttpKernel\LatteToTwigConverterKernel;
 
 final class ContainerFactory
 {

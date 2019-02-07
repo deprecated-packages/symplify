@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\DependencyInjection;
+namespace Symplify\Statie\HttpKerne;
 
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\GlobFileLoader;

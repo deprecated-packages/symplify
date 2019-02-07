@@ -3,6 +3,7 @@
 namespace Symplify\MonorepoBuilder\DependencyInjection;
 
 use Psr\Container\ContainerInterface;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 
 final class ContainerFactory
 {

@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker\DependencyInjection;
 
 use Psr\Container\ContainerInterface;
+use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 
 final class ContainerFactory
 {
