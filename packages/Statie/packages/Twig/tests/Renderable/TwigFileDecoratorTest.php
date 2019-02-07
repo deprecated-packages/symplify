@@ -40,8 +40,7 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/TwigFileDecoratorSource/fileWithoutLayout.twig');
         $this->twigFileDecorator->decorateFiles([$file]);
-
-        $this->assertContains('Contact me!', $file->getContent());
+        $this->assertStringContainsString('Contact me!', $file->getContent());
     }
 
     public function testDecorateFileWithLayout(): void
@@ -61,7 +60,7 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
         $file = $this->createFileFromFilePath(__DIR__ . '/TwigFileDecoratorSource/fileWithFileVariable.twig');
         $this->twigFileDecorator->decorateFiles([$file]);
 
-        $this->assertContains('fileWithFileVariable.twig', $file->getContent());
+        $this->assertStringContainsString('fileWithFileVariable.twig', $file->getContent());
     }
 
     public function testDecorateFileWithInvalidTwigSyntax(): void
