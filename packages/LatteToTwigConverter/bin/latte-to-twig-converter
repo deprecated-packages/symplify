@@ -3,17 +3,10 @@
 
 require_once __DIR__ . '/autoload.php';
 
-use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application;
 use Symplify\LatteToTwigConverter\DependencyInjection\ContainerFactory;
-use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
-try {
-    /** @var ContainerInterface $container */
-    $container = (new ContainerFactory())->create();
+$container = (new ContainerFactory())->create();
 
-    $application = $container->get(Application::class);
-    exit($application->run());
-} catch (Throwable $throwable) {
-    (new ThrowableRenderer())->render($throwable);
-}
+$application = $container->get(Application::class);
+exit($application->run());
