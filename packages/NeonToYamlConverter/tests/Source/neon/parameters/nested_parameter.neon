@@ -1,0 +1,12 @@
+parameters:
+    payu:
+        user: pepa
+        password: abz123
+    GPWebPay:
+        webpayUrl: 'https://test.3dsecure.gpwebpay.com/pgw/order.do'
+
+services:
+    PayyouSuperService:
+        arguments:
+            - '%payu.user%'
+            - '%payu.password%'

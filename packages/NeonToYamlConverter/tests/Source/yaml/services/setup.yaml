@@ -1,0 +1,12 @@
+services:
+    monologStreamHandler:
+        class: Monolog\Handler\StreamHandler
+        tags:
+            - monolog.handler
+        arguments:
+            - 'php://stderr'
+        calls:
+            -
+                - setFormatter
+                -
+                    - '@Entrydo\Infrastructure\Logging\Monolog\LogDNAJsonFormatter'

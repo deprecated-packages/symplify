@@ -136,3 +136,6 @@ parameters:
         - '#Method Symplify\\EasyCodingStandardTester\\Testing\\AbstractCheckerTestCase\:\:getConfigHash\(\) should return string but returns string\|false#'
         - '#Parameter \#1 \$code of static method PhpCsFixer\\Tokenizer\\Tokens\:\:fromCode\(\) expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutowireSinglyImplementedCompilerPass\:\:filterSinglyImplementedInterfaces\(\) should return array<string\> but returns array<string, int\|string\>#'
+
+        # PHPUnit 8 false positive
+        - '#Parameter \#3 \$dataName of method PHPUnit\\Framework\\TestCase\:\:__construct\(\) expects string, int\|string given#'

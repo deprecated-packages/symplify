@@ -1,0 +1,7 @@
+items:
+    - 1
+    b: 2
+
+ouje:
+    - SomeService
+    SomeService:

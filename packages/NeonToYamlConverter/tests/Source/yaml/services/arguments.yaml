@@ -1,0 +1,9 @@
+services:
+    braintreeGateway:
+        class: Braintree\Gateway
+        arguments:
+            -
+                environment: '%braintree.environment%'
+                merchantId: '%braintree.merchantId%'
+                publicKey: '%braintree.publicKey%'
+                privateKey: '%braintree.privateKey%'
