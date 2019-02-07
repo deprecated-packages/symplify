@@ -43,7 +43,7 @@ final class PublishedTweetsFilterTest extends AbstractContainerAwareTestCase
 
         foreach ($unpublishedTweets as $unpublishedTweet) {
             // this tweet is already published, so it should not be here
-            $this->assertNotContains(
+            $this->assertStringNotContainsString(
                 'New post on my blog: Clean and Decoupled Controllers, Commands and Event Subscribers ',
                 $unpublishedTweet->getText()
             );

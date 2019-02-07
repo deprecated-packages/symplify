@@ -1,4 +1,3 @@
-
 # composer
 /vendor
 composer.lock
@@ -11,3 +10,6 @@ package-lock.json
 /source
 /output
 /statie.yaml
+
+# phpunit
+.phpunit.result.cache

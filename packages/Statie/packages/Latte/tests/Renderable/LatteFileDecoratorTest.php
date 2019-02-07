@@ -41,7 +41,7 @@ final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
         $file = $this->createFileFromFilePath(__DIR__ . '/LatteFileDecoratorSource/fileWithoutLayout.latte');
         $this->latteFileDecorator->decorateFiles([$file]);
 
-        $this->assertContains('Contact me!', $file->getContent());
+        $this->assertStringContainsString('Contact me!', $file->getContent());
     }
 
     public function testDecorateFileWithLayout(): void
@@ -61,7 +61,7 @@ final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
         $file = $this->createFileFromFilePath(__DIR__ . '/LatteFileDecoratorSource/fileWithFileVariable.latte');
         $this->latteFileDecorator->decorateFiles([$file]);
 
-        $this->assertContains('fileWithFileVariable.latte', $file->getContent());
+        $this->assertStringContainsString('fileWithFileVariable.latte', $file->getContent());
     }
 
     public function testDecorateFileWithInvalidLatteSyntax(): void

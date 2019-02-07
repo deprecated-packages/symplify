@@ -23,8 +23,8 @@ final class YamlParserTest extends TestCase
     public function testDecode(): void
     {
         $decodedYaml = $this->yamlParser->decode(FileSystem::read(__DIR__ . '/YamlParserSource/config.yml'));
-        $this->assertContains('one', $decodedYaml['multiline']);
-        $this->assertContains('two', $decodedYaml['multiline']);
+        $this->assertStringContainsString('one', $decodedYaml['multiline']);
+        $this->assertStringContainsString('two', $decodedYaml['multiline']);
 
         $decodedYamlFromFile = $this->yamlParser->decodeFile(__DIR__ . '/YamlParserSource/config.yml');
         $this->assertSame($decodedYamlFromFile, $decodedYaml);
