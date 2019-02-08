@@ -54,7 +54,7 @@ final class ConvertCommand extends Command
         $this->addArgument(
             self::ARGUMENT_SOURCE,
             InputArgument::REQUIRED,
-            'Directory to convert Neon files to Yaml syntax in.'
+            'Directory or file to convert Neon files to Yaml syntax in.'
         );
         $this->setDescription('Converts Neon syntax to Yaml');
     }
@@ -62,7 +62,13 @@ final class ConvertCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sourceDirectory = (string) $input->getArgument(self::ARGUMENT_SOURCE);
-        $yamlFileInfos = $this->findYamlFilesInDirectory($sourceDirectory);
+
+        $sourceDirectory = (string) $input->getArgument(self::ARGUMENT_SOURCE);
+        if (is_file($sourceDirectory) && file_exists($sourceDirectory)) {
+            $yamlFileInfos = [new SmartFileInfo($sourceDirectory)];
+        } else {
+            $yamlFileInfos = $this->findYamlFilesInDirectory($sourceDirectory);
+        }
 
         foreach ($yamlFileInfos as $yamlFileInfo) {
             $convertedContent = $this->neonToYamlConverter->convertFile($yamlFileInfo->getRealPath());

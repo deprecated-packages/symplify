@@ -54,7 +54,7 @@ final class ConvertCommand extends Command
         $this->addArgument(
             self::ARGUMENT_SOURCE,
             InputArgument::REQUIRED,
-            'Directory to convert *.twig files to Latte syntax in.'
+            'Directory or file to convert *.twig files to Latte syntax in.'
         );
         $this->setDescription('Converts Latte syntax to Twig in all *.twig files');
     }
@@ -62,7 +62,11 @@ final class ConvertCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sourceDirectory = (string) $input->getArgument(self::ARGUMENT_SOURCE);
-        $twigFileInfos = $this->findTwigFilesInDirectory($sourceDirectory);
+        if (is_file($sourceDirectory) && file_exists($sourceDirectory)) {
+            $twigFileInfos = [new SmartFileInfo($sourceDirectory)];
+        } else {
+            $twigFileInfos = $this->findTwigFilesInDirectory($sourceDirectory);
+        }
 
         foreach ($twigFileInfos as $twigFileInfo) {
             $convertedContent = $this->latteToTwigConverter->convertFile($twigFileInfo->getRealPath());
