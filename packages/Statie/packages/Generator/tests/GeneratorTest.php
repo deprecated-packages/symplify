@@ -4,12 +4,20 @@ namespace Symplify\Statie\Generator\Tests;
 
 use DateTimeInterface;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
+use Symplify\Statie\HttpKernel\StatieKernel;
 
 /**
  * @covers \Symplify\Statie\Generator\Generator
  */
 final class GeneratorTest extends AbstractGeneratorTest
 {
+    protected function setUp(): void
+    {
+        $this->bootKernelWithConfigs(StatieKernel::class, [__DIR__ . '/GeneratorSource/statie.yml']);
+
+        parent::setUp();
+    }
+
     public function testIdsAreKeys(): void
     {
         $generatorFilesByType = $this->generator->run();
@@ -87,10 +95,5 @@ final class GeneratorTest extends AbstractGeneratorTest
         // detect date correctly from name
         $firstPost = array_pop($posts);
         $this->assertInstanceOf(DateTimeInterface::class, $firstPost['date']);
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/GeneratorSource/statie.yml';
     }
 }

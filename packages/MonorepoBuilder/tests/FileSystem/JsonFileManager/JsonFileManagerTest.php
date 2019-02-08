@@ -4,10 +4,11 @@ namespace Symplify\MonorepoBuilder\Tests\FileSystem\JsonFileManager;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class JsonFileManagerTest extends AbstractContainerAwareTestCase
+final class JsonFileManagerTest extends AbstractKernelTestCase
 {
     /**
      * @var JsonFileManager
@@ -21,8 +22,10 @@ final class JsonFileManagerTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->jsonFileManager = $this->container->get(JsonFileManager::class);
-        $this->filesystem = $this->container->get(Filesystem::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->jsonFileManager = self::$container->get(JsonFileManager::class);
+        $this->filesystem = self::$container->get(Filesystem::class);
     }
 
     protected function tearDown(): void

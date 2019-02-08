@@ -2,11 +2,12 @@
 
 namespace Symplify\Statie\Tweeter\Tests\TwitterApi;
 
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Tweeter\Tweet\PublishedTweet;
 use Symplify\Statie\Tweeter\TwitterApi\TwitterApiWrapper;
 
-final class TwitterApiWrapperTest extends AbstractContainerAwareTestCase
+final class TwitterApiWrapperTest extends AbstractKernelTestCase
 {
     /**
      * @var TwitterApiWrapper
@@ -15,7 +16,9 @@ final class TwitterApiWrapperTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->twitterApiWrapper = $this->container->get(TwitterApiWrapper::class);
+        $this->bootKernel(StatieKernel::class);
+
+        $this->twitterApiWrapper = self::$container->get(TwitterApiWrapper::class);
     }
 
     public function testGetPublishedTweets(): void

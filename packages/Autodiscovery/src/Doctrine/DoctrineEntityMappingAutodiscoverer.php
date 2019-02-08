@@ -79,9 +79,7 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
 
         // @see https://symfony.com/doc/current/reference/configuration/doctrine.html#mapping-entities-outside-of-a-bundle
         $this->containerBuilder->prependExtensionConfig('doctrine', [
-            'orm' => [
-                'mappings' => $entityMappings,
-            ],
+            'orm' => ['mappings' => $entityMappings],
         ]);
     }
 

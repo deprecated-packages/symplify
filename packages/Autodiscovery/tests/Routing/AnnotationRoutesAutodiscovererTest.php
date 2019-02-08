@@ -4,17 +4,23 @@ namespace Symplify\Autodiscovery\Tests\Routing;
 
 use Symfony\Component\Routing\Router;
 use Symplify\Autodiscovery\Routing\AnnotationRoutesAutodiscoverer;
-use Symplify\Autodiscovery\Tests\AbstractAppKernelAwareTestCase;
+use Symplify\Autodiscovery\Tests\Source\HttpKernel\AudiscoveryTestingKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 /**
  * @see AnnotationRoutesAutodiscoverer
  */
-final class AnnotationRoutesAutodiscovererTest extends AbstractAppKernelAwareTestCase
+final class AnnotationRoutesAutodiscovererTest extends AbstractKernelTestCase
 {
+    protected function setUp(): void
+    {
+        static::bootKernel(AudiscoveryTestingKernel::class);
+    }
+
     public function test(): void
     {
         /** @var Router $router */
-        $router = $this->container->get('router');
+        $router = static::$container->get('router');
         $annotationNames = array_keys($router->getRouteCollection()->all());
 
         $this->assertContains('it-works', $annotationNames);

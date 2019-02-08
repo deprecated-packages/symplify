@@ -4,10 +4,11 @@ namespace Symplify\MonorepoBuilder\Tests\DevMasterAliasUpdater;
 
 use Nette\Utils\FileSystem;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class DevMasterAliasUpdaterTest extends AbstractContainerAwareTestCase
+final class DevMasterAliasUpdaterTest extends AbstractKernelTestCase
 {
     /**
      * @var DevMasterAliasUpdater
@@ -16,8 +17,10 @@ final class DevMasterAliasUpdaterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->devMasterAliasUpdater = $this->container->get(DevMasterAliasUpdater::class);
-        $this->devMasterAliasUpdater = $this->container->get(DevMasterAliasUpdater::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->devMasterAliasUpdater = self::$container->get(DevMasterAliasUpdater::class);
+        $this->devMasterAliasUpdater = self::$container->get(DevMasterAliasUpdater::class);
     }
 
     protected function tearDown(): void

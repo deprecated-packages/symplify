@@ -3,11 +3,19 @@
 
 require_once __DIR__ . '/autoload.php';
 
-use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symplify\Autodiscovery\HttpKernel\AutodiscoveryKernel;
 
-/** @var ContainerInterface $container */
-$container = require_once __DIR__ . '/container.php';
+$autodiscoveryKernel = new AutodiscoveryKernel('prod', isDebug());
+$autodiscoveryKernel->boot();
+
+function isDebug(): bool {
+    $argvInput = new ArgvInput();
+    return (bool) $argvInput->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
+}
+
+$container = $autodiscoveryKernel->getContainer();
 
 $application = $container->get(Application::class);
 exit($application->run());

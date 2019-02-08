@@ -5,9 +5,10 @@ namespace Symplify\ChangelogLinker\Tests\ChangelogCleaner;
 use Iterator;
 use Nette\Utils\FileSystem;
 use Symplify\ChangelogLinker\ChangelogCleaner;
-use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
+use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class ChangelogCleanerTest extends AbstractContainerAwareTestCase
+final class ChangelogCleanerTest extends AbstractKernelTestCase
 {
     /**
      * @var ChangelogCleaner
@@ -16,7 +17,9 @@ final class ChangelogCleanerTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->changelogCleaner = $this->container->get(ChangelogCleaner::class);
+        $this->bootKernel(ChangelogLinkerKernel::class);
+
+        $this->changelogCleaner = self::$container->get(ChangelogCleaner::class);
     }
 
     /**

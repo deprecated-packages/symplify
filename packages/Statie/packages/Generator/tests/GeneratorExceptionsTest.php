@@ -4,10 +4,18 @@ namespace Symplify\Statie\Generator\Tests;
 
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\PostFile;
 
 final class GeneratorExceptionsTest extends AbstractGeneratorTest
 {
+    protected function setUp(): void
+    {
+        $this->bootKernelWithConfigs(StatieKernel::class, [__DIR__ . '/GeneratorSource/statie.yml']);
+
+        parent::setUp();
+    }
+
     public function testPostExceptionsOnUnset(): void
     {
         $post = $this->getPost();
@@ -47,11 +55,6 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
         );
 
         $post['key'];
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/GeneratorSource/statie.yml';
     }
 
     private function getPost(): PostFile

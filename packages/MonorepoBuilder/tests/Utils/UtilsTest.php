@@ -3,10 +3,11 @@
 namespace Symplify\MonorepoBuilder\Tests\Utils;
 
 use Iterator;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Utils\Utils;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class UtilsTest extends AbstractContainerAwareTestCase
+final class UtilsTest extends AbstractKernelTestCase
 {
     /**
      * @var Utils
@@ -15,7 +16,9 @@ final class UtilsTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->utils = $this->container->get(Utils::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->utils = self::$container->get(Utils::class);
     }
 
     /**

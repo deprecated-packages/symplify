@@ -5,12 +5,13 @@ namespace Symplify\Statie\Tests\Renderable\Configuration;
 use Iterator;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Configuration\StatieConfiguration;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\ConfigurationFileDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCase
+final class ConfigurationFileDecoratorTest extends AbstractKernelTestCase
 {
     /**
      * @var ConfigurationFileDecorator
@@ -24,10 +25,12 @@ final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCas
 
     protected function setUp(): void
     {
-        $this->configurationFileDecorator = $this->container->get(ConfigurationFileDecorator::class);
-        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->bootKernel(StatieKernel::class);
 
-        $configuration = $this->container->get(StatieConfiguration::class);
+        $this->configurationFileDecorator = self::$container->get(ConfigurationFileDecorator::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/ConfigurationFileDecoratorSource');
     }
 

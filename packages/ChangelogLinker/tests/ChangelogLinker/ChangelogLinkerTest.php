@@ -5,8 +5,8 @@ namespace Symplify\ChangelogLinker\Tests\ChangelogLinker;
 use Iterator;
 use Nette\Utils\FileSystem;
 use Symplify\ChangelogLinker\ChangelogLinker;
-use Symplify\ChangelogLinker\DependencyInjection\ContainerFactory;
-use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
+use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 /**
  * @covers \Symplify\ChangelogLinker\ChangelogLinker
@@ -16,7 +16,7 @@ use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
  * @covers \Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker
  * @covers \Symplify\ChangelogLinker\Worker\BracketsAroundReferencesWorker
  */
-final class ChangelogLinkerTest extends AbstractContainerAwareTestCase
+final class ChangelogLinkerTest extends AbstractKernelTestCase
 {
     /**
      * @var ChangelogLinker
@@ -25,8 +25,9 @@ final class ChangelogLinkerTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/Source/config.yml');
-        $this->changelogLinker = $container->get(ChangelogLinker::class);
+        $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/Source/config.yml']);
+
+        $this->changelogLinker = self::$container->get(ChangelogLinker::class);
     }
 
     /**
@@ -35,7 +36,6 @@ final class ChangelogLinkerTest extends AbstractContainerAwareTestCase
     public function test(string $originalFile, string $expectedFile): void
     {
         $processedFile = $this->changelogLinker->processContentWithLinkAppends(FileSystem::read($originalFile));
-
         $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
 

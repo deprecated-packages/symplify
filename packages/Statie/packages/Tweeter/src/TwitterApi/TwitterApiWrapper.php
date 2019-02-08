@@ -85,9 +85,7 @@ final class TwitterApiWrapper
 
     public function publishTweet(string $status): void
     {
-        $this->callPost(self::UPDATE_URL, [
-            'status' => $status,
-        ]);
+        $this->callPost(self::UPDATE_URL, ['status' => $status]);
     }
 
     /**

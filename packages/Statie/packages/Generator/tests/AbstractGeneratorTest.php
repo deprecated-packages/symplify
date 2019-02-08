@@ -3,13 +3,13 @@
 namespace Symplify\Statie\Generator\Tests;
 
 use Nette\Utils\FileSystem;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
-use Symplify\Statie\Tests\AbstractConfigAwareContainerTestCase;
 
-abstract class AbstractGeneratorTest extends AbstractConfigAwareContainerTestCase
+abstract class AbstractGeneratorTest extends AbstractKernelTestCase
 {
     /**
      * @var string
@@ -38,8 +38,8 @@ abstract class AbstractGeneratorTest extends AbstractConfigAwareContainerTestCas
 
     protected function setUp(): void
     {
-        $this->generator = $this->container->get(Generator::class);
-        $this->fileSystemWriter = $this->container->get(FileSystemWriter::class);
+        $this->generator = self::$container->get(Generator::class);
+        $this->fileSystemWriter = self::$container->get(FileSystemWriter::class);
 
         $this->prepareConfiguration();
         $this->prepareLayouts();
@@ -52,7 +52,7 @@ abstract class AbstractGeneratorTest extends AbstractConfigAwareContainerTestCas
 
     private function prepareConfiguration(): void
     {
-        $this->statieConfiguration = $this->container->get(StatieConfiguration::class);
+        $this->statieConfiguration = self::$container->get(StatieConfiguration::class);
         $this->statieConfiguration->setSourceDirectory($this->sourceDirectory);
         $this->statieConfiguration->setOutputDirectory($this->outputDirectory);
     }
@@ -62,7 +62,7 @@ abstract class AbstractGeneratorTest extends AbstractConfigAwareContainerTestCas
      */
     private function prepareLayouts(): void
     {
-        $arrayLoader = $this->container->get(ArrayLoader::class);
+        $arrayLoader = self::$container->get(ArrayLoader::class);
         $arrayLoader->changeContent(
             '_layouts/post.latte',
             FileSystem::read($this->sourceDirectory . '/_layouts/post.latte')

@@ -8,10 +8,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Migrator\Contract\MigratorInterface;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-abstract class AbstractProjectToStatieMigratorTest extends AbstractContainerAwareTestCase
+abstract class AbstractProjectToStatieMigratorTest extends AbstractKernelTestCase
 {
     /**
      * @var string
@@ -25,10 +26,12 @@ abstract class AbstractProjectToStatieMigratorTest extends AbstractContainerAwar
 
     protected function setUp(): void
     {
-        $this->finderSanitizer = $this->container->get(FinderSanitizer::class);
+        $this->bootKernel(StatieKernel::class);
+
+        $this->finderSanitizer = self::$container->get(FinderSanitizer::class);
 
         // silent output
-        $symfonyStyle = $this->container->get(SymfonyStyle::class);
+        $symfonyStyle = self::$container->get(SymfonyStyle::class);
         $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
 
         $this->tempDirectory = __DIR__ . '/temp';

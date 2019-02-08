@@ -85,9 +85,7 @@ final class NeonToYamlConverter
     private function convertIncludes(array $data): array
     {
         foreach ($data as $key => $value) {
-            $data[$key] = [
-                'resource' => $value,
-            ];
+            $data[$key] = ['resource' => $value];
         }
 
         return $data;
@@ -108,10 +106,14 @@ final class NeonToYamlConverter
                 }
 
                 if ($service instanceof Entity) {
-                    [$name, $data] = $this->convertServiceEntity($data, $service, $name);
+                    [
+                     $name, $data,
+                    ] = $this->convertServiceEntity($data, $service, $name);
                 }
             } elseif ($service instanceof Entity) {
-                [$name, $data] = $this->convertServiceEntity($data, $service, $name);
+                [
+                 $name, $data,
+                ] = $this->convertServiceEntity($data, $service, $name);
             } elseif (is_string($service)) {
                 if (is_string($name) && $service === '~') {
                     $data[$name] = null;
@@ -120,21 +122,19 @@ final class NeonToYamlConverter
 
                 // probably factory, @see https://symfony.com/doc/current/service_container/factories.html
                 if (Strings::contains($service, '::')) {
-                    [$factoryClass, $factoryMethod] = explode('::', $service);
+                    [
+                     $factoryClass, $factoryMethod,
+                    ] = explode('::', $service);
 
                     $data[$name] = [
                         'factory' => [$factoryClass, $factoryMethod],
                     ];
                 // probably alias, @see https://symfony.com/doc/current/service_container/alias_private.html#aliasing
                 } elseif (Strings::startsWith($service, '@')) {
-                    $data[$name] = [
-                        'alias' => $service,
-                    ];
+                    $data[$name] = ['alias' => $service];
                 // probably service
                 } else {
-                    $data[$name] = [
-                        'class' => $service,
-                    ];
+                    $data[$name] = ['class' => $service];
                 }
             } else { // named service
                 $service = $data[$name];

@@ -15,7 +15,7 @@ final class SculpinToStatieMigratorTest extends AbstractProjectToStatieMigratorT
     protected function setUp(): void
     {
         parent::setUp();
-        $this->sculpinToStatieMigrator = $this->container->get(SculpinToStatieMigrator::class);
+        $this->sculpinToStatieMigrator = self::$container->get(SculpinToStatieMigrator::class);
     }
 
     public function test(): void

@@ -8,10 +8,11 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Symplify\BetterPhpDocParser\HttpKernel\BetterPhpDocParserKernel;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
-use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class TypeNodeToStringsConverterTest extends AbstractContainerAwareTestCase
+final class TypeNodeToStringsConverterTest extends AbstractKernelTestCase
 {
     /**
      * @var TypeNodeToStringsConverter
@@ -20,7 +21,9 @@ final class TypeNodeToStringsConverterTest extends AbstractContainerAwareTestCas
 
     protected function setUp(): void
     {
-        $this->typeNodeToStringsConverter = $this->container->get(TypeNodeToStringsConverter::class);
+        $this->bootKernel(BetterPhpDocParserKernel::class);
+
+        $this->typeNodeToStringsConverter = self::$container->get(TypeNodeToStringsConverter::class);
     }
 
     /**

@@ -3,11 +3,12 @@
 namespace Symplify\MonorepoBuilder\Split\Tests\Configuration;
 
 use Iterator;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\Exception\InvalidRepositoryFormatException;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class RepositoryGuardTest extends AbstractContainerAwareTestCase
+final class RepositoryGuardTest extends AbstractKernelTestCase
 {
     /**
      * @var RepositoryGuard
@@ -16,7 +17,9 @@ final class RepositoryGuardTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->repositoryGuard = $this->container->get(RepositoryGuard::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->repositoryGuard = self::$container->get(RepositoryGuard::class);
     }
 
     /**

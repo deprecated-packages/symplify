@@ -5,19 +5,20 @@ namespace Symplify\EasyCodingStandardTester\Testing;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
-use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
+use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
+use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\PackageBuilder\FileSystem\FileGuard;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-abstract class AbstractCheckerTestCase extends TestCase
+abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 {
     /**
      * To invalidate new versions
@@ -34,11 +35,6 @@ abstract class AbstractCheckerTestCase extends TestCase
      * @var bool
      */
     protected $autoloadTestFixture = false;
-
-    /**
-     * @var ContainerInterface[]
-     */
-    protected static $cachedContainers = [];
 
     /**
      * @var FixerFileProcessor
@@ -73,21 +69,25 @@ abstract class AbstractCheckerTestCase extends TestCase
     protected function setUp(): void
     {
         $this->fileGuard = new FileGuard();
-        $this->fileGuard->ensureFileExists($this->provideConfig(), static::class);
 
-        $container = $this->getContainer();
+        $config = $this->provideConfig();
+        $this->fileGuard->ensureFileExists($config, static::class);
 
-        $this->fixerFileProcessor = $container->get(FixerFileProcessor::class);
-        $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
-        $this->errorAndDiffCollector = $container->get(ErrorAndDiffCollector::class);
-        $this->currentFileProvider = $container->get(CurrentFileProvider::class);
+        static::bootKernelWithConfigs(EasyCodingStandardKernel::class, [$config]);
+
+        $this->fixerFileProcessor = self::$container->get(FixerFileProcessor::class);
+        $this->sniffFileProcessor = self::$container->get(SniffFileProcessor::class);
+        $this->errorAndDiffCollector = self::$container->get(ErrorAndDiffCollector::class);
+        $this->currentFileProvider = self::$container->get(CurrentFileProvider::class);
+
+        // silent output
+        $easyCodingStandardStyle = self::$container->get(EasyCodingStandardStyle::class);
+        $easyCodingStandardStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
 
         // reset error count from previous possibly container cached run
         $this->errorAndDiffCollector->resetCounters();
 
         $this->autoloadTestFixture = false;
-
-        parent::setUp();
     }
 
     /**
@@ -145,6 +145,7 @@ abstract class AbstractCheckerTestCase extends TestCase
 
             return $configFileTempPath;
         }
+
         // to be implemented
     }
 
@@ -235,18 +236,6 @@ abstract class AbstractCheckerTestCase extends TestCase
         );
     }
 
-    protected function getContainer(): ContainerInterface
-    {
-        $fileHash = $this->getConfigHash();
-        if (isset(self::$cachedContainers[$fileHash])) {
-            return self::$cachedContainers[$fileHash];
-        }
-
-        return self::$cachedContainers[$fileHash] = (new ContainerFactory())->createWithConfigs(
-            [$this->provideConfig()]
-        );
-    }
-
     private function processFile(string $file): void
     {
         $fileInfo = new SmartFileInfo($file);
@@ -301,11 +290,6 @@ abstract class AbstractCheckerTestCase extends TestCase
         $message = 'Caused by ' . ($this->activeFileInfo ? $this->activeFileInfo->getRealPath() : $file);
 
         $this->assertStringEqualsFile($file, $processedFileContent, $message);
-    }
-
-    private function getConfigHash(): string
-    {
-        return md5_file($this->provideConfig());
     }
 
     /**

@@ -5,13 +5,14 @@ namespace Symplify\Autodiscovery\Tests\Doctrine;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\ORM\EntityManager;
-use Symplify\Autodiscovery\Tests\AbstractAppKernelAwareTestCase;
-use Symplify\Autodiscovery\Tests\KernelProjectDir\Entity\Product;
+use Symplify\Autodiscovery\Tests\Source\HttpKernel\AudiscoveryTestingKernel;
+use Symplify\Autodiscovery\Tests\Source\KernelProjectDir\Entity\Product;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 /**
  * @covers \Symplify\Autodiscovery\Doctrine\DoctrineEntityMappingAutodiscoverer
  */
-final class DoctrineEntityAutodiscoverTest extends AbstractAppKernelAwareTestCase
+final class DoctrineEntityAutodiscoverTest extends AbstractKernelTestCase
 {
     /**
      * @var MappingDriver
@@ -20,8 +21,10 @@ final class DoctrineEntityAutodiscoverTest extends AbstractAppKernelAwareTestCas
 
     protected function setUp(): void
     {
+        static::bootKernel(AudiscoveryTestingKernel::class);
+
         /** @var Registry $registry */
-        $registry = $this->container->get('doctrine');
+        $registry = static::$container->get('doctrine');
 
         /** @var EntityManager $entityManager */
         $entityManager = $registry->getManager();

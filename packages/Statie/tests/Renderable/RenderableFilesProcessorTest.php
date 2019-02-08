@@ -3,12 +3,13 @@
 namespace Symplify\Statie\Tests\Renderable;
 
 use Nette\Utils\FileSystem;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\FileSystem\FileFinder;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class RenderableFilesProcessorTest extends AbstractContainerAwareTestCase
+final class RenderableFilesProcessorTest extends AbstractKernelTestCase
 {
     /**
      * @var string
@@ -32,10 +33,12 @@ final class RenderableFilesProcessorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->renderableFilesProcessor = $this->container->get(RenderableFilesProcessor::class);
-        $this->fileFinder = $this->container->get(FileFinder::class);
+        $this->bootKernel(StatieKernel::class);
 
-        $configuration = $this->container->get(StatieConfiguration::class);
+        $this->renderableFilesProcessor = self::$container->get(RenderableFilesProcessor::class);
+        $this->fileFinder = self::$container->get(FileFinder::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory($this->sourceDirectory);
         $configuration->setOutputDirectory($this->outputDirectory);
     }

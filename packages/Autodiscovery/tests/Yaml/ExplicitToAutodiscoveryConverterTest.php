@@ -5,10 +5,11 @@ namespace Symplify\Autodiscovery\Tests\Yaml;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
-use Symplify\Autodiscovery\Tests\AbstractContainerAwareTestCase;
+use Symplify\Autodiscovery\HttpKernel\AutodiscoveryKernel;
 use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class ExplicitToAutodiscoveryConverterTest extends AbstractContainerAwareTestCase
+final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
 {
     /**
      * @var string
@@ -22,7 +23,9 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractContainerAwareT
 
     protected function setUp(): void
     {
-        $this->explicitToAutodiscoveryConverter = $this->container->get(ExplicitToAutodiscoveryConverter::class);
+        static::bootKernel(AutodiscoveryKernel::class);
+
+        $this->explicitToAutodiscoveryConverter = static::$container->get(ExplicitToAutodiscoveryConverter::class);
     }
 
     public function test(): void

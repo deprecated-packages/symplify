@@ -66,7 +66,7 @@ final class BumpInterdependencyCommand extends Command
 
         // @todo resolve better for only found packages
         // see https://github.com/Symplify/Symplify/pull/1037/files
-        [$vendor,] = explode('/', $rootComposerJson['name']);
+        [$vendor] = explode('/', $rootComposerJson['name']);
 
         $this->dependencyUpdater->updateFileInfosWithVendorAndVersion(
             $this->composerJsonProvider->getPackagesFileInfos(),

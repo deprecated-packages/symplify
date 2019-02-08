@@ -4,15 +4,16 @@ namespace Symplify\Statie\Twig\Tests\Renderable;
 
 use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Configuration\StatieConfiguration;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
 use Symplify\Statie\Twig\Renderable\TwigFileDecorator;
 use Twig\Loader\ArrayLoader;
 
-final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
+final class TwigFileDecoratorTest extends AbstractKernelTestCase
 {
     /**
      * @var TwigFileDecorator
@@ -26,13 +27,15 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->twigFileDecorator = $this->container->get(TwigFileDecorator::class);
-        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->bootKernel(StatieKernel::class);
 
-        $configuration = $this->container->get(StatieConfiguration::class);
+        $this->twigFileDecorator = self::$container->get(TwigFileDecorator::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/TwigFileDecoratorSource');
 
-        $arrayLoader = $this->container->get(ArrayLoader::class);
+        $arrayLoader = self::$container->get(ArrayLoader::class);
         $arrayLoader->setTemplate('default', FileSystem::read(__DIR__ . '/TwigFileDecoratorSource/default.twig'));
     }
 

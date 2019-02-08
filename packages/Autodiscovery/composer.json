@@ -34,7 +34,7 @@
             "Symplify\\Autodiscovery\\Tests\\": "tests"
         },
         "classmap": [
-            "tests/KernelProjectDir"
+            "tests/Source/KernelProjectDir"
         ]
     },
     "extra": {

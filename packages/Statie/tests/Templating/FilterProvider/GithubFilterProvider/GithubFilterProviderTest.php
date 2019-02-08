@@ -3,13 +3,14 @@
 namespace Symplify\Statie\Tests\Templating\FilterProvider\GithubFilterProvider;
 
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Configuration\StatieConfiguration;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Templating\FilterProvider\GithubFilterProvider;
-use Symplify\Statie\Tests\AbstractConfigAwareContainerTestCase;
 
-final class GithubFilterProviderTest extends AbstractConfigAwareContainerTestCase
+final class GithubFilterProviderTest extends AbstractKernelTestCase
 {
     /**
      * @var FileFactory
@@ -18,15 +19,17 @@ final class GithubFilterProviderTest extends AbstractConfigAwareContainerTestCas
 
     protected function setUp(): void
     {
-        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->bootKernelWithConfigs(StatieKernel::class, [$this->provideConfig()]);
 
-        $configuration = $this->container->get(StatieConfiguration::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/GithubFilterProviderSource/source');
     }
 
     public function test(): void
     {
-        $githubFilterProvider = $this->container->get(GithubFilterProvider::class);
+        $githubFilterProvider = self::$container->get(GithubFilterProvider::class);
         $githubEditPostUrlFilter = $githubFilterProvider->provide()['githubEditPostUrl'];
 
         $this->assertSame(

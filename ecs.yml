@@ -43,17 +43,17 @@ parameters:
         - 'packages/CodingStandard/tests/Sniffs/DependencyInjection/NoClassInstantiation/Source/EntityClass.php'
         - 'packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets*.php'
         - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
-        - 'packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory.php'
 
     skip:
         # run form time to time, very slow and making many changes
         Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
 
+        PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff: ~
+
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
         Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
             # allowed spots for Container
-            - '*/ContainerFactory.php'
             - '*Kernel.php'
             - 'packages/PackageBuilder/src/Parameter/ParameterProvider.php'
             - 'packages/PackageBuilder/src/Parameter/ParameterTypoProofreader.php'
@@ -107,12 +107,11 @@ parameters:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect 3rd party code typehint
             - 'packages/*/Yaml/*FileLoader.php'
+            - 'packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory.php'
 
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
             - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
-            # intentionally "Exception" value
-            - 'packages/PackageBuilder/tests/Console/ThrowableRendererTest.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff:
             - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'

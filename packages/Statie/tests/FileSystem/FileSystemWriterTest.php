@@ -4,12 +4,13 @@ namespace Symplify\Statie\Tests\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\FileSystem\FileSystemWriter;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class FileSystemWriterTest extends AbstractContainerAwareTestCase
+final class FileSystemWriterTest extends AbstractKernelTestCase
 {
     /**
      * @var string
@@ -33,13 +34,15 @@ final class FileSystemWriterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $configuration = $this->container->get(StatieConfiguration::class);
+        $this->bootKernel(StatieKernel::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory($this->sourceDirectory);
         $configuration->setOutputDirectory($this->outputDirectory);
 
-        $this->fileSystemWriter = $this->container->get(FileSystemWriter::class);
+        $this->fileSystemWriter = self::$container->get(FileSystemWriter::class);
 
-        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
     }
 
     protected function tearDown(): void

@@ -3,11 +3,23 @@
 
 require_once __DIR__ . '/autoload.php';
 
-use Psr\Container\ContainerInterface;
 use Symplify\ChangelogLinker\Console\ChangelogConsoleApplication;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
+use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 
-/** @var ContainerInterface $container */
-$container = require_once __DIR__ . '/container.php';
+ConfigFileFinder::detectFromInput('cl', new ArgvInput());
+$configFile = ConfigFileFinder::provide('cl', ['changelog-linker.yml', 'changelog-linker.yaml']);
 
+// create container
+$isDebug = (bool) (new ArgvInput())->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
+$changelogLinkerKernel = new ChangelogLinkerKernel('prod', $isDebug);
+if ($configFile) {
+    $changelogLinkerKernel->setConfigs([$configFile]);
+}
+$changelogLinkerKernel->boot();
+$container = $changelogLinkerKernel->getContainer();
+
+// run application
 $application = $container->get(ChangelogConsoleApplication::class);
 exit($application->run());

@@ -2,12 +2,13 @@
 
 namespace Symplify\Statie\Tweeter\Tests\TweetFilter\OldTweetsFilter;
 
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Configuration\StatieConfiguration;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Tweeter\TweetFilter\OldTweetsFilter;
 use Symplify\Statie\Tweeter\TweetProvider\PostTweetsProvider;
 
-final class OldTweetsFilterTest extends AbstractContainerAwareTestCase
+final class OldTweetsFilterTest extends AbstractKernelTestCase
 {
     /**
      * @var PostTweetsProvider
@@ -21,13 +22,15 @@ final class OldTweetsFilterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
+        $this->bootKernel(StatieKernel::class);
+
         parent::setUp();
 
-        $configuration = $this->container->get(StatieConfiguration::class);
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/../../Source');
 
-        $this->postTweetsProvider = $this->container->get(PostTweetsProvider::class);
-        $this->oldTweetsFilter = $this->container->get(OldTweetsFilter::class);
+        $this->postTweetsProvider = self::$container->get(PostTweetsProvider::class);
+        $this->oldTweetsFilter = self::$container->get(OldTweetsFilter::class);
     }
 
     public function test(): void

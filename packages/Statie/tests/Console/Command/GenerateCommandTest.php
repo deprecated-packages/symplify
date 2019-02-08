@@ -7,11 +7,12 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Console\Application;
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use Symplify\Statie\HttpKernel\StatieKernel;
 
-final class GenerateCommandTest extends AbstractContainerAwareTestCase
+final class GenerateCommandTest extends AbstractKernelTestCase
 {
     /**
      * @var string
@@ -25,11 +26,13 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->application = $this->container->get(Application::class);
+        $this->bootKernel(StatieKernel::class);
+
+        $this->application = self::$container->get(Application::class);
         $this->application->setCatchExceptions(false);
         $this->application->setAutoExit(false);
 
-        $symfonyStyle = $this->container->get(SymfonyStyle::class);
+        $symfonyStyle = self::$container->get(SymfonyStyle::class);
         $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
     }
 
