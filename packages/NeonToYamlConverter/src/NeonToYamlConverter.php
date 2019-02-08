@@ -125,12 +125,12 @@ final class NeonToYamlConverter
                     $data[$name] = [
                         'factory' => [$factoryClass, $factoryMethod],
                     ];
-                    // probably alias, @see https://symfony.com/doc/current/service_container/alias_private.html#aliasing
+                // probably alias, @see https://symfony.com/doc/current/service_container/alias_private.html#aliasing
                 } elseif (Strings::startsWith($service, '@')) {
                     $data[$name] = [
                         'alias' => $service,
                     ];
-                    // probably service
+                // probably service
                 } else {
                     $data[$name] = [
                         'class' => $service,
@@ -262,14 +262,14 @@ final class NeonToYamlConverter
 
     private function replaceTilda(string $content): string
     {
-        $content = Strings::replace($content,"#: '~'\n#", ': ~' . PHP_EOL);
+        $content = Strings::replace($content, "#: '~'\n#", ': ~' . PHP_EOL);
 
-        return Strings::replace($content,"#: null\n#", ': ~' . PHP_EOL);
+        return Strings::replace($content, "#: null\n#", ': ~' . PHP_EOL);
     }
 
     private function convertEnv(string $content): string
     {
         // https://regex101.com/r/IxBjFD/1
-        return Strings::replace($content,"#\@env::get\(\'?(.*?)\'?(,.*?)?\)#ms", "'%ENV($1)%'");
+        return Strings::replace($content, "#\@env::get\(\'?(.*?)\'?(,.*?)?\)#ms", "'%ENV($1)%'");
     }
 }
