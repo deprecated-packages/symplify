@@ -1,0 +1,34 @@
+{
+    "name": "symplify/neon-to-yaml-converter",
+    "description": "Converts Neon to Yaml",
+    "license": "MIT",
+    "bin": [
+        "bin/neon-to-yaml-converter"
+    ],
+    "require": {
+        "php": "^7.1",
+        "nette/utils": "^2.5",
+        "nette/neon": "^2.4",
+        "symfony/yaml": "^3.4|^4.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5|^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\NeonToYamlConverter\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\NeonToYamlConverter\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.5-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

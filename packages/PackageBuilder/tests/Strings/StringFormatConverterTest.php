@@ -29,6 +29,7 @@ final class StringFormatConverterTest extends TestCase
     public function provideCasesForCamelCaseToUnderscore(): Iterator
     {
         yield ['hiTom', 'hi_tom'];
+        yield ['GPWebPay', 'gp_web_pay'];
     }
 
     /**

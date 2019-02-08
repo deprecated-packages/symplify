@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+require_once __DIR__ . '/autoload.php';
+
+use Symfony\Component\Console\Application;
+use Symplify\NeonToYamlConverter\HttpKernel\NeonToYamlConverterKernel;
+
+$neonToYamlConverterKernel = new NeonToYamlConverterKernel();
+$neonToYamlConverterKernel->boot();
+$container = $neonToYamlConverterKernel->getContainer();
+
+$application = $container->get(Application::class);
+exit($application->run());

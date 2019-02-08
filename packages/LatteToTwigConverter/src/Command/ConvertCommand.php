@@ -8,11 +8,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Finder\Finder;
+use Symplify\LatteToTwigConverter\Finder\LatteAndTwigFinder;
 use Symplify\LatteToTwigConverter\LatteToTwigConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class ConvertCommand extends Command
@@ -33,19 +32,19 @@ final class ConvertCommand extends Command
     private $symfonyStyle;
 
     /**
-     * @var FinderSanitizer
+     * @var LatteAndTwigFinder
      */
-    private $finderSanitizer;
+    private $latteAndTwigFinder;
 
     public function __construct(
         LatteToTwigConverter $latteToTwigConverter,
         SymfonyStyle $symfonyStyle,
-        FinderSanitizer $finderSanitizer
+        LatteAndTwigFinder $latteAndTwigFinder
     ) {
         parent::__construct();
         $this->latteToTwigConverter = $latteToTwigConverter;
         $this->symfonyStyle = $symfonyStyle;
-        $this->finderSanitizer = $finderSanitizer;
+        $this->latteAndTwigFinder = $latteAndTwigFinder;
     }
 
     protected function configure(): void
@@ -54,16 +53,14 @@ final class ConvertCommand extends Command
         $this->addArgument(
             self::ARGUMENT_SOURCE,
             InputArgument::REQUIRED,
-            'Directory to convert *.twig files to Latte syntax in.'
+            'Directory or file to convert *.twig files to Latte syntax in.'
         );
         $this->setDescription('Converts Latte syntax to Twig in all *.twig files');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $sourceDirectory = (string) $input->getArgument(self::ARGUMENT_SOURCE);
-        $twigFileInfos = $this->findTwigFilesInDirectory($sourceDirectory);
-
+        $twigFileInfos = $this->resolveFileInfosFromInput($input);
         foreach ($twigFileInfos as $twigFileInfo) {
             $convertedContent = $this->latteToTwigConverter->convertFile($twigFileInfo->getRealPath());
 
@@ -87,13 +84,9 @@ final class ConvertCommand extends Command
     /**
      * @return SmartFileInfo[]
      */
-    private function findTwigFilesInDirectory(string $sourceDirectory): array
+    private function resolveFileInfosFromInput(InputInterface $input): array
     {
-        $twigFileFinder = Finder::create()
-            ->files()
-            ->in($sourceDirectory)
-            ->name('#\.twig$#');
-
-        return $this->finderSanitizer->sanitize($twigFileFinder);
+        $source = (string) $input->getArgument(self::ARGUMENT_SOURCE);
+        return $this->latteAndTwigFinder->findTwigFilesInSource($source);
     }
 }

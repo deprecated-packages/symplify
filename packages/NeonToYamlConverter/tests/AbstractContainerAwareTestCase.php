@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\LatteToTwigConverter\Tests;
+namespace Symplify\NeonToYamlConverter\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Symplify\LatteToTwigConverter\DependencyInjection\ContainerFactory;
+use Symplify\NeonToYamlConverter\HttpKernel\NeonToYamlConverterKernel;
 
 abstract class AbstractContainerAwareTestCase extends TestCase
 {
@@ -15,11 +15,13 @@ abstract class AbstractContainerAwareTestCase extends TestCase
 
     /**
      * @param mixed[] $data
-     * @param int|string $dataName
+     * @param string|int $dataName
      */
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
-        $this->container = (new ContainerFactory())->create();
+        $neonToYamlConverterKernel = new NeonToYamlConverterKernel();
+        $neonToYamlConverterKernel->boot();
+        $this->container = $neonToYamlConverterKernel->getContainer();
 
         parent::__construct($name, $data, $dataName);
     }

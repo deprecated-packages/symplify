@@ -2,6 +2,8 @@
 
 namespace Symplify\PackageBuilder\Strings;
 
+use Nette\Utils\Strings;
+
 final class StringFormatConverter
 {
     public function underscoreToCamelCase(string $value): string
@@ -13,19 +15,14 @@ final class StringFormatConverter
         return $value;
     }
 
-    public function camelCaseToUnderscore(string $value): string
+    public function camelCaseToDashes(string $input): string
     {
-        $underscoredVariable = '';
-        $length = strlen($value);
+        return self::camelCaseToGlue($input, '-');
+    }
 
-        for ($i = 0; $i < $length; $i++) {
-            if (ctype_upper($value[$i])) {
-                $underscoredVariable .= '_';
-            }
-            $underscoredVariable .= $value[$i];
-        }
-
-        return strtolower($underscoredVariable);
+    public function camelCaseToUnderscore(string $input): string
+    {
+        return self::camelCaseToGlue($input, '_');
     }
 
     /**
@@ -45,5 +42,17 @@ final class StringFormatConverter
         }
 
         return $items;
+    }
+
+    private function camelCaseToGlue(string $input, string $glue): string
+    {
+        $matches = Strings::matchAll($input, '!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!');
+
+        $parts = [];
+        foreach ($matches as $match) {
+            $parts[] = $match[0] === strtoupper($match[0]) ? strtolower($match[0]) : lcfirst($match[0]);
+        }
+
+        return implode($glue, $parts);
     }
 }
