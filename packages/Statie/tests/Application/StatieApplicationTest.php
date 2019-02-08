@@ -3,13 +3,14 @@
 namespace Symplify\Statie\Tests\Application;
 
 use Nette\Utils\FileSystem;
-use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\Statie\Application\StatieApplication;
-use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
+use Symplify\Statie\Tests\AbstractConfigAwareContainerTestCase;
 
-final class StatieApplicationTest extends TestCase
+final class StatieApplicationTest extends AbstractConfigAwareContainerTestCase
 {
     /**
      * @var StatieApplication
@@ -23,9 +24,11 @@ final class StatieApplicationTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/StatieApplicationSource/statie.yml');
-        $this->statieApplication = $container->get(StatieApplication::class);
-        $this->arrayLoader = $container->get(ArrayLoader::class);
+        $this->statieApplication = $this->container->get(StatieApplication::class);
+        $this->arrayLoader = $this->container->get(ArrayLoader::class);
+
+        $symfonyStyle = $this->container->get(SymfonyStyle::class);
+        $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
     }
 
     protected function tearDown(): void
@@ -67,5 +70,10 @@ final class StatieApplicationTest extends TestCase
 
         $this->expectExceptionMessageRegExp('#Did you mean "_layouts/default.latte"#');
         $this->assertNotEmpty($this->arrayLoader->getContent('layout/default.latte'));
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/StatieApplicationSource/statie.yml';
     }
 }

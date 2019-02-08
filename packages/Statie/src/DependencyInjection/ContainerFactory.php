@@ -3,6 +3,7 @@
 namespace Symplify\Statie\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symplify\Statie\HttpKerne\StatieKernel;
 
 final class ContainerFactory
 {

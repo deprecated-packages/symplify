@@ -2,23 +2,15 @@
 
 namespace Symplify\Statie\Tests\Templating\FilterProvider\GithubFilterProvider;
 
-use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\Container;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
-use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Templating\FilterProvider\GithubFilterProvider;
+use Symplify\Statie\Tests\AbstractConfigAwareContainerTestCase;
 
-final class GithubFilterProviderTest extends TestCase
+final class GithubFilterProviderTest extends AbstractConfigAwareContainerTestCase
 {
-    /**
-     * @var Container|ContainerInterface
-     */
-    private $container;
-
     /**
      * @var FileFactory
      */
@@ -26,10 +18,6 @@ final class GithubFilterProviderTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->container = (new ContainerFactory())->createWithConfig(
-            __DIR__ . '/GithubFilterProviderSource/statie-config-with-github-slug.yml'
-        );
-
         $this->fileFactory = $this->container->get(FileFactory::class);
 
         $configuration = $this->container->get(StatieConfiguration::class);
@@ -45,6 +33,11 @@ final class GithubFilterProviderTest extends TestCase
             'https://github.com/TomasVotruba/tomasvotruba.cz/edit/master/source/_posts/2017-12-31-happy-new-years.md',
             $githubEditPostUrlFilter($this->getFile())
         );
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/GithubFilterProviderSource/statie-config-with-github-slug.yml';
     }
 
     private function getFile(): AbstractFile

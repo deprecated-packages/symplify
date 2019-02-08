@@ -4,7 +4,7 @@
 require_once __DIR__ . '/autoload.php';
 
 use Symfony\Component\Console\Application;
-use Symplify\LatteToTwigConverter\DependencyInjection\LatteToTwigConverterKernel;
+use Symplify\LatteToTwigConverter\HttpKernel\LatteToTwigConverterKernel;
 
 $latteToTwigConverterKernel = new LatteToTwigConverterKernel();
 $latteToTwigConverterKernel->boot();
