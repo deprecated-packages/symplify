@@ -28,6 +28,7 @@ composer require symplify/neon-to-yaml-converter --dev
 It scan all the `*.yaml` files and if it founds Neon syntax in it, it'll convert it to Yaml.
 
 ```bash
+vendor/bin/neon-to-yaml-converter convert file.neon
 vendor/bin/neon-to-yaml-converter convert /directory
 ```
 

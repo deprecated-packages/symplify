@@ -45,10 +45,10 @@ composer require symplify/latte-to-twig-converter --dev
 
 ## Usage
 
-It scan all the `*.twig` files and if it founds Latte syntax in it, it'll convert it to Twig.
-That way you can keep `*.latte` files you need.
+It scan all the `*.twig` files and converts all found Latte syntax to Twig.
 
 ```bash
+vendor/bin/latte-to-twig-converter convert file.twig
 vendor/bin/latte-to-twig-converter convert /directory
 ```
 
