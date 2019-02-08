@@ -9,10 +9,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
+use Symplify\LatteToTwigConverter\Finder\LatteAndTwigFinder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 
 final class RenameCommand extends Command
 {
@@ -27,30 +26,30 @@ final class RenameCommand extends Command
     private $symfonyStyle;
 
     /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    /**
      * @var Filesystem
      */
     private $filesystem;
 
+    /**
+     * @var LatteAndTwigFinder
+     */
+    private $latteAndTwigFinder;
+
     public function __construct(
         SymfonyStyle $symfonyStyle,
-        FinderSanitizer $finderSanitizer,
+        LatteAndTwigFinder $latteAndTwigFinder,
         Filesystem $filesystem
     ) {
         parent::__construct();
         $this->symfonyStyle = $symfonyStyle;
-        $this->finderSanitizer = $finderSanitizer;
         $this->filesystem = $filesystem;
+        $this->latteAndTwigFinder = $latteAndTwigFinder;
     }
 
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->addArgument(self::ARGUMENT_SOURCE, InputArgument::REQUIRED, 'Directory with *.latte files');
+        $this->addArgument(self::ARGUMENT_SOURCE, InputArgument::REQUIRED, 'Directory or file to rename');
         $this->setDescription(
             sprintf('Renames *.latte files to *.twig files. Run before "%s" command', CommandNaming::classToName(
                 ConvertCommand::class
@@ -60,16 +59,10 @@ final class RenameCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $sourceDirectory = $input->getArgument(self::ARGUMENT_SOURCE);
+        $source = (string) $input->getArgument(self::ARGUMENT_SOURCE);
+        $latteFileInfos = $this->latteAndTwigFinder->findLatteFilesInSource($source);
 
-        $latteFileFinder = Finder::create()
-            ->files()
-            ->in($sourceDirectory)
-            ->name('#\.latte$#');
-
-        $smartFileInfos = $this->finderSanitizer->sanitize($latteFileFinder);
-
-        foreach ($smartFileInfos as $smartFileInfo) {
+        foreach ($latteFileInfos as $smartFileInfo) {
             $newFilePath = Strings::replace($smartFileInfo->getPathname(), '#\.latte$#', '.twig');
 
             $this->filesystem->rename($smartFileInfo->getPathname(), $newFilePath);
