@@ -3,9 +3,11 @@
 namespace Symplify\LatteToTwigConverter\Tests;
 
 use Iterator;
+use PHPUnit\Framework\TestCase;
+use Symplify\LatteToTwigConverter\DependencyInjection\LatteToTwigConverterKernel;
 use Symplify\LatteToTwigConverter\LatteToTwigConverter;
 
-final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase
+final class LatteToTwigConverterTest extends TestCase
 {
     /**
      * @var LatteToTwigConverter
@@ -14,7 +16,11 @@ final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->latteToTwigConverter = $this->container->get(LatteToTwigConverter::class);
+        $latteToTwigConverterKernel = new LatteToTwigConverterKernel();
+        $latteToTwigConverterKernel->boot();
+
+        $container = $latteToTwigConverterKernel->getContainer();
+        $this->latteToTwigConverter = $container->get(LatteToTwigConverter::class);
     }
 
     /**
