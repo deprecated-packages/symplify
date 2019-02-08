@@ -8,12 +8,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Finder\Finder;
+use Symplify\NeonToYamlConverter\Finder\NeonAndYamlFinder;
 use Symplify\NeonToYamlConverter\NeonToYamlConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class ConvertCommand extends Command
 {
@@ -28,47 +26,37 @@ final class ConvertCommand extends Command
     private $symfonyStyle;
 
     /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    /**
      * @var NeonToYamlConverter
      */
     private $neonToYamlConverter;
 
+    /**
+     * @var NeonAndYamlFinder
+     */
+    private $neonAndYamlFinder;
+
     public function __construct(
         NeonToYamlConverter $neonToYamlConverter,
         SymfonyStyle $symfonyStyle,
-        FinderSanitizer $finderSanitizer
+        NeonAndYamlFinder $neonAndYamlFinder
     ) {
         parent::__construct();
         $this->symfonyStyle = $symfonyStyle;
-        $this->finderSanitizer = $finderSanitizer;
         $this->neonToYamlConverter = $neonToYamlConverter;
+        $this->neonAndYamlFinder = $neonAndYamlFinder;
     }
 
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->addArgument(
-            self::ARGUMENT_SOURCE,
-            InputArgument::REQUIRED,
-            'Directory or file to convert Neon files to Yaml syntax in.'
-        );
+        $this->addArgument(self::ARGUMENT_SOURCE, InputArgument::REQUIRED, 'Directory or file to convert');
         $this->setDescription('Converts Neon syntax to Yaml');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $sourceDirectory = (string) $input->getArgument(self::ARGUMENT_SOURCE);
-
-        $sourceDirectory = (string) $input->getArgument(self::ARGUMENT_SOURCE);
-        if (is_file($sourceDirectory) && file_exists($sourceDirectory)) {
-            $yamlFileInfos = [new SmartFileInfo($sourceDirectory)];
-        } else {
-            $yamlFileInfos = $this->findYamlFilesInDirectory($sourceDirectory);
-        }
+        $source = (string) $input->getArgument(self::ARGUMENT_SOURCE);
+        $yamlFileInfos = $this->neonAndYamlFinder->findYamlFilesInfSource($source);
 
         foreach ($yamlFileInfos as $yamlFileInfo) {
             $convertedContent = $this->neonToYamlConverter->convertFile($yamlFileInfo->getRealPath());
@@ -88,18 +76,5 @@ final class ConvertCommand extends Command
         $this->symfonyStyle->success('Convert process finished');
 
         return ShellCode::SUCCESS;
-    }
-
-    /**
-     * @return SmartFileInfo[]
-     */
-    private function findYamlFilesInDirectory(string $sourceDirectory): array
-    {
-        $twigFileFinder = Finder::create()
-            ->files()
-            ->in($sourceDirectory)
-            ->name('#\.(yml|yaml)#');
-
-        return $this->finderSanitizer->sanitize($twigFileFinder);
     }
 }

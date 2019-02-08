@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\LatteToTwigConverter\Finder;
+namespace Symplify\NeonToYamlConverter\Finder;
 
 use Symfony\Component\Finder\Finder;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
-final class LatteAndTwigFinder
+final class NeonAndYamlFinder
 {
     /**
      * @var FinderSanitizer
@@ -21,25 +21,25 @@ final class LatteAndTwigFinder
     /**
      * @return SmartFileInfo[]
      */
-    public function findTwigFilesInSource(string $source): array
+    public function findYamlFilesInfSource(string $source): array
     {
         if (is_file($source) && file_exists($source)) {
             return [new SmartFileInfo($source)];
         }
 
-        return $this->findFilesInDirectoryBySuffix($source, 'twig');
+        return $this->findFilesInDirectoryBySuffix($source, '(yml|yaml)');
     }
 
     /**
      * @return SmartFileInfo[]
      */
-    public function findLatteFilesInSource(string $source): array
+    public function findNeonFilesInSource(string $source): array
     {
         if (is_file($source) && file_exists($source)) {
             return [new SmartFileInfo($source)];
         }
 
-        return $this->findFilesInDirectoryBySuffix($source, 'latte');
+        return $this->findFilesInDirectoryBySuffix($source, 'neon');
     }
 
     /**
