@@ -45,7 +45,7 @@ final class LayoutsAndSnippetsLoader
         }
 
         foreach ($this->fileFinder->findLayoutsAndSnippets($source) as $fileInfo) {
-            $relativePathInSource = $fileInfo->getRelativeFilePathFromDirectory($source);
+            $relativePathInSource = str_replace('\\', '/', $fileInfo->getRelativeFilePathFromDirectory($source));
 
             if ($fileInfo->getExtension() === 'twig') {
                 $this->twigArrayLoader->setTemplate($relativePathInSource, $fileInfo->getContents());
