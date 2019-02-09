@@ -55,7 +55,7 @@ final class SmartFileInfo extends SplFileInfo
             ));
         }
 
-        return Strings::substring($this->getRealPath(), Strings::length(realpath($directory)) + 1);
+        return Strings::substring($this->getNormalizedRealPath(), Strings::length(realpath($directory)) + 1);
     }
 
     public function endsWith(string $string): bool
