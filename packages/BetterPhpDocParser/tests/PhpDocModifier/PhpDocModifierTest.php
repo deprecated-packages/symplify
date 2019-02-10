@@ -4,14 +4,11 @@ namespace Symplify\BetterPhpDocParser\Tests\PhpDocModifier;
 
 use Iterator;
 use Nette\Utils\FileSystem;
+use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
-use Symplify\BetterPhpDocParser\PhpDocModifier;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
 
-/**
- * @see PhpDocModifier
- */
 final class PhpDocModifierTest extends AbstractContainerAwareTestCase
 {
     /**
@@ -35,10 +32,7 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
      */
     public function testRemoveTagByName(string $phpDocBeforeFilePath, string $phpDocAfter, string $tagName): void
     {
-        $phpDocBefore = FileSystem::read($phpDocBeforeFilePath);
-
-        $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
-
+        $phpDocInfo = $this->createPhpDocInfoFromFile($phpDocBeforeFilePath);
         $phpDocInfo->removeTagByName($tagName);
 
         $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
@@ -59,10 +53,7 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
         string $tagName,
         string $tagContent
     ): void {
-        $phpDocBefore = FileSystem::read($phpDocBeforeFilePath);
-
-        $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
-
+        $phpDocInfo = $this->createPhpDocInfoFromFile($phpDocBeforeFilePath);
         $phpDocInfo->removeTagByNameAndContent($tagName, $tagContent);
 
         $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
@@ -75,9 +66,7 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
 
     public function testRemoveTagByNameAndContentComplex(): void
     {
-        $phpDocInfo = $this->phpDocInfoFactory->createFrom(
-            FileSystem::read(__DIR__ . '/PhpDocModifierSource/before4.txt')
-        );
+        $phpDocInfo = $this->createPhpDocInfoFromFile(__DIR__ . '/PhpDocModifierSource/before4.txt');
 
         $phpDocInfo->removeTagByNameAndContent('method', 'setName');
         $phpDocInfo->removeTagByNameAndContent('method', 'addItem');
@@ -98,9 +87,7 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
         string $phpDocAfterFilePath,
         string $parameterName
     ): void {
-        $phpDocBefore = FileSystem::read($phpDocBeforeFilePath);
-        $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
-
+        $phpDocInfo = $this->createPhpDocInfoFromFile($phpDocBeforeFilePath);
         $phpDocInfo->removeParamTagByParameter($parameterName);
 
         $this->assertStringEqualsFile(
@@ -122,5 +109,11 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
             __DIR__ . '/PhpDocModifierSource/after3.txt',
             '$paramName',
         ];
+    }
+
+    private function createPhpDocInfoFromFile(string $phpDocBeforeFilePath): PhpDocInfo
+    {
+        $phpDocBefore = FileSystem::read($phpDocBeforeFilePath);
+        return $this->phpDocInfoFactory->createFrom($phpDocBefore);
     }
 }
