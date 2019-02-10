@@ -171,7 +171,7 @@ final class NeonToYamlConverter
                         if ($value->value === '@env::get') { // enviro value! @see https://symfony.com/blog/new-in-symfony-3-4-advanced-environment-variables
                             $environmentVariable = $value->attributes[0];
                             $this->environmentVaribales[] = $environmentVariable;
-                            $service['arguments'][$key] = sprintf('%%ENV(%s)%%', $environmentVariable);
+                            $service['arguments'][$key] = sprintf('%%env(%s)%%', $environmentVariable);
                         }
                     }
                 }
