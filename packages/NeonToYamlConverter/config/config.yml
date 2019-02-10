@@ -5,6 +5,7 @@ services:
 
     Symplify\NeonToYamlConverter\:
         resource: "../src"
+        exclude: "../src/{HttpKernel/NeonToYamlConverterKernel.php}"
 
     Symfony\Component\Console\Application: ~
     Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~

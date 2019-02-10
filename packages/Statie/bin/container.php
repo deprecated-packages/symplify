@@ -10,14 +10,9 @@ ConfigFileFinder::detectFromInput('statie', new ArgvInput());
 // Fallback to file in root
 $configFile = ConfigFileFinder::provide('statie', ['statie.yml', 'statie.yaml']);
 
-function isDebug(): bool
-{
-    $argvInput = new ArgvInput();
-    return (bool) $argvInput->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
-}
-
-$statieKernel = new StatieKernel('prod', isDebug());
-if ($configFile) {
+$isDebug = (bool) (new ArgvInput())->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
+$statieKernel = new StatieKernel('prod', $isDebug);
+if ($configFile !== null) {
     $statieKernel->setConfigs([$configFile]);
 }
 $statieKernel->boot();

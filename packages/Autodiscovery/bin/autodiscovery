@@ -7,13 +7,9 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\Autodiscovery\HttpKernel\AutodiscoveryKernel;
 
-$autodiscoveryKernel = new AutodiscoveryKernel('prod', isDebug());
+$isDebug = (bool) (new ArgvInput())->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
+$autodiscoveryKernel = new AutodiscoveryKernel('prod', $isDebug);
 $autodiscoveryKernel->boot();
-
-function isDebug(): bool {
-    $argvInput = new ArgvInput();
-    return (bool) $argvInput->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
-}
 
 $container = $autodiscoveryKernel->getContainer();
 
