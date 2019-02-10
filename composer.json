@@ -118,10 +118,20 @@
         }
     },
     "replace": {
-        "symplify/statie": "self.version",
+        "symplify/autodiscovery": "self.version",
+        "symplify/better-phpdoc-parser": "self.version",
+        "symplify/changelog-linker": "self.version",
+        "symplify/coding-standard": "self.version",
         "symplify/easy-coding-standard": "self.version",
+        "symplify/easy-coding-standard-tester": "self.version",
+        "symplify/flex-loader": "self.version",
+        "symplify/latte-to-twig-converter": "self.version",
+        "symplify/monorepo-builder": "self.version",
+        "symplify/neon-to-yaml-converter": "self.version",
         "symplify/package-builder": "self.version",
-        "symplify/better-phpdoc-parser": "self.version"
+        "symplify/phpstan-extensions": "self.version",
+        "symplify/statie": "self.version",
+        "symplify/token-runner": "self.version"
     },
     "scripts": {
         "complete-check": [

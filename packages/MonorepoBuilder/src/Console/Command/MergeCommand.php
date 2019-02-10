@@ -82,7 +82,6 @@ final class MergeCommand extends Command
         }
 
         $merged = $this->packageComposerJsonMerger->mergeFileInfos($this->composerJsonProvider->getPackagesFileInfos());
-
         if ($merged === []) {
             $this->symfonyStyle->note('Nothing to merge.');
 
