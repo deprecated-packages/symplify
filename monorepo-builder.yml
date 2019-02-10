@@ -3,7 +3,7 @@ parameters:
     data_to_append:
         require-dev:
             phpstan/phpstan: '^0.11'
-            phpunit/phpunit: '^7.5'
+            phpunit/phpunit: '^7.5|^8.0'
             tracy/tracy: '^2.5'
             thecodingmachine/phpstan-strict-rules: '^0.11.0'
 
