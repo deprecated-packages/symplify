@@ -5,9 +5,13 @@ namespace Symplify\BetterPhpDocParser\Tests\PhpDocModifier;
 use Iterator;
 use Nette\Utils\FileSystem;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Symplify\BetterPhpDocParser\PhpDocModifier;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
 
+/**
+ * @see PhpDocModifier
+ */
 final class PhpDocModifierTest extends AbstractContainerAwareTestCase
 {
     /**

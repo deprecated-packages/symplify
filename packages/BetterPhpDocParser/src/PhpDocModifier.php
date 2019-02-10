@@ -10,6 +10,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
@@ -160,6 +161,20 @@ final class PhpDocModifier
         if ($typeNode instanceof IdentifierTypeNode) {
             if (is_a($typeNode->name, $oldType, true) || $typeNode->name === $oldType) {
                 return new IdentifierTypeNode($newType);
+            }
+        }
+
+        if ($typeNode instanceof ArrayTypeNode) {
+            if ($typeNode->type instanceof IdentifierTypeNode) {
+                if ($typeNode->type->name === $oldType) {
+                    // make FQN
+                    if (Strings::contains($newType, '\\')) {
+                        $newType = '\\' . ltrim($newType, '\\');
+                    }
+
+                    $typeNode->type = new IdentifierTypeNode($newType);
+                    return $typeNode;
+                }
             }
         }
 
