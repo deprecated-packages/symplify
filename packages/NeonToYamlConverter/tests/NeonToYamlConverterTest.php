@@ -3,9 +3,11 @@
 namespace Symplify\NeonToYamlConverter\Tests;
 
 use Iterator;
+use Symplify\NeonToYamlConverter\HttpKernel\NeonToYamlConverterKernel;
 use Symplify\NeonToYamlConverter\NeonToYamlConverter;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class NeonToYamlConverterTest extends AbstractContainerAwareTestCase
+final class NeonToYamlConverterTest extends AbstractKernelTestCase
 {
     /**
      * @var NeonToYamlConverter
@@ -14,7 +16,9 @@ final class NeonToYamlConverterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->neonToYamlConverter = $this->container->get(NeonToYamlConverter::class);
+        $this->bootKernel(NeonToYamlConverterKernel::class);
+
+        $this->neonToYamlConverter = self::$container->get(NeonToYamlConverter::class);
     }
 
     /**

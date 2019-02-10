@@ -65,7 +65,8 @@ final class GitManager
             return $remoteRepository;
         }
 
-        [, $partAfterAt] = explode('@', $remoteRepository, 2);
+        [, $partAfterAt,
+        ] = explode('@', $remoteRepository, 2);
         $partAfterAt = Strings::replace($partAfterAt, '#:#', '/');
 
         return sprintf('https://%s@%s', $this->githubToken, $partAfterAt);

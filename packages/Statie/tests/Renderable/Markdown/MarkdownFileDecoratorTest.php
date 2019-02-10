@@ -4,12 +4,13 @@ namespace Symplify\Statie\Tests\Renderable\Markdown;
 
 use Iterator;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Configuration\StatieConfiguration;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\MarkdownFileDecorator;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
+final class MarkdownFileDecoratorTest extends AbstractKernelTestCase
 {
     /**
      * @var MarkdownFileDecorator
@@ -23,10 +24,12 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->markdownFileDecorator = $this->container->get(MarkdownFileDecorator::class);
-        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->bootKernel(StatieKernel::class);
 
-        $configuration = $this->container->get(StatieConfiguration::class);
+        $this->markdownFileDecorator = self::$container->get(MarkdownFileDecorator::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/MarkdownFileDecoratorSource');
     }
 

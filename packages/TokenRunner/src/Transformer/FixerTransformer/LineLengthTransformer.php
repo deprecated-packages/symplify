@@ -115,7 +115,9 @@ final class LineLengthTransformer
         $currentPosition = $startPosition;
 
         // collect length of tokens on current line which precede token at $currentPosition
-        [$lineLength, $currentPosition] = $this->getLengthToStartOfLine($tokens, $currentPosition);
+        [
+         $lineLength, $currentPosition,
+        ] = $this->getLengthToStartOfLine($tokens, $currentPosition);
 
         $currentToken = $tokens[$currentPosition];
 

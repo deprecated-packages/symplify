@@ -3,15 +3,18 @@
 namespace Symplify\Statie\Latte\Tests;
 
 use Latte\Engine;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Latte\LatteFactory;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class LatteFactoryTest extends AbstractContainerAwareTestCase
+final class LatteFactoryTest extends AbstractKernelTestCase
 {
     public function test(): void
     {
-        $latteFactory = $this->container->get(LatteFactory::class);
+        $this->bootKernel(StatieKernel::class);
+
+        $latteFactory = self::$container->get(LatteFactory::class);
         $latte = $latteFactory->create();
 
         $this->assertInstanceOf(Engine::class, $latte);

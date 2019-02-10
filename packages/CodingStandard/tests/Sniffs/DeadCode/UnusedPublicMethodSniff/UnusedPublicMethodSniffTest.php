@@ -15,7 +15,7 @@ final class UnusedPublicMethodSniffTest extends AbstractCheckerTestCase
             __DIR__ . '/Fixture/wrong2.php.inc',
         ], function (): void {
             // to reset the cache inside the Sniff
-            $unusedPublicMethodSniff = $this->getContainer()->get(UnusedPublicMethodSniff::class);
+            $unusedPublicMethodSniff = static::$container->get(UnusedPublicMethodSniff::class);
             $unusedPublicMethodSniff->reset();
         });
     }

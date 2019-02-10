@@ -1,15 +1,19 @@
 <?php declare(strict_types=1);
 
 use Symfony\Component\Console\Input\ArgvInput;
-use Symplify\MonorepoBuilder\DependencyInjection\ContainerFactory;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 
 ConfigFileFinder::detectFromInput('mb', new ArgvInput());
 $configFile = ConfigFileFinder::provide('mb', ['monorepo-builder.yml', 'monorepo-builder.yaml']);
 
-$containerFactory = new ContainerFactory();
+$isDebug = (bool) (new ArgvInput())->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
+$monorepoBuilderKernel = new MonorepoBuilderKernel('prod', $isDebug);
+
 if ($configFile) {
-    return $containerFactory->createWithConfig($configFile);
+    $monorepoBuilderKernel->setConfigs([$configFile]);
 }
 
-return $containerFactory->create();
+$monorepoBuilderKernel->boot();
+
+return $monorepoBuilderKernel->getContainer();

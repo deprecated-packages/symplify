@@ -5,7 +5,7 @@ services:
 
     Symplify\BetterPhpDocParser\:
         resource: '../src'
-        exclude: '../src/{DependencyInjection,PhpDocParser/Ast/Type/*,*/*Info.php,*Info.php}'
+        exclude: '../src/{DependencyInjection,HttpKernel,PhpDocParser/Ast/Type/*,*/*Info.php,*Info.php}'
 
     PHPStan\PhpDocParser\Lexer\Lexer: ~
     PHPStan\PhpDocParser\Parser\TypeParser: ~

@@ -4,17 +4,33 @@ namespace Symplify\BetterPhpDocParser\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 
 final class BetterPhpDocParserKernel extends Kernel
 {
-    use SimpleKernelTrait;
-
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../../config/config.yml');
+    }
+
+    /**
+     * @return BundleInterface[]
+     */
+    public function registerBundles(): iterable
+    {
+        return [];
+    }
+
+    public function getCacheDir(): string
+    {
+        return sys_get_temp_dir() . '/better_php_doc_parser';
+    }
+
+    public function getLogDir(): string
+    {
+        return sys_get_temp_dir() . '/better_php_doc_parser_log';
     }
 
     protected function build(ContainerBuilder $containerBuilder): void

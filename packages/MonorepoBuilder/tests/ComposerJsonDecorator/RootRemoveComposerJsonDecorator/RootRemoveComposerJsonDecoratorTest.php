@@ -4,12 +4,13 @@ namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator\RootRemoveCompose
 
 use Symplify\MonorepoBuilder\DependenciesMerger;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 /**
  * @see \Symplify\MonorepoBuilder\ComposerJsonDecorator\RootRemoveComposerJsonDecorator
  */
-final class RootRemoveComposerJsonDecoratorTest extends AbstractContainerAwareTestCase
+final class RootRemoveComposerJsonDecoratorTest extends AbstractKernelTestCase
 {
     /**
      * @var JsonFileManager
@@ -23,8 +24,10 @@ final class RootRemoveComposerJsonDecoratorTest extends AbstractContainerAwareTe
 
     protected function setUp(): void
     {
-        $this->jsonFileManager = $this->container->get(JsonFileManager::class);
-        $this->dependenciesMerger = $this->container->get(DependenciesMerger::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->jsonFileManager = self::$container->get(JsonFileManager::class);
+        $this->dependenciesMerger = self::$container->get(DependenciesMerger::class);
     }
 
     /**

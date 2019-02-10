@@ -4,12 +4,13 @@ namespace Symplify\BetterPhpDocParser\Tests\PhpDocModifier;
 
 use Iterator;
 use Nette\Utils\FileSystem;
+use Symplify\BetterPhpDocParser\HttpKernel\BetterPhpDocParserKernel;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
-use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class RemoveTest extends AbstractContainerAwareTestCase
+final class RemoveTest extends AbstractKernelTestCase
 {
     /**
      * @var PhpDocInfoFactory
@@ -23,8 +24,10 @@ final class RemoveTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->phpDocInfoFactory = $this->container->get(PhpDocInfoFactory::class);
-        $this->phpDocInfoPrinter = $this->container->get(PhpDocInfoPrinter::class);
+        $this->bootKernel(BetterPhpDocParserKernel::class);
+
+        $this->phpDocInfoFactory = self::$container->get(PhpDocInfoFactory::class);
+        $this->phpDocInfoPrinter = self::$container->get(PhpDocInfoPrinter::class);
     }
 
     /**

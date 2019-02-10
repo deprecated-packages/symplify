@@ -39,6 +39,13 @@ final class ThrowableRenderer
 
     public function __construct(?OutputInterface $output = null, ?InputInterface $input = null)
     {
+        sleep(3);
+        trigger_error(sprintf(
+            'Class "%s" is deprecated. Use "%s" directly without this wrapper',
+            self::class,
+            Application::class
+        ), E_USER_DEPRECATED);
+
         $this->application = new Application();
         $this->output = $output ?: new ConsoleOutput();
         $this->input = $input ?: new ArgvInput();

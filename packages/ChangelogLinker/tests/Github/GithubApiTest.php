@@ -3,12 +3,13 @@
 namespace Symplify\ChangelogLinker\Tests\Github;
 
 use Symplify\ChangelogLinker\Github\GithubApi;
-use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
+use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 /**
  * @group api
  */
-final class GithubApiTest extends AbstractContainerAwareTestCase
+final class GithubApiTest extends AbstractKernelTestCase
 {
     /**
      * @var GithubApi
@@ -17,7 +18,9 @@ final class GithubApiTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->githubApi = $this->container->get(GithubApi::class);
+        $this->bootKernel(ChangelogLinkerKernel::class);
+
+        $this->githubApi = self::$container->get(GithubApi::class);
     }
 
     public function testGetUnmergedPrsSinceId(): void

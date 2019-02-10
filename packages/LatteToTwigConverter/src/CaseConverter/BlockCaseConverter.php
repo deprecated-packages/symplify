@@ -39,7 +39,9 @@ final class BlockCaseConverter implements CaseConverterInterface
             $twigDataInString = ' { ';
             $variableCount = count($variables);
             foreach ($variables as $i => $variable) {
-                [$key, $value] = explode('=>', $variable);
+                [
+                 $key, $value,
+                ] = explode('=>', $variable);
                 $key = trim($key);
                 $value = trim($value);
                 $value = ltrim($value, '$'); // variables do not start with

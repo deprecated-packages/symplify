@@ -86,7 +86,7 @@
     },
     "autoload-dev": {
         "classmap": [
-            "packages/Autodiscovery/tests/KernelProjectDir"
+            "packages/Autodiscovery/tests/Source/KernelProjectDir"
         ],
         "psr-4": {
             "Symplify\\Autodiscovery\\Tests\\": "packages/Autodiscovery/tests",

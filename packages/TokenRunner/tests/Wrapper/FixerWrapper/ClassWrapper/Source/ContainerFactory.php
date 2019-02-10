@@ -4,8 +4,7 @@ namespace Symplify\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWrapper\Source;
 
 use Psr\Container\ContainerInterface;
 
-new class implements ContainerInterface
-{
+new class() implements ContainerInterface {
     public function get($id): bool
     {
     }

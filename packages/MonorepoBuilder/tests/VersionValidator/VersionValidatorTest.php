@@ -3,11 +3,12 @@
 namespace Symplify\MonorepoBuilder\Tests\VersionValidator;
 
 use Symfony\Component\Finder\Finder;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class VersionValidatorTest extends AbstractContainerAwareTestCase
+final class VersionValidatorTest extends AbstractKernelTestCase
 {
     /**
      * @var VersionValidator
@@ -21,8 +22,10 @@ final class VersionValidatorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->versionValidator = $this->container->get(VersionValidator::class);
-        $this->finderSanitizer = $this->container->get(FinderSanitizer::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->versionValidator = self::$container->get(VersionValidator::class);
+        $this->finderSanitizer = self::$container->get(FinderSanitizer::class);
     }
 
     public function test(): void

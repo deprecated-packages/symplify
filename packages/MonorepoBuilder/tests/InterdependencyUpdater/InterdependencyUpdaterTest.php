@@ -4,10 +4,11 @@ namespace Symplify\MonorepoBuilder\Tests\InterdependencyUpdater;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\MonorepoBuilder\DependencyUpdater;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class InterdependencyUpdaterTest extends AbstractContainerAwareTestCase
+final class InterdependencyUpdaterTest extends AbstractKernelTestCase
 {
     /**
      * @var DependencyUpdater
@@ -21,8 +22,10 @@ final class InterdependencyUpdaterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->dependencyUpdater = $this->container->get(DependencyUpdater::class);
-        $this->filesystem = $this->container->get(Filesystem::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->dependencyUpdater = self::$container->get(DependencyUpdater::class);
+        $this->filesystem = self::$container->get(Filesystem::class);
     }
 
     protected function tearDown(): void

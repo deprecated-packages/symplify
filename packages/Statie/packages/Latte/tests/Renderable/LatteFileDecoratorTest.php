@@ -4,15 +4,16 @@ namespace Symplify\Statie\Latte\Tests\Renderable;
 
 use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Configuration\StatieConfiguration;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Latte\Exception\InvalidLatteSyntaxException;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Symplify\Statie\Latte\Renderable\LatteFileDecorator;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
+final class LatteFileDecoratorTest extends AbstractKernelTestCase
 {
     /**
      * @var LatteFileDecorator
@@ -26,13 +27,15 @@ final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->latteFileDecorator = $this->container->get(LatteFileDecorator::class);
-        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->bootKernel(StatieKernel::class);
 
-        $configuration = $this->container->get(StatieConfiguration::class);
+        $this->latteFileDecorator = self::$container->get(LatteFileDecorator::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/LatteFileDecoratorSource');
 
-        $arrayLoader = $this->container->get(ArrayLoader::class);
+        $arrayLoader = self::$container->get(ArrayLoader::class);
         $arrayLoader->changeContent('default', FileSystem::read(__DIR__ . '/LatteFileDecoratorSource/default.latte'));
     }
 

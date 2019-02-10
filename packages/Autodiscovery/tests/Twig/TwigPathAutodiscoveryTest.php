@@ -3,14 +3,15 @@
 namespace Symplify\Autodiscovery\Tests\Twig;
 
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
-use Symplify\Autodiscovery\Tests\AbstractAppKernelAwareTestCase;
+use Symplify\Autodiscovery\Tests\Source\HttpKernel\AudiscoveryTestingKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
 use Twig_Environment;
 
 /**
  * @covers \Symplify\Autodiscovery\Twig\TwigPathAutodiscoverer
  */
-final class TwigPathAutodiscoveryTest extends AbstractAppKernelAwareTestCase
+final class TwigPathAutodiscoveryTest extends AbstractKernelTestCase
 {
     /**
      * @var TwigFilesystemLoader
@@ -19,8 +20,10 @@ final class TwigPathAutodiscoveryTest extends AbstractAppKernelAwareTestCase
 
     protected function setUp(): void
     {
+        static::bootKernel(AudiscoveryTestingKernel::class);
+
         /** @var Twig_Environment $twigEnvironment */
-        $twigEnvironment = $this->container->get('twig');
+        $twigEnvironment = static::$container->get('twig');
 
         $this->twigFilesystemLoader = $twigEnvironment->getLoader();
     }
@@ -32,8 +35,8 @@ final class TwigPathAutodiscoveryTest extends AbstractAppKernelAwareTestCase
         $this->assertCount(2, $this->twigFilesystemLoader->getPaths());
 
         $this->assertSame([
-            realpath(__DIR__ . '/../KernelProjectDir/packages/ForTests/templates/'),
-            realpath(__DIR__ . '/../KernelProjectDir/templates/'),
+            realpath(__DIR__ . '/../Source/KernelProjectDir/packages/ForTests/templates/'),
+            realpath(__DIR__ . '/../Source/KernelProjectDir/templates/'),
         ], $this->twigFilesystemLoader->getPaths());
     }
 }

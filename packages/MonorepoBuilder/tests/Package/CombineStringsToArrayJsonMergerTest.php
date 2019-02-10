@@ -3,12 +3,13 @@
 namespace Symplify\MonorepoBuilder\Tests\Package;
 
 use Symfony\Component\Finder\Finder;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTestCase
+final class CombineStringsToArrayJsonMergerTest extends AbstractKernelTestCase
 {
     /**
      * @var PackageComposerJsonMerger
@@ -22,8 +23,10 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTe
 
     protected function setUp(): void
     {
-        $this->packageComposerJsonMerger = $this->container->get(PackageComposerJsonMerger::class);
-        $this->finderSanitizer = $this->container->get(FinderSanitizer::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->packageComposerJsonMerger = self::$container->get(PackageComposerJsonMerger::class);
+        $this->finderSanitizer = self::$container->get(FinderSanitizer::class);
     }
 
     public function testSharedNamespaces(): void

@@ -3,18 +3,24 @@
 namespace Symplify\Autodiscovery\Tests\Translation;
 
 use Symfony\Component\Translation\Translator;
-use Symplify\Autodiscovery\Tests\AbstractAppKernelAwareTestCase;
+use Symplify\Autodiscovery\Tests\Source\HttpKernel\AudiscoveryTestingKernel;
 use Symplify\Autodiscovery\Translation\TranslationPathAutodiscoverer;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 /**
  * @see TranslationPathAutodiscoverer
  */
-final class TranslationPathAutodiscoverTest extends AbstractAppKernelAwareTestCase
+final class TranslationPathAutodiscoverTest extends AbstractKernelTestCase
 {
+    protected function setUp(): void
+    {
+        static::bootKernel(AudiscoveryTestingKernel::class);
+    }
+
     public function test(): void
     {
         /** @var Translator $translator */
-        $translator = $this->container->get('translator');
+        $translator = static::$container->get('translator');
 
         $this->assertSame('two', $translator->trans('one'));
     }

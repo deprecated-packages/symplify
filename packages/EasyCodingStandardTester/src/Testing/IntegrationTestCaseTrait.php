@@ -23,7 +23,9 @@ trait IntegrationTestCaseTrait
     {
         if (Strings::match($smartFileInfo->getContents(), $this->splitLine)) {
             // original → expected
-            [$originalContent, $expectedContent] = Strings::split($smartFileInfo->getContents(), $this->splitLine);
+            [
+             $originalContent, $expectedContent,
+            ] = Strings::split($smartFileInfo->getContents(), $this->splitLine);
         } else {
             // no changes
             $originalContent = $smartFileInfo->getContents();

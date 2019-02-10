@@ -38,9 +38,7 @@ final class ParametersAdder implements MigratorWorkerInterface
                 continue;
             }
 
-            $newYaml = [
-                'parameters' => $yaml,
-            ];
+            $newYaml = ['parameters' => $yaml];
 
             $dumpedYaml = Yaml::dump($newYaml, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
             FileSystem::write($yamlFileInfo->getRealPath(), $dumpedYaml);
@@ -64,9 +62,7 @@ final class ParametersAdder implements MigratorWorkerInterface
 
             $parameterName = $yamlFileInfo->getBasenameWithoutSuffix();
             $newYaml = [
-                'parameters' => [
-                    $parameterName => $yaml,
-                ],
+                'parameters' => [$parameterName => $yaml],
             ];
 
             $dumpedYaml = Yaml::dump($newYaml, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);

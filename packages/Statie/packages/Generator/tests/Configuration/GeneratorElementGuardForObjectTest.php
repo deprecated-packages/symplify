@@ -5,10 +5,21 @@ namespace Symplify\Statie\Generator\Tests\Configuration;
 use Symplify\Statie\Generator\Exception\Configuration\InvalidGeneratorElementDefinitionException;
 use Symplify\Statie\Generator\Tests\AbstractGeneratorTest;
 use Symplify\Statie\Generator\Tests\Configuration\GeneratorElementGuardSource\InvalidObject;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class GeneratorElementGuardForObjectTest extends AbstractGeneratorTest
 {
+    protected function setUp(): void
+    {
+        $this->bootKernelWithConfigs(
+            StatieKernel::class,
+            [__DIR__ . '/GeneratorElementGuardSource/config-invalid-object.yml']
+        );
+
+        parent::setUp();
+    }
+
     public function testExceptionOnInvalidObject(): void
     {
         $this->expectException(InvalidGeneratorElementDefinitionException::class);
@@ -22,10 +33,5 @@ final class GeneratorElementGuardForObjectTest extends AbstractGeneratorTest
         );
 
         $this->generator->run();
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/GeneratorElementGuardSource/config-invalid-object.yml';
     }
 }

@@ -16,7 +16,7 @@ services:
 
     Symplify\ChangelogLinker\:
         resource: "../src"
-        exclude: "../src/{Contract,DependencyInjection/CompilerPass,Exception,ChangeTree/Change.php}"
+        exclude: "../src/{Contract,HttpKernel,DependencyInjection/CompilerPass,Exception,ChangeTree/Change.php}"
 
     Symplify\PackageBuilder\Yaml\ParametersMerger: ~
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~

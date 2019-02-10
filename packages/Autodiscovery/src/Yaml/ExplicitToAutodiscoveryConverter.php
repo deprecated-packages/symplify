@@ -138,7 +138,10 @@ final class ExplicitToAutodiscoveryConverter
         }
 
         if (is_array($service)) {
-            [$yaml, $service, $name] = $this->processArrayService($yaml, $service, $name);
+            [
+             $yaml,
+$service, $name,
+            ] = $this->processArrayService($yaml, $service, $name);
         }
 
         // anonymous service
@@ -173,9 +176,7 @@ final class ExplicitToAutodiscoveryConverter
             }
 
             $relativeServicesLocation = $this->resolveCommonRelativePath($classes, $filePath);
-            $yaml[YamlKey::SERVICES][$namespaceKey] = [
-                YamlKey::RESOURCE => $relativeServicesLocation,
-            ];
+            $yaml[YamlKey::SERVICES][$namespaceKey] = [YamlKey::RESOURCE => $relativeServicesLocation];
 
             $excludedDirectories = $this->resolveExcludedDirectories($filePath, $relativeServicesLocation);
             if (count($excludedDirectories) > 0) {

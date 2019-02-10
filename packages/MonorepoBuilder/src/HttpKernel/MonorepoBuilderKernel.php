@@ -4,38 +4,57 @@ namespace Symplify\MonorepoBuilder\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
+use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass;
-use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 
-final class MonorepoBuilderKernel extends Kernel
+final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKernelInterface
 {
-    use SimpleKernelTrait;
-
     /**
-     * @var string|null
+     * @var string[]
      */
-    private $configFile;
+    private $configs = [];
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../../config/config.yml');
 
-        if ($this->configFile) {
-            $loader->load($this->configFile);
+        foreach ($this->configs as $config) {
+            $loader->load($config);
         }
     }
 
-    public function bootWithConfig(string $config): void
+    /**
+     * @param string[] $configs
+     */
+    public function setConfigs(array $configs): void
     {
-        $this->configFile = $config;
-        $this->boot();
+        $this->configs = $configs;
+    }
+
+    public function getCacheDir(): string
+    {
+        return sys_get_temp_dir() . '/monorepo_builder';
+    }
+
+    public function getLogDir(): string
+    {
+        return sys_get_temp_dir() . '/monorepo_builder_log';
+    }
+
+    /**
+     * @return BundleInterface[]
+     */
+    public function registerBundles(): iterable
+    {
+        return [];
     }
 
     protected function build(ContainerBuilder $containerBuilder): void

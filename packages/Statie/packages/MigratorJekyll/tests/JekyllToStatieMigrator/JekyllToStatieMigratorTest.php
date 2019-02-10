@@ -15,8 +15,7 @@ final class JekyllToStatieMigratorTest extends AbstractProjectToStatieMigratorTe
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->jekyllToStatieMigrator = $this->container->get(JekyllToStatieMigrator::class);
+        $this->jekyllToStatieMigrator = self::$container->get(JekyllToStatieMigrator::class);
     }
 
     public function test(): void

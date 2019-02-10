@@ -7,10 +7,11 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Symplify\BetterPhpDocParser\HttpKernel\BetterPhpDocParserKernel;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
-use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class TypeNodeAnalyzerTest extends AbstractContainerAwareTestCase
+final class TypeNodeAnalyzerTest extends AbstractKernelTestCase
 {
     /**
      * @var TypeNodeAnalyzer
@@ -19,7 +20,9 @@ final class TypeNodeAnalyzerTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->typeNodeAnalyzer = $this->container->get(TypeNodeAnalyzer::class);
+        $this->bootKernel(BetterPhpDocParserKernel::class);
+
+        $this->typeNodeAnalyzer = self::$container->get(TypeNodeAnalyzer::class);
     }
 
     public function testContainsArrayType(): void

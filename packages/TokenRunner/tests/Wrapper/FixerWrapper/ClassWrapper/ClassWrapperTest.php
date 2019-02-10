@@ -3,15 +3,21 @@
 namespace Symplify\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Tests\AbstractContainerAwareTestCase;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\TokenRunner\Tests\HttpKernel\TokenRunnerKernel;
 use Symplify\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWrapper\Source\AbstractClass;
 use Symplify\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWrapper\Source\SomeClass;
 use Symplify\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWrapper\Source\SomeInterface;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 
-final class ClassWrapperTest extends AbstractContainerAwareTestCase
+final class ClassWrapperTest extends AbstractKernelTestCase
 {
+    protected function setUp(): void
+    {
+        $this->bootKernelWithConfigs(TokenRunnerKernel::class, [__DIR__ . '/../../../config/config_tests.yaml']);
+    }
+
     public function testGetNames(): void
     {
         $classWrapper = $this->createClassWrapperFromFile(__DIR__ . '/Source/SomeClass.php');
@@ -34,7 +40,7 @@ final class ClassWrapperTest extends AbstractContainerAwareTestCase
 
     private function createClassWrapperFromFile(string $filePath): ClassWrapper
     {
-        $classWrapperFactory = $this->container->get(ClassWrapperFactory::class);
+        $classWrapperFactory = self::$container->get(ClassWrapperFactory::class);
 
         $tokens = Tokens::fromCode(file_get_contents($filePath));
         $classTokens = $tokens->findGivenKind([T_CLASS], 0);

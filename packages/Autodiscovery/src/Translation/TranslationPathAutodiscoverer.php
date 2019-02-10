@@ -36,9 +36,7 @@ final class TranslationPathAutodiscoverer implements AutodiscovererInterface
         }
 
         $this->containerBuilder->prependExtensionConfig('framework', [
-            'translator' => [
-                'paths' => $paths,
-            ],
+            'translator' => ['paths' => $paths],
         ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Generator\Tests;
 
 use Symplify\Statie\Generator\RelatedItemsResolver;
+use Symplify\Statie\HttpKernel\StatieKernel;
 
 final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
 {
@@ -13,9 +14,11 @@ final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
 
     protected function setUp(): void
     {
+        $this->bootKernelWithConfigs(StatieKernel::class, [__DIR__ . '/GeneratorSource/statie.yml']);
+
         parent::setUp();
 
-        $this->relatedItemsResolver = $this->container->get(RelatedItemsResolver::class);
+        $this->relatedItemsResolver = self::$container->get(RelatedItemsResolver::class);
     }
 
     public function testRelatedItems(): void
@@ -30,10 +33,5 @@ final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
 
         $relatedItem = $relatedItems[1];
         $this->assertSame('Statie 4: How to Create The Simplest Blog', $relatedItem['title']);
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/GeneratorSource/statie.yml';
     }
 }

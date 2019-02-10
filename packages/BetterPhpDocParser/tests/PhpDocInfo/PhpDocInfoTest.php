@@ -5,12 +5,13 @@ namespace Symplify\BetterPhpDocParser\Tests\PhpDocInfo;
 use Nette\Utils\FileSystem;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use Symplify\BetterPhpDocParser\HttpKernel\BetterPhpDocParserKernel;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
-use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class PhpDocInfoTest extends AbstractContainerAwareTestCase
+final class PhpDocInfoTest extends AbstractKernelTestCase
 {
     /**
      * @var PhpDocInfo
@@ -29,13 +30,15 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $phpDocInfoFactory = $this->container->get(PhpDocInfoFactory::class);
+        $this->bootKernel(BetterPhpDocParserKernel::class);
+
+        $phpDocInfoFactory = self::$container->get(PhpDocInfoFactory::class);
 
         $this->phpDocInfo = $phpDocInfoFactory->createFrom(FileSystem::read(__DIR__ . '/PhpDocInfoSource/doc.txt'));
 
         $this->phpDocInfoFactory = $phpDocInfoFactory;
 
-        $this->phpDocInfoPrinter = $this->container->get(PhpDocInfoPrinter::class);
+        $this->phpDocInfoPrinter = self::$container->get(PhpDocInfoPrinter::class);
     }
 
     public function testHasTag(): void

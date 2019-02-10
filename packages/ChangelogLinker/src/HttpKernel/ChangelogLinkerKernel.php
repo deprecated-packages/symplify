@@ -4,44 +4,55 @@ namespace Symplify\ChangelogLinker\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
+use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass;
-use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 
-final class ChangelogLinkerKernel extends Kernel
+final class ChangelogLinkerKernel extends Kernel implements ExtraConfigAwareKernelInterface
 {
-    use SimpleKernelTrait;
-
     /**
-     * @var string|null
+     * @var string[]
      */
-    private $configFile;
-
-    public function __construct(?string $configFile = null)
-    {
-        $this->configFile = $configFile;
-        $configFilesHash = $configFile ? '_' . md5($configFile) : '';
-
-        parent::__construct('changelog_linker' . $configFilesHash, true);
-    }
+    private $configs = [];
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../../config/config.yml');
 
-        if ($this->configFile) {
-            $loader->load($this->configFile);
+        foreach ($this->configs as $config) {
+            $loader->load($config);
         }
     }
 
-    public function bootWithConfig(string $config): void
+    /**
+     * @param string[] $configs
+     */
+    public function setConfigs(array $configs): void
     {
-        $this->configFile = $config;
-        $this->boot();
+        $this->configs = $configs;
+    }
+
+    public function getCacheDir(): string
+    {
+        return sys_get_temp_dir() . '/changelog_linker';
+    }
+
+    public function getLogDir(): string
+    {
+        return sys_get_temp_dir() . '/changelog_linker_log';
+    }
+
+    /**
+     * @return BundleInterface[]
+     */
+    public function registerBundles(): iterable
+    {
+        return [];
     }
 
     /**

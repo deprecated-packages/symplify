@@ -5,12 +5,13 @@ namespace Symplify\Statie\Tests\Application;
 use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Application\StatieApplication;
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
-use Symplify\Statie\Tests\AbstractConfigAwareContainerTestCase;
 
-final class StatieApplicationTest extends AbstractConfigAwareContainerTestCase
+final class StatieApplicationTest extends AbstractKernelTestCase
 {
     /**
      * @var StatieApplication
@@ -24,10 +25,12 @@ final class StatieApplicationTest extends AbstractConfigAwareContainerTestCase
 
     protected function setUp(): void
     {
-        $this->statieApplication = $this->container->get(StatieApplication::class);
-        $this->arrayLoader = $this->container->get(ArrayLoader::class);
+        $this->bootKernelWithConfigs(StatieKernel::class, [$this->provideConfig()]);
 
-        $symfonyStyle = $this->container->get(SymfonyStyle::class);
+        $this->statieApplication = self::$container->get(StatieApplication::class);
+        $this->arrayLoader = self::$container->get(ArrayLoader::class);
+
+        $symfonyStyle = self::$container->get(SymfonyStyle::class);
         $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
     }
 
