@@ -114,9 +114,11 @@ parameters:
             - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff:
+            # privileged handy helpers
             - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
             - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
             - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
+            - 'packages/PackageBuilder/src/Console/Input/InputDetector.php'
             - 'packages/Autodiscovery/src/Arrays.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:

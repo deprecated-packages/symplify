@@ -7,17 +7,19 @@ use Symplify\ChangelogLinker\Console\ChangelogConsoleApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
+use Symplify\PackageBuilder\Console\Input\InputDetector;
 
 ConfigFileFinder::detectFromInput('cl', new ArgvInput());
 $configFile = ConfigFileFinder::provide('cl', ['changelog-linker.yml', 'changelog-linker.yaml']);
 
 // create container
-$isDebug = (bool) (new ArgvInput())->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
-$changelogLinkerKernel = new ChangelogLinkerKernel('prod', $isDebug);
+$changelogLinkerKernel = new ChangelogLinkerKernel('prod', InputDetector::isDebug());
 if ($configFile) {
     $changelogLinkerKernel->setConfigs([$configFile]);
 }
+
 $changelogLinkerKernel->boot();
+
 $container = $changelogLinkerKernel->getContainer();
 
 // run application

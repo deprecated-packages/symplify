@@ -4,11 +4,10 @@
 require_once __DIR__ . '/autoload.php';
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\LatteToTwigConverter\HttpKernel\LatteToTwigConverterKernel;
+use Symplify\PackageBuilder\Console\Input\InputDetector;
 
-$isDebug = (bool) (new ArgvInput())->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
-$latteToTwigConverterKernel = new LatteToTwigConverterKernel('prod', $isDebug);
+$latteToTwigConverterKernel = new LatteToTwigConverterKernel('prod', InputDetector::isDebug());
 $latteToTwigConverterKernel->boot();
 
 $container = $latteToTwigConverterKernel->getContainer();

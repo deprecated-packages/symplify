@@ -4,11 +4,10 @@
 require_once __DIR__ . '/autoload.php';
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\Autodiscovery\HttpKernel\AutodiscoveryKernel;
+use Symplify\PackageBuilder\Console\Input\InputDetector;
 
-$isDebug = (bool) (new ArgvInput())->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
-$autodiscoveryKernel = new AutodiscoveryKernel('prod', $isDebug);
+$autodiscoveryKernel = new AutodiscoveryKernel('prod', InputDetector::isDebug());
 $autodiscoveryKernel->boot();
 
 $container = $autodiscoveryKernel->getContainer();

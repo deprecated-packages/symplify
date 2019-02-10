@@ -45,7 +45,7 @@ final class MethodOrderByTypeFixer extends AbstractSymplifyFixer implements Conf
             'Methods should have specific order by interface or parent class.',
             [
                 new CodeSample(
-<<<'CODE_SAMPLE'
+                    <<<'CODE_SAMPLE'
 final class SomeFixer implements FixerInterface
 {
     public function isCandidate()
