@@ -49,7 +49,12 @@ final class ReplaceTest extends AbstractContainerAwareTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/ReplaceSource/before.txt', 'PHP_Filter', 'PHP\Filter', __DIR__ . '/ReplaceSource/after.txt'];
-        yield [__DIR__ . '/ReplaceSource/before2.txt', 'PHP_Filter', 'PHP\Filter', __DIR__ . '/ReplaceSource/after2.txt'];
+        yield [
+            __DIR__ . '/ReplaceSource/before2.txt',
+            'PHP_Filter',
+            'PHP\Filter',
+            __DIR__ . '/ReplaceSource/after2.txt',
+        ];
     }
 
     private function createPhpDocInfoFromFile(string $originalFile): PhpDocInfo

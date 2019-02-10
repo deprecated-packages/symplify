@@ -9,7 +9,70 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.4.0 - 2019-01-27
+## Unreleased
+
+### Added
+
+#### NeonToYamlConverter
+
+- [#1421] Init new package
+
+#### BetterPhpDocParser
+
+- [#1430] Add `replaceTypeNode()` array support to `PhpDocModifier`
+
+### Changed
+
+- [#1416] Allow PHPUnit 8.0, Thanks to [@enumag]
+- [#1423] move Kernel classes under HttpKernel, cleanup tests
+- [#1422] make bin commands fail for error
+
+### Fixed
+
+#### CodingStandard
+
+- [#1413] Fix `LineLengthTransformer` for short lines
+
+#### MonorepoBuilder
+
+- [#1411] Fix typo in readme to use the right package name, Thanks to [@natepage]
+
+#### PackageBuilder
+
+- [#1428] fix `SmartFileInfo` `getRelativePath` on Windows - use normalized path, Thanks to [@jDolba]
+
+## [v5.4.2] - 2019-02-02
+
+### Added
+
+#### MonorepoBuilder
+
+- [#1405] Add `suggest` to `section_order`, Thanks to [@natepage]
+
+### Fixed
+
+#### ChangelogLinker
+
+- [#1403] Fix typo in README.md `mergers` -> `merges`, Thanks to [@natepage]
+
+#### EasyCodingStandard
+
+- [#1402] Detect EOL instead of using PHP_EOL in SniffRunner, Thanks to [@ikeblaster]
+
+### Removed
+
+- [#1409] Remove Safe package
+
+## [v5.4.1] - 2019-01-31
+
+### Fixed
+
+#### FlexLoader
+
+- [#1400] loading fails when extra path does not exists, Thanks to [@vrbata]
+- [#1399] Load `parameters.*` as well, Thanks to [@vrbata]
+
+## [v5.4.0] - 2019-01-27
 
 ### Added
 
@@ -792,7 +855,6 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1389]: https://github.com/Symplify/Symplify/pull/1389
 [#1387]: https://github.com/Symplify/Symplify/pull/1387
 [#1386]: https://github.com/Symplify/Symplify/pull/1386
-[#1385]: https://github.com/Symplify/Symplify/pull/1385
 [#1384]: https://github.com/Symplify/Symplify/pull/1384
 [#1383]: https://github.com/Symplify/Symplify/pull/1383
 [#1380]: https://github.com/Symplify/Symplify/pull/1380
@@ -801,3 +863,24 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1375]: https://github.com/Symplify/Symplify/pull/1375
 [#1365]: https://github.com/Symplify/Symplify/pull/1365
 [#1357]: https://github.com/Symplify/Symplify/pull/1357
+[#1430]: https://github.com/Symplify/Symplify/pull/1430
+[#1428]: https://github.com/Symplify/Symplify/pull/1428
+[#1423]: https://github.com/Symplify/Symplify/pull/1423
+[#1422]: https://github.com/Symplify/Symplify/pull/1422
+[#1421]: https://github.com/Symplify/Symplify/pull/1421
+[#1416]: https://github.com/Symplify/Symplify/pull/1416
+[#1413]: https://github.com/Symplify/Symplify/pull/1413
+[#1411]: https://github.com/Symplify/Symplify/pull/1411
+[#1409]: https://github.com/Symplify/Symplify/pull/1409
+[#1405]: https://github.com/Symplify/Symplify/pull/1405
+[#1403]: https://github.com/Symplify/Symplify/pull/1403
+[#1402]: https://github.com/Symplify/Symplify/pull/1402
+[#1400]: https://github.com/Symplify/Symplify/pull/1400
+[#1399]: https://github.com/Symplify/Symplify/pull/1399
+[v5.4.2]: https://github.com/Symplify/Symplify/compare/v5.4.1...v5.4.2
+[v5.4.1]: https://github.com/Symplify/Symplify/compare/v5.4.0...v5.4.1
+[@vrbata]: https://github.com/vrbata
+[@natepage]: https://github.com/natepage
+[@jDolba]: https://github.com/jDolba
+[@ikeblaster]: https://github.com/ikeblaster
+[v5.4.0]: https://github.com/Symplify/Symplify/compare/v5.3.12...v5.4.0
