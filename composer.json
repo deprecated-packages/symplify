@@ -119,7 +119,9 @@
     },
     "replace": {
         "symplify/statie": "self.version",
-        "symplify/easy-coding-standard": "self.version"
+        "symplify/easy-coding-standard": "self.version",
+        "symplify/package-builder": "self.version",
+        "symplify/better-phpdoc-parser": "self.version"
     },
     "scripts": {
         "complete-check": [

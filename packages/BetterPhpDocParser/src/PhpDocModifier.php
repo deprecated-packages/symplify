@@ -10,6 +10,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
@@ -153,16 +154,31 @@ final class PhpDocModifier
             foreach ($typeNode->types as $key => $subTypeNode) {
                 $typeNode->types[$key] = $this->replaceTypeNode($subTypeNode, $oldType, $newType);
             }
-
-            return $typeNode;
         }
 
         if ($typeNode instanceof IdentifierTypeNode) {
-            if (is_a($typeNode->name, $oldType, true) || $typeNode->name === $oldType) {
+            if (is_a($typeNode->name, $oldType, true) || ltrim($typeNode->name, '\\') === $oldType) {
+                $newType = $this->makeTypeFqn($newType);
+
                 return new IdentifierTypeNode($newType);
             }
         }
 
+        if ($typeNode instanceof ArrayTypeNode) {
+            $typeNode->type = $this->replaceTypeNode($typeNode->type, $oldType, $newType);
+
+            return $typeNode;
+        }
+
         return $typeNode;
+    }
+
+    private function makeTypeFqn(string $type): string
+    {
+        if (Strings::contains($type, '\\')) {
+            $type = '\\' . ltrim($type, '\\');
+        }
+
+        return $type;
     }
 }
