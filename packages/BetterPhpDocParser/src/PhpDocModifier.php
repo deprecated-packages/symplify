@@ -154,30 +154,31 @@ final class PhpDocModifier
             foreach ($typeNode->types as $key => $subTypeNode) {
                 $typeNode->types[$key] = $this->replaceTypeNode($subTypeNode, $oldType, $newType);
             }
-
-            return $typeNode;
         }
 
         if ($typeNode instanceof IdentifierTypeNode) {
-            if (is_a($typeNode->name, $oldType, true) || $typeNode->name === $oldType) {
+            if (is_a($typeNode->name, $oldType, true) || ltrim($typeNode->name, '\\') === $oldType) {
+                $newType = $this->makeTypeFqn($newType);
+
                 return new IdentifierTypeNode($newType);
             }
         }
 
         if ($typeNode instanceof ArrayTypeNode) {
-            if ($typeNode->type instanceof IdentifierTypeNode) {
-                if ($typeNode->type->name === $oldType) {
-                    // make FQN
-                    if (Strings::contains($newType, '\\')) {
-                        $newType = '\\' . ltrim($newType, '\\');
-                    }
+            $typeNode->type = $this->replaceTypeNode($typeNode->type, $oldType, $newType);
 
-                    $typeNode->type = new IdentifierTypeNode($newType);
-                    return $typeNode;
-                }
-            }
+            return $typeNode;
         }
 
         return $typeNode;
+    }
+
+    private function makeTypeFqn(string $type): string
+    {
+        if (Strings::contains($type, '\\')) {
+            $type = '\\' . ltrim($type, '\\');
+        }
+
+        return $type;
     }
 }
