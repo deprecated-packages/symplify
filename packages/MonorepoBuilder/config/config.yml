@@ -3,7 +3,7 @@ imports:
     - { resource: '../packages/**/config/config.yml' }
 
 parameters:
-    merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev', 'repositories']
+    merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev', 'repositories', 'suggest']
     package_directories:
         - 'packages'
     data_to_append: []
