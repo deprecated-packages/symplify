@@ -16,6 +16,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### NeonToYamlConverter
 
 - [#1421] Init new package
+- [#1435] merge 'rename' commands to 'convert' commands + keep nice spaces
 
 #### BetterPhpDocParser
 
@@ -23,9 +24,15 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Changed
 
+- [#1426] Make Kernel more Symfony standard-like
 - [#1416] Allow PHPUnit 8.0, Thanks to [@enumag]
 - [#1423] move Kernel classes under HttpKernel, cleanup tests
 - [#1422] make bin commands fail for error
+
+#### MonorepoBuilder
+
+- [#1432] Add `suggest` section to merge
+- [#1431] Add `replace` section on merge
 
 ### Fixed
 
@@ -36,6 +43,11 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### MonorepoBuilder
 
 - [#1411] Fix typo in readme to use the right package name, Thanks to [@natepage]
+
+#### NeonToYamlConvertor
+
+- [#1433] fix `%env` conversion
+- [#1434] Make parameter order independent, inline array params smart way
 
 #### PackageBuilder
 
@@ -844,7 +856,6 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [@themark147]: https://github.com/themark147
 [v5.3.12]: https://github.com/Symplify/Symplify/compare/v5.3.10...v5.3.12
 [v5.3.10]: https://github.com/Symplify/Symplify/compare/v5.3.9...v5.3.10
-[#1398]: https://github.com/Symplify/Symplify/pull/1398
 [#1397]: https://github.com/Symplify/Symplify/pull/1397
 [#1396]: https://github.com/Symplify/Symplify/pull/1396
 [#1395]: https://github.com/Symplify/Symplify/pull/1395
@@ -884,3 +895,9 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [@jDolba]: https://github.com/jDolba
 [@ikeblaster]: https://github.com/ikeblaster
 [v5.4.0]: https://github.com/Symplify/Symplify/compare/v5.3.12...v5.4.0
+[#1435]: https://github.com/Symplify/Symplify/pull/1435
+[#1434]: https://github.com/Symplify/Symplify/pull/1434
+[#1433]: https://github.com/Symplify/Symplify/pull/1433
+[#1432]: https://github.com/Symplify/Symplify/pull/1432
+[#1431]: https://github.com/Symplify/Symplify/pull/1431
+[#1426]: https://github.com/Symplify/Symplify/pull/1426
