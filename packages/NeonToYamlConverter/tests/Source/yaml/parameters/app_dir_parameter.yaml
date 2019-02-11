@@ -1,6 +1,7 @@
 parameters:
     file_storage: '%kernel.project_dir%/app/file_storage'
     public_storage: '%kernel.project_dir%/public/some/upload'
+
 services:
     Entrydo\App\Console\DB\LoadDemoDataCommand:
         arguments:

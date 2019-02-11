@@ -4,9 +4,7 @@ services:
     doctrineEvents.symfonyProxy:
         autowired: false
     router:
-        factory:
-            - '@Entrydo\App\Routing\RouterFactory'
-            - create
+        factory: ['@Entrydo\App\Routing\RouterFactory', create]
     mailer:
         class: Entrydo\Infrastructure\Mailing\MailGunMailer
         arguments:

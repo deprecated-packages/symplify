@@ -4,3 +4,4 @@ services:
 		tags: [monolog.handler]
 		setup:
 			- setFormatter(@Entrydo\Infrastructure\Logging\Monolog\LogDNAJsonFormatter)
+			- setThat(1, 2)

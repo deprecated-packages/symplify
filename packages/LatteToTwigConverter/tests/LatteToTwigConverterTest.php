@@ -5,6 +5,7 @@ namespace Symplify\LatteToTwigConverter\Tests;
 use Iterator;
 use Symplify\LatteToTwigConverter\HttpKernel\LatteToTwigConverterKernel;
 use Symplify\LatteToTwigConverter\LatteToTwigConverter;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 final class LatteToTwigConverterTest extends AbstractKernelTestCase
@@ -28,7 +29,8 @@ final class LatteToTwigConverterTest extends AbstractKernelTestCase
      */
     public function test(string $latteFile, string $expectedTwigFile): void
     {
-        $convertedFile = $this->latteToTwigConverter->convertFile($latteFile);
+        $fileInfo = new SmartFileInfo($latteFile);
+        $convertedFile = $this->latteToTwigConverter->convertFile($fileInfo);
         $this->assertStringEqualsFile($expectedTwigFile, $convertedFile, 'Caused in file: ' . $latteFile);
     }
 

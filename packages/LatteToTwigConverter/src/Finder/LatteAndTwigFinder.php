@@ -21,38 +21,18 @@ final class LatteAndTwigFinder
     /**
      * @return SmartFileInfo[]
      */
-    public function findTwigFilesInSource(string $source): array
+    public function findTwigAndLatteFilesInSource(string $source): array
     {
         if (is_file($source) && file_exists($source)) {
             return [new SmartFileInfo($source)];
         }
 
-        return $this->findFilesInDirectoryBySuffix($source, 'twig');
-    }
-
-    /**
-     * @return SmartFileInfo[]
-     */
-    public function findLatteFilesInSource(string $source): array
-    {
-        if (is_file($source) && file_exists($source)) {
-            return [new SmartFileInfo($source)];
-        }
-
-        return $this->findFilesInDirectoryBySuffix($source, 'latte');
-    }
-
-    /**
-     * @return SmartFileInfo[]
-     */
-    private function findFilesInDirectoryBySuffix(string $sourceDirectory, string $suffix): array
-    {
-        $twigFileFinder = Finder::create()
+        $finder = Finder::create()
             ->files()
-            ->in($sourceDirectory)
-            ->name('#\.' . $suffix . '$#')
+            ->in($source)
+            ->name('#\.(twig|latte)$#')
             ->sortByName();
 
-        return $this->finderSanitizer->sanitize($twigFileFinder);
+        return $this->finderSanitizer->sanitize($finder);
     }
 }

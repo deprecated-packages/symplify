@@ -53,17 +53,11 @@ composer require symplify/neon-to-yaml-converter --dev
 
 ## Usage
 
-It scan all the `*.yaml` files and if it founds Neon syntax in it, it'll convert it to Yaml.
+It scan all the `*.(yml|yaml|neon)` files and converts Neon syntax to Yaml and `*.yaml` file.
 
 ```bash
 vendor/bin/neon-to-yaml-converter convert file.neon
 vendor/bin/neon-to-yaml-converter convert /directory
-```
-
-Do you have all files with `*.neon` suffix? Rename them first:
-
-```bash
-vendor/bin/neon-to-yaml-converter rename /directory
 ```
 
 That's it :)

@@ -1,2 +1,3 @@
 includes:
     - packages/EasyCodingStandard/config/psr2.neon
+    - vendor/EasyCodingStandard/config/clean-code.neon

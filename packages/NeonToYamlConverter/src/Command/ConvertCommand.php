@@ -3,6 +3,7 @@
 namespace Symplify\NeonToYamlConverter\Command;
 
 use Nette\Utils\FileSystem;
+use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -64,26 +65,31 @@ final class ConvertCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $source = (string) $input->getArgument(self::ARGUMENT_SOURCE);
-        $yamlFileInfos = $this->neonAndYamlFinder->findYamlFilesInfSource($source);
+        $fileInfos = $this->neonAndYamlFinder->findYamlAndNeonFilesInfSource($source);
 
-        $this->arrayParameterCollector->collectFromFiles($yamlFileInfos);
+        $this->arrayParameterCollector->collectFromFiles($fileInfos);
 
-        foreach ($yamlFileInfos as $yamlFileInfo) {
-            $convertedContent = $this->neonToYamlConverter->convertFile($yamlFileInfo);
+        foreach ($fileInfos as $fileInfo) {
+            $convertedContent = $this->neonToYamlConverter->convertFile($fileInfo);
+            $oldFilePath = $fileInfo->getPathname();
+            $newFilePath = Strings::replace($oldFilePath, '#\.neon$#', '.yaml');
 
-            if ($yamlFileInfo->getContents() !== $convertedContent) {
-                FileSystem::write($yamlFileInfo->getPathname(), $convertedContent);
+            // save
+            FileSystem::write($newFilePath, $convertedContent);
 
-                $this->symfonyStyle->note(sprintf('File "%s" was converted to YAML', $yamlFileInfo->getPathname()));
-                continue;
+            // remove old path
+            if ($oldFilePath !== $newFilePath) {
+                FileSystem::delete($oldFilePath);
             }
 
-            $this->symfonyStyle->note(
-                sprintf('File "%s" was skipped for no change', $yamlFileInfo->getPathname())
-            );
+            $this->symfonyStyle->note(sprintf(
+                'File "%s" was converted to YAML to "%s" path',
+                $oldFilePath,
+                $newFilePath
+            ));
         }
 
-        $this->symfonyStyle->success('Convert process finished');
+        $this->symfonyStyle->success('Done');
 
         return ShellCode::SUCCESS;
     }
