@@ -6,6 +6,7 @@ use Nette\Neon\Entity;
 use Nette\Neon\Neon;
 use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
+use Symplify\NeonToYamlConverter\Formatter\YamlOutputFormatter;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class NeonToYamlConverter
@@ -21,9 +22,17 @@ final class NeonToYamlConverter
      */
     private $arrayParameterCollector;
 
-    public function __construct(ArrayParameterCollector $arrayParameterCollector)
-    {
+    /**
+     * @var YamlOutputFormatter
+     */
+    private $yamlOutputFormatter;
+
+    public function __construct(
+        ArrayParameterCollector $arrayParameterCollector,
+        YamlOutputFormatter $yamlOutputFormatter
+    ) {
         $this->arrayParameterCollector = $arrayParameterCollector;
+        $this->yamlOutputFormatter = $yamlOutputFormatter;
     }
 
     public function convertFile(SmartFileInfo $fileInfo): string
@@ -50,7 +59,9 @@ final class NeonToYamlConverter
 
             if ($key === 'includes') {
                 unset($data[$key]);
-                $data['imports'] = $this->convertIncludes((array) $value);
+                $importsData = $this->convertIncludes((array) $value);
+                $importsContent = Yaml::dump($importsData, 1, 4, Yaml::DUMP_OBJECT_AS_MAP);
+                $data['imports'] = $importsContent;
             }
         }
 
@@ -58,6 +69,8 @@ final class NeonToYamlConverter
 
         $content = $this->replaceAppDirAndWwwDir($content);
         $content = $this->replaceTilda($content);
+
+        $content = $this->yamlOutputFormatter->format($content);
 
         return $this->replaceOldToNewParameters($content);
     }
@@ -80,6 +93,10 @@ final class NeonToYamlConverter
     private function convertIncludes(array $data): array
     {
         foreach ($data as $key => $value) {
+            if (Strings::contains($value, 'vendor') === false) {
+                $value = Strings::replace($value, '#\.neon$#', '.yaml');
+            }
+
             $data[$key] = ['resource' => $value];
         }
 
@@ -153,7 +170,9 @@ final class NeonToYamlConverter
                     }
                 }
 
-                $service['calls'] = $service['setup'];
+                // inline calls - requires fixup in YamlOutputFormatter
+                $setupYamlContent = Yaml::dump($service['setup'], 1, 4, Yaml::DUMP_OBJECT);
+                $service['calls'] = $setupYamlContent;
                 unset($service['setup']);
 
                 $data[$name] = $service;
@@ -270,6 +289,6 @@ final class NeonToYamlConverter
     private function convertEnv(string $content): string
     {
         // https://regex101.com/r/IxBjFD/1
-        return Strings::replace($content, "#\@env::get\(\'?(.*?)\'?(,.*?)?\)#ms", "'%ENV($1)%'");
+        return Strings::replace($content, "#\@env::get\(\'?(.*?)\'?(,.*?)?\)#ms", "'%env($1)%'");
     }
 }

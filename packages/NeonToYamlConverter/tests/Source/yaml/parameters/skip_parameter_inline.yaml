@@ -2,6 +2,7 @@ parameters:
     langs:
         cs: Czech
         en: English
+
 services:
     sth:
         arguments:

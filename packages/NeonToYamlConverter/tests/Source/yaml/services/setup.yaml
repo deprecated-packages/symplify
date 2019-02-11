@@ -6,7 +6,5 @@ services:
         arguments:
             - 'php://stderr'
         calls:
-            -
-                - setFormatter
-                -
-                    - '@Entrydo\Infrastructure\Logging\Monolog\LogDNAJsonFormatter'
+            - [setFormatter, ['@Entrydo\Infrastructure\Logging\Monolog\LogDNAJsonFormatter']]
+            - [setThat, [1, 2]]
