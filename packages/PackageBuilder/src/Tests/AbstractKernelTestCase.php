@@ -81,9 +81,8 @@ abstract class AbstractKernelTestCase extends TestCase
         $container = static::$kernel->getContainer();
 
         // private → public service hack?
-        static::$container = $container->has('test.service_container') ? $container->get(
-            'test.service_container'
-        ) : $container;
+        static::$container = $container->has('test.service_container') ?
+            $container->get('test.service_container') : $container;
 
         // has output? keep it silent out of tests
         if (static::$container->has(SymfonyStyle::class)) {

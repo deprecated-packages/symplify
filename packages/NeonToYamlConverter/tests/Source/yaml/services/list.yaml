@@ -14,7 +14,7 @@ services:
     Entrydo\Domain\Specifications\Email\EmailIsUnique: ~
     Entrydo\Application\ListCountries\ListCountriesUseCase:
         arguments:
-            - '%country.enabled%'
+            - '%country_enabled%'
     Entrydo\Application\ListCurrencies\ListCurrenciesUseCase:
         arguments:
-            - '%currency.enabled%'
+            - '%currency_enabled%'

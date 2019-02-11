@@ -4,10 +4,9 @@ namespace Symplify\NeonToYamlConverter;
 
 use Nette\Neon\Entity;
 use Nette\Neon\Neon;
-use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
-use Symplify\PackageBuilder\Strings\StringFormatConverter;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class NeonToYamlConverter
 {
@@ -15,32 +14,28 @@ final class NeonToYamlConverter
      * @todo maybe use to dump env vars
      * @var string[]
      */
-    private $environmentVaribales = [];
+    private $environmentVariables = [];
 
     /**
-     * @var string[]
+     * @var ArrayParameterCollector
      */
-    private $parametersToReplace = [];
+    private $arrayParameterCollector;
 
-    /**
-     * @var StringFormatConverter
-     */
-    private $stringFormatConverter;
-
-    public function __construct(StringFormatConverter $stringFormatConverter)
+    public function __construct(ArrayParameterCollector $arrayParameterCollector)
     {
-        $this->stringFormatConverter = $stringFormatConverter;
+        $this->arrayParameterCollector = $arrayParameterCollector;
     }
 
-    public function convertFile(string $file): string
+    public function convertFile(SmartFileInfo $fileInfo): string
     {
-        $content = FileSystem::read($file);
+        $content = $fileInfo->getContents();
 
         $content = $this->convertEnv($content);
 
         $data = (array) Neon::decode($content);
 
         foreach ($data as $key => $value) {
+            // @traverse deep and subscribe to Entity
             if ($value instanceof Entity) {
                 $data[$key] = $this->convertNeonEntityToArray($value);
             }
@@ -170,7 +165,7 @@ final class NeonToYamlConverter
                     if ($value instanceof Entity) {
                         if ($value->value === '@env::get') { // enviro value! @see https://symfony.com/blog/new-in-symfony-3-4-advanced-environment-variables
                             $environmentVariable = $value->attributes[0];
-                            $this->environmentVaribales[] = $environmentVariable;
+                            $this->environmentVariables[] = $environmentVariable;
                             $service['arguments'][$key] = sprintf('%%env(%s)%%', $environmentVariable);
                         }
                     }
@@ -223,16 +218,21 @@ final class NeonToYamlConverter
             }
 
             foreach ($value as $key2 => $value2) {
-                $newKey = $key . '_' . $key2;
-                // camelCase to under_score Yaml convention
-                $newKey = $this->stringFormatConverter->camelCaseToUnderscore($newKey);
-                $data[$newKey] = $value2;
-
                 $oldKey = $key . '.' . $key2;
-                $this->parametersToReplace[$oldKey] = $newKey;
+
+                $newKey = $this->arrayParameterCollector->matchParameterToReplace($oldKey);
+                if ($newKey === null) {
+                    continue;
+                }
+
+                // replace key
+                unset($data[$key][$key2]);
+                $data[$newKey] = $value2;
             }
 
-            unset($data[$key]);
+            if ($data[$key] === []) {
+                unset($data[$key]);
+            }
         }
 
         return $data;
@@ -253,7 +253,7 @@ final class NeonToYamlConverter
 
     private function replaceOldToNewParameters(string $content): string
     {
-        foreach ($this->parametersToReplace as $oldParameter => $newParamter) {
+        foreach ($this->arrayParameterCollector->getParametersToReplace() as $oldParameter => $newParamter) {
             $content = Strings::replace($content, '#' . preg_quote($oldParameter) . '#', $newParamter);
         }
 
