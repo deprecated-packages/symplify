@@ -10,11 +10,11 @@ services:
     mailer:
         class: Entrydo\Infrastructure\Mailing\MailGunMailer
         arguments:
-            - '%mailgun.apiKey%'
-            - '%mailgun.domain%'
+            - '%mailgun_api_key%'
+            - '%mailgun_domain%'
             - '@emailValidator'
     eventMailer:
         class: Entrydo\Infrastructure\Mailing\MailGunMailer
         arguments:
-            - '%mailgun.apiKey%'
-            - '%mailgun.ticketsDomain%'
+            - '%mailgun_api_key%'
+            - '%mailgun_tickets_domain%'

@@ -3,7 +3,7 @@ services:
         class: Braintree\Gateway
         arguments:
             -
-                environment: '%braintree.environment%'
-                merchantId: '%braintree.merchantId%'
-                publicKey: '%braintree.publicKey%'
-                privateKey: '%braintree.privateKey%'
+                environment: '%braintree_environment%'
+                merchantId: '%braintree_merchant_id%'
+                publicKey: '%braintree_public_key%'
+                privateKey: '%braintree_private_key%'

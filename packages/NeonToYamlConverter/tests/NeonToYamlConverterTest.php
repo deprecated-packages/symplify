@@ -3,8 +3,10 @@
 namespace Symplify\NeonToYamlConverter\Tests;
 
 use Iterator;
+use Symplify\NeonToYamlConverter\ArrayParameterCollector;
 use Symplify\NeonToYamlConverter\HttpKernel\NeonToYamlConverterKernel;
 use Symplify\NeonToYamlConverter\NeonToYamlConverter;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 final class NeonToYamlConverterTest extends AbstractKernelTestCase
@@ -14,11 +16,17 @@ final class NeonToYamlConverterTest extends AbstractKernelTestCase
      */
     private $neonToYamlConverter;
 
+    /**
+     * @var ArrayParameterCollector
+     */
+    private $arrayParameterCollector;
+
     protected function setUp(): void
     {
         $this->bootKernel(NeonToYamlConverterKernel::class);
 
         $this->neonToYamlConverter = self::$container->get(NeonToYamlConverter::class);
+        $this->arrayParameterCollector = self::$container->get(ArrayParameterCollector::class);
     }
 
     /**
@@ -26,10 +34,14 @@ final class NeonToYamlConverterTest extends AbstractKernelTestCase
      * @dataProvider provideDataWithParameters()
      * @dataProvider provideDataWithServices()
      */
-    public function test(string $latteFile, string $expectedTwigFile): void
+    public function test(string $inputFile, string $expectedFile): void
     {
-        $convertedFile = $this->neonToYamlConverter->convertFile($latteFile);
-        $this->assertStringEqualsFile($expectedTwigFile, $convertedFile, 'Caused in file: ' . $latteFile);
+        $inputFileInfo = new SmartFileInfo($inputFile);
+
+        $this->arrayParameterCollector->collectFromFiles([$inputFileInfo]);
+
+        $convertedFile = $this->neonToYamlConverter->convertFile($inputFileInfo);
+        $this->assertStringEqualsFile($expectedFile, $convertedFile, 'Caused in file: ' . $inputFile);
     }
 
     public function provideData(): Iterator
@@ -47,6 +59,11 @@ final class NeonToYamlConverterTest extends AbstractKernelTestCase
         yield [
             __DIR__ . '/Source/neon/parameters/app_dir_parameter.neon',
             __DIR__ . '/Source/yaml/parameters/app_dir_parameter.yaml',
+        ];
+
+        yield [
+            __DIR__ . '/Source/neon/parameters/skip_parameter_inline.neon',
+            __DIR__ . '/Source/yaml/parameters/skip_parameter_inline.yaml',
         ];
 
         yield [

@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\NeonToYamlConverter\ArrayParameterCollector;
 use Symplify\NeonToYamlConverter\Finder\NeonAndYamlFinder;
 use Symplify\NeonToYamlConverter\NeonToYamlConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -35,15 +36,22 @@ final class ConvertCommand extends Command
      */
     private $neonAndYamlFinder;
 
+    /**
+     * @var ArrayParameterCollector
+     */
+    private $arrayParameterCollector;
+
     public function __construct(
         NeonToYamlConverter $neonToYamlConverter,
         SymfonyStyle $symfonyStyle,
-        NeonAndYamlFinder $neonAndYamlFinder
+        NeonAndYamlFinder $neonAndYamlFinder,
+        ArrayParameterCollector $arrayParameterCollector
     ) {
         parent::__construct();
         $this->symfonyStyle = $symfonyStyle;
         $this->neonToYamlConverter = $neonToYamlConverter;
         $this->neonAndYamlFinder = $neonAndYamlFinder;
+        $this->arrayParameterCollector = $arrayParameterCollector;
     }
 
     protected function configure(): void
@@ -58,13 +66,15 @@ final class ConvertCommand extends Command
         $source = (string) $input->getArgument(self::ARGUMENT_SOURCE);
         $yamlFileInfos = $this->neonAndYamlFinder->findYamlFilesInfSource($source);
 
+        $this->arrayParameterCollector->collectFromFiles($yamlFileInfos);
+
         foreach ($yamlFileInfos as $yamlFileInfo) {
-            $convertedContent = $this->neonToYamlConverter->convertFile($yamlFileInfo->getRealPath());
+            $convertedContent = $this->neonToYamlConverter->convertFile($yamlFileInfo);
 
             if ($yamlFileInfo->getContents() !== $convertedContent) {
                 FileSystem::write($yamlFileInfo->getPathname(), $convertedContent);
 
-                $this->symfonyStyle->note(sprintf('File "%s" was converted to Twig', $yamlFileInfo->getPathname()));
+                $this->symfonyStyle->note(sprintf('File "%s" was converted to YAML', $yamlFileInfo->getPathname()));
                 continue;
             }
 

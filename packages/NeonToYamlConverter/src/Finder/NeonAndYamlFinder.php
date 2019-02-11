@@ -47,12 +47,12 @@ final class NeonAndYamlFinder
      */
     private function findFilesInDirectoryBySuffix(string $sourceDirectory, string $suffix): array
     {
-        $twigFileFinder = Finder::create()
+        $finder = Finder::create()
             ->files()
             ->in($sourceDirectory)
             ->name('#\.' . $suffix . '$#')
             ->sortByName();
 
-        return $this->finderSanitizer->sanitize($twigFileFinder);
+        return $this->finderSanitizer->sanitize($finder);
     }
 }
