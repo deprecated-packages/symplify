@@ -21,36 +21,16 @@ final class NeonAndYamlFinder
     /**
      * @return SmartFileInfo[]
      */
-    public function findYamlFilesInfSource(string $source): array
+    public function findYamlAndNeonFilesInfSource(string $source): array
     {
         if (is_file($source) && file_exists($source)) {
             return [new SmartFileInfo($source)];
         }
 
-        return $this->findFilesInDirectoryBySuffix($source, '(yml|yaml)');
-    }
-
-    /**
-     * @return SmartFileInfo[]
-     */
-    public function findNeonFilesInSource(string $source): array
-    {
-        if (is_file($source) && file_exists($source)) {
-            return [new SmartFileInfo($source)];
-        }
-
-        return $this->findFilesInDirectoryBySuffix($source, 'neon');
-    }
-
-    /**
-     * @return SmartFileInfo[]
-     */
-    private function findFilesInDirectoryBySuffix(string $sourceDirectory, string $suffix): array
-    {
         $finder = Finder::create()
             ->files()
-            ->in($sourceDirectory)
-            ->name('#\.' . $suffix . '$#')
+            ->in($source)
+            ->name('#\.(yml|yaml|neon)$#')
             ->sortByName();
 
         return $this->finderSanitizer->sanitize($finder);

@@ -3,6 +3,7 @@
 namespace Symplify\LatteToTwigConverter\Command;
 
 use Nette\Utils\FileSystem;
+use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,7 +13,6 @@ use Symplify\LatteToTwigConverter\Finder\LatteAndTwigFinder;
 use Symplify\LatteToTwigConverter\LatteToTwigConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class ConvertCommand extends Command
 {
@@ -50,43 +50,37 @@ final class ConvertCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->addArgument(
-            self::ARGUMENT_SOURCE,
-            InputArgument::REQUIRED,
-            'Directory or file to convert *.twig files to Latte syntax in.'
-        );
-        $this->setDescription('Converts Latte syntax to Twig in all *.twig files');
+        $this->addArgument(self::ARGUMENT_SOURCE, InputArgument::REQUIRED, 'Directory or file to convert');
+        $this->setDescription('Converts Latte syntax to Twig');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $twigFileInfos = $this->resolveFileInfosFromInput($input);
-        foreach ($twigFileInfos as $twigFileInfo) {
-            $convertedContent = $this->latteToTwigConverter->convertFile($twigFileInfo->getRealPath());
+        $source = (string) $input->getArgument(self::ARGUMENT_SOURCE);
+        $fileInfos = $this->latteAndTwigFinder->findTwigAndLatteFilesInSource($source);
 
-            if ($twigFileInfo->getContents() !== $convertedContent) {
-                FileSystem::write($twigFileInfo->getPathname(), $convertedContent);
+        foreach ($fileInfos as $fileInfo) {
+            $convertedContent = $this->latteToTwigConverter->convertFile($fileInfo);
+            $oldFilePath = $fileInfo->getPathname();
+            $newFilePath = Strings::replace($fileInfo->getPathname(), '#\.latte$#', '.twig');
 
-                $this->symfonyStyle->note(sprintf('File "%s" was converted to Twig', $twigFileInfo->getPathname()));
-                continue;
+            // save
+            FileSystem::write($newFilePath, $convertedContent);
+
+            // remove old path
+            if ($oldFilePath !== $newFilePath) {
+                FileSystem::delete($oldFilePath);
             }
 
-            $this->symfonyStyle->note(
-                sprintf('File "%s" was skipped for no match of latte syntax', $twigFileInfo->getPathname())
-            );
+            $this->symfonyStyle->note(sprintf(
+                'File "%s" was converted to Twig to "%s"',
+                $oldFilePath,
+                $newFilePath
+            ));
         }
 
-        $this->symfonyStyle->success('Convert process finished');
+        $this->symfonyStyle->success('Done');
 
         return ShellCode::SUCCESS;
-    }
-
-    /**
-     * @return SmartFileInfo[]
-     */
-    private function resolveFileInfosFromInput(InputInterface $input): array
-    {
-        $source = (string) $input->getArgument(self::ARGUMENT_SOURCE);
-        return $this->latteAndTwigFinder->findTwigFilesInSource($source);
     }
 }

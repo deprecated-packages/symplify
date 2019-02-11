@@ -2,9 +2,9 @@
 
 namespace Symplify\LatteToTwigConverter;
 
-use Nette\Utils\FileSystem;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 use Symplify\LatteToTwigConverter\Exception\ConfigurationException;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class LatteToTwigConverter
 {
@@ -26,9 +26,9 @@ final class LatteToTwigConverter
         krsort($this->caseConverters);
     }
 
-    public function convertFile(string $file): string
+    public function convertFile(SmartFileInfo $fileInfo): string
     {
-        $content = FileSystem::read($file);
+        $content = $fileInfo->getContents();
 
         foreach ($this->caseConverters as $caseConverter) {
             $content = $caseConverter->convertContent($content);
