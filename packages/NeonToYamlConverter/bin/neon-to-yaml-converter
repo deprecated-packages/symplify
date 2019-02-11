@@ -5,8 +5,9 @@ require_once __DIR__ . '/autoload.php';
 
 use Symfony\Component\Console\Application;
 use Symplify\NeonToYamlConverter\HttpKernel\NeonToYamlConverterKernel;
+use Symplify\PackageBuilder\Console\Input\InputDetector;
 
-$neonToYamlConverterKernel = new NeonToYamlConverterKernel();
+$neonToYamlConverterKernel = new NeonToYamlConverterKernel('prod', InputDetector::isDebug());
 $neonToYamlConverterKernel->boot();
 $container = $neonToYamlConverterKernel->getContainer();
 
