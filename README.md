@@ -69,6 +69,7 @@ You'll find them all in [`/packages`](/packages) directory:
 - [FlexLoader](https://github.com/Symplify/FlexLoader) - Keep your Symfony Kernel slim again and let FlexLoader load all the configs
 - [LatteToTwigConverter](https://github.com/Symplify/LatteToTwigConverter) - Converts Latte templates to Twig
 - [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Validate, split, release and maintain Monorepo like a boss
+- [NeonToYamlConverter](https://github.com/Symplify/NeonToYamlConverter) - Converts NEON files to YAML
 - [PackageBuilder](https://github.com/Symplify/PackageBuilder) - Speed up your package DI Containers integration and Console apps to Symfony
 
 ## Install
