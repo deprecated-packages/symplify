@@ -5,19 +5,14 @@ namespace Symplify\BetterPhpDocParser\Printer;
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
-use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
-use Symplify\BetterPhpDocParser\Attribute\Attribute;
-use Symplify\BetterPhpDocParser\Contract\PhpDocParser\Ast\AttributeAwareNodeInterface;
+use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
+use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
-use Symplify\BetterPhpDocParser\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 
 final class PhpDocInfoPrinter
 {
@@ -139,9 +134,11 @@ final class PhpDocInfoPrinter
 
         // tokens before
         if ($node instanceof AttributeAwareNodeInterface) {
-            /** @var PhpDocNodeInfo $tokenStartEndInfo */
-            $phpDocNodeInfo = $node->getAttribute(Attribute::PHP_DOC_NODE_INFO);
+            /** @var PhpDocNodeInfo|null $tokenStartEndInfo */
+            $phpDocNodeInfo = $node->getAttribute(Attribute::PHP_DOC_NODE_INFO) ?: $phpDocNodeInfo;
+        }
 
+        if ($phpDocNodeInfo) {
             $isLastToken = ($nodeCount === $i);
 
             $output = $this->addTokensFromTo(
@@ -213,15 +210,6 @@ final class PhpDocInfoPrinter
         PhpDocNodeInfo $phpDocNodeInfo,
         string $output
     ): string {
-        if ($phpDocTagNode->value instanceof ParamTagValueNode || $phpDocTagNode->value instanceof ReturnTagValueNode || $phpDocTagNode->value instanceof VarTagValueNode) {
-            if ($phpDocTagNode->value->type instanceof UnionTypeNode) {
-                // @todo temp workaround
-                $nodeValueType = $phpDocTagNode->value->type;
-                /** @var UnionTypeNode $nodeValueType */
-                $phpDocTagNode->value->type = new FormatPreservingUnionTypeNode($nodeValueType->types);
-            }
-        }
-
         $output .= $phpDocTagNode->name;
 
         $nodeOutput = $this->printNode($phpDocTagNode->value, $phpDocNodeInfo);
@@ -245,14 +233,16 @@ final class PhpDocInfoPrinter
 
         $lastOriginalChildrenNode = array_pop($originalChildren);
 
-        if (! $lastOriginalChildrenNode instanceof AttributeAwareNodeInterface) {
-            return $this->currentTokenPosition;
+        if ($lastOriginalChildrenNode instanceof AttributeAwareNodeInterface) {
+            /** @var PhpDocNodeInfo|null $phpDocNodeInfo */
+            $phpDocNodeInfo = $lastOriginalChildrenNode->getAttribute(Attribute::PHP_DOC_NODE_INFO);
+
+            if ($phpDocNodeInfo !== null) {
+                return $phpDocNodeInfo->getEnd();
+            }
         }
 
-        /** @var PhpDocNodeInfo $phpDocNodeInfo */
-        $phpDocNodeInfo = $lastOriginalChildrenNode->getAttribute(Attribute::PHP_DOC_NODE_INFO);
-
-        return $phpDocNodeInfo->getEnd();
+        return $this->currentTokenPosition;
     }
 
     /**
@@ -270,6 +260,7 @@ final class PhpDocInfoPrinter
         foreach ($removedNodes as $removedNode) {
             if ($removedNode instanceof AttributeAwareNodeInterface) {
                 $removedPhpDocNodeInfo = $removedNode->getAttribute(Attribute::PHP_DOC_NODE_INFO);
+
                 // change start position to start of the line, so the whole line is removed
                 $seekPosition = $removedPhpDocNodeInfo->getStart();
                 while ($this->tokens[$seekPosition][1] !== Lexer::TOKEN_HORIZONTAL_WS) {

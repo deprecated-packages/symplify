@@ -14,6 +14,7 @@ use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIdentifierTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 
 final class PhpDocModifier
@@ -150,17 +151,17 @@ final class PhpDocModifier
 
     private function replaceTypeNode(TypeNode $typeNode, string $oldType, string $newType): TypeNode
     {
-        if ($typeNode instanceof UnionTypeNode) {
-            foreach ($typeNode->types as $key => $subTypeNode) {
-                $typeNode->types[$key] = $this->replaceTypeNode($subTypeNode, $oldType, $newType);
-            }
-        }
-
-        if ($typeNode instanceof IdentifierTypeNode) {
+        if ($typeNode instanceof AttributeAwareIdentifierTypeNode) {
             if (is_a($typeNode->name, $oldType, true) || ltrim($typeNode->name, '\\') === $oldType) {
                 $newType = $this->makeTypeFqn($newType);
 
                 return new IdentifierTypeNode($newType);
+            }
+        }
+
+        if ($typeNode instanceof UnionTypeNode) {
+            foreach ($typeNode->types as $key => $subTypeNode) {
+                $typeNode->types[$key] = $this->replaceTypeNode($subTypeNode, $oldType, $newType);
             }
         }
 

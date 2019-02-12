@@ -27,7 +27,7 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
     {
         $this->bootKernel(BetterPhpDocParserKernel::class);
 
-        $this->phpDocInfo = $this->creatPhpDocInfoFromFile(__DIR__ . '/PhpDocInfoSource/doc.txt');
+        $this->phpDocInfo = $this->createPhpDocInfoFromFile(__DIR__ . '/PhpDocInfoSource/doc.txt');
         $this->phpDocInfoPrinter = self::$container->get(PhpDocInfoPrinter::class);
     }
 
@@ -68,7 +68,7 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
 
     public function testReplaceTagByAnother(): void
     {
-        $phpDocInfo = $this->creatPhpDocInfoFromFile(__DIR__ . '/PhpDocInfoSource/test-tag.txt');
+        $phpDocInfo = $this->createPhpDocInfoFromFile(__DIR__ . '/PhpDocInfoSource/test-tag.txt');
 
         $this->assertFalse($phpDocInfo->hasTag('flow'));
         $this->assertTrue($phpDocInfo->hasTag('test'));
@@ -102,7 +102,7 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
         );
     }
 
-    private function creatPhpDocInfoFromFile(string $path): PhpDocInfo
+    private function createPhpDocInfoFromFile(string $path): PhpDocInfo
     {
         $phpDocInfoFactory = self::$container->get(PhpDocInfoFactory::class);
         $phpDocContent = FileSystem::read($path);

@@ -37,7 +37,11 @@ final class PhpDocInfoPrinterTest extends AbstractKernelTestCase
         $docComment = FileSystem::read($docFilePath);
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($docComment);
 
-        $this->assertSame($docComment, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
+        $this->assertSame(
+            $docComment,
+            $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo),
+            'Caused in ' . $docFilePath
+        );
     }
 
     public function provideDocFilesForPrint(): Iterator

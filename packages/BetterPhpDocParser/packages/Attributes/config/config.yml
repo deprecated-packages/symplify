@@ -1,0 +1,8 @@
+services:
+    _defaults:
+        autowire: true
+        public: true
+
+    Symplify\BetterPhpDocParser\Attributes\:
+        resource: '../src'
+        exclude: '../src/Ast/PhpDoc'

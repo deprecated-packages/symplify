@@ -53,6 +53,7 @@
         "psr-4": {
             "Symplify\\Autodiscovery\\": "packages/Autodiscovery/src",
             "Symplify\\BetterPhpDocParser\\": "packages/BetterPhpDocParser/src",
+            "Symplify\\BetterPhpDocParser\\Attributes\\": "packages/BetterPhpDocParser/packages/Attributes/src",
             "Symplify\\ChangelogLinker\\": "packages/ChangelogLinker/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\EasyCodingStandardTester\\": "packages/EasyCodingStandardTester/src",

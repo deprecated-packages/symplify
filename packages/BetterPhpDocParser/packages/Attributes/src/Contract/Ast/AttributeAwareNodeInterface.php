@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterPhpDocParser\Contract\PhpDocParser\Ast;
+namespace Symplify\BetterPhpDocParser\Attributes\Contract\Ast;
 
 use PHPStan\PhpDocParser\Ast\Node;
 

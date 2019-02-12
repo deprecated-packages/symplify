@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterPhpDocParser\Attribute;
+namespace Symplify\BetterPhpDocParser\Attributes\Attribute;
 
 trait AttributeTrait
 {

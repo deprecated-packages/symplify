@@ -13,7 +13,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\BetterPhpDocParser\\": "src"
+            "Symplify\\BetterPhpDocParser\\": "src",
+            "Symplify\\BetterPhpDocParser\\Attributes\\": "packages/Attributes/src"
         }
     },
     "autoload-dev": {
