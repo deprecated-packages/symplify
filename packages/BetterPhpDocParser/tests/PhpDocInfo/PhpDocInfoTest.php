@@ -23,21 +23,11 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
      */
     private $phpDocInfoPrinter;
 
-    /**
-     * @var PhpDocInfoFactory
-     */
-    private $phpDocInfoFactory;
-
     protected function setUp(): void
     {
         $this->bootKernel(BetterPhpDocParserKernel::class);
 
-        $phpDocInfoFactory = self::$container->get(PhpDocInfoFactory::class);
-
-        $this->phpDocInfo = $phpDocInfoFactory->createFrom(FileSystem::read(__DIR__ . '/PhpDocInfoSource/doc.txt'));
-
-        $this->phpDocInfoFactory = $phpDocInfoFactory;
-
+        $this->phpDocInfo = $this->creatPhpDocInfoFromFile(__DIR__ . '/PhpDocInfoSource/doc.txt');
         $this->phpDocInfoPrinter = self::$container->get(PhpDocInfoPrinter::class);
     }
 
@@ -78,9 +68,7 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
 
     public function testReplaceTagByAnother(): void
     {
-        $phpDocInfo = $this->phpDocInfoFactory->createFrom(
-            FileSystem::read(__DIR__ . '/PhpDocInfoSource/test-tag.txt')
-        );
+        $phpDocInfo = $this->creatPhpDocInfoFromFile(__DIR__ . '/PhpDocInfoSource/test-tag.txt');
 
         $this->assertFalse($phpDocInfo->hasTag('flow'));
         $this->assertTrue($phpDocInfo->hasTag('test'));
@@ -112,5 +100,13 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
             __DIR__ . '/PhpDocInfoSource/expected-with-replaced-type.txt',
             $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo)
         );
+    }
+
+    private function creatPhpDocInfoFromFile(string $path): PhpDocInfo
+    {
+        $phpDocInfoFactory = self::$container->get(PhpDocInfoFactory::class);
+        $phpDocContent = FileSystem::read($path);
+
+        return $phpDocInfoFactory->createFrom($phpDocContent);
     }
 }

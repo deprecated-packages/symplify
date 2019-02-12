@@ -78,6 +78,11 @@ final class PositionAwarePhpDocParser extends PhpDocParser
             $tokenIterator->consumeTokenType(Lexer::TOKEN_CLOSE_PHPDOC);
         }
 
+        foreach ($children as $child) {
+            dump($child);
+            die;
+        }
+
         return new PhpDocNode(array_values($children));
     }
 
