@@ -7,7 +7,8 @@ use Symfony\Component\Console\Application;
 use Symplify\Autodiscovery\HttpKernel\AutodiscoveryKernel;
 use Symplify\PackageBuilder\Console\Input\InputDetector;
 
-$autodiscoveryKernel = new AutodiscoveryKernel('prod', InputDetector::isDebug());
+// random has is needed, so cache is invalidated and changes from config are loaded
+$autodiscoveryKernel = new AutodiscoveryKernel('prod' . random_int(1, 100000), InputDetector::isDebug());
 $autodiscoveryKernel->boot();
 
 $container = $autodiscoveryKernel->getContainer();
