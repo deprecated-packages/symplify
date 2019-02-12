@@ -2,11 +2,11 @@
 
 namespace Symplify\BetterPhpDocParser\PhpDocParser\Ast\PhpDoc;
 
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use Symplify\BetterPhpDocParser\Attribute\AttributeTrait;
 use Symplify\BetterPhpDocParser\Contract\PhpDocParser\Ast\AttributeAwareNodeInterface;
 
-final class AttributeAwarePhpDocTagNode extends PhpDocTagNode implements AttributeAwareNodeInterface
+final class AttributeAwarePhpDocTextNode extends PhpDocTextNode implements AttributeAwareNodeInterface
 {
     use AttributeTrait;
 }

@@ -90,7 +90,6 @@ parameters:
         # phpstan 0.10 news
         - '#Cannot access property \$type on PHPStan\\PhpDocParser\\Ast\\PhpDoc\\VarTagValueNode\|null#'
         - '#Parameter \#1 \$children of class PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocNode constructor expects array<PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocChildNode>, array<int, PHPStan\\PhpDocParser\\Ast\\Node> given#'
-        - '#Property Symplify\\BetterPhpDocParser\\Printer\\PhpDocInfoPrinter::\$nodeWithPositionsObjectStorage \(iterable<Symplify\\BetterPhpDocParser\\PhpDocNodeInfo>\&Symplify\\BetterPhpDocParser\\PhpDocParser\\Storage\\NodeWithPositionsObjectStorage\) does not accept Symplify\\BetterPhpDocParser\\PhpDocParser\\Storage\\NodeWithPositionsObjectStorage#'
         - '#If condition is always true#'
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'

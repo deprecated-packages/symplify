@@ -10,8 +10,7 @@ use PHPStan\PhpDocParser\Parser\ParserException;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
-use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
-use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
+use Symplify\BetterPhpDocParser\Attribute\AttributeAwarePhpDocFactory;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
@@ -28,25 +27,25 @@ final class PositionAwarePhpDocParser extends PhpDocParser
     private $privatesCaller;
 
     /**
-     * @var NodeWithPositionsObjectStorage
-     */
-    private $nodeWithPositionsObjectStorage;
-
-    /**
      * @var PrivatesAccessor
      */
     private $privatesAccessor;
 
+    /**
+     * @var AttributeAwarePhpDocFactory
+     */
+    private $attributeAwarePhpDocFactory;
+
     public function __construct(
         TypeParser $typeParser,
         ConstExprParser $constExprParser,
-        NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage
+        AttributeAwarePhpDocFactory $attributeAwarePhpDocFactory
     ) {
         $this->privatesCaller = new PrivatesCaller();
         $this->privatesAccessor = new PrivatesAccessor();
-        $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
 
         parent::__construct($typeParser, $constExprParser);
+        $this->attributeAwarePhpDocFactory = $attributeAwarePhpDocFactory;
     }
 
     public function parse(TokenIterator $tokenIterator): PhpDocNode
@@ -78,24 +77,15 @@ final class PositionAwarePhpDocParser extends PhpDocParser
             $tokenIterator->consumeTokenType(Lexer::TOKEN_CLOSE_PHPDOC);
         }
 
-        foreach ($children as $child) {
-            dump($child);
-            die;
-        }
-
         return new PhpDocNode(array_values($children));
     }
 
     private function parseChildAndStoreItsPositions(TokenIterator $tokenIterator): Node
     {
         $tokenStart = $this->privatesAccessor->getPrivateProperty($tokenIterator, 'index');
-
         $node = $this->privatesCaller->callPrivateMethod($this, 'parseChild', $tokenIterator);
-
         $tokenEnd = $this->privatesAccessor->getPrivateProperty($tokenIterator, 'index');
 
-        $this->nodeWithPositionsObjectStorage[$node] = new PhpDocNodeInfo($tokenStart, $tokenEnd);
-
-        return $node;
+        return $this->attributeAwarePhpDocFactory->createFromNodeStartAndEnd($node, $tokenStart, $tokenEnd);
     }
 }

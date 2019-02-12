@@ -13,10 +13,11 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
+use Symplify\BetterPhpDocParser\Attribute\Attribute;
+use Symplify\BetterPhpDocParser\Contract\PhpDocParser\Ast\AttributeAwareNodeInterface;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
-use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
 
 final class PhpDocInfoPrinter
 {
@@ -41,11 +42,6 @@ final class PhpDocInfoPrinter
     private $removedNodePositions = [];
 
     /**
-     * @var NodeWithPositionsObjectStorage|PhpDocNodeInfo[]
-     */
-    private $nodeWithPositionsObjectStorage;
-
-    /**
      * @var PhpDocNode
      */
     private $phpDocNode;
@@ -65,11 +61,8 @@ final class PhpDocInfoPrinter
      */
     private $phpDocInfo;
 
-    public function __construct(
-        NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage,
-        OriginalSpacingRestorer $originalSpacingRestorer
-    ) {
-        $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
+    public function __construct(OriginalSpacingRestorer $originalSpacingRestorer)
+    {
         $this->originalSpacingRestorer = $originalSpacingRestorer;
     }
 
@@ -145,8 +138,9 @@ final class PhpDocInfoPrinter
         $output = '';
 
         // tokens before
-        if (isset($this->nodeWithPositionsObjectStorage[$node])) {
-            $phpDocNodeInfo = $this->nodeWithPositionsObjectStorage[$node];
+        if ($node instanceof AttributeAwareNodeInterface) {
+            /** @var PhpDocNodeInfo $tokenStartEndInfo */
+            $phpDocNodeInfo = $node->getAttribute(Attribute::PHP_DOC_NODE_INFO);
 
             $isLastToken = ($nodeCount === $i);
 
@@ -250,11 +244,15 @@ final class PhpDocInfoPrinter
         }
 
         $lastOriginalChildrenNode = array_pop($originalChildren);
-        if (! isset($this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode])) {
+
+        if (! $lastOriginalChildrenNode instanceof AttributeAwareNodeInterface) {
             return $this->currentTokenPosition;
         }
 
-        return $this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode]->getEnd();
+        /** @var PhpDocNodeInfo $phpDocNodeInfo */
+        $phpDocNodeInfo = $lastOriginalChildrenNode->getAttribute(Attribute::PHP_DOC_NODE_INFO);
+
+        return $phpDocNodeInfo->getEnd();
     }
 
     /**
@@ -270,9 +268,8 @@ final class PhpDocInfoPrinter
 
         $removedNodesPositions = [];
         foreach ($removedNodes as $removedNode) {
-            if (isset($this->nodeWithPositionsObjectStorage[$removedNode])) {
-                $removedPhpDocNodeInfo = $this->nodeWithPositionsObjectStorage[$removedNode];
-
+            if ($removedNode instanceof AttributeAwareNodeInterface) {
+                $removedPhpDocNodeInfo = $removedNode->getAttribute(Attribute::PHP_DOC_NODE_INFO);
                 // change start position to start of the line, so the whole line is removed
                 $seekPosition = $removedPhpDocNodeInfo->getStart();
                 while ($this->tokens[$seekPosition][1] !== Lexer::TOKEN_HORIZONTAL_WS) {
