@@ -16,4 +16,4 @@ services:
     Symplify\PackageBuilder\Php\TypeAnalyzer: ~
 
     PHPStan\PhpDocParser\Parser\PhpDocParser:
-        alias: 'Symplify\BetterPhpDocParser\PhpDocParser\PositionAwarePhpDocParser'
+        alias: 'Symplify\BetterPhpDocParser\PhpDocParser\BetterPhpDocParser'

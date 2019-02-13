@@ -16,7 +16,7 @@ use Symplify\BetterPhpDocParser\Attributes\Ast\AttributeAwareNodeFactory;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
-final class PositionAwarePhpDocParser extends PhpDocParser
+final class BetterPhpDocParser extends PhpDocParser
 {
     /**
      * @var bool
