@@ -9,6 +9,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
 use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
 use Symplify\BetterPhpDocParser\Data\StartEndInfo;
@@ -38,7 +39,7 @@ final class PhpDocInfoPrinter
     private $removedNodePositions = [];
 
     /**
-     * @var PhpDocNode
+     * @var AttributeAwarePhpDocNode
      */
     private $phpDocNode;
 
@@ -174,7 +175,9 @@ final class PhpDocInfoPrinter
 
     private function printEnd(string $output): string
     {
-        return $this->addTokensFromTo($output, $this->getLastNodeTokenEndPosition(), $this->tokenCount, true);
+        $lastTokenPosition = $this->phpDocNode->getAttribute(Attribute::LAST_TOKEN_POSITION) ?: $this->currentTokenPosition;
+
+        return $this->addTokensFromTo($output, $lastTokenPosition, $this->tokenCount, true);
     }
 
     private function addTokensFromTo(
@@ -221,25 +224,6 @@ final class PhpDocInfoPrinter
         }
 
         return $output . $nodeOutput;
-    }
-
-    private function getLastNodeTokenEndPosition(): int
-    {
-        $originalChildren = $this->originalPhpDocNode->children;
-        if ($originalChildren === []) {
-            return $this->currentTokenPosition;
-        }
-
-        /** @var AttributeAwareNodeInterface[] $originalChildren */
-        $lastOriginalChildrenNode = array_pop($originalChildren);
-
-        /** @var StartEndInfo|null $phpDocNodeInfo */
-        $phpDocNodeInfo = $lastOriginalChildrenNode->getAttribute(Attribute::PHP_DOC_NODE_INFO);
-        if ($phpDocNodeInfo !== null) {
-            return $phpDocNodeInfo->getEnd();
-        }
-
-        return $this->currentTokenPosition;
     }
 
     /**
