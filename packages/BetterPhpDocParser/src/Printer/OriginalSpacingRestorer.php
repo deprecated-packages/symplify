@@ -5,6 +5,7 @@ namespace Symplify\BetterPhpDocParser\Printer;
 use Nette\Utils\Arrays;
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Lexer\Lexer;
+use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 
 final class OriginalSpacingRestorer
 {
@@ -14,10 +15,9 @@ final class OriginalSpacingRestorer
     public function restoreInOutputWithTokensStartAndEndPosition(
         string $nodeOutput,
         array $tokens,
-        int $startTokenPosition,
-        int $endTokenPosition
+        PhpDocNodeInfo $phpDocNodeInfo
     ): string {
-        $oldWhitespaces = $this->detectOldWhitespaces($tokens, $startTokenPosition, $endTokenPosition);
+        $oldWhitespaces = $this->detectOldWhitespaces($tokens, $phpDocNodeInfo);
 
         // no original whitespaces, return
         if (! $oldWhitespaces) {
@@ -41,11 +41,11 @@ final class OriginalSpacingRestorer
      * @param mixed[] $tokens
      * @return string[]
      */
-    private function detectOldWhitespaces(array $tokens, int $startTokenPosition, int $endTokenPosition): array
+    private function detectOldWhitespaces(array $tokens, PhpDocNodeInfo $phpDocNodeInfo): array
     {
         $oldWhitespaces = [];
 
-        for ($i = $startTokenPosition; $i < $endTokenPosition; ++$i) {
+        for ($i = $phpDocNodeInfo->getStart(); $i < $phpDocNodeInfo->getEnd(); ++$i) {
             if ($tokens[$i][1] === Lexer::TOKEN_HORIZONTAL_WS) {
                 $oldWhitespaces[] = $tokens[$i][0];
             }

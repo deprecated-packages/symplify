@@ -44,6 +44,7 @@ use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareUnionTy
 use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
 use Symplify\BetterPhpDocParser\Exception\NotImplementedYetException;
+use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 
 final class AttributeAwareNodeFactory
 {
@@ -61,8 +62,7 @@ final class AttributeAwareNodeFactory
             ));
         }
 
-        $node->setAttribute(Attribute::START_TOKEN_POSITION, $tokenStart);
-        $node->setAttribute(Attribute::END_TOKEN_POSITION, $tokenEnd);
+        $node->setAttribute(Attribute::PHP_DOC_NODE_INFO, new PhpDocNodeInfo($tokenStart, $tokenEnd));
 
         return $node;
     }

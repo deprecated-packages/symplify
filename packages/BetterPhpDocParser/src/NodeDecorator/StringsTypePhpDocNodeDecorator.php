@@ -39,14 +39,14 @@ final class StringsTypePhpDocNodeDecorator implements PhpDocNodeDecoratorInterfa
                 return $node;
             }
 
-            $typeAsArray = $this->typeNodeToStringsConverter->convert($node->type);
-            $typeAsString = implode('|', $typeAsArray);
-
             if (! $node instanceof AttributeAwareNodeInterface) {
                 throw new ShouldNotHappenException();
             }
 
+            $typeAsArray = $this->typeNodeToStringsConverter->convert($node->type);
             $node->setAttribute(Attribute::TYPE_AS_ARRAY, $typeAsArray);
+
+            $typeAsString = implode('|', $typeAsArray);
             $node->setAttribute(Attribute::TYPE_AS_STRING, $typeAsString);
 
             return $node;

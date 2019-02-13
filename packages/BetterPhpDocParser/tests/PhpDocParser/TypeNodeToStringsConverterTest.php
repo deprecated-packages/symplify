@@ -42,7 +42,6 @@ final class TypeNodeToStringsConverterTest extends AbstractKernelTestCase
 
         yield [$identifierTypeNode, ['int']];
         yield [new UnionTypeNode([$identifierTypeNode, $anotherIdentifierTypeNode]), ['int', 'string']];
-        yield [new IntersectionTypeNode([$identifierTypeNode, $anotherIdentifierTypeNode]), ['int&string']];
 
         $arrayTypeNode = new ArrayTypeNode($anotherIdentifierTypeNode);
         yield [new UnionTypeNode([$identifierTypeNode, $arrayTypeNode]), ['int', 'string[]']];

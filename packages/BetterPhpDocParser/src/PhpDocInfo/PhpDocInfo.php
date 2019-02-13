@@ -3,20 +3,15 @@
 namespace Symplify\BetterPhpDocParser\PhpDocInfo;
 
 use Nette\Utils\Strings;
-use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
-use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
-use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
-use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareParamTagValueNode;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareReturnTagValueNode;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareVarTagValueNode;
 use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
 
 final class PhpDocInfo
 {
@@ -46,26 +41,19 @@ final class PhpDocInfo
     private $phpDocModifier;
 
     /**
-     * @var TypeNodeToStringsConverter
-     */
-    private $typeNodeToStringsConverter;
-
-    /**
      * @param mixed[] $tokens
      */
     public function __construct(
         PhpDocNode $phpDocNode,
         array $tokens,
         string $originalContent,
-        PhpDocModifier $phpDocModifier,
-        TypeNodeToStringsConverter $typeNodeToStringsConverter
+        PhpDocModifier $phpDocModifier
     ) {
         $this->phpDocNode = $phpDocNode;
         $this->tokens = $tokens;
         $this->originalPhpDocNode = clone $phpDocNode;
         $this->originalContent = $originalContent;
         $this->phpDocModifier = $phpDocModifier;
-        $this->typeNodeToStringsConverter = $typeNodeToStringsConverter;
     }
 
     public function getOriginalContent(): string
@@ -115,18 +103,18 @@ final class PhpDocInfo
         return '';
     }
 
-    public function getVarTagValue(): ?VarTagValueNode
+    public function getVarTagValue(): ?AttributeAwareVarTagValueNode
     {
         return $this->getPhpDocNode()->getVarTagValues()[0] ?? null;
     }
 
-    public function getReturnTagValue(): ?ReturnTagValueNode
+    public function getReturnTagValue(): ?AttributeAwareReturnTagValueNode
     {
         return $this->getPhpDocNode()->getReturnTagValues()[0] ?? null;
     }
 
     /**
-     * @return ParamTagValueNode[]
+     * @return AttributeAwareParamTagValueNode[]
      */
     public function getParamTagValues(): array
     {
@@ -164,14 +152,6 @@ final class PhpDocInfo
         return null;
     }
 
-    /**
-     * @return IdentifierTypeNode|UnionTypeNode|ArrayTypeNode
-     */
-    public function getVarTypeNode(): ?TypeNode
-    {
-        return $this->getVarTagValue() ? $this->getVarTagValue()->type : null;
-    }
-
     // types
 
     /**
@@ -192,12 +172,7 @@ final class PhpDocInfo
      */
     public function getVarTypes(): array
     {
-        $varTypeNode = $this->getVarTypeNode();
-        if ($varTypeNode === null) {
-            return [];
-        }
-
-        return $this->typeNodeToStringsConverter->convert($varTypeNode);
+        return $this->getVarTagValue() ? $this->getVarTagValue()->getAttribute(Attribute::TYPE_AS_ARRAY) : [];
     }
 
     /**
@@ -210,7 +185,7 @@ final class PhpDocInfo
             return [];
         }
 
-        return $this->typeNodeToStringsConverter->convert($returnTypeValueNode->type);
+        return $returnTypeValueNode->getAttribute(Attribute::TYPE_AS_ARRAY);
     }
 
     // replace section
@@ -225,7 +200,7 @@ final class PhpDocInfo
         $this->phpDocModifier->replacePhpDocTypeByAnother($this->phpDocNode, $oldType, $newType);
     }
 
-    //     remove section
+    // remove section
 
     public function removeReturnTag(): void
     {

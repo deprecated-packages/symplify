@@ -7,7 +7,6 @@ use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use Symplify\BetterPhpDocParser\Contract\PhpDocNodeDecoratorInterface;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
 
 final class PhpDocInfoFactory
 {
@@ -32,25 +31,18 @@ final class PhpDocInfoFactory
     private $phpDocModifier;
 
     /**
-     * @var TypeNodeToStringsConverter
-     */
-    private $typeNodeToStringsConverter;
-
-    /**
-     * @param PhpDocNodeDecoratorInterface[] $nodeDecorators
+     * @param PhpDocNodeDecoratorInterface[] $phpDocNodeDecoratorInterfacenodeDecorators
      */
     public function __construct(
         PhpDocParser $phpDocParser,
         Lexer $lexer,
         PhpDocModifier $phpDocModifier,
-        TypeNodeToStringsConverter $typeNodeToStringsConverter,
-        array $nodeDecorators
+        array $phpDocNodeDecoratorInterfacenodeDecorators
     ) {
         $this->phpDocParser = $phpDocParser;
         $this->lexer = $lexer;
         $this->phpDocModifier = $phpDocModifier;
-        $this->typeNodeToStringsConverter = $typeNodeToStringsConverter;
-        $this->phpDocNodeDecoratorInterfaces = $nodeDecorators;
+        $this->phpDocNodeDecoratorInterfaces = $phpDocNodeDecoratorInterfacenodeDecorators;
     }
 
     public function createFrom(string $content): PhpDocInfo
@@ -58,16 +50,10 @@ final class PhpDocInfoFactory
         $tokens = $this->lexer->tokenize($content);
         $phpDocNode = $this->phpDocParser->parse(new TokenIterator($tokens));
 
-        foreach ($this->phpDocNodeDecoratorInterfaces as $nodeDecorator) {
-            $phpDocNode = $nodeDecorator->decorate($phpDocNode);
+        foreach ($this->phpDocNodeDecoratorInterfaces as $phpDocNodeDecoratorInterface) {
+            $phpDocNode = $phpDocNodeDecoratorInterface->decorate($phpDocNode);
         }
 
-        return new PhpDocInfo(
-            $phpDocNode,
-            $tokens,
-            $content,
-            $this->phpDocModifier,
-            $this->typeNodeToStringsConverter
-        );
+        return new PhpDocInfo($phpDocNode, $tokens, $content, $this->phpDocModifier);
     }
 }

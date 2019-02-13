@@ -11,7 +11,9 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
+use Symplify\BetterPhpDocParser\Exception\ShouldNotHappenException;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 
 final class PhpDocInfoPrinter
 {
@@ -31,7 +33,7 @@ final class PhpDocInfoPrinter
     private $tokens = [];
 
     /**
-     * @var int[][]
+     * @var PhpDocNodeInfo[]
      */
     private $removedNodePositions = [];
 
@@ -125,49 +127,46 @@ final class PhpDocInfoPrinter
 
     private function printNode(
         Node $node,
-        ?int $startTokenPosition = null,
-        ?int $endTokenPosition = null,
+        ?PhpDocNodeInfo $phpDocNodeInfo = null,
         int $i = 0,
         int $nodeCount = 0
     ): string {
         $output = '';
 
-        // tokens before
-        if ($node instanceof AttributeAwareNodeInterface) {
-            /** @var int|null $startTokenPosition */
-            $startTokenPosition = $node->getAttribute(Attribute::START_TOKEN_POSITION) ?: $startTokenPosition;
-            /** @var int|null $endTokenPosition */
-            $endTokenPosition = $node->getAttribute(Attribute::END_TOKEN_POSITION) ?: $endTokenPosition;
+        if (! $node instanceof AttributeAwareNodeInterface) {
+            throw new ShouldNotHappenException();
         }
 
-        if ($startTokenPosition && $endTokenPosition) {
+        /** @var PhpDocNodeInfo|null $tokenStartEndInfo */
+        $phpDocNodeInfo = $node->getAttribute(Attribute::PHP_DOC_NODE_INFO) ?: $phpDocNodeInfo;
+
+        if ($phpDocNodeInfo) {
             $isLastToken = ($nodeCount === $i);
 
             $output = $this->addTokensFromTo(
                 $output,
                 $this->currentTokenPosition,
-                $startTokenPosition,
+                $phpDocNodeInfo->getStart(),
                 $isLastToken
             );
 
-            $this->currentTokenPosition = $endTokenPosition;
+            $this->currentTokenPosition = $phpDocNodeInfo->getEnd();
         }
 
-        if ($node instanceof PhpDocTagNode && $startTokenPosition) {
-            return $this->printPhpDocTagNode($node, $startTokenPosition, $endTokenPosition, $output);
-        }
-
-        if (! $node instanceof PhpDocTextNode && ! $node instanceof GenericTagValueNode && $startTokenPosition && $endTokenPosition) {
-            return $this->originalSpacingRestorer->restoreInOutputWithTokensStartAndEndPosition(
-                (string) $node,
-                $this->tokens,
-                $startTokenPosition,
-                $endTokenPosition
-            );
+        if ($node instanceof PhpDocTagNode && $phpDocNodeInfo) {
+            return $this->printPhpDocTagNode($node, $phpDocNodeInfo, $output);
         }
 
         if ($node instanceof PhpDocTagNode) {
             return $output . PHP_EOL . '     * ' . (string) $node;
+        }
+
+        if (! $node instanceof PhpDocTextNode && ! $node instanceof GenericTagValueNode && $phpDocNodeInfo) {
+            return $this->originalSpacingRestorer->restoreInOutputWithTokensStartAndEndPosition(
+                (string) $node,
+                $this->tokens,
+                $phpDocNodeInfo
+            );
         }
 
         return $output . (string) $node;
@@ -186,8 +185,8 @@ final class PhpDocInfoPrinter
     ): string {
         // skip removed nodes
         $positionJumpSet = [];
-        foreach ($this->getRemovedNodesPositions() as [$startPosition, $endPosition]) {
-            $positionJumpSet[$startPosition] = $endPosition;
+        foreach ($this->getRemovedNodesPositions() as $removedTokensPosition) {
+            $positionJumpSet[$removedTokensPosition->getStart()] = $removedTokensPosition->getEnd();
         }
 
         // include also space before, in case of inlined docs
@@ -210,13 +209,12 @@ final class PhpDocInfoPrinter
 
     private function printPhpDocTagNode(
         PhpDocTagNode $phpDocTagNode,
-        int $startTokenPosition,
-        int $endTokenPosition,
+        PhpDocNodeInfo $phpDocNodeInfo,
         string $output
     ): string {
         $output .= $phpDocTagNode->name;
 
-        $nodeOutput = $this->printNode($phpDocTagNode->value, $startTokenPosition, $endTokenPosition);
+        $nodeOutput = $this->printNode($phpDocTagNode->value, $phpDocNodeInfo);
 
         if ($nodeOutput && $this->isTagSeparatedBySpace($nodeOutput, $phpDocTagNode)) {
             $output .= ' ';
@@ -238,11 +236,11 @@ final class PhpDocInfoPrinter
         $lastOriginalChildrenNode = array_pop($originalChildren);
 
         if ($lastOriginalChildrenNode instanceof AttributeAwareNodeInterface) {
-            /** @var int|null $endTokenPosition */
-            $endTokenPosition = $lastOriginalChildrenNode->getAttribute(Attribute::END_TOKEN_POSITION);
+            /** @var PhpDocNodeInfo|null $phpDocNodeInfo */
+            $phpDocNodeInfo = $lastOriginalChildrenNode->getAttribute(Attribute::PHP_DOC_NODE_INFO);
 
-            if ($endTokenPosition !== null) {
-                return $endTokenPosition;
+            if ($phpDocNodeInfo !== null) {
+                return $phpDocNodeInfo->getEnd();
             }
         }
 
@@ -250,7 +248,7 @@ final class PhpDocInfoPrinter
     }
 
     /**
-     * @return int[][]
+     * @return PhpDocNodeInfo[]
      */
     private function getRemovedNodesPositions(): array
     {
@@ -263,18 +261,15 @@ final class PhpDocInfoPrinter
         $removedNodesPositions = [];
         foreach ($removedNodes as $removedNode) {
             if ($removedNode instanceof AttributeAwareNodeInterface) {
-                $removedStartTokenPosition = $removedNode->getAttribute(Attribute::START_TOKEN_POSITION);
+                $removedPhpDocNodeInfo = $removedNode->getAttribute(Attribute::PHP_DOC_NODE_INFO);
 
                 // change start position to start of the line, so the whole line is removed
-                $seekPosition = $removedStartTokenPosition;
+                $seekPosition = $removedPhpDocNodeInfo->getStart();
                 while ($this->tokens[$seekPosition][1] !== Lexer::TOKEN_HORIZONTAL_WS) {
                     --$seekPosition;
                 }
 
-                $removedNodesPositions[] = [
-                    $seekPosition - 1,
-                    $removedNode->getAttribute(Attribute::END_TOKEN_POSITION),
-                ];
+                $removedNodesPositions[] = new PhpDocNodeInfo($seekPosition - 1, $removedPhpDocNodeInfo->getEnd());
             }
         }
 

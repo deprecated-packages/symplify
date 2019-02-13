@@ -22,9 +22,6 @@ final class TypeNodeToStringsConverter
      */
     private $resolverPerNode = [];
 
-    /**
-     * @todo should be decorator of types nodes
-     */
     public function __construct()
     {
         $this->resolverPerNode[ArrayTypeNode::class] = function (ArrayTypeNode $arrayTypeNode) {
