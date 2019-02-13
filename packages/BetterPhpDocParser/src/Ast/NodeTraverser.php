@@ -10,6 +10,8 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 
@@ -54,10 +56,14 @@ final class NodeTraverser
             $typeNode->type = $this->traverseTypeNode($typeNode->type, $callable);
         }
 
-        if ($typeNode instanceof UnionTypeNode) {
+        if ($typeNode instanceof UnionTypeNode || $typeNode instanceof IntersectionTypeNode) {
             foreach ($typeNode->types as $key => $subTypeNode) {
-                $typeNode->types[$key] = $callable($subTypeNode);
+                $typeNode->types[$key] = $this->traverseTypeNode($subTypeNode, $callable);
             }
+        }
+
+        if ($typeNode instanceof NullableTypeNode) {
+            $typeNode->type = $this->traverseTypeNode($typeNode->type, $callable);
         }
 
         return $typeNode;

@@ -3,7 +3,6 @@
 namespace Symplify\BetterPhpDocParser\Tests\PhpDocInfo;
 
 use Nette\Utils\FileSystem;
-use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\HttpKernel\BetterPhpDocParserKernel;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
@@ -45,25 +44,25 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
         $this->assertCount(2, $paramTags);
     }
 
-    public function testGetParamTypeNode(): void
+    public function testParamTypeNode(): void
     {
         $typeNode = $this->phpDocInfo->getParamTypeNode('value');
-
         $this->assertInstanceOf(TypeNode::class, $typeNode);
-    }
 
-    public function testGetVarTypeNode(): void
-    {
-        $typeNode = $this->phpDocInfo->getVarTypeNode();
-
-        $this->assertInstanceOf(TypeNode::class, $typeNode);
+        $this->assertSame(
+            ['SomeType', 'NoSlash', '\Preslashed', 'null', '\string'],
+            $this->phpDocInfo->getParamTypes('value')
+        );
     }
 
     public function testGetVarTypes(): void
     {
-        $varTypes = $this->phpDocInfo->getVarTypes();
+        $this->assertSame(['SomeType'], $this->phpDocInfo->getVarTypes());
+    }
 
-        $this->assertSame(['SomeType'], $varTypes);
+    public function testReturn(): void
+    {
+        $this->assertSame(['SomeType'], $this->phpDocInfo->getReturnTypes());
     }
 
     public function testReplaceTagByAnother(): void
@@ -86,15 +85,10 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
 
     public function testReplacePhpDocTypeByAnother(): void
     {
-        /** @var IdentifierTypeNode $varTypeNode */
-        $varTypeNode = $this->phpDocInfo->getVarTypeNode();
-        $this->assertSame('SomeType', $varTypeNode->name);
-
+        $this->assertSame(['SomeType'], $this->phpDocInfo->getVarTypes());
         $this->phpDocInfo->replacePhpDocTypeByAnother('SomeType', 'AnotherType');
 
-        /** @var IdentifierTypeNode $varTypeNode */
-        $varTypeNode = $this->phpDocInfo->getVarTypeNode();
-        $this->assertSame('AnotherType', $varTypeNode->name);
+        $this->assertSame(['AnotherType'], $this->phpDocInfo->getVarTypes());
 
         $this->assertStringEqualsFile(
             __DIR__ . '/PhpDocInfoSource/expected-with-replaced-type.txt',

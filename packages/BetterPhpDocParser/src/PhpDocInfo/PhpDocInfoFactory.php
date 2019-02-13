@@ -5,11 +5,16 @@ namespace Symplify\BetterPhpDocParser\PhpDocInfo;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
+use Symplify\BetterPhpDocParser\Contract\PhpDocNodeDecoratorInterface;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
 
 final class PhpDocInfoFactory
 {
+    /**
+     * @var PhpDocNodeDecoratorInterface[]
+     */
+    private $phpDocNodeDecoratorInterfaces = [];
+
     /**
      * @var PhpDocParser
      */
@@ -26,20 +31,18 @@ final class PhpDocInfoFactory
     private $phpDocModifier;
 
     /**
-     * @var TypeNodeToStringsConverter
+     * @param PhpDocNodeDecoratorInterface[] $phpDocNodeDecoratorInterfacenodeDecorators
      */
-    private $typeNodeToStringsConverter;
-
     public function __construct(
         PhpDocParser $phpDocParser,
         Lexer $lexer,
         PhpDocModifier $phpDocModifier,
-        TypeNodeToStringsConverter $typeNodeToStringsConverter
+        array $phpDocNodeDecoratorInterfacenodeDecorators
     ) {
         $this->phpDocParser = $phpDocParser;
         $this->lexer = $lexer;
         $this->phpDocModifier = $phpDocModifier;
-        $this->typeNodeToStringsConverter = $typeNodeToStringsConverter;
+        $this->phpDocNodeDecoratorInterfaces = $phpDocNodeDecoratorInterfacenodeDecorators;
     }
 
     public function createFrom(string $content): PhpDocInfo
@@ -47,12 +50,10 @@ final class PhpDocInfoFactory
         $tokens = $this->lexer->tokenize($content);
         $phpDocNode = $this->phpDocParser->parse(new TokenIterator($tokens));
 
-        return new PhpDocInfo(
-            $phpDocNode,
-            $tokens,
-            $content,
-            $this->phpDocModifier,
-            $this->typeNodeToStringsConverter
-        );
+        foreach ($this->phpDocNodeDecoratorInterfaces as $phpDocNodeDecoratorInterface) {
+            $phpDocNode = $phpDocNodeDecoratorInterface->decorate($phpDocNode);
+        }
+
+        return new PhpDocInfo($phpDocNode, $tokens, $content, $this->phpDocModifier);
     }
 }

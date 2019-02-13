@@ -11,6 +11,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
+use Symplify\BetterPhpDocParser\Exception\ShouldNotHappenException;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 
@@ -132,11 +133,12 @@ final class PhpDocInfoPrinter
     ): string {
         $output = '';
 
-        // tokens before
-        if ($node instanceof AttributeAwareNodeInterface) {
-            /** @var PhpDocNodeInfo|null $tokenStartEndInfo */
-            $phpDocNodeInfo = $node->getAttribute(Attribute::PHP_DOC_NODE_INFO) ?: $phpDocNodeInfo;
+        if (! $node instanceof AttributeAwareNodeInterface) {
+            throw new ShouldNotHappenException();
         }
+
+        /** @var PhpDocNodeInfo|null $tokenStartEndInfo */
+        $phpDocNodeInfo = $node->getAttribute(Attribute::PHP_DOC_NODE_INFO) ?: $phpDocNodeInfo;
 
         if ($phpDocNodeInfo) {
             $isLastToken = ($nodeCount === $i);
@@ -155,16 +157,16 @@ final class PhpDocInfoPrinter
             return $this->printPhpDocTagNode($node, $phpDocNodeInfo, $output);
         }
 
+        if ($node instanceof PhpDocTagNode) {
+            return $output . PHP_EOL . '     * ' . (string) $node;
+        }
+
         if (! $node instanceof PhpDocTextNode && ! $node instanceof GenericTagValueNode && $phpDocNodeInfo) {
-            return $this->originalSpacingRestorer->restoreInOutputWithTokensAndPhpDocNodeInfo(
+            return $this->originalSpacingRestorer->restoreInOutputWithTokensStartAndEndPosition(
                 (string) $node,
                 $this->tokens,
                 $phpDocNodeInfo
             );
-        }
-
-        if ($node instanceof PhpDocTagNode) {
-            return $output . PHP_EOL . '     * ' . (string) $node;
         }
 
         return $output . (string) $node;

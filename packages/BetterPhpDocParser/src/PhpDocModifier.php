@@ -15,10 +15,21 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIdentifierTypeNode;
+use Symplify\BetterPhpDocParser\NodeDecorator\StringsTypePhpDocNodeDecorator;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 
 final class PhpDocModifier
 {
+    /**
+     * @var StringsTypePhpDocNodeDecorator
+     */
+    private $stringsTypePhpDocNodeDecorator;
+
+    public function __construct(StringsTypePhpDocNodeDecorator $stringsTypePhpDocNodeDecorator)
+    {
+        $this->stringsTypePhpDocNodeDecorator = $stringsTypePhpDocNodeDecorator;
+    }
+
     public function removeTagByName(PhpDocInfo $phpDocInfo, string $tagName): void
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
@@ -138,7 +149,10 @@ final class PhpDocModifier
 
             /** @var VarTagValueNode|ParamTagValueNode|ReturnTagValueNode $tagValueNode */
             $tagValueNode = $phpDocChildNode->value;
+
             $phpDocChildNode->value->type = $this->replaceTypeNode($tagValueNode->type, $oldType, $newType);
+
+            $this->stringsTypePhpDocNodeDecorator->decorate($phpDocNode);
         }
     }
 

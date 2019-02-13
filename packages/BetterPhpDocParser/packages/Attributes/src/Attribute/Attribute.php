@@ -5,14 +5,24 @@ namespace Symplify\BetterPhpDocParser\Attributes\Attribute;
 final class Attribute
 {
     /**
-     * @var string
-     */
-    public const PHP_DOC_NODE_INFO = 'php_doc_node_info';
-
-    /**
      * Fully-qualified name
      *
      * @var string
      */
     public const FQN_NAME = 'fqn_name';
+
+    /**
+     * @var string
+     */
+    public const PHP_DOC_NODE_INFO = 'php_doc_node_info';
+
+    /**
+     * @var string
+     */
+    public const TYPE_AS_STRING = 'type_as_string';
+
+    /**
+     * @var string
+     */
+    public const TYPE_AS_ARRAY = 'type_as_array';
 }

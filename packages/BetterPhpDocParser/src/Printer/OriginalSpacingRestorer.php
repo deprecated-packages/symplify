@@ -12,7 +12,7 @@ final class OriginalSpacingRestorer
     /**
      * @param mixed[] $tokens
      */
-    public function restoreInOutputWithTokensAndPhpDocNodeInfo(
+    public function restoreInOutputWithTokensStartAndEndPosition(
         string $nodeOutput,
         array $tokens,
         PhpDocNodeInfo $phpDocNodeInfo
