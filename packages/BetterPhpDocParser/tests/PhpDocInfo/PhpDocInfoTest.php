@@ -45,11 +45,13 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
         $this->assertCount(2, $paramTags);
     }
 
-    public function testGetParamTypeNode(): void
+    public function testParamTypeNode(): void
     {
         $typeNode = $this->phpDocInfo->getParamTypeNode('value');
-
         $this->assertInstanceOf(TypeNode::class, $typeNode);
+
+        $paramTypes = $this->phpDocInfo->getParamTypes('value');
+        $this->assertSame(['SomeType', 'NoSlash', '\Preslashed', 'null', '\string'], $paramTypes);
     }
 
     public function testGetVarTypeNode(): void

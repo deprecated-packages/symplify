@@ -23,7 +23,7 @@ final class TypeNodeToStringsConverter
     private $resolverPerNode = [];
 
     /**
-     * @todo collector
+     * @todo should be decorator of types nodes
      */
     public function __construct()
     {

@@ -12,6 +12,9 @@ use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareParamTagValueNode;
+use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
+use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
 
@@ -88,10 +91,11 @@ final class PhpDocInfo
         return $this->tokens;
     }
 
-    public function getParamTagValueByName(string $name): ?ParamTagValueNode
+    public function getParamTagValueByName(string $name): ?AttributeAwareParamTagValueNode
     {
         $phpDocNode = $this->getPhpDocNode();
 
+        /** @var AttributeAwareParamTagValueNode $paramTagValue */
         foreach ($phpDocNode->getParamTagValues() as $paramTagValue) {
             if (Strings::match($paramTagValue->parameterName, '#^(\$)?' . $name . '$#')) {
                 return $paramTagValue;
@@ -144,6 +148,9 @@ final class PhpDocInfo
         return $this->phpDocNode->getTagsByName($name);
     }
 
+    /**
+     * @return AttributeAwareNodeInterface|TypeNode
+     */
     public function getParamTypeNode(string $paramName): ?TypeNode
     {
         $paramName = '$' . ltrim($paramName, '$');
@@ -177,7 +184,7 @@ final class PhpDocInfo
             return [];
         }
 
-        return $this->typeNodeToStringsConverter->convert($paramTagValue->type);
+        return $paramTagValue->getAttribute(Attribute::TYPE_AS_ARRAY);
     }
 
     /**
@@ -218,7 +225,7 @@ final class PhpDocInfo
         $this->phpDocModifier->replacePhpDocTypeByAnother($this->phpDocNode, $oldType, $newType);
     }
 
-    // remove section
+    //     remove section
 
     public function removeReturnTag(): void
     {

@@ -142,3 +142,6 @@ parameters:
 
         # PHPUnit 8 false positive
         - '#Parameter \#3 \$dataName of method PHPUnit\\Framework\\TestCase\:\:__construct\(\) expects string, int\|string given#'
+
+        # false positive
+        - '#PHPDoc tag @return with type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|Symplify\\BetterPhpDocParser\\Attributes\\Contract\\Ast\\AttributeAwareNodeInterface is not subtype of native type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|null#'
