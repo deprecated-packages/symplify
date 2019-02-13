@@ -32,6 +32,10 @@ final class StringFormatConverter
     public function camelCaseToUnderscoreInArrayKeys(array $items): array
     {
         foreach ($items as $key => $value) {
+            if (! is_string($key)) {
+                continue;
+            }
+
             $newKey = $this->camelCaseToUnderscore($key);
             if ($key === $newKey) {
                 continue;
