@@ -43,6 +43,7 @@ final class ReplaceTest extends AbstractKernelTestCase
     public function test(string $originalFile, string $oldType, string $newType, string $expectedFile): void
     {
         $phpDocInfo = $this->createPhpDocInfoFromFile($originalFile);
+
         $this->phpDocModifier->replacePhpDocTypeByAnother($phpDocInfo->getPhpDocNode(), $oldType, $newType);
 
         $newPhpDocContent = $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo);

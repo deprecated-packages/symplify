@@ -223,9 +223,6 @@ final class PhpDocInfoPrinter
         return $output . $nodeOutput;
     }
 
-    /**
-     * @todo consider some position storage
-     */
     private function getLastNodeTokenEndPosition(): int
     {
         $originalChildren = $this->originalPhpDocNode->children;
@@ -233,15 +230,13 @@ final class PhpDocInfoPrinter
             return $this->currentTokenPosition;
         }
 
+        /** @var AttributeAwareNodeInterface[] $originalChildren */
         $lastOriginalChildrenNode = array_pop($originalChildren);
 
-        if ($lastOriginalChildrenNode instanceof AttributeAwareNodeInterface) {
-            /** @var PhpDocNodeInfo|null $phpDocNodeInfo */
-            $phpDocNodeInfo = $lastOriginalChildrenNode->getAttribute(Attribute::PHP_DOC_NODE_INFO);
-
-            if ($phpDocNodeInfo !== null) {
-                return $phpDocNodeInfo->getEnd();
-            }
+        /** @var PhpDocNodeInfo|null $phpDocNodeInfo */
+        $phpDocNodeInfo = $lastOriginalChildrenNode->getAttribute(Attribute::PHP_DOC_NODE_INFO);
+        if ($phpDocNodeInfo !== null) {
+            return $phpDocNodeInfo->getEnd();
         }
 
         return $this->currentTokenPosition;
