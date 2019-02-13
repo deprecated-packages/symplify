@@ -53,7 +53,7 @@ final class DocBlockWrapper
 
     public function isSingleLine(): bool
     {
-        return substr_count($this->phpDocInfo->getOriginalContent(), PHP_EOL) < 1;
+        return $this->phpDocInfo->isSingleLine();
     }
 
     public function getPhpDocInfo(): PhpDocInfo

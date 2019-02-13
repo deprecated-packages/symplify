@@ -41,7 +41,7 @@ final class PhpDocInfoPrinter
     /**
      * @var AttributeAwarePhpDocNode
      */
-    private $phpDocNode;
+    private $attributeAwarePhpDocNode;
 
     /**
      * @var PhpDocNode
@@ -75,7 +75,7 @@ final class PhpDocInfoPrinter
      */
     public function printFormatPreserving(PhpDocInfo $phpDocInfo): string
     {
-        $this->phpDocNode = $phpDocInfo->getPhpDocNode();
+        $this->attributeAwarePhpDocNode = $phpDocInfo->getPhpDocNode();
         $this->originalPhpDocNode = $phpDocInfo->getOriginalPhpDocNode();
         $this->tokens = $phpDocInfo->getTokens();
         $this->tokenCount = count($phpDocInfo->getTokens());
@@ -84,7 +84,7 @@ final class PhpDocInfoPrinter
         $this->currentTokenPosition = 0;
         $this->removedNodePositions = [];
 
-        return $this->printPhpDocNode($this->phpDocNode);
+        return $this->printPhpDocNode($this->attributeAwarePhpDocNode);
     }
 
     private function printPhpDocNode(PhpDocNode $phpDocNode): string
@@ -175,7 +175,9 @@ final class PhpDocInfoPrinter
 
     private function printEnd(string $output): string
     {
-        $lastTokenPosition = $this->phpDocNode->getAttribute(Attribute::LAST_TOKEN_POSITION) ?: $this->currentTokenPosition;
+        $lastTokenPosition = $this->attributeAwarePhpDocNode->getAttribute(
+            Attribute::LAST_TOKEN_POSITION
+        ) ?: $this->currentTokenPosition;
 
         return $this->addTokensFromTo($output, $lastTokenPosition, $this->tokenCount, true);
     }
@@ -235,7 +237,7 @@ final class PhpDocInfoPrinter
             return $this->removedNodePositions;
         }
 
-        $removedNodes = array_diff($this->originalPhpDocNode->children, $this->phpDocNode->children);
+        $removedNodes = array_diff($this->originalPhpDocNode->children, $this->attributeAwarePhpDocNode->children);
 
         $removedNodesPositions = [];
         foreach ($removedNodes as $removedNode) {

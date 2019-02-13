@@ -3,10 +3,10 @@
 namespace Symplify\BetterPhpDocParser\PhpDocInfo;
 
 use Nette\Utils\Strings;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareParamTagValueNode;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareReturnTagValueNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareVarTagValueNode;
 use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
@@ -26,12 +26,12 @@ final class PhpDocInfo
     private $tokens = [];
 
     /**
-     * @var PhpDocNode
+     * @var AttributeAwarePhpDocNode
      */
     private $phpDocNode;
 
     /**
-     * @var PhpDocNode
+     * @var AttributeAwarePhpDocNode
      */
     private $originalPhpDocNode;
 
@@ -44,16 +44,21 @@ final class PhpDocInfo
      * @param mixed[] $tokens
      */
     public function __construct(
-        PhpDocNode $phpDocNode,
+        AttributeAwarePhpDocNode $attributeAwarePhpDocNode,
         array $tokens,
         string $originalContent,
         PhpDocModifier $phpDocModifier
     ) {
-        $this->phpDocNode = $phpDocNode;
+        $this->phpDocNode = $attributeAwarePhpDocNode;
         $this->tokens = $tokens;
-        $this->originalPhpDocNode = clone $phpDocNode;
+        $this->originalPhpDocNode = clone $attributeAwarePhpDocNode;
         $this->originalContent = $originalContent;
         $this->phpDocModifier = $phpDocModifier;
+    }
+
+    public function isSingleLine(): bool
+    {
+        return substr_count($this->originalContent, PHP_EOL) < 1;
     }
 
     public function getOriginalContent(): string
@@ -61,12 +66,12 @@ final class PhpDocInfo
         return $this->originalContent;
     }
 
-    public function getPhpDocNode(): PhpDocNode
+    public function getPhpDocNode(): AttributeAwarePhpDocNode
     {
         return $this->phpDocNode;
     }
 
-    public function getOriginalPhpDocNode(): PhpDocNode
+    public function getOriginalPhpDocNode(): AttributeAwarePhpDocNode
     {
         return $this->originalPhpDocNode;
     }
