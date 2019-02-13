@@ -3,15 +3,16 @@
 namespace Symplify\BetterPhpDocParser\PhpDocParser;
 
 use PHPStan\PhpDocParser\Ast\Node;
+
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\ParserException;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
-use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
-use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
+use Symplify\BetterPhpDocParser\Attributes\Ast\AttributeAwareNodeFactory;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
@@ -28,25 +29,25 @@ final class PositionAwarePhpDocParser extends PhpDocParser
     private $privatesCaller;
 
     /**
-     * @var NodeWithPositionsObjectStorage
-     */
-    private $nodeWithPositionsObjectStorage;
-
-    /**
      * @var PrivatesAccessor
      */
     private $privatesAccessor;
 
+    /**
+     * @var AttributeAwareNodeFactory
+     */
+    private $attributeAwareNodeFactory;
+
     public function __construct(
         TypeParser $typeParser,
         ConstExprParser $constExprParser,
-        NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage
+        AttributeAwareNodeFactory $attributeAwareNodeFactory
     ) {
+        parent::__construct($typeParser, $constExprParser);
+
         $this->privatesCaller = new PrivatesCaller();
         $this->privatesAccessor = new PrivatesAccessor();
-        $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
-
-        parent::__construct($typeParser, $constExprParser);
+        $this->attributeAwareNodeFactory = $attributeAwareNodeFactory;
     }
 
     public function parse(TokenIterator $tokenIterator): PhpDocNode
@@ -81,16 +82,19 @@ final class PositionAwarePhpDocParser extends PhpDocParser
         return new PhpDocNode(array_values($children));
     }
 
+    public function parseTagValue(TokenIterator $tokenIterator, string $tag): PhpDocTagValueNode
+    {
+        $tagValueNode = parent::parseTagValue($tokenIterator, $tag);
+
+        return $this->attributeAwareNodeFactory->createFromPhpDocValueNode($tagValueNode);
+    }
+
     private function parseChildAndStoreItsPositions(TokenIterator $tokenIterator): Node
     {
         $tokenStart = $this->privatesAccessor->getPrivateProperty($tokenIterator, 'index');
-
         $node = $this->privatesCaller->callPrivateMethod($this, 'parseChild', $tokenIterator);
-
         $tokenEnd = $this->privatesAccessor->getPrivateProperty($tokenIterator, 'index');
 
-        $this->nodeWithPositionsObjectStorage[$node] = new PhpDocNodeInfo($tokenStart, $tokenEnd);
-
-        return $node;
+        return $this->attributeAwareNodeFactory->createFromNodeStartAndEnd($node, $tokenStart, $tokenEnd);
     }
 }

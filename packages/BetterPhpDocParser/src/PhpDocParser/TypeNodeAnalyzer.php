@@ -36,16 +36,16 @@ final class TypeNodeAnalyzer
 
     public function isIntersectionAndNotNullable(TypeNode $typeNode): bool
     {
-        if ($typeNode instanceof IntersectionTypeNode) {
-            foreach ($typeNode->types as $subType) {
-                if ($subType instanceof NullableTypeNode) {
-                    return false;
-                }
-            }
-
-            return true;
+        if (! $typeNode instanceof IntersectionTypeNode) {
+            return false;
         }
 
-        return false;
+        foreach ($typeNode->types as $subType) {
+            if ($subType instanceof NullableTypeNode) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

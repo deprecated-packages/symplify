@@ -25,7 +25,7 @@ final class BetterPhpDocParserKernel extends Kernel
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/better_php_doc_parser';
+        return sys_get_temp_dir() . '/better_php_doc_parser_cache';
     }
 
     public function getLogDir(): string

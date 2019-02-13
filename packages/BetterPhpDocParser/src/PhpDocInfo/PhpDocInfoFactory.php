@@ -45,8 +45,7 @@ final class PhpDocInfoFactory
     public function createFrom(string $content): PhpDocInfo
     {
         $tokens = $this->lexer->tokenize($content);
-        $tokenIterator = new TokenIterator($tokens);
-        $phpDocNode = $this->phpDocParser->parse($tokenIterator);
+        $phpDocNode = $this->phpDocParser->parse(new TokenIterator($tokens));
 
         return new PhpDocInfo(
             $phpDocNode,
