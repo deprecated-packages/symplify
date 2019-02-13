@@ -25,4 +25,9 @@ final class Attribute
      * @var string
      */
     public const TYPE_AS_ARRAY = 'type_as_array';
+
+    /**
+     * @var string
+     */
+    public const LAST_TOKEN_POSITION = 'last_token_position';
 }
