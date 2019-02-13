@@ -13,7 +13,6 @@ use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
 use Symplify\BetterPhpDocParser\Contract\PhpDocNodeDecoratorInterface;
 use Symplify\BetterPhpDocParser\Exception\ShouldNotHappenException;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
 
 final class StringsTypePhpDocNodeDecorator implements PhpDocNodeDecoratorInterface
 {
@@ -22,15 +21,9 @@ final class StringsTypePhpDocNodeDecorator implements PhpDocNodeDecoratorInterfa
      */
     private $nodeTraverser;
 
-    /**
-     * @var TypeNodeToStringsConverter
-     */
-    private $typeNodeToStringsConverter;
-
-    public function __construct(NodeTraverser $nodeTraverser, TypeNodeToStringsConverter $typeNodeToStringsConverter)
+    public function __construct(NodeTraverser $nodeTraverser)
     {
         $this->nodeTraverser = $nodeTraverser;
-        $this->typeNodeToStringsConverter = $typeNodeToStringsConverter;
     }
 
     public function decorate(PhpDocNode $phpDocNode): PhpDocNode
@@ -45,10 +38,9 @@ final class StringsTypePhpDocNodeDecorator implements PhpDocNodeDecoratorInterfa
                 return $node;
             }
 
-            $typeAsArray = $this->typeNodeToStringsConverter->convert($typeNode);
+            $typeAsString = (string) $typeNode;
+            $typeAsArray = explode('|', $typeAsString);
             $node->setAttribute(Attribute::TYPE_AS_ARRAY, $typeAsArray);
-
-            $typeAsString = implode('|', $typeAsArray);
             $node->setAttribute(Attribute::TYPE_AS_STRING, $typeAsString);
 
             return $node;

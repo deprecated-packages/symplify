@@ -88,7 +88,6 @@ parameters:
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
 
         # phpstan 0.10 news
-        - '#Cannot access property \$type on PHPStan\\PhpDocParser\\Ast\\PhpDoc\\VarTagValueNode\|null#'
         - '#Parameter \#1 \$children of class PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocNode constructor expects array<PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocChildNode>, array<int, PHPStan\\PhpDocParser\\Ast\\Node> given#'
         - '#If condition is always true#'
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
@@ -139,9 +138,6 @@ parameters:
         - '#Call to an undefined method Psr\\Container\\ContainerInterface\:\:set\(\)#'
         - '#Internal error\: Cannot find function (.*?)#'
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
-
-        # PHPUnit 8 false positive
-        - '#Parameter \#3 \$dataName of method PHPUnit\\Framework\\TestCase\:\:__construct\(\) expects string, int\|string given#'
 
         # false positive
         - '#PHPDoc tag @return with type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|Symplify\\BetterPhpDocParser\\Attributes\\Contract\\Ast\\AttributeAwareNodeInterface is not subtype of native type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|null#'

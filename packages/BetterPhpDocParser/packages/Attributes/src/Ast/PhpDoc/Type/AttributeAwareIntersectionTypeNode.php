@@ -9,4 +9,9 @@ use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterf
 final class AttributeAwareIntersectionTypeNode extends IntersectionTypeNode implements AttributeAwareNodeInterface
 {
     use AttributeTrait;
+
+    public function __toString(): string
+    {
+        return implode('&', $this->types);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc;
 
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use Symplify\BetterPhpDocParser\Attributes\Attribute\AttributeTrait;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
@@ -9,4 +10,9 @@ use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterf
 final class AttributeAwarePhpDocNode extends PhpDocNode implements AttributeAwareNodeInterface
 {
     use AttributeTrait;
+
+    /**
+     * @var PhpDocChildNode[]|AttributeAwareNodeInterface[]
+     */
+    public $children = [];
 }

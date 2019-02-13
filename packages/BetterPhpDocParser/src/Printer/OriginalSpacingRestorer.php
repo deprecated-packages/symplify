@@ -51,12 +51,9 @@ final class OriginalSpacingRestorer
             }
 
             // quoted string with spaces?
-            if (in_array(
-                $tokens[$i][1],
-                [Lexer::TOKEN_SINGLE_QUOTED_STRING, Lexer::TOKEN_DOUBLE_QUOTED_STRING],
-                true
-            )) {
+            if ($this->isQuotedStringWithSpaces($tokens, $i)) {
                 $matches = Strings::matchAll($tokens[$i][0], '#\s+#m');
+
                 if ($matches) {
                     $oldWhitespaces = array_merge($oldWhitespaces, Arrays::flatten($matches));
                 }
@@ -64,5 +61,17 @@ final class OriginalSpacingRestorer
         }
 
         return $oldWhitespaces;
+    }
+
+    /**
+     * @param mixed[] $tokens
+     */
+    private function isQuotedStringWithSpaces(array $tokens, int $i): bool
+    {
+        return in_array(
+            $tokens[$i][1],
+            [Lexer::TOKEN_SINGLE_QUOTED_STRING, Lexer::TOKEN_DOUBLE_QUOTED_STRING],
+            true
+        );
     }
 }
