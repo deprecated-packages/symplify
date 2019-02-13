@@ -37,7 +37,6 @@ use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareArrayTy
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareCallableTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareGenericTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIdentifierTypeNode;
-use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIntersectionTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareNullableTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareThisTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareUnionTypeNode;
@@ -71,7 +70,6 @@ final class AttributeAwareNodeFactory
     {
         if ($phpDocTagValueNode instanceof VarTagValueNode) {
             $typeNode = $this->createFromTypeNode($phpDocTagValueNode->type);
-
             return new AttributeAwareVarTagValueNode(
                 $typeNode,
                 $phpDocTagValueNode->variableName,
@@ -95,9 +93,12 @@ final class AttributeAwareNodeFactory
         }
 
         if ($phpDocTagValueNode instanceof MethodTagValueNode) {
+            $typeNode = $phpDocTagValueNode->returnType ? $this->createFromTypeNode(
+                $phpDocTagValueNode->returnType
+            ) : null;
             return new AttributeAwareMethodTagValueNode(
                 $phpDocTagValueNode->isStatic,
-                $phpDocTagValueNode->returnType,
+                $typeNode,
                 $phpDocTagValueNode->methodName,
                 $phpDocTagValueNode->parameters,
                 $phpDocTagValueNode->description
@@ -122,7 +123,8 @@ final class AttributeAwareNodeFactory
         }
 
         if ($phpDocTagValueNode instanceof ThrowsTagValueNode) {
-            return new AttributeAwareThrowsTagValueNode($phpDocTagValueNode->type, $phpDocTagValueNode->description);
+            $typeNode = $this->createFromTypeNode($phpDocTagValueNode->type);
+            return new AttributeAwareThrowsTagValueNode($typeNode, $phpDocTagValueNode->description);
         }
 
         throw new NotImplementedYetException(sprintf(
@@ -132,18 +134,21 @@ final class AttributeAwareNodeFactory
         ));
     }
 
-    private function createFromTypeNode(TypeNode $typeNode): TypeNode
+    /**
+     * @return AttributeAwareNodeInterface|TypeNode
+     */
+    private function createFromTypeNode(TypeNode $typeNode): AttributeAwareNodeInterface
     {
         if ($typeNode instanceof IdentifierTypeNode) {
             return new AttributeAwareIdentifierTypeNode($typeNode->name);
         }
 
         if ($typeNode instanceof NullableTypeNode) {
-            $typeNode = $this->createFromTypeNode($typeNode->type);
-            return new AttributeAwareNullableTypeNode($typeNode);
+            $typeNode->type = $this->createFromTypeNode($typeNode->type);
+            return new AttributeAwareNullableTypeNode($typeNode->type);
         }
 
-        if ($typeNode instanceof UnionTypeNode) {
+        if ($typeNode instanceof UnionTypeNode || $typeNode instanceof IntersectionTypeNode) {
             foreach ($typeNode->types as $i => $subTypeNode) {
                 $typeNode->types[$i] = $this->createFromTypeNode($subTypeNode);
             }
@@ -153,12 +158,7 @@ final class AttributeAwareNodeFactory
 
         if ($typeNode instanceof ArrayTypeNode) {
             $typeNode->type = $this->createFromTypeNode($typeNode->type);
-
             return new AttributeAwareArrayTypeNode($typeNode->type);
-        }
-
-        if ($typeNode instanceof IntersectionTypeNode) {
-            return new AttributeAwareIntersectionTypeNode($typeNode->types);
         }
 
         if ($typeNode instanceof ThisTypeNode) {
@@ -174,6 +174,7 @@ final class AttributeAwareNodeFactory
         }
 
         if ($typeNode instanceof GenericTypeNode) {
+            $typeNode->type = $this->createFromTypeNode($typeNode->type);
             return new AttributeAwareGenericTypeNode($typeNode->type, $typeNode->genericTypes);
         }
 

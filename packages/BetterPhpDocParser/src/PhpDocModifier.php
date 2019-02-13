@@ -11,7 +11,6 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
-use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIdentifierTypeNode;
@@ -169,7 +168,7 @@ final class PhpDocModifier
             if (is_a($typeNode->name, $oldType, true) || ltrim($typeNode->name, '\\') === $oldType) {
                 $newType = $this->makeTypeFqn($newType);
 
-                return new IdentifierTypeNode($newType);
+                return new AttributeAwareIdentifierTypeNode($newType);
             }
         }
 

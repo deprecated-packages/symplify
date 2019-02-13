@@ -1,4 +1,4 @@
 /**
  * @param \PHP\Filter $phpFilter
- * @return \PHP\Filter|null $phpFilters2
+ * @return \PHP\Filter|null
  */

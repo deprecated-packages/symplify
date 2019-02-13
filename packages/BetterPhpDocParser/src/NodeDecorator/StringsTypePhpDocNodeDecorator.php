@@ -7,6 +7,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\Ast\NodeTraverser;
 use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
@@ -35,15 +36,16 @@ final class StringsTypePhpDocNodeDecorator implements PhpDocNodeDecoratorInterfa
     public function decorate(PhpDocNode $phpDocNode): PhpDocNode
     {
         $this->nodeTraverser->traverseWithCallable($phpDocNode, function (Node $node) {
-            if (! $node instanceof ParamTagValueNode && ! $node instanceof VarTagValueNode && ! $node instanceof ReturnTagValueNode) {
-                return $node;
-            }
-
             if (! $node instanceof AttributeAwareNodeInterface) {
                 throw new ShouldNotHappenException();
             }
 
-            $typeAsArray = $this->typeNodeToStringsConverter->convert($node->type);
+            $typeNode = $this->resolveTypeNode($node);
+            if ($typeNode === null) {
+                return $node;
+            }
+
+            $typeAsArray = $this->typeNodeToStringsConverter->convert($typeNode);
             $node->setAttribute(Attribute::TYPE_AS_ARRAY, $typeAsArray);
 
             $typeAsString = implode('|', $typeAsArray);
@@ -53,5 +55,18 @@ final class StringsTypePhpDocNodeDecorator implements PhpDocNodeDecoratorInterfa
         });
 
         return $phpDocNode;
+    }
+
+    private function resolveTypeNode(Node $node): ?TypeNode
+    {
+        if ($node instanceof ParamTagValueNode || $node instanceof VarTagValueNode || $node instanceof ReturnTagValueNode) {
+            return $node->type;
+        }
+
+        if ($node instanceof TypeNode) {
+            return $node;
+        }
+
+        return null;
     }
 }

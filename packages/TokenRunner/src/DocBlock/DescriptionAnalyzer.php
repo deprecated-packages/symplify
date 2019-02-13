@@ -4,8 +4,9 @@ namespace Symplify\TokenRunner\DocBlock;
 
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIdentifierTypeNode;
+use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
 
 final class DescriptionAnalyzer
 {
@@ -19,17 +20,9 @@ final class DescriptionAnalyzer
      */
     private $typeNodeAnalyzer;
 
-    /**
-     * @var TypeNodeToStringsConverter
-     */
-    private $typeNodeToStringsConverter;
-
-    public function __construct(
-        TypeNodeAnalyzer $typeNodeAnalyzer,
-        TypeNodeToStringsConverter $typeNodeToStringsConverter
-    ) {
+    public function __construct(TypeNodeAnalyzer $typeNodeAnalyzer)
+    {
         $this->typeNodeAnalyzer = $typeNodeAnalyzer;
-        $this->typeNodeToStringsConverter = $typeNodeToStringsConverter;
     }
 
     public function isDescriptionUseful(string $description, ?TypeNode $typeNode, ?string $name): bool
@@ -43,7 +36,8 @@ final class DescriptionAnalyzer
             return true;
         }
 
-        $types = $this->typeNodeToStringsConverter->convert($typeNode);
+        /** @var AttributeAwareIdentifierTypeNode|TypeNode $typeNode */
+        $types = $typeNode->getAttribute(Attribute::TYPE_AS_ARRAY) ?: [];
 
         // only 1 type can be analyzed
         $type = array_pop($types);
@@ -57,7 +51,6 @@ final class DescriptionAnalyzer
 
         // e.g. description: "The object manager" => "Theobjectmanager"
         $descriptionWithoutSpaces = str_replace(' ', '', $description);
-
         if (Strings::compare($name, $descriptionWithoutSpaces)) {
             return false;
         }
