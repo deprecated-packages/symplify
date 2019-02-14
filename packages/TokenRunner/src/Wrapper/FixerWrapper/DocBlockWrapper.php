@@ -10,6 +10,7 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Symplify\BetterPhpDocParser\PhpDocModifier;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 
 final class DocBlockWrapper
@@ -34,16 +35,23 @@ final class DocBlockWrapper
      */
     private $phpDocInfoPrinter;
 
+    /**
+     * @var PhpDocModifier
+     */
+    private $phpDocModifier;
+
     public function __construct(
         Tokens $tokens,
         int $position,
         PhpDocInfo $phpDocInfo,
-        PhpDocInfoPrinter $phpDocInfoPrinter
+        PhpDocInfoPrinter $phpDocInfoPrinter,
+        PhpDocModifier $phpDocModifier
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
         $this->phpDocInfo = $phpDocInfo;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
+        $this->phpDocModifier = $phpDocModifier;
     }
 
     public function getTokenPosition(): int
@@ -81,12 +89,12 @@ final class DocBlockWrapper
 
     public function removeReturnType(): void
     {
-        $this->phpDocInfo->removeReturnTag();
+        $this->phpDocModifier->removeReturnTagFromPhpDocNode($this->phpDocInfo->getPhpDocNode());
     }
 
     public function removeParamType(string $name): void
     {
-        $this->phpDocInfo->removeParamTagByParameter($name);
+        $this->phpDocModifier->removeParamTagByParameter($this->phpDocInfo, $name);
     }
 
     public function isArrayProperty(): bool

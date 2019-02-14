@@ -2,9 +2,9 @@
 
 namespace Symplify\BetterPhpDocParser\Contract;
 
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
 
 interface PhpDocNodeDecoratorInterface
 {
-    public function decorate(PhpDocNode $phpDocNode): PhpDocNode;
+    public function decorate(AttributeAwarePhpDocNode $phpDocNode): AttributeAwarePhpDocNode;
 }
