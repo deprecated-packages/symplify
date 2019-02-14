@@ -13,6 +13,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIdentifierTypeNode;
 use Symplify\BetterPhpDocParser\NodeDecorator\StringsTypePhpDocNodeDecorator;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
@@ -33,7 +34,8 @@ final class PhpDocModifier
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
 
-        $phpDocTagNodes = $phpDocNode->getTagsByName('@' . ltrim($tagName, '@'));
+        $tagName = $this->normalizeFromLeft($tagName, '@');
+        $phpDocTagNodes = $phpDocNode->getTagsByName($tagName);
 
         foreach ($phpDocTagNodes as $phpDocTagNode) {
             $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
@@ -44,7 +46,8 @@ final class PhpDocModifier
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
 
-        $phpDocTagNodes = $phpDocNode->getTagsByName('@' . ltrim($tagName, '@'));
+        $tagName = $this->normalizeFromLeft($tagName, '@');
+        $phpDocTagNodes = $phpDocNode->getTagsByName($tagName);
 
         foreach ($phpDocTagNodes as $phpDocTagNode) {
             if (! $phpDocTagNode instanceof PhpDocTagNode) {
@@ -121,8 +124,8 @@ final class PhpDocModifier
 
     public function replaceTagByAnother(PhpDocNode $phpDocNode, string $oldTag, string $newTag): void
     {
-        $oldTag = '@' . ltrim($oldTag, '@');
-        $newTag = '@' . ltrim($newTag, '@');
+        $oldTag = $this->normalizeFromLeft($oldTag, '@');
+        $newTag = $this->normalizeFromLeft($newTag, '@');
 
         foreach ($phpDocNode->children as $phpDocChildNode) {
             if (! $phpDocChildNode instanceof PhpDocTagNode) {
@@ -135,8 +138,11 @@ final class PhpDocModifier
         }
     }
 
-    public function replacePhpDocTypeByAnother(PhpDocNode $phpDocNode, string $oldType, string $newType): void
-    {
+    public function replacePhpDocTypeByAnother(
+        AttributeAwarePhpDocNode $phpDocNode,
+        string $oldType,
+        string $newType
+    ): void {
         foreach ($phpDocNode->children as $phpDocChildNode) {
             if (! $phpDocChildNode instanceof PhpDocTagNode) {
                 continue;
@@ -148,7 +154,6 @@ final class PhpDocModifier
 
             /** @var VarTagValueNode|ParamTagValueNode|ReturnTagValueNode $tagValueNode */
             $tagValueNode = $phpDocChildNode->value;
-
             $phpDocChildNode->value->type = $this->replaceTypeNode($tagValueNode->type, $oldType, $newType);
 
             $this->stringsTypePhpDocNodeDecorator->decorate($phpDocNode);
@@ -190,9 +195,14 @@ final class PhpDocModifier
     private function makeTypeFqn(string $type): string
     {
         if (Strings::contains($type, '\\')) {
-            $type = '\\' . ltrim($type, '\\');
+            $type = $this->normalizeFromLeft($type, '\\');
         }
 
         return $type;
+    }
+
+    private function normalizeFromLeft(string $value, string $char): string
+    {
+        return $char . ltrim($value, $char);
     }
 }

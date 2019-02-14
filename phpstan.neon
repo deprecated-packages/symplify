@@ -88,7 +88,6 @@ parameters:
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
 
         # phpstan 0.10 news
-        - '#Cannot access property \$type on PHPStan\\PhpDocParser\\Ast\\PhpDoc\\VarTagValueNode\|null#'
         - '#Parameter \#1 \$children of class PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocNode constructor expects array<PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocChildNode>, array<int, PHPStan\\PhpDocParser\\Ast\\Node> given#'
         - '#If condition is always true#'
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
@@ -140,12 +139,11 @@ parameters:
         - '#Internal error\: Cannot find function (.*?)#'
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
 
-        # PHPUnit 8 false positive
-        - '#Parameter \#3 \$dataName of method PHPUnit\\Framework\\TestCase\:\:__construct\(\) expects string, int\|string given#'
-
         # false positive
         - '#PHPDoc tag @return with type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|Symplify\\BetterPhpDocParser\\Attributes\\Contract\\Ast\\AttributeAwareNodeInterface is not subtype of native type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|null#'
         - '#Cannot call method getAttribute\(\) on Symplify\\BetterPhpDocParser\\Attributes\\Ast\\PhpDoc\\AttributeAwareVarTagValueNode\|null#'
-        - '#Method Symplify\\BetterPhpDocParser\\PhpDocInfo\\PhpDocInfo\:\:getParamTagValues\(\) should return array<Symplify\\BetterPhpDocParser\\Attributes\\Ast\\PhpDoc\\AttributeAwareParamTagValueNode\> but returns array<PHPStan\\PhpDocParser\\Ast\\PhpDoc\\ParamTagValueNode\>#'
-        - '#Method Symplify\\BetterPhpDocParser\\PhpDocInfo\\PhpDocInfo\:\:getVarTagValue\(\) should return Symplify\\BetterPhpDocParser\\Attributes\\Ast\\PhpDoc\\AttributeAwareVarTagValueNode\|null but returns PHPStan\\PhpDocParser\\Ast\\PhpDoc\\VarTagValueNode\|null#'
-        - '#Method Symplify\\BetterPhpDocParser\\PhpDocInfo\\PhpDocInfo\:\:getReturnTagValue\(\) should return Symplify\\BetterPhpDocParser\\Attributes\\Ast\\PhpDoc\\AttributeAwareReturnTagValueNode\|null but returns PHPStan\\PhpDocParser\\Ast\\PhpDoc\\ReturnTagValueNode\|null#'
+
+        # better phpdoc-parser attributes
+        - '#(.*?)(AttributeAwareNodeInterface|AttributeAware(.*?)TagValueNode)(.*?)#'
+        - '#Call to an undefined method PHPStan\\PhpDocParser\\Ast\\(.*?)\:\:getAttribute\(\)#'
+

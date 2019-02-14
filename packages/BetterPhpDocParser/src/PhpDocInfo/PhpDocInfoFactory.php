@@ -5,8 +5,10 @@ namespace Symplify\BetterPhpDocParser\PhpDocInfo;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
+use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
+use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
 use Symplify\BetterPhpDocParser\Contract\PhpDocNodeDecoratorInterface;
-use Symplify\BetterPhpDocParser\PhpDocModifier;
 
 final class PhpDocInfoFactory
 {
@@ -26,34 +28,53 @@ final class PhpDocInfoFactory
     private $lexer;
 
     /**
-     * @var PhpDocModifier
-     */
-    private $phpDocModifier;
-
-    /**
      * @param PhpDocNodeDecoratorInterface[] $phpDocNodeDecoratorInterfacenodeDecorators
      */
     public function __construct(
         PhpDocParser $phpDocParser,
         Lexer $lexer,
-        PhpDocModifier $phpDocModifier,
         array $phpDocNodeDecoratorInterfacenodeDecorators
     ) {
         $this->phpDocParser = $phpDocParser;
         $this->lexer = $lexer;
-        $this->phpDocModifier = $phpDocModifier;
         $this->phpDocNodeDecoratorInterfaces = $phpDocNodeDecoratorInterfacenodeDecorators;
     }
 
     public function createFrom(string $content): PhpDocInfo
     {
         $tokens = $this->lexer->tokenize($content);
+
+        /** @var AttributeAwarePhpDocNode $phpDocNode */
         $phpDocNode = $this->phpDocParser->parse(new TokenIterator($tokens));
 
         foreach ($this->phpDocNodeDecoratorInterfaces as $phpDocNodeDecoratorInterface) {
             $phpDocNode = $phpDocNodeDecoratorInterface->decorate($phpDocNode);
         }
 
-        return new PhpDocInfo($phpDocNode, $tokens, $content, $this->phpDocModifier);
+        $phpDocNode = $this->setPositionOfLastToken($phpDocNode);
+
+        return new PhpDocInfo($phpDocNode, $tokens, $content);
+    }
+
+    /**
+     * Needed for printing
+     */
+    private function setPositionOfLastToken(
+        AttributeAwarePhpDocNode $attributeAwarePhpDocNode
+    ): AttributeAwarePhpDocNode {
+        if ($attributeAwarePhpDocNode->children === []) {
+            return $attributeAwarePhpDocNode;
+        }
+
+        /** @var AttributeAwareNodeInterface $lastChildNode */
+        $phpDocChildNodes = $attributeAwarePhpDocNode->children;
+        $lastChildNode = array_pop($phpDocChildNodes);
+        $phpDocNodeInfo = $lastChildNode->getAttribute(Attribute::PHP_DOC_NODE_INFO);
+
+        if ($phpDocNodeInfo !== null) {
+            $attributeAwarePhpDocNode->setAttribute(Attribute::LAST_TOKEN_POSITION, $phpDocNodeInfo->getEnd());
+        }
+
+        return $attributeAwarePhpDocNode;
     }
 }

@@ -3,15 +3,14 @@
 namespace Symplify\BetterPhpDocParser\PhpDocInfo;
 
 use Nette\Utils\Strings;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareParamTagValueNode;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareReturnTagValueNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareVarTagValueNode;
 use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
-use Symplify\BetterPhpDocParser\PhpDocModifier;
 
 final class PhpDocInfo
 {
@@ -26,34 +25,32 @@ final class PhpDocInfo
     private $tokens = [];
 
     /**
-     * @var PhpDocNode
+     * @var AttributeAwarePhpDocNode
      */
     private $phpDocNode;
 
     /**
-     * @var PhpDocNode
+     * @var AttributeAwarePhpDocNode
      */
     private $originalPhpDocNode;
-
-    /**
-     * @var PhpDocModifier
-     */
-    private $phpDocModifier;
 
     /**
      * @param mixed[] $tokens
      */
     public function __construct(
-        PhpDocNode $phpDocNode,
+        AttributeAwarePhpDocNode $attributeAwarePhpDocNode,
         array $tokens,
-        string $originalContent,
-        PhpDocModifier $phpDocModifier
+        string $originalContent
     ) {
-        $this->phpDocNode = $phpDocNode;
+        $this->phpDocNode = $attributeAwarePhpDocNode;
         $this->tokens = $tokens;
-        $this->originalPhpDocNode = clone $phpDocNode;
+        $this->originalPhpDocNode = clone $attributeAwarePhpDocNode;
         $this->originalContent = $originalContent;
-        $this->phpDocModifier = $phpDocModifier;
+    }
+
+    public function isSingleLine(): bool
+    {
+        return substr_count($this->originalContent, PHP_EOL) < 1;
     }
 
     public function getOriginalContent(): string
@@ -61,12 +58,12 @@ final class PhpDocInfo
         return $this->originalContent;
     }
 
-    public function getPhpDocNode(): PhpDocNode
+    public function getPhpDocNode(): AttributeAwarePhpDocNode
     {
         return $this->phpDocNode;
     }
 
-    public function getOriginalPhpDocNode(): PhpDocNode
+    public function getOriginalPhpDocNode(): AttributeAwarePhpDocNode
     {
         return $this->originalPhpDocNode;
     }
@@ -77,20 +74,6 @@ final class PhpDocInfo
     public function getTokens(): array
     {
         return $this->tokens;
-    }
-
-    public function getParamTagValueByName(string $name): ?AttributeAwareParamTagValueNode
-    {
-        $phpDocNode = $this->getPhpDocNode();
-
-        /** @var AttributeAwareParamTagValueNode $paramTagValue */
-        foreach ($phpDocNode->getParamTagValues() as $paramTagValue) {
-            if (Strings::match($paramTagValue->parameterName, '#^(\$)?' . $name . '$#')) {
-                return $paramTagValue;
-            }
-        }
-
-        return null;
     }
 
     public function getParamTagDescriptionByName(string $name): string
@@ -188,37 +171,17 @@ final class PhpDocInfo
         return $returnTypeValueNode->getAttribute(Attribute::TYPE_AS_ARRAY);
     }
 
-    // replace section
-
-    public function replaceTagByAnother(string $oldTag, string $newTag): void
+    private function getParamTagValueByName(string $name): ?AttributeAwareParamTagValueNode
     {
-        $this->phpDocModifier->replaceTagByAnother($this->phpDocNode, $oldTag, $newTag);
-    }
+        $phpDocNode = $this->getPhpDocNode();
 
-    public function replacePhpDocTypeByAnother(string $oldType, string $newType): void
-    {
-        $this->phpDocModifier->replacePhpDocTypeByAnother($this->phpDocNode, $oldType, $newType);
-    }
+        /** @var AttributeAwareParamTagValueNode $paramTagValue */
+        foreach ($phpDocNode->getParamTagValues() as $paramTagValue) {
+            if (Strings::match($paramTagValue->parameterName, '#^(\$)?' . $name . '$#')) {
+                return $paramTagValue;
+            }
+        }
 
-    // remove section
-
-    public function removeReturnTag(): void
-    {
-        $this->phpDocModifier->removeReturnTagFromPhpDocNode($this->phpDocNode);
-    }
-
-    public function removeParamTagByParameter(string $name): void
-    {
-        $this->phpDocModifier->removeParamTagByParameter($this, $name);
-    }
-
-    public function removeTagByName(string $tagName): void
-    {
-        $this->phpDocModifier->removeTagByName($this, $tagName);
-    }
-
-    public function removeTagByNameAndContent(string $tagName, string $tagContent): void
-    {
-        $this->phpDocModifier->removeTagByNameAndContent($this, $tagName, $tagContent);
+        return null;
     }
 }

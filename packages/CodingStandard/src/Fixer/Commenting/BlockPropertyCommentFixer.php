@@ -65,9 +65,8 @@ private $property;
                     continue;
                 }
 
-                $tokens[$docBlockWrapper->getTokenPosition()] = new Token(
-                    [T_DOC_COMMENT, $this->convertDocBlockToMultiline($docBlockWrapper->getContent())]
-                );
+                $multilineContent = $this->convertDocBlockToMultiline($docBlockWrapper->getContent());
+                $tokens[$docBlockWrapper->getTokenPosition()] = new Token([T_DOC_COMMENT, $multilineContent]);
             }
         }
     }

@@ -7,6 +7,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\MethodTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
@@ -27,6 +28,7 @@ use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareGenericTagVa
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareInvalidTagValueNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareMethodTagValueNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareParamTagValueNode;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocTagNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocTextNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePropertyTagValueNode;
@@ -42,11 +44,16 @@ use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareThisTyp
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareUnionTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
+use Symplify\BetterPhpDocParser\Data\StartEndInfo;
 use Symplify\BetterPhpDocParser\Exception\NotImplementedYetException;
-use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 
 final class AttributeAwareNodeFactory
 {
+    public function createFromPhpDocNode(PhpDocNode $phpDocNode): AttributeAwarePhpDocNode
+    {
+        return new AttributeAwarePhpDocNode($phpDocNode->children);
+    }
+
     public function createFromNodeStartAndEnd(Node $node, int $tokenStart, int $tokenEnd): AttributeAwareNodeInterface
     {
         if ($node instanceof PhpDocTagNode) {
@@ -61,7 +68,7 @@ final class AttributeAwareNodeFactory
             ));
         }
 
-        $node->setAttribute(Attribute::PHP_DOC_NODE_INFO, new PhpDocNodeInfo($tokenStart, $tokenEnd));
+        $node->setAttribute(Attribute::PHP_DOC_NODE_INFO, new StartEndInfo($tokenStart, $tokenEnd));
 
         return $node;
     }
@@ -174,8 +181,13 @@ final class AttributeAwareNodeFactory
         }
 
         if ($typeNode instanceof GenericTypeNode) {
-            $typeNode->type = $this->createFromTypeNode($typeNode->type);
-            return new AttributeAwareGenericTypeNode($typeNode->type, $typeNode->genericTypes);
+            /** @var AttributeAwareIdentifierTypeNode $identifierTypeNode */
+            $identifierTypeNode = $this->createFromTypeNode($typeNode->type);
+            foreach ($typeNode->genericTypes as $key => $genericType) {
+                $typeNode->genericTypes[$key] = $this->createFromTypeNode($genericType);
+            }
+
+            return new AttributeAwareGenericTypeNode($identifierTypeNode, $typeNode->genericTypes);
         }
 
         throw new NotImplementedYetException(sprintf('Implement "%s" to "%s"', get_class($typeNode), __METHOD__));

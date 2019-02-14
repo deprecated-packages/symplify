@@ -7,6 +7,7 @@ use Nette\Utils\FileSystem;
 use Symplify\BetterPhpDocParser\HttpKernel\BetterPhpDocParserKernel;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Symplify\BetterPhpDocParser\PhpDocModifier;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
@@ -22,12 +23,18 @@ final class RemoveTest extends AbstractKernelTestCase
      */
     private $phpDocInfoPrinter;
 
+    /**
+     * @var PhpDocModifier
+     */
+    private $phpDocModifier;
+
     protected function setUp(): void
     {
         $this->bootKernel(BetterPhpDocParserKernel::class);
 
         $this->phpDocInfoFactory = self::$container->get(PhpDocInfoFactory::class);
         $this->phpDocInfoPrinter = self::$container->get(PhpDocInfoPrinter::class);
+        $this->phpDocModifier = self::$container->get(PhpDocModifier::class);
     }
 
     /**
@@ -36,7 +43,7 @@ final class RemoveTest extends AbstractKernelTestCase
     public function testRemoveTagByName(string $phpDocBeforeFilePath, string $phpDocAfter, string $tagName): void
     {
         $phpDocInfo = $this->createPhpDocInfoFromFile($phpDocBeforeFilePath);
-        $phpDocInfo->removeTagByName($tagName);
+        $this->phpDocModifier->removeTagByName($phpDocInfo, $tagName);
 
         $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
     }
@@ -57,7 +64,7 @@ final class RemoveTest extends AbstractKernelTestCase
         string $tagContent
     ): void {
         $phpDocInfo = $this->createPhpDocInfoFromFile($phpDocBeforeFilePath);
-        $phpDocInfo->removeTagByNameAndContent($tagName, $tagContent);
+        $this->phpDocModifier->removeTagByNameAndContent($phpDocInfo, $tagName, $tagContent);
 
         $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
     }
@@ -71,10 +78,10 @@ final class RemoveTest extends AbstractKernelTestCase
     {
         $phpDocInfo = $this->createPhpDocInfoFromFile(__DIR__ . '/RemoveSource/before4.txt');
 
-        $phpDocInfo->removeTagByNameAndContent('method', 'setName');
-        $phpDocInfo->removeTagByNameAndContent('method', 'addItem');
-        $phpDocInfo->removeTagByNameAndContent('method', 'setItems');
-        $phpDocInfo->removeTagByNameAndContent('method', 'setEnabled');
+        $this->phpDocModifier->removeTagByNameAndContent($phpDocInfo, 'method', 'setName');
+        $this->phpDocModifier->removeTagByNameAndContent($phpDocInfo, 'method', 'addItem');
+        $this->phpDocModifier->removeTagByNameAndContent($phpDocInfo, 'method', 'setItems');
+        $this->phpDocModifier->removeTagByNameAndContent($phpDocInfo, 'method', 'setEnabled');
 
         $this->assertStringEqualsFile(
             __DIR__ . '/RemoveSource/after4.txt',
@@ -91,7 +98,8 @@ final class RemoveTest extends AbstractKernelTestCase
         string $parameterName
     ): void {
         $phpDocInfo = $this->createPhpDocInfoFromFile($phpDocBeforeFilePath);
-        $phpDocInfo->removeParamTagByParameter($parameterName);
+
+        $this->phpDocModifier->removeParamTagByParameter($phpDocInfo, $parameterName);
 
         $this->assertStringEqualsFile(
             $phpDocAfterFilePath,

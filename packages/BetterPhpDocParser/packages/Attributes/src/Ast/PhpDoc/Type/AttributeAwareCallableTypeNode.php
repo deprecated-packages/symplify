@@ -9,4 +9,9 @@ use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterf
 final class AttributeAwareCallableTypeNode extends CallableTypeNode implements AttributeAwareNodeInterface
 {
     use AttributeTrait;
+
+    public function __toString(): string
+    {
+        return 'callable';
+    }
 }

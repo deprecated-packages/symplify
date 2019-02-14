@@ -7,6 +7,7 @@ use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\HttpKernel\BetterPhpDocParserKernel;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Symplify\BetterPhpDocParser\PhpDocModifier;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
@@ -22,12 +23,18 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
      */
     private $phpDocInfoPrinter;
 
+    /**
+     * @var PhpDocModifier
+     */
+    private $phpDocModifier;
+
     protected function setUp(): void
     {
         $this->bootKernel(BetterPhpDocParserKernel::class);
 
         $this->phpDocInfo = $this->createPhpDocInfoFromFile(__DIR__ . '/PhpDocInfoSource/doc.txt');
         $this->phpDocInfoPrinter = self::$container->get(PhpDocInfoPrinter::class);
+        $this->phpDocModifier = self::$container->get(PhpDocModifier::class);
     }
 
     public function testHasTag(): void
@@ -72,7 +79,7 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
         $this->assertFalse($phpDocInfo->hasTag('flow'));
         $this->assertTrue($phpDocInfo->hasTag('test'));
 
-        $phpDocInfo->replaceTagByAnother('test', 'flow');
+        $this->phpDocModifier->replaceTagByAnother($phpDocInfo->getPhpDocNode(), 'test', 'flow');
 
         $this->assertFalse($phpDocInfo->hasTag('test'));
         $this->assertTrue($phpDocInfo->hasTag('flow'));
@@ -86,7 +93,11 @@ final class PhpDocInfoTest extends AbstractKernelTestCase
     public function testReplacePhpDocTypeByAnother(): void
     {
         $this->assertSame(['SomeType'], $this->phpDocInfo->getVarTypes());
-        $this->phpDocInfo->replacePhpDocTypeByAnother('SomeType', 'AnotherType');
+        $this->phpDocModifier->replacePhpDocTypeByAnother(
+            $this->phpDocInfo->getPhpDocNode(),
+            'SomeType',
+            'AnotherType'
+        );
 
         $this->assertSame(['AnotherType'], $this->phpDocInfo->getVarTypes());
 

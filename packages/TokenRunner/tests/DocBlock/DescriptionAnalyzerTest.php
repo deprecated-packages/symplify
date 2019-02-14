@@ -3,14 +3,13 @@
 namespace Symplify\TokenRunner\Tests\DocBlock;
 
 use Iterator;
-use PHPUnit\Framework\TestCase;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIdentifierTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConverter;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
+use Symplify\TokenRunner\Tests\HttpKernel\TokenRunnerKernel;
 
-final class DescriptionAnalyzerTest extends TestCase
+final class DescriptionAnalyzerTest extends AbstractKernelTestCase
 {
     /**
      * @var DescriptionAnalyzer
@@ -19,7 +18,8 @@ final class DescriptionAnalyzerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->descriptionAnalyzer = new DescriptionAnalyzer(new TypeNodeAnalyzer(), new TypeNodeToStringsConverter());
+        $this->bootKernelWithConfigs(TokenRunnerKernel::class, [__DIR__ . '/../config/config_tests.yaml']);
+        $this->descriptionAnalyzer = self::$container->get(DescriptionAnalyzer::class);
     }
 
     /**

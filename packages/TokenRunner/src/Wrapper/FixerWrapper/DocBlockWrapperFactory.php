@@ -4,6 +4,7 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Symplify\BetterPhpDocParser\PhpDocModifier;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 
 final class DocBlockWrapperFactory
@@ -18,10 +19,19 @@ final class DocBlockWrapperFactory
      */
     private $phpDocInfoPrinter;
 
-    public function __construct(PhpDocInfoFactory $phpDocInfoFactory, PhpDocInfoPrinter $phpDocInfoPrinter)
-    {
+    /**
+     * @var PhpDocModifier
+     */
+    private $phpDocModifier;
+
+    public function __construct(
+        PhpDocInfoFactory $phpDocInfoFactory,
+        PhpDocInfoPrinter $phpDocInfoPrinter,
+        PhpDocModifier $phpDocModifier
+    ) {
         $this->phpDocInfoFactory = $phpDocInfoFactory;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
+        $this->phpDocModifier = $phpDocModifier;
     }
 
     public function create(Tokens $tokens, int $position, string $content): DocBlockWrapper
@@ -30,7 +40,8 @@ final class DocBlockWrapperFactory
             $tokens,
             $position,
             $this->phpDocInfoFactory->createFrom($content),
-            $this->phpDocInfoPrinter
+            $this->phpDocInfoPrinter,
+            $this->phpDocModifier
         );
     }
 }

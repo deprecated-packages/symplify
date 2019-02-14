@@ -13,10 +13,11 @@ use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
 use Symplify\BetterPhpDocParser\Attributes\Ast\AttributeAwareNodeFactory;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
-final class PositionAwarePhpDocParser extends PhpDocParser
+final class BetterPhpDocParser extends PhpDocParser
 {
     /**
      * @var bool
@@ -50,6 +51,9 @@ final class PositionAwarePhpDocParser extends PhpDocParser
         $this->attributeAwareNodeFactory = $attributeAwareNodeFactory;
     }
 
+    /**
+     * @return AttributeAwarePhpDocNode|PhpDocNode
+     */
     public function parse(TokenIterator $tokenIterator): PhpDocNode
     {
         $this->isComment = false;
@@ -79,7 +83,9 @@ final class PositionAwarePhpDocParser extends PhpDocParser
             $tokenIterator->consumeTokenType(Lexer::TOKEN_CLOSE_PHPDOC);
         }
 
-        return new PhpDocNode(array_values($children));
+        $phpDocNode = new PhpDocNode(array_values($children));
+
+        return $this->attributeAwareNodeFactory->createFromPhpDocNode($phpDocNode);
     }
 
     public function parseTagValue(TokenIterator $tokenIterator, string $tag): PhpDocTagValueNode
