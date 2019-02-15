@@ -4,6 +4,7 @@ namespace Symplify\BetterPhpDocParser\PhpDocInfo;
 
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareParamTagValueNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
@@ -147,7 +148,7 @@ final class PhpDocInfo
             return [];
         }
 
-        return $paramTagValue->getAttribute(Attribute::TYPE_AS_ARRAY);
+        return $this->getResolvedTypesAttribute($paramTagValue);
     }
 
     /**
@@ -155,7 +156,12 @@ final class PhpDocInfo
      */
     public function getVarTypes(): array
     {
-        return $this->getVarTagValue() ? $this->getVarTagValue()->getAttribute(Attribute::TYPE_AS_ARRAY) : [];
+        $varTagValue = $this->getVarTagValue();
+        if ($varTagValue === null) {
+            return [];
+        }
+
+        return $this->getResolvedTypesAttribute($varTagValue);
     }
 
     /**
@@ -168,7 +174,7 @@ final class PhpDocInfo
             return [];
         }
 
-        return $returnTypeValueNode->getAttribute(Attribute::TYPE_AS_ARRAY);
+        return $this->getResolvedTypesAttribute($returnTypeValueNode);
     }
 
     private function getParamTagValueByName(string $name): ?AttributeAwareParamTagValueNode
@@ -183,5 +189,18 @@ final class PhpDocInfo
         }
 
         return null;
+    }
+
+    /**
+     * @param PhpDocTagValueNode|AttributeAwareNodeInterface $phpDocTagValueNode
+     * @return string[]
+     */
+    private function getResolvedTypesAttribute(PhpDocTagValueNode $phpDocTagValueNode): array
+    {
+        if ($phpDocTagValueNode->getAttribute(Attribute::RESOLVED_NAMES)) {
+            return $phpDocTagValueNode->getAttribute(Attribute::RESOLVED_NAMES);
+        }
+
+        return $phpDocTagValueNode->getAttribute(Attribute::TYPE_AS_ARRAY);
     }
 }

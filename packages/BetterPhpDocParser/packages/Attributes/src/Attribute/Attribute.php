@@ -30,4 +30,9 @@ final class Attribute
      * @var string
      */
     public const LAST_TOKEN_POSITION = 'last_token_position';
+
+    /**
+     * @var string
+     */
+    public const RESOLVED_NAMES = 'resolved_names';
 }
