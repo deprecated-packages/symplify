@@ -183,6 +183,32 @@ final class PhpDocInfo
     /**
      * @return string[]
      */
+    public function getShortVarTypes(): array
+    {
+        $varTagValue = $this->getVarTagValue();
+        if ($varTagValue === null) {
+            return [];
+        }
+
+        return $varTagValue->getAttribute(Attribute::TYPE_AS_ARRAY) ?: [];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getShortReturnTypes(): array
+    {
+        $returnTypeValueNode = $this->getReturnTagValue();
+        if ($returnTypeValueNode === null) {
+            return [];
+        }
+
+        return $returnTypeValueNode->getAttribute(Attribute::TYPE_AS_ARRAY) ?: [];
+    }
+
+    /**
+     * @return string[]
+     */
     public function getReturnTypes(): array
     {
         $returnTypeValueNode = $this->getReturnTagValue();

@@ -16,6 +16,8 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\Annotation\AnnotationNaming;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIdentifierTypeNode;
+use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
+use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
 use Symplify\BetterPhpDocParser\NodeDecorator\StringsTypePhpDocNodeDecorator;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 
@@ -156,6 +158,7 @@ final class PhpDocModifier
 
             /** @var VarTagValueNode|ParamTagValueNode|ReturnTagValueNode $tagValueNode */
             $tagValueNode = $phpDocChildNode->value;
+
             $phpDocChildNode->value->type = $this->replaceTypeNode($tagValueNode->type, $oldType, $newType);
 
             $this->stringsTypePhpDocNodeDecorator->decorate($phpDocNode);
@@ -172,9 +175,9 @@ final class PhpDocModifier
     private function replaceTypeNode(TypeNode $typeNode, string $oldType, string $newType): TypeNode
     {
         if ($typeNode instanceof AttributeAwareIdentifierTypeNode) {
-            if (is_a($typeNode->name, $oldType, true) || ltrim($typeNode->name, '\\') === $oldType) {
-                $newType = $this->makeTypeFqn($newType);
+            $nodeType = $this->resolveNodeType($typeNode);
 
+            if (is_a($nodeType, $oldType, true) || ltrim($nodeType, '\\') === $oldType) {
                 return new AttributeAwareIdentifierTypeNode($newType);
             }
         }
@@ -194,17 +197,21 @@ final class PhpDocModifier
         return $typeNode;
     }
 
-    private function makeTypeFqn(string $type): string
+    /**
+     * @param AttributeAwareNodeInterface|TypeNode $typeNode
+     */
+    private function resolveNodeType(TypeNode $typeNode): string
     {
-        if (Strings::contains($type, '\\')) {
-            $type = $this->normalizeFromLeft($type, '\\');
+        $nodeType = $typeNode->getAttribute('resolved_name');
+
+        if ($nodeType === null) {
+            $nodeType = $typeNode->getAttribute(Attribute::TYPE_AS_STRING);
         }
 
-        return $type;
-    }
+        if ($nodeType === null) {
+            $nodeType = $typeNode->name;
+        }
 
-    private function normalizeFromLeft(string $value, string $char): string
-    {
-        return $char . ltrim($value, $char);
+        return $nodeType;
     }
 }
