@@ -178,6 +178,10 @@ final class PhpDocModifier
             $nodeType = $this->resolveNodeType($typeNode);
 
             if (is_a($nodeType, $oldType, true) || ltrim($nodeType, '\\') === $oldType) {
+                if (Strings::contains($newType, '\\')) {
+                    $newType = '\\' . ltrim($newType, '\\');
+                }
+
                 return new AttributeAwareIdentifierTypeNode($newType);
             }
         }
