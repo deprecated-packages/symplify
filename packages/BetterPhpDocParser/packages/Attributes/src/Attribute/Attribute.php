@@ -35,4 +35,9 @@ final class Attribute
      * @var string
      */
     public const RESOLVED_NAMES = 'resolved_names';
+
+    /**
+     * @var string
+     */
+    public const ANNOTATION_CLASS = 'annotation_class';
 }

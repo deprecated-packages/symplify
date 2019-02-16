@@ -123,54 +123,6 @@ final class StatieApplication
     }
 
     /**
-     * @param AbstractFile[] $files
-     * @param VirtualFile[] $virtualFiles
-     * @param AbstractGeneratorFile[][] $generatorFilesByType
-     */
-    private function renderFiles(string $source, array $files, array $virtualFiles, array $generatorFilesByType): void
-    {
-        $staticFiles = $this->fileFinder->findStaticFiles($source);
-        $this->fileSystemWriter->copyStaticFiles($staticFiles);
-
-        $this->fileSystemWriter->renderFiles($files);
-        $this->fileSystemWriter->renderFiles($virtualFiles);
-
-        foreach ($generatorFilesByType as $generatorFiles) {
-            $this->fileSystemWriter->renderFiles($generatorFiles);
-        }
-    }
-
-    /**
-     * @param VirtualFile[] $apiFiles
-     */
-    private function reportApiFiles(array $apiFiles): void
-    {
-        if ($this->symfonyStyle->isVerbose() && count($apiFiles)) {
-            $this->symfonyStyle->note(sprintf('Generating %d api files', count($apiFiles)));
-        }
-    }
-
-    /**
-     * @param VirtualFile[] $redirectFiles
-     */
-    private function reportRedirectFiles(array $redirectFiles): void
-    {
-        if ($this->symfonyStyle->isVerbose() && count($redirectFiles)) {
-            $this->symfonyStyle->note(sprintf('Generating %d redirect files', count($redirectFiles)));
-        }
-    }
-
-    /**
-     * @param SmartFileInfo[] $fileInfos
-     */
-    private function reportRenderableFiles(array $fileInfos): void
-    {
-        if ($this->symfonyStyle->isVerbose() && count($fileInfos)) {
-            $this->symfonyStyle->note(sprintf('Processing %d renderable files', count($fileInfos)));
-        }
-    }
-
-    /**
      * @param AbstractGeneratorFile[][] $generatorFilesByType
      */
     private function reportGeneratorFiles(array $generatorFilesByType): void
@@ -185,6 +137,54 @@ final class StatieApplication
             }
 
             $this->symfonyStyle->note(sprintf('Generated %d %s', count($generatorFiles), $type));
+        }
+    }
+
+    /**
+     * @param SmartFileInfo[] $fileInfos
+     */
+    private function reportRenderableFiles(array $fileInfos): void
+    {
+        if ($this->symfonyStyle->isVerbose() && count($fileInfos)) {
+            $this->symfonyStyle->note(sprintf('Processing %d renderable files', count($fileInfos)));
+        }
+    }
+
+    /**
+     * @param VirtualFile[] $redirectFiles
+     */
+    private function reportRedirectFiles(array $redirectFiles): void
+    {
+        if ($this->symfonyStyle->isVerbose() && count($redirectFiles)) {
+            $this->symfonyStyle->note(sprintf('Generating %d redirect files', count($redirectFiles)));
+        }
+    }
+
+    /**
+     * @param VirtualFile[] $apiFiles
+     */
+    private function reportApiFiles(array $apiFiles): void
+    {
+        if ($this->symfonyStyle->isVerbose() && count($apiFiles)) {
+            $this->symfonyStyle->note(sprintf('Generating %d api files', count($apiFiles)));
+        }
+    }
+
+    /**
+     * @param AbstractFile[] $files
+     * @param VirtualFile[] $virtualFiles
+     * @param AbstractGeneratorFile[][] $generatorFilesByType
+     */
+    private function renderFiles(string $source, array $files, array $virtualFiles, array $generatorFilesByType): void
+    {
+        $staticFiles = $this->fileFinder->findStaticFiles($source);
+        $this->fileSystemWriter->copyStaticFiles($staticFiles);
+
+        $this->fileSystemWriter->renderFiles($files);
+        $this->fileSystemWriter->renderFiles($virtualFiles);
+
+        foreach ($generatorFilesByType as $generatorFiles) {
+            $this->fileSystemWriter->renderFiles($generatorFiles);
         }
     }
 }

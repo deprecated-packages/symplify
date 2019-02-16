@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use Symplify\BetterPhpDocParser\Annotation\AnnotationNaming;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareParamTagValueNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareReturnTagValueNode;
@@ -115,9 +116,24 @@ final class PhpDocInfo
      */
     public function getTagsByName(string $name): array
     {
-        $name = '@' . ltrim($name, '@');
+        $name = AnnotationNaming::normalizeName($name);
 
-        return $this->phpDocNode->getTagsByName($name);
+        /** @var AttributeAwareNodeInterface[]|PhpDocTagNode[] $tags */
+        $tags = $this->phpDocNode->getTags();
+
+        return array_filter($tags, function (PhpDocTagNode $tag) use ($name): bool {
+            if ($tag->name === $name) {
+                return true;
+            }
+
+            /** @var PhpDocTagNode|AttributeAwareNodeInterface $tag */
+            $annotationClass = $tag->getAttribute(Attribute::ANNOTATION_CLASS);
+            if ($annotationClass === null) {
+                return false;
+            }
+
+            return AnnotationNaming::normalizeName($annotationClass) === $name;
+        });
     }
 
     /**

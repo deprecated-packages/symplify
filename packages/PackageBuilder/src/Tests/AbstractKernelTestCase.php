@@ -74,6 +74,19 @@ abstract class AbstractKernelTestCase extends TestCase
         static::$container = null;
     }
 
+    private function ensureIsConfigAwareKernel(): void
+    {
+        if (static::$kernel instanceof ExtraConfigAwareKernelInterface) {
+            return;
+        }
+
+        throw new MissingInterfaceException(sprintf(
+            '"%s" is missing an "%s" interface',
+            static::class,
+            ExtraConfigAwareKernelInterface::class
+        ));
+    }
+
     private function bootAndReturnKernel(): KernelInterface
     {
         static::$kernel->boot();
@@ -91,18 +104,5 @@ abstract class AbstractKernelTestCase extends TestCase
         }
 
         return static::$kernel;
-    }
-
-    private function ensureIsConfigAwareKernel(): void
-    {
-        if (static::$kernel instanceof ExtraConfigAwareKernelInterface) {
-            return;
-        }
-
-        throw new MissingInterfaceException(sprintf(
-            '"%s" is missing an "%s" interface',
-            static::class,
-            ExtraConfigAwareKernelInterface::class
-        ));
     }
 }

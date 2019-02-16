@@ -75,6 +75,12 @@ final class NeonToYamlConverter
         return $this->replaceOldToNewParameters($content);
     }
 
+    private function convertEnv(string $content): string
+    {
+        // https://regex101.com/r/IxBjFD/1
+        return Strings::replace($content, "#\@env::get\(\'?(.*?)\'?(,.*?)?\)#ms", "'%env($1)%'");
+    }
+
     /**
      * @return mixed[]
      */
@@ -84,23 +90,6 @@ final class NeonToYamlConverter
             'value' => $entity->value,
 
         ], $entity->attributes);
-    }
-
-    /**
-     * @param mixed[] $data
-     * @return mixed[]
-     */
-    private function convertIncludes(array $data): array
-    {
-        foreach ($data as $key => $value) {
-            if (Strings::contains($value, 'vendor') === false) {
-                $value = Strings::replace($value, '#\.neon$#', '.yaml');
-            }
-
-            $data[$key] = ['resource' => $value];
-        }
-
-        return $data;
     }
 
     /**
@@ -199,34 +188,6 @@ final class NeonToYamlConverter
 
     /**
      * @param mixed[] $data
-     * @param string|int $name
-     * @return mixed[]
-     */
-    private function convertServiceEntity(array $data, Entity $entity, $name): array
-    {
-        $class = $entity->value;
-        $serviceData = [
-            'class' => $class,
-            'arguments' => $entity->attributes,
-        ];
-
-        if (is_int($name)) { // class-named service
-            // is namespaced class?
-            if (Strings::contains($serviceData['class'], '\\')) {
-                unset($serviceData['class']);
-            }
-
-            unset($data[$name]);
-            $name = $class;
-        }
-
-        $data[$name] = $serviceData;
-
-        return [$name, $data];
-    }
-
-    /**
-     * @param mixed[] $data
      * @return mixed[]
      */
     private function convertParameters(array $data): array
@@ -257,6 +218,23 @@ final class NeonToYamlConverter
         return $data;
     }
 
+    /**
+     * @param mixed[] $data
+     * @return mixed[]
+     */
+    private function convertIncludes(array $data): array
+    {
+        foreach ($data as $key => $value) {
+            if (Strings::contains($value, 'vendor') === false) {
+                $value = Strings::replace($value, '#\.neon$#', '.yaml');
+            }
+
+            $data[$key] = ['resource' => $value];
+        }
+
+        return $data;
+    }
+
     private function replaceAppDirAndWwwDir(string $content): string
     {
         // @see https://symfony.com/blog/new-in-symfony-3-3-a-simpler-way-to-get-the-project-root-directory
@@ -270,6 +248,13 @@ final class NeonToYamlConverter
         return Strings::replace($content, '#%kernel.project_dir%\/app\/\.\.#', '%kernel.project_dir%');
     }
 
+    private function replaceTilda(string $content): string
+    {
+        $content = Strings::replace($content, "#: '~'\n#", ': ~' . PHP_EOL);
+
+        return Strings::replace($content, "#: null\n#", ': ~' . PHP_EOL);
+    }
+
     private function replaceOldToNewParameters(string $content): string
     {
         foreach ($this->arrayParameterCollector->getParametersToReplace() as $oldParameter => $newParamter) {
@@ -279,16 +264,31 @@ final class NeonToYamlConverter
         return $content;
     }
 
-    private function replaceTilda(string $content): string
+    /**
+     * @param mixed[] $data
+     * @param string|int $name
+     * @return mixed[]
+     */
+    private function convertServiceEntity(array $data, Entity $entity, $name): array
     {
-        $content = Strings::replace($content, "#: '~'\n#", ': ~' . PHP_EOL);
+        $class = $entity->value;
+        $serviceData = [
+            'class' => $class,
+            'arguments' => $entity->attributes,
+        ];
 
-        return Strings::replace($content, "#: null\n#", ': ~' . PHP_EOL);
-    }
+        if (is_int($name)) { // class-named service
+            // is namespaced class?
+            if (Strings::contains($serviceData['class'], '\\')) {
+                unset($serviceData['class']);
+            }
 
-    private function convertEnv(string $content): string
-    {
-        // https://regex101.com/r/IxBjFD/1
-        return Strings::replace($content, "#\@env::get\(\'?(.*?)\'?(,.*?)?\)#ms", "'%env($1)%'");
+            unset($data[$name]);
+            $name = $class;
+        }
+
+        $data[$name] = $serviceData;
+
+        return [$name, $data];
     }
 }

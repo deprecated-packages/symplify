@@ -13,6 +13,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Symplify\BetterPhpDocParser\Annotation\AnnotationNaming;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIdentifierTypeNode;
 use Symplify\BetterPhpDocParser\NodeDecorator\StringsTypePhpDocNodeDecorator;
@@ -34,8 +35,9 @@ final class PhpDocModifier
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
 
-        $tagName = $this->normalizeFromLeft($tagName, '@');
-        $phpDocTagNodes = $phpDocNode->getTagsByName($tagName);
+        $tagName = AnnotationNaming::normalizeName($tagName);
+
+        $phpDocTagNodes = $phpDocInfo->getTagsByName($tagName);
 
         foreach ($phpDocTagNodes as $phpDocTagNode) {
             $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
@@ -46,7 +48,7 @@ final class PhpDocModifier
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
 
-        $tagName = $this->normalizeFromLeft($tagName, '@');
+        $tagName = AnnotationNaming::normalizeName($tagName);
         $phpDocTagNodes = $phpDocNode->getTagsByName($tagName);
 
         foreach ($phpDocTagNodes as $phpDocTagNode) {
@@ -124,8 +126,8 @@ final class PhpDocModifier
 
     public function replaceTagByAnother(PhpDocNode $phpDocNode, string $oldTag, string $newTag): void
     {
-        $oldTag = $this->normalizeFromLeft($oldTag, '@');
-        $newTag = $this->normalizeFromLeft($newTag, '@');
+        $oldTag = AnnotationNaming::normalizeName($oldTag);
+        $newTag = AnnotationNaming::normalizeName($newTag);
 
         foreach ($phpDocNode->children as $phpDocChildNode) {
             if (! $phpDocChildNode instanceof PhpDocTagNode) {

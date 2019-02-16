@@ -255,13 +255,34 @@ final class LineLengthTransformer
         $tokens->ensureWhitespaceAtIndex($arrayStartIndex, 1, $this->newlineIndentWhitespace);
     }
 
-    private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
+    /**
+     * @return int[]
+     */
+    private function getLengthToStartOfLine(Tokens $tokens, int $currentPosition): array
     {
-        if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
-            return true;
+        $length = 0;
+
+        while (! $this->isNewLineOrOpenTag($tokens, $currentPosition)) {
+            // in case of multiline string, we are interested in length of the part on current line only
+            $explode = explode("\n", $tokens[$currentPosition]->getContent());
+            // string precedes current token, so we are interested in end part only
+            if (count($explode) !== 0) {
+                $lastSection = end($explode);
+                $length += strlen($lastSection);
+            }
+
+            --$currentPosition;
+
+            if (count($explode) > 1) {
+                break; // no longer need to continue searching for newline
+            }
+
+            if (! isset($tokens[$currentPosition])) {
+                break;
+            }
         }
 
-        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
+        return [$length, $currentPosition];
     }
 
     private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
@@ -273,13 +294,13 @@ final class LineLengthTransformer
         return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
     }
 
-    private function isBlockStartOrEnd(Token $previousToken, Token $nextToken): bool
+    private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
     {
-        if (in_array($previousToken->getContent(), ['(', '['], true)) {
+        if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
             return true;
         }
 
-        return in_array($nextToken->getContent(), [')', ']'], true);
+        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
     }
 
     private function getLenthFromFunctionStartToEndOfArguments(BlockInfo $blockInfo, Tokens $tokens): int
@@ -325,33 +346,12 @@ final class LineLengthTransformer
         return $length;
     }
 
-    /**
-     * @return int[]
-     */
-    private function getLengthToStartOfLine(Tokens $tokens, int $currentPosition): array
+    private function isBlockStartOrEnd(Token $previousToken, Token $nextToken): bool
     {
-        $length = 0;
-
-        while (! $this->isNewLineOrOpenTag($tokens, $currentPosition)) {
-            // in case of multiline string, we are interested in length of the part on current line only
-            $explode = explode("\n", $tokens[$currentPosition]->getContent());
-            // string precedes current token, so we are interested in end part only
-            if (count($explode) !== 0) {
-                $lastSection = end($explode);
-                $length += strlen($lastSection);
-            }
-
-            --$currentPosition;
-
-            if (count($explode) > 1) {
-                break; // no longer need to continue searching for newline
-            }
-
-            if (! isset($tokens[$currentPosition])) {
-                break;
-            }
+        if (in_array($previousToken->getContent(), ['(', '['], true)) {
+            return true;
         }
 
-        return [$length, $currentPosition];
+        return in_array($nextToken->getContent(), [')', ']'], true);
     }
 }

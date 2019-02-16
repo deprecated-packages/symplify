@@ -120,6 +120,7 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff:
             # privileged handy helpers
+            - 'packages/BetterPhpDocParser/src/Annotation/AnnotationNaming.php'
             - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
             - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
             - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
