@@ -178,9 +178,7 @@ final class PhpDocModifier
             $nodeType = $this->resolveNodeType($typeNode);
 
             if (is_a($nodeType, $oldType, true) || ltrim($nodeType, '\\') === $oldType) {
-                if (Strings::contains($newType, '\\')) {
-                    $newType = '\\' . ltrim($newType, '\\');
-                }
+                $newType = $this->forceFqnPrefix($newType);
 
                 return new AttributeAwareIdentifierTypeNode($newType);
             }
@@ -217,5 +215,14 @@ final class PhpDocModifier
         }
 
         return $nodeType;
+    }
+
+    private function forceFqnPrefix(string $newType): string
+    {
+        if (Strings::contains($newType, '\\')) {
+            $newType = '\\' . ltrim($newType, '\\');
+        }
+
+        return $newType;
     }
 }
