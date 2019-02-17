@@ -33,17 +33,15 @@ final class FileSystemCachedParser implements Parser
         $cachedFile = $this->cache->load($file);
 
         if (isset($cachedFile['md5_file']) && $cachedFile['md5_file'] === $md5File) {
-            return $cachedFile['nodes'];
+            // no change of file - no need to process it
+            return [];
         }
-
-        $fileNodes = $this->originalParser->parseFile($file);
 
         $this->cache->save($file, [
             'md5_file' => $md5File,
-            'nodes' => $fileNodes,
         ]);
 
-        return $fileNodes;
+        return $this->originalParser->parseFile($file);
     }
 
     /**
