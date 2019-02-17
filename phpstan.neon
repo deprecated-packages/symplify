@@ -141,9 +141,7 @@ parameters:
 
         # false positive
         - '#PHPDoc tag @return with type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|Symplify\\BetterPhpDocParser\\Attributes\\Contract\\Ast\\AttributeAwareNodeInterface is not subtype of native type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|null#'
-        - '#Cannot call method getAttribute\(\) on Symplify\\BetterPhpDocParser\\Attributes\\Ast\\PhpDoc\\AttributeAwareVarTagValueNode\|null#'
 
         # better phpdoc-parser attributes
         - '#(.*?)(AttributeAwareNodeInterface|AttributeAware(.*?)TagValueNode)(.*?)#'
         - '#Call to an undefined method PHPStan\\PhpDocParser\\Ast\\(.*?)\:\:getAttribute\(\)#'
-

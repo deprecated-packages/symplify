@@ -15,11 +15,6 @@ final class StringFormatConverter
         return $value;
     }
 
-    public function camelCaseToDashes(string $input): string
-    {
-        return self::camelCaseToGlue($input, '-');
-    }
-
     public function camelCaseToUnderscore(string $input): string
     {
         return self::camelCaseToGlue($input, '_');

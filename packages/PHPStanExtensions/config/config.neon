@@ -1,25 +1,35 @@
+includes:
+    - 'php.level.neon'
+    - 'symfony.level.neon'
+
+parameters:
+    excluded_rules:
+
 services:
     errorFormatter.symplify:
         class: 'Symplify\PHPStanExtensions\ErrorFormatter\SymplifyErrorFormatter'
 
     - Symfony\Component\Console\Terminal
     - Symplify\PHPStanExtensions\Error\ErrorGrouper
+    - Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
 
     - Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory
     -
-        class: Symfony\Component\Console\Style\SymfonyStyle
         factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
 
-    - { class: Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule, tags: [phpstan.rules.rule] }
+    - Symfony\Component\Filesystem\Filesystem
+    - Symplify\PHPStanExtensions\Cache\CacheFactory
+    -
+        factory: ['@Symplify\PHPStanExtensions\Cache\CacheFactory', 'create']
 
-    # Symfony SplFileInfo::getContent() => string type
-    - { class: Symplify\PHPStanExtensions\Symfony\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension, tags: [phpstan.broker.dynamicMethodReturnTypeExtension] }
+extensions:
+    decorator: Nette\DI\Extensions\DecoratorExtension
+    symplify: Symplify\PHPStanExtensions\DI\SymplifyPHPStanExtension
 
-    # Symfony Container::get($1) => $1 type
-    - { class: Symplify\PHPStanExtensions\Symfony\Type\ContainerGetTypeExtension, tags: [phpstan.broker.dynamicMethodReturnTypeExtension] }
-
-    # Symfony Kernel::getContainer() after Kernel::boot() => ContainerInterface type
-    - { class: Symplify\PHPStanExtensions\Symfony\Type\KernelGetContainerAfterBootReturnTypeExtension, tags: [phpstan.broker.dynamicMethodReturnTypeExtension] }
-
-    # getcwd -> string
-    - { class: Symplify\PHPStanExtensions\Php\Type\NativeFunctionDynamicFunctionReturnTypeExtension, tags: [phpstan.broker.dynamicFunctionReturnTypeExtension] }
+decorator:
+    PHPStan\Rules\Rule:
+        tags: [phpstan.rules.rule]
+    PHPStan\Type\DynamicMethodReturnTypeExtension:
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+    PHPStan\Type\DynamicFunctionReturnTypeExtension:
+        tags: [phpstan.broker.dynamicFunctionReturnTypeExtension]
