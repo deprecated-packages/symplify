@@ -1,0 +1,7 @@
+services:
+    # Symfony SplFileInfo::getContent() => string type
+    - Symplify\PHPStanExtensions\Symfony\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension
+    # Symfony Container::get($1) => $1 type
+    - Symplify\PHPStanExtensions\Symfony\Type\ContainerGetTypeExtension
+    # Symfony Kernel::getContainer() after Kernel::boot() => ContainerInterface type
+    - Symplify\PHPStanExtensions\Symfony\Type\KernelGetContainerAfterBootReturnTypeExtension
