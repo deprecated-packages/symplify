@@ -3,7 +3,10 @@
 namespace Symplify\PHPStanExtensions\DI;
 
 use Nette\DI\CompilerExtension;
+use Nette\DI\ContainerBuilder;
+use PHPStan\Parser\CachedParser;
 use PHPStan\Rules\Rule;
+use Symplify\PHPStanExtensions\Parser\FileSystemCachedParser;
 
 final class SymplifyPHPStanExtension extends CompilerExtension
 {
@@ -11,7 +14,17 @@ final class SymplifyPHPStanExtension extends CompilerExtension
     {
         $containerBuilder = $this->getContainerBuilder();
 
-        $excludedRules = $containerBuilder->parameters['excluded_rules'] ?? [];
+        $excludedRules = (array) $containerBuilder->parameters['excluded_rules'] ?? [];
+        $this->removeExcludedRules($containerBuilder, $excludedRules);
+
+        $this->replaceParserWithCached($containerBuilder);
+    }
+
+    /**
+     * @param string[] $excludedRules
+     */
+    private function removeExcludedRules(ContainerBuilder $containerBuilder, array $excludedRules): void
+    {
         if ($excludedRules === []) {
             return;
         }
@@ -25,5 +38,15 @@ final class SymplifyPHPStanExtension extends CompilerExtension
 
             $containerBuilder->removeDefinition($name);
         }
+    }
+
+    private function replaceParserWithCached(ContainerBuilder $containerBuilder): void
+    {
+        $cachedParserDefinition = $containerBuilder->getDefinitionByType(CachedParser::class);
+        $cachedParserDefinition->setType(FileSystemCachedParser::class);
+
+        $cachedParserDefinition->setFactory(FileSystemCachedParser::class, [
+            'originalParser' => '@directParser',
+        ]);
     }
 }

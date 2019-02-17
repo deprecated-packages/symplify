@@ -12,11 +12,15 @@ services:
     - Symfony\Component\Console\Terminal
     - Symplify\PHPStanExtensions\Error\ErrorGrouper
     - Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
-    - Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory
 
+    - Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory
     -
-        class: Symfony\Component\Console\Style\SymfonyStyle
         factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
+
+    - Symfony\Component\Filesystem\Filesystem
+    - Symplify\PHPStanExtensions\Cache\CacheFactory
+    -
+        factory: ['@Symplify\PHPStanExtensions\Cache\CacheFactory', 'create']
 
 extensions:
     decorator: Nette\DI\Extensions\DecoratorExtension
