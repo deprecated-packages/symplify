@@ -3,8 +3,7 @@ includes:
     - 'symfony.level.neon'
 
 parameters:
-    exclude_rules:
-
+    excluded_rules:
 
 services:
     errorFormatter.symplify:
@@ -21,6 +20,7 @@ services:
 
 extensions:
     decorator: Nette\DI\Extensions\DecoratorExtension
+    symplify: Symplify\PHPStanExtensions\DI\SymplifyPHPStanExtension
 
 decorator:
     PHPStan\Rules\Rule:
