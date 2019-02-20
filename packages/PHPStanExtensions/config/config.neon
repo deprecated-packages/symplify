@@ -10,17 +10,11 @@ services:
         class: 'Symplify\PHPStanExtensions\ErrorFormatter\SymplifyErrorFormatter'
 
     - Symfony\Component\Console\Terminal
-    - Symplify\PHPStanExtensions\Error\ErrorGrouper
     - Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
 
     - Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory
     -
         factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
-
-    - Symfony\Component\Filesystem\Filesystem
-    - Symplify\PHPStanExtensions\Cache\CacheFactory
-    -
-        factory: ['@Symplify\PHPStanExtensions\Cache\CacheFactory', 'create']
 
 extensions:
     decorator: Nette\DI\Extensions\DecoratorExtension

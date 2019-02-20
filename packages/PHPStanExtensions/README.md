@@ -30,33 +30,9 @@ vendor/bin/phpstan analyse src --level max --error-format symplify
 -----------------------------------------------------------------------------------------------------------------
 packages/MonorepoBuilder/packages/Release/src/Command/ReleaseCommand.php:51
 -----------------------------------------------------------------------------------------------------------------
-"Call to an undefined method Symplify\\MonorepoBuilder\\Release\\Command\\ReleaseCommand\:\:nonExistingCall\(\)"
+- "Call to an undefined method Symplify\\MonorepoBuilder\\Release\\Command\\ReleaseCommand\:\:nonExistingCall\(\)"
 -----------------------------------------------------------------------------------------------------------------
 ```
-
-### Stats Error Formatter
-
-- Why fixing unique errors, when you can kill 2 birds with one stone?
-- Do you want to know **the 5 most repeated errors** in your code?
-
-```bash
-vendor/bin/phpstan analyse src --level max --error-format stats
-```
-
-↓
-
-```bash
-These are 5 most frequent errors
-================================
-
-2 x - "Parameter #1 $filePath of method Symplify\EasyCodingStandard\ChangedFilesDetector\FileHashComputer::compute() expects string, string|false given."
----------------------------------------------------------------------------------------------------------------------------------------------------------
-
- * packages/EasyCodingStandard/packages/ChangedFilesDetector/src/ChangedFilesDetector.php:50
- * packages/EasyCodingStandard/packages/ChangedFilesDetector/src/ChangedFilesDetector.php:62
-```
-
-<br>
 
 The config also loads few rules and return type extensions.
 
