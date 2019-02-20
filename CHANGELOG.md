@@ -9,41 +9,40 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-<!-- dumped content start -->
-
-## [v5.4.7]
+## [v5.4.7] - 2019-02-20
 
 ### Added
 
+- [#1447] Add Illuminate helpers, improve PHPStan cache and configs
+
+### Fixed
+
 #### CodingStandard
 
-- [#1451] Add double qoute and dot slash support to RequireFollowedByAbsolutePathFixer
-
-#### Unknown Package
-
-- [#1447] Add Illuminate helpers, improve PHPStan cache and configs
+- [#1451] Add double quote and dot slash support to `RequireFollowedByAbsolutePathFixer`
 
 ## [v5.4.6] - 2019-02-16
 
+### Changed
+
 #### BetterPhpDocParser
 
-- [#1442] Add PhpDocNodeDecoratorInterface again, simplify PhpDocInfo
+- [#1442] Add `PhpDocNodeDecoratorInterface` again, simplify `PhpDocInfo`
+- [#1445] Various improvements, turn active record to value object + service
 
 ### Removed
 
-- [#1444] remove typeNodeToStringsConverter from DescriptionAnalyzer
+#### TokenRunner
 
-### Unknown Category
-
-- [#1445] Various improvements, turn active record to value object + service
+- [#1444] remove `TypeNodeToStringsConverter` from `DescriptionAnalyzer`
 
 ## [v5.4.5] - 2019-02-13
 
 ### Changed
 
-- [#1437] Allow node attributes
+#### BetterPhpDocParser
 
-<!-- dumped content end -->
+- [#1437] Allow node attributes
 
 ## [v5.4.3] - 2019-02-11
 
