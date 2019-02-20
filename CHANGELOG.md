@@ -9,7 +9,43 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.4.3 - 2019-02-11
+<!-- dumped content start -->
+
+## [v5.4.7]
+
+### Added
+
+#### CodingStandard
+
+- [#1451] Add double qoute and dot slash support to RequireFollowedByAbsolutePathFixer
+
+#### Unknown Package
+
+- [#1447] Add Illuminate helpers, improve PHPStan cache and configs
+
+## [v5.4.6] - 2019-02-16
+
+#### BetterPhpDocParser
+
+- [#1442] Add PhpDocNodeDecoratorInterface again, simplify PhpDocInfo
+
+### Removed
+
+- [#1444] remove typeNodeToStringsConverter from DescriptionAnalyzer
+
+### Unknown Category
+
+- [#1445] Various improvements, turn active record to value object + service
+
+## [v5.4.5] - 2019-02-13
+
+### Changed
+
+- [#1437] Allow node attributes
+
+<!-- dumped content end -->
+
+## [v5.4.3] - 2019-02-11
 
 ### Added
 
@@ -901,3 +937,13 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1432]: https://github.com/Symplify/Symplify/pull/1432
 [#1431]: https://github.com/Symplify/Symplify/pull/1431
 [#1426]: https://github.com/Symplify/Symplify/pull/1426
+[#1451]: https://github.com/Symplify/Symplify/pull/1451
+[#1447]: https://github.com/Symplify/Symplify/pull/1447
+[#1445]: https://github.com/Symplify/Symplify/pull/1445
+[#1444]: https://github.com/Symplify/Symplify/pull/1444
+[#1442]: https://github.com/Symplify/Symplify/pull/1442
+[#1437]: https://github.com/Symplify/Symplify/pull/1437
+[v5.4.7]: https://github.com/Symplify/Symplify/compare/v5.4.6...v5.4.7
+[v5.4.6]: https://github.com/Symplify/Symplify/compare/v5.4.5...v5.4.6
+[v5.4.5]: https://github.com/Symplify/Symplify/compare/v5.4.3...v5.4.5
+[v5.4.3]: https://github.com/Symplify/Symplify/compare/v5.4.2...v5.4.3
