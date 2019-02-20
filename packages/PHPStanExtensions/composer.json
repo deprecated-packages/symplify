@@ -7,7 +7,7 @@
         "nette/di": "^2.4",
         "nette/caching": "^3.0",
         "nette/utils": "^2.5",
-        "symplify/package-builder": "^5.5"
+        "symplify/package-builder": "^5.4.8"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.11",
