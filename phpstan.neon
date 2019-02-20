@@ -141,6 +141,19 @@ parameters:
 
         # false positive
         - '#PHPDoc tag @return with type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|Symplify\\BetterPhpDocParser\\Attributes\\Contract\\Ast\\AttributeAwareNodeInterface is not subtype of native type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|null#'
+        - '#More info\: http\://bit\.ly/(typehintarray|usetypehint)#'
+        - '#Strict comparison using \=\=\= between array and null will always evaluate to false#'
+        - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, int\|string given#'
+        - '#Cannot call method getParameters\(\) on ReflectionMethod\|null#'
+        - '#Access to an undefined property PhpParser\\Node\:\:\$consts#'
+        - '#Parameter \#1 \$classConstNode of method Symplify\\PHPStanExtensions\\Rules\\Classes\\MatchingTypeConstantRule\:\:shouldSkip\(\) expects PhpParser\\Node\\Stmt\\ClassConst, PhpParser\\Node given#'
+        - '#Parameter \#2 \$name of method Symplify\\EasyCodingStandard\\Console\\Command\\FindCommand\:\:filterCheckersByName\(\) expects string, \(array<string\>\)\|string given#'
+        - '#Parameter \#2 \.\.\.\$args of function sprintf expects bool\|float\|int\|string\|null, \(array<string\>\)\|string given#'
+        - '#Cannot cast array<string\>\|bool\|string to int#'
+        - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocTagValueNode\:\:\$parameterName#'
+        - '#Method Symplify\\TokenRunner\\Transformer\\FixerTransformer\\LineLengthTransformer\:\:getFirstLineLength\(\) should return int but returns float\|int#'
+        - '#Call to an undefined method object\:\:getPriority\(\)#'
+        - '#Cannot call method getConstructor\(\) on ReflectionClass\|null#'
 
         # better phpdoc-parser attributes
         - '#(.*?)(AttributeAwareNodeInterface|AttributeAware(.*?)TagValueNode)(.*?)#'

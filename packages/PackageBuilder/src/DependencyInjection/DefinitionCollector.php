@@ -28,6 +28,7 @@ final class DefinitionCollector
 
         foreach ($collectorDefinitions as $collectorDefinition) {
             foreach (array_keys($collectedDefinitions) as $name) {
+                /** @var string $name */
                 $collectorDefinition->addMethodCall($setterMethod, [new Reference($name)]);
             }
         }
