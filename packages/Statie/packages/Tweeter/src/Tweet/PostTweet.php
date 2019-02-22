@@ -46,10 +46,23 @@ final class PostTweet
 
     public function isSimilarToPublishedTweet(PublishedTweet $publishedTweet): bool
     {
+        $areTextsSimilar = $this->areTextSimilar($this->text, $publishedTweet->getText());
+        if ($areTextsSimilar) {
+            return true;
+        }
+
+        // website in title without link is automatically converted to http://, so we might wanna remove it
+        $textWithoutHttp = Strings::replace($publishedTweet->getText(), '#http\:\/\/#');
+
+        return $this->areTextSimilar($this->text, $textWithoutHttp);
+    }
+
+    private function areTextSimilar(string $firstText, string $publishedText): bool
+    {
         return Strings::startsWith(
-            $this->text,
+            $firstText,
             // published tweet is usually modified by Twitter API, so we just use starting part of it
-            Strings::substring($publishedTweet->getText(), 0, 50)
+            Strings::substring($publishedText, 0, 50)
         );
     }
 }
