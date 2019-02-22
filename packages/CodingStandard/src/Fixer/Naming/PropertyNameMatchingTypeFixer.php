@@ -36,7 +36,6 @@ final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implemen
         'SimpleXML*',
         '*|*', // union types
         '*[]', // arrays
-        'PhpParser\Node\*',
         Token::class,
         '*_', // anything that ends with underscore
     ];
