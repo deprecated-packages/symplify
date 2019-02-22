@@ -1,16 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-use PhpParser\Node\Arg;
+namespace Symplify\CodingStandard\Fixer\Commenting;
 
-class SomeClass
+use Symplify\CodingStandard\Tests\Fixer\Naming\PropertyNameMatchingTypeFixer\Source\HardRock;
+
+class KeepDoubles
 {
-    /**
-     * @var Arg
-     */
-    public $argNode;
-
-    public function __construct(
-        Arg $argNode
-    ) {
+    function configure(HardRock $fistNode, HardRock $secondNode)
+    {
     }
 }

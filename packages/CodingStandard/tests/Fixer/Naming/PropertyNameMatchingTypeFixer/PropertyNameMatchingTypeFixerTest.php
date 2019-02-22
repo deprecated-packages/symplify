@@ -17,7 +17,6 @@ final class PropertyNameMatchingTypeFixerTest extends AbstractCheckerTestCase
             __DIR__ . '/Fixture/correct5.php.inc',
             __DIR__ . '/Fixture/correct6.php.inc',
             __DIR__ . '/Fixture/correct7.php.inc',
-            __DIR__ . '/Fixture/correct8.php.inc',
             __DIR__ . '/Fixture/wrong.php.inc',
             __DIR__ . '/Fixture/wrong2.php.inc',
             __DIR__ . '/Fixture/wrong3.php.inc',
