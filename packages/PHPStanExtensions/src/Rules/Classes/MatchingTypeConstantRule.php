@@ -64,13 +64,13 @@ final class MatchingTypeConstantRule implements Rule
         return $this->processConstantValue($constantValue, $type);
     }
 
-    private function shouldSkip(ClassConst $classConstNode): bool
+    private function shouldSkip(ClassConst $classConst): bool
     {
-        if ($classConstNode->getDocComment() === null) {
+        if ($classConst->getDocComment() === null) {
             return true;
         }
 
-        return count($classConstNode->consts) !== 1;
+        return count($classConst->consts) !== 1;
     }
 
     /**
@@ -90,15 +90,15 @@ final class MatchingTypeConstantRule implements Rule
     /**
      * @return string[]
      */
-    private function processConstantValue(Expr $constantValue, string $type): array
+    private function processConstantValue(Expr $expr, string $type): array
     {
         foreach ($this->typeNodesToAcceptedTypes as $typeNode => $acceptedTypes) {
             /** @var string $typeNode */
-            if (! is_a($constantValue, $typeNode, true)) {
+            if (! is_a($expr, $typeNode, true)) {
                 continue;
             }
 
-            if ($this->isValidConstantValue($constantValue, $type, $acceptedTypes)) {
+            if ($this->isValidConstantValue($expr, $type, $acceptedTypes)) {
                 return [];
             }
 
@@ -111,15 +111,15 @@ final class MatchingTypeConstantRule implements Rule
     /**
      * @param string[] $acceptedTypes
      */
-    private function isValidConstantValue(Expr $constantValue, string $type, array $acceptedTypes): bool
+    private function isValidConstantValue(Expr $expr, string $type, array $acceptedTypes): bool
     {
         if (in_array($type, $acceptedTypes, true)) {
             return true;
         }
 
         // special bool case
-        if ($constantValue instanceof ConstFetch && $type === 'bool') {
-            if (in_array($constantValue->name->toLowerString(), ['false', 'true'], true)) {
+        if ($expr instanceof ConstFetch && $type === 'bool') {
+            if (in_array($expr->name->toLowerString(), ['false', 'true'], true)) {
                 return true;
             }
         }

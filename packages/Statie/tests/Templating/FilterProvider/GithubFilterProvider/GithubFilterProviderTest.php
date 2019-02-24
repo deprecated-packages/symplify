@@ -19,7 +19,10 @@ final class GithubFilterProviderTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernelWithConfigs(StatieKernel::class, [$this->provideConfig()]);
+        $this->bootKernelWithConfigs(
+            StatieKernel::class,
+            [__DIR__ . '/GithubFilterProviderSource/statie-config-with-github-slug.yml']
+        );
 
         $this->fileFactory = self::$container->get(FileFactory::class);
 
@@ -36,11 +39,6 @@ final class GithubFilterProviderTest extends AbstractKernelTestCase
             'https://github.com/TomasVotruba/tomasvotruba.cz/edit/master/source/_posts/2017-12-31-happy-new-years.md',
             $githubEditPostUrlFilter($this->getFile())
         );
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/GithubFilterProviderSource/statie-config-with-github-slug.yml';
     }
 
     private function getFile(): AbstractFile

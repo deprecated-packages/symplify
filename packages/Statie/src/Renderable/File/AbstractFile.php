@@ -191,4 +191,9 @@ abstract class AbstractFile implements RenderableFileInterface
     {
         return $this->getOption('related_items') ?? [];
     }
+
+    public function getFileInfo(): SmartFileInfo
+    {
+        return $this->fileInfo;
+    }
 }

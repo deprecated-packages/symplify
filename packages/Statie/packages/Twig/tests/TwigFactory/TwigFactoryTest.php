@@ -11,7 +11,7 @@ final class TwigFactoryTest extends AbstractKernelTestCase
 {
     public function test(): void
     {
-        $this->bootKernelWithConfigs(StatieKernel::class, [$this->provideConfig()]);
+        $this->bootKernelWithConfigs(StatieKernel::class, [__DIR__ . '/config.yml']);
 
         $twigFactory = self::$container->get(TwigFactory::class);
         $twig = $twigFactory->create();
@@ -23,10 +23,5 @@ final class TwigFactoryTest extends AbstractKernelTestCase
         ]);
 
         $this->assertStringEqualsFile(__DIR__ . '/Source/expected.html', $renderedTwig);
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
     }
 }

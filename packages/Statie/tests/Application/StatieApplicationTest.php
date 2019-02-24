@@ -25,7 +25,7 @@ final class StatieApplicationTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernelWithConfigs(StatieKernel::class, [$this->provideConfig()]);
+        $this->bootKernelWithConfigs(StatieKernel::class, [__DIR__ . '/StatieApplicationSource/statie.yml']);
 
         $this->statieApplication = self::$container->get(StatieApplication::class);
         $this->arrayLoader = self::$container->get(ArrayLoader::class);
@@ -55,6 +55,13 @@ final class StatieApplicationTest extends AbstractKernelTestCase
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/feed.xml');
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/atom.rss');
 
+        // markdown test
+        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/file/index.html');
+        $this->assertFileEquals(
+            __DIR__ . '/StatieApplicationSource/expected-file.html',
+            __DIR__ . '/StatieApplicationSource/output/file/index.html'
+        );
+
         $this->assertNotEmpty($this->arrayLoader->getContent('_layouts/default.latte'));
     }
 
@@ -73,10 +80,5 @@ final class StatieApplicationTest extends AbstractKernelTestCase
 
         $this->expectExceptionMessageRegExp('#Did you mean "_layouts/default.latte"#');
         $this->assertNotEmpty($this->arrayLoader->getContent('layout/default.latte'));
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/StatieApplicationSource/statie.yml';
     }
 }
