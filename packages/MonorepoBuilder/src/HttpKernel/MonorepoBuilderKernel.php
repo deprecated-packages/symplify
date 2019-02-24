@@ -13,7 +13,6 @@ use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersC
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass;
 
 final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKernelInterface
 {
@@ -64,7 +63,6 @@ final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKern
 
         $containerBuilder->addCompilerPass(new AutowireInterfacesCompilerPass([ReleaseWorkerInterface::class]));
 
-        $containerBuilder->addCompilerPass(new ConfigurableCollectorCompilerPass());
         $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());

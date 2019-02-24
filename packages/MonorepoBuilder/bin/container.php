@@ -8,7 +8,9 @@ use Symplify\PackageBuilder\Console\Input\InputDetector;
 ConfigFileFinder::detectFromInput('mb', new ArgvInput());
 $configFile = ConfigFileFinder::provide('mb', ['monorepo-builder.yml', 'monorepo-builder.yaml']);
 
-$monorepoBuilderKernel = new MonorepoBuilderKernel('prod', InputDetector::isDebug());
+// the environment name must be "random", so configs are invalidated without clearing the cache
+$environment = 'prod' . random_int(0, 100000);
+$monorepoBuilderKernel = new MonorepoBuilderKernel($environment, InputDetector::isDebug());
 
 if ($configFile) {
     $monorepoBuilderKernel->setConfigs([$configFile]);
