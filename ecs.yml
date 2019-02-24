@@ -18,6 +18,7 @@ services:
         extra_allowed_classes:
             - '*File'
             - '*Tweet'
+            - 'PHP_CodeSniffer\Config'
 
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
