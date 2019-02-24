@@ -13,7 +13,6 @@ use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass;
 use Symplify\PackageBuilder\Yaml\FileLoader\ParameterImportsYamlFileLoader;
 
 final class TokenRunnerKernel extends Kernel implements ExtraConfigAwareKernelInterface
@@ -61,7 +60,6 @@ final class TokenRunnerKernel extends Kernel implements ExtraConfigAwareKernelIn
     protected function build(ContainerBuilder $containerBuilder): void
     {
         // needed for by "symplify/better-phpdoc-parser"
-        $containerBuilder->addCompilerPass(new ConfigurableCollectorCompilerPass());
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
     }
 
