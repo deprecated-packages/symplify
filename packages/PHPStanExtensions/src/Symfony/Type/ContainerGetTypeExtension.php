@@ -46,11 +46,11 @@ final class ContainerGetTypeExtension implements DynamicMethodReturnTypeExtensio
         return $returnType;
     }
 
-    private function resolveClassName(Expr $node): ?string
+    private function resolveClassName(Expr $expr): ?string
     {
-        if ($node instanceof ClassConstFetch) {
-            if ($node->class instanceof Name) {
-                return $node->class->toString();
+        if ($expr instanceof ClassConstFetch) {
+            if ($expr->class instanceof Name) {
+                return $expr->class->toString();
             }
 
             return null;

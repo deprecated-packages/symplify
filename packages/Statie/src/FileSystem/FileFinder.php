@@ -112,7 +112,6 @@ final class FileFinder
             ->name('*.rss')
             ->name('*.md')
             ->name('*.xml')
-            # @todo turn to parameters
             ->notPath('#(_layouts|_snippets)#')
             ->in($directory);
 

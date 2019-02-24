@@ -144,6 +144,18 @@ final class StatieApplication
 
     /**
      * @param SmartFileInfo[] $fileInfos
+     * @param AbstractGeneratorFile[][] $generatorFilesByType
+     * @return SmartFileInfo[]
+     */
+    private function filterOutGeneratorFiles(array $fileInfos, array $generatorFilesByType)
+    {
+        return array_filter($fileInfos, function (SmartFileInfo $fileInfo) use ($generatorFilesByType) {
+            return ! $this->isFilePartOfGeneratorsFiles($fileInfo, $generatorFilesByType);
+        });
+    }
+
+    /**
+     * @param SmartFileInfo[] $fileInfos
      */
     private function reportRenderableFiles(array $fileInfos): void
     {
@@ -191,23 +203,11 @@ final class StatieApplication
     }
 
     /**
-     * @param SmartFileInfo[] $fileInfos
-     * @param AbstractGeneratorFile[][] $generatorFilesByType
-     * @return SmartFileInfo[]
-     */
-    private function filterOutGeneratorFiles(array $fileInfos, array $generatorFilesByType)
-    {
-        return array_filter($fileInfos, function (SmartFileInfo $fileInfo) use ($generatorFilesByType) {
-            return ! $this->isFilePartOfGeneratorsFiles($fileInfo, $generatorFilesByType);
-        });
-    }
-
-    /**
      * @param AbstractGeneratorFile[][] $generatorFilesByType
      */
     private function isFilePartOfGeneratorsFiles(SmartFileInfo $fileInfo, array $generatorFilesByType): bool
     {
-        foreach ($generatorFilesByType as $type => $generatorFiles) {
+        foreach ($generatorFilesByType as $generatorFiles) {
             foreach ($generatorFiles as $generatorFile) {
                 if ($fileInfo->getRealPath() === $generatorFile->getFileInfo()->getRealPath()) {
                     return true;
