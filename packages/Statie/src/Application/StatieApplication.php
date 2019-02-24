@@ -106,6 +106,8 @@ final class StatieApplication
 
         // process rest of files (config call is due to absolute path)
         $fileInfos = $this->fileFinder->findRestOfRenderableFiles($source);
+        $fileInfos = $this->filterOutGeneratorFiles($fileInfos, $generatorFilesByType);
+
         $this->reportRenderableFiles($fileInfos);
 
         $files = $this->renderableFilesProcessor->processFileInfos($fileInfos);
@@ -186,5 +188,33 @@ final class StatieApplication
         foreach ($generatorFilesByType as $generatorFiles) {
             $this->fileSystemWriter->renderFiles($generatorFiles);
         }
+    }
+
+    /**
+     * @param SmartFileInfo[] $fileInfos
+     * @param AbstractGeneratorFile[][] $generatorFilesByType
+     * @return SmartFileInfo[]
+     */
+    private function filterOutGeneratorFiles(array $fileInfos, array $generatorFilesByType)
+    {
+        return array_filter($fileInfos, function (SmartFileInfo $fileInfo) use ($generatorFilesByType) {
+            return ! $this->isFilePartOfGeneratorsFiles($fileInfo, $generatorFilesByType);
+        });
+    }
+
+    /**
+     * @param AbstractGeneratorFile[][] $generatorFilesByType
+     */
+    private function isFilePartOfGeneratorsFiles(SmartFileInfo $fileInfo, array $generatorFilesByType): bool
+    {
+        foreach ($generatorFilesByType as $type => $generatorFiles) {
+            foreach ($generatorFiles as $generatorFile) {
+                if ($fileInfo->getRealPath() === $generatorFile->getFileInfo()->getRealPath()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

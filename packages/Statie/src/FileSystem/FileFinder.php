@@ -110,6 +110,7 @@ final class FileFinder
             ->name('*.latte')
             ->name('*.twig')
             ->name('*.rss')
+            ->name('*.md')
             ->name('*.xml')
             # @todo turn to parameters
             ->notPath('#(_layouts|_snippets)#')
