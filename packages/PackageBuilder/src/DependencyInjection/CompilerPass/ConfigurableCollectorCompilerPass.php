@@ -48,8 +48,9 @@ final class ConfigurableCollectorCompilerPass implements CompilerPassInterface
         sleep(3);
 
         $message = sprintf(
-            '%s" is deprecated, because its magic causes to duplicated service adding. Use more explicit "%s" instead.',
+            '%s" is deprecated, because its magic causes to duplicated service adding.%sUse more explicit "%s" instead.',
             self::class,
+            PHP_EOL,
             AutowireArrayParameterCompilerPass::class
         );
         trigger_error($message, E_USER_DEPRECATED);
