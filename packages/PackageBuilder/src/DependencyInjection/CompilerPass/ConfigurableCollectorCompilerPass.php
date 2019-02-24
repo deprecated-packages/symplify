@@ -45,6 +45,15 @@ final class ConfigurableCollectorCompilerPass implements CompilerPassInterface
 
     public function __construct(bool $enableCommonCollectors = true)
     {
+        sleep(3);
+
+        $message = sprintf(
+            '%s" is deprecated, because its magic causes to duplicated service adding. Use more explicit "%s" instead.',
+            self::class,
+            AutowireArrayParameterCompilerPass::class
+        );
+        trigger_error($message, E_USER_DEPRECATED);
+
         $this->definitionCollector = new DefinitionCollector(new DefinitionFinder());
         $this->enableCommonCollectors = $enableCommonCollectors;
     }
