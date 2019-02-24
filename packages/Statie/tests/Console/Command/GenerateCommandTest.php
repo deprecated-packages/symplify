@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
-use Symplify\Statie\Console\Application;
+use Symplify\Statie\Console\StatieConsoleApplication;
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\HttpKernel\StatieKernel;
 
@@ -20,17 +20,17 @@ final class GenerateCommandTest extends AbstractKernelTestCase
     private $outputDirectory = __DIR__ . '/GenerateCommandSource/output';
 
     /**
-     * @var Application
+     * @var StatieConsoleApplication
      */
-    private $application;
+    private $statieConsoleApplication;
 
     protected function setUp(): void
     {
         $this->bootKernel(StatieKernel::class);
 
-        $this->application = self::$container->get(Application::class);
-        $this->application->setCatchExceptions(false);
-        $this->application->setAutoExit(false);
+        $this->statieConsoleApplication = self::$container->get(StatieConsoleApplication::class);
+        $this->statieConsoleApplication->setCatchExceptions(false);
+        $this->statieConsoleApplication->setAutoExit(false);
 
         $symfonyStyle = self::$container->get(SymfonyStyle::class);
         $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
@@ -46,7 +46,7 @@ final class GenerateCommandTest extends AbstractKernelTestCase
         $stringInput = ['generate', __DIR__ . '/GenerateCommandSource/source', '--output', $this->outputDirectory];
         $input = new StringInput(implode(' ', $stringInput));
 
-        $this->application->run($input, new NullOutput());
+        $this->statieConsoleApplication->run($input, new NullOutput());
 
         $this->assertFileExists($this->outputDirectory . '/index.html');
     }
@@ -58,6 +58,6 @@ final class GenerateCommandTest extends AbstractKernelTestCase
 
         $this->expectException(MissingDirectoryException::class);
 
-        $this->application->run($input, new NullOutput());
+        $this->statieConsoleApplication->run($input, new NullOutput());
     }
 }

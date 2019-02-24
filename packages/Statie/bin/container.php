@@ -12,7 +12,8 @@ ConfigFileFinder::detectFromInput('statie', new ArgvInput());
 $configFile = ConfigFileFinder::provide('statie', ['statie.yml', 'statie.yaml']);
 
 // random has is needed, so cache is invalidated and changes from config are loaded
-$statieKernel = new StatieKernel('prod' . random_int(1, 100000), InputDetector::isDebug());
+$environment = 'prod' . random_int(1, 100000);
+$statieKernel = new StatieKernel($environment, InputDetector::isDebug());
 if ($configFile !== null) {
     $statieKernel->setConfigs([$configFile]);
 }
