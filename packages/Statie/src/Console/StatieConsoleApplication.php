@@ -3,18 +3,23 @@
 namespace Symplify\Statie\Console;
 
 use Jean85\PrettyVersions;
-use Symfony\Component\Console\Application as SymfonyApplication;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 use Symplify\PackageBuilder\Console\HelpfulApplicationTrait;
 
-final class Application extends SymfonyApplication
+final class StatieConsoleApplication extends Application
 {
     use HelpfulApplicationTrait;
 
-    public function __construct()
+    /**
+     * @param Command[] $commands
+     */
+    public function __construct(array $commands)
     {
         parent::__construct('Statie', $this->getPrettyVersion());
+        $this->addCommands($commands);
     }
 
     protected function getDefaultInputDefinition(): InputDefinition

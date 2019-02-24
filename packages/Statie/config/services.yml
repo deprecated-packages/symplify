@@ -8,9 +8,6 @@ services:
         resource: '../src'
         exclude: '../src/{Exception,Renderable/File/File.php,Renderable/File/*File.php,Event,HttpKernel}'
 
-    # bin file
-    Symplify\Statie\Console\Application: ~
-
     # rest api
     Symplify\PackageBuilder\Http\BetterGuzzleClient: ~
     GuzzleHttp\Client: ~

@@ -3,15 +3,16 @@
 
 require_once __DIR__ . '/autoload.php';
 
-use Symfony\Component\Console\Application;
+use Symplify\LatteToTwigConverter\Console\LatteToTwigConverterApplication;
 use Symplify\LatteToTwigConverter\HttpKernel\LatteToTwigConverterKernel;
 use Symplify\PackageBuilder\Console\Input\InputDetector;
 
 // random has is needed, so cache is invalidated and changes from config are loaded
-$latteToTwigConverterKernel = new LatteToTwigConverterKernel('prod' . random_int(1, 100000), InputDetector::isDebug());
+$environment = 'prod' . random_int(1, 100000);
+$latteToTwigConverterKernel = new LatteToTwigConverterKernel($environment, InputDetector::isDebug());
 $latteToTwigConverterKernel->boot();
 
 $container = $latteToTwigConverterKernel->getContainer();
 
-$application = $container->get(Application::class);
+$application = $container->get(LatteToTwigConverterApplication::class);
 exit($application->run());

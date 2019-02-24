@@ -13,7 +13,7 @@ use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\PackageBuilder\Console\HelpfulApplicationTrait;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
-final class ChangelogConsoleApplication extends Application
+final class ChangelogApplication extends Application
 {
     use HelpfulApplicationTrait;
 
@@ -23,11 +23,13 @@ final class ChangelogConsoleApplication extends Application
     private $parameterProvider;
 
     /**
-     * @required
+     * @param Command[] $commands
      */
-    public function setRequiredDependencies(ParameterProvider $parameterProvider): void
+    public function __construct(ParameterProvider $parameterProvider, array $commands)
     {
         $this->parameterProvider = $parameterProvider;
+        $this->addCommands($commands);
+        parent::__construct();
     }
 
     protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
@@ -39,7 +41,7 @@ final class ChangelogConsoleApplication extends Application
 
         $this->parameterProvider->changeParameter(Option::FILE, $input->getArgument(Option::FILE));
 
-        return parent::doRunCommand($command, $input, $output);
+        return $this->doRunCommandAndShowHelpOnArgumentError($command, $input, $output);
     }
 
     protected function getDefaultInputDefinition(): InputDefinition

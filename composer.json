@@ -14,7 +14,6 @@
         "illuminate/support": "^5.7",
         "jean85/pretty-package-versions": "^1.2",
         "latte/latte": "^2.4",
-        "nette/caching": "^3.0",
         "nette/di": "^2.4",
         "nette/finder": "^2.4",
         "nette/neon": "^2.4",

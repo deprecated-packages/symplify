@@ -16,6 +16,14 @@ trait HelpfulApplicationTrait
 {
     protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
     {
+        return $this->doRunCommandAndShowHelpOnArgumentError($command, $input, $output);
+    }
+
+    private function doRunCommandAndShowHelpOnArgumentError(
+        Command $command,
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         try {
             return parent::doRunCommand($command, $input, $output);
         } catch (RuntimeException $runtimeException) {

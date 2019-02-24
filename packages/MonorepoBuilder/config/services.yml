@@ -8,12 +8,6 @@ services:
         resource: '../src'
         exclude: '../src/{Contract,Exception,HttpKernel/MonorepoBuilderKernel.php}'
 
-    Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication:
-        calls:
-            - ['setDispatcher', ['@Symfony\Component\EventDispatcher\EventDispatcher']]
-    Symfony\Component\Console\Application:
-        alias: 'Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication'
-
     # alias needed for Symfony Console setter
     Symfony\Component\EventDispatcher\EventDispatcher: ~
     Symfony\Component\EventDispatcher\EventDispatcherInterface:
