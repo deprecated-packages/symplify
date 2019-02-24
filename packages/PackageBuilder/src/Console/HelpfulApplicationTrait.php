@@ -14,8 +14,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 trait HelpfulApplicationTrait
 {
-    private function doRunCommandAndShowHelpOnArgumentError(Command $command, InputInterface $input, OutputInterface $output): int
+    protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
     {
+        return $this->doRunCommandAndShowHelpOnArgumentError($command, $input, $output);
+    }
+
+    private function doRunCommandAndShowHelpOnArgumentError(
+        Command $command,
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         try {
             return parent::doRunCommand($command, $input, $output);
         } catch (RuntimeException $runtimeException) {
@@ -28,11 +36,6 @@ trait HelpfulApplicationTrait
 
             throw $runtimeException;
         }
-    }
-
-    protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
-    {
-        return $this->doRunCommandAndShowHelpOnArgumentError($command, $input, $output);
     }
 
     /**
