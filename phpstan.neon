@@ -158,3 +158,5 @@ parameters:
         # better phpdoc-parser attributes
         - '#(.*?)(AttributeAwareNodeInterface|AttributeAware(.*?)TagValueNode)(.*?)#'
         - '#Call to an undefined method PHPStan\\PhpDocParser\\Ast\\(.*?)\:\:getAttribute\(\)#'
+        # magic properties
+        - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:\$(.*?)#'

@@ -29,7 +29,6 @@ final class FileTest extends AbstractKernelTestCase
     {
         $smartFileInfo = new SmartFileInfo(__DIR__ . '/FileFactorySource/someFile.html.latte');
         $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
-
         $this->assertSame('someFile.html.latte', $file->getRelativeSource());
         $this->assertSame('html', $file->getPrimaryExtension());
     }

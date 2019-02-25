@@ -2,13 +2,11 @@
 
 namespace Symplify\EasyCodingStandard\SniffRunner\File;
 
+use PHP_CodeSniffer\Fixer;
 use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
-use Symplify\EasyCodingStandard\Application\CurrentCheckerProvider;
-use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
+use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Skipper;
-use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
-use Symplify\EasyCodingStandard\SniffRunner\Parser\FileToTokensParser;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class FileFactory
@@ -24,11 +22,6 @@ final class FileFactory
     private $errorAndDiffCollector;
 
     /**
-     * @var FileToTokensParser
-     */
-    private $fileToTokensParser;
-
-    /**
      * @var Skipper
      */
     private $skipper;
@@ -39,53 +32,34 @@ final class FileFactory
     private $appliedCheckersCollector;
 
     /**
-     * @var CurrentFileProvider
+     * @var EasyCodingStandardStyle
      */
-    private $currentFileProvider;
-
-    /**
-     * @var CurrentCheckerProvider
-     */
-    private $currentCheckerProvider;
+    private $easyCodingStandardStyle;
 
     public function __construct(
         Fixer $fixer,
         ErrorAndDiffCollector $errorAndDiffCollector,
-        FileToTokensParser $fileToTokensParser,
-        CurrentCheckerProvider $currentCheckerProvider,
         Skipper $skipper,
         AppliedCheckersCollector $appliedCheckersCollector,
-        CurrentFileProvider $currentFileProvider
+        EasyCodingStandardStyle $easyCodingStandardStyle
     ) {
         $this->fixer = $fixer;
         $this->errorAndDiffCollector = $errorAndDiffCollector;
-        $this->fileToTokensParser = $fileToTokensParser;
         $this->skipper = $skipper;
         $this->appliedCheckersCollector = $appliedCheckersCollector;
-        $this->currentFileProvider = $currentFileProvider;
-        $this->currentCheckerProvider = $currentCheckerProvider;
+        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
     }
 
     public function createFromFileInfo(SmartFileInfo $smartFileInfo): File
     {
-        $fileTokens = $this->fileToTokensParser->parseFromFileInfo($smartFileInfo);
-
-        $file = new File(
+        return new File(
             $smartFileInfo->getRelativeFilePath(),
-            $fileTokens,
+            $smartFileInfo->getContents(),
             $this->fixer,
             $this->errorAndDiffCollector,
-            $this->currentCheckerProvider,
             $this->skipper,
             $this->appliedCheckersCollector,
-            $this->currentFileProvider
+            $this->easyCodingStandardStyle
         );
-
-        $file->eolChar = $this->fileToTokensParser->detectLineEndingsFromFileInfo($smartFileInfo);
-
-        // BC layer
-        $file->tokenizer = $this->fileToTokensParser->createTokenizerFromFileInfo($smartFileInfo);
-
-        return $file;
     }
 }

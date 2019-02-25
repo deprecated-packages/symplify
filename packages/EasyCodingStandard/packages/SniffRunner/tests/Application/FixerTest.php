@@ -2,10 +2,10 @@
 
 namespace Symplify\EasyCodingStandard\SniffRunner\Tests\Application;
 
+use PHP_CodeSniffer\Fixer;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
-use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
@@ -34,6 +34,8 @@ final class FixerTest extends AbstractKernelTestCase
     public function testStartFile(): void
     {
         $this->assertSame('', $this->fixer->getContents());
+
+        $this->file->parse();
         $this->fixer->startFile($this->file);
 
         $this->assertStringEqualsFile(__DIR__ . '/FixerSource/SomeFile.php', $this->fixer->getContents());
@@ -41,6 +43,7 @@ final class FixerTest extends AbstractKernelTestCase
 
     public function testTokenContent(): void
     {
+        $this->file->parse();
         $this->fixer->startFile($this->file);
 
         $token = $this->fixer->getTokenContent(13);
@@ -55,6 +58,7 @@ final class FixerTest extends AbstractKernelTestCase
 
     public function testAddContent(): void
     {
+        $this->file->parse();
         $this->fixer->startFile($this->file);
         $this->fixer->beginChangeSet();
 
@@ -69,6 +73,7 @@ final class FixerTest extends AbstractKernelTestCase
 
     public function testChangesets(): void
     {
+        $this->file->parse();
         $this->fixer->startFile($this->file);
         $this->fixer->beginChangeSet();
 
@@ -96,6 +101,7 @@ final class FixerTest extends AbstractKernelTestCase
 
     public function testAddNewline(): void
     {
+        $this->file->parse();
         $this->fixer->startFile($this->file);
         $this->fixer->beginChangeSet();
 
@@ -113,6 +119,7 @@ final class FixerTest extends AbstractKernelTestCase
 
     public function testSubstrToken(): void
     {
+        $this->file->parse();
         $this->fixer->startFile($this->file);
         $this->fixer->beginChangeSet();
 

@@ -3,22 +3,18 @@
 namespace Symplify\EasyCodingStandard\SniffRunner\Application;
 
 use Nette\Utils\FileSystem;
+use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 use PhpCsFixer\Differ\DifferInterface;
 use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
-use Symplify\EasyCodingStandard\Application\CurrentCheckerProvider;
-use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
-use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunAwareFileProcessorInterface;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
-use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
-use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class SniffFileProcessor implements FileProcessorInterface, DualRunAwareFileProcessorInterface
@@ -54,11 +50,6 @@ final class SniffFileProcessor implements FileProcessorInterface, DualRunAwareFi
     private $configuration;
 
     /**
-     * @var Skipper
-     */
-    private $skipper;
-
-    /**
      * @var ErrorAndDiffCollector
      */
     private $errorAndDiffCollector;
@@ -74,52 +65,29 @@ final class SniffFileProcessor implements FileProcessorInterface, DualRunAwareFi
     private $appliedCheckersCollector;
 
     /**
-     * @var CurrentCheckerProvider
-     */
-    private $currentCheckerProvider;
-
-    /**
-     * @var EasyCodingStandardStyle
-     */
-    private $easyCodingStandardStyle;
-
-    /**
-     * @var CurrentFileProvider
-     */
-    private $currentFileProvider;
-
-    /**
      * @param Sniff[] $sniffs
      */
     public function __construct(
         Fixer $fixer,
         FileFactory $fileFactory,
         Configuration $configuration,
-        Skipper $skipper,
         ErrorAndDiffCollector $errorAndDiffCollector,
         DifferInterface $differ,
         AppliedCheckersCollector $appliedCheckersCollector,
-        CurrentCheckerProvider $currentCheckerProvider,
-        EasyCodingStandardStyle $easyCodingStandardStyle,
-        CurrentFileProvider $currentFileProvider,
         array $sniffs
     ) {
         $this->fixer = $fixer;
         $this->fileFactory = $fileFactory;
         $this->configuration = $configuration;
-        $this->skipper = $skipper;
         $this->errorAndDiffCollector = $errorAndDiffCollector;
         $this->differ = $differ;
         $this->appliedCheckersCollector = $appliedCheckersCollector;
-        $this->currentCheckerProvider = $currentCheckerProvider;
 
         $this->addCompatibilityLayer();
 
         foreach ($sniffs as $sniff) {
             $this->addSniff($sniff);
         }
-        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
-        $this->currentFileProvider = $currentFileProvider;
     }
 
     public function addSniff(Sniff $sniff): void
@@ -156,21 +124,16 @@ final class SniffFileProcessor implements FileProcessorInterface, DualRunAwareFi
 
     public function processFile(SmartFileInfo $smartFileInfo): string
     {
-        // required for dual run
-        $this->currentFileProvider->setFileInfo($smartFileInfo);
-
         $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
 
-        // 1. puts tokens into fixer
-        $this->fixer->startFile($file);
+        // mimic original behavior
+        /** mimics @see \PHP_CodeSniffer\Files\File::process() */
+        /** mimics @see \PHP_CodeSniffer\Fixer::fixFile() */
+        $this->fixFile($file, $this->fixer, $smartFileInfo, $this->tokenListeners);
 
-        // 2. run all Sniff fixers
-        $this->processTokens($file, $smartFileInfo);
-
-        // 3. add diff
+        // add diff
         if ($smartFileInfo->getContents() !== $this->fixer->getContents()) {
             $diff = $this->differ->diff($smartFileInfo->getContents(), $this->fixer->getContents());
-
             $this->errorAndDiffCollector->addDiffForFileInfo(
                 $smartFileInfo,
                 $diff,
@@ -201,26 +164,25 @@ final class SniffFileProcessor implements FileProcessorInterface, DualRunAwareFi
         }
     }
 
-    private function processTokens(File $file, SmartFileInfo $smartFileInfo): void
+    /**
+     * @param Sniff[][] $tokenListeners
+     */
+    private function fixFile(File $file, Fixer $fixer, SmartFileInfo $smartFileInfo, array $tokenListeners): void
     {
-        foreach ($file->getTokens() as $position => $token) {
-            if (! array_key_exists($token['code'], $this->tokenListeners)) {
-                continue;
-            }
+        $previousContent = $smartFileInfo->getContents();
+        $this->fixer->loops = 0;
 
-            foreach ($this->tokenListeners[$token['code']] as $sniff) {
-                if ($this->skipper->shouldSkipCheckerAndFile($sniff, $smartFileInfo)) {
-                    continue;
-                }
+        do {
+            // Only needed once file content has changed.
+            $content = $previousContent;
 
-                $this->currentCheckerProvider->setChecker($sniff);
-                if ($this->easyCodingStandardStyle->isDebug()) {
-                    $this->easyCodingStandardStyle->writeln(get_class($sniff));
-                }
+            $file->setContent($content);
+            $file->processWithTokenListenersAndFileInfo($tokenListeners, $smartFileInfo);
 
-                $sniff->process($file, $position);
-            }
-        }
+            // fixed content
+            $previousContent = $fixer->getContents();
+            ++$this->fixer->loops;
+        } while ($previousContent !== $content);
     }
 
     private function prepareSecondRun(): void

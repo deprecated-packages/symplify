@@ -2,7 +2,6 @@
 
 namespace Symplify\EasyCodingStandard\SniffRunner\Tests\File;
 
-use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException;
@@ -23,24 +22,17 @@ final class FileTest extends AbstractKernelTestCase
      */
     private $errorAndDiffCollector;
 
-    /**
-     * @var CurrentFileProvider
-     */
-    private $currentFileProvider;
-
     protected function setUp(): void
     {
         $this->bootKernel(EasyCodingStandardKernel::class);
 
         $this->errorAndDiffCollector = self::$container->get(ErrorAndDiffCollector::class);
-        $this->currentFileProvider = self::$container->get(CurrentFileProvider::class);
 
         $fileFactory = self::$container->get(FileFactory::class);
         $fileInfo = new SmartFileInfo(__DIR__ . '/FileFactorySource/SomeFile.php');
-        $this->file = $fileFactory->createFromFileInfo($fileInfo);
 
-        // simulates Application cycle
-        $this->currentFileProvider->setFileInfo($fileInfo);
+        $this->file = $fileFactory->createFromFileInfo($fileInfo);
+        $this->file->processWithTokenListenersAndFileInfo([], $fileInfo);
     }
 
     public function testErrorDataCollector(): void
@@ -62,17 +54,5 @@ final class FileTest extends AbstractKernelTestCase
     {
         $this->expectException(NotImplementedException::class);
         $this->file->getErrors();
-    }
-
-    public function testNotImplementedProcess(): void
-    {
-        $this->expectException(NotImplementedException::class);
-        $this->file->process();
-    }
-
-    public function testNotImplementedParse(): void
-    {
-        $this->expectException(NotImplementedException::class);
-        $this->file->parse();
     }
 }

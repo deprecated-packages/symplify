@@ -7,7 +7,6 @@ use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
-use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
@@ -57,11 +56,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     private $fileGuard;
 
     /**
-     * @var CurrentFileProvider
-     */
-    private $currentFileProvider;
-
-    /**
      * @var SmartFileInfo|null
      */
     private $activeFileInfo;
@@ -78,7 +72,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $this->fixerFileProcessor = self::$container->get(FixerFileProcessor::class);
         $this->sniffFileProcessor = self::$container->get(SniffFileProcessor::class);
         $this->errorAndDiffCollector = self::$container->get(ErrorAndDiffCollector::class);
-        $this->currentFileProvider = self::$container->get(CurrentFileProvider::class);
 
         // silent output
         $easyCodingStandardStyle = self::$container->get(EasyCodingStandardStyle::class);
@@ -168,7 +161,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $this->ensureSomeCheckersAreRegistered();
 
         $smartFileInfo = new SmartFileInfo($file);
-        $this->currentFileProvider->setFileInfo($smartFileInfo);
 
         if ($this->fixerFileProcessor->getCheckers()) {
             $processedFileContent = $this->fixerFileProcessor->processFile($smartFileInfo);
@@ -195,7 +187,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $this->ensureSomeCheckersAreRegistered();
 
         $smartFileInfo = new SmartFileInfo($wrongFile);
-        $this->currentFileProvider->setFileInfo($smartFileInfo);
 
         if ($this->fixerFileProcessor->getCheckers()) {
             $processedFileContent = $this->fixerFileProcessor->processFile($smartFileInfo);
@@ -222,7 +213,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $this->errorAndDiffCollector->resetCounters();
 
         $smartFileInfo = new SmartFileInfo($wrongFile);
-        $this->currentFileProvider->setFileInfo($smartFileInfo);
 
         $this->sniffFileProcessor->processFile($smartFileInfo);
         if ($this->sniffFileProcessor->getDualRunCheckers()) {
