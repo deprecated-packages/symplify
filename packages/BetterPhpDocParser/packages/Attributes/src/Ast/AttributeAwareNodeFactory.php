@@ -39,6 +39,7 @@ use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareArrayTy
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareCallableTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareGenericTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIdentifierTypeNode;
+use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIntersectionTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareNullableTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareThisTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareUnionTypeNode;
@@ -160,7 +161,11 @@ final class AttributeAwareNodeFactory
                 $typeNode->types[$i] = $this->createFromTypeNode($subTypeNode);
             }
 
-            return new AttributeAwareUnionTypeNode($typeNode->types);
+            if ($typeNode instanceof UnionTypeNode) {
+                return new AttributeAwareUnionTypeNode($typeNode->types);
+            }
+
+            return new AttributeAwareIntersectionTypeNode($typeNode->types);
         }
 
         if ($typeNode instanceof ArrayTypeNode) {
