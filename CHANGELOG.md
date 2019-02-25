@@ -9,6 +9,49 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## Unreleased
+
+### Added
+
+#### LatteToTwigConverter
+
+- [#1463] Add `date` and `sprintf` support
+
+### Changed
+
+#### Autodiscovery
+
+- [#1465] Allow file as convert-yaml argument
+
+#### EasyCodingStandard
+
+- [#1462] Make PSR-2 sub-configs names unique to prevent duplications [BC break]
+
+### Fixed
+
+#### BetterPhpDocParser
+
+- [#1464] Fix incorrect intersection to union retype
+
+#### Statie
+
+- [#1456] Fix missing `.md` file generation
+- [#1454] Fix in-title url for similiar Tweet text
+
+### Deprecated
+
+#### PackageBuilder
+
+- [#1457] Deprecate `ConfigurableCollectorCompilerPass`
+
+## [v5.4.9] - 2019-02-20
+
+### Removed
+
+#### PHPStanExtension
+
+- [#1452] remove cached run, not ready yet; also drop `StatsErrorFormatter`, not useful
+
 ## [v5.4.7] - 2019-02-20
 
 ### Added
@@ -946,3 +989,12 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [v5.4.6]: https://github.com/Symplify/Symplify/compare/v5.4.5...v5.4.6
 [v5.4.5]: https://github.com/Symplify/Symplify/compare/v5.4.3...v5.4.5
 [v5.4.3]: https://github.com/Symplify/Symplify/compare/v5.4.2...v5.4.3
+[#1465]: https://github.com/Symplify/Symplify/pull/1465
+[#1464]: https://github.com/Symplify/Symplify/pull/1464
+[#1463]: https://github.com/Symplify/Symplify/pull/1463
+[#1462]: https://github.com/Symplify/Symplify/pull/1462
+[#1457]: https://github.com/Symplify/Symplify/pull/1457
+[#1456]: https://github.com/Symplify/Symplify/pull/1456
+[#1454]: https://github.com/Symplify/Symplify/pull/1454
+[#1452]: https://github.com/Symplify/Symplify/pull/1452
+[v5.4.9]: https://github.com/Symplify/Symplify/compare/v5.4.7...v5.4.9
