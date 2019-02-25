@@ -9,7 +9,15 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.4.10 - 2019-02-25
+## Unreleased
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#1460] Fix PHP_CodeSniffer Loop inconsistency
+
+## [v5.4.10] - 2019-02-25
 
 ### Added
 
@@ -998,3 +1006,5 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1454]: https://github.com/Symplify/Symplify/pull/1454
 [#1452]: https://github.com/Symplify/Symplify/pull/1452
 [v5.4.9]: https://github.com/Symplify/Symplify/compare/v5.4.7...v5.4.9
+[#1460]: https://github.com/Symplify/Symplify/pull/1460
+[v5.4.10]: https://github.com/Symplify/Symplify/compare/v5.4.9...v5.4.10
