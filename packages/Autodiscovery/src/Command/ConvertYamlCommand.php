@@ -34,7 +34,7 @@ final class ConvertYamlCommand extends Command
     /**
      * @var string
      */
-    private const ARGUMENT_DIRECTORY = 'directory';
+    private const ARGUMENT_SOURCE = 'source';
 
     /**
      * @var ExplicitToAutodiscoveryConverter
@@ -69,7 +69,11 @@ final class ConvertYamlCommand extends Command
             'Convert "(services|config).(yml|yaml)" from pre-Symfony 3.3 format to modern format using autodiscovery, autowire and autoconfigure'
         );
 
-        $this->addArgument(self::ARGUMENT_DIRECTORY, InputArgument::REQUIRED, 'Path to your application');
+        $this->addArgument(
+            self::ARGUMENT_SOURCE,
+            InputArgument::REQUIRED,
+            'Path to your application directory or single config file'
+        );
 
         $this->addOption(
             self::OPTION_REMOVE_SINGLY_IMPLEMENTED,
@@ -92,9 +96,12 @@ final class ConvertYamlCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $directory = (string) $input->getArgument(self::ARGUMENT_DIRECTORY);
-
-        $yamlFileInfos = $this->findServiceYamlFilesInDirectory($directory);
+        $source = (string) $input->getArgument(self::ARGUMENT_SOURCE);
+        if (is_file($source) && file_exists($source)) {
+            $yamlFileInfos = [new SmartFileInfo($source)];
+        } else {
+            $yamlFileInfos = $this->findServiceYamlFilesInDirectory($source);
+        }
 
         foreach ($yamlFileInfos as $yamlFileInfo) {
             $this->symfonyStyle->section('Processing ' . $yamlFileInfo->getRealPath());
