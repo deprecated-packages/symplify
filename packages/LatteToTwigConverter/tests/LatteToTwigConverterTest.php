@@ -18,7 +18,6 @@ final class LatteToTwigConverterTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(LatteToTwigConverterKernel::class);
-
         $this->latteToTwigConverter = self::$container->get(LatteToTwigConverter::class);
     }
 
@@ -36,6 +35,9 @@ final class LatteToTwigConverterTest extends AbstractKernelTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Source/latte/date.latte', __DIR__ . '/Source/twig/date.twig'];
+        yield [__DIR__ . '/Source/latte/sprintf.latte', __DIR__ . '/Source/twig/sprintf.twig'];
+
         yield [__DIR__ . '/Source/latte/variables.latte', __DIR__ . '/Source/twig/variables.twig'];
         yield [__DIR__ . '/Source/latte/block-file.latte', __DIR__ . '/Source/twig/block-file.twig'];
         yield [__DIR__ . '/Source/latte/loops.latte', __DIR__ . '/Source/twig/loops.twig'];
