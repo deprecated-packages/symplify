@@ -49,6 +49,7 @@ final class RemoveUselessDocBlockFixerTest extends AbstractCheckerTestCase
             __DIR__ . '/Fixture/wrong18.php.inc',
             __DIR__ . '/Fixture/wrong19.php.inc',
             __DIR__ . '/Fixture/wrong20.php.inc',
+            __DIR__ . '/Fixture/wrong21.php.inc',
         ]);
     }
 
