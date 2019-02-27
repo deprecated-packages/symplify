@@ -9,7 +9,7 @@
         "php": "^7.1",
         "nette/utils": "^2.5",
         "nette/neon": "^2.4",
-        "symplify/package-builder": "^5.5",
+        "symplify/package-builder": "^5.4.12",
         "symfony/http-kernel": "^3.4|^4.1",
         "symfony/yaml": "^3.4|^4.1"
     },
