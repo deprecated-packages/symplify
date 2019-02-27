@@ -15,4 +15,9 @@ final class AttributeAwarePhpDocNode extends PhpDocNode implements AttributeAwar
      * @var PhpDocChildNode[]|AttributeAwareNodeInterface[]
      */
     public $children = [];
+
+    public function __toString(): string
+    {
+        return "/**\n * " . implode("\n * ", $this->children) . "\n */";
+    }
 }
