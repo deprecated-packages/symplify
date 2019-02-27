@@ -9,4 +9,9 @@ use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterf
 final class AttributeAwareNullableTypeNode extends NullableTypeNode implements AttributeAwareNodeInterface
 {
     use AttributeTrait;
+
+    public function __toString(): string
+    {
+        return $this->type . '|null';
+    }
 }
