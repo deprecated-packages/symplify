@@ -2,11 +2,11 @@
 
 namespace Symplify\BetterPhpDocParser\Attributes\Ast;
 
-use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\MethodTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
@@ -47,6 +47,7 @@ use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
 use Symplify\BetterPhpDocParser\Data\StartEndInfo;
 use Symplify\BetterPhpDocParser\Exception\NotImplementedYetException;
+use Symplify\BetterPhpDocParser\Exception\ShouldNotHappenException;
 
 final class AttributeAwareNodeFactory
 {
@@ -55,23 +56,31 @@ final class AttributeAwareNodeFactory
         return new AttributeAwarePhpDocNode($phpDocNode->children);
     }
 
-    public function createFromNodeStartAndEnd(Node $node, int $tokenStart, int $tokenEnd): AttributeAwareNodeInterface
+    /**
+     * @return PhpDocChildNode|AttributeAwareNodeInterface
+     */
+    public function createFromChildNode(PhpDocChildNode $phpDocChildNode): AttributeAwareNodeInterface
     {
-        if ($node instanceof PhpDocTagNode) {
-            $node = new AttributeAwarePhpDocTagNode($node->name, $node->value);
-        } elseif ($node instanceof PhpDocTextNode) {
-            $node = new AttributeAwarePhpDocTextNode($node->text);
-        } else {
-            throw new NotImplementedYetException(sprintf(
-                'Todo implement attribute conversion for "%s" in "%s"',
-                get_class($node),
-                __METHOD__
-            ));
+        if ($phpDocChildNode instanceof PhpDocTagNode) {
+            return new AttributeAwarePhpDocTagNode($phpDocChildNode->name, $phpDocChildNode->value);
         }
 
-        $node->setAttribute(Attribute::PHP_DOC_NODE_INFO, new StartEndInfo($tokenStart, $tokenEnd));
+        if ($phpDocChildNode instanceof PhpDocTextNode) {
+            return new AttributeAwarePhpDocTextNode($phpDocChildNode->text);
+        }
 
-        return $node;
+        throw new ShouldNotHappenException();
+    }
+
+    public function createFromNodeStartAndEnd(
+        PhpDocChildNode $phpDocChildNode,
+        int $tokenStart,
+        int $tokenEnd
+    ): AttributeAwareNodeInterface {
+        $phpDocChildNode = $this->createFromChildNode($phpDocChildNode);
+        $phpDocChildNode->setAttribute(Attribute::PHP_DOC_NODE_INFO, new StartEndInfo($tokenStart, $tokenEnd));
+
+        return $phpDocChildNode;
     }
 
     public function createFromPhpDocValueNode(PhpDocTagValueNode $phpDocTagValueNode): PhpDocTagValueNode
