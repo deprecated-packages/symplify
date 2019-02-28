@@ -214,7 +214,12 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return false;
         }
 
-        return (bool) $this->file->findPrevious(T_PUBLIC, $this->position, $this->position - 6);
+        $previousPosition = $this->position - 6;
+        if (! isset($this->tokens[$previousPosition])) {
+            return false;
+        }
+
+        return (bool) $this->file->findPrevious(T_PUBLIC, $this->position, $previousPosition);
     }
 
     /**
