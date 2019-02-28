@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterPhpDocParser\Attributes\Ast;
 
+use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\MethodTagValueNode;
@@ -24,6 +25,7 @@ use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Symplify\BetterPhpDocParser\Ast\NodeTraverser;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareGenericTagValueNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareInvalidTagValueNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwareMethodTagValueNode;
@@ -43,47 +45,59 @@ use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareInterse
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareNullableTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareThisTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareUnionTypeNode;
-use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
 use Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface;
-use Symplify\BetterPhpDocParser\Data\StartEndInfo;
 use Symplify\BetterPhpDocParser\Exception\NotImplementedYetException;
 use Symplify\BetterPhpDocParser\Exception\ShouldNotHappenException;
 
 final class AttributeAwareNodeFactory
 {
-    public function createFromPhpDocNode(PhpDocNode $phpDocNode): AttributeAwarePhpDocNode
+    /**
+     * @var NodeTraverser
+     */
+    private $nodeTraverser;
+
+    public function __construct(NodeTraverser $nodeTraverser)
     {
-        return new AttributeAwarePhpDocNode($phpDocNode->children);
+        $this->nodeTraverser = $nodeTraverser;
     }
 
     /**
-     * @return PhpDocChildNode|AttributeAwareNodeInterface
+     * @return PhpDocNode|PhpDocChildNode|PhpDocTagValueNode AttributeAwareNodeInterface
      */
-    public function createFromChildNode(PhpDocChildNode $phpDocChildNode): AttributeAwareNodeInterface
+    public function createFromNode(Node $node): AttributeAwareNodeInterface
     {
-        if ($phpDocChildNode instanceof PhpDocTagNode) {
-            return new AttributeAwarePhpDocTagNode($phpDocChildNode->name, $phpDocChildNode->value);
+        if ($node instanceof AttributeAwareNodeInterface) {
+            return $node;
         }
 
-        if ($phpDocChildNode instanceof PhpDocTextNode) {
-            return new AttributeAwarePhpDocTextNode($phpDocChildNode->text);
+        if ($node instanceof PhpDocNode) {
+            $this->nodeTraverser->traverseWithCallable($node, function (Node $node) {
+                if ($node instanceof AttributeAwareNodeInterface) {
+                    return $node;
+                }
+
+                return $this->createFromNode($node);
+            });
+
+            return new AttributeAwarePhpDocNode($node->children);
         }
 
-        throw new ShouldNotHappenException();
+        if ($node instanceof PhpDocTagNode) {
+            return new AttributeAwarePhpDocTagNode($node->name, $node->value);
+        }
+
+        if ($node instanceof PhpDocTextNode) {
+            return new AttributeAwarePhpDocTextNode($node->text);
+        }
+
+        if ($node instanceof PhpDocTagValueNode) {
+            return $this->createFromPhpDocValueNode($node);
+        }
+
+        throw new ShouldNotHappenException(sprintf('Node "%s" was missed in "%s".', get_class($node), __METHOD__));
     }
 
-    public function createFromNodeStartAndEnd(
-        PhpDocChildNode $phpDocChildNode,
-        int $tokenStart,
-        int $tokenEnd
-    ): AttributeAwareNodeInterface {
-        $phpDocChildNode = $this->createFromChildNode($phpDocChildNode);
-        $phpDocChildNode->setAttribute(Attribute::PHP_DOC_NODE_INFO, new StartEndInfo($tokenStart, $tokenEnd));
-
-        return $phpDocChildNode;
-    }
-
-    public function createFromPhpDocValueNode(PhpDocTagValueNode $phpDocTagValueNode): PhpDocTagValueNode
+    private function createFromPhpDocValueNode(PhpDocTagValueNode $phpDocTagValueNode): PhpDocTagValueNode
     {
         if ($phpDocTagValueNode instanceof VarTagValueNode) {
             $typeNode = $this->createFromTypeNode($phpDocTagValueNode->type);

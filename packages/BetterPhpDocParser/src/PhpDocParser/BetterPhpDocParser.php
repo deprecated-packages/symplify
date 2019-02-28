@@ -14,6 +14,8 @@ use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
 use Symplify\BetterPhpDocParser\Attributes\Ast\AttributeAwareNodeFactory;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode;
+use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
+use Symplify\BetterPhpDocParser\Data\StartEndInfo;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
@@ -85,14 +87,14 @@ final class BetterPhpDocParser extends PhpDocParser
 
         $phpDocNode = new PhpDocNode(array_values($children));
 
-        return $this->attributeAwareNodeFactory->createFromPhpDocNode($phpDocNode);
+        return $this->attributeAwareNodeFactory->createFromNode($phpDocNode);
     }
 
     public function parseTagValue(TokenIterator $tokenIterator, string $tag): PhpDocTagValueNode
     {
         $tagValueNode = parent::parseTagValue($tokenIterator, $tag);
 
-        return $this->attributeAwareNodeFactory->createFromPhpDocValueNode($tagValueNode);
+        return $this->attributeAwareNodeFactory->createFromNode($tagValueNode);
     }
 
     private function parseChildAndStoreItsPositions(TokenIterator $tokenIterator): Node
@@ -101,6 +103,9 @@ final class BetterPhpDocParser extends PhpDocParser
         $node = $this->privatesCaller->callPrivateMethod($this, 'parseChild', $tokenIterator);
         $tokenEnd = $this->privatesAccessor->getPrivateProperty($tokenIterator, 'index');
 
-        return $this->attributeAwareNodeFactory->createFromNodeStartAndEnd($node, $tokenStart, $tokenEnd);
+        $attributeAwareNode = $this->attributeAwareNodeFactory->createFromNode($node);
+        $attributeAwareNode->setAttribute(Attribute::PHP_DOC_NODE_INFO, new StartEndInfo($tokenStart, $tokenEnd));
+
+        return $attributeAwareNode;
     }
 }
