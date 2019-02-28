@@ -93,6 +93,7 @@
         ],
         "psr-4": {
             "Symplify\\Autodiscovery\\Tests\\": "packages/Autodiscovery/tests",
+            "Symplify\\BetterPhpDocParser\\Attributes\\Tests\\": "packages/BetterPhpDocParser/packages/Attributes/tests",
             "Symplify\\BetterPhpDocParser\\Tests\\": "packages/BetterPhpDocParser/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/ChangelogLinker/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",

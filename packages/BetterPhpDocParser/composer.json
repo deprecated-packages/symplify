@@ -19,7 +19,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\BetterPhpDocParser\\Tests\\": "tests"
+            "Symplify\\BetterPhpDocParser\\Tests\\": "tests",
+            "Symplify\\BetterPhpDocParser\\Attributes\\Tests\\": "packages/Attributes/tests"
         }
     },
     "extra": {

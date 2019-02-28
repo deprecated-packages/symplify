@@ -19,8 +19,9 @@ final class NodeTraverser
 {
     public function traverseWithCallable(PhpDocNode $phpDocNode, callable $callable): void
     {
-        foreach ($phpDocNode->children as $phpDocChildNode) {
+        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
             $phpDocChildNode = $callable($phpDocChildNode);
+            $phpDocNode->children[$key] = $phpDocChildNode;
 
             if ($phpDocChildNode instanceof PhpDocTextNode) {
                 continue;
