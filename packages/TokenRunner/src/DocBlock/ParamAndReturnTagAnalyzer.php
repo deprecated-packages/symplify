@@ -3,6 +3,7 @@
 namespace Symplify\TokenRunner\DocBlock;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 
@@ -12,6 +13,19 @@ final class ParamAndReturnTagAnalyzer
      * @var string[]
      */
     private $uselessTypes = [];
+
+    public function __construct()
+    {
+        sleep(3);
+
+        $message = sprintf(
+            '%s" is deprecated.%sUse "%s" directly instead.',
+            self::class,
+            PHP_EOL,
+            NoSuperfluousPhpdocTagsFixer::class
+        );
+        trigger_error($message, E_USER_DEPRECATED);
+    }
 
     /**
      * @param string[] $codeTypes

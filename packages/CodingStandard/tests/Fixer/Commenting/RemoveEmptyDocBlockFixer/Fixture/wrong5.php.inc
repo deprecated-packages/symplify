@@ -16,6 +16,9 @@ function mustRun(OutputInterface $output)
 
 namespace SomeNamespace;
 
+/**
+ * @param OutputInterface $output
+ */
 function mustRun(OutputInterface $output)
 {
 }

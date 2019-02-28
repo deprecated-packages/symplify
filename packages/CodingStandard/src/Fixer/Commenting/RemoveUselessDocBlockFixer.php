@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -47,6 +48,16 @@ final class RemoveUselessDocBlockFixer extends AbstractSymplifyFixer implements 
         MethodWrapperFactory $methodWrapperFactory,
         TypeNodeAnalyzer $typeNodeAnalyzer
     ) {
+        sleep(3);
+
+        $message = sprintf(
+            '%s" is deprecated.%sUse "%s" instead.',
+            self::class,
+            PHP_EOL,
+            NoSuperfluousPhpdocTagsFixer::class
+        );
+        trigger_error($message, E_USER_DEPRECATED);
+
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
         $this->methodWrapperFactory = $methodWrapperFactory;

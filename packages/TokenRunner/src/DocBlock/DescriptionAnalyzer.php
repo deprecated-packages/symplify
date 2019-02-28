@@ -3,6 +3,7 @@
 namespace Symplify\TokenRunner\DocBlock;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\Type\AttributeAwareIdentifierTypeNode;
 use Symplify\BetterPhpDocParser\Attributes\Attribute\Attribute;
@@ -22,6 +23,16 @@ final class DescriptionAnalyzer
 
     public function __construct(TypeNodeAnalyzer $typeNodeAnalyzer)
     {
+        sleep(3);
+
+        $message = sprintf(
+            '%s" is deprecated.%sUse "%s" directly instead.',
+            self::class,
+            PHP_EOL,
+            NoSuperfluousPhpdocTagsFixer::class
+        );
+        trigger_error($message, E_USER_DEPRECATED);
+
         $this->typeNodeAnalyzer = $typeNodeAnalyzer;
     }
 
