@@ -1,4 +1,6 @@
-# Better PhpDoc Parser
+# [Deprecated, moved to Rector](https://github.com/rectorphp/rector)
+
+# Better PhpDoc Parser 
 
 [![Build Status](https://img.shields.io/travis/Symplify/BetterPhpDocParser/master.svg?style=flat-square)](https://travis-ci.org/Symplify/BetterPhpDocParser)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/better-phpdoc-parser.svg?style=flat-square)](https://packagist.org/packages/symplify/better-phpdoc-parser/stats)
