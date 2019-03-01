@@ -2,40 +2,11 @@
 
 namespace Symplify\MonorepoBuilder\Tests\Package;
 
-use Symfony\Component\Finder\Finder;
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
-use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
-
-final class CombineStringsToArrayJsonMergerTest extends AbstractKernelTestCase
+final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
 {
-    /**
-     * @var PackageComposerJsonMerger
-     */
-    private $packageComposerJsonMerger;
-
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    protected function setUp(): void
-    {
-        $this->bootKernel(MonorepoBuilderKernel::class);
-
-        $this->packageComposerJsonMerger = self::$container->get(PackageComposerJsonMerger::class);
-        $this->finderSanitizer = self::$container->get(FinderSanitizer::class);
-    }
-
     public function testSharedNamespaces(): void
     {
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos(
-            $this->getFileInfosFromDirectory(__DIR__ . '/SourceAutoloadSharedNamespaces')
-        );
-
-        $this->assertSame([
+        $expectedJson = [
             'autoload' => [
                 'psr-4' => [
                     'ACME\Another\\' => 'packages/A',
@@ -44,19 +15,8 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractKernelTestCase
                     'ACME\\YetYetAnother\\' => 'packages/A',
                 ],
             ],
-        ], $merged);
-    }
+        ];
 
-    /**
-     * @return SmartFileInfo[]
-     */
-    private function getFileInfosFromDirectory(string $directory): array
-    {
-        $finder = Finder::create()->files()
-            ->in($directory)
-            ->name('*.json')
-            ->sortByName();
-
-        return $this->finderSanitizer->sanitize($finder);
+        $this->doTestDirectoryMergeToFile(__DIR__ . '/SourceAutoloadSharedNamespaces', $expectedJson);
     }
 }
