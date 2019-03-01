@@ -56,7 +56,8 @@ abstract class AbstractMergeTestCase extends AbstractKernelTestCase
     {
         $finder = Finder::create()->files()
             ->in($directory)
-            ->name('*.json');
+            ->name('*.json')
+            ->sortByName();
 
         return $this->finderSanitizer->sanitize($finder);
     }

@@ -26,10 +26,15 @@ final class PackageComposerJsonMergerTest extends AbstractMergeTestCase
     public function testUniqueRepositories(): void
     {
         $expectedJson = [
-            'repositories' => [[
-                'type' => 'composer',
-                'url' => 'https://packages.example.org/',
-            ]],
+            'repositories' => [
+                [
+                    'type' => 'composer',
+                    'url' => 'https://packages.example.org/',
+                ],
+            ],
+            'require' => [
+                'php' => '^7.1',
+            ],
         ];
 
         $this->doTestDirectoryMergeToFile(__DIR__ . '/SourceUniqueRepositories', $expectedJson);
