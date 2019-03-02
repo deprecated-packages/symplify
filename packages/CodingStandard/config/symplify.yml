@@ -23,3 +23,8 @@ services:
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
     Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter: ~
     PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: ~
+
+    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
+        allowed_class_names:
+            - '*Exception'
+            - 'File*'
