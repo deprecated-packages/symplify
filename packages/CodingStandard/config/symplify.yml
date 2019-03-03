@@ -24,7 +24,6 @@ services:
         exclude: '../src/{Sniffs/DeadCode/UnusedPublicMethodSniff.php,Sniffs/CleanCode/ForbiddenParentClassSniff.php,Fixer/Order/MethodOrderByTypeFixer.php,Fixer/Commenting/RemoveUselessDocBlockFixer.php}'
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
-#    Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\ClassElementSorter: ~
     PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: ~
 
     Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
