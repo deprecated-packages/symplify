@@ -9,7 +9,9 @@
         "squizlabs/php_codesniffer": "^3.4",
         "friendsofphp/php-cs-fixer": "^2.14",
         "symplify/token-runner": "^5.5",
-        "slam/php-cs-fixer-extensions": "^1.17"
+        "slam/php-cs-fixer-extensions": "^1.17",
+        "symplify/package-builder": "^5.5",
+        "symplify/better-phpdoc-parser": "^5.5"
     },
     "require-dev": {
         "nette/application": "^2.4",
@@ -19,12 +21,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\CodingStandard\\": "src"
+            "Symplify\\CodingStandard\\": "src",
+            "Symplify\\CodingStandard\\TokenRunner\\": "packages/TokenRunner/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\CodingStandard\\Tests\\": "tests"
+            "Symplify\\CodingStandard\\Tests\\": "tests",
+            "Symplify\\CodingStandard\\TokenRunner\\Tests\\": "packages/TokenRunner/tests"
         }
     },
     "extra": {

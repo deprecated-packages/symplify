@@ -12,11 +12,11 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapper;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\PropertyWrapper;
 use Symplify\PackageBuilder\Php\TypeAnalyzer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\PropertyWrapper;
 
 final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {

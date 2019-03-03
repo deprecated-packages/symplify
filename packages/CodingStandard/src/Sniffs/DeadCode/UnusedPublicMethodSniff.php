@@ -5,8 +5,8 @@ namespace Symplify\CodingStandard\Sniffs\DeadCode;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
-use Symplify\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 
 /**
  * @experimental

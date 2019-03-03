@@ -18,7 +18,6 @@ parameters:
         packages/LatteToTwigConverter: 'git@github.com:Symplify/LatteToTwigConverter.git'
         packages/BetterPhpDocParser: 'git@github.com:Symplify/BetterPhpDocParser.git'
         packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
-        packages/TokenRunner: 'git@github.com:Symplify/TokenRunner.git'
         packages/EasyCodingStandard: 'git@github.com:Symplify/EasyCodingStandard.git'
         packages/EasyCodingStandardTester: 'git@github.com:Symplify/EasyCodingStandardTester.git'
         packages/CodingStandard: 'git@github.com:Symplify/CodingStandard.git'

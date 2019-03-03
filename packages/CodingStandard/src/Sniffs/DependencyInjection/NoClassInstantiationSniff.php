@@ -8,8 +8,8 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 use ReflectionClass;
 use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
+use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
-use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 
 final class NoClassInstantiationSniff implements Sniff
 {

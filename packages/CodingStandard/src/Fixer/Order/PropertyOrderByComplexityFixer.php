@@ -9,11 +9,11 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
+use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 use Symplify\PackageBuilder\Php\TypeAnalyzer;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 /**
  * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer

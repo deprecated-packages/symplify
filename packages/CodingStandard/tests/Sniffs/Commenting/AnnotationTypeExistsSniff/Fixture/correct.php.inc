@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Tests\DocBlock;
+namespace Symplify\CodingStandard\TokenRunner\Tests\DocBlock;
 
 use Iterator;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPUnit\Framework\TestCase;
-use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
+use Symplify\CodingStandard\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 
 final class ParamAndReturnTagAnalyzerTest extends TestCase
 {

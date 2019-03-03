@@ -1,0 +1,17 @@
+imports:
+    # A. in monorepo
+    - { resource: '../../../../BetterPhpDocParser/config/config.yml', ignore_errors: true }
+    # B. as dependency
+    - { resource: '%vendor%/symplify/better-phpdoc-parser/config/config.yml', ignore_errors: true }
+
+services:
+    _defaults:
+        autowire: true
+        public: true
+
+    Symplify\CodingStandard\TokenRunner\:
+        resource: '../src'
+        exclude: '../src/{Naming/Name/Name.php,Analyzer/FixerAnalyzer/BlockInfo.php,Wrapper/*Wrapper/*Wrapper.php,DependencyInjection/*}'
+
+    Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
+    PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer: ~

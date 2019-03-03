@@ -14,11 +14,11 @@ use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use SplFileInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
-use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\DocBlock\DescriptionAnalyzer;
+use Symplify\CodingStandard\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
 final class RemoveUselessDocBlockFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {

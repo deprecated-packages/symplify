@@ -68,7 +68,7 @@ parameters:
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
-        - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\FixerClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
+        - '#Property Symplify\\CodingStandard\\TokenRunner\\Wrapper\\FixerWrapper\\FixerClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
         - '#Method Symplify\\Statie\\Latte\\Tests\\Renderable\\LatteFileDecoratorTest::createFileFromFilePath\(\) should return Symplify\\Statie\\Renderable\\File\\File but returns Symplify\\Statie\\Renderable\\File\\AbstractFile#'
 
         # known values
@@ -97,8 +97,8 @@ parameters:
         - '#Cannot access offset (.*?) on Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile#'
         - '#Parameter \#1 \$stack of function array_pop expects array, array<int, string>\|false given#'
         - '#Cannot call method getContent\(\) on Symplify\\Statie\\Renderable\\File\\AbstractFile\|null#'
-        - '#Cannot call method getStart\(\) on Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
-        - '#Method Symplify\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
+        - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
+        - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
 
         # false positives
         - '#Method Symplify\\Autodiscovery\\Doctrine\\DoctrineEntityMappingAutodiscoverer::resolveDirectoryByNamespace\(\) should return array<string> but returns array<string, int\|string>#'
@@ -151,7 +151,7 @@ parameters:
         - '#Parameter \#2 \.\.\.\$args of function sprintf expects bool\|float\|int\|string\|null, \(array<string\>\)\|string given#'
         - '#Cannot cast array<string\>\|bool\|string to int#'
         - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocTagValueNode\:\:\$parameterName#'
-        - '#Method Symplify\\TokenRunner\\Transformer\\FixerTransformer\\LineLengthTransformer\:\:getFirstLineLength\(\) should return int but returns float\|int#'
+        - '#Method Symplify\\CodingStandard\\TokenRunner\\Transformer\\FixerTransformer\\LineLengthTransformer\:\:getFirstLineLength\(\) should return int but returns float\|int#'
         - '#Call to an undefined method object\:\:getPriority\(\)#'
         - '#Cannot call method getConstructor\(\) on ReflectionClass\|null#'
 

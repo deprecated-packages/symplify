@@ -1,3 +1,6 @@
+imports:
+    - { resource: '../packages/TokenRunner/config/config.yml' }
+
 # set for EasyCodingStandard
 services:
     _defaults:
@@ -21,7 +24,7 @@ services:
         exclude: '../src/{Sniffs/DeadCode/UnusedPublicMethodSniff.php,Sniffs/CleanCode/ForbiddenParentClassSniff.php,Fixer/Order/MethodOrderByTypeFixer.php,Fixer/Commenting/RemoveUselessDocBlockFixer.php}'
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
-    Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter: ~
+#    Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\ClassElementSorter: ~
     PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: ~
 
     Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
@@ -31,7 +34,10 @@ services:
             - '*Exception'
             - 'Option'
             - 'InitCommand'
+            - 'ConvertCommand'
             # duplicated deprecation
             - 'FinderSanitizer'
             # extended 3rd party class
             - 'CommentedOutCodeSniff'
+            # tests
+            - 'SomeClass'
