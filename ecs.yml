@@ -115,6 +115,8 @@ parameters:
             # respect 3rd party code typehint
             - 'packages/*/Yaml/*FileLoader.php'
             - 'packages/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory.php'
+            # variadics
+            - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
 
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value

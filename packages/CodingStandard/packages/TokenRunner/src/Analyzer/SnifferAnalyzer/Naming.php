@@ -5,7 +5,6 @@ namespace Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer;
 use PHP_CodeSniffer\Files\File;
 use SlevomatCodingStandard\Helpers\NamespaceHelper;
 use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
-use SlevomatCodingStandard\Helpers\UseStatementHelper;
 
 final class Naming
 {
@@ -13,11 +12,6 @@ final class Naming
      * @var string
      */
     private const NAMESPACE_SEPARATOR = '\\';
-
-    /**
-     * @var mixed[][]
-     */
-    private $useStatementsByFilePath = [];
 
     /**
      * @var mixed[][]
@@ -67,7 +61,6 @@ final class Naming
 
     private function getFqnClassName(File $file, string $className, int $classTokenPosition): string
     {
-        $useStatements = $this->getUseStatements($file);
         $referencedNames = $this->getReferencedNames($file);
 
         foreach ($referencedNames as $referencedName) {
@@ -78,7 +71,6 @@ final class Naming
             $resolvedName = NamespaceHelper::resolveClassName(
                 $file,
                 $referencedName->getNameAsReferencedInFile(),
-                $useStatements,
                 $classTokenPosition
             );
 
@@ -99,22 +91,6 @@ final class Naming
     private function isClassName(File $file, int $position): bool
     {
         return (bool) $file->findPrevious(T_CLASS, $position, max(1, $position - 3));
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function getUseStatements(File $file): array
-    {
-        if (isset($this->useStatementsByFilePath[$file->path])) {
-            return $this->useStatementsByFilePath[$file->path];
-        }
-
-        $useStatements = UseStatementHelper::getUseStatements($file, 0);
-
-        $this->useStatementsByFilePath[$file->path] = $useStatements;
-
-        return $useStatements;
     }
 
     /**
