@@ -7,8 +7,8 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 final class PrivateMethodOrderByUseFixer extends AbstractSymplifyFixer
 {

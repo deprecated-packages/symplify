@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\Sniffs\Architecture;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
+use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 
 final class PreferredClassSniff implements Sniff
 {

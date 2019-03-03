@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Sniffs\Naming;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 
 final class ClassNameSuffixByParentSniff implements Sniff
 {

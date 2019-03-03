@@ -58,6 +58,7 @@
             "Symplify\\BetterPhpDocParser\\Attributes\\": "packages/BetterPhpDocParser/packages/Attributes/src",
             "Symplify\\ChangelogLinker\\": "packages/ChangelogLinker/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
+            "Symplify\\CodingStandard\\TokenRunner\\": "packages/CodingStandard/packages/TokenRunner/src",
             "Symplify\\EasyCodingStandardTester\\": "packages/EasyCodingStandardTester/src",
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/src",
@@ -83,8 +84,7 @@
             "Symplify\\Statie\\MigratorSculpin\\": "packages/Statie/packages/MigratorSculpin/src",
             "Symplify\\Statie\\Migrator\\": "packages/Statie/packages/Migrator/src",
             "Symplify\\Statie\\Tweeter\\": "packages/Statie/packages/Tweeter/src",
-            "Symplify\\Statie\\Twig\\": "packages/Statie/packages/Twig/src",
-            "Symplify\\TokenRunner\\": "packages/TokenRunner/src"
+            "Symplify\\Statie\\Twig\\": "packages/Statie/packages/Twig/src"
         }
     },
     "autoload-dev": {
@@ -97,6 +97,7 @@
             "Symplify\\BetterPhpDocParser\\Tests\\": "packages/BetterPhpDocParser/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/ChangelogLinker/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
+            "Symplify\\CodingStandard\\TokenRunner\\Tests\\": "packages/CodingStandard/packages/TokenRunner/tests",
             "Symplify\\EasyCodingStandardTester\\Tests\\": "packages/EasyCodingStandardTester/tests",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\Tests\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/tests",
             "Symplify\\EasyCodingStandard\\FixerRunner\\Tests\\": "packages/EasyCodingStandard/packages/FixerRunner/tests",
@@ -117,8 +118,7 @@
             "Symplify\\Statie\\Migrator\\Tests\\": "packages/Statie/packages/Migrator/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Statie\\Tweeter\\Tests\\": "packages/Statie/packages/Tweeter/tests",
-            "Symplify\\Statie\\Twig\\Tests\\": "packages/Statie/packages/Twig/tests",
-            "Symplify\\TokenRunner\\Tests\\": "packages/TokenRunner/tests"
+            "Symplify\\Statie\\Twig\\Tests\\": "packages/Statie/packages/Twig/tests"
         }
     },
     "replace": {
@@ -134,8 +134,7 @@
         "symplify/neon-to-yaml-converter": "self.version",
         "symplify/package-builder": "self.version",
         "symplify/phpstan-extensions": "self.version",
-        "symplify/statie": "self.version",
-        "symplify/token-runner": "self.version"
+        "symplify/statie": "self.version"
     },
     "scripts": {
         "complete-check": [

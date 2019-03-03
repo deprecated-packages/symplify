@@ -10,9 +10,9 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 final class ArrayPropertyDefaultValueFixer extends AbstractSymplifyFixer
 {

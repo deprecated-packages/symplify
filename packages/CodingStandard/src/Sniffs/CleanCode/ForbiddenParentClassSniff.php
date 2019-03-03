@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\Sniffs\CleanCode;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 
 final class ForbiddenParentClassSniff implements Sniff
 {

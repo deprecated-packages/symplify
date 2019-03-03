@@ -49,7 +49,7 @@ parameters:
         - 'packages/CodingStandard/tests/Sniffs/DependencyInjection/NoClassInstantiation/Source/EntityClass.php'
         - 'packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets*.php'
         - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
-        - 'packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/*'
+        - 'packages/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/*'
 
     skip:
         # run form time to time, very slow and making many changes
@@ -104,7 +104,7 @@ parameters:
             # static helper
             - 'packages/PackageBuilder/src/Console/ThrowableRenderer.php'
             # todo: decouple later
-            - 'packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
+            - 'packages/CodingStandard/packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
             # cheap dependency injection
             - 'packages/*/src/Yaml/*YamlLoader.php'
             - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
@@ -114,7 +114,7 @@ parameters:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect 3rd party code typehint
             - 'packages/*/Yaml/*FileLoader.php'
-            - 'packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory.php'
+            - 'packages/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory.php'
 
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
@@ -136,7 +136,7 @@ parameters:
             - 'packages/NeonToYamlConverter/src/NeonToYamlConverter.php'
             # complex work
             - 'packages/BetterPhpDocParser/src/Printer/PhpDocInfoPrinter.php'
-            - 'packages/TokenRunner/src/DocBlock/DescriptionAnalyzer.php'
+            - 'packages/CodingStandard/packages/TokenRunner/src/DocBlock/DescriptionAnalyzer.php'
             # many nodes
             - 'packages/BetterPhpDocParser/packages/Attributes/src/Ast/AttributeAwareNodeFactory.php'
 

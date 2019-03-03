@@ -11,13 +11,13 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
-use Symplify\TokenRunner\DocBlock\MalformWorker\InlineVarMalformWorker;
-use Symplify\TokenRunner\DocBlock\MalformWorker\MissingParamNameMalformWorker;
-use Symplify\TokenRunner\DocBlock\MalformWorker\ParamNameTypoMalformWorker;
-use Symplify\TokenRunner\DocBlock\MalformWorker\SuperfluousReturnNameMalformWorker;
-use Symplify\TokenRunner\DocBlock\MalformWorker\SuperfluousVarNameMalformWorker;
-use Symplify\TokenRunner\DocBlock\MalformWorker\SwitchedTypeAndNameMalformWorker;
+use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\InlineVarMalformWorker;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\MissingParamNameMalformWorker;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\ParamNameTypoMalformWorker;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\SuperfluousReturnNameMalformWorker;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\SuperfluousVarNameMalformWorker;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\SwitchedTypeAndNameMalformWorker;
 
 /**
  * @see ParamNameTypoMalformWorker
