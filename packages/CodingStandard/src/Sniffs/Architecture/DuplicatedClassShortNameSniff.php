@@ -5,7 +5,10 @@ namespace Symplify\CodingStandard\Sniffs\Architecture;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use ReflectionClass;
 use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
+use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class DuplicatedClassShortNameSniff implements Sniff
 {
@@ -24,9 +27,15 @@ final class DuplicatedClassShortNameSniff implements Sniff
      */
     private $naming;
 
-    public function __construct(Naming $naming)
+    /**
+     * @var ChangedFilesDetector
+     */
+    private $changedFilesDetector;
+
+    public function __construct(Naming $naming, ChangedFilesDetector $changedFilesDetector)
     {
         $this->naming = $naming;
+        $this->changedFilesDetector = $changedFilesDetector;
     }
 
     /**
@@ -69,6 +78,8 @@ final class DuplicatedClassShortNameSniff implements Sniff
             return;
         }
 
+        $this->invalidateCacheForCheckedFiles($this->declaredClassesByShortName[$shortClassName]);
+
         $message = sprintf(
             'Class with base "%s" name is already used in "%s".%sUse specific name to make class unique and easy to recognize from the other.',
             $shortClassName,
@@ -90,6 +101,24 @@ final class DuplicatedClassShortNameSniff implements Sniff
             $shortClassName = Strings::after($className, '\\', -1);
 
             $this->declaredClassesByShortName[$shortClassName][] = $className;
+        }
+    }
+
+    private function invalidateCacheForCheckedFiles(array $classesToInvalidate): void
+    {
+        foreach ($classesToInvalidate as $classToInvalidate) {
+            if (! class_exists($classToInvalidate)) {
+                continue;
+            }
+
+            $classReflection = new ReflectionClass($classToInvalidate);
+            $classFileName = $classReflection->getFileName();
+            if (! $classFileName) {
+                continue;
+            }
+
+            $fileInfo = new SmartFileInfo($classFileName);
+            $this->changedFilesDetector->invalidateFileInfo($fileInfo);
         }
     }
 }

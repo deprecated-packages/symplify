@@ -40,4 +40,4 @@ services:
             # extended 3rd party class
             - 'CommentedOutCodeSniff'
             # tests
-            - 'SomeClass'
+            - 'Some*'
