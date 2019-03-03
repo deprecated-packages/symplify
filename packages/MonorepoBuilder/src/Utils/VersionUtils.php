@@ -4,7 +4,7 @@ namespace Symplify\MonorepoBuilder\Utils;
 
 use PharIo\Version\Version;
 
-final class Utils
+final class VersionUtils
 {
     /**
      * @var string

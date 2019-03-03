@@ -6,7 +6,7 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
-use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory;
+use Symplify\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 
 /**
  * @experimental
@@ -65,13 +65,13 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     private $file;
 
     /**
-     * @var ClassWrapperFactory
+     * @var SniffClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $sniffClassWrapperFactory;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory)
+    public function __construct(SniffClassWrapperFactory $sniffClassWrapperFactory)
     {
-        $this->classWrapperFactory = $classWrapperFactory;
+        $this->sniffClassWrapperFactory = $sniffClassWrapperFactory;
     }
 
     public function reset(): void
@@ -181,7 +181,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return true;
         }
 
-        $classWrapper = $this->classWrapperFactory->createFromFirstClassInFile($file);
+        $classWrapper = $this->sniffClassWrapperFactory->createFromFirstClassInFile($file);
         if ($classWrapper === null) {
             return true;
         }

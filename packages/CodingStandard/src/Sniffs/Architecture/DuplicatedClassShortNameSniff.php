@@ -2,9 +2,10 @@
 
 namespace Symplify\CodingStandard\Sniffs\Architecture;
 
+use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use SlevomatCodingStandard\Helpers\NamespaceHelper;
+use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 
 final class DuplicatedClassShortNameSniff implements Sniff
 {
@@ -16,7 +17,17 @@ final class DuplicatedClassShortNameSniff implements Sniff
     /**
      * @var string[][]
      */
-    private $usedClassNames = [];
+    private $declaredClassesByShortName = [];
+
+    /**
+     * @var Naming
+     */
+    private $naming;
+
+    public function __construct(Naming $naming)
+    {
+        $this->naming = $naming;
+    }
 
     /**
      * @return int[]
@@ -38,34 +49,47 @@ final class DuplicatedClassShortNameSniff implements Sniff
             return;
         }
 
-        $className = $file->getTokens()[$position]['content'];
+        $shortClassName = $file->getTokens()[$position]['content'];
+        $fullyQualifiedClassName = $this->naming->getClassName($file, $position);
 
         // is allowed
         foreach ($this->allowedClassNames as $allowedClassName) {
-            if (fnmatch($allowedClassName, $className, FNM_NOESCAPE)) {
+            if (fnmatch($allowedClassName, $shortClassName, FNM_NOESCAPE)) {
                 return;
             }
         }
 
-        $namespace = NamespaceHelper::findCurrentNamespaceName($file, $position);
-        if ($namespace) {
-            $fullyQualifiedClassName = $namespace . '\\' . $className;
-        } else {
-            $fullyQualifiedClassName = $className;
-        }
+        $this->prepareDeclaredClassesByShortName();
 
-        $this->usedClassNames[$className][] = $fullyQualifiedClassName;
+        $this->declaredClassesByShortName[$shortClassName] = array_unique(
+            array_merge([$fullyQualifiedClassName], $this->declaredClassesByShortName[$shortClassName] ?? [])
+        );
 
-        if (count($this->usedClassNames[$className]) <= 1) {
+        if (count($this->declaredClassesByShortName[$shortClassName]) <= 1) {
             return;
         }
 
         $message = sprintf(
-            'Class with base "%s" name is already used in "%s". Use specific name to make class unique and easy to recognize from the other.',
-            $className,
-            implode('", "', $this->usedClassNames[$className])
+            'Class with base "%s" name is already used in "%s".%sUse specific name to make class unique and easy to recognize from the other.',
+            $shortClassName,
+            implode('", "', $this->declaredClassesByShortName[$shortClassName]),
+            PHP_EOL
         );
 
         $file->addError($message, $position, self::class);
+    }
+
+    private function prepareDeclaredClassesByShortName(): void
+    {
+        // is defined?
+        if ($this->declaredClassesByShortName !== []) {
+            return;
+        }
+
+        foreach (get_declared_classes() as $className) {
+            $shortClassName = Strings::after($className, '\\', -1);
+
+            $this->declaredClassesByShortName[$shortClassName][] = $className;
+        }
     }
 }

@@ -10,8 +10,8 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 final class FinalInterfaceFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
@@ -21,13 +21,13 @@ final class FinalInterfaceFixer extends AbstractSymplifyFixer implements Configu
     private $onlyInterfaces = [];
 
     /**
-     * @var ClassWrapperFactory
+     * @var FixerClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $fixerClassWrapperFactory;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory)
+    public function __construct(FixerClassWrapperFactory $fixerClassWrapperFactory)
     {
-        $this->classWrapperFactory = $classWrapperFactory;
+        $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -49,7 +49,7 @@ class SomeClass implements SomeInterface {};')]
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->getReversedClassyPositions($tokens) as $index) {
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
+            $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             if ($this->shouldBeSkipped($classWrapper)) {
                 continue;
             }
@@ -71,26 +71,26 @@ class SomeClass implements SomeInterface {};')]
         $this->onlyInterfaces = $configuration['only_interfaces'] ?? [];
     }
 
-    private function shouldBeSkipped(ClassWrapper $classWrapper): bool
+    private function shouldBeSkipped(FixerClassWrapper $fixerClassWrapper): bool
     {
-        if (! $classWrapper->implementsInterface()) {
+        if (! $fixerClassWrapper->implementsInterface()) {
             return true;
         }
 
-        if ($classWrapper->isFinal() || $classWrapper->isAbstract()) {
+        if ($fixerClassWrapper->isFinal() || $fixerClassWrapper->isAbstract()) {
             return true;
         }
 
-        if ($classWrapper->isDoctrineEntity()) {
+        if ($fixerClassWrapper->isDoctrineEntity()) {
             return true;
         }
 
-        if ($classWrapper->isAnonymous()) {
+        if ($fixerClassWrapper->isAnonymous()) {
             return true;
         }
 
         if ($this->onlyInterfaces) {
-            return ! array_intersect($this->onlyInterfaces, $classWrapper->getInterfaceNames());
+            return ! array_intersect($this->onlyInterfaces, $fixerClassWrapper->getInterfaceNames());
         }
 
         return false;

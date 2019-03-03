@@ -8,7 +8,7 @@ use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 
-final class ClassWrapperFactory
+final class FixerClassWrapperFactory
 {
     /**
      * @var PropertyWrapperFactory
@@ -63,11 +63,11 @@ final class ClassWrapperFactory
         $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
 
-    public function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): ClassWrapper
+    public function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): FixerClassWrapper
     {
         $this->tokenTypeGuard->ensureIsTokenType($tokens[$startIndex], [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
 
-        return new ClassWrapper(
+        return new FixerClassWrapper(
             $tokens,
             $startIndex,
             $this->propertyWrapperFactory,

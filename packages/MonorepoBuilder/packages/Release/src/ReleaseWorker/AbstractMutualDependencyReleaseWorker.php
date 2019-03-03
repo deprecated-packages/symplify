@@ -6,7 +6,7 @@ use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Package\PackageNamesProvider;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use Symplify\MonorepoBuilder\Utils\Utils;
+use Symplify\MonorepoBuilder\Utils\VersionUtils;
 
 abstract class AbstractMutualDependencyReleaseWorker implements ReleaseWorkerInterface
 {
@@ -21,9 +21,9 @@ abstract class AbstractMutualDependencyReleaseWorker implements ReleaseWorkerInt
     protected $dependencyUpdater;
 
     /**
-     * @var Utils
+     * @var VersionUtils
      */
-    protected $utils;
+    protected $versionUtils;
 
     /**
      * @var PackageNamesProvider
@@ -34,11 +34,11 @@ abstract class AbstractMutualDependencyReleaseWorker implements ReleaseWorkerInt
         ComposerJsonProvider $composerJsonProvider,
         DependencyUpdater $dependencyUpdater,
         PackageNamesProvider $packageNamesProvider,
-        Utils $utils
+        VersionUtils $versionUtils
     ) {
         $this->composerJsonProvider = $composerJsonProvider;
         $this->dependencyUpdater = $dependencyUpdater;
-        $this->utils = $utils;
+        $this->versionUtils = $versionUtils;
         $this->packageNamesProvider = $packageNamesProvider;
     }
 }
