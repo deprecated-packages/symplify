@@ -56,12 +56,12 @@ composer require symplify/better-phpdoc-parser
 Register services in your Symfony config:
 
 ```yaml
-# services.yml
+# services.yaml
 imports:
     - { resource: 'vendor/symplify/better-phpdoc-parser/config/config.yml' }
 ```
 
-or register the needed services from `services.yml` in config of your other framework.
+or register the needed services from `services.yaml` in config of your other framework.
 
 ```php
 <?php
