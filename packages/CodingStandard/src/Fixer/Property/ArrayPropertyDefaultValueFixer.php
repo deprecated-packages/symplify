@@ -11,8 +11,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 final class ArrayPropertyDefaultValueFixer extends AbstractSymplifyFixer
 {
@@ -22,9 +22,9 @@ final class ArrayPropertyDefaultValueFixer extends AbstractSymplifyFixer
     private static $cachedDefaultArrayTokens;
 
     /**
-     * @var ClassWrapperFactory
+     * @var FixerClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $fixerClassWrapperFactory;
 
     /**
      * @var DocBlockWrapperFactory
@@ -37,11 +37,11 @@ final class ArrayPropertyDefaultValueFixer extends AbstractSymplifyFixer
     private $docBlockFinder;
 
     public function __construct(
-        ClassWrapperFactory $classWrapperFactory,
+        FixerClassWrapperFactory $fixerClassWrapperFactory,
         DocBlockWrapperFactory $docBlockWrapperFactory,
         DocBlockFinder $docBlockFinder
     ) {
-        $this->classWrapperFactory = $classWrapperFactory;
+        $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->docBlockFinder = $docBlockFinder;
     }
@@ -68,7 +68,7 @@ public $property;')]
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->getReversedClassyPositions($tokens) as $index) {
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
+            $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
 
             $this->fixProperties($tokens, $classWrapper->getProperties());
         }

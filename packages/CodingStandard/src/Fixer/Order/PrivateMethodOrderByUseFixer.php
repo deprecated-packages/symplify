@@ -8,23 +8,25 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 final class PrivateMethodOrderByUseFixer extends AbstractSymplifyFixer
 {
     /**
-     * @var ClassWrapperFactory
+     * @var FixerClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $fixerClassWrapperFactory;
 
     /**
      * @var ClassElementSorter
      */
     private $classElementSorter;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory, ClassElementSorter $classElementSorter)
-    {
-        $this->classWrapperFactory = $classWrapperFactory;
+    public function __construct(
+        FixerClassWrapperFactory $fixerClassWrapperFactory,
+        ClassElementSorter $classElementSorter
+    ) {
+        $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->classElementSorter = $classElementSorter;
     }
 
@@ -41,7 +43,7 @@ final class PrivateMethodOrderByUseFixer extends AbstractSymplifyFixer
     public function fix(SplFileInfo $splFileInfo, Tokens $tokens): void
     {
         foreach ($this->getReversedClassyPositions($tokens) as $index) {
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
+            $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
 
             $desiredMethodOrder = $classWrapper->getThisMethodCallsByOrderOfAppearance();
             $privateMethodElements = $classWrapper->getPrivateMethodElements();

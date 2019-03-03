@@ -8,8 +8,8 @@ use Symplify\TokenRunner\Tests\HttpKernel\TokenRunnerKernel;
 use Symplify\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWrapper\Source\AbstractClass;
 use Symplify\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWrapper\Source\SomeClass;
 use Symplify\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWrapper\Source\SomeInterface;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 final class ClassWrapperTest extends AbstractKernelTestCase
 {
@@ -38,9 +38,9 @@ final class ClassWrapperTest extends AbstractKernelTestCase
         $this->assertSame([], $classWrapper->getClassTypes());
     }
 
-    private function createClassWrapperFromFile(string $filePath): ClassWrapper
+    private function createClassWrapperFromFile(string $filePath): FixerClassWrapper
     {
-        $classWrapperFactory = self::$container->get(ClassWrapperFactory::class);
+        $classWrapperFactory = self::$container->get(FixerClassWrapperFactory::class);
 
         $tokens = Tokens::fromCode(file_get_contents($filePath));
         $classTokens = $tokens->findGivenKind([T_CLASS], 0);

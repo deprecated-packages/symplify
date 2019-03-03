@@ -6,7 +6,7 @@ use PHP_CodeSniffer\Files\File;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 
-final class ClassWrapper
+final class SniffClassWrapper
 {
     /**
      * @var int

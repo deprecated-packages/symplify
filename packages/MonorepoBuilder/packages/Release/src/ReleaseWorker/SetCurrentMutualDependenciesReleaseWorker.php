@@ -13,7 +13,7 @@ final class SetCurrentMutualDependenciesReleaseWorker extends AbstractMutualDepe
 
     public function work(Version $version): void
     {
-        $versionInString = $this->utils->getRequiredFormat($version);
+        $versionInString = $this->versionUtils->getRequiredFormat($version);
 
         $this->dependencyUpdater->updateFileInfosWithPackagesAndVersion(
             $this->composerJsonProvider->getPackagesFileInfos(),
@@ -24,7 +24,7 @@ final class SetCurrentMutualDependenciesReleaseWorker extends AbstractMutualDepe
 
     public function getDescription(Version $version): string
     {
-        $versionInString = $this->utils->getRequiredFormat($version);
+        $versionInString = $this->versionUtils->getRequiredFormat($version);
 
         return sprintf('Set packages mutual dependencies to "%s" version', $versionInString);
     }

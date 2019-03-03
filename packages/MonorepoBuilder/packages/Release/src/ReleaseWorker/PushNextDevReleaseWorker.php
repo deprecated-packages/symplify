@@ -5,7 +5,7 @@ namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
-use Symplify\MonorepoBuilder\Utils\Utils;
+use Symplify\MonorepoBuilder\Utils\VersionUtils;
 
 final class PushNextDevReleaseWorker implements ReleaseWorkerInterface
 {
@@ -15,14 +15,14 @@ final class PushNextDevReleaseWorker implements ReleaseWorkerInterface
     private $processRunner;
 
     /**
-     * @var Utils
+     * @var VersionUtils
      */
-    private $utils;
+    private $versionUtils;
 
-    public function __construct(ProcessRunner $processRunner, Utils $utils)
+    public function __construct(ProcessRunner $processRunner, VersionUtils $versionUtils)
     {
         $this->processRunner = $processRunner;
-        $this->utils = $utils;
+        $this->versionUtils = $versionUtils;
     }
 
     public function getPriority(): int
@@ -48,6 +48,6 @@ final class PushNextDevReleaseWorker implements ReleaseWorkerInterface
 
     private function getVersionDev(Version $version): string
     {
-        return $this->utils->getNextAliasFormat($version);
+        return $this->versionUtils->getNextAliasFormat($version);
     }
 }

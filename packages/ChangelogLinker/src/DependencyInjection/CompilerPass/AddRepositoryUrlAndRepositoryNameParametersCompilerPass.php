@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Process\Process;
 use Symplify\ChangelogLinker\Github\GithubRepositoryFromRemoteResolver;
 
-final class DetectParametersCompilerPass implements CompilerPassInterface
+final class AddRepositoryUrlAndRepositoryNameParametersCompilerPass implements CompilerPassInterface
 {
     /**
      * @var string

@@ -4,21 +4,21 @@ namespace Symplify\MonorepoBuilder\Tests\Utils;
 
 use Iterator;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
-use Symplify\MonorepoBuilder\Utils\Utils;
+use Symplify\MonorepoBuilder\Utils\VersionUtils;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 final class UtilsTest extends AbstractKernelTestCase
 {
     /**
-     * @var Utils
+     * @var VersionUtils
      */
-    private $utils;
+    private $versionUtils;
 
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
-        $this->utils = self::$container->get(Utils::class);
+        $this->versionUtils = self::$container->get(VersionUtils::class);
     }
 
     /**
@@ -26,7 +26,7 @@ final class UtilsTest extends AbstractKernelTestCase
      */
     public function testAlias(string $currentVersion, string $expectedVersion): void
     {
-        $this->assertSame($expectedVersion, $this->utils->getNextAliasFormat($currentVersion));
+        $this->assertSame($expectedVersion, $this->versionUtils->getNextAliasFormat($currentVersion));
     }
 
     public function provideDataAlias(): Iterator
@@ -41,7 +41,7 @@ final class UtilsTest extends AbstractKernelTestCase
      */
     public function testRequiredNextVersion(string $currentVersion, string $expectedVersion): void
     {
-        $this->assertSame($expectedVersion, $this->utils->getRequiredNextFormat($currentVersion));
+        $this->assertSame($expectedVersion, $this->versionUtils->getRequiredNextFormat($currentVersion));
     }
 
     public function provideDataForRequiredNextVersion(): Iterator
@@ -55,7 +55,7 @@ final class UtilsTest extends AbstractKernelTestCase
      */
     public function testRequiredVersion(string $currentVersion, string $expectedVersion): void
     {
-        $this->assertSame($expectedVersion, $this->utils->getRequiredFormat($currentVersion));
+        $this->assertSame($expectedVersion, $this->versionUtils->getRequiredFormat($currentVersion));
     }
 
     public function provideDataForRequiredVersion(): Iterator

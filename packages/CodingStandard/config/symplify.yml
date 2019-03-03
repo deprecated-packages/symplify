@@ -23,3 +23,15 @@ services:
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
     Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter: ~
     PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: ~
+
+    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
+        allowed_class_names:
+            - 'File*'
+            # per monorepo package unique
+            - '*Exception'
+            - 'Option'
+            - 'InitCommand'
+            # duplicated deprecation
+            - 'FinderSanitizer'
+            # extended 3rd party class
+            - 'CommentedOutCodeSniff'

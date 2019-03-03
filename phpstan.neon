@@ -68,7 +68,7 @@ parameters:
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
-        - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
+        - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\FixerClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
         - '#Method Symplify\\Statie\\Latte\\Tests\\Renderable\\LatteFileDecoratorTest::createFileFromFilePath\(\) should return Symplify\\Statie\\Renderable\\File\\File but returns Symplify\\Statie\\Renderable\\File\\AbstractFile#'
 
         # known values

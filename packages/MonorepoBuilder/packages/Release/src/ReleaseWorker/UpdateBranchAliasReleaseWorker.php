@@ -6,7 +6,7 @@ use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use Symplify\MonorepoBuilder\Utils\Utils;
+use Symplify\MonorepoBuilder\Utils\VersionUtils;
 
 final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
 {
@@ -21,18 +21,18 @@ final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
     private $composerJsonProvider;
 
     /**
-     * @var Utils
+     * @var VersionUtils
      */
-    private $utils;
+    private $versionUtils;
 
     public function __construct(
         DevMasterAliasUpdater $devMasterAliasUpdater,
         ComposerJsonProvider $composerJsonProvider,
-        Utils $utils
+        VersionUtils $versionUtils
     ) {
         $this->devMasterAliasUpdater = $devMasterAliasUpdater;
         $this->composerJsonProvider = $composerJsonProvider;
-        $this->utils = $utils;
+        $this->versionUtils = $versionUtils;
     }
 
     public function getPriority(): int
@@ -42,7 +42,7 @@ final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
 
     public function work(Version $version): void
     {
-        $nextAlias = $this->utils->getNextAliasFormat($version);
+        $nextAlias = $this->versionUtils->getNextAliasFormat($version);
 
         $this->devMasterAliasUpdater->updateFileInfosWithAlias(
             $this->composerJsonProvider->getPackagesFileInfos(),
@@ -52,7 +52,7 @@ final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
 
     public function getDescription(Version $version): string
     {
-        $nextAlias = $this->utils->getNextAliasFormat($version);
+        $nextAlias = $this->versionUtils->getNextAliasFormat($version);
 
         return sprintf('Set branch alias "%s" to all packages', $nextAlias);
     }

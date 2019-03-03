@@ -33,8 +33,20 @@ final class Naming
     {
         $tokens = $file->getTokens();
 
+        $firstNamePart = $tokens[$classNameStartPosition]['content'];
+
+        // is class <name>
+        if ($this->isClassName($file, $classNameStartPosition)) {
+            $namespace = NamespaceHelper::findCurrentNamespaceName($file, $classNameStartPosition);
+            if ($namespace) {
+                return $namespace . '\\' . $firstNamePart;
+            }
+
+            return $firstNamePart;
+        }
+
         $classNameParts = [];
-        $classNameParts[] = $tokens[$classNameStartPosition]['content'];
+        $classNameParts[] = $firstNamePart;
 
         $nextTokenPointer = $classNameStartPosition + 1;
         while ($tokens[$nextTokenPointer]['code'] === T_NS_SEPARATOR) {
@@ -78,6 +90,15 @@ final class Naming
         }
 
         return '';
+    }
+
+    /**
+     * As in:
+     * class <name>
+     */
+    private function isClassName(File $file, int $position): bool
+    {
+        return (bool) $file->findPrevious(T_CLASS, $position, max(1, $position - 3));
     }
 
     /**

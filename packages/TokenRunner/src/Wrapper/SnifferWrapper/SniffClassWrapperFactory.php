@@ -6,7 +6,7 @@ use PHP_CodeSniffer\Files\File;
 use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
-final class ClassWrapperFactory
+final class SniffClassWrapperFactory
 {
     /**
      * @var Naming
@@ -24,7 +24,7 @@ final class ClassWrapperFactory
         $this->tokenTypeGuard = $tokenTypeGuard;
     }
 
-    public function createFromFirstClassInFile(File $file): ?ClassWrapper
+    public function createFromFirstClassInFile(File $file): ?SniffClassWrapper
     {
         $possibleClassPosition = $file->findNext(T_CLASS, 0);
         if (! is_int($possibleClassPosition)) {
@@ -37,6 +37,6 @@ final class ClassWrapperFactory
             T_INTERFACE,
         ], __METHOD__);
 
-        return new ClassWrapper($file, $possibleClassPosition, $this->naming);
+        return new SniffClassWrapper($file, $possibleClassPosition, $this->naming);
     }
 }

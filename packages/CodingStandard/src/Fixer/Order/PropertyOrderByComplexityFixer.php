@@ -12,8 +12,8 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\PackageBuilder\Php\TypeAnalyzer;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 /**
  * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
@@ -26,9 +26,9 @@ final class PropertyOrderByComplexityFixer extends AbstractSymplifyFixer
     private const RATING = 'rating';
 
     /**
-     * @var ClassWrapperFactory
+     * @var FixerClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $fixerClassWrapperFactory;
 
     /**
      * @var TypeAnalyzer
@@ -51,13 +51,13 @@ final class PropertyOrderByComplexityFixer extends AbstractSymplifyFixer
     private $classElementSorter;
 
     public function __construct(
-        ClassWrapperFactory $classWrapperFactory,
+        FixerClassWrapperFactory $fixerClassWrapperFactory,
         TypeAnalyzer $typeAnalyzer,
         DocBlockFinder $docBlockFinder,
         DocBlockWrapperFactory $docBlockWrapperFactory,
         ClassElementSorter $classElementSorter
     ) {
-        $this->classWrapperFactory = $classWrapperFactory;
+        $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->typeAnalyzer = $typeAnalyzer;
         $this->docBlockFinder = $docBlockFinder;
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
@@ -127,7 +127,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $i);
+            $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $i);
 
             $propertyElements = $classWrapper->getPropertyElements();
 

@@ -58,6 +58,57 @@ class SomeClass
 
 <br>
 
+### Use Unique Class Short Names
+
+- :wrench:
+- class: [`Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff`](/src/Sniffs/Architecture/DuplicatedClassShortNameSniff.php)
+
+:x:
+
+```php
+<?php
+
+namespace App;
+
+class Finder
+{
+}
+```
+
+```php
+<?php
+
+namespace App\Entity;
+
+class Finder
+{
+}
+```
+
+:+1:
+
+```diff
+ <?php
+
+ namespace App\Entity;
+
+-class Finder
++class EntityFinder
+ {
+ }
+```
+
+Do you want skip some classes? Configure it:
+
+```yaml
+# ecs.yml
+services:
+    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
+        allowed_class_names:
+            - 'Request'
+            - 'Response'
+```
+
 ### Make `@param`, `@return` and `@var` Format United
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
@@ -299,34 +350,6 @@ Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all
  public function someMethod()
  {
  }
-```
-
-<br>
-
-### Block comment should only contain useful information about types
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer`](src/Fixer/Commenting/RemoveUselessDocBlockFixer.php)
-
-```diff
- /**
-- * @param int $value
-- * @param $anotherValue
-- * @param SomeType $someService
-- * @return array
-  */
- public function setCount(int $value, $anotherValue, SomeType $someService): array
- {
- }
-```
-
-This checker keeps 'mixed' and 'object' and other types by default. But if you need, you can **configure it**:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
-        useless_types: ['mixed', 'object'] # [] by default
 ```
 
 <br>

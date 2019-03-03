@@ -6,7 +6,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
+use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\AddRepositoryUrlAndRepositoryNameParametersCompilerPass;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
@@ -63,7 +63,7 @@ final class ChangelogLinkerKernel extends Kernel implements ExtraConfigAwareKern
         $containerBuilder->addCompilerPass(new AutoReturnFactoryCompilerPass());
 
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
-        $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());
+        $containerBuilder->addCompilerPass(new AddRepositoryUrlAndRepositoryNameParametersCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
     }
 }

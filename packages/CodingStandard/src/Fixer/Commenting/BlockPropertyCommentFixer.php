@@ -12,7 +12,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 /**
  * possible future-successor https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/3810
@@ -20,9 +20,9 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 final class BlockPropertyCommentFixer extends AbstractSymplifyFixer
 {
     /**
-     * @var ClassWrapperFactory
+     * @var FixerClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $fixerClassWrapperFactory;
 
     /**
      * @var WhitespacesFixerConfig
@@ -30,10 +30,10 @@ final class BlockPropertyCommentFixer extends AbstractSymplifyFixer
     private $whitespacesFixerConfig;
 
     public function __construct(
-        ClassWrapperFactory $classWrapperFactory,
+        FixerClassWrapperFactory $fixerClassWrapperFactory,
         WhitespacesFixerConfig $whitespacesFixerConfig
     ) {
-        $this->classWrapperFactory = $classWrapperFactory;
+        $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
@@ -58,7 +58,7 @@ private $property;
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->getReversedClassAndTraitPositions($tokens) as $index) {
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
+            $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             foreach ($classWrapper->getPropertyWrappers() as $propertyWrapper) {
                 $docBlockWrapper = $propertyWrapper->getDocBlockWrapper();
                 if ($docBlockWrapper === null || ! $docBlockWrapper->isSingleLine()) {
