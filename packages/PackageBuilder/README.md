@@ -134,7 +134,7 @@ final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassIn
 ### Get All Parameters via Service
 
 ```yml
-# app/config/services.yml
+# app/config/services.yaml
 
 parameters:
     source: "src"

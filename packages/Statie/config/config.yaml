@@ -24,6 +24,6 @@ parameters:
             object: 'Symplify\Statie\Renderable\File\PostFile'
 
 imports:
-    - { resource: '../packages/**/config/config.yml' }
-    - { resource: '../packages/**/config/services.yml' }
-    - { resource: 'services.yml' }
+    - { resource: '../packages/**/config/config.yaml' }
+    - { resource: '../packages/**/config/services.yaml' }
+    - { resource: 'services.yaml' }

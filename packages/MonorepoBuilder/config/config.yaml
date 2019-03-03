@@ -1,6 +1,6 @@
 imports:
-    - { resource: 'services.yml' }
-    - { resource: '../packages/**/config/config.yml' }
+    - { resource: 'services.yaml' }
+    - { resource: '../packages/**/config/config.yaml' }
 
 parameters:
     merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev', 'repositories', 'suggest']
