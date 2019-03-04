@@ -9,7 +9,65 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.4.11 - 2019-02-25
+## [v5.4.14] - 2019-03-04
+
+### Added
+
+#### CodingStandard
+
+- [#1477] Add DuplicatedClassShortNameSniff
+
+### Changed
+
+- [#1481] Bump to slevomat coding-standard 5.0
+
+### EasyCodingStandard
+
+- [#1480] Make dual run clear cache by default
+- [#1482] Use `.yaml` over `.yml`
+
+
+### Fixed
+
+- [#1469] Fix `UnusedPublicMethodSniff` offset
+
+#### MonorepoBuilder
+
+- [#1476] Fix appended extra repository duplicate
+
+### Deprecated
+
+#### CodingStandard
+
+- [#1473] Deprecate `RemoveUselessDocBlockFixer`
+
+#### BetterPhpDocParser
+
+- [#1474] Deprecate package, used only in `RemoveUselessDocBlockFixer`
+
+#### EasyCodingStandard
+
+- [#1482] Deprecated .yml sets
+
+#### TokenRunner
+
+- [#1479] Deprecate and move under `CodingStandard` package
+
+## [v5.4.13] - 2019-02-28
+
+### Added
+
+#### BetterPhpDocParser
+
+- [#1468] add `createFromNode()` method
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#1467] Report sniff just once
+
+## [v5.4.11] - 2019-02-25
 
 ### Fixed
 
@@ -1008,3 +1066,17 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [v5.4.9]: https://github.com/Symplify/Symplify/compare/v5.4.7...v5.4.9
 [#1460]: https://github.com/Symplify/Symplify/pull/1460
 [v5.4.10]: https://github.com/Symplify/Symplify/compare/v5.4.9...v5.4.10
+[#1482]: https://github.com/Symplify/Symplify/pull/1482
+[#1481]: https://github.com/Symplify/Symplify/pull/1481
+[#1480]: https://github.com/Symplify/Symplify/pull/1480
+[#1479]: https://github.com/Symplify/Symplify/pull/1479
+[#1477]: https://github.com/Symplify/Symplify/pull/1477
+[#1476]: https://github.com/Symplify/Symplify/pull/1476
+[#1474]: https://github.com/Symplify/Symplify/pull/1474
+[#1473]: https://github.com/Symplify/Symplify/pull/1473
+[#1469]: https://github.com/Symplify/Symplify/pull/1469
+[#1468]: https://github.com/Symplify/Symplify/pull/1468
+[#1467]: https://github.com/Symplify/Symplify/pull/1467
+[v5.4.14]: https://github.com/Symplify/Symplify/compare/v5.4.13...v5.4.14
+[v5.4.13]: https://github.com/Symplify/Symplify/compare/v5.4.11...v5.4.13
+[v5.4.11]: https://github.com/Symplify/Symplify/compare/v5.4.10...v5.4.11
