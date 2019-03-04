@@ -10,13 +10,13 @@
         "friendsofphp/php-cs-fixer": "^2.14",
         "symplify/token-runner": "^5.5",
         "slam/php-cs-fixer-extensions": "^1.17",
-        "symplify/package-builder": "^5.4.14",
-        "symplify/better-phpdoc-parser": "^5.4.14"
+        "symplify/package-builder": "^5.5",
+        "symplify/better-phpdoc-parser": "^5.5"
     },
     "require-dev": {
         "nette/application": "^2.4",
-        "symplify/easy-coding-standard-tester": "^5.4.14",
-        "symplify/package-builder": "^5.4.14",
+        "symplify/easy-coding-standard-tester": "^5.5",
+        "symplify/package-builder": "^5.5",
         "phpunit/phpunit": "^7.5|^8.0"
     },
     "autoload": {
