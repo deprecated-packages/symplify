@@ -1,0 +1,9 @@
+{
+    "autoload": {
+        "psr-4": {
+            "App\\Core\\": "src/core-extension",
+            "App\\Model\\": "src/interfaces",
+            "App\\Shared\\": "src/shared"
+        }
+    }
+}

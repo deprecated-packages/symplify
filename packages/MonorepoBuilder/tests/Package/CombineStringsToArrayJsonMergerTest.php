@@ -19,4 +19,25 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
 
         $this->doTestDirectoryMergeToFile(__DIR__ . '/SourceAutoloadSharedNamespaces', $expectedJson);
     }
+
+    public function testIdenticalNamespaces(): void
+    {
+        // TODO: define expected behaviour; currently everything we know is: this ain't of any use
+        $NOTexpectedJson = [
+            'autoload' => [
+                'psr-4' => [
+                    'App\\Core\\' => ['src/core', 'src/core-extension'],
+                    'App\\Model\\' => ['src/interfaces', 'src/models'],
+                    'App\\Shared\\' => 'src/shared',
+                    'App\\Sub\\' => ['src/package-c', 'src/package-d'],
+                ],
+            ],
+        ];
+
+        $merged = $this->packageComposerJsonMerger->mergeFileInfos(
+            $this->getFileInfosFromDirectory(__DIR__ . '/SourceIdenticalNamespaces')
+        );
+
+        $this->assertNotSame($NOTexpectedJson, $merged);
+    }
 }

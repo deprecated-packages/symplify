@@ -38,6 +38,21 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
     ];
 
     /**
+     * @var mixed[]
+     */
+    private $composerJsonWithIdenticalNamespaces = [ 
+        'autoload' => [ // TODO: This undecorated merged autoload is nonsense. PackageComposerJsonMerger should prefix autoload and autoload-dev
+                        //   See also: CombineStringsToArrayJsonMergerTest::testIdenticalNamespaces
+            'psr-4' => [
+                'App\\Core\\' => ['src/core', 'src/core-extension'],
+                'App\\Model\\' => ['src/interfaces', 'src/models'],
+                'App\\Shared\\' => 'src/shared',
+                'App\\Sub\\' => ['src/package-c', 'src/package-d'],
+            ],
+        ],
+    ];
+
+    /**
      * @var AutoloadRelativePathComposerJsonDecorator
      */
     private $autoloadRelativePathComposerJsonDecorator;
@@ -72,6 +87,24 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
         $decorated = $autoloadRelativePathComposerJsonDecorator->decorate($this->composerJsonWithOverlappingNamespaces);
 
         $this->assertSame($this->getExpectedComposerJsonWithOverlappingNamespaces(), $decorated);
+    }
+
+    public function testIdenticalNamespaces(): void
+    {
+        $packageComposerFinder = new PackageComposerFinder([
+            __DIR__ . '/SourceIdenticalNamespaces/PackageA',
+            __DIR__ . '/SourceIdenticalNamespaces/PackageB',
+            __DIR__ . '/SourceIdenticalNamespaces/SubA/PackageC',
+            __DIR__ . '/SourceIdenticalNamespaces/SubB/PackageD',
+        ], new FinderSanitizer());
+
+        $autoloadRelativePathComposerJsonDecorator = new AutoloadRelativePathComposerJsonDecorator(
+            $packageComposerFinder
+        );
+
+        $decorated = $autoloadRelativePathComposerJsonDecorator->decorate($this->composerJsonWithIdenticalNamespaces);
+
+        $this->assertSame($this->getExpectedComposerJsonWithIdenticalNamespaces(), $decorated);
     }
 
     /**
@@ -117,6 +150,35 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
         ];
     }
 
+    /**
+     * @return mixed[]
+     */
+    private function getExpectedComposerJsonWithIdenticalNamespaces(): array
+    {
+        return [
+            'autoload' => [
+                'psr-4' => [
+                    'App\\Core\\' => [
+                        $this->getRelativeIdenticalSourcePath() . '/PackageA/src/core',
+                        $this->getRelativeIdenticalSourcePath() . '/PackageB/src/core-extension',
+                    ],
+                    'App\\Model\\' => [
+                        $this->getRelativeIdenticalSourcePath() . '/PackageB/src/interfaces',
+                        $this->getRelativeIdenticalSourcePath() . '/SubA/PackageB/src/models',
+                    ],
+                    'App\\Shared\\' => [
+                        $this->getRelativeIdenticalSourcePath() . '/PackageA/src/shared',
+                        $this->getRelativeIdenticalSourcePath() . '/PackageB/src/shared',
+                    ],
+                    'App\\Sub\\' => [
+                        $this->getRelativeIdenticalSourcePath() . '/SubA/PackageC/src/model',
+                        $this->getRelativeIdenticalSourcePath() . '/SubB/PackageD/src/model',
+                    ],
+                ],
+            ],
+        ];
+    }
+
     private function getRelativeSourcePath(): string
     {
         $prefix = defined('SYMPLIFY_MONOREPO') ? 'packages/MonorepoBuilder/' : '';
@@ -129,5 +191,12 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
         $prefix = defined('SYMPLIFY_MONOREPO') ? 'packages/MonorepoBuilder/' : '';
 
         return $prefix . 'tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/SourceOverlappingNamespaces';
+    }
+
+    private function getRelativeIdenticalSourcePath(): string
+    {
+        $prefix = defined('SYMPLIFY_MONOREPO') ? 'packages/MonorepoBuilder/' : '';
+
+        return $prefix . 'tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/SourceIdenticalNamespaces';
     }
 }

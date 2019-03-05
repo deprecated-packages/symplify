@@ -16,7 +16,7 @@ abstract class AbstractMergeTestCase extends AbstractKernelTestCase
     /**
      * @var PackageComposerJsonMerger
      */
-    private $packageComposerJsonMerger;
+    protected $packageComposerJsonMerger;
 
     /**
      * @var FinderSanitizer
@@ -52,7 +52,7 @@ abstract class AbstractMergeTestCase extends AbstractKernelTestCase
     /**
      * @return SmartFileInfo[]
      */
-    private function getFileInfosFromDirectory(string $directory): array
+    protected function getFileInfosFromDirectory(string $directory): array
     {
         $finder = Finder::create()->files()
             ->in($directory)
