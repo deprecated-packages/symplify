@@ -1,9 +1,11 @@
 {
     "autoload": {
         "psr-4": {
+            "App\\Collection\\": ["src/collection"],
             "App\\Core\\": "src/core-extension",
             "App\\Model\\": "src/interfaces",
-            "App\\Shared\\": "src/shared"
+            "App\\Shared\\": "src/shared",
+            "App\\YetAnother\\": "src"
         }
     }
 }

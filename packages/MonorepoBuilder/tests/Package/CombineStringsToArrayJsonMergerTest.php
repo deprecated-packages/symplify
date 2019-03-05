@@ -9,9 +9,18 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
         $expectedJson = [
             'autoload' => [
                 'psr-4' => [
+                    'App\\Collection\\' => [
+                        $this->getRelativeSourcePath() . 'PackageA/src/collection',
+                        $this->getRelativeSourcePath() . 'PackageB/src/collection',
+                    ],
                     'App\\Core\\' => [
                         $this->getRelativeSourcePath() . 'PackageA/src/core',
-                        $this->getRelativeSourcePath() . 'PackageB/src/core-extension'],
+                        $this->getRelativeSourcePath() . 'PackageB/src/core-extension',
+                    ],
+                    'App\\FixedArray\\' => [
+                        $this->getRelativeSourcePath() . 'PackageA/src/array',
+                        $this->getRelativeSourcePath() . 'PackageA/src/list',
+                    ],
                     'App\\Model\\' => [
                         $this->getRelativeSourcePath() . 'PackageB/src/interfaces',
                         $this->getRelativeSourcePath() . 'SubA/PackageC/src/models'
@@ -23,6 +32,10 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
                     'App\\Sub\\' => [
                         $this->getRelativeSourcePath() . 'SubA/PackageC/src/package-c',
                         $this->getRelativeSourcePath() . 'SubB/PackageD/src/package-d'
+                    ],
+                    'App\\YetAnother\\' => [
+                        $this->getRelativeSourcePath() . 'PackageA/src',
+                        $this->getRelativeSourcePath() . 'PackageB/src',
                     ],
                 ],
             ],
