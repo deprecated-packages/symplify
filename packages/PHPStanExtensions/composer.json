@@ -6,7 +6,7 @@
         "php": "^7.1",
         "nette/di": "^2.4",
         "nette/utils": "^2.5",
-        "symplify/package-builder": "^5.4.16"
+        "symplify/package-builder": "^5.5"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.11",
