@@ -19,7 +19,7 @@ final class PackageComposerJsonMerger
     /**
      * @var string[]
      */
-    private $sectionsWithPath = ['classmap', 'files', 'exclude-from-classmap'];
+    private $sectionsWithPath = ['classmap', 'files', 'exclude-from-classmap', 'psr-4', 'psr-0'];
 
     /**
      * @var ParametersMerger
