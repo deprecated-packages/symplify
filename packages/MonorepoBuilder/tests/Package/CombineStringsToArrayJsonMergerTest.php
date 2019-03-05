@@ -8,6 +8,29 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
     {
         $expectedJson = [
             'autoload' => [
+                'classmap' => [
+                    $this->getRelativeSourcePath() . 'PackageA/Something.php',
+                    $this->getRelativeSourcePath() . 'PackageA/lib/',
+                    $this->getRelativeSourcePath() . 'PackageA/src/',
+                ],
+                'exclude-from-classmap' => [
+                    $this->getRelativeSourcePath() . 'PackageA/Tests/',
+                    $this->getRelativeSourcePath() . 'PackageA/test/',
+                    $this->getRelativeSourcePath() . 'PackageA/tests/',
+                ],
+                'files' => [
+                    $this->getRelativeSourcePath() . 'PackageA/src/MyLibrary/functions.php',
+                ],
+                'psr-0' => [
+                    '' => $this->getRelativeSourcePath() . 'PackageA/src/',
+                    'Monolog\\' => $this->getRelativeSourcePath() . 'PackageA/src/',
+                    'UniqueGlobalClass' => $this->getRelativeSourcePath() . 'PackageA/',
+                    'Vendor\\Namespace\\' => [
+                        $this->getRelativeSourcePath() . 'PackageA/lib/',
+                        $this->getRelativeSourcePath() . 'PackageA/src/',
+                    ],
+                    'Vendor_Namespace_' => $this->getRelativeSourcePath() . 'PackageA/src/',
+                ],
                 'psr-4' => [
                     'App\\Collection\\' => [
                         $this->getRelativeSourcePath() . 'PackageA/src/collection',
@@ -23,7 +46,7 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
                     ],
                     'App\\Model\\' => [
                         $this->getRelativeSourcePath() . 'PackageB/src/interfaces',
-                        $this->getRelativeSourcePath() . 'SubA/PackageC/src/models'
+                        $this->getRelativeSourcePath() . 'SubA/PackageC/src/models',
                     ],
                     'App\\Shared\\' => [
                         $this->getRelativeSourcePath() . 'PackageA/src/shared',
@@ -31,7 +54,7 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
                     ],
                     'App\\Sub\\' => [
                         $this->getRelativeSourcePath() . 'SubA/PackageC/src/package-c',
-                        $this->getRelativeSourcePath() . 'SubB/PackageD/src/package-d'
+                        $this->getRelativeSourcePath() . 'SubB/PackageD/src/package-d',
                     ],
                     'App\\YetAnother\\' => [
                         $this->getRelativeSourcePath() . 'PackageA/src',
