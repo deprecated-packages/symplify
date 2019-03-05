@@ -1,5 +1,5 @@
 imports:
-    - { resource: '../packages/TokenRunner/config/config.yml' }
+    - { resource: '../packages/TokenRunner/config/config.yaml' }
     # A. in monorepo
     - { resource: '../../BetterPhpDocParser/config/config.yaml', ignore_errors: true }
     # B. as dependency
