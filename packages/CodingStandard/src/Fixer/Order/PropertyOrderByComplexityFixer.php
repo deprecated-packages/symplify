@@ -2,11 +2,14 @@
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
@@ -186,13 +189,15 @@ CODE_SAMPLE
     }
 
     /**
-     * @param string[] $types
+     * @param VarTagValueNode[] $types
      */
     private function getTypeRating(array $types): int
     {
         $rating = 0;
         foreach ($types as $type) {
-            $type = (string) $type;
+            // remove nullables, not relevant here
+            $type = $this->normalizeTypeToStringForm($type);
+
             if ($this->typeAnalyzer->isPhpReservedType($type)) {
                 $rating = max($rating, 1);
             } elseif ($this->typeAnalyzer->isIterableType($type)) {
@@ -205,5 +210,32 @@ CODE_SAMPLE
         }
 
         return $rating;
+    }
+
+    private function normalizeTypeToStringForm(VarTagValueNode $varTagValueNode): string
+    {
+        if ($varTagValueNode->type instanceof UnionTypeNode) {
+            foreach ($varTagValueNode->type->types as $key => $value) {
+                if ((string) $value === 'null') {
+                    unset($varTagValueNode->type->types[$key]);
+                }
+            }
+        }
+
+        $stringVarType = (string) $varTagValueNode;
+
+        // remove "(<inside>)"
+        $stringVarType = $this->normalizeUnionType($stringVarType);
+
+        return ltrim($stringVarType, '\\');
+    }
+
+    private function normalizeUnionType(string $type): string
+    {
+        $matchInside = Strings::match($type, '#^\((?<content>.*?)\)$#s');
+        if (isset($matchInside['content'])) {
+            $type = $matchInside['content'];
+        }
+        return $type;
     }
 }
