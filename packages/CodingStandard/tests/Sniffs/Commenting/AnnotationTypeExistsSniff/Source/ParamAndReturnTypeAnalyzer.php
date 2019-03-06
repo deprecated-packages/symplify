@@ -4,5 +4,4 @@ namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\AnnotationTypeExistsSn
 
 final class ParamAndReturnTypeAnalyzer
 {
-
 }

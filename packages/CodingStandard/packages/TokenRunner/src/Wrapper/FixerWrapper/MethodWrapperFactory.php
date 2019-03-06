@@ -3,21 +3,10 @@
 namespace Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\CodingStandard\TokenRunner\Guard\TokenTypeGuard;
 
 final class MethodWrapperFactory
 {
-    /**
-     * @var DocBlockWrapperFactory
-     */
-    private $docBlockWrapperFactory;
-
-    /**
-     * @var DocBlockFinder
-     */
-    private $docBlockFinder;
-
     /**
      * @var ArgumentWrapperFactory
      */
@@ -28,14 +17,8 @@ final class MethodWrapperFactory
      */
     private $tokenTypeGuard;
 
-    public function __construct(
-        DocBlockWrapperFactory $docBlockWrapperFactory,
-        DocBlockFinder $docBlockFinder,
-        ArgumentWrapperFactory $argumentWrapperFactory,
-        TokenTypeGuard $tokenTypeGuard
-    ) {
-        $this->docBlockWrapperFactory = $docBlockWrapperFactory;
-        $this->docBlockFinder = $docBlockFinder;
+    public function __construct(ArgumentWrapperFactory $argumentWrapperFactory, TokenTypeGuard $tokenTypeGuard)
+    {
         $this->argumentWrapperFactory = $argumentWrapperFactory;
         $this->tokenTypeGuard = $tokenTypeGuard;
     }
@@ -44,21 +27,9 @@ final class MethodWrapperFactory
     {
         $this->tokenTypeGuard->ensureIsTokenType($tokens[$position], [T_FUNCTION], __METHOD__);
 
-        $docBlockWrapper = null;
-        $docBlockPosition = $this->docBlockFinder->findPreviousPosition($tokens, $position);
-
-        if ($docBlockPosition) {
-            $docBlockWrapper = $this->docBlockWrapperFactory->create(
-                $tokens,
-                $docBlockPosition,
-                $tokens[$docBlockPosition]->getContent()
-            );
-        }
-
         return new MethodWrapper(
             $tokens,
             $position,
-            $docBlockWrapper,
             $this->argumentWrapperFactory->createArgumentsFromTokensAndFunctionPosition($tokens, $position)
         );
     }

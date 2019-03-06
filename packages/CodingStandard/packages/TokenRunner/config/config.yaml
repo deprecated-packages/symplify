@@ -9,3 +9,8 @@ services:
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
     PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer: ~
+
+    PHPStan\PhpDocParser\Parser\PhpDocParser: ~
+    PHPStan\PhpDocParser\Parser\TypeParser: ~
+    PHPStan\PhpDocParser\Parser\ConstExprParser: ~
+    PHPStan\PhpDocParser\Lexer\Lexer: ~

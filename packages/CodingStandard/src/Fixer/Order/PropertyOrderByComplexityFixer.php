@@ -9,9 +9,8 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
+use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
 use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 use Symplify\PackageBuilder\Php\TypeAnalyzer;
 
@@ -36,32 +35,25 @@ final class PropertyOrderByComplexityFixer extends AbstractSymplifyFixer
     private $typeAnalyzer;
 
     /**
-     * @var DocBlockFinder
-     */
-    private $docBlockFinder;
-
-    /**
-     * @var DocBlockWrapperFactory
-     */
-    private $docBlockWrapperFactory;
-
-    /**
      * @var ClassElementSorter
      */
     private $classElementSorter;
 
+    /**
+     * @var DocBlockManipulator
+     */
+    private $docBlockManipulator;
+
     public function __construct(
         FixerClassWrapperFactory $fixerClassWrapperFactory,
         TypeAnalyzer $typeAnalyzer,
-        DocBlockFinder $docBlockFinder,
-        DocBlockWrapperFactory $docBlockWrapperFactory,
-        ClassElementSorter $classElementSorter
+        ClassElementSorter $classElementSorter,
+        DocBlockManipulator $docBlockManipulator
     ) {
         $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->typeAnalyzer = $typeAnalyzer;
-        $this->docBlockFinder = $docBlockFinder;
-        $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->classElementSorter = $classElementSorter;
+        $this->docBlockManipulator = $docBlockManipulator;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -155,19 +147,12 @@ CODE_SAMPLE
      */
     private function resolveRatingFromDocType(Tokens $tokens, array $propertyElement): ?int
     {
-        $docBlockPosition = $this->docBlockFinder->findPreviousPosition($tokens, $propertyElement['start'] + 1);
-
-        if ($docBlockPosition === null) {
+        $varTags = $this->docBlockManipulator->resolveVarTagsIfFound($tokens, $propertyElement['start'] + 1);
+        if (! count($varTags)) {
             return null;
         }
 
-        $docBlockWrapper = $this->docBlockWrapperFactory->create(
-            $tokens,
-            $docBlockPosition,
-            $tokens[$docBlockPosition]->getContent()
-        );
-
-        return $this->getTypeRating($docBlockWrapper->getVarTypes());
+        return $this->getTypeRating($varTags);
     }
 
     /**
@@ -207,6 +192,7 @@ CODE_SAMPLE
     {
         $rating = 0;
         foreach ($types as $type) {
+            $type = (string) $type;
             if ($this->typeAnalyzer->isPhpReservedType($type)) {
                 $rating = max($rating, 1);
             } elseif ($this->typeAnalyzer->isIterableType($type)) {

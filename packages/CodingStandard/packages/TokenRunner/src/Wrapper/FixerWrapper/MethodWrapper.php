@@ -39,14 +39,9 @@ final class MethodWrapper
     private $tokens;
 
     /**
-     * @var DocBlockWrapper|null
-     */
-    private $docBlockWrapper;
-
-    /**
      * @param ArgumentWrapper[] $argumentWrappers
      */
-    public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper, array $argumentWrappers)
+    public function __construct(Tokens $tokens, int $index, array $argumentWrappers)
     {
         $this->tokens = $tokens;
         $this->index = $index;
@@ -56,7 +51,6 @@ final class MethodWrapper
             $this->bodyEnd = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->bodyStart);
         }
 
-        $this->docBlockWrapper = $docBlockWrapper;
         $this->argumentWrappers = $argumentWrappers;
     }
 
@@ -87,11 +81,6 @@ final class MethodWrapper
 
             $this->tokens[$i] = new Token([T_VARIABLE, $newName]);
         }
-    }
-
-    public function getDocBlockWrapper(): ?DocBlockWrapper
-    {
-        return $this->docBlockWrapper;
     }
 
     /**

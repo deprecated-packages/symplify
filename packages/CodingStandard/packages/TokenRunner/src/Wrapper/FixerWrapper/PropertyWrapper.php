@@ -3,26 +3,31 @@
 namespace Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
 use Symplify\CodingStandard\TokenRunner\Naming\Name\NameFactory;
 
 final class PropertyWrapper extends AbstractVariableWrapper
 {
     /**
-     * @var DocBlockWrapper|null
-     */
-    private $docBlockWrapper;
-
-    /**
      * @var NameFactory
      */
     private $nameFactory;
 
-    public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper, NameFactory $nameFactory)
-    {
+    /**
+     * @var DocBlockManipulator
+     */
+    private $docBlockManipulator;
+
+    public function __construct(
+        Tokens $tokens,
+        int $index,
+        NameFactory $nameFactory,
+        DocBlockManipulator $docBlockManipulator
+    ) {
         parent::__construct($tokens, $index);
 
-        $this->docBlockWrapper = $docBlockWrapper;
         $this->nameFactory = $nameFactory;
+        $this->docBlockManipulator = $docBlockManipulator;
     }
 
     public function getFqnType(): ?string
@@ -42,17 +47,19 @@ final class PropertyWrapper extends AbstractVariableWrapper
      */
     public function getTypes(): array
     {
-        return $this->docBlockWrapper ? $this->docBlockWrapper->getVarTypes() : [];
+        $varTagValueNodes = $this->docBlockManipulator->resolveVarTagsIfFound($this->tokens, $this->index);
+
+        $types = [];
+        foreach ($varTagValueNodes as $varTagValueNode) {
+            $types[] = (string) $varTagValueNode->type;
+        }
+
+        return $types;
     }
 
     public function changeName(string $newName): void
     {
         $this->changeNameWithTokenType($newName, T_VARIABLE);
-    }
-
-    public function getDocBlockWrapper(): ?DocBlockWrapper
-    {
-        return $this->docBlockWrapper;
     }
 
     protected function getNamePosition(): int

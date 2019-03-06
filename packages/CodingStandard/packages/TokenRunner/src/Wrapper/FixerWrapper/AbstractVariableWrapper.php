@@ -98,6 +98,11 @@ abstract class AbstractVariableWrapper
         return $name->getName();
     }
 
+    public function getIndex(): int
+    {
+        return $this->index;
+    }
+
     protected function changeNameWithTokenType(string $newName, int $tokenType): void
     {
         if ($tokenType === T_VARIABLE) {
