@@ -35,11 +35,6 @@ services:
         extra_parent_types_to_suffixes:
             - 'FileDecorator'
 
-    Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer:
-        extra_skipped_classes:
-            - 'Symplify\BetterPhpDocParser\Attributes\Contract\Ast\AttributeAwareNodeInterface'
-            - 'Symplify\BetterPhpDocParser\Attributes\Ast\PhpDoc\AttributeAwarePhpDocNode'
-
 parameters:
     exclude_files:
         # tests
