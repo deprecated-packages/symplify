@@ -54,43 +54,6 @@ They can focus less on remembering all the keys and more on programming.
 
 <br>
 
-### Collect Services of Certain Type Together
-
-How do we load Commands to Console Application without tagging?
-
-- Read [What is tagging for](https://www.tomasvotruba.cz/blog/2017/02/12/drop-all-service-tags-in-your-nette-and-symfony-applications/#what-is-tagging-for)
-- Read [Collector Pattern, The Shortcut Hack to SOLID Code](https://www.tomasvotruba.cz/clusters/#collector-pattern-the-shortcut-hack-to-solid-code)
-
-```php
-<?php declare(strict_types=1);
-
-namespace App\DependencyInjection\CompilerPass;
-
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
-use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
-
-final class CollectorCompilerPass implements CompilerPassInterface
-{
-    public function process(ContainerBuilder $containerBuilder): void
-    {
-        $definitionCollector = new DefinitionCollector(new DefinitionFinder());
-
-        $definitionCollector->loadCollectorWithType(
-            $containerBuilder,
-            Application::class, // 1 main service
-            Command::class, // many collected services
-            'add' // the adder method called on 1 main service
-        );
-    }
-}
-```
-
-<br>
-
 ### Add Service by Interface if Found
 
 ```php

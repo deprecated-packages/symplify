@@ -9,7 +9,11 @@ final class PropertyOrderByComplexityFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
     {
-        $this->doTestFiles([__DIR__ . '/Fixture/wrong.php.inc', __DIR__ . '/Fixture/wrong2.php.inc']);
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/wrong.php.inc',
+            __DIR__ . '/Fixture/wrong2.php.inc',
+            __DIR__ . '/Fixture/correct.php.inc',
+        ]);
     }
 
     protected function getCheckerClass(): string

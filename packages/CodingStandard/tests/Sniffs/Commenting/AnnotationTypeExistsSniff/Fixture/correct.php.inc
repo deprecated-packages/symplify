@@ -6,18 +6,18 @@ use Iterator;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPUnit\Framework\TestCase;
-use Symplify\CodingStandard\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
+use Symplify\CodingStandard\Tests\Sniffs\Commenting\AnnotationTypeExistsSniff\Source\ParamAndReturnTypeAnalyzer;
 
 final class ParamAndReturnTagAnalyzerTest extends TestCase
 {
     /**
-     * @var ParamAndReturnTagAnalyzer
+     * @var ParamAndReturnTypeAnalyzer
      */
     private $paramAndReturnTagAnalyzer;
 
     protected function setUp(): void
     {
-        $this->paramAndReturnTagAnalyzer = new ParamAndReturnTagAnalyzer();
+        $this->paramAndReturnTagAnalyzer = new ParamAndReturnTypeAnalyzer();
     }
 
     /**

@@ -12,6 +12,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 /**
@@ -29,12 +30,19 @@ final class BlockPropertyCommentFixer extends AbstractSymplifyFixer
      */
     private $whitespacesFixerConfig;
 
+    /**
+     * @var DocBlockManipulator
+     */
+    private $docBlockManipulator;
+
     public function __construct(
         FixerClassWrapperFactory $fixerClassWrapperFactory,
-        WhitespacesFixerConfig $whitespacesFixerConfig
+        WhitespacesFixerConfig $whitespacesFixerConfig,
+        DocBlockManipulator $docBlockManipulator
     ) {
         $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->docBlockManipulator = $docBlockManipulator;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -60,13 +68,18 @@ private $property;
         foreach ($this->getReversedClassAndTraitPositions($tokens) as $index) {
             $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             foreach ($classWrapper->getPropertyWrappers() as $propertyWrapper) {
-                $docBlockWrapper = $propertyWrapper->getDocBlockWrapper();
-                if ($docBlockWrapper === null || ! $docBlockWrapper->isSingleLine()) {
+                $match = $this->docBlockManipulator->matchPositionAndContentIfSingleLine(
+                    $tokens,
+                    $propertyWrapper->getIndex()
+                );
+                if ($match === null) {
                     continue;
                 }
 
-                $multilineContent = $this->convertDocBlockToMultiline($docBlockWrapper->getContent());
-                $tokens[$docBlockWrapper->getTokenPosition()] = new Token([T_DOC_COMMENT, $multilineContent]);
+                [$docPosition, $docContent] = $match;
+
+                $multilineContent = $this->convertDocBlockToMultiline($docContent);
+                $tokens[$docPosition] = new Token([T_DOC_COMMENT, $multilineContent]);
             }
         }
     }

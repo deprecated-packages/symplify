@@ -134,8 +134,8 @@ Classic use case for monorepo is to synchronize last tag and the `master` branch
 # monorepo-builder.yml
 parameters:
     directories_to_repositories:
-        packages/BetterPhpDocParser: 'git@github.com:Symplify/BetterPhpDocParser.git'
         packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
+        packages/MonorepoBuilder: 'git@github.com:Symplify/MonorepoBuilder.git'
 ```
 
 And run by:

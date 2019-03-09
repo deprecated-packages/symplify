@@ -9,8 +9,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 final class BoolPropertyDefaultValueFixer extends AbstractSymplifyFixer
@@ -21,23 +20,16 @@ final class BoolPropertyDefaultValueFixer extends AbstractSymplifyFixer
     private $fixerClassWrapperFactory;
 
     /**
-     * @var DocBlockWrapperFactory
+     * @var DocBlockManipulator
      */
-    private $docBlockWrapperFactory;
-
-    /**
-     * @var DocBlockFinder
-     */
-    private $docBlockFinder;
+    private $docBlockManipulator;
 
     public function __construct(
         FixerClassWrapperFactory $fixerClassWrapperFactory,
-        DocBlockWrapperFactory $docBlockWrapperFactory,
-        DocBlockFinder $docBlockFinder
+        DocBlockManipulator $docBlockManipulator
     ) {
         $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
-        $this->docBlockWrapperFactory = $docBlockWrapperFactory;
-        $this->docBlockFinder = $docBlockFinder;
+        $this->docBlockManipulator = $docBlockManipulator;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -76,18 +68,7 @@ public $isDisabled;')]
         $properties = array_reverse($properties, true);
 
         foreach (array_keys($properties) as $index) {
-            $docBlockTokenPosition = $this->docBlockFinder->findPreviousPosition($tokens, $index);
-            if ($docBlockTokenPosition === null) {
-                continue;
-            }
-
-            $docBlockWrapper = $this->docBlockWrapperFactory->create(
-                $tokens,
-                $docBlockTokenPosition,
-                $tokens[$docBlockTokenPosition]->getContent()
-            );
-
-            if (! $docBlockWrapper->isBoolProperty()) {
+            if (! $this->docBlockManipulator->isBoolProperty($tokens, $index)) {
                 continue;
             }
 

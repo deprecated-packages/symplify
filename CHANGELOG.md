@@ -26,7 +26,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1480] Make dual run clear cache by default
 - [#1482] Use `.yaml` over `.yml`
 
-
 ### Fixed
 
 - [#1469] Fix `UnusedPublicMethodSniff` offset

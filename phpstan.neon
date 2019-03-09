@@ -15,7 +15,6 @@ parameters:
         - packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php
         - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
         - packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
-        - packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/AbstractSomeClass.php
         - packages/Statie/packages/MigratorSculpin/tests/SculpinToStatieMigrator/Source/Fixture/before/app/SculpinKernel.php
         # Symfony workaround
         - packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
