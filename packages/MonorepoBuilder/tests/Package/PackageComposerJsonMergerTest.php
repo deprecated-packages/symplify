@@ -14,8 +14,8 @@ final class PackageComposerJsonMergerTest extends AbstractMergeTestCase
             ],
             'autoload' => [
                 'psr-4' => [
-                    'Symplify\MonorepoBuilder\\' => 'src',
-                    'Symplify\Statie\\' => 'src',
+                    'Symplify\MonorepoBuilder\\' => $this->getRelativeSourcePath() . 'src',
+                    'Symplify\Statie\\' => $this->getRelativeSourcePath() . 'src',
                 ],
             ],
         ];
@@ -38,5 +38,12 @@ final class PackageComposerJsonMergerTest extends AbstractMergeTestCase
         ];
 
         $this->doTestDirectoryMergeToFile(__DIR__ . '/SourceUniqueRepositories', $expectedJson);
+    }
+
+    private function getRelativeSourcePath(): string
+    {
+        $prefix = defined('SYMPLIFY_MONOREPO') ? 'packages/MonorepoBuilder/' : '';
+
+        return $prefix . 'tests/Package/Source/';
     }
 }

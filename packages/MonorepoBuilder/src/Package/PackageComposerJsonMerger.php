@@ -19,7 +19,7 @@ final class PackageComposerJsonMerger
     /**
      * @var string[]
      */
-    private $sectionsWithPath = ['classmap', 'files', 'exclude-from-classmap'];
+    private $sectionsWithPath = ['classmap', 'files', 'exclude-from-classmap', 'psr-4', 'psr-0'];
 
     /**
      * @var ParametersMerger
@@ -187,7 +187,13 @@ final class PackageComposerJsonMerger
     {
         $packageRelativeDirectory = dirname($packageFileInfo->getRelativeFilePathFromDirectory(getcwd()));
         foreach ($classmap as $key => $value) {
-            $classmap[$key] = $packageRelativeDirectory . '/' . ltrim($value, '/');
+            if (is_array($value)) {
+                $classmap[$key] = array_map(function ($path) use ($packageRelativeDirectory) {
+                    return $packageRelativeDirectory . '/' . ltrim($path, '/');
+                }, $value);
+            } else {
+                $classmap[$key] = $packageRelativeDirectory . '/' . ltrim($value, '/');
+            }
         }
 
         return $classmap;
