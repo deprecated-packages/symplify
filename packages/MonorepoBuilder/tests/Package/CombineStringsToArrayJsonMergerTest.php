@@ -18,9 +18,7 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
                     $this->getRelativeSourcePath() . 'PackageA/test/',
                     $this->getRelativeSourcePath() . 'PackageA/tests/',
                 ],
-                'files' => [
-                    $this->getRelativeSourcePath() . 'PackageA/src/MyLibrary/functions.php',
-                ],
+                'files' => [$this->getRelativeSourcePath() . 'PackageA/src/MyLibrary/functions.php'],
                 'psr-0' => [
                     '' => $this->getRelativeSourcePath() . 'PackageA/src/',
                     'Monolog\\' => $this->getRelativeSourcePath() . 'PackageA/src/',

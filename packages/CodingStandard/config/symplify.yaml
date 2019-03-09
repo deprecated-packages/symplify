@@ -44,3 +44,4 @@ services:
             - 'CommentedOutCodeSniff'
             # tests
             - 'Some*'
+            - 'GithubApi'
