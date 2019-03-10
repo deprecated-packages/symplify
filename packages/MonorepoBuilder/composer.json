@@ -8,7 +8,7 @@
     "require": {
         "php": "^7.1",
         "composer/composer": "^1.8",
-        "nette/utils": "^2.5",
+        "nette/utils": "^2.5|^3.0",
         "phar-io/version": "^2.0",
         "symfony/finder": "^3.4|^4.1",
         "symfony/dependency-injection": "^3.4|^4.1",
