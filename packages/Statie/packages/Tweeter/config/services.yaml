@@ -19,7 +19,6 @@ services:
     _defaults:
         public: true
         autowire: true
-        autoconfigure: true
 
     Symplify\Statie\Tweeter\:
         resource: '../src'

@@ -12,7 +12,6 @@ services:
     _defaults:
         public: true
         autowire: true
-        autoconfigure: true
 
     Symplify\MonorepoBuilder\Split\:
         resource: '../src'

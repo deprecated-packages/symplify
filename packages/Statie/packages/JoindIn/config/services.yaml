@@ -5,7 +5,6 @@ services:
     _defaults:
         public: true
         autowire: true
-        autoconfigure: true
 
     Symplify\Statie\JoindIn\:
         resource: '../src/'
