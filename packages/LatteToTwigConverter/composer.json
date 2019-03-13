@@ -7,7 +7,7 @@
     ],
     "require": {
         "php": "^7.1",
-        "nette/utils": "^2.5",
+        "nette/utils": "^2.5|^3.0",
         "symfony/dependency-injection": "^3.4|^4.1",
         "symfony/console": "^3.4|^4.1",
         "symfony/http-kernel": "^3.4|^4.1",

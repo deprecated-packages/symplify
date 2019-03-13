@@ -14,7 +14,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "J7mbo/twitter-api-php": "^1.0",
         "nette/finder": "^2.4",
-        "nette/utils": "^2.5",
+        "nette/utils": "^2.5|^3.0",
         "tracy/tracy": "^2.5",
         "twig/twig": "^2.5",
         "symfony/config": "^3.4|^4.1",
