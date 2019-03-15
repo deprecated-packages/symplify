@@ -70,7 +70,7 @@ final class FileSystem
      */
     public function getEntityXmlFiles(): array
     {
-        return $this->getFilesInSourceByName('*.orm.xml');
+        return $this->getFilesInSourceByName('#\.(orm|dcm)\.xml$#');
     }
 
     /**
