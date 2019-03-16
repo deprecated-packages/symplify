@@ -4,7 +4,7 @@ includes:
 
 parameters:
     level: max
-#    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
         - *packages/MonorepoBuilder/packages/Init/templates/*
