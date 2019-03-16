@@ -4,7 +4,7 @@ includes:
 
 parameters:
     level: max
-    reportUnmatchedIgnoredErrors: false
+#    reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
         - *packages/MonorepoBuilder/packages/Init/templates/*
@@ -13,7 +13,7 @@ parameters:
         - *packages/CodingStandard/tests/**/Wrong*
         # tests
         - packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php
-        - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
+        - packages/EasyCodingStandard/tests/Finder/FinderfrSource/NestedDirectory/FileWithClass.php
         - packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
         - packages/Statie/packages/MigratorSculpin/tests/SculpinToStatieMigrator/Source/Fixture/before/app/SculpinKernel.php
         # Symfony workaround
@@ -48,19 +48,15 @@ parameters:
             path: '*packages/*Command.php'
 
         # temporary
-        - '#Parameter \#1 \$e of method Symfony\\Component\\Console\\Application::renderException\(\) expects Exception, Throwable given#'
         - '#Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::__construct\(\) does not call parent constructor from PHP_CodeSniffer\\Files\\File#'
 
         # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
 
         # is valid code, known values
-        - '#Method Symplify\\MonorepoBuilder\\ComposerJsonDecorator\\AutoloadRelativePathComposerJsonDecorator::prefixPath\(\) should return array<string>\|string but returns array<array<string>\|string>#'
-        - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\(Type\\TypeNode::\$name|PhpDoc\\PhpDocTagValueNode::\$type)#'
         - '#Method Symplify\\CodingStandard\\Fixer\\Naming\\PropertyNameMatchingTypeFixer::resolveDuplicatedTypes\(\) should return array<string> but returns array<int, int\|string>#'
 
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, bool\|int given#'
-        - '#Parameter \#1 \$generatorFiles of method Symplify\\Statie\\Generator\\Contract\\ObjectSorterInterface::sort\(\) expects array<Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile>, array<Symplify\\Statie\\Renderable\\File\\AbstractFile> given#'
 
         # invalid 3rd party-code
         - '#Parameter \#1 \$types of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects array\|int, string given#'
@@ -87,8 +83,6 @@ parameters:
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
 
         # phpstan 0.10 news
-        - '#Parameter \#1 \$children of class PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocNode constructor expects array<PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocChildNode>, array<int, PHPStan\\PhpDocParser\\Ast\\Node> given#'
-        - '#If condition is always true#'
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
@@ -109,7 +103,6 @@ parameters:
         - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'
 
         # mixed up iterables
-        - '#Parameter \#1 \$files of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, (array<int, SplFileInfo\>|iterable<SplFileInfo\|string>) given#'
         - '#Parameter \#1 \$files of method Symplify\\PackageBuilder\\FileSystem\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo|string>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo> given#'
 
         # intentionally
@@ -139,23 +132,10 @@ parameters:
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
 
         # false positive
-        - '#PHPDoc tag @return with type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|Symplify\\BetterPhpDocParser\\Attributes\\Contract\\Ast\\AttributeAwareNodeInterface is not subtype of native type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|null#'
         - '#More info\: http\://bit\.ly/(typehintarray|usetypehint)#'
-        - '#Strict comparison using \=\=\= between array and null will always evaluate to false#'
-        - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, int\|string given#'
-        - '#Cannot call method getParameters\(\) on ReflectionMethod\|null#'
-        - '#Access to an undefined property PhpParser\\Node\:\:\$consts#'
-        - '#Parameter \#1 \$classConstNode of method Symplify\\PHPStanExtensions\\Rules\\Classes\\MatchingTypeConstantRule\:\:shouldSkip\(\) expects PhpParser\\Node\\Stmt\\ClassConst, PhpParser\\Node given#'
-        - '#Parameter \#2 \$name of method Symplify\\EasyCodingStandard\\Console\\Command\\FindCommand\:\:filterCheckersByName\(\) expects string, \(array<string\>\)\|string given#'
-        - '#Parameter \#2 \.\.\.\$args of function sprintf expects bool\|float\|int\|string\|null, \(array<string\>\)\|string given#'
-        - '#Cannot cast array<string\>\|bool\|string to int#'
-        - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocTagValueNode\:\:\$parameterName#'
-        - '#Method Symplify\\CodingStandard\\TokenRunner\\Transformer\\FixerTransformer\\LineLengthTransformer\:\:getFirstLineLength\(\) should return int but returns float\|int#'
-        - '#Call to an undefined method object\:\:getPriority\(\)#'
-        - '#Cannot call method getConstructor\(\) on ReflectionClass\|null#'
 
-        # better phpdoc-parser attributes
-        - '#(.*?)(AttributeAwareNodeInterface|AttributeAware(.*?)TagValueNode)(.*?)#'
-        - '#Call to an undefined method PHPStan\\PhpDocParser\\Ast\\(.*?)\:\:getAttribute\(\)#'
         # magic properties
-        - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:\$(.*?)#'
+        - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:(.*?)#'
+
+        # phar edge case
+        - '#Strict comparison using \=\=\= between string and false will always evaluate to false#'

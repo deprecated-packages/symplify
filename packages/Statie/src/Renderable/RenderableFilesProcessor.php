@@ -74,6 +74,8 @@ final class RenderableFilesProcessor
         }
 
         $objectSorter = $generatorElement->getObjectSorter();
+
+        /** @var AbstractGeneratorFile[] $objects */
         $objects = $objectSorter->sort($objects);
 
         $this->statieConfiguration->addOption($generatorElement->getVariableGlobal(), $objects);

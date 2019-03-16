@@ -12,8 +12,6 @@ use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
  * @experimental
  *
  * See https://stackoverflow.com/a/9979425/1348344
- *
- * Inspiration http://www.andreybutov.com/2011/08/20/how-do-i-find-unused-functions-in-my-php-project/
  */
 final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 {

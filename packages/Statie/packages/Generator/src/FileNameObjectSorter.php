@@ -3,17 +3,17 @@
 namespace Symplify\Statie\Generator;
 
 use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
-use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
+use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class FileNameObjectSorter implements ObjectSorterInterface
 {
     /**
-     * @param AbstractGeneratorFile[] $generatorFiles
-     * @return AbstractGeneratorFile[]
+     * @param AbstractFile[] $generatorFiles
+     * @return AbstractFile[]
      */
     public function sort(array $generatorFiles): array
     {
-        uasort($generatorFiles, function (AbstractGeneratorFile $firstFile, AbstractGeneratorFile $secondFile): int {
+        uasort($generatorFiles, function (AbstractFile $firstFile, AbstractFile $secondFile): int {
             // from newest to oldest, Z to A
             return strcmp($secondFile->getFilePath(), $firstFile->getFilePath());
         });
