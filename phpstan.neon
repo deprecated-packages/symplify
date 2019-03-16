@@ -13,7 +13,6 @@ parameters:
         - *packages/CodingStandard/tests/**/Wrong*
         # tests
         - packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php
-        - packages/EasyCodingStandard/tests/Finder/FinderfrSource/NestedDirectory/FileWithClass.php
         - packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
         - packages/Statie/packages/MigratorSculpin/tests/SculpinToStatieMigrator/Source/Fixture/before/app/SculpinKernel.php
         # Symfony workaround
