@@ -12,6 +12,11 @@ final class HeadlineAnchorLinker
     private const HEADLINE_PATTERN = '#<h(?<level>[1-6])>(?<title>.*?)<\/h[1-6]>#';
 
     /**
+     * @var string
+     */
+    private const LINK_PATTERN = '#<a.*>(.*)<\/a>#';
+
+    /**
      * Before:
      * - <h1>Some headline</h1>
      *
@@ -21,7 +26,20 @@ final class HeadlineAnchorLinker
     public function processContent(string $content): string
     {
         return Strings::replace($content, self::HEADLINE_PATTERN, function (array $result): string {
-            $headlineId = Strings::webalize($result['title']);
+            $titleWithoutTags = strip_tags($result['title']);
+            $headlineId = Strings::webalize($titleWithoutTags);
+            $titleHasLink = count(Strings::match($result['title'], self::LINK_PATTERN)) > 0;
+
+            // Title contains <a> element
+            if ($result['title'] !== $titleWithoutTags && $titleHasLink) {
+                return sprintf(
+                    '<h%s id="%s">%s</h%s>',
+                    $result['level'],
+                    $headlineId,
+                    $result['title'],
+                    $result['level']
+                );
+            }
 
             return sprintf(
                 '<h%s id="%s"><a href="#%s">%s</a></h%s>',
