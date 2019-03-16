@@ -48,7 +48,7 @@ parameters:
 
     skip:
         # run form time to time, very slow and making many changes
-        # Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
+        Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
 
         PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff: ~
 

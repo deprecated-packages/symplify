@@ -1086,8 +1086,8 @@ trait SomeTrait
 
 ### Possible Unused Public Method
 
+- :wrench:
 - class: [`Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`](src/Sniffs/DeadCode/UnusedPublicMethodSniff.php)
-
 - **Requires ECS due *double run* feature**, use with `--clear-cache` so all files are included.
 
 :x:
@@ -1124,6 +1124,17 @@ class SomeClass
 
 $someObject = new SomeClass;
 $someObject->usedMethod();
+```
+
+Do you have public methods used only byr 3rd party? **Just skip them**:
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff:
+        allow_classes:
+            - 'Symplify\Autodiscovery\Discovery'
+            - 'Symplify\FlexLoader\Flex\FlexLoader'
 ```
 
 ## Contributing

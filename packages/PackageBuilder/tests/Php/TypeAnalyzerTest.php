@@ -12,8 +12,5 @@ final class TypeAnalyzerTest extends TestCase
         $typeAnalyzer = new TypeAnalyzer();
 
         $this->assertTrue($typeAnalyzer->isPhpReservedType('string'));
-
-        $this->assertTrue($typeAnalyzer->isNullableType('?bool'));
-        $this->assertFalse($typeAnalyzer->isNullableType('array'));
     }
 }

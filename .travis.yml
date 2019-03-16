@@ -35,6 +35,7 @@ script:
     - |
       if [[ $CODE_ANALYSIS == true ]]; then
           packages/EasyCodingStandard/bin/ecs check packages
+          packages/EasyCodingStandard/bin/ecs check packages --config ecs-unused-public-methods.yaml
           vendor/bin/phpstan analyse packages
       fi
 

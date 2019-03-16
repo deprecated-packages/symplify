@@ -2,13 +2,13 @@
 
 namespace Symplify\Statie\Generator\Contract;
 
-use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
+use Symplify\Statie\Renderable\File\AbstractFile;
 
 interface ObjectSorterInterface
 {
     /**
-     * @param AbstractGeneratorFile[] $generatorFiles
-     * @return AbstractGeneratorFile[]
+     * @param AbstractFile[] $generatorFiles
+     * @return AbstractFile[]
      */
     public function sort(array $generatorFiles): array;
 }

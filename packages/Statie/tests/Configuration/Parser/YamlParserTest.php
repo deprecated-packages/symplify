@@ -26,7 +26,9 @@ final class YamlParserTest extends TestCase
         $this->assertStringContainsString('one', $decodedYaml['multiline']);
         $this->assertStringContainsString('two', $decodedYaml['multiline']);
 
-        $decodedYamlFromFile = $this->yamlParser->decodeFile(__DIR__ . '/YamlParserSource/config.yml');
+        $content = FileSystem::read(__DIR__ . '/YamlParserSource/config.yml');
+
+        $decodedYamlFromFile = $this->yamlParser->decode($content);
         $this->assertSame($decodedYamlFromFile, $decodedYaml);
     }
 
@@ -36,12 +38,10 @@ final class YamlParserTest extends TestCase
 
         $this->expectException(ParseException::class);
         $this->expectExceptionMessage(
-            sprintf(
-                'A colon cannot be used in an unquoted mapping value in "%s" at line 2 (near " another_key: value").',
-                $brokenYamlFilePath
-            )
+            'A colon cannot be used in an unquoted mapping value at line 2 (near " another_key: value").'
         );
 
-        $this->yamlParser->decodeFile(__DIR__ . '/YamlParserSource/broken-config.yml');
+        $content = FileSystem::read($brokenYamlFilePath);
+        $this->yamlParser->decode($content);
     }
 }
