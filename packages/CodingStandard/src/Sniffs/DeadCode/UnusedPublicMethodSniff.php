@@ -5,8 +5,7 @@ namespace Symplify\CodingStandard\Sniffs\DeadCode;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use SlevomatCodingStandard\Helpers\ClassHelper;
-use SlevomatCodingStandard\Helpers\TokenHelper;
+use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 
@@ -18,9 +17,11 @@ use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 {
     /**
-     * @var string
+     * Classes allowed to have unused public methods
+     *
+     * @var string[]
      */
-    private const MESSAGE = 'Public method "%s()" is possibly unused.';
+    public $allowClasses = [];
 
     /**
      * @var int
@@ -69,9 +70,15 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
      */
     private $sniffClassWrapperFactory;
 
-    public function __construct(SniffClassWrapperFactory $sniffClassWrapperFactory)
+    /**
+     * @var Naming
+     */
+    private $naming;
+
+    public function __construct(SniffClassWrapperFactory $sniffClassWrapperFactory, Naming $naming)
     {
         $this->sniffClassWrapperFactory = $sniffClassWrapperFactory;
+        $this->naming = $naming;
     }
 
     public function reset(): void
@@ -98,18 +105,24 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         $this->position = $position;
 
         if ($this->runNumber === 1) {
-            $this->collectPublicMethodNames($position);
             $this->collectMethodCalls();
+
+            $class = $this->naming->getFileClassName($this->file);
+            if ($class && $this->shouldSkipClass($class)) {
+                return;
+            }
+
+            $this->collectPublicMethodNames($position);
             return;
         }
 
         if ($this->runNumber === 2) {
             // prepare unused method names if not ready
             if ($this->unusedMethodNames === []) {
-                $this->unusedMethodNames = array_diff(
-                    array_unique($this->publicMethodNames),
-                    $this->calledMethodNames
-                );
+                $uniquePublicMethodNames = array_unique($this->publicMethodNames);
+                sort($uniquePublicMethodNames);
+
+                $this->unusedMethodNames = array_diff($uniquePublicMethodNames, $this->calledMethodNames);
             }
 
             if ($this->shouldSkipFile($file)) {
@@ -138,7 +151,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
 
         $methodName = $possibleMethodNameToken['content'];
-        if (Strings::match($methodName, sprintf('#^(%s)#', implode('|', $this->methodsToIgnore)))) {
+        if ($this->shouldSkipMethod($methodName)) {
             return;
         }
 
@@ -148,8 +161,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     private function collectMethodCalls(): void
     {
         // skip test classes, since they provide false usage
-
-        $fileClassName = $this->getFileClassName($this->file);
+        $fileClassName = $this->naming->getFileClassName($this->file);
         if ($fileClassName && Strings::contains($fileClassName, 'Test')) {
             return;
         }
@@ -163,15 +175,6 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
 
         $this->collectMethodNames($token);
-
-        if ($token['code'] === T_STRING) {
-            // starts with uppercase name, is not a method name
-            if (ctype_upper($token['content'][0])) {
-                return;
-            }
-
-            $this->publicMethodNames[] = $token['content'];
-        }
     }
 
     /**
@@ -209,7 +212,10 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return;
         }
 
-        $this->file->addError(sprintf(self::MESSAGE, $methodName), $this->position, self::class);
+        $this->file->addError(sprintf(
+            'Public method "%s()" is possibly unused.',
+            $methodName
+        ), $this->position, self::class);
     }
 
     /**
@@ -282,13 +288,13 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
     }
 
-    private function getFileClassName(File $file): ?string
+    private function shouldSkipClass(string $class): bool
     {
-        $classPosition = TokenHelper::findNext($file, T_CLASS, 1);
-        if ($classPosition === null) {
-            return null;
-        }
+        return in_array($class, $this->allowClasses, true);
+    }
 
-        return ClassHelper::getFullyQualifiedName($file, $classPosition);
+    private function shouldSkipMethod($methodName): bool
+    {
+        return (bool) Strings::match($methodName, sprintf('#^(%s)#', implode('|', $this->methodsToIgnore)));
     }
 }

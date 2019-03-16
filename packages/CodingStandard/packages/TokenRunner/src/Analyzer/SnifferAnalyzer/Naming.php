@@ -3,8 +3,10 @@
 namespace Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer;
 
 use PHP_CodeSniffer\Files\File;
+use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\NamespaceHelper;
 use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
+use SlevomatCodingStandard\Helpers\TokenHelper;
 
 final class Naming
 {
@@ -19,9 +21,31 @@ final class Naming
     private $referencedNamesByFilePath = [];
 
     /**
+     * @var string[]
+     */
+    private $classNamesByFilePath = [];
+
+    /**
      * @var string[][]
      */
     private $fqnClassNameByFilePathAndClassName = [];
+
+    public function getFileClassName(File $file): ?string
+    {
+        // get name by path
+        if (isset($this->classNamesByFilePath[$file->path])) {
+            return $this->classNamesByFilePath[$file->path];
+        }
+
+        $classPosition = TokenHelper::findNext($file, T_CLASS, 1);
+        if ($classPosition === null) {
+            return null;
+        }
+
+        $className = ClassHelper::getFullyQualifiedName($file, $classPosition);
+
+        return ltrim($className, '\\');
+    }
 
     public function getClassName(File $file, int $classNameStartPosition): string
     {

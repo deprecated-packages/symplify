@@ -20,14 +20,6 @@ final class YamlParser
     /**
      * @return mixed[]
      */
-    public function decodeFile(string $filePath): array
-    {
-        return $this->parser->parseFile($filePath);
-    }
-
-    /**
-     * @return mixed[]
-     */
     public function decodeInSource(string $content, string $source): array
     {
         try {

@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
@@ -81,42 +80,6 @@ final class MethodWrapper
 
             $this->tokens[$i] = new Token([T_VARIABLE, $newName]);
         }
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getReturnTypes(): array
-    {
-        $returnTypeAnalysis = ((new FunctionsAnalyzer())->getFunctionReturnType($this->tokens, $this->index));
-
-        if ($returnTypeAnalysis === null) {
-            return [];
-        }
-
-        $returnTypes = [];
-
-        if (Strings::startsWith($returnTypeAnalysis->getName(), '?')) {
-            // nullable type
-            $returnTypes[] = 'null';
-            $returnTypes[] = ltrim($returnTypeAnalysis->getName(), '?');
-            return $returnTypes;
-        }
-
-        return [$returnTypeAnalysis->getName()];
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getArgumentNames(): array
-    {
-        $argumentNames = [];
-        foreach ($this->getArguments() as $argument) {
-            $argumentNames[] = $argument->getName();
-        }
-
-        return $argumentNames;
     }
 
     private function shouldSkip(string $oldName, Token $token): bool

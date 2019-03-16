@@ -32,11 +32,6 @@ final class TypeAnalyzer
         );
     }
 
-    public function isNullableType(string $type): bool
-    {
-        return Strings::startsWith($type, '?');
-    }
-
     public function isIterableType(string $type): bool
     {
         return Strings::endsWith($type, '[]');
