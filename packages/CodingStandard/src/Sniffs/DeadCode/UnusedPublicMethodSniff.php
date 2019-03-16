@@ -5,6 +5,8 @@ namespace Symplify\CodingStandard\Sniffs\DeadCode;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use SlevomatCodingStandard\Helpers\ClassHelper;
+use SlevomatCodingStandard\Helpers\TokenHelper;
 use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 
@@ -145,6 +147,13 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 
     private function collectMethodCalls(): void
     {
+        // skip test classes, since they provide false usage
+
+        $fileClassName = $this->getFileClassName($this->file);
+        if ($fileClassName && Strings::contains($fileClassName, 'Test')) {
+            return;
+        }
+
         $token = $this->tokens[$this->position];
 
         // "->"
@@ -271,5 +280,15 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 
             $this->calledMethodNames[] = $nextToken['content'];
         }
+    }
+
+    private function getFileClassName(File $file): ?string
+    {
+        $classPosition = TokenHelper::findNext($file, T_CLASS, 1);
+        if ($classPosition === null) {
+            return null;
+        }
+
+        return ClassHelper::getFullyQualifiedName($file, $classPosition);
     }
 }
