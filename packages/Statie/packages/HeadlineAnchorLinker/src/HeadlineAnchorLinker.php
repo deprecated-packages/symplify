@@ -28,7 +28,8 @@ final class HeadlineAnchorLinker
         return Strings::replace($content, self::HEADLINE_PATTERN, function (array $result): string {
             $titleWithoutTags = strip_tags($result['title']);
             $headlineId = Strings::webalize($titleWithoutTags);
-            $titleHasLink = count(Strings::match($result['title'], self::LINK_PATTERN)) > 0;
+            $titleWithLink = Strings::match($result['title'], self::LINK_PATTERN);
+            $titleHasLink = is_array($titleWithLink) ? count($titleWithLink) > 0 : false;
 
             // Title contains <a> element
             if ($result['title'] !== $titleWithoutTags && $titleHasLink) {
