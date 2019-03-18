@@ -70,6 +70,7 @@ final class FileSystem
      */
     public function getEntityXmlFiles(): array
     {
+        // for orm|dcm masks @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/xml-mapping.html
         return $this->getFilesInSourceByName('#\.(orm|dcm)\.xml$#');
     }
 
