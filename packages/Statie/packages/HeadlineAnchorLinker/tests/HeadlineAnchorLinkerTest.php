@@ -16,8 +16,23 @@ final class HeadlineAnchorLinkerTest extends TestCase
             $headlineAnchorLinker->processContent('<h2>Hey</h2>')
         );
         $this->assertSame(
-            '<h3 id="hi-tom"><a href="#hi-tom">Hi Tom</a></h3>',
-            $headlineAnchorLinker->processContent('<h3>Hi Tom</h3>')
+            '<h3 id="hi-tom"><a href="#hi-tom">Hi <b>Tom<b></a></h3>',
+            $headlineAnchorLinker->processContent('<h3>Hi <b>Tom<b></h3>')
+        );
+    }
+
+    public function testHeadingWithLink(): void
+    {
+        $headlineAnchorLinker = new HeadlineAnchorLinker();
+
+        $this->assertSame(
+            '<h2 id="hey"><a href="http://example.com">Hey</a></h2>',
+            $headlineAnchorLinker->processContent('<h2><a href="http://example.com">Hey</a></h2>')
+        );
+
+        $this->assertSame(
+            '<h3 id="hi-tom">Hi <a href="http://example.com"><b>Tom<b></a></h3>',
+            $headlineAnchorLinker->processContent('<h3>Hi <a href="http://example.com"><b>Tom<b></a></h3>')
         );
     }
 }
