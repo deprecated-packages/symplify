@@ -4,3 +4,5 @@
 .travis.yml export-ignore
 LICENSE export-ignore
 phpunit.xml export-ignore
+*.md export-ignore
+docs/ export-ignore
