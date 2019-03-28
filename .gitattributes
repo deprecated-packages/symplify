@@ -6,6 +6,9 @@ easy-coding-standard.neon export-ignore
 LICENSE export-ignore
 phpstan.neon export-ignore
 phpunit.xml export-ignore
+docs/ export-ignore
+*.md export-ignore
+packages/*/docs/ export-ignore
 
 # part of Statie templates
 # .gitignore export-ignore
