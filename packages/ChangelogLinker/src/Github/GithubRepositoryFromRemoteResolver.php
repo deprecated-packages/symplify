@@ -10,7 +10,10 @@ final class GithubRepositoryFromRemoteResolver
     public function resolveFromUrl(string $url): string
     {
         if (Strings::startsWith($url, 'https://')) {
-            return rtrim($url, '.git');
+            $url = rtrim($url, '.git');
+            $url = substr($url, strpos($url, 'github.com'));
+
+            return 'https://' . $url;
         }
 
         // turn SSH format to "https"
