@@ -21,7 +21,18 @@ final class ArrayUtils
         usort($items, function ($firstItem, $secondItem) use ($sortBy, $direction) {
             $inverseConstant = $this->resolveInverseConstant($direction);
 
-            return ($firstItem[$sortBy] <=> $secondItem[$sortBy]) * $inverseConstant;
+            $firstValue = $firstItem[$sortBy];
+            $secondValue = $secondItem[$sortBy];
+
+            if (is_string($firstValue)) {
+                $firstValue = strtolower($firstValue);
+            }
+
+            if (is_string($secondValue)) {
+                $secondValue = strtolower($secondValue);
+            }
+
+            return ($firstValue <=> $secondValue) * $inverseConstant;
         });
 
         return $items;
