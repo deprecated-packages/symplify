@@ -5,7 +5,17 @@ use Composer\XdebugHandler\XdebugHandler;
 use Symfony\Component\DependencyInjection\Container;
 use Symplify\EasyCodingStandard\Console\EasyCodingStandardConsoleApplication;
 
-require_once __DIR__ . '/autoload.php';
+$possibleAutoloadPaths = [
+	__DIR__ . '/autoload.php',
+	__DIR__ . '/../symplify/easy-coding-standard/bin/autoload.php',
+];
+
+foreach ($possibleAutoloadPaths as $autoloadPath) {
+	if (file_exists($autoloadPath)) {
+		require_once $autoloadPath;
+		break;
+	}
+}
 
 // performance boost
 gc_disable();
@@ -14,8 +24,18 @@ $xdebug = new XdebugHandler('ecs', '--ansi');
 $xdebug->check();
 unset($xdebug);
 
-/** @var Container $container */
-$container = require __DIR__ . '/container.php';
+$possibleContainerPaths = [
+	__DIR__ . '/container.php',
+	__DIR__ . '/../symplify/easy-coding-standard/bin/container.php',
+];
+
+foreach ($possibleContainerPaths as $containerPath) {
+	if (file_exists($containerPath)) {
+		/** @var Container $container */
+		$container = require $containerPath;
+		break;
+	}
+}
 
 $application = $container->get(EasyCodingStandardConsoleApplication::class);
 exit($application->run());
