@@ -167,6 +167,36 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     }
 
     /**
+     * @param string[] $files
+     */
+    protected function doTestCorrectFiles(array $files): void
+    {
+        foreach ($files as $file) {
+            $this->doTestCorrectFile($file);
+        }
+    }
+
+    /**
+     * @param string[] $files
+     */
+    protected function doTestWrongFiles(array $files): void
+    {
+        foreach ($files as $file) {
+            $this->doTestWrongFile($file);
+        }
+    }
+
+    /**
+     * @param string[] $files
+     */
+    protected function doTestWrongToFixedFiles(array $files): void
+    {
+        foreach ($files as $file) {
+            $this->processFile($file);
+        }
+    }
+
+    /**
      * File should stay the same and contain 0 errors
      * @todo resolve their combination with PSR-12
      */
