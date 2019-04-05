@@ -18,6 +18,11 @@ final class InlineVariableDocBlockMalformWorker extends AbstractMalformWorker
             return $docContent;
         }
 
+        // more than 2 newlines - keep it
+        if (substr_count($docContent, PHP_EOL) > 2) {
+            return $docContent;
+        }
+
         // asterisk start
         $docContent = Strings::replace($docContent, self::SINGLE_ASTERISK_START_PATTERN, '/**$1');
 
