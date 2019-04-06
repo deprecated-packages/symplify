@@ -13,10 +13,7 @@ final class ParamReturnAndVarTagMalformsFixerTest extends AbstractCheckerTestCas
 {
     public function test(): void
     {
-        $this->doTestCorrectFiles([
-            __DIR__ . '/Fixture/correct.php.inc',
-            __DIR__ . '/Fixture/correct2.php.inc',
-        ]);
+        $this->doTestCorrectFiles([__DIR__ . '/Fixture/correct.php.inc', __DIR__ . '/Fixture/correct2.php.inc']);
 
         $this->doTestWrongToFixedFiles([
             __DIR__ . '/Fixture/wrong.php.inc',

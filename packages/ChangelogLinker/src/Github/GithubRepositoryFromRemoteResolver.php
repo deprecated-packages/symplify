@@ -11,7 +11,11 @@ final class GithubRepositoryFromRemoteResolver
     {
         if (Strings::startsWith($url, 'https://')) {
             $url = rtrim($url, '.git');
-            $url = substr($url, strpos($url, 'github.com'));
+
+            $githubPosition = Strings::indexOf($url, 'github.com');
+            if ($githubPosition !== false) {
+                $url = Strings::substring($url, $githubPosition);
+            }
 
             return 'https://' . $url;
         }
