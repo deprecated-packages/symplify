@@ -138,12 +138,12 @@
             "@fix-cs",
             "@phpstan"
         ],
-        "check-cs": "packages/EasyCodingStandard/bin/ecs check packages",
+        "check-cs": "packages/EasyCodingStandard/bin/ecs check packages --ansi",
         "fix-cs": [
-            "packages/EasyCodingStandard/bin/ecs check packages --fix",
+            "packages/EasyCodingStandard/bin/ecs check packages --fix --ansi",
             "bin/clear_readmes.sh"
         ],
-        "phpstan": "vendor/bin/phpstan analyse packages --error-format symplify",
+        "phpstan": "vendor/bin/phpstan analyse packages --error-format symplify --ansi",
         "changelog": [
             "packages/ChangelogLinker/bin/changelog-linker dump-merges --in-categories --in-packages",
             "packages/ChangelogLinker/bin/changelog-linker link",
