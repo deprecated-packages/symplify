@@ -114,6 +114,10 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
 
     private function normalizeLayoutSuffix(?string $layout): ?string
     {
+        if ($layout === null) {
+            return null;
+        }
+
         if (Strings::endsWith($layout, '.twig')) {
             return Strings::replace($layout, '#\.twig$#', '.latte');
         }

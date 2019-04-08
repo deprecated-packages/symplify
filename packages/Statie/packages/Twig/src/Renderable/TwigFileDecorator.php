@@ -115,6 +115,10 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
 
     private function normalizeLayoutSuffix(?string $layout): ?string
     {
+        if ($layout === null) {
+            return null;
+        }
+
         if (Strings::endsWith($layout, '.latte')) {
             return Strings::replace($layout, '#\.latte$#', '.twig');
         }
