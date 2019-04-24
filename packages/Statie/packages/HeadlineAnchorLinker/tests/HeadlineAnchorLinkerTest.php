@@ -7,7 +7,17 @@ use Symplify\Statie\HeadlineAnchorLinker\HeadlineAnchorLinker;
 
 final class HeadlineAnchorLinkerTest extends TestCase
 {
-    public function test(): void
+    public function testLevelOneHeading(): void
+    {
+        $headlineAnchorLinker = new HeadlineAnchorLinker();
+
+        $this->assertSame(
+            '<h1>Hey</h1>',
+            $headlineAnchorLinker->processContent('<h1>Hey</h1>')
+        );
+    }
+
+    public function testLowerLevelHeading(): void
     {
         $headlineAnchorLinker = new HeadlineAnchorLinker();
 

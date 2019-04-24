@@ -9,7 +9,7 @@ final class HeadlineAnchorLinker
     /**
      * @var string
      */
-    private const HEADLINE_PATTERN = '#<h(?<level>[1-6])>(?<title>.*?)<\/h[1-6]>#';
+    private const HEADLINE_PATTERN = '#<h(?<level>[2-6])>(?<title>.*?)<\/h[2-6]>#';
 
     /**
      * @var string
@@ -18,10 +18,10 @@ final class HeadlineAnchorLinker
 
     /**
      * Before:
-     * - <h1>Some headline</h1>
+     * - <h2>Some headline</h2>
      *
      * After:
-     * - <h1 id="some-headline"><a href="#some-headline">Some headline</a></h1>
+     * - <h2 id="some-headline"><a href="#some-headline">Some headline</a></h2>
      */
     public function processContent(string $content): string
     {
