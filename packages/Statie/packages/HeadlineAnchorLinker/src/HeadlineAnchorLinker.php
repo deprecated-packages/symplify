@@ -21,7 +21,7 @@ final class HeadlineAnchorLinker
      * - <h2>Some headline</h2>
      *
      * After:
-     * - <h2 id="some-headline"><a href="#some-headline">Some headline</a></h2>
+     * - <h2 id="some-headline"><a href="#some-headline" class="heading-anchor">Some headline</a></h2>
      */
     public function processContent(string $content): string
     {
@@ -43,7 +43,7 @@ final class HeadlineAnchorLinker
             }
 
             return sprintf(
-                '<h%s id="%s"><a href="#%s">%s</a></h%s>',
+                '<h%s id="%s"><a href="#%s" class="heading-anchor">%s</a></h%s>',
                 $result['level'],
                 $headlineId,
                 $headlineId,
