@@ -513,20 +513,8 @@ use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesC
         ]));
 ```
 
-This will make sure, that `PhpCsFixer\Fixer\FixerInterface` is always registered.
+This will make sure, that `PhpCsFixer\Fixer\FixerInterface` instances are always autowired.
 
 <br>
-
-### Use Public Services only in Tests
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass`
-- Read [How to Test Private Services in Symfony](https://www.tomasvotruba.cz/blog/2018/05/17/how-to-test-private-services-in-symfony/)
-
-```diff
- # some config for tests
- services:
--    _defaults:
--        public: true
-```
 
 That's all :)
