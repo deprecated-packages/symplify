@@ -7,7 +7,7 @@ services:
         autowire: true
 
     # class has to be final, abstract or Doctrine entity
-    SlamCsFixer\FinalInternalClassFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\FinalInternalClassFixer: ~
 
     # import namespaces for classes, constants and functions
     # configuration: https://github.com/slevomat/coding-standard#slevomatcodingstandardnamespacesreferenceusednamesonly-
