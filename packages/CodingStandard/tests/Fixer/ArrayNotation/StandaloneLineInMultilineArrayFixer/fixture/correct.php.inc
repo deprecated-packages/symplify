@@ -5,6 +5,8 @@ $emotions = [
     2 => 'Relaxed',
 ];
 
-$moreEmotions = [1 => 'Happy'];
+$moreEmotions = [
+    1 => 'Happy'
+];
 
 $laterEmotions = ['Happy', 'Excited'];

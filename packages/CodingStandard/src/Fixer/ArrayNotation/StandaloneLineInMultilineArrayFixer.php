@@ -10,8 +10,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
+use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
 use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
 final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
@@ -48,13 +48,13 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Indexed PHP arrays with 2 and more items should have 1 item per line.', []);
+        return new FixerDefinition('Indexed PHP arrays should have 1 item per line.', []);
     }
 
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS)
-            && $tokens->isAllTokenKindsFound([T_DOUBLE_ARROW, ',']);
+            && $tokens->isAllTokenKindsFound([T_DOUBLE_ARROW]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -65,10 +65,11 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
             }
 
             $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $index);
+            if ($blockInfo === null) {
+                continue;
+            }
 
-            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockInfo($tokens, $blockInfo);
-
-            if ($this->shouldSkip($arrayWrapper)) {
+            if ($this->shouldSkip($tokens, $blockInfo)) {
                 continue;
             }
 
@@ -81,12 +82,17 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
         return $this->getPriorityBefore(TrailingCommaInMultilineArrayFixer::class);
     }
 
-    private function shouldSkip(ArrayWrapper $arrayWrapper): bool
+    private function shouldSkip(Tokens $tokens, BlockInfo $blockInfo): bool
     {
+        $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockInfo($tokens, $blockInfo);
         if (! $arrayWrapper->isAssociativeArray()) {
             return true;
         }
 
-        return $arrayWrapper->getItemCount() <= 1;
+        if ($arrayWrapper->getItemCount() === 1 && $arrayWrapper->isFirstItemNotArray()) {
+            return true;
+        }
+
+        return false;
     }
 }

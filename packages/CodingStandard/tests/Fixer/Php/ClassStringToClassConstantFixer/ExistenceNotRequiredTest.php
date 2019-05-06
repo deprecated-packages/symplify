@@ -22,6 +22,8 @@ final class ExistenceNotRequiredTest extends AbstractCheckerTestCase
      */
     protected function getCheckerConfiguration(): array
     {
-        return ['class_must_exist' => false];
+        return [
+            'class_must_exist' => false,
+        ];
     }
 }

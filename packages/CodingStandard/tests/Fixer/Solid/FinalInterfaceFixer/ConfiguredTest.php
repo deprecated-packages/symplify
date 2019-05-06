@@ -22,6 +22,8 @@ final class ConfiguredTest extends AbstractCheckerTestCase
      */
     protected function getCheckerConfiguration(): array
     {
-        return ['only_interfaces' => ['SomeInterface']];
+        return [
+            'only_interfaces' => ['SomeInterface'],
+        ];
     }
 }

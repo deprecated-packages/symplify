@@ -3,11 +3,17 @@
 namespace Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 
 final class ArrayWrapper
 {
+    /**
+     * @var int[]
+     */
+    private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
+
     /**
      * @var int
      */
@@ -64,6 +70,25 @@ final class ArrayWrapper
         }
 
         return $itemCount;
+    }
+
+    public function isFirstItemNotArray(): bool
+    {
+        for ($i = $this->startIndex + 1; $i <= $this->endIndex - 1; ++$i) {
+            $token = $this->tokens[$i];
+            if ($token->isGivenKind(T_DOUBLE_ARROW)) {
+                $nextTokenAfterArrowPosition = $this->tokens->getNextNonWhitespace($i);
+                if ($nextTokenAfterArrowPosition === null) {
+                    return true;
+                }
+
+                $nextToken = $this->tokens[$nextTokenAfterArrowPosition];
+
+                return ! $nextToken->isGivenKind(self::ARRAY_OPEN_TOKENS);
+            }
+        }
+
+        return true;
     }
 
     public function getFirstLineLength(): int
