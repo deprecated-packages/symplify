@@ -9,7 +9,7 @@
         "composer/xdebug-handler": "^1.3",
         "erusev/parsedown": "^1.7",
         "erusev/parsedown-extra": "^0.7.1",
-        "friendsofphp/php-cs-fixer": "^2.14",
+        "friendsofphp/php-cs-fixer": "^2.15",
         "guzzlehttp/guzzle": "^6.3",
         "illuminate/support": "^5.7",
         "jean85/pretty-package-versions": "^1.2",
