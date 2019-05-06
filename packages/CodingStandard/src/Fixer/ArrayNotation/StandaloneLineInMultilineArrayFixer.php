@@ -82,6 +82,10 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
         return $this->getPriorityBefore(TrailingCommaInMultilineArrayFixer::class);
     }
 
+    /**
+     * skip: [$array => value]
+     * keep: [$array => [value => nested]]
+     */
     private function shouldSkip(Tokens $tokens, BlockInfo $blockInfo): bool
     {
         $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockInfo($tokens, $blockInfo);
@@ -89,8 +93,13 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
             return true;
         }
 
-        if ($arrayWrapper->getItemCount() === 1 && $arrayWrapper->isFirstItemNotArray()) {
-            return true;
+        if ($arrayWrapper->getItemCount() === 1 && ! $arrayWrapper->isFirstItemArray()) {
+            $previousTokenPosition = $tokens->getPrevMeaningfulToken($blockInfo->getStart());
+            if ($previousTokenPosition === null) {
+                return false;
+            }
+
+            return ! $tokens[$previousTokenPosition]->isGivenKind(T_DOUBLE_ARROW);
         }
 
         return false;

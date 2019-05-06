@@ -72,23 +72,25 @@ final class ArrayWrapper
         return $itemCount;
     }
 
-    public function isFirstItemNotArray(): bool
+    public function isFirstItemArray(): bool
     {
-        for ($i = $this->startIndex + 1; $i <= $this->endIndex - 1; ++$i) {
+        for ($i = $this->endIndex - 1; $i >= $this->startIndex; --$i) {
+            $i = $this->tokenSkipper->skipBlocksReversed($this->tokens, $i);
+
             $token = $this->tokens[$i];
             if ($token->isGivenKind(T_DOUBLE_ARROW)) {
                 $nextTokenAfterArrowPosition = $this->tokens->getNextNonWhitespace($i);
                 if ($nextTokenAfterArrowPosition === null) {
-                    return true;
+                    return false;
                 }
 
                 $nextToken = $this->tokens[$nextTokenAfterArrowPosition];
 
-                return ! $nextToken->isGivenKind(self::ARRAY_OPEN_TOKENS);
+                return $nextToken->isGivenKind(self::ARRAY_OPEN_TOKENS);
             }
         }
 
-        return true;
+        return false;
     }
 
     public function getFirstLineLength(): int
