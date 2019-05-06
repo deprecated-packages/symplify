@@ -29,10 +29,12 @@ final class ForbiddenParentClassSniffTest extends AbstractCheckerTestCase
      */
     protected function getCheckerConfiguration(): array
     {
-        return ['forbiddenParentClasses' => [
-            '*\SomeForbiddenParentClass',
-            'SomeOtherNamespace\ExactClassMatch',
-            'PreslashExactClassMatch',
-        ]];
+        return [
+            'forbiddenParentClasses' => [
+                '*\SomeForbiddenParentClass',
+                'SomeOtherNamespace\ExactClassMatch',
+                'PreslashExactClassMatch',
+            ],
+        ];
     }
 }

@@ -3,5 +3,7 @@
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 
 return [
-    FrameworkBundle::class => ['all' => true],
+    FrameworkBundle::class => [
+        'all' => true,
+    ],
 ];

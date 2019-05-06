@@ -212,7 +212,11 @@ $service, $name,
         }
 
         // no "_defaults" section
-        $yaml[YamlKey::SERVICES] = array_merge([YamlKey::DEFAULTS => [$key => true]], $yaml[YamlKey::SERVICES]);
+        $yaml[YamlKey::SERVICES] = array_merge([
+            YamlKey::DEFAULTS => [
+                $key => true,
+            ],
+        ], $yaml[YamlKey::SERVICES]);
 
         return $yaml;
     }

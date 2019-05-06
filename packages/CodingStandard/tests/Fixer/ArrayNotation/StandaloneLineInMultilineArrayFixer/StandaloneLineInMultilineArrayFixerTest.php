@@ -18,6 +18,8 @@ final class StandaloneLineInMultilineArrayFixerTest extends AbstractCheckerTestC
             __DIR__ . '/fixture/correct6.php.inc',
             __DIR__ . '/fixture/wrong.php.inc',
             __DIR__ . '/fixture/wrong2.php.inc',
+            __DIR__ . '/fixture/wrong3.php.inc',
+            __DIR__ . '/fixture/wrong4.php.inc',
         ]);
     }
 

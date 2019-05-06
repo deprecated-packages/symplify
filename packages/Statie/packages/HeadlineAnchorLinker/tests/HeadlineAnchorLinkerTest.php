@@ -11,10 +11,7 @@ final class HeadlineAnchorLinkerTest extends TestCase
     {
         $headlineAnchorLinker = new HeadlineAnchorLinker();
 
-        $this->assertSame(
-            '<h1>Hey</h1>',
-            $headlineAnchorLinker->processContent('<h1>Hey</h1>')
-        );
+        $this->assertSame('<h1>Hey</h1>', $headlineAnchorLinker->processContent('<h1>Hey</h1>'));
     }
 
     public function testLowerLevelHeadingWithoutLink(): void

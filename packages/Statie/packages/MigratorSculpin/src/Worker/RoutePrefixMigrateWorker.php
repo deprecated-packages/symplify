@@ -56,7 +56,9 @@ final class RoutePrefixMigrateWorker implements MigratorWorkerInterface
         $config = [
             'parameters' => [
                 'generators' => [
-                    'posts' => ['route_prefix' => $routePrefix],
+                    'posts' => [
+                        'route_prefix' => $routePrefix,
+                    ],
                 ],
             ],
         ];

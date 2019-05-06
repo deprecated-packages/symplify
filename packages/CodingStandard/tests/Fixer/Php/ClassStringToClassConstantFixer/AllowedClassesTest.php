@@ -23,6 +23,8 @@ final class AllowedClassesTest extends AbstractCheckerTestCase
      */
     protected function getCheckerConfiguration(): array
     {
-        return ['allow_classes' => [DateTimeInterface::class]];
+        return [
+            'allow_classes' => [DateTimeInterface::class],
+        ];
     }
 }

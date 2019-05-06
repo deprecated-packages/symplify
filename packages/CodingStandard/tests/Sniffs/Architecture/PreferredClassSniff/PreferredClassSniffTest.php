@@ -26,6 +26,10 @@ final class PreferredClassSniffTest extends AbstractCheckerTestCase
      */
     protected function getCheckerConfiguration(): array
     {
-        return ['oldToPreferredClasses' => ['Invalid\OldClass' => 'NewOne']];
+        return [
+            'oldToPreferredClasses' => [
+                'Invalid\OldClass' => 'NewOne',
+            ],
+        ];
     }
 }

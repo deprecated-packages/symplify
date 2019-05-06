@@ -40,7 +40,9 @@ final class SortRequireComposerJsonDecoratorTest extends AbstractKernelTestCase
     public function testSort(): void
     {
         $composerJsonWithSort = $this->composerJson + [
-            'config' => ['sort-packages' => true],
+            'config' => [
+                'sort-packages' => true,
+            ],
         ];
 
         $decorated = $this->sortRequireComposerJsonDecorator->decorate($composerJsonWithSort);
