@@ -20,7 +20,7 @@ final class TwigPathAutodiscoveryTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        static::bootKernel(AudiscoveryTestingKernel::class);
+        $this->bootKernel(AudiscoveryTestingKernel::class);
 
         /** @var Twig_Environment $twigEnvironment */
         $twigEnvironment = static::$container->get('twig');

@@ -7,9 +7,11 @@ use Psr\Container\ContainerInterface;
 new class() implements ContainerInterface {
     public function get($id): bool
     {
+        return true;
     }
 
     public function has($id): bool
     {
+        return false;
     }
 };

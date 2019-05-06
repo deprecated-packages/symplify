@@ -1,10 +1,10 @@
 imports:
-    - { resource: 'packages/EasyCodingStandard/config/psr2.yml' }
-    - { resource: 'packages/EasyCodingStandard/config/php71.yml' }
-    - { resource: 'packages/EasyCodingStandard/config/clean-code.yml' }
-    - { resource: 'packages/EasyCodingStandard/config/symplify.yml' }
-    - { resource: 'packages/EasyCodingStandard/config/common.yml' }
-    - { resource: 'packages/EasyCodingStandard/config/psr12.yml' }
+    - { resource: 'packages/EasyCodingStandard/config/set/psr2.yaml' }
+    - { resource: 'packages/EasyCodingStandard/config/set/php71.yaml' }
+    - { resource: 'packages/EasyCodingStandard/config/set/clean-code.yaml' }
+    - { resource: 'packages/EasyCodingStandard/config/set/symplify.yaml' }
+    - { resource: 'packages/EasyCodingStandard/config/set/common.yaml' }
+    - { resource: 'packages/EasyCodingStandard/config/set/psr12.yaml' }
 
 services:
     Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
