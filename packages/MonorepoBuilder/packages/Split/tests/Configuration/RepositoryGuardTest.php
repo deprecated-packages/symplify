@@ -39,7 +39,7 @@ final class RepositoryGuardTest extends AbstractKernelTestCase
         yield ['https://github.com/Symplify/Symplify.git'];
     }
 
-    public function testInvalid(): Iterator
+    public function testInvalid(): void
     {
         $this->expectException(InvalidRepositoryFormatException::class);
 

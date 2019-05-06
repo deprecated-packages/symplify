@@ -14,7 +14,7 @@ use Symplify\Statie\Renderable\RenderableFilesProcessor;
 final class Generator
 {
     /**
-     * @var mixed[]
+     * @var AbstractGeneratorFile[][]
      */
     private $generatorFilesByType = [];
 

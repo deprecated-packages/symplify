@@ -132,9 +132,19 @@ parameters:
 
         # false positive
         - '#More info\: http\://bit\.ly/(typehintarray|usetypehint)#'
+        - '#Unreachable statement \- code above always terminates#'
+        - '#Property Symplify\\Autodiscovery\\Tests\\Twig\\TwigPathAutodiscoveryTest\:\:\$twigFilesystemLoader \(Twig\\Loader\\FilesystemLoader\) does not accept Twig\\Loader\\LoaderInterface#'
 
         # magic properties
         - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:(.*?)#'
 
         # phar edge case
         - '#Strict comparison using \=\=\= between string and false will always evaluate to false#'
+
+        # tests
+        - '#Method class@anonymous/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory\.php\:7\:\:get\(\) should return bool but return statement is missing#'
+        - '#Expression "\$post\[(.*?)]" on a separate line does not do anything#'
+
+        # throws exception
+        - '#Method Symplify\\PackageBuilder\\Configuration\\LevelFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
+

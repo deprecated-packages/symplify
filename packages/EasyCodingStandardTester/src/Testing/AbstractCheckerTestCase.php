@@ -82,7 +82,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
             $configs[] = $tokenRunnerConfig;
         }
 
-        static::bootKernelWithConfigs(EasyCodingStandardKernel::class, $configs);
+        $this->bootKernelWithConfigs(EasyCodingStandardKernel::class, $configs);
 
         $this->fixerFileProcessor = self::$container->get(FixerFileProcessor::class);
         $this->sniffFileProcessor = self::$container->get(SniffFileProcessor::class);
@@ -123,6 +123,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     protected function getCheckerClass(): string
     {
         // to be implemented
+        return '';
     }
 
     protected function provideConfig(): string
@@ -155,6 +156,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         }
 
         // to be implemented
+        return '';
     }
 
     /**
