@@ -8,7 +8,6 @@
         "nette/finder": "^2.4",
         "squizlabs/php_codesniffer": "^3.4",
         "friendsofphp/php-cs-fixer": "^2.15",
-        "slam/php-cs-fixer-extensions": "^1.17",
         "symplify/package-builder": "^5.5",
         "phpstan/phpdoc-parser": "^0.3.1"
     },
