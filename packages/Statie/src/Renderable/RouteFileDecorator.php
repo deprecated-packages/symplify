@@ -47,17 +47,7 @@ final class RouteFileDecorator implements FileDecoratorInterface
     public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
     {
         foreach ($files as $file) {
-            $manualOutputPath = $file->getOption('outputPath') ?: $file->getOption('output_path');
-            if ($manualOutputPath !== null) {
-                $outputPath = $manualOutputPath;
-            } else {
-                $outputPath = $generatorElement->getRoutePrefix()
-                    ? $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR
-                    : '';
-                $outputPath = $this->prefixWithDateIfFound($file, $outputPath);
-                $outputPath .= $file->getFilenameWithoutDate();
-                $outputPath = $this->pathNormalizer->normalize($outputPath);
-            }
+            $outputPath = $this->resolveOutputPath($generatorElement, $file);
 
             $file->setRelativeUrl($outputPath);
             $file->setOutputPath($outputPath . DIRECTORY_SEPARATOR . 'index.html');
@@ -74,7 +64,7 @@ final class RouteFileDecorator implements FileDecoratorInterface
     private function decorateFile(AbstractFile $file): void
     {
         // manual config override has preference
-        $manualOutputPath = $file->getOption('outputPath') ?: $file->getOption('output_path');
+        $manualOutputPath = $this->getFileOutputPathOption($file);
 
         if ($manualOutputPath) {
             $file->setOutputPath((string) $manualOutputPath);
@@ -147,5 +137,26 @@ final class RouteFileDecorator implements FileDecoratorInterface
         $relativeParts = explode($sourceDirectory, $file->getRelativeDirectory());
 
         return array_pop($relativeParts);
+    }
+
+    private function resolveOutputPath(GeneratorElement $generatorElement, AbstractFile $file): string
+    {
+        /** @var string|null $manualOutputPath */
+        $manualOutputPath = $this->getFileOutputPathOption($file);
+        if ($manualOutputPath !== null) {
+            return $manualOutputPath;
+        }
+
+        $outputPath = $generatorElement->getRoutePrefix()
+            ? $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR
+            : '';
+        $outputPath = $this->prefixWithDateIfFound($file, $outputPath);
+        $outputPath .= $file->getFilenameWithoutDate();
+        return $this->pathNormalizer->normalize($outputPath);
+    }
+
+    private function getFileOutputPathOption(AbstractFile $file): ?string
+    {
+        return $file->getOption('outputPath') ?: $file->getOption('output_path');
     }
 }

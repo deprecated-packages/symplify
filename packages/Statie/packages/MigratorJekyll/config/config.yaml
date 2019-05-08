@@ -52,7 +52,7 @@ parameters:
                 # replace "contains" with "in" - @see https://regex101.com/r/iTaipb/3
                 '#({(%|{).*?)\s*(?<value>\w+)\s*contains\s*(?<needle>.*?)(\s)#': '$1 $4 in $3$5'
 
-                '#^(permalink):(\s*(.*?)$\s*)#ms': 'outputPath:$2'
+                '#^(permalink):(\s*(.*?)$\s*)#ms': 'output_path:$2'
 
                 # replace "assign" with "set"
                 '#({%)\s*assign\s*(.*?)#': '$1 set $2'
