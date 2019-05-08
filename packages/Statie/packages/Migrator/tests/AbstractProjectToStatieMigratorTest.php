@@ -70,7 +70,10 @@ abstract class AbstractProjectToStatieMigratorTest extends AbstractKernelTestCas
             $mirrorFile = $secondDirectory . '/' . $relativeFilePath;
 
             $message = sprintf('File "%s" has invalid content', $relativeFilePath);
-            $this->assertFileEquals($fileInfo->getRealPath(), $mirrorFile, $message);
+
+            $trimmedOriginalFileContent = $this->getTrimmedFileContent($fileInfo->getRealPath());
+            $trimmedMirrorFileContent = $this->getTrimmedFileContent($mirrorFile);
+            $this->assertSame($trimmedMirrorFileContent, $trimmedOriginalFileContent, $message);
         }
     }
 
@@ -117,5 +120,10 @@ abstract class AbstractProjectToStatieMigratorTest extends AbstractKernelTestCas
         }
 
         return $relativeFileNames;
+    }
+
+    private function getTrimmedFileContent(string $filePath): string
+    {
+        return trim(FileSystem::read($filePath));
     }
 }

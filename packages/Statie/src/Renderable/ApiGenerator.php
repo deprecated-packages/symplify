@@ -4,6 +4,7 @@ namespace Symplify\Statie\Renderable;
 
 use Nette\Utils\Json;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\Statie\Contract\Api\ApiItemDecoratorInterface;
 use Symplify\Statie\Renderable\File\VirtualFile;
 
 final class ApiGenerator
@@ -14,17 +15,27 @@ final class ApiGenerator
     private $apiParameters = [];
 
     /**
+     * @var ApiItemDecoratorInterface[]
+     */
+    private $apiItemDecorators = [];
+
+    /**
      * @var ParameterProvider
      */
     private $parameterProvider;
 
     /**
      * @param string[] $apiParameters
+     * @param ApiItemDecoratorInterface[] $apiItemDecorators
      */
-    public function __construct(array $apiParameters, ParameterProvider $parameterProvider)
-    {
+    public function __construct(
+        array $apiParameters,
+        ParameterProvider $parameterProvider,
+        array $apiItemDecorators = []
+    ) {
         $this->apiParameters = $apiParameters;
         $this->parameterProvider = $parameterProvider;
+        $this->apiItemDecorators = $apiItemDecorators;
     }
 
     /**
@@ -37,7 +48,7 @@ final class ApiGenerator
             $outputPath = $this->createOutputPath($apiParameter);
             $content = $this->createContent($apiParameter);
 
-            $virtualFiles[] = new VirtualFile($outputPath, $content);
+            $virtualFiles[] = new VirtualFile($outputPath, $content . PHP_EOL);
         }
 
         return $virtualFiles;
@@ -52,10 +63,29 @@ final class ApiGenerator
     {
         $parameter = $this->parameterProvider->provideParameter($parameterName);
 
-        $content = [
-            $parameterName => is_array($parameter) ? $parameter : '{}',
-        ];
+        /** @var mixed[] $parameter */
+        $parameter = is_array($parameter) ? $parameter : [];
 
-        return Json::encode($content, Json::PRETTY);
+        $data = [$parameterName => $parameter];
+        $data = $this->decorateParameter($parameterName, $data);
+
+        return Json::encode($data, Json::PRETTY);
+    }
+
+    /**
+     * @param mixed[] $parameter
+     * @return mixed[]
+     */
+    private function decorateParameter(string $parameterName, array $parameter): array
+    {
+        foreach ($this->apiItemDecorators as $apiItemDecorator) {
+            if ($parameterName !== $apiItemDecorator->getName()) {
+                continue;
+            }
+
+            $parameter = $apiItemDecorator->decorate($parameter);
+        }
+
+        return $parameter;
     }
 }
