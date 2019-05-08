@@ -2,10 +2,30 @@
 <?php declare(strict_types=1);
 
 use Composer\XdebugHandler\XdebugHandler;
-use Symfony\Component\DependencyInjection\Container;
 use Symplify\Statie\Console\StatieConsoleApplication;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
+use Symplify\PackageBuilder\Console\Input\InputDetector;
+use Symplify\Statie\HttpKernel\StatieKernel;
 
-require_once __DIR__ . '/autoload.php';
+# 1. autoload
+$possibleAutoloadPaths = [
+    // after split package
+    __DIR__ . '/../vendor/autoload.php',
+    // dependency
+    __DIR__ . '/../../../autoload.php',
+    // monorepo
+    __DIR__ . '/../../../vendor/autoload.php',
+];
+
+foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+    if (file_exists($possibleAutoloadPath)) {
+        require_once $possibleAutoloadPath;
+
+        break;
+    }
+}
+
 
 // performance boost
 gc_disable();
@@ -14,8 +34,22 @@ $xdebug = new XdebugHandler('statie', '--ansi');
 $xdebug->check();
 unset($xdebug);
 
-/** @var Container $container */
-$container = require __DIR__ . '/container.php';
+# 2. create container
+// Detect configuration from input
+ConfigFileFinder::detectFromInput('statie', new ArgvInput());
 
+// Fallback to file in root
+$configFile = ConfigFileFinder::provide('statie', ['statie.yml', 'statie.yaml']);
+
+// random has is needed, so cache is invalidated and changes from config are loaded
+$environment = 'prod' . random_int(1, 100000);
+$statieKernel = new StatieKernel($environment, InputDetector::isDebug());
+if ($configFile !== null) {
+    $statieKernel->setConfigs([$configFile]);
+}
+$statieKernel->boot();
+$container = $statieKernel->getContainer();
+
+# 3. run it
 $application = $container->get(StatieConsoleApplication::class);
 exit($application->run());

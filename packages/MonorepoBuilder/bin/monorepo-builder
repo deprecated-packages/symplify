@@ -1,13 +1,43 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-require_once __DIR__ . '/autoload.php';
-
-use Psr\Container\ContainerInterface;
 use Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
+use Symplify\PackageBuilder\Console\Input\InputDetector;
 
-/** @var ContainerInterface $container */
-$container = require_once __DIR__ . '/container.php';
+# 1. autoload
+$possibleAutoloadPaths = [
+    // after split package
+    __DIR__ . '/../vendor/autoload.php',
+    // dependency
+    __DIR__ . '/../../../autoload.php',
+    // monorepo
+    __DIR__ . '/../../../vendor/autoload.php',
+];
 
+foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+    if (file_exists($possibleAutoloadPath)) {
+        require_once $possibleAutoloadPath;
+        break;
+    }
+}
+
+# 2. create container
+ConfigFileFinder::detectFromInput('mb', new ArgvInput());
+$configFile = ConfigFileFinder::provide('mb', ['monorepo-builder.yml', 'monorepo-builder.yaml']);
+
+// the environment name must be "random", so configs are invalidated without clearing the cache
+$environment = 'prod' . random_int(0, 100000);
+$monorepoBuilderKernel = new MonorepoBuilderKernel($environment, InputDetector::isDebug());
+if ($configFile) {
+    $monorepoBuilderKernel->setConfigs([$configFile]);
+}
+$monorepoBuilderKernel->boot();
+
+$container = $monorepoBuilderKernel->getContainer();
+
+# 3. run it
 $application = $container->get(MonorepoBuilderApplication::class);
 exit($application->run());
