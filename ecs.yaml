@@ -40,6 +40,7 @@ parameters:
         # tests
         - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
         - 'packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php'
+        - 'packages/EasyCodingStandard/tests/Skipper/Only/Source/*'
         # files
         - 'packages/CodingStandard/tests/Sniffs/DependencyInjection/NoClassInstantiation/Source/EntityClass.php'
         - 'packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets*.php'
