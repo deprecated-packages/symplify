@@ -147,11 +147,15 @@ final class RouteFileDecorator implements FileDecoratorInterface
             return $manualOutputPath;
         }
 
-        $outputPath = $generatorElement->getRoutePrefix()
-            ? $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR
-            : '';
+        $outputPath = '';
+
+        if ($generatorElement->getRoutePrefix()) {
+            $outputPath .= $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR;
+        }
+
         $outputPath = $this->prefixWithDateIfFound($file, $outputPath);
         $outputPath .= $file->getFilenameWithoutDate();
+
         return $this->pathNormalizer->normalize($outputPath);
     }
 
