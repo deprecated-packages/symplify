@@ -4,7 +4,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-        "illuminate/support": "^5.7",
         "nette/utils": "^2.5|^3.0",
         "nette/finder": "^2.4",
         "symfony/config": "^3.4|^4.1",
