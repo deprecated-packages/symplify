@@ -33,15 +33,19 @@ final class StringFormatConverterTest extends TestCase
     }
 
     /**
-     * @dataProvider provideCasesForUnderscoreToCamelCase()
+     * @dataProvider provideCasesForUnderscoreAndHyphenToCamelCase()
      */
-    public function testUnderscoreToCamelCase(string $input, string $expected): void
+    public function testUnderscoreAndHyphenToCamelCase(string $input, string $expected): void
     {
-        $this->assertSame($expected, $this->stringFormatConverter->underscoreToCamelCase($input));
+        $this->assertSame($expected, $this->stringFormatConverter->underscoreAndHyphenToCamelCase($input));
     }
 
-    public function provideCasesForUnderscoreToCamelCase(): Iterator
+    public function provideCasesForUnderscoreAndHyphenToCamelCase(): Iterator
     {
         yield ['hi_tom', 'hiTom'];
+        yield ['hi-tom', 'hiTom'];
+        yield ['hi-john_doe', 'hiJohnDoe'];
+
+
     }
 }

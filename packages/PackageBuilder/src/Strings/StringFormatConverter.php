@@ -6,9 +6,9 @@ use Nette\Utils\Strings;
 
 final class StringFormatConverter
 {
-    public function underscoreToCamelCase(string $value): string
+    public function underscoreAndHyphenToCamelCase(string $value): string
     {
-        $value = str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $value)));
+        $value = str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $value)));
 
         return lcfirst($value);
     }
