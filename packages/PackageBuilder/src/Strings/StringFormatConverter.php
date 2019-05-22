@@ -8,11 +8,9 @@ final class StringFormatConverter
 {
     public function underscoreToCamelCase(string $value): string
     {
-        $value = str_replace(' ', '', ucwords(str_replace('_', ' ', $value)));
+        $value = str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $value)));
 
-        $value[0] = strtolower($value[0]);
-
-        return $value;
+        return lcfirst($value);
     }
 
     public function camelCaseToUnderscore(string $input): string
