@@ -45,7 +45,5 @@ final class StringFormatConverterTest extends TestCase
         yield ['hi_tom', 'hiTom'];
         yield ['hi-tom', 'hiTom'];
         yield ['hi-john_doe', 'hiJohnDoe'];
-
-
     }
 }
