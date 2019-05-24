@@ -480,7 +480,7 @@ services:
 
 ### Exception name should match its type, if possible
 
-- class: [`Symplify\CodingStandard\Fixer\Naming\ExceptionNameMatchingTypeFixer`](src/Fixer/Naming/ExceptionNameMatchingTypeFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer`](src/Fixer/Naming/CatchExceptionNameMatchingTypeFixer.php)
 
 ```diff
  try {
