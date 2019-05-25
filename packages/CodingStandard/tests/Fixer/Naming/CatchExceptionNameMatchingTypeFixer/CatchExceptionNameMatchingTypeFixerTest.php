@@ -10,7 +10,7 @@ final class CatchExceptionNameMatchingTypeFixerTest extends AbstractCheckerTestC
     public function test(): void
     {
         $this->doTestFiles([
-            //            __DIR__ . '/Fixture/correct.php.inc',
+            __DIR__ . '/Fixture/correct.php.inc',
             __DIR__ . '/Fixture/wrong_to_fixed.php.inc',
         ]);
     }
