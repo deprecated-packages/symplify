@@ -10,9 +10,28 @@ use Symplify\PackageBuilder\Exception\Configuration\LevelNotFoundException;
 
 final class LevelFileFinder
 {
+    /**
+     * @var string
+     */
+    private $keyName;
+
+    /**
+     * @var string[]
+     */
+    private $optionNames = [];
+
+    /**
+     * @param string[] $optionNames
+     */
+    public function __construct(array $optionNames = ['--level', '-l'], string $keyName = 'level')
+    {
+        $this->optionNames = $optionNames;
+        $this->keyName = $keyName;
+    }
+
     public function detectFromInputAndDirectory(InputInterface $input, string $configDirectory): ?string
     {
-        $levelName = ConfigFileFinder::getOptionValue($input, ['--level', '-l']);
+        $levelName = ConfigFileFinder::getOptionValue($input, $this->optionNames);
         if ($levelName === null) {
             return null;
         }
@@ -52,10 +71,17 @@ final class LevelFileFinder
             return ' * ' . $level . PHP_EOL;
         }, $allLevels);
 
-        $pickOneOfMessage = sprintf('Pick "--level" of:%s%s%s', PHP_EOL . PHP_EOL, implode('', $levelsInList), PHP_EOL);
+        $pickOneOfMessage = sprintf(
+            'Pick "--%s" of:%s%s%s',
+            $this->keyName,
+            PHP_EOL . PHP_EOL,
+            implode('', $levelsInList),
+            PHP_EOL
+        );
 
         $levelNotFoundMessage = sprintf(
-            'Level "%s" was not found.%s%s',
+            '%s "%s" was not found.%s%s',
+            ucfirst($this->keyName),
             $levelName,
             PHP_EOL,
             $suggestedLevel ? sprintf('Did you mean "%s"?', $suggestedLevel) . PHP_EOL : 'Pick one of above.'
