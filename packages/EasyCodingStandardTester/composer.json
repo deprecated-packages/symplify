@@ -5,8 +5,8 @@
     "require": {
         "php": "^7.1",
         "phpunit/phpunit": "^7.5|^8.0",
-        "symplify/easy-coding-standard": "^6.0",
-        "symplify/package-builder": "^6.0"
+        "symplify/easy-coding-standard": "^6.1",
+        "symplify/package-builder": "^6.1"
     },
     "autoload": {
         "psr-4": {
@@ -20,7 +20,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "5.5-dev"
+            "dev-master": "6.1-dev"
         }
     },
     "minimum-stability": "dev",
