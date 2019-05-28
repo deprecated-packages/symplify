@@ -8,13 +8,13 @@
         "nette/finder": "^2.4",
         "squizlabs/php_codesniffer": "^3.4",
         "friendsofphp/php-cs-fixer": "^2.15",
-        "symplify/package-builder": "^5.5",
+        "symplify/package-builder": "^6.0",
         "phpstan/phpdoc-parser": "^0.3.1"
     },
     "require-dev": {
         "nette/application": "^2.4|^3.0",
-        "symplify/easy-coding-standard-tester": "^5.5",
-        "symplify/package-builder": "^5.5",
+        "symplify/easy-coding-standard-tester": "^6.0",
+        "symplify/package-builder": "^6.0",
         "phpunit/phpunit": "^7.5|^8.0"
     },
     "autoload": {
