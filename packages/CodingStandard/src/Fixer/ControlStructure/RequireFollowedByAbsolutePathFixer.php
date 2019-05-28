@@ -79,7 +79,6 @@ final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
             $tokensToAdd[] = $token;
         } else {
             $oldRequiredFile = $token->getContent();
-
             // remove "./" which would break the path
             if (\Nette\Utils\Strings::startsWith($oldRequiredFile, '"')) {
                 $quoteChar = '"';
