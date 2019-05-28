@@ -30,7 +30,7 @@ final class FilterCaseConverter implements CaseConverterInterface
         // {{ value|date('j. n. Y') }}
         // {$11874|number:0:',':' '}
         // {{ 11874|number_format(0, ',', ' ') }}
-        $content = Strings::replace($content, '#{(.*?)}#ms', function (array $match) {
+        $content = Strings::replace($content, '#{(.*?)}#ms', function (array $match): string {
             // has some filter with args?
             if (! Strings::match($match[1], '#(.*?)\|(.*?):(.*?)#ms')) {
                 return $match[0];
@@ -39,7 +39,7 @@ final class FilterCaseConverter implements CaseConverterInterface
             // https://regex101.com/r/04QMgW/1
             $match[0] = Strings::replace($match[0], '#{(?<value>.*)\|(?<filter>[a-z]+):(?<args>(.*))[\n|\||}]#ms', function (
                 array $subMatch
-            ) {
+            ): string {
                 // filter renames
                 $filterName = $this->filterRenames[$subMatch['filter']] ?? $subMatch['filter'];
                 $arguments = $this->replaceSeparator($subMatch['args']);

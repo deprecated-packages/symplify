@@ -33,7 +33,7 @@ final class BlockCaseConverter implements CaseConverterInterface
         // see https://twig.symfony.com/doc/2.x/functions/include.html
         // single lines
         // ref https://regex101.com/r/uDJaia/1
-        $content = Strings::replace($content, '#({% include .*?,)(.*?)(\s+%})#', function (array $match) {
+        $content = Strings::replace($content, '#({% include .*?,)(.*?)(\s+%})#', function (array $match): string {
             $variables = explode(',', $match[2]);
 
             $twigDataInString = ' { ';

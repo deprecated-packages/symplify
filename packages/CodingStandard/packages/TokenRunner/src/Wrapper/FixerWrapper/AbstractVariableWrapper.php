@@ -109,7 +109,12 @@ abstract class AbstractVariableWrapper
             $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
         }
 
-        $this->tokens[$this->getNamePosition()] = new Token([$tokenType, $newName]);
+        $namePosition = $this->getNamePosition();
+        if ($namePosition === null) {
+            return;
+        }
+
+        $this->tokens[$namePosition] = new Token([$tokenType, $newName]);
     }
 
     abstract protected function getNamePosition(): ?int;

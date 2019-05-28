@@ -33,7 +33,7 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
         $content = Strings::replace(
             $content,
             '#' . RegexPattern::PR_OR_ISSUE_NOT_IN_BRACKETS . '#',
-            function (array $match) {
+            function (array $match): string {
                 if (isset($match['reference'])) {
                     return sprintf('[%s]', $match['reference']);
                 }

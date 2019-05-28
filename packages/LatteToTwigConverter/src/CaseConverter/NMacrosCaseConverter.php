@@ -24,7 +24,7 @@ final class NMacrosCaseConverter implements CaseConverterInterface
         $content = Strings::replace(
             $content,
             $this->createPattern('if'),
-            function (array $match) {
+            function (array $match): string {
                 return sprintf(
                     '{if %s}%s%s%s%s%s%s{/if}',
                     $match['expression'],
@@ -42,7 +42,7 @@ final class NMacrosCaseConverter implements CaseConverterInterface
         $content = Strings::replace(
             $content,
             $this->createPattern('ifset'),
-            function (array $match) {
+            function (array $match): string {
                 return sprintf(
                     '{ifset %s}%s%s%s%s%s%s{/ifset}',
                     $match['expression'],
@@ -60,7 +60,7 @@ final class NMacrosCaseConverter implements CaseConverterInterface
         $content = Strings::replace(
             $content,
             $this->createPattern('foreach'),
-            function (array $match) {
+            function (array $match): string {
                 return sprintf(
                     '{foreach %s}%s%s%s%s%s%s{/foreach}',
                     $match['expression'],
@@ -78,7 +78,7 @@ final class NMacrosCaseConverter implements CaseConverterInterface
         $content = Strings::replace(
             $content,
             $this->createPattern('inner-foreach'),
-            function (array $match) {
+            function (array $match): string {
                 return sprintf(
                     '%s%s%s{foreach %s}%s{/foreach}%s%s',
                     $match['openTagStart'],

@@ -149,7 +149,7 @@ final class StatieApplication
      */
     private function filterOutGeneratorFiles(array $fileInfos, array $generatorFilesByType)
     {
-        return array_filter($fileInfos, function (SmartFileInfo $fileInfo) use ($generatorFilesByType) {
+        return array_filter($fileInfos, function (SmartFileInfo $fileInfo) use ($generatorFilesByType): bool {
             return ! $this->isFilePartOfGeneratorsFiles($fileInfo, $generatorFilesByType);
         });
     }

@@ -67,7 +67,7 @@ final class LevelFileFinder
 
         $suggestedLevel = ObjectHelpers::getSuggestion($allLevels, $levelName);
 
-        $levelsInList = array_map(function (string $level) {
+        $levelsInList = array_map(function (string $level): string {
             return ' * ' . $level . PHP_EOL;
         }, $allLevels);
 

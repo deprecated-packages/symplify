@@ -84,6 +84,10 @@ final class MigratorFilesystem
         $globPath = $workingDirectory . '/' . $globPattern;
 
         $foundFiles = glob($globPath);
+        if ($foundFiles === false) {
+            return [];
+        }
+
         foreach ($foundFiles as $key => $foundFile) {
             // skip README.md
             if ($foundFile === $workingDirectory . '/README.md') {

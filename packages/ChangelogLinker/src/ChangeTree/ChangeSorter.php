@@ -25,7 +25,7 @@ final class ChangeSorter
     public function sort(array $changes, ?string $priority): array
     {
         // pur newer versions to the top, and "Unreleased" first
-        usort($changes, function (Change $firstChange, Change $secondChange) use ($priority) {
+        usort($changes, function (Change $firstChange, Change $secondChange) use ($priority): int {
             $comparisonStatus = $this->compareTags($firstChange, $secondChange);
             if ($comparisonStatus !== 0) {
                 return $comparisonStatus;

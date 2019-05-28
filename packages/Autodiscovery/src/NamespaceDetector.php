@@ -10,11 +10,12 @@ final class NamespaceDetector
 {
     public function detectFromDirectory(SmartFileInfo $directoryInfo): ?string
     {
-        $filesInDirectory = glob($directoryInfo->getRealPath() . '/*.php');
+        $filesInDirectory = (array) glob($directoryInfo->getRealPath() . '/*.php');
         if (! count($filesInDirectory)) {
             return null;
         }
 
+        /** @var string $entityFilePath */
         $entityFilePath = array_pop($filesInDirectory);
 
         return $this->detectFromFile($entityFilePath);
@@ -30,7 +31,7 @@ final class NamespaceDetector
         }
 
         $result = Strings::before($match['className'], '\\', -1);
-        if ($result === false) {
+        if ($result === null) {
             return null;
         }
 

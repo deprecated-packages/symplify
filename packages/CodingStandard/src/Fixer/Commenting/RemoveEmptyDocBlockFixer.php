@@ -47,6 +47,11 @@ final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
                 $previousWhitespaceContent = $previousToken->getContent();
 
                 $lastLineBreak = strrpos($previousWhitespaceContent, PHP_EOL);
+                // nothing found
+                if (is_bool($lastLineBreak)) {
+                    continue;
+                }
+
                 $newWhitespaceContent = Strings::substring($previousWhitespaceContent, 0, $lastLineBreak);
                 if ($newWhitespaceContent) {
                     $tokens[$index - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);

@@ -147,4 +147,10 @@ parameters:
 
         # throws exception
         - '#Method Symplify\\PackageBuilder\\Configuration\\LevelFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
+        # false positive
+        - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
+        - '#Parameter \#1 \$s of static method Nette\\Utils\\Strings\:\:length\(\) expects string, string\|false given#'
+        - '#Parameter \#1 \$subject of static method Nette\\Utils\\Strings\:\:match\(\) expects string, string\|false given#'
+        - '#Method Symplify\\CodingStandard\\Fixer\\AbstractSymplifyFixer\:\:getReversedPositionsFromTokens\(\) should return array<int\> but returns array<int, int\|string\>#'
+        - '#Parameter \#1 \$tokens of method Symplify\\CodingStandard\\Fixer\\Naming\\CatchExceptionNameMatchingTypeFixer\:\:updateCatchBodyVariableName\(\) expects PhpCsFixer\\Tokenizer\\Tokens, array<int\|string, PhpCsFixer\\Tokenizer\\Token\> given#'
 

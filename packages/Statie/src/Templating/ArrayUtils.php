@@ -18,7 +18,7 @@ final class ArrayUtils
 
         $this->ensureKeyIsValid($items, $sortBy);
 
-        usort($items, function ($firstItem, $secondItem) use ($sortBy, $direction) {
+        usort($items, function ($firstItem, $secondItem) use ($sortBy, $direction): int {
             $inverseConstant = $this->resolveInverseConstant($direction);
 
             $firstValue = $firstItem[$sortBy];

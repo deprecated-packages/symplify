@@ -30,7 +30,7 @@ final class ChangelogFormatter
      */
     private function wrapHeadlinesWithEmptyLines(string $content): string
     {
-        return Strings::replace($content, self::HEADLINE_PATTERN, function (array $match) {
+        return Strings::replace($content, self::HEADLINE_PATTERN, function (array $match): string {
             return PHP_EOL . $match['headline'] . PHP_EOL;
         });
     }

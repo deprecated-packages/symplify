@@ -121,7 +121,7 @@ final class GithubApi
      */
     private function filterMergedPullRequests(array $pullRequests): array
     {
-        return array_filter($pullRequests, function (array $pullRequest) {
+        return array_filter($pullRequests, function (array $pullRequest): bool {
             return isset($pullRequest['merged_at']) && $pullRequest['merged_at'] !== null;
         });
     }

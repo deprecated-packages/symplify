@@ -13,7 +13,7 @@ final class BasicFilterProvider implements FilterProviderInterface
     public function provide(): array
     {
         return [
-            'md5' => function ($value) {
+            'md5' => function ($value): string {
                 return md5($value);
             },
 

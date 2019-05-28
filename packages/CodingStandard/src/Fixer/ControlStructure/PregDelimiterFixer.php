@@ -167,7 +167,7 @@ final class PregDelimiterFixer extends AbstractSymplifyFixer implements Configur
         $newArgumentValue = Strings::replace(
             $argumentValue,
             self::INNER_PATTERN_PATTERN,
-            function (array $match) {
+            function (array $match): string {
                 $innerPattern = $match['content'];
 
                 if (strlen($innerPattern) > 2) {

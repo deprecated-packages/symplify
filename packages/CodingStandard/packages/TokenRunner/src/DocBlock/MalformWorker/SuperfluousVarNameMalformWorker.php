@@ -30,7 +30,7 @@ final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
             $newLineContent = Strings::replace(
                 $line->getContent(),
                 self::VAR_VARIABLE_NAME_PATTERN,
-                function (array $match) {
+                function (array $match): string {
                     $replacement = $match[1];
                     if ($match['type']) {
                         $replacement .= $match['type'];

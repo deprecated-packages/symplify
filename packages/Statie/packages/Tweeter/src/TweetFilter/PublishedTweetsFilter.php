@@ -29,7 +29,7 @@ final class PublishedTweetsFilter
      */
     public function filter(array $allTweets): array
     {
-        return array_filter($allTweets, function ($tweet) {
+        return array_filter($allTweets, function ($tweet): bool {
             // true if unpublished, false if published
             return ! $this->wasTweetPublished($tweet);
         });

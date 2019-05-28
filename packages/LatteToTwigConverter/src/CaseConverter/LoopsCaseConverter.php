@@ -27,7 +27,7 @@ final class LoopsCaseConverter implements CaseConverterInterface
         $content = Strings::replace(
             $content,
             '#{foreach \$?(?<list>.*?) as (?<items>\[.*?\])}#i',
-            function (array $match) {
+            function (array $match): string {
                 return sprintf('{%% for %s in %s %%}', str_replace('$', '', $match['items']), $match['list']);
             }
         );

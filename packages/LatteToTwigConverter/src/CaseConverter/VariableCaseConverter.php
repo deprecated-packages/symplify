@@ -31,7 +31,7 @@ final class VariableCaseConverter implements CaseConverterInterface
     public function convertContent(string $content): string
     {
         // quote in-script variables, they're auto-quoted by Latte
-        $content = Strings::replace($content, '#<script(.*?)>(.*?)</script>#s', function (array $match) {
+        $content = Strings::replace($content, '#<script(.*?)>(.*?)</script>#s', function (array $match): string {
             $match[2] = Strings::replace($match[2], '#({\$(.*?)})#', '\'$1\'');
 
             return sprintf('<script%s>%s</script>', $match[1], $match[2]);
@@ -81,7 +81,7 @@ final class VariableCaseConverter implements CaseConverterInterface
         $content = Strings::replace(
             $content,
             '#{(.*?)}#',
-            function (array $match) {
+            function (array $match): string {
                 $match[1] = Strings::replace($match[1], '#' . self::PATTERN_ARRAY_ACCESS . '#', '.$1');
 
                 return '{' . $match[1] . '}';

@@ -137,7 +137,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
 
         $content = $this->codeBlocksProtector->protectContentFromCallback(
             $file->getContent(),
-            function (string $content) use ($layout) {
+            function (string $content) use ($layout): string {
                 if (! Strings::match($content, self::BLOCK_CONTENT_PATTERN)) {
                     $content = '{% block content %}' . $content . '{% endblock %}';
                 }
@@ -155,7 +155,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
 
     private function trimExtendsAndBlockContent(string $content): string
     {
-        return $this->codeBlocksProtector->protectContentFromCallback($content, function (string $content) {
+        return $this->codeBlocksProtector->protectContentFromCallback($content, function (string $content): string {
             $content = Strings::replace($content, self::BLOCK_CONTENT_PATTERN, '$1', 1);
 
             return Strings::replace($content, self::EXTEND_PATTERN, '', 1);

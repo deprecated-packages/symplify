@@ -59,7 +59,7 @@ final class IncludePathsCompleter implements MigratorWorkerInterface
         $newContent = Strings::replace(
             $oldContent,
             '#(?<open>{% include )(?<shortPath>.*?)(?<close> %})#',
-            function (array $match) use ($includeableFileInfos, $sourceDirectory) {
+            function (array $match) use ($includeableFileInfos, $sourceDirectory): string {
                 $fullPath = $this->matchShortPathToFull($match['shortPath'], $includeableFileInfos, $sourceDirectory);
                 $fullPath = Strings::replace($fullPath, '#\.html$#', '.twig');
 
@@ -71,7 +71,7 @@ final class IncludePathsCompleter implements MigratorWorkerInterface
         return Strings::replace(
             $newContent,
             '#(?<open>---.*?\s*layout:\s*)(?<shortPath>.*?)(?<close>\n)#',
-            function (array $match) use ($includeableFileInfos, $sourceDirectory) {
+            function (array $match) use ($includeableFileInfos, $sourceDirectory): string {
                 $fullPath = $this->matchShortPathToFull($match['shortPath'], $includeableFileInfos, $sourceDirectory);
                 $fullPath = Strings::replace($fullPath, '#\.html$#', '.twig');
 

@@ -129,6 +129,7 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
             # 3rd party code copy-pasted; kept as is for easier comparison to original
+            - 'packages/CodingStandard/src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php'
             - 'packages/PackageBuilder/src/Yaml/ParametersMerger.php'
             # wip
             - 'packages/NeonToYamlConverter/src/NeonToYamlConverter.php'

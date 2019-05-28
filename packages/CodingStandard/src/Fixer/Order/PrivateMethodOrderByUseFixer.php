@@ -62,7 +62,10 @@ final class PrivateMethodOrderByUseFixer extends AbstractSymplifyFixer
     private function sort(array $methodElements, array $methodOrder): array
     {
         $methodOrder = array_flip($methodOrder);
-        usort($methodElements, function (array $firstPropertyElement, array $secondPropertyElement) use ($methodOrder) {
+        usort($methodElements, function (
+            array $firstPropertyElement,
+            array $secondPropertyElement
+        ) use ($methodOrder): int {
             if (! isset($methodOrder[$firstPropertyElement['name']]) || ! isset($methodOrder[$secondPropertyElement['name']])) {
                 return 0;
             }

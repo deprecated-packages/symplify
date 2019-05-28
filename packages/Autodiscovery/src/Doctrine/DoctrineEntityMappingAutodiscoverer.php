@@ -125,7 +125,10 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
     {
         $namespaces = [];
         foreach ($xmlFileInfos as $xmlFileInfo) {
-            $namespaces[] = $this->namespaceDetector->detectFromXmlFileInfo($xmlFileInfo);
+            $namespace = $this->namespaceDetector->detectFromXmlFileInfo($xmlFileInfo);
+            if ($namespace) {
+                $namespaces[] = $namespace;
+            }
         }
 
         $commonNamespace = Strings::findPrefix($namespaces);

@@ -347,7 +347,7 @@ final class FixerClassWrapper
      */
     public function getPrivateMethodElements(): array
     {
-        return array_filter($this->getMethodElements(), function (array $element) {
+        return array_filter($this->getMethodElements(), function (array $element): bool {
             return $element['visibility'] === 'private';
         });
     }
@@ -477,7 +477,7 @@ final class FixerClassWrapper
             $this->startBracketIndex
         );
 
-        $methodElements = array_filter($elements, function (array $element) use ($type) {
+        $methodElements = array_filter($elements, function (array $element) use ($type): bool {
             return $element['type'] === $type;
         });
 

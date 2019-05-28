@@ -181,7 +181,7 @@ CODE_SAMPLE
      */
     private function sortPropertyWrappers(array $propertyElements): array
     {
-        usort($propertyElements, function (array $firstPropertyElement, array $secondPropertyElement) {
+        usort($propertyElements, function (array $firstPropertyElement, array $secondPropertyElement): int {
             return $firstPropertyElement['rating'] <=> $secondPropertyElement['rating'];
         });
 

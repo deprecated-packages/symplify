@@ -74,7 +74,7 @@ final class JsonFileManager
         foreach ($inlineSections as $inlineSection) {
             $pattern = '#("' . preg_quote($inlineSection, '#') . '": )\[(.*?)\](,)#ms';
 
-            $jsonContent = Strings::replace($jsonContent, $pattern, function (array $match) {
+            $jsonContent = Strings::replace($jsonContent, $pattern, function (array $match): string {
                 $inlined = Strings::replace($match[2], '#\s+#', ' ');
                 $inlined = trim($inlined);
                 $inlined = '[' . $inlined . ']';

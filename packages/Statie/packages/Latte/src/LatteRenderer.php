@@ -43,7 +43,7 @@ final class LatteRenderer implements RendererInterface
      */
     public function renderFileWithParameters(AbstractFile $file, array $parameters): string
     {
-        $renderCallback = function (string $content) use ($file, $parameters) {
+        $renderCallback = function (string $content) use ($file, $parameters): string {
             $this->arrayLoader->changeContent($file->getFilePath(), $content);
 
             return $this->engine->renderToString($file->getFilePath(), $parameters);

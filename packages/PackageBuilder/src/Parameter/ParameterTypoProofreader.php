@@ -60,7 +60,7 @@ final class ParameterTypoProofreader
      */
     private function filterOutSystemParameterNames(array $parameterNames): array
     {
-        return array_filter($parameterNames, function ($parameterName) {
+        return array_filter($parameterNames, function ($parameterName): bool {
             return ! (bool) Strings::match($parameterName, '#^(kernel|container)\.#');
         });
     }
