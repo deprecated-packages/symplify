@@ -1,8 +1,0 @@
-parameters:
-    exclude_paths:
-        - '*/Tests/*'
-        - '*/Fixture/*'
-        - '*/templates/*'
-
-services:
-    Rector\TypeDeclaration\Rector\Closure\AddClosureReturnTypeRector: ~
