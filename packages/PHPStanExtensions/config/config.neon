@@ -15,7 +15,6 @@ services:
 
 extensions:
     decorator: Nette\DI\Extensions\DecoratorExtension
-    symplify: Symplify\PHPStanExtensions\DI\SymplifyPHPStanExtension
 
 decorator:
     PHPStan\Rules\Rule:
