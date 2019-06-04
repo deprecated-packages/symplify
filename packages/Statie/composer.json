@@ -24,7 +24,7 @@
         "symfony/console": "^3.4|^4.2",
         "symfony/finder": "^3.4|^4.2",
         "symfony/yaml": "^3.4|^4.2",
-        "symplify/package-builder": "^6.1",
+        "symplify/package-builder": "^6.0.2",
         "jean85/pretty-package-versions": "^1.2",
         "ocramius/package-versions": "^1.3"
     },
