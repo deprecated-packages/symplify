@@ -12,7 +12,7 @@
         "symfony/dependency-injection": "^3.4.10|^4.2",
         "symfony/finder": "^3.4|^4.2",
         "symfony/routing": "^3.4|^4.2",
-        "symplify/package-builder": "^6.0.2"
+        "symplify/package-builder": "^6.1"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^1.9",
