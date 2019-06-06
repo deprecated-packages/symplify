@@ -57,6 +57,11 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
 
             $class = $definition->getClass();
             foreach (class_implements($class, false) as $interface) {
+                // An alias can not reference itself, it would cause circular reference
+                if ($interface === $name) {
+                    continue;
+                }
+
                 $singlyImplemented[$interface] = isset($singlyImplemented[$interface]) ? false : $name;
             }
         }
