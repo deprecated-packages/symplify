@@ -30,6 +30,16 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
         'JK\MoneyBundle\Form\Type\MoneyType',
     ])
     {
+        trigger_error(
+            sprintf(
+                '%s is deprecated due to unpredictable behavior and causing too many bugs. Use explicit interface autowiring, see %s',
+                self::class,
+                'https://symfony.com/doc/current/service_container/autowiring.html#working-with-interfaces'
+            ),
+            E_USER_DEPRECATED
+        );
+        sleep(3); // inspired at "deprecated interface" Tweet
+
         $this->excludedPossibleFatalClasses = $excludedPossibleFatalClasses;
     }
 

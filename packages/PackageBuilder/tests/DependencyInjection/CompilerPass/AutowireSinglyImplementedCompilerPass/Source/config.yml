@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        public: true
-
-    Symplify\PackageBuilder\Tests\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass\Source\ServiceA: ~
-
-    Symplify\PackageBuilder\Tests\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass\Source\ServiceInterface:
-        class: Symplify\PackageBuilder\Tests\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass\Source\ServiceB
