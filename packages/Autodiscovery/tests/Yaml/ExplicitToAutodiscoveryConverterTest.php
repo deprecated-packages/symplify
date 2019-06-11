@@ -33,7 +33,7 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
         $this->doTestFile(__DIR__ . '/Fixture/short_tags.yaml', 2);
         $this->doTestFile(__DIR__ . '/Fixture/vendor.yaml', 2);
         $this->doTestFile(__DIR__ . '/Fixture/singly_implemented_interfaces.yaml', 2);
-        $this->doTestFile(__DIR__ . '/Fixture/singly_implemented_interfaces_excluded.yaml', 2, true);
+        $this->doTestFile(__DIR__ . '/Fixture/singly_implemented_interfaces_excluded.yaml', 2);
         $this->doTestFile(__DIR__ . '/Fixture/first.yaml', 2);
         $this->doTestFile(__DIR__ . '/Fixture/tags_with_values.yaml', 2);
         $this->doTestFile(__DIR__ . '/Fixture/shopsys.yaml', 3);
@@ -44,7 +44,7 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
         $this->doTestFile(__DIR__ . '/Fixture/exclude.yaml', 4);
     }
 
-    private function doTestFile(string $file, int $nestingLevel, bool $removeSinglyImplemented = false): void
+    private function doTestFile(string $file, int $nestingLevel): void
     {
         $yamlContent = FileSystem::read($file);
 
@@ -55,12 +55,7 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
 
         $this->assertSame(
             $expectedYaml,
-            $this->explicitToAutodiscoveryConverter->convert(
-                $originalYaml,
-                $file,
-                $nestingLevel,
-                $removeSinglyImplemented
-            ),
+            $this->explicitToAutodiscoveryConverter->convert($originalYaml, $file, $nestingLevel),
             'Caused by ' . $file
         );
     }

@@ -15,17 +15,11 @@ use Symfony\Component\Yaml\Yaml;
 use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
 use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class ConvertYamlCommand extends Command
 {
-    /**
-     * @var string
-     */
-    private const OPTION_REMOVE_SINGLY_IMPLEMENTED = 'remove-singly-implemented';
-
     /**
      * @var string
      */
@@ -76,16 +70,6 @@ final class ConvertYamlCommand extends Command
         );
 
         $this->addOption(
-            self::OPTION_REMOVE_SINGLY_IMPLEMENTED,
-            'r',
-            InputOption::VALUE_NONE,
-            sprintf(
-                'Remove aliases added only for only-implementations, useful in combination with "%s".',
-                AutowireSinglyImplementedCompilerPass::class
-            )
-        );
-
-        $this->addOption(
             self::OPTION_NESTING_LEVEL,
             'l',
             InputOption::VALUE_REQUIRED,
@@ -106,7 +90,6 @@ final class ConvertYamlCommand extends Command
         foreach ($yamlFileInfos as $yamlFileInfo) {
             $this->symfonyStyle->section('Processing ' . $yamlFileInfo->getRealPath());
 
-            $removeSinglyImplemented = (bool) $input->getOption(self::OPTION_REMOVE_SINGLY_IMPLEMENTED);
             $nestingLevel = (int) $input->getOption(self::OPTION_NESTING_LEVEL);
 
             $servicesYaml = Yaml::parse($yamlFileInfo->getContents());
@@ -114,8 +97,7 @@ final class ConvertYamlCommand extends Command
             $convertedYaml = $this->explicitToAutodiscoveryConverter->convert(
                 $servicesYaml,
                 $yamlFileInfo->getRealPath(),
-                $nestingLevel,
-                $removeSinglyImplemented
+                $nestingLevel
             );
 
             if ($servicesYaml === $convertedYaml) {

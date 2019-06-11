@@ -15,7 +15,6 @@ use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
 use Symplify\PackageBuilder\Yaml\FileLoader\ParameterMergingYamlFileLoader;
 
 final class StatieKernel extends Kernel implements ExtraConfigAwareKernelInterface
@@ -66,7 +65,6 @@ final class StatieKernel extends Kernel implements ExtraConfigAwareKernelInterfa
         $containerBuilder->addCompilerPass(new AutoReturnFactoryCompilerPass());
 
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
-        $containerBuilder->addCompilerPass(new AutowireSinglyImplementedCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
     }
 

@@ -8,7 +8,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symplify\Autodiscovery\Arrays;
 use Symplify\Autodiscovery\Exception\ClassLocationNotFoundException;
 use Symplify\Autodiscovery\Exception\ClassNotFoundException;
-use Symplify\Autodiscovery\Php\InterfaceAnalyzer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class ExplicitToAutodiscoveryConverter
@@ -27,11 +26,6 @@ final class ExplicitToAutodiscoveryConverter
      * @var bool
      */
     private $enableAutoconfigure = false;
-
-    /**
-     * @var bool
-     */
-    private $removeSinglyImplementedAlaises = false;
 
     /**
      * @var string[]
@@ -61,11 +55,6 @@ final class ExplicitToAutodiscoveryConverter
     private $commonNamespaceResolver;
 
     /**
-     * @var InterfaceAnalyzer
-     */
-    private $interfaceAnalyzer;
-
-    /**
      * @var TagAnalyzer
      */
     private $tagAnalyzer;
@@ -73,12 +62,10 @@ final class ExplicitToAutodiscoveryConverter
     public function __construct(
         Filesystem $filesystem,
         CommonNamespaceResolver $commonNamespaceResolver,
-        InterfaceAnalyzer $interfaceAnalyzer,
         TagAnalyzer $tagAnalyzer
     ) {
         $this->filesystem = $filesystem;
         $this->commonNamespaceResolver = $commonNamespaceResolver;
-        $this->interfaceAnalyzer = $interfaceAnalyzer;
         $this->tagAnalyzer = $tagAnalyzer;
     }
 
@@ -86,13 +73,9 @@ final class ExplicitToAutodiscoveryConverter
      * @param mixed[] $yaml
      * @return mixed[]
      */
-    public function convert(
-        array $yaml,
-        string $filePath,
-        int $nestingLevel,
-        bool $removeSinglyImplementedAliases
-    ): array {
-        $this->reset($removeSinglyImplementedAliases);
+    public function convert(array $yaml, string $filePath, int $nestingLevel): array
+    {
+        $this->reset();
 
         // nothing to change
         if (! isset($yaml[YamlKey::SERVICES])) {
@@ -116,12 +99,11 @@ final class ExplicitToAutodiscoveryConverter
         return $yaml;
     }
 
-    private function reset(bool $removeSinglyImplementedAliases): void
+    private function reset(): void
     {
         $this->classes = [];
         $this->enableAutowire = false;
         $this->enableAutoconfigure = false;
-        $this->removeSinglyImplementedAlaises = $removeSinglyImplementedAliases;
     }
 
     /**
@@ -254,8 +236,6 @@ $service, $name,
         $service = $this->processAutowire($service);
         $service = $this->processTags($service);
 
-        $this->processAlias($service, $name);
-
         // is only named services
         if (Arrays::hasOnlyKey($service, 'class')) {
             unset($yaml[YamlKey::SERVICES][$name]);
@@ -369,18 +349,6 @@ $service, $name,
         }
 
         return $service;
-    }
-
-    /**
-     * @param mixed[] $service
-     */
-    private function processAlias(array $service, string $name): void
-    {
-        if (Arrays::hasOnlyKey($service, 'alias') && $this->removeSinglyImplementedAlaises) {
-            if ($this->interfaceAnalyzer->isInterfaceOnlyImplementation($name, $service['alias'])) {
-                $this->removeService = true;
-            }
-        }
     }
 
     private function getRelativeClassLocation(string $class, string $configFilePath): string

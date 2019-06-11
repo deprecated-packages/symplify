@@ -6,3 +6,5 @@ services:
     Symplify\Statie\Latte\:
         resource: '../src'
         exclude: '../src/{Exception}'
+
+    Latte\ILoader: '@Symplify\Statie\Latte\Loader\ArrayLoader'
