@@ -17,5 +17,6 @@ final class AutoBindParametersCompilerPassTest extends TestCase
         $serviceWithAutowiredParameter = $container->get(ServiceWithAutowiredParameter::class);
 
         $this->assertSame('value', $serviceWithAutowiredParameter->getSomeParameter());
+        $this->assertSame(['one', 'two'], $serviceWithAutowiredParameter->getArrayParameter());
     }
 }
