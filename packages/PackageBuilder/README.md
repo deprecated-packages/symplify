@@ -385,20 +385,6 @@ In case you need to do more work in YamlFileLoader, just extend the abstract par
 
 <br>
 
-### Autowire Singly-Implemented Interfaces
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass`
-
-```diff
- services:
-     OnlyImplementationOfFooInterface: ~
--
--    FooInterface:
--        alias: OnlyImplementationOfFooInterface
-```
-
-<br>
-
 ### Do not Repeat Simple Factories
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass`

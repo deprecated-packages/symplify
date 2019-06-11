@@ -32,7 +32,7 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
     {
         trigger_error(
             sprintf(
-                '%s is deprecated due to unpredictable behavior and causing too many bugs. Use explicit interface autowiring, see %s',
+                '"%s" is deprecated due to unpredictable behavior and causing too many bugs. Use explicit interface autowiring, see %s',
                 self::class,
                 'https://symfony.com/doc/current/service_container/autowiring.html#working-with-interfaces'
             ),
