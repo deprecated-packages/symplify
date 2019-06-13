@@ -15,7 +15,7 @@ final class ServiceWithAutowiredParameter
     private $arrayParameter = [];
 
     /**
-     * @param mixed $arrayParameter
+     * @param mixed[] $arrayParameter
      */
     public function __construct(string $someParameter, array $arrayParameter)
     {

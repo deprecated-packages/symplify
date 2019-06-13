@@ -24,16 +24,6 @@ parameters:
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
-        # false positive
-        -
-            message: '#Strict comparison using === between \(array\)\|null and array\(\) will always evaluate to false#'
-            path: 'packages/Autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php'
-
-        # 3rd party invalid docblock
-        -
-            message: '#Return type \(array<string>\) of method Symplify\\CodingStandard\\Sniffs\\ControlStructure\\SprintfOverContactSniff::register\(\) should be compatible with return type \(array<int>\) of method PHP_CodeSniffer\\Sniffs\\Sniff::register\(\)#'
-            path: 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
-
         -
             message: '#Cannot assign offset int to int#'
             path: 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
@@ -58,7 +48,6 @@ parameters:
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, bool\|int given#'
 
         # invalid 3rd party-code
-        - '#Parameter \#1 \$types of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects array\|int, string given#'
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
@@ -68,7 +57,6 @@ parameters:
         # known values
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, bool\|int given#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, int\|true given#'
-        - '#Property Symplify\\Autodiscovery\\Tests\\Twig\\TwigPathAutodiscoveryTest::\$twigFilesystemLoader \(Twig_Loader_Filesystem\) does not accept Twig_LoaderInterface#'
         - '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\Migrator\\Worker\\StatieImportsAdder::addImportSection\(\) expects array<string>, array<int, array<string, string>> given#'
 
         # required for autowiring, since only interface is autowired
@@ -95,7 +83,6 @@ parameters:
         # false positives
         - '#Method Symplify\\Autodiscovery\\Doctrine\\DoctrineEntityMappingAutodiscoverer::resolveDirectoryByNamespace\(\) should return array<string> but returns array<string, int\|string>#'
         - '#Call to function method_exists\(\) with (.*?) and (.*?)fromShellCommandline(.*?) will always evaluate to false#'
-        - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutoReturnFactoryCompilerPass::findFactoriesWithoutUsage\(\) should return array<string> but returns array<int, string\|null>#'
 
         # variadic
         - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'
@@ -127,7 +114,6 @@ parameters:
         - '#Cannot call method (get|has)\(\) on (.*?)\|null#'
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept object\|null#'
         - '#Call to an undefined method Psr\\Container\\ContainerInterface\:\:set\(\)#'
-        - '#Internal error\: Cannot find function (.*?)#'
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
 
         # false positive
@@ -142,7 +128,6 @@ parameters:
         - '#Strict comparison using \=\=\= between string and false will always evaluate to false#'
 
         # tests
-        - '#Method class@anonymous/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory\.php\:7\:\:get\(\) should return bool but return statement is missing#'
         - '#Expression "\$post\[(.*?)]" on a separate line does not do anything#'
 
         # throws exception
