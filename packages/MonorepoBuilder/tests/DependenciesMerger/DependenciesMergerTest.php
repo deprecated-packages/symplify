@@ -35,8 +35,17 @@ final class DependenciesMergerTest extends AbstractKernelTestCase
                 'symfony/dependency-injection' => '^4.1',
             ],
             'repositories' => [
-                'type' => 'vcs',
-                'url' => 'https://github.com/molaux/PostgreSearchBundle.git',
+                [
+                    'type' => 'vcs',
+                    'url' => 'https://github.com/molaux/PostgreSearchBundle.git',
+                ],
+                [
+                    'options' => [
+                        'symlink' => false
+                    ],
+                    'type' => 'path',
+                    'url' => './../packages/*'
+                ]
             ],
         ], __DIR__ . '/Source/root.json');
 
