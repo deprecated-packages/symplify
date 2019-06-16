@@ -139,6 +139,8 @@ final class PackageComposerJsonMerger
             // uniquate special cases, ref https://github.com/Symplify/Symplify/issues/1197
             if ($section === 'repositories') {
                 $merged[$section] = array_unique($merged[$section], SORT_REGULAR);
+                // remove keys
+                $merged[$section] = array_values($merged[$section]);
             }
 
             return $merged;
