@@ -84,12 +84,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1528] Headline linker, Thanks to [@crazko]
 - [#1500] Take care of elements in anchor linker, Thanks to [@crazko]
 
-## [v5.4.15] - 2019-03-05
-
-### Removed
-
-- [#1483] Remove token-runner dependency from coding-standard, Thanks to [@jeroennoten]
-
 [#1552]: https://github.com/Symplify/Symplify/pull/1552
 [#1551]: https://github.com/Symplify/Symplify/pull/1551
 [#1548]: https://github.com/Symplify/Symplify/pull/1548
