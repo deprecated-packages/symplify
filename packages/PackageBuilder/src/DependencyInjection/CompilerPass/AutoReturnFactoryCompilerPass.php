@@ -2,6 +2,7 @@
 
 namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 
+use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
 use ReflectionClass;
 use ReflectionMethod;
@@ -11,6 +12,11 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
 {
+    /**
+     * @var string
+     */
+    private const RETURN_TYPE_PATTERN = '#\@return\s+(?<returnType>[\\\\\w]+)#';
+
     /**
      * @var string[]
      */
@@ -25,7 +31,7 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
             }
 
             $createReflectionMethod = new ReflectionMethod($passiveFactoryClass, 'create');
-            $returnType = (string) $createReflectionMethod->getReturnType();
+            $returnType = $this->resolveReturnType($createReflectionMethod);
 
             // register factory
             $containerBuilder->autowire($returnType)
@@ -74,14 +80,17 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
         }
 
         $createMethodReflection = $factoryReflectionClass->getMethod('create');
+        $returnType = $this->resolveReturnType($createMethodReflection);
+        if ($returnType === null) {
+            return false;
+        }
 
         // is must be existing class or an interface
-        $returnType = (string) $createMethodReflection->getReturnType();
         if (! class_exists($returnType) && ! interface_exists($returnType)) {
             return false;
         }
 
-        if ($createMethodReflection->getNumberOfParameters() > 0) {
+        if ($createMethodReflection->getNumberOfRequiredParameters() > 0) {
             return false;
         }
 
@@ -114,5 +123,21 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
         }
 
         return $activeFactories;
+    }
+
+    private function resolveReturnType(ReflectionMethod $reflectionMethod)
+    {
+        if ($reflectionMethod->hasReturnType()) {
+            return (string) $reflectionMethod->getReturnType();
+        }
+
+        $match = Strings::match((string) $reflectionMethod->getDocComment(), self::RETURN_TYPE_PATTERN);
+        if (isset($match['returnType'])) {
+            $classReflection = $reflectionMethod->getDeclaringClass();
+
+            return Reflection::expandClassName($match['returnType'], $classReflection);
+        }
+
+        return null;
     }
 }
