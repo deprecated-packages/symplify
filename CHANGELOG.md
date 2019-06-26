@@ -9,6 +9,67 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## [v6.0.4] - 2019-06-26
+
+### Added
+
+#### PackageBuilder
+
+- [#1573] Make `AutoReturnFactoryCompilerPass` work with `@return` annotations as well
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#1569] Fix `exclude_checkers` option typo
+
+#### MonorepoBuilder
+
+- [#1568] Fix extra keys in repositories merge
+
+### Deprecated
+
+#### PackageBuilder
+
+- [#1567] Deprecate `AutowireSinglyImplementedCompilerPass`
+
+## [v6.0.3] - 2019-06-11
+
+### Fixed
+
+#### Unknown Package
+
+- [#1565] Fix path to set config in readme, Thanks to [@Big-Shark]
+- [#1561] Fixed AutowireSinglyImplementedCompilerPass - alias referencing itself, Thanks to [@JanMikes]
+
+### Unknown Category
+
+- [#1563] AutowireSinglyImplementedCompilerPass - Skipping singly implemented service if alias for interface is already registered, Thanks to [@JanMikes]
+
+## [v6.0.2] - 2019-06-04
+
+### Removed
+
+#### PHPStanExtensions
+
+- [#1559] remove blocked custom param in SymplifyPHPStanExtension
+
+## [v6.0.1] - 2019-05-30
+
+### Added
+
+#### Unknown Package
+
+- [#1558] Add psr/simple-cache as a dependency, Thanks to [@jakzal]
+
+## [v6.0.0] - 2019-05-28
+
+### Removed
+
+- [#1553] Remove forgotten comment
+
+<!-- dumped content end -->
+
 ## [v6.0.0] - 2019-05-28
 
 ### Added
@@ -110,15 +171,31 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#1493]: https://github.com/Symplify/Symplify/pull/1493
 [#1489]: https://github.com/Symplify/Symplify/pull/1489
 [#1488]: https://github.com/Symplify/Symplify/pull/1488
-[#1483]: https://github.com/Symplify/Symplify/pull/1483
 [v6.0.0]: https://github.com/Symplify/Symplify/compare/v5.4.15...v6.0.0
 [@wppd]: https://github.com/wppd
 [@solcik]: https://github.com/solcik
 [@shyim]: https://github.com/shyim
 [@possi]: https://github.com/possi
 [@nlubisch]: https://github.com/nlubisch
-[@jeroennoten]: https://github.com/jeroennoten
 [@ektarum]: https://github.com/ektarum
 [@crazko]: https://github.com/crazko
 [@TomasLudvik]: https://github.com/TomasLudvik
 [@JanMikes]: https://github.com/JanMikes
+
+[#1573]: https://github.com/Symplify/Symplify/pull/1573
+[#1569]: https://github.com/Symplify/Symplify/pull/1569
+[#1568]: https://github.com/Symplify/Symplify/pull/1568
+[#1567]: https://github.com/Symplify/Symplify/pull/1567
+[#1565]: https://github.com/Symplify/Symplify/pull/1565
+[#1563]: https://github.com/Symplify/Symplify/pull/1563
+[#1561]: https://github.com/Symplify/Symplify/pull/1561
+[#1559]: https://github.com/Symplify/Symplify/pull/1559
+[#1558]: https://github.com/Symplify/Symplify/pull/1558
+[#1553]: https://github.com/Symplify/Symplify/pull/1553
+[#1530]: https://github.com/Symplify/Symplify/pull/1530
+[v6.0.3]: https://github.com/Symplify/Symplify/compare/v6.0.2...v6.0.3
+[v6.0.2]: https://github.com/Symplify/Symplify/compare/v6.0.1...v6.0.2
+[v6.0.1]: https://github.com/Symplify/Symplify/compare/v6.0.0...v6.0.1
+[@return]: https://github.com/return
+[@jakzal]: https://github.com/jakzal
+[@Big-Shark]: https://github.com/Big-Shark
