@@ -64,14 +64,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ## [v6.0.0] - 2019-05-28
 
-### Removed
-
-- [#1553] Remove forgotten comment
-
-<!-- dumped content end -->
-
-## [v6.0.0] - 2019-05-28
-
 ### Added
 
 - [#1510] Added gitattribute rules to all packages, Thanks to [@JanMikes]
