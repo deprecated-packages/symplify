@@ -41,11 +41,11 @@ final class DependenciesMergerTest extends AbstractKernelTestCase
                 ],
                 [
                     'options' => [
-                        'symlink' => false
+                        'symlink' => false,
                     ],
                     'type' => 'path',
-                    'url' => './../packages/*'
-                ]
+                    'url' => './../packages/*',
+                ],
             ],
         ], __DIR__ . '/Source/root.json');
 
