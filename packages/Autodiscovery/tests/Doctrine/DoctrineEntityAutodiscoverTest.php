@@ -21,7 +21,7 @@ final class DoctrineEntityAutodiscoverTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        static::bootKernel(AudiscoveryTestingKernel::class);
+        $this->bootKernel(AudiscoveryTestingKernel::class);
 
         /** @var Registry $registry */
         $registry = static::$container->get('doctrine');
@@ -40,6 +40,9 @@ final class DoctrineEntityAutodiscoverTest extends AbstractKernelTestCase
             'Kedlubna\Component\Tagging\Context\Context',
             'Kedlubna\Component\Tagging\Tag\Tag',
         ];
+
+        $classNames = $this->mappingDriver->getAllClassNames();
+        sort($classNames);
 
         $this->assertSame($entityClasses, $this->mappingDriver->getAllClassNames());
     }

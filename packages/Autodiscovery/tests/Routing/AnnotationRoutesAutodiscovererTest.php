@@ -14,7 +14,7 @@ final class AnnotationRoutesAutodiscovererTest extends AbstractKernelTestCase
 {
     protected function setUp(): void
     {
-        static::bootKernel(AudiscoveryTestingKernel::class);
+        $this->bootKernel(AudiscoveryTestingKernel::class);
     }
 
     public function test(): void

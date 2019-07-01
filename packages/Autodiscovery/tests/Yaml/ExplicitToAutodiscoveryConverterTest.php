@@ -23,7 +23,7 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        static::bootKernel(AutodiscoveryKernel::class);
+        $this->bootKernel(AutodiscoveryKernel::class);
 
         $this->explicitToAutodiscoveryConverter = static::$container->get(ExplicitToAutodiscoveryConverter::class);
     }
