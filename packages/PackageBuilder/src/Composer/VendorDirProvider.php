@@ -10,12 +10,14 @@ final class VendorDirProvider
 {
     public static function provide(): string
     {
+		$rootFolder = getenv('SystemDrive', true) . DIRECTORY_SEPARATOR;
+		
         $path = __DIR__;
-        while (! Strings::endsWith($path, 'vendor') && $path !== '/') {
+        while (! Strings::endsWith($path, 'vendor') && $path !== $rootFolder) {
             $path = dirname($path);
         }
 
-        if ($path !== '/') {
+        if ($path !== $rootFolder) {
             return $path;
         }
 
