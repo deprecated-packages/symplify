@@ -61,7 +61,8 @@ final class GitManager
      */
     public function completeRemoteRepositoryWithGithubToken(string $remoteRepository): string
     {
-        if ($this->githubToken === null) {
+        // Do nothing if it is null or an empty string.
+        if (empty($this->githubToken)) {
             return $remoteRepository;
         }
 
