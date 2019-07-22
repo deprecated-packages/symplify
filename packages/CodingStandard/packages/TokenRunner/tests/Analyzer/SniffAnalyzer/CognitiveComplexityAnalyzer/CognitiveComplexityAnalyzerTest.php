@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\CognitiveComplexityAnalyzer;
 
-final class CognitiveComplextyAnalyzerTest extends TestCase
+final class CognitiveComplexityAnalyzerTest extends TestCase
 {
     /**
      * @var CognitiveComplexityAnalyzer
