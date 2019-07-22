@@ -152,3 +152,6 @@ parameters:
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingReturnTypeHint:
             - 'packages/Statie/src/Application/StatieApplication.php'
+
+        Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
+            - 'packages/MonorepoBuilder/src/Console/Command/ValidateCommand.php'
