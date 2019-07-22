@@ -52,7 +52,7 @@ final class AddRepositoryUrlAndRepositoryNameParametersCompilerPass implements C
         return $this->githubRepositoryFromRemoteResolver->resolveFromUrl(trim($process->getOutput()));
     }
 
-    private function detectRepositoryName(ContainerBuilder $containerBuilder): ?string
+    private function detectRepositoryName(ContainerBuilder $containerBuilder): string
     {
         $repositoryUrl = $containerBuilder->getParameter(self::OPTION_REPOSITORY_URL);
 
