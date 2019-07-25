@@ -267,7 +267,7 @@ vendor/bin/autodiscovery convert-yaml config/config.yaml # single file
 # namespace depth for autodiscovery
 # 1 → "App\"
 # 2 → "App\Repository\" (default)
-vendor/bin/autodiscovery convert-yaml config/config.yaml --level 1
+vendor/bin/autodiscovery convert-yaml config/config.yaml --nesting-level 1
 ```
 
 It will convert service definitions in `(config|services).(yml|yaml)` files, to new [Symfony 3.3 DI features described here](https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/).
