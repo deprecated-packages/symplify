@@ -28,6 +28,11 @@ final class ConvertYamlCommand extends Command
     /**
      * @var string
      */
+    private const OPTION_FILTER = 'filter';
+
+    /**
+     * @var string
+     */
     private const ARGUMENT_SOURCE = 'source';
 
     /**
@@ -76,6 +81,13 @@ final class ConvertYamlCommand extends Command
             'How many namespace levels should be separated in autodiscovery, e.g 2 → "App\SomeProject\", 3 → "App\SomeProject\InnerNamespace\"',
             2
         );
+
+        $this->addOption(
+            self::OPTION_FILTER,
+            'f',
+            InputOption::VALUE_REQUIRED,
+            'Only include service by filtered name, e.g. "--filter Controller"'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -91,13 +103,15 @@ final class ConvertYamlCommand extends Command
             $this->symfonyStyle->section('Processing ' . $yamlFileInfo->getRealPath());
 
             $nestingLevel = (int) $input->getOption(self::OPTION_NESTING_LEVEL);
+            $filter = (string) $input->getOption(self::OPTION_FILTER);
 
             $servicesYaml = Yaml::parse($yamlFileInfo->getContents());
 
             $convertedYaml = $this->explicitToAutodiscoveryConverter->convert(
                 $servicesYaml,
                 $yamlFileInfo->getRealPath(),
-                $nestingLevel
+                $nestingLevel,
+                $filter
             );
 
             if ($servicesYaml === $convertedYaml) {
