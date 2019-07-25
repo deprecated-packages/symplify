@@ -55,7 +55,7 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
 
         $this->assertSame(
             $expectedYaml,
-            $this->explicitToAutodiscoveryConverter->convert($originalYaml, $file, $nestingLevel),
+            $this->explicitToAutodiscoveryConverter->convert($originalYaml, $file, $nestingLevel, ''),
             'Caused by ' . $file
         );
     }

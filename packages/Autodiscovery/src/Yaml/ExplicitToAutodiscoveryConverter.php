@@ -73,7 +73,7 @@ final class ExplicitToAutodiscoveryConverter
      * @param mixed[] $yaml
      * @return mixed[]
      */
-    public function convert(array $yaml, string $filePath, int $nestingLevel): array
+    public function convert(array $yaml, string $filePath, int $nestingLevel, string $filter): array
     {
         $this->reset();
 
@@ -83,7 +83,7 @@ final class ExplicitToAutodiscoveryConverter
         }
 
         foreach ($yaml[YamlKey::SERVICES] as $name => $service) {
-            $yaml = $this->processService($yaml, $service, $name);
+            $yaml = $this->processService($yaml, $service, $name, $filter);
         }
 
         $yaml = $this->completeAutodiscovery($yaml, $filePath, $nestingLevel);
@@ -111,19 +111,16 @@ final class ExplicitToAutodiscoveryConverter
      * @param string|mixed[]|null $service
      * @return mixed[]
      */
-    private function processService(array $yaml, $service, string $name): array
+    private function processService(array $yaml, $service, string $name, string $filter): array
     {
         $this->removeService = false;
 
-        if ($this->shouldSkipService($service, $name)) {
+        if ($this->shouldSkipService($service, $name, $filter)) {
             return $yaml;
         }
 
         if (is_array($service)) {
-            [
-             $yaml,
-$service, $name,
-            ] = $this->processArrayService($yaml, $service, $name);
+            [$yaml, $service, $name] = $this->processArrayService($yaml, $service, $name);
         }
 
         // anonymous service
@@ -206,12 +203,16 @@ $service, $name,
     /**
      * @param mixed|mixed[] $service
      */
-    private function shouldSkipService($service, string $name): bool
+    private function shouldSkipService($service, string $name, string $filter): bool
     {
         $class = $service['class'] ?? $name;
 
         // skip no-namespace class naming
         if (! Strings::contains($class, '\\')) {
+            return true;
+        }
+
+        if ($filter && ! Strings::contains($class, $filter)) {
             return true;
         }
 

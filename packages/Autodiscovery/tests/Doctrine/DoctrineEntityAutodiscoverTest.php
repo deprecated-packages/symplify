@@ -40,10 +40,11 @@ final class DoctrineEntityAutodiscoverTest extends AbstractKernelTestCase
             'Kedlubna\Component\Tagging\Context\Context',
             'Kedlubna\Component\Tagging\Tag\Tag',
         ];
+        sort($entityClasses);
 
         $classNames = $this->mappingDriver->getAllClassNames();
         sort($classNames);
 
-        $this->assertSame($entityClasses, $this->mappingDriver->getAllClassNames());
+        $this->assertSame($entityClasses, $classNames);
     }
 }
