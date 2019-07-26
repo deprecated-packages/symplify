@@ -303,6 +303,11 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface, Resettab
             return true;
         }
 
+        // is controller, listener or subscriber, so unrecorded public methods are expected
+        if (Strings::match($fileContent, '#class\s+[\w]+(Controller|Listener|Subscriber)#')) {
+            return true;
+        }
+
         return false;
     }
 
