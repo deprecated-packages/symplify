@@ -9,6 +9,42 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## Unreleased
+
+### Added
+
+#### Autodiscovery
+
+- [#1584] Add `--filter` option to `convert-yaml` command
+
+#### CodingStandard
+
+- [#1582] Add `RemoveSpacingAroundModifierAndConstFixer`
+
+#### EasyCodingStandard
+
+- [#1576] Add `validate` command
+
+### Changed
+
+#### PackageBuilder
+
+- [#1578] Allow custom vendor path on windows system ([#1577]), Thanks to [@JohnDoe8521]
+
+### Fixed
+
+#### Autodiscovery
+
+- [#1575] Fix order test
+
+#### CodingStandard
+
+- [#1585] Make `UnusedPublicMethodSniff` skip entities
+
+#### MonorepoBuilder
+
+- [#1581] Handle if `GITHUB_TOKEN` is an empty string, Thanks to [@mxr576]
+
 ## [v6.0.4] - 2019-06-26
 
 ### Added
@@ -183,11 +219,19 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#1561]: https://github.com/Symplify/Symplify/pull/1561
 [#1559]: https://github.com/Symplify/Symplify/pull/1559
 [#1558]: https://github.com/Symplify/Symplify/pull/1558
-[#1553]: https://github.com/Symplify/Symplify/pull/1553
-[#1530]: https://github.com/Symplify/Symplify/pull/1530
 [v6.0.3]: https://github.com/Symplify/Symplify/compare/v6.0.2...v6.0.3
 [v6.0.2]: https://github.com/Symplify/Symplify/compare/v6.0.1...v6.0.2
 [v6.0.1]: https://github.com/Symplify/Symplify/compare/v6.0.0...v6.0.1
-[@return]: https://github.com/return
 [@jakzal]: https://github.com/jakzal
 [@Big-Shark]: https://github.com/Big-Shark
+[#1585]: https://github.com/Symplify/Symplify/pull/1585
+[#1584]: https://github.com/Symplify/Symplify/pull/1584
+[#1582]: https://github.com/Symplify/Symplify/pull/1582
+[#1581]: https://github.com/Symplify/Symplify/pull/1581
+[#1578]: https://github.com/Symplify/Symplify/pull/1578
+[#1577]: https://github.com/Symplify/Symplify/pull/1577
+[#1576]: https://github.com/Symplify/Symplify/pull/1576
+[#1575]: https://github.com/Symplify/Symplify/pull/1575
+[@mxr576]: https://github.com/mxr576
+[@JohnDoe8521]: https://github.com/JohnDoe8521
+[v6.0.4]: https://github.com/Symplify/Symplify/compare/v6.0.3...v6.0.4
