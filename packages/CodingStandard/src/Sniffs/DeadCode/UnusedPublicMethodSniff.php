@@ -7,6 +7,7 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
+use Symplify\EasyCodingStandard\Configuration\Contract\ResettableInterface;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 
 /**
@@ -14,7 +15,7 @@ use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
  *
  * See https://stackoverflow.com/a/9979425/1348344
  */
-final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
+final class UnusedPublicMethodSniff implements Sniff, DualRunInterface, ResettableInterface
 {
     /**
      * Classes allowed to have unused public methods
@@ -83,8 +84,11 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 
     public function reset(): void
     {
-        $this->publicMethodNames = [];
-        $this->calledMethodNames = [];
+        if (defined('PHPUNIT_COMPOSER_INSTALL') || defined('__PHPUNIT_PHAR__')) {
+            $this->publicMethodNames = [];
+            $this->calledMethodNames = [];
+            $this->runNumber = 1;
+        }
     }
 
     /**
@@ -106,7 +110,6 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 
         if ($this->runNumber === 1) {
             $this->collectMethodCalls();
-
             $class = $this->naming->getFileClassName($this->file);
             if ($class && $this->shouldSkipClass($class)) {
                 return;
@@ -290,7 +293,22 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 
     private function shouldSkipClass(string $class): bool
     {
-        return in_array($class, $this->allowClasses, true);
+        if (in_array($class, $this->allowClasses, true)) {
+            return true;
+        }
+
+        // is doctrine entity?
+        $fileContent = $this->file->getTokensAsString(1, count($this->file->getTokens()));
+        if (Strings::contains($fileContent, '@ORM\Entity')) {
+            return true;
+        }
+
+        // is controller, listener or subscriber, so unrecorded public methods are expected
+        if (Strings::match($fileContent, '#class\s+[\w]+(Controller|Listener|Subscriber)#')) {
+            return true;
+        }
+
+        return false;
     }
 
     private function shouldSkipMethod($methodName): bool

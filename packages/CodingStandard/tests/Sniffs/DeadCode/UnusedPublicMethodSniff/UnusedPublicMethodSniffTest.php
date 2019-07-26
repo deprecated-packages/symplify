@@ -9,15 +9,11 @@ final class UnusedPublicMethodSniffTest extends AbstractCheckerTestCase
 {
     public function test(): void
     {
-        $this->doTestFiles([
-            __DIR__ . '/Fixture/correct.php.inc',
-            __DIR__ . '/Fixture/wrong.php.inc',
-            __DIR__ . '/Fixture/wrong2.php.inc',
-        ], function (): void {
-            // to reset the cache inside the Sniff
-            $unusedPublicMethodSniff = static::$container->get(UnusedPublicMethodSniff::class);
-            $unusedPublicMethodSniff->reset();
-        });
+        $this->doTestCorrectFile(__DIR__ . '/Fixture/skip_entity_calls.php.inc');
+        $this->doTestCorrectFile(__DIR__ . '/Fixture/correct.php.inc');
+
+        $this->doTestWrongFile(__DIR__ . '/Fixture/wrong.php.inc');
+        $this->doTestWrongFile(__DIR__ . '/Fixture/wrong2.php.inc');
     }
 
     protected function getCheckerClass(): string

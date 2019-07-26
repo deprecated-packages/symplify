@@ -217,6 +217,10 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         if ($this->sniffFileProcessor->getCheckers()) {
             $processedFileContent = $this->sniffFileProcessor->processFile($smartFileInfo);
 
+            if ($this->sniffFileProcessor->getDualRunCheckers()) {
+                $this->sniffFileProcessor->processFileSecondRun($smartFileInfo);
+            }
+
             $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount(), sprintf(
                 'There should be no error in "%s" file, but %d errors found.',
                 $this->errorAndDiffCollector->getErrorCount(),
@@ -263,6 +267,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
         $this->sniffFileProcessor->processFile($smartFileInfo);
         if ($this->sniffFileProcessor->getDualRunCheckers()) {
+            $this->sniffFileProcessor->reset();
             $this->sniffFileProcessor->processFileSecondRun($smartFileInfo);
         }
 
