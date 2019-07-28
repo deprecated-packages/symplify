@@ -51,6 +51,22 @@ final class MigratorFilesystem
         return $this->finderSanitizer->sanitize($finder);
     }
 
+    /**
+     * @return SmartFileInfo[]
+     */
+    public function getIncorrectlyNamedMarkdownFiles(string $directory): array
+    {
+        if (! file_exists($directory)) {
+            return [];
+        }
+
+        $finder = $this->createBasicFinder()
+            ->name('#\.(markdown|mkdown|mkdn|mkd)$#')
+            ->in($directory);
+
+        return $this->finderSanitizer->sanitize($finder);
+    }
+
     public function absolutizePath(string $path, string $workingDirectory): string
     {
         if (FileSystem::isAbsolute($path)) {

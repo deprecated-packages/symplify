@@ -8,6 +8,7 @@ use Symplify\Statie\Migrator\Filesystem\FilesystemMover;
 use Symplify\Statie\Migrator\Filesystem\FilesystemRegularApplicator;
 use Symplify\Statie\Migrator\Filesystem\FilesystemRemover;
 use Symplify\Statie\Migrator\Worker\IncludePathsCompleter;
+use Symplify\Statie\Migrator\Worker\MarkdownSuffixCanonicaliser;
 use Symplify\Statie\Migrator\Worker\ParametersAdder;
 use Symplify\Statie\Migrator\Worker\PostIdsAdder;
 use Symplify\Statie\Migrator\Worker\StatieImportsAdder;
@@ -40,6 +41,11 @@ final class JekyllToStatieMigrator implements MigratorInterface
      * @var TwigSuffixChanger
      */
     private $twigSuffixChanger;
+
+    /**
+     * @var MarkdownSuffixCanonicaliser
+     */
+    private $markdownSuffixCanonicaliser;
 
     /**
      * @var ParametersAdder
@@ -75,6 +81,7 @@ final class JekyllToStatieMigrator implements MigratorInterface
         IncludePathsCompleter $includePathsCompleter,
         PostIdsAdder $postIdsAdder,
         TwigSuffixChanger $twigSuffixChanger,
+        MarkdownSuffixCanonicaliser $markdownSuffixCanonicaliser,
         ParametersAdder $parametersAdder,
         FilesystemMover $filesystemMover,
         FilesystemRemover $filesystemRemover,
@@ -85,6 +92,7 @@ final class JekyllToStatieMigrator implements MigratorInterface
         $this->includePathsCompleter = $includePathsCompleter;
         $this->postIdsAdder = $postIdsAdder;
         $this->twigSuffixChanger = $twigSuffixChanger;
+        $this->markdownSuffixCanonicaliser = $markdownSuffixCanonicaliser;
         $this->parametersAdder = $parametersAdder;
         $this->filesystemMover = $filesystemMover;
         $this->filesystemRemover = $filesystemRemover;
@@ -115,6 +123,9 @@ final class JekyllToStatieMigrator implements MigratorInterface
 
         // now all website files are in "/source" directory
         $sourceDirectory = $workingDirectory . '/source';
+
+        // change suffixes - markdown/mkdown/mkdn/mkd → md
+        $this->markdownSuffixCanonicaliser->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // change suffixes - html/md → twig, where there is a "{% X %}" also inside files to be included
         $this->twigSuffixChanger->processSourceDirectory($sourceDirectory, $workingDirectory);
