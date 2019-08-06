@@ -128,6 +128,13 @@ vendor/bin/changelog-linker dump-merges --in-categories --in-packages
 - [#860] Add test case for #855, Thanks to @OndraM
 ```
 
+Do you want to dump only such pull requests that were merged into a particular branch? Just use `base-branch` option:
+
+```
+vendor/bin/changelog-linker dump-merges --base-branch=7.3
+```
+This is very handy when you support multiple versions of your project.
+
 ### Github API Overload?
 
 In case you cross the API rate limit and get denied, create [new Github Token](https://github.com/settings/tokens) and run it via `GITHUB_TOKEN` ENV variable.
