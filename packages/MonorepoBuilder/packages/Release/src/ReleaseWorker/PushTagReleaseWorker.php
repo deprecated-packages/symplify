@@ -18,11 +18,6 @@ final class PushTagReleaseWorker implements ReleaseWorkerInterface
         $this->processRunner = $processRunner;
     }
 
-    public function getPriority(): int
-    {
-        return 300;
-    }
-
     public function work(Version $version): void
     {
         $this->processRunner->run('git push --tags');
