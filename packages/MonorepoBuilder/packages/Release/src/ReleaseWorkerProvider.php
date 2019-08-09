@@ -17,9 +17,9 @@ final class ReleaseWorkerProvider
     /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
      */
-    public function __construct(array $releaseWorkers)
+    public function addReleaseWorker(ReleaseWorkerInterface $releaseWorker)
     {
-        $this->releaseWorkers = $releaseWorkers;
+        $this->releaseWorkers[] = $releaseWorker;
     }
 
     /**

@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
+use Symplify\MonorepoBuilder\Release\DependencyInjection\CompilerPass\ReleaseWorkersOrderPass;
 use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
@@ -66,5 +67,7 @@ final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKern
         $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
+
+        $containerBuilder->addCompilerPass(new ReleaseWorkersOrderPass());
     }
 }

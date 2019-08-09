@@ -1,12 +1,12 @@
 parameters:
     release_workers:
-        - "@Symplify\\MonorepoBuilder\\Release\\ReleaseWorker\\SetCurrentMutualDependenciesReleaseWorker"
-        - "@Symplify\\MonorepoBuilder\\Release\\ReleaseWorker\\AddTagToChangelogReleaseWorker"
-        - "@Symplify\\MonorepoBuilder\\Release\\ReleaseWorker\\TagVersionReleaseWorker"
-        - "@Symplify\\MonorepoBuilder\\Release\\ReleaseWorker\\PushTagReleaseWorker"
-        - "@Symplify\\MonorepoBuilder\\Release\\ReleaseWorker\\SetNextMutualDependenciesReleaseWorker"
-        - "@Symplify\\MonorepoBuilder\\Release\\ReleaseWorker\\UpdateBranchAliasReleaseWorker"
-        - "@Symplify\\MonorepoBuilder\\Release\\ReleaseWorker\\PushNextDevReleaseWorker"
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker
     is_stage_required: false
     stages_to_allow_existing_tag: []
 
