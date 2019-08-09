@@ -182,13 +182,23 @@ services:
     App\Release\ShareOnTwitterReleaseWorker: ~
 ```
 
-And or disable default ones:
+Set your own workflow steps:
 
 ```yaml
 # monorepo-builder.yml
 parameters:
-    enable_default_release_workers: false
+    release_workers:
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker
+        - App\Release\ShareOnTwitterReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker
+        - Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker
 ```
+
+> As you can see, you have to set the "service names" instead of "reference names"! Reference name: `"@App\\Release\\ShareOnTwitterReleaseWorker"`, service name: `App\Release\ShareOnTwitterReleaseWorker`
 
 ## Contributing
 
