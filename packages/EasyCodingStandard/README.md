@@ -1,4 +1,4 @@
-# The Easiest Way to Use Any Coding Standard
+# The easiest way to use any coding standard
 
 [![Build Status](https://img.shields.io/travis/Symplify/EasyCodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/EasyCodingStandard)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-coding-standard/stats)
@@ -25,9 +25,9 @@
 ## Features
 
 - Use [PHP_CodeSniffer || PHP-CS-Fixer](https://www.tomasvotruba.cz/blog/2017/05/03/combine-power-of-php-code-sniffer-and-php-cs-fixer-in-3-lines/) - anything you like
-- **2nd run under few seconds** with caching
+- **2nd run in under a few seconds** with caching
 - [Skipping files](#ignore-what-you-cant-fix) for specific checkers
-- [Prepared checker sets](#use-prepared-checker-sets) - PSR2, Symfony, Common, Symplify and more...
+- [Prepared checker sets](#use-prepared-checker-sets) - PSR2, PSR12, Symfony, Common, Symplify and more...
 
 Are you already using another tool?
 
@@ -42,7 +42,7 @@ composer require --dev symplify/easy-coding-standard
 
 ## Usage
 
-### 1. Create Configuration and Setup Checkers
+### 1. Create configuration, and setup checkers
 
 Create an `easy-coding-standard.yaml` in your root directory and add [Sniffs](https://github.com/squizlabs/PHP_CodeSniffer) or [Fixers](https://github.com/FriendsOfPHP/PHP-CS-Fixer) you'd love to use.
 
@@ -64,13 +64,13 @@ vendor/bin/ecs check src
 vendor/bin/ecs check src --fix
 ```
 
-*Tip: Do you want [autocomplete too](https://github.com/Haehnchen/idea-php-symfony2-plugin/issues/1153)? Just use Symfony Plugin*
+*Tip: Do you want [autocomplete too](https://github.com/Haehnchen/idea-php-symfony2-plugin/issues/1153)? Just use the Symfony Plugin in PHPStorm*
 
 ![ECS-Run](docs/yaml-autocomplete.gif)
 
-## More Features
+## More features
 
-### Use Prepared Checker Sets
+### Use prepared checker sets
 
 There are prepared sets in [`/config/set` directory](config/set) that you can use:
 
@@ -78,9 +78,10 @@ There are prepared sets in [`/config/set` directory](config/set) that you can us
 - [common.yaml](config/set/common.yaml)
 - [php71.yaml](config/set/php71.yaml)
 - [psr2.yaml](config/set/psr2.yaml)
+- [psr12.yaml](config/set/psr12.yaml)
 - ...
 
-You pick config in CLI with `--config`:
+You pick which config in CLI with `--config`:
 
 ```bash
 vendor/bin/ecs check src --config vendor/symplify/easy-coding-standard/config/set/clean-code.yaml
@@ -101,7 +102,7 @@ imports:
     - { resource: 'vendor/symplify/easy-coding-standard/config/set/psr2.yaml' }
 ```
 
-In case of [custom coding standard and include](https://github.com/lmc-eu/php-coding-standard/pull/6/files#diff-a8b950982764fcffe4b7b3acd261cf91) e.g. `psr2.yaml` form this package, you might want to use `%vendor_dir%` or `%current_working_dir%` for:
+In case of [custom coding standard and include](https://github.com/lmc-eu/php-coding-standard/pull/6/files#diff-a8b950982764fcffe4b7b3acd261cf91) e.g. `psr2.yaml` from this package, you might want to use `%vendor_dir%` or `%current_working_dir%` for:
 
 ```yaml
 # lmc-coding-standard.yaml
@@ -113,7 +114,7 @@ imports:
 
 That would load file always from vendor dir, no matter where you are.
 
-### Exclude Checkers
+### Exclude checkers
 
 What if you add `symfony.yaml` set, but don't like `PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer`?
 
@@ -126,7 +127,7 @@ parameters:
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
 ```
 
-### Include Checkers Only  for Some Paths
+### Include checkers only for some paths
 
 This feature is the exact opposite of *skip*. Do you want to run your rule only on new code? Limit it with `only` parameter:
 
@@ -140,7 +141,7 @@ parameters:
             - 'src/NewCode/*'
 ```
 
-### Ignore What You Can't Fix
+### Ignore what you can't fix
 
 Sometimes, checker finds an error in code that inherits from code you can't change.
 
@@ -185,7 +186,7 @@ parameters:
         - '*/lib/PhpParser/Parser/Php*.php'
 ```
 
-### Do you need to Include tests, `*.php`, `*.inc` or `*.phpt` files?
+### Do you need to include tests, `*.php`, `*.inc` or `*.phpt` files?
 
 Normally you want to exclude these files, because they're not common code - they're just test files or dummy fixtures. In case you want to check them as well, **you can**.
 
@@ -268,7 +269,7 @@ parameters:
     line_ending: "\r\n" # PHP_EOL by default; you can also use "\n"
 ```
 
-## Your IDE Integration
+## Your IDE integration
 
 ### PHPStorm
 
@@ -294,7 +295,7 @@ You can also create a keyboard shortcut in [Preferences > Keymap](https://www.je
 
 [EasyCodingStandard for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=azdanov.vscode-easy-coding-standard) extension adds support for running EasyCodingStandard inside the editor.
 
-## Tool Integration
+## Tool integration
 | Tool | Extension | Description |
 | ---- | --------- | ----------- |
 | [GrumPHP](https://github.com/phpro/grumphp) | [nlubisch/grumphp-easycodingstandard](https://github.com/nlubisch/grumphp-easycodingstandard) | Provides a new task for GrumPHP which runs ECS |
