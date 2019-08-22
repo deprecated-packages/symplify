@@ -37,12 +37,7 @@ final class RepositoryGuardTest extends AbstractKernelTestCase
         yield ['git@github.com:Symplify/Symplify.git'];
         yield ['secretToken@github.com:Symplify/Symplify.git'];
         yield ['https://github.com/Symplify/Symplify.git'];
-    }
-
-    public function testInvalid(): void
-    {
-        $this->expectException(InvalidRepositoryFormatException::class);
-
-        $this->repositoryGuard->ensureIsRepository('http://github.com/Symplify/Symplify');
+        yield ['AUTHTOKEN@ssh.dev.azure.com:v3/username/Symplify/Symplify'];
+        yield ['https://AUTHTOKEN@dev.azure.com/username/Symplify/_git/Symplify'];
     }
 }
