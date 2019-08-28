@@ -3,6 +3,7 @@
 namespace Symplify\PackageBuilder\FileSystem;
 
 use Nette\Utils\Strings;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\PackageBuilder\Exception\FileSystem\DirectoryNotFoundException;
 use Symplify\PackageBuilder\Exception\FileSystem\FileNotFoundException;
@@ -24,7 +25,7 @@ final class SmartFileInfo extends SplFileInfo
             ));
         }
 
-        $relativeFilePath = Strings::substring($realPath, strlen(getcwd()) + 1);
+        $relativeFilePath = rtrim((new Filesystem)->makePathRelative($realPath, getcwd()), '/');
         $relativeDirectoryPath = dirname($relativeFilePath);
 
         parent::__construct($filePath, $relativeDirectoryPath, $relativeFilePath);
@@ -55,7 +56,7 @@ final class SmartFileInfo extends SplFileInfo
             ));
         }
 
-        return Strings::substring($this->getNormalizedRealPath(), Strings::length(realpath($directory)) + 1);
+        return rtrim((new Filesystem)->makePathRelative($this->getNormalizedRealPath(), realpath($directory)), '/');
     }
 
     public function endsWith(string $string): bool
