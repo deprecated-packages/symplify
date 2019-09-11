@@ -2,7 +2,6 @@
 
 namespace Symplify\MonorepoBuilder\Release\Command;
 
-use Nette\Utils\Strings;
 use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,48 +10,39 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Configuration\Option;
-use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use Symplify\MonorepoBuilder\Release\Exception\ConflictingPriorityException;
-use Symplify\MonorepoBuilder\Split\Git\GitManager;
+use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
+use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use function Safe\getcwd;
-use function Safe\krsort;
-use function Safe\sprintf;
 
 final class ReleaseCommand extends Command
 {
-    /**
-     * @var ReleaseWorkerInterface[]
-     */
-    private $releaseWorkersByPriority = [];
-
     /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
 
     /**
-     * @var GitManager
+     * @var ReleaseGuard
      */
-    private $gitManager;
+    private $releaseGuard;
 
     /**
-     * @param ReleaseWorkerInterface[] $releaseWorkers
+     * @var ReleaseWorkerProvider
      */
+    private $releaseWorkerProvider;
+
     public function __construct(
         SymfonyStyle $symfonyStyle,
-        GitManager $gitManager,
-        array $releaseWorkers,
-        bool $enableDefaultReleaseWorkers
+        ReleaseWorkerProvider $releaseWorkerProvider,
+        ReleaseGuard $releaseGuard
     ) {
         parent::__construct();
 
         $this->symfonyStyle = $symfonyStyle;
-        $this->gitManager = $gitManager;
-
-        $this->setWorkersAndSortByPriority($releaseWorkers, $enableDefaultReleaseWorkers);
+        $this->releaseGuard = $releaseGuard;
+        $this->releaseWorkerProvider = $releaseWorkerProvider;
     }
 
     protected function configure(): void
@@ -70,24 +60,35 @@ final class ReleaseCommand extends Command
             Option::DRY_RUN,
             null,
             InputOption::VALUE_NONE,
-            'Do not perform git tagging operations, just their preview'
+            'Do not perform operations, just their preview'
         );
+
+        $this->addOption(Option::STAGE, null, InputOption::VALUE_REQUIRED, 'Name of stage to perform');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        // validation phase
+        $stage = $input->getOption(Option::STAGE);
+        $stage = $stage !== null ? (string) $stage : $stage;
+
+        $this->releaseGuard->guardStage($stage);
+
         /** @var string $versionArgument */
         $versionArgument = $input->getArgument(Option::VERSION);
+        $version = $this->createValidVersion($versionArgument, $stage);
 
-        // this object performs validation of version
-        $version = new Version($versionArgument);
-        $this->ensureVersionIsNewerThanLastOne($version);
+        $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($stage);
 
-        $this->symfonyStyle->newLine();
-
+        $totalWorkerCount = count($activeReleaseWorkers);
+        $i = 0;
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
-        foreach ($this->releaseWorkersByPriority as $releaseWorker) {
-            $this->symfonyStyle->writeln(' * ' . $releaseWorker->getDescription());
+
+        foreach ($activeReleaseWorkers as $releaseWorker) {
+            $title = sprintf('%d/%d) %s', ++$i, $totalWorkerCount, $releaseWorker->getDescription($version));
+            $this->symfonyStyle->title($title);
+
+            $this->printReleaseWorkerMetadata($releaseWorker);
 
             if ($isDryRun === false) {
                 $releaseWorker->work($version);
@@ -95,55 +96,37 @@ final class ReleaseCommand extends Command
         }
 
         if ($isDryRun) {
-            $this->symfonyStyle->note('Running dry mode, nothing is changed');
-        } else {
+            $this->symfonyStyle->note('Running in dry mode, nothing is changed');
+        } elseif ($stage === null) {
             $this->symfonyStyle->success(sprintf('Version "%s" is now released!', $version->getVersionString()));
+        } else {
+            $this->symfonyStyle->success(
+                sprintf('Stage "%s" for version "%s" is now finished!', $stage, $version->getVersionString())
+            );
         }
 
         return ShellCode::SUCCESS;
     }
 
-    /**
-     * @param ReleaseWorkerInterface[] $releaseWorkers
-     */
-    private function setWorkersAndSortByPriority(array $releaseWorkers, bool $enableDefaultReleaseWorkers): void
+    private function createValidVersion(string $versionArgument, ?string $stage): Version
     {
-        foreach ($releaseWorkers as $releaseWorker) {
-            if ($this->shouldSkip($releaseWorker, $enableDefaultReleaseWorkers)) {
-                continue;
-            }
+        // this object performs validation of version
+        $version = new Version($versionArgument);
 
-            $priority = $releaseWorker->getPriority();
-            if (isset($this->releaseWorkersByPriority[$priority])) {
-                throw new ConflictingPriorityException($releaseWorker, $this->releaseWorkersByPriority[$priority]);
-            }
+        $this->releaseGuard->guardVersion($version, $stage);
 
-            $this->releaseWorkersByPriority[$priority] = $releaseWorker;
-        }
-
-        krsort($this->releaseWorkersByPriority);
+        return $version;
     }
 
-    private function ensureVersionIsNewerThanLastOne(Version $version): void
+    private function printReleaseWorkerMetadata(ReleaseWorkerInterface $releaseWorker): void
     {
-        $mostRecentVersion = new Version($this->gitManager->getMostRecentTag(getcwd()));
-        if ($version->isGreaterThan($mostRecentVersion)) {
+        if ($this->symfonyStyle->isVerbose() === false) {
             return;
         }
 
-        throw new InvalidGitVersionException(sprintf(
-            'Version "%s" is older than the last one "%s"',
-            $version->getVersionString(),
-            $mostRecentVersion->getVersionString()
-        ));
-    }
-
-    private function shouldSkip(ReleaseWorkerInterface $releaseWorker, bool $enableDefaultReleaseWorkers): bool
-    {
-        if ($enableDefaultReleaseWorkers) {
-            return false;
-        }
-
-        return Strings::startsWith(get_class($releaseWorker), 'Symplify\MonorepoBuilder\Release');
+        // show priority and class on -v/--verbose/--debug
+        $this->symfonyStyle->writeln('priority: ' . $releaseWorker->getPriority());
+        $this->symfonyStyle->writeln('class: ' . get_class($releaseWorker));
+        $this->symfonyStyle->newLine();
     }
 }

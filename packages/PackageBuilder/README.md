@@ -54,43 +54,6 @@ They can focus less on remembering all the keys and more on programming.
 
 <br>
 
-### Collect Services of Certain Type Together
-
-How do we load Commands to Console Application without tagging?
-
-- Read [What is tagging for](https://www.tomasvotruba.cz/blog/2017/02/12/drop-all-service-tags-in-your-nette-and-symfony-applications/#what-is-tagging-for)
-- Read [Collector Pattern, The Shortcut Hack to SOLID Code](https://www.tomasvotruba.cz/clusters/#collector-pattern-the-shortcut-hack-to-solid-code)
-
-```php
-<?php declare(strict_types=1);
-
-namespace App\DependencyInjection\CompilerPass;
-
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
-use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
-
-final class CollectorCompilerPass implements CompilerPassInterface
-{
-    public function process(ContainerBuilder $containerBuilder): void
-    {
-        $definitionCollector = new DefinitionCollector(new DefinitionFinder());
-
-        $definitionCollector->loadCollectorWithType(
-            $containerBuilder,
-            Application::class, // 1 main service
-            Command::class, // many collected services
-            'add' // the adder method called on 1 main service
-        );
-    }
-}
-```
-
-<br>
-
 ### Add Service by Interface if Found
 
 ```php
@@ -134,7 +97,7 @@ final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassIn
 ### Get All Parameters via Service
 
 ```yml
-# app/config/services.yml
+# app/config/services.yaml
 
 parameters:
     source: "src"
@@ -235,33 +198,6 @@ This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/)
 
 <br>
 
-### Render Fancy CLI Exception Anywhere You Need
-
-Do you get exception before getting into Symfony\Console Application, but still want to render it with `-v`, `-vv`, `-vvv` options?
-
-```php
-<?php declare(strict_types=1);
-
-use Symfony\Component\Console\Application;
-use Symfony\Component\DependencyInjection\Container;
-use Symplify\PackageBuilder\Console\ThrowableRenderer;
-
-require_once __DIR__ . '/autoload.php';
-
-try {
-    /** @var Container $container */
-    $container = require __DIR__ . '/container.php';
-
-    $application = $container->get(Application::class);
-    exit($application->run());
-} catch (Throwable $throwable) {
-    (new ThrowableRenderer())->render($throwable);
-    exit($throwable->getCode());
-}
-```
-
-<br>
-
 ### Load Config via `--level` Option in CLI App
 
 In you `bin/your-app` you can use `--level` option as shortcut to load config from `/config` directory.
@@ -275,7 +211,6 @@ vendor/bin/your-app --config vendor/organization-name/package-name/config/subdir
 ```php
 <?php declare(strict_types=1);
 
-use App\DependencyInjection\ContainerFactory;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 use Symplify\PackageBuilder\Configuration\LevelFileFinder;
@@ -290,12 +225,14 @@ if ($configFile === null) {
 }
 
 // 3. Build DI container
-$containerFactory = new ContainerFactory; // your own class
+$appKernel = new AppKernel('prod', true);
 if ($configFile) {
-    $container = $containerFactory->createWithConfig($configFile);
+    $appKernel->setConfig($configFile);
 } else {
-    $container = $containerFactory->create();
 }
+$appKernel->boot();
+
+$container = $appKernel->getContainer();
 ```
 
 And use like this:
@@ -448,39 +385,6 @@ In case you need to do more work in YamlFileLoader, just extend the abstract par
 
 <br>
 
-### Collect Services in Short Configs
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass`
-
-Must-have for PHP CLI Apps without FrameworkBundle. Collect services by type, e.g. Console Commands to Application, EventSubscribers to EventDispatcher.
-
-```yaml
-parameters:
-    collectors:
-        -
-            main_type: 'Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory'
-            collected_type: 'Symplify\BetterPhpDocParser\Contract\PhpDocInfoDecoratorInterface'
-            add_method: 'addPhpDocInfoDecorator'
-```
-
-Read more about [collector pattern](https://www.tomasvotruba.cz/clusters/#collector-pattern-the-shortcut-hack-to-solid-code) to know how and when to use it.
-
-<br>
-
-### Autowire Singly-Implemented Interfaces
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass`
-
-```diff
- services:
-     OnlyImplementationOfFooInterface: ~
--
--    FooInterface:
--        alias: OnlyImplementationOfFooInterface
-```
-
-<br>
-
 ### Do not Repeat Simple Factories
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass`
@@ -490,8 +394,8 @@ This prevent repeating factory definitions for obvious 1-instance factories:
 ```diff
  services:
      Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
-     Symfony\Component\Console\Style\SymfonyStyle:
-         factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
+-     Symfony\Component\Console\Style\SymfonyStyle:
+-         factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
 ```
 
 **How this works?**
@@ -545,6 +449,14 @@ class Application
 }
 ```
 
+If there are failing cases, just exclude them in constructor:
+
+```php
+$this->addCompilerPass(new AutowireArrayParameterCompilerPass([
+    'Sonata\CoreBundle\Model\Adapter\AdapterInterface'
+]);
+```
+
 <br>
 
 ### Autobind Parameters
@@ -587,20 +499,8 @@ use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesC
         ]));
 ```
 
-This will make sure, that `PhpCsFixer\Fixer\FixerInterface` is always registered.
+This will make sure, that `PhpCsFixer\Fixer\FixerInterface` instances are always autowired.
 
 <br>
-
-### Use Public Services only in Tests
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass`
-- Read [How to Test Private Services in Symfony](https://www.tomasvotruba.cz/blog/2018/05/17/how-to-test-private-services-in-symfony/)
-
-```diff
- # some config for tests
- services:
--    _defaults:
--        public: true
-```
 
 That's all :)

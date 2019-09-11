@@ -5,23 +5,24 @@ namespace Symplify\CodingStandard\Sniffs\DeadCode;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
+use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
+use Symplify\EasyCodingStandard\Configuration\Contract\ResettableInterface;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
-use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory;
-use function Safe\sprintf;
 
 /**
  * @experimental
  *
  * See https://stackoverflow.com/a/9979425/1348344
- *
- * Inspiration http://www.andreybutov.com/2011/08/20/how-do-i-find-unused-functions-in-my-php-project/
  */
-final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
+final class UnusedPublicMethodSniff implements Sniff, DualRunInterface, ResettableInterface
 {
     /**
-     * @var string
+     * Classes allowed to have unused public methods
+     *
+     * @var string[]
      */
-    private const MESSAGE = 'Public method "%s()" is possibly unused.';
+    public $allowClasses = [];
 
     /**
      * @var int
@@ -66,13 +67,28 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     private $file;
 
     /**
-     * @var ClassWrapperFactory
+     * @var SniffClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $sniffClassWrapperFactory;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory)
+    /**
+     * @var Naming
+     */
+    private $naming;
+
+    public function __construct(SniffClassWrapperFactory $sniffClassWrapperFactory, Naming $naming)
     {
-        $this->classWrapperFactory = $classWrapperFactory;
+        $this->sniffClassWrapperFactory = $sniffClassWrapperFactory;
+        $this->naming = $naming;
+    }
+
+    public function reset(): void
+    {
+        if (defined('PHPUNIT_COMPOSER_INSTALL') || defined('__PHPUNIT_PHAR__')) {
+            $this->publicMethodNames = [];
+            $this->calledMethodNames = [];
+            $this->runNumber = 1;
+        }
     }
 
     /**
@@ -93,18 +109,23 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         $this->position = $position;
 
         if ($this->runNumber === 1) {
-            $this->collectPublicMethodNames($position);
             $this->collectMethodCalls();
+            $class = $this->naming->getFileClassName($this->file);
+            if ($class && $this->shouldSkipClass($class)) {
+                return;
+            }
+
+            $this->collectPublicMethodNames($position);
             return;
         }
 
         if ($this->runNumber === 2) {
             // prepare unused method names if not ready
             if ($this->unusedMethodNames === []) {
-                $this->unusedMethodNames = array_diff(
-                    array_unique($this->publicMethodNames),
-                    $this->calledMethodNames
-                );
+                $uniquePublicMethodNames = array_unique($this->publicMethodNames);
+                sort($uniquePublicMethodNames);
+
+                $this->unusedMethodNames = array_diff($uniquePublicMethodNames, $this->calledMethodNames);
             }
 
             if ($this->shouldSkipFile($file)) {
@@ -133,7 +154,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
 
         $methodName = $possibleMethodNameToken['content'];
-        if (Strings::match($methodName, sprintf('#^(%s)#', implode('|', $this->methodsToIgnore)))) {
+        if ($this->shouldSkipMethod($methodName)) {
             return;
         }
 
@@ -142,6 +163,12 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 
     private function collectMethodCalls(): void
     {
+        // skip test classes, since they provide false usage
+        $fileClassName = $this->naming->getFileClassName($this->file);
+        if ($fileClassName && Strings::contains($fileClassName, 'Test')) {
+            return;
+        }
+
         $token = $this->tokens[$this->position];
 
         // "->"
@@ -151,15 +178,6 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
 
         $this->collectMethodNames($token);
-
-        if ($token['code'] === T_STRING) {
-            // starts with uppercase name, is not a method name
-            if (ctype_upper($token['content'][0])) {
-                return;
-            }
-
-            $this->publicMethodNames[] = $token['content'];
-        }
     }
 
     /**
@@ -176,7 +194,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return true;
         }
 
-        $classWrapper = $this->classWrapperFactory->createFromFirstClassInFile($file);
+        $classWrapper = $this->sniffClassWrapperFactory->createFromFirstClassInFile($file);
         if ($classWrapper === null) {
             return true;
         }
@@ -197,7 +215,10 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return;
         }
 
-        $this->file->addError(sprintf(self::MESSAGE, $methodName), $this->position, self::class);
+        $this->file->addError(sprintf(
+            'Public method "%s()" is possibly unused.',
+            $methodName
+        ), $this->position, self::class);
     }
 
     /**
@@ -209,7 +230,12 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return false;
         }
 
-        return (bool) $this->file->findPrevious(T_PUBLIC, $this->position, $this->position - 6);
+        $previousPosition = $this->position - 6;
+        if (! isset($this->tokens[$previousPosition])) {
+            return false;
+        }
+
+        return (bool) $this->file->findPrevious(T_PUBLIC, $this->position, $previousPosition);
     }
 
     /**
@@ -263,5 +289,30 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 
             $this->calledMethodNames[] = $nextToken['content'];
         }
+    }
+
+    private function shouldSkipClass(string $class): bool
+    {
+        if (in_array($class, $this->allowClasses, true)) {
+            return true;
+        }
+
+        // is doctrine entity?
+        $fileContent = $this->file->getTokensAsString(1, count($this->file->getTokens()));
+        if (Strings::contains($fileContent, '@ORM\Entity')) {
+            return true;
+        }
+
+        // is controller, listener or subscriber, so unrecorded public methods are expected
+        if (Strings::match($fileContent, '#class\s+[\w]+(Controller|Listener|Subscriber)#')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function shouldSkipMethod($methodName): bool
+    {
+        return (bool) Strings::match($methodName, sprintf('#^(%s)#', implode('|', $this->methodsToIgnore)));
     }
 }

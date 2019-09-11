@@ -6,8 +6,6 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
-use function Safe\realpath;
-use function Safe\sprintf;
 
 final class ProcessFactory
 {
@@ -42,7 +40,7 @@ final class ProcessFactory
     }
 
     public function createSubsplit(
-        string $theMostRecentTag,
+        ?string $theMostRecentTag,
         string $directory,
         string $remoteRepository
     ): Process {

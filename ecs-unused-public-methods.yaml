@@ -1,0 +1,5 @@
+services:
+    Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff:
+        allow_classes:
+            - 'Symplify\Autodiscovery\Discovery'
+            - 'Symplify\FlexLoader\Flex\FlexLoader'

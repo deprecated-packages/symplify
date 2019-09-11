@@ -2,17 +2,18 @@
 
 namespace Symplify\CodingStandard\Tests\Issues;
 
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class Issue896Test extends AbstractCheckerTestCase
 {
     public function test(): void
     {
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct896.php.inc');
+        $this->doTestFiles([__DIR__ . '/Fixture/correct896.php.inc']);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config/config896.yml';
+        return LineLengthFixer::class;
     }
 }

@@ -28,8 +28,8 @@ final class PushTagReleaseWorker implements ReleaseWorkerInterface
         $this->processRunner->run('git push --tags');
     }
 
-    public function getDescription(): string
+    public function getDescription(Version $version): string
     {
-        return 'Push tag to remote repository';
+        return sprintf('Push "%s" tag to remote repository', $version->getVersionString());
     }
 }

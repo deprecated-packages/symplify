@@ -1,0 +1,13 @@
+services:
+    Symplify\Autodiscovery\Tests\Yaml\Source\SomeClass: ~
+
+    Symplify\Autodiscovery\Tests\Yaml\Source\SomeInterface:
+        alias: 'Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass'
+---
+services:
+    _defaults:
+        autowire: true
+    Symplify\Autodiscovery\Tests\Yaml\Source\SomeInterface:
+        alias: 'Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass'
+    Symplify\Autodiscovery\:
+        resource: '../Source'

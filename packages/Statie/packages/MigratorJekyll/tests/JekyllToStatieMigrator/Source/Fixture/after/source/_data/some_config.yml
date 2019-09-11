@@ -1,0 +1,6 @@
+parameters:
+    some_config:
+        values:
+            - one
+            - two
+        some_value: dash

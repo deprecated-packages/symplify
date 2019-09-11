@@ -1,5 +1,4 @@
 services:
-    Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
     PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer:
         annotations: [package]
     Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer: ~

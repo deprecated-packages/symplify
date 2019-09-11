@@ -13,7 +13,6 @@ use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use function Safe\getcwd;
 
 final class MergeCommand extends Command
 {
@@ -83,7 +82,6 @@ final class MergeCommand extends Command
         }
 
         $merged = $this->packageComposerJsonMerger->mergeFileInfos($this->composerJsonProvider->getPackagesFileInfos());
-
         if ($merged === []) {
             $this->symfonyStyle->note('Nothing to merge.');
 

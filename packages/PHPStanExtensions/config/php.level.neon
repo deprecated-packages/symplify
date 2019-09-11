@@ -1,0 +1,3 @@
+services:
+    # getcwd -> string
+    - Symplify\PHPStanExtensions\Php\Type\NativeFunctionDynamicFunctionReturnTypeExtension

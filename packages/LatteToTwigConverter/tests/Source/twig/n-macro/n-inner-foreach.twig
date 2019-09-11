@@ -1,0 +1,10 @@
+{% if sources is defined %}
+<section class="post__sources">
+    <h3>Sources</h3>
+    <ul class="post__sources-list">
+{% for [link, title] in sources %}
+        <li><a href="{{ link }}" target="_blank">{{ title }}</a></li>
+    {% endfor %}
+</ul>
+</section>
+{% endif %}

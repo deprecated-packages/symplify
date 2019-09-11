@@ -6,10 +6,20 @@ use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
 use Symplify\Statie\Generator\Exception\Configuration\InvalidGeneratorElementDefinitionException;
 use Symplify\Statie\Generator\Tests\AbstractGeneratorTest;
 use Symplify\Statie\Generator\Tests\Configuration\GeneratorElementGuardSource\InvalidLectureSorter;
-use function Safe\sprintf;
+use Symplify\Statie\HttpKernel\StatieKernel;
 
 final class GeneratorElementGuardForObjectSorterTest extends AbstractGeneratorTest
 {
+    protected function setUp(): void
+    {
+        $this->bootKernelWithConfigs(
+            StatieKernel::class,
+            [__DIR__ . '/GeneratorElementGuardSource/config-invalid-object-sorter.yml']
+        );
+
+        parent::setUp();
+    }
+
     public function testExceptionOnInvalidObjectSorter(): void
     {
         $this->expectException(InvalidGeneratorElementDefinitionException::class);
@@ -22,10 +32,5 @@ final class GeneratorElementGuardForObjectSorterTest extends AbstractGeneratorTe
         );
 
         $this->generator->run();
-    }
-
-    protected function getConfig(): string
-    {
-        return __DIR__ . '/GeneratorElementGuardSource/config-invalid-object-sorter.yml';
     }
 }

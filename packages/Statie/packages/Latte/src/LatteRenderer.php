@@ -10,7 +10,6 @@ use Symplify\Statie\Latte\Exception\InvalidLatteSyntaxException;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use function Safe\sprintf;
 
 final class LatteRenderer implements RendererInterface
 {
@@ -44,7 +43,7 @@ final class LatteRenderer implements RendererInterface
      */
     public function renderFileWithParameters(AbstractFile $file, array $parameters): string
     {
-        $renderCallback = function (string $content) use ($file, $parameters) {
+        $renderCallback = function (string $content) use ($file, $parameters): string {
             $this->arrayLoader->changeContent($file->getFilePath(), $content);
 
             return $this->engine->renderToString($file->getFilePath(), $parameters);

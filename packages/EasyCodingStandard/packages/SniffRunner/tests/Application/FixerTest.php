@@ -2,13 +2,14 @@
 
 namespace Symplify\EasyCodingStandard\SniffRunner\Tests\Application;
 
+use PHP_CodeSniffer\Fixer;
+use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
-use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
-use Symplify\EasyCodingStandard\Tests\AbstractContainerAwareTestCase;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class FixerTest extends AbstractContainerAwareTestCase
+final class FixerTest extends AbstractKernelTestCase
 {
     /**
      * @var Fixer
@@ -22,16 +23,19 @@ final class FixerTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        /** @var FileFactory $fileFactory */
-        $fileFactory = $this->container->get(FileFactory::class);
+        $this->bootKernel(EasyCodingStandardKernel::class);
+
+        $fileFactory = self::$container->get(FileFactory::class);
 
         $this->file = $fileFactory->createFromFileInfo(new SmartFileInfo(__DIR__ . '/FixerSource/SomeFile.php'));
-        $this->fixer = $this->container->get(Fixer::class);
+        $this->fixer = self::$container->get(Fixer::class);
     }
 
     public function testStartFile(): void
     {
         $this->assertSame('', $this->fixer->getContents());
+
+        $this->file->parse();
         $this->fixer->startFile($this->file);
 
         $this->assertStringEqualsFile(__DIR__ . '/FixerSource/SomeFile.php', $this->fixer->getContents());
@@ -39,6 +43,7 @@ final class FixerTest extends AbstractContainerAwareTestCase
 
     public function testTokenContent(): void
     {
+        $this->file->parse();
         $this->fixer->startFile($this->file);
 
         $token = $this->fixer->getTokenContent(13);
@@ -53,6 +58,7 @@ final class FixerTest extends AbstractContainerAwareTestCase
 
     public function testAddContent(): void
     {
+        $this->file->parse();
         $this->fixer->startFile($this->file);
         $this->fixer->beginChangeSet();
 
@@ -67,6 +73,7 @@ final class FixerTest extends AbstractContainerAwareTestCase
 
     public function testChangesets(): void
     {
+        $this->file->parse();
         $this->fixer->startFile($this->file);
         $this->fixer->beginChangeSet();
 
@@ -94,6 +101,7 @@ final class FixerTest extends AbstractContainerAwareTestCase
 
     public function testAddNewline(): void
     {
+        $this->file->parse();
         $this->fixer->startFile($this->file);
         $this->fixer->beginChangeSet();
 
@@ -111,6 +119,7 @@ final class FixerTest extends AbstractContainerAwareTestCase
 
     public function testSubstrToken(): void
     {
+        $this->file->parse();
         $this->fixer->startFile($this->file);
         $this->fixer->beginChangeSet();
 

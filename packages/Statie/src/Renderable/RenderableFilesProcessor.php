@@ -3,15 +3,12 @@
 namespace Symplify\Statie\Renderable;
 
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
-use Symplify\Statie\Latte\Renderable\LatteFileDecorator;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Twig\Renderable\TwigFileDecorator;
-use function Safe\usort;
 
 final class RenderableFilesProcessor
 {
@@ -26,22 +23,21 @@ final class RenderableFilesProcessor
     private $fileFactory;
 
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
     /**
      * @param FileDecoratorInterface[] $fileDecorators
      */
-    public function __construct(FileFactory $fileFactory, Configuration $configuration, array $fileDecorators)
-    {
+    public function __construct(
+        FileFactory $fileFactory,
+        StatieConfiguration $statieConfiguration,
+        array $fileDecorators
+    ) {
         $this->fileFactory = $fileFactory;
-        $this->configuration = $configuration;
-
-        $fileDecorators = $this->sortFileDecorators($fileDecorators);
-        foreach ($fileDecorators as $fileDecorator) {
-            $this->addFileDecorator($fileDecorator);
-        }
+        $this->statieConfiguration = $statieConfiguration;
+        $this->fileDecorators = $this->sortFileDecorators($fileDecorators);
     }
 
     /**
@@ -78,9 +74,11 @@ final class RenderableFilesProcessor
         }
 
         $objectSorter = $generatorElement->getObjectSorter();
+
+        /** @var AbstractGeneratorFile[] $objects */
         $objects = $objectSorter->sort($objects);
 
-        $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
+        $this->statieConfiguration->addOption($generatorElement->getVariableGlobal(), $objects);
 
         return $objects;
     }
@@ -104,19 +102,5 @@ final class RenderableFilesProcessor
         });
 
         return $fileDecorators;
-    }
-
-    private function addFileDecorator(FileDecoratorInterface $fileDecorator): void
-    {
-        $templating = $this->configuration->getOption('templating');
-        if ($templating === 'latte' && $fileDecorator instanceof TwigFileDecorator) {
-            return;
-        }
-
-        if ($templating === 'twig' && $fileDecorator instanceof LatteFileDecorator) {
-            return;
-        }
-
-        $this->fileDecorators[] = $fileDecorator;
     }
 }

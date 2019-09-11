@@ -26,7 +26,7 @@ The config is autodiscovered in the root directory or by `--config` option.
 ## A. Dump Merges
 
 ```bash
-vendor/bin/changelog-linker dump-mergers
+vendor/bin/changelog-linker dump-merges
 ```
 
 ### Write or Dry-run?
@@ -36,7 +36,7 @@ The `--dry-run` option prints the result to the output. Without that, I looks fo
 It finds the last #ID in the `CHANGELOG.md`, than looks on Github via API and dumps all the merged PRs since the last #ID in nice format. In case you want to **specify minimal PR id yourself**, use this:
 
 ```bash
-vendor/bin/changelog-linker dump-mergers --since-id 125
+vendor/bin/changelog-linker dump-merges --since-id 125
 ```
 
 But that is a mash-up of everything. Not very nice:
@@ -128,6 +128,13 @@ vendor/bin/changelog-linker dump-merges --in-categories --in-packages
 - [#860] Add test case for #855, Thanks to @OndraM
 ```
 
+Do you want to dump only such pull requests that were merged into a particular branch? Just use `base-branch` option:
+
+```
+vendor/bin/changelog-linker dump-merges --base-branch=7.3
+```
+This is very handy when you support multiple versions of your project.
+
 ### Github API Overload?
 
 In case you cross the API rate limit and get denied, create [new Github Token](https://github.com/settings/tokens) and run it via `GITHUB_TOKEN` ENV variable.
@@ -139,7 +146,7 @@ GITHUB_TOKEN super-secret-token vendor/bin/changelog-linker dump-merges
 ## B. Decorate `CHANGELOG.md`
 
 ```bash
-vendor/bin/changelog-linker linkify
+vendor/bin/changelog-linker link
 ```
 
 ### 1. Link PR and Issues

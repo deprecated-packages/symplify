@@ -12,8 +12,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
-use function Safe\sprintf;
+use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 /**
  * possible future-successor https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/3810
@@ -21,21 +21,28 @@ use function Safe\sprintf;
 final class BlockPropertyCommentFixer extends AbstractSymplifyFixer
 {
     /**
-     * @var ClassWrapperFactory
+     * @var FixerClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $fixerClassWrapperFactory;
 
     /**
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
 
+    /**
+     * @var DocBlockManipulator
+     */
+    private $docBlockManipulator;
+
     public function __construct(
-        ClassWrapperFactory $classWrapperFactory,
-        WhitespacesFixerConfig $whitespacesFixerConfig
+        FixerClassWrapperFactory $fixerClassWrapperFactory,
+        WhitespacesFixerConfig $whitespacesFixerConfig,
+        DocBlockManipulator $docBlockManipulator
     ) {
-        $this->classWrapperFactory = $classWrapperFactory;
+        $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->docBlockManipulator = $docBlockManipulator;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -59,16 +66,20 @@ private $property;
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->getReversedClassAndTraitPositions($tokens) as $index) {
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
+            $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             foreach ($classWrapper->getPropertyWrappers() as $propertyWrapper) {
-                $docBlockWrapper = $propertyWrapper->getDocBlockWrapper();
-                if ($docBlockWrapper === null || ! $docBlockWrapper->isSingleLine()) {
+                $match = $this->docBlockManipulator->matchPositionAndContentIfSingleLine(
+                    $tokens,
+                    $propertyWrapper->getIndex()
+                );
+                if ($match === null) {
                     continue;
                 }
 
-                $tokens[$docBlockWrapper->getTokenPosition()] = new Token(
-                    [T_DOC_COMMENT, $this->convertDocBlockToMultiline($docBlockWrapper->getContent())]
-                );
+                [$docPosition, $docContent] = $match;
+
+                $multilineContent = $this->convertDocBlockToMultiline($docContent);
+                $tokens[$docPosition] = new Token([T_DOC_COMMENT, $multilineContent]);
             }
         }
     }

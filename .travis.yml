@@ -8,32 +8,35 @@ git:
 matrix:
     include:
         - php: 7.1
-          env: COVERAGE="--coverage-clover coverage.xml"
-        - php: 7.1
-          env: CODE_ANALYSIS=true # STANDALONE=true - disable for time being due weird Travis bug
+          env: CODE_ANALYSIS=true
         - php: 7.1
           env: COMPOSER_FLAGS="--prefer-lowest"
         - php: 7.2
-          env: MONOREPO_SPLIT=true
+          env: MONOREPO_SPLIT=true STANDALONE=true
+        - php: 7.3
+          env: COVERAGE="--coverage-clover coverage.xml"
+    # for better contributor experience
+    allow_failures:
+        - php: 7.1
+          env: CODE_ANALYSIS=true
 
 install:
     - composer update $COMPOSER_FLAGS
 
 before_script:
-    # make the script fail for any failed command
+    # make the script fail for any failed multi-line command (starts with "|" then new line)
     - set -e
 
     # disable xdebug if not coverage
-    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini; fi
+    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || echo "xdebug not available"; fi
 
 script:
     - vendor/bin/phpunit
-    # disable xdebug
-
     - |
       if [[ $CODE_ANALYSIS == true ]]; then
           packages/EasyCodingStandard/bin/ecs check packages
-          vendor/bin/phpstan analyse packages --level max
+          packages/EasyCodingStandard/bin/ecs check packages --config ecs-unused-public-methods.yaml
+          vendor/bin/phpstan analyse packages
       fi
 
     # each package standalone run https://stackoverflow.com/a/6787956/1348344
@@ -47,7 +50,10 @@ script:
           done
 
           # test run bin files
+          packages/Autodiscovery/bin/autodiscovery
           packages/EasyCodingStandard/bin/ecs
+          # test "check" options
+          packages/EasyCodingStandard/bin/ecs check packages/ChangelogLinker/src --no-progress-bar --no-error-table --clear-cache
           packages/ChangelogLinker/bin/changelog-linker
           packages/Statie/bin/statie
           packages/LatteToTwigConverter/bin/latte-to-twig-converter

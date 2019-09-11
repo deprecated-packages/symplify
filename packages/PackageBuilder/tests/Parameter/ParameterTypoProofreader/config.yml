@@ -11,9 +11,9 @@ services:
         calls:
             - ['addSubscriber', ['@Symplify\PackageBuilder\EventSubscriber\ParameterTypoProofreaderEventSubscriber']]
     Symplify\PackageBuilder\EventSubscriber\ParameterTypoProofreaderEventSubscriber: ~
-
     # symfony console
     Symfony\Component\Console\Application:
+        public: true
         calls:
             - ['setDispatcher', ['@Symfony\Component\EventDispatcher\EventDispatcher']]
 

@@ -2,17 +2,21 @@
 
 namespace Symplify\EasyCodingStandard\SniffRunner\File;
 
+use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File as BaseFile;
+use PHP_CodeSniffer\Fixer;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff;
+use PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\PropertyDeclarationSniff;
+use PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\MethodDeclarationSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\CommentedOutCodeSniff;
+use PHP_CodeSniffer\Util\Common;
 use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
-use Symplify\EasyCodingStandard\Application\CurrentCheckerProvider;
-use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
+use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException;
-use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
-use function Safe\sprintf;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class File extends BaseFile
 {
@@ -27,11 +31,31 @@ final class File extends BaseFile
     public $fixer;
 
     /**
+     * @var string|null
+     */
+    private $activeSniffClass;
+
+    /**
+     * @var string|null
+     */
+    private $previousActiveSniffClass;
+
+    /**
      * Explicit list for now.
      *
      * @var string[]
      */
-    private $reportWarningsSniffs = [CommentedOutCodeSniff::class, AssignmentInConditionSniff::class];
+    private $reportWarningsSniffs = [
+        CommentedOutCodeSniff::class,
+        AssignmentInConditionSniff::class,
+        PropertyDeclarationSniff::class,
+        MethodDeclarationSniff::class,
+    ];
+
+    /**
+     * @var Sniff[][]
+     */
+    private $tokenListeners = [];
 
     /**
      * @var ErrorAndDiffCollector
@@ -49,59 +73,74 @@ final class File extends BaseFile
     private $appliedCheckersCollector;
 
     /**
-     * @var CurrentFileProvider
+     * @var EasyCodingStandardStyle
      */
-    private $currentFileProvider;
+    private $easyCodingStandardStyle;
 
     /**
-     * @var CurrentCheckerProvider
+     * @var SmartFileInfo
      */
-    private $currentCheckerProvider;
+    private $fileInfo;
 
-    /**
-     * @param array[] $tokens
-     */
     public function __construct(
         string $path,
-        array $tokens,
+        string $content,
         Fixer $fixer,
         ErrorAndDiffCollector $errorAndDiffCollector,
-        CurrentCheckerProvider $currentCheckerProvider,
         Skipper $skipper,
         AppliedCheckersCollector $appliedCheckersCollector,
-        CurrentFileProvider $currentFileProvider
+        EasyCodingStandardStyle $easyCodingStandardStyle
     ) {
         $this->path = $path;
-        $this->tokens = $tokens;
+        $this->content = $content;
         $this->fixer = $fixer;
         $this->errorAndDiffCollector = $errorAndDiffCollector;
 
-        $this->numTokens = count($this->tokens);
-
-        $this->eolChar = PHP_EOL;
+        $this->eolChar = Common::detectLineEndings($content);
         $this->skipper = $skipper;
         $this->appliedCheckersCollector = $appliedCheckersCollector;
-        $this->currentFileProvider = $currentFileProvider;
-        $this->currentCheckerProvider = $currentCheckerProvider;
+
+        // compat
+        if (! defined('PHP_CODESNIFFER_CBF')) {
+            define('PHP_CODESNIFFER_CBF', false);
+        }
+
+        // parent required
+        $this->config = new Config([], false);
+        $this->config->tabWidth = 4;
+        $this->config->annotations = false;
+        $this->config->encoding = 'UTF-8';
+        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
     }
 
-    public function parse(): void
-    {
-        throw new NotImplementedException(sprintf(
-            'Method %s not needed to be public. File is already parsed on __construct.',
-            __METHOD__
-        ));
-    }
-
+    /**
+     * Mimics @see https://github.com/squizlabs/PHP_CodeSniffer/blob/e4da24f399d71d1077f93114a72e305286020415/src/Files/File.php#L310
+     */
     public function process(): void
     {
-        throw new NotImplementedException(sprintf(
-            'Method "%s" is not needed to be public. Use external processing.',
-            __METHOD__
-        ));
+        $this->parse();
+        $this->fixer->startFile($this);
+
+        foreach ($this->tokens as $stackPtr => $token) {
+            if (isset($this->tokenListeners[$token['code']]) === false) {
+                continue;
+            }
+
+            foreach ($this->tokenListeners[$token['code']] as $sniff) {
+                if ($this->skipper->shouldSkipCheckerAndFile($sniff, $this->fileInfo)) {
+                    continue;
+                }
+
+                $this->reportActiveSniffClass($sniff);
+
+                $sniff->process($this, $stackPtr);
+            }
+        }
+
+        $this->fixedCount += $this->fixer->getFixCount();
     }
 
-    public function getErrorCount(): void
+    public function getErrorCount(): int
     {
         throw new NotImplementedException(sprintf(
             'Method "%s" is not needed to be public. Use "%s" service.',
@@ -110,7 +149,10 @@ final class File extends BaseFile
         ));
     }
 
-    public function getErrors(): void
+    /**
+     * @return mixed[]
+     */
+    public function getErrors(): array
     {
         throw new NotImplementedException(sprintf(
             'Method "%s" is not needed to be public. Use "%s" service.',
@@ -127,7 +169,7 @@ final class File extends BaseFile
     public function addFixableError($error, $stackPtr, $code, $data = [], $severity = 0): bool
     {
         $this->appliedCheckersCollector->addFileInfoAndChecker(
-            $this->currentFileProvider->getFileInfo(),
+            $this->fileInfo,
             $this->resolveFullyQualifiedCode($code)
         );
 
@@ -153,11 +195,21 @@ final class File extends BaseFile
      */
     public function addWarning($warning, $stackPtr, $code, $data = [], $severity = 0, $fixable = false): bool
     {
-        if (! $this->isSniffClassWarningAllowed($this->currentCheckerProvider->getChecker())) {
+        if (! $this->isSniffClassWarningAllowed($this->activeSniffClass)) {
             return false;
         }
 
         return $this->addError($warning, $stackPtr, $code, $data, $severity, $fixable);
+    }
+
+    /**
+     * @param Sniff[][] $tokenListeners
+     */
+    public function processWithTokenListenersAndFileInfo(array $tokenListeners, SmartFileInfo $fileInfo): void
+    {
+        $this->tokenListeners = $tokenListeners;
+        $this->fileInfo = $fileInfo;
+        $this->process();
     }
 
     /**
@@ -179,16 +231,19 @@ final class File extends BaseFile
             return false;
         }
 
-        if (count($data)) {
-            $message = vsprintf($message, $data);
-        }
+        $message = count($data) ? vsprintf($message, $data) : $message;
 
         if ($isFixable === true) {
             return $isFixable;
         }
 
+        // do not add non-fixable errors twice
+        if ($this->fixer->loops > 0) {
+            return false;
+        }
+
         $this->errorAndDiffCollector->addErrorMessage(
-            $this->currentFileProvider->getFileInfo(),
+            $this->fileInfo,
             $line,
             $message,
             $this->resolveFullyQualifiedCode($sniffClassOrCode)
@@ -197,13 +252,30 @@ final class File extends BaseFile
         return true;
     }
 
+    private function reportActiveSniffClass(Sniff $sniff): void
+    {
+        // used in other places later
+        $this->activeSniffClass = get_class($sniff);
+
+        if (! $this->easyCodingStandardStyle->isDebug()) {
+            return;
+        }
+
+        if ($this->previousActiveSniffClass === $this->activeSniffClass) {
+            return;
+        }
+
+        $this->easyCodingStandardStyle->writeln($this->activeSniffClass);
+        $this->previousActiveSniffClass = $this->activeSniffClass;
+    }
+
     private function resolveFullyQualifiedCode(string $sniffClassOrCode): string
     {
         if (class_exists($sniffClassOrCode)) {
             return $sniffClassOrCode;
         }
 
-        return $this->currentCheckerProvider->getChecker() . '.' . $sniffClassOrCode;
+        return $this->activeSniffClass . '.' . $sniffClassOrCode;
     }
 
     /**
@@ -213,12 +285,13 @@ final class File extends BaseFile
     {
         $fullyQualifiedCode = $this->resolveFullyQualifiedCode($code);
 
-        $fileInfo = $this->currentFileProvider->getFileInfo();
-        if ($this->skipper->shouldSkipCodeAndFile($fullyQualifiedCode, $fileInfo)) {
+        if ($this->skipper->shouldSkipCodeAndFile($fullyQualifiedCode, $this->fileInfo)) {
             return true;
         }
 
-        return $this->skipper->shouldSkipMessageAndFile(vsprintf($error, $data), $fileInfo);
+        $message = count($data) ? vsprintf($error, $data) : $error;
+
+        return $this->skipper->shouldSkipMessageAndFile($message, $this->fileInfo);
     }
 
     private function isSniffClassWarningAllowed(string $sniffClass): bool

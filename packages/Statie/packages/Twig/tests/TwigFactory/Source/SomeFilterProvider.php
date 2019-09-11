@@ -12,7 +12,7 @@ final class SomeFilterProvider implements FilterProviderInterface
     public function provide(): array
     {
         return [
-            'someFilter' => function (string $content) {
+            'someFilter' => function (string $content): string {
                 return strtoupper($content);
             },
         ];

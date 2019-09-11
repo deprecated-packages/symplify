@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    {# this file is located in "/source/_snippets/head.twig" #}
+    {# you can click there thanks to "ide-twig.json" and Symfony plugin #}
+    {% include "_snippets/head.twig" %}
+
+    <body>
+        <div class="container">
+            <h1>{{ post.title }}</h1>
+
+            <p>
+                <strong>{{ post.perex }}</strong>
+            </p>
+
+            <hr>
+
+            {# post.content is internal variable with generated HTML content of the post part after "---" #}
+            <p>{{ post.content | raw }}</p>
+
+            <hr>
+
+            <a href="/">Read more posts</a>
+        </div>
+
+        {# this file is located in "/source/_snippets/footer.twig" #}
+        {% include "_snippets/footer.twig" %}
+    </body>
+</html>

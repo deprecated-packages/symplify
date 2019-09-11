@@ -3,11 +3,12 @@
 namespace Symplify\Statie\Tests\Renderable\File;
 
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\Statie\Configuration\StatieConfiguration;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class FileTest extends AbstractContainerAwareTestCase
+final class FileTest extends AbstractKernelTestCase
 {
     /**
      * @var FileFactory
@@ -16,18 +17,18 @@ final class FileTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        $this->bootKernel(StatieKernel::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/FileFactorySource');
 
-        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
     }
 
     public function test(): void
     {
         $smartFileInfo = new SmartFileInfo(__DIR__ . '/FileFactorySource/someFile.html.latte');
         $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
-
         $this->assertSame('someFile.html.latte', $file->getRelativeSource());
         $this->assertSame('html', $file->getPrimaryExtension());
     }

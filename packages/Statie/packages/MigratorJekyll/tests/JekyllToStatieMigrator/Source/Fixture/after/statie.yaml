@@ -1,0 +1,3 @@
+imports:
+    - { resource: source/_data/companies.yaml }
+    - { resource: source/_data/some_config.yml }

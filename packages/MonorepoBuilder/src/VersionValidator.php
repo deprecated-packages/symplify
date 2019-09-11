@@ -2,10 +2,9 @@
 
 namespace Symplify\MonorepoBuilder;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
-use function Safe\asort;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class VersionValidator
 {
@@ -25,15 +24,15 @@ final class VersionValidator
     }
 
     /**
-     * @param SplFileInfo[] $fileInfos
+     * @param SmartFileInfo[] $smartFileInfos
      * @return string[][]
      */
-    public function findConflictingPackageVersionsInFileInfos(array $fileInfos): array
+    public function findConflictingPackageVersionsInFileInfos(array $smartFileInfos): array
     {
         $packageVersionsPerFile = [];
 
-        foreach ($fileInfos as $fileInfo) {
-            $json = $this->jsonFileManager->loadFromFileInfo($fileInfo);
+        foreach ($smartFileInfos as $smartFileInfo) {
+            $json = $this->jsonFileManager->loadFromFileInfo($smartFileInfo);
 
             foreach ($this->sections as $section) {
                 if (! isset($json[$section])) {
@@ -41,7 +40,7 @@ final class VersionValidator
                 }
 
                 foreach ($json[$section] as $packageName => $packageVersion) {
-                    $packageVersionsPerFile[$packageName][$fileInfo->getPathname()] = $packageVersion;
+                    $packageVersionsPerFile[$packageName][$smartFileInfo->getPathname()] = $packageVersion;
                 }
             }
         }

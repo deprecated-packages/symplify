@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        public: true
-        autowire: true
-
-    Symplify\Statie\Generator\:
-        resource: '../'
-        exclude: '../{Configuration/GeneratorElement.php,Renderable/File/GeneratorFile.php}'

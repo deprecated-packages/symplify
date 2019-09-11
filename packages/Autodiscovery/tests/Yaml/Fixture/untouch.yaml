@@ -1,0 +1,10 @@
+services:
+    Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass: ~
+    Symfony\Component\Filesystem\Filesystem: ~
+---
+services:
+    _defaults:
+        autowire: true
+    Symfony\Component\Filesystem\Filesystem: ~
+    Symplify\Autodiscovery\Tests\:
+        resource: ../Source

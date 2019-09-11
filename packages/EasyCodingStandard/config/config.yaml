@@ -1,0 +1,22 @@
+imports:
+    - { resource: '../packages/**/config/services.yaml' }
+    - { resource: 'services.yaml' }
+    # A. in monorepo
+    - { resource: '../../CodingStandard/packages/TokenRunner/config/config.yaml', ignore_errors: true }
+    # B. as dependency
+    - { resource: '%vendor%/symplify/coding-standard/packages/TokenRunner/config/config.yaml', ignore_errors: true }
+
+parameters:
+    # defaults for "PhpCsFixer\WhitespacesFixerConfig"
+    indentation: 'spaces'
+    line_ending: !php/const PHP_EOL
+
+    cache_directory: '%sys_get_temp_dir%/_changed_files_detector%env(TEST_SUFFIX)%'
+
+    # checkers
+    skip: []
+    only: []
+
+    exclude_files: []
+    # for tests
+    env(TEST_SUFFIX): ''

@@ -9,7 +9,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
-use function Safe\sprintf;
 
 final class DumpFileDecoratorsCommand extends Command
 {
@@ -33,7 +32,7 @@ final class DumpFileDecoratorsCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Dump loaded file decorators with their priority.');
+        $this->setDescription('Dump loaded file decorators with their priority');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Sniffs\ControlStructure;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use function Safe\sprintf;
 
 final class SprintfOverContactSniff implements Sniff
 {
@@ -31,7 +30,9 @@ final class SprintfOverContactSniff implements Sniff
      */
     public function process(File $file, $position): void
     {
+        /** @var int $line */
         $line = $file->getTokens()[$position]['line'];
+
         // this case is already reported
         if (isset($this->reportedFileLines[$file->getFilename()][$line])) {
             return;
@@ -42,6 +43,7 @@ final class SprintfOverContactSniff implements Sniff
             return;
         }
 
+        /** @var int $line */
         $this->reportedFileLines[$file->getFilename()][$line] = true;
 
         $file->addError(

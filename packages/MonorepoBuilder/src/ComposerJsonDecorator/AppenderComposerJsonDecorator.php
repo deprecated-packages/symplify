@@ -40,6 +40,11 @@ final class AppenderComposerJsonDecorator implements ComposerJsonDecoratorInterf
             $composerJson[$key] = $this->parametersMerger->merge($this->dataToAppend[$key], $composerJson[$key]);
 
             unset($this->dataToAppend[$key]);
+
+            // fix unique repositories
+            if ($key === 'repositories') {
+                $composerJson[$key] = array_unique($composerJson[$key], SORT_REGULAR);
+            }
         }
 
         // add what was skipped

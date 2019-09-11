@@ -4,8 +4,7 @@ namespace Symplify\CodingStandard\Sniffs\CleanCode;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory;
-use function Safe\sprintf;
+use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 
 final class ForbiddenParentClassSniff implements Sniff
 {
@@ -15,13 +14,13 @@ final class ForbiddenParentClassSniff implements Sniff
     public $forbiddenParentClasses = [];
 
     /**
-     * @var ClassWrapperFactory
+     * @var SniffClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $sniffClassWrapperFactory;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory)
+    public function __construct(SniffClassWrapperFactory $sniffClassWrapperFactory)
     {
-        $this->classWrapperFactory = $classWrapperFactory;
+        $this->sniffClassWrapperFactory = $sniffClassWrapperFactory;
     }
 
     /**
@@ -41,7 +40,7 @@ final class ForbiddenParentClassSniff implements Sniff
             return;
         }
 
-        $classWrapper = $this->classWrapperFactory->createFromFirstClassInFile($file);
+        $classWrapper = $this->sniffClassWrapperFactory->createFromFirstClassInFile($file);
 
         // no class
         if ($classWrapper === null) {

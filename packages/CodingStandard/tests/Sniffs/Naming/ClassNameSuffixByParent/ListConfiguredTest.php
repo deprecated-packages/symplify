@@ -2,29 +2,35 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\ClassNameSuffixByParent;
 
+use Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff
- */
 final class ListConfiguredTest extends AbstractCheckerTestCase
 {
-    public function testWrong(): void
+    public function test(): void
     {
-        $this->doTestWrongFile(__DIR__ . '/wrong/wrong5.php.inc');
-        $this->doTestWrongFile(__DIR__ . '/wrong/wrong6.php.inc');
-        $this->doTestWrongFile(__DIR__ . '/wrong/wrong7.php.inc');
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/wrong5.php.inc',
+            __DIR__ . '/Fixture/wrong6.php.inc',
+            __DIR__ . '/Fixture/wrong7.php.inc',
+            __DIR__ . '/Fixture/correct5.php.inc',
+            __DIR__ . '/Fixture/correct6.php.inc',
+            __DIR__ . '/Fixture/correct7.php.inc',
+        ]);
     }
 
-    public function testCorrect(): void
+    protected function getCheckerClass(): string
     {
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct5.php.inc');
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct6.php.inc');
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct7.php.inc');
+        return ClassNameSuffixByParentSniff::class;
     }
 
-    protected function provideConfig(): string
+    /**
+     * @return mixed[]
+     */
+    protected function getCheckerConfiguration(): array
     {
-        return __DIR__ . '/list-configured-config.yml';
+        return [
+            'extraParentTypesToSuffixes' => ['RandomInterface', 'RandomAbstract', 'AbstractRandom'],
+        ];
     }
 }

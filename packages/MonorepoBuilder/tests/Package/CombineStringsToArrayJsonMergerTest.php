@@ -2,51 +2,73 @@
 
 namespace Symplify\MonorepoBuilder\Tests\Package;
 
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
-use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
-
-final class CombineStringsToArrayJsonMergerTest extends AbstractContainerAwareTestCase
+final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
 {
-    /**
-     * @var PackageComposerJsonMerger
-     */
-    private $packageComposerJsonMerger;
-
-    protected function setUp(): void
+    public function testIdenticalNamespaces(): void
     {
-        $this->packageComposerJsonMerger = $this->container->get(PackageComposerJsonMerger::class);
-    }
-
-    public function testSharedNamespaces(): void
-    {
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos(
-            $this->getFileInfosFromDirectory(__DIR__ . '/SourceAutoloadSharedNamespaces')
-        );
-
-        $this->assertSame([
+        $expectedJson = [
             'autoload' => [
+                'classmap' => [
+                    $this->getRelativeSourcePath() . 'PackageA/Something.php',
+                    $this->getRelativeSourcePath() . 'PackageA/lib/',
+                    $this->getRelativeSourcePath() . 'PackageA/src/',
+                ],
+                'exclude-from-classmap' => [
+                    $this->getRelativeSourcePath() . 'PackageA/Tests/',
+                    $this->getRelativeSourcePath() . 'PackageA/test/',
+                    $this->getRelativeSourcePath() . 'PackageA/tests/',
+                ],
+                'files' => [$this->getRelativeSourcePath() . 'PackageA/src/MyLibrary/functions.php'],
+                'psr-0' => [
+                    '' => $this->getRelativeSourcePath() . 'PackageA/src/',
+                    'Monolog\\' => $this->getRelativeSourcePath() . 'PackageA/src/',
+                    'UniqueGlobalClass' => $this->getRelativeSourcePath() . 'PackageA/',
+                    'Vendor\\Namespace\\' => [
+                        $this->getRelativeSourcePath() . 'PackageA/lib/',
+                        $this->getRelativeSourcePath() . 'PackageA/src/',
+                    ],
+                    'Vendor_Namespace_' => $this->getRelativeSourcePath() . 'PackageA/src/',
+                ],
                 'psr-4' => [
-                    'ACME\Model\Core\\' => ['packages/A', 'packages/B'],
-                    'ACME\Another\\' => 'packages/A',
-                    'ACME\\YetAnother\\' => ['packages/A'],
-                    'ACME\\YetYetAnother\\' => 'packages/A',
+                    'App\\Collection\\' => [
+                        $this->getRelativeSourcePath() . 'PackageA/src/collection',
+                        $this->getRelativeSourcePath() . 'PackageB/src/collection',
+                    ],
+                    'App\\Core\\' => [
+                        $this->getRelativeSourcePath() . 'PackageA/src/core',
+                        $this->getRelativeSourcePath() . 'PackageB/src/core-extension',
+                    ],
+                    'App\\FixedArray\\' => [
+                        $this->getRelativeSourcePath() . 'PackageA/src/array',
+                        $this->getRelativeSourcePath() . 'PackageA/src/list',
+                    ],
+                    'App\\Model\\' => [
+                        $this->getRelativeSourcePath() . 'PackageB/src/interfaces',
+                        $this->getRelativeSourcePath() . 'SubA/PackageC/src/models',
+                    ],
+                    'App\\Shared\\' => [
+                        $this->getRelativeSourcePath() . 'PackageA/src/shared',
+                        $this->getRelativeSourcePath() . 'PackageB/src/shared',
+                    ],
+                    'App\\Sub\\' => [
+                        $this->getRelativeSourcePath() . 'SubA/PackageC/src/package-c',
+                        $this->getRelativeSourcePath() . 'SubB/PackageD/src/package-d',
+                    ],
+                    'App\\YetAnother\\' => [
+                        $this->getRelativeSourcePath() . 'PackageA/src',
+                        $this->getRelativeSourcePath() . 'PackageB/src',
+                    ],
                 ],
             ],
-        ], $merged);
+        ];
+
+        $this->doTestDirectoryMergeToFile(__DIR__ . '/SourceIdenticalNamespaces', $expectedJson);
     }
 
-    /**
-     * @return SplFileInfo[]
-     */
-    private function getFileInfosFromDirectory(string $directory): array
+    private function getRelativeSourcePath(): string
     {
-        $iterator = Finder::create()->files()
-            ->in($directory)
-            ->name('*.json')
-            ->getIterator();
+        $prefix = defined('SYMPLIFY_MONOREPO') ? 'packages/MonorepoBuilder/' : '';
 
-        return iterator_to_array($iterator);
+        return $prefix . 'tests/Package/SourceIdenticalNamespaces/';
     }
 }

@@ -5,8 +5,7 @@ namespace Symplify\CodingStandard\Sniffs\Naming;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory;
-use function Safe\sprintf;
+use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 
 final class ClassNameSuffixByParentSniff implements Sniff
 {
@@ -38,13 +37,13 @@ final class ClassNameSuffixByParentSniff implements Sniff
     public $extraParentTypesToSuffixes = [];
 
     /**
-     * @var ClassWrapperFactory
+     * @var SniffClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $sniffClassWrapperFactory;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory)
+    public function __construct(SniffClassWrapperFactory $sniffClassWrapperFactory)
     {
-        $this->classWrapperFactory = $classWrapperFactory;
+        $this->sniffClassWrapperFactory = $sniffClassWrapperFactory;
     }
 
     /**
@@ -60,7 +59,7 @@ final class ClassNameSuffixByParentSniff implements Sniff
      */
     public function process(File $file, $position): void
     {
-        $classWrapper = $this->classWrapperFactory->createFromFirstClassInFile($file);
+        $classWrapper = $this->sniffClassWrapperFactory->createFromFirstClassInFile($file);
         if ($classWrapper === null) {
             return;
         }

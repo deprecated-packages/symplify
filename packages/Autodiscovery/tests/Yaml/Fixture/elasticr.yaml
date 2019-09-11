@@ -1,0 +1,57 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Elasticr\Bundle\CatalogBundle\DataFixtures\CategoryFixtures: ~
+    Elasticr\Bundle\CatalogBundle\DataFixtures\ProductFixtures: ~
+
+    Elasticr\Bundle\CatalogBundle\Manufacturer\ManufacturerRepository: ~
+
+    Elasticr\Component\Catalog\Manufacturer\ManufacturerRepository:
+        alias: Elasticr\Bundle\CatalogBundle\Manufacturer\ManufacturerRepository
+
+    Elasticr\Bundle\CatalogBundle\Product\ProductRepository: ~
+
+    Elasticr\Component\Catalog\Product\ProductRepository:
+        alias: Elasticr\Bundle\CatalogBundle\Product\ProductRepository
+
+    Elasticr\Bundle\CatalogBundle\Category\CategoryRepository: ~
+
+    Elasticr\Component\Catalog\Category\CategoryRepository:
+        alias: Elasticr\Bundle\CatalogBundle\Category\CategoryRepository
+
+    Elasticr\Bundle\CatalogBundle\Product\EntityLocator: ~
+
+    Elasticr\Component\Catalog\Product\EntityLocator:
+        alias: Elasticr\Bundle\CatalogBundle\Product\EntityLocator
+
+    Elasticr\Component\Catalog\Product\ProductService: ~
+    Elasticr\Component\Catalog\Manufacturer\ManufacturerService: ~
+    Elasticr\Component\Catalog\Category\CategoryService: ~
+---
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Elasticr\Component\Catalog\Manufacturer\ManufacturerRepository:
+        alias: Elasticr\Bundle\CatalogBundle\Manufacturer\ManufacturerRepository
+
+    Elasticr\Component\Catalog\Product\ProductRepository:
+        alias: Elasticr\Bundle\CatalogBundle\Product\ProductRepository
+
+    Elasticr\Component\Catalog\Category\CategoryRepository:
+        alias: Elasticr\Bundle\CatalogBundle\Category\CategoryRepository
+
+    Elasticr\Component\Catalog\Product\EntityLocator:
+        alias: Elasticr\Bundle\CatalogBundle\Product\EntityLocator
+
+    Elasticr\Bundle\CatalogBundle\:
+        resource: '../../../src'
+        exclude: '../../../src/{Contract,Exception}'
+    Elasticr\Component\Catalog\:
+        resource: '../../../src'
+        exclude: '../../../src/{Contract,Exception}'

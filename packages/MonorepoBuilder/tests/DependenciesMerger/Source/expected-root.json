@@ -8,8 +8,17 @@
             "Some\\": "some"
         }
     },
-    "repositories": {
-        "type": "vcs",
-        "url": "https://github.com/molaux/PostgreSearchBundle.git"
-    }
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/molaux/PostgreSearchBundle.git"
+        },
+        {
+            "options": {
+                "symlink": false
+            },
+            "type": "path",
+            "url": "./../packages/*"
+        }
+    ]
 }

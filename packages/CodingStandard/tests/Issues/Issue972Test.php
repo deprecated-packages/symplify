@@ -2,17 +2,18 @@
 
 namespace Symplify\CodingStandard\Tests\Issues;
 
+use Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class Issue972Test extends AbstractCheckerTestCase
 {
     public function test(): void
     {
-        $this->doTestWrongToFixedFile(__DIR__ . '/wrong/wrong972.php.inc', __DIR__ . '/fixed/fixed972.php.inc');
+        $this->doTestFiles([__DIR__ . '/Fixture/wrong972.php.inc']);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config/config972.yml';
+        return BlockPropertyCommentFixer::class;
     }
 }

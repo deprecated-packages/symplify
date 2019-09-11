@@ -30,13 +30,20 @@ final class Skipper
     private $excludedFiles = [];
 
     /**
+     * @var mixed[]
+     */
+    private $only = [];
+
+    /**
      * @param mixed[] $skip
+     * @param mixed[] $only
      * @param mixed[] $excludeFiles
      */
-    public function __construct(array $skip, array $excludeFiles)
+    public function __construct(array $skip, array $only, array $excludeFiles)
     {
         $this->categorizeSkipSettings($skip);
         $this->excludedFiles = $excludeFiles;
+        $this->only = $only;
     }
 
     public function shouldSkipCodeAndFile(string $code, SmartFileInfo $smartFileInfo): bool
@@ -54,17 +61,21 @@ final class Skipper
      */
     public function shouldSkipCheckerAndFile($checker, SmartFileInfo $smartFileInfo): bool
     {
-        foreach ($this->skipped as $skippedClass => $skippedFiles) {
-            if (! is_a($checker, $skippedClass, true)) {
+        foreach ($this->only as $onlyClass => $onlyFiles) {
+            if (! is_a($checker, $onlyClass, true)) {
                 continue;
             }
 
-            if ($this->doesFileMatchSkippedFiles($smartFileInfo, $skippedFiles)) {
-                return true;
+            foreach ($onlyFiles as $onlyFile) {
+                if ($this->fileMatchesPattern($smartFileInfo, $onlyFile)) {
+                    return false;
+                }
             }
+
+            return true;
         }
 
-        return false;
+        return $this->processSkipped($checker, $smartFileInfo);
     }
 
     public function shouldSkipFileInfo(SmartFileInfo $smartFileInfo): bool
@@ -131,6 +142,48 @@ final class Skipper
      */
     private function fileMatchesPattern(SmartFileInfo $smartFileInfo, string $ignoredPath): bool
     {
+        $ignoredPath = $this->normalizeForFnmatch($ignoredPath);
+
         return $smartFileInfo->endsWith($ignoredPath) || $smartFileInfo->fnmatches($ignoredPath);
+    }
+
+    /**
+     * "value*" → "*value*"
+     * "*value" → "*value*"
+     */
+    private function normalizeForFnmatch(string $path): string
+    {
+        // ends with *
+        if (Strings::match($path, '#^[^*](.*?)\*$#')) {
+            return '*' . $path;
+        }
+        // starts with *
+        if (Strings::match($path, '#^\*(.*?)[^*]$#')) {
+            return $path . '*';
+        }
+        return $path;
+    }
+
+    /**
+     * @param FixerInterface|Sniff|string $checker
+     */
+    private function processSkipped($checker, SmartFileInfo $smartFileInfo): bool
+    {
+        foreach ($this->skipped as $skippedClass => $skippedFiles) {
+            if (! is_a($checker, $skippedClass, true)) {
+                continue;
+            }
+
+            // skip everywhere
+            if (! is_array($skippedFiles)) {
+                return true;
+            }
+
+            if ($this->doesFileMatchSkippedFiles($smartFileInfo, $skippedFiles)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

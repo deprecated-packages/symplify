@@ -9,13 +9,27 @@ final class ServiceWithAutowiredParameter
      */
     private $someParameter;
 
-    public function __construct(string $someParameter)
+    /**
+     * @var mixed[]
+     */
+    private $arrayParameter = [];
+
+    /**
+     * @param mixed[] $arrayParameter
+     */
+    public function __construct(string $someParameter, array $arrayParameter)
     {
         $this->someParameter = $someParameter;
+        $this->arrayParameter = $arrayParameter;
     }
 
     public function getSomeParameter(): string
     {
         return $this->someParameter;
+    }
+
+    public function getArrayParameter(): array
+    {
+        return $this->arrayParameter;
     }
 }

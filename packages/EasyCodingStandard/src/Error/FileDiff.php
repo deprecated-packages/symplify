@@ -3,8 +3,6 @@
 namespace Symplify\EasyCodingStandard\Error;
 
 use PhpCsFixer\Differ\DiffConsoleFormatter;
-use function Safe\sort;
-use function Safe\sprintf;
 
 final class FileDiff
 {
@@ -38,6 +36,11 @@ final class FileDiff
             PHP_EOL,
             PHP_EOL
         ));
+    }
+
+    public function getDiff(): string
+    {
+        return $this->diff;
     }
 
     public function getDiffConsoleFormatted(): string

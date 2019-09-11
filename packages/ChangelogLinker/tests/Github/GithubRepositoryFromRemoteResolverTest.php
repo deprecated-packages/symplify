@@ -31,6 +31,7 @@ final class GithubRepositoryFromRemoteResolverTest extends TestCase
     {
         yield ['git@github.com:Symplify/Symplify.git', 'https://github.com/Symplify/Symplify'];
         yield ['https://github.com/Symplify/Symplify.git', 'https://github.com/Symplify/Symplify'];
+        yield ['https://UserName@github.com/Symplify/Symplify.git', 'https://github.com/Symplify/Symplify'];
     }
 
     public function testInvalid(): void

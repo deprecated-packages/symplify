@@ -1,0 +1,5 @@
+services:
+    SendGrid:
+        class: SendGrid
+        arguments:
+            - '%env(SENDGRID_API_KEY)%'

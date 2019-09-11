@@ -9,9 +9,9 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapper;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 /**
  * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
@@ -24,18 +24,20 @@ final class MethodOrderByTypeFixer extends AbstractSymplifyFixer implements Conf
     private $methodOrderByType = [];
 
     /**
-     * @var ClassWrapperFactory
+     * @var FixerClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $fixerClassWrapperFactory;
 
     /**
      * @var ClassElementSorter
      */
     private $classElementSorter;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory, ClassElementSorter $classElementSorter)
-    {
-        $this->classWrapperFactory = $classWrapperFactory;
+    public function __construct(
+        FixerClassWrapperFactory $fixerClassWrapperFactory,
+        ClassElementSorter $classElementSorter
+    ) {
+        $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->classElementSorter = $classElementSorter;
     }
 
@@ -45,7 +47,7 @@ final class MethodOrderByTypeFixer extends AbstractSymplifyFixer implements Conf
             'Methods should have specific order by interface or parent class.',
             [
                 new CodeSample(
-<<<'CODE_SAMPLE'
+                    <<<'CODE_SAMPLE'
 final class SomeFixer implements FixerInterface
 {
     public function isCandidate()
@@ -73,7 +75,7 @@ CODE_SAMPLE
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->getReversedClassyPositions($tokens) as $index) {
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
+            $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             if ($this->shouldSkip($classWrapper)) {
                 continue;
             }
@@ -102,21 +104,21 @@ CODE_SAMPLE
         $this->methodOrderByType = $configuration['method_order_by_type'] ?? [];
     }
 
-    private function shouldSkip(ClassWrapper $classWrapper): bool
+    private function shouldSkip(FixerClassWrapper $fixerClassWrapper): bool
     {
         // we cannot check abstract classes, since they don't contain all
-        if ($classWrapper->isAbstract()) {
+        if ($fixerClassWrapper->isAbstract()) {
             return true;
         }
 
         // no type matches
-        $matchedClassType = $this->matchClassType($classWrapper);
+        $matchedClassType = $this->matchClassType($fixerClassWrapper);
         if ($matchedClassType === null) {
             return true;
         }
 
         // there are no methods to sort
-        return ! $classWrapper->getMethodElements();
+        return ! $fixerClassWrapper->getMethodElements();
     }
 
     /**
@@ -142,9 +144,9 @@ CODE_SAMPLE
     /**
      * @return string[]
      */
-    private function getRequiredMethodOrder(ClassWrapper $classWrapper): array
+    private function getRequiredMethodOrder(FixerClassWrapper $fixerClassWrapper): array
     {
-        $matchedClassType = $this->matchClassType($classWrapper);
+        $matchedClassType = $this->matchClassType($fixerClassWrapper);
 
         return $this->methodOrderByType[$matchedClassType];
     }
@@ -168,11 +170,11 @@ CODE_SAMPLE
         return array_merge($sorted, $methodElements);
     }
 
-    private function matchClassType(ClassWrapper $classWrapper): ?string
+    private function matchClassType(FixerClassWrapper $fixerClassWrapper): ?string
     {
         $classTypesToCheck = array_keys($this->methodOrderByType);
 
-        $matchTypes = array_intersect($classWrapper->getClassTypes(), $classTypesToCheck);
+        $matchTypes = array_intersect($fixerClassWrapper->getClassTypes(), $classTypesToCheck);
         if (! $matchTypes) {
             return null;
         }

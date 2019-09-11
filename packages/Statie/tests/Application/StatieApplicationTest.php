@@ -3,13 +3,15 @@
 namespace Symplify\Statie\Tests\Application;
 
 use Nette\Utils\FileSystem;
-use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Application\StatieApplication;
-use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 
-final class StatieApplicationTest extends TestCase
+final class StatieApplicationTest extends AbstractKernelTestCase
 {
     /**
      * @var StatieApplication
@@ -23,9 +25,13 @@ final class StatieApplicationTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/StatieApplicationSource/statie.yml');
-        $this->statieApplication = $container->get(StatieApplication::class);
-        $this->arrayLoader = $container->get(ArrayLoader::class);
+        $this->bootKernelWithConfigs(StatieKernel::class, [__DIR__ . '/StatieApplicationSource/statie.yml']);
+
+        $this->statieApplication = self::$container->get(StatieApplication::class);
+        $this->arrayLoader = self::$container->get(ArrayLoader::class);
+
+        $symfonyStyle = self::$container->get(SymfonyStyle::class);
+        $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
     }
 
     protected function tearDown(): void
@@ -49,6 +55,13 @@ final class StatieApplicationTest extends TestCase
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/feed.xml');
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/atom.rss');
 
+        // markdown test
+        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/file/index.html');
+        $this->assertFileEquals(
+            __DIR__ . '/StatieApplicationSource/expected-file.html',
+            __DIR__ . '/StatieApplicationSource/output/file/index.html'
+        );
+
         $this->assertNotEmpty($this->arrayLoader->getContent('_layouts/default.latte'));
     }
 
@@ -66,6 +79,6 @@ final class StatieApplicationTest extends TestCase
         );
 
         $this->expectExceptionMessageRegExp('#Did you mean "_layouts/default.latte"#');
-        $this->assertNotEmpty($this->arrayLoader->getContent('layoutdefault.latte'));
+        $this->assertNotEmpty($this->arrayLoader->getContent('layout/default.latte'));
     }
 }

@@ -1,2 +1,0 @@
-services:
-    Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: ~

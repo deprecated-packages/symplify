@@ -2,29 +2,22 @@
 
 namespace Symplify\PackageBuilder\Tests\Parameter\ParameterTypoProofreader;
 
-use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symplify\PackageBuilder\Exception\Parameter\ParameterTypoException;
-use Symplify\PackageBuilder\Tests\ContainerFactory;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Tests\HttpKernel\PackageBuilderTestKernel;
 
-final class ParameterTypoProofreaderTest extends TestCase
+final class ParameterTypoProofreaderTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
     protected function setUp(): void
     {
-        $this->container = (new ContainerFactory())->createWithConfig(__DIR__ . '/config.yml');
+        $this->bootKernelWithConfigs(PackageBuilderTestKernel::class, [__DIR__ . '/config.yml']);
     }
 
     public function testConsole(): void
     {
-        /** @var Application $application */
-        $application = $this->container->get(Application::class);
+        $application = self::$container->get(Application::class);
         $application->setCatchExceptions(false);
 
         $this->expectException(ParameterTypoException::class);

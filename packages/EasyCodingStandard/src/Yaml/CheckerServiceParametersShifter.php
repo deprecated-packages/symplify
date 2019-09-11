@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
 /**
  * Before:
@@ -47,12 +48,21 @@ final class CheckerServiceParametersShifter
      */
     private $checkerConfigurationGuardian;
 
+    /**
+     * @var StringFormatConverter
+     */
+    private $stringFormatConverter;
+
     public function __construct()
     {
         $this->checkerConfigurationGuardian = new CheckerConfigurationGuardian();
+        $this->stringFormatConverter = new StringFormatConverter();
 
-        $this->serviceKeywords = (new ReflectionClass(YamlFileLoader::class))
+        /** @var string[] $serviceKeywordsProperty */
+        $serviceKeywordsProperty = (new ReflectionClass(YamlFileLoader::class))
             ->getStaticProperties()['serviceKeywords'];
+
+        $this->serviceKeywords = $serviceKeywordsProperty;
     }
 
     /**
@@ -115,12 +125,8 @@ final class CheckerServiceParametersShifter
                 continue;
             }
 
-            // fixes comment extra bottom space
-            if ($checker === HeaderCommentFixer::class) {
-                if (isset($serviceDefinition['header'])) {
-                    $serviceDefinition['header'] = trim($serviceDefinition['header']);
-                }
-            }
+            $serviceDefinition = $this->correctHeader($checker, $serviceDefinition);
+            $serviceDefinition = $this->stringFormatConverter->camelCaseToUnderscoreInArrayKeys($serviceDefinition);
 
             $services[$checker]['calls'] = [['configure', [$serviceDefinition]]];
         }
@@ -141,7 +147,9 @@ final class CheckerServiceParametersShifter
                 continue;
             }
 
+            $key = $this->stringFormatConverter->underscoreAndHyphenToCamelCase($key);
             $this->checkerConfigurationGuardian->ensurePropertyExists($checker, $key);
+
             $services[$checker]['properties'][$key] = $this->escapeValue($value);
         }
 
@@ -176,6 +184,24 @@ final class CheckerServiceParametersShifter
         }
 
         return in_array($key, $this->serviceKeywords, true);
+    }
+
+    /**
+     * @param mixed[] $serviceDefinition
+     * @return mixed[]
+     */
+    private function correctHeader(string $checker, array $serviceDefinition): array
+    {
+        // fixes comment extra bottom space
+        if ($checker !== HeaderCommentFixer::class) {
+            return $serviceDefinition;
+        }
+
+        if (isset($serviceDefinition['header'])) {
+            $serviceDefinition['header'] = trim($serviceDefinition['header']);
+        }
+
+        return $serviceDefinition;
     }
 
     /**

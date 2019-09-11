@@ -1,5 +1,6 @@
 <div align="center">
-    <h1>Symplify Monorepo</h1>
+    <img src="/docs/symplify.png?v=2">
+    <h1>Symplify</h1>
     <a href="https://travis-ci.org/Symplify/Symplify">
         <img src="https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square" alt="CI Status">
     </a>
@@ -63,13 +64,14 @@ A static site generator with aim on community websites.
 
 You'll find them all in [`/packages`](/packages) directory:
 
+- [Autodiscovery](https://github.com/Symplify/Autodiscovery) - Forget manual registration of translations, templates, mappings and routes in Symfony Application
+- [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Why write `CHANGELOG.md`, when you can generate it
+- [EasyCodingStandardTester](https://github.com/Symplify/EasyCodingStandardTester) - Sniffs and Fixers testing tool
+- [FlexLoader](https://github.com/Symplify/FlexLoader) - Keep your Symfony Kernel slim again and let FlexLoader load all the configs
 - [LatteToTwigConverter](https://github.com/Symplify/LatteToTwigConverter) - Converts Latte templates to Twig
-- [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Not only Composer tools to build a Monorepo
-- [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Make CHANGELOG.md useful with links
+- [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Validate, split, release and maintain Monorepo like a boss
+- [NeonToYamlConverter](https://github.com/Symplify/NeonToYamlConverter) - Converts NEON files to YAML
 - [PackageBuilder](https://github.com/Symplify/PackageBuilder) - Speed up your package DI Containers integration and Console apps to Symfony
-- [BetterPhpDocParser](https://github.com/Symplify/BetterPhpDocParser) - Slim wrapper around [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser) with format preserving printer
-- [TokenRunner](https://github.com/Symplify/TokenRunner) - Building own Sniffs and Fixers made easy
-- [EasyCodingStandardTester](https://github.com/Symplify/EasyCodingStandardTester) - The Best Way to Test Sniffs and Fixers
 
 ## Install
 

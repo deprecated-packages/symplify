@@ -3,9 +3,10 @@
 namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator;
 
 use Symplify\MonorepoBuilder\ComposerJsonDecorator\SortComposerJsonDecorator;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class SortComposerJsonDecoratorTest extends AbstractContainerAwareTestCase
+final class SortComposerJsonDecoratorTest extends AbstractKernelTestCase
 {
     /**
      * @var mixed[]
@@ -21,7 +22,9 @@ final class SortComposerJsonDecoratorTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
-        $sortComposerJsonDecorator = $this->container->get(SortComposerJsonDecorator::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $sortComposerJsonDecorator = self::$container->get(SortComposerJsonDecorator::class);
 
         $sortedComposerJson = $sortComposerJsonDecorator->decorate($this->composerJson);
         $this->assertSame(

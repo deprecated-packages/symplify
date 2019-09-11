@@ -2,11 +2,11 @@
 
 namespace Symplify\MonorepoBuilder\Split\Tests\Process;
 
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
-use Symplify\MonorepoBuilder\Split\Tests\AbstractContainerAwareTestCase;
-use function Safe\realpath;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class ProcessFactoryTest extends AbstractContainerAwareTestCase
+final class ProcessFactoryTest extends AbstractKernelTestCase
 {
     /**
      * @var ProcessFactory
@@ -15,7 +15,9 @@ final class ProcessFactoryTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->processFactory = $this->container->get(ProcessFactory::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->processFactory = self::$container->get(ProcessFactory::class);
     }
 
     public function test(): void

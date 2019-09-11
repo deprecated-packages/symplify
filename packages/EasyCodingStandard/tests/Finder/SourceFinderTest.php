@@ -2,45 +2,21 @@
 
 namespace Symplify\EasyCodingStandard\Tests\Finder;
 
-use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
-use Symplify\EasyCodingStandard\Tests\AbstractContainerAwareTestCase;
+use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class SourceFinderTest extends AbstractContainerAwareTestCase
+final class SourceFinderTest extends AbstractKernelTestCase
 {
     public function test(): void
     {
-        /** @var SourceFinder $sourceFinder */
-        $sourceFinder = $this->container->get(SourceFinder::class);
+        $this->bootKernel(EasyCodingStandardKernel::class);
+
+        $sourceFinder = self::$container->get(SourceFinder::class);
         $foundFiles = $sourceFinder->find([__DIR__ . '/SourceFinderSource/Source']);
         $this->assertCount(1, $foundFiles);
 
         $foundFiles = $sourceFinder->find([__DIR__ . '/SourceFinderSource/Source/SomeClass.php.inc']);
         $this->assertCount(1, $foundFiles);
-    }
-
-    public function testSourceProviders(): void
-    {
-        $container = (new ContainerFactory())->createWithConfigs(
-            [__DIR__ . '/SourceFinderSource/config-with-source-provider.yml']
-        );
-
-        $sourceFinder = $container->get(SourceFinder::class);
-        $foundFiles = $sourceFinder->find([__DIR__ . '/SourceFinderSource/Source/tests']);
-
-        $this->assertCount(1, $foundFiles);
-    }
-
-    public function testAppendFileAndSanitize(): void
-    {
-        $container = (new ContainerFactory())->createWithConfigs(
-            [__DIR__ . '/SourceFinderSource/config-with-append-file-provider.yml']
-        );
-
-        /** @var SourceFinder $sourceFinder */
-        $sourceFinder = $container->get(SourceFinder::class);
-        $foundFiles = $sourceFinder->find([__DIR__ . '/SourceFinderSource/Source/tests']);
-
-        $this->assertCount(3, $foundFiles);
     }
 }

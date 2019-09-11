@@ -1,0 +1,20 @@
+parameters:
+    directories_to_repositories: []
+    subsplit_cache_directory: '%kernel.cache_dir%/_subsplit'
+
+    # create token here: https://github.com/settings/tokens/new
+    # use in cli like: "GITHUB_TOKEN=%s vendor/bin/monorepo-builder split ..."
+    env(GITHUB_TOKEN): null
+    github_token: '%env(GITHUB_TOKEN)%'
+    repository: '%root_directory%/.git'
+
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    Symplify\MonorepoBuilder\Split\:
+        resource: '../src'
+        exclude: '../src/{Exception,Process/SplitProcessInfo.php}'
+
+    Symplify\PackageBuilder\FileSystem\FileSystemGuard: ~

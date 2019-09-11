@@ -2,44 +2,39 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Order\MethodOrderByTypeFixer;
 
-use Iterator;
+use PhpCsFixer\Fixer\FixerInterface as PhpCsFixerFixerInterface;
+use Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer;
+use Symplify\CodingStandard\Tests\Fixer\Order\MethodOrderByTypeFixer\Source\FixerInterface;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer
- */
 final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
 {
+    public function test(): void
+    {
+        $this->autoloadTestFixture = true;
+
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/FixerWithAbstractParent.php',
+            __DIR__ . '/Fixture/SomeFixer.php.inc',
+            __DIR__ . '/Fixture/RealFixer.php.inc',
+        ]);
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return MethodOrderByTypeFixer::class;
+    }
+
     /**
-     * @dataProvider provideCorrectCases()
+     * @return mixed[]
      */
-    public function testCorrect(string $correctFile): void
+    protected function getCheckerConfiguration(): array
     {
-        $this->doTestCorrectFile($correctFile);
-    }
-
-    public function provideCorrectCases(): Iterator
-    {
-        yield [__DIR__ . '/Correct/AbstractClass.php.inc'];
-        yield [__DIR__ . '/Correct/FixerWithAbstractParent.php'];
-    }
-
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testWrongToFixed(string $wrongFile, string $fixedFile): void
-    {
-        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
-    }
-
-    public function provideWrongToFixedCases(): Iterator
-    {
-        yield [__DIR__ . '/Wrong/SomeFixer.php', __DIR__ . '/fixed/fixed.php.inc'];
-        yield [__DIR__ . '/Wrong/RealFixer.php', __DIR__ . '/fixed/fixed2.php.inc'];
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
+        return [
+            'method_order_by_type' => [
+                FixerInterface::class => ['firstMethod', 'secondMethod'],
+                PhpCsFixerFixerInterface::class => ['firstMethod', 'secondMethod', 'getDefinition', 'isCandidate'],
+            ],
+        ];
     }
 }

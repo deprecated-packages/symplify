@@ -2,17 +2,18 @@
 
 namespace Symplify\CodingStandard\Tests\Issues;
 
+use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class Issue1030Test extends AbstractCheckerTestCase
 {
     public function test(): void
     {
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct1030.php.inc');
+        $this->doTestFiles([__DIR__ . '/Fixture/correct1030.php.inc']);
     }
 
-    protected function provideConfig(): string
+    protected function getCheckerClass(): string
     {
-        return __DIR__ . '/config/config1030.yml';
+        return ForbiddenStaticFunctionSniff::class;
     }
 }

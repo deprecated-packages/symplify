@@ -1,0 +1,19 @@
+---
+---
+Some html file
+
+<ul>
+    {% for project in site.data.projects %}
+       <li><a href="{{ project.url }}">{{ project.name }}</a></li>
+    {% endfor %}
+</ul>
+
+{% include part.html %}
+
+{{ url|remove: 'index.html' }}
+
+{% if permalink contains '.html' %}{% endif %}
+
+{% assign author = owner %}
+
+{% capture author %}...{% endcapture %}

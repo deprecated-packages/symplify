@@ -38,7 +38,7 @@ final class FinderSanitizerTest extends TestCase
         $files = $this->finderSanitizer->sanitize($finder);
         $this->assertCount(1, $files);
 
-        $this->validateFile(array_pop($files));
+        $this->validateFile($files[0]);
     }
 
     public function testNetteFinder(): void

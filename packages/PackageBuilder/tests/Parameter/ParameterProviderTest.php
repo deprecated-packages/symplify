@@ -2,18 +2,20 @@
 
 namespace Symplify\PackageBuilder\Tests\Parameter;
 
-use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use Symplify\PackageBuilder\Tests\ContainerFactory;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Tests\HttpKernel\PackageBuilderTestKernel;
 
-final class ParameterProviderTest extends TestCase
+final class ParameterProviderTest extends AbstractKernelTestCase
 {
     public function test(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/ParameterProviderSource/config.yml');
+        $this->bootKernelWithConfigs(
+            PackageBuilderTestKernel::class,
+            [__DIR__ . '/ParameterProviderSource/config.yml']
+        );
 
-        /** @var ParameterProvider $parameterProvider */
-        $parameterProvider = $container->get(ParameterProvider::class);
+        $parameterProvider = self::$container->get(ParameterProvider::class);
         $this->assertContains([
             'key' => 'value',
             'camelCase' => 'Lion',
@@ -28,12 +30,12 @@ final class ParameterProviderTest extends TestCase
 
     public function testIncludingYaml(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(
-            __DIR__ . '/ParameterProviderSource/Yaml/including-config.yml'
+        $this->bootKernelWithConfigs(
+            PackageBuilderTestKernel::class,
+            [__DIR__ . '/ParameterProviderSource/Yaml/including-config.yml']
         );
 
-        /** @var ParameterProvider $parameterProvider */
-        $parameterProvider = $container->get(ParameterProvider::class);
+        $parameterProvider = self::$container->get(ParameterProvider::class);
 
         $this->assertContains([
             'one' => 1,

@@ -3,15 +3,13 @@
 namespace Symplify\Statie\Generator\Tests;
 
 use Nette\Utils\FileSystem;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\DependencyInjection\ContainerFactory;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 
-abstract class AbstractGeneratorTest extends TestCase
+abstract class AbstractGeneratorTest extends AbstractKernelTestCase
 {
     /**
      * @var string
@@ -19,19 +17,14 @@ abstract class AbstractGeneratorTest extends TestCase
     protected $outputDirectory = __DIR__ . '/GeneratorSource/output';
 
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    protected $configuration;
+    protected $statieConfiguration;
 
     /**
      * @var Generator
      */
     protected $generator;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
 
     /**
      * @var FileSystemWriter
@@ -45,9 +38,8 @@ abstract class AbstractGeneratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->container = (new ContainerFactory())->createWithConfig($this->getConfig());
-        $this->generator = $this->container->get(Generator::class);
-        $this->fileSystemWriter = $this->container->get(FileSystemWriter::class);
+        $this->generator = self::$container->get(Generator::class);
+        $this->fileSystemWriter = self::$container->get(FileSystemWriter::class);
 
         $this->prepareConfiguration();
         $this->prepareLayouts();
@@ -58,13 +50,11 @@ abstract class AbstractGeneratorTest extends TestCase
         FileSystem::delete($this->outputDirectory);
     }
 
-    abstract protected function getConfig(): string;
-
     private function prepareConfiguration(): void
     {
-        $this->configuration = $this->container->get(Configuration::class);
-        $this->configuration->setSourceDirectory($this->sourceDirectory);
-        $this->configuration->setOutputDirectory($this->outputDirectory);
+        $this->statieConfiguration = self::$container->get(StatieConfiguration::class);
+        $this->statieConfiguration->setSourceDirectory($this->sourceDirectory);
+        $this->statieConfiguration->setOutputDirectory($this->outputDirectory);
     }
 
     /**
@@ -72,8 +62,7 @@ abstract class AbstractGeneratorTest extends TestCase
      */
     private function prepareLayouts(): void
     {
-        /** @var ArrayLoader $arrayLoader */
-        $arrayLoader = $this->container->get(ArrayLoader::class);
+        $arrayLoader = self::$container->get(ArrayLoader::class);
         $arrayLoader->changeContent(
             '_layouts/post.latte',
             FileSystem::read($this->sourceDirectory . '/_layouts/post.latte')

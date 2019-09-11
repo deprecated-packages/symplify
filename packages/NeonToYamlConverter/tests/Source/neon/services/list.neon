@@ -1,0 +1,16 @@
+services:
+	- Entrydo\Infrastructure\Mailing\SendGridMailer
+	- Entrydo\App\Routing\RouterFactory
+	- Entrydo\App\HttpRequest\RequestBodyHelper
+	- Entrydo\Infrastructure\Persistence\Doctrine\DoctrineUserRepository
+	- Entrydo\Infrastructure\Persistence\Doctrine\DoctrineCustomerRepository
+	- Entrydo\Infrastructure\Persistence\Doctrine\DoctrineTicketRepository
+	- Entrydo\Infrastructure\Persistence\Doctrine\DoctrineEventRepository
+	- Entrydo\Infrastructure\Persistence\Doctrine\DoctrineOrderRepository
+	- Entrydo\Infrastructure\Persistence\Doctrine\DoctrineTicketVariantRepository
+	- Entrydo\Infrastructure\Persistence\Doctrine\DoctrineTrackingCodeRepository
+	- Entrydo\Application\UserInfo\UserInfoUseCase
+	- Entrydo\Application\EditUserInfo\EditUserInfoUseCase
+	- Entrydo\Domain\Specifications\Email\EmailIsUnique
+	- Entrydo\Application\ListCountries\ListCountriesUseCase(%country.enabled%)
+	- Entrydo\Application\ListCurrencies\ListCurrenciesUseCase(%currency.enabled%)

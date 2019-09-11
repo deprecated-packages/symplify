@@ -5,7 +5,6 @@ namespace Symplify\EasyCodingStandard\DependencyInjection\CompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\EasyCodingStandard\Configuration\Exception\ConflictingCheckersLoadedException;
-use function Safe\sprintf;
 
 final class ConflictingCheckersCompilerPass implements CompilerPassInterface
 {
@@ -18,22 +17,22 @@ final class ConflictingCheckersCompilerPass implements CompilerPassInterface
         [
             'SlevomatCodingStandard\Sniffs\ControlStructures\DisallowYodaComparisonSniff',
             'PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer',
-        ], [
+        ],                                                [
             'PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\LowerCaseConstantSniff',
             'PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\UpperCaseConstantSniff',
-        ], [
+        ],                                                [
             'PhpCsFixer\Fixer\Casing\LowercaseConstantsFixer',
             'PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\UpperCaseConstantSniff',
-        ], [
+        ],                                                [
             'PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer',
             'PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer',
-        ], [
+        ],                                                [
             'Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff',
             'PhpCsFixer\Fixer\Operator\NewWithBracesFixer',
-        ], [
+        ],                                                [
             'SlevomatCodingStandard\Sniffs\TypeHints\DeclareStrictTypesSniff',
             'PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer',
-        ], [
+        ],                                                [
             'SlevomatCodingStandard\Sniffs\TypeHints\DeclareStrictTypesSniff',
             'PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer',
         ],
@@ -53,7 +52,7 @@ final class ConflictingCheckersCompilerPass implements CompilerPassInterface
 
             throw new ConflictingCheckersLoadedException(sprintf(
                 'Checkers "%s" mutually exclude each other. Use only one or exclude '
-                . 'the unwanted one in "parameters > exclude_checkers" in your config.',
+                . 'the unwanted one in "parameters > skip" in your config.',
                 implode('" and "', $viceVersaMatchingCheckerGroup)
             ));
         }

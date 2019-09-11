@@ -1,18 +1,44 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-require_once __DIR__ . '/autoload.php';
+use Symplify\ChangelogLinker\Console\ChangelogApplication;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
+use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
+use Symplify\PackageBuilder\Console\Input\InputDetector;
 
-use Psr\Container\ContainerInterface;
-use Symplify\ChangelogLinker\Console\ChangelogConsoleApplication;
-use Symplify\PackageBuilder\Console\ThrowableRenderer;
+$possibleAutoloadPaths = [
+    // after split package
+    __DIR__ . '/../vendor/autoload.php',
+    // dependency
+    __DIR__ . '/../../../autoload.php',
+    // monorepo
+    __DIR__ . '/../../../vendor/autoload.php',
+];
 
-try {
-    /** @var ContainerInterface $container */
-    $container = require_once __DIR__ . '/container.php';
+foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+    if (file_exists($possibleAutoloadPath)) {
+        require_once $possibleAutoloadPath;
 
-    $application = $container->get(ChangelogConsoleApplication::class);
-    exit($application->run());
-} catch (Throwable $throwable) {
-    (new ThrowableRenderer())->render($throwable);
+        break;
+    }
 }
+
+ConfigFileFinder::detectFromInput('cl', new ArgvInput());
+$configFile = ConfigFileFinder::provide('cl', ['changelog-linker.yml', 'changelog-linker.yaml']);
+
+// create container
+// random has is needed, so cache is invalidated and changes from config are loaded
+$environment = 'prod' . random_int(1, 100000);
+$changelogLinkerKernel = new ChangelogLinkerKernel($environment, InputDetector::isDebug());
+if ($configFile) {
+    $changelogLinkerKernel->setConfigs([$configFile]);
+}
+
+$changelogLinkerKernel->boot();
+
+$container = $changelogLinkerKernel->getContainer();
+
+// run application
+$application = $container->get(ChangelogApplication::class);
+exit($application->run());

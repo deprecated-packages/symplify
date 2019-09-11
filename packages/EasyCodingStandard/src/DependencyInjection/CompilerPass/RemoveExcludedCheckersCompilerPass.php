@@ -5,7 +5,6 @@ namespace Symplify\EasyCodingStandard\DependencyInjection\CompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symplify\EasyCodingStandard\Configuration\Option;
 
 final class RemoveExcludedCheckersCompilerPass implements CompilerPassInterface
 {
@@ -27,15 +26,24 @@ final class RemoveExcludedCheckersCompilerPass implements CompilerPassInterface
      */
     private function getExcludedCheckersFromParameterBag(ParameterBagInterface $parameterBag): array
     {
-        if ($parameterBag->has(Option::EXCLUDE_CHECKERS)) {
-            return (array) $parameterBag->get(Option::EXCLUDE_CHECKERS);
+        $excludedCheckers = [];
+
+        // parts of "skip" parameter
+        if ($parameterBag->has('skip')) {
+            $skip = $parameterBag->get('skip');
+            foreach ($skip as $key => $value) {
+                if ($value !== null) {
+                    continue;
+                }
+
+                if (! class_exists($key)) {
+                    continue;
+                }
+
+                $excludedCheckers[] = $key;
+            }
         }
 
-        // typo proof
-        if ($parameterBag->has('excluded_checkers')) {
-            return (array) $parameterBag->get('excluded_checkers');
-        }
-
-        return [];
+        return array_unique($excludedCheckers);
     }
 }

@@ -134,8 +134,8 @@ Classic use case for monorepo is to synchronize last tag and the `master` branch
 # monorepo-builder.yml
 parameters:
     directories_to_repositories:
-        packages/BetterPhpDocParser: 'git@github.com:Symplify/BetterPhpDocParser.git'
         packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
+        packages/MonorepoBuilder: 'git@github.com:Symplify/MonorepoBuilder.git'
 ```
 
 And run by:
@@ -161,13 +161,13 @@ But what if **you forget one or do it in wrong order**? Everything will crash!
 The `release` command will make you safe:
 
 ```bash
-vendor/bin/changelog-inker release v7.0
+vendor/bin/monorepo-builder release v7.0
 ```
 
 Are you afraid to tag and push? Use `--dry-run` to see only descriptions:
 
 ```bash
-vendor/bin/changelog-inker release v7.0 --dry-run
+vendor/bin/monorepo-builder release v7.0 --dry-run
 ```
 
 ### 7. Set Your Own Release Flow

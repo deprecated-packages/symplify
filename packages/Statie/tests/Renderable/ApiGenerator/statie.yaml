@@ -1,0 +1,10 @@
+parameters:
+    api_parameters:
+        - books
+
+    books:
+        - one
+        - two
+
+services:
+    Symplify\Statie\Tests\Renderable\ApiGenerator\Source\BookApiItemDecorator: ~

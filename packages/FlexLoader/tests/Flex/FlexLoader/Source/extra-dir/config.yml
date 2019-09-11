@@ -1,0 +1,5 @@
+services:
+    _defaults:
+        public: true
+
+    Symplify\FlexLoader\Tests\Flex\FlexLoader\Source\ExtraService: ~

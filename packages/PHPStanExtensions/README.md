@@ -11,52 +11,103 @@ includes:
     - 'vendor/symplify/phpstan-extensions/config/config.neon'
 ```
 
-## 1. Stats Formatter - the Best Way to Start with PHPStan
+## Use
 
-Do you have zillion errors in you project? That's common... and frustrating. Why not start with the most wide-spread errors? **Solve one type of problem to get rid of dozens of errors**.
+### Symplify Error Formatter
 
-Run:
+*Works best with [anthraxx/intellij-awesome-console](https://github.com/anthraxx/intellij-awesome-console)*
+
+- Do you want to **click the error and get right to the line in the file** it's reported at?
+- Do you want to **copy-paste regex escaped error to your `ignoreErrors`**?
 
 ```bash
-vendor/bin/phpstan analyse src --level max --error-format stats
+vendor/bin/phpstan analyse src --level max --error-format symplify
 ```
 
-to get this nice overview of **top 5 errors**:
+↓
 
 ```bash
-These are 5 most frequent errors
-================================
-
-2 x - "Parameter #1 $filePath of method Symplify\EasyCodingStandard\ChangedFilesDetector\FileHashComputer::compute() expects string, string|false given."
----------------------------------------------------------------------------------------------------------------------------------------------------------
-
- * packages/EasyCodingStandard/packages/ChangedFilesDetector/src/ChangedFilesDetector.php:50
- * packages/EasyCodingStandard/packages/ChangedFilesDetector/src/ChangedFilesDetector.php:62
-
-2 x - "Parameter #2 $absoluteFilePath of method Symplify\EasyCodingStandard\Skipper::shouldSkipCodeAndFile() expects string, string|false given."
--------------------------------------------------------------------------------------------------------------------------------------------------
-
- * packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php:132
- * packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php:145
+-----------------------------------------------------------------------------------------------------------------
+packages/MonorepoBuilder/packages/Release/src/Command/ReleaseCommand.php:51
+-----------------------------------------------------------------------------------------------------------------
+- "Call to an undefined method Symplify\\MonorepoBuilder\\Release\\Command\\ReleaseCommand\:\:nonExistingCall\(\)"
+-----------------------------------------------------------------------------------------------------------------
 ```
 
-## 2. Ignore Formatter
+The config also loads few rules and return type extensions.
 
-Do you need to ignore few errors but don't want to play with regex? Run:
+### Rules
 
-```bash
-vendor/bin/phpstan analyse src --level max --error-format ignore
+#### `Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule`
+
+Validate type of default constant value vs. its docs:
+
+```php
+/**
+ * @var int
+ */
+private LIMIT = 'max';
 ```
 
-to get it on silver plate, ready for copy-paste:
+↓
 
 ```bash
+Constant type should be "int", but is "string"
+```
 
-Add to "parameters > ignoreErrors" section in "phpstan.neon"
-============================================================
+### Return Type Extensions
 
-# phpstan.neon
-parameters:
-    ignoreErrors:
-        - '#Parameter \#1 \$errors of method Symplify\\PHPStan\\Error\\ErrorGrouper\:\:groupErrorsToMessagesToFrequency\(\) expects array<Symplify\\EasyCodingStandard\\Error\\Error\>, array<PHPStan\\Analyser\\Error\> given#' # found 2x
+#### `Symplify\PHPStanExtensions\Symfony\Type\ContainerGetTypeExtension`
+
+With Symfony container and type as an argument, you always know **the same type is returned**:
+
+```php
+<?php
+
+use Symfony\Component\DependencyInjection\Container;
+
+/** @var Container $container */
+$container->get(Type::class); // PHPStan: object ❌
+$container->get(Type::class); // Reality: Type ✅
+
+// same for in-controller/container-aware context
+$this->get(Type::class);
+```
+
+#### `Symplify\PHPStanExtensions\Symfony\Type\KernelGetContainerAfterBootReturnTypeExtension`
+
+After Symfony Kernel boot, `getContainer()` always returns the container:
+
+```php
+<?php
+
+use Symfony\Component\HttpKernel\Kernel;
+
+final class AppKernel extends Kernel
+{
+    // ...
+}
+
+$kernel = new AppKernel('prod', false);
+$kernel->boot();
+
+$kernel->getContainer(); // PHPStan: null|ContainerInterface ❌
+$kernel->getContainer(); // Reality: ContainerInterface ✅
+```
+
+#### `Symplify\PHPStanExtensions\Symfony\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension`
+
+Symfony Finder finds only existing files (obviously), so the `getRealPath()` always return `string`:
+
+```php
+<?php
+
+use Symfony\Component\Finder\Finder;
+
+$finder = new Finder;
+
+foreach ($finder as $fileInfo) {
+    $fileInfo->getRealPath(); // PHPStan: false|string ❌
+    $fileInfo->getRealPath(); // Reality: string ✅
+}
 ```

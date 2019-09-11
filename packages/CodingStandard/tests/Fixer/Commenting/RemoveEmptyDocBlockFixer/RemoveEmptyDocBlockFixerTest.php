@@ -2,31 +2,22 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveEmptyDocBlockFixer;
 
-use Iterator;
+use Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer
- */
 final class RemoveEmptyDocBlockFixerTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testWrongToFixedCases(string $wrongFile, string $correctFile): void
+    public function test(): void
     {
-        $this->doTestWrongToFixedFile($wrongFile, $correctFile);
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/wrong.php.inc',
+            __DIR__ . '/Fixture/wrong2.php.inc',
+            __DIR__ . '/Fixture/wrong3.php.inc',
+        ]);
     }
 
-    public function provideWrongToFixedCases(): Iterator
+    protected function getCheckerClass(): string
     {
-        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'];
-        yield [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'];
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
+        return RemoveEmptyDocBlockFixer::class;
     }
 }

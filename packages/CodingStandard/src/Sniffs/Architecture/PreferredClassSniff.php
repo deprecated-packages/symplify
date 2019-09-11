@@ -4,8 +4,7 @@ namespace Symplify\CodingStandard\Sniffs\Architecture;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
-use function Safe\sprintf;
+use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 
 final class PreferredClassSniff implements Sniff
 {
@@ -47,10 +46,17 @@ final class PreferredClassSniff implements Sniff
         }
 
         $preferredClass = $this->oldToPreferredClasses[$className];
-        $file->addError(
-            sprintf('Instead of "%s" class, use "%s"', $className, $preferredClass),
-            $position,
-            self::class
-        );
+        $file->addError($this->createMessage($className, $preferredClass), $position, self::class);
+    }
+
+    private function createMessage(string $className, string $preferredCase): string
+    {
+        // class
+        if (class_exists($preferredCase)) {
+            return sprintf('Instead of "%s" class, use "%s"', $className, $preferredCase);
+        }
+
+        // advice
+        return sprintf('You should not use "%s". Instead, %s', $className, lcfirst($preferredCase));
     }
 }

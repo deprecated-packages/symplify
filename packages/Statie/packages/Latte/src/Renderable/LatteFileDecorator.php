@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Latte\Renderable;
 
 use Nette\Utils\Strings;
+use Symplify\Statie\Configuration\TemplatingDetector;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Latte\LatteRenderer;
@@ -32,10 +33,19 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
      */
     private $codeBlocksProtector;
 
-    public function __construct(LatteRenderer $latteRenderer, CodeBlocksProtector $codeBlocksProtector)
-    {
+    /**
+     * @var TemplatingDetector
+     */
+    private $templatingDetector;
+
+    public function __construct(
+        LatteRenderer $latteRenderer,
+        CodeBlocksProtector $codeBlocksProtector,
+        TemplatingDetector $templatingDetector
+    ) {
         $this->latteRenderer = $latteRenderer;
         $this->codeBlocksProtector = $codeBlocksProtector;
+        $this->templatingDetector = $templatingDetector;
     }
 
     /**
@@ -49,7 +59,12 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
                 continue;
             }
 
-            $this->attachLayoutAndBlockContentToFileContent($file, $file->getLayout());
+            if ($file->getExtension() === 'md' && $this->templatingDetector->detect() === 'twig') {
+                continue;
+            }
+
+            $layout = $this->normalizeLayoutSuffix($file->getLayout());
+            $this->attachLayoutAndBlockContentToFileContent($file, $layout);
 
             $parameters = $this->createParameters($file, 'file');
             $content = $this->latteRenderer->renderFileWithParameters($file, $parameters);
@@ -71,7 +86,12 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
                 continue;
             }
 
-            $this->attachLayoutAndBlockContentToFileContent($file, $generatorElement->getLayout());
+            if ($file->getExtension() === 'md' && $this->templatingDetector->detect() === 'twig') {
+                continue;
+            }
+
+            $layout = $this->normalizeLayoutSuffix($file->getLayout() ?: $generatorElement->getLayout());
+            $this->attachLayoutAndBlockContentToFileContent($file, $layout);
 
             $parameters = $this->createParameters($file, $generatorElement->getVariable());
 
@@ -92,6 +112,19 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
         return 700;
     }
 
+    private function normalizeLayoutSuffix(?string $layout): ?string
+    {
+        if ($layout === null) {
+            return null;
+        }
+
+        if (Strings::endsWith($layout, '.twig')) {
+            return Strings::replace($layout, '#\.twig$#', '.latte');
+        }
+
+        return $layout;
+    }
+
     private function attachLayoutAndBlockContentToFileContent(AbstractFile $file, ?string $layout): void
     {
         if (! $layout) {
@@ -100,7 +133,7 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
 
         $content = $this->codeBlocksProtector->protectContentFromCallback(
             $file->getContent(),
-            function (string $content) use ($layout) {
+            function (string $content) use ($layout): string {
                 if (! Strings::match($content, self::BLOCK_CONTENT_PATTERN)) {
                     $content = '{block content}' . $content . '{/block}';
                 }
@@ -118,7 +151,7 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
 
     private function trimLayoutLeftover(string $content): string
     {
-        return $this->codeBlocksProtector->protectContentFromCallback($content, function (string $content) {
+        return $this->codeBlocksProtector->protectContentFromCallback($content, function (string $content): string {
             $content = Strings::replace($content, self::BLOCK_CONTENT_PATTERN, '$1', 1);
 
             return Strings::replace($content, self::LAYOUT_PATTERN, '', 1);

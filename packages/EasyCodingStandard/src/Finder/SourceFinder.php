@@ -4,8 +4,8 @@ namespace Symplify\EasyCodingStandard\Finder;
 
 use Symfony\Component\Finder\Finder;
 use Symplify\EasyCodingStandard\Contract\Finder\CustomSourceProviderInterface;
+use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\ksort;
 
 final class SourceFinder
 {
@@ -73,6 +73,7 @@ final class SourceFinder
         $finder = Finder::create()->files()
             ->name('*.php')
             ->in($directory)
+            ->exclude('vendor')
             ->sortByName();
 
         $newFiles = $this->finderSanitizer->sanitize($finder);

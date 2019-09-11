@@ -1,0 +1,4 @@
+services:
+    Entrydo\Application\CompanyPublicInfo\CompanyPublicInfoUseCase:
+        arguments:
+            - '@ares'

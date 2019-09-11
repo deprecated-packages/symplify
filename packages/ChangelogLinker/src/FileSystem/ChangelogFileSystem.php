@@ -7,8 +7,6 @@ use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\LinkAppender;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use function Safe\getcwd;
-use function Safe\sprintf;
 
 final class ChangelogFileSystem
 {

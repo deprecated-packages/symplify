@@ -2,30 +2,22 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Order\PropertyOrderByComplexityFixer;
 
-use Iterator;
+use Symplify\CodingStandard\Fixer\Order\PropertyOrderByComplexityFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Order\PropertyOrderByComplexityFixer
- */
 final class PropertyOrderByComplexityFixerTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testWrongToFixed(string $wrongFile, string $fixedFile): void
+    public function test(): void
     {
-        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/wrong.php.inc',
+            __DIR__ . '/Fixture/wrong2.php.inc',
+            __DIR__ . '/Fixture/correct.php.inc',
+        ]);
     }
 
-    public function provideWrongToFixedCases(): Iterator
+    protected function getCheckerClass(): string
     {
-        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'];
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
+        return PropertyOrderByComplexityFixer::class;
     }
 }

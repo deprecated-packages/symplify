@@ -2,6 +2,8 @@
 
 namespace Symplify\MonorepoBuilder\Init\Command;
 
+use Composer\Composer;
+use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -9,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
-use function Safe\getcwd;
+use Symplify\PackageBuilder\Console\ShellCode;
 
 final class InitCommand extends Command
 {
@@ -17,6 +19,11 @@ final class InitCommand extends Command
      * @var string
      */
     private const OUTPUT = 'output';
+
+    /**
+     * @var Composer
+     */
+    private $composer;
 
     /**
      * @var Filesystem
@@ -28,11 +35,12 @@ final class InitCommand extends Command
      */
     private $symfonyStyle;
 
-    public function __construct(Filesystem $filesystem, SymfonyStyle $symfonyStyle)
+    public function __construct(Filesystem $filesystem, SymfonyStyle $symfonyStyle, Composer $composer)
     {
         parent::__construct();
         $this->filesystem = $filesystem;
         $this->symfonyStyle = $symfonyStyle;
+        $this->composer = $composer;
     }
 
     protected function configure(): void
@@ -42,12 +50,18 @@ final class InitCommand extends Command
         $this->addArgument(self::OUTPUT, InputArgument::OPTIONAL, 'Directory to generate monorepo into.', getcwd());
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var string $output */
         $output = $input->getArgument(self::OUTPUT);
 
         $this->filesystem->mirror(__DIR__ . '/../../templates/monorepo', $output);
+
+        // Replace MonorepoBuilder version in monorepo-builder.yml
+        $filename = sprintf('%s/monorepo-builder.yml', $output);
+        $content = str_replace('<version>', $this->getMonorepoBuilderVersion(), file_get_contents($filename));
+
+        $this->filesystem->dumpFile($filename, $content);
 
         $this->symfonyStyle->success('Congrats! Your first monorepo is here.');
         $this->symfonyStyle->note(
@@ -55,5 +69,19 @@ final class InitCommand extends Command
             PHP_EOL .
             '"vendor/bin/monorepo-builder merge"'
         );
+
+        return ShellCode::SUCCESS;
+    }
+
+    /**
+     * Returns current version of MonorepoBuilder, contains only major and minor.
+     *
+     * @return string
+     */
+    private function getMonorepoBuilderVersion(): string
+    {
+        $version = new Version(str_replace('x-dev', '0', $this->composer->getPackage()->getPrettyVersion()));
+
+        return sprintf('^%d.%d', $version->getMajor()->getValue(), $version->getMinor()->getValue());
     }
 }

@@ -4,16 +4,16 @@ namespace Symplify\Statie\Latte\Tests\Renderable;
 
 use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\Statie\Configuration\StatieConfiguration;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Latte\Exception\InvalidLatteSyntaxException;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Symplify\Statie\Latte\Renderable\LatteFileDecorator;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use function Safe\sprintf;
 
-final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
+final class LatteFileDecoratorTest extends AbstractKernelTestCase
 {
     /**
      * @var LatteFileDecorator
@@ -27,15 +27,15 @@ final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->latteFileDecorator = $this->container->get(LatteFileDecorator::class);
-        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->bootKernel(StatieKernel::class);
 
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        $this->latteFileDecorator = self::$container->get(LatteFileDecorator::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/LatteFileDecoratorSource');
 
-        /** @var ArrayLoader $arrayLoader */
-        $arrayLoader = $this->container->get(ArrayLoader::class);
+        $arrayLoader = self::$container->get(ArrayLoader::class);
         $arrayLoader->changeContent('default', FileSystem::read(__DIR__ . '/LatteFileDecoratorSource/default.latte'));
     }
 
@@ -44,7 +44,7 @@ final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
         $file = $this->createFileFromFilePath(__DIR__ . '/LatteFileDecoratorSource/fileWithoutLayout.latte');
         $this->latteFileDecorator->decorateFiles([$file]);
 
-        $this->assertContains('Contact me!', $file->getContent());
+        $this->assertStringContainsString('Contact me!', $file->getContent());
     }
 
     public function testDecorateFileWithLayout(): void
@@ -64,7 +64,7 @@ final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
         $file = $this->createFileFromFilePath(__DIR__ . '/LatteFileDecoratorSource/fileWithFileVariable.latte');
         $this->latteFileDecorator->decorateFiles([$file]);
 
-        $this->assertContains('fileWithFileVariable.latte', $file->getContent());
+        $this->assertStringContainsString('fileWithFileVariable.latte', $file->getContent());
     }
 
     public function testDecorateFileWithInvalidLatteSyntax(): void

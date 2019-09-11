@@ -2,9 +2,8 @@
 
 namespace Symplify\MonorepoBuilder\FileSystem;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
-use function Safe\getcwd;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class ComposerJsonProvider
 {
@@ -33,7 +32,7 @@ final class ComposerJsonProvider
     }
 
     /**
-     * @return SplFileInfo[]
+     * @return SmartFileInfo[]
      */
     public function getPackagesFileInfos(): array
     {
@@ -41,7 +40,7 @@ final class ComposerJsonProvider
     }
 
     /**
-     * @return SplFileInfo[]
+     * @return SmartFileInfo[]
      */
     public function getRootAndPackageFileInfos(): array
     {

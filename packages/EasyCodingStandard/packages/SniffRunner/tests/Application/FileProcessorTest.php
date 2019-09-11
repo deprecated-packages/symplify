@@ -2,13 +2,14 @@
 
 namespace Symplify\EasyCodingStandard\SniffRunner\Tests\Application;
 
-use PHPUnit\Framework\TestCase;
-use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
-use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
+use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class FileProcessorTest extends TestCase
+final class FileProcessorTest extends AbstractKernelTestCase
 {
     /**
      * @var string
@@ -20,25 +21,20 @@ final class FileProcessorTest extends TestCase
      */
     private $sniffFileProcessor;
 
-    /**
-     * @var CurrentFileProvider
-     */
-    private $currentFileProvider;
-
     protected function setUp(): void
     {
-        $container = (new ContainerFactory())->createWithConfigs(
-            [__DIR__ . '/FileProcessorSource/easy-coding-standard.yml']
+        static::bootKernelWithConfigs(
+            EasyCodingStandardKernel::class,
+            [__DIR__ . '/FileProcessorSource/easy-coding-standard.yaml']
         );
+        $this->makeConsoleOutputQuiet();
 
-        $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
-        $this->currentFileProvider = $container->get(CurrentFileProvider::class);
+        $this->sniffFileProcessor = self::$container->get(SniffFileProcessor::class);
     }
 
     public function test(): void
     {
         $smartFileInfo = new SmartFileInfo(__DIR__ . '/FileProcessorSource/SomeFile.php.inc');
-        $this->currentFileProvider->setFileInfo($smartFileInfo);
 
         $fixedContent = $this->sniffFileProcessor->processFile($smartFileInfo);
         $this->assertNotSame($this->initialFileContent, $fixedContent);
@@ -50,25 +46,9 @@ final class FileProcessorTest extends TestCase
         $this->assertCount(1, $sniffs);
     }
 
-    public function testFileProvingNeedOfProperSupportOfChangesets(): void
+    private function makeConsoleOutputQuiet(): void
     {
-        $container = (new ContainerFactory())->createWithConfigs(
-            [__DIR__ . '/FileProcessorSource/ReferenceUsedNamesOnlySniff/easy-coding-standard.yml']
-        );
-
-        $smartFileInfo = new SmartFileInfo(
-            __DIR__ . '/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets.php.inc'
-        );
-
-        /** @var CurrentFileProvider $currentFileProvider */
-        $currentFileProvider = $container->get(CurrentFileProvider::class);
-        $currentFileProvider->setFileInfo($smartFileInfo);
-
-        /** @var SniffFileProcessor $sniffFileProcessor */
-        $sniffFileProcessor = $container->get(SniffFileProcessor::class);
-        $this->assertStringEqualsFile(
-            __DIR__ . '/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets-fixed.php.inc',
-            $sniffFileProcessor->processFile($smartFileInfo)
-        );
+        $easyCodingStandardStyle = self::$container->get(EasyCodingStandardStyle::class);
+        $easyCodingStandardStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
     }
 }

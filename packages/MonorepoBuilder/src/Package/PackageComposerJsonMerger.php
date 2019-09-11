@@ -2,10 +2,11 @@
 
 namespace Symplify\MonorepoBuilder\Package;
 
-use Symfony\Component\Finder\SplFileInfo;
+use Symplify\MonorepoBuilder\ArraySorter;
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Configuration\MergedPackagesCollector;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
 final class PackageComposerJsonMerger
@@ -14,6 +15,11 @@ final class PackageComposerJsonMerger
      * @var string[]
      */
     private $mergeSections = [];
+
+    /**
+     * @var string[]
+     */
+    private $sectionsWithPath = ['classmap', 'files', 'exclude-from-classmap', 'psr-4', 'psr-0'];
 
     /**
      * @var ParametersMerger
@@ -31,22 +37,29 @@ final class PackageComposerJsonMerger
     private $jsonFileManager;
 
     /**
+     * @var ArraySorter
+     */
+    private $arraySorter;
+
+    /**
      * @param string[] $mergeSections
      */
     public function __construct(
         ParametersMerger $parametersMerger,
         MergedPackagesCollector $mergedPackagesCollector,
         JsonFileManager $jsonFileManager,
+        ArraySorter $arraySorter,
         array $mergeSections
     ) {
         $this->parametersMerger = $parametersMerger;
         $this->mergedPackagesCollector = $mergedPackagesCollector;
         $this->jsonFileManager = $jsonFileManager;
         $this->mergeSections = $mergeSections;
+        $this->arraySorter = $arraySorter;
     }
 
     /**
-     * @param SplFileInfo[] $composerPackageFileInfos
+     * @param SmartFileInfo[] $composerPackageFileInfos
      * @return string[]
      */
     public function mergeFileInfos(array $composerPackageFileInfos): array
@@ -65,11 +78,46 @@ final class PackageComposerJsonMerger
                     continue;
                 }
 
+                $packageComposerJson = $this->prepareAutoloadPaths(
+                    $mergeSection,
+                    $packageComposerJson,
+                    $packageFile
+                );
+
                 $merged = $this->mergeSection($packageComposerJson, $mergeSection, $merged);
             }
         }
 
         return $this->filterOutDuplicatesRequireAndRequireDev($merged);
+    }
+
+    /**
+     * Class map path needs to be prefixed before merge, otherwise will override one another
+     * @see https://github.com/Symplify/Symplify/issues/1333
+     * @param mixed[] $packageComposerJson
+     * @return mixed[]
+     */
+    private function prepareAutoloadPaths(
+        string $mergeSection,
+        array $packageComposerJson,
+        SmartFileInfo $packageFile
+    ): array {
+        if (! in_array($mergeSection, ['autoload', 'autoload-dev'], true)) {
+            return $packageComposerJson;
+        }
+
+        foreach ($this->sectionsWithPath as $sectionWithPath) {
+            if (! isset($packageComposerJson[$mergeSection][$sectionWithPath])) {
+                continue;
+            }
+
+            $packageComposerJson[$mergeSection][$sectionWithPath] = $this->relativizePath(
+                $packageComposerJson[$mergeSection][$sectionWithPath],
+                $packageFile
+            );
+        }
+
+        return $packageComposerJson;
     }
 
     /**
@@ -86,9 +134,13 @@ final class PackageComposerJsonMerger
                 $packageComposerJson[$section]
             );
 
+            $merged[$section] = $this->arraySorter->recursiveSort($merged[$section]);
+
             // uniquate special cases, ref https://github.com/Symplify/Symplify/issues/1197
             if ($section === 'repositories') {
                 $merged[$section] = array_unique($merged[$section], SORT_REGULAR);
+                // remove keys
+                $merged[$section] = array_values($merged[$section]);
             }
 
             return $merged;
@@ -127,5 +179,25 @@ final class PackageComposerJsonMerger
         }
 
         return $composerJson;
+    }
+
+    /**
+     * @param mixed[] $classmap
+     * @return mixed[]
+     */
+    private function relativizePath(array $classmap, SmartFileInfo $packageFileInfo): array
+    {
+        $packageRelativeDirectory = dirname($packageFileInfo->getRelativeFilePathFromDirectory(getcwd()));
+        foreach ($classmap as $key => $value) {
+            if (is_array($value)) {
+                $classmap[$key] = array_map(function ($path) use ($packageRelativeDirectory): string {
+                    return $packageRelativeDirectory . '/' . ltrim($path, '/');
+                }, $value);
+            } else {
+                $classmap[$key] = $packageRelativeDirectory . '/' . ltrim($value, '/');
+            }
+        }
+
+        return $classmap;
     }
 }

@@ -9,291 +9,229 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.2.4 - 2018-11-20
+## v6.0.5 - 2019-07-26
 
 ### Added
 
-#### BetterPhpDocParser
+#### Autodiscovery
 
-- [#1196] Add support for `GenericTypeNode`, Thanks to [@enumag]
+- [#1584] Add `--filter` option to `convert-yaml` command
 
 #### CodingStandard
 
-- [#1206] Add `AnnotationTypeExistsSniff` and `ParamReturnAndVarTagMalformsFixer`
+- [#1582] Add `RemoveSpacingAroundModifierAndConstFixer`
 
 #### EasyCodingStandard
 
-- [#1210] Add support for 2 spaces indent
-
-### Fixed
-
-#### MonorepoBuilder
-
-- [#1209] Fix merging of scalar values in `composer.json`
-- [#1207] Fix merging of duplicated items
-
-## [v5.2.2] - 2018-11-15
-
-### Added
-
-#### MonoporeBuilder
-
-- [#1202] Add way to disable default workers
-- [#1200] Open for extension by `ReleaseWorkers`
-
-## [v5.2.1] - 2018-11-12
-
-### Added
-
-#### CodingStandard
-
-- [#1189] Add `AbstractSymplifyFixer`
-
-#### PackageBuilder
-
-- [#1185] Add `AutoReturnFactoryCompilerPass`
-
-### Fixed
-
-#### EasyCodingStandard
-
-- [#1192] fix [#1191] add `Fixer::rollbackChangeset`, Thanks to [@ostrolucky]
+- [#1576] Add `validate` command
 
 ### Changed
 
-- [#1188] Use `FileInfo` instead of real/absolute paths
+#### PackageBuilder
+
+- [#1578] Allow custom vendor path on windows system ([#1577]), Thanks to [@JohnDoe8521]
+
+### Fixed
+
+#### Autodiscovery
+
+- [#1575] Fix order test
+
+#### CodingStandard
+
+- [#1585] Make `UnusedPublicMethodSniff` skip entities
+
+#### MonorepoBuilder
+
+- [#1581] Handle if `GITHUB_TOKEN` is an empty string, Thanks to [@mxr576]
+
+## [v6.0.4] - 2019-06-26
+
+### Added
+
+#### PackageBuilder
+
+- [#1573] Make `AutoReturnFactoryCompilerPass` work with `@return` annotations as well
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#1569] Fix `exclude_checkers` option typo
+
+#### MonorepoBuilder
+
+- [#1568] Fix extra keys in repositories merge
+
+### Deprecated
+
+#### PackageBuilder
+
+- [#1567] Deprecate `AutowireSinglyImplementedCompilerPass`
+
+## [v6.0.3] - 2019-06-11
+
+### Fixed
+
+#### Unknown Package
+
+- [#1565] Fix path to set config in readme, Thanks to [@Big-Shark]
+- [#1561] Fixed AutowireSinglyImplementedCompilerPass - alias referencing itself, Thanks to [@JanMikes]
+
+### Unknown Category
+
+- [#1563] AutowireSinglyImplementedCompilerPass - Skipping singly implemented service if alias for interface is already registered, Thanks to [@JanMikes]
+
+## [v6.0.2] - 2019-06-04
 
 ### Removed
 
-#### EasyCodingStandard
+#### PHPStanExtensions
 
-- [#1187] Drop buggy unused `skip` reporting
+- [#1559] remove blocked custom param in SymplifyPHPStanExtension
 
-## [v5.2.0] - 2018-11-04
+## [v6.0.1] - 2019-05-30
 
 ### Added
 
-#### CodingStandard
+#### Unknown Package
 
-- [#1170] Add `PreferredClassSniff`
-- [#1171] Add `PropertyOrderByComplexityFixer`
-- [#1173] Add `PrivateMethodOrderFixer`
+- [#1558] Add psr/simple-cache as a dependency, Thanks to [@jakzal]
 
-#### MonorepoBuilder
+## [v6.0.0] - 2019-05-28
 
-- [#1175] Add option for maximum number `--max-processes` of parallel processes to split command, Thanks to [@mantiz]
+### Added
 
-### Changed
-
-#### EasyCodingStandard
-
-- [#1177] `-v` debug options now show files
-
-#### CodingStandard
-
-- [#1174] Simplify fixer configuration to make them readable
-
-### Fixed
+- [#1510] Added gitattribute rules to all packages, Thanks to [@JanMikes]
+- [#1509] Added docs and \*.md to export-gngore for .gitattribute, Thanks to [@JanMikes]
+- [#1525] Add list of tool integration, Thanks to [@nlubisch]
 
 #### ChangelogLinker
 
-- [#1179] Fix dump-merges for empty PR stack [closes [#1176]]
-
-## [v5.1.4] - 2018-10-27
-
-### Fixed
-
-#### EasyCodingStandard
-
-- [#1168] Add conflicting constants checkers [ref #1167]
-
-#### PackageBuilder
-
-- [#1166] Make `VendorDirProvider` work for global installs
-
-## [v5.1.3] - 2018-10-19
-
-### Added
-
-#### EasyCodingStandard
-
-- [#1148] Add way to suppress specific sniff message, Thanks to [@ostrolucky]
-
-#### LatteToTwigConverter
-
-- [#1163] Add quote in `<script>` support [closes [#1155]]
-
-### Changed
-
-#### BetterPhpDocParser
-
-- [#1161] Decouple `PhpDocInfo` decorators
+- [#1512] added support for resolving repository name from URL with user name included, Thanks to [@TomasLudvik]
 
 #### CodingStandard
 
-- [#1154] Improve `ClassStringToClassConstantFixer` class type matching
+- [#1499] Make UnusedPublicMethodSniff skip tests calls, add to CI
 
-### Fixed
+#### EasyCodingStandard
 
-#### PackageBuilder
-
-- [#1160] Remove need of default `[]` for autowired array arguments
-
-## [v5.1.2] - 2018-10-11
-
-### Added
-
-#### PackageBuilder
-
-- [#1145] Add `AutowireArrayParameterCompilerPass`
-- [#1144] Add `AutowireInterfacesCompilerPass`
-
-### Fixed
-
-#### CodingStandard
-
-- [#1139] Allow `NoExtraBlankLinesFixer` in PSR-12, Thanks to [@mynameisbogdan]
-- [#1140] Fix missing forbidden partial namespace use Symplify set
+- [#1537] Add `only` feature support, as oppose to `skip`
 
 #### Statie
 
-- [#1152] Fix relative path to generated file
+- [#1511] Add source argument to tweet-post command
+- [#1540] Add ApiItemDecoratorInterface for REST api
+- [#1538] Add custom `output_path` to generator elements
 
-## [v5.1.1] - 2018-10-01
+### Changed
 
-### Added
+- [#1535] Bump to PHP CS Fixer 2.15
+- [#1541] use single bin file over multiple small files
+- [#1493] nette v3 utils, neon, di support, Thanks to [@solcik]
 
-#### PackageBuilder
+#### EasyCodingStandard
 
-- [#1133] Add `ConfigurableCollectorCompilerPass`
-- [#1131] Add `ParameterTypoProofreader` [closes [#1128]]
-
-### Fixed
-
-#### ChanglogLinker
-
-- [#1129] Fix version linking - order + matching new versions
+- [#1502] raised error for PSR2 warning sniff, Thanks to [@ektarum]
 
 #### MonorepoBuilder
 
-- [#1135] Fix duplicated `require` and `require-dev` items
+- [#1488] Simplify Autoload merging, Thanks to [@possi]
 
 #### PackageBuilder
 
-- [#1137] Fix `SmartFileInfo` invalid dir argument
+- [#1552] Make `LevelFileFinder` configurable
 
-## [v5.1.0] - 2018-09-28
-
-### Added
-
-#### PHPStanExtensions
-
-- [#1123] Add `SplFileInfoTolerantDynamicMethodReturnTypeExtension`
-
-#### PackageBuilder
-
-- [#1126] Apply `SmartFileInfo`
-- [#1125] Add `SmartFileInfo`
-
-#### Statie
-
-- [#1127] Add logo, Thanks to [@crazko]
-
-## [v5.0.1] - 2018-09-19
-
-### Added
-
-#### TokenRunner
-
-- [#1120] Add `getClassTypes()` to `ClassWrapper` + `getClassName()` now returns FQN
-
-#### BettePhpDocParser
-
-- [#1116] Add support for `IntersectionTypeNode`, Thanks to [@enumag]
-
-### Changed
+### Fixed
 
 #### CodingStandard
 
-- [#1119] Now skip Abstract classes for `MethodOrderByTypeFixer`
-- [#1121] Make `MethodOrderByTypeFixer` use `getClassTypes()`
+- [#1521] Fix multi-line @var/@param at unrelated code
 
-#### EasyCodingStandard
+#### PackageBuilder
 
-- [#1113] Add readme section for vscode integration, Thanks to [@azdanov]
+- [#1498] Fix LevelFinder bundled in phar file, Thanks to [@shyim]
+- [#1551] Fix autobind parameters for autoconfigured definitions + bump min to Symfony 4.2
 
-## [v5.0.0] - 2018-09-15
+### Removed
 
-Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
+- [#1489] Remove deprecations to prepare for Symplify 6
+- [#1536] remove deprecated yml configs, use yaml instead [BC break]
+- [#1548] remove illuminate/support dependency, Thanks to [@wppd]
 
-<br>
+#### CodingStandard
 
-**See [CHANGELOG-4.md](/CHANGELOG-4.md) for changes in Symplify 4.x.**
+- [#1534] Drop min item count on StandaloneLineInMultilineArray
 
-[comment]: # (links to issues, PRs and release diffs)
+#### PackageBuilder
 
-[@enumag]: https://github.com/enumag
-[@azdanov]: https://github.com/azdanov
-[#1121]: https://github.com/Symplify/Symplify/pull/1121
-[#1120]: https://github.com/Symplify/Symplify/pull/1120
-[#1119]: https://github.com/Symplify/Symplify/pull/1119
-[#1116]: https://github.com/Symplify/Symplify/pull/1116
-[#1113]: https://github.com/Symplify/Symplify/pull/1113
-[v5.0.0]: https://github.com/Symplify/Symplify/compare/v4.8.0...v5.0.0
-[#1127]: https://github.com/Symplify/Symplify/pull/1127
-[#1126]: https://github.com/Symplify/Symplify/pull/1126
-[#1125]: https://github.com/Symplify/Symplify/pull/1125
-[#1123]: https://github.com/Symplify/Symplify/pull/1123
+- [#1527] Remove PublicForTestsCompilerPass
+
+#### Statie
+
+- [#1514] Make sort_by_field insensitive for better name compare
+- [#1528] Headline linker, Thanks to [@crazko]
+- [#1500] Take care of elements in anchor linker, Thanks to [@crazko]
+
+[#1552]: https://github.com/Symplify/Symplify/pull/1552
+[#1551]: https://github.com/Symplify/Symplify/pull/1551
+[#1548]: https://github.com/Symplify/Symplify/pull/1548
+[#1541]: https://github.com/Symplify/Symplify/pull/1541
+[#1540]: https://github.com/Symplify/Symplify/pull/1540
+[#1538]: https://github.com/Symplify/Symplify/pull/1538
+[#1537]: https://github.com/Symplify/Symplify/pull/1537
+[#1536]: https://github.com/Symplify/Symplify/pull/1536
+[#1535]: https://github.com/Symplify/Symplify/pull/1535
+[#1534]: https://github.com/Symplify/Symplify/pull/1534
+[#1528]: https://github.com/Symplify/Symplify/pull/1528
+[#1527]: https://github.com/Symplify/Symplify/pull/1527
+[#1525]: https://github.com/Symplify/Symplify/pull/1525
+[#1521]: https://github.com/Symplify/Symplify/pull/1521
+[#1514]: https://github.com/Symplify/Symplify/pull/1514
+[#1512]: https://github.com/Symplify/Symplify/pull/1512
+[#1511]: https://github.com/Symplify/Symplify/pull/1511
+[#1510]: https://github.com/Symplify/Symplify/pull/1510
+[#1509]: https://github.com/Symplify/Symplify/pull/1509
+[#1502]: https://github.com/Symplify/Symplify/pull/1502
+[#1500]: https://github.com/Symplify/Symplify/pull/1500
+[#1499]: https://github.com/Symplify/Symplify/pull/1499
+[#1498]: https://github.com/Symplify/Symplify/pull/1498
+[#1493]: https://github.com/Symplify/Symplify/pull/1493
+[#1489]: https://github.com/Symplify/Symplify/pull/1489
+[#1488]: https://github.com/Symplify/Symplify/pull/1488
+[v6.0.0]: https://github.com/Symplify/Symplify/compare/v5.4.15...v6.0.0
+[@wppd]: https://github.com/wppd
+[@solcik]: https://github.com/solcik
+[@shyim]: https://github.com/shyim
+[@possi]: https://github.com/possi
+[@nlubisch]: https://github.com/nlubisch
+[@ektarum]: https://github.com/ektarum
 [@crazko]: https://github.com/crazko
-[v5.1.0]: https://github.com/Symplify/Symplify/compare/v5.0.1...v5.1.0
-[v5.0.1]: https://github.com/Symplify/Symplify/compare/v5.0.0...v5.0.1
-[#1137]: https://github.com/Symplify/Symplify/pull/1137
-[#1135]: https://github.com/Symplify/Symplify/pull/1135
-[#1133]: https://github.com/Symplify/Symplify/pull/1133
-[#1131]: https://github.com/Symplify/Symplify/pull/1131
-[#1129]: https://github.com/Symplify/Symplify/pull/1129
-[#1128]: https://github.com/Symplify/Symplify/pull/1128
-[v5.1.1]: https://github.com/Symplify/Symplify/compare/v5.1.0...v5.1.1
-[#1145]: https://github.com/Symplify/Symplify/pull/1145
-[#1144]: https://github.com/Symplify/Symplify/pull/1144
-[#1140]: https://github.com/Symplify/Symplify/pull/1140
-[#1139]: https://github.com/Symplify/Symplify/pull/1139
-[@mynameisbogdan]: https://github.com/mynameisbogdan
-[#1152]: https://github.com/Symplify/Symplify/pull/1152
-[#1163]: https://github.com/Symplify/Symplify/pull/1163
-[#1161]: https://github.com/Symplify/Symplify/pull/1161
-[#1160]: https://github.com/Symplify/Symplify/pull/1160
-[#1155]: https://github.com/Symplify/Symplify/pull/1155
-[#1154]: https://github.com/Symplify/Symplify/pull/1154
-[#1148]: https://github.com/Symplify/Symplify/pull/1148
-[@ostrolucky]: https://github.com/ostrolucky
-[v5.1.2]: https://github.com/Symplify/Symplify/compare/v5.1.1...v5.1.2
-[#1168]: https://github.com/Symplify/Symplify/pull/1168
-[#1166]: https://github.com/Symplify/Symplify/pull/1166
-[v5.1.3]: https://github.com/Symplify/Symplify/compare/v5.1.2...v5.1.3
-[#1177]: https://github.com/Symplify/Symplify/pull/1177
-[#1175]: https://github.com/Symplify/Symplify/pull/1175
-[#1174]: https://github.com/Symplify/Symplify/pull/1174
-[#1173]: https://github.com/Symplify/Symplify/pull/1173
-[#1171]: https://github.com/Symplify/Symplify/pull/1171
-[#1170]: https://github.com/Symplify/Symplify/pull/1170
-[@mantiz]: https://github.com/mantiz
-[v5.1.4]: https://github.com/Symplify/Symplify/compare/v5.1.3...v5.1.4
-[#1192]: https://github.com/Symplify/Symplify/pull/1192
-[#1191]: https://github.com/Symplify/Symplify/pull/1191
-[#1189]: https://github.com/Symplify/Symplify/pull/1189
-[#1188]: https://github.com/Symplify/Symplify/pull/1188
-[#1187]: https://github.com/Symplify/Symplify/pull/1187
-[#1185]: https://github.com/Symplify/Symplify/pull/1185
-[#1179]: https://github.com/Symplify/Symplify/pull/1179
-[#1176]: https://github.com/Symplify/Symplify/pull/1176
-[v5.2.1]: https://github.com/Symplify/Symplify/compare/v5.2.0...v5.2.1
-[v5.2.0]: https://github.com/Symplify/Symplify/compare/v5.1.4...v5.2.0
-[#1210]: https://github.com/Symplify/Symplify/pull/1210
-[#1209]: https://github.com/Symplify/Symplify/pull/1209
-[#1207]: https://github.com/Symplify/Symplify/pull/1207
-[#1206]: https://github.com/Symplify/Symplify/pull/1206
-[#1202]: https://github.com/Symplify/Symplify/pull/1202
-[#1200]: https://github.com/Symplify/Symplify/pull/1200
-[#1196]: https://github.com/Symplify/Symplify/pull/1196
-[@doc]: https://github.com/doc
+[@TomasLudvik]: https://github.com/TomasLudvik
+[@JanMikes]: https://github.com/JanMikes
+
+[#1573]: https://github.com/Symplify/Symplify/pull/1573
+[#1569]: https://github.com/Symplify/Symplify/pull/1569
+[#1568]: https://github.com/Symplify/Symplify/pull/1568
+[#1567]: https://github.com/Symplify/Symplify/pull/1567
+[#1565]: https://github.com/Symplify/Symplify/pull/1565
+[#1563]: https://github.com/Symplify/Symplify/pull/1563
+[#1561]: https://github.com/Symplify/Symplify/pull/1561
+[#1559]: https://github.com/Symplify/Symplify/pull/1559
+[#1558]: https://github.com/Symplify/Symplify/pull/1558
+[v6.0.3]: https://github.com/Symplify/Symplify/compare/v6.0.2...v6.0.3
+[v6.0.2]: https://github.com/Symplify/Symplify/compare/v6.0.1...v6.0.2
+[v6.0.1]: https://github.com/Symplify/Symplify/compare/v6.0.0...v6.0.1
+[@jakzal]: https://github.com/jakzal
+[@Big-Shark]: https://github.com/Big-Shark
+[#1585]: https://github.com/Symplify/Symplify/pull/1585
+[#1584]: https://github.com/Symplify/Symplify/pull/1584
+[#1582]: https://github.com/Symplify/Symplify/pull/1582
+[#1581]: https://github.com/Symplify/Symplify/pull/1581
+[#1578]: https://github.com/Symplify/Symplify/pull/1578
+[#1577]: https://github.com/Symplify/Symplify/pull/1577
+[#1576]: https://github.com/Symplify/Symplify/pull/1576
+[#1575]: https://github.com/Symplify/Symplify/pull/1575
+[@mxr576]: https://github.com/mxr576
+[@JohnDoe8521]: https://github.com/JohnDoe8521
+[v6.0.4]: https://github.com/Symplify/Symplify/compare/v6.0.3...v6.0.4

@@ -1,0 +1,3 @@
+services:
+    identityStorage: @Entrydo\Infrastructure\Security\FallbackIdentityStorage
+    namedService: Entrydo\Infrastructure\Security\FallbackIdentityStorage

@@ -2,19 +2,22 @@
 
 namespace Symplify\EasyCodingStandard\Tests\Application;
 
-use Symplify\EasyCodingStandard\Application\Application;
-use Symplify\EasyCodingStandard\Tests\AbstractContainerAwareTestCase;
+use Symplify\EasyCodingStandard\Application\EasyCodingStandardApplication;
+use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class ApplicationTest extends AbstractContainerAwareTestCase
+final class ApplicationTest extends AbstractKernelTestCase
 {
     /**
-     * @var Application
+     * @var EasyCodingStandardApplication
      */
-    private $application;
+    private $easyCodingStandardApplication;
 
     protected function setUp(): void
     {
-        $this->application = $this->container->get(Application::class);
+        $this->bootKernel(EasyCodingStandardKernel::class);
+
+        $this->easyCodingStandardApplication = self::$container->get(EasyCodingStandardApplication::class);
     }
 
     /**
@@ -22,6 +25,6 @@ final class ApplicationTest extends AbstractContainerAwareTestCase
      */
     public function testRun(): void
     {
-        $this->application->run();
+        $this->easyCodingStandardApplication->run();
     }
 }

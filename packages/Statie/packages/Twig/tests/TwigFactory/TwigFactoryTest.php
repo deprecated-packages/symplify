@@ -3,24 +3,18 @@
 namespace Symplify\Statie\Twig\Tests\TwigFactory;
 
 use Nette\Utils\FileSystem;
-use Symplify\Statie\Tests\AbstractConfigAwareContainerTestCase;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Twig\TwigFactory;
 
-final class TwigFactoryTest extends AbstractConfigAwareContainerTestCase
+final class TwigFactoryTest extends AbstractKernelTestCase
 {
-    /**
-     * @var TwigFactory
-     */
-    private $twigFactory;
-
-    protected function setUp(): void
-    {
-        $this->twigFactory = $this->container->get(TwigFactory::class);
-    }
-
     public function test(): void
     {
-        $twig = $this->twigFactory->create();
+        $this->bootKernelWithConfigs(StatieKernel::class, [__DIR__ . '/config.yml']);
+
+        $twigFactory = self::$container->get(TwigFactory::class);
+        $twig = $twigFactory->create();
 
         $template = $twig->createTemplate(FileSystem::read(__DIR__ . '/Source/someFileToRender.twig'));
 
@@ -29,10 +23,5 @@ final class TwigFactoryTest extends AbstractConfigAwareContainerTestCase
         ]);
 
         $this->assertStringEqualsFile(__DIR__ . '/Source/expected.html', $renderedTwig);
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
     }
 }

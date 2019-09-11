@@ -1,0 +1,43 @@
+imports:
+    - { resource: '../packages/*/config/config.yaml' }
+
+# set for EasyCodingStandard
+services:
+    _defaults:
+        autowire: true
+
+    # class has to be final, abstract or Doctrine entity
+    PhpCsFixer\Fixer\ClassNotation\FinalInternalClassFixer: ~
+
+    # import namespaces for classes, constants and functions
+    # configuration: https://github.com/slevomat/coding-standard#slevomatcodingstandardnamespacesreferenceusednamesonly-
+    SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
+        searchAnnotations: true
+        allowFallbackGlobalFunctions: true
+        allowFallbackGlobalConstants: true
+        allowPartialUses: false
+
+    # see https://github.com/symplify/codingstandard to see all loaded Symplify checkers
+    Symplify\CodingStandard\:
+        resource: '../src'
+        # checkers that needs configuration to run
+        exclude: '../src/{Sniffs/DeadCode/UnusedPublicMethodSniff.php,Sniffs/CleanCode/ForbiddenParentClassSniff.php,Fixer/Order/MethodOrderByTypeFixer.php,Fixer/Commenting/RemoveUselessDocBlockFixer.php}'
+
+    Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
+    PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: ~
+
+    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
+        allowed_class_names:
+            - 'File*'
+            # per monorepo package unique
+            - '*Exception'
+            - 'Option'
+            - 'InitCommand'
+            - 'ConvertCommand'
+            # duplicated deprecation
+            - 'FinderSanitizer'
+            # extended 3rd party class
+            - 'CommentedOutCodeSniff'
+            # tests
+            - 'Some*'
+            - 'GithubApi'

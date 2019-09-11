@@ -1,0 +1,13 @@
+parameters:
+    authors_to_ignore: ['TomasVotruba']
+
+    package_aliases:
+        CS: 'CodingStandard'
+        PB: 'PackageBuilder'
+        MB: 'MonorepoBuilder'
+        ECS: 'EasyCodingStandard'
+        ECST: 'EasyCodingStandardTester'
+        CL: 'ChangelogLinker'
+        "Flex Loader": 'FlexLoader'
+        FL: 'FlexLoader'
+        LT: 'LatteToTwigConverter'

@@ -42,6 +42,7 @@ final class LinkCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
+        $this->setDescription('Adds links to CHANGELOG.md');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

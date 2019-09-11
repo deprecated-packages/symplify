@@ -4,7 +4,6 @@ namespace Symplify\Statie\Configuration\Parser;
 
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
-use function Safe\sprintf;
 
 final class YamlParser
 {
@@ -16,14 +15,6 @@ final class YamlParser
     public function __construct(Parser $parser)
     {
         $this->parser = $parser;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public function decodeFile(string $filePath): array
-    {
-        return $this->parser->parseFile($filePath);
     }
 
     /**

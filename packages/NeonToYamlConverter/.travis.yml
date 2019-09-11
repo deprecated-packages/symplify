@@ -1,0 +1,18 @@
+language: php
+
+matrix:
+    include:
+        - php: 7.1
+          env: COMPOSER_FLAGS="--prefer-lowest"
+        - php: 7.2
+        - php: 7.3
+
+install:
+    - composer update --prefer-source $COMPOSER_FLAGS
+
+script:
+    - bin/neon-to-yaml-converter
+    - vendor/bin/phpunit
+
+notifications:
+    email: false

@@ -3,12 +3,10 @@
 namespace Symplify\PackageBuilder\FileSystem;
 
 use Nette\Utils\Strings;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\PackageBuilder\Exception\FileSystem\DirectoryNotFoundException;
 use Symplify\PackageBuilder\Exception\FileSystem\FileNotFoundException;
-use function Safe\getcwd;
-use function Safe\realpath;
-use function Safe\sprintf;
 
 final class SmartFileInfo extends SplFileInfo
 {
@@ -17,7 +15,9 @@ final class SmartFileInfo extends SplFileInfo
      */
     public function __construct($filePath)
     {
-        if (! file_exists($filePath)) {
+        $realPath = realpath($filePath);
+
+        if (! file_exists($filePath) || $realPath === false) {
             throw new FileNotFoundException(sprintf(
                 'File path "%s" was not found while creating "%s" object.',
                 $filePath,
@@ -25,10 +25,15 @@ final class SmartFileInfo extends SplFileInfo
             ));
         }
 
-        $relativeFilePath = Strings::substring(realpath($filePath), strlen(getcwd()) + 1);
+        $relativeFilePath = rtrim((new Filesystem)->makePathRelative($realPath, getcwd()), '/');
         $relativeDirectoryPath = dirname($relativeFilePath);
 
         parent::__construct($filePath, $relativeDirectoryPath, $relativeFilePath);
+    }
+
+    public function getBasenameWithoutSuffix(): string
+    {
+        return pathinfo($this->getFilename())['filename'];
     }
 
     public function getRelativeFilePath(): string
@@ -44,10 +49,14 @@ final class SmartFileInfo extends SplFileInfo
     public function getRelativeFilePathFromDirectory(string $directory): string
     {
         if (! file_exists($directory)) {
-            throw new DirectoryNotFoundException(sprintf('Directory "%s" was not found.', $directory, self::class));
+            throw new DirectoryNotFoundException(sprintf(
+                'Directory "%s" was not found in %s.',
+                $directory,
+                self::class
+            ));
         }
 
-        return Strings::substring($this->getRealPath(), strlen(realpath($directory)) + 1);
+        return rtrim((new Filesystem)->makePathRelative($this->getNormalizedRealPath(), realpath($directory)), '/');
     }
 
     public function endsWith(string $string): bool

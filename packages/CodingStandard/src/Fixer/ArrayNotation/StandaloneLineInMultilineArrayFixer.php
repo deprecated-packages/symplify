@@ -2,16 +2,17 @@
 
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
+use PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
-use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
+use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
+use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
 final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
 {
@@ -47,13 +48,13 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Indexed PHP arrays with 2 and more items should have 1 item per line.', []);
+        return new FixerDefinition('Indexed PHP arrays should have 1 item per line.', []);
     }
 
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS)
-            && $tokens->isAllTokenKindsFound([T_DOUBLE_ARROW, ',']);
+            && $tokens->isAllTokenKindsFound([T_DOUBLE_ARROW]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -64,10 +65,11 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
             }
 
             $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $index);
+            if ($blockInfo === null) {
+                continue;
+            }
 
-            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockInfo($tokens, $blockInfo);
-
-            if ($this->shouldSkip($arrayWrapper)) {
+            if ($this->shouldSkip($tokens, $blockInfo)) {
                 continue;
             }
 
@@ -75,12 +77,31 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
         }
     }
 
-    private function shouldSkip(ArrayWrapper $arrayWrapper): bool
+    public function getPriority(): int
     {
+        return $this->getPriorityBefore(TrailingCommaInMultilineArrayFixer::class);
+    }
+
+    /**
+     * skip: [$array => value]
+     * keep: [$array => [value => nested]]
+     */
+    private function shouldSkip(Tokens $tokens, BlockInfo $blockInfo): bool
+    {
+        $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockInfo($tokens, $blockInfo);
         if (! $arrayWrapper->isAssociativeArray()) {
             return true;
         }
 
-        return $arrayWrapper->getItemCount() <= 1;
+        if ($arrayWrapper->getItemCount() === 1 && ! $arrayWrapper->isFirstItemArray()) {
+            $previousTokenPosition = $tokens->getPrevMeaningfulToken($blockInfo->getStart());
+            if ($previousTokenPosition === null) {
+                return false;
+            }
+
+            return ! $tokens[$previousTokenPosition]->isGivenKind(T_DOUBLE_ARROW);
+        }
+
+        return false;
     }
 }

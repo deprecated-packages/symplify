@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 final class AutowireInterfacesCompilerPass implements CompilerPassInterface
 {
     /**
-     * @var array|string[]
+     * @var string[]
      */
     private $typesToAutowire = [];
 

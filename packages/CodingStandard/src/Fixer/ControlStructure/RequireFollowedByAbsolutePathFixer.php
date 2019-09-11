@@ -78,8 +78,22 @@ final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
         if ($this->startsWithSlash($token)) {
             $tokensToAdd[] = $token;
         } else {
-            $oldNextTokenContentWithSlash = '\'/' . ltrim($token->getContent(), '\'');
-            $tokensToAdd[] = new Token([T_CONSTANT_ENCAPSED_STRING, $oldNextTokenContentWithSlash]);
+            $oldRequiredFile = $token->getContent();
+
+            // remove "./" which would break the path
+            if (Strings::startsWith($oldRequiredFile, '"')) {
+                $quoteChar = '"';
+                $oldRequiredFile = $this->processDoubleQuotePath($oldRequiredFile);
+            } else {
+                $quoteChar = "'";
+                $oldRequiredFile = $this->processSingleQuotePath($oldRequiredFile);
+            }
+
+            if (! Strings::match($oldRequiredFile, '#(\'|")\/#')) {
+                $oldRequiredFile = $quoteChar . '/' . $oldRequiredFile;
+            }
+
+            $tokensToAdd[] = new Token([T_CONSTANT_ENCAPSED_STRING, $oldRequiredFile]);
         }
 
         unset($tokens[$tokenPosition]);
@@ -94,5 +108,23 @@ final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
     private function startsWithSlash(Token $nextToken): bool
     {
         return Strings::startsWith($nextToken->getContent(), "'/");
+    }
+
+    private function processDoubleQuotePath(string $filePath): string
+    {
+        if (Strings::startsWith($filePath, '"./')) {
+            return Strings::replace($filePath, '#^\"\.\/#', '"/');
+        }
+
+        return ltrim($filePath, '"');
+    }
+
+    private function processSingleQuotePath(string $filePath): string
+    {
+        if (Strings::startsWith($filePath, "'./")) {
+            return Strings::replace($filePath, "#^\'\.\/#", "'/");
+        }
+
+        return ltrim($filePath, "'");
     }
 }

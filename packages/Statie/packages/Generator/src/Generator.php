@@ -2,15 +2,22 @@
 
 namespace Symplify\Statie\Generator;
 
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
+use Symplify\Statie\Generator\Configuration\GeneratorElement;
+use Symplify\Statie\Generator\Exception\Configuration\GeneratorException;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Generator\Renderable\File\GeneratorFileFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class Generator
 {
+    /**
+     * @var AbstractGeneratorFile[][]
+     */
+    private $generatorFilesByType = [];
+
     /**
      * @var GeneratorConfiguration
      */
@@ -22,9 +29,9 @@ final class Generator
     private $fileFinder;
 
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
     /**
      * @var RenderableFilesProcessor
@@ -39,13 +46,13 @@ final class Generator
     public function __construct(
         GeneratorConfiguration $generatorConfiguration,
         FileFinder $fileFinder,
-        Configuration $configuration,
+        StatieConfiguration $statieConfiguration,
         RenderableFilesProcessor $renderableFilesProcessor,
         GeneratorFileFactory $generatorFileFactory
     ) {
         $this->generatorConfiguration = $generatorConfiguration;
         $this->fileFinder = $fileFinder;
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
         $this->generatorFileFactory = $generatorFileFactory;
     }
@@ -55,39 +62,69 @@ final class Generator
      */
     public function run(): array
     {
-        // configure
+        if ($this->generatorFilesByType) {
+            return $this->generatorFilesByType;
+        }
+
         foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
             if (! is_dir($generatorElement->getPath())) {
+                $this->reportMissingPath($generatorElement);
+
                 continue;
             }
 
-            // find files in ...
-            $fileInfos = $this->fileFinder->findInDirectoryForGenerator($generatorElement->getPath());
-            if (! count($fileInfos)) {
-                continue;
-            }
-
-            // process to objects
-            $objects = $this->generatorFileFactory->createFromFileInfosAndClass(
-                $fileInfos,
-                $generatorElement->getObject()
-            );
+            $objects = $this->createObjectsFromFoundElements($generatorElement);
 
             // save them to property (for "related_items" option)
-            $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
+            $this->statieConfiguration->addOption($generatorElement->getVariableGlobal(), $objects);
 
             $generatorElement->setObjects($objects);
         }
 
         $generatorFilesByType = [];
         foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
+            $key = $generatorElement->getVariableGlobal();
+            if (isset($generatorFilesByType[$key])) {
+                throw new GeneratorException(sprintf(
+                    'Generator element for "%s" global variable already exists.',
+                    $key
+                ));
+            }
+
             // run them through decorator and render content to string
-            $generatorFilesByType[$generatorElement->getObject()] = $this->renderableFilesProcessor->processGeneratorElementObjects(
+            $generatorFilesByType[$key] = $this->renderableFilesProcessor->processGeneratorElementObjects(
                 $generatorElement->getObjects(),
                 $generatorElement
             );
         }
 
-        return $generatorFilesByType;
+        $this->generatorFilesByType = $generatorFilesByType;
+
+        return $this->generatorFilesByType;
+    }
+
+    private function reportMissingPath(GeneratorElement $generatorElement): void
+    {
+        if ($generatorElement->getVariableGlobal() !== 'posts') {
+            throw new GeneratorException(sprintf(
+                'Path "%s" for generated element "%s" was not found.',
+                $generatorElement->getPath(),
+                $generatorElement->getVariableGlobal()
+            ));
+        }
+    }
+
+    /**
+     * @return AbstractGeneratorFile[]
+     */
+    private function createObjectsFromFoundElements(GeneratorElement $generatorElement): array
+    {
+        $fileInfos = $this->fileFinder->findInDirectoryForGenerator($generatorElement->getPath());
+        if (count($fileInfos) === 0) {
+            return [];
+        }
+
+        // process to objects
+        return $this->generatorFileFactory->createFromFileInfosAndClass($fileInfos, $generatorElement->getObject());
     }
 }

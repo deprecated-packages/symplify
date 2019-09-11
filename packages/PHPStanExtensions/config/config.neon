@@ -1,9 +1,25 @@
-services:
-    errorFormatter.stats:
-        class: 'Symplify\PHPStanExtensions\ErrorFormatter\StatsErrorFormatter'
+includes:
+    - 'php.level.neon'
+    - 'symfony.level.neon'
 
-    errorFormatter.ignore:
-        class: 'Symplify\PHPStanExtensions\ErrorFormatter\IgnoreErrorFormatter'
+services:
+    errorFormatter.symplify:
+        class: 'Symplify\PHPStanExtensions\ErrorFormatter\SymplifyErrorFormatter'
 
     - Symfony\Component\Console\Terminal
-    - Symplify\PHPStanExtensions\Error\ErrorGrouper
+    - Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
+
+    - Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory
+    -
+        factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
+
+extensions:
+    decorator: Nette\DI\Extensions\DecoratorExtension
+
+decorator:
+    PHPStan\Rules\Rule:
+        tags: [phpstan.rules.rule]
+    PHPStan\Type\DynamicMethodReturnTypeExtension:
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+    PHPStan\Type\DynamicFunctionReturnTypeExtension:
+        tags: [phpstan.broker.dynamicFunctionReturnTypeExtension]

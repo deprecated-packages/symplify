@@ -1,0 +1,157 @@
+imports:
+    - { resource: 'packages/EasyCodingStandard/config/set/psr2.yaml' }
+    - { resource: 'packages/EasyCodingStandard/config/set/php71.yaml' }
+    - { resource: 'packages/EasyCodingStandard/config/set/clean-code.yaml' }
+    - { resource: 'packages/EasyCodingStandard/config/set/symplify.yaml' }
+    - { resource: 'packages/EasyCodingStandard/config/set/common.yaml' }
+    - { resource: 'packages/EasyCodingStandard/config/set/psr12.yaml' }
+
+services:
+    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
+        old_to_preferred_classes:
+            SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
+            Symfony\Component\Finder\SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
+            DateTime: 'Nette\Utils\DateTime'
+            PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
+
+    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+        extra_allowed_classes:
+            - '*File'
+            - '*Tweet'
+            - 'PHP_CodeSniffer\Config'
+
+    Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
+        method_order_by_type:
+            PhpCsFixer\Fixer\FixerInterface:
+                - 'getDefinition'
+                - 'isCandidate'
+                - 'fix'
+                - 'getPriority'
+                - 'getName'
+                - 'isRisky'
+                - 'supports'
+
+    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
+        extra_parent_types_to_suffixes:
+            - 'FileDecorator'
+
+parameters:
+    exclude_files:
+        # tests
+        - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
+        - 'packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php'
+        - 'packages/EasyCodingStandard/tests/Skipper/Only/Source/*'
+        # files
+        - 'packages/CodingStandard/tests/Sniffs/DependencyInjection/NoClassInstantiation/Source/EntityClass.php'
+        - 'packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets*.php'
+        - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
+        - 'packages/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/*'
+
+    skip:
+        # run form time to time, very slow and making many changes
+        Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
+
+        PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff: ~
+
+        PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
+        PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
+        Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
+            # allowed spots for Container
+            - '*Kernel.php'
+            - 'packages/PackageBuilder/src/Parameter/ParameterProvider.php'
+            - 'packages/PackageBuilder/src/Parameter/ParameterTypoProofreader.php'
+            - 'packages/EasyCodingStandardTester/src/Testing/AbstractCheckerTestCase.php'
+            # converts non-preferred type
+            - 'packages/PackageBuilder/src/FileSystem/SmartFileInfo.php'
+            - 'packages/PackageBuilder/src/FileSystem/FinderSanitizer.php'
+            - 'packages/EasyCodingStandard/src/Finder/FinderSanitizer.php'
+            - 'packages/PackageBuilder/tests/FileSystem/FinderSanitizerTest.php'
+            # uses 3rd-party API
+            - 'packages/PackageBuilder/src/Configuration/LevelFileFinder.php'
+            - 'packages/EasyCodingStandard/src/Contract/Finder/CustomSourceProviderInterface.php'
+            - 'packages/CodingStandard/src/Fixer/*'
+            - 'packages/CodingStandard/tests/Fixer/*'
+            # SplFileInfo extension
+            - 'packages/PHPStanExtensions/src/Symfony/Type/SplFileInfoTolerantDynamicMethodReturnTypeExtension.php'
+            # tests
+            - 'packages/MonorepoBuilder/tests/Package/PackageComposerJsonMergerTest.php'
+            - 'packages/MonorepoBuilder/tests/Package/CombineStringsToArrayJsonMergerTest.php'
+
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+            - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
+            - 'packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php'
+            - 'packages/Statie/packages/Latte/src/Loader/ArrayLoader.php'
+            - 'packages/Statie/src/Configuration/Configuration.php'
+
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
+            - 'packages/EasyCodingStandard/tests/Indentation/IndentationTest.php'
+
+        Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
+            # name parts, not classes
+            - 'packages/Autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php'
+            - 'packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php'
+            # "Exception" is string part of the name
+            - 'packages/CodingStandard/src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
+            # class might not exist
+            - '*packages/*/src/DependencyInjection/CompilerPass/*CompilerPass.php'
+            - 'packages/PHPStanExtensions/src/Symfony/Type/ContainerGetTypeExtension.php'
+
+        Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+            # static helper
+            - 'packages/PackageBuilder/src/Console/ThrowableRenderer.php'
+            # todo: decouple later
+            - 'packages/CodingStandard/packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
+            # cheap dependency injection
+            - 'packages/*/src/Yaml/*YamlLoader.php'
+            - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
+            - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/MethodOrderByTypeFixerTest.php'
+            - 'packages/Statie/src/Renderable/RedirectGenerator.php'
+
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
+            # respect 3rd party code typehint
+            - 'packages/*/Yaml/*FileLoader.php'
+            - 'packages/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory.php'
+            # variadics
+            - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
+
+        SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
+            # intentionally "Exception" value
+            - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
+
+        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff:
+            # privileged handy helpers
+            - 'packages/BetterPhpDocParser/src/Annotation/AnnotationNaming.php'
+            - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
+            - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
+            - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
+            - 'packages/PackageBuilder/src/Console/Input/InputDetector.php'
+            - 'packages/Autodiscovery/src/Arrays.php'
+
+        Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
+            # 3rd party code copy-pasted; kept as is for easier comparison to original
+            - 'packages/CodingStandard/src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php'
+            - 'packages/PackageBuilder/src/Yaml/ParametersMerger.php'
+            # wip
+            - 'packages/NeonToYamlConverter/src/NeonToYamlConverter.php'
+            # complex work
+            - 'packages/BetterPhpDocParser/src/Printer/PhpDocInfoPrinter.php'
+            - 'packages/CodingStandard/packages/TokenRunner/src/DocBlock/DescriptionAnalyzer.php'
+            # many nodes
+            - 'packages/BetterPhpDocParser/packages/Attributes/src/Ast/AttributeAwareNodeFactory.php'
+
+        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
+
+        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
+            # reference for reflection of method with reference
+            - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
+
+        Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
+            # useful comments
+            - 'packages/LatteToTwigConverter/src/CaseConverter/*CaseConverter.php'
+            - 'packages/Statie/*/*FilterProvider.php'
+
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingReturnTypeHint:
+            - 'packages/Statie/src/Application/StatieApplication.php'
+
+        Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
+            - 'packages/MonorepoBuilder/src/Console/Command/ValidateCommand.php'

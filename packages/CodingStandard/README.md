@@ -17,6 +17,8 @@ composer require symplify/coding-standard --dev
 
 - Rules with :wrench: are configurable.
 
+<br>
+
 ### Make sure That `@param`, `@var`, `@return` and `@throw` Types Exist
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff`](src/Sniffs/Commenting/AnnotationTypeExistsSniff.php)
@@ -56,6 +58,57 @@ class SomeClass
 
 <br>
 
+### Use Unique Class Short Names
+
+- :wrench:
+- class: [`Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff`](/src/Sniffs/Architecture/DuplicatedClassShortNameSniff.php)
+
+:x:
+
+```php
+<?php
+
+namespace App;
+
+class Finder
+{
+}
+```
+
+```php
+<?php
+
+namespace App\Entity;
+
+class Finder
+{
+}
+```
+
+:+1:
+
+```diff
+ <?php
+
+ namespace App\Entity;
+
+-class Finder
++class EntityFinder
+ {
+ }
+```
+
+Do you want skip some classes? Configure it:
+
+```yaml
+# ecs.yml
+services:
+    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
+        allowed_class_names:
+            - 'Request'
+            - 'Response'
+```
+
 ### Make `@param`, `@return` and `@var` Format United
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
@@ -86,7 +139,39 @@ services:
       */
      private $property;
  }
+
+-/* @var int $value */
++/** @var int $value */
+ $value = 5;
+
+-/** @var $value int */
++/** @var int $value */
+ $value = 5;
 ```
+
+<br>
+
+### Remove // end of ... Legacy Comments
+
+- class: [`\Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer`](src/Fixer/Commenting/RemoveEndOfFunctionCommentFixer.php)
+
+```yaml
+# ecs.yml
+services:
+    Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer: ~
+```
+
+```diff
+ <?php
+
+ function someFunction()
+ {
+
+-} // end of someFunction
++}
+```
+
+<br>
 
 ### Order Private Methods by Their Use Order
 
@@ -269,34 +354,6 @@ Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all
 
 <br>
 
-### Block comment should only contain useful information about types
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer`](src/Fixer/Commenting/RemoveUselessDocBlockFixer.php)
-
-```diff
- /**
-- * @param int $value
-- * @param $anotherValue
-- * @param SomeType $someService
-- * @return array
-  */
- public function setCount(int $value, $anotherValue, SomeType $someService): array
- {
- }
-```
-
-This checker keeps 'mixed' and 'object' and other types by default. But if you need, you can **configure it**:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
-        useless_types: ['mixed', 'object'] # [] by default
-```
-
-<br>
-
 ### Block comment should not have 2 empty lines in a row
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
@@ -311,6 +368,33 @@ services:
  public function setCount($value)
  {
  }
+```
+
+<br>
+
+### Consistent Delimiter in Regular Expression
+
+- :wrench:
+- class: [`Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer`](src/Fixer/ControlStructure/PregDelimiterFixer.php)
+
+```diff
+-preg_match('~pattern~', $value);
++preg_match('#pattern#', $value);
+
+-preg_match("~pattern~d", $value);
++preg_match("#pattern#d", $value);
+
+-Nette\Utils\Strings::match($value, '/pattern/');
++Nette\Utils\Strings::match($value, '#pattern#');
+```
+
+Do you want another char than `#`? Configure it:
+
+```yaml
+# ecs.yml
+services:
+    Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer:
+        delimiter: '_' # default "#"
 ```
 
 <br>
@@ -390,6 +474,21 @@ services:
     Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer:
         extra_skipped_classes:
             - 'MyApp*' # accepts anything like fnmatch
+```
+
+<br>
+
+### Exception name should match its type, if possible
+
+- class: [`Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer`](src/Fixer/Naming/CatchExceptionNameMatchingTypeFixer.php)
+
+```diff
+ try {
+-} catch (SomeException $typoException) {
++} catch (SomeException $someException) {
+-    $typeException->getMessage();
++    $someException->getMessage();
+ }
 ```
 
 <br>
@@ -496,6 +595,8 @@ services:
 +
  namespace SomeNamespace;
 ```
+
+<br>
 
 ### Non-abstract class that implements interface should be final
 
@@ -985,8 +1086,8 @@ trait SomeTrait
 
 ### Possible Unused Public Method
 
+- :wrench:
 - class: [`Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`](src/Sniffs/DeadCode/UnusedPublicMethodSniff.php)
-
 - **Requires ECS due *double run* feature**, use with `--clear-cache` so all files are included.
 
 :x:
@@ -1023,6 +1124,17 @@ class SomeClass
 
 $someObject = new SomeClass;
 $someObject->usedMethod();
+```
+
+Do you have public methods used only byr 3rd party? **Just skip them**:
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff:
+        allow_classes:
+            - 'Symplify\Autodiscovery\Discovery'
+            - 'Symplify\FlexLoader\Flex\FlexLoader'
 ```
 
 ## Contributing

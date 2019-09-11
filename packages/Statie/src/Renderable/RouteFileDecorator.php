@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Renderable;
 
 use Nette\Utils\Strings;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -12,18 +12,18 @@ use Symplify\Statie\Utils\PathNormalizer;
 final class RouteFileDecorator implements FileDecoratorInterface
 {
     /**
-     * @var Configuration
+     * @var StatieConfiguration
      */
-    private $configuration;
+    private $statieConfiguration;
 
     /**
      * @var PathNormalizer
      */
     private $pathNormalizer;
 
-    public function __construct(Configuration $configuration, PathNormalizer $pathNormalizer)
+    public function __construct(StatieConfiguration $statieConfiguration, PathNormalizer $pathNormalizer)
     {
-        $this->configuration = $configuration;
+        $this->statieConfiguration = $statieConfiguration;
         $this->pathNormalizer = $pathNormalizer;
     }
 
@@ -47,12 +47,7 @@ final class RouteFileDecorator implements FileDecoratorInterface
     public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
     {
         foreach ($files as $file) {
-            $outputPath = $generatorElement->getRoutePrefix()
-                ? $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR
-                : '';
-            $outputPath = $this->prefixWithDateIfFound($file, $outputPath);
-            $outputPath .= $file->getFilenameWithoutDate();
-            $outputPath = $this->pathNormalizer->normalize($outputPath);
+            $outputPath = $this->resolveOutputPath($generatorElement, $file);
 
             $file->setRelativeUrl($outputPath);
             $file->setOutputPath($outputPath . DIRECTORY_SEPARATOR . 'index.html');
@@ -69,9 +64,11 @@ final class RouteFileDecorator implements FileDecoratorInterface
     private function decorateFile(AbstractFile $file): void
     {
         // manual config override has preference
-        if ($file->getOption('outputPath')) {
-            $file->setOutputPath((string) $file->getOption('outputPath'));
-            $file->setRelativeUrl((string) $file->getOption('outputPath'));
+        $manualOutputPath = $this->getFileOutputPathOption($file);
+
+        if ($manualOutputPath) {
+            $file->setOutputPath((string) $manualOutputPath);
+            $file->setRelativeUrl((string) $manualOutputPath);
             return;
         }
 
@@ -128,17 +125,42 @@ final class RouteFileDecorator implements FileDecoratorInterface
     {
         return Strings::contains(
             $file->getFilePath(),
-            $this->configuration->getSourceDirectory() . DIRECTORY_SEPARATOR . 'index'
+            $this->statieConfiguration->getSourceDirectory() . DIRECTORY_SEPARATOR . 'index'
         );
     }
 
     private function getRelativeDirectory(AbstractFile $file): string
     {
-        $sourceParts = explode(DIRECTORY_SEPARATOR, $this->configuration->getSourceDirectory());
+        $sourceParts = explode(DIRECTORY_SEPARATOR, $this->statieConfiguration->getSourceDirectory());
         $sourceDirectory = array_pop($sourceParts);
 
         $relativeParts = explode($sourceDirectory, $file->getRelativeDirectory());
 
         return array_pop($relativeParts);
+    }
+
+    private function resolveOutputPath(GeneratorElement $generatorElement, AbstractFile $file): string
+    {
+        /** @var string|null $manualOutputPath */
+        $manualOutputPath = $this->getFileOutputPathOption($file);
+        if ($manualOutputPath !== null) {
+            return $manualOutputPath;
+        }
+
+        $outputPath = '';
+
+        if ($generatorElement->getRoutePrefix()) {
+            $outputPath .= $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR;
+        }
+
+        $outputPath = $this->prefixWithDateIfFound($file, $outputPath);
+        $outputPath .= $file->getFilenameWithoutDate();
+
+        return $this->pathNormalizer->normalize($outputPath);
+    }
+
+    private function getFileOutputPathOption(AbstractFile $file): ?string
+    {
+        return $file->getOption('outputPath') ?: $file->getOption('output_path');
     }
 }
