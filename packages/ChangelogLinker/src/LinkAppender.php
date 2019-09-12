@@ -7,6 +7,11 @@ use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 final class LinkAppender
 {
     /**
+     * @var bool
+     */
+    private $existingLinks = false;
+
+    /**
      * @var string[]
      */
     private $linksToAppend = [];
@@ -44,11 +49,24 @@ final class LinkAppender
         return $this->linksToAppend;
     }
 
+    /**
+     * Tells you if links have been removed from LinkAppender::$linksToAppend
+     * after calling LinkAppender::removeAlreadyExistingLinks
+     *
+     * Implicitly this method is telling you that changelog file already
+     * contains links at the end.
+     */
+    public function hadExistingLinks(): bool
+    {
+        return $this->existingLinks;
+    }
+
     private function removeAlreadyExistingLinks(): void
     {
         foreach (array_keys($this->linksToAppend) as $id) {
             if ($this->linksAnalyzer->hasLinkedId((string) $id)) {
                 unset($this->linksToAppend[$id]);
+                $this->existingLinks = true;
             }
         }
     }
