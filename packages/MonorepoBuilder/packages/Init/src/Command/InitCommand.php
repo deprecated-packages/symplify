@@ -3,6 +3,7 @@
 namespace Symplify\MonorepoBuilder\Init\Command;
 
 use Composer\Composer;
+use Nette\Utils\FileSystem as NetteFileSystem;
 use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -59,16 +60,15 @@ final class InitCommand extends Command
 
         // Replace MonorepoBuilder version in monorepo-builder.yml
         $filename = sprintf('%s/monorepo-builder.yml', $output);
-        $content = str_replace('<version>', $this->getMonorepoBuilderVersion(), file_get_contents($filename));
+        $content = str_replace('<version>', $this->getMonorepoBuilderVersion(), NetteFileSystem::read($filename));
 
         $this->filesystem->dumpFile($filename, $content);
 
         $this->symfonyStyle->success('Congrats! Your first monorepo is here.');
-        $this->symfonyStyle->note(
-            'Now try the next step - merge composer.json files from packages to the root one: ' .
-            PHP_EOL .
-            '"vendor/bin/monorepo-builder merge"'
-        );
+        $this->symfonyStyle->note(sprintf(
+            'Try the next step - merge "composer.json" files from packages to the root one:%s "vendor/bin/monorepo-builder merge"',
+            PHP_EOL
+        ));
 
         return ShellCode::SUCCESS;
     }

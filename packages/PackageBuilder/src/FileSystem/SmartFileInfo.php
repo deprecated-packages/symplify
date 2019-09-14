@@ -11,12 +11,18 @@ use Symplify\PackageBuilder\Exception\FileSystem\FileNotFoundException;
 final class SmartFileInfo extends SplFileInfo
 {
     /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    /**
      * @param mixed $filePath
      */
     public function __construct($filePath)
     {
-        $realPath = realpath($filePath);
+        $this->filesystem = new Filesystem();
 
+        $realPath = realpath($filePath);
         if (! file_exists($filePath) || $realPath === false) {
             throw new FileNotFoundException(sprintf(
                 'File path "%s" was not found while creating "%s" object.',
@@ -25,7 +31,7 @@ final class SmartFileInfo extends SplFileInfo
             ));
         }
 
-        $relativeFilePath = rtrim((new Filesystem)->makePathRelative($realPath, getcwd()), '/');
+        $relativeFilePath = rtrim($this->filesystem->makePathRelative($realPath, getcwd()), '/');
         $relativeDirectoryPath = dirname($relativeFilePath);
 
         parent::__construct($filePath, $relativeDirectoryPath, $relativeFilePath);
@@ -56,7 +62,10 @@ final class SmartFileInfo extends SplFileInfo
             ));
         }
 
-        return rtrim((new Filesystem)->makePathRelative($this->getNormalizedRealPath(), realpath($directory)), '/');
+        return rtrim(
+            $this->filesystem->makePathRelative($this->getNormalizedRealPath(), (string) realpath($directory)),
+            '/'
+        );
     }
 
     public function endsWith(string $string): bool

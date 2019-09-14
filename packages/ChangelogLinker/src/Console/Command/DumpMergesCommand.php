@@ -197,6 +197,7 @@ final class DumpMergesCommand extends Command
             return (int) $sinceId;
         }
 
+        /** @var string $baseBranch */
         $baseBranch = $input->getOption(Option::BASE_BRANCH);
         if ($baseBranch !== null) {
             return $this->findHighestIdMergedInBranch($content, $baseBranch);
@@ -205,14 +206,14 @@ final class DumpMergesCommand extends Command
         return $this->idsAnalyzer->getHighestIdInChangelog($content);
     }
 
-    /**
-     * @param string $content
-     * @param string $branch
-     * @return int|null
-     */
     private function findHighestIdMergedInBranch(string $content, string $branch): ?int
     {
         $allIdsInChangelog = $this->idsAnalyzer->getAllIdsInChangelog($content);
+
+        if ($allIdsInChangelog === null) {
+            return null;
+        }
+
         rsort($allIdsInChangelog);
         foreach ($allIdsInChangelog as $id) {
             $idInt = (int) $id;

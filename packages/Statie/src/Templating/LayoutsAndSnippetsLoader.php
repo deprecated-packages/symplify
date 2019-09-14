@@ -32,7 +32,7 @@ final class LayoutsAndSnippetsLoader
         FileFinder $fileFinder,
         ArrayLoader $latteArrayLoader,
         TwigArrayLoader $twigArrayLoader
-) {
+    ) {
         $this->fileFinder = $fileFinder;
         $this->latteArrayLoader = $latteArrayLoader;
         $this->twigArrayLoader = $twigArrayLoader;
