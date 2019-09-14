@@ -5,7 +5,6 @@ namespace Symplify\MonorepoBuilder\Split\Tests\Configuration;
 use Iterator;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
-use Symplify\MonorepoBuilder\Split\Exception\InvalidRepositoryFormatException;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 final class RepositoryGuardTest extends AbstractKernelTestCase
