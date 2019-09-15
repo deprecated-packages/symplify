@@ -44,7 +44,7 @@ parameters:
         - 'packages/EasyCodingStandard/tests/Skipper/Only/Source/*'
         # files
         - 'packages/CodingStandard/tests/Sniffs/DependencyInjection/NoClassInstantiation/Source/EntityClass.php'
-        - 'packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets*.php'
+        - 'packages/EasyCodingStandard/packages/SniffRunchangeConfigurationFilener/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets*.php'
         - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
         - 'packages/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/*'
 
