@@ -66,8 +66,8 @@ final class ConfigFileFinder
     public static function getOptionValue(InputInterface $input, array $optionNames): ?string
     {
         foreach ($optionNames as $optionName) {
-            if ($input->hasParameterOption($optionName)) {
-                return $input->getParameterOption($optionName);
+            if ($input->hasParameterOption($optionName, true)) {
+                return $input->getParameterOption($optionName, null, true);
             }
         }
 
