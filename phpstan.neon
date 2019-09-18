@@ -90,6 +90,7 @@ parameters:
 
         # mixed up iterables
         - '#Parameter \#1 \$files of method Symplify\\PackageBuilder\\FileSystem\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo|string>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo> given#'
+        - '#PHPDoc tag @return with type array<string\> is incompatible with native type Iterator#'
 
         # intentionally
         - '#Empty catch block#'

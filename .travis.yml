@@ -73,12 +73,12 @@ after_script:
 
     - |
       if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_BRANCH == "master" && $MONOREPO_SPLIT == true ]]; then
+          # run slow api test only on master, because they require token
+          vendor/bin/phpunit --group api
+
           # split monorepo to packages - only on merge to master
           # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
           packages/MonorepoBuilder/bin/monorepo-builder split -v
-
-          # run slow api test only on master, because they require token
-          vendor/bin/phpunit --group api
       fi
 
 notifications:

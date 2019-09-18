@@ -207,11 +207,11 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             return true;
         }
 
-        // nowdoc => skip
+        // heredoc/nowdoc => skip
         $nextTokenPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
         $nextToken = $tokens[$nextTokenPosition];
 
-        if (Strings::startsWith($nextToken->getContent(), '<<<')) {
+        if (Strings::contains($nextToken->getContent(), '<<<')) {
             return true;
         }
 
