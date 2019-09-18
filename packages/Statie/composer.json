@@ -24,7 +24,7 @@
         "symfony/console": "^3.4|^4.3",
         "symfony/finder": "^3.4|^4.3",
         "symfony/yaml": "^3.4|^4.3",
-        "symplify/package-builder": "^6.1",
+        "symplify/package-builder": "^6.2",
         "jean85/pretty-package-versions": "^1.2",
         "ocramius/package-versions": "^1.3"
     },
@@ -61,7 +61,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "6.1-dev"
+            "dev-master": "6.2-dev"
         }
     },
     "minimum-stability": "dev",

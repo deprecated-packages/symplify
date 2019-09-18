@@ -12,7 +12,7 @@
         "symfony/dependency-injection": "^3.4.10|^4.2",
         "symfony/finder": "^3.4|^4.3",
         "symfony/routing": "^3.4|^4.3",
-        "symplify/package-builder": "^6.1"
+        "symplify/package-builder": "^6.2"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^1.9",
@@ -39,7 +39,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "6.1-dev"
+            "dev-master": "6.2-dev"
         }
     },
     "minimum-stability": "dev",

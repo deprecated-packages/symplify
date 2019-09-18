@@ -9,7 +9,7 @@
         "php": "^7.1",
         "nette/utils": "^2.5|^3.0",
         "nette/neon": "^2.4|^3.0",
-        "symplify/package-builder": "^6.1",
+        "symplify/package-builder": "^6.2",
         "symfony/http-kernel": "^3.4|^4.3",
         "symfony/yaml": "^3.4|^4.3"
     },
@@ -28,7 +28,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "6.1-dev"
+            "dev-master": "6.2-dev"
         }
     },
     "minimum-stability": "dev",
