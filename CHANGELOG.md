@@ -9,7 +9,39 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v6.0.5 - 2019-07-26
+## Unreleased
+
+### Added
+
+#### ChangelogLinker
+
+- [#1589] allow releasing in multiple branches, Thanks to [@vitek-rostislav]
+
+### Fixed
+
+#### CodingStandard
+
+- [#1611] Fix `LineLength` for breaking nowdoc
+
+#### ChangelogLinker
+
+- [#1605] Honoring final new line, Thanks to [@jawira]
+
+#### MonorepoBuilder
+
+- [#1597] Dynamic monorepo-builder version in Init templates, Thanks to [@natepage]
+- [#1595] Stop requiring the remote URL to end with '.git', Thanks to [@Sargeros]
+
+#### PackageBuilder
+
+- [#1608] Skip parameters following an end of options (--) signal, Thanks to [@mantiz]
+- [#1601] Determine relative paths using Symfony's makePathRelative(), Thanks to [@fitztrev]
+
+#### Statie
+
+- [#1587] Canonicalise md suffix for jekyll migrations, Thanks to [@dsas]
+
+## [v6.0.5] - 2019-07-26
 
 ### Added
 
@@ -235,3 +267,20 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@mxr576]: https://github.com/mxr576
 [@JohnDoe8521]: https://github.com/JohnDoe8521
 [v6.0.4]: https://github.com/Symplify/Symplify/compare/v6.0.3...v6.0.4
+[#1611]: https://github.com/Symplify/Symplify/pull/1611
+[#1608]: https://github.com/Symplify/Symplify/pull/1608
+[#1607]: https://github.com/Symplify/Symplify/pull/1607
+[#1605]: https://github.com/Symplify/Symplify/pull/1605
+[#1601]: https://github.com/Symplify/Symplify/pull/1601
+[#1597]: https://github.com/Symplify/Symplify/pull/1597
+[#1595]: https://github.com/Symplify/Symplify/pull/1595
+[#1589]: https://github.com/Symplify/Symplify/pull/1589
+[#1587]: https://github.com/Symplify/Symplify/pull/1587
+[@vitek-rostislav]: https://github.com/vitek-rostislav
+[@natepage]: https://github.com/natepage
+[@mantiz]: https://github.com/mantiz
+[@jawira]: https://github.com/jawira
+[@fitztrev]: https://github.com/fitztrev
+[@dsas]: https://github.com/dsas
+[@Sargeros]: https://github.com/Sargeros
+[v6.0.5]: https://github.com/Symplify/Symplify/compare/v6.0.4...v6.0.5
