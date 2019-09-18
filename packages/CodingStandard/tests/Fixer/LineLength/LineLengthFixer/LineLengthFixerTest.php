@@ -33,6 +33,7 @@ final class LineLengthFixerTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/Fixture/correct10.php.inc'];
         yield [__DIR__ . '/Fixture/correct11.php.inc'];
         yield [__DIR__ . '/Fixture/correct12.php.inc'];
+        yield [__DIR__ . '/Fixture/correct_heredoc.php.inc'];
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
         yield [__DIR__ . '/Fixture/wrong2.php.inc'];
         yield [__DIR__ . '/Fixture/wrong3.php.inc'];
