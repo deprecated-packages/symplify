@@ -190,6 +190,17 @@ parameters:
     enable_default_release_workers: false
 ```
 
+### 8. Execute Commands Foreach contained Package
+
+While working with multiple packages in a monorepo you may feel the need to run arbitrary commands for each contained package.
+For example, you may want to run the tests for each package in isolation:
+
+```bash
+vendor/bin/monorepo-builder foreach -- sh -c 'composer install && vendor/bin/phpunit'
+```
+
+**Note:** If the command requires options that may interfere with the options of the `monorepo-builder` command itself, option parsing can be ended by using `--` as shown in the example above.
+
 ## Contributing
 
 Open an [issue](https://github.com/Symplify/Symplify/issues) or send a [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.
