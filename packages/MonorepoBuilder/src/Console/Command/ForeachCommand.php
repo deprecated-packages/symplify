@@ -5,8 +5,8 @@ namespace Symplify\MonorepoBuilder\Console\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -15,14 +15,20 @@ use Symplify\PackageBuilder\Console\ShellCode;
 final class ForeachCommand extends Command
 {
     /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
+    /**
      * @var ComposerJsonProvider
      */
     private $composerJsonProvider;
 
-    public function __construct(ComposerJsonProvider $composerJsonProvider)
+    public function __construct(SymfonyStyle $symfonyStyle, ComposerJsonProvider $composerJsonProvider)
     {
         parent::__construct();
 
+        $this->symfonyStyle = $symfonyStyle;
         $this->composerJsonProvider = $composerJsonProvider;
     }
 
@@ -36,19 +42,14 @@ final class ForeachCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $stdErrOutput = $output instanceof ConsoleOutputInterface ? $output->getErrorOutput() : $output;
         $command = array_merge([$input->getArgument('cmd')], $input->getArgument('args'));
         $fileInfos = $this->composerJsonProvider->getPackagesFileInfos();
 
         foreach ($fileInfos as $fileInfo) {
             $process = new Process($command, $fileInfo->getPath());
 
-            $process->mustRun(static function ($type, $data) use ($output, $stdErrOutput): void {
-                if ($type === Process::ERR) {
-                    $stdErrOutput->write($data);
-                } else {
-                    $output->write($data);
-                }
+            $process->mustRun(function ($type, $data): void {
+                $this->symfonyStyle->write($data);
             });
         }
 
