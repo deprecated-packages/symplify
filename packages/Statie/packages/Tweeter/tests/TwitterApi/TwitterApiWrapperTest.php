@@ -28,7 +28,7 @@ final class TwitterApiWrapperTest extends AbstractKernelTestCase
         }
 
         $publishedTweets = $this->twitterApiWrapper->getPublishedTweets();
-        $this->assertGreaterThanOrEqual(41, count($publishedTweets));
+        $this->assertGreaterThanOrEqual(20, count($publishedTweets));
 
         $this->assertInstanceOf(PublishedTweet::class, $publishedTweets[0]);
     }
