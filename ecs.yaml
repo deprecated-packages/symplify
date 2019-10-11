@@ -1,5 +1,4 @@
 imports:
-    - { resource: 'packages/EasyCodingStandard/config/set/psr2.yaml' }
     - { resource: 'packages/EasyCodingStandard/config/set/php71.yaml' }
     - { resource: 'packages/EasyCodingStandard/config/set/clean-code.yaml' }
     - { resource: 'packages/EasyCodingStandard/config/set/symplify.yaml' }
@@ -18,8 +17,6 @@ services:
         extra_allowed_classes:
             - '*File'
             - '*Tweet'
-            - 'PHP_CodeSniffer\Config'
-            - 'Symfony\Component\Filesystem\Filesystem'
 
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:

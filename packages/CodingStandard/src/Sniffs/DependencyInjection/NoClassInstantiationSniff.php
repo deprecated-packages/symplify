@@ -33,6 +33,11 @@ final class NoClassInstantiationSniff implements Sniff
         'Spl*',
         'Reflection*',
 
+        // static analysis tools
+        'PhpParser\*',
+        'PHPStan\*',
+        'PHP_CodeSniffer\*',
+
         // Nette
         'Nette\Utils\Html',
         'Nette\Loaders\RobotLoader',
@@ -57,6 +62,7 @@ final class NoClassInstantiationSniff implements Sniff
         'Symfony\Component\Console\Helper\Table',
         'Symfony\Component\DependencyInjection\*',
         'Symfony\Component\Config\*',
+        'Symfony\Component\Filesystem\Filesystem',
         '*Exception',
         '*Constraint',
 
