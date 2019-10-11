@@ -17,17 +17,7 @@ final class ParametersMerger
     public function merge($left, $right)
     {
         if (is_array($left) && is_array($right)) {
-            foreach ($left as $key => $val) {
-                if (is_int($key)) {
-                    $right[] = $val;
-                } else {
-                    if (isset($right[$key])) {
-                        $val = $this->merge($val, $right[$key]);
-                    }
-                    $right[$key] = $val;
-                }
-            }
-            return $right;
+            return $this->mergeLeftToRight($left, $right);
         } elseif ($left === null && is_array($right)) {
             return $right;
         }
@@ -47,17 +37,7 @@ final class ParametersMerger
     public function mergeWithCombine($left, $right)
     {
         if (is_array($left) && is_array($right)) {
-            foreach ($left as $key => $val) {
-                if (is_int($key)) {
-                    $right[] = $val;
-                } else {
-                    if (isset($right[$key])) {
-                        $val = $this->mergeWithCombine($val, $right[$key]);
-                    }
-                    $right[$key] = $val;
-                }
-            }
-            return $right;
+            return $this->mergeLeffToRightWithCombine($left, $right);
         } elseif ($left === null && is_array($right)) {
             return $right;
         }
@@ -67,5 +47,36 @@ final class ParametersMerger
         }
 
         return $left;
+    }
+
+    private function mergeLeftToRight(array $left, array $right): array
+    {
+        foreach ($left as $key => $val) {
+            if (is_int($key)) {
+                $right[] = $val;
+            } else {
+                if (isset($right[$key])) {
+                    $val = $this->merge($val, $right[$key]);
+                }
+                $right[$key] = $val;
+            }
+        }
+
+        return $right;
+    }
+
+    private function mergeLeffToRightWithCombine(array $left, array $right): array
+    {
+        foreach ($left as $key => $val) {
+            if (is_int($key)) {
+                $right[] = $val;
+            } else {
+                if (isset($right[$key])) {
+                    $val = $this->mergeWithCombine($val, $right[$key]);
+                }
+                $right[$key] = $val;
+            }
+        }
+        return $right;
     }
 }

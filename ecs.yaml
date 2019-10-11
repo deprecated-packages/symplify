@@ -126,18 +126,6 @@ parameters:
             - 'packages/PackageBuilder/src/Console/Input/InputDetector.php'
             - 'packages/Autodiscovery/src/Arrays.php'
 
-        Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
-            # 3rd party code copy-pasted; kept as is for easier comparison to original
-            - 'packages/CodingStandard/src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php'
-            - 'packages/PackageBuilder/src/Yaml/ParametersMerger.php'
-            # wip
-            - 'packages/NeonToYamlConverter/src/NeonToYamlConverter.php'
-            # complex work
-            - 'packages/BetterPhpDocParser/src/Printer/PhpDocInfoPrinter.php'
-            - 'packages/CodingStandard/packages/TokenRunner/src/DocBlock/DescriptionAnalyzer.php'
-            # many nodes
-            - 'packages/BetterPhpDocParser/packages/Attributes/src/Ast/AttributeAwareNodeFactory.php'
-
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
