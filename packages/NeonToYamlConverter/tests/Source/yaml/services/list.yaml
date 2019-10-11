@@ -1,4 +1,10 @@
 services:
+    Entrydo\Application\ListCountries\ListCountriesUseCase:
+        arguments:
+            - '%country_enabled%'
+    Entrydo\Application\ListCurrencies\ListCurrenciesUseCase:
+        arguments:
+            - '%currency_enabled%'
     Entrydo\Infrastructure\Mailing\SendGridMailer: ~
     Entrydo\App\Routing\RouterFactory: ~
     Entrydo\App\HttpRequest\RequestBodyHelper: ~
@@ -12,9 +18,3 @@ services:
     Entrydo\Application\UserInfo\UserInfoUseCase: ~
     Entrydo\Application\EditUserInfo\EditUserInfoUseCase: ~
     Entrydo\Domain\Specifications\Email\EmailIsUnique: ~
-    Entrydo\Application\ListCountries\ListCountriesUseCase:
-        arguments:
-            - '%country_enabled%'
-    Entrydo\Application\ListCurrencies\ListCurrenciesUseCase:
-        arguments:
-            - '%currency_enabled%'

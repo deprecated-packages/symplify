@@ -37,13 +37,7 @@ parameters:
     exclude_files:
         # tests
         - 'packages/*/tests/**Source/*.php'
-#        - 'packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php'
-#        - 'packages/EasyCodingStandard/tests/Skipper/Only/Source/*'
-        # files
-#        - 'packages/CodingStandard/tests/Sniffs/DependencyInjection/NoClassInstantiation/Source/EntityClass.php'
-#        - 'packages/EasyCodingStandard/packages/SniffRunchangeConfigurationFilener/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets*.php'
         - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
-#        - 'packages/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/*'
 
     skip:
         # run form time to time, very slow and making many changes
