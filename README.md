@@ -2,7 +2,7 @@
     <img src="/docs/symplify.png?v=3">
 </div>
 
-# Symplify - Making Every Day PHP Development as Simple
+# Symplify - Making Everyday PHP Development Simple
 
 [![Build Status](https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
 [![Coverage](https://img.shields.io/coveralls/Symplify/Symplify/master.svg?style=flat-square)](https://coveralls.io/github/Symplify/Symplify?branch=master)
