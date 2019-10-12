@@ -25,7 +25,7 @@
         "slevomat/coding-standard": "^5.0",
         "squizlabs/php_codesniffer": "^3.4",
         "symfony/cache": "^3.4|^4.3",
-        "symfony/config": "^3.4|^4.3",
+        "symfony/config": "^3.4.32|^4.3",
         "symfony/console": "^3.4|^4.3",
         "symfony/debug": "^3.4|^4.3",
         "symfony/dependency-injection": "^3.4.10|^4.2",
@@ -39,7 +39,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^1.9",
-        "doctrine/orm": "^2.6",
+        "doctrine/orm": "^2.6.4",
         "nette/application": "^3.0",
         "phpstan/phpstan": "^0.11.15",
         "phpunit/phpunit": "^7.5|^8.0",
