@@ -1,79 +1,88 @@
 <div align="center">
-    <img src="/docs/symplify.png?v=2">
-    <h1>Symplify</h1>
-    <a href="https://travis-ci.org/Symplify/Symplify">
-        <img src="https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square" alt="CI Status">
-    </a>
-    <a href="https://coveralls.io/github/Symplify/Symplify?branch=master">
-        <img src="https://img.shields.io/coveralls/Symplify/Symplify/master.svg?style=flat-square" alt="Coverage Status">
-    </a>
+    <img src="/docs/symplify.png?v=3">
 </div>
 
-<br>
+# Symplify - Making Every Day PHP Development as Simple as Possible
 
-## [Easy Coding Standard](https://github.com/Symplify/EasyCodingStandard)
+[![Build Status](https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
+[![Coverage](https://img.shields.io/coveralls/Symplify/Symplify/master.svg?style=flat-square)](https://coveralls.io/github/Symplify/Symplify?branch=master)
 
-[![Build Status](https://img.shields.io/travis/Symplify/EasyCodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/EasyCodingStandard)
-[![Downloads](https://img.shields.io/packagist/dt/symplify/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-coding-standard/stats)
+In [this monorepo](https://gomonorepo.org/) you'll find PHP packages that help you with:
 
-The best and easiest way to start coding standard with. Combined both [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
-
-![ECS-Run](packages/EasyCodingStandard/docs/run-and-fix.gif)
-
-**Used by:**
-
-<p align="center">
-    <a href="https://github.com/lmc-eu/php-coding-standard"><img src="/packages/EasyCodingStandard/docs/logos/lmc.png"></a>
-    <img src="/packages/EasyCodingStandard/docs/logos/space.png">
-    <a href="https://github.com/nette/coding-standard"><img src="/packages/EasyCodingStandard/docs/logos/nette.png"></a>
-    <img src="/packages/EasyCodingStandard/docs/logos/space.png">
-    <a href="https://github.com/php-ai/php-ml/"><img src="/packages/EasyCodingStandard/docs/logos/phpai.png"></a>
-    <br>
-    <br>
-    <a href="https://github.com/shopsys/coding-standards"><img src="/packages/EasyCodingStandard/docs/logos/shopsys.png"></a>
-    <img src="/packages/EasyCodingStandard/docs/logos/space.png">
-    <a href="https://github.com/sunfoxcz/coding-standard"><img src="/packages/EasyCodingStandard/docs/logos/sunfox.jpg"></a>
-    <img src="/packages/EasyCodingStandard/docs/logos/space.png">
-    <a href="https://github.com/SyliusLabs/CodingStandard"><img src="/packages/EasyCodingStandard/docs/logos/sylius.png"></a>
-</p>
+* your **first coding standard**
+* **maintenance of monorepo** and changelog
+* **clean Kernel** even with Flex loading methods
+* **slim and re-usable Symfony configs**
 
 <br>
 
-## [Coding Standard](https://github.com/Symplify/CodingStandard)
+You'll find all packages in [`/packages`](/packages) directory. Here is a brief overview (tip: click on the package name to see its `README` with more detailed features):
 
-[![Build Status](https://img.shields.io/travis/Symplify/CodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/CodingStandard)
-[![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
+## Coding Standard Utils
 
-[Final interface](http://ocramius.github.io/blog/when-to-declare-classes-final/), [`::class` Constant](https://www.tomasvotruba.cz/blog/2017/08/21/5-useful-rules-from-symplify-coding-standard/#3-class-constant-fixer) and other useful Checkers for [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
+* [Easy Coding Standard](https://github.com/Symplify/EasyCodingStandard) - The easiest way to start a coding standard in your project. Easy, simple and intuitive. Combines both [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
-<br>
+    [![Build Status](https://img.shields.io/travis/Symplify/EasyCodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/EasyCodingStandard)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-coding-standard/stats)
 
-## [Statie](https://github.com/Symplify/Statie) - [www.statie.org](https://www.statie.org)
+* [Coding Standard](https://github.com/Symplify/CodingStandard) - [Final interface](http://ocramius.github.io/blog/when-to-declare-classes-final/), [`::class` Constant](https://www.tomasvotruba.cz/blog/2017/08/21/5-useful-rules-from-symplify-coding-standard/#3-class-constant-fixer) and other useful Checkers for [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
-[![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
-[![Downloads](https://img.shields.io/packagist/dt/Symplify/statie.svg?style=flat-square)](https://packagist.org/packages/Symplify/statie/stats)
+    [![Build Status](https://img.shields.io/travis/Symplify/CodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/CodingStandard)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
 
-Statie helps you to host and develop your blog on Github.
-A static site generator with aim on community websites.
-
-[Pehapkari.cz](https://pehapkari.cz/) ([Github repo](https://github.com/pehapkari/pehapkari.cz)) and [TomasVotruba.cz](https://www.tomasvotruba.cz/) ([Github repo](https://github.com/tomasvotruba/tomasvotruba.cz)).
-
-<br>
-
-### Other Utils Packages
-
-You'll find them all in [`/packages`](/packages) directory:
+## Symfony Utils
 
 - [Autodiscovery](https://github.com/Symplify/Autodiscovery) - Forget manual registration of translations, templates, mappings and routes in Symfony Application
-- [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Why write `CHANGELOG.md`, when you can generate it
-- [EasyCodingStandardTester](https://github.com/Symplify/EasyCodingStandardTester) - Sniffs and Fixers testing tool
+
+    [![Build Status](https://img.shields.io/travis/Symplify/Autodiscovery/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Autodiscovery)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/autodiscovery.svg?style=flat-square)](https://packagist.org/packages/symplify/autodiscovery/stats)
+
 - [FlexLoader](https://github.com/Symplify/FlexLoader) - Keep your Symfony Kernel slim again and let FlexLoader load all the configs
-- [LatteToTwigConverter](https://github.com/Symplify/LatteToTwigConverter) - Converts Latte templates to Twig
-- [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Validate, split, release and maintain Monorepo like a boss
-- [NeonToYamlConverter](https://github.com/Symplify/NeonToYamlConverter) - Converts NEON files to YAML
+
+    [![Build Status](https://img.shields.io/travis/Symplify/FlexLoader/master.svg?style=flat-square)](https://travis-ci.org/Symplify/FlexLoader)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/flex-loader.svg?style=flat-square)](https://packagist.org/packages/symplify/flex-loader/stats)
+
 - [PackageBuilder](https://github.com/Symplify/PackageBuilder) - Speed up your package DI Containers integration and Console apps to Symfony
 
+    [![Build Status](https://img.shields.io/travis/Symplify/PackageBuilder/master.svg?style=flat-square)](https://travis-ci.org/Symplify/PackageBuilder)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder/stats)
+
+## Maintainer Utils
+
+- [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Why write `CHANGELOG.md`, when you can generate it
+
+    [![Build Status](https://img.shields.io/travis/Symplify/ChangelogLinker/master.svg?style=flat-square)](https://travis-ci.org/Symplify/ChangelogLinker)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/changelog-linker.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker/stats)
+
+- [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Validate, split, release and maintain Monorepo like a boss
+
+    [![Build Status](https://img.shields.io/travis/Symplify/MonorepoBuilder/master.svg?style=flat-square)](https://travis-ci.org/Symplify/MonorepoBuilder)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/monorepo-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo-builder/stats)
+
+- [Statie](https://github.com/Symplify/Statie) - [www.statie.org](https://www.statie.org) - Static website generator in PHP with Twig/Latte. Statie fuels [Pehapkari.cz](https://github.com/pehapkari/pehapkari.cz) and [TomasVotruba.cz](https://github.com/tomasvotruba/tomasvotruba.cz).
+
+    [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
+    [![Downloads](https://img.shields.io/packagist/dt/Symplify/statie.svg?style=flat-square)](https://packagist.org/packages/Symplify/statie/stats)
+
+## Migration Utils
+
+- [LatteToTwigConverter](https://github.com/Symplify/LatteToTwigConverter) - Converts Latte templates to Twig
+
+    [![Build Status](https://img.shields.io/travis/Symplify/LatteToTwigConverter/master.svg?style=flat-square)](https://travis-ci.org/Symplify/LatteToTwigConverter)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/latte-to-twig-converter.svg?style=flat-square)](https://packagist.org/packages/symplify/latte-to-twig-converter/stats)
+
+- [NeonToYamlConverter](https://github.com/Symplify/NeonToYamlConverter) - Converts NEON files to YAML
+
+    [![Build Status](https://img.shields.io/travis/Symplify/NeonToYamlConverter/master.svg?style=flat-square)](https://travis-ci.org/Symplify/NeonToYamlConverter)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/neon-to-yaml-converter.svg?style=flat-square)](https://packagist.org/packages/symplify/neon-to-yaml-converter/stats)
+
 ## Install
+
+Go to particular package and get it via `composer require`.
+
+## Contributing & Issues
+
+If you have issue and want to improve some package, put it all into this repository.
 
 Fork, clone your repository and install dependencies:
 
@@ -82,10 +91,6 @@ git clone git@github.com:<your-name>/Symplify.git
 cd Symplify
 composer update
 ```
-
-## Contributing
-
-This is a [monolithic repository](https://gomonorepo.org/) for Symplify packages. Put all your [PRs](https://github.com/Symplify/Symplify/pulls) and [ISSUEs](https://github.com/Symplify/Symplify/issues) here.
 
 ### 3 Steps to Contribute
 
