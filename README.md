@@ -37,7 +37,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
     [![Build Status](https://img.shields.io/travis/Symplify/Autodiscovery/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Autodiscovery)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/autodiscovery.svg?style=flat-square)](https://packagist.org/packages/symplify/autodiscovery/stats)
 
-- [FlexLoader](https://github.com/Symplify/FlexLoader) - Keep your Symfony Kernel slim again and let FlexLoader load all the configs
+- **[FlexLoader](https://github.com/Symplify/FlexLoader)** - Keep your Symfony Kernel slim again and let FlexLoader load all the configs
 
     [![Build Status](https://img.shields.io/travis/Symplify/FlexLoader/master.svg?style=flat-square)](https://travis-ci.org/Symplify/FlexLoader)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/flex-loader.svg?style=flat-square)](https://packagist.org/packages/symplify/flex-loader/stats)
