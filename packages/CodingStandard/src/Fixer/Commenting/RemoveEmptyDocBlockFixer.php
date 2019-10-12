@@ -43,21 +43,23 @@ final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
             $tokens->clearTokenAndMergeSurroundingWhitespace($index);
 
             $previousToken = $tokens[$index - 1];
-            if ($previousToken->isWhitespace()) {
-                $previousWhitespaceContent = $previousToken->getContent();
+            if ($previousToken->isWhitespace() === false) {
+                continue;
+            }
 
-                $lastLineBreak = strrpos($previousWhitespaceContent, PHP_EOL);
-                // nothing found
-                if (is_bool($lastLineBreak)) {
-                    continue;
-                }
+            $previousWhitespaceContent = $previousToken->getContent();
 
-                $newWhitespaceContent = Strings::substring($previousWhitespaceContent, 0, $lastLineBreak);
-                if ($newWhitespaceContent) {
-                    $tokens[$index - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);
-                } else {
-                    $tokens->clearAt($index - 1);
-                }
+            $lastLineBreak = strrpos($previousWhitespaceContent, PHP_EOL);
+            // nothing found
+            if (is_bool($lastLineBreak)) {
+                continue;
+            }
+
+            $newWhitespaceContent = Strings::substring($previousWhitespaceContent, 0, $lastLineBreak);
+            if ($newWhitespaceContent) {
+                $tokens[$index - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);
+            } else {
+                $tokens->clearAt($index - 1);
             }
         }
     }

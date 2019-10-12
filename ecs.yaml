@@ -1,5 +1,4 @@
 imports:
-    - { resource: 'packages/EasyCodingStandard/config/set/psr2.yaml' }
     - { resource: 'packages/EasyCodingStandard/config/set/php71.yaml' }
     - { resource: 'packages/EasyCodingStandard/config/set/clean-code.yaml' }
     - { resource: 'packages/EasyCodingStandard/config/set/symplify.yaml' }
@@ -18,8 +17,6 @@ services:
         extra_allowed_classes:
             - '*File'
             - '*Tweet'
-            - 'PHP_CodeSniffer\Config'
-            - 'Symfony\Component\Filesystem\Filesystem'
 
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
@@ -39,14 +36,8 @@ services:
 parameters:
     exclude_files:
         # tests
-        - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
-        - 'packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php'
-        - 'packages/EasyCodingStandard/tests/Skipper/Only/Source/*'
-        # files
-        - 'packages/CodingStandard/tests/Sniffs/DependencyInjection/NoClassInstantiation/Source/EntityClass.php'
-        - 'packages/EasyCodingStandard/packages/SniffRunchangeConfigurationFilener/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets*.php'
+        - 'packages/*/tests/**Source/*.php'
         - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
-        - 'packages/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/*'
 
     skip:
         # run form time to time, very slow and making many changes
@@ -56,6 +47,7 @@ parameters:
 
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
+
         Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
             # allowed spots for Container
             - '*Kernel.php'
@@ -127,18 +119,6 @@ parameters:
             - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
             - 'packages/PackageBuilder/src/Console/Input/InputDetector.php'
             - 'packages/Autodiscovery/src/Arrays.php'
-
-        Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
-            # 3rd party code copy-pasted; kept as is for easier comparison to original
-            - 'packages/CodingStandard/src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php'
-            - 'packages/PackageBuilder/src/Yaml/ParametersMerger.php'
-            # wip
-            - 'packages/NeonToYamlConverter/src/NeonToYamlConverter.php'
-            # complex work
-            - 'packages/BetterPhpDocParser/src/Printer/PhpDocInfoPrinter.php'
-            - 'packages/CodingStandard/packages/TokenRunner/src/DocBlock/DescriptionAnalyzer.php'
-            # many nodes
-            - 'packages/BetterPhpDocParser/packages/Attributes/src/Ast/AttributeAwareNodeFactory.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 
