@@ -260,6 +260,20 @@ parameters:
     cache_directory: .ecs_cache # defaults to sys_get_temp_dir() . '/_easy_coding_standard/_changed_files_detector_tests'
 ```
 
+#### How can I change the cache namespace?
+
+```yaml
+parameters:
+    cache_namespace: my_project_namespace # defaults to Strings::webalize(getcwd())'
+```
+This comes in handy when you want to apply ecs caching mechanism on your gitlab pipelines for example, where `getcwd()` may not always produce same cache key, thus introducing side effect, where cache may not be detected correctly.
+
+Example  `getcwd()` on gitlab CI:
+
+- /builds/0956d275/0/sites/my_project
+- /builds/0956d275/1/sites/my_project
+- /builds/0956d275/2/sites/my_project
+
 #### Can I use tabs, 2 spaces or "\r\n" line endings?
 
 ```yaml

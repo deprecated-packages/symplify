@@ -93,7 +93,7 @@ final class ChangedFilesDetector
 
     private function fileInfoToKey(SmartFileInfo $smartFileInfo): string
     {
-        return sha1($smartFileInfo->getRealPath());
+        return sha1($smartFileInfo->getRelativeFilePathFromCwd());
     }
 
     private function invalidateCacheIfConfigurationChanged(string $configurationHash): void
