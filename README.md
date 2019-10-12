@@ -2,7 +2,7 @@
     <img src="/docs/symplify.png?v=3">
 </div>
 
-# Symplify - Making Every Day PHP Development as Simple as Possible
+# Symplify - Making Every Day PHP Development as Simple
 
 [![Build Status](https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
 [![Coverage](https://img.shields.io/coveralls/Symplify/Symplify/master.svg?style=flat-square)](https://coveralls.io/github/Symplify/Symplify?branch=master)
@@ -20,19 +20,19 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## Coding Standard Utils
 
-* [Easy Coding Standard](https://github.com/Symplify/EasyCodingStandard) - The easiest way to start a coding standard in your project. Easy, simple and intuitive. Combines both [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
+* **[Easy Coding Standard](https://github.com/Symplify/EasyCodingStandard)** - The easiest way to start a coding standard in your project. Easy, simple and intuitive. Combines both [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
     [![Build Status](https://img.shields.io/travis/Symplify/EasyCodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/EasyCodingStandard)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-coding-standard/stats)
 
-* [Coding Standard](https://github.com/Symplify/CodingStandard) - [Final interface](http://ocramius.github.io/blog/when-to-declare-classes-final/), [`::class` Constant](https://www.tomasvotruba.cz/blog/2017/08/21/5-useful-rules-from-symplify-coding-standard/#3-class-constant-fixer) and other useful Checkers for [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
+* **[Coding Standard](https://github.com/Symplify/CodingStandard)** - [Final interface](http://ocramius.github.io/blog/when-to-declare-classes-final/), [`::class` Constant](https://www.tomasvotruba.cz/blog/2017/08/21/5-useful-rules-from-symplify-coding-standard/#3-class-constant-fixer) and other useful Checkers for [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
     [![Build Status](https://img.shields.io/travis/Symplify/CodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/CodingStandard)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
 
 ## Symfony Utils
 
-- [Autodiscovery](https://github.com/Symplify/Autodiscovery) - Forget manual registration of translations, templates, mappings and routes in Symfony Application
+- **[Autodiscovery](https://github.com/Symplify/Autodiscovery)** - Forget manual registration of translations, templates, mappings and routes in Symfony Application
 
     [![Build Status](https://img.shields.io/travis/Symplify/Autodiscovery/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Autodiscovery)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/autodiscovery.svg?style=flat-square)](https://packagist.org/packages/symplify/autodiscovery/stats)
@@ -42,24 +42,24 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
     [![Build Status](https://img.shields.io/travis/Symplify/FlexLoader/master.svg?style=flat-square)](https://travis-ci.org/Symplify/FlexLoader)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/flex-loader.svg?style=flat-square)](https://packagist.org/packages/symplify/flex-loader/stats)
 
-- [PackageBuilder](https://github.com/Symplify/PackageBuilder) - Speed up your package DI Containers integration and Console apps to Symfony
+- **[PackageBuilder](https://github.com/Symplify/PackageBuilder)** - Speed up your package DI Containers integration and Console apps to Symfony
 
     [![Build Status](https://img.shields.io/travis/Symplify/PackageBuilder/master.svg?style=flat-square)](https://travis-ci.org/Symplify/PackageBuilder)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder/stats)
 
 ## Maintainer Utils
 
-- [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Why write `CHANGELOG.md`, when you can generate it
+- **[ChangelogLinker](https://github.com/Symplify/ChangelogLinker)** - Why write `CHANGELOG.md`, when you can generate it
 
     [![Build Status](https://img.shields.io/travis/Symplify/ChangelogLinker/master.svg?style=flat-square)](https://travis-ci.org/Symplify/ChangelogLinker)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/changelog-linker.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker/stats)
 
-- [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Validate, split, release and maintain Monorepo like a boss
+- **[MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder)** - Validate, split, release and maintain Monorepo like a boss
 
     [![Build Status](https://img.shields.io/travis/Symplify/MonorepoBuilder/master.svg?style=flat-square)](https://travis-ci.org/Symplify/MonorepoBuilder)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/monorepo-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo-builder/stats)
 
-- [Statie](https://github.com/Symplify/Statie) - [www.statie.org](https://www.statie.org) - Static website generator in PHP with Twig/Latte. Statie fuels [Pehapkari.cz](https://github.com/pehapkari/pehapkari.cz) and [TomasVotruba.cz](https://github.com/tomasvotruba/tomasvotruba.cz).
+- **[Statie](https://github.com/Symplify/Statie)** - [www.statie.org](https://www.statie.org) - Static website generator in PHP with Twig/Latte, that fuels [Pehapkari.cz](https://github.com/pehapkari/pehapkari.cz) and [TomasVotruba.cz](https://github.com/tomasvotruba/tomasvotruba.cz).
 
     [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
     [![Downloads](https://img.shields.io/packagist/dt/Symplify/statie.svg?style=flat-square)](https://packagist.org/packages/Symplify/statie/stats)
