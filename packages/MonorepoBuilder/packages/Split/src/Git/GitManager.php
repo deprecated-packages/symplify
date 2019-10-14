@@ -35,8 +35,12 @@ final class GitManager
             $command[] = $gitDirectory;
         }
 
-        $tags = $this->processRunner->run($command);
-        $tagList = explode(PHP_EOL, trim($tags));
+        $tags = trim($this->processRunner->run($command));
+        // Remove all "\r" chars in case the CLI env like the Windows OS.
+        // Otherwise (ConEmu, git bash, mingw cli, e.g.), leave as is.
+        $tags = \str_replace("\r", '', $tags);
+
+        $tagList = explode("\n", $tags);
 
         /** @var string $theMostRecentTag */
         $theMostRecentTag = array_pop($tagList);
