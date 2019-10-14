@@ -4,6 +4,7 @@ namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 
 use Nette\Utils\Strings;
 use ReflectionMethod;
+use ReflectionParameter;
 use Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -104,7 +105,7 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
     {
         $argumentNames = [];
         foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
-            $typeName = (string) $reflectionParameter->getType();
+            $typeName = $this->getReflectionParameterTypeString($reflectionParameter);
 
             // probably not scalar type
             if (isset($typeName[0]) && (Strings::contains($typeName, '\\') || ctype_upper($typeName[0]))) {
@@ -114,6 +115,19 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
         }
 
         return $argumentNames;
+    }
+
+    /**
+     * @param ReflectionParameter $parameter
+     * @return string
+     */
+    private function getReflectionParameterTypeString(ReflectionParameter $parameter): string
+    {
+        if ($returnType = $parameter->getType()) {
+            return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
+        }
+
+        return '';
     }
 
     /**
