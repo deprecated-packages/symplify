@@ -16,7 +16,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^1.9",
-        "doctrine/orm": "^2.6",
+        "doctrine/orm": "^2.6.4",
         "symfony/framework-bundle": "^3.4|^4.3",
         "symfony/http-kernel": "^3.4|^4.3",
         "symfony/twig-bundle": "^3.4|^4.3",
