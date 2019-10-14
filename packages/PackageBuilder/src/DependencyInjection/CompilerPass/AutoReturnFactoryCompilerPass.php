@@ -127,7 +127,8 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
 
     private function resolveReturnType(ReflectionMethod $reflectionMethod)
     {
-        if ($returnType = $reflectionMethod->getReturnType()) {
+        $returnType = $reflectionMethod->getReturnType();
+        if ($returnType !== null) {
             return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
         }
 

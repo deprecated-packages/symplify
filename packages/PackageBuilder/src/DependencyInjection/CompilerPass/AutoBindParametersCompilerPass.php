@@ -118,12 +118,13 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param ReflectionParameter $parameter
+     * @param ReflectionParameter $reflectionParameter
      * @return string
      */
-    private function getReflectionParameterTypeString(ReflectionParameter $parameter): string
+    private function getReflectionParameterTypeString(ReflectionParameter $reflectionParameter): string
     {
-        if ($returnType = $parameter->getType()) {
+        $returnType = $reflectionParameter->getType();
+        if ($returnType !== null) {
             return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
         }
 
