@@ -48,21 +48,6 @@ final class GitManager
     }
 
     /**
-     * @param string $commandResult
-     * @return array|string[]
-     */
-    private function parseTags(string $commandResult): array
-    {
-        $tags = trim($commandResult);
-
-        // Remove all "\r" chars in case the CLI env like the Windows OS.
-        // Otherwise (ConEmu, git bash, mingw cli, e.g.), leave as is.
-        $tags = \str_replace("\r", '', $tags);
-
-        return explode("\n", $tags);
-    }
-
-    /**
      * See https://gist.github.com/willprice/e07efd73fb7f13f917ea#file-push-sh-L15
      * see https://stackoverflow.com/a/18936804/1348344
      *
@@ -85,5 +70,20 @@ final class GitManager
         $partAfterAt = Strings::replace($partAfterAt, '#:#', '/');
 
         return sprintf('https://%s@%s', $this->githubToken, $partAfterAt);
+    }
+
+    /**
+     * @param string $commandResult
+     * @return string[]
+     */
+    private function parseTags(string $commandResult): array
+    {
+        $tags = trim($commandResult);
+
+        // Remove all "\r" chars in case the CLI env like the Windows OS.
+        // Otherwise (ConEmu, git bash, mingw cli, e.g.), leave as is.
+        $tags = str_replace("\r", '', $tags);
+
+        return explode("\n", $tags);
     }
 }

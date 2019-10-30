@@ -142,6 +142,12 @@ final class NoClassInstantiationSniff implements Sniff
     {
         $this->naming = $naming;
         $this->classLikeExistenceChecker = $classLikeExistenceChecker;
+
+        trigger_error(
+            sprintf('"%s" is deprecated for huge configuration overwhelm to make it practical', self::class),
+            E_USER_DEPRECATED
+        );
+        sleep(3); // inspired at "deprecated interface" Tweet
     }
 
     /**
