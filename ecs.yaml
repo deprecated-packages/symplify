@@ -13,11 +13,6 @@ services:
             DateTime: 'Nette\Utils\DateTime'
             PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
 
-    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-        extra_allowed_classes:
-            - '*File'
-            - '*Tweet'
-
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
             PhpCsFixer\Fixer\FixerInterface:
@@ -88,17 +83,6 @@ parameters:
             # class might not exist
             - '*packages/*/src/DependencyInjection/CompilerPass/*CompilerPass.php'
             - 'packages/PHPStanExtensions/src/Symfony/Type/ContainerGetTypeExtension.php'
-
-        Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-            # static helper
-            - 'packages/PackageBuilder/src/Console/ThrowableRenderer.php'
-            # todo: decouple later
-            - 'packages/CodingStandard/packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
-            # cheap dependency injection
-            - 'packages/*/src/Yaml/*YamlLoader.php'
-            - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
-            - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/MethodOrderByTypeFixerTest.php'
-            - 'packages/Statie/src/Renderable/RedirectGenerator.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect 3rd party code typehint
