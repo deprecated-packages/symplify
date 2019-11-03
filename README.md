@@ -66,12 +66,12 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## Migration Utils
 
-- [LatteToTwigConverter](https://github.com/Symplify/LatteToTwigConverter) - Converts Latte templates to Twig
+- **[LatteToTwigConverter](https://github.com/Symplify/LatteToTwigConverter)** - Converts Latte templates to Twig
 
     [![Build Status](https://img.shields.io/travis/Symplify/LatteToTwigConverter/master.svg?style=flat-square)](https://travis-ci.org/Symplify/LatteToTwigConverter)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/latte-to-twig-converter.svg?style=flat-square)](https://packagist.org/packages/symplify/latte-to-twig-converter/stats)
 
-- [NeonToYamlConverter](https://github.com/Symplify/NeonToYamlConverter) - Converts NEON files to YAML
+- **[NeonToYamlConverter](https://github.com/Symplify/NeonToYamlConverter)** - Converts NEON files to YAML
 
     [![Build Status](https://img.shields.io/travis/Symplify/NeonToYamlConverter/master.svg?style=flat-square)](https://travis-ci.org/Symplify/NeonToYamlConverter)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/neon-to-yaml-converter.svg?style=flat-square)](https://packagist.org/packages/symplify/neon-to-yaml-converter/stats)

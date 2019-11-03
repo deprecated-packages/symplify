@@ -29,6 +29,10 @@ final class GitCommitDateTagResolver
             $date = $dateMatch['date'];
 
             $tagMatch = Strings::match($datesWithTag, '#\(?tag: (?<tag>[v.\d]+)\)#');
+            if (! isset($tagMatch['tag'])) {
+                continue;
+            }
+
             $tag = $tagMatch['tag'];
 
             $this->tagsToDates[$tag] = $date;

@@ -11,6 +11,9 @@ use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 
+/**
+ * @requires PHP < 7.4
+ */
 final class StatieApplicationTest extends AbstractKernelTestCase
 {
     /**
