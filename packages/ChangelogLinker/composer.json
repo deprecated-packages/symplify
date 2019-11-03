@@ -6,7 +6,7 @@
         "bin/changelog-linker"
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "guzzlehttp/guzzle": "^6.4",
         "nette/utils": "^3.0",
         "symfony/console": "^3.4|^4.3|^5.0",

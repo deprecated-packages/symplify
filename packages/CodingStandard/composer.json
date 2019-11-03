@@ -3,7 +3,7 @@
     "description": "Set of Symplify rules for PHP_CodeSniffer and PHP CS Fixer.",
     "license": "MIT",
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "nette/utils": "^3.0",
         "nette/finder": "^2.5",
         "squizlabs/php_codesniffer": "^3.5",

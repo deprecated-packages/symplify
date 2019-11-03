@@ -7,18 +7,17 @@ git:
 
 matrix:
     include:
-        - php: 7.1
-          env: CODE_ANALYSIS=true
-        - php: 7.1
-          env: COMPOSER_FLAGS="--prefer-lowest"
         - php: 7.2
-          env: MONOREPO_SPLIT=true STANDALONE=true
+          env: CODE_ANALYSIS=true
+        - php: 7.2
+          env: COMPOSER_FLAGS="--prefer-lowest"
         - php: 7.3
-          env: COVERAGE="--coverage-clover coverage.xml"
+          env: MONOREPO_SPLIT=true STANDALONE=true
         - php: 7.4snapshot
+          env: COVERAGE="--coverage-clover coverage.xml"
     # for better contributor experience
     allow_failures:
-        - php: 7.1
+        - php: 7.2
           env: CODE_ANALYSIS=true
 
 install:

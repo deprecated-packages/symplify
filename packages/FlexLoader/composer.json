@@ -3,7 +3,7 @@
     "description": "Reduce Kernel Flex boiler code and use extra features",
     "license": "MIT",
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "nette/utils": "^3.0",
         "symfony/dependency-injection": "^3.4.10|^4.3|^5.0",
         "symfony/routing": "^3.4|^4.3|^5.0"

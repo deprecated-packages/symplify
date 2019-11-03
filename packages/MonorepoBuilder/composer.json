@@ -6,7 +6,7 @@
         "bin/monorepo-builder"
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "composer/composer": "^1.9",
         "nette/utils": "^3.0",
         "phar-io/version": "^2.0",

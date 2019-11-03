@@ -3,7 +3,7 @@
     "description": "Repository for Symplify packages development.",
     "license": "MIT",
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "j7mbo/twitter-api-php": "^1.0",
         "composer/composer": "^1.9",
         "composer/xdebug-handler": "^1.3",
@@ -18,7 +18,7 @@
         "nette/neon": "^3.0",
         "nette/robot-loader": "^3.2",
         "nette/utils": "^3.0",
-        "ocramius/package-versions": "^1.5",
+        "ocramius/package-versions": "^1.4",
         "phar-io/version": "^2.0",
         "phpstan/phpdoc-parser": "^0.3.5",
         "psr/simple-cache": "^1.0",
