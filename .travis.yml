@@ -13,6 +13,8 @@ matrix:
           env: COMPOSER_FLAGS="--prefer-lowest"
         - php: 7.3
           env: MONOREPO_SPLIT=true STANDALONE=true
+        - php: 7.3
+          env: RECTOR=true
         - php: 7.4snapshot
           env: COVERAGE="--coverage-clover coverage.xml"
     # for better contributor experience
@@ -61,6 +63,11 @@ script:
 
     # validate monorepo <=> packages composer dependencies
     - packages/MonorepoBuilder/bin/monorepo-builder validate
+
+    - |
+      if [[ $RECTOR == true ]]; then
+          composer rector
+      fi
 
 after_script:
     # code coverage run + upload to coveralls.io

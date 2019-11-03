@@ -9,6 +9,5 @@ services:
     Symplify\Statie\Twig\:
         resource: '../src'
 
-    # twig setup
-    Twig\Loader\ArrayLoader:
-    Latte\Runtime\FilterExecutor:
+    Twig\Loader\ArrayLoader: ~
+    Latte\Runtime\FilterExecutor: ~
