@@ -48,7 +48,8 @@
         "symfony/translation": "^3.4|^4.3|^5.0",
         "symfony/twig-bundle": "^3.4|^4.3|^5.0",
         "thecodingmachine/phpstan-strict-rules": "^0.11.0",
-        "tracy/tracy": "^2.7"
+        "tracy/tracy": "^2.7",
+        "rector/rector": "dev-master"
     },
     "autoload": {
         "psr-4": {
