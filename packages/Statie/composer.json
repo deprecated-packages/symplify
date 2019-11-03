@@ -15,21 +15,21 @@
         "j7mbo/twitter-api-php": "^1.0",
         "nette/finder": "^2.4",
         "nette/utils": "^2.5|^3.0",
-        "tracy/tracy": "^2.5",
+        "tracy/tracy": "^2.7",
         "twig/twig": "^2.5",
-        "symfony/config": "^3.4.32|^4.3",
-        "symfony/dependency-injection": "^3.4.10|^4.2",
-        "symfony/event-dispatcher": "^3.4|^4.3",
-        "symfony/http-kernel": "^3.4|^4.3",
-        "symfony/console": "^3.4|^4.3",
-        "symfony/finder": "^3.4|^4.3",
-        "symfony/yaml": "^3.4|^4.3",
+        "symfony/config": "^3.4.32|^4.3|^5.0",
+        "symfony/dependency-injection": "^3.4.10|^4.3|^5.0",
+        "symfony/event-dispatcher": "^3.4|^4.3|^5.0",
+        "symfony/http-kernel": "^3.4|^4.3|^5.0",
+        "symfony/console": "^3.4|^4.3|^5.0",
+        "symfony/finder": "^3.4|^4.3|^5.0",
+        "symfony/yaml": "^3.4|^4.3|^5.0",
         "symplify/package-builder": "^6.2",
         "jean85/pretty-package-versions": "^1.2",
         "ocramius/package-versions": "^1.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5|^8.0"
+        "phpunit/phpunit": "^7.5|^8.4"
     },
     "autoload": {
         "psr-4": {
