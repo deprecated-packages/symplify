@@ -128,7 +128,7 @@
         "symplify/latte-to-twig-converter": "self.version",
         "symplify/monorepo-builder": "self.version",
         "symplify/neon-to-yaml-converter": "self.version",
-        "symplify/package-builder": "self.version",
+        "symplify/package-builder": "^6.1",
         "symplify/phpstan-extensions": "self.version",
         "symplify/statie": "self.version"
     },
