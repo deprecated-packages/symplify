@@ -40,7 +40,7 @@ final class ArrayLoader implements ILoader
         $suggestion = ObjectHelpers::getSuggestion($this->getLayoutAndSnippetNames(), $name);
         if ($suggestion) {
             $message .= sprintf(' Did you mean "%s"?', $suggestion);
-        } elseif ($this->getLayoutAndSnippetNames()) {
+        } elseif ($this->getLayoutAndSnippetNames() !== []) {
             $message .= PHP_EOL . PHP_EOL . sprintf(
                 'Pick one of these: "%s"',
                 implode('", "', $this->getLayoutAndSnippetNames())

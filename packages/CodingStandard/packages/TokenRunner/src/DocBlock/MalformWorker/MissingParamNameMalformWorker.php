@@ -97,11 +97,7 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
         }
 
         $match = Strings::match($line->getContent(), self::PARAM_WITHOUT_NAME_PATTERN);
-        if ($match === null) {
-            return true;
-        }
-
-        return false;
+        return $match === null;
     }
 
     private function createNewLineContent(string $newArgumentName, Line $line): string

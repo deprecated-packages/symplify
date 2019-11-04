@@ -59,12 +59,7 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
         if (in_array($match['variableName'], $this->allowedVariableNames, true)) {
             return true;
         }
-
         // has multiple return values? "@return array $one, $two"
-        if (count(Strings::matchAll($content, '#\$\w+#')) >= 2) {
-            return true;
-        }
-
-        return false;
+        return count(Strings::matchAll($content, '#\$\w+#')) >= 2;
     }
 }

@@ -75,11 +75,7 @@ try {
     private function isVariableNameMatchingType(Token $variableToken, Token $exceptionTypeToken): bool
     {
         $variableName = ltrim($variableToken->getContent(), '$');
-        if ($variableName === lcfirst($exceptionTypeToken->getContent())) {
-            return true;
-        }
-
-        return false;
+        return $variableName === lcfirst($exceptionTypeToken->getContent());
     }
 
     private function updateCatchBodyVariableName(

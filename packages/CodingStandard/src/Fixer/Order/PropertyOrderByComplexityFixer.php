@@ -151,7 +151,7 @@ CODE_SAMPLE
     private function resolveRatingFromDocType(Tokens $tokens, array $propertyElement): ?int
     {
         $varTags = $this->docBlockManipulator->resolveVarTagsIfFound($tokens, $propertyElement['start'] + 1);
-        if (! count($varTags)) {
+        if (count($varTags) === 0) {
             return null;
         }
 

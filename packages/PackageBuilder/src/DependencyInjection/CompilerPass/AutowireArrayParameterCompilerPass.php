@@ -108,11 +108,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 
         /** @var MethodReflection $constructorMethodReflection */
         $constructorMethodReflection = $reflectionClass->getConstructor();
-        if (! $constructorMethodReflection->getParameters()) {
-            return true;
-        }
-
-        return false;
+        return ! $constructorMethodReflection->getParameters();
     }
 
     private function processParameters(
@@ -166,12 +162,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         if ($definition->getClass() === null) {
             return false;
         }
-
-        if (is_a($definition->getClass(), $parameterType, true)) {
-            return true;
-        }
-
-        return false;
+        return is_a($definition->getClass(), $parameterType, true);
     }
 
     private function resolveParameterType(string $parameterName, ReflectionMethod $reflectionMethod): ?string

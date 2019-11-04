@@ -40,11 +40,7 @@ abstract class AbstractMergeTestCase extends AbstractKernelTestCase
             $this->getFileInfosFromDirectory($directoryWithJsonFiles)
         );
 
-        if (is_array($expected)) {
-            $expectedJson = $expected;
-        } else {
-            $expectedJson = $this->loadJsonFromFile($expected);
-        }
+        $expectedJson = is_array($expected) ? $expected : $this->loadJsonFromFile($expected);
 
         $this->assertSame($expectedJson, $merged);
     }

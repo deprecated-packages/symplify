@@ -12,7 +12,7 @@ final class TweetEntityCompleter
     {
         foreach ($tweets as $key => $tweet) {
             $entities = $tweet['entities'];
-            if (! count($entities['urls'])) {
+            if (count($entities['urls']) === 0) {
                 continue;
             }
 

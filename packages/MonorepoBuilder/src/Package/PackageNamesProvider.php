@@ -34,7 +34,7 @@ final class PackageNamesProvider
      */
     public function provide(): array
     {
-        if ($this->names) {
+        if ($this->names !== []) {
             return $this->names;
         }
 

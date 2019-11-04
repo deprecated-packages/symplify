@@ -28,7 +28,7 @@ final class IdsAnalyzer
     public function getAllIdsInChangelog(string $content): ?array
     {
         $matches = Strings::matchAll($content, self::PR_REFERENCE_IN_LIST);
-        if (! $matches) {
+        if ($matches === []) {
             return null;
         }
         return array_column($matches, 'id');

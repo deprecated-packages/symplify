@@ -77,7 +77,7 @@ final class ChangelogLinker
 
     private function appendLinksToContentIfAny(string $content): string
     {
-        if ($this->linkAppender->getLinksToAppend()) {
+        if ($this->linkAppender->getLinksToAppend() !== []) {
             $content = rtrim($content) . PHP_EOL;
             $content .= $this->linkAppender->hadExistingLinks() ? '' : PHP_EOL;
             $content .= implode(PHP_EOL, $this->linkAppender->getLinksToAppend()) . PHP_EOL;

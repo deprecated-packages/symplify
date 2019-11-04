@@ -13,6 +13,7 @@ parameters:
         - "/Source/"
         - "/ChangedFilesDetectorSource/"
 
-    exlude_rules:
+    exclude_rectors:
         # too free
         - 'Rector\SOLID\Rector\ClassMethod\UseInterfaceOverImplementationInConstructorRector'
+

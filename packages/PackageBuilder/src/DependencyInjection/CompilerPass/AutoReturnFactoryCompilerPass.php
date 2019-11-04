@@ -93,12 +93,7 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
         if ($createMethodReflection->getNumberOfRequiredParameters() > 0) {
             return false;
         }
-
-        if (in_array($returnType, $this->excludedFactoryTypes, true)) {
-            return false;
-        }
-
-        return true;
+        return ! in_array($returnType, $this->excludedFactoryTypes, true);
     }
 
     /**

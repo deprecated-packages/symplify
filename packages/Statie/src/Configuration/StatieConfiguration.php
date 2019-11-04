@@ -64,7 +64,7 @@ final class StatieConfiguration
 
     public function getSourceDirectory(): string
     {
-        if ($this->sourceDirectory) {
+        if ($this->sourceDirectory !== '') {
             return $this->sourceDirectory;
         }
 

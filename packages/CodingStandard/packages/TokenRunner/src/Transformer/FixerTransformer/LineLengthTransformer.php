@@ -239,13 +239,8 @@ final class LineLengthTransformer
         if ($nextNextToken->isComment()) {
             return true;
         }
-
         // if next token is just space, turn it to newline
-        if ($nextToken->isWhitespace(' ') && $nextNextToken->isComment()) {
-            return true;
-        }
-
-        return false;
+        return $nextToken->isWhitespace(' ') && $nextNextToken->isComment();
     }
 
     private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void

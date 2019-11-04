@@ -62,7 +62,7 @@ final class Generator
      */
     public function run(): array
     {
-        if ($this->generatorFilesByType) {
+        if ($this->generatorFilesByType !== []) {
             return $this->generatorFilesByType;
         }
 

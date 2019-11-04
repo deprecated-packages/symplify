@@ -57,7 +57,7 @@ final class PackageAliasCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $composerPackageFiles = $this->packageComposerFinder->getPackageComposerFiles();
-        if (! count($composerPackageFiles)) {
+        if (count($composerPackageFiles) === 0) {
             $this->symfonyStyle->error('No "composer.json" were found in packages.');
             return ShellCode::ERROR;
         }

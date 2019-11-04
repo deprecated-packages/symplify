@@ -133,7 +133,7 @@ final class InitCommand extends Command
     private function generateBlog(string $templating): void
     {
         $isBlog = $this->symfonyStyle->confirm('Do you want to blog?');
-        if ($isBlog === false) {
+        if (! $isBlog) {
             return;
         }
 
@@ -144,7 +144,7 @@ final class InitCommand extends Command
     private function generateTravis(): void
     {
         $isTravis = $this->symfonyStyle->confirm('Do you want deploy via Travis to Github Pages?');
-        if ($isTravis === false) {
+        if (! $isTravis) {
             return;
         }
 

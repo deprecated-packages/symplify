@@ -89,7 +89,7 @@ class SomeClass implements SomeInterface {};')]
             return true;
         }
 
-        if ($this->onlyInterfaces) {
+        if ($this->onlyInterfaces !== []) {
             return ! array_intersect($this->onlyInterfaces, $fixerClassWrapper->getInterfaceNames());
         }
 

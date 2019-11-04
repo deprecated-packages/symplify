@@ -199,12 +199,7 @@ final class NoClassInstantiationSniff implements Sniff
         if ($this->isBootstrapFile()) {
             return true;
         }
-
-        if ($this->isTestFile()) {
-            return true;
-        }
-
-        return false;
+        return $this->isTestFile();
     }
 
     private function isClassInstantiationAllowed(string $class, int $classTokenPosition): bool
@@ -261,12 +256,7 @@ final class NoClassInstantiationSniff implements Sniff
         if (Strings::endsWith($this->file->getFilename(), 'Test.php')) {
             return true;
         }
-
-        if (Strings::endsWith($this->file->getFilename(), '.phpt')) {
-            return true;
-        }
-
-        return false;
+        return Strings::endsWith($this->file->getFilename(), '.phpt');
     }
 
     private function isEntityClass(string $class, int $classTokenPosition): bool

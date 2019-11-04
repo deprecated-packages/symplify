@@ -31,7 +31,7 @@ final class LinkifyWorker implements WorkerInterface
     {
         foreach ($this->namesToUrls as $name => $url) {
             // https://regex101.com/r/4C9MwZ/3
-            $pattern = '#([^-\[]\b)(' . preg_quote($name) . ')(\b[^-\]])#';
+            $pattern = '#([^-\[]\b)(' . preg_quote($name, '#') . ')(\b[^-\]])#';
             if (! Strings::match($content, $pattern)) {
                 continue;
             }

@@ -174,7 +174,7 @@ final class PackageComposerJsonMerger
         }
 
         // remove empty "require-dev"
-        if (! count($composerJson[Section::REQUIRE_DEV])) {
+        if (count($composerJson[Section::REQUIRE_DEV]) === 0) {
             unset($composerJson[Section::REQUIRE_DEV]);
         }
 

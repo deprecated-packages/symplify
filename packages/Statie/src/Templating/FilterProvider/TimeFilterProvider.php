@@ -20,7 +20,7 @@ final class TimeFilterProvider implements FilterProviderInterface
                 $dateTime = $this->normalizeDateTime($dateTime);
 
                 $dateInterval = $dateTime->diff(new DateTime('now'));
-                if (! $dateInterval->invert) {
+                if ($dateInterval->invert === 0) {
                     return (int) - $dateInterval->days;
                 }
 

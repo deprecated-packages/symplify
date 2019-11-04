@@ -31,7 +31,7 @@ final class RelatedItemsResolver
      */
     public function resolveForFile(AbstractGeneratorFile $generatorFile): array
     {
-        if (! $generatorFile->getRelatedItemsIds()) {
+        if ($generatorFile->getRelatedItemsIds() === []) {
             return [];
         }
 

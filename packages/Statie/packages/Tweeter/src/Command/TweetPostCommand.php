@@ -87,7 +87,7 @@ final class TweetPostCommand extends Command
         }
 
         // to soon to tweet after recent tweet
-        if ($this->isNewTweetAllowed() === false) {
+        if (! $this->isNewTweetAllowed()) {
             return $this->reportTooSoonToTweet();
         }
 
@@ -111,11 +111,7 @@ final class TweetPostCommand extends Command
     private function isNewTweetAllowed(): bool
     {
         $daysSinceLastTweet = $this->twitterApiWrapper->getDaysSinceLastTweet();
-        if ($daysSinceLastTweet >= $this->twitterMinimalGapInDays) {
-            return true;
-        }
-
-        return false;
+        return $daysSinceLastTweet >= $this->twitterMinimalGapInDays;
     }
 
     private function reportTooSoonToTweet(): int

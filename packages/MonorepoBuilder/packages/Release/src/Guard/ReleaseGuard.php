@@ -62,7 +62,7 @@ final class ReleaseGuard
             }
 
             // stage is optional → all right
-            if ($this->isStageRequired === false) {
+            if (! $this->isStageRequired) {
                 return;
             }
 
@@ -102,7 +102,7 @@ final class ReleaseGuard
      */
     private function getStages(): array
     {
-        if ($this->stages) {
+        if ($this->stages !== []) {
             return $this->stages;
         }
 

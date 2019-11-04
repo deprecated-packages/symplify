@@ -128,7 +128,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
     protected function provideConfig(): string
     {
-        if ($this->getCheckerClass()) { // use local if not overloaded
+        if ($this->getCheckerClass() !== '') { // use local if not overloaded
             $hash = $this->createConfigHash();
 
             $configFileTempPath = sprintf(sys_get_temp_dir() . '/ecs_temp_tests/config_%s.yaml', $hash);
@@ -209,15 +209,15 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
         $smartFileInfo = new SmartFileInfo($file);
 
-        if ($this->fixerFileProcessor->getCheckers()) {
+        if ($this->fixerFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->fixerFileProcessor->processFile($smartFileInfo);
             $this->assertStringEqualsWithFileLocation($file, $processedFileContent);
         }
 
-        if ($this->sniffFileProcessor->getCheckers()) {
+        if ($this->sniffFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->sniffFileProcessor->processFile($smartFileInfo);
 
-            if ($this->sniffFileProcessor->getDualRunCheckers()) {
+            if ($this->sniffFileProcessor->getDualRunCheckers() !== []) {
                 $this->sniffFileProcessor->processFileSecondRun($smartFileInfo);
             }
 
@@ -239,15 +239,15 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
         $smartFileInfo = new SmartFileInfo($wrongFile);
 
-        if ($this->fixerFileProcessor->getCheckers()) {
+        if ($this->fixerFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->fixerFileProcessor->processFile($smartFileInfo);
 
             $this->assertStringEqualsWithFileLocation($fixedFile, $processedFileContent);
         }
 
-        if ($this->sniffFileProcessor->getCheckers()) {
+        if ($this->sniffFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->sniffFileProcessor->processFile($smartFileInfo);
-            if ($this->sniffFileProcessor->getDualRunCheckers()) {
+            if ($this->sniffFileProcessor->getDualRunCheckers() !== []) {
                 $processedFileContent = $this->sniffFileProcessor->processFileSecondRun($smartFileInfo);
             }
         }
@@ -266,7 +266,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $smartFileInfo = new SmartFileInfo($wrongFile);
 
         $this->sniffFileProcessor->processFile($smartFileInfo);
-        if ($this->sniffFileProcessor->getDualRunCheckers()) {
+        if ($this->sniffFileProcessor->getDualRunCheckers() !== []) {
             $this->sniffFileProcessor->reset();
             $this->sniffFileProcessor->processFileSecondRun($smartFileInfo);
         }
@@ -329,7 +329,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
     private function assertStringEqualsWithFileLocation(string $file, string $processedFileContent): void
     {
-        $message = 'Caused by ' . ($this->activeFileInfo ? $this->activeFileInfo->getRealPath() : $file);
+        $message = 'Caused by ' . ($this->activeFileInfo !== null ? $this->activeFileInfo->getRealPath() : $file);
 
         $this->assertStringEqualsFile($file, $processedFileContent, $message);
     }

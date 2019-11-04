@@ -43,7 +43,7 @@ final class MatchingTypeConstantRule implements Rule
         }
 
         $varAnnotations = $this->getVarAnnotationsForNode($node);
-        if (! count($varAnnotations)) {
+        if (count($varAnnotations) === 0) {
             return [];
         }
 
