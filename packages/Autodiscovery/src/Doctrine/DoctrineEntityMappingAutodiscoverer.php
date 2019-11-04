@@ -73,7 +73,7 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
             ];
         }
 
-        if (! count($entityMappings)) {
+        if (count($entityMappings) === 0) {
             return;
         }
 

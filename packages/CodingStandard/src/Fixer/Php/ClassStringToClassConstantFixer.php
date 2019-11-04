@@ -122,7 +122,7 @@ final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implem
             return false;
         }
 
-        if ($this->classMustExists === false) {
+        if (! $this->classMustExists) {
             return true;
         }
 

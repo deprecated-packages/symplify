@@ -68,7 +68,7 @@ final class TwitterApiWrapper
      */
     public function getPublishedTweets(): array
     {
-        if ($this->rawTweets) {
+        if ($this->rawTweets !== []) {
             return $this->rawTweets;
         }
 

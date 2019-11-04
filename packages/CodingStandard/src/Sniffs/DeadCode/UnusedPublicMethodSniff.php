@@ -302,13 +302,8 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface, Resettab
         if (Strings::contains($fileContent, '@ORM\Entity')) {
             return true;
         }
-
         // is controller, listener or subscriber, so unrecorded public methods are expected
-        if (Strings::match($fileContent, '#class\s+[\w]+(Controller|Listener|Subscriber)#')) {
-            return true;
-        }
-
-        return false;
+        return (bool) Strings::match($fileContent, '#class\s+[\w]+(Controller|Listener|Subscriber)#');
     }
 
     private function shouldSkipMethod($methodName): bool

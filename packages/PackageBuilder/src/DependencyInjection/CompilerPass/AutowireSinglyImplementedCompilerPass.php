@@ -99,11 +99,7 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
         }
 
         $class = $definition->getClass();
-        if (! is_string($class) || ! $this->classExists($class)) {
-            return true;
-        }
-
-        return false;
+        return ! is_string($class) || ! $this->classExists($class);
     }
 
     private function classExists(string $class): bool

@@ -98,7 +98,7 @@ final class ChangelogDumper
 
     private function displayPackageIfDesired(Change $change, bool $withPackages, ?string $priority): void
     {
-        if ($withPackages === false || $this->previousPackage === $change->getPackage()) {
+        if (! $withPackages || $this->previousPackage === $change->getPackage()) {
             return;
         }
 
@@ -109,7 +109,7 @@ final class ChangelogDumper
 
     private function displayCategoryIfDesired(Change $change, bool $withCategories, ?string $priority): void
     {
-        if ($withCategories === false || $this->previousCategory === $change->getCategory()) {
+        if (! $withCategories || $this->previousCategory === $change->getCategory()) {
             return;
         }
 

@@ -110,7 +110,7 @@ final class NameFactory
         }
 
         $namespaceTokens = $tokens->findGivenKind([T_NAMESPACE], 0);
-        if (! count($namespaceTokens[T_NAMESPACE])) {
+        if (count($namespaceTokens[T_NAMESPACE]) === 0) {
             return $className;
         }
 
@@ -148,11 +148,6 @@ final class NameFactory
         if ($tokens[$position - 1]->isGivenKind(T_NS_SEPARATOR)) {
             return false;
         }
-
-        if ($tokens[$position]->isGivenKind(T_NS_SEPARATOR)) {
-            return false;
-        }
-
-        return true;
+        return ! $tokens[$position]->isGivenKind(T_NS_SEPARATOR);
     }
 }

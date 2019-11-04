@@ -172,7 +172,7 @@ abstract class AbstractFile implements RenderableFileInterface
 
     public function getDateInFormat(string $format): ?string
     {
-        if ($this->dateTime) {
+        if ($this->dateTime !== null) {
             return $this->dateTime->format($format);
         }
 

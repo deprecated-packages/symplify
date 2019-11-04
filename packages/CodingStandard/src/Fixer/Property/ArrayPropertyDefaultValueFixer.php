@@ -96,7 +96,7 @@ public $property;')]
 
     private function createDefaultArrayTokens(): Tokens
     {
-        if (self::$cachedDefaultArrayTokens) {
+        if (self::$cachedDefaultArrayTokens !== null) {
             return self::$cachedDefaultArrayTokens;
         }
 

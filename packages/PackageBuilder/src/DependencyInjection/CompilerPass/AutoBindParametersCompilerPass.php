@@ -90,12 +90,7 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
         if ($definition instanceof ChildDefinition && $definition->getClass() === null) {
             return true;
         }
-
-        if ($definition->getClass() === null && $definition->getFactory() === null) {
-            return true;
-        }
-
-        return false;
+        return $definition->getClass() === null && $definition->getFactory() === null;
     }
 
     /**

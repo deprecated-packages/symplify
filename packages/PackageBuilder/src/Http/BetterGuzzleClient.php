@@ -29,7 +29,7 @@ final class BetterGuzzleClient
         $request = new Request('GET', $url);
         $response = $this->client->send($request);
 
-        if ($this->isSuccessCode($response) === false) {
+        if (! $this->isSuccessCode($response)) {
             throw BadResponseException::create($request, $response);
         }
 

@@ -149,7 +149,7 @@ final class RouteFileDecorator implements FileDecoratorInterface
 
         $outputPath = '';
 
-        if ($generatorElement->getRoutePrefix()) {
+        if ($generatorElement->getRoutePrefix() !== '') {
             $outputPath .= $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR;
         }
 

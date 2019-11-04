@@ -175,7 +175,7 @@ CODE_SAMPLE
         $classTypesToCheck = array_keys($this->methodOrderByType);
 
         $matchTypes = array_intersect($fixerClassWrapper->getClassTypes(), $classTypesToCheck);
-        if (! $matchTypes) {
+        if ($matchTypes === []) {
             return null;
         }
 

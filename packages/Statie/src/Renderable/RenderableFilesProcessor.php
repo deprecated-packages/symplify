@@ -46,7 +46,7 @@ final class RenderableFilesProcessor
      */
     public function processFileInfos(array $fileInfos): array
     {
-        if (! count($fileInfos)) {
+        if (count($fileInfos) === 0) {
             return [];
         }
 
@@ -65,7 +65,7 @@ final class RenderableFilesProcessor
      */
     public function processGeneratorElementObjects(array $objects, GeneratorElement $generatorElement): array
     {
-        if (! count($objects)) {
+        if (count($objects) === 0) {
             return [];
         }
 

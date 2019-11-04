@@ -48,7 +48,8 @@
         "symfony/translation": "^3.4|^4.3|^5.0",
         "symfony/twig-bundle": "^3.4|^4.3|^5.0",
         "thecodingmachine/phpstan-strict-rules": "^0.11.0",
-        "tracy/tracy": "^2.7"
+        "tracy/tracy": "^2.7",
+        "rector/rector": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -127,7 +128,7 @@
         "symplify/latte-to-twig-converter": "self.version",
         "symplify/monorepo-builder": "self.version",
         "symplify/neon-to-yaml-converter": "self.version",
-        "symplify/package-builder": "self.version",
+        "symplify/package-builder": "^6.1",
         "symplify/phpstan-extensions": "self.version",
         "symplify/statie": "self.version"
     },
@@ -149,7 +150,8 @@
             "packages/ChangelogLinker/bin/changelog-linker cleanup"
         ],
         "merge": "packages/MonorepoBuilder/bin/monorepo-builder merge",
-        "propagate": "packages/MonorepoBuilder/bin/monorepo-builder propagate"
+        "propagate": "packages/MonorepoBuilder/bin/monorepo-builder propagate",
+        "rector": "vendor/bin/rector process packages --config rector-ci.yaml --dry-run"
     },
     "config": {
         "sort-packages": true

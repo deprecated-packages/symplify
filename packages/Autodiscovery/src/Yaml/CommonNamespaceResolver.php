@@ -24,7 +24,7 @@ final class CommonNamespaceResolver
             }
         }
 
-        if (count($namespaces)) {
+        if (count($namespaces) > 0) {
             return array_unique($namespaces);
         }
 

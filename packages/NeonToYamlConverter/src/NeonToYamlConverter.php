@@ -129,7 +129,7 @@ final class NeonToYamlConverter
     private function convertIncludes(array $data): array
     {
         foreach ($data as $key => $value) {
-            if (Strings::contains($value, 'vendor') === false) {
+            if (! Strings::contains($value, 'vendor')) {
                 $value = Strings::replace($value, '#\.neon$#', '.yaml');
             }
 
@@ -162,7 +162,7 @@ final class NeonToYamlConverter
     private function replaceOldToNewParameters(string $content): string
     {
         foreach ($this->arrayParameterCollector->getParametersToReplace() as $oldParameter => $newParamter) {
-            $content = Strings::replace($content, '#' . preg_quote($oldParameter) . '#', $newParamter);
+            $content = Strings::replace($content, '#' . preg_quote($oldParameter, '#') . '#', $newParamter);
         }
 
         return $content;

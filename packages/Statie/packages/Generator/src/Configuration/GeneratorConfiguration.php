@@ -39,7 +39,7 @@ final class GeneratorConfiguration
      */
     public function getGeneratorElements(): array
     {
-        if ($this->generatorElements) {
+        if ($this->generatorElements !== []) {
             return $this->generatorElements;
         }
 

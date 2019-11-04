@@ -36,7 +36,7 @@ final class ArgumentWrapperFactory
         for ($i = $argumentsBracketStart + 1; $i < $argumentsBracketEnd; ++$i) {
             $token = $tokens[$i];
 
-            if ($token->isGivenKind(T_VARIABLE) === false) {
+            if (! $token->isGivenKind(T_VARIABLE)) {
                 continue;
             }
 

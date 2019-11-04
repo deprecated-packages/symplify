@@ -90,7 +90,7 @@ final class ReleaseCommand extends Command
 
             $this->printReleaseWorkerMetadata($releaseWorker);
 
-            if ($isDryRun === false) {
+            if (! $isDryRun) {
                 $releaseWorker->work($version);
             }
         }
@@ -120,7 +120,7 @@ final class ReleaseCommand extends Command
 
     private function printReleaseWorkerMetadata(ReleaseWorkerInterface $releaseWorker): void
     {
-        if ($this->symfonyStyle->isVerbose() === false) {
+        if (! $this->symfonyStyle->isVerbose()) {
             return;
         }
 

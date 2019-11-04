@@ -11,7 +11,7 @@ final class NamespaceDetector
     public function detectFromDirectory(SmartFileInfo $directoryInfo): ?string
     {
         $filesInDirectory = (array) glob($directoryInfo->getRealPath() . '/*.php');
-        if (! count($filesInDirectory)) {
+        if (count($filesInDirectory) === 0) {
             return null;
         }
 
@@ -30,12 +30,7 @@ final class NamespaceDetector
             return null;
         }
 
-        $result = Strings::before($match['className'], '\\', -1);
-        if ($result === null) {
-            return null;
-        }
-
-        return $result;
+        return Strings::before($match['className'], '\\', -1);
     }
 
     private function detectFromFile(string $filePath): ?string

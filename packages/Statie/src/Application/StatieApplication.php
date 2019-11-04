@@ -118,7 +118,7 @@ final class StatieApplication
         $apiFiles = $this->apiGenerator->generate();
         $this->reportApiFiles($apiFiles);
 
-        if ($dryRun === false) {
+        if (! $dryRun) {
             $virtualFiles = array_merge($redirectFiles, $apiFiles);
             $this->renderFiles($source, $files, $virtualFiles, $generatorFilesByType);
         }
@@ -129,7 +129,7 @@ final class StatieApplication
      */
     private function reportGeneratorFiles(array $generatorFilesByType): void
     {
-        if ($this->symfonyStyle->isVerbose() === false) {
+        if (! $this->symfonyStyle->isVerbose()) {
             return;
         }
 

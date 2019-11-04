@@ -35,7 +35,7 @@ final class HeadlineAnchorFileDecorator implements FileDecoratorInterface
      */
     public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
     {
-        if ($generatorElement->hasHeadlineAnchors() === false) {
+        if (! $generatorElement->hasHeadlineAnchors()) {
             return $files;
         }
 

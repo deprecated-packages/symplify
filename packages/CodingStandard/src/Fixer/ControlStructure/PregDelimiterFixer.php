@@ -159,7 +159,7 @@ final class PregDelimiterFixer extends AbstractSymplifyFixer implements Configur
         }
 
         $argumentPosition = $argumentAnalysis->getTypeAnalysis()->getStartIndex();
-        if ($tokens[$argumentPosition]->isGivenKind(T_CONSTANT_ENCAPSED_STRING) === false) {
+        if (! $tokens[$argumentPosition]->isGivenKind(T_CONSTANT_ENCAPSED_STRING)) {
             return;
         }
 

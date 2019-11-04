@@ -159,7 +159,7 @@ final class FixerClassWrapper
     public function getParentClassName(): ?string
     {
         $extendsTokens = $this->tokens->findGivenKind(T_EXTENDS, $this->startIndex);
-        if (! $extendsTokens) {
+        if ($extendsTokens === []) {
             return null;
         }
 
@@ -190,7 +190,7 @@ final class FixerClassWrapper
         for ($i = $this->startBracketIndex + 1; $i < $this->endBracketIndex; ++$i) {
             $token = $this->tokens[$i];
 
-            if ($token->isGivenKind(T_VARIABLE) === false) {
+            if (! $token->isGivenKind(T_VARIABLE)) {
                 continue;
             }
 
@@ -286,7 +286,7 @@ final class FixerClassWrapper
      */
     public function getPropertyElements(): array
     {
-        if ($this->propertyElements) {
+        if ($this->propertyElements !== []) {
             return $this->propertyElements;
         }
 
@@ -335,7 +335,7 @@ final class FixerClassWrapper
      */
     public function getMethodElements(): array
     {
-        if ($this->methodElements) {
+        if ($this->methodElements !== []) {
             return $this->methodElements;
         }
 
@@ -357,7 +357,7 @@ final class FixerClassWrapper
      */
     public function getClassTypes(): array
     {
-        if ($this->classTypes) {
+        if ($this->classTypes !== []) {
             return $this->classTypes;
         }
 
@@ -450,7 +450,7 @@ final class FixerClassWrapper
      */
     private function getClassyElements(): array
     {
-        if ($this->classyElements) {
+        if ($this->classyElements !== []) {
             return $this->classyElements;
         }
 
@@ -505,11 +505,6 @@ final class FixerClassWrapper
         if ($index < $this->startBracketIndex) {
             return false;
         }
-
-        if ($index > $this->endBracketIndex) {
-            return false;
-        }
-
-        return true;
+        return $index <= $this->endBracketIndex;
     }
 }

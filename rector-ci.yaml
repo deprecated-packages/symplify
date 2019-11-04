@@ -1,0 +1,19 @@
+parameters:
+    auto_import_names: false
+    autoload_paths:
+        - "tests/bootstrap.php"
+
+    sets:
+        - "code-quality"
+#        - "dead-code"
+
+    exclude_paths:
+#        - "/Fixture/"
+        - "/Init/"
+        - "/Source/"
+        - "/ChangedFilesDetectorSource/"
+
+    exclude_rectors:
+        # too free
+        - 'Rector\SOLID\Rector\ClassMethod\UseInterfaceOverImplementationInConstructorRector'
+

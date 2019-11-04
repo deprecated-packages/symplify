@@ -208,7 +208,7 @@ class SomeClass
      */
     private function shouldSkipWrapper($typeWrapper): bool
     {
-        if ($typeWrapper->getTypes() === [] || $typeWrapper->isClassType() === false) {
+        if ($typeWrapper->getTypes() === [] || ! $typeWrapper->isClassType()) {
             return true;
         }
 
