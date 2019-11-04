@@ -1,19 +1,19 @@
 parameters:
-    auto_import_names: false
+    auto_import_names: true
     autoload_paths:
-        - "tests/bootstrap.php"
+        - 'tests/bootstrap.php'
 
     sets:
-        - "code-quality"
-#        - "dead-code"
+        - 'code-quality'
+        - 'dead-code'
 
     exclude_paths:
-#        - "/Fixture/"
-        - "/Init/"
-        - "/Source/"
-        - "/ChangedFilesDetectorSource/"
+        - '/Init/'
+        - '/Source/'
+        - '/ChangedFilesDetectorSource/'
+        # parameter Symfony autowire hack
+        - 'packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php'
 
     exclude_rectors:
         # too free
         - 'Rector\SOLID\Rector\ClassMethod\UseInterfaceOverImplementationInConstructorRector'
-

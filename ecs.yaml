@@ -120,3 +120,7 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
             - 'packages/MonorepoBuilder/src/Console/Command/ValidateCommand.php'
+
+        SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable:
+            # tests
+            - 'packages/Statie/packages/Generator/tests/GeneratorExceptionsTest.php'

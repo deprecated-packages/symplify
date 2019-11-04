@@ -12,11 +12,6 @@ use Symfony\Component\Yaml\Yaml;
 final class ServiceConverterWorker
 {
     /**
-     * @var string[]
-     */
-    private $environmentVariables = [];
-
-    /**
      * @param mixed[] $servicesData
      * @return mixed[]
      */
@@ -87,7 +82,6 @@ final class ServiceConverterWorker
             // environment value! @see https://symfony.com/blog/new-in-symfony-3-4-advanced-environment-variables
             if ($value->value === '@env::get') {
                 $environmentVariable = $value->attributes[0];
-                $this->environmentVariables[] = $environmentVariable;
                 $service['arguments'][$key] = sprintf('%%env(%s)%%', $environmentVariable);
             }
         }
