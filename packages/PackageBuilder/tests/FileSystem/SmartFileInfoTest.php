@@ -19,7 +19,7 @@ final class SmartFileInfoTest extends TestCase
     {
         $smartFileInfo = new SmartFileInfo(__FILE__);
 
-        $this->assertStringNotEqualsFile($smartFileInfo->getRelativePath(), $smartFileInfo->getRealPath());
+        $this->assertNotSame($smartFileInfo->getRelativePath(), $smartFileInfo->getRealPath());
 
         $this->assertStringEndsWith($smartFileInfo->getRelativePath(), __DIR__);
         $this->assertStringEndsWith($smartFileInfo->getRelativePathname(), __FILE__);
@@ -35,7 +35,7 @@ final class SmartFileInfoTest extends TestCase
         );
     }
 
-    public function testRelativeToDirExceptoin(): void
+    public function testRelativeToDirException(): void
     {
         $smartFileInfo = new SmartFileInfo(__FILE__);
 

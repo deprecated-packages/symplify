@@ -109,6 +109,8 @@ services:
             - 'Response'
 ```
 
+<br>
+
 ### Make `@param`, `@return` and `@var` Format United
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
