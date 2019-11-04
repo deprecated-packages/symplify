@@ -29,7 +29,7 @@ final class ProcessFactoryTest extends AbstractKernelTestCase
         );
 
         $subsplitRealpath = realpath(__DIR__ . '/../../bash/subsplit.sh');
-        $commandLine = "'" . $subsplitRealpath . "' '--from-directory=localDirectory' '--to-repository=git@github.com:Symplify/Symplify.git' '--branch=master' %s '--repository=%s/.git'";
+        $commandLine = "'" . $subsplitRealpath . "' '--from-directory=localDirectory' '--to-repository=git@github.com:Symplify/Symplify.git' %s '--repository=%s/.git'";
         $this->assertStringMatchesFormat($commandLine, $subsplitProcess->getCommandLine());
     }
 }
