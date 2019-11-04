@@ -54,12 +54,6 @@ final class ProcessFactory
             sprintf('--repository=%s', $this->repository),
         ];
 
-        // @TODO: Decide if "branch" as an option is needed or wanted. If left
-        // out, it uses the current branch.
-        // if ($branchOptionSet) {
-        //    $commandLine[] = "--branch=master";
-        //}
-
         return $this->createProcessFromCommandLine($commandLine, $directory);
     }
 
