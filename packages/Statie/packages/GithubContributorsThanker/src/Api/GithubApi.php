@@ -24,11 +24,6 @@ final class GithubApi
     private $thankerAuthorName;
 
     /**
-     * @var mixed[]
-     */
-    private $options = [];
-
-    /**
      * @var BetterGuzzleClient
      */
     private $betterGuzzleClient;
@@ -36,16 +31,11 @@ final class GithubApi
     public function __construct(
         BetterGuzzleClient $betterGuzzleClient,
         string $thankerRepositoryName,
-        string $thankerAuthorName,
-        ?string $githubToken
+        string $thankerAuthorName
     ) {
         $this->thankerRepositoryName = $thankerRepositoryName;
         $this->thankerAuthorName = $thankerAuthorName;
         $this->betterGuzzleClient = $betterGuzzleClient;
-
-        if ($githubToken) {
-            $this->options['headers']['Authorization'] = 'token ' . $githubToken;
-        }
     }
 
     /**

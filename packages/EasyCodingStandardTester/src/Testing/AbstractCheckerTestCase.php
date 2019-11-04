@@ -300,7 +300,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         // fall back to split ----- fixture
         $this->activeFileInfo = $fileInfo;
         $this->doTestFiles([$this->splitContentToOriginalFileAndExpectedFile($fileInfo)]);
-        return;
     }
 
     private function createConfigHash(): string

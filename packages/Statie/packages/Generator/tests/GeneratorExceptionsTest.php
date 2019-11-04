@@ -39,7 +39,7 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
             sprintf('Value "tite" was not found for "%s" object. Did you mean "title"?', PostFile::class)
         );
 
-        $post['tite'];
+        $title = $post['tite'];
     }
 
     public function testPostExceptionOnGetNonExistingAllKeys(): void
@@ -54,7 +54,7 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
             )
         );
 
-        $post['key'];
+        $key = $post['key'];
     }
 
     private function getPost(): PostFile
