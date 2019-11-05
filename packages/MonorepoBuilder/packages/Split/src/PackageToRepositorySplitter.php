@@ -63,6 +63,7 @@ final class PackageToRepositorySplitter
         ?int $maxProcesses = null
     ): void {
         $theMostRecentTag = $this->gitManager->getMostRecentTag($rootDirectory);
+        $currentBranch = $this->gitManager->getCurrentBranch($rootDirectory);
         foreach ($splitConfig as $localDirectory => $remoteRepository) {
             $this->fileSystemGuard->ensureDirectoryExists($localDirectory);
 
@@ -73,7 +74,8 @@ final class PackageToRepositorySplitter
             $process = $this->processFactory->createSubsplit(
                 $theMostRecentTag,
                 $localDirectory,
-                $remoteRepositoryWithGithubKey
+                $remoteRepositoryWithGithubKey,
+                $currentBranch
             );
 
             $this->symfonyStyle->note('Running: ' . $process->getCommandLine());

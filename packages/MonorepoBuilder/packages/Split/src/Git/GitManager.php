@@ -48,6 +48,27 @@ final class GitManager
     }
 
     /**
+     * Returns null if not on a branch.
+     */
+    public function getCurrentBranch(string $gitDirectory): ?string
+    {
+        $command = ['git', 'rev-parse', '--symbolic-full-name', '--abbrev-ref', 'HEAD'];
+
+        if (getcwd() !== $gitDirectory) {
+            $command[] = '--git-dir';
+            $command[] = $gitDirectory;
+        }
+
+        $branch = trim($this->processRunner->run($command));
+
+        if (empty($branch)) {
+            return null;
+        }
+
+        return $branch;
+    }
+
+    /**
      * See https://gist.github.com/willprice/e07efd73fb7f13f917ea#file-push-sh-L15
      * see https://stackoverflow.com/a/18936804/1348344
      *
