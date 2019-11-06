@@ -48,7 +48,6 @@ parameters:
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
         - '#Property Symplify\\CodingStandard\\TokenRunner\\Wrapper\\FixerWrapper\\FixerClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
-        - '#Method Symplify\\Statie\\Latte\\Tests\\Renderable\\LatteFileDecoratorTest::createFileFromFilePath\(\) should return Symplify\\Statie\\Renderable\\File\\File but returns Symplify\\Statie\\Renderable\\File\\AbstractFile#'
 
         # known values
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, bool\|int given#'
