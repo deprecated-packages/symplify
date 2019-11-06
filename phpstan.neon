@@ -31,7 +31,7 @@ parameters:
         # intentionally
         - '#In method "(.*?)", caught "Throwable" must be rethrown. Either catch a more specific exception or add a "throw" clause in the "catch" block to propagate the exception#'
 
-        # command argument value type convertino - known string
+        # command argument value type conversion - known string
         -
             message: '#Cannot cast array<string>\|string\|null to string#'
             path: '*packages/*Command.php'
@@ -119,12 +119,6 @@ parameters:
 
         # magic properties
         - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:(.*?)#'
-
-        # phar edge case
-        - '#Strict comparison using \=\=\= between string and false will always evaluate to false#'
-
-        # tests
-        - '#Expression "\$post\[(.*?)]" on a separate line does not do anything#'
 
         # throws exception
         - '#Method Symplify\\PackageBuilder\\Configuration\\LevelFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
