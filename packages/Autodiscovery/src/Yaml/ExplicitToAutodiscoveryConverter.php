@@ -304,7 +304,7 @@ final class ExplicitToAutodiscoveryConverter
     private function resolveExcludedDirectories(string $configFilePath, string $absoluteServicesLocation): array
     {
         $absoluteServicesLocation = realpath(dirname($configFilePath) . '/' . $absoluteServicesLocation);
-        if ($absoluteServicesLocation === false) {
+        if (! $absoluteServicesLocation) {
             return [];
         }
 
@@ -361,7 +361,7 @@ final class ExplicitToAutodiscoveryConverter
             $reflectionClass = new ReflectionClass($class);
 
             $fileName = $reflectionClass->getFileName();
-            if ($fileName === false) {
+            if (! $fileName) {
                 throw new ClassNotFoundException(sprintf(
                     'Class "%s" from config "%s" was not found in any file. Make sure it exists.',
                     $class,
@@ -372,7 +372,7 @@ final class ExplicitToAutodiscoveryConverter
             $classDirectory = dirname($fileName);
         }
 
-        if ($classDirectory === false) {
+        if (! $classDirectory) {
             throw new ClassLocationNotFoundException(sprintf('Location for "%s" class was not found.', $class));
         }
 

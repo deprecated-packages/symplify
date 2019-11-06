@@ -268,7 +268,7 @@ final class NoClassInstantiationSniff implements Sniff
         }
 
         $docComment = (new ReflectionClass($class))->getDocComment();
-        if ($docComment === false) {
+        if (! $docComment) {
             return false;
         }
 

@@ -105,7 +105,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     protected function doTestFiles(array $files, ?callable $callback = null): void
     {
         foreach ($files as $file) {
-            if ($callback) {
+            if ($callback !== null) {
                 $callback();
             }
 

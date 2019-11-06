@@ -107,7 +107,7 @@ final class DependencyUpdater
                 continue;
             }
 
-            if ($shouldSkipCallback) {
+            if ($shouldSkipCallback !== null) {
                 if ($shouldSkipCallback($smartFileInfo, $packageName, $section)) {
                     continue;
                 }
@@ -140,7 +140,7 @@ final class DependencyUpdater
                 continue;
             }
 
-            if ($shouldSkipCallback) {
+            if ($shouldSkipCallback !== null) {
                 if ($shouldSkipCallback($smartFileInfo, $packageName, $section)) {
                     continue;
                 }

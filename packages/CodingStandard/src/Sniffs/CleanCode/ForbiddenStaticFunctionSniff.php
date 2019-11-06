@@ -28,14 +28,14 @@ final class ForbiddenStaticFunctionSniff implements Sniff
     public function process(File $file, $position): void
     {
         $functionTokenPosition = $file->findNext([T_FUNCTION], $position, $position + 3);
-        if ($functionTokenPosition === false) {
+        if (! $functionTokenPosition) {
             return;
         }
 
         $functionNameTokenPosition = $file->findNext([T_STRING], $functionTokenPosition, $functionTokenPosition + 3);
         $functionNameToken = $file->getTokens()[$functionNameTokenPosition];
 
-        if ($functionNameToken === false) {
+        if (! $functionNameToken) {
             return;
         }
 

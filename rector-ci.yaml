@@ -14,7 +14,15 @@ parameters:
         - '/ChangedFilesDetectorSource/'
         # parameter Symfony autowire hack
         - 'packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php'
+        # buggy
+        - 'packages/CodingStandard/packages/TokenRunner/src/Naming/Name/NameFactory.php'
 
     exclude_rectors:
         # too free
         - 'Rector\SOLID\Rector\ClassMethod\UseInterfaceOverImplementationInConstructorRector'
+        # needs to skip dev classes
+        - 'Rector\Php55\Rector\String_\StringClassNameToClassConstantRector'
+        # this should skip preg_match etc. patterns
+        - 'Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector'
+        # buggy
+        - 'Rector\CodingStyle\Rector\Use_\RemoveUnusedAliasRector'

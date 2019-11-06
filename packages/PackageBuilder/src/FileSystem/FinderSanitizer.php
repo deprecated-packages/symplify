@@ -30,7 +30,7 @@ final class FinderSanitizer
 
     private function isFileInfoValid(SplFileInfo $fileInfo): bool
     {
-        if ($fileInfo->getRealPath() === false) {
+        if (! $fileInfo->getRealPath()) {
             return false;
         }
 

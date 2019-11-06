@@ -43,7 +43,7 @@ final class LevelFileFinder
 
         $firstFile = $this->getFirstFileFromFinder($finder);
         if ($firstFile !== null) {
-            if ($firstFile->getRealPath() === false) {
+            if ($firstFile->getRealPath() === '') {
                 return $firstFile->getPathname();
             }
 

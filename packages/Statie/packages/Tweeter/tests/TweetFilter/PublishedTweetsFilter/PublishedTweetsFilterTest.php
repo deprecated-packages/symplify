@@ -35,7 +35,7 @@ final class PublishedTweetsFilterTest extends AbstractKernelTestCase
 
     public function test(): void
     {
-        if (getenv('TWITTER_CONSUMER_KEY') === false) {
+        if (! getenv('TWITTER_CONSUMER_KEY')) {
             $this->markTestSkipped('Run Twitter test only with access tokens.');
         }
 
