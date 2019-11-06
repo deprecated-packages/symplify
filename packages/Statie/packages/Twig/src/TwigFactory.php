@@ -71,11 +71,11 @@ final class TwigFactory
     /**
      * @see https://github.com/nette/latte/blob/edcda892aee632c810697d9795c4fb065cd51506/src/Latte/Runtime/FilterExecutor.php
      */
-    private function loadLatteFilters(Environment $twigEnvironment): void
+    private function loadLatteFilters(Environment $environment): void
     {
         foreach ($this->filterExecutor->getAll() as $name => $filter) {
-            $twigEnvironment->addFilter(new TwigFilter($name, $this->filterExecutor->{$filter}));
-            $twigEnvironment->addFunction(new TwigFunction($name, $this->filterExecutor->{$filter}));
+            $environment->addFilter(new TwigFilter($name, $this->filterExecutor->{$filter}));
+            $environment->addFunction(new TwigFunction($name, $this->filterExecutor->{$filter}));
         }
     }
 }
