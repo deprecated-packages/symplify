@@ -34,7 +34,6 @@
     "autoload": {
         "psr-4": {
             "Symplify\\Statie\\": "src",
-            "Symplify\\Statie\\Latte\\": "packages/Latte/src",
             "Symplify\\Statie\\Generator\\": "packages/Generator/src",
             "Symplify\\Statie\\Twig\\": "packages/Twig/src",
             "Symplify\\Statie\\MigratorJekyll\\": "packages/MigratorJekyll/src",
@@ -49,7 +48,6 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\Statie\\Tests\\": "tests",
-            "Symplify\\Statie\\Latte\\Tests\\": "packages/Latte/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests",
             "Symplify\\Statie\\MigratorJekyll\\Tests\\": "packages/MigratorJekyll/tests",
             "Symplify\\Statie\\MigratorSculpin\\Tests\\": "packages/MigratorSculpin/tests",
