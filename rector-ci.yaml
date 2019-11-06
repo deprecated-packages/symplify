@@ -6,6 +6,7 @@ parameters:
     sets:
         - 'code-quality'
         - 'dead-code'
+        - 'coding-style'
 
     exclude_paths:
         - '/Init/'
