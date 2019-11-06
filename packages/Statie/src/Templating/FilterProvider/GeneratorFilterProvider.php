@@ -15,7 +15,6 @@ final class GeneratorFilterProvider implements FilterProviderInterface
     {
         return [
             // usage in Twig: {{ post|link }}
-            // usage in Latte: {$post|link}
             'link' => function ($generatorFile): string {
                 $this->ensureArgumentIsGeneratorFile($generatorFile);
 

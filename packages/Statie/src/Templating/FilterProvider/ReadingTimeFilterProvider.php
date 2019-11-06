@@ -27,7 +27,6 @@ final class ReadingTimeFilterProvider implements FilterProviderInterface
     {
         return [
             // usage in Twig: {{ content|reading_time }} mins → 4 mins
-            // usage in Latte: {$content|reading_time} mins → 4 mins
             'reading_time' => function (string $content): int {
                 return $this->readingTimeResolver->resolveFromContent($content);
             },

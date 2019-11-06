@@ -28,11 +28,6 @@ final class GithubFilterProvider implements FilterProviderInterface
             'github_edit_post_url' => function (AbstractFile $file): string {
                 return $this->createGithubEditFileUrl($file);
             },
-
-            // in Latte (common format): <a href="{$post|githubEditPostUrl}">Typo? Fix me please</a>
-            'githubEditPostUrl' => function (AbstractFile $file): string {
-                return $this->createGithubEditFileUrl($file);
-            },
         ];
     }
 

@@ -78,7 +78,7 @@ final class StatieConfiguration
         }
 
         throw new MissingGithubRepositorySlugException(sprintf(
-            'Settings of "%s" is required for "{$post|githubEditPostUrl}" Latte filter. '
+            'Settings of "%s" is required for "{{ post|github_edit_post_url }}" filter. '
             . 'Add it to "statie.yml" under "parameters" section, e.g.: "%s".',
             self::OPTION_GITHUB_REPOSITORY_SOURCE_DIRECTORY,
             'https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/source'

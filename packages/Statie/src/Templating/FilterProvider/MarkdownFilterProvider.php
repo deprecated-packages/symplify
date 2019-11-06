@@ -25,7 +25,6 @@ final class MarkdownFilterProvider implements FilterProviderInterface
     {
         return [
             // usage in Twig: {{ content|markdown }}
-            // usage in Latte: {$content|markdown}
             'markdown' => function (string $content): string {
                 $content = $this->parsedownExtra->parse($content);
 

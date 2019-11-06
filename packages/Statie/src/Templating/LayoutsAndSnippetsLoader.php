@@ -3,8 +3,7 @@
 namespace Symplify\Statie\Templating;
 
 use Symplify\Statie\FileSystem\FileFinder;
-use Symplify\Statie\Latte\Loader\ArrayLoader;
-use Twig\Loader\ArrayLoader as TwigArrayLoader;
+use Twig\Loader\ArrayLoader;
 
 final class LayoutsAndSnippetsLoader
 {
@@ -21,21 +20,12 @@ final class LayoutsAndSnippetsLoader
     /**
      * @var ArrayLoader
      */
-    private $latteArrayLoader;
+    private $arrayLoader;
 
-    /**
-     * @var TwigArrayLoader
-     */
-    private $twigArrayLoader;
-
-    public function __construct(
-        FileFinder $fileFinder,
-        ArrayLoader $latteArrayLoader,
-        TwigArrayLoader $twigArrayLoader
-    ) {
+    public function __construct(FileFinder $fileFinder, ArrayLoader $arrayLoader)
+    {
         $this->fileFinder = $fileFinder;
-        $this->latteArrayLoader = $latteArrayLoader;
-        $this->twigArrayLoader = $twigArrayLoader;
+        $this->arrayLoader = $arrayLoader;
     }
 
     public function loadFromSource(string $source): void
@@ -48,13 +38,7 @@ final class LayoutsAndSnippetsLoader
             $relativePathInSource = $fileInfo->getRelativeFilePathFromDirectory($source);
 
             if ($fileInfo->getExtension() === 'twig') {
-                $this->twigArrayLoader->setTemplate($relativePathInSource, $fileInfo->getContents());
-            }
-
-            if ($fileInfo->getExtension() === 'latte') {
-                // before: "post"
-                // now: "_layouts/post.latte"
-                $this->latteArrayLoader->changeContent($relativePathInSource, $fileInfo->getContents());
+                $this->arrayLoader->setTemplate($relativePathInSource, $fileInfo->getContents());
             }
         }
 

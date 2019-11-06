@@ -33,7 +33,7 @@ final class GithubFilterProviderTest extends AbstractKernelTestCase
     public function test(): void
     {
         $githubFilterProvider = self::$container->get(GithubFilterProvider::class);
-        $githubEditPostUrlFilter = $githubFilterProvider->provide()['githubEditPostUrl'];
+        $githubEditPostUrlFilter = $githubFilterProvider->provide()['github_edit_post_url'];
 
         $this->assertSame(
             'https://github.com/TomasVotruba/tomasvotruba.cz/edit/master/source/_posts/2017-12-31-happy-new-years.md',

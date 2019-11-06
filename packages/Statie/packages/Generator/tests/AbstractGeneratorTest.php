@@ -7,7 +7,6 @@ use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Generator;
-use Symplify\Statie\Latte\Loader\ArrayLoader;
 
 abstract class AbstractGeneratorTest extends AbstractKernelTestCase
 {
@@ -42,7 +41,6 @@ abstract class AbstractGeneratorTest extends AbstractKernelTestCase
         $this->fileSystemWriter = self::$container->get(FileSystemWriter::class);
 
         $this->prepareConfiguration();
-        $this->prepareLayouts();
     }
 
     protected function tearDown(): void
@@ -55,21 +53,5 @@ abstract class AbstractGeneratorTest extends AbstractKernelTestCase
         $this->statieConfiguration = self::$container->get(StatieConfiguration::class);
         $this->statieConfiguration->setSourceDirectory($this->sourceDirectory);
         $this->statieConfiguration->setOutputDirectory($this->outputDirectory);
-    }
-
-    /**
-     * Emulate layout loading
-     */
-    private function prepareLayouts(): void
-    {
-        $arrayLoader = self::$container->get(ArrayLoader::class);
-        $arrayLoader->changeContent(
-            '_layouts/post.latte',
-            FileSystem::read($this->sourceDirectory . '/_layouts/post.latte')
-        );
-        $arrayLoader->changeContent(
-            '_layouts/lecture.latte',
-            FileSystem::read($this->sourceDirectory . '/_layouts/lecture.latte')
-        );
     }
 }

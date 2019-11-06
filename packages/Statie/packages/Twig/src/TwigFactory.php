@@ -7,8 +7,8 @@ use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use Twig\Loader\LoaderInterface;
-use Twig_Filter;
-use Twig_Function;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 final class TwigFactory
 {
@@ -60,8 +60,8 @@ final class TwigFactory
 
         foreach ($this->filterProviders as $filterProvider) {
             foreach ($filterProvider->provide() as $name => $filter) {
-                $twigEnvironment->addFilter(new Twig_Filter($name, $filter));
-                $twigEnvironment->addFunction(new Twig_Function($name, $filter));
+                $twigEnvironment->addFilter(new TwigFilter($name, $filter));
+                $twigEnvironment->addFunction(new TwigFunction($name, $filter));
             }
         }
 
@@ -74,8 +74,8 @@ final class TwigFactory
     private function loadLatteFilters(Environment $twigEnvironment): void
     {
         foreach ($this->filterExecutor->getAll() as $name => $filter) {
-            $twigEnvironment->addFilter(new Twig_Filter($name, $this->filterExecutor->{$filter}));
-            $twigEnvironment->addFunction(new Twig_Function($name, $this->filterExecutor->{$filter}));
+            $twigEnvironment->addFilter(new TwigFilter($name, $this->filterExecutor->{$filter}));
+            $twigEnvironment->addFunction(new TwigFunction($name, $this->filterExecutor->{$filter}));
         }
     }
 }
