@@ -14,8 +14,6 @@ parameters:
         - '/ChangedFilesDetectorSource/'
         # parameter Symfony autowire hack
         - 'packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php'
-        # buggy
-        - 'packages/CodingStandard/packages/TokenRunner/src/Naming/Name/NameFactory.php'
 
     exclude_rectors:
         # too free
