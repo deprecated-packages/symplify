@@ -100,7 +100,7 @@ final class MigratorFilesystem
         $globPath = $workingDirectory . '/' . $globPattern;
 
         $foundFiles = glob($globPath);
-        if ($foundFiles === false) {
+        if (! $foundFiles) {
             return [];
         }
 

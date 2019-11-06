@@ -23,7 +23,7 @@ final class SmartFileInfo extends SplFileInfo
         $this->filesystem = new Filesystem();
 
         $realPath = realpath($filePath);
-        if (! file_exists($filePath) || $realPath === false) {
+        if (! file_exists($filePath) || ! $realPath) {
             throw new FileNotFoundException(sprintf(
                 'File path "%s" was not found while creating "%s" object.',
                 $filePath,
