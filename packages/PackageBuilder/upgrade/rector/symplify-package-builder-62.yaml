@@ -1,6 +1,6 @@
 services:
     Rector\Renaming\Rector\Class_\RenameClassRector:
-        $oldToNewClasses:
-            Symplify\PackageBuilder\FileSystem\SmartFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
-            Symplify\PackageBuilder\Finder\FinderSanitizer: 'Symplify\SmartFileSystem\Finder\FinderSanitizer'
-            Symplify\PackageBuilder\FileSystem\FileGuard: 'Symplify\PackageBuilder\FileSystem\FileSystemGuard'
+        # see https://github.com/Symplify/Symplify/pull/1643/files
+        Symplify\PackageBuilder\FileSystem\SmartFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+        Symplify\PackageBuilder\Finder\FinderSanitizer: 'Symplify\SmartFileSystem\Finder\FinderSanitizer'
+        Symplify\PackageBuilder\FileSystem\FileGuard: 'Symplify\PackageBuilder\FileSystem\FileSystemGuard'
