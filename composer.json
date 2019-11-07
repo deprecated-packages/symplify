@@ -72,6 +72,7 @@
             "Symplify\\NeonToYamlConverter\\": "packages/NeonToYamlConverter/src",
             "Symplify\\PHPStanExtensions\\": "packages/PHPStanExtensions/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
+            "Symplify\\SmartFileSystem\\": "packages/SmartFileSystem/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
             "Symplify\\Statie\\GithubContributorsThanker\\": "packages/Statie/packages/GithubContributorsThanker/src",
@@ -105,6 +106,7 @@
             "Symplify\\NeonToYamlConverter\\Tests\\": "packages/NeonToYamlConverter/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/PHPStanExtensions/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
+            "Symplify\\SmartFileSystem\\Tests\\": "packages/SmartFileSystem/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
             "Symplify\\Statie\\HeadlineAnchorLinker\\Tests\\": "packages/Statie/packages/HeadlineAnchorLinker/tests",
             "Symplify\\Statie\\MigratorJekyll\\Tests\\": "packages/Statie/packages/MigratorJekyll/tests",
@@ -128,6 +130,7 @@
         "symplify/neon-to-yaml-converter": "self.version",
         "symplify/package-builder": "^6.1",
         "symplify/phpstan-extensions": "self.version",
+        "symplify/smart-file-system": "self.version",
         "symplify/statie": "self.version"
     },
     "scripts": {

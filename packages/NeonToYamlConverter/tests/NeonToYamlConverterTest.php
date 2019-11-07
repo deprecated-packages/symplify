@@ -6,8 +6,8 @@ use Iterator;
 use Symplify\NeonToYamlConverter\ArrayParameterCollector;
 use Symplify\NeonToYamlConverter\HttpKernel\NeonToYamlConverterKernel;
 use Symplify\NeonToYamlConverter\NeonToYamlConverter;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class NeonToYamlConverterTest extends AbstractKernelTestCase
 {

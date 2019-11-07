@@ -8,7 +8,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symplify\Autodiscovery\Arrays;
 use Symplify\Autodiscovery\Exception\ClassLocationNotFoundException;
 use Symplify\Autodiscovery\Exception\ClassNotFoundException;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ExplicitToAutodiscoveryConverter
 {

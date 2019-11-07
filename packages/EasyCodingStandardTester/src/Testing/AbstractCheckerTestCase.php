@@ -13,9 +13,9 @@ use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
-use Symplify\PackageBuilder\FileSystem\FileGuard;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\FileSystem\FileSystemGuard;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 {
@@ -51,9 +51,9 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     private $errorAndDiffCollector;
 
     /**
-     * @var FileGuard
+     * @var FileSystemGuard
      */
-    private $fileGuard;
+    private $fileSystemGuard;
 
     /**
      * @var SmartFileInfo|null
@@ -62,10 +62,10 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->fileGuard = new FileGuard();
+        $this->fileSystemGuard = new FileSystemGuard();
 
         $config = $this->provideConfig();
-        $this->fileGuard->ensureFileExists($config, static::class);
+        $this->fileSystemGuard->ensureFileExists($config, static::class);
 
         $configs = [$config];
 

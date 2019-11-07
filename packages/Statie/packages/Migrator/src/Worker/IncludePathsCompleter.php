@@ -5,7 +5,7 @@ namespace Symplify\Statie\Migrator\Worker;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Migrator\Contract\MigratorWorkerInterface;
 use Symplify\Statie\Migrator\Filesystem\MigratorFilesystem;
 

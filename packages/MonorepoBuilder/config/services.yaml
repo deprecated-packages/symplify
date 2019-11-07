@@ -15,6 +15,6 @@ services:
     Symfony\Component\Filesystem\Filesystem: ~
 
     Symplify\PackageBuilder\Reflection\PrivatesCaller: ~
-    Symplify\PackageBuilder\FileSystem\FinderSanitizer: ~
+    Symplify\SmartFileSystem\Finder\FinderSanitizer: ~
     Symplify\PackageBuilder\Yaml\ParametersMerger: ~
     Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~

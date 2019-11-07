@@ -3,8 +3,8 @@
 namespace Symplify\Statie\FileSystem;
 
 use Symfony\Component\Finder\Finder;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FileFinder
 {

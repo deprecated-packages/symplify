@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\FileSystem;
+namespace Symplify\SmartFileSystem;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Filesystem\Filesystem;

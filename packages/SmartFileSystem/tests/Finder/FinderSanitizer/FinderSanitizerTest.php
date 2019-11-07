@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\FileSystem;
+namespace Symplify\SmartFileSystem\Tests\Finder\FinderSanitizer;
 
 use Nette\Utils\Finder as NetteFinder;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 use Symfony\Component\Finder\SplFileInfo as SymfonySplFileInfo;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FinderSanitizerTest extends TestCase
 {
@@ -24,7 +24,7 @@ final class FinderSanitizerTest extends TestCase
 
     public function testValidTypes(): void
     {
-        $files = [new SplFileInfo(__DIR__ . '/FinderSanitizerSource/MissingFile.php')];
+        $files = [new SplFileInfo(__DIR__ . '/Source/MissingFile.php')];
         $this->assertCount(0, $this->finderSanitizer->sanitize($files));
     }
 
@@ -32,7 +32,7 @@ final class FinderSanitizerTest extends TestCase
     {
         $finder = SymfonyFinder::create()
             ->files()
-            ->in(__DIR__ . '/FinderSanitizerSource');
+            ->in(__DIR__ . '/Source');
 
         $this->assertCount(2, iterator_to_array($finder->getIterator()));
         $files = $this->finderSanitizer->sanitize($finder);
@@ -44,7 +44,7 @@ final class FinderSanitizerTest extends TestCase
     public function testNetteFinder(): void
     {
         $finder = NetteFinder::findFiles('*')
-            ->from(__DIR__ . '/FinderSanitizerSource');
+            ->from(__DIR__ . '/Source');
 
         $this->assertCount(2, iterator_to_array($finder->getIterator()));
         $files = $this->finderSanitizer->sanitize($finder);

@@ -1,11 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\FileSystem;
+namespace Symplify\SmartFileSystem\Finder;
 
 use Nette\Utils\Finder as NetteFinder;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 use Symfony\Component\Finder\SplFileInfo as SymfonySplFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FinderSanitizer
 {

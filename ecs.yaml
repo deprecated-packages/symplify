@@ -8,8 +8,8 @@ imports:
 services:
     Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
         old_to_preferred_classes:
-            SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
-            Symfony\Component\Finder\SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
+            SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
             PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
 
@@ -50,10 +50,9 @@ parameters:
             - 'packages/PackageBuilder/src/Parameter/ParameterTypoProofreader.php'
             - 'packages/EasyCodingStandardTester/src/Testing/AbstractCheckerTestCase.php'
             # converts non-preferred type
-            - 'packages/PackageBuilder/src/FileSystem/SmartFileInfo.php'
-            - 'packages/PackageBuilder/src/FileSystem/FinderSanitizer.php'
-            - 'packages/EasyCodingStandard/src/Finder/FinderSanitizer.php'
-            - 'packages/PackageBuilder/tests/FileSystem/FinderSanitizerTest.php'
+            - 'packages/SmartFileSystem/src/SmartFileInfo.php'
+            - 'packages/SmartFileSystem/src/Finder/FinderSanitizer.php'
+            - 'packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
             # uses 3rd-party API
             - 'packages/PackageBuilder/src/Configuration/LevelFileFinder.php'
             - 'packages/EasyCodingStandard/src/Contract/Finder/CustomSourceProviderInterface.php'

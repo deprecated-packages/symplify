@@ -10,6 +10,7 @@
         "nette/utils": "^3.0",
         "nette/neon": "^3.0",
         "symplify/package-builder": "^6.2",
+        "symplify/smart-file-info": "^6.2",
         "symfony/http-kernel": "^3.4|^4.3|^5.0",
         "symfony/yaml": "^3.4|^4.3|^5.0"
     },

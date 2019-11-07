@@ -16,6 +16,7 @@ parameters:
     directories_to_repositories:
         packages/NeonToYamlConverter: 'git@github.com:Symplify/NeonToYamlConverter.git'
         packages/LatteToTwigConverter: 'git@github.com:Symplify/LatteToTwigConverter.git'
+        packages/SmartFileSystem: 'git@github.com:Symplify/SmartFileSystem.git'
         packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
         packages/EasyCodingStandard: 'git@github.com:Symplify/EasyCodingStandard.git'
         packages/EasyCodingStandardTester: 'git@github.com:Symplify/EasyCodingStandardTester.git'

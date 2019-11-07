@@ -129,11 +129,19 @@ parameters:
 
         - '#Private method Symplify\\CodingStandard\\TokenRunner\\Tests\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
 
-        -
-             message: '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
-             path: packages/PackageBuilder/src/FileSystem/FinderSanitizer.php
-
         # yield iterator
         - '#Return type \(Iterator\) of method Symplify\\Statie\\Twig\\(.*?)\:\:(.*?)\(\) should be compatible with return type \(array<Twig\\(.*?)\>\) of method Twig\\Extension\\(.*?)\(\)#'
         - '#PHPDoc tag @return with type array<Twig\\TwigFunction\> is incompatible with native type Iterator#'
         - '#PHPDoc tag @return with type array<Twig\\TwigFilter\> is incompatible with native type Iterator#'
+
+        -
+            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, string\> given#'
+            path: packages/Statie/packages/Migrator/src/Filesystem/MigratorFilesystem.php
+
+        -
+             message: '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
+             path: packages/SmartFileSystem/src/Finder/FinderSanitizer.php
+
+        -
+             message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, iterable<SplFileInfo\|string\> given#'
+             path: packages/EasyCodingStandard/src/Finder/SourceFinder.php
