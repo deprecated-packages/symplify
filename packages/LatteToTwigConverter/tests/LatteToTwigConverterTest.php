@@ -5,8 +5,8 @@ namespace Symplify\LatteToTwigConverter\Tests;
 use Iterator;
 use Symplify\LatteToTwigConverter\HttpKernel\LatteToTwigConverterKernel;
 use Symplify\LatteToTwigConverter\LatteToTwigConverter;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class LatteToTwigConverterTest extends AbstractKernelTestCase
 {

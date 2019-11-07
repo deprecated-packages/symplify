@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\FileSystem;
+namespace Symplify\SmartFileSystem\Tests\SmartFileInfo;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Exception\FileSystem\DirectoryNotFoundException;
 use Symplify\PackageBuilder\Exception\FileSystem\FileNotFoundException;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SmartFileInfoTest extends TestCase
 {
@@ -27,12 +27,9 @@ final class SmartFileInfoTest extends TestCase
 
     public function testRelativeToDir(): void
     {
-        $smartFileInfo = new SmartFileInfo(__DIR__ . '/SmartFileInfoSource/AnotherFile.txt');
+        $smartFileInfo = new SmartFileInfo(__DIR__ . '/Source/AnotherFile.txt');
 
-        $this->assertSame(
-            'SmartFileInfoSource/AnotherFile.txt',
-            $smartFileInfo->getRelativeFilePathFromDirectory(__DIR__)
-        );
+        $this->assertSame('Source/AnotherFile.txt', $smartFileInfo->getRelativeFilePathFromDirectory(__DIR__));
     }
 
     public function testRelativeToDirException(): void

@@ -5,7 +5,7 @@ namespace Symplify\MonorepoBuilder;
 use Nette\Utils\Strings;
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DependencyUpdater
 {

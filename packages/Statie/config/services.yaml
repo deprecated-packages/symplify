@@ -15,7 +15,7 @@ services:
         class: ParsedownExtra
 
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
-    Symplify\PackageBuilder\FileSystem\FinderSanitizer: ~
+    Symplify\SmartFileSystem\Finder\FinderSanitizer: ~
 
     Symfony\Component\EventDispatcher\EventDispatcher: ~
     Symfony\Component\Yaml\Parser: ~

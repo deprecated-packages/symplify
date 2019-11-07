@@ -25,6 +25,7 @@
         "symfony/finder": "^3.4|^4.3|^5.0",
         "symfony/yaml": "^3.4|^4.3|^5.0",
         "symplify/package-builder": "^6.2",
+        "symplify/smart-file-info": "^6.2",
         "jean85/pretty-package-versions": "^1.2",
         "ocramius/package-versions": "^1.4"
     },

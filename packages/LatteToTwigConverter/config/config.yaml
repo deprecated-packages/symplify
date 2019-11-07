@@ -8,5 +8,5 @@ services:
         exclude: "../src/{Contract,Exception,HttpKernel/LatteToTwigConverterKernel.php}"
 
     Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
-    Symplify\PackageBuilder\FileSystem\FinderSanitizer: ~
+    Symplify\SmartFileSystem\Finder\FinderSanitizer: ~
     Symfony\Component\Filesystem\Filesystem: ~

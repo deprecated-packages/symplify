@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Tests\Twig\GithubTwigExtension;
 
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\AbstractFile;

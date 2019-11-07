@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Renderable\File;
 
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Utils\PathAnalyzer;
 

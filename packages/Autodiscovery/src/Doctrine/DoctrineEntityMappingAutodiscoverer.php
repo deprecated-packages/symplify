@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\Autodiscovery\Contract\AutodiscovererInterface;
 use Symplify\Autodiscovery\FileSystem;
 use Symplify\Autodiscovery\NamespaceDetector;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterface
 {

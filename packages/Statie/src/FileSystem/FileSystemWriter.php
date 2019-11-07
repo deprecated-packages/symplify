@@ -3,7 +3,7 @@
 namespace Symplify\Statie\FileSystem;
 
 use Nette\Utils\FileSystem;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Contract\File\RenderableFileInterface;
 

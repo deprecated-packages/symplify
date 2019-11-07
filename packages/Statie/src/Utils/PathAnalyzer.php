@@ -5,7 +5,7 @@ namespace Symplify\Statie\Utils;
 use DateTimeInterface;
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PathAnalyzer
 {

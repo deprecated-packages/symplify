@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Generator\Renderable\File;
 
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Generator\Exception\Configuration\GeneratorException;
 
 final class GeneratorFileGuard

@@ -4,7 +4,7 @@ namespace Symplify\Autodiscovery;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class NamespaceDetector
 {

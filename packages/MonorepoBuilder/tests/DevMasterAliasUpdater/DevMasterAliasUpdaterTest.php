@@ -5,8 +5,8 @@ namespace Symplify\MonorepoBuilder\Tests\DevMasterAliasUpdater;
 use Nette\Utils\FileSystem;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DevMasterAliasUpdaterTest extends AbstractKernelTestCase
 {
