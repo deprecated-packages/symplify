@@ -50,7 +50,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - **[SmartFileInfo](https://github.com/Symplify/SmartFileInfo)** - `SplFileInfo` on Steroids
 
     [![Build Status](https://img.shields.io/travis/Symplify/SmartFileInfo/master.svg?style=flat-square)](https://travis-ci.org/Symplify/SmartFileInfo)
-    [![Downloads](https://img.shields.io/packagist/dt/symplify/smart-file-info.svg?style=flat-square)](https://packagist.org/packages/symplify/smart-file-info/stats)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/smart-file-system.svg?style=flat-square)](https://packagist.org/packages/symplify/smart-file-system/stats)
 
 ## Maintainer Utils
 

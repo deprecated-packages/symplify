@@ -7,7 +7,7 @@
         "phpunit/phpunit": "^7.5|^8.4",
         "symplify/easy-coding-standard": "^6.2",
         "symplify/package-builder": "^6.2",
-        "symplify/smart-file-info": "^6.2"
+        "symplify/smart-file-system": "^6.2"
     },
     "autoload": {
         "psr-4": {

@@ -13,7 +13,7 @@
         "symfony/finder": "^3.4|^4.3|^5.0",
         "symfony/routing": "^3.4|^4.3|^5.0",
         "symplify/package-builder": "^6.2",
-        "symplify/smart-file-info": "^6.2"
+        "symplify/smart-file-system": "^6.2"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^1.11",
