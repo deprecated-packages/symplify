@@ -65,10 +65,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Fixed
 
-#### Autodiscovery
-
-- [#1575] Fix order test
-
 #### CodingStandard
 
 - [#1585] Make `UnusedPublicMethodSniff` skip entities
@@ -269,7 +265,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [v6.0.4]: https://github.com/Symplify/Symplify/compare/v6.0.3...v6.0.4
 [#1611]: https://github.com/Symplify/Symplify/pull/1611
 [#1608]: https://github.com/Symplify/Symplify/pull/1608
-[#1607]: https://github.com/Symplify/Symplify/pull/1607
 [#1605]: https://github.com/Symplify/Symplify/pull/1605
 [#1601]: https://github.com/Symplify/Symplify/pull/1601
 [#1597]: https://github.com/Symplify/Symplify/pull/1597
