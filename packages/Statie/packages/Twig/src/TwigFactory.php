@@ -3,8 +3,8 @@
 namespace Symplify\Statie\Twig;
 
 use Latte\Runtime\FilterExecutor;
-use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Twig\Environment;
+use Twig\Extension\AbstractExtension;
 use Twig\Loader\ArrayLoader;
 use Twig\Loader\LoaderInterface;
 use Twig\TwigFilter;
@@ -18,9 +18,9 @@ final class TwigFactory
     private $twigCacheDirectory;
 
     /**
-     * @var FilterProviderInterface[]
+     * @var AbstractExtension[]
      */
-    private $filterProviders = [];
+    private $extensions = [];
 
     /**
      * @var LoaderInterface
@@ -33,49 +33,46 @@ final class TwigFactory
     private $filterExecutor;
 
     /**
-     * @param FilterProviderInterface[] $filterProviders
+     * @param AbstractExtension[] $extensions
      */
     public function __construct(
         ArrayLoader $arrayLoader,
         string $twigCacheDirectory,
         FilterExecutor $filterExecutor,
-        array $filterProviders
+        array $extensions
     ) {
         $this->arrayLoader = $arrayLoader;
         $this->twigCacheDirectory = $twigCacheDirectory;
         $this->filterExecutor = $filterExecutor;
-        $this->filterProviders = $filterProviders;
+        $this->extensions = $extensions;
     }
 
     public function create(): Environment
     {
-        $twigEnvironment = new Environment($this->arrayLoader, [
+        $environment = new Environment($this->arrayLoader, [
             'cache' => $this->twigCacheDirectory,
         ]);
 
         // report missing variables, it's easier to debug code then in case of typo
-        $twigEnvironment->enableStrictVariables();
+        $environment->enableStrictVariables();
 
-        $this->loadLatteFilters($twigEnvironment);
+        $this->loadLatteFilters($environment);
 
-        foreach ($this->filterProviders as $filterProvider) {
-            foreach ($filterProvider->provide() as $name => $filter) {
-                $twigEnvironment->addFilter(new TwigFilter($name, $filter));
-                $twigEnvironment->addFunction(new TwigFunction($name, $filter));
-            }
+        foreach ($this->extensions as $extension) {
+            $environment->addExtension($extension);
         }
 
-        return $twigEnvironment;
+        return $environment;
     }
 
     /**
      * @see https://github.com/nette/latte/blob/edcda892aee632c810697d9795c4fb065cd51506/src/Latte/Runtime/FilterExecutor.php
      */
-    private function loadLatteFilters(Environment $twigEnvironment): void
+    private function loadLatteFilters(Environment $environment): void
     {
         foreach ($this->filterExecutor->getAll() as $name => $filter) {
-            $twigEnvironment->addFilter(new TwigFilter($name, $this->filterExecutor->{$filter}));
-            $twigEnvironment->addFunction(new TwigFunction($name, $this->filterExecutor->{$filter}));
+            $environment->addFilter(new TwigFilter($name, $this->filterExecutor->{$filter}));
+            $environment->addFunction(new TwigFunction($name, $this->filterExecutor->{$filter}));
         }
     }
 }

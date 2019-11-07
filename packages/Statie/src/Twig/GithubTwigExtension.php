@@ -1,12 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Templating\FilterProvider;
+namespace Symplify\Statie\Twig;
 
+use Iterator;
 use Symplify\Statie\Configuration\StatieConfiguration;
-use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
-final class GithubFilterProvider implements FilterProviderInterface
+final class GithubTwigExtension extends AbstractExtension
 {
     /**
      * @var StatieConfiguration
@@ -19,16 +21,14 @@ final class GithubFilterProvider implements FilterProviderInterface
     }
 
     /**
-     * @return callable[]
+     * @return TwigFilter[]
      */
-    public function provide(): array
+    public function getFilters(): Iterator
     {
-        return [
-            // in Twig (common format): <a href="{{ post|github_edit_post_url }}">Typo? Fix me please</a>
-            'github_edit_post_url' => function (AbstractFile $file): string {
-                return $this->createGithubEditFileUrl($file);
-            },
-        ];
+        // in Twig: <a href="{{ post|github_edit_post_url }}">Typo? Fix me please</a>
+        yield new TwigFilter('github_edit_post_url', function (AbstractFile $file): string {
+            return $this->createGithubEditFileUrl($file);
+        });
     }
 
     private function createGithubEditFileUrl(AbstractFile $file): string

@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\Twig;
 
-use Symplify\Statie\Contract\Templating\RendererInterface;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
@@ -10,7 +9,7 @@ use Throwable;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
-final class TwigRenderer implements RendererInterface
+final class TwigRenderer
 {
     /**
      * @var Environment

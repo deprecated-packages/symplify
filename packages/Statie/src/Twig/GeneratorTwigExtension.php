@@ -1,27 +1,27 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Templating\FilterProvider;
+namespace Symplify\Statie\Twig;
 
-use Symplify\Statie\Contract\Templating\FilterProviderInterface;
+use Iterator;
 use Symplify\Statie\Exception\Configuration\ConfigurationException;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
-final class GeneratorFilterProvider implements FilterProviderInterface
+final class GeneratorTwigExtension extends AbstractExtension
 {
     /**
-     * @return callable[]
+     * @return TwigFilter[]
      */
-    public function provide(): array
+    public function getFilters(): Iterator
     {
-        return [
-            // usage in Twig: {{ post|link }}
-            'link' => function ($generatorFile): string {
-                $this->ensureArgumentIsGeneratorFile($generatorFile);
+        // usage in Twig: {{ post|link }}
+        yield new TwigFilter('link', function ($generatorFile): string {
+            $this->ensureArgumentIsGeneratorFile($generatorFile);
 
-                /** @var AbstractGeneratorFile $generatorFile */
-                return $generatorFile->getRelativeUrl();
-            },
-        ];
+            /** @var AbstractGeneratorFile $generatorFile */
+            return $generatorFile->getRelativeUrl();
+        });
     }
 
     /**
