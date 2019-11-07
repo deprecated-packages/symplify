@@ -11,8 +11,6 @@ final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
 {
     public function test(): void
     {
-        $this->autoloadTestFixture = true;
-
         $this->doTestFiles([
             __DIR__ . '/Fixture/FixerWithAbstractParent.php',
             __DIR__ . '/Fixture/SomeFixer.php.inc',
