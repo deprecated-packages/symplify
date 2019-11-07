@@ -9,7 +9,49 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v6.1.0 - 2019-09-18
+## Unreleased
+
+### Added
+
+- [#1629] Allow Symfony 5 + bump to PHP 7.2 + add Rector CI run
+- [#1630] Add Rector CI run
+
+### Changed
+
+#### CodingStandard
+
+- [#1616] Improve `NoClassInstantiationSniff` + improve code complexity in ignored cases
+
+### EasyCodingStanard
+
+- [#1637] Only print metadata for console output, Thanks to [@ruudk]
+- [#1635] Autowire `OutputFormatterInterface`, Thanks to [@ruudk]
+
+#### SmartFileSystem
+
+**NEW PACKAGE!**
+
+- [#1643] Decouple package from PackageBuilder
+
+### Fixed
+
+- [#1623] Fix reading GIT tags in Windows OS, Thanks to [@SerafimArts]
+- [#1622] Apply lowercase to compose dependencies, Thanks to [@SerafimArts]
+
+### Removed
+
+#### Statie
+
+- [#1641] Drop `Latte` support to lower the complexity [BC break]
+- [#1642] Change `FilterProviderInterface` to `TwigExtension` [BC break]
+
+### Deprecated
+
+#### CodingStandard
+
+- [#1627] Deprecate `NoClassInstantiation` for inpractical and bloated usage
+
+## [v6.1.0] - 2019-09-18
 
 ### Added
 
@@ -259,7 +301,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#1578]: https://github.com/Symplify/Symplify/pull/1578
 [#1577]: https://github.com/Symplify/Symplify/pull/1577
 [#1576]: https://github.com/Symplify/Symplify/pull/1576
-[#1575]: https://github.com/Symplify/Symplify/pull/1575
 [@mxr576]: https://github.com/mxr576
 [@JohnDoe8521]: https://github.com/JohnDoe8521
 [v6.0.4]: https://github.com/Symplify/Symplify/compare/v6.0.3...v6.0.4
@@ -279,3 +320,29 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@dsas]: https://github.com/dsas
 [@Sargeros]: https://github.com/Sargeros
 [v6.0.5]: https://github.com/Symplify/Symplify/compare/v6.0.4...v6.0.5
+[#1644]: https://github.com/Symplify/Symplify/pull/1644
+[#1643]: https://github.com/Symplify/Symplify/pull/1643
+[#1642]: https://github.com/Symplify/Symplify/pull/1642
+[#1641]: https://github.com/Symplify/Symplify/pull/1641
+[#1640]: https://github.com/Symplify/Symplify/pull/1640
+[#1639]: https://github.com/Symplify/Symplify/pull/1639
+[#1638]: https://github.com/Symplify/Symplify/pull/1638
+[#1637]: https://github.com/Symplify/Symplify/pull/1637
+[#1635]: https://github.com/Symplify/Symplify/pull/1635
+[#1632]: https://github.com/Symplify/Symplify/pull/1632
+[#1630]: https://github.com/Symplify/Symplify/pull/1630
+[#1629]: https://github.com/Symplify/Symplify/pull/1629
+[#1627]: https://github.com/Symplify/Symplify/pull/1627
+[#1625]: https://github.com/Symplify/Symplify/pull/1625
+[#1623]: https://github.com/Symplify/Symplify/pull/1623
+[#1622]: https://github.com/Symplify/Symplify/pull/1622
+[#1621]: https://github.com/Symplify/Symplify/pull/1621
+[#1620]: https://github.com/Symplify/Symplify/pull/1620
+[#1619]: https://github.com/Symplify/Symplify/pull/1619
+[#1618]: https://github.com/Symplify/Symplify/pull/1618
+[#1617]: https://github.com/Symplify/Symplify/pull/1617
+[#1616]: https://github.com/Symplify/Symplify/pull/1616
+[@ruudk]: https://github.com/ruudk
+[@mssimi]: https://github.com/mssimi
+[@SerafimArts]: https://github.com/SerafimArts
+[v6.1.0]: https://github.com/Symplify/Symplify/compare/v6.0.5...v6.1.0
