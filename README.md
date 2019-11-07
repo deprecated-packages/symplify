@@ -47,6 +47,11 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
     [![Build Status](https://img.shields.io/travis/Symplify/PackageBuilder/master.svg?style=flat-square)](https://travis-ci.org/Symplify/PackageBuilder)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder/stats)
 
+- **[SmartFileInfo](https://github.com/Symplify/SmartFileInfo)** - `SplFileInfo` on Steroids
+
+    [![Build Status](https://img.shields.io/travis/Symplify/SmartFileInfo/master.svg?style=flat-square)](https://travis-ci.org/Symplify/SmartFileInfo)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/smart-file-info.svg?style=flat-square)](https://packagist.org/packages/symplify/smart-file-info/stats)
+
 ## Maintainer Utils
 
 - **[ChangelogLinker](https://github.com/Symplify/ChangelogLinker)** - Why write `CHANGELOG.md`, when you can generate it
