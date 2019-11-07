@@ -132,3 +132,8 @@ parameters:
         -
              message: '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
              path: packages/PackageBuilder/src/FileSystem/FinderSanitizer.php
+
+        # yield iterator
+        - '#Return type \(Iterator\) of method Symplify\\Statie\\Twig\\(.*?)\:\:(.*?)\(\) should be compatible with return type \(array<Twig\\(.*?)\>\) of method Twig\\Extension\\(.*?)\(\)#'
+        - '#PHPDoc tag @return with type array<Twig\\TwigFunction\> is incompatible with native type Iterator#'
+        - '#PHPDoc tag @return with type array<Twig\\TwigFilter\> is incompatible with native type Iterator#'

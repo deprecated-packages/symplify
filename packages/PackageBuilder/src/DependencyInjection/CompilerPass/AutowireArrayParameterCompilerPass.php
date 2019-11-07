@@ -29,7 +29,6 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         'Symfony\Component\Config\Loader\LoaderInterface',
         'Symfony\Component\VarDumper\Dumper\ContextProvider\ContextProviderInterface',
         'EasyCorp\Bundle\EasyAdminBundle\Form\Type\Configurator\TypeConfiguratorInterface',
-        'Twig\Extension\AbstractExtension',
         'Sonata\CoreBundle\Model\Adapter\AdapterInterface',
         'Sonata\Doctrine\Adapter\AdapterChain',
         'Sonata\Twig\Extension\TemplateExtension',
