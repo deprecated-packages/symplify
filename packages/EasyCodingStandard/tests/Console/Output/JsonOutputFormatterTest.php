@@ -45,9 +45,9 @@ final class JsonOutputFormatterTest extends AbstractKernelTestCase
     {
         $stringInput = [
             'check',
-            __DIR__ . '/wrong/wrong.php.inc',
+            addslashes(__DIR__) . '/wrong/wrong.php.inc',
             '--config',
-            __DIR__ . '/config/config.yml',
+            addslashes(__DIR__) . '/config/config.yml',
             '--' . Option::OUTPUT_FORMAT_OPTION,
             JsonOutputFormatter::NAME,
         ];
