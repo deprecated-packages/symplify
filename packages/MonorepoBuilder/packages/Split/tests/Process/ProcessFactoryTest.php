@@ -25,7 +25,8 @@ final class ProcessFactoryTest extends AbstractKernelTestCase
         $subsplitProcess = $this->processFactory->createSubsplit(
             '',
             'localDirectory',
-            'git@github.com:Symplify/Symplify.git'
+            'git@github.com:Symplify/Symplify.git',
+            'master'
         );
 
         $subsplitRealpath = realpath(__DIR__ . '/../../bash/subsplit.sh');
