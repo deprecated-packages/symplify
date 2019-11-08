@@ -28,7 +28,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     /**
      * @var string
      */
-    private const SPLIT_LINE = '#-----'.PHP_EOL.'#';
+    private const SPLIT_LINE = '#-----' . PHP_EOL . '#';
 
     /**
      * @var bool
