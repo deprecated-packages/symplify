@@ -154,7 +154,7 @@ jobs:
                 - export PATH=/c/tools/php:$PATH
             script:
                 # @todo this is probably broken, needs fixing
-                - php vendor/phpunit/phpunit/phpunit
+                - php vendor\phpunit\phpunit\phpunit
 
         -   <<: *STANDARD_WINDOWS_JOB
             name: Windows PHP 7.3
