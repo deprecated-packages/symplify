@@ -17,16 +17,13 @@ script:
 matrix:
     fast_finish: true
 
-install:
-    - composer update $COMPOSER_FLAGS
-
 before_install:
     # disable xdebug if not coverage
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 before_script:
     - rm composer.lock
-    - travis_retry composer update --prefer-dist
+    - travis_retry composer update --prefer-dist $COMPOSER_FLAGS
 
 jobs:
     include:
@@ -157,7 +154,6 @@ jobs:
                 - echo 'extension=php_intl.dll' >> 'C:\tools\php\php.ini'
                 - echo 'extension=php_curl.dll' >> 'C:\tools\php\php.ini'
                 - export PATH=/c/tools/php:$PATH
-                - composer update $COMPOSER_FLAGS
             script:
                 # @todo this is probably broken, needs fixing
                 - vendor/bin/phpunit
