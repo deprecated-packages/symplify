@@ -22,7 +22,6 @@ before_install:
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 before_script:
-    - rm composer.lock
     - travis_retry composer update --prefer-dist $COMPOSER_FLAGS
 
 jobs:
