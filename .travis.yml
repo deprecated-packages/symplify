@@ -1,3 +1,4 @@
+os: linux
 language: php
 
 # required for "git tag" presence for MonorepoBuilder split and ChangelogLinker git tags resolver
@@ -132,13 +133,42 @@ jobs:
                 # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
                 - packages/MonorepoBuilder/bin/monorepo-builder split -v
 
+                # Windows
+        - &STANDARD_WINDOWS_JOB
+            stage: test
+            name: Windows PHP 7.2
+            os: windows
+            dist: '1803-containers'
+            language: sh # No PHP currently
+            env: PHP_VERSION=7.2.23
+            install:
+                - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
+                - choco install composer --ia "/DEV=C:\tools\php"
+                - echo 'memory_limit=1G' >> 'C:\tools\php\php.ini'
+                - echo 'date.timezone="UTC"' >> 'C:\tools\php\php.ini'
+                - echo 'extension_dir=ext' >> 'C:\tools\php\php.ini'
+                - echo 'extension=php_mbstring.dll' >> 'C:\tools\php\php.ini'
+                - echo 'extension=php_openssl.dll' >> 'C:\tools\php\php.ini'
+                - echo 'extension=php_mysqli.dll' >> 'C:\tools\php\php.ini'
+                - echo 'extension=php_intl.dll' >> 'C:\tools\php\php.ini'
+                - export PATH=/c/tools/php:$PATH
+            script:
+                # @todo this is probably broken, needs fixing
+                - php vendor/phpunit/phpunit/phpunit
+
+        -   <<: *STANDARD_WINDOWS_JOB
+            name: Windows PHP 7.3
+            env: PHP_VERSION=7.3.10
+
     allow_failures:
         - name: 'ECS'
         - name: 'Rector'
+        - os: windows
 
 cache:
     directories:
         - $HOME/.composer/cache
+        - tmp
 
 notifications:
     email: false
