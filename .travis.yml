@@ -24,6 +24,10 @@ before_install:
     # disable xdebug if not coverage
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
+before_script:
+    - rm composer.lock
+    - travis_retry composer update --prefer-dist
+
 jobs:
     include:
         -
@@ -138,7 +142,7 @@ jobs:
             stage: test
             name: Windows PHP 7.2
             os: windows
-            dist: '1803-containers'
+            dist: 1803-containers
             language: sh # No PHP currently
             env: PHP_VERSION=7.2.23
             install:
@@ -156,7 +160,7 @@ jobs:
                 - composer update $COMPOSER_FLAGS
             script:
                 # @todo this is probably broken, needs fixing
-                - phpunit
+                - vendor/bin/phpunit
 
         -   <<: *STANDARD_WINDOWS_JOB
             name: Windows PHP 7.3
