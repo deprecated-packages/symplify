@@ -151,6 +151,7 @@ jobs:
                 - echo 'extension=php_openssl.dll' >> 'C:\tools\php\php.ini'
                 - echo 'extension=php_mysqli.dll' >> 'C:\tools\php\php.ini'
                 - echo 'extension=php_intl.dll' >> 'C:\tools\php\php.ini'
+                - echo 'extension=php_curl.dll' >> 'C:\tools\php\php.ini'
                 - export PATH=/c/tools/php:$PATH
                 - composer update $COMPOSER_FLAGS
             script:
