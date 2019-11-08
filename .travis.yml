@@ -156,7 +156,7 @@ jobs:
                 - composer update $COMPOSER_FLAGS
             script:
                 # @todo this is probably broken, needs fixing
-                - php vendor\\bin\\phpunit
+                - vendor\bin\phpunit
 
         -   <<: *STANDARD_WINDOWS_JOB
             name: Windows PHP 7.3
