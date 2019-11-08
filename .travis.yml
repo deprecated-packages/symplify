@@ -22,7 +22,7 @@ before_install:
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 before_script:
-    - travis_retry composer update --prefer-dist $COMPOSER_FLAGS
+    - travis_retry composer update --no-progress --prefer-dist $COMPOSER_FLAGS
 
 jobs:
     include:
@@ -147,8 +147,6 @@ jobs:
                 - echo 'memory_limit=1G' >> 'C:\tools\php\php.ini'
                 - echo 'date.timezone="UTC"' >> 'C:\tools\php\php.ini'
                 - echo 'extension_dir=ext' >> 'C:\tools\php\php.ini'
-                - echo 'extension=php_mbstring.dll' >> 'C:\tools\php\php.ini'
-                - echo 'extension=php_openssl.dll' >> 'C:\tools\php\php.ini'
                 - echo 'extension=php_mysqli.dll' >> 'C:\tools\php\php.ini'
                 - echo 'extension=php_intl.dll' >> 'C:\tools\php\php.ini'
                 - echo 'extension=php_curl.dll' >> 'C:\tools\php\php.ini'
