@@ -2,8 +2,8 @@
 
 namespace Symplify\SmartFileSystem;
 
-use Symplify\PackageBuilder\Exception\FileSystem\DirectoryNotFoundException;
-use Symplify\PackageBuilder\Exception\FileSystem\FileNotFoundException;
+use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
+use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 
 final class FileSystemGuard
 {

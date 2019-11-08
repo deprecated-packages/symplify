@@ -3,8 +3,8 @@
 namespace Symplify\SmartFileSystem\Tests\SmartFileInfo;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\PackageBuilder\Exception\FileSystem\DirectoryNotFoundException;
-use Symplify\PackageBuilder\Exception\FileSystem\FileNotFoundException;
+use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
+use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SmartFileInfoTest extends TestCase

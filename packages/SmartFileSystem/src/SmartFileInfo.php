@@ -5,8 +5,8 @@ namespace Symplify\SmartFileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\SplFileInfo;
-use Symplify\PackageBuilder\Exception\FileSystem\DirectoryNotFoundException;
-use Symplify\PackageBuilder\Exception\FileSystem\FileNotFoundException;
+use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
+use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 
 final class SmartFileInfo extends SplFileInfo
 {
