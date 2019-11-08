@@ -16,6 +16,7 @@ services:
 
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
     Symplify\SmartFileSystem\Finder\FinderSanitizer: ~
+    Symplify\SmartFileSystem\FileSystemGuard: ~
 
     Symfony\Component\EventDispatcher\EventDispatcher: ~
     Symfony\Component\Yaml\Parser: ~

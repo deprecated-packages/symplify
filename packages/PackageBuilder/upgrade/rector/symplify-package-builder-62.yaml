@@ -3,4 +3,8 @@ services:
         # see https://github.com/Symplify/Symplify/pull/1643/files
         Symplify\PackageBuilder\FileSystem\SmartFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
         Symplify\PackageBuilder\Finder\FinderSanitizer: 'Symplify\SmartFileSystem\Finder\FinderSanitizer'
-        Symplify\PackageBuilder\FileSystem\FileGuard: 'Symplify\PackageBuilder\FileSystem\FileSystemGuard'
+
+
+        Symplify\Statie\FileSystem\FileSystemGuard: 'Symplify\SmartFileSystem\FileSystemGuard'
+        Symplify\PackageBuilder\FileSystem\FileGuard: 'Symplify\SmartFileSystem\FileSystemGuard'
+        Symplify\PackageBuilder\FileSystem\FileSystemGuard: 'Symplify\SmartFileSystem\FileSystemGuard'
