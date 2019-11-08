@@ -8,8 +8,8 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
 use Symplify\Statie\Console\StatieConsoleApplication;
-use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\HttpKernel\StatieKernel;
 
 final class GenerateCommandTest extends AbstractKernelTestCase
@@ -56,7 +56,7 @@ final class GenerateCommandTest extends AbstractKernelTestCase
         $stringInput = sprintf('generate %s', __DIR__ . '/GenerateCommandSource/missing');
         $input = new StringInput($stringInput);
 
-        $this->expectException(MissingDirectoryException::class);
+        $this->expectException(DirectoryNotFoundException::class);
 
         $this->statieConsoleApplication->run($input, new NullOutput());
     }

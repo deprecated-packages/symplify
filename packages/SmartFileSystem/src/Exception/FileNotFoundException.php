@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Exception\FileSystem;
+namespace Symplify\SmartFileSystem\Exception;
 
 use Exception;
 

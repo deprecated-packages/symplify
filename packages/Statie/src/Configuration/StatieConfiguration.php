@@ -3,9 +3,9 @@
 namespace Symplify\Statie\Configuration;
 
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
-use Symplify\Statie\FileSystem\FileSystemGuard;
 
 final class StatieConfiguration
 {

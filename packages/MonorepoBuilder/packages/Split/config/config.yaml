@@ -17,4 +17,4 @@ services:
         resource: '../src'
         exclude: '../src/{Exception,Process/SplitProcessInfo.php}'
 
-    Symplify\PackageBuilder\FileSystem\FileSystemGuard: ~
+    Symplify\SmartFileSystem\FileSystemGuard: ~

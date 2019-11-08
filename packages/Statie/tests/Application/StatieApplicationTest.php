@@ -6,8 +6,8 @@ use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
 use Symplify\Statie\Application\StatieApplication;
-use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\HttpKernel\StatieKernel;
 
 /**
@@ -60,7 +60,7 @@ final class StatieApplicationTest extends AbstractKernelTestCase
 
     public function testRunForMissingSource(): void
     {
-        $this->expectException(MissingDirectoryException::class);
+        $this->expectException(DirectoryNotFoundException::class);
         $this->statieApplication->run('missing', 'random');
     }
 }
