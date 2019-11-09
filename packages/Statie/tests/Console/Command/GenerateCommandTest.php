@@ -43,7 +43,12 @@ final class GenerateCommandTest extends AbstractKernelTestCase
 
     public function test(): void
     {
-        $stringInput = ['generate', addslashes(__DIR__) . '/GenerateCommandSource/source', '--output', addslashes($this->outputDirectory)];
+        $stringInput = [
+            'generate',
+            addslashes(__DIR__) . '/GenerateCommandSource/source',
+            '--output',
+            addslashes($this->outputDirectory)
+        ];
         $input = new StringInput(implode(' ', $stringInput));
 
         $this->statieConsoleApplication->run($input, new NullOutput());
