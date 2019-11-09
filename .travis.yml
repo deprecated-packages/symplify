@@ -144,7 +144,6 @@ jobs:
             install:
                 - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
                 - choco install composer --ia "/DEV=C:\tools\php"
-                - choco install git.install
                 - echo 'memory_limit=1G' >> 'C:\tools\php\php.ini'
                 - echo 'date.timezone="UTC"' >> 'C:\tools\php\php.ini'
                 - echo 'extension_dir=ext' >> 'C:\tools\php\php.ini'
