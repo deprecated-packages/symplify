@@ -13,6 +13,7 @@ services:
         alias: 'Symfony\Component\EventDispatcher\EventDispatcher'
 
     Symfony\Component\Filesystem\Filesystem: ~
+    Symplify\SmartFileSystem\FileSystemGuard: ~
 
     Symplify\PackageBuilder\Reflection\PrivatesCaller: ~
     Symplify\SmartFileSystem\Finder\FinderSanitizer: ~
