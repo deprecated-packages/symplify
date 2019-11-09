@@ -14,7 +14,7 @@ trait IntegrationTestCaseTrait
     /**
      * @var string
      */
-    private $splitLine = '#-----\n#';
+    private $splitLine = '#-----' . PHP_EOL . '#';
 
     /**
      * @return string[]

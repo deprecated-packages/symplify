@@ -14,7 +14,7 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
     /**
      * @var string
      */
-    private const SPLIT_PATTERN = "#---\n#";
+    private const SPLIT_PATTERN = '#---' . PHP_EOL . '#';
 
     /**
      * @var ExplicitToAutodiscoveryConverter
