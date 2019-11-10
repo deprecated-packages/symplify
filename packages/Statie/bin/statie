@@ -1,7 +1,6 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-use Composer\XdebugHandler\XdebugHandler;
 use Symplify\Statie\Console\StatieConsoleApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
@@ -29,10 +28,6 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 
 // performance boost
 gc_disable();
-
-$xdebug = new XdebugHandler('statie', '--ansi');
-$xdebug->check();
-unset($xdebug);
 
 # 2. create container
 // Detect configuration from input

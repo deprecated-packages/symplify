@@ -2,11 +2,14 @@
 
 namespace Symplify\Statie\Console;
 
+use Composer\XdebugHandler\XdebugHandler;
 use Jean85\PrettyVersions;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\HelpfulApplicationTrait;
 
 final class StatieConsoleApplication extends Application
@@ -20,6 +23,19 @@ final class StatieConsoleApplication extends Application
     {
         parent::__construct('Statie', $this->getPrettyVersion());
         $this->addCommands($commands);
+    }
+
+    public function doRun(InputInterface $input, OutputInterface $output)
+    {
+        // @fixes https://github.com/rectorphp/rector/issues/2205
+        $isXdebugAllowed = $input->hasParameterOption('--xdebug');
+        if (! $isXdebugAllowed) {
+            $xdebug = new XdebugHandler('statie', '--ansi');
+            $xdebug->check();
+            unset($xdebug);
+        }
+
+        return parent::doRun($input, $output);
     }
 
     protected function getDefaultInputDefinition(): InputDefinition
@@ -39,6 +55,13 @@ final class StatieConsoleApplication extends Application
 
     private function addExtraOptions(InputDefinition $inputDefinition): void
     {
+        $inputDefinition->addOption(new InputOption(
+            'xdebug',
+            null,
+            InputOption::VALUE_NONE,
+            'Allow running xdebug'
+        ));
+
         $inputDefinition->addOption(new InputOption(
             'config',
             'c',
