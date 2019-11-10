@@ -7,7 +7,6 @@ use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Autodiscovery\HttpKernel\AutodiscoveryKernel;
 use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
-use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
