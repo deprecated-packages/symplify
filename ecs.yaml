@@ -1,10 +1,3 @@
-imports:
-    - { resource: 'packages/EasyCodingStandard/config/set/php71.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/clean-code.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/symplify.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/common.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/psr12.yaml' }
-
 services:
     Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
         old_to_preferred_classes:
@@ -29,6 +22,13 @@ services:
             - 'FileDecorator'
 
 parameters:
+    sets:
+        - 'php71'
+        - 'clean-code'
+        - 'symplify'
+        - 'common'
+        - 'psr12'
+
     exclude_files:
         # tests
         - 'packages/*/tests/**Source/*.php'

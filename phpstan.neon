@@ -139,9 +139,16 @@ parameters:
             path: packages/Statie/packages/Migrator/src/Filesystem/MigratorFilesystem.php
 
         -
-             message: '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
-             path: packages/SmartFileSystem/src/Finder/FinderSanitizer.php
+            message: '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
+            path: packages/SmartFileSystem/src/Finder/FinderSanitizer.php
 
         -
-             message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, iterable<SplFileInfo\|string\> given#'
-             path: packages/EasyCodingStandard/src/Finder/SourceFinder.php
+            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, iterable<SplFileInfo\|string\> given#'
+            path: packages/EasyCodingStandard/src/Finder/SourceFinder.php
+
+        -
+            message: '#Parameter \#1 \$unversionedSets of method Symplify\\EasyCodingStandard\\Bootstrap\\SetOptionResolver\:\:createSetListInString\(\) expects array<string\>, array<array<string\>\|string\> given#'
+            path: packages/EasyCodingStandard/src/Bootstrap/SetOptionResolver.php
+        -
+            message: '#Parameter \#2 \$versionedSets of method Symplify\\EasyCodingStandard\\Bootstrap\\SetOptionResolver\:\:createSetListInString\(\) expects array<array<string\>\>, array<array<string\>\|string\> given#'
+            path: packages/EasyCodingStandard/src/Bootstrap/SetOptionResolver.php
