@@ -146,12 +146,12 @@
         ],
         "phpstan": "phpstan analyse packages --error-format symplify --ansi",
         "changelog": [
-            "changelog-linker dump-merges --in-categories --in-packages",
-            "changelog-linker link",
-            "changelog-linker cleanup"
+            "packages/ChangelogLinker/bin/changelog-linker dump-merges --in-categories --in-packages",
+            "packages/ChangelogLinker/bin/changelog-linker link",
+            "packages/ChangelogLinker/bin/changelog-linker cleanup"
         ],
-        "merge": "monorepo-builder merge",
-        "propagate": "monorepo-builder propagate",
+        "merge": "packages/MonorepoBuilder/bin/monorepo-builder merge",
+        "propagate": "packages/MonorepoBuilder/bin/monorepo-builder propagate",
         "rector": "rector process packages --config rector-ci.yaml --dry-run"
     },
     "config": {
