@@ -174,7 +174,7 @@ services:
     Shopsys\FrameworkBundle\Model\Product\Pricing\ProductManualInputPriceFacade: ~
 
     Shopsys\FrameworkBundle\Model\Cart\Item\CartItemFactory: ~
----
+-----
 services:
     _defaults:
         autowire: true

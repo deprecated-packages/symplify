@@ -139,12 +139,12 @@
             "@fix-cs",
             "@phpstan"
         ],
-        "check-cs": "packages/EasyCodingStandard/bin/ecs check packages --ansi",
+        "check-cs": "ecs check packages --ansi",
         "fix-cs": [
-            "packages/EasyCodingStandard/bin/ecs check packages --fix --ansi",
+            "ecs check packages --fix --ansi",
             "bin/clear_readmes.sh"
         ],
-        "phpstan": "vendor/bin/phpstan analyse packages --error-format symplify --ansi",
+        "phpstan": "phpstan analyse packages --error-format symplify --ansi",
         "changelog": [
             "packages/ChangelogLinker/bin/changelog-linker dump-merges --in-categories --in-packages",
             "packages/ChangelogLinker/bin/changelog-linker link",
@@ -152,7 +152,7 @@
         ],
         "merge": "packages/MonorepoBuilder/bin/monorepo-builder merge",
         "propagate": "packages/MonorepoBuilder/bin/monorepo-builder propagate",
-        "rector": "vendor/bin/rector process packages --config rector-ci.yaml --dry-run"
+        "rector": "rector process packages --config rector-ci.yaml --dry-run"
     },
     "config": {
         "sort-packages": true

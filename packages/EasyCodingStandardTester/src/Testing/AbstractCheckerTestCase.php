@@ -20,15 +20,15 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 {
     /**
+     * @var string
+     */
+    public const SPLIT_LINE = '#-----' . PHP_EOL . '#';
+
+    /**
      * To invalidate new versions
      * @var string
      */
     private const CACHE_VERSION_ID = 'v1';
-
-    /**
-     * @var string
-     */
-    private const SPLIT_LINE = '#-----\n#';
 
     /**
      * @var bool

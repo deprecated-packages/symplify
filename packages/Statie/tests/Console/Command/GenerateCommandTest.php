@@ -38,22 +38,27 @@ final class GenerateCommandTest extends AbstractKernelTestCase
 
     protected function tearDown(): void
     {
-        FileSystem::delete($this->outputDirectory);
+        FileSystem::delete(addslashes($this->outputDirectory));
     }
 
     public function test(): void
     {
-        $stringInput = ['generate', __DIR__ . '/GenerateCommandSource/source', '--output', $this->outputDirectory];
+        $stringInput = [
+            'generate',
+            addslashes(__DIR__) . '/GenerateCommandSource/source',
+            '--output',
+            addslashes($this->outputDirectory),
+        ];
         $input = new StringInput(implode(' ', $stringInput));
 
         $this->statieConsoleApplication->run($input, new NullOutput());
 
-        $this->assertFileExists($this->outputDirectory . '/index.html');
+        $this->assertFileExists(addslashes($this->outputDirectory) . '/index.html');
     }
 
     public function testException(): void
     {
-        $stringInput = sprintf('generate %s', __DIR__ . '/GenerateCommandSource/missing');
+        $stringInput = sprintf('generate %s', addslashes(__DIR__) . '/GenerateCommandSource/missing');
         $input = new StringInput($stringInput);
 
         $this->expectException(DirectoryNotFoundException::class);
