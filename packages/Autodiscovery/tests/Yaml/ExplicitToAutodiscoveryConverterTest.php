@@ -7,14 +7,11 @@ use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Autodiscovery\HttpKernel\AutodiscoveryKernel;
 use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
+use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var string
-     */
-    private const SPLIT_PATTERN = '#---' . PHP_EOL . '#';
 
     /**
      * @var ExplicitToAutodiscoveryConverter
@@ -65,8 +62,8 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
      */
     private function splitFile(string $yamlContent): array
     {
-        if (Strings::match($yamlContent, self::SPLIT_PATTERN)) {
-            return Strings::split($yamlContent, self::SPLIT_PATTERN);
+        if (Strings::match($yamlContent, AbstractCheckerTestCase::SPLIT_LINE)) {
+            return Strings::split($yamlContent, AbstractCheckerTestCase::SPLIT_LINE);
         }
 
         return [$yamlContent, $yamlContent];

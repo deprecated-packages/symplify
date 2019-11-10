@@ -30,7 +30,7 @@ services:
     Elasticr\Component\Catalog\Product\ProductService: ~
     Elasticr\Component\Catalog\Manufacturer\ManufacturerService: ~
     Elasticr\Component\Catalog\Category\CategoryService: ~
----
+-----
 services:
     _defaults:
         autowire: true

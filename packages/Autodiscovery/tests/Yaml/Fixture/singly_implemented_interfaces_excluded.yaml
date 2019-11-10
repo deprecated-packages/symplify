@@ -3,7 +3,7 @@ services:
 
     Symplify\Autodiscovery\Tests\Yaml\Source\SomeInterface:
         alias: 'Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass'
----
+-----
 services:
     _defaults:
         autowire: true
