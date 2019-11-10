@@ -12,20 +12,15 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 trait IntegrationTestCaseTrait
 {
     /**
-     * @var string
-     */
-    private $splitLine = '#-----' . PHP_EOL . '#';
-
-    /**
      * @return string[]
      */
     protected function splitContentToOriginalFileAndExpectedFile(SmartFileInfo $smartFileInfo): array
     {
-        if (Strings::match($smartFileInfo->getContents(), $this->splitLine)) {
+        if (Strings::match($smartFileInfo->getContents(), AbstractCheckerTestCase::SPLIT_LINE)) {
             // original → expected
             [
              $originalContent, $expectedContent,
-            ] = Strings::split($smartFileInfo->getContents(), $this->splitLine);
+            ] = Strings::split($smartFileInfo->getContents(), AbstractCheckerTestCase::SPLIT_LINE);
         } else {
             // no changes
             $originalContent = $smartFileInfo->getContents();
