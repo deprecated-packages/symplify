@@ -12,7 +12,6 @@ use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
 {
-
     /**
      * @var ExplicitToAutodiscoveryConverter
      */
