@@ -13,6 +13,11 @@ use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
 {
     /**
+     * @var string
+     */
+    private const SPLIT_LINE = '#-----' . PHP_EOL . '#';
+
+    /**
      * @var ExplicitToAutodiscoveryConverter
      */
     private $explicitToAutodiscoveryConverter;
@@ -61,8 +66,8 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
      */
     private function splitFile(string $yamlContent): array
     {
-        if (Strings::match($yamlContent, AbstractCheckerTestCase::SPLIT_LINE)) {
-            return Strings::split($yamlContent, AbstractCheckerTestCase::SPLIT_LINE);
+        if (Strings::match($yamlContent, self::SPLIT_LINE)) {
+            return Strings::split($yamlContent, self::SPLIT_LINE);
         }
 
         return [$yamlContent, $yamlContent];
