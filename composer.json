@@ -139,9 +139,9 @@
             "@fix-cs",
             "@phpstan"
         ],
-        "check-cs": "ecs check packages --ansi",
+        "check-cs": "packages/EasyCodingStandard/bin/ecs check packages --ansi",
         "fix-cs": [
-            "ecs check packages --fix --ansi",
+            "packages/EasyCodingStandard/bin/ecs check packages --fix --ansi",
             "bin/clear_readmes.sh"
         ],
         "phpstan": "phpstan analyse packages --error-format symplify --ansi",
