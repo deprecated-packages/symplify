@@ -23,6 +23,11 @@ final class SymfonyStyleFactory
 
     public function create(): SymfonyStyle
     {
+        // to prevent missing argv indes
+        if (! isset($_SERVER['argv'])) {
+            $_SERVER['argv'] = [];
+        }
+
         $input = new ArgvInput();
         $output = new ConsoleOutput();
 
