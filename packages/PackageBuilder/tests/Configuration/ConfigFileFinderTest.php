@@ -27,20 +27,20 @@ final class ConfigFileFinderTest extends TestCase
 
     public function provideOptionsAndExpectedConfig(): Iterator
     {
-        yield [['--config' => '.travis.yml'], getcwd() . '/.travis.yml', 'Full option with relative path'];
-        yield [['-c' => '.travis.yml'], getcwd() . '/.travis.yml', 'Short option with relative path'];
-        yield [['--config' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml', 'Full option with relative path'];
-        yield [['-c' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml', 'Short option with relative path'];
+        yield [['--config' => '.travis.yml'], getcwd() . DIRECTORY_SEPARATOR . '.travis.yml', 'Full option with relative path'];
+        yield [['-c' => '.travis.yml'], getcwd() . DIRECTORY_SEPARATOR . '.travis.yml', 'Short option with relative path'];
+        yield [['--config' => getcwd() . DIRECTORY_SEPARATOR . '.travis.yml'], getcwd() . DIRECTORY_SEPARATOR . '.travis.yml', 'Full option with relative path'];
+        yield [['-c' => getcwd() . DIRECTORY_SEPARATOR . '.travis.yml'], getcwd() . DIRECTORY_SEPARATOR . '.travis.yml', 'Short option with relative path'];
         yield [['--', 'sh', '-c' => '/bin/true'], null, 'Skip parameters following an end of options (--) signal'];
     }
 
     public function testProvide(): void
     {
         $config = ConfigFileFinder::provide('some-value', ['.travis.yml']);
-        $this->assertSame(getcwd() . '/.travis.yml', $config);
+        $this->assertSame(getcwd() . DIRECTORY_SEPARATOR . '.travis.yml', $config);
 
         $config = ConfigFileFinder::provide('some-value', ['.travis.yaml', '.travis.yml']);
-        $this->assertSame(getcwd() . '/.travis.yml', $config);
+        $this->assertSame(getcwd() . DIRECTORY_SEPARATOR . '.travis.yml', $config);
     }
 
     public function testMissingFileInInput(): void

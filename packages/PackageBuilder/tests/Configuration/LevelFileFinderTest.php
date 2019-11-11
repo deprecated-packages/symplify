@@ -12,7 +12,7 @@ final class LevelFileFinderTest extends TestCase
     /**
      * @var string
      */
-    private $sourceDirectory = __DIR__ . '/LevelFileFinderSource/nested';
+    private $sourceDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'LevelFileFinderSource' . DIRECTORY_SEPARATOR . 'nested';
 
     /**
      * @var LevelFileFinder
@@ -37,8 +37,8 @@ final class LevelFileFinderTest extends TestCase
 
     public function provideOptionsAndExpectedConfig(): Iterator
     {
-        yield [['-l' => 'someConfig'], $this->sourceDirectory . '/someConfig.yml'];
-        yield [['--level' => 'someConfig'], $this->sourceDirectory . '/someConfig.yml'];
-        yield [['--level' => 'anotherConfig'], $this->sourceDirectory . '/anotherConfig.yml'];
+        yield [['-l' => 'someConfig'], $this->sourceDirectory . DIRECTORY_SEPARATOR . 'someConfig.yml'];
+        yield [['--level' => 'someConfig'], $this->sourceDirectory . DIRECTORY_SEPARATOR . 'someConfig.yml'];
+        yield [['--level' => 'anotherConfig'], $this->sourceDirectory . DIRECTORY_SEPARATOR . 'anotherConfig.yml'];
     }
 }
