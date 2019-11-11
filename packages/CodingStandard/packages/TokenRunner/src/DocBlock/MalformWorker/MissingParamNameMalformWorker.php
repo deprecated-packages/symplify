@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\DocBlock\Line;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 final class MissingParamNameMalformWorker extends AbstractMalformWorker
 {
@@ -110,7 +111,7 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
             return Strings::replace($line->getContent(), $missingDollarSignPattern, '$1$$3');
         }
 
-        $replacement = '@param $1 ' . $newArgumentName . '$2' . PHP_EOL;
+        $replacement = '@param $1 ' . $newArgumentName . '$2' . EolConfiguration::getEolChar();
 
         return Strings::replace($line->getContent(), self::PARAM_WITHOUT_NAME_PATTERN, $replacement);
     }
