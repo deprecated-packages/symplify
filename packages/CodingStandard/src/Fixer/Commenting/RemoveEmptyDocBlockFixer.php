@@ -22,7 +22,7 @@ final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
     {
         return new FixerDefinition(
             'There should not be empty PHPDoc blocks.',
-            [new CodeSample('<?php
+            [new CodeSample('<?php 
 
 /**  */
 ')]
