@@ -10,6 +10,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 /**
  * Inspired by https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/2.8/src/Fixer/Phpdoc/NoEmptyPhpdocFixer.php
@@ -21,7 +22,7 @@ final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
     {
         return new FixerDefinition(
             'There should not be empty PHPDoc blocks.',
-            [new CodeSample('<?php 
+            [new CodeSample('<?php
 
 /**  */
 ')]
@@ -49,7 +50,7 @@ final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
 
             $previousWhitespaceContent = $previousToken->getContent();
 
-            $lastLineBreak = strrpos($previousWhitespaceContent, PHP_EOL);
+            $lastLineBreak = strrpos($previousWhitespaceContent, EolConfiguration::getEolChar());
             // nothing found
             if (is_bool($lastLineBreak)) {
                 continue;
