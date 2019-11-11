@@ -10,7 +10,7 @@ final class ChangelogFormatter
      * @see https://regex101.com/r/JmKFH1/1
      * @var string
      */
-    private const HEADLINE_PATTERN = '#^(?<headline>[\#]{2,} [\w\d.\-/ ]+)$#m';
+    private const HEADLINE_PATTERN = '#(*ANYCRLF)^(?<headline>[\#]{2,} [\w\d.\-/ ]+)$#m';
 
     public function format(string $content): string
     {
@@ -38,9 +38,9 @@ final class ChangelogFormatter
     private function removeSuperfluousSpaces(string $content): string
     {
         // 2 lines from the start
-        $content = Strings::replace($content, '#^(\n){2,}#', PHP_EOL);
+        $content = Strings::replace($content, '#^(\r?\n){2,}#', PHP_EOL);
 
         // 3 lines to 2
-        return Strings::replace($content, '#(\n){3,}#', PHP_EOL . PHP_EOL);
+        return Strings::replace($content, '#(\r?\n){3,}#', PHP_EOL . PHP_EOL);
     }
 }
