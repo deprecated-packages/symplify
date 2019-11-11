@@ -5,6 +5,7 @@ namespace Symplify\ChangelogLinker;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 final class ChangelogDumper
 {
@@ -55,16 +56,17 @@ final class ChangelogDumper
         bool $withPackages,
         ?string $priority
     ): string {
-        $this->content .= PHP_EOL;
+        $eolChar = EolConfiguration::getEolChar();
+        $this->content .= $eolChar;
 
         foreach ($changes as $change) {
             $this->displayHeadlines($withCategories, $withPackages, $priority, $change);
 
             $message = $withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
-            $this->content .= $message . PHP_EOL;
+            $this->content .= $message . $eolChar;
         }
 
-        $this->content .= PHP_EOL;
+        $this->content .= $eolChar;
 
         return $this->changelogFormatter->format($this->content);
     }
@@ -92,7 +94,8 @@ final class ChangelogDumper
             return;
         }
 
-        $this->content .= '## ' . $this->createTagLine($change) . PHP_EOL;
+        $eolChar = EolConfiguration::getEolChar();
+        $this->content .= '## ' . $this->createTagLine($change) . $eolChar;
         $this->previousTag = $change->getTag();
     }
 
@@ -102,8 +105,9 @@ final class ChangelogDumper
             return;
         }
 
+        $eolChar = EolConfiguration::getEolChar();
         $headlineLevel = $priority === ChangeSorter::PRIORITY_CATEGORIES ? 4 : 3;
-        $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getPackage() . PHP_EOL;
+        $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getPackage() . $eolChar;
         $this->previousPackage = $change->getPackage();
     }
 
@@ -113,8 +117,9 @@ final class ChangelogDumper
             return;
         }
 
+        $eolChar = EolConfiguration::getEolChar();
         $headlineLevel = $priority === ChangeSorter::PRIORITY_PACKAGES ? 4 : 3;
-        $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getCategory() . PHP_EOL;
+        $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getCategory() . $eolChar;
         $this->previousCategory = $change->getCategory();
     }
 
