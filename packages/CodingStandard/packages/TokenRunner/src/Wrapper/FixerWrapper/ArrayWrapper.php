@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 final class ArrayWrapper
 {
@@ -99,7 +100,7 @@ final class ArrayWrapper
 
         // compute from here to start of line
         $currentPosition = $this->startIndex;
-        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
+        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), EolConfiguration::getEolChar())) {
             $lineLength += strlen($this->tokens[$currentPosition]->getContent());
             --$currentPosition;
         }
@@ -110,12 +111,12 @@ final class ArrayWrapper
         $lineLength += strlen($currentToken->getContent());
 
         // minus end of lines, do not count PHP_EOL as characters
-        $endOfLineCount = substr_count($currentToken->getContent(), PHP_EOL);
+        $endOfLineCount = substr_count($currentToken->getContent(), EolConfiguration::getEolChar());
         $lineLength -= $endOfLineCount;
 
         // compute from here to end of line
         $currentPosition = $this->startIndex + 1;
-        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
+        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), EolConfiguration::getEolChar())) {
             $lineLength += strlen($this->tokens[$currentPosition]->getContent());
             ++$currentPosition;
         }

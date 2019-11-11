@@ -11,6 +11,7 @@ use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\CodingStandard\TokenRunner\DocBlockParser;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 final class DocBlockManipulator
 {
@@ -66,7 +67,7 @@ final class DocBlockManipulator
 
         $docBlockContent = $tokens[$docBlockPosition]->getContent();
 
-        if (substr_count($docBlockContent, PHP_EOL) > 1) {
+        if (substr_count($docBlockContent, EolConfiguration::getEolChar()) > 1) {
             return null;
         }
 
