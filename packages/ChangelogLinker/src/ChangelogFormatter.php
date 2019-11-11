@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker;
 
 use Nette\Utils\Strings;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 final class ChangelogFormatter
 {
@@ -31,16 +32,19 @@ final class ChangelogFormatter
     private function wrapHeadlinesWithEmptyLines(string $content): string
     {
         return Strings::replace($content, self::HEADLINE_PATTERN, function (array $match): string {
-            return PHP_EOL . $match['headline'] . PHP_EOL;
+            $eolChar = EolConfiguration::getEolChar();
+            return $eolChar . $match['headline'] . $eolChar;
         });
     }
 
     private function removeSuperfluousSpaces(string $content): string
     {
+        $eolChar = EolConfiguration::getEolChar();
+
         // 2 lines from the start
-        $content = Strings::replace($content, '#^(\n){2,}#', PHP_EOL);
+        $content = Strings::replace($content, '#^(\n){2,}#', $eolChar);
 
         // 3 lines to 2
-        return Strings::replace($content, '#(\n){3,}#', PHP_EOL . PHP_EOL);
+        return Strings::replace($content, '#(\n){3,}#', $eolChar . $eolChar);
     }
 }
