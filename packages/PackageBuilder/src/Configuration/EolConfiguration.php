@@ -9,11 +9,13 @@ final class EolConfiguration
      */
     private static $eolChar = "\n";
 
-    public static function getEolChar(): string{
+    public static function getEolChar(): string
+    {
         return self::$eolChar;
     }
 
-    public static function setEolChar(string $eolChar): void{
+    public static function setEolChar(string $eolChar): void
+    {
         self::$eolChar = $eolChar;
     }
 }
