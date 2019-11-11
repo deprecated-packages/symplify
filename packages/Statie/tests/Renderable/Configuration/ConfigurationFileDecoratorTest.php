@@ -53,7 +53,7 @@ final class ConfigurationFileDecoratorTest extends AbstractKernelTestCase
 
     public function testInvalidYamlSyntax(): void
     {
-        $brokenYamlFilePath = __DIR__ . '/ConfigurationFileDecoratorSource/someFileWithBrokenConfigurationSyntax.latte';
+        $brokenYamlFilePath = __DIR__ . DIRECTORY_SEPARATOR . 'ConfigurationFileDecoratorSource' . DIRECTORY_SEPARATOR . 'someFileWithBrokenConfigurationSyntax.latte';
         $fileInfo = new SmartFileInfo($brokenYamlFilePath);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
