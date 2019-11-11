@@ -47,7 +47,7 @@ final class ConfigFileFinderTest extends TestCase
     {
         $this->expectException(FileNotFoundException::class);
         $this->expectExceptionMessage(
-            sprintf('File "%s" not found in "%s"', getcwd() . '/someFile.yml', 'someFile.yml')
+            sprintf('File "%s" not found in "%s"', getcwd() . DIRECTORY_SEPARATOR . 'someFile.yml', 'someFile.yml')
         );
 
         ConfigFileFinder::detectFromInput('name', new ArrayInput(['--config' => 'someFile.yml']));
