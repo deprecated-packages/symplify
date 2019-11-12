@@ -13,10 +13,32 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Added
 
+- [#1656] Add --xdebug option
 - [#1629] Allow Symfony 5 + bump to PHP 7.2 + add Rector CI run
 - [#1630] Add Rector CI run
 
+#### SmartFileSystem
+
+**NEW PACKAGE!**
+
+- [#1643] Decouple package from PackageBuilder
+
+#### EasyCodingStandard
+
+- [#1655] Add "sets" parameter for shorter imports of native configs
+
+#### SmartFileSystem
+
+- [#1649] Add `FileSystemGuard` and its exceptions
+
 ### Changed
+
+- [#1650] Travis Windows + composer paths, Thanks to [@orklah]
+- [#1644] travis: change to jobs
+
+#### ChangelogLinker
+
+- [#1645] Skip tests
 
 #### CodingStandard
 
@@ -26,12 +48,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#1637] Only print metadata for console output, Thanks to [@ruudk]
 - [#1635] Autowire `OutputFormatterInterface`, Thanks to [@ruudk]
-
-#### SmartFileSystem
-
-**NEW PACKAGE!**
-
-- [#1643] Decouple package from PackageBuilder
 
 ### Fixed
 
@@ -324,25 +340,21 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#1643]: https://github.com/Symplify/Symplify/pull/1643
 [#1642]: https://github.com/Symplify/Symplify/pull/1642
 [#1641]: https://github.com/Symplify/Symplify/pull/1641
-[#1640]: https://github.com/Symplify/Symplify/pull/1640
-[#1639]: https://github.com/Symplify/Symplify/pull/1639
-[#1638]: https://github.com/Symplify/Symplify/pull/1638
 [#1637]: https://github.com/Symplify/Symplify/pull/1637
 [#1635]: https://github.com/Symplify/Symplify/pull/1635
-[#1632]: https://github.com/Symplify/Symplify/pull/1632
 [#1630]: https://github.com/Symplify/Symplify/pull/1630
 [#1629]: https://github.com/Symplify/Symplify/pull/1629
 [#1627]: https://github.com/Symplify/Symplify/pull/1627
-[#1625]: https://github.com/Symplify/Symplify/pull/1625
 [#1623]: https://github.com/Symplify/Symplify/pull/1623
 [#1622]: https://github.com/Symplify/Symplify/pull/1622
-[#1621]: https://github.com/Symplify/Symplify/pull/1621
-[#1620]: https://github.com/Symplify/Symplify/pull/1620
-[#1619]: https://github.com/Symplify/Symplify/pull/1619
-[#1618]: https://github.com/Symplify/Symplify/pull/1618
-[#1617]: https://github.com/Symplify/Symplify/pull/1617
 [#1616]: https://github.com/Symplify/Symplify/pull/1616
 [@ruudk]: https://github.com/ruudk
-[@mssimi]: https://github.com/mssimi
 [@SerafimArts]: https://github.com/SerafimArts
 [v6.1.0]: https://github.com/Symplify/Symplify/compare/v6.0.5...v6.1.0
+[#1658]: https://github.com/Symplify/Symplify/pull/1658
+[#1656]: https://github.com/Symplify/Symplify/pull/1656
+[#1655]: https://github.com/Symplify/Symplify/pull/1655
+[#1650]: https://github.com/Symplify/Symplify/pull/1650
+[#1649]: https://github.com/Symplify/Symplify/pull/1649
+[#1645]: https://github.com/Symplify/Symplify/pull/1645
+[@orklah]: https://github.com/orklah
