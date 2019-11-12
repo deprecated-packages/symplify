@@ -213,10 +213,10 @@ vendor/bin/your-app --config vendor/organization-name/package-name/config/subdir
 
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
-use Symplify\PackageBuilder\Configuration\LevelFileFinder;
+use Symplify\PackageBuilder\Configuration\SetFileFinder;
 
-// 1. Try --level
-$configFile = (new LevelFileFinder)->detectFromInputAndDirectory(new ArgvInput, __DIR__ . '/../config/');
+// 1. Try --set
+$configFile = (new SetFileFinder)->detectFromInputAndDirectory(new ArgvInput, __DIR__ . '/../config/');
 
 // 2. try --config
 if ($configFile === null) {
