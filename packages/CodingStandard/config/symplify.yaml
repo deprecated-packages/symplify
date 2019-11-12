@@ -19,6 +19,8 @@ services:
         allowFallbackGlobalFunctions: true
         allowFallbackGlobalConstants: true
         allowPartialUses: false
+    # future import fixer, but still misses some cases that the one above handles
+    PhpCsFixer\Fixer\Import\GlobalNamespaceImportFixer: ~
 
     # see https://github.com/symplify/codingstandard to see all loaded Symplify checkers
     Symplify\CodingStandard\:

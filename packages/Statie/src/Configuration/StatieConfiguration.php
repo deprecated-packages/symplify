@@ -93,9 +93,6 @@ final class StatieConfiguration
         return $this->options;
     }
 
-    /**
-     * @param mixed $value
-     */
     public function addOption(string $name, $value): void
     {
         $this->options[$name] = $value;

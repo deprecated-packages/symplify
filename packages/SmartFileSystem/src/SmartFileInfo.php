@@ -15,9 +15,6 @@ final class SmartFileInfo extends SplFileInfo
      */
     private $filesystem;
 
-    /**
-     * @param mixed $filePath
-     */
     public function __construct($filePath)
     {
         $this->filesystem = new Filesystem();
