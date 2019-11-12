@@ -9,9 +9,17 @@ services:
         Symplify\PackageBuilder\FileSystem\FileGuard: 'Symplify\SmartFileSystem\FileSystemGuard'
         Symplify\PackageBuilder\FileSystem\FileSystemGuard: 'Symplify\SmartFileSystem\FileSystemGuard'
 
+        Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException: 'Symplify\SmartFileSystem\Exception\FileNotFoundException'
         Symplify\PackageBuilder\Exception\FileSystem\FileNotFoundException: 'Symplify\SmartFileSystem\Exception\FileNotFoundException'
 
         # directory not found exception
         Symplify\PackageBuilder\Exception\FileSystem\DirectoryNotFoundException: 'Symplify\SmartFileSystem\Exception\DirectoryNotFoundException'
         Symplify\Statie\Exception\Utils\MissingDirectoryException: 'Symplify\SmartFileSystem\Exception\DirectoryNotFoundException'
         Symplify\MonorepoBuilder\Split\Exception\DirectoryNotFoundException: 'Symplify\SmartFileSystem\Exception\DirectoryNotFoundException'
+
+
+
+        # set config resolver
+        Symplify\SetConfigResolver\Finder\ConfigFileFinder: 'Symplify\SetConfigResolver\Finder\ConfigFileFinder'
+
+        # ...

@@ -97,10 +97,10 @@ parameters:
             # privileged handy helpers
             - 'packages/BetterPhpDocParser/src/Annotation/AnnotationNaming.php'
             - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
-            - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
             - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
             - 'packages/PackageBuilder/src/Console/Input/InputDetector.php'
             - 'packages/Autodiscovery/src/Arrays.php'
+            - 'packages/SetConfigResolver/src/Finder/*FileFinder.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 

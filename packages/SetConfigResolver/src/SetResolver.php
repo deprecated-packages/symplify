@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Bootstrap;
+namespace Symplify\SetConfigResolver;
 
 use Nette\Utils\ObjectHelpers;
 use Nette\Utils\Strings;
@@ -8,9 +8,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\Exception\Configuration\SetNotFoundException;
-use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
+use Symplify\SetConfigResolver\Console\Option\OptionName;
+use Symplify\SetConfigResolver\Console\OptionValueResolver;
 
-final class SetOptionResolver
+final class SetResolver
 {
     /**
      * @var string
@@ -23,17 +24,23 @@ final class SetOptionResolver
     private $optionNames = [];
 
     /**
+     * @var OptionValueResolver
+     */
+    private $optionValueResolver;
+
+    /**
      * @param string[] $optionNames
      */
-    public function __construct(array $optionNames = ['--set', '-s'], string $keyName = 'set')
+    public function __construct(array $optionNames = OptionName::SET, string $keyName = 'set')
     {
         $this->optionNames = $optionNames;
         $this->keyName = $keyName;
+        $this->optionValueResolver = new OptionValueResolver();
     }
 
     public function detectFromInputAndDirectory(InputInterface $input, string $configDirectory): ?string
     {
-        $setName = ConfigFileFinder::getOptionValue($input, $this->optionNames);
+        $setName = $this->optionValueResolver->getOptionValue($input, $this->optionNames);
         if ($setName === null) {
             return null;
         }

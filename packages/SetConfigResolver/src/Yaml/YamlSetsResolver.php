@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Bootstrap;
+namespace Symplify\SetConfigResolver\Yaml;
 
 use Symfony\Component\Yaml\Yaml;
 
-final class SetsResolver
+final class YamlSetsResolver
 {
     /**
      * @param string[] $configFiles
