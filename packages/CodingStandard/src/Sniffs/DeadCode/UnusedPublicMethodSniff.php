@@ -199,7 +199,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface, Resettab
             return true;
         }
 
-        return $classWrapper->implementsInterface() || $classWrapper->extends();
+        return $classWrapper->implementsInterface() || $classWrapper->extendsClass();
     }
 
     private function checkUnusedPublicMethods(): void
