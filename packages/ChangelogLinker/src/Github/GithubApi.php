@@ -85,11 +85,6 @@ final class GithubApi
         return $this->filterPullRequestsNewerThanMergedAt($mergedPullRequests, $sinceMergedAt);
     }
 
-    /**
-     * @param int $pullRequestId
-     * @param string $baseBranch
-     * @return bool
-     */
     public function isPullRequestMergedToBaseBranch(int $pullRequestId, string $baseBranch): bool
     {
         $json = $this->getSinglePullRequestJson($pullRequestId);
@@ -190,10 +185,6 @@ final class GithubApi
         return new GithubApiException($message, $throwable->getCode(), $throwable);
     }
 
-    /**
-     * @param int $pullRequestId
-     * @return array
-     */
     private function getSinglePullRequestJson(int $pullRequestId): array
     {
         $url = sprintf(self::URL_PULL_REQUEST_BY_ID, $this->repositoryName, $pullRequestId);

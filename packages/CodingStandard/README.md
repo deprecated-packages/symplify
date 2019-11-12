@@ -627,23 +627,6 @@ services:
 
 <br>
 
-### Block comment should be used instead of one liner
-
-- class: [`Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer`](src/Fixer/Commenting/BlockPropertyCommentFixer.php)
-
-```diff
- class SomeClass
- {
--    /** @var int */
-+    /**
-+     * @var int
-+     */
-     public $count;
- }
-```
-
-<br>
-
 ### Use explicit and informative exception names over generic ones
 
 - class: [`Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff`](src/Sniffs/Architecture/ExplicitExceptionSniff.php)

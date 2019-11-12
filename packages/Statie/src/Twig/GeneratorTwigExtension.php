@@ -24,9 +24,6 @@ final class GeneratorTwigExtension extends AbstractExtension
         });
     }
 
-    /**
-     * @param mixed $value
-     */
     private function ensureArgumentIsGeneratorFile($value): void
     {
         if ($value instanceof AbstractGeneratorFile) {

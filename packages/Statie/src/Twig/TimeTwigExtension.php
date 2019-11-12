@@ -39,9 +39,6 @@ final class TimeTwigExtension extends AbstractExtension
         });
     }
 
-    /**
-     * @param mixed $dateTime
-     */
     private function normalizeDateTime($dateTime): DateTimeInterface
     {
         return DateTime::from($dateTime);

@@ -60,10 +60,6 @@ final class ServiceConverterWorker
         return $servicesData;
     }
 
-    /**
-     * @param mixed $service
-     * @return mixed
-     */
     private function convertArguments($service)
     {
         if (! is_array($service)) {
@@ -89,10 +85,6 @@ final class ServiceConverterWorker
         return $service;
     }
 
-    /**
-     * @param mixed $service
-     * @return mixed
-     */
     private function convertSetupToCalls($service)
     {
         if (! is_array($service)) {
@@ -135,7 +127,6 @@ final class ServiceConverterWorker
     }
 
     /**
-     * @param mixed $name
      * @return mixed[]
      */
     private function convertServiceEntity(array $servicesData, $name, Entity $entity): array

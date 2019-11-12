@@ -21,10 +21,6 @@ final class IdsAnalyzer
         return (int) max($ids);
     }
 
-    /**
-     * @param string $content
-     * @return array|null
-     */
     public function getAllIdsInChangelog(string $content): ?array
     {
         $matches = Strings::matchAll($content, self::PR_REFERENCE_IN_LIST);
