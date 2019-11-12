@@ -120,7 +120,7 @@ parameters:
         - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:(.*?)#'
 
         # throws exception
-        - '#Method Symplify\\PackageBuilder\\Configuration\\LevelFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
+        - '#Method Symplify\\PackageBuilder\\Configuration\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
         # false positive
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
         - '#Parameter \#1 \$subject of static method Nette\\Utils\\Strings\:\:match\(\) expects string, string\|false given#'

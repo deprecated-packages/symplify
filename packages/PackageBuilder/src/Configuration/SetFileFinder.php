@@ -8,7 +8,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\PackageBuilder\Exception\Configuration\LevelNotFoundException;
 
-final class LevelFileFinder
+final class SetFileFinder
 {
     /**
      * @var string
@@ -23,7 +23,7 @@ final class LevelFileFinder
     /**
      * @param string[] $optionNames
      */
-    public function __construct(array $optionNames = ['--level', '-l'], string $keyName = 'level')
+    public function __construct(array $optionNames = ['--set', '-s'], string $keyName = 'set')
     {
         $this->optionNames = $optionNames;
         $this->keyName = $keyName;
