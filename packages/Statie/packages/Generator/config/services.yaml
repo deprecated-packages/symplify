@@ -5,4 +5,6 @@ services:
 
     Symplify\Statie\Generator\:
         resource: '../src/'
-        exclude: '../src/{Configuration/GeneratorElement.php,Renderable/File/GeneratorFile.php}'
+        exclude:
+            - '../src/Configuration/GeneratorElement.php'
+            - '../src/Renderable/File/GeneratorFile.php'

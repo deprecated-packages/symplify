@@ -5,7 +5,10 @@ services:
 
     Symplify\CodingStandard\TokenRunner\:
         resource: '../src'
-        exclude: '../src/{Naming/Name/Name.php,Analyzer/FixerAnalyzer/BlockInfo.php,Wrapper/*Wrapper/*Wrapper.php,DependencyInjection/*}'
+        exclude:
+            - '../src/Naming/Name/Name.php'
+            - '../src/Analyzer/FixerAnalyzer/BlockInfo.php'
+            - '../src/Wrapper/*Wrapper/*Wrapper.php'
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
     PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer: ~
