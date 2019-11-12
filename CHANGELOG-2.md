@@ -214,7 +214,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#198] Allow local config with `--config` option
 - [#217] Added "Did you mean" feature for sniff configuration typos
 - [#215] Allow checker with empty configuration; this is possible now:
-    ```yml
+    ```yaml
     checkers:
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
         # someTemporaryCommentedConfig: value

@@ -56,7 +56,7 @@ They can focus less on remembering all the keys and more on programming.
 
 ### Get All Parameters via Service
 
-```yml
+```yaml
 # app/config/services.yaml
 
 parameters:
