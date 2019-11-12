@@ -1,6 +1,5 @@
 includes:
     - 'packages/PHPStanExtensions/config/config.neon'
-    - 'vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon'
 
 parameters:
     level: max
@@ -27,9 +26,6 @@ parameters:
         -
             message: '#Cannot assign offset int to int#'
             path: 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
-
-        # intentionally
-        - '#In method "(.*?)", caught "Throwable" must be rethrown. Either catch a more specific exception or add a "throw" clause in the "catch" block to propagate the exception#'
 
         # command argument value type conversion - known string
         -
@@ -79,18 +75,11 @@ parameters:
         - '#Call to function method_exists\(\) with (.*?) and (.*?)fromShellCommandline(.*?) will always evaluate to false#'
 
         # variadic
-        - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'
         - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'
 
         # mixed up iterables
         - '#Parameter \#1 \$files of method Symplify\\PackageBuilder\\FileSystem\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo|string>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo> given#'
         - '#PHPDoc tag @return with type array<string\> is incompatible with native type Iterator#'
-
-        # intentionally
-        - '#Empty catch block#'
-
-        # not for a BC
-        - '#In method "Symplify\\EasyCodingStandard\\Contract\\Finder\\CustomSourceProviderInterface::find", a "iterable\<SplFileInfo\|string\>" return type can be added#'
 
         # Symfony 4.2 typehint BC-break
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
@@ -112,7 +101,6 @@ parameters:
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
 
         # false positive
-        - '#More info\: http\://bit\.ly/(typehintarray|usetypehint)#'
         - '#Unreachable statement \- code above always terminates#'
         - '#Property Symplify\\Autodiscovery\\Tests\\Twig\\TwigPathAutodiscoveryTest\:\:\$twigFilesystemLoader \(Twig\\Loader\\FilesystemLoader\) does not accept Twig\\Loader\\LoaderInterface#'
 
