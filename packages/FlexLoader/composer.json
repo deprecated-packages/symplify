@@ -5,13 +5,13 @@
     "require": {
         "php": "^7.2",
         "nette/utils": "^3.0",
-        "symfony/dependency-injection": "^3.4.10|^4.3|^5.0",
-        "symfony/routing": "^3.4|^4.3|^5.0"
+        "symfony/dependency-injection": "^4.3|^5.0",
+        "symfony/routing": "^4.3|^5.0"
     },
     "require-dev": {
-        "symfony/framework-bundle": "^3.4|^4.3|^5.0",
+        "symfony/framework-bundle": "^4.3|^5.0",
         "symplify/package-builder": "^6.2",
-        "phpunit/phpunit": "^7.5|^8.4"
+        "phpunit/phpunit": "^8.4"
     },
     "autoload": {
         "psr-4": {

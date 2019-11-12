@@ -5,7 +5,11 @@ services:
 
     Symplify\Statie\:
         resource: '../src'
-        exclude: '../src/{Exception,Renderable/File/File.php,Renderable/File/*File.php,Event,HttpKernel}'
+        exclude:
+            - '../src/Exception'
+            - '../src/Renderable/File/File.php'
+            - '../src/Renderable/File/*File.php'
+            - '../src/HttpKernel'
 
     # rest api
     Symplify\PackageBuilder\Http\BetterGuzzleClient: ~

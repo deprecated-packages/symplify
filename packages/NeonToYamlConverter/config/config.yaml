@@ -4,8 +4,9 @@ services:
         autowire: true
 
     Symplify\NeonToYamlConverter\:
-        resource: "../src"
-        exclude: "../src/{HttpKernel/NeonToYamlConverterKernel.php}"
+        resource: '../src'
+        exclude:
+            - '../src/HttpKernel/NeonToYamlConverterKernel.php'
 
     Symfony\Component\Filesystem\Filesystem: ~
 
