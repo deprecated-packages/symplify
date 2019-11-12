@@ -9,6 +9,9 @@ services:
     # class has to be final, abstract or Doctrine entity
     PhpCsFixer\Fixer\ClassNotation\FinalInternalClassFixer: ~
 
+    # property doc should be docblock
+    PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: ~
+
     # import namespaces for classes, constants and functions
     # configuration: https://github.com/slevomat/coding-standard#slevomatcodingstandardnamespacesreferenceusednamesonly-
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
