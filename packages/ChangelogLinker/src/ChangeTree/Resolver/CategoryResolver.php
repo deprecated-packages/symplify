@@ -20,12 +20,12 @@ final class CategoryResolver
     /**
      * @var string
      */
-    private const CHANGED_PATTERN = '#\b(chang(e|es|ed|ing)|improv(e|es|ed|ing)|bump(s|ed|ing)?|(dis)?allow(s|ed|ing)?|return(s|ed|ing)?|renam(e|es|ed|ing)|decoupl(e|es|ed|ing)|now)\b#i';
+    private const REMOVED_PATTERN = '#\b(remov(e|es|ed|ing)|delet(e|es|ed|ing|)|drop(s|ped|ping)?)\b#i';
 
     /**
      * @var string
      */
-    private const REMOVED_PATTERN = '#\b(remov(e|es|ed|ing)|delet(e|es|ed|ing|)|drop(s|ped|ping)?)\b#i';
+    private const DEPRECATED_PATTERN = '#\b(deprecat(e|es|ed|ing))\b#i';
 
     public function resolveCategory(string $message): string
     {
@@ -37,14 +37,14 @@ final class CategoryResolver
             return Category::FIXED;
         }
 
-        if (Strings::match($message, self::CHANGED_PATTERN)) {
-            return Category::CHANGED;
+        if (Strings::match($message, self::DEPRECATED_PATTERN)) {
+            return Category::DEPRECATED;
         }
 
         if (Strings::match($message, self::REMOVED_PATTERN)) {
             return Category::REMOVED;
         }
 
-        return Category::UNKNOWN;
+        return Category::CHANGED;
     }
 }
