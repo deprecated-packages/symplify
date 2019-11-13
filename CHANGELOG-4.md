@@ -570,7 +570,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#749] Add `Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`, based on previous PRs: [#747], [#743], [#585], [#591], with configuration:
 
     ```yaml
-    # easy-coding-standard.yml
+    # ecs.yaml
     services:
         Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
             max_line_length: 100 # default: 120
@@ -601,15 +601,15 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#705] Add `-c` shortcut for `--config` CLI option, thanks to [@OndraM]
 - [#698] Autodiscover `*.yaml` suffix as well
 - [#656] Add configurable cache directory for changed files, closes [#650], thanks to [@marmichalski]
-    ```yml
-    # easy-coding-standard.yml
+    ```yaml
+    # ecs.yaml
     parameters:
         cache_directory: .ecs_cache # defaults to sys_get_temp_dir() . '/_easy_coding_standard'
     ```
 
 - [#583][#584] Add `exclude_files` option to exclude files, with `fnmatch` support:
-   ```yml
-   # easy-coding-standard.yml
+   ```yaml
+   # ecs.yaml
    parameters:
        exclude_files:
            - 'lib/PhpParser/Parser/Php5.php'
@@ -644,7 +644,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#680] Move from statics in checkers to autowired DI
 - [#660] Move from `checkers` to `services`, follow up to [#651]
     ```diff
-    # easy-coding-standard.yml
+    # ecs.yaml
     -    checkers:
     +    services:
              Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
@@ -656,7 +656,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     ```
 - [#661] Merge `parameters > skip_codes` to `parameters > skip` section
     ```diff
-     # easy-coding-standard.yml
+     # ecs.yaml
      parameters:
          skip:
              PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:

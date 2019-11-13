@@ -55,7 +55,6 @@ parameters:
             - 'packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
             # uses 3rd-party API
             - 'packages/PackageBuilder/src/Configuration/LevelFileFinder.php'
-            - 'packages/EasyCodingStandard/src/Contract/Finder/CustomSourceProviderInterface.php'
             - 'packages/CodingStandard/src/Fixer/*'
             - 'packages/CodingStandard/tests/Fixer/*'
             # SplFileInfo extension
