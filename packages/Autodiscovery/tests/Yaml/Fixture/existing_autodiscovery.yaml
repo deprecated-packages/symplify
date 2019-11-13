@@ -5,7 +5,7 @@ services:
     Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass: ~
     Symplify\Autodiscovery\Tests\:
         resource: ../../Existing
----
+-----
 services:
     _defaults:
         autowire: true

@@ -75,8 +75,6 @@ final class InitCommand extends Command
 
     /**
      * Returns current version of MonorepoBuilder, contains only major and minor.
-     *
-     * @return string
      */
     private function getMonorepoBuilderVersion(): string
     {

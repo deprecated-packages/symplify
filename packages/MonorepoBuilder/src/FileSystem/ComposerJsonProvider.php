@@ -3,7 +3,7 @@
 namespace Symplify\MonorepoBuilder\FileSystem;
 
 use Symplify\MonorepoBuilder\PackageComposerFinder;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ComposerJsonProvider
 {

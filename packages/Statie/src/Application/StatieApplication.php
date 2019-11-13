@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Application;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;

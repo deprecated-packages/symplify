@@ -14,7 +14,7 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
     /**
      * @var string
      */
-    private const SPLIT_PATTERN = "#---\n#";
+    private const SPLIT_LINE = '#-----' . PHP_EOL . '#';
 
     /**
      * @var ExplicitToAutodiscoveryConverter
@@ -65,8 +65,8 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
      */
     private function splitFile(string $yamlContent): array
     {
-        if (Strings::match($yamlContent, self::SPLIT_PATTERN)) {
-            return Strings::split($yamlContent, self::SPLIT_PATTERN);
+        if (Strings::match($yamlContent, self::SPLIT_LINE)) {
+            return Strings::split($yamlContent, self::SPLIT_LINE);
         }
 
         return [$yamlContent, $yamlContent];

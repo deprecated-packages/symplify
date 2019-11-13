@@ -2,8 +2,8 @@
 
 namespace Symplify\Statie\Twig\Tests;
 
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\FileFactory;

@@ -5,8 +5,8 @@ namespace Symplify\MonorepoBuilder\Tests\InterdependencyUpdater;
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class InterdependencyUpdaterTest extends AbstractKernelTestCase
 {

@@ -3,7 +3,7 @@
 namespace Symplify\MonorepoBuilder;
 
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DevMasterAliasUpdater
 {

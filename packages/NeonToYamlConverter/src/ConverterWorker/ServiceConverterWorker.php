@@ -12,11 +12,6 @@ use Symfony\Component\Yaml\Yaml;
 final class ServiceConverterWorker
 {
     /**
-     * @var string[]
-     */
-    private $environmentVariables = [];
-
-    /**
      * @param mixed[] $servicesData
      * @return mixed[]
      */
@@ -65,10 +60,6 @@ final class ServiceConverterWorker
         return $servicesData;
     }
 
-    /**
-     * @param mixed $service
-     * @return mixed
-     */
     private function convertArguments($service)
     {
         if (! is_array($service)) {
@@ -87,7 +78,6 @@ final class ServiceConverterWorker
             // environment value! @see https://symfony.com/blog/new-in-symfony-3-4-advanced-environment-variables
             if ($value->value === '@env::get') {
                 $environmentVariable = $value->attributes[0];
-                $this->environmentVariables[] = $environmentVariable;
                 $service['arguments'][$key] = sprintf('%%env(%s)%%', $environmentVariable);
             }
         }
@@ -95,10 +85,6 @@ final class ServiceConverterWorker
         return $service;
     }
 
-    /**
-     * @param mixed $service
-     * @return mixed
-     */
     private function convertSetupToCalls($service)
     {
         if (! is_array($service)) {
@@ -141,7 +127,6 @@ final class ServiceConverterWorker
     }
 
     /**
-     * @param mixed $name
      * @return mixed[]
      */
     private function convertServiceEntity(array $servicesData, $name, Entity $entity): array

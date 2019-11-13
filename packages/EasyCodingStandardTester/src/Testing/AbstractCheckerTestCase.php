@@ -13,22 +13,22 @@ use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
-use Symplify\PackageBuilder\FileSystem\FileGuard;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\FileSystemGuard;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 {
+    /**
+     * @var string
+     */
+    public const SPLIT_LINE = '#-----' . PHP_EOL . '#';
+
     /**
      * To invalidate new versions
      * @var string
      */
     private const CACHE_VERSION_ID = 'v1';
-
-    /**
-     * @var string
-     */
-    private const SPLIT_LINE = '#-----\n#';
 
     /**
      * @var bool
@@ -51,9 +51,9 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     private $errorAndDiffCollector;
 
     /**
-     * @var FileGuard
+     * @var FileSystemGuard
      */
-    private $fileGuard;
+    private $fileSystemGuard;
 
     /**
      * @var SmartFileInfo|null
@@ -62,10 +62,10 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->fileGuard = new FileGuard();
+        $this->fileSystemGuard = new FileSystemGuard();
 
         $config = $this->provideConfig();
-        $this->fileGuard->ensureFileExists($config, static::class);
+        $this->fileSystemGuard->ensureFileExists($config, static::class);
 
         $configs = [$config];
 
@@ -105,7 +105,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     protected function doTestFiles(array $files, ?callable $callback = null): void
     {
         foreach ($files as $file) {
-            if ($callback) {
+            if ($callback !== null) {
                 $callback();
             }
 
@@ -300,7 +300,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         // fall back to split ----- fixture
         $this->activeFileInfo = $fileInfo;
         $this->doTestFiles([$this->splitContentToOriginalFileAndExpectedFile($fileInfo)]);
-        return;
     }
 
     private function createConfigHash(): string

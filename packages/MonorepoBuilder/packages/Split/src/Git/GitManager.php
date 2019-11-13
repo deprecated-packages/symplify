@@ -94,7 +94,6 @@ final class GitManager
     }
 
     /**
-     * @param string $commandResult
      * @return string[]
      */
     private function parseTags(string $commandResult): array

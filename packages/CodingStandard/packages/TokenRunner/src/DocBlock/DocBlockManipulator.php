@@ -55,25 +55,6 @@ final class DocBlockManipulator
     }
 
     /**
-     * @return mixed[]
-     */
-    public function matchPositionAndContentIfSingleLine(Tokens $tokens, int $position): ?array
-    {
-        $docBlockPosition = $this->docBlockFinder->findPreviousPosition($tokens, $position);
-        if ($docBlockPosition === null) {
-            return null;
-        }
-
-        $docBlockContent = $tokens[$docBlockPosition]->getContent();
-
-        if (substr_count($docBlockContent, PHP_EOL) > 1) {
-            return null;
-        }
-
-        return [$docBlockPosition, $docBlockContent];
-    }
-
-    /**
      * @return VarTagValueNode[]
      */
     public function resolveVarTagsIfFound(Tokens $tokens, int $position): array

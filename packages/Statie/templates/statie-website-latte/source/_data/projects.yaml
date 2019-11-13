@@ -1,9 +1,0 @@
-parameters:
-    projects: # available in *.latte files as "{$projects}"
-        https://statie.org: "Statie"
-        https://github.com/rectorphp/rector: "Rector"
-        https://github.com/Symplify/EasyCodingStandard: "Easy Coding Standard"
-        https://pehapkari.cz: "Pehapkari"
-        https://friendsofphp.org: "Friends of PHP"
-        https://gomonorepo.org: "Go Monorepo"
-        https://gophp71.org/: "Go PHP 7.1"

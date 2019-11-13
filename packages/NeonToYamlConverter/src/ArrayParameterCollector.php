@@ -3,8 +3,8 @@
 namespace Symplify\NeonToYamlConverter;
 
 use Nette\Utils\Strings;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ArrayParameterCollector
 {

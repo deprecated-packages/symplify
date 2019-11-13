@@ -22,7 +22,9 @@ services:
 
     Symplify\Statie\Tweeter\:
         resource: '../src'
-        exclude: '../src/{Exception,Tweet}'
+        exclude:
+            - '../src/Exception'
+            - '../src/Tweet'
 
     TwitterAPIExchange:
         class: 'TwitterAPIExchange'

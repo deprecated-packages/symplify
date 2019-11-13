@@ -54,49 +54,9 @@ They can focus less on remembering all the keys and more on programming.
 
 <br>
 
-### Add Service by Interface if Found
-
-```php
-<?php declare(strict_types=1);
-
-namespace App\DependencyInjection\CompilerPass;
-
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-use Symplify\EasyCodingStandard\Contract\Finder\CustomSourceProviderInterface;
-use Symplify\EasyCodingStandard\Finder\SourceFinder;
-use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
-
-final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassInterface
-{
-    public function process(ContainerBuilder $containerBuilder): void
-    {
-        $definitionFinder = new DefinitionFinder();
-
-        $customSourceProviderDefinition = $definitionFinder->getByTypeIfExists(
-            $containerBuilder,
-            CustomSourceProviderInterface::class
-        );
-
-        if ($customSourceProviderDefinition === null) {
-            return;
-        }
-
-        $sourceFinderDefinition = $definitionFinder->getByType($containerBuilder, SourceFinder::class);
-        $sourceFinderDefinition->addMethodCall(
-            'setCustomSourceProvider',
-            [new Reference($customSourceProviderDefinition->getClass())]
-        );
-    }
-}
-```
-
-<br>
-
 ### Get All Parameters via Service
 
-```yml
+```yaml
 # app/config/services.yaml
 
 parameters:
@@ -213,10 +173,10 @@ vendor/bin/your-app --config vendor/organization-name/package-name/config/subdir
 
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
-use Symplify\PackageBuilder\Configuration\LevelFileFinder;
+use Symplify\PackageBuilder\Configuration\SetFileFinder;
 
-// 1. Try --level
-$configFile = (new LevelFileFinder)->detectFromInputAndDirectory(new ArgvInput, __DIR__ . '/../config/');
+// 1. Try --set
+$configFile = (new SetFileFinder)->detectFromInputAndDirectory(new ArgvInput, __DIR__ . '/../config/');
 
 // 2. try --config
 if ($configFile === null) {

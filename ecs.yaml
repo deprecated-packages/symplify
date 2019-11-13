@@ -1,15 +1,8 @@
-imports:
-    - { resource: 'packages/EasyCodingStandard/config/set/php71.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/clean-code.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/symplify.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/common.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/psr12.yaml' }
-
 services:
     Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
         old_to_preferred_classes:
-            SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
-            Symfony\Component\Finder\SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
+            SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
             PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
 
@@ -29,6 +22,13 @@ services:
             - 'FileDecorator'
 
 parameters:
+    sets:
+        - 'php71'
+        - 'clean-code'
+        - 'symplify'
+        - 'common'
+        - 'psr12'
+
     exclude_files:
         # tests
         - 'packages/*/tests/**Source/*.php'
@@ -50,13 +50,11 @@ parameters:
             - 'packages/PackageBuilder/src/Parameter/ParameterTypoProofreader.php'
             - 'packages/EasyCodingStandardTester/src/Testing/AbstractCheckerTestCase.php'
             # converts non-preferred type
-            - 'packages/PackageBuilder/src/FileSystem/SmartFileInfo.php'
-            - 'packages/PackageBuilder/src/FileSystem/FinderSanitizer.php'
-            - 'packages/EasyCodingStandard/src/Finder/FinderSanitizer.php'
-            - 'packages/PackageBuilder/tests/FileSystem/FinderSanitizerTest.php'
+            - 'packages/SmartFileSystem/src/SmartFileInfo.php'
+            - 'packages/SmartFileSystem/src/Finder/FinderSanitizer.php'
+            - 'packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
             # uses 3rd-party API
             - 'packages/PackageBuilder/src/Configuration/LevelFileFinder.php'
-            - 'packages/EasyCodingStandard/src/Contract/Finder/CustomSourceProviderInterface.php'
             - 'packages/CodingStandard/src/Fixer/*'
             - 'packages/CodingStandard/tests/Fixer/*'
             # SplFileInfo extension
@@ -120,3 +118,7 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
             - 'packages/MonorepoBuilder/src/Console/Command/ValidateCommand.php'
+
+        SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable:
+            # tests
+            - 'packages/Statie/packages/Generator/tests/GeneratorExceptionsTest.php'

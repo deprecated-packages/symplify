@@ -50,19 +50,6 @@ final class GeneratorTest extends AbstractGeneratorTest
         $this->assertFileExists($this->outputDirectory . '/blog/2017/02/05/offtopic-post/index.html');
     }
 
-    public function testLatteBlocks(): void
-    {
-        $generatorFilesByType = $this->generator->run();
-        $postFiles = $generatorFilesByType['posts'];
-
-        $this->fileSystemWriter->renderFiles($postFiles);
-
-        $this->assertFileEquals(
-            __DIR__ . '/GeneratorSource/expected/post-with-latte-blocks-expected.html',
-            $this->outputDirectory . '/blog/2016/01/02/second-title/index.html'
-        );
-    }
-
     public function testLectures(): void
     {
         $generatorFilesByType = $this->generator->run();

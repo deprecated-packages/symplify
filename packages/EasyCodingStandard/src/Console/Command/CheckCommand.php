@@ -11,8 +11,8 @@ use Symplify\EasyCodingStandard\Application\EasyCodingStandardApplication;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\Configuration\Option;
+use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
 use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
-use Symplify\EasyCodingStandard\Console\Output\TableOutputFormatter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class CheckCommand extends Command
@@ -72,13 +72,19 @@ final class CheckCommand extends Command
             null,
             InputOption::VALUE_REQUIRED,
             'Select output format',
-            TableOutputFormatter::NAME
+            ConsoleOutputFormatter::NAME
         );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $outputFormat = $input->getOption(Option::OUTPUT_FORMAT_OPTION);
+
+        // Backwards compatibility with older version
+        if ($outputFormat === 'table') {
+            $outputFormat = ConsoleOutputFormatter::NAME;
+        }
+
         $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
 
         $this->ensureSomeCheckersAreRegistered();
@@ -96,7 +102,7 @@ final class CheckCommand extends Command
         if ($totalCheckersLoaded === 0) {
             throw new NoCheckersLoadedException(
                 'No checkers were found. Register them in your config in "services:" '
-                . 'section, load them via "--config <file>.yml" or "--level <level> option.'
+                . 'section, load them via "--config <file>.yml" or "--set <set>" option.'
             );
         }
     }

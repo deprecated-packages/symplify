@@ -1,7 +1,7 @@
 services:
     Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass: ~
     Symfony\Component\Filesystem\Filesystem: ~
----
+-----
 services:
     _defaults:
         autowire: true

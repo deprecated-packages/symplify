@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 use Symplify\NeonToYamlConverter\ConverterWorker\ParameterConverterWorker;
 use Symplify\NeonToYamlConverter\ConverterWorker\ServiceConverterWorker;
 use Symplify\NeonToYamlConverter\Formatter\YamlOutputFormatter;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\NeonToYamlConverter\Tests\NeonToYamlConverterTest
