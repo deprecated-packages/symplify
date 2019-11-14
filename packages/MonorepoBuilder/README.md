@@ -146,6 +146,37 @@ vendor/bin/monorepo-builder split
 
 To speed up the process about 50-60 %, all repositories are synchronized in parallel.
 
+#### Testing split locally
+
+If you want to test on local machine, you can set local targets by creating bare repositories:
+
+```bash
+mkdir -p [target/path.git]
+cd [target/path.git]
+git init --bare
+#        ^^^^^^ bare!!!
+```
+
+Then you can set the target using `file://` prefix for absolute path:
+
+```yaml
+# monorepo-builder.yml
+parameters:
+    directories_to_repositories:
+        packages/PackageBuilder: 'file:///home/developer/git/PackageBuilder.git'
+        packages/MonorepoBuilder: 'file:///home/developer/git/MonorepoBuilder.git'
+```
+
+After that you can test the result:
+
+```bash
+vendor/bin/monorepo-builder split
+cd /tmp
+git clone /home/developer/git/PackageBuilder.git
+cd PackageBuilder
+git log
+```
+
 ### 6. Release Flow
 
 When a new version of your package is released, you have to do many manual steps:

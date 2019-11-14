@@ -38,5 +38,6 @@ final class RepositoryGuardTest extends AbstractKernelTestCase
         yield ['https://github.com/Symplify/Symplify.git'];
         yield ['AUTHTOKEN@ssh.dev.azure.com:v3/username/Symplify/Symplify'];
         yield ['https://AUTHTOKEN@dev.azure.com/username/Symplify/_git/Symplify'];
+        yield ['file:///home/developer/git/project.git'];
     }
 }
