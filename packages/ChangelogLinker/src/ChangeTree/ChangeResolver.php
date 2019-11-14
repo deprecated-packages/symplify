@@ -2,6 +2,9 @@
 
 namespace Symplify\ChangelogLinker\ChangeTree;
 
+use Nette\Utils\Strings;
+use Symplify\ChangelogLinker\Regex\RegexPattern;
+
 final class ChangeResolver
 {
     /**
@@ -34,6 +37,24 @@ final class ChangeResolver
             $changes[] = $this->changeFactory->createFromPullRequest($pullRequest);
         }
 
+        $changes = $this->filterOutUselessChanges($changes);
+
         return $this->changeSorter->sort($changes, $sortPriority);
+    }
+
+    /**
+     * @param Change[] $changes
+     * @return Change[]
+     */
+    private function filterOutUselessChanges(array $changes): array
+    {
+        return array_filter($changes, function (Change $change): bool {
+            // skip new/fixed tests
+            if (Strings::match($change->getMessage(), RegexPattern::TEST_TITLE)) {
+                return false;
+            }
+
+            return true;
+        });
     }
 }

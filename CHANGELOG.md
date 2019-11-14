@@ -9,7 +9,97 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v6.0.5 - 2019-07-26
+## Unreleased
+
+### Added
+
+- [#1656] Add --xdebug option
+- [#1629] Allow Symfony 5 + bump to PHP 7.2 + add Rector CI run
+- [#1630] Add Rector CI run
+
+#### SmartFileSystem
+
+**NEW PACKAGE!**
+
+- [#1643] Decouple package from PackageBuilder
+
+#### EasyCodingStandard
+
+- [#1655] Add "sets" parameter for shorter imports of native configs
+
+#### SmartFileSystem
+
+- [#1649] Add `FileSystemGuard` and its exceptions
+
+### Changed
+
+- [#1650] Travis Windows + composer paths, Thanks to [@orklah]
+- [#1644] travis: change to jobs
+
+#### ChangelogLinker
+
+- [#1645] Skip tests
+
+#### CodingStandard
+
+- [#1616] Improve `NoClassInstantiationSniff` + improve code complexity in ignored cases
+
+### EasyCodingStanard
+
+- [#1637] Only print metadata for console output, Thanks to [@ruudk]
+- [#1635] Autowire `OutputFormatterInterface`, Thanks to [@ruudk]
+
+### Fixed
+
+- [#1623] Fix reading GIT tags in Windows OS, Thanks to [@SerafimArts]
+- [#1622] Apply lowercase to compose dependencies, Thanks to [@SerafimArts]
+
+### Removed
+
+#### Statie
+
+- [#1641] Drop `Latte` support to lower the complexity [BC break]
+- [#1642] Change `FilterProviderInterface` to `TwigExtension` [BC break]
+
+### Deprecated
+
+#### CodingStandard
+
+- [#1627] Deprecate `NoClassInstantiation` for inpractical and bloated usage
+
+## [v6.1.0] - 2019-09-18
+
+### Added
+
+#### ChangelogLinker
+
+- [#1589] allow releasing in multiple branches, Thanks to [@vitek-rostislav]
+
+### Fixed
+
+#### CodingStandard
+
+- [#1611] Fix `LineLength` for breaking nowdoc
+
+#### ChangelogLinker
+
+- [#1605] Honoring final new line, Thanks to [@jawira]
+
+#### MonorepoBuilder
+
+- [#1597] Dynamic monorepo-builder version in Init templates, Thanks to [@natepage]
+- [#1595] Stop requiring the remote URL to end with '.git', Thanks to [@Sargeros]
+
+#### PackageBuilder
+
+- [#1608] Skip parameters following an end of options (--) signal, Thanks to [@mantiz]
+- [#1601] Determine relative paths using Symfony's makePathRelative(), Thanks to [@fitztrev]
+
+#### Statie
+
+- [#1587] Canonicalise md suffix for jekyll migrations, Thanks to [@dsas]
+
+## [v6.0.5] - 2019-07-26
 
 ### Added
 
@@ -32,10 +122,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1578] Allow custom vendor path on windows system ([#1577]), Thanks to [@JohnDoe8521]
 
 ### Fixed
-
-#### Autodiscovery
-
-- [#1575] Fix order test
 
 #### CodingStandard
 
@@ -231,7 +317,44 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#1578]: https://github.com/Symplify/Symplify/pull/1578
 [#1577]: https://github.com/Symplify/Symplify/pull/1577
 [#1576]: https://github.com/Symplify/Symplify/pull/1576
-[#1575]: https://github.com/Symplify/Symplify/pull/1575
 [@mxr576]: https://github.com/mxr576
 [@JohnDoe8521]: https://github.com/JohnDoe8521
 [v6.0.4]: https://github.com/Symplify/Symplify/compare/v6.0.3...v6.0.4
+[#1611]: https://github.com/Symplify/Symplify/pull/1611
+[#1608]: https://github.com/Symplify/Symplify/pull/1608
+[#1605]: https://github.com/Symplify/Symplify/pull/1605
+[#1601]: https://github.com/Symplify/Symplify/pull/1601
+[#1597]: https://github.com/Symplify/Symplify/pull/1597
+[#1595]: https://github.com/Symplify/Symplify/pull/1595
+[#1589]: https://github.com/Symplify/Symplify/pull/1589
+[#1587]: https://github.com/Symplify/Symplify/pull/1587
+[@vitek-rostislav]: https://github.com/vitek-rostislav
+[@natepage]: https://github.com/natepage
+[@mantiz]: https://github.com/mantiz
+[@jawira]: https://github.com/jawira
+[@fitztrev]: https://github.com/fitztrev
+[@dsas]: https://github.com/dsas
+[@Sargeros]: https://github.com/Sargeros
+[v6.0.5]: https://github.com/Symplify/Symplify/compare/v6.0.4...v6.0.5
+[#1644]: https://github.com/Symplify/Symplify/pull/1644
+[#1643]: https://github.com/Symplify/Symplify/pull/1643
+[#1642]: https://github.com/Symplify/Symplify/pull/1642
+[#1641]: https://github.com/Symplify/Symplify/pull/1641
+[#1637]: https://github.com/Symplify/Symplify/pull/1637
+[#1635]: https://github.com/Symplify/Symplify/pull/1635
+[#1630]: https://github.com/Symplify/Symplify/pull/1630
+[#1629]: https://github.com/Symplify/Symplify/pull/1629
+[#1627]: https://github.com/Symplify/Symplify/pull/1627
+[#1623]: https://github.com/Symplify/Symplify/pull/1623
+[#1622]: https://github.com/Symplify/Symplify/pull/1622
+[#1616]: https://github.com/Symplify/Symplify/pull/1616
+[@ruudk]: https://github.com/ruudk
+[@SerafimArts]: https://github.com/SerafimArts
+[v6.1.0]: https://github.com/Symplify/Symplify/compare/v6.0.5...v6.1.0
+[#1658]: https://github.com/Symplify/Symplify/pull/1658
+[#1656]: https://github.com/Symplify/Symplify/pull/1656
+[#1655]: https://github.com/Symplify/Symplify/pull/1655
+[#1650]: https://github.com/Symplify/Symplify/pull/1650
+[#1649]: https://github.com/Symplify/Symplify/pull/1649
+[#1645]: https://github.com/Symplify/Symplify/pull/1645
+[@orklah]: https://github.com/orklah

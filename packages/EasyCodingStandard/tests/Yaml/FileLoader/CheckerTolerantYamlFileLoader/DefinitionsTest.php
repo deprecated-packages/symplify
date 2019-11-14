@@ -9,10 +9,7 @@ use PHPUnit\Framework\TestCase;
 use SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff;
 use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
-use Symplify\EasyCodingStandard\Error\Error;
 
 final class DefinitionsTest extends TestCase
 {
@@ -28,11 +25,11 @@ final class DefinitionsTest extends TestCase
 
         $checkerDefinition = $containerBuilder->getDefinition($checker);
 
-        if (count($expectedMethodCall)) {
+        if (count($expectedMethodCall) > 0) {
             $this->checkDefinitionForMethodCall($checkerDefinition, $expectedMethodCall);
         }
 
-        if (count($expectedProperties)) {
+        if (count($expectedProperties) > 0) {
             $this->assertSame($expectedProperties, $checkerDefinition->getProperties());
         }
     }
@@ -87,20 +84,6 @@ final class DefinitionsTest extends TestCase
             [],
             [
                 'enableObjectTypeHint' => false,
-            ],
-        ];
-        yield [
-            __DIR__ . '/DefinitionsSource/checkers.yaml',
-            NoClassInstantiationSniff::class,
-            [],
-            [
-                'extraAllowedClasses' => [
-                    Error::class,
-                    'Symplify\PackageBuilder\Reflection\*',
-                    ContainerBuilder::class,
-                    'Symplify\EasyCodingStandard\Yaml\*',
-                    ParameterBag::class,
-                ],
             ],
         ];
     }

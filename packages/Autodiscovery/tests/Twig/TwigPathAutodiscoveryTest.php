@@ -5,8 +5,8 @@ namespace Symplify\Autodiscovery\Tests\Twig;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symplify\Autodiscovery\Tests\Source\HttpKernel\AudiscoveryTestingKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Twig\Environment;
 use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
-use Twig_Environment;
 
 /**
  * @covers \Symplify\Autodiscovery\Twig\TwigPathAutodiscoverer
@@ -22,7 +22,7 @@ final class TwigPathAutodiscoveryTest extends AbstractKernelTestCase
     {
         $this->bootKernel(AudiscoveryTestingKernel::class);
 
-        /** @var Twig_Environment $twigEnvironment */
+        /** @var Environment $twigEnvironment */
         $twigEnvironment = static::$container->get('twig');
 
         $this->twigFilesystemLoader = $twigEnvironment->getLoader();

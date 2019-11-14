@@ -5,7 +5,7 @@ namespace Symplify\EasyCodingStandard\ChangedFilesDetector;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\Cache\CacheItem;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ChangedFilesDetector
 {
@@ -68,12 +68,7 @@ final class ChangedFilesDetector
 
         $cacheItem = $this->tagAwareAdapter->getItem($this->fileInfoToKey($smartFileInfo));
         $oldFileHash = $cacheItem->get();
-
-        if ($newFileHash !== $oldFileHash) {
-            return true;
-        }
-
-        return false;
+        return $newFileHash !== $oldFileHash;
     }
 
     public function clearCache(): void
@@ -93,7 +88,7 @@ final class ChangedFilesDetector
 
     private function fileInfoToKey(SmartFileInfo $smartFileInfo): string
     {
-        return sha1($smartFileInfo->getRealPath());
+        return sha1($smartFileInfo->getRelativeFilePathFromCwd());
     }
 
     private function invalidateCacheIfConfigurationChanged(string $configurationHash): void

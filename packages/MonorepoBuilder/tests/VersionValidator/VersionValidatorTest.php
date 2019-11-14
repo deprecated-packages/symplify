@@ -5,8 +5,8 @@ namespace Symplify\MonorepoBuilder\Tests\VersionValidator;
 use Symfony\Component\Finder\Finder;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\VersionValidator;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 
 final class VersionValidatorTest extends AbstractKernelTestCase
 {

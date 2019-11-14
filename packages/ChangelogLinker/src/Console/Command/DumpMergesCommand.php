@@ -131,6 +131,13 @@ final class DumpMergesCommand extends Command
             InputOption::VALUE_REQUIRED,
             'Include pull-request with provided ID and higher. The ID is detected in CHANGELOG.md otherwise.'
         );
+
+        $this->addOption(
+            Option::BASE_BRANCH,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Base branch towards which the pull requests are targeted'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -140,7 +147,10 @@ final class DumpMergesCommand extends Command
         $this->changelogFileSystemGuard->ensurePlaceholderIsPresent($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
         $sinceId = $this->getSinceIdFromInputAndContent($input, $content) ?: 1;
-        $pullRequests = $this->githubApi->getMergedPullRequestsSinceId($sinceId);
+        $pullRequests = $this->githubApi->getMergedPullRequestsSinceId(
+            $sinceId,
+            $input->getOption(Option::BASE_BRANCH)
+        );
         if (count($pullRequests) === 0) {
             $this->symfonyStyle->note(
                 sprintf('There are no new pull requests to be added since ID "%d".', $sinceId)
@@ -187,6 +197,30 @@ final class DumpMergesCommand extends Command
             return (int) $sinceId;
         }
 
+        /** @var string $baseBranch */
+        $baseBranch = $input->getOption(Option::BASE_BRANCH);
+        if ($baseBranch !== null) {
+            return $this->findHighestIdMergedInBranch($content, $baseBranch);
+        }
+
         return $this->idsAnalyzer->getHighestIdInChangelog($content);
+    }
+
+    private function findHighestIdMergedInBranch(string $content, string $branch): ?int
+    {
+        $allIdsInChangelog = $this->idsAnalyzer->getAllIdsInChangelog($content);
+
+        if ($allIdsInChangelog === null) {
+            return null;
+        }
+
+        rsort($allIdsInChangelog);
+        foreach ($allIdsInChangelog as $id) {
+            $idInt = (int) $id;
+            if ($this->githubApi->isPullRequestMergedToBaseBranch($idInt, $branch)) {
+                return $idInt;
+            }
+        }
+        return null;
     }
 }

@@ -4,7 +4,7 @@ services:
         autowire: true
 
     Symplify\Autodiscovery\Tests\Source\KernelProjectDir\Service\SomeService: ~
----
+-----
 services:
     _defaults:
         autowire: true

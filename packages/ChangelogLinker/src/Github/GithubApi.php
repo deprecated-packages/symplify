@@ -65,9 +65,9 @@ final class GithubApi
     /**
      * @return mixed[]
      */
-    public function getMergedPullRequestsSinceId(int $id): array
+    public function getMergedPullRequestsSinceId(int $id, ?string $baseBranch = null): array
     {
-        $pullRequests = $this->getPullRequestsSinceId($id);
+        $pullRequests = $this->getPullRequestsSinceId($id, $baseBranch);
 
         $mergedPullRequests = $this->filterMergedPullRequests($pullRequests);
 
@@ -85,21 +85,30 @@ final class GithubApi
         return $this->filterPullRequestsNewerThanMergedAt($mergedPullRequests, $sinceMergedAt);
     }
 
+    public function isPullRequestMergedToBaseBranch(int $pullRequestId, string $baseBranch): bool
+    {
+        $json = $this->getSinglePullRequestJson($pullRequestId);
+        return $json['base']['ref'] === $baseBranch;
+    }
+
     /**
      * @return mixed[]
      */
-    private function getPullRequestsSinceId(int $id): array
+    private function getPullRequestsSinceId(int $id, ?string $baseBranch = null): array
     {
         $maxPage = 10; // max. 1000 merge requests to dump
 
         $pullRequests = [];
         for ($i = 1; $i <= $maxPage; ++$i) {
             $url = sprintf(self::URL_CLOSED_PULL_REQUESTS, $this->repositoryName) . '&page=' . $i;
+            if ($baseBranch !== null) {
+                $url .= '&base=' . $baseBranch;
+            }
             $response = $this->getResponseToUrl($url);
 
             // already no more pages → stop
             $newPullRequests = $this->responseFormatter->formatToJson($response);
-            if (! count($newPullRequests)) {
+            if (count($newPullRequests) === 0) {
                 break;
             }
 
@@ -128,9 +137,7 @@ final class GithubApi
 
     private function getMergedAtByPullRequest(int $id): ?string
     {
-        $url = sprintf(self::URL_PULL_REQUEST_BY_ID, $this->repositoryName, $id);
-        $response = $this->getResponseToUrl($url);
-        $json = $this->responseFormatter->formatToJson($response);
+        $json = $this->getSinglePullRequestJson($id);
 
         return $json['merged_at'] ?? null;
     }
@@ -176,5 +183,12 @@ final class GithubApi
         $message = $reason . PHP_EOL . 'Create a token at https://github.com/settings/tokens/new with only repository scope and use it as ENV variable: "GITHUB_TOKEN=... vendor/bin/changelog-linker ..." option.';
 
         return new GithubApiException($message, $throwable->getCode(), $throwable);
+    }
+
+    private function getSinglePullRequestJson(int $pullRequestId): array
+    {
+        $url = sprintf(self::URL_PULL_REQUEST_BY_ID, $this->repositoryName, $pullRequestId);
+        $response = $this->getResponseToUrl($url);
+        return $this->responseFormatter->formatToJson($response);
     }
 }

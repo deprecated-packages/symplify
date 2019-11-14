@@ -16,7 +16,7 @@ use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class File extends BaseFile
 {
@@ -122,7 +122,7 @@ final class File extends BaseFile
         $this->fixer->startFile($this);
 
         foreach ($this->tokens as $stackPtr => $token) {
-            if (isset($this->tokenListeners[$token['code']]) === false) {
+            if (! isset($this->tokenListeners[$token['code']])) {
                 continue;
             }
 
@@ -176,9 +176,6 @@ final class File extends BaseFile
         return ! $this->shouldSkipError($error, $code, $data);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addError($error, $stackPtr, $code, $data = [], $severity = 0, $fixable = false): bool
     {
         if ($this->shouldSkipError($error, $code, $data)) {
@@ -231,7 +228,7 @@ final class File extends BaseFile
             return false;
         }
 
-        $message = count($data) ? vsprintf($message, $data) : $message;
+        $message = count($data) > 0 ? vsprintf($message, $data) : $message;
 
         if ($isFixable === true) {
             return $isFixable;
@@ -289,7 +286,7 @@ final class File extends BaseFile
             return true;
         }
 
-        $message = count($data) ? vsprintf($error, $data) : $error;
+        $message = count($data) > 0 ? vsprintf($error, $data) : $error;
 
         return $this->skipper->shouldSkipMessageAndFile($message, $this->fileInfo);
     }

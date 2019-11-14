@@ -4,6 +4,7 @@ namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 
 use Nette\Utils\Strings;
 use ReflectionMethod;
+use ReflectionParameter;
 use Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -89,12 +90,7 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
         if ($definition instanceof ChildDefinition && $definition->getClass() === null) {
             return true;
         }
-
-        if ($definition->getClass() === null && $definition->getFactory() === null) {
-            return true;
-        }
-
-        return false;
+        return $definition->getClass() === null && $definition->getFactory() === null;
     }
 
     /**
@@ -104,7 +100,7 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
     {
         $argumentNames = [];
         foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
-            $typeName = (string) $reflectionParameter->getType();
+            $typeName = $this->getReflectionParameterTypeString($reflectionParameter);
 
             // probably not scalar type
             if (isset($typeName[0]) && (Strings::contains($typeName, '\\') || ctype_upper($typeName[0]))) {
@@ -114,6 +110,16 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
         }
 
         return $argumentNames;
+    }
+
+    private function getReflectionParameterTypeString(ReflectionParameter $reflectionParameter): string
+    {
+        $returnType = $reflectionParameter->getType();
+        if ($returnType !== null) {
+            return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
+        }
+
+        return '';
     }
 
     /**

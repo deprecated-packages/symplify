@@ -14,7 +14,7 @@ final class InlineVariableDocBlockMalformWorker extends AbstractMalformWorker
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
-        if ($this->isVariableComment($tokens, $position) === false) {
+        if (! $this->isVariableComment($tokens, $position)) {
             return $docContent;
         }
 

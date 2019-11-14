@@ -42,7 +42,7 @@ final class AnnotationTypeExistsSniff implements Sniff
         $annotations = AnnotationHelper::getAnnotations($file, $position);
 
         foreach ($annotations as $annotationName => $annotationByName) {
-            if ($this->isTypeAnnotation($annotationName) === false) {
+            if (! $this->isTypeAnnotation($annotationName)) {
                 continue;
             }
 

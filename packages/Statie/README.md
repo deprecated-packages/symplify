@@ -7,7 +7,7 @@
 [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/statie.svg?style=flat-square)](https://packagist.org/packages/symplify/statie/stats)
 
-Statie takes HTML, Markdown and Twig or Latte files and generates static HTML page.
+Statie takes HTML, Markdown and Twig files and generates static HTML page.
 
 ## Install
 
@@ -21,12 +21,6 @@ composer require symplify/statie
 
 ```bash
 vendor/bin/statie init
-```
-
-Do you prefer [Latte](https://github.com/nette/latte)?
-
-```bash
-vendor/bin/statie init --templating latte
 ```
 
 This will generate config, templates, layouts and gulp code, so you can enjoy live preview.
@@ -184,11 +178,9 @@ Then you can use them like any other parameter in your Statie templates:
 {% endfor %}
 ```
 
-## Useful Twig and Latte Filters
+## Useful Twig Filters
 
-All from [Latte basic set](https://latte.nette.org/en/filters) and more:
-
-**Twig**
+All from [this basic set](https://latte.nette.org/en/filters) and more:
 
 ```twig
 {% set users = sort_by_field(users, 'name') %}
@@ -204,24 +196,6 @@ All from [Latte basic set](https://latte.nette.org/en/filters) and more:
 {% set daysToFuture = diff_from_today_in_days(meetup.startDateTime) %}
 
 {{ post|link }}
-```
-
-**Latte**
-
-```html
-{var $users = ($users|sort_by_field:'name')}
-{var $users = ($users|sort_by_field:'name', 'desc')}
-
-<!-- picks all posts defined in "related_items: [1]" in post -->
-{var $relatedPosts = (post|related_items)}
-
-{$content|reading_time} mins
-{$post->getRawContent()|reading_time} mins
-
-{$perexDeprecated|markdown}
-{var $daysToFuture = diff_from_today_in_days($meetup->startDateTime())}
-
-{$post|link}
 ```
 
 ## Documentation

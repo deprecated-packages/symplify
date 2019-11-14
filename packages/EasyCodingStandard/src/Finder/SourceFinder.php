@@ -3,30 +3,28 @@
 namespace Symplify\EasyCodingStandard\Finder;
 
 use Symfony\Component\Finder\Finder;
-use Symplify\EasyCodingStandard\Contract\Finder\CustomSourceProviderInterface;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SourceFinder
 {
     /**
-     * @var CustomSourceProviderInterface|null
+     * @var string[]
      */
-    private $customSourceProvider;
+    private $fileExtensions = [];
 
     /**
      * @var FinderSanitizer
      */
     private $finderSanitizer;
 
-    public function __construct(FinderSanitizer $finderSanitizer)
+    /**
+     * @param string[] $fileExtensions
+     */
+    public function __construct(FinderSanitizer $finderSanitizer, array $fileExtensions)
     {
         $this->finderSanitizer = $finderSanitizer;
-    }
-
-    public function setCustomSourceProvider(CustomSourceProviderInterface $customSourceProvider): void
-    {
-        $this->customSourceProvider = $customSourceProvider;
+        $this->fileExtensions = $fileExtensions;
     }
 
     /**
@@ -35,18 +33,13 @@ final class SourceFinder
      */
     public function find(array $source): array
     {
-        if ($this->customSourceProvider) {
-            $files = $this->customSourceProvider->find($source);
-
-            return $this->finderSanitizer->sanitize($files);
-        }
-
         $files = [];
         foreach ($source as $singleSource) {
             if (is_file($singleSource)) {
-                $files = $this->processFile($files, $singleSource);
+                $files[] = new SmartFileInfo($singleSource);
             } else {
-                $files = $this->processDirectory($files, $singleSource);
+                $filesInDirectory = $this->processDirectory($singleSource);
+                $files = array_merge($files, $filesInDirectory);
             }
         }
 
@@ -56,28 +49,33 @@ final class SourceFinder
     }
 
     /**
-     * @param SmartFileInfo[] $files
      * @return SmartFileInfo[]
      */
-    private function processFile(array $files, string $file): array
+    private function processDirectory(string $directory): array
     {
-        return array_merge($files, [new SmartFileInfo($file)]);
-    }
+        $normalizedFileExtensions = $this->normalizeFileExtensions($this->fileExtensions);
 
-    /**
-     * @param SmartFileInfo[] $files
-     * @return SmartFileInfo[]
-     */
-    private function processDirectory(array $files, string $directory): array
-    {
         $finder = Finder::create()->files()
-            ->name('*.php')
+            ->name($normalizedFileExtensions)
             ->in($directory)
             ->exclude('vendor')
             ->sortByName();
 
-        $newFiles = $this->finderSanitizer->sanitize($finder);
+        return $this->finderSanitizer->sanitize($finder);
+    }
 
-        return array_merge($files, $newFiles);
+    /**
+     * @param string[] $fileExtensions
+     * @return string[]
+     */
+    private function normalizeFileExtensions(array $fileExtensions)
+    {
+        $normalizedFileExtensions = [];
+
+        foreach ($fileExtensions as $fileExtension) {
+            $normalizedFileExtensions[] = '*.' . $fileExtension;
+        }
+
+        return $normalizedFileExtensions;
     }
 }

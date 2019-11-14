@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Generator\Renderable\File;
 
 use DateTimeInterface;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 abstract class AbstractGeneratorFile extends AbstractFile

@@ -190,6 +190,11 @@ final class LineLengthTransformer
             $previousToken = $tokens[$i - 1];
             $nextToken = $tokens[$i + 1];
 
+            // do not clear before *doc end, removing spaces breaks stuff
+            if ($previousToken->isGivenKind([T_START_HEREDOC, T_END_HEREDOC])) {
+                continue;
+            }
+
             // clear space after opening and before closing bracket
             if ($this->isBlockStartOrEnd($previousToken, $nextToken)) {
                 $tokens->clearAt($i);
@@ -234,13 +239,8 @@ final class LineLengthTransformer
         if ($nextNextToken->isComment()) {
             return true;
         }
-
         // if next token is just space, turn it to newline
-        if ($nextToken->isWhitespace(' ') && $nextNextToken->isComment()) {
-            return true;
-        }
-
-        return false;
+        return $nextToken->isWhitespace(' ') && $nextNextToken->isComment();
     }
 
     private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void

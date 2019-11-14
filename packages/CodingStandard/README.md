@@ -109,6 +109,8 @@ services:
             - 'Response'
 ```
 
+<br>
+
 ### Make `@param`, `@return` and `@var` Format United
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
@@ -625,23 +627,6 @@ services:
 
 <br>
 
-### Block comment should be used instead of one liner
-
-- class: [`Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer`](src/Fixer/Commenting/BlockPropertyCommentFixer.php)
-
-```diff
- class SomeClass
- {
--    /** @var int */
-+    /**
-+     * @var int
-+     */
-     public $count;
- }
-```
-
-<br>
-
 ### Use explicit and informative exception names over generic ones
 
 - class: [`Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff`](src/Sniffs/Architecture/ExplicitExceptionSniff.php)
@@ -883,63 +868,6 @@ d($value);
 dd($value);
 dump($value);
 var_dump($value);
-```
-
-<br>
-
-### Use service and constructor injection rather than instantiation with new
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff`](src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php)
-
-:x:
-
-```php
-<?php
-
-class SomeController
-{
-   public function renderEdit(array $data)
-   {
-        $database = new Database;
-        $database->save($data);
-   }
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeController
-{
-   public function renderEdit(array $data)
-   {
-        $this->database->save($data);
-   }
-}
-```
-
-This checkers ignores by default some classes, see `$allowedClasses` property.
-
-In case want to exclude more classes, you can **configure it** with class or pattern using [`fnmatch`](http://php.net/manual/en/function.fnmatch.php):
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
-        extraAllowedClasses:
-            - 'PhpParser\Node\*'
-```
-
-Doctrine entities are skipped as well. You can disable that by:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
-        includeEntities: true
 ```
 
 <br>

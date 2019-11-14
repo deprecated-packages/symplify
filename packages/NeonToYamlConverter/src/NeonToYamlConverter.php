@@ -6,16 +6,35 @@ use Nette\Neon\Entity;
 use Nette\Neon\Neon;
 use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
+use Symplify\NeonToYamlConverter\ConverterWorker\ParameterConverterWorker;
+use Symplify\NeonToYamlConverter\ConverterWorker\ServiceConverterWorker;
 use Symplify\NeonToYamlConverter\Formatter\YamlOutputFormatter;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\NeonToYamlConverter\Tests\NeonToYamlConverterTest
+ */
 final class NeonToYamlConverter
 {
     /**
-     * @todo maybe use to dump env vars
-     * @var string[]
+     * @var string
      */
-    private $environmentVariables = [];
+    private const SERVICES_KEY = 'services';
+
+    /**
+     * @var string
+     */
+    private const PARAMETERS_KEY = 'parameters';
+
+    /**
+     * @var string
+     */
+    private const INCLUDES_KEY = 'includes';
+
+    /**
+     * @var string
+     */
+    private const IMPORTS_KEY = 'imports';
 
     /**
      * @var ArrayParameterCollector
@@ -27,12 +46,26 @@ final class NeonToYamlConverter
      */
     private $yamlOutputFormatter;
 
+    /**
+     * @var ServiceConverterWorker
+     */
+    private $serviceConverterWorker;
+
+    /**
+     * @var ParameterConverterWorker
+     */
+    private $parameterConverterWorker;
+
     public function __construct(
         ArrayParameterCollector $arrayParameterCollector,
-        YamlOutputFormatter $yamlOutputFormatter
+        YamlOutputFormatter $yamlOutputFormatter,
+        ServiceConverterWorker $serviceConverterWorker,
+        ParameterConverterWorker $parameterConverterWorker
     ) {
         $this->arrayParameterCollector = $arrayParameterCollector;
         $this->yamlOutputFormatter = $yamlOutputFormatter;
+        $this->serviceConverterWorker = $serviceConverterWorker;
+        $this->parameterConverterWorker = $parameterConverterWorker;
     }
 
     public function convertFile(SmartFileInfo $fileInfo): string
@@ -49,19 +82,19 @@ final class NeonToYamlConverter
                 $data[$key] = $this->convertNeonEntityToArray($value);
             }
 
-            if ($key === 'services') {
-                $data[$key] = $this->convertServices((array) $value);
+            if ($key === self::SERVICES_KEY) {
+                $data[$key] = $this->serviceConverterWorker->convert((array) $value);
             }
 
-            if ($key === 'parameters') {
-                $data[$key] = $this->convertParameters((array) $value);
+            if ($key === self::PARAMETERS_KEY) {
+                $data[$key] = $this->parameterConverterWorker->convert((array) $value);
             }
 
-            if ($key === 'includes') {
+            if ($key === self::INCLUDES_KEY) {
                 unset($data[$key]);
                 $importsData = $this->convertIncludes((array) $value);
                 $importsContent = Yaml::dump($importsData, 1, 4, Yaml::DUMP_OBJECT_AS_MAP);
-                $data['imports'] = $importsContent;
+                $data[self::IMPORTS_KEY] = $importsContent;
             }
         }
 
@@ -86,136 +119,7 @@ final class NeonToYamlConverter
      */
     private function convertNeonEntityToArray(Entity $entity): array
     {
-        return array_merge([
-            'value' => $entity->value,
-
-        ], $entity->attributes);
-    }
-
-    /**
-     * @param mixed[] $data
-     * @return mixed[]
-     */
-    private function convertServices(array $data): array
-    {
-        foreach ($data as $name => $service) {
-            if (is_int($name)) { // not named
-                if (is_string($service)) { // just single-class
-                    unset($data[$name]);
-                    $name = $service;
-                    $data[$name] = null;
-                }
-
-                if ($service instanceof Entity) {
-                    [
-                     $name, $data,
-                    ] = $this->convertServiceEntity($data, $service, $name);
-                }
-            } elseif ($service instanceof Entity) {
-                [
-                 $name, $data,
-                ] = $this->convertServiceEntity($data, $service, $name);
-            } elseif (is_string($service)) {
-                if (is_string($name) && $service === '~') {
-                    $data[$name] = null;
-                    continue;
-                }
-
-                // probably factory, @see https://symfony.com/doc/current/service_container/factories.html
-                if (Strings::contains($service, '::')) {
-                    [
-                     $factoryClass, $factoryMethod,
-                    ] = explode('::', $service);
-
-                    $data[$name] = [
-                        'factory' => [$factoryClass, $factoryMethod],
-                    ];
-                // probably alias, @see https://symfony.com/doc/current/service_container/alias_private.html#aliasing
-                } elseif (Strings::startsWith($service, '@')) {
-                    $data[$name] = ['alias' => $service];
-                // probably service
-                } else {
-                    $data[$name] = ['class' => $service];
-                }
-            } else { // named service
-                $service = $data[$name];
-                if (isset($service['class'])) {
-                    if ($service['class'] instanceof Entity) {
-                        if ($service['class']->attributes) {
-                            $service['arguments'] = $service['class']->attributes;
-                        }
-                        $service['class'] = $service['class']->value;
-                    }
-                }
-
-                $data[$name] = $service;
-            }
-
-            $service = $data[$name];
-            if (isset($service['setup'])) {
-                foreach ((array) $service['setup'] as $key => $value) {
-                    if ($value instanceof Entity) {
-                        $service['setup'][$key] = [$value->value, $value->attributes];
-                    }
-                }
-
-                // inline calls - requires fixup in YamlOutputFormatter
-                $setupYamlContent = Yaml::dump($service['setup'], 1, 4, Yaml::DUMP_OBJECT);
-                $service['calls'] = $setupYamlContent;
-                unset($service['setup']);
-
-                $data[$name] = $service;
-            }
-
-            $service = $data[$name];
-            if (isset($service['arguments'])) {
-                foreach ((array) $service['arguments'] as $key => $value) {
-                    if ($value instanceof Entity) {
-                        if ($value->value === '@env::get') { // enviro value! @see https://symfony.com/blog/new-in-symfony-3-4-advanced-environment-variables
-                            $environmentVariable = $value->attributes[0];
-                            $this->environmentVariables[] = $environmentVariable;
-                            $service['arguments'][$key] = sprintf('%%env(%s)%%', $environmentVariable);
-                        }
-                    }
-                }
-            }
-
-            $data[$name] = $service;
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param mixed[] $data
-     * @return mixed[]
-     */
-    private function convertParameters(array $data): array
-    {
-        foreach ($data as $key => $value) {
-            if (! is_array($value)) {
-                continue;
-            }
-
-            foreach ($value as $key2 => $value2) {
-                $oldKey = $key . '.' . $key2;
-
-                $newKey = $this->arrayParameterCollector->matchParameterToReplace($oldKey);
-                if ($newKey === null) {
-                    continue;
-                }
-
-                // replace key
-                unset($data[$key][$key2]);
-                $data[$newKey] = $value2;
-            }
-
-            if ($data[$key] === []) {
-                unset($data[$key]);
-            }
-        }
-
-        return $data;
+        return array_merge(['value' => $entity->value], $entity->attributes);
     }
 
     /**
@@ -225,7 +129,7 @@ final class NeonToYamlConverter
     private function convertIncludes(array $data): array
     {
         foreach ($data as $key => $value) {
-            if (Strings::contains($value, 'vendor') === false) {
+            if (! Strings::contains($value, 'vendor')) {
                 $value = Strings::replace($value, '#\.neon$#', '.yaml');
             }
 
@@ -258,37 +162,9 @@ final class NeonToYamlConverter
     private function replaceOldToNewParameters(string $content): string
     {
         foreach ($this->arrayParameterCollector->getParametersToReplace() as $oldParameter => $newParamter) {
-            $content = Strings::replace($content, '#' . preg_quote($oldParameter) . '#', $newParamter);
+            $content = Strings::replace($content, '#' . preg_quote($oldParameter, '#') . '#', $newParamter);
         }
 
         return $content;
-    }
-
-    /**
-     * @param mixed[] $data
-     * @param string|int $name
-     * @return mixed[]
-     */
-    private function convertServiceEntity(array $data, Entity $entity, $name): array
-    {
-        $class = $entity->value;
-        $serviceData = [
-            'class' => $class,
-            'arguments' => $entity->attributes,
-        ];
-
-        if (is_int($name)) { // class-named service
-            // is namespaced class?
-            if (Strings::contains($serviceData['class'], '\\')) {
-                unset($serviceData['class']);
-            }
-
-            unset($data[$name]);
-            $name = $class;
-        }
-
-        $data[$name] = $serviceData;
-
-        return [$name, $data];
     }
 }

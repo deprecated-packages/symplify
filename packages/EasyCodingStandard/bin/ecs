@@ -1,13 +1,12 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-use Composer\XdebugHandler\XdebugHandler;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\DependencyInjection\Container;
+use Symplify\EasyCodingStandard\Bootstrap\ConfigResolver;
 use Symplify\EasyCodingStandard\Console\EasyCodingStandardConsoleApplication;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
-use Symplify\PackageBuilder\Configuration\LevelFileFinder;
+use Symplify\PackageBuilder\Configuration\SetFileFinder;
 use Symplify\PackageBuilder\Console\Input\InputDetector;
 
 // performance boost
@@ -32,16 +31,11 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     }
 }
 
-// performance boost
-$xdebug = new XdebugHandler('ecs', '--ansi');
-$xdebug->check();
-unset($xdebug);
-
 # 2. create container
 
-// Detect configuration from level option
+// Detect configuration from set option
 $configs = [];
-$configs[] = (new LevelFileFinder())->detectFromInputAndDirectory(new ArgvInput(), __DIR__ . '/../config/');
+$configs[] = (new SetFileFinder())->detectFromInputAndDirectory(new ArgvInput(), __DIR__ . '/../config/');
 
 // Fallback to config option
 ConfigFileFinder::detectFromInput('ecs', new ArgvInput());
@@ -52,6 +46,11 @@ $configs[] = ConfigFileFinder::provide(
 
 // remove empty values
 $configs = array_filter($configs);
+
+// resolve: parameters > sets
+$configResolver = new ConfigResolver();
+$parameterSetsConfigs = $configResolver->resolveFromParameterSetsFromConfigFiles($configs);
+$configs = array_merge($configs, $parameterSetsConfigs);
 
 /**
  * @param string[] $configs
@@ -66,7 +65,7 @@ function computeConfigHash(array $configs): string
     return $hash;
 }
 
-$environment = 'prod' . computeConfigHash($configs) . random_int(1, 100000);
+$environment = 'prod' . md5(computeConfigHash($configs) . random_int(1, 100000));
 $easyCodingStandardKernel = new EasyCodingStandardKernel($environment, InputDetector::isDebug());
 if ($configs !== []) {
     $easyCodingStandardKernel->setConfigs($configs);

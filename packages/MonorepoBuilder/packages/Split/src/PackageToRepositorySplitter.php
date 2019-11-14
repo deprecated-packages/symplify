@@ -8,7 +8,7 @@ use Symplify\MonorepoBuilder\Split\Exception\PackageToRepositorySplitException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
 use Symplify\MonorepoBuilder\Split\Process\SplitProcessInfo;
-use Symplify\PackageBuilder\FileSystem\FileSystemGuard;
+use Symplify\SmartFileSystem\FileSystemGuard;
 
 final class PackageToRepositorySplitter
 {

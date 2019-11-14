@@ -65,7 +65,7 @@ final class SniffClassWrapper
         return (bool) $this->getImplementsPosition();
     }
 
-    public function extends(): bool
+    public function extendsClass(): bool
     {
         return (bool) $this->file->findNext(T_EXTENDS, $this->position, $this->position + 5);
     }

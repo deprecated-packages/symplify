@@ -16,7 +16,7 @@ final class ConfigFileFinderTest extends TestCase
      */
     public function testDetectFromInputAndProvideWithAbsolutePath(
         array $options,
-        string $expectedConfig,
+        ?string $expectedConfig,
         string $message
     ): void {
         $name = md5(serialize($options));
@@ -31,6 +31,7 @@ final class ConfigFileFinderTest extends TestCase
         yield [['-c' => '.travis.yml'], getcwd() . '/.travis.yml', 'Short option with relative path'];
         yield [['--config' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml', 'Full option with relative path'];
         yield [['-c' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml', 'Short option with relative path'];
+        yield [['--', 'sh', '-c' => '/bin/true'], null, 'Skip parameters following an end of options (--) signal'];
     }
 
     public function testProvide(): void

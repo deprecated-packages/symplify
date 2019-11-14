@@ -3,8 +3,8 @@
 namespace Symplify\Statie\Tests\FileSystem;
 
 use Nette\Utils\FileSystem;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\HttpKernel\StatieKernel;

@@ -3,9 +3,8 @@
 namespace Symplify\EasyCodingStandard\Error;
 
 use Nette\Utils\Arrays;
-use Nette\Utils\Strings;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ErrorAndDiffCollector
 {
@@ -55,7 +54,7 @@ final class ErrorAndDiffCollector
     {
         $this->changedFilesDetector->invalidateFileInfo($fileInfo);
 
-        $relativePathnameToRoot = Strings::substring($fileInfo->getRealPath(), strlen(getcwd()) + 1);
+        $relativePathnameToRoot = $fileInfo->getRelativeFilePathFromCwd();
 
         $error = $this->errorFactory->create($line, $message, $sourceClass, $fileInfo);
 

@@ -1,24 +1,10 @@
-imports:
-    - { resource: 'packages/EasyCodingStandard/config/set/psr2.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/php71.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/clean-code.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/symplify.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/common.yaml' }
-    - { resource: 'packages/EasyCodingStandard/config/set/psr12.yaml' }
-
 services:
     Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
         old_to_preferred_classes:
-            SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
-            Symfony\Component\Finder\SplFileInfo: 'Symplify\PackageBuilder\FileSystem\SmartFileInfo'
+            SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
             PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
-
-    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-        extra_allowed_classes:
-            - '*File'
-            - '*Tweet'
-            - 'PHP_CodeSniffer\Config'
 
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
@@ -36,16 +22,17 @@ services:
             - 'FileDecorator'
 
 parameters:
+    sets:
+        - 'php71'
+        - 'clean-code'
+        - 'symplify'
+        - 'common'
+        - 'psr12'
+
     exclude_files:
         # tests
-        - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
-        - 'packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php'
-        - 'packages/EasyCodingStandard/tests/Skipper/Only/Source/*'
-        # files
-        - 'packages/CodingStandard/tests/Sniffs/DependencyInjection/NoClassInstantiation/Source/EntityClass.php'
-        - 'packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets*.php'
+        - 'packages/*/tests/**Source/*.php'
         - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
-        - 'packages/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/*'
 
     skip:
         # run form time to time, very slow and making many changes
@@ -55,6 +42,7 @@ parameters:
 
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
+
         Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
             # allowed spots for Container
             - '*Kernel.php'
@@ -62,13 +50,11 @@ parameters:
             - 'packages/PackageBuilder/src/Parameter/ParameterTypoProofreader.php'
             - 'packages/EasyCodingStandardTester/src/Testing/AbstractCheckerTestCase.php'
             # converts non-preferred type
-            - 'packages/PackageBuilder/src/FileSystem/SmartFileInfo.php'
-            - 'packages/PackageBuilder/src/FileSystem/FinderSanitizer.php'
-            - 'packages/EasyCodingStandard/src/Finder/FinderSanitizer.php'
-            - 'packages/PackageBuilder/tests/FileSystem/FinderSanitizerTest.php'
+            - 'packages/SmartFileSystem/src/SmartFileInfo.php'
+            - 'packages/SmartFileSystem/src/Finder/FinderSanitizer.php'
+            - 'packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
             # uses 3rd-party API
             - 'packages/PackageBuilder/src/Configuration/LevelFileFinder.php'
-            - 'packages/EasyCodingStandard/src/Contract/Finder/CustomSourceProviderInterface.php'
             - 'packages/CodingStandard/src/Fixer/*'
             - 'packages/CodingStandard/tests/Fixer/*'
             # SplFileInfo extension
@@ -96,17 +82,6 @@ parameters:
             - '*packages/*/src/DependencyInjection/CompilerPass/*CompilerPass.php'
             - 'packages/PHPStanExtensions/src/Symfony/Type/ContainerGetTypeExtension.php'
 
-        Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-            # static helper
-            - 'packages/PackageBuilder/src/Console/ThrowableRenderer.php'
-            # todo: decouple later
-            - 'packages/CodingStandard/packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
-            # cheap dependency injection
-            - 'packages/*/src/Yaml/*YamlLoader.php'
-            - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
-            - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/MethodOrderByTypeFixerTest.php'
-            - 'packages/Statie/src/Renderable/RedirectGenerator.php'
-
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect 3rd party code typehint
             - 'packages/*/Yaml/*FileLoader.php'
@@ -127,18 +102,6 @@ parameters:
             - 'packages/PackageBuilder/src/Console/Input/InputDetector.php'
             - 'packages/Autodiscovery/src/Arrays.php'
 
-        Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
-            # 3rd party code copy-pasted; kept as is for easier comparison to original
-            - 'packages/CodingStandard/src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php'
-            - 'packages/PackageBuilder/src/Yaml/ParametersMerger.php'
-            # wip
-            - 'packages/NeonToYamlConverter/src/NeonToYamlConverter.php'
-            # complex work
-            - 'packages/BetterPhpDocParser/src/Printer/PhpDocInfoPrinter.php'
-            - 'packages/CodingStandard/packages/TokenRunner/src/DocBlock/DescriptionAnalyzer.php'
-            # many nodes
-            - 'packages/BetterPhpDocParser/packages/Attributes/src/Ast/AttributeAwareNodeFactory.php'
-
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
@@ -155,3 +118,7 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
             - 'packages/MonorepoBuilder/src/Console/Command/ValidateCommand.php'
+
+        SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable:
+            # tests
+            - 'packages/Statie/packages/Generator/tests/GeneratorExceptionsTest.php'

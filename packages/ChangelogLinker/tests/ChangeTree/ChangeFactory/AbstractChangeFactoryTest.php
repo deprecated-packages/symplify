@@ -31,7 +31,7 @@ abstract class AbstractChangeFactoryTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         // this is needed, because every item in dataProviders resets $changeFactory property to null, dunno why
-        if (self::$cachedChangeFactory) {
+        if (self::$cachedChangeFactory !== null) {
             $this->changeFactory = self::$cachedChangeFactory;
         } else {
             $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/config.yml']);

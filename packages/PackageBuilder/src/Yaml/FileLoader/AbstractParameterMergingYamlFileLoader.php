@@ -44,7 +44,6 @@ abstract class AbstractParameterMergingYamlFileLoader extends YamlFileLoader
      *
      * @see https://github.com/Symplify/Symplify/pull/697
      *
-     * @param mixed $resource
      * @param string|null $type
      */
     public function load($resource, $type = null): void

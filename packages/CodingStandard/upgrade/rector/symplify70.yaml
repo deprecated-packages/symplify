@@ -1,0 +1,3 @@
+services:
+    Rector\Renaming\Rector\Class_\RenameClassRector:
+        Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer: 'PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer'

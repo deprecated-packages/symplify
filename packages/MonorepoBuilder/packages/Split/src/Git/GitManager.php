@@ -35,8 +35,7 @@ final class GitManager
             $command[] = $gitDirectory;
         }
 
-        $tags = $this->processRunner->run($command);
-        $tagList = explode(PHP_EOL, trim($tags));
+        $tagList = $this->parseTags($this->processRunner->run($command));
 
         /** @var string $theMostRecentTag */
         $theMostRecentTag = array_pop($tagList);
@@ -71,5 +70,19 @@ final class GitManager
         $partAfterAt = Strings::replace($partAfterAt, '#:#', '/');
 
         return sprintf('https://%s@%s', $this->githubToken, $partAfterAt);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function parseTags(string $commandResult): array
+    {
+        $tags = trim($commandResult);
+
+        // Remove all "\r" chars in case the CLI env like the Windows OS.
+        // Otherwise (ConEmu, git bash, mingw cli, e.g.), leave as is.
+        $tags = str_replace("\r", '', $tags);
+
+        return explode("\n", $tags);
     }
 }

@@ -51,7 +51,7 @@ final class PublishedTweetsFilter
      */
     private function getPublishedTweets(): array
     {
-        if ($this->publishedTweets) {
+        if ($this->publishedTweets !== []) {
             return $this->publishedTweets;
         }
 

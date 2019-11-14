@@ -1,6 +1,5 @@
 includes:
     - 'packages/PHPStanExtensions/config/config.neon'
-    - 'vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon'
 
 parameters:
     level: max
@@ -28,10 +27,7 @@ parameters:
             message: '#Cannot assign offset int to int#'
             path: 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
 
-        # intentionally
-        - '#In method "(.*?)", caught "Throwable" must be rethrown. Either catch a more specific exception or add a "throw" clause in the "catch" block to propagate the exception#'
-
-        # command argument value type convertino - known string
+        # command argument value type conversion - known string
         -
             message: '#Cannot cast array<string>\|string\|null to string#'
             path: '*packages/*Command.php'
@@ -41,10 +37,6 @@ parameters:
 
         # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
-
-        # is valid code, known values
-        - '#Method Symplify\\CodingStandard\\Fixer\\Naming\\PropertyNameMatchingTypeFixer::resolveDuplicatedTypes\(\) should return array<string> but returns array<int, int\|string>#'
-
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, bool\|int given#'
 
         # invalid 3rd party-code
@@ -52,7 +44,6 @@ parameters:
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
         - '#Property Symplify\\CodingStandard\\TokenRunner\\Wrapper\\FixerWrapper\\FixerClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
-        - '#Method Symplify\\Statie\\Latte\\Tests\\Renderable\\LatteFileDecoratorTest::createFileFromFilePath\(\) should return Symplify\\Statie\\Renderable\\File\\File but returns Symplify\\Statie\\Renderable\\File\\AbstractFile#'
 
         # known values
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, bool\|int given#'
@@ -81,21 +72,14 @@ parameters:
         - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
 
         # false positives
-        - '#Method Symplify\\Autodiscovery\\Doctrine\\DoctrineEntityMappingAutodiscoverer::resolveDirectoryByNamespace\(\) should return array<string> but returns array<string, int\|string>#'
         - '#Call to function method_exists\(\) with (.*?) and (.*?)fromShellCommandline(.*?) will always evaluate to false#'
 
         # variadic
-        - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'
         - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'
 
         # mixed up iterables
         - '#Parameter \#1 \$files of method Symplify\\PackageBuilder\\FileSystem\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo|string>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo> given#'
-
-        # intentionally
-        - '#Empty catch block#'
-
-        # not for a BC
-        - '#In method "Symplify\\EasyCodingStandard\\Contract\\Finder\\CustomSourceProviderInterface::find", a "iterable\<SplFileInfo\|string\>" return type can be added#'
+        - '#PHPDoc tag @return with type array<string\> is incompatible with native type Iterator#'
 
         # Symfony 4.2 typehint BC-break
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
@@ -117,26 +101,42 @@ parameters:
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
 
         # false positive
-        - '#More info\: http\://bit\.ly/(typehintarray|usetypehint)#'
         - '#Unreachable statement \- code above always terminates#'
         - '#Property Symplify\\Autodiscovery\\Tests\\Twig\\TwigPathAutodiscoveryTest\:\:\$twigFilesystemLoader \(Twig\\Loader\\FilesystemLoader\) does not accept Twig\\Loader\\LoaderInterface#'
 
         # magic properties
         - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:(.*?)#'
 
-        # phar edge case
-        - '#Strict comparison using \=\=\= between string and false will always evaluate to false#'
-
-        # tests
-        - '#Expression "\$post\[(.*?)]" on a separate line does not do anything#'
-
         # throws exception
-        - '#Method Symplify\\PackageBuilder\\Configuration\\LevelFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
+        - '#Method Symplify\\PackageBuilder\\Configuration\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
         # false positive
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
-        - '#Parameter \#1 \$s of static method Nette\\Utils\\Strings\:\:length\(\) expects string, string\|false given#'
         - '#Parameter \#1 \$subject of static method Nette\\Utils\\Strings\:\:match\(\) expects string, string\|false given#'
         - '#Method Symplify\\CodingStandard\\Fixer\\AbstractSymplifyFixer\:\:getReversedPositionsFromTokens\(\) should return array<int\> but returns array<int, int\|string\>#'
         - '#Parameter \#1 \$tokens of method Symplify\\CodingStandard\\Fixer\\Naming\\CatchExceptionNameMatchingTypeFixer\:\:updateCatchBodyVariableName\(\) expects PhpCsFixer\\Tokenizer\\Tokens, array<int\|string, PhpCsFixer\\Tokenizer\\Token\> given#'
 
         - '#Private method Symplify\\CodingStandard\\TokenRunner\\Tests\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
+
+        # yield iterator
+        - '#Return type \(Iterator\) of method Symplify\\Statie\\Twig\\(.*?)\:\:(.*?)\(\) should be compatible with return type \(array<Twig\\(.*?)\>\) of method Twig\\Extension\\(.*?)\(\)#'
+        - '#PHPDoc tag @return with type array<Twig\\TwigFunction\> is incompatible with native type Iterator#'
+        - '#PHPDoc tag @return with type array<Twig\\TwigFilter\> is incompatible with native type Iterator#'
+
+        -
+            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, string\> given#'
+            path: packages/Statie/packages/Migrator/src/Filesystem/MigratorFilesystem.php
+
+        -
+            message: '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
+            path: packages/SmartFileSystem/src/Finder/FinderSanitizer.php
+
+        -
+            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, iterable<SplFileInfo\|string\> given#'
+            path: packages/EasyCodingStandard/src/Finder/SourceFinder.php
+
+        -
+            message: '#Parameter \#1 \$unversionedSets of method Symplify\\EasyCodingStandard\\Bootstrap\\SetOptionResolver\:\:createSetListInString\(\) expects array<string\>, array<array<string\>\|string\> given#'
+            path: packages/EasyCodingStandard/src/Bootstrap/SetOptionResolver.php
+        -
+            message: '#Parameter \#2 \$versionedSets of method Symplify\\EasyCodingStandard\\Bootstrap\\SetOptionResolver\:\:createSetListInString\(\) expects array<array<string\>\>, array<array<string\>\|string\> given#'
+            path: packages/EasyCodingStandard/src/Bootstrap/SetOptionResolver.php

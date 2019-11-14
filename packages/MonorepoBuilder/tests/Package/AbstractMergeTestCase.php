@@ -7,9 +7,9 @@ use Nette\Utils\Json;
 use Symfony\Component\Finder\Finder;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 abstract class AbstractMergeTestCase extends AbstractKernelTestCase
 {
@@ -40,11 +40,7 @@ abstract class AbstractMergeTestCase extends AbstractKernelTestCase
             $this->getFileInfosFromDirectory($directoryWithJsonFiles)
         );
 
-        if (is_array($expected)) {
-            $expectedJson = $expected;
-        } else {
-            $expectedJson = $this->loadJsonFromFile($expected);
-        }
+        $expectedJson = is_array($expected) ? $expected : $this->loadJsonFromFile($expected);
 
         $this->assertSame($expectedJson, $merged);
     }

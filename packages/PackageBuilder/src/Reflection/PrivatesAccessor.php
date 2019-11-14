@@ -8,7 +8,6 @@ final class PrivatesAccessor
 {
     /**
      * @param object $object
-     * @return mixed
      */
     public function getPrivateProperty($object, string $propertyName)
     {
@@ -24,7 +23,6 @@ final class PrivatesAccessor
 
     /**
      * @param object $object
-     * @param mixed $value
      */
     public function setPrivateProperty($object, string $propertyName, $value): void
     {

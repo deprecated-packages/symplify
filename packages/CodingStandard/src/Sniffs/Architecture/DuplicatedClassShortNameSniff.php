@@ -8,7 +8,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 use ReflectionClass;
 use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DuplicatedClassShortNameSniff implements Sniff
 {

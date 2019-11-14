@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Generator\Renderable\File;
 
 use Nette\Utils\Strings;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\Utils\PathAnalyzer;
 

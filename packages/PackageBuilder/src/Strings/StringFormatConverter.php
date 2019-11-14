@@ -43,7 +43,7 @@ final class StringFormatConverter
 
     private function camelCaseToGlue(string $input, string $glue): string
     {
-        $matches = Strings::matchAll($input, '!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!');
+        $matches = Strings::matchAll($input, '#([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)#');
 
         $parts = [];
         foreach ($matches as $match) {

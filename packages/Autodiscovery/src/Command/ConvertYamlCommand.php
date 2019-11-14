@@ -15,8 +15,8 @@ use Symfony\Component\Yaml\Yaml;
 use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConvertYamlCommand extends Command
 {

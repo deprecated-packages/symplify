@@ -5,7 +5,7 @@ namespace Symplify\Statie\Utils;
 use DateTimeInterface;
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PathAnalyzer
 {
@@ -34,7 +34,7 @@ final class PathAnalyzer
     public function detectFilenameWithoutDate(SmartFileInfo $fileInfo): string
     {
         $date = $this->detectDate($fileInfo);
-        if ($date) {
+        if ($date !== null) {
             $dateAndNamePattern = sprintf('#%s-%s#', self::DATE_PATTERN, self::NAME_PATTERN);
 
             $match = Strings::match($fileInfo->getFilename(), $dateAndNamePattern);

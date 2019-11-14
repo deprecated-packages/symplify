@@ -8,8 +8,8 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
 use Symplify\Statie\Console\StatieConsoleApplication;
-use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\HttpKernel\StatieKernel;
 
 final class GenerateCommandTest extends AbstractKernelTestCase
@@ -38,25 +38,30 @@ final class GenerateCommandTest extends AbstractKernelTestCase
 
     protected function tearDown(): void
     {
-        FileSystem::delete($this->outputDirectory);
+        FileSystem::delete(addslashes($this->outputDirectory));
     }
 
     public function test(): void
     {
-        $stringInput = ['generate', __DIR__ . '/GenerateCommandSource/source', '--output', $this->outputDirectory];
+        $stringInput = [
+            'generate',
+            addslashes(__DIR__) . '/GenerateCommandSource/source',
+            '--output',
+            addslashes($this->outputDirectory),
+        ];
         $input = new StringInput(implode(' ', $stringInput));
 
         $this->statieConsoleApplication->run($input, new NullOutput());
 
-        $this->assertFileExists($this->outputDirectory . '/index.html');
+        $this->assertFileExists(addslashes($this->outputDirectory) . '/index.html');
     }
 
     public function testException(): void
     {
-        $stringInput = sprintf('generate %s', __DIR__ . '/GenerateCommandSource/missing');
+        $stringInput = sprintf('generate %s', addslashes(__DIR__) . '/GenerateCommandSource/missing');
         $input = new StringInput($stringInput);
 
-        $this->expectException(MissingDirectoryException::class);
+        $this->expectException(DirectoryNotFoundException::class);
 
         $this->statieConsoleApplication->run($input, new NullOutput());
     }

@@ -4,8 +4,8 @@ namespace Symplify\Statie\Tests\Renderable\Configuration;
 
 use Iterator;
 use Symfony\Component\Yaml\Exception\ParseException;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\StatieConfiguration;
 use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\ConfigurationFileDecorator;

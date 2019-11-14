@@ -14,7 +14,7 @@ final class InlineVarMalformWorker extends AbstractMalformWorker
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
-        if ($tokens[$position]->isGivenKind(T_COMMENT) === false) {
+        if (! $tokens[$position]->isGivenKind(T_COMMENT)) {
             return $docContent;
         }
 

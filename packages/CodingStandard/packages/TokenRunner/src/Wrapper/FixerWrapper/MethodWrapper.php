@@ -84,18 +84,13 @@ final class MethodWrapper
 
     private function shouldSkip(string $oldName, Token $token): bool
     {
-        if ($token->isGivenKind(T_VARIABLE) === false) {
+        if (! $token->isGivenKind(T_VARIABLE)) {
             return true;
         }
 
         if ($token->getContent() === '$this') {
             return true;
         }
-
-        if ($token->getContent() !== '$' . $oldName) {
-            return true;
-        }
-
-        return false;
+        return $token->getContent() !== '$' . $oldName;
     }
 }

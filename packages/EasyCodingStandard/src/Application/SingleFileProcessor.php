@@ -8,7 +8,7 @@ use Symplify\EasyCodingStandard\Contract\Application\FileProcessorCollectorInter
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Skipper;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SingleFileProcessor implements FileProcessorCollectorInterface
 {
@@ -52,7 +52,7 @@ final class SingleFileProcessor implements FileProcessorCollectorInterface
         try {
             $this->changedFilesDetector->addFileInfo($smartFileInfo);
             foreach ($this->fileProcessors as $fileProcessor) {
-                if (! $fileProcessor->getCheckers()) {
+                if ($fileProcessor->getCheckers() === []) {
                     continue;
                 }
 

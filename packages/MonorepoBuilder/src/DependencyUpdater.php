@@ -5,7 +5,7 @@ namespace Symplify\MonorepoBuilder;
 use Nette\Utils\Strings;
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DependencyUpdater
 {
@@ -107,7 +107,7 @@ final class DependencyUpdater
                 continue;
             }
 
-            if ($shouldSkipCallback) {
+            if ($shouldSkipCallback !== null) {
                 if ($shouldSkipCallback($smartFileInfo, $packageName, $section)) {
                     continue;
                 }
@@ -140,7 +140,7 @@ final class DependencyUpdater
                 continue;
             }
 
-            if ($shouldSkipCallback) {
+            if ($shouldSkipCallback !== null) {
                 if ($shouldSkipCallback($smartFileInfo, $packageName, $section)) {
                     continue;
                 }

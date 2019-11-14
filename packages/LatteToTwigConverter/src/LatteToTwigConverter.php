@@ -4,7 +4,7 @@ namespace Symplify\LatteToTwigConverter;
 
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 use Symplify\LatteToTwigConverter\Exception\ConfigurationException;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class LatteToTwigConverter
 {

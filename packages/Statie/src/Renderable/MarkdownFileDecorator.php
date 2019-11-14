@@ -83,8 +83,12 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
 
     private function decorateContent(AbstractFile $file): void
     {
-        $htmlContent = $this->parsedownExtra->text($file->getContent());
+        $fileContent = $file->getContent();
+        if ($fileContent === '') {
+            return;
+        }
 
+        $htmlContent = $this->parsedownExtra->text($fileContent);
         $file->changeContent($htmlContent);
     }
 }

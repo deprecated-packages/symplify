@@ -2,6 +2,9 @@
 
 namespace Symplify\MonorepoBuilder\Init\Command;
 
+use Composer\Composer;
+use Nette\Utils\FileSystem as NetteFileSystem;
+use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,6 +22,11 @@ final class InitCommand extends Command
     private const OUTPUT = 'output';
 
     /**
+     * @var Composer
+     */
+    private $composer;
+
+    /**
      * @var Filesystem
      */
     private $filesystem;
@@ -28,11 +36,12 @@ final class InitCommand extends Command
      */
     private $symfonyStyle;
 
-    public function __construct(Filesystem $filesystem, SymfonyStyle $symfonyStyle)
+    public function __construct(Filesystem $filesystem, SymfonyStyle $symfonyStyle, Composer $composer)
     {
         parent::__construct();
         $this->filesystem = $filesystem;
         $this->symfonyStyle = $symfonyStyle;
+        $this->composer = $composer;
     }
 
     protected function configure(): void
@@ -49,13 +58,28 @@ final class InitCommand extends Command
 
         $this->filesystem->mirror(__DIR__ . '/../../templates/monorepo', $output);
 
+        // Replace MonorepoBuilder version in monorepo-builder.yml
+        $filename = sprintf('%s/monorepo-builder.yml', $output);
+        $content = str_replace('<version>', $this->getMonorepoBuilderVersion(), NetteFileSystem::read($filename));
+
+        $this->filesystem->dumpFile($filename, $content);
+
         $this->symfonyStyle->success('Congrats! Your first monorepo is here.');
-        $this->symfonyStyle->note(
-            'Now try the next step - merge composer.json files from packages to the root one: ' .
-            PHP_EOL .
-            '"vendor/bin/monorepo-builder merge"'
-        );
+        $this->symfonyStyle->note(sprintf(
+            'Try the next step - merge "composer.json" files from packages to the root one:%s "vendor/bin/monorepo-builder merge"',
+            PHP_EOL
+        ));
 
         return ShellCode::SUCCESS;
+    }
+
+    /**
+     * Returns current version of MonorepoBuilder, contains only major and minor.
+     */
+    private function getMonorepoBuilderVersion(): string
+    {
+        $version = new Version(str_replace('x-dev', '0', $this->composer->getPackage()->getPrettyVersion()));
+
+        return sprintf('^%d.%d', $version->getMajor()->getValue(), $version->getMinor()->getValue());
     }
 }

@@ -4,7 +4,7 @@ namespace Symplify\MonorepoBuilder\Package;
 
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PackageNamesProvider
 {
@@ -34,7 +34,7 @@ final class PackageNamesProvider
      */
     public function provide(): array
     {
-        if ($this->names) {
+        if ($this->names !== []) {
             return $this->names;
         }
 

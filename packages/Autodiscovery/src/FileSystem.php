@@ -3,8 +3,8 @@
 namespace Symplify\Autodiscovery;
 
 use Symfony\Component\Finder\Finder;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FileSystem
 {
@@ -79,7 +79,7 @@ final class FileSystem
      */
     private function getDirectoriesInSourceByName(string $name): array
     {
-        if (! $this->getDirectories()) {
+        if ($this->getDirectories() === []) {
             return [];
         }
 
@@ -97,7 +97,7 @@ final class FileSystem
      */
     private function getFilesInSourceByName(string $name): array
     {
-        if (! $this->getDirectories()) {
+        if ($this->getDirectories() === []) {
             return [];
         }
 

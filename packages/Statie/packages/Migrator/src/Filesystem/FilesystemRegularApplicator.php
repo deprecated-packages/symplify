@@ -5,7 +5,7 @@ namespace Symplify\Statie\Migrator\Filesystem;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FilesystemRegularApplicator
 {

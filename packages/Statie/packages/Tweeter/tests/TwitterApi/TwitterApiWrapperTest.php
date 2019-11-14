@@ -23,12 +23,12 @@ final class TwitterApiWrapperTest extends AbstractKernelTestCase
 
     public function testGetPublishedTweets(): void
     {
-        if (getenv('TWITTER_CONSUMER_KEY') === false) {
+        if (! getenv('TWITTER_CONSUMER_KEY')) {
             $this->markTestSkipped('Run Twitter test only with access tokens.');
         }
 
         $publishedTweets = $this->twitterApiWrapper->getPublishedTweets();
-        $this->assertGreaterThanOrEqual(41, count($publishedTweets));
+        $this->assertGreaterThanOrEqual(20, count($publishedTweets));
 
         $this->assertInstanceOf(PublishedTweet::class, $publishedTweets[0]);
     }

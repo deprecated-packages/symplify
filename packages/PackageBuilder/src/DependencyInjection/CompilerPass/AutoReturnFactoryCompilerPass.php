@@ -93,12 +93,7 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
         if ($createMethodReflection->getNumberOfRequiredParameters() > 0) {
             return false;
         }
-
-        if (in_array($returnType, $this->excludedFactoryTypes, true)) {
-            return false;
-        }
-
-        return true;
+        return ! in_array($returnType, $this->excludedFactoryTypes, true);
     }
 
     /**
@@ -127,8 +122,9 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
 
     private function resolveReturnType(ReflectionMethod $reflectionMethod)
     {
-        if ($reflectionMethod->hasReturnType()) {
-            return (string) $reflectionMethod->getReturnType();
+        $returnType = $reflectionMethod->getReturnType();
+        if ($returnType !== null) {
+            return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
         }
 
         $match = Strings::match((string) $reflectionMethod->getDocComment(), self::RETURN_TYPE_PATTERN);

@@ -10,9 +10,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symplify\EasyCodingStandard\ChangedFilesDetector\CompilerPass\AddGetCwdWebalizedParameterCompilerPass;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\CompilerPass\AddSysGetTempDirParameterCompilerPass;
+use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\ConflictingCheckersCompilerPass;
-use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\CustomSourceProviderDefinitionCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\FixerWhitespaceConfigCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveExcludedCheckersCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveMutualCheckersCompilerPass;
@@ -81,6 +82,7 @@ final class EasyCodingStandardKernel extends Kernel implements ExtraConfigAwareK
         $containerBuilder->addCompilerPass(new AutowireInterfacesCompilerPass([
             FixerInterface::class,
             Sniff::class,
+            OutputFormatterInterface::class,
         ]));
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
 
@@ -89,11 +91,11 @@ final class EasyCodingStandardKernel extends Kernel implements ExtraConfigAwareK
 
         // parameters
         $containerBuilder->addCompilerPass(new AddSysGetTempDirParameterCompilerPass());
+        $containerBuilder->addCompilerPass(new AddGetCwdWebalizedParameterCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
 
         // method calls
         $containerBuilder->addCompilerPass(new FixerWhitespaceConfigCompilerPass());
-        $containerBuilder->addCompilerPass(new CustomSourceProviderDefinitionCompilerPass());
     }
 
     /**

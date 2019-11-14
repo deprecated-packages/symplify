@@ -1,3 +1,4 @@
+os: linux
 language: php
 
 # required for "git tag" presence for MonorepoBuilder split and ChangelogLinker git tags resolver
@@ -5,82 +6,169 @@ language: php
 git:
     depth: false
 
+php:
+    - '7.2'
+    - '7.3'
+    - '7.4snapshot'
+
+script:
+    - vendor/bin/phpunit
+
 matrix:
-    include:
-        - php: 7.1
-          env: CODE_ANALYSIS=true
-        - php: 7.1
-          env: COMPOSER_FLAGS="--prefer-lowest"
-        - php: 7.2
-          env: MONOREPO_SPLIT=true STANDALONE=true
-        - php: 7.3
-          env: COVERAGE="--coverage-clover coverage.xml"
-    # for better contributor experience
-    allow_failures:
-        - php: 7.1
-          env: CODE_ANALYSIS=true
+    fast_finish: true
 
 install:
     - composer update $COMPOSER_FLAGS
 
-before_script:
-    # make the script fail for any failed multi-line command (starts with "|" then new line)
-    - set -e
-
+before_install:
     # disable xdebug if not coverage
-    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || echo "xdebug not available"; fi
+    - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
-script:
-    - vendor/bin/phpunit
-    - |
-      if [[ $CODE_ANALYSIS == true ]]; then
-          packages/EasyCodingStandard/bin/ecs check packages
-          packages/EasyCodingStandard/bin/ecs check packages --config ecs-unused-public-methods.yaml
-          vendor/bin/phpstan analyse packages
-      fi
+jobs:
+    include:
+        -
+            stage: test
+            name: 'Simple Checks'
+            php: 7.3
+            script:
+                # validate monorepo <=> packages composer dependencies
+                - packages/MonorepoBuilder/bin/monorepo-builder validate
 
-    # each package standalone run https://stackoverflow.com/a/6787956/1348344
-    - |
-      if [[ $STANDALONE == true ]]; then
-          for DIRECTORY in `find packages -mindepth 1 -maxdepth 1 -type d`
-          do
-              CMD="vendor/bin/phpunit $DIRECTORY"
-              echo "Running '$CMD'"
-              $CMD
-          done
+        -
+            stage: test
+            name: 'Lowest Dependencies'
+            php: 7.2
+            install:
+                # install lowest dependencies
+                - composer update --prefer-lowest --no-progress
 
-          # test run bin files
-          packages/Autodiscovery/bin/autodiscovery
-          packages/EasyCodingStandard/bin/ecs
-          # test "check" options
-          packages/EasyCodingStandard/bin/ecs check packages/ChangelogLinker/src --no-progress-bar --no-error-table --clear-cache
-          packages/ChangelogLinker/bin/changelog-linker
-          packages/Statie/bin/statie
-          packages/LatteToTwigConverter/bin/latte-to-twig-converter
-          packages/MonorepoBuilder/bin/monorepo-builder
-      fi
+        -
+            stage: test
+            name: Unit Tests
 
-    # validate monorepo <=> packages composer dependencies
-    - packages/MonorepoBuilder/bin/monorepo-builder validate
+        -
+            stage: test
+            name: ECS
+            php: 7.3
+            script:
+                - packages/EasyCodingStandard/bin/ecs check packages
 
-after_script:
-    # code coverage run + upload to coveralls.io
-    - |
-      if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_BRANCH == "master" && $COVERAGE == true ]]; then
-          vendor/bin/phpunit --coverage-clover coverage.xml
-          wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
-          php php-coveralls.phar --verbose
-      fi
+        -
+            stage: test
+            name: PHPStan
+            php: 7.3
+            script:
+                 - vendor/bin/phpstan analyse packages
 
-    - |
-      if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_BRANCH == "master" && $MONOREPO_SPLIT == true ]]; then
-          # split monorepo to packages - only on merge to master
-          # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
-          packages/MonorepoBuilder/bin/monorepo-builder split -v
+        -
+            stage: test
+            name: 'Binary files'
+            php: 7.3
+            script:
+                # test run bin files
+                - packages/Autodiscovery/bin/autodiscovery
+                - packages/EasyCodingStandard/bin/ecs
 
-          # run slow api test only on master, because they require token
-          vendor/bin/phpunit --group api
-      fi
+                # test "check" options
+                - packages/EasyCodingStandard/bin/ecs check packages/ChangelogLinker/src --no-progress-bar --no-error-table --clear-cache
+                - packages/ChangelogLinker/bin/changelog-linker
+                - packages/Statie/bin/statie
+                - packages/LatteToTwigConverter/bin/latte-to-twig-converter
+                - packages/MonorepoBuilder/bin/monorepo-builder
+        -
+            stage: test
+            name: Rector
+            php: 7.3
+            script:
+                - composer rector
+        # Last Stage
+        -
+            stage: test
+            name: 'Standalone Run'
+            php: 7.3
+            script:
+                # each package standalone test run
+                - vendor/bin/phpunit packages/Autodiscovery/tests
+                - vendor/bin/phpunit packages/ChangelogLinker/tests
+                - vendor/bin/phpunit packages/CodingStandard/tests
+                - vendor/bin/phpunit packages/EasyCodingStandard/tests
+                - vendor/bin/phpunit packages/EasyCodingStandardTester/tests
+                - vendor/bin/phpunit packages/FlexLoader/tests
+                - vendor/bin/phpunit packages/LatteToTwigConverter/tests
+                - vendor/bin/phpunit packages/MonorepoBuilder/tests
+                - vendor/bin/phpunit packages/NeonToYamlConverter/tests
+                - vendor/bin/phpunit packages/PackageBuilder/tests
+                - vendor/bin/phpunit packages/PHPStanExtensions/tests
+                - vendor/bin/phpunit packages/SmartFileSystem/tests
+                - vendor/bin/phpunit packages/Statie/tests
+
+        -
+            stage: deploy
+            name: Test Coverage
+            if: branch = master AND type = push
+            php: 7.3
+            before_install:
+                - echo "keep xdebug"
+            script:
+                # code coverage run + upload to coveralls.io
+                - vendor/bin/phpunit --coverage-clover coverage.xml
+                - wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
+                - php php-coveralls.phar --verbose
+
+        -
+            stage: deploy
+            name: 'Slow API Tests'
+            if: branch = master AND type = push
+            script:
+                # run slow api test only on master, because they require token
+                - vendor/bin/phpunit --group api
+
+        -
+            stage: deploy
+            name: 'Split Monorepo'
+            if: branch = master AND type = push
+            php: 7.3
+            script:
+                # split monorepo to packages - only on merge to master
+                # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
+                - packages/MonorepoBuilder/bin/monorepo-builder split -v
+
+                # Windows
+        - &STANDARD_WINDOWS_JOB
+            stage: test
+            name: Windows PHP 7.2
+            os: windows
+            dist: 1803-containers
+            language: sh # No PHP currently
+            env: PHP_VERSION=7.2.23
+            install:
+                - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
+                - choco install composer --ia "/DEV=C:\tools\php"
+                - echo 'memory_limit=1G' >> 'C:\tools\php\php.ini'
+                - echo 'date.timezone="UTC"' >> 'C:\tools\php\php.ini'
+                - echo 'extension_dir=ext' >> 'C:\tools\php\php.ini'
+                - echo 'extension=php_mysqli.dll' >> 'C:\tools\php\php.ini'
+                - echo 'extension=php_intl.dll' >> 'C:\tools\php\php.ini'
+                - echo 'extension=php_curl.dll' >> 'C:\tools\php\php.ini'
+                - export PATH=/c/tools/php:$PATH
+                - composer update $COMPOSER_FLAGS
+            script:
+                # @todo this is probably broken, needs fixing
+                - vendor/bin/phpunit
+
+        -   <<: *STANDARD_WINDOWS_JOB
+            name: Windows PHP 7.3
+            env: PHP_VERSION=7.3.10
+
+    allow_failures:
+        - name: 'ECS'
+        - name: 'Rector'
+        - os: windows
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+        - tmp
 
 notifications:
     email: false

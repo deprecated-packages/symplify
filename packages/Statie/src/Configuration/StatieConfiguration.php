@@ -2,10 +2,10 @@
 
 namespace Symplify\Statie\Configuration;
 
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\SmartFileSystem\FileSystemGuard;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
-use Symplify\Statie\FileSystem\FileSystemGuard;
 
 final class StatieConfiguration
 {
@@ -20,7 +20,7 @@ final class StatieConfiguration
     private $outputDirectory;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $sourceDirectory;
 
@@ -78,7 +78,7 @@ final class StatieConfiguration
         }
 
         throw new MissingGithubRepositorySlugException(sprintf(
-            'Settings of "%s" is required for "{$post|githubEditPostUrl}" Latte filter. '
+            'Settings of "%s" is required for "{{ post|github_edit_post_url }}" filter. '
             . 'Add it to "statie.yml" under "parameters" section, e.g.: "%s".',
             self::OPTION_GITHUB_REPOSITORY_SOURCE_DIRECTORY,
             'https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/source'
@@ -93,9 +93,6 @@ final class StatieConfiguration
         return $this->options;
     }
 
-    /**
-     * @param mixed $value
-     */
     public function addOption(string $name, $value): void
     {
         $this->options[$name] = $value;

@@ -5,8 +5,8 @@ namespace Symplify\NeonToYamlConverter\Tests;
 use Symplify\NeonToYamlConverter\ArrayParameterCollector;
 use Symplify\NeonToYamlConverter\HttpKernel\NeonToYamlConverterKernel;
 use Symplify\NeonToYamlConverter\NeonToYamlConverter;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class MultipleFileTest extends AbstractKernelTestCase
 {

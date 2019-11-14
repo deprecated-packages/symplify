@@ -29,7 +29,7 @@ final class SourcesPresenceValidator
     public function validatePackageComposerJsons(): void
     {
         $composerPackageFiles = $this->composerJsonProvider->getPackagesFileInfos();
-        if (count($composerPackageFiles)) {
+        if (count($composerPackageFiles) > 0) {
             return;
         }
 

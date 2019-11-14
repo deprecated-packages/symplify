@@ -47,12 +47,7 @@ final class FlexPathsFactory
     {
         $existingGlobPaths = [];
         foreach ($globPaths as $globPath) {
-            // the final glob is decorated with *, so we need to check it here too
-            if (! Strings::endsWith($globPath, '*')) {
-                $checkedGlobPath = $globPath . '*';
-            } else {
-                $checkedGlobPath = $globPath;
-            }
+            $checkedGlobPath = ! Strings::endsWith($globPath, '*') ? $globPath . '*' : $globPath;
 
             if (glob($checkedGlobPath)) {
                 $existingGlobPaths[] = $globPath;

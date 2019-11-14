@@ -27,5 +27,5 @@ final class Category
     /**
      * @var string
      */
-    public const UNKNOWN = 'Unknown Category';
+    public const DEPRECATED = 'Deprecated';
 }

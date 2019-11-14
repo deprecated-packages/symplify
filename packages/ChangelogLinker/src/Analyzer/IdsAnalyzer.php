@@ -17,13 +17,16 @@ final class IdsAnalyzer
 
     public function getHighestIdInChangelog(string $content): ?int
     {
+        $ids = $this->getAllIdsInChangelog($content);
+        return (int) max($ids);
+    }
+
+    public function getAllIdsInChangelog(string $content): ?array
+    {
         $matches = Strings::matchAll($content, self::PR_REFERENCE_IN_LIST);
-        if (! $matches) {
+        if ($matches === []) {
             return null;
         }
-
-        $ids = array_column($matches, 'id');
-
-        return (int) max($ids);
+        return array_column($matches, 'id');
     }
 }

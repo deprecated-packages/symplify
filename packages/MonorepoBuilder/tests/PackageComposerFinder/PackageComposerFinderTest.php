@@ -4,7 +4,7 @@ namespace Symplify\MonorepoBuilder\Tests\PackageComposerFinder;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 
 final class PackageComposerFinderTest extends TestCase
 {
