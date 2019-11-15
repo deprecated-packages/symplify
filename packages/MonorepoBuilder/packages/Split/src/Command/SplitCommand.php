@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\MonorepoBuilder\Split\Configuration\Option;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -61,7 +62,7 @@ final class SplitCommand extends Command
             )
         );
         $this->addOption(
-            'max-processes',
+            Option::MAX_PROCESSES,
             null,
             InputOption::VALUE_REQUIRED,
             'Maximum number of processes to run in parallel'
@@ -72,10 +73,12 @@ final class SplitCommand extends Command
     {
         $this->repositoryGuard->ensureIsRepositoryDirectory($this->rootDirectory);
 
+        $maxProcesses = $input->getOption(Option::MAX_PROCESSES) ? intval(Option::MAX_PROCESSES) : null;
+
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
             $this->rootDirectory,
-            $input->getOption('max-processes') ? intval($input->getOption('max-processes')) : null
+            $maxProcesses
         );
 
         return ShellCode::SUCCESS;
