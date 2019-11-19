@@ -7,6 +7,9 @@ parameters:
         - 'code-quality'
         - 'dead-code'
         - 'coding-style'
+        - 'php-70'
+        - 'php-71'
+        - 'php-72'
 
     exclude_paths:
         - '/Init/'
