@@ -107,7 +107,6 @@ final class FileFinder
     {
         $finder = Finder::create()->files()
             ->name('*.html')
-            ->name('*.latte')
             ->name('*.twig')
             ->name('*.rss')
             ->name('*.md')
