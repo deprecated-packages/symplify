@@ -9,9 +9,9 @@
         "php": "^7.2",
         "guzzlehttp/guzzle": "^6.4",
         "nette/utils": "^3.0",
-        "symfony/console": "^4.3|^5.0",
-        "symfony/http-kernel": "^4.3|^5.0",
-        "symfony/process": "^4.3|^5.0",
+        "symfony/console": "^4.4|^5.0",
+        "symfony/http-kernel": "^4.4|^5.0",
+        "symfony/process": "^4.4|^5.0",
         "symplify/package-builder": "^6.2"
     },
     "require-dev": {
