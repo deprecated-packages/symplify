@@ -7,19 +7,10 @@ services:
         class: 'Symplify\PHPStanExtensions\ErrorFormatter\SymplifyErrorFormatter'
 
     - Symfony\Component\Console\Terminal
-    - Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
+    -
+         class: Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
+         tags: [phpstan.rules.rule]
 
     - Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory
     -
         factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
-
-extensions:
-    decorator: Nette\DI\Extensions\DecoratorExtension
-
-decorator:
-    PHPStan\Rules\Rule:
-        tags: [phpstan.rules.rule]
-    PHPStan\Type\DynamicMethodReturnTypeExtension:
-        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
-    PHPStan\Type\DynamicFunctionReturnTypeExtension:
-        tags: [phpstan.broker.dynamicFunctionReturnTypeExtension]
