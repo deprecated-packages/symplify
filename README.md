@@ -71,7 +71,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## CLI Utils
 
-- **[SetConfigResolver](https://github.com/Symplify/SetConfigResolver)** - [READ-ONLY] Loads configs to you with CLI --config, -c, --set, -s or sets parameter
+- **[SetConfigResolver](https://github.com/Symplify/SetConfigResolver)** - Loads configs to you with CLI --config, -c, --set, -s or sets parameter
 
     [![Build Status](https://img.shields.io/travis/Symplify/SetConfigResolver/master.svg?style=flat-square)](https://travis-ci.org/Symplify/SetConfigResolver)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/set-config-resolver.svg?style=flat-square)](https://packagist.org/packages/symplify/set-config-resolver/stats)
