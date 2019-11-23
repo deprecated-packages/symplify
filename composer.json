@@ -121,20 +121,21 @@
         }
     },
     "replace": {
-        "symplify/autodiscovery": "self.version",
-        "symplify/better-phpdoc-parser": "self.version",
-        "symplify/changelog-linker": "self.version",
-        "symplify/coding-standard": "self.version",
-        "symplify/easy-coding-standard": "self.version",
-        "symplify/easy-coding-standard-tester": "self.version",
-        "symplify/flex-loader": "self.version",
-        "symplify/latte-to-twig-converter": "self.version",
-        "symplify/monorepo-builder": "self.version",
-        "symplify/neon-to-yaml-converter": "self.version",
-        "symplify/package-builder": "^6.1",
-        "symplify/phpstan-extensions": "self.version",
-        "symplify/smart-file-system": "self.version",
-        "symplify/statie": "self.version"
+        "symplify/autodiscovery": "7.0",
+        "symplify/better-phpdoc-parser": "7.0",
+        "symplify/changelog-linker": "7.0",
+        "symplify/coding-standard": "7.0",
+        "symplify/easy-coding-standard": "7.0",
+        "symplify/easy-coding-standard-tester": "7.0",
+        "symplify/flex-loader": "7.0",
+        "symplify/latte-to-twig-converter": "7.0",
+        "symplify/monorepo-builder": "7.0",
+        "symplify/neon-to-yaml-converter": "7.0",
+        "symplify/package-builder": "7.0",
+        "symplify/phpstan-extensions": "7.0",
+        "symplify/smart-file-system": "7.0",
+        "symplify/set-config-resolver": "7.0",
+        "symplify/statie": "7.0"
     },
     "scripts": {
         "complete-check": [
