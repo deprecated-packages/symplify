@@ -38,14 +38,14 @@ final class SetResolver
         $this->optionValueResolver = new OptionValueResolver();
     }
 
-    public function detectFromInputAndDirectory(InputInterface $input, string $configDirectory): ?string
+    public function detectFromInputAndDirectory(InputInterface $input, string $setsDirectory): ?string
     {
         $setName = $this->optionValueResolver->getOptionValue($input, $this->optionNames);
         if ($setName === null) {
             return null;
         }
 
-        return $this->detectFromNameAndDirectory($setName, $configDirectory);
+        return $this->detectFromNameAndDirectory($setName, $setsDirectory);
     }
 
     public function detectFromNameAndDirectory(string $setName, string $configDirectory): string

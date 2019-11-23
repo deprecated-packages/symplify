@@ -83,9 +83,9 @@ final class ConfigResolver
         return $this->firstResolverConfig;
     }
 
-    public function resolveSetFromInputAndDirectory(InputInterface $input, string $configDirectory): ?string
+    public function resolveSetFromInputAndDirectory(InputInterface $input, string $setsDirectory): ?string
     {
-        return $this->setResolver->detectFromInputAndDirectory($input, $configDirectory);
+        return $this->setResolver->detectFromInputAndDirectory($input, $setsDirectory);
     }
 
     /**

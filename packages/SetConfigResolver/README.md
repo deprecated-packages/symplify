@@ -9,21 +9,7 @@
 composer require symplify/set-config-resolver
 ```
 
-## Use
-
-### A. Set From Root Config
-
-...
-
-### B. Set From `--set` Option in CLI
-
-...
-
-### C. Config From `--config` Option in CLI
-
-...
-
-### Load a Config for CLI Application?
+## Load a Config for CLI Application?
 
 - Read [How to Load --config With Services in Symfony Console](https://www.tomasvotruba.cz/blog/2018/05/14/how-to-load-config-with-services-in-symfony-console/#code-argvinput-code-to-the-rescue)
 
@@ -52,13 +38,14 @@ if ($inputConfig !== null) {
 }
 
 // 2. --set CLI option
-$setInputConfig = $configResolver->resolveSetFromInputAndDirectory(new ArgvInput(), __DIR__ . '/../config');
+$setsDirectory = __DIR__ . '/../config/sets';
+
+$setInputConfig = $configResolver->resolveSetFromInputAndDirectory(new ArgvInput(), $setsDirectory);
 if ($setInputConfig) {
     $configs[] = $setInputConfig;
 }
 
 // 3. "parameters > set" in provided yaml files
-$setsDirectory = __DIR__ . '/../config/sets';
 $parameterSetsConfigs = $configResolver->resolveFromParameterSetsFromConfigFiles($configs, $setsDirectory);
 if ($parameterSetsConfigs !== []) {
     $configs = array_merge($configs, $parameterSetsConfigs);

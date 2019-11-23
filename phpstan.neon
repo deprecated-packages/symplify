@@ -67,7 +67,6 @@ parameters:
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Cannot access offset (.*?) on Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile#'
         - '#Parameter \#1 \$stack of function array_pop expects array, array<int, string>\|false given#'
-        - '#Cannot call method getContent\(\) on Symplify\\Statie\\Renderable\\File\\AbstractFile\|null#'
         - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
 
@@ -123,10 +122,6 @@ parameters:
             message: '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
             path: packages/SmartFileSystem/src/Finder/FinderSanitizer.php
 
-#        -
-#            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, iterable<SplFileInfo\|string\> given#'
-#            path: packages/EasyCodingStandard/src/Finder/SourceFinder.php
-
         -
              message: '#Method Symplify\\SetConfigResolver\\Finder\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
              path: packages/SetConfigResolver/src/Finder/SetFileFinder.php
@@ -143,19 +138,6 @@ parameters:
             message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, string\> given#'
             path: packages/Statie/packages/Migrator/src/Filesystem/MigratorFilesystem.php
 
-
         -
             message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
             path: packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
-
-        -
-            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
-            path: packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
-
-        -
-            message: '#Call to an undefined static method Symplify\\SetConfigResolver\\Finder\\ConfigFileFinder\:\:getOptionValue\(\)#'
-            path: packages/SetConfigResolver/src/Finder/ConfigFileFinder.php
-
-        -
-            message: '#Undefined variable\: \$configurationFile#'
-            path: packages/EasyCodingStandard/packages/ChangedFilesDetector/src/ChangedFilesDetector.php
