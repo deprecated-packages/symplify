@@ -132,7 +132,7 @@ jobs:
             script:
                 # split monorepo to packages - only on merge to master
                 # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
-                - packages/MonorepoBuilder/bin/monorepo-builder split --max-processes 7 -v
+                - packages/MonorepoBuilder/bin/monorepo-builder split --max-processes 7
 
                 # Windows
         - &STANDARD_WINDOWS_JOB
