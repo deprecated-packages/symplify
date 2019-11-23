@@ -23,7 +23,7 @@ final class GitCommitDateTagResolver
      */
     public function __construct()
     {
-        $datesWithTags = explode(EolConfiguration::getEolChar(), $this->getDatesWithTagsInString());
+        $datesWithTags = (array) explode(EolConfiguration::getEolChar(), $this->getDatesWithTagsInString());
 
         foreach ($datesWithTags as $datesWithTag) {
             $dateMatch = Strings::match($datesWithTag, '#(?<date>\d{4}-\d{2}-\d{2})#');
