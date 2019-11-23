@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Configuration;
+namespace Symplify\SetConfigResolver\Finder;
 
 use Nette\Utils\ObjectHelpers;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\PackageBuilder\Exception\Configuration\LevelNotFoundException;
+use Symplify\SetConfigResolver\Console\OptionValueResolver;
 
 final class SetFileFinder
 {
@@ -21,17 +22,23 @@ final class SetFileFinder
     private $optionNames = [];
 
     /**
+     * @var OptionValueResolver
+     */
+    private $optionValueResolver;
+
+    /**
      * @param string[] $optionNames
      */
     public function __construct(array $optionNames = ['--set', '-s'], string $keyName = 'set')
     {
         $this->optionNames = $optionNames;
         $this->keyName = $keyName;
+        $this->optionValueResolver = new OptionValueResolver();
     }
 
     public function detectFromInputAndDirectory(InputInterface $input, string $configDirectory): ?string
     {
-        $levelName = ConfigFileFinder::getOptionValue($input, $this->optionNames);
+        $levelName = $this->optionValueResolver->getOptionValue($input, $this->optionNames);
         if ($levelName === null) {
             return null;
         }

@@ -5,7 +5,7 @@
     "require": {
         "php": "^7.2",
         "composer/composer": "^1.9",
-        "composer/xdebug-handler": "^1.3",
+        "composer/xdebug-handler": "^1.4",
         "erusev/parsedown": "^1.7",
         "erusev/parsedown-extra": "^0.7.1",
         "friendsofphp/php-cs-fixer": "^2.16",
@@ -35,7 +35,7 @@
         "symfony/process": "^4.4|^5.0",
         "symfony/routing": "^4.4|^5.0",
         "symfony/yaml": "^4.4|^5.0",
-        "twig/twig": "^2.12"
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^2.0",
@@ -72,6 +72,7 @@
             "Symplify\\NeonToYamlConverter\\": "packages/NeonToYamlConverter/src",
             "Symplify\\PHPStanExtensions\\": "packages/PHPStanExtensions/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
+            "Symplify\\SetConfigResolver\\": "packages/SetConfigResolver/src",
             "Symplify\\SmartFileSystem\\": "packages/SmartFileSystem/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
@@ -107,6 +108,7 @@
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/PHPStanExtensions/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/SmartFileSystem/tests",
+            "Symplify\\SetConfigResolver\\Tests\\": "packages/SetConfigResolver/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
             "Symplify\\Statie\\HeadlineAnchorLinker\\Tests\\": "packages/Statie/packages/HeadlineAnchorLinker/tests",
             "Symplify\\Statie\\MigratorJekyll\\Tests\\": "packages/Statie/packages/MigratorJekyll/tests",

@@ -1,6 +1,6 @@
 {
     "name": "symplify/easy-coding-standard-tester",
-    "description": "# The Best Way to Test Sniffs and Fixers",
+    "description": "The Best Way to Test Sniffs and Fixers",
     "license": "MIT",
     "require": {
         "php": "^7.2",

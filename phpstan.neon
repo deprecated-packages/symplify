@@ -67,7 +67,6 @@ parameters:
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Cannot access offset (.*?) on Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile#'
         - '#Parameter \#1 \$stack of function array_pop expects array, array<int, string>\|false given#'
-        - '#Cannot call method getContent\(\) on Symplify\\Statie\\Renderable\\File\\AbstractFile\|null#'
         - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
 
@@ -78,7 +77,6 @@ parameters:
         - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'
 
         # mixed up iterables
-        - '#Parameter \#1 \$files of method Symplify\\PackageBuilder\\FileSystem\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo|string>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo> given#'
         - '#PHPDoc tag @return with type array<string\> is incompatible with native type Iterator#'
 
         # Symfony 4.2 typehint BC-break
@@ -107,8 +105,6 @@ parameters:
         # magic properties
         - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:(.*?)#'
 
-        # throws exception
-        - '#Method Symplify\\PackageBuilder\\Configuration\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
         # false positive
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
         - '#Parameter \#1 \$subject of static method Nette\\Utils\\Strings\:\:match\(\) expects string, string\|false given#'
@@ -123,20 +119,25 @@ parameters:
         - '#PHPDoc tag @return with type array<Twig\\TwigFilter\> is incompatible with native type Iterator#'
 
         -
-            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, string\> given#'
-            path: packages/Statie/packages/Migrator/src/Filesystem/MigratorFilesystem.php
-
-        -
             message: '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
             path: packages/SmartFileSystem/src/Finder/FinderSanitizer.php
 
         -
-            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, iterable<SplFileInfo\|string\> given#'
-            path: packages/EasyCodingStandard/src/Finder/SourceFinder.php
+             message: '#Method Symplify\\SetConfigResolver\\Finder\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
+             path: packages/SetConfigResolver/src/Finder/SetFileFinder.php
 
         -
-            message: '#Parameter \#1 \$unversionedSets of method Symplify\\EasyCodingStandard\\Bootstrap\\SetOptionResolver\:\:createSetListInString\(\) expects array<string\>, array<array<string\>\|string\> given#'
-            path: packages/EasyCodingStandard/src/Bootstrap/SetOptionResolver.php
+            message: '#Parameter \#1 \$unversionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<string\>, array<array<string\>\|string\> given#'
+            path: packages/SetConfigResolver/src/SetResolver.php
+
         -
-            message: '#Parameter \#2 \$versionedSets of method Symplify\\EasyCodingStandard\\Bootstrap\\SetOptionResolver\:\:createSetListInString\(\) expects array<array<string\>\>, array<array<string\>\|string\> given#'
-            path: packages/EasyCodingStandard/src/Bootstrap/SetOptionResolver.php
+            message: '#Parameter \#2 \$versionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<array<string\>\>, array<array<string\>\|string\> given#'
+            path: packages/SetConfigResolver/src/SetResolver.php
+
+        -
+            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, string\> given#'
+            path: packages/Statie/packages/Migrator/src/Filesystem/MigratorFilesystem.php
+
+        -
+            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
+            path: packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php

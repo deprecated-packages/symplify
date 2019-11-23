@@ -3,20 +3,10 @@
 namespace Symplify\ChangelogLinker\FileSystem;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Exception\FileNotFoundException;
 use Symplify\ChangelogLinker\Exception\MissingPlaceholderInChangelogException;
 
-final class ChangelogFileSystemGuard
+final class ChangelogPlaceholderGuard
 {
-    public function ensureFileExists(string $changelogFilePath): void
-    {
-        if (file_exists($changelogFilePath)) {
-            return;
-        }
-
-        throw new FileNotFoundException(sprintf('Changelog file "%s" was not found', $changelogFilePath));
-    }
-
     public function ensurePlaceholderIsPresent(string $changelogContent, string $placeholder): void
     {
         if (Strings::contains($changelogContent, $placeholder)) {

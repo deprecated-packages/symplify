@@ -14,6 +14,8 @@ services:
         autowire: true
         public: true
 
+    Symplify\SmartFileSystem\FileSystemGuard: ~
+
     Symplify\ChangelogLinker\:
         resource: '../src'
         exclude:

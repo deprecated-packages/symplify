@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Bootstrap;
+namespace Symplify\SetConfigResolver;
 
 use Nette\Utils\ObjectHelpers;
 use Nette\Utils\Strings;
@@ -8,37 +8,38 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\Exception\Configuration\SetNotFoundException;
-use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
+use Symplify\SetConfigResolver\Console\Option\OptionName;
+use Symplify\SetConfigResolver\Console\OptionValueResolver;
 
-final class SetOptionResolver
+final class SetResolver
 {
-    /**
-     * @var string
-     */
-    private $keyName;
-
     /**
      * @var string[]
      */
     private $optionNames = [];
 
     /**
+     * @var OptionValueResolver
+     */
+    private $optionValueResolver;
+
+    /**
      * @param string[] $optionNames
      */
-    public function __construct(array $optionNames = ['--set', '-s'], string $keyName = 'set')
+    public function __construct(array $optionNames = OptionName::SET)
     {
         $this->optionNames = $optionNames;
-        $this->keyName = $keyName;
+        $this->optionValueResolver = new OptionValueResolver();
     }
 
-    public function detectFromInputAndDirectory(InputInterface $input, string $configDirectory): ?string
+    public function detectFromInputAndDirectory(InputInterface $input, string $setsDirectory): ?string
     {
-        $setName = ConfigFileFinder::getOptionValue($input, $this->optionNames);
+        $setName = $this->optionValueResolver->getOptionValue($input, $this->optionNames);
         if ($setName === null) {
             return null;
         }
 
-        return $this->detectFromNameAndDirectory($setName, $configDirectory);
+        return $this->detectFromNameAndDirectory($setName, $setsDirectory);
     }
 
     public function detectFromNameAndDirectory(string $setName, string $configDirectory): string
@@ -109,14 +110,13 @@ final class SetOptionResolver
         $setsListInString = $this->createSetListInString($unversionedSets, $versionedSets);
 
         $setNotFoundMessage = sprintf(
-            '%s "%s" was not found.%s%s',
-            ucfirst($this->keyName),
+            'Set "%s" was not found.%s%s',
             $setName,
             PHP_EOL,
             $suggestedSet ? sprintf('Did you mean "%s"?', $suggestedSet) . PHP_EOL : ''
         );
 
-        $pickOneOfMessage = sprintf('Pick "--%s" of:%s%s', $this->keyName, PHP_EOL . PHP_EOL, $setsListInString);
+        $pickOneOfMessage = sprintf('Pick one of:%s%s', PHP_EOL . PHP_EOL, $setsListInString);
 
         throw new SetNotFoundException($setNotFoundMessage . PHP_EOL . $pickOneOfMessage);
     }

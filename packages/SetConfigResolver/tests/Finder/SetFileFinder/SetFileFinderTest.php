@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\Configuration;
+namespace Symplify\SetConfigResolver\Tests\Finder\SetFileFinder;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symplify\PackageBuilder\Configuration\SetFileFinder;
+use Symplify\SetConfigResolver\Finder\SetFileFinder;
 
 final class SetFileFinderTest extends TestCase
 {
@@ -38,7 +38,9 @@ final class SetFileFinderTest extends TestCase
     public function provideOptionsAndExpectedConfig(): Iterator
     {
         yield [['-s' => 'someConfig'], $this->sourceDirectory . '/someConfig.yml'];
+
         yield [['--set' => 'someConfig'], $this->sourceDirectory . '/someConfig.yml'];
+
         yield [['--set' => 'anotherConfig'], $this->sourceDirectory . '/anotherConfig.yml'];
     }
 }

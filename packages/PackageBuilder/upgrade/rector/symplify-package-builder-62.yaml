@@ -9,6 +9,7 @@ services:
         Symplify\PackageBuilder\FileSystem\FileGuard: 'Symplify\SmartFileSystem\FileSystemGuard'
         Symplify\PackageBuilder\FileSystem\FileSystemGuard: 'Symplify\SmartFileSystem\FileSystemGuard'
 
+        Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException: 'Symplify\SmartFileSystem\Exception\FileNotFoundException'
         Symplify\PackageBuilder\Exception\FileSystem\FileNotFoundException: 'Symplify\SmartFileSystem\Exception\FileNotFoundException'
 
         # directory not found exception

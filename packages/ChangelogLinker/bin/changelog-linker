@@ -4,7 +4,7 @@
 use Symplify\ChangelogLinker\Console\ChangelogApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
-use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
+use Symplify\SetConfigResolver\ConfigResolver;
 use Symplify\PackageBuilder\Console\Input\InputDetector;
 
 $possibleAutoloadPaths = [
@@ -24,15 +24,23 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     }
 }
 
-ConfigFileFinder::detectFromInput('cl', new ArgvInput());
-$configFile = ConfigFileFinder::provide('cl', ['changelog-linker.yml', 'changelog-linker.yaml']);
+$configs = [];
+
+$configResolver = new ConfigResolver();
+$inputConfig = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [
+    'changelog-linker.yml', 'changelog-linker.yaml'
+]);
+
+if ($inputConfig !== null) {
+    $configs[] = $inputConfig;
+}
 
 // create container
 // random has is needed, so cache is invalidated and changes from config are loaded
 $environment = 'prod' . random_int(1, 100000);
 $changelogLinkerKernel = new ChangelogLinkerKernel($environment, InputDetector::isDebug());
-if ($configFile) {
-    $changelogLinkerKernel->setConfigs([$configFile]);
+if ($configs) {
+    $changelogLinkerKernel->setConfigs($configs);
 }
 
 $changelogLinkerKernel->boot();
