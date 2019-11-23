@@ -42,7 +42,8 @@ final class SplitCommand extends Command
         array $directoriesToRepositories,
         string $rootDirectory,
         PackageToRepositorySplitter $packageToRepositorySplitter
-    ) {
+    )
+    {
         parent::__construct();
 
         $this->repositoryGuard = $repositoryGuard;
@@ -67,6 +68,12 @@ final class SplitCommand extends Command
             InputOption::VALUE_REQUIRED,
             'Maximum number of processes to run in parallel'
         );
+        $this->addOption(
+            Option::TAG,
+            't',
+            InputOption::VALUE_REQUIRED,
+            'Specify the Git tag use for split. Use the most recent one by default'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -76,11 +83,13 @@ final class SplitCommand extends Command
         $maxProcesses = $input->getOption(Option::MAX_PROCESSES) ? intval(
             $input->getOption(Option::MAX_PROCESSES)
         ) : null;
+        $tag = $input->getOption(Option::TAG);
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
             $this->rootDirectory,
-            $maxProcesses
+            $maxProcesses,
+            $tag
         );
 
         return ShellCode::SUCCESS;

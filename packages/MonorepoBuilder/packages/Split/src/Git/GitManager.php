@@ -23,6 +23,14 @@ final class GitManager
         $this->githubToken = $githubToken;
     }
 
+    public function checkIfTagsHaveCommitterDate(): bool
+    {
+        $command = ['git', 'tag', '-l', '--format="%(committerdate)"'];
+        $result = $this->processRunner->run($command);
+
+        return preg_match('/^\s*$/', $result) !== false;
+    }
+
     /**
      * Returns null, when there are no local tags yet
      */
