@@ -1,8 +1,4 @@
 framework:
-    templating:
-        # needed to enable "twig.loader.filesystem" service
-        engines: ["twig"]
-
     # for translations
     translator:
         fallbacks: ["en"]
