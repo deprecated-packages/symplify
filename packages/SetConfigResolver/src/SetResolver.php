@@ -14,11 +14,6 @@ use Symplify\SetConfigResolver\Console\OptionValueResolver;
 final class SetResolver
 {
     /**
-     * @var string
-     */
-    private $keyName;
-
-    /**
      * @var string[]
      */
     private $optionNames = [];
@@ -31,10 +26,9 @@ final class SetResolver
     /**
      * @param string[] $optionNames
      */
-    public function __construct(array $optionNames = OptionName::SET, string $keyName = 'set')
+    public function __construct(array $optionNames = OptionName::SET)
     {
         $this->optionNames = $optionNames;
-        $this->keyName = $keyName;
         $this->optionValueResolver = new OptionValueResolver();
     }
 
@@ -116,14 +110,13 @@ final class SetResolver
         $setsListInString = $this->createSetListInString($unversionedSets, $versionedSets);
 
         $setNotFoundMessage = sprintf(
-            '%s "%s" was not found.%s%s',
-            ucfirst($this->keyName),
+            'Set "%s" was not found.%s%s',
             $setName,
             PHP_EOL,
             $suggestedSet ? sprintf('Did you mean "%s"?', $suggestedSet) . PHP_EOL : ''
         );
 
-        $pickOneOfMessage = sprintf('Pick "--%s" of:%s%s', $this->keyName, PHP_EOL . PHP_EOL, $setsListInString);
+        $pickOneOfMessage = sprintf('Pick one of:%s%s', PHP_EOL . PHP_EOL, $setsListInString);
 
         throw new SetNotFoundException($setNotFoundMessage . PHP_EOL . $pickOneOfMessage);
     }
