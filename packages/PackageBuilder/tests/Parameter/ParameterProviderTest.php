@@ -42,6 +42,6 @@ final class ParameterProviderTest extends AbstractKernelTestCase
             'two' => 2,
         ], $parameterProvider->provide());
 
-        $this->assertArrayHasKey('kernel.root_dir', $parameterProvider->provide());
+        $this->assertArrayHasKey('kernel.project_dir', $parameterProvider->provide());
     }
 }

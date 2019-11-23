@@ -2,11 +2,10 @@
 
 namespace Symplify\Autodiscovery\Tests\Twig;
 
-use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symplify\Autodiscovery\Tests\Source\HttpKernel\AudiscoveryTestingKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Twig\Environment;
-use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * @covers \Symplify\Autodiscovery\Twig\TwigPathAutodiscoverer
@@ -14,7 +13,7 @@ use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
 final class TwigPathAutodiscoveryTest extends AbstractKernelTestCase
 {
     /**
-     * @var TwigFilesystemLoader
+     * @var FilesystemLoader
      */
     private $twigFilesystemLoader;
 

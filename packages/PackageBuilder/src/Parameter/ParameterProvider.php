@@ -5,9 +5,6 @@ namespace Symplify\PackageBuilder\Parameter;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @todo replace in Symfony 4.1, by https://symfony.com/blog/new-in-symfony-4-1-getting-container-parameters-as-a-service
- */
 final class ParameterProvider
 {
     /**
