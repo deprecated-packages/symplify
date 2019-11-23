@@ -7,6 +7,7 @@ use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 use Symplify\PackageBuilder\Exception\Parameter\ParameterTypoException;
 
 final class ParameterTypoProofreader
@@ -90,7 +91,7 @@ final class ParameterTypoProofreader
         throw new ParameterTypoException(sprintf(
             'Parameter "parameters > %s" does not exist.%sUse "parameters > %s" instead.',
             $providedParameterName,
-            PHP_EOL,
+            EolConfiguration::getEolChar(),
             $correctParameterName
         ));
     }

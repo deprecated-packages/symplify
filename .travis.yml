@@ -5,6 +5,9 @@ language: php
 # see https://github.com/travis-ci/travis-ci/issues/7422
 git:
     depth: false
+    # To ensure the line feeds aren't modified by git
+    # see https://docs.travis-ci.com/user/customizing-the-build/#git-end-of-line-conversion-control
+    autocrlf: false
 
 php:
     - '7.2'
@@ -154,7 +157,6 @@ jobs:
                 - export PATH=/c/tools/php:$PATH
                 - composer update $COMPOSER_FLAGS
             script:
-                # @todo this is probably broken, needs fixing
                 - vendor/bin/phpunit
 
         -   <<: *STANDARD_WINDOWS_JOB

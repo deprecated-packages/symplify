@@ -9,6 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 use Symplify\NeonToYamlConverter\ConverterWorker\ParameterConverterWorker;
 use Symplify\NeonToYamlConverter\ConverterWorker\ServiceConverterWorker;
 use Symplify\NeonToYamlConverter\Formatter\YamlOutputFormatter;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -154,9 +155,10 @@ final class NeonToYamlConverter
 
     private function replaceTilda(string $content): string
     {
-        $content = Strings::replace($content, "#: '~'\n#", ': ~' . PHP_EOL);
+        $eolChar = EolConfiguration::getEolChar();
+        $content = Strings::replace($content, "#: '~'\n#", ': ~' . $eolChar);
 
-        return Strings::replace($content, "#: null\n#", ': ~' . PHP_EOL);
+        return Strings::replace($content, "#: null\n#", ': ~' . $eolChar);
     }
 
     private function replaceOldToNewParameters(string $content): string

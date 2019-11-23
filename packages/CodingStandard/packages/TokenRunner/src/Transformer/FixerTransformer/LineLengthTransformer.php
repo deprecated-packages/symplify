@@ -10,6 +10,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 final class LineLengthTransformer
 {
@@ -122,8 +123,8 @@ final class LineLengthTransformer
         // includes indent in the beginning
         $lineLength += strlen($currentToken->getContent());
 
-        // minus end of lines, do not count PHP_EOL as characters
-        $endOfLineCount = substr_count($currentToken->getContent(), PHP_EOL);
+        // minus end of lines, do not count line feeds as characters
+        $endOfLineCount = substr_count($currentToken->getContent(), EolConfiguration::getEolChar());
         $lineLength -= $endOfLineCount;
 
         // compute from here to end of line
@@ -179,7 +180,7 @@ final class LineLengthTransformer
 
     private function inlineItems(BlockInfo $blockInfo, Tokens $tokens): void
     {
-        // replace PHP_EOL with " "
+        // replace line feeds with " "
         for ($i = $blockInfo->getStart() + 1; $i < $blockInfo->getEnd(); ++$i) {
             $currentToken = $tokens[$i];
             $i = $this->tokenSkipper->skipBlocks($tokens, $i);
@@ -285,7 +286,7 @@ final class LineLengthTransformer
 
     private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
     {
-        if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
+        if (Strings::startsWith($tokens[$position]->getContent(), EolConfiguration::getEolChar())) {
             return true;
         }
 
@@ -294,7 +295,7 @@ final class LineLengthTransformer
 
     private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
     {
-        if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
+        if (Strings::startsWith($tokens[$position]->getContent(), EolConfiguration::getEolChar())) {
             return true;
         }
 
@@ -330,7 +331,7 @@ final class LineLengthTransformer
         $length = 0;
 
         $currentPosition = $blockInfo->getEnd();
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
+        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), EolConfiguration::getEolChar())) {
             $currentToken = $tokens[$currentPosition];
 
             $length += strlen($currentToken->getContent());

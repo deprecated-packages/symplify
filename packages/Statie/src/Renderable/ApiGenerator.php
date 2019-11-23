@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Renderable;
 
 use Nette\Utils\Json;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Statie\Contract\Api\ApiItemDecoratorInterface;
 use Symplify\Statie\Renderable\File\VirtualFile;
@@ -48,7 +49,7 @@ final class ApiGenerator
             $outputPath = $this->createOutputPath($apiParameter);
             $content = $this->createContent($apiParameter);
 
-            $virtualFiles[] = new VirtualFile($outputPath, $content . PHP_EOL);
+            $virtualFiles[] = new VirtualFile($outputPath, $content . EolConfiguration::getEolChar());
         }
 
         return $virtualFiles;

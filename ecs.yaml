@@ -37,11 +37,16 @@ parameters:
     skip:
         # run form time to time, very slow and making many changes
         Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
+        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff: ~
 
         PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff: ~
 
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
+
+        Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff:
+            # directory separator
+            - 'packages/MonorepoBuilder/tests/VersionValidator/VersionValidatorTest.php'
 
         Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
             # allowed spots for Container
@@ -92,15 +97,6 @@ parameters:
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
             - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
-
-        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff:
-            # privileged handy helpers
-            - 'packages/BetterPhpDocParser/src/Annotation/AnnotationNaming.php'
-            - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
-            - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
-            - 'packages/PackageBuilder/src/Console/Input/InputDetector.php'
-            - 'packages/Autodiscovery/src/Arrays.php'
-            - 'packages/SetConfigResolver/src/Finder/*FileFinder.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 

@@ -9,6 +9,7 @@ use PHP_CodeSniffer\Tokenizers\PHP;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\CognitiveComplexityAnalyzer;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 final class CognitiveComplexityAnalyzerTest extends TestCase
 {
@@ -65,7 +66,7 @@ final class CognitiveComplexityAnalyzerTest extends TestCase
      */
     private function fileToTokens(string $fileContent): array
     {
-        return (new PHP($fileContent, $this->getLegacyConfig(), PHP_EOL))->getTokens();
+        return (new PHP($fileContent, $this->getLegacyConfig(), EolConfiguration::getEolChar()))->getTokens();
     }
 
     /**
