@@ -26,6 +26,7 @@
         "symfony/yaml": "^4.4|^5.0",
         "symplify/package-builder": "^7.1",
         "symplify/smart-file-system": "^7.1",
+        "symplify/set-config-resolver": "^7.1",
         "jean85/pretty-package-versions": "^1.2",
         "ocramius/package-versions": "^1.4"
     },
