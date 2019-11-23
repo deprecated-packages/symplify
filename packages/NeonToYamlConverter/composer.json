@@ -9,8 +9,8 @@
         "php": "^7.2",
         "nette/utils": "^3.0",
         "nette/neon": "^3.0",
-        "symplify/package-builder": "^6.2",
-        "symplify/smart-file-system": "^6.2",
+        "symplify/package-builder": "^7.0",
+        "symplify/smart-file-system": "^7.0",
         "symfony/http-kernel": "^4.4|^5.0",
         "symfony/yaml": "^4.4|^5.0"
     },

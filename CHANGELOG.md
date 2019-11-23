@@ -9,7 +9,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## Unreleased
+## v7.0.0 - 2019-11-23
 
 - [#1670] New package **SetConfigResolver**
 - [#1643] New package **SmartFileSystem**
