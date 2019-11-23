@@ -35,7 +35,7 @@
         "symfony/process": "^4.4|^5.0",
         "symfony/routing": "^4.4|^5.0",
         "symfony/yaml": "^4.4|^5.0",
-        "twig/twig": "^2.12"
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^2.0",
