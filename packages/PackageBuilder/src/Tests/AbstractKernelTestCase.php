@@ -2,6 +2,7 @@
 
 namespace Symplify\PackageBuilder\Tests;
 
+use LogicException;
 use Nette\Utils\Json;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -63,7 +64,14 @@ abstract class AbstractKernelTestCase extends TestCase
     protected function ensureKernelShutdown(): void
     {
         if (static::$kernel !== null) {
-            $container = static::$kernel->getContainer();
+            // make sure boot() is called
+            try {
+                $container = static::$kernel->getContainer();
+            } catch (LogicException $logicException) {
+                static::$kernel->boot();
+                $container = static::$kernel->getContainer();
+            }
+
             static::$kernel->shutdown();
 
             if ($container instanceof ResetInterface) {
