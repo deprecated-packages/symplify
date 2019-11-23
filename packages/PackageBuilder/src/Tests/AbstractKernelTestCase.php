@@ -2,10 +2,10 @@
 
 namespace Symplify\PackageBuilder\Tests;
 
-use LogicException;
 use Nette\Utils\Json;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use ReflectionClass;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Container;
@@ -65,17 +65,15 @@ abstract class AbstractKernelTestCase extends TestCase
     {
         if (static::$kernel !== null) {
             // make sure boot() is called
-            try {
+            // @see https://github.com/symfony/symfony/pull/31202/files
+            $container = (new ReflectionClass(static::$kernel))->getProperty('container');
+            $container->setAccessible(true);
+            if ($container->getValue(static::$kernel) !== null) {
                 $container = static::$kernel->getContainer();
-            } catch (LogicException $logicException) {
-                static::$kernel->boot();
-                $container = static::$kernel->getContainer();
-            }
-
-            static::$kernel->shutdown();
-
-            if ($container instanceof ResetInterface) {
-                $container->reset();
+                static::$kernel->shutdown();
+                if ($container instanceof ResetInterface) {
+                    $container->reset();
+                }
             }
         }
 
