@@ -83,7 +83,7 @@ final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implem
      */
     public function configure(?array $configuration = null): void
     {
-        $this->classMustExists = $configuration['class_must_exist'] ?? [];
+        $this->classMustExists = $configuration['class_must_exist'] ?? true;
         $this->allowClasses = $configuration['allow_classes'] ?? [];
     }
 
