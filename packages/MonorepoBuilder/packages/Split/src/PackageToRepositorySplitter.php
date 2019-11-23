@@ -56,13 +56,22 @@ final class PackageToRepositorySplitter
 
     /**
      * @param mixed[] $splitConfig
+     * @param string $rootDirectory
+     * @param int|null $maxProcesses
+     * @param string|null $tag
+     * @throws PackageToRepositorySplitException
+     * @throws \Symplify\SmartFileSystem\Exception\DirectoryNotFoundException
      */
     public function splitDirectoriesToRepositories(
         array $splitConfig,
         string $rootDirectory,
-        ?int $maxProcesses = null
+        ?int $maxProcesses = null,
+        ?string $tag = null
     ): void {
-        $theMostRecentTag = $this->gitManager->getMostRecentTag($rootDirectory);
+        if ($tag === null) {
+            $tag = $this->gitManager->getMostRecentTag($rootDirectory);
+        }
+
         foreach ($splitConfig as $localDirectory => $remoteRepository) {
             $this->fileSystemGuard->ensureDirectoryExists($localDirectory);
 
@@ -71,7 +80,7 @@ final class PackageToRepositorySplitter
             );
 
             $process = $this->processFactory->createSubsplit(
-                $theMostRecentTag,
+                $tag,
                 $localDirectory,
                 $remoteRepositoryWithGithubKey
             );
