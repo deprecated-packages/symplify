@@ -26,3 +26,4 @@ parameters:
         packages/PHPStanExtensions: 'git@github.com:Symplify/PHPStanExtensions.git'
         packages/FlexLoader: 'git@github.com:Symplify/FlexLoader.git'
         packages/Autodiscovery: 'git@github.com:Symplify/Autodiscovery.git'
+        packages/SetConfigResolver: 'git@github.com:Symplify/SetConfigResolver.git'

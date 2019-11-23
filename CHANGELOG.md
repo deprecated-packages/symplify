@@ -11,17 +11,48 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ## Unreleased
 
+- [#1670] New package **SetConfigResolver**
+- [#1643] New package **SmartFileSystem**
+
 ### Added
 
-- [#1656] Add --xdebug option
+- [#1656] Add `--xdebug` option
+
+#### ChangelogLinker
+
+- [#1662] Make changed category as default fallback, add deprecated category
+
+#### EasyCodingStandard
+
+- [#1669] Drop overcomplicated `CustomSourceProviderInterface`, add `parameters > file_extensions` instead
+
+#### MonorepoBuilder
+
+- [#1671] Add `file://` option for repository, Thanks to [@fchris82]
+
+### Changed
+
+- [#1674] Allow Symfony 5
+- [#1668] Bump to Symfony 4.3+
 - [#1629] Allow Symfony 5 + bump to PHP 7.2 + add Rector CI run
 - [#1630] Add Rector CI run
+- [#1650] Travis Windows + composer paths, Thanks to [@orklah]
 
-#### SmartFileSystem
+#### EasyCodingStandard
 
-**NEW PACKAGE!**
+- [#1663] Change `--level` option to `--set`
 
-- [#1643] Decouple package from PackageBuilder
+### Removed
+
+#### CodingStandard
+
+- [#1667] Remove deprecated `NoClassInstantiationSniff`
+
+### Removed
+
+#### CodingStandard
+
+- [#1666] Remove `BlockPropertyCommentFixer` and use `PhpdocLineSpanFixer` instead
 
 #### EasyCodingStandard
 
@@ -358,3 +389,16 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#1649]: https://github.com/Symplify/Symplify/pull/1649
 [#1645]: https://github.com/Symplify/Symplify/pull/1645
 [@orklah]: https://github.com/orklah
+[#1675]: https://github.com/Symplify/Symplify/pull/1675
+[#1674]: https://github.com/Symplify/Symplify/pull/1674
+[#1672]: https://github.com/Symplify/Symplify/pull/1672
+[#1671]: https://github.com/Symplify/Symplify/pull/1671
+[#1670]: https://github.com/Symplify/Symplify/pull/1670
+[#1669]: https://github.com/Symplify/Symplify/pull/1669
+[#1668]: https://github.com/Symplify/Symplify/pull/1668
+[#1667]: https://github.com/Symplify/Symplify/pull/1667
+[#1666]: https://github.com/Symplify/Symplify/pull/1666
+[#1665]: https://github.com/Symplify/Symplify/pull/1665
+[#1663]: https://github.com/Symplify/Symplify/pull/1663
+[#1662]: https://github.com/Symplify/Symplify/pull/1662
+[@fchris82]: https://github.com/fchris82
