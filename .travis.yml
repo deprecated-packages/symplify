@@ -87,48 +87,38 @@ jobs:
             name: 'Standalone Run'
             php: 7.3
             install:
-                - echo "install per package dependencies"
-                -
+                # install per package dependencies
+                - composer install -d packages/Autodiscovery
+                - composer install -d packages/ChangelogLinker
+                - composer install -d packages/CodingStandard
+                - composer install -d packages/EasyCodingStandard
+                - composer install -d packages/EasyCodingStandardTester
+                - composer install -d packages/FlexLoader
+                - composer install -d packages/LatteToTwigConverter
+                - composer install -d packages/MonorepoBuilder
+                - composer install -d packages/NeonToYamlConverter
+                - composer install -d packages/PackageBuilder
+                - composer install -d packages/PHPStanExtensions
+                - composer install -d packages/SmartFileSystem
+                - composer install -d packages/Statie
+                - composer install -d packages/SetConfigResolver
+
             script:
                 # each package standalone test run with own dependencies
-                - composer install -d packages/Autodiscovery
                 - vendor/bin/phpunit packages/Autodiscovery/tests
-
-                - composer install -d packages/ChangelogLinker
                 - vendor/bin/phpunit packages/ChangelogLinker/tests
-
-                - composer install -d packages/CodingStandard
                 - vendor/bin/phpunit packages/CodingStandard/tests
-
-                - composer install -d packages/EasyCodingStandard
                 - vendor/bin/phpunit packages/EasyCodingStandard/tests
-
-                - composer install -d packages/EasyCodingStandardTester
                 - vendor/bin/phpunit packages/EasyCodingStandardTester/tests
-
-                - composer install -d packages/FlexLoader
                 - vendor/bin/phpunit packages/FlexLoader/tests
-
-                - composer install -d packages/LatteToTwigConverter
                 - vendor/bin/phpunit packages/LatteToTwigConverter/tests
-
-                - composer install -d packages/MonorepoBuilder
                 - vendor/bin/phpunit packages/MonorepoBuilder/tests
-
-                - composer install -d packages/NeonToYamlConverter
                 - vendor/bin/phpunit packages/NeonToYamlConverter/tests
-
-                - composer install -d packages/PackageBuilder
                 - vendor/bin/phpunit packages/PackageBuilder/tests
-
-                - composer install -d packages/PHPStanExtensions
                 - vendor/bin/phpunit packages/PHPStanExtensions/tests
-
-                - composer install -d packages/SmartFileSystem
                 - vendor/bin/phpunit packages/SmartFileSystem/tests
-
-                - composer install -d packages/Statie
                 - vendor/bin/phpunit packages/Statie/tests
+                - vendor/bin/phpunit packages/SetConfigResolver/tests
 
         -
             stage: deploy
