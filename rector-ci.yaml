@@ -27,3 +27,9 @@ parameters:
         - 'Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector'
         # buggy
         - 'Rector\CodingStyle\Rector\Use_\RemoveUnusedAliasRector'
+
+        # many edge cases on known array key contents
+        - 'Rector\Php71\Rector\FuncCall\CountOnNullRector'
+
+        # fixed in master
+        - 'Rector\Php70\Rector\MethodCall\ThisCallOnStaticMethodToStaticCallRector'
