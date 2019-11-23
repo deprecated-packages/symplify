@@ -81,7 +81,7 @@ jobs:
             php: 7.3
             script:
                 - composer rector
-        # Last Stage
+
         -
             stage: test
             name: 'Standalone Run'
@@ -101,6 +101,7 @@ jobs:
                 - vendor/bin/phpunit packages/PHPStanExtensions/tests
                 - vendor/bin/phpunit packages/SmartFileSystem/tests
                 - vendor/bin/phpunit packages/Statie/tests
+                - vendor/bin/phpunit packages/SetConfigResolver/tests
 
         -
             stage: deploy
