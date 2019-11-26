@@ -118,3 +118,6 @@ parameters:
         SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable:
             # tests
             - 'packages/Statie/packages/Generator/tests/GeneratorExceptionsTest.php'
+
+        # disable random annotation removal of this Sniff
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment: ~
