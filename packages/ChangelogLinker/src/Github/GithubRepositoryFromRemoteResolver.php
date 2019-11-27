@@ -4,22 +4,27 @@ namespace Symplify\ChangelogLinker\Github;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Exception\Git\InvalidGitRemoteException;
-use function Safe\sprintf;
-use function Safe\substr;
 
 final class GithubRepositoryFromRemoteResolver
 {
     public function resolveFromUrl(string $url): string
     {
         if (Strings::startsWith($url, 'https://')) {
-            return rtrim($url, '.git');
+            $url = rtrim($url, '.git');
+
+            $githubPosition = Strings::indexOf($url, 'github.com');
+            if ($githubPosition !== false) {
+                $url = Strings::substring($url, $githubPosition);
+            }
+
+            return 'https://' . $url;
         }
 
         // turn SSH format to "https"
         if (Strings::startsWith($url, 'git@')) {
             $url = rtrim($url, '.git');
             $url = str_replace(':', '/', $url);
-            $url = substr($url, strlen('git@'));
+            $url = Strings::substring($url, Strings::length('git@'));
 
             return 'https://' . $url;
         }

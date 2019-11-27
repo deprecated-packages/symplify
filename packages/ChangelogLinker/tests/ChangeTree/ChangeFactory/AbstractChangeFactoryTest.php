@@ -4,9 +4,10 @@ namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory;
 
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
-use Symplify\ChangelogLinker\Tests\AbstractConfigAwareContainerTestCase;
+use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-abstract class AbstractChangeFactoryTest extends AbstractConfigAwareContainerTestCase
+abstract class AbstractChangeFactoryTest extends AbstractKernelTestCase
 {
     /**
      * @var mixed[]
@@ -30,23 +31,18 @@ abstract class AbstractChangeFactoryTest extends AbstractConfigAwareContainerTes
     protected function setUp(): void
     {
         // this is needed, because every item in dataProviders resets $changeFactory property to null, dunno why
-        if (self::$cachedChangeFactory) {
+        if (self::$cachedChangeFactory !== null) {
             $this->changeFactory = self::$cachedChangeFactory;
         } else {
-            $this->changeFactory = $this->container->get(ChangeFactory::class);
+            $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/config.yml']);
+            $this->changeFactory = self::$container->get(ChangeFactory::class);
             self::$cachedChangeFactory = $this->changeFactory;
         }
-    }
-
-    public function provideConfig(): string
-    {
-        return __DIR__ . '/config/config.yml';
     }
 
     protected function createChangeForTitle(string $title): Change
     {
         $this->pullRequest['title'] = $title;
-
         return $this->changeFactory->createFromPullRequest($this->pullRequest);
     }
 }

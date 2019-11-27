@@ -1,22 +1,95 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Container;
-use Symplify\EasyCodingStandard\Console\Application;
-use Symplify\PackageBuilder\Console\ThrowableRenderer;
-
-require_once __DIR__ . '/autoload.php';
+use Symfony\Component\Console\Input\ArgvInput;
+use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
+use Symplify\EasyCodingStandard\Console\EasyCodingStandardConsoleApplication;
+use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\EasyCodingStandard\Set\Set;
+use Symplify\SetConfigResolver\ConfigResolver;
+use Symplify\PackageBuilder\Console\Input\InputDetector;
+use Symplify\EasyCodingStandard\Configuration\Configuration;
 
 // performance boost
 gc_disable();
 
-try {
-    /** @var Container $container */
-    $container = require __DIR__ . '/container.php';
+# 1. autoload
+$possibleAutoloadPaths = [
+    // after split package
+    __DIR__ . '/../vendor',
+    // dependency
+    __DIR__ . '/../../..',
+    // monorepo
+    __DIR__ . '/../../../vendor',
+];
 
-    $application = $container->get(Application::class);
-    exit($application->run());
-} catch (Throwable $throwable) {
-    (new ThrowableRenderer())->render($throwable);
-    exit($throwable->getCode());
+foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+    if (is_file($possibleAutoloadPath . '/autoload.php')) {
+        require_once $possibleAutoloadPath . '/autoload.php';
+        require_once $possibleAutoloadPath . '/squizlabs/php_codesniffer/autoload.php';
+
+        break;
+    }
 }
+
+# 2. create container
+$configs = [];
+
+// 1. --config CLI option or default
+$configResolver = new ConfigResolver();
+
+$input = new ArgvInput();
+$inputConfig = $configResolver->resolveFromInputWithFallback($input,
+    ['easy-coding-standard.yml', 'easy-coding-standard.yaml', 'ecs.yml', 'ecs.yaml']
+);
+if ($inputConfig) {
+    $configs[] = $inputConfig;
+}
+
+// 2. --set CLI option
+$setInputConfig = $configResolver->resolveSetFromInputAndDirectory($input, __DIR__ . '/../config/set');
+if ($setInputConfig) {
+    $configs[] = $setInputConfig;
+}
+
+// 3. "parameters > set" in provided yaml files
+$parameterSetsConfigs = $configResolver->resolveFromParameterSetsFromConfigFiles($configs, Set::SET_DIRECTORY);
+if ($parameterSetsConfigs !== []) {
+    $configs = array_merge($configs, $parameterSetsConfigs);
+}
+
+/**
+ * @param string[] $configs
+ */
+function computeConfigHash(array $configs): string
+{
+    $hash = '';
+    foreach ($configs as $config) {
+        $hash .= md5_file($config);
+    }
+
+    return $hash;
+}
+
+$environment = 'prod' . md5(computeConfigHash($configs) . random_int(1, 100000));
+$easyCodingStandardKernel = new EasyCodingStandardKernel($environment, InputDetector::isDebug());
+if ($configs !== []) {
+    $easyCodingStandardKernel->setConfigs($configs);
+}
+
+$easyCodingStandardKernel->boot();
+$container = $easyCodingStandardKernel->getContainer();
+
+// for cache invalidation on config change
+/** @var ChangedFilesDetector $changedFilesDetector */
+$changedFilesDetector = $container->get(ChangedFilesDetector::class);
+$changedFilesDetector->setUsedConfigs($configs);
+
+/** @var Configuration $configuration */
+$configuration = $container->get(Configuration::class);
+
+$configuration->setFirstResolverConfig($configResolver->getFirstResolvedConfig());
+
+# 3. run
+$application = $container->get(EasyCodingStandardConsoleApplication::class);
+exit($application->run());

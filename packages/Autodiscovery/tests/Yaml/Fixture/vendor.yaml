@@ -1,0 +1,3 @@
+services:
+    Symfony\Component\DependencyInjection\Compiler\AbstractRecursivePass: ~
+    Symfony\Component\DependencyInjection\Compiler\CheckArgumentsValidityPass: ~

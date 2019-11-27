@@ -1,4 +1,0 @@
-services:
-    Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
-        allow_classes:
-            - 'DateTimeInterface'

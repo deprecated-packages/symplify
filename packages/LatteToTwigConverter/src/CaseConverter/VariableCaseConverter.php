@@ -4,7 +4,6 @@ namespace Symplify\LatteToTwigConverter\CaseConverter;
 
 use Nette\Utils\Strings;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
-use function Safe\sprintf;
 
 final class VariableCaseConverter implements CaseConverterInterface
 {
@@ -14,7 +13,7 @@ final class VariableCaseConverter implements CaseConverterInterface
      * Matches:
      * ->someMethodCall()
      */
-    private const PATTERN_METHOD_CALL = '->([\w-()]+)';
+    private const PATTERN_METHOD_CALL = '->([\w\-\(\)]+)';
 
     /**
      * @var string
@@ -22,12 +21,17 @@ final class VariableCaseConverter implements CaseConverterInterface
      * Matches:
      * ['someValue']
      */
-    private const PATTERN_ARRAY_ACCESS = '\[\'([\w-]+)\'\]';
+    private const PATTERN_ARRAY_ACCESS = '\[\'([\w\-]+)\'\]';
+
+    public function getPriority(): int
+    {
+        return 200;
+    }
 
     public function convertContent(string $content): string
     {
         // quote in-script variables, they're auto-quoted by Latte
-        $content = Strings::replace($content, '#<script(.*?)>(.*?)</script>#s', function (array $match) {
+        $content = Strings::replace($content, '#<script(.*?)>(.*?)</script>#s', function (array $match): string {
             $match[2] = Strings::replace($match[2], '#({\$(.*?)})#', '\'$1\'');
 
             return sprintf('<script%s>%s</script>', $match[1], $match[2]);
@@ -41,11 +45,23 @@ final class VariableCaseConverter implements CaseConverterInterface
         // {{ post.relativeUrl }}
         $content = Strings::replace($content, '#{\$([\w-]+)' . self::PATTERN_ARRAY_ACCESS . '(.*?)}#', '{{ $1.$2$3 }}');
 
+        // {    $post['relativeUrl']    } =>
+        // {    post.relativeUrl    }
+        $content = Strings::replace(
+            $content,
+            '#{(.*?)\$?([\w-]+)' . self::PATTERN_ARRAY_ACCESS . '(.*?)}#',
+            '{$1$2.$3$4$5}'
+        );
+
         // {$google_analytics_tracking_id} =>
         // {{ google_analytics_tracking_id }}
         // {$google_analytics_tracking_id|someFilter} =>
         // {{ google_analytics_tracking_id|someFilter }}
         $content = Strings::replace($content, '#{\$(\w+)(\|.*?)?}#', '{{ $1$2 }}');
+
+        // {11874|number(0:',':' ')} =>
+        // {{ 11874|number(0:',':' ') }}
+        $content = Strings::replace($content, '#{(\d+)(\|.*?)}#', '{{ $1$2 }}');
 
         return $this->processLoopAndConditionsVariables($content);
     }
@@ -60,12 +76,16 @@ final class VariableCaseConverter implements CaseConverterInterface
             '{%$1$2.$3$4%}'
         );
 
-        // {... $variable['someKey'] ...}
-        // {... variable.someKey ...}
+        // {... $variable['someKey'], $variable['anotherKey'] ...}
+        // {... variable.someKey, variable.anotherKey ...}
         $content = Strings::replace(
             $content,
-            '#{%(.*?)\$([\w-]+)' . self::PATTERN_ARRAY_ACCESS . '(.*?)%}#',
-            '{%$1$2.$3$4%}'
+            '#{(.*?)}#',
+            function (array $match): string {
+                $match[1] = Strings::replace($match[1], '#' . self::PATTERN_ARRAY_ACCESS . '#', '.$1');
+
+                return '{' . $match[1] . '}';
+            }
         );
 
         // {... $variable ...}

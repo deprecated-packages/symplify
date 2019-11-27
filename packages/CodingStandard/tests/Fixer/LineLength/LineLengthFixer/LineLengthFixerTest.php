@@ -3,69 +3,58 @@
 namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer;
 
 use Iterator;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer
- */
 final class LineLengthFixerTest extends AbstractCheckerTestCase
 {
     /**
-     * @dataProvider provideCorrectCases()
+     * @dataProvider provideDataForTest()
      */
-    public function testCorrectCases(string $file): void
+    public function test(string $file): void
     {
-        $this->doTestCorrectFile($file);
-    }
-
-    public function provideCorrectCases(): Iterator
-    {
-        yield [__DIR__ . '/correct/correct.php.inc'];
-        yield [__DIR__ . '/correct/correct2.php.inc'];
-        yield [__DIR__ . '/correct/correct3.php.inc'];
-        yield [__DIR__ . '/correct/correct4.php.inc'];
-        yield [__DIR__ . '/correct/correct5.php.inc'];
-        yield [__DIR__ . '/correct/correct6.php.inc'];
-        yield [__DIR__ . '/correct/correct7.php.inc'];
-        yield [__DIR__ . '/correct/correct8.php.inc'];
-        yield [__DIR__ . '/correct/correct9.php.inc'];
-        yield [__DIR__ . '/correct/correct10.php.inc'];
-        yield [__DIR__ . '/correct/correct11.php.inc'];
-        yield [__DIR__ . '/correct/correct12.php.inc'];
+        $this->doTestFiles([$file]);
     }
 
     /**
-     * @dataProvider wrongToFixedCases()
+     * @return string[]
      */
-    public function test(string $wrongFile, string $fixedFile): void
+    public function provideDataForTest(): Iterator
     {
-        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
+        yield [__DIR__ . '/Fixture/correct.php.inc'];
+        yield [__DIR__ . '/Fixture/correct2.php.inc'];
+        yield [__DIR__ . '/Fixture/correct3.php.inc'];
+        yield [__DIR__ . '/Fixture/correct4.php.inc'];
+        yield [__DIR__ . '/Fixture/correct5.php.inc'];
+        yield [__DIR__ . '/Fixture/correct6.php.inc'];
+        yield [__DIR__ . '/Fixture/correct7.php.inc'];
+        yield [__DIR__ . '/Fixture/correct8.php.inc'];
+        yield [__DIR__ . '/Fixture/correct9.php.inc'];
+        yield [__DIR__ . '/Fixture/correct10.php.inc'];
+        yield [__DIR__ . '/Fixture/correct11.php.inc'];
+        yield [__DIR__ . '/Fixture/correct12.php.inc'];
+        yield [__DIR__ . '/Fixture/correct_heredoc.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong2.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong3.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong4.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong5.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong6.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong7.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong8.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong9.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong10.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong11.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong12.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong13.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong14.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong15.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong16.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong18.php.inc'];
     }
 
-    public function wrongToFixedCases(): Iterator
+    protected function getCheckerClass(): string
     {
-        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'];
-        yield [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'];
-        yield [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc'];
-        yield [__DIR__ . '/wrong/wrong5.php.inc', __DIR__ . '/fixed/fixed5.php.inc'];
-        yield [__DIR__ . '/wrong/wrong6.php.inc', __DIR__ . '/fixed/fixed6.php.inc'];
-        yield [__DIR__ . '/wrong/wrong7.php.inc', __DIR__ . '/fixed/fixed7.php.inc'];
-        yield [__DIR__ . '/wrong/wrong8.php.inc', __DIR__ . '/fixed/fixed8.php.inc'];
-        yield [__DIR__ . '/wrong/wrong9.php.inc', __DIR__ . '/fixed/fixed9.php.inc'];
-        yield [__DIR__ . '/wrong/wrong10.php.inc', __DIR__ . '/fixed/fixed10.php.inc'];
-        yield [__DIR__ . '/wrong/wrong11.php.inc', __DIR__ . '/fixed/fixed11.php.inc'];
-        yield [__DIR__ . '/wrong/wrong12.php.inc', __DIR__ . '/fixed/fixed12.php.inc'];
-        yield [__DIR__ . '/wrong/wrong13.php.inc', __DIR__ . '/fixed/fixed13.php.inc'];
-        yield [__DIR__ . '/wrong/wrong14.php.inc', __DIR__ . '/fixed/fixed14.php.inc'];
-        yield [__DIR__ . '/wrong/wrong15.php.inc', __DIR__ . '/fixed/fixed15.php.inc'];
-        yield [__DIR__ . '/wrong/wrong16.php.inc', __DIR__ . '/fixed/fixed16.php.inc'];
-        yield [__DIR__ . '/wrong/wrong17.php.inc', __DIR__ . '/fixed/fixed17.php.inc'];
-        yield [__DIR__ . '/wrong/wrong18.php.inc', __DIR__ . '/fixed/fixed18.php.inc'];
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
+        return LineLengthFixer::class;
     }
 }

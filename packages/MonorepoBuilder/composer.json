@@ -6,18 +6,19 @@
         "bin/monorepo-builder"
     ],
     "require": {
-        "php": "^7.1",
-        "composer/composer": "^1.6",
-        "nette/utils": "^2.5",
-        "phar-io/version": "^2.0",
-        "symfony/finder": "^3.4|^4.1",
-        "symfony/dependency-injection": "^3.4|^4.1",
-        "symfony/console": "^3.4|^4.1",
-        "symplify/package-builder": "^5.3",
-        "thecodingmachine/safe": "^0.1.6"
+        "php": "^7.2",
+        "composer/composer": "^1.9",
+        "nette/utils": "^3.0",
+        "phar-io/version": "^2.0.1",
+        "symfony/finder": "^4.4|^5.0",
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "symfony/console": "^4.4|^5.0",
+        "symplify/package-builder": "^7.1",
+        "symplify/smart-file-system": "^7.1",
+        "symplify/set-config-resolver": "^7.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.3"
+        "phpunit/phpunit": "^8.4"
     },
     "autoload": {
         "psr-4": {
@@ -35,7 +36,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "5.3-dev"
+            "dev-master": "7.1-dev"
         }
     },
     "minimum-stability": "dev",

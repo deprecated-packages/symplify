@@ -5,7 +5,6 @@ namespace Symplify\EasyCodingStandard\DependencyInjection\CompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\EasyCodingStandard\Configuration\Exception\ConflictingCheckersLoadedException;
-use function Safe\sprintf;
 
 final class ConflictingCheckersCompilerPass implements CompilerPassInterface
 {
@@ -25,6 +24,9 @@ final class ConflictingCheckersCompilerPass implements CompilerPassInterface
             'PhpCsFixer\Fixer\Casing\LowercaseConstantsFixer',
             'PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\UpperCaseConstantSniff',
         ], [
+            'PhpCsFixer\Fixer\Casing\ConstantCaseFixer',
+            'PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\UpperCaseConstantSniff',
+        ], [
             'PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer',
             'PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer',
         ], [
@@ -42,7 +44,7 @@ final class ConflictingCheckersCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $containerBuilder): void
     {
         $checkers = $containerBuilder->getServiceIds();
-        if (! count($checkers)) {
+        if (count($checkers) === 0) {
             return;
         }
 
@@ -53,7 +55,7 @@ final class ConflictingCheckersCompilerPass implements CompilerPassInterface
 
             throw new ConflictingCheckersLoadedException(sprintf(
                 'Checkers "%s" mutually exclude each other. Use only one or exclude '
-                . 'the unwanted one in "parameters > exclude_checkers" in your config.',
+                . 'the unwanted one in "parameters > skip" in your config.',
                 implode('" and "', $viceVersaMatchingCheckerGroup)
             ));
         }

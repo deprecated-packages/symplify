@@ -2,10 +2,9 @@
 
 namespace Symplify\Statie\FileSystem;
 
-use SplFileInfo as NativeSplFileInfo;
 use Symfony\Component\Finder\Finder;
-use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FileFinder
 {
@@ -13,9 +12,38 @@ final class FileFinder
      * @var string[]
      */
     private $staticFileExtensions = [
-        'CNAME', '*.png', '*.jpg', '*.svg', '*.css', '*.ico', '*.js', '*.', '*.jpeg', '*.gif', '*.zip', '*.tgz', '*.gz',
-        '*.rar', '*.bz2', '*.pdf', '*.txt', '*.tar', '*.mp3', '*.doc', '*.xls', '*.pdf', '*.ppt', '*.txt', '*.tar',
-        '*.bmp', '*.rtf', '*.woff2', '*.woff', '*.otf', '*.ttf', '*.eot',
+        'CNAME',
+        '*.png',
+        '*.jpg',
+        '*.svg',
+        '*.css',
+        '*.ico',
+        '*.js',
+        '*.',
+        '*.jpeg',
+        '*.gif',
+        '*.zip',
+        '*.tgz',
+        '*.gz',
+        '*.rar',
+        '*.bz2',
+        '*.pdf',
+        '*.txt',
+        '*.tar',
+        '*.mp3',
+        '*.doc',
+        '*.xls',
+        '*.pdf',
+        '*.ppt',
+        '*.txt',
+        '*.tar',
+        '*.bmp',
+        '*.rtf',
+        '*.woff2',
+        '*.woff',
+        '*.otf',
+        '*.ttf',
+        '*.eot',
     ];
 
     /**
@@ -46,7 +74,7 @@ final class FileFinder
      */
     public function findInDirectoryForGenerator(string $directoryPath): array
     {
-        $directoryInfo = new NativeSplFileInfo($directoryPath);
+        $directoryInfo = new SmartFileInfo($directoryPath);
         $path = $this->normalizePath($directoryInfo->getFilename() . DIRECTORY_SEPARATOR);
         $pathPattern = '#' . preg_quote($path, '#') . '#';
 
@@ -79,11 +107,10 @@ final class FileFinder
     {
         $finder = Finder::create()->files()
             ->name('*.html')
-            ->name('*.latte')
             ->name('*.twig')
             ->name('*.rss')
+            ->name('*.md')
             ->name('*.xml')
-            # @todo turn to parameters
             ->notPath('#(_layouts|_snippets)#')
             ->in($directory);
 

@@ -37,6 +37,11 @@ final class Option
     /**
      * @var string
      */
+    public const OUTPUT_FORMAT_OPTION = 'output-format';
+
+    /**
+     * @var string
+     */
     public const EXCLUDE_CHECKERS = 'exclude_checkers';
 
     /**

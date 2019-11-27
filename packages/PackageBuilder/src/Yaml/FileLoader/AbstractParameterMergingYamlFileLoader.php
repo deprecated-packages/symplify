@@ -8,7 +8,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\PackageBuilder\Exception\Yaml\InvalidParametersValueException;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
-use function Safe\sprintf;
 
 /**
  * The need:
@@ -45,7 +44,6 @@ abstract class AbstractParameterMergingYamlFileLoader extends YamlFileLoader
      *
      * @see https://github.com/Symplify/Symplify/pull/697
      *
-     * @param mixed $resource
      * @param string|null $type
      */
     public function load($resource, $type = null): void

@@ -4,6 +4,9 @@ namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory;
 
 use Iterator;
 
+/**
+ * @requires PHP < 7.4
+ */
 final class ChangeFactoryTest extends AbstractChangeFactoryTest
 {
     public function testeEgoTag(): void

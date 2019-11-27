@@ -2,67 +2,48 @@
 
 namespace Symplify\MonorepoBuilder\Tests\Package;
 
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
-use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
-
-final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
+final class PackageComposerJsonMergerTest extends AbstractMergeTestCase
 {
-    /**
-     * @var PackageComposerJsonMerger
-     */
-    private $packageComposerJsonMerger;
-
-    protected function setUp(): void
-    {
-        $this->packageComposerJsonMerger = $this->container->get(PackageComposerJsonMerger::class);
-    }
-
     public function test(): void
     {
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos(
-            $this->getFileInfosFromDirectory(__DIR__ . '/Source')
-        );
-
-        $this->assertSame([
+        $expectedJson = [
             'require' => [
-                'rector/rector' => '^2.0',
                 'phpunit/phpunit' => '^2.0',
+                'rector/rector' => '^2.0',
                 'symplify/symplify' => '^2.0',
             ],
             'autoload' => [
                 'psr-4' => [
-                    'Symplify\Statie\\' => 'src',
-                    'Symplify\MonorepoBuilder\\' => 'src',
+                    'Symplify\MonorepoBuilder\\' => $this->getRelativeSourcePath() . 'src',
+                    'Symplify\Statie\\' => $this->getRelativeSourcePath() . 'src',
                 ],
             ],
-        ], $merged);
+        ];
+
+        $this->doTestDirectoryMergeToFile(__DIR__ . '/Source', $expectedJson);
     }
 
     public function testUniqueRepositories(): void
     {
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos(
-            $this->getFileInfosFromDirectory(__DIR__ . '/SourceUniqueRepositories')
-        );
-        $this->assertSame([
-            'repositories' => [[
-                'type' => 'composer',
-                'url' => 'https://packages.example.org/',
-            ]],
-        ], $merged);
+        $expectedJson = [
+            'repositories' => [
+                [
+                    'type' => 'composer',
+                    'url' => 'https://packages.example.org/',
+                ],
+            ],
+            'require' => [
+                'php' => '^7.1',
+            ],
+        ];
+
+        $this->doTestDirectoryMergeToFile(__DIR__ . '/SourceUniqueRepositories', $expectedJson);
     }
 
-    /**
-     * @return SplFileInfo[]
-     */
-    private function getFileInfosFromDirectory(string $directory): array
+    private function getRelativeSourcePath(): string
     {
-        $iterator = Finder::create()->files()
-            ->in($directory)
-            ->name('*.json')
-            ->getIterator();
+        $prefix = defined('SYMPLIFY_MONOREPO') ? 'packages/MonorepoBuilder/' : '';
 
-        return iterator_to_array($iterator);
+        return $prefix . 'tests/Package/Source/';
     }
 }

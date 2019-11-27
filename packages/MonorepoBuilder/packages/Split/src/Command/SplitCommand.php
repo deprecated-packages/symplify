@@ -6,11 +6,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\MonorepoBuilder\Split\Configuration\Option;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use function Safe\sprintf;
 
 final class SplitCommand extends Command
 {
@@ -42,7 +42,8 @@ final class SplitCommand extends Command
         array $directoriesToRepositories,
         string $rootDirectory,
         PackageToRepositorySplitter $packageToRepositorySplitter
-    ) {
+    )
+    {
         parent::__construct();
 
         $this->repositoryGuard = $repositoryGuard;
@@ -62,10 +63,16 @@ final class SplitCommand extends Command
             )
         );
         $this->addOption(
-            'max-processes',
+            Option::MAX_PROCESSES,
             null,
             InputOption::VALUE_REQUIRED,
             'Maximum number of processes to run in parallel'
+        );
+        $this->addOption(
+            Option::TAG,
+            't',
+            InputOption::VALUE_REQUIRED,
+            'Specify the Git tag use for split. Use the most recent one by default'
         );
     }
 
@@ -73,10 +80,16 @@ final class SplitCommand extends Command
     {
         $this->repositoryGuard->ensureIsRepositoryDirectory($this->rootDirectory);
 
+        $maxProcesses = $input->getOption(Option::MAX_PROCESSES) ? intval(
+            $input->getOption(Option::MAX_PROCESSES)
+        ) : null;
+        $tag = $input->getOption(Option::TAG);
+
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
             $this->rootDirectory,
-            $input->getOption('max-processes') ? intval($input->getOption('max-processes')) : null
+            $maxProcesses,
+            $tag
         );
 
         return ShellCode::SUCCESS;

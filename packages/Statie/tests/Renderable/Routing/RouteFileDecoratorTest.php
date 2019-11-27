@@ -3,13 +3,14 @@
 namespace Symplify\Statie\Tests\Renderable\Routing;
 
 use Iterator;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\Statie\Configuration\StatieConfiguration;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\RouteFileDecorator;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
+final class RouteFileDecoratorTest extends AbstractKernelTestCase
 {
     /**
      * @var RouteFileDecorator
@@ -23,15 +24,15 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        $this->bootKernel(StatieKernel::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/RouteFileDecoratorSource');
 
-        $this->fileFactory = $this->container->get(FileFactory::class);
-        $this->routeFileDecorator = $this->container->get(RouteFileDecorator::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
+        $this->routeFileDecorator = self::$container->get(RouteFileDecorator::class);
 
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/RouteFileDecoratorSource');
     }
 

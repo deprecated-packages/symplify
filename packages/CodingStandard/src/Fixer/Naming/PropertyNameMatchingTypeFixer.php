@@ -12,11 +12,11 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapper;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\PropertyWrapper;
 use Symplify\PackageBuilder\Php\TypeAnalyzer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\PropertyWrapper;
 
 final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
@@ -36,7 +36,6 @@ final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implemen
         'SimpleXML*',
         '*|*', // union types
         '*[]', // arrays
-        'PhpParser\Node\*',
         Token::class,
         '*_', // anything that ends with underscore
     ];
@@ -47,18 +46,18 @@ final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implemen
     private $extraSkippedClasses = [];
 
     /**
-     * @var ClassWrapperFactory
+     * @var FixerClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $fixerClassWrapperFactory;
 
     /**
      * @var TypeAnalyzer
      */
     private $typeAnalyzer;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory, TypeAnalyzer $typeAnalyzer)
+    public function __construct(FixerClassWrapperFactory $fixerClassWrapperFactory, TypeAnalyzer $typeAnalyzer)
     {
-        $this->classWrapperFactory = $classWrapperFactory;
+        $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->typeAnalyzer = $typeAnalyzer;
     }
 
@@ -87,7 +86,7 @@ class SomeClass
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->getReversedClassyPositions($tokens) as $position) {
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $position);
+            $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $position);
 
             if ($classWrapper->isGivenKind([T_CLASS, T_TRAIT])) {
                 $this->fixClassProperties($classWrapper);
@@ -105,18 +104,18 @@ class SomeClass
         $this->extraSkippedClasses = $configuration['extra_skipped_classes'] ?? [];
     }
 
-    private function fixClassProperties(ClassWrapper $classWrapper): void
+    private function fixClassProperties(FixerClassWrapper $fixerClassWrapper): void
     {
-        $changedPropertyNames = $this->resolveWrappers($classWrapper->getPropertyWrappers());
+        $changedPropertyNames = $this->resolveWrappers($fixerClassWrapper->getPropertyWrappers());
 
         foreach ($changedPropertyNames as $oldName => $newName) {
-            $classWrapper->renameEveryPropertyOccurrence($oldName, $newName);
+            $fixerClassWrapper->renameEveryPropertyOccurrence($oldName, $newName);
         }
     }
 
-    private function fixClassMethods(ClassWrapper $classWrapper): void
+    private function fixClassMethods(FixerClassWrapper $fixerClassWrapper): void
     {
-        foreach ($classWrapper->getMethodWrappers() as $methodWrapper) {
+        foreach ($fixerClassWrapper->getMethodWrappers() as $methodWrapper) {
             /** @var ArgumentWrapper[] $argumentWrappers */
             $argumentWrappers = array_reverse($methodWrapper->getArguments());
 
@@ -136,6 +135,8 @@ class SomeClass
     {
         $changedNames = [];
 
+        $duplicatedTypes = $this->resolveDuplicatedTypes($typeWrappers);
+
         foreach ($typeWrappers as $typeWrapper) {
             if ($this->shouldSkipWrapper($typeWrapper)) {
                 continue;
@@ -152,6 +153,12 @@ class SomeClass
 
             /** @var string $type */
             $type = array_pop($types);
+
+            // duplicated type → skip
+            if (in_array($type, $duplicatedTypes, true)) {
+                continue;
+            }
+
             $expectedName = $this->getExpectedNameFromTypes($type);
             if ($expectedName === '') {
                 continue;
@@ -166,11 +173,42 @@ class SomeClass
     }
 
     /**
+     * @param ArgumentWrapper[]|PropertyWrapper[] $typeWrappers
+     * @return string[]
+     */
+    private function resolveDuplicatedTypes(array $typeWrappers): array
+    {
+        $allTypes = [];
+        foreach ($typeWrappers as $typeWrapper) {
+            $types = $typeWrapper->getTypes();
+
+            // unable to resolve correctly
+            if (count($types) !== 1) {
+                continue;
+            }
+
+            $allTypes = array_merge($allTypes, $types);
+        }
+
+        $typesByCount = array_count_values($allTypes);
+
+        $duplicatedTypes = [];
+        foreach ($typesByCount as $type => $count) {
+            if ($count >= 2) {
+                /** @var string $type */
+                $duplicatedTypes[] = $type;
+            }
+        }
+
+        return $duplicatedTypes;
+    }
+
+    /**
      * @param ArgumentWrapper|PropertyWrapper $typeWrapper
      */
     private function shouldSkipWrapper($typeWrapper): bool
     {
-        if ($typeWrapper->getTypes() === [] || $typeWrapper->isClassType() === false) {
+        if ($typeWrapper->getTypes() === [] || ! $typeWrapper->isClassType()) {
             return true;
         }
 

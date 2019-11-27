@@ -2,13 +2,14 @@
 
 namespace Symplify\Statie\Twig\Tests;
 
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\Statie\Configuration\StatieConfiguration;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Twig\TwigRenderer;
 
-final class TwigRendererTest extends AbstractContainerAwareTestCase
+final class TwigRendererTest extends AbstractKernelTestCase
 {
     /**
      * @var TwigRenderer
@@ -22,11 +23,12 @@ final class TwigRendererTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->twigRenderer = $this->container->get(TwigRenderer::class);
-        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->bootKernel(StatieKernel::class);
 
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        $this->twigRenderer = self::$container->get(TwigRenderer::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/TwigRendererSource');
     }
 

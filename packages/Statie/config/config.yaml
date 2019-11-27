@@ -1,0 +1,29 @@
+parameters:
+    post_template_path: '%kernel.project_dir%/templates/post/post.md'
+
+    # old url: new url
+    redirects: []
+
+    # parameters that will be printed as /api/<parameter-name>.json
+    api_parameters: []
+
+    # see https://www.statie.org/docs/generators/
+    generators:
+        posts:
+            # name of variable inside one elg, elenent (e,post)
+            variable: 'post'
+            # used global variable with all found items
+            variable_global: 'posts'
+            # directory, where to look for them
+            path: '_posts'
+            # which layout to use, a file from "_layouts/<name>.latte"
+            layout: '_layouts/post.latte'
+            # and url prefix, e.g. /blog/some-post.md
+            route_prefix: 'blog/:year/:month/:day'
+            # an object that will wrap it's logic, you can add helper methods into it and use it in templates
+            object: 'Symplify\Statie\Renderable\File\PostFile'
+
+imports:
+    - { resource: '../packages/**/config/config.yaml' }
+    - { resource: '../packages/**/config/services.yaml' }
+    - { resource: 'services.yaml' }

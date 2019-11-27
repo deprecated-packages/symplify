@@ -5,9 +5,11 @@ namespace Symplify\EasyCodingStandard\SniffRunner\Tests\Error;
 use Symplify\EasyCodingStandard\Error\Error;
 use Symplify\EasyCodingStandard\Error\ErrorFactory;
 use Symplify\EasyCodingStandard\Error\ErrorSorter;
-use Symplify\EasyCodingStandard\Tests\AbstractContainerAwareTestCase;
+use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class ErrorSorterTest extends AbstractContainerAwareTestCase
+final class ErrorSorterTest extends AbstractKernelTestCase
 {
     /**
      * @var ErrorSorter
@@ -21,8 +23,10 @@ final class ErrorSorterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->errorSorter = $this->container->get(ErrorSorter::class);
-        $this->errorFactory = $this->container->get(ErrorFactory::class);
+        $this->bootKernel(EasyCodingStandardKernel::class);
+
+        $this->errorSorter = self::$container->get(ErrorSorter::class);
+        $this->errorFactory = self::$container->get(ErrorFactory::class);
     }
 
     public function test(): void
@@ -40,12 +44,15 @@ final class ErrorSorterTest extends AbstractContainerAwareTestCase
      */
     private function getUnsortedMessages(): array
     {
+        $fileInfo = new SmartFileInfo(__DIR__ . '/ErrorSorterSource/SomeFile.php');
+
+        $firstError = $this->errorFactory->create(5, 'error message', 'SomeClass', $fileInfo);
+        $secondError = $this->errorFactory->create(15, 'error message', 'SomeClass', $fileInfo);
+        $thirdError = $this->errorFactory->create(5, 'error message', 'SomeClass', $fileInfo);
+
         return [
-            'filePath' => [$this->errorFactory->createFromLineMessageSourceClass(5, 'error message', 'SomeClass')],
-            'anotherFilePath' => [
-                $this->errorFactory->createFromLineMessageSourceClass(15, 'error message', 'SomeClass'),
-                $this->errorFactory->createFromLineMessageSourceClass(5, 'error message', 'SomeClass'),
-            ],
+            'filePath' => [$firstError],
+            'anotherFilePath' => [$secondError, $thirdError],
         ];
     }
 }

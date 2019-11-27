@@ -1,0 +1,14 @@
+parameters:
+    enable_default_release_workers: true
+    is_stage_required: false
+    stages_to_allow_existing_tag: []
+
+services:
+    _defaults:
+        autowire: true
+        public: true
+
+    Symplify\MonorepoBuilder\Release\:
+        resource: '../src'
+        exclude:
+            - '../src/Exception'

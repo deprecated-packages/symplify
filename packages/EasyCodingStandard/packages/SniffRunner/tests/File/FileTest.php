@@ -2,15 +2,15 @@
 
 namespace Symplify\EasyCodingStandard\SniffRunner\Tests\File;
 
-use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
+use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
-use Symplify\EasyCodingStandard\Tests\AbstractContainerAwareTestCase;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class FileTest extends AbstractContainerAwareTestCase
+final class FileTest extends AbstractKernelTestCase
 {
     /**
      * @var File
@@ -22,23 +22,17 @@ final class FileTest extends AbstractContainerAwareTestCase
      */
     private $errorAndDiffCollector;
 
-    /**
-     * @var CurrentFileProvider
-     */
-    private $currentFileProvider;
-
     protected function setUp(): void
     {
-        $this->errorAndDiffCollector = $this->container->get(ErrorAndDiffCollector::class);
-        $this->currentFileProvider = $this->container->get(CurrentFileProvider::class);
+        $this->bootKernel(EasyCodingStandardKernel::class);
 
-        /** @var FileFactory $fileFactory */
-        $fileFactory = $this->container->get(FileFactory::class);
+        $this->errorAndDiffCollector = self::$container->get(ErrorAndDiffCollector::class);
+
+        $fileFactory = self::$container->get(FileFactory::class);
         $fileInfo = new SmartFileInfo(__DIR__ . '/FileFactorySource/SomeFile.php');
-        $this->file = $fileFactory->createFromFileInfo($fileInfo);
 
-        // simulates Application cycle
-        $this->currentFileProvider->setFileInfo($fileInfo);
+        $this->file = $fileFactory->createFromFileInfo($fileInfo);
+        $this->file->processWithTokenListenersAndFileInfo([], $fileInfo);
     }
 
     public function testErrorDataCollector(): void
@@ -60,17 +54,5 @@ final class FileTest extends AbstractContainerAwareTestCase
     {
         $this->expectException(NotImplementedException::class);
         $this->file->getErrors();
-    }
-
-    public function testNotImplementedProcess(): void
-    {
-        $this->expectException(NotImplementedException::class);
-        $this->file->process();
-    }
-
-    public function testNotImplementedParse(): void
-    {
-        $this->expectException(NotImplementedException::class);
-        $this->file->parse();
     }
 }

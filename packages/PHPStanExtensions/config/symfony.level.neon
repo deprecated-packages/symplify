@@ -1,0 +1,15 @@
+services:
+    # Symfony SplFileInfo::getContent() => string type
+    -
+        class: Symplify\PHPStanExtensions\Symfony\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+
+    # Symfony Container::get($1) => $1 type
+    -
+        class: Symplify\PHPStanExtensions\Symfony\Type\ContainerGetTypeExtension
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+
+    # Symfony Kernel::getContainer() after Kernel::boot() => ContainerInterface type
+    -
+        class: Symplify\PHPStanExtensions\Symfony\Type\KernelGetContainerAfterBootReturnTypeExtension
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]

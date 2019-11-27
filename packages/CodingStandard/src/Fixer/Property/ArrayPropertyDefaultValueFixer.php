@@ -10,9 +10,8 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 final class ArrayPropertyDefaultValueFixer extends AbstractSymplifyFixer
 {
@@ -22,28 +21,21 @@ final class ArrayPropertyDefaultValueFixer extends AbstractSymplifyFixer
     private static $cachedDefaultArrayTokens;
 
     /**
-     * @var ClassWrapperFactory
+     * @var FixerClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $fixerClassWrapperFactory;
 
     /**
-     * @var DocBlockWrapperFactory
+     * @var DocBlockManipulator
      */
-    private $docBlockWrapperFactory;
-
-    /**
-     * @var DocBlockFinder
-     */
-    private $docBlockFinder;
+    private $docBlockManipulator;
 
     public function __construct(
-        ClassWrapperFactory $classWrapperFactory,
-        DocBlockWrapperFactory $docBlockWrapperFactory,
-        DocBlockFinder $docBlockFinder
+        FixerClassWrapperFactory $fixerClassWrapperFactory,
+        DocBlockManipulator $docBlockManipulator
     ) {
-        $this->classWrapperFactory = $classWrapperFactory;
-        $this->docBlockWrapperFactory = $docBlockWrapperFactory;
-        $this->docBlockFinder = $docBlockFinder;
+        $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
+        $this->docBlockManipulator = $docBlockManipulator;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -68,7 +60,7 @@ public $property;')]
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->getReversedClassyPositions($tokens) as $index) {
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
+            $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
 
             $this->fixProperties($tokens, $classWrapper->getProperties());
         }
@@ -82,18 +74,7 @@ public $property;')]
         $properties = array_reverse($properties, true);
 
         foreach (array_keys($properties) as $index) {
-            $docBlockTokenPosition = $this->docBlockFinder->findPreviousPosition($tokens, $index);
-            if ($docBlockTokenPosition === null) {
-                continue;
-            }
-
-            $docBlockWrapper = $this->docBlockWrapperFactory->create(
-                $tokens,
-                $docBlockTokenPosition,
-                $tokens[$docBlockTokenPosition]->getContent()
-            );
-
-            if (! $docBlockWrapper->isArrayProperty()) {
+            if (! $this->docBlockManipulator->isArrayProperty($tokens, $index)) {
                 continue;
             }
 
@@ -115,7 +96,7 @@ public $property;')]
 
     private function createDefaultArrayTokens(): Tokens
     {
-        if (self::$cachedDefaultArrayTokens) {
+        if (self::$cachedDefaultArrayTokens !== null) {
             return self::$cachedDefaultArrayTokens;
         }
 

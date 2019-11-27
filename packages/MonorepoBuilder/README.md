@@ -134,8 +134,8 @@ Classic use case for monorepo is to synchronize last tag and the `master` branch
 # monorepo-builder.yml
 parameters:
     directories_to_repositories:
-        packages/BetterPhpDocParser: 'git@github.com:Symplify/BetterPhpDocParser.git'
         packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
+        packages/MonorepoBuilder: 'git@github.com:Symplify/MonorepoBuilder.git'
 ```
 
 And run by:
@@ -145,6 +145,37 @@ vendor/bin/monorepo-builder split
 ```
 
 To speed up the process about 50-60 %, all repositories are synchronized in parallel.
+
+#### Testing split locally
+
+If you want to test on local machine, you can set local targets by creating bare repositories:
+
+```bash
+mkdir -p [target/path.git]
+cd [target/path.git]
+git init --bare
+#        ^^^^^^ bare!!!
+```
+
+Then you can set the target using `file://` prefix for absolute path:
+
+```yaml
+# monorepo-builder.yml
+parameters:
+    directories_to_repositories:
+        packages/PackageBuilder: 'file:///home/developer/git/PackageBuilder.git'
+        packages/MonorepoBuilder: 'file:///home/developer/git/MonorepoBuilder.git'
+```
+
+After that you can test the result:
+
+```bash
+vendor/bin/monorepo-builder split
+cd /tmp
+git clone /home/developer/git/PackageBuilder.git
+cd PackageBuilder
+git log
+```
 
 ### 6. Release Flow
 
@@ -161,13 +192,13 @@ But what if **you forget one or do it in wrong order**? Everything will crash!
 The `release` command will make you safe:
 
 ```bash
-vendor/bin/changelog-inker release v7.0
+vendor/bin/monorepo-builder release v7.0
 ```
 
 Are you afraid to tag and push? Use `--dry-run` to see only descriptions:
 
 ```bash
-vendor/bin/changelog-inker release v7.0 --dry-run
+vendor/bin/monorepo-builder release v7.0 --dry-run
 ```
 
 ### 7. Set Your Own Release Flow

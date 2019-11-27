@@ -1,20 +1,19 @@
 includes:
     - 'packages/PHPStanExtensions/config/config.neon'
-    - 'vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon'
-    - 'vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon'
 
 parameters:
+    level: max
     reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
         - *packages/MonorepoBuilder/packages/Init/templates/*
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
-        - *packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*
+        - *packages/CodingStandard/tests/**/Wrong*
         # tests
-        - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
+        - packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php
         - packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
-        - packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/AbstractSomeClass.php
+        - packages/Statie/packages/MigratorSculpin/tests/SculpinToStatieMigrator/Source/Fixture/before/app/SculpinKernel.php
         # Symfony workaround
         - packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
 
@@ -24,101 +23,121 @@ parameters:
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
-        # temporary
-        - '#Parameter \#1 \$e of method Symfony\\Component\\Console\\Application::renderException\(\) expects Exception, Throwable given#'
+        -
+            message: '#Cannot assign offset int to int#'
+            path: 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
 
+        # command argument value type conversion - known string
+        -
+            message: '#Cannot cast array<string>\|string\|null to string#'
+            path: '*packages/*Command.php'
+
+        # temporary
         - '#Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::__construct\(\) does not call parent constructor from PHP_CodeSniffer\\Files\\File#'
 
         # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
-        - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
-
-        # is valid code, known values
-        - '#Method Symplify\\MonorepoBuilder\\ComposerJsonDecorator\\AutoloadRelativePathComposerJsonDecorator::prefixPath\(\) should return array<string>\|string but returns array<array<string>\|string>#'
-        - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\(Type\\TypeNode::\$name|PhpDoc\\PhpDocTagValueNode::\$type)#'
-
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, bool\|int given#'
-        - '#Parameter \#1 \$generatorFiles of method Symplify\\Statie\\Generator\\Contract\\ObjectSorterInterface::sort\(\) expects array<Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile>, array<Symplify\\Statie\\Renderable\\File\\AbstractFile> given#'
-        - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutowireSinglyImplementedCompilerPass::filterSinglyImplementedInterfaces\(\) should return array<string> but returns array<int\|string, int\|string>#'
 
         # invalid 3rd party-code
-        - '#Call to an undefined method Psr\\Cache\\CacheItemInterface::tag\(\)#'
-        - '#Parameter \#1 \$types of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects array\|int, string given#'
-
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
-        - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
-        - '#Method Symplify\\Statie\\Latte\\Tests\\Renderable\\LatteFileDecoratorTest::createFileFromFilePath\(\) should return Symplify\\Statie\\Renderable\\File\\File but returns Symplify\\Statie\\Renderable\\File\\AbstractFile#'
+        - '#Property Symplify\\CodingStandard\\TokenRunner\\Wrapper\\FixerWrapper\\FixerClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
 
         # known values
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, bool\|int given#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, int\|true given#'
+        - '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\Migrator\\Worker\\StatieImportsAdder::addImportSection\(\) expects array<string>, array<int, array<string, string>> given#'
 
-        # Token Runner
+        # required for autowiring, since only interface is autowired
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
 
         # buggy
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
 
-        # object
-        - '#does not accept object#'
-        - '#Call to an undefined method object#'
-
-        # waits for "safe" function calls
-        - '#Method Symplify\\EasyCodingStandardTester\\Testing\\AbstractCheckerTestCase::getConfigHash\(\) should return string but returns string\|false#'
-
         # intersect/union buggy
         - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
-        - '#Method (.*) should return (Symfony\\Component\\DependencyInjection\\ContainerInterface|Psr\\Container\\ContainerInterface) but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
 
         # phpstan 0.10 news
-        - '#Cannot access property \$type on PHPStan\\PhpDocParser\\Ast\\PhpDoc\\VarTagValueNode\|null#'
-        - '#Parameter \#1 \$children of class PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocNode constructor expects array<PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocChildNode>, array<int, PHPStan\\PhpDocParser\\Ast\\Node> given#'
-        - '#Property Symplify\\BetterPhpDocParser\\Printer\\PhpDocInfoPrinter::\$nodeWithPositionsObjectStorage \(iterable<Symplify\\BetterPhpDocParser\\PhpDocNodeInfo>\&Symplify\\BetterPhpDocParser\\PhpDocParser\\Storage\\NodeWithPositionsObjectStorage\) does not accept Symplify\\BetterPhpDocParser\\PhpDocParser\\Storage\\NodeWithPositionsObjectStorage#'
-        - '#Cannot access property \$name on PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|null#'
-        - '#If condition is always true#'
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
-        - "#Casting to array something that's already array#"
-        - '#Property Symplify\\EasyCodingStandard\\Yaml\\CheckerServiceParametersShifter::\$serviceKeywords \(array<string>\) does not accept ReflectionProperty#'
-        - '#Method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest::getIndentationTypeFixerFromContainer\(\) should return PhpCsFixer\\Fixer\\Whitespace\\IndentationTypeFixer but returns PhpCsFixer\\Fixer\\FixerInterface\|null#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Cannot access offset (.*?) on Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile#'
         - '#Parameter \#1 \$stack of function array_pop expects array, array<int, string>\|false given#'
-        - '#Cannot call method getContent\(\) on Symplify\\Statie\\Renderable\\File\\AbstractFile\|null#'
-        - '#Cannot call method getStart\(\) on Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
-        - '#Method Symplify\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
-
-        # mixed type
-        - '#Call to an undefined method Psr\\Container\\ContainerInterface::getParameter\(\)#'
+        - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
+        - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
 
         # false positives
-        - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutoReturnFactoryCompilerPass::findFactoriesWithoutUsage\(\) should return array<string> but returns array<int, string\|null>#'
+        - '#Call to function method_exists\(\) with (.*?) and (.*?)fromShellCommandline(.*?) will always evaluate to false#'
 
         # variadic
-        - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'
         - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'
 
         # mixed up iterables
-        - '#Parameter \#1 \$files of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, (array<int, SplFileInfo\>|iterable<SplFileInfo\|string>) given#'
-        - '#Parameter \#1 \$files of method Symplify\\PackageBuilder\\FileSystem\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo|string>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo> given#'
-        - '#Method Symplify\\BetterPhpDocParser\\DependencyInjection\\ContainerFactory::create\(\) should return Psr\\Container\\ContainerInterface but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
+        - '#PHPDoc tag @return with type array<string\> is incompatible with native type Iterator#'
 
-        # intentionally
-        - '#Empty catch block#'
-        - '#In method (.*?), caught "Throwable" must be rethrown. Either catch a more specific exception or add a "throw" clause in the "catch" block to propagate the exception#'
+        # Symfony 4.2 typehint BC-break
+        - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
-        # not for a BC
-        - '#In method "Symplify\\EasyCodingStandard\\Contract\\Finder\\CustomSourceProviderInterface::find", a "iterable\<SplFileInfo\|string\>" return type can be added#'
+        # false positive, known
+        - '#Cannot cast array<string>\|bool\|string\|null to string#'
+        - '#Property Symplify\\Autodiscovery\\Tests\\Doctrine\\DoctrineEntityAutodiscoverTest::\$mappingDriver \(Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\) does not accept Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\|null#'
+        - '#Cannot cast array<string>\|bool\|string\|null to int#'
 
-        # unclear
-        - '#Parameter \#1 \$string of function strlen expects string, string\|false given#'
+        # console argument/option
+        - '#Cannot cast array<string\>\|bool\|string to string#'
 
-services:
-    -
-        class: Symplify\PHPStanExtensions\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension
-        tags:
-            - phpstan.broker.dynamicMethodReturnTypeExtension
+        # known values
+        - '#Parameter \#1 \$code of static method PhpCsFixer\\Tokenizer\\Tokens\:\:fromCode\(\) expects string, string\|false given#'
+        - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutowireSinglyImplementedCompilerPass\:\:filterSinglyImplementedInterfaces\(\) should return array<string\> but returns array<string, int\|string\>#'
+        - '#Cannot call method (get|has)\(\) on (.*?)\|null#'
+        - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept object\|null#'
+        - '#Call to an undefined method Psr\\Container\\ContainerInterface\:\:set\(\)#'
+        - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
+
+        # false positive
+        - '#Unreachable statement \- code above always terminates#'
+        - '#Property Symplify\\Autodiscovery\\Tests\\Twig\\TwigPathAutodiscoveryTest\:\:\$twigFilesystemLoader \(Twig\\Loader\\FilesystemLoader\) does not accept Twig\\Loader\\LoaderInterface#'
+
+        # magic properties
+        - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:(.*?)#'
+
+        # false positive
+        - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
+        - '#Parameter \#1 \$subject of static method Nette\\Utils\\Strings\:\:match\(\) expects string, string\|false given#'
+        - '#Method Symplify\\CodingStandard\\Fixer\\AbstractSymplifyFixer\:\:getReversedPositionsFromTokens\(\) should return array<int\> but returns array<int, int\|string\>#'
+        - '#Parameter \#1 \$tokens of method Symplify\\CodingStandard\\Fixer\\Naming\\CatchExceptionNameMatchingTypeFixer\:\:updateCatchBodyVariableName\(\) expects PhpCsFixer\\Tokenizer\\Tokens, array<int\|string, PhpCsFixer\\Tokenizer\\Token\> given#'
+
+        - '#Private method Symplify\\CodingStandard\\TokenRunner\\Tests\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
+
+        # yield iterator
+        - '#Return type \(Iterator\) of method Symplify\\Statie\\Twig\\(.*?)\:\:(.*?)\(\) should be compatible with return type \(array<Twig\\(.*?)\>\) of method Twig\\Extension\\(.*?)\(\)#'
+        - '#PHPDoc tag @return with type array<Twig\\TwigFunction\> is incompatible with native type Iterator#'
+        - '#PHPDoc tag @return with type array<Twig\\TwigFilter\> is incompatible with native type Iterator#'
+
+        -
+            message: '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
+            path: packages/SmartFileSystem/src/Finder/FinderSanitizer.php
+
+        -
+             message: '#Method Symplify\\SetConfigResolver\\Finder\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
+             path: packages/SetConfigResolver/src/Finder/SetFileFinder.php
+
+        -
+            message: '#Parameter \#1 \$unversionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<string\>, array<array<string\>\|string\> given#'
+            path: packages/SetConfigResolver/src/SetResolver.php
+
+        -
+            message: '#Parameter \#2 \$versionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<array<string\>\>, array<array<string\>\|string\> given#'
+            path: packages/SetConfigResolver/src/SetResolver.php
+
+        -
+            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, string\> given#'
+            path: packages/Statie/packages/Migrator/src/Filesystem/MigratorFilesystem.php
+
+        -
+            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
+            path: packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php

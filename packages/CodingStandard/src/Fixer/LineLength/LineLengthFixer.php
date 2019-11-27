@@ -12,9 +12,9 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
-use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
+use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
+use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
+use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Throwable;
 
 final class LineLengthFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
@@ -132,7 +132,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         }
 
         // has comments => dangerous to change: https://github.com/Symplify/Symplify/issues/973
-        if ($tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd())) {
+        if ($tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd()) !== []) {
             return;
         }
 
@@ -207,24 +207,19 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             return true;
         }
 
-        // nowdoc => skip
+        // heredoc/nowdoc => skip
         $nextTokenPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
         $nextToken = $tokens[$nextTokenPosition];
 
-        if (Strings::startsWith($nextToken->getContent(), '<<<')) {
+        if (Strings::contains($nextToken->getContent(), '<<<')) {
             return true;
         }
 
         // is array with indexed values "=>"
-        if ($tokens->findGivenKind(T_DOUBLE_ARROW, $blockInfo->getStart(), $blockInfo->getEnd())) {
+        if ($tokens->findGivenKind(T_DOUBLE_ARROW, $blockInfo->getStart(), $blockInfo->getEnd()) !== []) {
             return true;
         }
-
         // has comments => dangerous to change: https://github.com/Symplify/Symplify/issues/973
-        if ($tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd())) {
-            return true;
-        }
-
-        return false;
+        return (bool) $tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd());
     }
 }

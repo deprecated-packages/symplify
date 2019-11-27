@@ -3,11 +3,11 @@
 namespace Symplify\EasyCodingStandard\ChangedFilesDetector\Tests;
 
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
-use Symplify\EasyCodingStandard\Tests\AbstractContainerAwareTestCase;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use function Safe\sprintf;
+use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class ChangedFilesDetectorTest extends AbstractContainerAwareTestCase
+final class ChangedFilesDetectorTest extends AbstractKernelTestCase
 {
     /**
      * @var SmartFileInfo
@@ -21,9 +21,11 @@ final class ChangedFilesDetectorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
+        $this->bootKernel(EasyCodingStandardKernel::class);
+
         $this->smartFileInfo = new SmartFileInfo(__DIR__ . '/ChangedFilesDetectorSource/OneClass.php');
 
-        $this->changedFilesDetector = $this->container->get(ChangedFilesDetector::class);
+        $this->changedFilesDetector = self::$container->get(ChangedFilesDetector::class);
         $this->changedFilesDetector->changeConfigurationFile(
             __DIR__ . '/ChangedFilesDetectorSource/easy-coding-standard.yml'
         );

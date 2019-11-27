@@ -7,6 +7,11 @@ use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 
 final class ConditionCaseConverter implements CaseConverterInterface
 {
+    public function getPriority(): int
+    {
+        return 700;
+    }
+
     public function convertContent(string $content): string
     {
         // https://regex101.com/r/XKKoUh/1/

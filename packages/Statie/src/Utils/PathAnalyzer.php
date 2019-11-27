@@ -2,11 +2,10 @@
 
 namespace Symplify\Statie\Utils;
 
-use DateTime;
 use DateTimeInterface;
+use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
-use SplFileInfo;
-use function Safe\sprintf;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PathAnalyzer
 {
@@ -20,7 +19,7 @@ final class PathAnalyzer
      */
     private const NAME_PATTERN = '(?<name>[\w\d-]*)';
 
-    public function detectDate(SplFileInfo $fileInfo): ?DateTimeInterface
+    public function detectDate(SmartFileInfo $fileInfo): ?DateTimeInterface
     {
         $match = Strings::match($fileInfo->getFilename(), '#' . self::DATE_PATTERN . '#');
         if ($match === null) {
@@ -29,13 +28,13 @@ final class PathAnalyzer
 
         $date = sprintf('%d-%d-%d', $match['year'], $match['month'], $match['day']);
 
-        return new DateTime($date);
+        return DateTime::from($date);
     }
 
-    public function detectFilenameWithoutDate(SplFileInfo $fileInfo): string
+    public function detectFilenameWithoutDate(SmartFileInfo $fileInfo): string
     {
         $date = $this->detectDate($fileInfo);
-        if ($date) {
+        if ($date !== null) {
             $dateAndNamePattern = sprintf('#%s-%s#', self::DATE_PATTERN, self::NAME_PATTERN);
 
             $match = Strings::match($fileInfo->getFilename(), $dateAndNamePattern);

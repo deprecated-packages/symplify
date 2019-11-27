@@ -3,16 +3,17 @@
 namespace Symplify\Statie\Twig\Tests\Renderable;
 
 use Nette\Utils\FileSystem;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\Statie\Configuration\StatieConfiguration;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
 use Symplify\Statie\Twig\Renderable\TwigFileDecorator;
 use Twig\Loader\ArrayLoader;
 
-final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
+final class TwigFileDecoratorTest extends AbstractKernelTestCase
 {
     /**
      * @var TwigFileDecorator
@@ -26,15 +27,15 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->twigFileDecorator = $this->container->get(TwigFileDecorator::class);
-        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->bootKernel(StatieKernel::class);
 
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        $this->twigFileDecorator = self::$container->get(TwigFileDecorator::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/TwigFileDecoratorSource');
 
-        /** @var ArrayLoader $arrayLoader */
-        $arrayLoader = $this->container->get(ArrayLoader::class);
+        $arrayLoader = self::$container->get(ArrayLoader::class);
         $arrayLoader->setTemplate('default', FileSystem::read(__DIR__ . '/TwigFileDecoratorSource/default.twig'));
     }
 
@@ -42,8 +43,7 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/TwigFileDecoratorSource/fileWithoutLayout.twig');
         $this->twigFileDecorator->decorateFiles([$file]);
-
-        $this->assertContains('Contact me!', $file->getContent());
+        $this->assertStringContainsString('Contact me!', $file->getContent());
     }
 
     public function testDecorateFileWithLayout(): void
@@ -63,7 +63,7 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
         $file = $this->createFileFromFilePath(__DIR__ . '/TwigFileDecoratorSource/fileWithFileVariable.twig');
         $this->twigFileDecorator->decorateFiles([$file]);
 
-        $this->assertContains('fileWithFileVariable.twig', $file->getContent());
+        $this->assertStringContainsString('fileWithFileVariable.twig', $file->getContent());
     }
 
     public function testDecorateFileWithInvalidTwigSyntax(): void

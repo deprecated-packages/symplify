@@ -4,13 +4,12 @@ namespace Symplify\MonorepoBuilder\Split;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
+use Symplify\MonorepoBuilder\Split\Configuration\Option;
 use Symplify\MonorepoBuilder\Split\Exception\PackageToRepositorySplitException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
 use Symplify\MonorepoBuilder\Split\Process\SplitProcessInfo;
-use Symplify\PackageBuilder\FileSystem\FileSystemGuard;
-use function Safe\sleep;
-use function Safe\sprintf;
+use Symplify\SmartFileSystem\FileSystemGuard;
 
 final class PackageToRepositorySplitter
 {
@@ -49,7 +48,8 @@ final class PackageToRepositorySplitter
         FileSystemGuard $fileSystemGuard,
         ProcessFactory $processFactory,
         GitManager $gitAnalyzer
-    ) {
+    )
+    {
         $this->symfonyStyle = $symfonyStyle;
         $this->fileSystemGuard = $fileSystemGuard;
         $this->processFactory = $processFactory;
@@ -58,13 +58,27 @@ final class PackageToRepositorySplitter
 
     /**
      * @param mixed[] $splitConfig
+     * @param string $rootDirectory
+     * @param int|null $maxProcesses
+     * @param string|null $tag
+     * @throws PackageToRepositorySplitException
+     * @throws \Symplify\SmartFileSystem\Exception\DirectoryNotFoundException
      */
     public function splitDirectoriesToRepositories(
         array $splitConfig,
         string $rootDirectory,
-        ?int $maxProcesses = null
-    ): void {
-        $theMostRecentTag = $this->gitManager->getMostRecentTag($rootDirectory);
+        ?int $maxProcesses = null,
+        ?string $tag = null
+    ): void
+    {
+        if ($tag === null) {
+            // If user let the tool to automatically select the last tag, check if there are valid
+            if ($this->gitManager->checkIfTagsHaveCommitterDate()) {
+                $this->symfonyStyle->warning('Some of the tags on this repository don\'t have committer\'s date. This may lead to unwanted tag selection during split. You may want to use the "' . Option::TAG . '" parameter.');
+            }
+
+            $tag = $this->gitManager->getMostRecentTag($rootDirectory);
+        }
 
         foreach ($splitConfig as $localDirectory => $remoteRepository) {
             $this->fileSystemGuard->ensureDirectoryExists($localDirectory);
@@ -74,7 +88,7 @@ final class PackageToRepositorySplitter
             );
 
             $process = $this->processFactory->createSubsplit(
-                $theMostRecentTag,
+                $tag,
                 $localDirectory,
                 $remoteRepositoryWithGithubKey
             );
@@ -100,7 +114,7 @@ final class PackageToRepositorySplitter
     {
         while ($numberOfProcessesToWaitFor > 0) {
             foreach ($this->activeProcesses as $i => $runningProcess) {
-                if (! $runningProcess->isRunning()) {
+                if (!$runningProcess->isRunning()) {
                     unset($this->activeProcesses[$i]);
                     $numberOfProcessesToWaitFor--;
                 }
@@ -116,7 +130,7 @@ final class PackageToRepositorySplitter
         foreach ($this->processInfos as $processInfo) {
             $process = $processInfo->getProcess();
 
-            if (! $process->isSuccessful()) {
+            if (!$process->isSuccessful()) {
                 $message = sprintf(
                     'Process failed with "%d" code: "%s"',
                     $process->getExitCode(),

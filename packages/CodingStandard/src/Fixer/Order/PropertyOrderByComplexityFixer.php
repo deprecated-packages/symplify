@@ -2,19 +2,20 @@
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
+use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 use Symplify\PackageBuilder\Php\TypeAnalyzer;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
-use function Safe\usort;
 
 /**
  * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
@@ -27,9 +28,9 @@ final class PropertyOrderByComplexityFixer extends AbstractSymplifyFixer
     private const RATING = 'rating';
 
     /**
-     * @var ClassWrapperFactory
+     * @var FixerClassWrapperFactory
      */
-    private $classWrapperFactory;
+    private $fixerClassWrapperFactory;
 
     /**
      * @var TypeAnalyzer
@@ -37,32 +38,25 @@ final class PropertyOrderByComplexityFixer extends AbstractSymplifyFixer
     private $typeAnalyzer;
 
     /**
-     * @var DocBlockFinder
-     */
-    private $docBlockFinder;
-
-    /**
-     * @var DocBlockWrapperFactory
-     */
-    private $docBlockWrapperFactory;
-
-    /**
      * @var ClassElementSorter
      */
     private $classElementSorter;
 
+    /**
+     * @var DocBlockManipulator
+     */
+    private $docBlockManipulator;
+
     public function __construct(
-        ClassWrapperFactory $classWrapperFactory,
+        FixerClassWrapperFactory $fixerClassWrapperFactory,
         TypeAnalyzer $typeAnalyzer,
-        DocBlockFinder $docBlockFinder,
-        DocBlockWrapperFactory $docBlockWrapperFactory,
-        ClassElementSorter $classElementSorter
+        ClassElementSorter $classElementSorter,
+        DocBlockManipulator $docBlockManipulator
     ) {
-        $this->classWrapperFactory = $classWrapperFactory;
+        $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->typeAnalyzer = $typeAnalyzer;
-        $this->docBlockFinder = $docBlockFinder;
-        $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->classElementSorter = $classElementSorter;
+        $this->docBlockManipulator = $docBlockManipulator;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -128,7 +122,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $i);
+            $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $i);
 
             $propertyElements = $classWrapper->getPropertyElements();
 
@@ -156,19 +150,12 @@ CODE_SAMPLE
      */
     private function resolveRatingFromDocType(Tokens $tokens, array $propertyElement): ?int
     {
-        $docBlockPosition = $this->docBlockFinder->findPreviousPosition($tokens, $propertyElement['start'] + 1);
-
-        if ($docBlockPosition === null) {
+        $varTags = $this->docBlockManipulator->resolveVarTagsIfFound($tokens, $propertyElement['start'] + 1);
+        if (count($varTags) === 0) {
             return null;
         }
 
-        $docBlockWrapper = $this->docBlockWrapperFactory->create(
-            $tokens,
-            $docBlockPosition,
-            $tokens[$docBlockPosition]->getContent()
-        );
-
-        return $this->getTypeRating($docBlockWrapper->getVarTypes());
+        return $this->getTypeRating($varTags);
     }
 
     /**
@@ -194,7 +181,7 @@ CODE_SAMPLE
      */
     private function sortPropertyWrappers(array $propertyElements): array
     {
-        usort($propertyElements, function (array $firstPropertyElement, array $secondPropertyElement) {
+        usort($propertyElements, function (array $firstPropertyElement, array $secondPropertyElement): int {
             return $firstPropertyElement['rating'] <=> $secondPropertyElement['rating'];
         });
 
@@ -202,12 +189,15 @@ CODE_SAMPLE
     }
 
     /**
-     * @param string[] $types
+     * @param VarTagValueNode[] $types
      */
     private function getTypeRating(array $types): int
     {
         $rating = 0;
         foreach ($types as $type) {
+            // remove nullables, not relevant here
+            $type = $this->normalizeTypeToStringForm($type);
+
             if ($this->typeAnalyzer->isPhpReservedType($type)) {
                 $rating = max($rating, 1);
             } elseif ($this->typeAnalyzer->isIterableType($type)) {
@@ -220,5 +210,32 @@ CODE_SAMPLE
         }
 
         return $rating;
+    }
+
+    private function normalizeTypeToStringForm(VarTagValueNode $varTagValueNode): string
+    {
+        if ($varTagValueNode->type instanceof UnionTypeNode) {
+            foreach ($varTagValueNode->type->types as $key => $value) {
+                if ((string) $value === 'null') {
+                    unset($varTagValueNode->type->types[$key]);
+                }
+            }
+        }
+
+        $stringVarType = (string) $varTagValueNode;
+
+        // remove "(<inside>)"
+        $stringVarType = $this->normalizeUnionType($stringVarType);
+
+        return ltrim($stringVarType, '\\');
+    }
+
+    private function normalizeUnionType(string $type): string
+    {
+        $matchInside = Strings::match($type, '#^\((?<content>.*?)\)$#s');
+        if (isset($matchInside['content'])) {
+            $type = $matchInside['content'];
+        }
+        return $type;
     }
 }

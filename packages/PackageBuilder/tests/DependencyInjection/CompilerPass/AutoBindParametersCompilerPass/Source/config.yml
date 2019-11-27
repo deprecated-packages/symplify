@@ -1,5 +1,8 @@
 parameters:
     someParameter: value
+    array_parameter:
+        - one
+        - two
 
 services:
     Symplify\PackageBuilder\Tests\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass\Source\ServiceWithAutowiredParameter:

@@ -1,4 +1,0 @@
-services:
-    Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer:
-        only_interfaces:
-            - 'SomeInterface'

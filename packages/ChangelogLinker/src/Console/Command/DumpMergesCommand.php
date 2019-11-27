@@ -14,11 +14,10 @@ use Symplify\ChangelogLinker\ChangeTree\ChangeResolver;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
-use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystemGuard;
+use Symplify\ChangelogLinker\FileSystem\ChangelogPlaceholderGuard;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use function Safe\sprintf;
 
 /**
  * @inspired by https://github.com/weierophinney/changelog_generator
@@ -72,9 +71,9 @@ final class DumpMergesCommand extends Command
     private $changelogLinker;
 
     /**
-     * @var ChangelogFileSystemGuard
+     * @var ChangelogPlaceholderGuard
      */
-    private $changelogFileSystemGuard;
+    private $changelogPlaceholderGuard;
 
     public function __construct(
         GithubApi $githubApi,
@@ -85,7 +84,7 @@ final class DumpMergesCommand extends Command
         ChangelogFileSystem $changelogFileSystem,
         PriorityResolver $priorityResolver,
         ChangeResolver $changeResolver,
-        ChangelogFileSystemGuard $changelogFileSystemGuard
+        ChangelogPlaceholderGuard $changelogPlaceholderGuard
     ) {
         parent::__construct();
         $this->githubApi = $githubApi;
@@ -96,7 +95,7 @@ final class DumpMergesCommand extends Command
         $this->changelogFileSystem = $changelogFileSystem;
         $this->priorityResolver = $priorityResolver;
         $this->changeResolver = $changeResolver;
-        $this->changelogFileSystemGuard = $changelogFileSystemGuard;
+        $this->changelogPlaceholderGuard = $changelogPlaceholderGuard;
     }
 
     protected function configure(): void
@@ -132,16 +131,26 @@ final class DumpMergesCommand extends Command
             InputOption::VALUE_REQUIRED,
             'Include pull-request with provided ID and higher. The ID is detected in CHANGELOG.md otherwise.'
         );
+
+        $this->addOption(
+            Option::BASE_BRANCH,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Base branch towards which the pull requests are targeted'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $content = $this->changelogFileSystem->readChangelog();
 
-        $this->changelogFileSystemGuard->ensurePlaceholderIsPresent($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
+        $this->changelogPlaceholderGuard->ensurePlaceholderIsPresent($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
         $sinceId = $this->getSinceIdFromInputAndContent($input, $content) ?: 1;
-        $pullRequests = $this->githubApi->getMergedPullRequestsSinceId($sinceId);
+        $pullRequests = $this->githubApi->getMergedPullRequestsSinceId(
+            $sinceId,
+            $input->getOption(Option::BASE_BRANCH)
+        );
         if (count($pullRequests) === 0) {
             $this->symfonyStyle->note(
                 sprintf('There are no new pull requests to be added since ID "%d".', $sinceId)
@@ -188,6 +197,30 @@ final class DumpMergesCommand extends Command
             return (int) $sinceId;
         }
 
+        /** @var string $baseBranch */
+        $baseBranch = $input->getOption(Option::BASE_BRANCH);
+        if ($baseBranch !== null) {
+            return $this->findHighestIdMergedInBranch($content, $baseBranch);
+        }
+
         return $this->idsAnalyzer->getHighestIdInChangelog($content);
+    }
+
+    private function findHighestIdMergedInBranch(string $content, string $branch): ?int
+    {
+        $allIdsInChangelog = $this->idsAnalyzer->getAllIdsInChangelog($content);
+
+        if ($allIdsInChangelog === null) {
+            return null;
+        }
+
+        rsort($allIdsInChangelog);
+        foreach ($allIdsInChangelog as $id) {
+            $idInt = (int) $id;
+            if ($this->githubApi->isPullRequestMergedToBaseBranch($idInt, $branch)) {
+                return $idInt;
+            }
+        }
+        return null;
     }
 }

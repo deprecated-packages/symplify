@@ -4,7 +4,6 @@ namespace Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use function Safe\getcwd;
 
 final class DetectParametersCompilerPass implements CompilerPassInterface
 {

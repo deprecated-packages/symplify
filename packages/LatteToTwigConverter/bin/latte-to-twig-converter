@@ -1,19 +1,33 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-require_once __DIR__ . '/autoload.php';
+use Symplify\LatteToTwigConverter\Console\LatteToTwigConverterApplication;
+use Symplify\LatteToTwigConverter\HttpKernel\LatteToTwigConverterKernel;
+use Symplify\PackageBuilder\Console\Input\InputDetector;
 
-use Psr\Container\ContainerInterface;
-use Symfony\Component\Console\Application;
-use Symplify\LatteToTwigConverter\DependencyInjection\ContainerFactory;
-use Symplify\PackageBuilder\Console\ThrowableRenderer;
+$possibleAutoloadPaths = [
+    // after split package
+    __DIR__ . '/../vendor/autoload.php',
+    // dependency
+    __DIR__ . '/../../../autoload.php',
+    // monorepo
+    __DIR__ . '/../../../vendor/autoload.php',
+];
 
-try {
-    /** @var ContainerInterface $container */
-    $container = (new ContainerFactory())->create();
+foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+    if (file_exists($possibleAutoloadPath)) {
+        require_once $possibleAutoloadPath;
 
-    $application = $container->get(Application::class);
-    exit($application->run());
-} catch (Throwable $throwable) {
-    (new ThrowableRenderer())->render($throwable);
+        break;
+    }
 }
+
+// random has is needed, so cache is invalidated and changes from config are loaded
+$environment = 'prod' . random_int(1, 100000);
+$latteToTwigConverterKernel = new LatteToTwigConverterKernel($environment, InputDetector::isDebug());
+$latteToTwigConverterKernel->boot();
+
+$container = $latteToTwigConverterKernel->getContainer();
+
+$application = $container->get(LatteToTwigConverterApplication::class);
+exit($application->run());

@@ -2,9 +2,9 @@
 
 namespace Symplify\LatteToTwigConverter;
 
-use Nette\Utils\FileSystem;
-use Nette\Utils\Strings;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
+use Symplify\LatteToTwigConverter\Exception\ConfigurationException;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class LatteToTwigConverter
 {
@@ -18,20 +18,35 @@ final class LatteToTwigConverter
      */
     public function __construct(array $caseConverters)
     {
-        $this->caseConverters = $caseConverters;
+        foreach ($caseConverters as $caseConverter) {
+            $this->ensureCaseConverterPriorityIsUnique($caseConverter);
+            $this->caseConverters[$caseConverter->getPriority()] = $caseConverter;
+        }
+
+        krsort($this->caseConverters);
     }
 
-    public function convertFile(string $file): string
+    public function convertFile(SmartFileInfo $fileInfo): string
     {
-        $content = FileSystem::read($file);
+        $content = $fileInfo->getContents();
 
         foreach ($this->caseConverters as $caseConverter) {
             $content = $caseConverter->convertContent($content);
         }
 
-        // suffix: "_snippets/menu.latte" => "_snippets/menu.twig"
-        $content = Strings::replace($content, '#([\w/"]+).latte#', '$1.twig');
+        return $content;
+    }
 
-        return Strings::replace($content, '#{% include \'?(\w+)\'? %}#', '{{ block(\'$1\') }}');
+    private function ensureCaseConverterPriorityIsUnique(CaseConverterInterface $caseConverter): void
+    {
+        if (! isset($this->caseConverters[$caseConverter->getPriority()])) {
+            return;
+        }
+
+        throw new ConfigurationException(sprintf(
+            'Duplicate case converter priority: %s and %s',
+            get_class($caseConverter),
+            get_class($this->caseConverters[$caseConverter->getPriority()])
+        ));
     }
 }

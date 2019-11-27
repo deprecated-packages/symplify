@@ -13,4 +13,9 @@ final class Option
      * @var string
      */
     public const DRY_RUN = 'dry-run';
+
+    /**
+     * @var string
+     */
+    public const STAGE = 'stage';
 }

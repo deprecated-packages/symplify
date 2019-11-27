@@ -53,7 +53,7 @@ final class CleanupCommand extends Command
 
         $this->changelogFileSystem->storeChangelog($processedChangelogContent);
 
-        $this->symfonyStyle->success('Changleog is now clean from duplicates!');
+        $this->symfonyStyle->success('Changelog is now clean from duplicates!');
 
         return ShellCode::SUCCESS;
     }

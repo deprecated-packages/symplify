@@ -4,21 +4,14 @@ namespace Symplify\MonorepoBuilder\Tests\PackageComposerFinder;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 
 final class PackageComposerFinderTest extends TestCase
 {
-    /**
-     * @var PackageComposerFinder
-     */
-    private $packageComposerFinder;
-
-    protected function setUp(): void
-    {
-        $this->packageComposerFinder = new PackageComposerFinder([__DIR__ . '/Source']);
-    }
-
     public function test(): void
     {
-        $this->assertCount(2, $this->packageComposerFinder->getPackageComposerFiles());
+        /** @var PackageComposerFinder $packageComposerFinder */
+        $packageComposerFinder = new PackageComposerFinder([__DIR__ . '/Source'], new FinderSanitizer());
+        $this->assertCount(2, $packageComposerFinder->getPackageComposerFiles());
     }
 }

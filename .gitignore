@@ -1,7 +1,15 @@
+# composer
 /vendor
 composer.lock
-.phpunit.result.cache
 
-# Statie dev
-/output
+# node
+/node_modules
+package-lock.json
+
+# statie
 /source
+/output
+/statie.yaml
+
+# phpunit
+.phpunit.result.cache

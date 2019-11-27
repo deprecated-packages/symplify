@@ -2,43 +2,22 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 
-use Iterator;
+use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer
- */
 final class BlankLineAfterStrictTypesFixerTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideCorrectCases()
-     */
-    public function testCorrectCases(string $file): void
+    public function testFix(): void
     {
-        $this->doTestCorrectFile($file);
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/correct.php.inc',
+            __DIR__ . '/Fixture/wrong.php.inc',
+            __DIR__ . '/Fixture/wrong2.php.inc',
+        ]);
     }
 
-    public function provideCorrectCases(): Iterator
+    protected function getCheckerClass(): string
     {
-        yield [__DIR__ . '/correct/correct.php.inc'];
-    }
-
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testFix(string $wrongFile, string $fixedFile): void
-    {
-        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
-    }
-
-    public function provideWrongToFixedCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
+        return BlankLineAfterStrictTypesFixer::class;
     }
 }

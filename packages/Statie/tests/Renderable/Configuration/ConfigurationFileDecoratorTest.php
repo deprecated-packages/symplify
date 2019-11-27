@@ -4,14 +4,14 @@ namespace Symplify\Statie\Tests\Renderable\Configuration;
 
 use Iterator;
 use Symfony\Component\Yaml\Exception\ParseException;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\Statie\Configuration\StatieConfiguration;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\ConfigurationFileDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use function Safe\sprintf;
 
-final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCase
+final class ConfigurationFileDecoratorTest extends AbstractKernelTestCase
 {
     /**
      * @var ConfigurationFileDecorator
@@ -25,11 +25,12 @@ final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCas
 
     protected function setUp(): void
     {
-        $this->configurationFileDecorator = $this->container->get(ConfigurationFileDecorator::class);
-        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->bootKernel(StatieKernel::class);
 
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
+        $this->configurationFileDecorator = self::$container->get(ConfigurationFileDecorator::class);
+        $this->fileFactory = self::$container->get(FileFactory::class);
+
+        $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/ConfigurationFileDecoratorSource');
     }
 
@@ -52,7 +53,15 @@ final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCas
 
     public function testInvalidYamlSyntax(): void
     {
-        $brokenYamlFilePath = __DIR__ . '/ConfigurationFileDecoratorSource/someFileWithBrokenConfigurationSyntax.latte';
+        $brokenYamlFilePath = sprintf(
+            '%s%s%s%s%s',
+            __DIR__,
+            DIRECTORY_SEPARATOR,
+            'ConfigurationFileDecoratorSource',
+            DIRECTORY_SEPARATOR,
+            'someFileWithBrokenConfigurationSyntax.latte'
+        );
+
         $fileInfo = new SmartFileInfo($brokenYamlFilePath);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 

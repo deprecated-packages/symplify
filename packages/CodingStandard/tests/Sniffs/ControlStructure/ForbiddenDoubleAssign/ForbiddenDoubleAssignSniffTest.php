@@ -2,43 +2,22 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\ControlStructure\ForbiddenDoubleAssign;
 
-use Iterator;
+use Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff
- */
 final class ForbiddenDoubleAssignSniffTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideWrongCases()
-     */
-    public function testWrong(string $wrongFile): void
+    public function test(): void
     {
-        $this->doTestWrongFile($wrongFile);
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/correct.php.inc',
+            __DIR__ . '/Fixture/correct2.php.inc',
+            __DIR__ . '/Fixture/wrong.php.inc',
+        ]);
     }
 
-    public function provideWrongCases(): Iterator
+    protected function getCheckerClass(): string
     {
-        yield [__DIR__ . '/wrong/wrong.php.inc'];
-    }
-
-    /**
-     * @dataProvider provideCorrectCases()
-     */
-    public function testCorrect(string $wrongFile): void
-    {
-        $this->doTestCorrectFile($wrongFile);
-    }
-
-    public function provideCorrectCases(): Iterator
-    {
-        yield [__DIR__ . '/correct/correct.php.inc'];
-        yield [__DIR__ . '/correct/correct2.php.inc'];
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
+        return ForbiddenDoubleAssignSniff::class;
     }
 }

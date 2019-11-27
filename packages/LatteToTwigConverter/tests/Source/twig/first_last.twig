@@ -1,0 +1,5 @@
+{% if loop.first %}<lastBuildDate>{{ post.getDateInFormat('r') }}</lastBuildDate>{% endif %}
+
+{% if loop.last %}
+    <lastBuildDate>{{ post.getDateInFormat('r') }}</lastBuildDate>
+{% endif %}

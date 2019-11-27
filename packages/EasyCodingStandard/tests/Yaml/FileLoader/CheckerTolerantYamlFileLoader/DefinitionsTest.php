@@ -9,10 +9,7 @@ use PHPUnit\Framework\TestCase;
 use SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff;
 use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
-use Symplify\EasyCodingStandard\Error\Error;
 
 final class DefinitionsTest extends TestCase
 {
@@ -28,11 +25,11 @@ final class DefinitionsTest extends TestCase
 
         $checkerDefinition = $containerBuilder->getDefinition($checker);
 
-        if (count($expectedMethodCall)) {
+        if (count($expectedMethodCall) > 0) {
             $this->checkDefinitionForMethodCall($checkerDefinition, $expectedMethodCall);
         }
 
-        if (count($expectedProperties)) {
+        if (count($expectedProperties) > 0) {
             $this->assertSame($expectedProperties, $checkerDefinition->getProperties());
         }
     }
@@ -41,7 +38,7 @@ final class DefinitionsTest extends TestCase
     {
         yield [
             # config
-            __DIR__ . '/DefinitionsSource/config.yml',
+            __DIR__ . '/DefinitionsSource/config.yaml',
             # checkers
             ArraySyntaxFixer::class,
             # expected method call
@@ -50,59 +47,43 @@ final class DefinitionsTest extends TestCase
             [],
         ];
         yield [
-            __DIR__ . '/DefinitionsSource/config-with-imports.yml',
+            __DIR__ . '/DefinitionsSource/config-with-imports.yaml',
             ArraySyntaxFixer::class,
             ['configure', [['syntax' => 'short']]],
             [],
         ];
         # "@" escaping
         yield [
-            __DIR__ . '/DefinitionsSource/config-with-at.yml',
+            __DIR__ . '/DefinitionsSource/config-with-at.yaml',
             LineLengthSniff::class,
             [],
             ['absoluteLineLimit' => '@author'],
         ];
         # keep original keywords
         yield [
-            __DIR__ . '/DefinitionsSource/config-classic.yml',
+            __DIR__ . '/DefinitionsSource/config-classic.yaml',
             LineLengthSniff::class,
             [],
             ['absoluteLineLimit' => 150],
         ];
         yield [
-            __DIR__ . '/DefinitionsSource/config-classic.yml',
+            __DIR__ . '/DefinitionsSource/config-classic.yaml',
             ArraySyntaxFixer::class,
             ['configure', [['syntax' => 'short']]],
             [],
         ];
         yield [
-            __DIR__ . '/DefinitionsSource/config-with-bool.yml',
+            __DIR__ . '/DefinitionsSource/config-with-bool.yaml',
             TypeHintDeclarationSniff::class,
             [],
             ['enableObjectTypeHint' => false],
         ];
         yield [
-            __DIR__ . '/DefinitionsSource/checkers.yml',
+            __DIR__ . '/DefinitionsSource/checkers.yaml',
             TypeHintDeclarationSniff::class,
             [],
             [
-                'enableVoidTypeHint' => true,
-                'enableNullableTypeHints' => true,
                 'enableObjectTypeHint' => false,
-            ],
-        ];
-        yield [
-            __DIR__ . '/DefinitionsSource/checkers.yml',
-            NoClassInstantiationSniff::class,
-            [],
-            [
-                'extraAllowedClasses' => [
-                    Error::class,
-                    'Symplify\PackageBuilder\Reflection\*',
-                    ContainerBuilder::class,
-                    'Symplify\EasyCodingStandard\Yaml\*',
-                    ParameterBag::class,
-                ],
             ],
         ];
     }

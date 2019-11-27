@@ -13,23 +13,19 @@ final class SetCurrentMutualDependenciesReleaseWorker extends AbstractMutualDepe
 
     public function work(Version $version): void
     {
-        $versionInString = $this->utils->getRequiredFormat($version);
+        $versionInString = $this->versionUtils->getRequiredFormat($version);
 
-        $rootComposerJson = $this->composerJsonProvider->getRootJson();
-
-        // @todo resolve better for only found packages
-        // see https://github.com/Symplify/Symplify/pull/1037/files
-        [$vendor,] = explode('/', $rootComposerJson['name']);
-
-        $this->interdependencyUpdater->updateFileInfosWithVendorAndVersion(
+        $this->dependencyUpdater->updateFileInfosWithPackagesAndVersion(
             $this->composerJsonProvider->getPackagesFileInfos(),
-            $vendor,
+            $this->packageNamesProvider->provide(),
             $versionInString
         );
     }
 
-    public function getDescription(): string
+    public function getDescription(Version $version): string
     {
-        return 'Set packages mutual dependencies to release version';
+        $versionInString = $this->versionUtils->getRequiredFormat($version);
+
+        return sprintf('Set packages mutual dependencies to "%s" version', $versionInString);
     }
 }

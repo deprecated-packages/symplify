@@ -5,41 +5,65 @@ namespace Symplify\EasyCodingStandard\Tests\Indentation;
 use PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\WhitespacesFixerConfig;
-use PHPUnit\Framework\Assert;
-use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
+use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class IndentationTest extends TestCase
+final class IndentationTest extends AbstractKernelTestCase
 {
+    /**
+     * @var PrivatesAccessor
+     */
+    private $privatesAccessor;
+
+    protected function setUp(): void
+    {
+        $this->privatesAccessor = new PrivatesAccessor();
+    }
+
     public function testSpaces(): void
     {
-        $container = (new ContainerFactory())->createWithConfigs(
+        $this->bootKernelWithConfigs(
+            EasyCodingStandardKernel::class,
             [__DIR__ . '/IndentationSource/config-with-spaces-indentation.yml']
         );
-        $indentationTypeFixer = $this->getIndentationTypeFixerFromContainer($container);
+
+        $indentationTypeFixer = $this->getIndentationTypeFixerFromContainer(self::$container);
 
         $this->assertInstanceOf(WhitespacesAwareFixerInterface::class, $indentationTypeFixer);
-        $spacesConfig = new WhitespacesFixerConfig('    ', PHP_EOL);
-        $this->assertEquals($spacesConfig, Assert::getObjectAttribute($indentationTypeFixer, 'whitespacesConfig'));
+        $spacesConfig = new WhitespacesFixerConfig('    ', EolConfiguration::getEolChar());
+
+        $fixerWhitespaceConfig = $this->privatesAccessor->getPrivateProperty(
+            $indentationTypeFixer,
+            'whitespacesConfig'
+        );
+        $this->assertEquals($spacesConfig, $fixerWhitespaceConfig);
     }
 
     public function testTabs(): void
     {
-        $container = (new ContainerFactory())->createWithConfigs(
+        $this->bootKernelWithConfigs(
+            EasyCodingStandardKernel::class,
             [__DIR__ . '/IndentationSource/config-with-tabs-indentation.yml']
         );
-        $indentationTypeFixer = $this->getIndentationTypeFixerFromContainer($container);
+
+        $indentationTypeFixer = $this->getIndentationTypeFixerFromContainer(self::$container);
 
         $this->assertInstanceOf(WhitespacesAwareFixerInterface::class, $indentationTypeFixer);
-        $tabsConfig = new WhitespacesFixerConfig('	', PHP_EOL);
-        $this->assertEquals($tabsConfig, Assert::getObjectAttribute($indentationTypeFixer, 'whitespacesConfig'));
+        $tabsConfig = new WhitespacesFixerConfig('	', EolConfiguration::getEolChar());
+
+        $fixerWhitespaceConfig = $this->privatesAccessor->getPrivateProperty(
+            $indentationTypeFixer,
+            'whitespacesConfig'
+        );
+        $this->assertEquals($tabsConfig, $fixerWhitespaceConfig);
     }
 
     private function getIndentationTypeFixerFromContainer(ContainerInterface $container): IndentationTypeFixer
     {
-        /** @var FixerFileProcessor $fixerFileProcessor */
         $fixerFileProcessor = $container->get(FixerFileProcessor::class);
         $checkers = $fixerFileProcessor->getCheckers();
         $this->assertCount(1, $checkers);

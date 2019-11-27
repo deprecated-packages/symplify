@@ -3,7 +3,7 @@
 namespace Symplify\EasyCodingStandard\FileSystem;
 
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FileFilter
 {
@@ -23,7 +23,7 @@ final class FileFilter
      */
     public function filterOnlyChangedFiles(array $fileInfos): array
     {
-        return array_filter($fileInfos, function (SmartFileInfo $smartFileInfo) {
+        return array_filter($fileInfos, function (SmartFileInfo $smartFileInfo): bool {
             return $this->changedFilesDetector->hasFileInfoChanged($smartFileInfo);
         });
     }

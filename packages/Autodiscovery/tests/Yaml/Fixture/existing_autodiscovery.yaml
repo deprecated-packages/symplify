@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autowire: true
+    Symfony\Component\Filesystem\Filesystem: ~
+    Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass: ~
+    Symplify\Autodiscovery\Tests\:
+        resource: ../../Existing
+-----
+services:
+    _defaults:
+        autowire: true
+    Symfony\Component\Filesystem\Filesystem: ~
+    Symplify\Autodiscovery\Tests\:
+        resource: ../../Existing

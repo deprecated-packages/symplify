@@ -11,17 +11,19 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
-use Symplify\TokenRunner\DocBlock\MalformWorker\MissingParamNameMalformWorker;
-use Symplify\TokenRunner\DocBlock\MalformWorker\ParamNameTypoMalformWorker;
-use Symplify\TokenRunner\DocBlock\MalformWorker\ParamTypeAndNameMalformWorker;
-use Symplify\TokenRunner\DocBlock\MalformWorker\SuperfluousReturnNameMalformWorker;
-use Symplify\TokenRunner\DocBlock\MalformWorker\SuperfluousVarNameMalformWorker;
+use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\InlineVarMalformWorker;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\MissingParamNameMalformWorker;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\ParamNameTypoMalformWorker;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\SuperfluousReturnNameMalformWorker;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\SuperfluousVarNameMalformWorker;
+use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\SwitchedTypeAndNameMalformWorker;
 
 /**
  * @see ParamNameTypoMalformWorker
+ * @see InlineVarMalformWorker
  * @see MissingParamNameMalformWorker
- * @see ParamTypeAndNameMalformWorker
+ * @see SwitchedTypeAndNameMalformWorker
  * @see SuperfluousReturnNameMalformWorker
  * @see SuperfluousVarNameMalformWorker
  */
@@ -43,7 +45,7 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'In @param type should be before the $name',
+            'The @param, @return, @var and inline @var annotations should keep standard format',
             [new CodeSample('<?php
 /**
  * @param $name type  
@@ -57,15 +59,14 @@ function someFunction(type $name)
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_DOC_COMMENT]) && $tokens->isAnyTokenKindsFound(
-            [T_FUNCTION, T_VARIABLE]
-        );
+        return $tokens->isAnyTokenKindsFound([T_DOC_COMMENT, T_COMMENT]) &&
+            $tokens->isAnyTokenKindsFound([T_FUNCTION, T_VARIABLE]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->reverseTokens($tokens) as $index => $token) {
-            if (! $token->isGivenKind(T_DOC_COMMENT)) {
+            if (! $token->isGivenKind([T_DOC_COMMENT, T_COMMENT])) {
                 continue;
             }
 

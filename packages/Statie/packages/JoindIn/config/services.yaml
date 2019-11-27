@@ -1,0 +1,12 @@
+parameters:
+    joind_in_username: "complete 'joind_in_username' parameter"
+
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    Symplify\Statie\JoindIn\:
+        resource: '../src/'
+        exclude:
+            - '../src/Exception'

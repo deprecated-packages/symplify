@@ -7,8 +7,8 @@ use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 use Symplify\PackageBuilder\Exception\Parameter\ParameterTypoException;
-use function Safe\sprintf;
 
 final class ParameterTypoProofreader
 {
@@ -39,9 +39,14 @@ final class ParameterTypoProofreader
         $parameterNames = array_keys($parameters);
         $parameterNames = $this->filterOutSystemParameterNames($parameterNames);
 
+        $correctNames = array_keys($this->correctToTypos);
         foreach ($parameterNames as $parameterName) {
             foreach ($this->correctToTypos as $correctParameterName => $missplacedNames) {
                 if ($parameterName === $correctParameterName) {
+                    continue;
+                }
+
+                if (in_array($parameterName, $correctNames, true)) {
                     continue;
                 }
 
@@ -56,7 +61,7 @@ final class ParameterTypoProofreader
      */
     private function filterOutSystemParameterNames(array $parameterNames): array
     {
-        return array_filter($parameterNames, function ($parameterName) {
+        return array_filter($parameterNames, function ($parameterName): bool {
             return ! (bool) Strings::match($parameterName, '#^(kernel|container)\.#');
         });
     }
@@ -86,7 +91,7 @@ final class ParameterTypoProofreader
         throw new ParameterTypoException(sprintf(
             'Parameter "parameters > %s" does not exist.%sUse "parameters > %s" instead.',
             $providedParameterName,
-            PHP_EOL,
+            EolConfiguration::getEolChar(),
             $correctParameterName
         ));
     }

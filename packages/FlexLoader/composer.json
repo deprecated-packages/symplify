@@ -1,0 +1,33 @@
+{
+    "name": "symplify/flex-loader",
+    "description": "Reduce Kernel Flex boiler code and use extra features",
+    "license": "MIT",
+    "require": {
+        "php": "^7.2",
+        "nette/utils": "^3.0",
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "symfony/routing": "^4.4|^5.0"
+    },
+    "require-dev": {
+        "symfony/framework-bundle": "^4.4|^5.0",
+        "symplify/package-builder": "^7.1",
+        "phpunit/phpunit": "^8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\FlexLoader\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\FlexLoader\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "7.1-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

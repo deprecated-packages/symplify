@@ -6,48 +6,62 @@
         "bin/statie"
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "erusev/parsedown-extra": "^0.7.1",
         "erusev/parsedown": "^1.7",
-        "latte/latte": "^2.4",
-        "symfony/config": "^3.4|^4.1",
-        "symfony/dependency-injection": "^3.4|^4.1",
-        "symfony/event-dispatcher": "^3.4|^4.1",
-        "symfony/http-kernel": "^3.4|^4.1",
-        "nette/finder": "^2.4",
-        "nette/utils": "^2.5",
-        "tracy/tracy": "^2.4",
-        "twig/twig": "^2.5",
-        "symfony/console": "^3.4|^4.1",
-        "symfony/finder": "^3.4|^4.1",
-        "symfony/yaml": "^3.4|^4.1",
-        "symplify/package-builder": "^5.3",
+        "composer/xdebug-handler": "^1.4",
+        "latte/latte": "^2.5",
+        "guzzlehttp/guzzle": "^6.4",
+        "j7mbo/twitter-api-php": "^1.0",
+        "nette/finder": "^2.5",
+        "nette/utils": "^3.0",
+        "tracy/tracy": "^2.7",
+        "twig/twig": "^3.0",
+        "symfony/config": "^4.4|^5.0",
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "symfony/event-dispatcher": "^4.4|^5.0",
+        "symfony/http-kernel": "^4.4|^5.0",
+        "symfony/console": "^4.4|^5.0",
+        "symfony/finder": "^4.4|^5.0",
+        "symfony/yaml": "^4.4|^5.0",
+        "symplify/package-builder": "^7.1",
+        "symplify/smart-file-system": "^7.1",
+        "symplify/set-config-resolver": "^7.1",
         "jean85/pretty-package-versions": "^1.2",
-        "ocramius/package-versions": "^1.3",
-        "thecodingmachine/safe": "^0.1.6"
+        "ocramius/package-versions": "^1.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.3"
+        "phpunit/phpunit": "^8.4"
     },
     "autoload": {
         "psr-4": {
             "Symplify\\Statie\\": "src",
-            "Symplify\\Statie\\Latte\\": "packages/Latte/src",
             "Symplify\\Statie\\Generator\\": "packages/Generator/src",
-            "Symplify\\Statie\\Twig\\": "packages/Twig/src"
+            "Symplify\\Statie\\Twig\\": "packages/Twig/src",
+            "Symplify\\Statie\\MigratorJekyll\\": "packages/MigratorJekyll/src",
+            "Symplify\\Statie\\MigratorSculpin\\": "packages/MigratorSculpin/src",
+            "Symplify\\Statie\\Migrator\\": "packages/Migrator/src",
+            "Symplify\\Statie\\JoindIn\\": "packages/JoindIn/src",
+            "Symplify\\Statie\\Tweeter\\": "packages/Tweeter/src",
+            "Symplify\\Statie\\GithubContributorsThanker\\": "packages/GithubContributorsThanker/src",
+            "Symplify\\Statie\\HeadlineAnchorLinker\\": "packages/HeadlineAnchorLinker/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Symplify\\Statie\\Tests\\": "tests",
-            "Symplify\\Statie\\Latte\\Tests\\": "packages/Latte/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests",
-            "Symplify\\Statie\\Twig\\Tests\\": "packages/Twig/tests"
+            "Symplify\\Statie\\MigratorJekyll\\Tests\\": "packages/MigratorJekyll/tests",
+            "Symplify\\Statie\\MigratorSculpin\\Tests\\": "packages/MigratorSculpin/tests",
+            "Symplify\\Statie\\Migrator\\Tests\\": "packages/Migrator/tests",
+            "Symplify\\Statie\\Twig\\Tests\\": "packages/Twig/tests",
+            "Symplify\\Statie\\Tweeter\\Tests\\": "packages/Tweeter/tests",
+            "Symplify\\Statie\\HeadlineAnchorLinker\\Tests\\": "packages/HeadlineAnchorLinker/tests"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "5.3-dev"
+            "dev-master": "7.1-dev"
         }
     },
     "minimum-stability": "dev",

@@ -1,0 +1,37 @@
+imports:
+    - { resource: 'services.yaml' }
+    - { resource: '../packages/**/config/config.yaml' }
+
+parameters:
+    merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev', 'repositories', 'suggest']
+    package_directories:
+        - 'packages'
+    data_to_append: []
+    data_to_remove: []
+    package_alias_format: '<major>.<minor>-dev'
+    # sections that will put content into single line while dumping json to string
+    inline_sections: ['keywords']
+
+    section_order:
+        - 'name'
+        - 'type'
+        - 'description'
+        - 'keywords'
+        - 'homepage'
+        - 'license'
+        - 'authors'
+        - 'bin'
+        - 'require'
+        - 'require-dev'
+        - 'autoload'
+        - 'autoload-dev'
+        - 'repositories'
+        - 'conflict'
+        - 'replace'
+        - 'provide'
+        - 'scripts'
+        - 'suggest'
+        - 'config'
+        - 'minimum-stability'
+        - 'prefer-stable'
+        - 'extra'

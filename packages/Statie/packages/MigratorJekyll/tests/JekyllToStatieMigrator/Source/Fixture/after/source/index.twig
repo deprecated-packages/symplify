@@ -1,0 +1,17 @@
+Some html file
+
+<ul>
+    {% for project in projects %}
+       <li><a href="{{ project.url }}">{{ project.name }}</a></li>
+    {% endfor %}
+</ul>
+
+{% include '_snippets/part.twig' %}
+
+{{ url|replace('index.html', '')}}
+
+{% if '.html' in permalink %}{% endif %}
+
+{% set author = owner %}
+
+{% set author %}...{% endset %}

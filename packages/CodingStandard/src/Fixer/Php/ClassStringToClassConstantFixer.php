@@ -13,7 +13,6 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
-use function Safe\substr;
 
 final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
@@ -84,14 +83,14 @@ final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implem
      */
     public function configure(?array $configuration = null): void
     {
-        $this->classMustExists = $configuration['class_must_exist'] ?? [];
+        $this->classMustExists = $configuration['class_must_exist'] ?? true;
         $this->allowClasses = $configuration['allow_classes'] ?? [];
     }
 
     private function getNameFromToken(Token $token): string
     {
         // remove quotes "" around the string
-        $name = substr($token->getContent(), 1, -1);
+        $name = Strings::substring($token->getContent(), 1, -1);
 
         // remove "\" prefix
         return ltrim($name, '\\');
@@ -123,7 +122,7 @@ final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implem
             return false;
         }
 
-        if ($this->classMustExists === false) {
+        if (! $this->classMustExists) {
             return true;
         }
 

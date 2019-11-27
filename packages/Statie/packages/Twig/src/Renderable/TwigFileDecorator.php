@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Twig\Renderable;
 
 use Nette\Utils\Strings;
+use Symplify\Statie\Configuration\TemplatingDetector;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
@@ -32,10 +33,19 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
      */
     private $codeBlocksProtector;
 
-    public function __construct(TwigRenderer $twigRenderer, CodeBlocksProtector $codeBlocksProtector)
-    {
+    /**
+     * @var TemplatingDetector
+     */
+    private $templatingDetector;
+
+    public function __construct(
+        TwigRenderer $twigRenderer,
+        CodeBlocksProtector $codeBlocksProtector,
+        TemplatingDetector $templatingDetector
+    ) {
         $this->twigRenderer = $twigRenderer;
         $this->codeBlocksProtector = $codeBlocksProtector;
+        $this->templatingDetector = $templatingDetector;
     }
 
     /**
@@ -49,9 +59,15 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
                 continue;
             }
 
-            $this->attachExtendsAndBlockContentToFileContent($file, $file->getLayout());
+            if ($file->getExtension() === 'md' && $this->templatingDetector->detect() === 'latte') {
+                continue;
+            }
+
+            $layout = $this->normalizeLayoutSuffix($file->getLayout());
+            $this->attachExtendsAndBlockContentToFileContent($file, $layout);
 
             $parameters = $this->createParameters($file, 'file');
+
             $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
 
             $file->changeContent($content);
@@ -71,7 +87,12 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
                 continue;
             }
 
-            $this->attachExtendsAndBlockContentToFileContent($file, $generatorElement->getLayout());
+            if ($file->getExtension() === 'md' && $this->templatingDetector->detect() === 'latte') {
+                continue;
+            }
+
+            $layout = $this->normalizeLayoutSuffix($file->getLayout() ?: $generatorElement->getLayout());
+            $this->attachExtendsAndBlockContentToFileContent($file, $layout);
 
             $parameters = $this->createParameters($file, $generatorElement->getVariable());
             $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
@@ -92,6 +113,19 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
         return 700;
     }
 
+    private function normalizeLayoutSuffix(?string $layout): ?string
+    {
+        if ($layout === null) {
+            return null;
+        }
+
+        if (Strings::endsWith($layout, '.latte')) {
+            return Strings::replace($layout, '#\.latte$#', '.twig');
+        }
+
+        return $layout;
+    }
+
     /**
      * @inspiration https://github.com/sculpin/sculpin/blob/3264c087e31da2d49c9ec825fec38cae4d583d50/src/Sculpin/Bundle/TwigBundle/TwigFormatter.php#L113
      */
@@ -103,7 +137,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
 
         $content = $this->codeBlocksProtector->protectContentFromCallback(
             $file->getContent(),
-            function (string $content) use ($layout) {
+            function (string $content) use ($layout): string {
                 if (! Strings::match($content, self::BLOCK_CONTENT_PATTERN)) {
                     $content = '{% block content %}' . $content . '{% endblock %}';
                 }
@@ -121,7 +155,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
 
     private function trimExtendsAndBlockContent(string $content): string
     {
-        return $this->codeBlocksProtector->protectContentFromCallback($content, function (string $content) {
+        return $this->codeBlocksProtector->protectContentFromCallback($content, function (string $content): string {
             $content = Strings::replace($content, self::BLOCK_CONTENT_PATTERN, '$1', 1);
 
             return Strings::replace($content, self::EXTEND_PATTERN, '', 1);

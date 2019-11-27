@@ -123,10 +123,10 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
     /**
      * @dataProvider provideDataUnknownCategory()
      */
-    public function testUnknownCategory(string $title): void
+    public function testChangedCategoryFallback(string $title): void
     {
         $change = $this->createChangeForTitle($title);
-        $this->assertSame(Category::UNKNOWN, $change->getCategory(), $title);
+        $this->assertSame(Category::CHANGED, $change->getCategory(), $title);
     }
 
     public function provideDataUnknownCategory(): Iterator

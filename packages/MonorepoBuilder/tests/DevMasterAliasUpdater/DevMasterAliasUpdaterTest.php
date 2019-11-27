@@ -3,11 +3,12 @@
 namespace Symplify\MonorepoBuilder\Tests\DevMasterAliasUpdater;
 
 use Nette\Utils\FileSystem;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class DevMasterAliasUpdaterTest extends AbstractContainerAwareTestCase
+final class DevMasterAliasUpdaterTest extends AbstractKernelTestCase
 {
     /**
      * @var DevMasterAliasUpdater
@@ -16,8 +17,9 @@ final class DevMasterAliasUpdaterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->devMasterAliasUpdater = $this->container->get(DevMasterAliasUpdater::class);
-        $this->devMasterAliasUpdater = $this->container->get(DevMasterAliasUpdater::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->devMasterAliasUpdater = self::$container->get(DevMasterAliasUpdater::class);
     }
 
     protected function tearDown(): void
@@ -27,7 +29,7 @@ final class DevMasterAliasUpdaterTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
-        $fileInfos = [new SplFileInfo(__DIR__ . '/Source/first.json', 'Source/first.json', 'Source')];
+        $fileInfos = [new SmartFileInfo(__DIR__ . '/Source/first.json')];
 
         $this->devMasterAliasUpdater->updateFileInfosWithAlias($fileInfos, '4.5-dev');
 

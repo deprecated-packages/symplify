@@ -4,9 +4,10 @@ namespace Symplify\MonorepoBuilder\Tests\DependenciesMerger;
 
 use Symplify\MonorepoBuilder\DependenciesMerger;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class DependenciesMergerTest extends AbstractContainerAwareTestCase
+final class DependenciesMergerTest extends AbstractKernelTestCase
 {
     /**
      * @var DependenciesMerger
@@ -20,8 +21,10 @@ final class DependenciesMergerTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->dependenciesMerger = $this->container->get(DependenciesMerger::class);
-        $this->jsonFileManager = $this->container->get(JsonFileManager::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->dependenciesMerger = self::$container->get(DependenciesMerger::class);
+        $this->jsonFileManager = self::$container->get(JsonFileManager::class);
     }
 
     public function test(): void
@@ -32,8 +35,17 @@ final class DependenciesMergerTest extends AbstractContainerAwareTestCase
                 'symfony/dependency-injection' => '^4.1',
             ],
             'repositories' => [
-                'type' => 'vcs',
-                'url' => 'https://github.com/molaux/PostgreSearchBundle.git',
+                [
+                    'type' => 'vcs',
+                    'url' => 'https://github.com/molaux/PostgreSearchBundle.git',
+                ],
+                [
+                    'options' => [
+                        'symlink' => false,
+                    ],
+                    'type' => 'path',
+                    'url' => './../packages/*',
+                ],
             ],
         ], __DIR__ . '/Source/root.json');
 

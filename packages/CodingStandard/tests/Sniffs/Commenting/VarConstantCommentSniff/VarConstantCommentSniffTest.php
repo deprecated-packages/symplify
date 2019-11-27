@@ -2,45 +2,24 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\VarConstantCommentSniff;
 
-use Iterator;
+use Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff
- */
 final class VarConstantCommentSniffTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideWrongCases()
-     */
-    public function testWrong(string $file): void
+    public function test(): void
     {
-        $this->doTestWrongFile($file);
+        $this->doTestFiles([
+            __DIR__ . '/Fixture/wrong.php.inc',
+            __DIR__ . '/Fixture/wrong2.php.inc',
+            __DIR__ . '/Fixture/wrong3.php.inc',
+            __DIR__ . '/Fixture/correct.php.inc',
+            __DIR__ . '/Fixture/correct2.php.inc',
+        ]);
     }
 
-    public function provideWrongCases(): Iterator
+    protected function getCheckerClass(): string
     {
-        yield [__DIR__ . '/wrong/wrong.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc'];
-        yield [__DIR__ . '/wrong/wrong3.php.inc'];
-    }
-
-    /**
-     * @dataProvider provideCorrectCases()
-     */
-    public function testCorrect(string $file): void
-    {
-        $this->doTestCorrectFile($file);
-    }
-
-    public function provideCorrectCases(): Iterator
-    {
-        yield [__DIR__ . '/correct/correct.php.inc'];
-        yield [__DIR__ . '/correct/correct2.php.inc'];
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
+        return VarConstantCommentSniff::class;
     }
 }

@@ -1,0 +1,29 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    Symplify\Statie\:
+        resource: '../src'
+        exclude:
+            - '../src/Exception'
+            - '../src/Renderable/File/File.php'
+            - '../src/Renderable/File/*File.php'
+            - '../src/HttpKernel'
+
+    # rest api
+    Symplify\PackageBuilder\Http\BetterGuzzleClient: ~
+    GuzzleHttp\Client: ~
+
+    ParsedownExtra:
+        class: ParsedownExtra
+
+    Symplify\PackageBuilder\Parameter\ParameterProvider: ~
+    Symplify\SmartFileSystem\Finder\FinderSanitizer: ~
+    Symplify\SmartFileSystem\FileSystemGuard: ~
+
+    Symfony\Component\EventDispatcher\EventDispatcher: ~
+    Symfony\Component\Yaml\Parser: ~
+    Symfony\Component\Filesystem\Filesystem: ~
+
+    Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~

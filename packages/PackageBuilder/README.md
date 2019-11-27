@@ -54,87 +54,10 @@ They can focus less on remembering all the keys and more on programming.
 
 <br>
 
-### Collect Services of Certain Type Together
-
-How do we load Commands to Console Application without tagging?
-
-- Read [What is tagging for](https://www.tomasvotruba.cz/blog/2017/02/12/drop-all-service-tags-in-your-nette-and-symfony-applications/#what-is-tagging-for)
-- Read [Collector Pattern, The Shortcut Hack to SOLID Code](https://www.tomasvotruba.cz/clusters/#collector-pattern-the-shortcut-hack-to-solid-code)
-
-```php
-<?php declare(strict_types=1);
-
-namespace App\DependencyInjection\CompilerPass;
-
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
-use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
-
-final class CollectorCompilerPass implements CompilerPassInterface
-{
-    public function process(ContainerBuilder $containerBuilder): void
-    {
-        $definitionCollector = new DefinitionCollector(new DefinitionFinder());
-
-        $definitionCollector->loadCollectorWithType(
-            $containerBuilder,
-            Application::class, // 1 main service
-            Command::class, // many collected services
-            'add' // the adder method called on 1 main service
-        );
-    }
-}
-```
-
-<br>
-
-### Add Service by Interface if Found
-
-```php
-<?php declare(strict_types=1);
-
-namespace App\DependencyInjection\CompilerPass;
-
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-use Symplify\EasyCodingStandard\Contract\Finder\CustomSourceProviderInterface;
-use Symplify\EasyCodingStandard\Finder\SourceFinder;
-use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
-
-final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassInterface
-{
-    public function process(ContainerBuilder $containerBuilder): void
-    {
-        $definitionFinder = new DefinitionFinder();
-
-        $customSourceProviderDefinition = $definitionFinder->getByTypeIfExists(
-            $containerBuilder,
-            CustomSourceProviderInterface::class
-        );
-
-        if ($customSourceProviderDefinition === null) {
-            return;
-        }
-
-        $sourceFinderDefinition = $definitionFinder->getByType($containerBuilder, SourceFinder::class);
-        $sourceFinderDefinition->addMethodCall(
-            'setCustomSourceProvider',
-            [new Reference($customSourceProviderDefinition->getClass())]
-        );
-    }
-}
-```
-
-<br>
-
 ### Get All Parameters via Service
 
-```yml
-# app/config/services.yml
+```yaml
+# app/config/services.yaml
 
 parameters:
     source: "src"
@@ -182,126 +105,6 @@ final class StatieConfiguration
 <?php declare(strict_types=1);
 
 Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // returns path to vendor directory
-```
-
-<br>
-
-### Load a Config for CLI Application?
-
-- Read [How to Load --config With Services in Symfony Console](https://www.tomasvotruba.cz/blog/2018/05/14/how-to-load-config-with-services-in-symfony-console/#code-argvinput-code-to-the-rescue)
-
-Use in CLI entry file `bin/<app-name>`, e.g. `bin/statie` or `bin/apigen`.
-
-```php
-<?php declare(strict_types=1);
-
-# bin/statie
-
-use Symfony\Component\Console\Input\ArgvInput;
-use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
-
-ConfigFileFinder::detectFromInput('statie', new ArgvInput);
-# throws "Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException" exception if no file is found
-```
-
-Where "statie" is key to save the location under. Later you'll use it get the config.
-
-With `--config` you can set config via CLI.
-
-```bash
-bin/statie --config config/statie.yml
-```
-
-Then get the config just run:
-
-```php
-<?php declare(strict_types=1);
-
-$config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('statie');
-var_dump($config); // returns absolute path to "config/statie.yml"
-// or NULL if none was found before
-```
-
-You can also provide fallback to file in [current working directory](http://php.net/manual/en/function.getcwd.php):
-
-```php
-<?php declare(strict_types=1);
-
-$config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('statie', ['statie.yml']);
-$config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('statie', ['statie.yml', 'statie.yaml']);
-```
-
-This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/) looks for `phpunit.xml`.
-
-<br>
-
-### Render Fancy CLI Exception Anywhere You Need
-
-Do you get exception before getting into Symfony\Console Application, but still want to render it with `-v`, `-vv`, `-vvv` options?
-
-```php
-<?php declare(strict_types=1);
-
-use Symfony\Component\Console\Application;
-use Symfony\Component\DependencyInjection\Container;
-use Symplify\PackageBuilder\Console\ThrowableRenderer;
-
-require_once __DIR__ . '/autoload.php';
-
-try {
-    /** @var Container $container */
-    $container = require __DIR__ . '/container.php';
-
-    $application = $container->get(Application::class);
-    exit($application->run());
-} catch (Throwable $throwable) {
-    (new ThrowableRenderer())->render($throwable);
-    exit($throwable->getCode());
-}
-```
-
-<br>
-
-### Load Config via `--level` Option in CLI App
-
-In you `bin/your-app` you can use `--level` option as shortcut to load config from `/config` directory.
-
-It makes is easier to load config over traditional super long way:
-
-```bash
-vendor/bin/your-app --config vendor/organization-name/package-name/config/subdirectory/the-config.yml
-```
-
-```php
-<?php declare(strict_types=1);
-
-use App\DependencyInjection\ContainerFactory;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
-use Symplify\PackageBuilder\Configuration\LevelFileFinder;
-
-// 1. Try --level
-$configFile = (new LevelFileFinder)->detectFromInputAndDirectory(new ArgvInput, __DIR__ . '/../config/');
-
-// 2. try --config
-if ($configFile === null) {
-    ConfigFileFinder::detectFromInput('ecs', new ArgvInput);
-    $configFile = ConfigFileFinder::provide('ecs', ['easy-coding-standard.yml']);
-}
-
-// 3. Build DI container
-$containerFactory = new ContainerFactory; // your own class
-if ($configFile) {
-    $container = $containerFactory->createWithConfig($configFile);
-} else {
-    $container = $containerFactory->create();
-}
-```
-
-And use like this:
-
-```bash
-vendor/bin/your-app --level the-config
 ```
 
 <br>
@@ -448,39 +251,6 @@ In case you need to do more work in YamlFileLoader, just extend the abstract par
 
 <br>
 
-### Collect Services in Short Configs
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass`
-
-Must-have for PHP CLI Apps without FrameworkBundle. Collect services by type, e.g. Console Commands to Application, EventSubscribers to EventDispatcher.
-
-```yaml
-parameters:
-    collectors:
-        -
-            main_type: 'Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory'
-            collected_type: 'Symplify\BetterPhpDocParser\Contract\PhpDocInfoDecoratorInterface'
-            add_method: 'addPhpDocInfoDecorator'
-```
-
-Read more about [collector pattern](https://www.tomasvotruba.cz/clusters/#collector-pattern-the-shortcut-hack-to-solid-code) to know how and when to use it.
-
-<br>
-
-### Autowire Singly-Implemented Interfaces
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass`
-
-```diff
- services:
-     OnlyImplementationOfFooInterface: ~
--
--    FooInterface:
--        alias: OnlyImplementationOfFooInterface
-```
-
-<br>
-
 ### Do not Repeat Simple Factories
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass`
@@ -490,8 +260,8 @@ This prevent repeating factory definitions for obvious 1-instance factories:
 ```diff
  services:
      Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
-     Symfony\Component\Console\Style\SymfonyStyle:
-         factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
+-     Symfony\Component\Console\Style\SymfonyStyle:
+-         factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
 ```
 
 **How this works?**
@@ -545,6 +315,14 @@ class Application
 }
 ```
 
+If there are failing cases, just exclude them in constructor:
+
+```php
+$this->addCompilerPass(new AutowireArrayParameterCompilerPass([
+    'Sonata\CoreBundle\Model\Adapter\AdapterInterface'
+]);
+```
+
 <br>
 
 ### Autobind Parameters
@@ -587,20 +365,8 @@ use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesC
         ]));
 ```
 
-This will make sure, that `PhpCsFixer\Fixer\FixerInterface` is always registered.
+This will make sure, that `PhpCsFixer\Fixer\FixerInterface` instances are always autowired.
 
 <br>
-
-### Use Public Services only in Tests
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass`
-- Read [How to Test Private Services in Symfony](https://www.tomasvotruba.cz/blog/2018/05/17/how-to-test-private-services-in-symfony/)
-
-```diff
- # some config for tests
- services:
--    _defaults:
--        public: true
-```
 
 That's all :)

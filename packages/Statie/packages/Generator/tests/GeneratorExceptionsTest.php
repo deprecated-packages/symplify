@@ -4,11 +4,18 @@ namespace Symplify\Statie\Generator\Tests;
 
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
+use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\PostFile;
-use function Safe\sprintf;
 
 final class GeneratorExceptionsTest extends AbstractGeneratorTest
 {
+    protected function setUp(): void
+    {
+        $this->bootKernelWithConfigs(StatieKernel::class, [__DIR__ . '/GeneratorSource/statie.yml']);
+
+        parent::setUp();
+    }
+
     public function testPostExceptionsOnUnset(): void
     {
         $post = $this->getPost();
@@ -32,7 +39,7 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
             sprintf('Value "tite" was not found for "%s" object. Did you mean "title"?', PostFile::class)
         );
 
-        $post['tite'];
+        $title = $post['tite'];
     }
 
     public function testPostExceptionOnGetNonExistingAllKeys(): void
@@ -47,19 +54,14 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
             )
         );
 
-        $post['key'];
-    }
-
-    protected function getConfig(): string
-    {
-        return __DIR__ . '/GeneratorSource/statie.yml';
+        $key = $post['key'];
     }
 
     private function getPost(): PostFile
     {
         $this->generator->run();
 
-        $posts = $this->configuration->getOption('posts');
+        $posts = $this->statieConfiguration->getOption('posts');
 
         return $posts[4];
     }

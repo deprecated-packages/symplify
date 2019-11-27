@@ -7,28 +7,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\EasyCodingStandard\Application\Application;
+use Symplify\EasyCodingStandard\Application\EasyCodingStandardApplication;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\Configuration\Option;
-use Symplify\EasyCodingStandard\Console\Output\CheckCommandReporter;
-use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
+use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
+use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
-use Symplify\PackageBuilder\Console\ShellCode;
-use function Safe\sprintf;
 
 final class CheckCommand extends Command
 {
     /**
-     * @var EasyCodingStandardStyle
+     * @var EasyCodingStandardApplication
      */
-    private $easyCodingStandardStyle;
-
-    /**
-     * @var Application
-     */
-    private $ecsApplication;
+    private $easyCodingStandardApplication;
 
     /**
      * @var Configuration
@@ -36,29 +28,20 @@ final class CheckCommand extends Command
     private $configuration;
 
     /**
-     * @var ErrorAndDiffCollector
+     * @var OutputFormatterCollector
      */
-    private $errorAndDiffCollector;
-
-    /**
-     * @var CheckCommandReporter
-     */
-    private $checkCommandReporter;
+    private $outputFormatterCollector;
 
     public function __construct(
-        Application $application,
-        EasyCodingStandardStyle $easyCodingStandardStyle,
+        EasyCodingStandardApplication $easyCodingStandardApplication,
         Configuration $configuration,
-        ErrorAndDiffCollector $errorAndDiffCollector,
-        CheckCommandReporter $checkCommandReporter
+        OutputFormatterCollector $outputFormatterCollector
     ) {
         parent::__construct();
 
-        $this->ecsApplication = $application;
-        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
+        $this->easyCodingStandardApplication = $easyCodingStandardApplication;
         $this->configuration = $configuration;
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
-        $this->checkCommandReporter = $checkCommandReporter;
+        $this->outputFormatterCollector = $outputFormatterCollector;
     }
 
     protected function configure(): void
@@ -84,112 +67,43 @@ final class CheckCommand extends Command
             InputOption::VALUE_NONE,
             'Hide error table. Useful e.g. for fast check of error count.'
         );
+        $this->addOption(
+            Option::OUTPUT_FORMAT_OPTION,
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Select output format',
+            ConsoleOutputFormatter::NAME
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $outputFormat = $input->getOption(Option::OUTPUT_FORMAT_OPTION);
+
+        // Backwards compatibility with older version
+        if ($outputFormat === 'table') {
+            $outputFormat = ConsoleOutputFormatter::NAME;
+        }
+
+        $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
+
         $this->ensureSomeCheckersAreRegistered();
 
         $this->configuration->resolveFromInput($input);
-        $processedFilesCount = $this->ecsApplication->run();
 
-        $this->checkCommandReporter->reportFileDiffs($this->errorAndDiffCollector->getFileDiffs());
+        $processedFilesCount = $this->easyCodingStandardApplication->run();
 
-        if ($this->errorAndDiffCollector->getErrorCount() === 0
-            && $this->errorAndDiffCollector->getFileDiffsCount() === 0
-        ) {
-            if ($processedFilesCount) {
-                $this->easyCodingStandardStyle->newLine();
-            }
-            $this->easyCodingStandardStyle->success('No errors found. Great job - your code is shiny in style!');
-
-            return ShellCode::SUCCESS;
-        }
-
-        $this->easyCodingStandardStyle->newLine();
-
-        return $this->configuration->isFixer() ? $this->printAfterFixerStatus() : $this->printNoFixerStatus();
+        return $outputFormatter->report($processedFilesCount);
     }
 
     private function ensureSomeCheckersAreRegistered(): void
     {
-        $totalCheckersLoaded = $this->ecsApplication->getCheckerCount();
+        $totalCheckersLoaded = $this->easyCodingStandardApplication->getCheckerCount();
         if ($totalCheckersLoaded === 0) {
             throw new NoCheckersLoadedException(
-                'No checkers were found. Registers them in your config in "services:" '
-                . 'section, load them via "--config <file>.yml" or "--level <level> option.'
+                'No checkers were found. Register them in your config in "services:" '
+                . 'section, load them via "--config <file>.yml" or "--set <set>" option.'
             );
         }
-    }
-
-    private function printAfterFixerStatus(): int
-    {
-        if ($this->configuration->showErrorTable()) {
-            $this->easyCodingStandardStyle->printErrors($this->errorAndDiffCollector->getErrors());
-        }
-
-        if ($this->errorAndDiffCollector->getErrorCount() === 0) {
-            $this->easyCodingStandardStyle->success(
-                sprintf(
-                    '%d error%s successfully fixed and no other found!',
-                    $this->errorAndDiffCollector->getFileDiffsCount(),
-                    $this->errorAndDiffCollector->getFileDiffsCount() === 1 ? '' : 's'
-                )
-            );
-
-            return ShellCode::SUCCESS;
-        }
-
-        $this->printErrorMessageFromErrorCounts(
-            $this->errorAndDiffCollector->getErrorCount(),
-            $this->errorAndDiffCollector->getFileDiffsCount()
-        );
-
-        return ShellCode::ERROR;
-    }
-
-    private function printNoFixerStatus(): int
-    {
-        if ($this->configuration->showErrorTable()) {
-            $errors = $this->errorAndDiffCollector->getErrors();
-            if (count($errors)) {
-                $this->easyCodingStandardStyle->newLine();
-                $this->easyCodingStandardStyle->printErrors($errors);
-            }
-        }
-
-        $this->printErrorMessageFromErrorCounts(
-            $this->errorAndDiffCollector->getErrorCount(),
-            $this->errorAndDiffCollector->getFileDiffsCount()
-        );
-
-        return ShellCode::ERROR;
-    }
-
-    private function printErrorMessageFromErrorCounts(int $errorCount, int $fileDiffsCount): void
-    {
-        if ($errorCount) {
-            $this->easyCodingStandardStyle->error(
-                sprintf(
-                    'Found %d error%s that need%s to be fixed manually.',
-                    $errorCount,
-                    $errorCount === 1 ? '' : 's',
-                    $errorCount === 1 ? '' : 's'
-                )
-            );
-        }
-
-        if (! $fileDiffsCount || $this->configuration->isFixer()) {
-            return;
-        }
-
-        $this->easyCodingStandardStyle->fixableError(
-            sprintf(
-                '%s%d %s fixable! Just add "--fix" to console command and rerun to apply.',
-                $errorCount ? 'Good news is that ' : '',
-                $fileDiffsCount,
-                $fileDiffsCount === 1 ? 'file is' : 'files are'
-            )
-        );
     }
 }

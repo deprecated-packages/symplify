@@ -10,6 +10,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 /**
  * Inspired by https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/2.8/src/Fixer/Phpdoc/NoEmptyPhpdocFixer.php
@@ -43,16 +44,23 @@ final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
             $tokens->clearTokenAndMergeSurroundingWhitespace($index);
 
             $previousToken = $tokens[$index - 1];
-            if ($previousToken->isWhitespace()) {
-                $previousWhitespaceContent = $previousToken->getContent();
+            if (! $previousToken->isWhitespace()) {
+                continue;
+            }
 
-                $lastLineBreak = strrpos($previousWhitespaceContent, PHP_EOL);
-                $newWhitespaceContent = Strings::substring($previousWhitespaceContent, 0, $lastLineBreak);
-                if ($newWhitespaceContent) {
-                    $tokens[$index - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);
-                } else {
-                    $tokens->clearAt($index - 1);
-                }
+            $previousWhitespaceContent = $previousToken->getContent();
+
+            $lastLineBreak = strrpos($previousWhitespaceContent, EolConfiguration::getEolChar());
+            // nothing found
+            if (is_bool($lastLineBreak)) {
+                continue;
+            }
+
+            $newWhitespaceContent = Strings::substring($previousWhitespaceContent, 0, $lastLineBreak);
+            if ($newWhitespaceContent !== '') {
+                $tokens[$index - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);
+            } else {
+                $tokens->clearAt($index - 1);
             }
         }
     }

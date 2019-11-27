@@ -1,3 +1,0 @@
-<?php
-
-$classType = \DateTime::class;

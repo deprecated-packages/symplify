@@ -5,7 +5,6 @@ namespace Symplify\ChangelogLinker\Worker;
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
-use function Safe\sprintf;
 
 /**
  * Comletes [] around commit, pull-request, issues and version references
@@ -34,7 +33,7 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
         $content = Strings::replace(
             $content,
             '#' . RegexPattern::PR_OR_ISSUE_NOT_IN_BRACKETS . '#',
-            function (array $match) {
+            function (array $match): string {
                 if (isset($match['reference'])) {
                     return sprintf('[%s]', $match['reference']);
                 }

@@ -1,0 +1,15 @@
+services:
+    Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass: ~
+    Symplify\Autodiscovery\Tests\Yaml\Source\SomeClass:
+        autowire: true
+
+    Markdown:
+        class: Markdown
+-----
+services:
+    _defaults:
+        autowire: true
+    Markdown:
+        class: Markdown
+    Symplify\Autodiscovery\:
+        resource: "../Source"

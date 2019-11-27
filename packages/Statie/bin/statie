@@ -1,22 +1,53 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Container;
-use Symplify\PackageBuilder\Console\ThrowableRenderer;
-use Symplify\Statie\Console\Application;
+use Symplify\SetConfigResolver\ConfigResolver;
+use Symplify\Statie\Console\StatieConsoleApplication;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symplify\PackageBuilder\Console\Input\InputDetector;
+use Symplify\Statie\HttpKernel\StatieKernel;
 
-require_once __DIR__ . '/autoload.php';
+# 1. autoload
+$possibleAutoloadPaths = [
+    // after split package
+    __DIR__ . '/../vendor/autoload.php',
+    // dependency
+    __DIR__ . '/../../../autoload.php',
+    // monorepo
+    __DIR__ . '/../../../vendor/autoload.php',
+];
+
+foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+    if (file_exists($possibleAutoloadPath)) {
+        require_once $possibleAutoloadPath;
+
+        break;
+    }
+}
+
 
 // performance boost
 gc_disable();
 
-try {
-    /** @var Container $container */
-    $container = require __DIR__ . '/container.php';
+# 2. create container
 
-    $application = $container->get(Application::class);
-    exit($application->run());
-} catch (Throwable $throwable) {
-    (new ThrowableRenderer())->render($throwable);
-    exit($throwable->getCode());
+// 1. --config CLI option or default
+$configResolver = new ConfigResolver();
+$configs = [];
+$inputConfig = $configResolver->resolveFromInputWithFallback(new ArgvInput(), ['statie.yml', 'statie.yaml']);
+if ($inputConfig) {
+    $configs[] = $inputConfig;
 }
+
+// random has is needed, so cache is invalidated and changes from config are loaded
+$environment = 'prod' . random_int(1, 100000);
+$statieKernel = new StatieKernel($environment, InputDetector::isDebug());
+if ($configs !== []) {
+    $statieKernel->setConfigs($configs);
+}
+$statieKernel->boot();
+$container = $statieKernel->getContainer();
+
+# 3. run it
+$application = $container->get(StatieConsoleApplication::class);
+exit($application->run());

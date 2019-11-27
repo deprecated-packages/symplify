@@ -20,13 +20,38 @@ use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 {
     /**
+     * Classes that create circular dependencies
+     * @var string[]
+     */
+    private $excludedFatalClasses = [
+        'Symfony\Component\Form\FormExtensionInterface',
+        'Symfony\Component\Asset\PackageInterface',
+        'Symfony\Component\Config\Loader\LoaderInterface',
+        'Symfony\Component\VarDumper\Dumper\ContextProvider\ContextProviderInterface',
+        'EasyCorp\Bundle\EasyAdminBundle\Form\Type\Configurator\TypeConfiguratorInterface',
+        'Sonata\CoreBundle\Model\Adapter\AdapterInterface',
+        'Sonata\Doctrine\Adapter\AdapterChain',
+        'Sonata\Twig\Extension\TemplateExtension',
+    ];
+
+    /**
+     * These namespaces are already configured by their bundles/extensions.
+     * @var string[]
+     */
+    private $excludedNamespaces = ['Doctrine', 'JMS', 'Symfony', 'Sensio', 'Knp', 'EasyCorp', 'Sonata', 'Twig'];
+
+    /**
      * @var DefinitionFinder
      */
     private $definitionFinder;
 
-    public function __construct()
+    /**
+     * @param string[] $excludedFatalClasses
+     */
+    public function __construct(array $excludedFatalClasses = [])
     {
         $this->definitionFinder = new DefinitionFinder();
+        $this->excludedFatalClasses = array_merge($this->excludedFatalClasses, $excludedFatalClasses);
     }
 
     public function process(ContainerBuilder $containerBuilder): void
@@ -55,11 +80,19 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             return true;
         }
 
-        if ($definition->getFactory()) {
+        // here class name can be "%parameter.class%"
+        $resolvedClassName = $containerBuilder->getParameterBag()->resolveValue($definition->getClass());
+
+        // skip 3rd party classes, they're autowired by own config
+        if (Strings::match($resolvedClassName, '#^(' . implode('|', $this->excludedNamespaces) . ')\\\\#')) {
             return true;
         }
 
-        if (! class_exists($definition->getClass())) {
+        if (in_array($resolvedClassName, $this->excludedFatalClasses, true)) {
+            return true;
+        }
+
+        if ($definition->getFactory()) {
             return true;
         }
 
@@ -74,11 +107,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 
         /** @var MethodReflection $constructorMethodReflection */
         $constructorMethodReflection = $reflectionClass->getConstructor();
-        if (! $constructorMethodReflection->getParameters()) {
-            return true;
-        }
-
-        return false;
+        return ! $constructorMethodReflection->getParameters();
     }
 
     private function processParameters(
@@ -120,16 +149,19 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             return true;
         }
 
+        if (in_array($parameterType, $this->excludedFatalClasses, true)) {
+            return true;
+        }
+
         if (! class_exists($parameterType) && ! interface_exists($parameterType)) {
             return true;
         }
 
         // prevent circular dependency
-        if (is_a($definition->getClass(), $parameterType, true)) {
-            return true;
+        if ($definition->getClass() === null) {
+            return false;
         }
-
-        return false;
+        return is_a($definition->getClass(), $parameterType, true);
     }
 
     private function resolveParameterType(string $parameterName, ReflectionMethod $reflectionMethod): ?string

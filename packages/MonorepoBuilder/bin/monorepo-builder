@@ -1,18 +1,51 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-require_once __DIR__ . '/autoload.php';
+use Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\SetConfigResolver\ConfigResolver;
+use Symplify\PackageBuilder\Console\Input\InputDetector;
 
-use Psr\Container\ContainerInterface;
-use Symfony\Component\Console\Application;
-use Symplify\PackageBuilder\Console\ThrowableRenderer;
+# 1. autoload
+$possibleAutoloadPaths = [
+    // after split package
+    __DIR__ . '/../vendor/autoload.php',
+    // dependency
+    __DIR__ . '/../../../autoload.php',
+    // monorepo
+    __DIR__ . '/../../../vendor/autoload.php',
+];
 
-try {
-    /** @var ContainerInterface $container */
-    $container = require_once __DIR__ . '/container.php';
-
-    $application = $container->get(Application::class);
-    $application->run();
-} catch (Throwable $throwable) {
-    (new ThrowableRenderer())->render($throwable);
+foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+    if (file_exists($possibleAutoloadPath)) {
+        require_once $possibleAutoloadPath;
+        break;
+    }
 }
+
+
+$configs = [];
+
+$configResolver = new ConfigResolver();
+$inputConfig = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [
+    'monorepo-builder.yml', 'monorepo-builder.yaml'
+]);
+
+if ($inputConfig !== null) {
+    $configs[] = $inputConfig;
+}
+
+// the environment name must be "random", so configs are invalidated without clearing the cache
+$environment = 'prod' . random_int(0, 100000);
+$monorepoBuilderKernel = new MonorepoBuilderKernel($environment, InputDetector::isDebug());
+if ($configs !== []) {
+    $monorepoBuilderKernel->setConfigs($configs);
+}
+$monorepoBuilderKernel->boot();
+
+$container = $monorepoBuilderKernel->getContainer();
+
+# 3. run it
+$application = $container->get(MonorepoBuilderApplication::class);
+exit($application->run());

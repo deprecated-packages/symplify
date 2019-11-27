@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Generator\Renderable\File;
 
 use DateTimeInterface;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 abstract class AbstractGeneratorFile extends AbstractFile
@@ -12,6 +12,12 @@ abstract class AbstractGeneratorFile extends AbstractFile
      * @var int
      */
     private $id;
+
+    /**
+     * Content without configuratoin, without markdown, just text
+     * @var string
+     */
+    private $rawContent;
 
     public function __construct(
         int $id,
@@ -28,5 +34,15 @@ abstract class AbstractGeneratorFile extends AbstractFile
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setRawContent(string $rawContent): void
+    {
+        $this->rawContent = $rawContent;
+    }
+
+    public function getRawContent(): string
+    {
+        return $this->rawContent;
     }
 }

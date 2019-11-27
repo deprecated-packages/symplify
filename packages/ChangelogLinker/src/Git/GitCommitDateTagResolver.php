@@ -4,6 +4,7 @@ namespace Symplify\ChangelogLinker\Git;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Process\Process;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 final class GitCommitDateTagResolver
 {
@@ -22,13 +23,17 @@ final class GitCommitDateTagResolver
      */
     public function __construct()
     {
-        $datesWithTags = explode(PHP_EOL, $this->getDatesWithTagsInString());
+        $datesWithTags = (array) explode(EolConfiguration::getEolChar(), $this->getDatesWithTagsInString());
 
         foreach ($datesWithTags as $datesWithTag) {
             $dateMatch = Strings::match($datesWithTag, '#(?<date>\d{4}-\d{2}-\d{2})#');
             $date = $dateMatch['date'];
 
             $tagMatch = Strings::match($datesWithTag, '#\(?tag: (?<tag>[v.\d]+)\)#');
+            if (! isset($tagMatch['tag'])) {
+                continue;
+            }
+
             $tag = $tagMatch['tag'];
 
             $this->tagsToDates[$tag] = $date;
@@ -56,7 +61,7 @@ final class GitCommitDateTagResolver
         if (isset($this->commitHashToTag[$commitHash])) {
             $tag = $this->commitHashToTag[$commitHash];
         } else {
-            $process = new Process('git describe --contains ' . $commitHash);
+            $process = new Process(['git', 'describe', '--contains', $commitHash]);
             $process->run();
             $tag = trim($process->getOutput());
             $this->commitHashToTag[$commitHash] = $tag;
@@ -76,7 +81,7 @@ final class GitCommitDateTagResolver
 
     private function getDatesWithTagsInString(): string
     {
-        $process = new Process('git log --tags --simplify-by-decoration --pretty="format:%ai %d"');
+        $process = new Process(['git', 'log', '--tags', '--simplify-by-decoration', '--pretty="format:%ai %d"']);
         $process->run();
 
         return trim($process->getOutput());

@@ -11,8 +11,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Statie\Application\StatieApplication;
-use function Safe\getcwd;
-use function Safe\sprintf;
 
 final class GenerateCommand extends Command
 {
@@ -47,7 +45,7 @@ final class GenerateCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Generate a site from source.');
+        $this->setDescription('Generate a site from source');
 
         $this->addArgument(self::OPTION_SOURCE, InputArgument::REQUIRED, 'Directory to load page FROM.');
         $this->addOption(
@@ -61,11 +59,8 @@ final class GenerateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var string $source */
-        $source = $input->getArgument(self::OPTION_SOURCE);
-
-        /** @var string $output */
-        $output = $input->getOption(self::OPTION_OUTPUT);
+        $source = (string) $input->getArgument(self::OPTION_SOURCE);
+        $output = (string) $input->getOption(self::OPTION_OUTPUT);
 
         $this->statieApplication->run($source, $output);
 

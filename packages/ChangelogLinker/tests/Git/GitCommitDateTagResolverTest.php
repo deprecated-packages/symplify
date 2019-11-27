@@ -6,6 +6,9 @@ use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
+/**
+ * @requires PHP < 7.4
+ */
 final class GitCommitDateTagResolverTest extends TestCase
 {
     /**

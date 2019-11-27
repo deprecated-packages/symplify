@@ -1,0 +1,7 @@
+# minimal setup for Doctrine bundle to register EntityManager
+doctrine:
+    dbal:
+        driver: 'pdo_sqlite'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'

@@ -1,0 +1,4 @@
+someValue:
+    value: Column
+    type: int
+    nulls: true

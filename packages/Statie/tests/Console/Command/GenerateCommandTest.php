@@ -7,12 +7,12 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\Statie\Console\Application;
-use Symplify\Statie\Exception\Utils\MissingDirectoryException;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use function Safe\sprintf;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
+use Symplify\Statie\Console\StatieConsoleApplication;
+use Symplify\Statie\HttpKernel\StatieKernel;
 
-final class GenerateCommandTest extends AbstractContainerAwareTestCase
+final class GenerateCommandTest extends AbstractKernelTestCase
 {
     /**
      * @var string
@@ -20,43 +20,49 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
     private $outputDirectory = __DIR__ . '/GenerateCommandSource/output';
 
     /**
-     * @var Application
+     * @var StatieConsoleApplication
      */
-    private $application;
+    private $statieConsoleApplication;
 
     protected function setUp(): void
     {
-        $this->application = $this->container->get(Application::class);
-        $this->application->setCatchExceptions(false);
-        $this->application->setAutoExit(false);
+        $this->bootKernel(StatieKernel::class);
 
-        /** @var SymfonyStyle $symfonyStyle */
-        $symfonyStyle = $this->container->get(SymfonyStyle::class);
+        $this->statieConsoleApplication = self::$container->get(StatieConsoleApplication::class);
+        $this->statieConsoleApplication->setCatchExceptions(false);
+        $this->statieConsoleApplication->setAutoExit(false);
+
+        $symfonyStyle = self::$container->get(SymfonyStyle::class);
         $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
     }
 
     protected function tearDown(): void
     {
-        FileSystem::delete($this->outputDirectory);
+        FileSystem::delete(addslashes($this->outputDirectory));
     }
 
     public function test(): void
     {
-        $stringInput = ['generate', __DIR__ . '/GenerateCommandSource/source', '--output', $this->outputDirectory];
+        $stringInput = [
+            'generate',
+            addslashes(__DIR__) . '/GenerateCommandSource/source',
+            '--output',
+            addslashes($this->outputDirectory),
+        ];
         $input = new StringInput(implode(' ', $stringInput));
 
-        $this->application->run($input, new NullOutput());
+        $this->statieConsoleApplication->run($input, new NullOutput());
 
-        $this->assertFileExists($this->outputDirectory . '/index.html');
+        $this->assertFileExists(addslashes($this->outputDirectory) . '/index.html');
     }
 
     public function testException(): void
     {
-        $stringInput = sprintf('generate %s', __DIR__ . '/GenerateCommandSource/missing');
+        $stringInput = sprintf('generate %s', addslashes(__DIR__) . '/GenerateCommandSource/missing');
         $input = new StringInput($stringInput);
 
-        $this->expectException(MissingDirectoryException::class);
+        $this->expectException(DirectoryNotFoundException::class);
 
-        $this->application->run($input, new NullOutput());
+        $this->statieConsoleApplication->run($input, new NullOutput());
     }
 }

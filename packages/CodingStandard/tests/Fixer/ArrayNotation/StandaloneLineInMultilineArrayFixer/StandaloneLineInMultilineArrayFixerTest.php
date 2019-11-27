@@ -2,50 +2,29 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 
-use Iterator;
+use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
-/**
- * @see \Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer
- */
 final class StandaloneLineInMultilineArrayFixerTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideCorrectCases()
-     */
-    public function testCorrectCases(string $correctFile): void
+    public function test(): void
     {
-        $this->doTestCorrectFile($correctFile);
+        $this->doTestFiles([
+            __DIR__ . '/fixture/correct.php.inc',
+            __DIR__ . '/fixture/correct2.php.inc',
+            __DIR__ . '/fixture/correct3.php.inc',
+            __DIR__ . '/fixture/correct4.php.inc',
+            __DIR__ . '/fixture/correct5.php.inc',
+            __DIR__ . '/fixture/correct6.php.inc',
+            __DIR__ . '/fixture/wrong.php.inc',
+            __DIR__ . '/fixture/wrong2.php.inc',
+            __DIR__ . '/fixture/wrong3.php.inc',
+            __DIR__ . '/fixture/wrong4.php.inc',
+        ]);
     }
 
-    public function provideCorrectCases(): Iterator
+    protected function getCheckerClass(): string
     {
-        yield [__DIR__ . '/correct/correct.php.inc'];
-        yield [__DIR__ . '/correct/correct2.php.inc'];
-        yield [__DIR__ . '/correct/correct3.php.inc'];
-        yield [__DIR__ . '/correct/correct4.php.inc'];
-        yield [__DIR__ . '/correct/correct5.php.inc'];
-        yield [__DIR__ . '/correct/correct6.php.inc'];
-    }
-
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testWrongToFixedCases(string $wrongFile, string $correctFile): void
-    {
-        $this->doTestWrongToFixedFile($wrongFile, $correctFile);
-    }
-
-    public function provideWrongToFixedCases(): Iterator
-    {
-        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'];
-        yield [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'];
-        yield [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc'];
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
+        return StandaloneLineInMultilineArrayFixer::class;
     }
 }

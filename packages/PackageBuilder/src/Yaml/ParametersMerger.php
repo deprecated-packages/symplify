@@ -2,6 +2,8 @@
 
 namespace Symplify\PackageBuilder\Yaml;
 
+use Closure;
+
 final class ParametersMerger
 {
     /**
@@ -10,25 +12,17 @@ final class ParametersMerger
      * @autor David Grudl (https://davidgrudl.com)
      * @source https://github.com/nette/di/blob/8eb90721a131262f17663e50aee0032a62d0ef08/src/DI/Config/Helpers.php#L31
      *
-     * @param mixed $left
-     * @param mixed $right
      * @return mixed[]|string
      */
     public function merge($left, $right)
     {
         if (is_array($left) && is_array($right)) {
-            foreach ($left as $key => $val) {
-                if (is_int($key)) {
-                    $right[] = $val;
-                } else {
-                    if (isset($right[$key])) {
-                        $val = $this->merge($val, $right[$key]);
-                    }
-                    $right[$key] = $val;
-                }
-            }
-            return $right;
-        } elseif ($left === null && is_array($right)) {
+            return $this->mergeLeftToRightWithCallable($left, $right, function ($leftValue, $rightValue) {
+                return $this->merge($leftValue, $rightValue);
+            });
+        }
+
+        if ($left === null && is_array($right)) {
             return $right;
         }
 
@@ -40,25 +34,17 @@ final class ParametersMerger
      *
      * $this->mergeWithCombine(1, 2); // [1, 2]
      *
-     * @param mixed $left
-     * @param mixed $right
      * @return mixed[]|string
      */
     public function mergeWithCombine($left, $right)
     {
         if (is_array($left) && is_array($right)) {
-            foreach ($left as $key => $val) {
-                if (is_int($key)) {
-                    $right[] = $val;
-                } else {
-                    if (isset($right[$key])) {
-                        $val = $this->mergeWithCombine($val, $right[$key]);
-                    }
-                    $right[$key] = $val;
-                }
-            }
-            return $right;
-        } elseif ($left === null && is_array($right)) {
+            return $this->mergeLeftToRightWithCallable($left, $right, function ($leftValue, $rightValue) {
+                return $this->mergeWithCombine($leftValue, $rightValue);
+            });
+        }
+
+        if ($left === null && is_array($right)) {
             return $right;
         }
 
@@ -67,5 +53,21 @@ final class ParametersMerger
         }
 
         return $left;
+    }
+
+    private function mergeLeftToRightWithCallable(array $left, array $right, Closure $mergeCallback): array
+    {
+        foreach ($left as $key => $val) {
+            if (is_int($key)) {
+                $right[] = $val;
+            } else {
+                if (isset($right[$key])) {
+                    $val = $mergeCallback($val, $right[$key]);
+                }
+                $right[$key] = $val;
+            }
+        }
+
+        return $right;
     }
 }

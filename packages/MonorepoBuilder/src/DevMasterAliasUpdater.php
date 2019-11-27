@@ -2,8 +2,8 @@
 
 namespace Symplify\MonorepoBuilder;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DevMasterAliasUpdater
 {
@@ -18,7 +18,7 @@ final class DevMasterAliasUpdater
     }
 
     /**
-     * @param SplFileInfo[] $fileInfos
+     * @param SmartFileInfo[] $fileInfos
      */
     public function updateFileInfosWithAlias(array $fileInfos, string $alias): void
     {

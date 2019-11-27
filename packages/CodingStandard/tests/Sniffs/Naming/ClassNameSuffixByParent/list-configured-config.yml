@@ -1,6 +1,0 @@
-services:
-    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
-        extraParentTypesToSuffixes:
-            - 'RandomInterface'
-            - 'RandomAbstract'
-            - 'AbstractRandom'

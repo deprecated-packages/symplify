@@ -2,16 +2,14 @@
 
 namespace Symplify\Statie\Twig;
 
-use Symplify\Statie\Contract\Templating\RendererInterface;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
 use Throwable;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
-use function Safe\sprintf;
 
-final class TwigRenderer implements RendererInterface
+final class TwigRenderer
 {
     /**
      * @var Environment
@@ -43,7 +41,7 @@ final class TwigRenderer implements RendererInterface
      */
     public function renderFileWithParameters(AbstractFile $file, array $parameters): string
     {
-        $renderCallback = function (string $content) use ($file, $parameters) {
+        $renderCallback = function (string $content) use ($file, $parameters): string {
             $this->twigArrayLoader->setTemplate($file->getFilePath(), $content);
 
             return $this->twigEnvironment->render($file->getFilePath(), $parameters);

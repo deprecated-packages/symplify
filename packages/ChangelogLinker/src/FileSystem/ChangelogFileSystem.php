@@ -7,8 +7,7 @@ use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\LinkAppender;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use function Safe\getcwd;
-use function Safe\sprintf;
+use Symplify\SmartFileSystem\FileSystemGuard;
 
 final class ChangelogFileSystem
 {
@@ -18,9 +17,9 @@ final class ChangelogFileSystem
     private $linkAppender;
 
     /**
-     * @var ChangelogFileSystemGuard
+     * @var ChangelogPlaceholderGuard
      */
-    private $changelogFileSystemGuard;
+    private $changelogPlaceholderGuard;
 
     /**
      * @var LinksAnalyzer
@@ -32,22 +31,29 @@ final class ChangelogFileSystem
      */
     private $parameterProvider;
 
+    /**
+     * @var FileSystemGuard
+     */
+    private $fileSystemGuard;
+
     public function __construct(
         LinkAppender $linkAppender,
-        ChangelogFileSystemGuard $changelogFileSystemGuard,
+        ChangelogPlaceholderGuard $changelogPlaceholderGuard,
+        FileSystemGuard $fileSystemGuard,
         LinksAnalyzer $linksAnalyzer,
         ParameterProvider $parameterProvider
     ) {
         $this->linkAppender = $linkAppender;
-        $this->changelogFileSystemGuard = $changelogFileSystemGuard;
+        $this->changelogPlaceholderGuard = $changelogPlaceholderGuard;
         $this->linksAnalyzer = $linksAnalyzer;
         $this->parameterProvider = $parameterProvider;
+        $this->fileSystemGuard = $fileSystemGuard;
     }
 
     public function readChangelog(): string
     {
         $changelogFilePath = $this->getChangelogFilePath();
-        $this->changelogFileSystemGuard->ensureFileExists($changelogFilePath);
+        $this->fileSystemGuard->ensureFileExists($changelogFilePath, __METHOD__);
 
         return FileSystem::read($changelogFilePath);
     }
@@ -67,7 +73,7 @@ final class ChangelogFileSystem
 
         $this->linksAnalyzer->analyzeContent($changelogContent);
 
-        $this->changelogFileSystemGuard->ensurePlaceholderIsPresent($changelogContent, $placeholder);
+        $this->changelogPlaceholderGuard->ensurePlaceholderIsPresent($changelogContent, $placeholder);
 
         $contentToWrite = sprintf(
             '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->',

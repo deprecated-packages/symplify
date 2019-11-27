@@ -2,10 +2,11 @@
 
 namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator;
 
-use PHPUnit\Framework\TestCase;
 use Symplify\MonorepoBuilder\ComposerJsonDecorator\SortRequireComposerJsonDecorator;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class SortRequireComposerJsonDecoratorTest extends TestCase
+final class SortRequireComposerJsonDecoratorTest extends AbstractKernelTestCase
 {
     /**
      * @var mixed[]
@@ -24,7 +25,9 @@ final class SortRequireComposerJsonDecoratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sortRequireComposerJsonDecorator = new SortRequireComposerJsonDecorator();
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        $this->sortRequireComposerJsonDecorator = self::$container->get(SortRequireComposerJsonDecorator::class);
     }
 
     public function testNoSort(): void
@@ -37,7 +40,9 @@ final class SortRequireComposerJsonDecoratorTest extends TestCase
     public function testSort(): void
     {
         $composerJsonWithSort = $this->composerJson + [
-            'config' => ['sort-packages' => true],
+            'config' => [
+                'sort-packages' => true,
+            ],
         ];
 
         $decorated = $this->sortRequireComposerJsonDecorator->decorate($composerJsonWithSort);

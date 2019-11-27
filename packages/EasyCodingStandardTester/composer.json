@@ -1,13 +1,13 @@
 {
     "name": "symplify/easy-coding-standard-tester",
-    "description": "# The Best Way to Test Sniffs and Fixers",
+    "description": "The Best Way to Test Sniffs and Fixers",
     "license": "MIT",
     "require": {
-        "php": "^7.1",
-        "phpunit/phpunit": "^7.3",
-        "symplify/easy-coding-standard": "^5.3",
-        "symplify/package-builder": "^5.3",
-        "thecodingmachine/safe": "^0.1.6"
+        "php": "^7.2",
+        "phpunit/phpunit": "^8.4",
+        "symplify/easy-coding-standard": "^7.1",
+        "symplify/package-builder": "^7.1",
+        "symplify/smart-file-system": "^7.1"
     },
     "autoload": {
         "psr-4": {
@@ -21,7 +21,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "5.3-dev"
+            "dev-master": "7.1-dev"
         }
     },
     "minimum-stability": "dev",

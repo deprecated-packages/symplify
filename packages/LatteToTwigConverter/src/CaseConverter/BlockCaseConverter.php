@@ -7,6 +7,11 @@ use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 
 final class BlockCaseConverter implements CaseConverterInterface
 {
+    public function getPriority(): int
+    {
+        return 1000;
+    }
+
     public function convertContent(string $content): string
     {
         // block/include:
@@ -15,7 +20,9 @@ final class BlockCaseConverter implements CaseConverterInterface
         $content = Strings::replace($content, '#{block (\w+)}(.*?){\/block}#s', '{% block $1 %}$2{% endblock %}');
         // {include "_snippets/menu.latte"} =>
         // {% include "_snippets/menu.latte" %}
-        $content = Strings::replace($content, '#{include ([^}]+)}#', '{% include $1 %}');
+        // {extends "_snippets/menu.latte"} =>
+        // {% extends "_snippets/menu.latte" %}
+        $content = Strings::replace($content, '#{(include|extends) ([^}]+)}#', '{% $1 $2 %}');
         // {define sth}...{/define} =>
         // {% block sth %}...{% endblock %}
         $content = Strings::replace($content, '#{define (.*?)}(.*?){\/define}#s', '{% block $1 %}$2{% endblock %}');
@@ -26,13 +33,15 @@ final class BlockCaseConverter implements CaseConverterInterface
         // see https://twig.symfony.com/doc/2.x/functions/include.html
         // single lines
         // ref https://regex101.com/r/uDJaia/1
-        $content = Strings::replace($content, '#({% include [^,]+,)([^}^:]+)(\s+%})#', function (array $match) {
+        $content = Strings::replace($content, '#({% include .*?,)(.*?)(\s+%})#', function (array $match): string {
             $variables = explode(',', $match[2]);
 
             $twigDataInString = ' { ';
             $variableCount = count($variables);
             foreach ($variables as $i => $variable) {
-                [$key, $value] = explode('=>', $variable);
+                [
+                 $key, $value,
+                ] = explode('=>', $variable);
                 $key = trim($key);
                 $value = trim($value);
                 $value = ltrim($value, '$'); // variables do not start with
@@ -52,6 +61,6 @@ final class BlockCaseConverter implements CaseConverterInterface
 
         // {% include "sth", =>
         // {% include "sth" with
-        return Strings::replace($content, '#({% include [^,{]+)(,)#', '$1 with');
+        return Strings::replace($content, '#({% include [^,{}]+)(,)#', '$1 with');
     }
 }

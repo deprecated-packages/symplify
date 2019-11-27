@@ -1,8 +1,0 @@
-parameters:
-    authors_to_ignore: ['TomasVotruba']
-
-    package_aliases:
-        CS: 'CodingStandard'
-        MB: 'MonorepoBuilder'
-        ECS: 'EasyCodingStandard'
-        CL: 'ChangelogLinker'

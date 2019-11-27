@@ -1,0 +1,123 @@
+services:
+    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
+        old_to_preferred_classes:
+            SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            DateTime: 'Nette\Utils\DateTime'
+            PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
+
+    Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
+        method_order_by_type:
+            PhpCsFixer\Fixer\FixerInterface:
+                - 'getDefinition'
+                - 'isCandidate'
+                - 'fix'
+                - 'getPriority'
+                - 'getName'
+                - 'isRisky'
+                - 'supports'
+
+    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
+        extra_parent_types_to_suffixes:
+            - 'FileDecorator'
+
+parameters:
+    sets:
+        - 'php71'
+        - 'clean-code'
+        - 'symplify'
+        - 'common'
+        - 'psr12'
+
+    exclude_files:
+        # tests
+        - 'packages/*/tests/**Source/*.php'
+        - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
+
+    skip:
+        # run form time to time, very slow and making many changes
+        Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
+        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff: ~
+
+        PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff: ~
+
+        PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
+        PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
+
+        Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff:
+            # directory separator
+            - 'packages/MonorepoBuilder/tests/VersionValidator/VersionValidatorTest.php'
+
+        Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
+            # allowed spots for Container
+            - '*Kernel.php'
+            - 'packages/PackageBuilder/src/Parameter/ParameterProvider.php'
+            - 'packages/PackageBuilder/src/Parameter/ParameterTypoProofreader.php'
+            - 'packages/EasyCodingStandardTester/src/Testing/AbstractCheckerTestCase.php'
+            # converts non-preferred type
+            - 'packages/SmartFileSystem/src/SmartFileInfo.php'
+            - 'packages/SmartFileSystem/src/Finder/FinderSanitizer.php'
+            - 'packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
+            # uses 3rd-party API
+            - 'packages/PackageBuilder/src/Configuration/LevelFileFinder.php'
+            - 'packages/CodingStandard/src/Fixer/*'
+            - 'packages/CodingStandard/tests/Fixer/*'
+            # SplFileInfo extension
+            - 'packages/PHPStanExtensions/src/Symfony/Type/SplFileInfoTolerantDynamicMethodReturnTypeExtension.php'
+            # tests
+            - 'packages/MonorepoBuilder/tests/Package/PackageComposerJsonMergerTest.php'
+            - 'packages/MonorepoBuilder/tests/Package/CombineStringsToArrayJsonMergerTest.php'
+
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+            - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
+            - 'packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php'
+            - 'packages/Statie/packages/Latte/src/Loader/ArrayLoader.php'
+            - 'packages/Statie/src/Configuration/Configuration.php'
+
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
+            - 'packages/EasyCodingStandard/tests/Indentation/IndentationTest.php'
+
+        Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
+            # name parts, not classes
+            - 'packages/Autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php'
+            - 'packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php'
+            # "Exception" is string part of the name
+            - 'packages/CodingStandard/src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
+            # class might not exist
+            - '*packages/*/src/DependencyInjection/CompilerPass/*CompilerPass.php'
+            - 'packages/PHPStanExtensions/src/Symfony/Type/ContainerGetTypeExtension.php'
+
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
+            # respect 3rd party code typehint
+            - 'packages/*/Yaml/*FileLoader.php'
+            - 'packages/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory.php'
+            # variadics
+            - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
+
+        SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
+            # intentionally "Exception" value
+            - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
+
+        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
+
+        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
+            # reference for reflection of method with reference
+            - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
+
+        Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
+            # useful comments
+            - 'packages/LatteToTwigConverter/src/CaseConverter/*CaseConverter.php'
+            - 'packages/Statie/*/*FilterProvider.php'
+
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingReturnTypeHint:
+            - 'packages/Statie/src/Application/StatieApplication.php'
+
+        Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
+            - 'packages/MonorepoBuilder/src/Console/Command/ValidateCommand.php'
+
+        SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable:
+            # tests
+            - 'packages/Statie/packages/Generator/tests/GeneratorExceptionsTest.php'
+
+        # disable random annotation removal of this Sniff
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment: ~

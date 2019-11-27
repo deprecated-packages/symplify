@@ -26,7 +26,13 @@ final class ForbiddenDoubleAssignSniff implements Sniff
     public function process(File $file, $position): void
     {
         $endPosition = $file->findNext(
-            [T_OPEN_CURLY_BRACKET, T_OPEN_SHORT_ARRAY, T_OPEN_SQUARE_BRACKET, T_COMMA, T_OPEN_PARENTHESIS, T_SEMICOLON],
+            [
+                T_OPEN_CURLY_BRACKET,
+                T_OPEN_SHORT_ARRAY,
+                T_OPEN_SQUARE_BRACKET,
+                T_COMMA,
+                T_OPEN_PARENTHESIS, T_SEMICOLON,
+            ],
             $position
         );
 

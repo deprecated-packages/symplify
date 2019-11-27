@@ -8,10 +8,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
-use Symplify\MonorepoBuilder\Utils\Utils;
+use Symplify\MonorepoBuilder\Utils\VersionUtils;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use function Safe\sprintf;
 
 final class PackageAliasCommand extends Command
 {
@@ -31,22 +30,22 @@ final class PackageAliasCommand extends Command
     private $devMasterAliasUpdater;
 
     /**
-     * @var Utils
+     * @var VersionUtils
      */
-    private $utils;
+    private $versionUtils;
 
     public function __construct(
         SymfonyStyle $symfonyStyle,
         PackageComposerFinder $packageComposerFinder,
         DevMasterAliasUpdater $devMasterAliasUpdater,
-        Utils $utils
+        VersionUtils $versionUtils
     ) {
         parent::__construct();
 
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerFinder = $packageComposerFinder;
         $this->devMasterAliasUpdater = $devMasterAliasUpdater;
-        $this->utils = $utils;
+        $this->versionUtils = $versionUtils;
     }
 
     protected function configure(): void
@@ -58,7 +57,7 @@ final class PackageAliasCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $composerPackageFiles = $this->packageComposerFinder->getPackageComposerFiles();
-        if (! count($composerPackageFiles)) {
+        if (count($composerPackageFiles) === 0) {
             $this->symfonyStyle->error('No "composer.json" were found in packages.');
             return ShellCode::ERROR;
         }
@@ -75,6 +74,6 @@ final class PackageAliasCommand extends Command
     {
         $lastTag = exec('git describe --abbrev=0 --tags');
 
-        return $this->utils->getNextAliasFormat($lastTag);
+        return $this->versionUtils->getNextAliasFormat($lastTag);
     }
 }

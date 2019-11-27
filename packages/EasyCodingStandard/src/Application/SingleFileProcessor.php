@@ -8,7 +8,7 @@ use Symplify\EasyCodingStandard\Contract\Application\FileProcessorCollectorInter
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Skipper;
-use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SingleFileProcessor implements FileProcessorCollectorInterface
 {
@@ -32,21 +32,14 @@ final class SingleFileProcessor implements FileProcessorCollectorInterface
      */
     private $errorAndDiffCollector;
 
-    /**
-     * @var CurrentFileProvider
-     */
-    private $currentFileProvider;
-
     public function __construct(
         Skipper $skipper,
         ChangedFilesDetector $changedFilesDetector,
-        ErrorAndDiffCollector $errorAndDiffCollector,
-        CurrentFileProvider $currentFileProvider
+        ErrorAndDiffCollector $errorAndDiffCollector
     ) {
         $this->skipper = $skipper;
         $this->changedFilesDetector = $changedFilesDetector;
         $this->errorAndDiffCollector = $errorAndDiffCollector;
-        $this->currentFileProvider = $currentFileProvider;
     }
 
     public function addFileProcessor(FileProcessorInterface $fileProcessor): void
@@ -59,15 +52,13 @@ final class SingleFileProcessor implements FileProcessorCollectorInterface
         try {
             $this->changedFilesDetector->addFileInfo($smartFileInfo);
             foreach ($this->fileProcessors as $fileProcessor) {
-                if (! $fileProcessor->getCheckers()) {
+                if ($fileProcessor->getCheckers() === []) {
                     continue;
                 }
 
                 if ($this->skipper->shouldSkipFileInfo($smartFileInfo)) {
                     continue;
                 }
-
-                $this->currentFileProvider->setFileInfo($smartFileInfo);
 
                 $fileProcessor->processFile($smartFileInfo);
             }

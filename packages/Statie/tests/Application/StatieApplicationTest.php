@@ -3,29 +3,31 @@
 namespace Symplify\Statie\Tests\Application;
 
 use Nette\Utils\FileSystem;
-use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
 use Symplify\Statie\Application\StatieApplication;
-use Symplify\Statie\DependencyInjection\ContainerFactory;
-use Symplify\Statie\Exception\Utils\MissingDirectoryException;
-use Symplify\Statie\Latte\Loader\ArrayLoader;
+use Symplify\Statie\HttpKernel\StatieKernel;
 
-final class StatieApplicationTest extends TestCase
+/**
+ * @requires PHP < 7.4
+ */
+final class StatieApplicationTest extends AbstractKernelTestCase
 {
     /**
      * @var StatieApplication
      */
     private $statieApplication;
 
-    /**
-     * @var ArrayLoader
-     */
-    private $arrayLoader;
-
     protected function setUp(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/StatieApplicationSource/statie.yml');
-        $this->statieApplication = $container->get(StatieApplication::class);
-        $this->arrayLoader = $container->get(ArrayLoader::class);
+        $this->bootKernelWithConfigs(StatieKernel::class, [__DIR__ . '/StatieApplicationSource/statie.yml']);
+
+        $this->statieApplication = self::$container->get(StatieApplication::class);
+
+        $symfonyStyle = self::$container->get(SymfonyStyle::class);
+        $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
     }
 
     protected function tearDown(): void
@@ -46,26 +48,19 @@ final class StatieApplicationTest extends TestCase
             __DIR__ . '/StatieApplicationSource/output/index.html'
         );
 
-        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/feed.xml');
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/atom.rss');
 
-        $this->assertNotEmpty($this->arrayLoader->getContent('_layouts/default.latte'));
+        // markdown test
+        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/file/index.html');
+        $this->assertFileEquals(
+            __DIR__ . '/StatieApplicationSource/expected-file.html',
+            __DIR__ . '/StatieApplicationSource/output/file/index.html'
+        );
     }
 
     public function testRunForMissingSource(): void
     {
-        $this->expectException(MissingDirectoryException::class);
+        $this->expectException(DirectoryNotFoundException::class);
         $this->statieApplication->run('missing', 'random');
-    }
-
-    public function testForSuggestedSource(): void
-    {
-        $this->statieApplication->run(
-            __DIR__ . '/StatieApplicationSource/source',
-            __DIR__ . '/StatieApplicationSource/output'
-        );
-
-        $this->expectExceptionMessageRegExp('#Did you mean "_layouts/default.latte"#');
-        $this->assertNotEmpty($this->arrayLoader->getContent('layoutdefault.latte'));
     }
 }
