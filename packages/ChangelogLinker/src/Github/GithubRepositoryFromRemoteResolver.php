@@ -4,6 +4,8 @@ namespace Symplify\ChangelogLinker\Github;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Exception\Git\InvalidGitRemoteException;
+use function parse_url;
+use function pathinfo;
 use function rtrim;
 use function sprintf;
 use function str_replace;
@@ -15,6 +17,9 @@ use const PHP_URL_SCHEME;
 
 final class GithubRepositoryFromRemoteResolver
 {
+    /**
+     * The scheme from web URLs
+     */
     private const HTTPS_SCHEME = 'https';
 
     public function resolveFromUrl(string $url): string
