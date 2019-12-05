@@ -45,6 +45,6 @@ final class CommentedOutCodeSniff extends PHP_CodeSnifferCommentedOutCodeSniff
         }
 
         // is one standalone line, skip it
-        return ($tokens[$possibleNextCommentToken]['line'] - $tokens[$position]['line']) > 1;
+        return $tokens[$possibleNextCommentToken]['line'] - $tokens[$position]['line'] > 1;
     }
 }

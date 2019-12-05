@@ -147,7 +147,7 @@ final class StatieApplication
      * @param AbstractGeneratorFile[][] $generatorFilesByType
      * @return SmartFileInfo[]
      */
-    private function filterOutGeneratorFiles(array $fileInfos, array $generatorFilesByType)
+    private function filterOutGeneratorFiles(array $fileInfos, array $generatorFilesByType): array
     {
         return array_filter($fileInfos, function (SmartFileInfo $fileInfo) use ($generatorFilesByType): bool {
             return ! $this->isFilePartOfGeneratorsFiles($fileInfo, $generatorFilesByType);

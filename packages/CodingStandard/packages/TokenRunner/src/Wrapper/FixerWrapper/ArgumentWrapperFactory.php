@@ -28,7 +28,7 @@ final class ArgumentWrapperFactory
         $argumentsBracketEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $argumentsBracketStart);
 
         // no arguments, return
-        if ($argumentsBracketStart === ($argumentsBracketEnd + 1)) {
+        if ($argumentsBracketStart === $argumentsBracketEnd + 1) {
             return [];
         }
 
