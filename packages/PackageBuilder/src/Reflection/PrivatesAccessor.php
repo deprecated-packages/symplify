@@ -6,10 +6,7 @@ use ReflectionProperty;
 
 final class PrivatesAccessor
 {
-    /**
-     * @param object $object
-     */
-    public function getPrivateProperty($object, string $propertyName)
+    public function getPrivateProperty(object $object, string $propertyName)
     {
         if (property_exists($object, $propertyName)) {
             $propertyReflection = new ReflectionProperty($object, $propertyName);
@@ -21,10 +18,7 @@ final class PrivatesAccessor
         return $propertyReflection->getValue($object);
     }
 
-    /**
-     * @param object $object
-     */
-    public function setPrivateProperty($object, string $propertyName, $value): void
+    public function setPrivateProperty(object $object, string $propertyName, $value): void
     {
         $propertyReflection = new ReflectionProperty(get_class($object), $propertyName);
         $propertyReflection->setAccessible(true);

@@ -8,7 +8,7 @@ final class Option
      * @var string
      */
     public const MAX_PROCESSES = 'max-processes';
-    
+
     /**
      * @var string
      */

@@ -28,7 +28,7 @@ final class GitManager
         $command = ['git', 'tag', '-l', '--format="%(committerdate)"'];
         $result = $this->processRunner->run($command);
 
-        return preg_match('/^\s*$/', $result) !== false;
+        return preg_match('#^\s*$#', $result) !== false;
     }
 
     /**

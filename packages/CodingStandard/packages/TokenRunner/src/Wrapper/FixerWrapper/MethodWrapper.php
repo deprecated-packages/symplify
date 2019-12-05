@@ -76,7 +76,7 @@ final class MethodWrapper
                 continue;
             }
 
-            $newName = Strings::startsWith($newName, '$') ? $newName : ('$' . $newName);
+            $newName = Strings::startsWith($newName, '$') ? $newName : '$' . $newName;
 
             $this->tokens[$i] = new Token([T_VARIABLE, $newName]);
         }

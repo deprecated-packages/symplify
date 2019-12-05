@@ -203,7 +203,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     private function shouldSkip(Tokens $tokens, BlockInfo $blockInfo): bool
     {
         // no items inside => skip
-        if (($blockInfo->getEnd() - $blockInfo->getStart()) <= 1) {
+        if ($blockInfo->getEnd() - $blockInfo->getStart() <= 1) {
             return true;
         }
 

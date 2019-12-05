@@ -42,8 +42,7 @@ final class SplitCommand extends Command
         array $directoriesToRepositories,
         string $rootDirectory,
         PackageToRepositorySplitter $packageToRepositorySplitter
-    )
-    {
+    ) {
         parent::__construct();
 
         $this->repositoryGuard = $repositoryGuard;

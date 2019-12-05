@@ -28,6 +28,9 @@ parameters:
         - 'symplify'
         - 'common'
         - 'psr12'
+        - 'types'
+        - 'dead-code'
+
 
     exclude_files:
         # tests
@@ -38,6 +41,12 @@ parameters:
         # run form time to time, very slow and making many changes
         Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff: ~
+
+        # types: allow mixed
+        SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingAnyTypeHint: ~
+        SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff.MissingTraversableTypeHintSpecification: ~
+        SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingTraversableTypeHintSpecification: ~
+        SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff.MissingAnyTypeHint: ~
 
         PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff: ~
 
@@ -68,12 +77,6 @@ parameters:
             - 'packages/MonorepoBuilder/tests/Package/PackageComposerJsonMergerTest.php'
             - 'packages/MonorepoBuilder/tests/Package/CombineStringsToArrayJsonMergerTest.php'
 
-        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-            - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
-            - 'packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php'
-            - 'packages/Statie/packages/Latte/src/Loader/ArrayLoader.php'
-            - 'packages/Statie/src/Configuration/Configuration.php'
-
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - 'packages/EasyCodingStandard/tests/Indentation/IndentationTest.php'
 
@@ -86,13 +89,6 @@ parameters:
             # class might not exist
             - '*packages/*/src/DependencyInjection/CompilerPass/*CompilerPass.php'
             - 'packages/PHPStanExtensions/src/Symfony/Type/ContainerGetTypeExtension.php'
-
-        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
-            # respect 3rd party code typehint
-            - 'packages/*/Yaml/*FileLoader.php'
-            - 'packages/CodingStandard/packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/ContainerFactory.php'
-            # variadics
-            - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
 
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
@@ -109,9 +105,6 @@ parameters:
             - 'packages/LatteToTwigConverter/src/CaseConverter/*CaseConverter.php'
             - 'packages/Statie/*/*FilterProvider.php'
 
-        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingReturnTypeHint:
-            - 'packages/Statie/src/Application/StatieApplication.php'
-
         Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
             - 'packages/MonorepoBuilder/src/Console/Command/ValidateCommand.php'
 
@@ -119,5 +112,7 @@ parameters:
             # tests
             - 'packages/Statie/packages/Generator/tests/GeneratorExceptionsTest.php'
 
-        # disable random annotation removal of this Sniff
-        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment: ~
+        SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingNativeTypeHint:
+            - '*Sniff.php'
+            - '*YamlFileLoader.php'
+            - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
