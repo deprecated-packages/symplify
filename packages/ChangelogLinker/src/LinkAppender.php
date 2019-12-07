@@ -63,6 +63,7 @@ final class LinkAppender
 
     private function removeAlreadyExistingLinks(): void
     {
+        $this->existingLinks = false;
         foreach (array_keys($this->linksToAppend) as $id) {
             if ($this->linksAnalyzer->hasLinkedId((string) $id)) {
                 unset($this->linksToAppend[$id]);

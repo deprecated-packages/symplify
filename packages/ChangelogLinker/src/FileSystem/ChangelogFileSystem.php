@@ -3,28 +3,23 @@
 namespace Symplify\ChangelogLinker\FileSystem;
 
 use Nette\Utils\FileSystem;
-use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
+use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\Configuration\Option;
-use Symplify\ChangelogLinker\LinkAppender;
+use Symplify\PackageBuilder\Configuration\EolConfiguration;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\FileSystemGuard;
 
 final class ChangelogFileSystem
 {
     /**
-     * @var LinkAppender
+     * @var ChangelogLinker
      */
-    private $linkAppender;
+    private $changelogLinker;
 
     /**
      * @var ChangelogPlaceholderGuard
      */
     private $changelogPlaceholderGuard;
-
-    /**
-     * @var LinksAnalyzer
-     */
-    private $linksAnalyzer;
 
     /**
      * @var ParameterProvider
@@ -37,15 +32,13 @@ final class ChangelogFileSystem
     private $fileSystemGuard;
 
     public function __construct(
-        LinkAppender $linkAppender,
+        ChangelogLinker $changelogLinker,
         ChangelogPlaceholderGuard $changelogPlaceholderGuard,
         FileSystemGuard $fileSystemGuard,
-        LinksAnalyzer $linksAnalyzer,
         ParameterProvider $parameterProvider
     ) {
-        $this->linkAppender = $linkAppender;
+        $this->changelogLinker = $changelogLinker;
         $this->changelogPlaceholderGuard = $changelogPlaceholderGuard;
-        $this->linksAnalyzer = $linksAnalyzer;
         $this->parameterProvider = $parameterProvider;
         $this->fileSystemGuard = $fileSystemGuard;
     }
@@ -60,10 +53,6 @@ final class ChangelogFileSystem
 
     public function storeChangelog(string $content): void
     {
-        foreach ($this->linkAppender->getLinksToAppend() as $linkToAppend) {
-            $content .= PHP_EOL . $linkToAppend;
-        }
-
         FileSystem::write($this->getChangelogFilePath(), $content);
     }
 
@@ -71,20 +60,22 @@ final class ChangelogFileSystem
     {
         $changelogContent = $this->readChangelog();
 
-        $this->linksAnalyzer->analyzeContent($changelogContent);
+        $eolChar = EolConfiguration::getEolChar();
 
         $this->changelogPlaceholderGuard->ensurePlaceholderIsPresent($changelogContent, $placeholder);
 
         $contentToWrite = sprintf(
             '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->',
             $placeholder,
-            PHP_EOL,
-            PHP_EOL,
-            PHP_EOL,
+            $eolChar,
+            $eolChar,
+            $eolChar,
             $newContent
         );
 
         $updatedChangelogContent = str_replace($placeholder, $contentToWrite, $changelogContent);
+
+        $updatedChangelogContent = $this->changelogLinker->processContentWithLinkAppends($updatedChangelogContent);
 
         $this->storeChangelog($updatedChangelogContent);
     }

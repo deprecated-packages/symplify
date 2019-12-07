@@ -49,7 +49,7 @@ final class LinkCommand extends Command
     {
         $changelogContent = $this->changelogFileSystem->readChangelog();
 
-        $processedChangelogContent = $this->changelogLinker->processContent($changelogContent);
+        $processedChangelogContent = $this->changelogLinker->processContentWithLinkAppends($changelogContent);
 
         $this->changelogFileSystem->storeChangelog($processedChangelogContent);
 

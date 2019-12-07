@@ -172,15 +172,13 @@ final class DumpMergesCommand extends Command
             $sortPriority
         );
 
-        if ($input->getOption(Option::DRY_RUN)) {
-            $content = $this->changelogLinker->processContentWithLinkAppends($content);
+        $content = $this->changelogLinker->processContent($content); // partial content
 
+        if ($input->getOption(Option::DRY_RUN)) {
             $this->symfonyStyle->writeln($content);
 
             return ShellCode::SUCCESS;
         }
-
-        $content = $this->changelogLinker->processContent($content);
 
         $this->changelogFileSystem->addToChangelogOnPlaceholder($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
 

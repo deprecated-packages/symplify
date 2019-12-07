@@ -79,10 +79,11 @@ final class ChangelogLinker
     private function appendLinksToContentIfAny(string $content): string
     {
         $eolChar = EolConfiguration::getEolChar();
-        if ($this->linkAppender->getLinksToAppend() !== []) {
+        $linksToAppend = $this->linkAppender->getLinksToAppend();
+        if ($linksToAppend !== []) {
             $content = rtrim($content) . $eolChar;
             $content .= $this->linkAppender->hadExistingLinks() ? '' : $eolChar;
-            $content .= implode($eolChar, $this->linkAppender->getLinksToAppend()) . $eolChar;
+            $content .= implode($eolChar, $linksToAppend) . $eolChar;
         }
 
         return $content;
