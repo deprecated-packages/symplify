@@ -8,7 +8,7 @@
         "nette/utils": "^3.0",
         "symplify/package-builder": "^7.1",
         "symplify/smart-file-system": "^7.1",
-        "phpstan/phpstan": "^0.11.19"
+        "phpstan/phpstan": "0.12 as 0.11.19"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.4"

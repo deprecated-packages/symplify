@@ -37,7 +37,7 @@ final class PathAnalyzer
         if ($date !== null) {
             $dateAndNamePattern = sprintf('#%s-%s#', self::DATE_PATTERN, self::NAME_PATTERN);
 
-            $match = Strings::match($fileInfo->getFilename(), $dateAndNamePattern);
+            $match = (array) Strings::match($fileInfo->getFilename(), $dateAndNamePattern);
 
             return $match['name'];
         }
