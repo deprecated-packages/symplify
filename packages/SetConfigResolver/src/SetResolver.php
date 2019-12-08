@@ -52,7 +52,7 @@ final class SetResolver
         /** @var SplFileInfo $nearestMatch */
         $nearestMatch = array_shift($nearestMatches);
 
-        return $nearestMatch->getRealPath();
+        return $nearestMatch->getPathname();
     }
 
     /**
