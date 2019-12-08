@@ -4,7 +4,7 @@ namespace Symplify\PHPStanExtensions\ErrorFormatter;
 
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
-use Symfony\Component\Console\Style\OutputStyle;
+use PHPStan\Command\Output;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Terminal;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -34,10 +34,10 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $this->terminal = $terminal;
     }
 
-    public function formatErrors(AnalysisResult $analysisResult, OutputStyle $outputStyle): int
+    public function formatErrors(AnalysisResult $analysisResult, Output $output): int
     {
         if ($analysisResult->getTotalErrorsCount() === 0) {
-            $outputStyle->success('No errors');
+            $this->symfonyStyle->success('No errors');
             return ShellCode::SUCCESS;
         }
 
@@ -63,8 +63,8 @@ final class SymplifyErrorFormatter implements ErrorFormatter
             $this->symfonyStyle->writeln($notFileSpecificError);
         }
 
-        $outputStyle->newLine(1);
-        $outputStyle->error(sprintf('Found %d errors', $analysisResult->getTotalErrorsCount()));
+        $this->symfonyStyle->newLine(1);
+        $this->symfonyStyle->error(sprintf('Found %d errors', $analysisResult->getTotalErrorsCount()));
 
         return ShellCode::ERROR;
     }

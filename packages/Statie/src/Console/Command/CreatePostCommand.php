@@ -132,8 +132,8 @@ final class CreatePostCommand extends Command
         $highestId = 0;
 
         foreach ($this->createPostFileSystem->findMarkdownFilesInGeneratorElement($generatorElement) as $postFileInfo) {
-            $match = Strings::match($postFileInfo->getContents(), '#^id: (?<id>\d+)$#m');
-            if ($match['id']) {
+            $match = (array) Strings::match($postFileInfo->getContents(), '#^id: (?<id>\d+)$#m');
+            if (isset($match['id'])) {
                 $currentId = (int) $match['id'];
                 $highestId = max($highestId, $currentId);
             }

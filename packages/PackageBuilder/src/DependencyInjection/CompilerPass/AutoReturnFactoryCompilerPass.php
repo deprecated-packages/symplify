@@ -120,7 +120,7 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
         return $activeFactories;
     }
 
-    private function resolveReturnType(ReflectionMethod $reflectionMethod)
+    private function resolveReturnType(ReflectionMethod $reflectionMethod): ?string
     {
         $returnType = $reflectionMethod->getReturnType();
         if ($returnType !== null) {

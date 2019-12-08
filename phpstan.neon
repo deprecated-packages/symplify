@@ -32,23 +32,18 @@ parameters:
             message: '#Cannot cast array<string>\|string\|null to string#'
             path: '*packages/*Command.php'
 
-        # temporary
-        - '#Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::__construct\(\) does not call parent constructor from PHP_CodeSniffer\\Files\\File#'
-
         # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, bool\|int given#'
 
         # invalid 3rd party-code
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
-        - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
         - '#Property Symplify\\CodingStandard\\TokenRunner\\Wrapper\\FixerWrapper\\FixerClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
 
         # known values
-        - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, bool\|int given#'
+        - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, (.*?) given#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, int\|true given#'
-        - '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\Migrator\\Worker\\StatieImportsAdder::addImportSection\(\) expects array<string>, array<int, array<string, string>> given#'
 
         # required for autowiring, since only interface is autowired
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
@@ -70,9 +65,6 @@ parameters:
         - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
 
-        # false positives
-        - '#Call to function method_exists\(\) with (.*?) and (.*?)fromShellCommandline(.*?) will always evaluate to false#'
-
         # variadic
         - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'
 
@@ -92,7 +84,6 @@ parameters:
 
         # known values
         - '#Parameter \#1 \$code of static method PhpCsFixer\\Tokenizer\\Tokens\:\:fromCode\(\) expects string, string\|false given#'
-        - '#Method Symplify\\PackageBuilder\\DependencyInjection\\CompilerPass\\AutowireSinglyImplementedCompilerPass\:\:filterSinglyImplementedInterfaces\(\) should return array<string\> but returns array<string, int\|string\>#'
         - '#Cannot call method (get|has)\(\) on (.*?)\|null#'
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept object\|null#'
         - '#Call to an undefined method Psr\\Container\\ContainerInterface\:\:set\(\)#'
@@ -111,8 +102,6 @@ parameters:
         - '#Method Symplify\\CodingStandard\\Fixer\\AbstractSymplifyFixer\:\:getReversedPositionsFromTokens\(\) should return array<int\> but returns array<int, int\|string\>#'
         - '#Parameter \#1 \$tokens of method Symplify\\CodingStandard\\Fixer\\Naming\\CatchExceptionNameMatchingTypeFixer\:\:updateCatchBodyVariableName\(\) expects PhpCsFixer\\Tokenizer\\Tokens, array<int\|string, PhpCsFixer\\Tokenizer\\Token\> given#'
 
-        - '#Private method Symplify\\CodingStandard\\TokenRunner\\Tests\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
-
         # yield iterator
         - '#Return type \(Iterator\) of method Symplify\\Statie\\Twig\\(.*?)\:\:(.*?)\(\) should be compatible with return type \(array<Twig\\(.*?)\>\) of method Twig\\Extension\\(.*?)\(\)#'
         - '#PHPDoc tag @return with type array<Twig\\TwigFunction\> is incompatible with native type Iterator#'
@@ -123,8 +112,8 @@ parameters:
             path: packages/SmartFileSystem/src/Finder/FinderSanitizer.php
 
         -
-             message: '#Method Symplify\\SetConfigResolver\\Finder\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
-             path: packages/SetConfigResolver/src/Finder/SetFileFinder.php
+            message: '#Method Symplify\\SetConfigResolver\\Finder\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
+            path: packages/SetConfigResolver/src/Finder/SetFileFinder.php
 
         -
             message: '#Parameter \#1 \$unversionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<string\>, array<array<string\>\|string\> given#'
@@ -143,5 +132,73 @@ parameters:
             path: packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
 
         -
-            message: '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File\:\:findNext\(\) expects int, float\|int\|true given#'
+            message: '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\Migrator\\Worker\\StatieImportsAdder\:\:addImportSection\(\) expects array<string\>, array<array<string, string\>\|string\> given#'
+            path: packages/Statie/packages/Migrator/src/Worker/StatieImportsAdder.php
+
+        -
+            message: '#Cannot access offset int on int#'
             path: packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php
+
+        -
+            message: '#Class Symplify\\PHPStanExtensions\\Rules\\Classes\\MatchingTypeConstantRule implements generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
+            path: packages/PHPStanExtensions/src/Rules/Classes/MatchingTypeConstantRule.php
+
+        -
+            message: '#Class Symplify\\PHPStanExtensions\\Tests\\Rules\\Classes\\MatchingTypeConstantRuleTest extends generic class PHPStan\\Testing\\RuleTestCase but does not specify its types\: TRule#'
+            path: packages/PHPStanExtensions/tests/Rules/Classes/MatchingTypeConstantRuleTest.php
+
+        -
+            message: '#Call to an undefined method ReflectionType\:\:getName\(\)#'
+            path: packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutoBindParametersCompilerPass.php
+
+        -
+            message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
+            path: packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutoReturnFactoryCompilerPass.php
+
+        -
+            message: '#Call to an undefined method ReflectionType\:\:getName\(\)#'
+            path: packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutoReturnFactoryCompilerPass.php
+
+        -
+            message: '#PHPDoc tag @var for variable \$reflectionClass contains generic class ReflectionClass but does not specify its types\: T#'
+            path: packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php
+
+        # helps ide
+        -
+            message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
+            path: packages/PackageBuilder/src/Reflection/PrivatesCaller.php
+
+        -
+            message: '#Offset (.*?) does not exist on array\|null#'
+            path: packages/SetConfigResolver/src/SetResolver.php
+
+        -
+            message: '#Offset (.*?) does not exist on array\|null#'
+            path: packages/Statie/packages/Generator/src/Renderable/File/GeneratorFileFactory.php
+
+        - '#Class Symplify\\Statie\\Renderable\\File\\PostFile implements generic interface ArrayAccess but does not specify its types\: TKey, TValue#'
+
+        # helping ide
+        -
+            message: '#Method Symplify\\CodingStandard\\TokenRunner\\Tests\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
+            path: packages/CodingStandard/packages/TokenRunner/tests/Analyzer/SniffAnalyzer/CognitiveComplexityAnalyzer/CognitiveComplexityAnalyzerTest.php
+
+        -
+            message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
+            path: packages/CodingStandard/src/Fixer/AbstractSymplifyFixer.php
+
+        # mixed by default, handled by coding standards
+        - '#(has|with) no (return )?typehint specified#'
+        - '#in iterable type#'
+
+        -
+            message: '#Method Symplify\\PHPStanExtensions\\Tests\\Rules\\Classes\\MatchingTypeConstantRuleTest\:\:getRule\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
+            path: packages/PHPStanExtensions/tests/Rules/Classes/MatchingTypeConstantRuleTest.php
+
+        -
+            message: "#Offset 'date' does not exist on array\\|null#"
+            path: packages/ChangelogLinker/src/Git/GitCommitDateTagResolver.php
+
+        -
+            message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
+            path: packages/EasyCodingStandard/src/Finder/CheckerClassFinder.php
