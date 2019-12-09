@@ -21,7 +21,7 @@ matrix:
     fast_finish: true
 
 install:
-    - composer update $COMPOSER_FLAGS
+    - composer update
 
 before_install:
     # disable xdebug if not coverage
@@ -155,7 +155,7 @@ jobs:
                 - echo 'extension=php_intl.dll' >> 'C:\tools\php\php.ini'
                 - echo 'extension=php_curl.dll' >> 'C:\tools\php\php.ini'
                 - export PATH=/c/tools/php:$PATH
-                - composer update $COMPOSER_FLAGS
+                - composer update
             script:
                 - vendor/bin/phpunit
 
