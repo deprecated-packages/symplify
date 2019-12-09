@@ -9,7 +9,65 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v7.0.0 - 2019-11-23
+## Unreleased
+
+### Added
+
+#### EasyCodingStandard
+
+- [#1690] Bump to Slevomat 6, add `dead-code` set
+
+#### SetConfigResolver
+
+- [#1694] add relative path for phar
+
+### Changed
+
+#### ChangelogLinker
+
+- [#1687] Making URL resolver more generic, Thanks to [@jawira]
+
+#### PHPStanExtensions
+
+- [#1693] Upgrade to PHPStan 0.12
+
+## [v7.0.2] - 2019-11-23
+
+### Added
+
+#### MonorepoBuilder
+
+- [#1684] Add optional `--tag` input to set tag manually, Thanks to [@DayS]
+
+### Changed
+
+#### PHPStanExtensions
+
+- [#1686] Make extension future compatible with prefixed everything
+
+### Fixed
+
+- [#1682] Windows text fixing
+
+#### MonorepoBuilder
+
+- [#1685] Fix option value regression
+
+#### PackageBuilder
+
+- [#1681] Fix kernel shutdown
+
+## [v7.0.1] - 2019-11-23
+
+### Added
+
+- [#1677] Add missing composer dependency on the new package SetConfigResolver, Thanks to [@sustmi]
+
+### Fixed
+
+- [#1676] Test fixes
+
+## [v7.0.0] - 2019-11-23
 
 - [#1670] New package **SetConfigResolver**
 - [#1643] New package **SmartFileSystem**
@@ -47,6 +105,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### CodingStandard
 
 - [#1667] Remove deprecated `NoClassInstantiationSniff`
+- [#1675] remove deprecated classes
 
 ### Removed
 
@@ -382,7 +441,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@ruudk]: https://github.com/ruudk
 [@SerafimArts]: https://github.com/SerafimArts
 [v6.1.0]: https://github.com/Symplify/Symplify/compare/v6.0.5...v6.1.0
-[#1658]: https://github.com/Symplify/Symplify/pull/1658
 [#1656]: https://github.com/Symplify/Symplify/pull/1656
 [#1655]: https://github.com/Symplify/Symplify/pull/1655
 [#1650]: https://github.com/Symplify/Symplify/pull/1650
@@ -391,14 +449,28 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@orklah]: https://github.com/orklah
 [#1675]: https://github.com/Symplify/Symplify/pull/1675
 [#1674]: https://github.com/Symplify/Symplify/pull/1674
-[#1672]: https://github.com/Symplify/Symplify/pull/1672
 [#1671]: https://github.com/Symplify/Symplify/pull/1671
 [#1670]: https://github.com/Symplify/Symplify/pull/1670
 [#1669]: https://github.com/Symplify/Symplify/pull/1669
 [#1668]: https://github.com/Symplify/Symplify/pull/1668
 [#1667]: https://github.com/Symplify/Symplify/pull/1667
 [#1666]: https://github.com/Symplify/Symplify/pull/1666
-[#1665]: https://github.com/Symplify/Symplify/pull/1665
 [#1663]: https://github.com/Symplify/Symplify/pull/1663
 [#1662]: https://github.com/Symplify/Symplify/pull/1662
 [@fchris82]: https://github.com/fchris82
+[#1694]: https://github.com/Symplify/Symplify/pull/1694
+[#1693]: https://github.com/Symplify/Symplify/pull/1693
+[#1690]: https://github.com/Symplify/Symplify/pull/1690
+[#1687]: https://github.com/Symplify/Symplify/pull/1687
+[#1686]: https://github.com/Symplify/Symplify/pull/1686
+[#1685]: https://github.com/Symplify/Symplify/pull/1685
+[#1684]: https://github.com/Symplify/Symplify/pull/1684
+[#1682]: https://github.com/Symplify/Symplify/pull/1682
+[#1681]: https://github.com/Symplify/Symplify/pull/1681
+[#1677]: https://github.com/Symplify/Symplify/pull/1677
+[#1676]: https://github.com/Symplify/Symplify/pull/1676
+[v7.0.2]: https://github.com/Symplify/Symplify/compare/v7.0.1...v7.0.2
+[v7.0.1]: https://github.com/Symplify/Symplify/compare/v7.0.0...v7.0.1
+[@sustmi]: https://github.com/sustmi
+[@DayS]: https://github.com/DayS
+[v7.0.0]: https://github.com/Symplify/Symplify/compare/v6.1.0...v7.0.0
