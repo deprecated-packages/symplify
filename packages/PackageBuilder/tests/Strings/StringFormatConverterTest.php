@@ -30,7 +30,6 @@ final class StringFormatConverterTest extends TestCase
     {
         yield ['hiTom', 'hi_tom'];
         yield ['GPWebPay', 'gp_web_pay'];
-        yield ['GPWebPay', 'gp_web_pay'];
         yield ['bMode', 'b_mode'];
     }
 
