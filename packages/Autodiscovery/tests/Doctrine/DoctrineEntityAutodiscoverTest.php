@@ -30,7 +30,10 @@ final class DoctrineEntityAutodiscoverTest extends AbstractKernelTestCase
         $entityManager = $registry->getManager();
         $configuration = $entityManager->getConfiguration();
 
-        $this->mappingDriver = $configuration->getMetadataDriverImpl();
+        $metadataDriverImpl = $configuration->getMetadataDriverImpl();
+        assert($metadataDriverImpl !== null);
+
+        $this->mappingDriver = $metadataDriverImpl;
     }
 
     public function test(): void
