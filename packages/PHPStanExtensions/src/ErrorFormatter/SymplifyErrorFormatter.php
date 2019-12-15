@@ -52,8 +52,9 @@ final class SymplifyErrorFormatter implements ErrorFormatter
             // ignored path
             $regexMessage = $this->regexMessage($fileSpecificError->getMessage());
             $this->symfonyStyle->writeln(' -');
-            $this->symfonyStyle->writeln(sprintf("     message: '%s'", $regexMessage));
-            $this->symfonyStyle->writeln('     path: ' . $relativeFilePath);
+            // one less space is due to copy-paste from CLI, where one extra space is added by command line software
+            $this->symfonyStyle->writeln(sprintf("    message: '%s'", $regexMessage));
+            $this->symfonyStyle->writeln('    path: ' . $relativeFilePath);
 
             $this->separator();
             $this->symfonyStyle->newLine();
