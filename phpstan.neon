@@ -23,9 +23,7 @@ parameters:
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
-        -
-            message: '#Cannot assign offset int to int#'
-            path: 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
+        - '#Cannot assign offset int to int#'
 
         # command argument value type conversion - known string
         -
@@ -76,7 +74,6 @@ parameters:
 
         # false positive, known
         - '#Cannot cast array<string>\|bool\|string\|null to string#'
-        - '#Property Symplify\\Autodiscovery\\Tests\\Doctrine\\DoctrineEntityAutodiscoverTest::\$mappingDriver \(Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\) does not accept Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\|null#'
         - '#Cannot cast array<string>\|bool\|string\|null to int#'
 
         # console argument/option
@@ -99,7 +96,6 @@ parameters:
         # false positive
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
         - '#Parameter \#1 \$subject of static method Nette\\Utils\\Strings\:\:match\(\) expects string, string\|false given#'
-        - '#Method Symplify\\CodingStandard\\Fixer\\AbstractSymplifyFixer\:\:getReversedPositionsFromTokens\(\) should return array<int\> but returns array<int, int\|string\>#'
         - '#Parameter \#1 \$tokens of method Symplify\\CodingStandard\\Fixer\\Naming\\CatchExceptionNameMatchingTypeFixer\:\:updateCatchBodyVariableName\(\) expects PhpCsFixer\\Tokenizer\\Tokens, array<int\|string, PhpCsFixer\\Tokenizer\\Token\> given#'
 
         # yield iterator
@@ -107,98 +103,26 @@ parameters:
         - '#PHPDoc tag @return with type array<Twig\\TwigFunction\> is incompatible with native type Iterator#'
         - '#PHPDoc tag @return with type array<Twig\\TwigFilter\> is incompatible with native type Iterator#'
 
-        -
-            message: '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
-            path: packages/SmartFileSystem/src/Finder/FinderSanitizer.php
-
-        -
-            message: '#Method Symplify\\SetConfigResolver\\Finder\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
-            path: packages/SetConfigResolver/src/Finder/SetFileFinder.php
-
-        -
-            message: '#Parameter \#1 \$unversionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<string\>, array<array<string\>\|string\> given#'
-            path: packages/SetConfigResolver/src/SetResolver.php
-
-        -
-            message: '#Parameter \#2 \$versionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<array<string\>\>, array<array<string\>\|string\> given#'
-            path: packages/SetConfigResolver/src/SetResolver.php
-
-        -
-            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, string\> given#'
-            path: packages/Statie/packages/Migrator/src/Filesystem/MigratorFilesystem.php
-
-        -
-            message: '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
-            path: packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
-
-        -
-            message: '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\Migrator\\Worker\\StatieImportsAdder\:\:addImportSection\(\) expects array<string\>, array<array<string, string\>\|string\> given#'
-            path: packages/Statie/packages/Migrator/src/Worker/StatieImportsAdder.php
-
-        -
-            message: '#Cannot access offset int on int#'
-            path: packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php
-
-        -
-            message: '#Class Symplify\\PHPStanExtensions\\Rules\\Classes\\MatchingTypeConstantRule implements generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-            path: packages/PHPStanExtensions/src/Rules/Classes/MatchingTypeConstantRule.php
-
-        -
-            message: '#Class Symplify\\PHPStanExtensions\\Tests\\Rules\\Classes\\MatchingTypeConstantRuleTest extends generic class PHPStan\\Testing\\RuleTestCase but does not specify its types\: TRule#'
-            path: packages/PHPStanExtensions/tests/Rules/Classes/MatchingTypeConstantRuleTest.php
-
-        -
-            message: '#Call to an undefined method ReflectionType\:\:getName\(\)#'
-            path: packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutoBindParametersCompilerPass.php
-
-        -
-            message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
-            path: packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutoReturnFactoryCompilerPass.php
-
-        -
-            message: '#Call to an undefined method ReflectionType\:\:getName\(\)#'
-            path: packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutoReturnFactoryCompilerPass.php
-
-        -
-            message: '#PHPDoc tag @var for variable \$reflectionClass contains generic class ReflectionClass but does not specify its types\: T#'
-            path: packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php
+        - '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
+        - '#Method Symplify\\SetConfigResolver\\Finder\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
+        - '#Parameter \#1 \$unversionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<string\>, array<array<string\>\|string\> given#'
+        - '#Parameter \#2 \$versionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<array<string\>\>, array<array<string\>\|string\> given#'
+        - '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, string\> given#'
+        - '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
+        - '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\Migrator\\Worker\\StatieImportsAdder\:\:addImportSection\(\) expects array<string\>, array<array<string, string\>\|string\> given#'
+        - '#Cannot access offset int on int#'
+        - '#Class Symplify\\PHPStanExtensions\\Rules\\Classes\\MatchingTypeConstantRule implements generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
+        - '#Class Symplify\\PHPStanExtensions\\Tests\\Rules\\Classes\\MatchingTypeConstantRuleTest extends generic class PHPStan\\Testing\\RuleTestCase but does not specify its types\: TRule#'
+        - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
+        - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
+        - '#PHPDoc tag @var for variable \$reflectionClass contains generic class ReflectionClass but does not specify its types\: T#'
 
         # helps ide
-        -
-            message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
-            path: packages/PackageBuilder/src/Reflection/PrivatesCaller.php
-
-        -
-            message: '#Offset (.*?) does not exist on array\|null#'
-            path: packages/SetConfigResolver/src/SetResolver.php
-
-        -
-            message: '#Offset (.*?) does not exist on array\|null#'
-            path: packages/Statie/packages/Generator/src/Renderable/File/GeneratorFileFactory.php
-
         - '#Class Symplify\\Statie\\Renderable\\File\\PostFile implements generic interface ArrayAccess but does not specify its types\: TKey, TValue#'
-
-        # helping ide
-        -
-            message: '#Method Symplify\\CodingStandard\\TokenRunner\\Tests\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
-            path: packages/CodingStandard/packages/TokenRunner/tests/Analyzer/SniffAnalyzer/CognitiveComplexityAnalyzer/CognitiveComplexityAnalyzerTest.php
-
-        -
-            message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
-            path: packages/CodingStandard/src/Fixer/AbstractSymplifyFixer.php
+        - '#Method Symplify\\CodingStandard\\TokenRunner\\Tests\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
 
         # mixed by default, handled by coding standards
         - '#(has|with) no (return )?typehint specified#'
+        - '#Offset (.*?) does not exist on array\|null#'
         - '#in iterable type#'
-
-        -
-            message: '#Method Symplify\\PHPStanExtensions\\Tests\\Rules\\Classes\\MatchingTypeConstantRuleTest\:\:getRule\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
-            path: packages/PHPStanExtensions/tests/Rules/Classes/MatchingTypeConstantRuleTest.php
-
-        -
-            message: "#Offset 'date' does not exist on array\\|null#"
-            path: packages/ChangelogLinker/src/Git/GitCommitDateTagResolver.php
-
-        -
-            message: '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
-            path: packages/EasyCodingStandard/src/Finder/CheckerClassFinder.php
+        - '#Method Symplify\\PHPStanExtensions\\Tests\\Rules\\Classes\\MatchingTypeConstantRuleTest\:\:getRule\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
