@@ -2,29 +2,35 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 
+use Iterator;
 use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class StandaloneLineInMultilineArrayFixerTest extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideDataForTest()
+     */
+    public function test(string $file): void
     {
-        $this->doTestFiles([
-            __DIR__ . '/fixture/correct.php.inc',
-            __DIR__ . '/fixture/correct2.php.inc',
-            __DIR__ . '/fixture/correct3.php.inc',
-            __DIR__ . '/fixture/correct4.php.inc',
-            __DIR__ . '/fixture/correct5.php.inc',
-            __DIR__ . '/fixture/correct6.php.inc',
-            __DIR__ . '/fixture/wrong.php.inc',
-            __DIR__ . '/fixture/wrong2.php.inc',
-            __DIR__ . '/fixture/wrong3.php.inc',
-            __DIR__ . '/fixture/wrong4.php.inc',
-        ]);
+        $this->doTestFiles([$file]);
     }
 
     protected function getCheckerClass(): string
     {
         return StandaloneLineInMultilineArrayFixer::class;
+    }
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/fixture/correct.php.inc'];
+        yield [__DIR__ . '/fixture/correct2.php.inc'];
+        yield [__DIR__ . '/fixture/correct3.php.inc'];
+        yield [__DIR__ . '/fixture/correct4.php.inc'];
+        yield [__DIR__ . '/fixture/correct5.php.inc'];
+        yield [__DIR__ . '/fixture/correct6.php.inc'];
+        yield [__DIR__ . '/fixture/wrong.php.inc'];
+        yield [__DIR__ . '/fixture/wrong2.php.inc'];
+        yield [__DIR__ . '/fixture/wrong3.php.inc'];
+        yield [__DIR__ . '/fixture/wrong4.php.inc'];
     }
 }

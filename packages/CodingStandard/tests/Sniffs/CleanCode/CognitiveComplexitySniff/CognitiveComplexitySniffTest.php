@@ -2,18 +2,26 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\CleanCode\CognitiveComplexitySniff;
 
+use Iterator;
 use Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class CognitiveComplexitySniffTest extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideDataForTest()
+     */
+    public function test(string $file): void
     {
-        $this->doTestFiles([__DIR__ . '/Fixture/wrong.php.inc']); // #9
+        $this->doTestFiles([$file]); // #9
     }
 
     protected function getCheckerClass(): string
     {
         return CognitiveComplexitySniff::class;
+    }
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/wrong.php.inc'];
     }
 }
