@@ -317,6 +317,10 @@ class SomeClass
             }
         }
 
+        if (Strings::match($class, '#&|\s#')) {
+            return true;
+        }
+
         return false;
     }
 
