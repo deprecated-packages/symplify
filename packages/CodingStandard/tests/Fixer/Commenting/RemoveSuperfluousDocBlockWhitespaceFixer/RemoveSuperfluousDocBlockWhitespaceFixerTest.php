@@ -16,12 +16,13 @@ final class RemoveSuperfluousDocBlockWhitespaceFixerTest extends AbstractChecker
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return RemoveSuperfluousDocBlockWhitespaceFixer::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return RemoveSuperfluousDocBlockWhitespaceFixer::class;
     }
 }

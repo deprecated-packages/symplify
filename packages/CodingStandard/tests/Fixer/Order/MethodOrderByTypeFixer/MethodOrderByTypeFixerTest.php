@@ -20,6 +20,13 @@ final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/FixerWithAbstractParent.php'];
+        yield [__DIR__ . '/Fixture/SomeFixer.php.inc'];
+        yield [__DIR__ . '/Fixture/RealFixer.php.inc'];
+    }
+
     protected function getCheckerClass(): string
     {
         return MethodOrderByTypeFixer::class;
@@ -36,11 +43,5 @@ final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
                 PhpCsFixerFixerInterface::class => ['firstMethod', 'secondMethod', 'getDefinition', 'isCandidate'],
             ],
         ];
-    }
-    public function provideDataForTest(): Iterator
-    {
-        yield [__DIR__ . '/Fixture/FixerWithAbstractParent.php'];
-        yield [__DIR__ . '/Fixture/SomeFixer.php.inc'];
-        yield [__DIR__ . '/Fixture/RealFixer.php.inc'];
     }
 }

@@ -16,13 +16,14 @@ final class ForbiddenReferenceSniffTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return ForbiddenReferenceSniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/wrong/wrong.php.inc'];
         yield [__DIR__ . '/wrong/function_with_space.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return ForbiddenReferenceSniff::class;
     }
 }

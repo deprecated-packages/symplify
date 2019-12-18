@@ -16,12 +16,13 @@ final class Issue973Test extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return LineLengthFixer::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/correct973.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return LineLengthFixer::class;
     }
 }

@@ -16,12 +16,13 @@ final class Issue1030Test extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return ForbiddenStaticFunctionSniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/correct1030.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return ForbiddenStaticFunctionSniff::class;
     }
 }

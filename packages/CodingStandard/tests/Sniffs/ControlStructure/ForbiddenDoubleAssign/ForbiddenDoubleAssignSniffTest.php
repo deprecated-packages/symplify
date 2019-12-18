@@ -16,14 +16,15 @@ final class ForbiddenDoubleAssignSniffTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return ForbiddenDoubleAssignSniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/correct.php.inc'];
         yield [__DIR__ . '/Fixture/correct2.php.inc'];
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return ForbiddenDoubleAssignSniff::class;
     }
 }

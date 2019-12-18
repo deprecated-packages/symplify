@@ -16,6 +16,12 @@ final class ExistenceNotRequiredTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/wrong4.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong5.php.inc'];
+    }
+
     protected function getCheckerClass(): string
     {
         return ClassStringToClassConstantFixer::class;
@@ -27,10 +33,5 @@ final class ExistenceNotRequiredTest extends AbstractCheckerTestCase
     protected function getCheckerConfiguration(): array
     {
         return ['class_must_exist' => false];
-    }
-    public function provideDataForTest(): Iterator
-    {
-        yield [__DIR__ . '/Fixture/wrong4.php.inc'];
-        yield [__DIR__ . '/Fixture/wrong5.php.inc'];
     }
 }

@@ -16,13 +16,14 @@ final class DebugFunctionCallSniffTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return DebugFunctionCallSniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
         yield [__DIR__ . '/Fixture/correct.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return DebugFunctionCallSniff::class;
     }
 }

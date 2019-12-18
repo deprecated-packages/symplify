@@ -16,10 +16,6 @@ final class StandaloneLineInMultilineArrayFixerTest extends AbstractCheckerTestC
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return StandaloneLineInMultilineArrayFixer::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/fixture/correct.php.inc'];
@@ -32,5 +28,10 @@ final class StandaloneLineInMultilineArrayFixerTest extends AbstractCheckerTestC
         yield [__DIR__ . '/fixture/wrong2.php.inc'];
         yield [__DIR__ . '/fixture/wrong3.php.inc'];
         yield [__DIR__ . '/fixture/wrong4.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return StandaloneLineInMultilineArrayFixer::class;
     }
 }

@@ -16,6 +16,13 @@ final class PregDelimiterFixerTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/function.php.inc'];
+        yield [__DIR__ . '/Fixture/static_call.php.inc'];
+        yield [__DIR__ . '/Fixture/concat_skip.php.inc'];
+    }
+
     protected function getCheckerClass(): string
     {
         return PregDelimiterFixer::class;
@@ -29,11 +36,5 @@ final class PregDelimiterFixerTest extends AbstractCheckerTestCase
         return [
             'delimiter' => '#',
         ];
-    }
-    public function provideDataForTest(): Iterator
-    {
-        yield [__DIR__ . '/Fixture/function.php.inc'];
-        yield [__DIR__ . '/Fixture/static_call.php.inc'];
-        yield [__DIR__ . '/Fixture/concat_skip.php.inc'];
     }
 }

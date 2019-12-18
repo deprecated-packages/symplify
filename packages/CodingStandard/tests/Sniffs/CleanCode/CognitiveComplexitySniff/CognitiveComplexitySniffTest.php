@@ -16,12 +16,13 @@ final class CognitiveComplexitySniffTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]); // #9
     }
 
-    protected function getCheckerClass(): string
-    {
-        return CognitiveComplexitySniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return CognitiveComplexitySniff::class;
     }
 }

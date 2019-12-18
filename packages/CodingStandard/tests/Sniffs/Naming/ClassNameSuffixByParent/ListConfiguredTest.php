@@ -16,6 +16,16 @@ final class ListConfiguredTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/wrong5.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong6.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong7.php.inc'];
+        yield [__DIR__ . '/Fixture/correct5.php.inc'];
+        yield [__DIR__ . '/Fixture/correct6.php.inc'];
+        yield [__DIR__ . '/Fixture/correct7.php.inc'];
+    }
+
     protected function getCheckerClass(): string
     {
         return ClassNameSuffixByParentSniff::class;
@@ -29,14 +39,5 @@ final class ListConfiguredTest extends AbstractCheckerTestCase
         return [
             'extraParentTypesToSuffixes' => ['RandomInterface', 'RandomAbstract', 'AbstractRandom'],
         ];
-    }
-    public function provideDataForTest(): Iterator
-    {
-        yield [__DIR__ . '/Fixture/wrong5.php.inc'];
-        yield [__DIR__ . '/Fixture/wrong6.php.inc'];
-        yield [__DIR__ . '/Fixture/wrong7.php.inc'];
-        yield [__DIR__ . '/Fixture/correct5.php.inc'];
-        yield [__DIR__ . '/Fixture/correct6.php.inc'];
-        yield [__DIR__ . '/Fixture/correct7.php.inc'];
     }
 }

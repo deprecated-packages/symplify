@@ -16,14 +16,15 @@ final class ExplicitExceptionSniffTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return ExplicitExceptionSniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
         yield [__DIR__ . '/Fixture/wrong2.php.inc'];
         yield [__DIR__ . '/Fixture/correct.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return ExplicitExceptionSniff::class;
     }
 }

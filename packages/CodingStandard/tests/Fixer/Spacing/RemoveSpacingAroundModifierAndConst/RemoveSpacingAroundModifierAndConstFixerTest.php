@@ -16,12 +16,13 @@ final class RemoveSpacingAroundModifierAndConstFixerTest extends AbstractChecker
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return RemoveSpacingAroundModifierAndConstFixer::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return RemoveSpacingAroundModifierAndConstFixer::class;
     }
 }

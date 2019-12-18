@@ -16,6 +16,13 @@ final class PreferredClassSniffTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/wrong.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong2.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong3.php.inc'];
+    }
+
     protected function getCheckerClass(): string
     {
         return PreferredClassSniff::class;
@@ -31,11 +38,5 @@ final class PreferredClassSniffTest extends AbstractCheckerTestCase
                 'Invalid\OldClass' => 'NewOne',
             ],
         ];
-    }
-    public function provideDataForTest(): Iterator
-    {
-        yield [__DIR__ . '/Fixture/wrong.php.inc'];
-        yield [__DIR__ . '/Fixture/wrong2.php.inc'];
-        yield [__DIR__ . '/Fixture/wrong3.php.inc'];
     }
 }
