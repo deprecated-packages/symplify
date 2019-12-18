@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Order\MethodOrderByTypeFixer;
 
+use Iterator;
 use PhpCsFixer\Fixer\FixerInterface as PhpCsFixerFixerInterface;
 use Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer;
 use Symplify\CodingStandard\Tests\Fixer\Order\MethodOrderByTypeFixer\Source\FixerInterface;
@@ -9,15 +10,14 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideDataForTest()
+     */
+    public function test(string $file): void
     {
         $this->autoloadTestFixture = true;
 
-        $this->doTestFiles([
-            __DIR__ . '/Fixture/FixerWithAbstractParent.php',
-            __DIR__ . '/Fixture/SomeFixer.php.inc',
-            __DIR__ . '/Fixture/RealFixer.php.inc',
-        ]);
+        $this->doTestFiles([$file]);
     }
 
     protected function getCheckerClass(): string
@@ -36,5 +36,11 @@ final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
                 PhpCsFixerFixerInterface::class => ['firstMethod', 'secondMethod', 'getDefinition', 'isCandidate'],
             ],
         ];
+    }
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/FixerWithAbstractParent.php'];
+        yield [__DIR__ . '/Fixture/SomeFixer.php.inc'];
+        yield [__DIR__ . '/Fixture/RealFixer.php.inc'];
     }
 }

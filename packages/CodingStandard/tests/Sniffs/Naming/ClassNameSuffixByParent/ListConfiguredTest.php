@@ -2,21 +2,18 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\ClassNameSuffixByParent;
 
+use Iterator;
 use Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class ListConfiguredTest extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideDataForTest()
+     */
+    public function test(string $file): void
     {
-        $this->doTestFiles([
-            __DIR__ . '/Fixture/wrong5.php.inc',
-            __DIR__ . '/Fixture/wrong6.php.inc',
-            __DIR__ . '/Fixture/wrong7.php.inc',
-            __DIR__ . '/Fixture/correct5.php.inc',
-            __DIR__ . '/Fixture/correct6.php.inc',
-            __DIR__ . '/Fixture/correct7.php.inc',
-        ]);
+        $this->doTestFiles([$file]);
     }
 
     protected function getCheckerClass(): string
@@ -32,5 +29,14 @@ final class ListConfiguredTest extends AbstractCheckerTestCase
         return [
             'extraParentTypesToSuffixes' => ['RandomInterface', 'RandomAbstract', 'AbstractRandom'],
         ];
+    }
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/wrong5.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong6.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong7.php.inc'];
+        yield [__DIR__ . '/Fixture/correct5.php.inc'];
+        yield [__DIR__ . '/Fixture/correct6.php.inc'];
+        yield [__DIR__ . '/Fixture/correct7.php.inc'];
     }
 }

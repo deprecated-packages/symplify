@@ -2,18 +2,26 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Spacing\RemoveSpacingAroundModifierAndConst;
 
+use Iterator;
 use Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class RemoveSpacingAroundModifierAndConstFixerTest extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideDataForTest()
+     */
+    public function test(string $file): void
     {
-        $this->doTestFiles([__DIR__ . '/Fixture/wrong.php.inc']);
+        $this->doTestFiles([$file]);
     }
 
     protected function getCheckerClass(): string
     {
         return RemoveSpacingAroundModifierAndConstFixer::class;
+    }
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/wrong.php.inc'];
     }
 }

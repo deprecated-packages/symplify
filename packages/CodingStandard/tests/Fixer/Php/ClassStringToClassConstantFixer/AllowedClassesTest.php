@@ -2,15 +2,19 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
+use Iterator;
 use DateTimeInterface;
 use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class AllowedClassesTest extends AbstractCheckerTestCase
 {
-    public function testWrongToFixed(): void
+    /**
+     * @dataProvider provideDataForTestWrongToFixed()
+     */
+    public function testWrongToFixed(string $file): void
     {
-        $this->doTestFiles([__DIR__ . '/Fixture/correct2.php.inc']);
+        $this->doTestFiles([$file]);
     }
 
     protected function getCheckerClass(): string
@@ -26,5 +30,9 @@ final class AllowedClassesTest extends AbstractCheckerTestCase
         return [
             'allow_classes' => [DateTimeInterface::class],
         ];
+    }
+    public function provideDataForTestWrongToFixed(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/correct2.php.inc'];
     }
 }

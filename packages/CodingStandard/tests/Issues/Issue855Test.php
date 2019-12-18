@@ -2,18 +2,26 @@
 
 namespace Symplify\CodingStandard\Tests\Issues;
 
+use Iterator;
 use Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class Issue855Test extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideDataForTest()
+     */
+    public function test(string $file): void
     {
-        $this->doTestFiles([__DIR__ . '/Fixture/correct855.php.inc']);
+        $this->doTestFiles([$file]);
     }
 
     protected function getCheckerClass(): string
     {
         return ClassNameSuffixByParentSniff::class;
+    }
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/correct855.php.inc'];
     }
 }

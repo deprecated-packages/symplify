@@ -2,24 +2,30 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\TraitName;
 
+use Iterator;
 use Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class TraitNameSniffTest extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideDataForTest()
+     */
+    public function test(string $file): void
     {
-        $this->doTestFiles([
-            __DIR__ . '/Fixture/correct.php.inc',
-            __DIR__ . '/Fixture/correct2.php.inc',
-            __DIR__ . '/Fixture/wrong.php.inc',
-            __DIR__ . '/Fixture/wrong2.php.inc',
-            __DIR__ . '/Fixture/wrong3.php.inc',
-        ]);
+        $this->doTestFiles([$file]);
     }
 
     protected function getCheckerClass(): string
     {
         return TraitNameSniff::class;
+    }
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/correct.php.inc'];
+        yield [__DIR__ . '/Fixture/correct2.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong2.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong3.php.inc'];
     }
 }

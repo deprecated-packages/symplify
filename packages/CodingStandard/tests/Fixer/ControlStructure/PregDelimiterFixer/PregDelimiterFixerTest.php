@@ -2,18 +2,18 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\ControlStructure\PregDelimiterFixer;
 
+use Iterator;
 use Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class PregDelimiterFixerTest extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideDataForTest()
+     */
+    public function test(string $file): void
     {
-        $this->doTestFiles([
-            __DIR__ . '/Fixture/function.php.inc',
-            __DIR__ . '/Fixture/static_call.php.inc',
-            __DIR__ . '/Fixture/concat_skip.php.inc',
-        ]);
+        $this->doTestFiles([$file]);
     }
 
     protected function getCheckerClass(): string
@@ -29,5 +29,11 @@ final class PregDelimiterFixerTest extends AbstractCheckerTestCase
         return [
             'delimiter' => '#',
         ];
+    }
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/function.php.inc'];
+        yield [__DIR__ . '/Fixture/static_call.php.inc'];
+        yield [__DIR__ . '/Fixture/concat_skip.php.inc'];
     }
 }

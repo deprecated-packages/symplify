@@ -2,18 +2,18 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Architecture\PreferredClassSniff;
 
+use Iterator;
 use Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class PreferredClassSniffTest extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideDataForTest()
+     */
+    public function test(string $file): void
     {
-        $this->doTestFiles([
-            __DIR__ . '/Fixture/wrong.php.inc',
-            __DIR__ . '/Fixture/wrong2.php.inc',
-            __DIR__ . '/Fixture/wrong3.php.inc',
-        ]);
+        $this->doTestFiles([$file]);
     }
 
     protected function getCheckerClass(): string
@@ -31,5 +31,11 @@ final class PreferredClassSniffTest extends AbstractCheckerTestCase
                 'Invalid\OldClass' => 'NewOne',
             ],
         ];
+    }
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/wrong.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong2.php.inc'];
+        yield [__DIR__ . '/Fixture/wrong3.php.inc'];
     }
 }
