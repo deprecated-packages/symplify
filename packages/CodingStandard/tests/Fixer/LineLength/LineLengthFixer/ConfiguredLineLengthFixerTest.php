@@ -16,6 +16,11 @@ final class ConfiguredLineLengthFixerTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/configured-wrong.php.inc'];
+    }
+
     protected function getCheckerClass(): string
     {
         return LineLengthFixer::class;
@@ -31,9 +36,5 @@ final class ConfiguredLineLengthFixerTest extends AbstractCheckerTestCase
             'break_long_lines' => true,
             'inline_short_lines' => false,
         ];
-    }
-    public function provideDataForTest(): Iterator
-    {
-        yield [__DIR__ . '/Fixture/configured-wrong.php.inc'];
     }
 }

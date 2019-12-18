@@ -16,13 +16,14 @@ final class SprintfOverContactSniffTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return SprintfOverContactSniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
         yield [__DIR__ . '/Fixture/correct.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return SprintfOverContactSniff::class;
     }
 }

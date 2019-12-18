@@ -16,13 +16,14 @@ final class CatchExceptionNameMatchingTypeFixerTest extends AbstractCheckerTestC
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return CatchExceptionNameMatchingTypeFixer::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/correct.php.inc'];
         yield [__DIR__ . '/Fixture/wrong_to_fixed.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return CatchExceptionNameMatchingTypeFixer::class;
     }
 }

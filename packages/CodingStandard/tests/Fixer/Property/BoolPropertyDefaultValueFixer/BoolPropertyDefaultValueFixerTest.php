@@ -16,12 +16,13 @@ final class BoolPropertyDefaultValueFixerTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return BoolPropertyDefaultValueFixer::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Integration/simple.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return BoolPropertyDefaultValueFixer::class;
     }
 }

@@ -16,10 +16,6 @@ final class TraitNameSniffTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return TraitNameSniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/correct.php.inc'];
@@ -27,5 +23,10 @@ final class TraitNameSniffTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
         yield [__DIR__ . '/Fixture/wrong2.php.inc'];
         yield [__DIR__ . '/Fixture/wrong3.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return TraitNameSniff::class;
     }
 }

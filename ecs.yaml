@@ -31,7 +31,6 @@ parameters:
         - 'types'
         - 'dead-code'
 
-
     exclude_files:
         # tests
         - 'packages/*/tests/**Source/*.php'
@@ -76,6 +75,9 @@ parameters:
             # tests
             - 'packages/MonorepoBuilder/tests/Package/PackageComposerJsonMergerTest.php'
             - 'packages/MonorepoBuilder/tests/Package/CombineStringsToArrayJsonMergerTest.php'
+
+            - 'packages/SetConfigResolver/src/Finder/SetFileFinder.php'
+            - 'packages/SetConfigResolver/src/SetResolver.php'
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - 'packages/EasyCodingStandard/tests/Indentation/IndentationTest.php'

@@ -16,13 +16,14 @@ final class RemoveEndOfFunctionCommentFixerTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return RemoveEndOfFunctionCommentFixer::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
         yield [__DIR__ . '/Fixture/wrong2.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return RemoveEndOfFunctionCommentFixer::class;
     }
 }

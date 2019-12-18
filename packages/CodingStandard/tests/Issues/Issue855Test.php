@@ -16,12 +16,13 @@ final class Issue855Test extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return ClassNameSuffixByParentSniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/correct855.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return ClassNameSuffixByParentSniff::class;
     }
 }

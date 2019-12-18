@@ -16,10 +16,6 @@ final class CommentedOutCodeSniffTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return CommentedOutCodeSniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
@@ -34,5 +30,10 @@ final class CommentedOutCodeSniffTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/Fixture/correct6.php.inc'];
         yield [__DIR__ . '/Fixture/correct7.php.inc'];
         yield [__DIR__ . '/Fixture/correct8.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return CommentedOutCodeSniff::class;
     }
 }

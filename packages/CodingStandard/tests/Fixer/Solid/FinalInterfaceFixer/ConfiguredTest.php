@@ -16,6 +16,11 @@ final class ConfiguredTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
+    public function provideDataForTest(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/wrong3.php.inc'];
+    }
+
     protected function getCheckerClass(): string
     {
         return FinalInterfaceFixer::class;
@@ -29,9 +34,5 @@ final class ConfiguredTest extends AbstractCheckerTestCase
         return [
             'only_interfaces' => ['SomeInterface'],
         ];
-    }
-    public function provideDataForTest(): Iterator
-    {
-        yield [__DIR__ . '/Fixture/wrong3.php.inc'];
     }
 }

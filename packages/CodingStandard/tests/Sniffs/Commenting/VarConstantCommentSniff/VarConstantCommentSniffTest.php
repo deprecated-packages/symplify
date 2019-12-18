@@ -16,10 +16,6 @@ final class VarConstantCommentSniffTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return VarConstantCommentSniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
@@ -27,5 +23,10 @@ final class VarConstantCommentSniffTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/Fixture/wrong3.php.inc'];
         yield [__DIR__ . '/Fixture/correct.php.inc'];
         yield [__DIR__ . '/Fixture/correct2.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return VarConstantCommentSniff::class;
     }
 }

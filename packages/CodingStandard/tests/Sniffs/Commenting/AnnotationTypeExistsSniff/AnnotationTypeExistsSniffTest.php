@@ -16,14 +16,15 @@ final class AnnotationTypeExistsSniffTest extends AbstractCheckerTestCase
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return AnnotationTypeExistsSniff::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/correct.php.inc'];
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
         yield [__DIR__ . '/Fixture/wrong2.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return AnnotationTypeExistsSniff::class;
     }
 }

@@ -16,14 +16,15 @@ final class RequireFollowedByAbsolutePathFixerTest extends AbstractCheckerTestCa
         $this->doTestFiles([$file]);
     }
 
-    protected function getCheckerClass(): string
-    {
-        return RequireFollowedByAbsolutePathFixer::class;
-    }
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/wrong.php.inc'];
         yield [__DIR__ . '/Fixture/wrong2.php.inc'];
         yield [__DIR__ . '/Fixture/wrong_with_double_quotes.php.inc'];
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return RequireFollowedByAbsolutePathFixer::class;
     }
 }
