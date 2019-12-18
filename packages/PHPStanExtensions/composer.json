@@ -6,8 +6,8 @@
         "php": "^7.2",
         "nette/di": "^3.0",
         "nette/utils": "^3.0",
-        "symplify/package-builder": "^7.2",
-        "symplify/smart-file-system": "^7.2",
+        "symplify/package-builder": "^7.1.2",
+        "symplify/smart-file-system": "^7.1.2",
         "phpstan/phpstan": "^0.12"
     },
     "require-dev": {
