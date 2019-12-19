@@ -2,7 +2,7 @@ parameters:
     # add these to merge of packages' composer.json
     data_to_append:
         require-dev:
-            phpstan/phpstan: '^0.11.19'
+            phpstan/phpstan: '^0.12'
             phpunit/phpunit: '^8.4'
             tracy/tracy: '^2.7'
 
@@ -13,6 +13,7 @@ parameters:
             'phpunit/phpunit': '*'
 
     directories_to_repositories:
+        packages/AutowireArrayParameter: 'git@github.com:Symplify/AutowireArrayParameter.git'
         packages/NeonToYamlConverter: 'git@github.com:Symplify/NeonToYamlConverter.git'
         packages/LatteToTwigConverter: 'git@github.com:Symplify/LatteToTwigConverter.git'
         packages/SmartFileSystem: 'git@github.com:Symplify/SmartFileSystem.git'

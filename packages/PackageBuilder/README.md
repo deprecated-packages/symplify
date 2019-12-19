@@ -288,41 +288,6 @@ That's all! The "factory" definition is generated from this obvious usage.
 
 **Put this compiler pass first**, as it creates new definitions that other compiler passes might work with.
 
-### Autowire Array Parameters
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass`
-
-This feature surpasses YAML-defined, tag-based or CompilerPass-based collectors in minimalistic way:
-
-```php
-<?php
-
-class Application
-{
-    /**
-     * @var Command[]
-     */
-    private $commands = [];
-
-    /**
-     * @param Command[] $commands
-     */
-    public function __construct(array $commands)
-    {
-        $this->commands = $commands;
-        var_dump($commands); // instnace of Command collected from all services
-    }
-}
-```
-
-If there are failing cases, just exclude them in constructor:
-
-```php
-$this->addCompilerPass(new AutowireArrayParameterCompilerPass([
-    'Sonata\CoreBundle\Model\Adapter\AdapterInterface'
-]);
-```
-
 <br>
 
 ### Autobind Parameters

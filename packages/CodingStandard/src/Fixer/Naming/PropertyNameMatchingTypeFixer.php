@@ -317,11 +317,7 @@ class SomeClass
             }
         }
 
-        if (Strings::match($class, '#&|\s#')) {
-            return true;
-        }
-
-        return false;
+        return (bool) Strings::match($class, '#&|\s#');
     }
 
     private function isPrefixedInterface(string $rawName): bool

@@ -12,7 +12,7 @@ git:
 php:
     - '7.2'
     - '7.3'
-    - '7.4snapshot'
+    - '7.4'
 
 script:
     - vendor/bin/phpunit
@@ -78,6 +78,7 @@ jobs:
                 - packages/Statie/bin/statie
                 - packages/LatteToTwigConverter/bin/latte-to-twig-converter
                 - packages/MonorepoBuilder/bin/monorepo-builder
+
         -
             stage: test
             name: Rector
