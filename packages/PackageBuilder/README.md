@@ -290,27 +290,6 @@ That's all! The "factory" definition is generated from this obvious usage.
 
 <br>
 
-### Autobind Parameters
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass`
-
-```diff
- parameters:
-     entity_repository_class: 'Doctrine\ORM\EntityRepository'
-     entity_manager_class: 'Doctrine\ORM\EntityManager'
-
- services:
--    _defaults:
--        bind:
--            $entityRepositoryClass: '%entity_repository_class%'
--            $entityManagerClass: '%entity_manager_class%'
--
-     Rector\:
-         resource: ..
-```
-
-<br>
-
 ### Always Autowire this Type
 
 Do you want to allow users to register services without worrying about autowiring? After all, they might forget it and that would break their code. Set types to always autowire:

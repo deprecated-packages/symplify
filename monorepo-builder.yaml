@@ -4,6 +4,7 @@ parameters:
         require-dev:
             phpstan/phpstan: '^0.12'
             phpunit/phpunit: '^8.4'
+            rector/rector: '^0.6'
             tracy/tracy: '^2.7'
 
     # remove these to merge of packages' composer.json

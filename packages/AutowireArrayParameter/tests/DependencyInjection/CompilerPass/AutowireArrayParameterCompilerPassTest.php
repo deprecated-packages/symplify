@@ -2,7 +2,7 @@
 
 namespace Symplify\AutowireArrayParameter\Tests\DependencyInjection\CompilerPass;
 
-use Symplify\AutowireArrayParameter\Tests\HttpKernel\AutowireArrayParameterHttpKernel;
+use Symplify\AutowireArrayParameter\Tests\HttpKernel\AutoBindParameterHttpKernel;
 use Symplify\AutowireArrayParameter\Tests\Source\SomeCollector;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
@@ -10,7 +10,7 @@ final class AutowireArrayParameterCompilerPassTest extends AbstractKernelTestCas
 {
     public function test(): void
     {
-        $this->bootKernel(AutowireArrayParameterHttpKernel::class);
+        $this->bootKernel(AutoBindParameterHttpKernel::class);
 
         /** @var SomeCollector $collector */
         $collector = self::$container->get(SomeCollector::class);
