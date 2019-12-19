@@ -33,7 +33,6 @@ class AppKernel extends Kernel
 
 ### 2. Auto Bind Parameters
 
-
 Keep your configs simple enough:
 
 ```diff

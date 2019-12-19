@@ -28,6 +28,7 @@
         "symplify/smart-file-system": "^7.2",
         "symplify/set-config-resolver": "^7.2",
         "symplify/autowire-array-parameter": "^7.2",
+        "symplify/auto-bind-parameter": "^7.2",
         "jean85/pretty-package-versions": "^1.2",
         "ocramius/package-versions": "^1.4"
     },

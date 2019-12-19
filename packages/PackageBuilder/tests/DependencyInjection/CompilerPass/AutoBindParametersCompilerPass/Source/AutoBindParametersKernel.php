@@ -5,7 +5,7 @@ namespace Symplify\PackageBuilder\Tests\DependencyInjection\CompilerPass\AutoBin
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
+use Symplify\AutoBindParameter\DependencyInjection\CompilerPass\AutoBindParameterCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 
 final class AutoBindParametersKernel extends Kernel
@@ -19,6 +19,6 @@ final class AutoBindParametersKernel extends Kernel
 
     protected function build(ContainerBuilder $containerBuilder): void
     {
-        $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
+        $containerBuilder->addCompilerPass(new AutoBindParameterCompilerPass());
     }
 }
