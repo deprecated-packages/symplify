@@ -1,0 +1,3 @@
+services:
+    Rector\Renaming\Rector\Class_\RenameClassRector:
+        Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass: 'Symplify\AutoBindParameter\DependencyInjection\CompilerPass\AutoBindParameterCompilerPass'

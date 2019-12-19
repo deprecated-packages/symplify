@@ -1,0 +1,10 @@
+parameters:
+    super_name: 'Johny'
+
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    Symplify\AutoBindParameter\Tests\Source\:
+        resource: "../Source"

@@ -4,6 +4,7 @@ parameters:
         require-dev:
             phpstan/phpstan: '^0.12'
             phpunit/phpunit: '^8.4'
+            rector/rector: '^0.6'
             tracy/tracy: '^2.7'
 
     # remove these to merge of packages' composer.json
@@ -14,6 +15,7 @@ parameters:
 
     directories_to_repositories:
         packages/AutowireArrayParameter: 'git@github.com:Symplify/AutowireArrayParameter.git'
+        packages/AutoBindParameter: 'git@github.com:Symplify/AutoBindParameter.git'
         packages/NeonToYamlConverter: 'git@github.com:Symplify/NeonToYamlConverter.git'
         packages/LatteToTwigConverter: 'git@github.com:Symplify/LatteToTwigConverter.git'
         packages/SmartFileSystem: 'git@github.com:Symplify/SmartFileSystem.git'

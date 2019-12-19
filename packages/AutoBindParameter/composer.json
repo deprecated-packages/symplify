@@ -1,0 +1,32 @@
+{
+    "name": "symplify/auto-bind-parameter",
+    "description": "Auto bind parameters in for your Symfony applications",
+    "license": "MIT",
+    "require": {
+        "php": "^7.2",
+        "nette/utils": "^3.0",
+        "symfony/http-kernel": "^4.4|^5.0",
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "symplify/package-builder": "^7.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\AutoBindParameter\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\AutoBindParameter\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "7.2-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

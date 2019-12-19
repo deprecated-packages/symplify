@@ -124,3 +124,4 @@ parameters:
         Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer:
             # temporary, BC layer
             - 'packages/AutowireArrayParameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
+            - 'packages/AutoBindParameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php'
