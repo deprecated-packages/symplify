@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    Symplify\AutowireArrayParameter\Tests\Source\:
+        resource: "../Source"

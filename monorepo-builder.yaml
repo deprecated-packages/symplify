@@ -2,7 +2,7 @@ parameters:
     # add these to merge of packages' composer.json
     data_to_append:
         require-dev:
-            phpstan/phpstan: '^0.11.19'
+            phpstan/phpstan: '^0.12'
             phpunit/phpunit: '^8.4'
             tracy/tracy: '^2.7'
 

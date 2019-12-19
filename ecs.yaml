@@ -109,6 +109,8 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
             - 'packages/MonorepoBuilder/src/Console/Command/ValidateCommand.php'
+            - 'packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
+            - 'packages/AutowireArrayParameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
 
         SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable:
             # tests
@@ -118,3 +120,7 @@ parameters:
             - '*Sniff.php'
             - '*YamlFileLoader.php'
             - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
+
+        Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer:
+            # temporary, BC layer
+            - 'packages/AutowireArrayParameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
