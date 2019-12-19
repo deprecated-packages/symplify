@@ -78,6 +78,7 @@ jobs:
                 - packages/Statie/bin/statie
                 - packages/LatteToTwigConverter/bin/latte-to-twig-converter
                 - packages/MonorepoBuilder/bin/monorepo-builder
+
         -
             stage: test
             name: Rector
