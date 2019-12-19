@@ -13,6 +13,7 @@ parameters:
             'phpunit/phpunit': '*'
 
     directories_to_repositories:
+        packages/AutowireArrayParameter: 'git@github.com:Symplify/AutowireArrayParameter.git'
         packages/NeonToYamlConverter: 'git@github.com:Symplify/NeonToYamlConverter.git'
         packages/LatteToTwigConverter: 'git@github.com:Symplify/LatteToTwigConverter.git'
         packages/SmartFileSystem: 'git@github.com:Symplify/SmartFileSystem.git'
