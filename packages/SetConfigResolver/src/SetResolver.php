@@ -7,9 +7,9 @@ use Nette\Utils\Strings;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use Symplify\EasyCodingStandard\Exception\Configuration\SetNotFoundException;
 use Symplify\SetConfigResolver\Console\Option\OptionName;
 use Symplify\SetConfigResolver\Console\OptionValueResolver;
+use Symplify\SetConfigResolver\Exception\SetNotFoundException;
 
 final class SetResolver
 {
