@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Exception\Configuration;
+namespace Symplify\SetConfigResolver\Exception;
 
 use Exception;
 
