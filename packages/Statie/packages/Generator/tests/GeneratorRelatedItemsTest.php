@@ -5,6 +5,9 @@ namespace Symplify\Statie\Generator\Tests;
 use Symplify\Statie\Generator\RelatedItemsResolver;
 use Symplify\Statie\HttpKernel\StatieKernel;
 
+/**
+ * @requires PHP < 7.4
+ */
 final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
 {
     /**

@@ -7,6 +7,9 @@ use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
 use Symplify\Statie\HttpKernel\StatieKernel;
 use Symplify\Statie\Renderable\File\PostFile;
 
+/**
+ * @requires PHP < 7.4
+ */
 final class GeneratorExceptionsTest extends AbstractGeneratorTest
 {
     protected function setUp(): void

@@ -8,6 +8,7 @@ use Symplify\Statie\HttpKernel\StatieKernel;
 
 /**
  * @covers \Symplify\Statie\Generator\Generator
+ * @requires PHP < 7.4
  */
 final class GeneratorTest extends AbstractGeneratorTest
 {
