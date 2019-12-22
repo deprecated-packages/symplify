@@ -59,6 +59,7 @@ final class CognitiveComplexityAnalyzerTest extends TestCase
         yield [__DIR__ . '/Source/function6.php.inc', 0];
         yield [__DIR__ . '/Source/function7.php.inc', 3];
         yield [__DIR__ . '/Source/function8.php.inc', 7];
+        yield [__DIR__ . '/Source/function9.php.inc', 5];
     }
 
     /**
