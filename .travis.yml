@@ -15,7 +15,7 @@ php:
     - '7.4'
 
 script:
-    - vendor/bin/phpunit
+    - vendor/bin/phpunit --filter CognitiveComplexityAnalyzer
 
 matrix:
     fast_finish: true
