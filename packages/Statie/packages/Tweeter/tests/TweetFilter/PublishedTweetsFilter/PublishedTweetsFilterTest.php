@@ -24,8 +24,6 @@ final class PublishedTweetsFilterTest extends AbstractKernelTestCase
     {
         $this->bootKernel(StatieKernel::class);
 
-        parent::setUp();
-
         $configuration = self::$container->get(StatieConfiguration::class);
         $configuration->setSourceDirectory(__DIR__ . '/../../Source');
 
