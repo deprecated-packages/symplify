@@ -12,7 +12,7 @@
         "composer/xdebug-handler": "^1.4",
         "latte/latte": "^2.5",
         "guzzlehttp/guzzle": "^6.5",
-        "j7mbo/twitter-api-php": "^1.0",
+        "j7mbo/twitter-api-php": "^1.0.6",
         "nette/finder": "^2.5",
         "nette/utils": "^3.0",
         "tracy/tracy": "^2.7",

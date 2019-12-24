@@ -10,7 +10,7 @@
         "erusev/parsedown-extra": "^0.7.1",
         "friendsofphp/php-cs-fixer": "^2.16",
         "guzzlehttp/guzzle": "^6.5",
-        "j7mbo/twitter-api-php": "^1.0",
+        "j7mbo/twitter-api-php": "^1.0.6",
         "jean85/pretty-package-versions": "^1.2",
         "latte/latte": "^2.5",
         "nette/application": "^3.0",
