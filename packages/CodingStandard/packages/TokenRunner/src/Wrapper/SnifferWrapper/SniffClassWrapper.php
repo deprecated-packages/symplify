@@ -40,7 +40,7 @@ final class SniffClassWrapper
      */
     public function getPartialInterfaceNames(): array
     {
-        if (! $this->implementsInterface()) {
+        if (! $this->doesImplementInterface()) {
             return [];
         }
 
@@ -60,12 +60,12 @@ final class SniffClassWrapper
         return $partialInterfacesNames;
     }
 
-    public function implementsInterface(): bool
+    public function doesImplementInterface(): bool
     {
         return (bool) $this->getImplementsPosition();
     }
 
-    public function extendsClass(): bool
+    public function doesExtendClass(): bool
     {
         return (bool) $this->file->findNext(T_EXTENDS, $this->position, $this->position + 5);
     }

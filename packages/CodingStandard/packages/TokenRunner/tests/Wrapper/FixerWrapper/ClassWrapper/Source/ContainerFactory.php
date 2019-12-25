@@ -5,9 +5,9 @@ namespace Symplify\CodingStandard\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWr
 use Psr\Container\ContainerInterface;
 
 new class() implements ContainerInterface {
-    public function get($id): bool
+    public function get($id)
     {
-        return true;
+        return 5;
     }
 
     public function has($id): bool

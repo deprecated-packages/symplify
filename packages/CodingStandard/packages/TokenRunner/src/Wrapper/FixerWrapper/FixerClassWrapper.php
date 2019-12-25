@@ -251,7 +251,7 @@ final class FixerClassWrapper
         return $this->classToken->isGivenKind($tokenKinds);
     }
 
-    public function implementsInterface(): bool
+    public function doesImplementInterface(): bool
     {
         return (bool) $this->getInterfaceNames();
     }

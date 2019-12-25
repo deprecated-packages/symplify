@@ -36,6 +36,8 @@ final class BoolishClassMethodPrefixRule implements Rule
         'ends',
         'exists',
         'supports',
+        # array access
+        'offsetExists',
     ];
 
     public function getNodeType(): string

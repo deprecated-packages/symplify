@@ -23,7 +23,7 @@ final class GitManager
         $this->githubToken = $githubToken;
     }
 
-    public function checkIfTagsHaveCommitterDate(): bool
+    public function doTagsHaveCommitterDate(): bool
     {
         $command = ['git', 'tag', '-l', '--format="%(committerdate)"'];
         $result = $this->processRunner->run($command);

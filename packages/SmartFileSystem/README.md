@@ -92,7 +92,7 @@ $smartFileInfo = new Symplify\SmartFileSystem\SmartFileInfo('/var/www/src/PostRe
 echo $smartFileInfo->endsWith('Repository.php');
 // true
 
-echo $smartFileInfo->fnmatches('*Repo*');
+echo $smartFileInfo->doesFnmatch('*Repo*');
 // true
 ```
 
