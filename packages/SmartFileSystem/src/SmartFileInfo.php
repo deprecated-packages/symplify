@@ -75,7 +75,7 @@ final class SmartFileInfo extends SplFileInfo
         return Strings::endsWith($this->getNormalizedRealPath(), $string);
     }
 
-    public function fnmatches(string $string): bool
+    public function doesFnmatch(string $string): bool
     {
         if (fnmatch($string, $this->getNormalizedRealPath())) {
             return true;

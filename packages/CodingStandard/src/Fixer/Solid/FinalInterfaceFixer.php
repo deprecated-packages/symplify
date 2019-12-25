@@ -73,7 +73,7 @@ class SomeClass implements SomeInterface {};')]
 
     private function shouldBeSkipped(FixerClassWrapper $fixerClassWrapper): bool
     {
-        if (! $fixerClassWrapper->implementsInterface()) {
+        if (! $fixerClassWrapper->doesImplementInterface()) {
             return true;
         }
 
