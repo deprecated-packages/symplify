@@ -5,6 +5,8 @@ namespace Symplify\PHPStanExtensions\Rules\ClassMethod;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Return_;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Rules\Rule;
@@ -40,6 +42,16 @@ final class BoolishClassMethodPrefixRule implements Rule
         'offsetExists',
     ];
 
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    public function __construct()
+    {
+        $this->nodeFinder = new NodeFinder();
+    }
+
     public function getNodeType(): string
     {
         return ClassMethod::class;
@@ -56,10 +68,16 @@ final class BoolishClassMethodPrefixRule implements Rule
             throw new ShouldNotHappenException();
         }
 
-        $methodReflection = $classReflection->getNativeMethod($node->name->name);
+        $returns = $this->findReturnsWithValues($node);
+        // nothing was returned
+        if ($returns === []) {
+            return [];
+        }
 
+        $methodReflection = $classReflection->getNativeMethod($node->name->name);
         $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
-        if (! $returnType instanceof BooleanType) {
+
+        if (! $returnType instanceof BooleanType && ! $this->areOnlyBoolReturnNodes($returns, $scope)) {
             return [];
         }
 
@@ -76,7 +94,7 @@ final class BoolishClassMethodPrefixRule implements Rule
     private function createRuleError(ClassMethod $classMethod, Scope $scope): RuleError
     {
         $ruleErrorBuilder = RuleErrorBuilder::message(sprintf(
-            'Method "%s()" returns bool type, so the name should start with is/has/was"',
+            'Method "%s()" returns bool type, so the name should start with is/has/was...',
             $classMethod->name->toString()
         ));
 
@@ -84,5 +102,45 @@ final class BoolishClassMethodPrefixRule implements Rule
         $ruleErrorBuilder->line($classMethod->getLine());
 
         return $ruleErrorBuilder->build();
+    }
+
+    /**
+     * @param Return_[] $returns
+     */
+    private function areOnlyBoolReturnNodes(array $returns, Scope $scope): bool
+    {
+        foreach ($returns as $return) {
+            if ($return->expr === null) {
+                continue;
+            }
+
+            $returnedNodeType = $scope->getType($return->expr);
+            if (! $returnedNodeType instanceof BooleanType) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @return Return_[]
+     */
+    private function findReturnsWithValues(ClassMethod $classMethod): array
+    {
+        /** @var Return_[] $returns */
+        $returns = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), Return_::class);
+
+        $returnsWithValues = [];
+
+        foreach ($returns as $return) {
+            if ($return->expr === null) {
+                continue;
+            }
+
+            $returnsWithValues[] = $return;
+        }
+
+        return $returnsWithValues;
     }
 }

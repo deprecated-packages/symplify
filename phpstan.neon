@@ -4,6 +4,7 @@ includes:
 parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
+    checkGenericClassInNonGenericObjectType: false
 
     excludes_analyse:
         - *packages/MonorepoBuilder/packages/Init/templates/*
@@ -18,6 +19,8 @@ parameters:
         - packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
         # 3rd party
         - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
+        # tests
+        - packages/PHPStanExtensions/tests/Rules/ClassMethod/Source/*
 
     autoload_files:
         - %currentWorkingDirectory%/tests/bootstrap.php
