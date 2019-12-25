@@ -16,6 +16,8 @@ parameters:
         - packages/Statie/packages/MigratorSculpin/tests/SculpinToStatieMigrator/Source/Fixture/before/app/SculpinKernel.php
         # Symfony workaround
         - packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
+        # 3rd party
+        - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
 
     autoload_files:
         - %currentWorkingDirectory%/tests/bootstrap.php
@@ -126,3 +128,4 @@ parameters:
         - '#Offset (.*?) does not exist on array\|null#'
         - '#in iterable type#'
         - '#Method Symplify\\PHPStanExtensions\\Tests\\Rules\\Classes\\MatchingTypeConstantRuleTest\:\:getRule\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
+        - '#Class Symplify\\PHPStanExtensions\\Rules\\ClassMethod\\BoolishClassMethodPrefixRule implements generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'

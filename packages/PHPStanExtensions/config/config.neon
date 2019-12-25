@@ -8,8 +8,12 @@ services:
 
     - Symfony\Component\Console\Terminal
     -
-         class: Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
-         tags: [phpstan.rules.rule]
+        class: Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanExtensions\Rules\ClassMethod\BoolishClassMethodPrefixRule
+        tags: [phpstan.rules.rule]
 
     - Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory
     -
