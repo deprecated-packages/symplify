@@ -32,6 +32,16 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## Symfony Utils
 
+- **[AutoBindParameter](https://github.com/Symplify/AutoBindParameter)** - Auto bind parameters in for your Symfony applications
+
+    [![Build Status](https://img.shields.io/travis/Symplify/AutoBindParameter/master.svg?style=flat-square)](https://travis-ci.org/Symplify/AutoBindParameter)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/auto-bind-parameter.svg?style=flat-square)](https://packagist.org/packages/symplify/auto-bind-parameter/stats)
+
+- **[AutowireArrayParameter](https://github.com/Symplify/AutowireArrayParameter)** - Autowire Array Parameters for Symfony applications
+
+    [![Build Status](https://img.shields.io/travis/Symplify/AutowireArrayParameter/master.svg?style=flat-square)](https://travis-ci.org/Symplify/AutowireArrayParameter)
+    [![Downloads](https://img.shields.io/packagist/dt/symplify/autowire-array-parameter.svg?style=flat-square)](https://packagist.org/packages/symplify/autowire-array-parameter/stats)
+
 - **[Autodiscovery](https://github.com/Symplify/Autodiscovery)** - Forget manual registration of translations, templates, mappings and routes in Symfony Application
 
     [![Build Status](https://img.shields.io/travis/Symplify/Autodiscovery/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Autodiscovery)
