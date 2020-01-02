@@ -1,6 +1,6 @@
 {
     "name": "symplify/auto-bind-parameter",
-    "description": "Auto bind parameters in for your Symfony applications",
+    "description": "Auto bind parameters for your Symfony applications",
     "license": "MIT",
     "require": {
         "php": "^7.2",

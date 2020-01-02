@@ -32,7 +32,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## Symfony Utils
 
-- **[AutoBindParameter](https://github.com/Symplify/AutoBindParameter)** - Auto bind parameters in for your Symfony applications
+- **[AutoBindParameter](https://github.com/Symplify/AutoBindParameter)** - Auto bind parameters for your Symfony applications
 
     [![Build Status](https://img.shields.io/travis/Symplify/AutoBindParameter/master.svg?style=flat-square)](https://travis-ci.org/Symplify/AutoBindParameter)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/auto-bind-parameter.svg?style=flat-square)](https://packagist.org/packages/symplify/auto-bind-parameter/stats)
