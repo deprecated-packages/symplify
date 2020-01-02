@@ -1,7 +1,7 @@
 services:
 	application.presenterFactory: @Entrydo\App\Presenters\ClassPresenterNameAwarePresenterFactory
 	doctrineEvents.symfonyProxy:
-		autowired: off
+		autowired: false
 	router: @Entrydo\App\Routing\RouterFactory::create
 	mailer: Entrydo\Infrastructure\Mailing\MailGunMailer(%mailgun.apiKey%, %mailgun.domain%, @emailValidator)
 	eventMailer: Entrydo\Infrastructure\Mailing\MailGunMailer(%mailgun.apiKey%, %mailgun.ticketsDomain%)
