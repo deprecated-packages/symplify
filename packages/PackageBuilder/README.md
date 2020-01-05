@@ -270,8 +270,8 @@ This prevent repeating factory definitions for obvious 1-instance factories:
 ```diff
  services:
      Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
--     Symfony\Component\Console\Style\SymfonyStyle:
--         factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
+-    Symfony\Component\Console\Style\SymfonyStyle:
+-        factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
 ```
 
 **How this works?**
