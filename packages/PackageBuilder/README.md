@@ -263,8 +263,6 @@ In case you need to do more work in YamlFileLoader, just extend the abstract par
 
 ### Do not Repeat Simple Factories
 
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass`
-
 This prevent repeating factory definitions for obvious 1-instance factories:
 
 ```diff
@@ -296,7 +294,28 @@ final class SymfonyStyleFactory
 
 That's all! The "factory" definition is generated from this obvious usage.
 
-**Put this compiler pass first**, as it creates new definitions that other compiler passes might work with.
+**Put this compiler pass first**, as it creates new definitions that other compiler passes might work with:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App;
+
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
+
+final class AppKernel extends Kernel
+{
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(new AutoReturnFactoryCompilerPass());
+        // ...
+    }
+}
+```
 
 <br>
 
@@ -307,16 +326,26 @@ Do you want to allow users to register services without worrying about autowirin
 ```php
 <?php
 
-// ...
+declare(strict_types=1);
+
+namespace App;
 
 use PhpCsFixer\Fixer\FixerInterface;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 
-// ...
-
-        $containerBuilder->addCompilerPass(new AutowireInterfacesCompilerPass([
-            FixerInterface::class,
-        ]));
+final class AppKernel extends Kernel
+{
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(
+            new AutowireInterfacesCompilerPass([
+                FixerInterface::class,
+            ])
+        );
+    }
+}
 ```
 
 This will make sure, that `PhpCsFixer\Fixer\FixerInterface` instances are always autowired.
