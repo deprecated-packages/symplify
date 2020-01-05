@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
@@ -20,13 +22,10 @@ final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
 {
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition(
-            'There should not be empty PHPDoc blocks.',
-            [new CodeSample('<?php 
+        return new FixerDefinition('There should not be empty PHPDoc blocks.', [new CodeSample('<?php
 
 /**  */
-')]
-        );
+')]);
     }
 
     public function isCandidate(Tokens $tokens): bool

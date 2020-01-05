@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
@@ -48,7 +50,7 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
             'The @param, @return, @var and inline @var annotations should keep standard format',
             [new CodeSample('<?php
 /**
- * @param $name type  
+ * @param $name type
  */
 function someFunction(type $name)
 {

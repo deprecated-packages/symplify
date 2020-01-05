@@ -593,7 +593,9 @@ services:
 - class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
 
 ```diff
- <?php declare(strict_types=1);
+ <?php
+
+declare(strict_types=1);
 +
  namespace SomeNamespace;
 ```

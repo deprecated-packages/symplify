@@ -16,7 +16,9 @@ composer require symplify/flex-loader
 ### Traditional Kernel (Before)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App;
 
@@ -75,7 +77,9 @@ final class MyProjectKernel extends Kernel
 ### With Flex Loader (After)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App;
 

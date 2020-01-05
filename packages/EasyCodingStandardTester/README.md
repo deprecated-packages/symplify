@@ -20,7 +20,9 @@ composer require symplify/easy-coding-standard-tester --dev
 2. Provide files to `doTestFiles()` method
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Your\CodingStandard\Tests\Fixer\YourFixer;
 
@@ -73,7 +75,9 @@ There is one extra method for sniff that doesn't fix the error, but only finds i
 - `doTestWrongFile($wrongFile)`
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Your\CodingStandard\Tests\Sniff\YourSniff;
 

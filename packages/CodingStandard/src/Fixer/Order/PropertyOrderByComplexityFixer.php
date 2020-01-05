@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
@@ -72,17 +74,17 @@ final class SomeFixer
      * @var string
      */
     private $name;
-    
+
     /**
      * @var Type
      */
-    private $service; 
-    
+    private $service;
+
     /**
      * @var int
      */
-    private $price; 
-} 
+    private $price;
+}
 CODE_SAMPLE
                 ),
                 new CodeSample(
@@ -93,16 +95,16 @@ final class SomeFixer
      * @var string
      */
     private $name;
-    
+
     /**
      * @var int
      */
-    private $price; 
+    private $price;
 
     /**
      * @var Type
      */
-    private $service; 
+    private $service;
 }
 CODE_SAMPLE
                 ),

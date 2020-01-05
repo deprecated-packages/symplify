@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Symplify\PHPStanExtensions\Tests\Rules\ClassMethod;
 
@@ -13,15 +15,15 @@ final class BoolishClassMethodPrefixRuleTest extends RuleTestCase
         $this->analyse(
             [__DIR__ . '/Source/ClassWithBoolishMethods.php'],
             [
-                ['Method "honesty()" returns bool type, so the name should start with is/has/was...', 7],
-                ['Method "thatWasGreat()" returns bool type, so the name should start with is/has/was...', 12],
+                ['Method "honesty()" returns bool type, so the name should start with is/has/was...', 9],
+                ['Method "thatWasGreat()" returns bool type, so the name should start with is/has/was...', 14],
             ]
         );
 
         $this->analyse([__DIR__ . '/Source/ClassWithEmptyReturn.php'], []);
 
         $this->analyse([__DIR__ . '/Source/ClassThatImplementsInterface.php'], [
-            ['Method "nothing()" returns bool type, so the name should start with is/has/was...', 7],
+            ['Method "nothing()" returns bool type, so the name should start with is/has/was...', 9],
         ]);
     }
 

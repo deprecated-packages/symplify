@@ -72,7 +72,9 @@ services:
 Then require in `__construct()` where needed:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Configuration;
 
@@ -102,7 +104,9 @@ final class StatieConfiguration
 ### Get Vendor Directory from Anywhere
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // returns path to vendor directory
 ```
@@ -142,7 +146,9 @@ The result will change with `Symplify\PackageBuilder\Yaml\FileLoader\ParameterMe
 How to use it?
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App;
 
@@ -183,7 +189,9 @@ In case you need to do more work in YamlFileLoader, just extend the abstract par
 Instead of creating all the classes use this helper class:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 $parameterMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParameterMergingYamlLoader;
 
@@ -209,7 +217,9 @@ Instead of 2 paths with `ignore_errors` use `%vendor%` and other parameters in i
 You can have that with `Symplify\PackageBuilder\Yaml\FileLoader\ParameterImportsYamlFileLoader`:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App;
 
@@ -253,15 +263,13 @@ In case you need to do more work in YamlFileLoader, just extend the abstract par
 
 ### Do not Repeat Simple Factories
 
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass`
-
 This prevent repeating factory definitions for obvious 1-instance factories:
 
 ```diff
  services:
      Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
--     Symfony\Component\Console\Style\SymfonyStyle:
--         factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
+-    Symfony\Component\Console\Style\SymfonyStyle:
+-        factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
 ```
 
 **How this works?**
@@ -286,7 +294,28 @@ final class SymfonyStyleFactory
 
 That's all! The "factory" definition is generated from this obvious usage.
 
-**Put this compiler pass first**, as it creates new definitions that other compiler passes might work with.
+**Put this compiler pass first**, as it creates new definitions that other compiler passes might work with:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App;
+
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
+
+final class AppKernel extends Kernel
+{
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(new AutoReturnFactoryCompilerPass());
+        // ...
+    }
+}
+```
 
 <br>
 
@@ -297,16 +326,26 @@ Do you want to allow users to register services without worrying about autowirin
 ```php
 <?php
 
-// ...
+declare(strict_types=1);
+
+namespace App;
 
 use PhpCsFixer\Fixer\FixerInterface;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 
-// ...
-
-        $containerBuilder->addCompilerPass(new AutowireInterfacesCompilerPass([
-            FixerInterface::class,
-        ]));
+final class AppKernel extends Kernel
+{
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(
+            new AutowireInterfacesCompilerPass([
+                FixerInterface::class,
+            ])
+        );
+    }
+}
 ```
 
 This will make sure, that `PhpCsFixer\Fixer\FixerInterface` instances are always autowired.

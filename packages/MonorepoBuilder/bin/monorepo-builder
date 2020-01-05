@@ -1,5 +1,7 @@
 #!/usr/bin/env php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication;
 use Symfony\Component\Console\Input\ArgvInput;
