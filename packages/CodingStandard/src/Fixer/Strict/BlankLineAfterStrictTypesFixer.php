@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Strict;
 
@@ -38,7 +40,9 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
         return new FixerDefinition(
             'Strict type declaration has to be followed by empty line',
             [new CodeSample('
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 namespace SomeNamespace;')]
         );
     }

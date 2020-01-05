@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Symplify\PHPStanExtensions\Tests\Rules\Classes;
 
@@ -13,8 +15,8 @@ final class MatchingTypeConstantRuleTest extends RuleTestCase
         $this->analyse(
             [__DIR__ . '/Source/ClassWithConstants.php'],
             [
-                ['Constant type should be "bool", but is "string"', 10],
-                ['Constant type should be "string", but is "bool"', 15],
+                ['Constant type should be "bool", but is "string"', 12],
+                ['Constant type should be "string", but is "bool"', 17],
             ]
         );
     }

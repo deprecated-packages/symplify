@@ -23,6 +23,7 @@ services:
 
 parameters:
     sets:
+        - 'php70'
         - 'php71'
         - 'clean-code'
         - 'symplify'

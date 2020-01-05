@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
@@ -53,12 +55,12 @@ final class SomeFixer implements FixerInterface
     public function isCandidate()
     {
     }
-    
+
     public function getName()
     {
         // ...
     }
-} 
+}
 CODE_SAMPLE
                 ),
             ]

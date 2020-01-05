@@ -72,7 +72,9 @@ services:
 Then require in `__construct()` where needed:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Configuration;
 
@@ -102,7 +104,9 @@ final class StatieConfiguration
 ### Get Vendor Directory from Anywhere
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // returns path to vendor directory
 ```
@@ -142,7 +146,9 @@ The result will change with `Symplify\PackageBuilder\Yaml\FileLoader\ParameterMe
 How to use it?
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App;
 
@@ -183,7 +189,9 @@ In case you need to do more work in YamlFileLoader, just extend the abstract par
 Instead of creating all the classes use this helper class:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 $parameterMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParameterMergingYamlLoader;
 
@@ -209,7 +217,9 @@ Instead of 2 paths with `ignore_errors` use `%vendor%` and other parameters in i
 You can have that with `Symplify\PackageBuilder\Yaml\FileLoader\ParameterImportsYamlFileLoader`:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App;
 
