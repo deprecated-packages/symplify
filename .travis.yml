@@ -108,14 +108,13 @@ jobs:
                 - vendor/bin/phpunit packages/SetConfigResolver/tests
 
         -
-            stage: deploy
+            stage: test
             name: Test Coverage
-            if: branch = master AND type = push
             php: 7.3
-            before_install:
-                - echo "keep xdebug"
             script:
                 # code coverage run + upload to coveralls.io
+                # see https://kizu514.com/blog/pcov-is-better-than-phpdbg-and-xdebug-for-code-coverage/
+                - pecl install pcov
                 - vendor/bin/phpunit --coverage-clover coverage.xml
                 - wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
                 - php php-coveralls.phar --verbose

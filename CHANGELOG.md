@@ -9,7 +9,108 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v7.1 - 2019-12-09
+<!-- dumped content start -->
+
+## Unreleased
+
+- [#1716] Decouple new **AutoBindParameter** package
+- [#1715] Decouple new **AutowireArrayParameter** package
+
+### Added
+
+#### PHPStanExtension
+
+- [#1723] add missing deps
+
+#### PHPStanExtensions
+
+- [#1722] Add BoolishClassMethodPrefixRule
+
+### Changed
+
+#### EasyCodingStandard
+
+- [#1724] show reported by rule, so its easier to recognize from message
+- [#1726] Update GrumpPHP tool to use core task, Thanks to [@schrapel]
+
+#### CodingStandard
+
+- [#1720] Improve cognitive complexity nesting, Thanks to [@Rarst]
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#1717] Fix default cache directory documentation, Thanks to [@ltribolet]
+- [#1718] fix `SetNotFoundException` namespace
+
+## [v7.1.3] - 2019-12-18
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#1713] fix config loading regression
+
+## [v7.1.2] - 2019-12-18
+
+### Changed
+
+#### CodingStandard
+
+- [#1711] Use Data provider in tests
+
+#### EasyCodingStandard
+
+- [#1708] Allow config to override sets
+
+### Fixed
+
+#### CodingStandard
+
+- [#1710] Fix PropertyNameMatchingTypeFixer for intersection
+
+## [v7.1.1] - 2019-12-18
+
+### Changed
+
+#### ChangelogLinker
+
+- [#1692] Honouring final new line in changelog (for real), Thanks to [@jawira]
+
+#### EasyCodingStandard
+
+- [#1704] Prefer IncludeFixer over LanguageConstructSpacingSniff, Thanks to [@leofeyer]
+
+#### PackageBuilder
+
+- [#1705] Handle single characters in the StringFormatConverter::camelCaseToGlue() method, Thanks to [@leofeyer]
+
+#### Unknown Package
+
+- [#1695] open to PHPStan 0.12 and Rector supporting it
+
+### Removed
+
+#### EasyCodingStandard
+
+- [#1707] remove unary + not opreator non-existing conflict
+
+#### PHPStanExtensions
+
+- [#1706] Drop confusing path ignore
+
+#### PackageBuilder
+
+- [#1698] Remove dependency on symfony/debug, Thanks to [@enumag]
+
+#### Unknown Package
+
+- [#1696] drop unused env
+
+<!-- dumped content end -->
+
+## [v7.1] - 2019-12-09
 
 ### Added
 
@@ -474,3 +575,35 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@sustmi]: https://github.com/sustmi
 [@DayS]: https://github.com/DayS
 [v7.0.0]: https://github.com/Symplify/Symplify/compare/v6.1.0...v7.0.0
+[#1727]: https://github.com/Symplify/Symplify/pull/1727
+[#1726]: https://github.com/Symplify/Symplify/pull/1726
+[#1724]: https://github.com/Symplify/Symplify/pull/1724
+[#1723]: https://github.com/Symplify/Symplify/pull/1723
+[#1722]: https://github.com/Symplify/Symplify/pull/1722
+[#1721]: https://github.com/Symplify/Symplify/pull/1721
+[#1720]: https://github.com/Symplify/Symplify/pull/1720
+[#1718]: https://github.com/Symplify/Symplify/pull/1718
+[#1717]: https://github.com/Symplify/Symplify/pull/1717
+[#1716]: https://github.com/Symplify/Symplify/pull/1716
+[#1715]: https://github.com/Symplify/Symplify/pull/1715
+[#1713]: https://github.com/Symplify/Symplify/pull/1713
+[#1711]: https://github.com/Symplify/Symplify/pull/1711
+[#1710]: https://github.com/Symplify/Symplify/pull/1710
+[#1708]: https://github.com/Symplify/Symplify/pull/1708
+[#1707]: https://github.com/Symplify/Symplify/pull/1707
+[#1706]: https://github.com/Symplify/Symplify/pull/1706
+[#1705]: https://github.com/Symplify/Symplify/pull/1705
+[#1704]: https://github.com/Symplify/Symplify/pull/1704
+[#1698]: https://github.com/Symplify/Symplify/pull/1698
+[#1696]: https://github.com/Symplify/Symplify/pull/1696
+[#1695]: https://github.com/Symplify/Symplify/pull/1695
+[#1692]: https://github.com/Symplify/Symplify/pull/1692
+[v7.1.3]: https://github.com/Symplify/Symplify/compare/v7.1.2...v7.1.3
+[v7.1.2]: https://github.com/Symplify/Symplify/compare/v7.1.1...v7.1.2
+[v7.1.1]: https://github.com/Symplify/Symplify/compare/v7.1...v7.1.1
+[v7.1]: https://github.com/Symplify/Symplify/compare/v7.0.2...v7.1
+[@schrapel]: https://github.com/schrapel
+[@ltribolet]: https://github.com/ltribolet
+[@leofeyer]: https://github.com/leofeyer
+[@enumag]: https://github.com/enumag
+[@Rarst]: https://github.com/Rarst

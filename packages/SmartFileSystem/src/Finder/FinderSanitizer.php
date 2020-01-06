@@ -25,7 +25,10 @@ final class FinderSanitizer
                 continue;
             }
 
-            $smartFileInfos[] = new SmartFileInfo($fileInfo->getRealPath());
+            /** @var string $realPath */
+            $realPath = $fileInfo->getRealPath();
+
+            $smartFileInfos[] = new SmartFileInfo($realPath);
         }
 
         return $smartFileInfos;
