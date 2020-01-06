@@ -9,8 +9,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-<!-- dumped content start -->
-
 ## Unreleased
 
 - [#1716] Decouple new **AutoBindParameter** package
@@ -107,8 +105,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### Unknown Package
 
 - [#1696] drop unused env
-
-<!-- dumped content end -->
 
 ## [v7.1] - 2019-12-09
 
