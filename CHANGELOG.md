@@ -9,7 +9,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## Unreleased
+## v7.2.0 - 2020-01-06
 
 - [#1716] Decouple new **AutoBindParameter** package
 - [#1715] Decouple new **AutowireArrayParameter** package
