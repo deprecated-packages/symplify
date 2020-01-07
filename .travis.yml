@@ -25,7 +25,7 @@ install:
 
 before_install:
     # disable xdebug if not coverage
-    - phpenv config-rm xdebug.ini || echo "xdebug not available"
+    - phpenv config-rm xdebug.ini
 
 jobs:
     include:
