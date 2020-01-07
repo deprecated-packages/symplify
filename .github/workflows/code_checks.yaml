@@ -1,0 +1,170 @@
+name: Code_Checks
+
+on:
+    - pull_request
+
+jobs:
+    ecs:
+        runs-on: ubuntu-latest
+
+        steps:
+            -
+                name: Checkout code
+                uses: actions/checkout@v2
+
+            -
+                name: Setup PHP
+                uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.3
+                    coverage: none
+
+            -
+                name: Install
+                run:
+                    composer install --no-progress
+
+            -
+                name: Run
+                run:
+                    packages/EasyCodingStandard/bin/ecs check packages
+
+    phpstan:
+        runs-on: ubuntu-latest
+
+        steps:
+            -
+                name: Checkout code
+                uses: actions/checkout@v2
+
+            -
+                name: Setup PHP
+                uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.3
+                    coverage: none
+
+            -
+                name: Install
+                run:
+                    composer install --no-progress
+
+            -
+                name: Run
+                run:
+                    vendor/bin/phpstan analyse packages
+
+    rector:
+        runs-on: ubuntu-latest
+
+        steps:
+            -
+                name: Checkout code
+                uses: actions/checkout@v2
+
+            -
+                name: Setup PHP
+                uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.3
+                    coverage: none
+
+            -
+                name: Install
+                run:
+                    composer install --no-progress
+
+            -
+                name: Run
+                run:
+                    composer rector
+
+    binary_files:
+        runs-on: ubuntu-latest
+
+        steps:
+            -
+                name: Checkout code
+                uses: actions/checkout@v2
+
+            -
+                name: Setup PHP
+                uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.3
+                    coverage: none
+
+            -
+                name: Install
+                run:
+                    composer install --no-progress
+
+            -
+                name: Run
+                run: |
+                    # test run bin files
+                    packages/Autodiscovery/bin/autodiscovery
+                    packages/EasyCodingStandard/bin/ecs
+                    packages/ChangelogLinker/bin/changelog-linker
+                    packages/Statie/bin/statie
+                    packages/LatteToTwigConverter/bin/latte-to-twig-converter
+                    packages/MonorepoBuilder/bin/monorepo-builder
+
+                    # test "check" options
+                    packages/EasyCodingStandard/bin/ecs check packages/ChangelogLinker/src --no-progress-bar --no-error-table --clear-cache
+
+    simple_checks:
+        runs-on: ubuntu-latest
+
+        steps:
+            -
+                name: Checkout code
+                uses: actions/checkout@v2
+
+            -
+                name: Setup PHP
+                uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.3
+                    coverage: none
+
+            -
+                name: Install
+                run:
+                    composer install --no-progress
+
+            -
+                name: Run
+                run: |
+                    # validate monorepo <=> packages composer dependencies
+                    packages/MonorepoBuilder/bin/monorepo-builder validate
+
+    unit_tests:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                php: ['7.2', '7.3', '7.4']
+
+        steps:
+            -
+                name: Checkout code
+                uses: actions/checkout@v2
+
+            -
+                name: Setup PHP
+                uses: shivammathur/setup-php@v1
+                with:
+                    php-version: ${{ matrix.php }}
+                    coverage: none # default is xdebug
+                    extensions: mbstring # needed by phpunit
+
+            -
+                name: Install
+                run:
+                    composer install --no-progress
+
+            -
+                name: Run
+                run:
+                    vendor/bin/phpunit
