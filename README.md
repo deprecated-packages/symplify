@@ -30,7 +30,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
     [![Build Status](https://img.shields.io/travis/Symplify/CodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/CodingStandard)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
 
-## Symfony Utils
+## Smarter Symfony Dependency Injection
 
 - **[AutoBindParameter](https://github.com/Symplify/AutoBindParameter)** - Auto bind parameters for your Symfony applications
 
@@ -42,6 +42,8 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
     [![Build Status](https://img.shields.io/travis/Symplify/AutowireArrayParameter/master.svg?style=flat-square)](https://travis-ci.org/Symplify/AutowireArrayParameter)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/autowire-array-parameter.svg?style=flat-square)](https://packagist.org/packages/symplify/autowire-array-parameter/stats)
 
+## Slim Symfony Kernel
+
 - **[Autodiscovery](https://github.com/Symplify/Autodiscovery)** - Forget manual registration of translations, templates, mappings and routes in Symfony Application
 
     [![Build Status](https://img.shields.io/travis/Symplify/Autodiscovery/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Autodiscovery)
@@ -51,6 +53,8 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
     [![Build Status](https://img.shields.io/travis/Symplify/FlexLoader/master.svg?style=flat-square)](https://travis-ci.org/Symplify/FlexLoader)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/flex-loader.svg?style=flat-square)](https://packagist.org/packages/symplify/flex-loader/stats)
+
+## Symfony Utils
 
 - **[PackageBuilder](https://github.com/Symplify/PackageBuilder)** - Speed up your package DI Containers integration and Console apps to Symfony
 
