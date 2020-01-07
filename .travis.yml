@@ -17,9 +17,6 @@ php:
 script:
     - vendor/bin/phpunit
 
-matrix:
-    fast_finish: true
-
 install:
     - composer update
 
