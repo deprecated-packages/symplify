@@ -10,8 +10,8 @@
     },
     "require-dev": {
         "nette/finder": "^2.5",
-        "phpstan/phpstan": "^0.12",
-        "phpunit/phpunit": "^8.4"
+        "phpstan/phpstan": "^0.12.4",
+        "phpunit/phpunit": "^8.5"
     },
     "autoload": {
         "psr-4": {
