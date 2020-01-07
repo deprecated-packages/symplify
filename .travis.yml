@@ -1,4 +1,5 @@
 os: linux
+
 language: php
 
 # required for "git tag" presence for MonorepoBuilder split and ChangelogLinker git tags resolver
