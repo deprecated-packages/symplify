@@ -4,7 +4,8 @@
 
 # Symplify - Making Everyday PHP Development Simple
 
-[![Build Status](https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
+[![Build Status with Travis CI](https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
+[![Build Status Github Actions](https://img.shields.io/github/workflow/status/Symplify/Symplify/Code_Checks?style=flat-square)](https://github.com/Symplify/Symplify/actions)
 [![Coverage](https://img.shields.io/coveralls/Symplify/Symplify/master.svg?style=flat-square)](https://coveralls.io/github/Symplify/Symplify?branch=master)
 
 In [this monorepo](https://gomonorepo.org/) you'll find PHP packages that help you with:
