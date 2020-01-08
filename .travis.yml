@@ -1,4 +1,5 @@
 os: linux
+
 language: php
 
 # required for "git tag" presence for MonorepoBuilder split and ChangelogLinker git tags resolver
@@ -17,26 +18,15 @@ php:
 script:
     - vendor/bin/phpunit
 
-matrix:
-    fast_finish: true
-
 install:
     - composer update
 
 before_install:
     # disable xdebug if not coverage
-    - phpenv config-rm xdebug.ini || echo "xdebug not available"
+    - phpenv config-rm xdebug.ini
 
 jobs:
     include:
-        -
-            stage: test
-            name: 'Simple Checks'
-            php: 7.3
-            script:
-                # validate monorepo <=> packages composer dependencies
-                - packages/MonorepoBuilder/bin/monorepo-builder validate
-
         -
             stage: test
             name: 'Lowest Dependencies'
@@ -51,69 +41,12 @@ jobs:
 
         -
             stage: test
-            name: ECS
-            php: 7.3
-            script:
-                - packages/EasyCodingStandard/bin/ecs check packages
-
-        -
-            stage: test
-            name: PHPStan
-            php: 7.3
-            script:
-                 - vendor/bin/phpstan analyse packages
-
-        -
-            stage: test
-            name: 'Binary files'
-            php: 7.3
-            script:
-                # test run bin files
-                - packages/Autodiscovery/bin/autodiscovery
-                - packages/EasyCodingStandard/bin/ecs
-
-                # test "check" options
-                - packages/EasyCodingStandard/bin/ecs check packages/ChangelogLinker/src --no-progress-bar --no-error-table --clear-cache
-                - packages/ChangelogLinker/bin/changelog-linker
-                - packages/Statie/bin/statie
-                - packages/LatteToTwigConverter/bin/latte-to-twig-converter
-                - packages/MonorepoBuilder/bin/monorepo-builder
-
-        -
-            stage: test
-            name: Rector
-            php: 7.3
-            script:
-                - composer rector
-
-        -
-            stage: test
-            name: 'Standalone Run'
-            php: 7.3
-            script:
-                # each package standalone test run
-                - vendor/bin/phpunit packages/Autodiscovery/tests
-                - vendor/bin/phpunit packages/ChangelogLinker/tests
-                - vendor/bin/phpunit packages/CodingStandard/tests
-                - vendor/bin/phpunit packages/EasyCodingStandard/tests
-                - vendor/bin/phpunit packages/EasyCodingStandardTester/tests
-                - vendor/bin/phpunit packages/FlexLoader/tests
-                - vendor/bin/phpunit packages/LatteToTwigConverter/tests
-                - vendor/bin/phpunit packages/MonorepoBuilder/tests
-                - vendor/bin/phpunit packages/NeonToYamlConverter/tests
-                - vendor/bin/phpunit packages/PackageBuilder/tests
-                - vendor/bin/phpunit packages/PHPStanExtensions/tests
-                - vendor/bin/phpunit packages/SmartFileSystem/tests
-                - vendor/bin/phpunit packages/Statie/tests
-                - vendor/bin/phpunit packages/SetConfigResolver/tests
-
-        -
-            stage: test
             name: Test Coverage
             php: 7.3
             script:
                 # code coverage run + upload to coveralls.io
                 - phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-clover coverage.xml
+                # coveralls.io
                 - wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
                 - php php-coveralls.phar --verbose
 
@@ -125,46 +58,15 @@ jobs:
                 # run slow api test only on master, because they require token
                 - vendor/bin/phpunit --group api
 
-        -
-            stage: deploy
-            name: 'Split Monorepo'
-            if: branch = master AND type = push
-            php: 7.3
-            script:
-                # split monorepo to packages - only on merge to master
-                # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
-                - packages/MonorepoBuilder/bin/monorepo-builder split --max-processes 7
-
-                # Windows
-        - &STANDARD_WINDOWS_JOB
-            stage: test
-            name: Windows PHP 7.2
-            os: windows
-            dist: 1803-containers
-            language: sh # No PHP currently
-            env: PHP_VERSION=7.2.23
-            install:
-                - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
-                - choco install composer --ia "/DEV=C:\tools\php"
-                - echo 'memory_limit=1G' >> 'C:\tools\php\php.ini'
-                - echo 'date.timezone="UTC"' >> 'C:\tools\php\php.ini'
-                - echo 'extension_dir=ext' >> 'C:\tools\php\php.ini'
-                - echo 'extension=php_mysqli.dll' >> 'C:\tools\php\php.ini'
-                - echo 'extension=php_intl.dll' >> 'C:\tools\php\php.ini'
-                - echo 'extension=php_curl.dll' >> 'C:\tools\php\php.ini'
-                - export PATH=/c/tools/php:$PATH
-                - composer update
-            script:
-                - vendor/bin/phpunit
-
-        -   <<: *STANDARD_WINDOWS_JOB
-            name: Windows PHP 7.3
-            env: PHP_VERSION=7.3.10
-
-    allow_failures:
-        - name: 'ECS'
-        - name: 'Rector'
-        - os: windows
+#        -
+#            stage: deploy
+#            name: 'Split Monorepo'
+#            if: branch = master AND type = push
+#            php: 7.3
+#            script:
+#                # split monorepo to packages - only on merge to master
+#                # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
+#                - packages/MonorepoBuilder/bin/monorepo-builder split --max-processes 7
 
 cache:
     directories:
