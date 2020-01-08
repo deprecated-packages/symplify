@@ -81,9 +81,10 @@ final class SplitCommand extends Command
     {
         $this->repositoryGuard->ensureIsRepositoryDirectory($this->rootDirectory);
 
-        $maxProcesses = $input->getOption(Option::MAX_PROCESSES) ? intval(
+        $maxProcesses = $input->getOption(Option::MAX_PROCESSES) ? (int)
             $input->getOption(Option::MAX_PROCESSES)
-        ) : null;
+            : null;
+
         $tag = $input->getOption(Option::TAG);
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(

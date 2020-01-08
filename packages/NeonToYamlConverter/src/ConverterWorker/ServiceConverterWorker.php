@@ -120,7 +120,7 @@ final class ServiceConverterWorker
             return $service;
         }
 
-        if ($service['class']->attributes) {
+        if ($service['class']->attributes !== []) {
             $service['arguments'] = $service['class']->attributes;
         }
         $service['class'] = $service['class']->value;
