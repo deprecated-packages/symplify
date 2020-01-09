@@ -21,13 +21,11 @@ jobs:
 
             -
                 name: Install
-                run:
-                    composer install --no-progress
+                run: composer install --no-progress
 
             -
                 name: Run
-                run:
-                    packages/EasyCodingStandard/bin/ecs check packages
+                run: composer check-cs
 
     phpstan:
         runs-on: ubuntu-latest
@@ -46,13 +44,11 @@ jobs:
 
             -
                 name: Install
-                run:
-                    composer install --no-progress
+                run: composer install --no-progress
 
             -
                 name: Run
-                run:
-                    vendor/bin/phpstan analyse packages
+                run: composer phpstan
 
     rector:
         runs-on: ubuntu-latest
@@ -71,13 +67,12 @@ jobs:
 
             -
                 name: Install
-                run:
-                    composer install --no-progress
+                run: composer install --no-progress
 
             -
                 name: Run
-                run:
-                    composer rector
+                run: composer rector
+
 
     binary_files:
         runs-on: ubuntu-latest
@@ -94,13 +89,9 @@ jobs:
                     php-version: 7.3
                     coverage: none
 
-            -
-                name: Install
-                run:
-                    composer install --no-progress
+            -   run: composer install --no-progress
 
             -
-                name: Run
                 run: |
                     # test run bin files
                     packages/Autodiscovery/bin/autodiscovery
@@ -130,11 +121,9 @@ jobs:
 
             -
                 name: Install
-                run:
-                    composer install --no-progress
+                run: composer install --no-progress
 
             -
                 name: Run
-                run: |
-                    # validate monorepo <=> packages composer dependencies
-                    packages/MonorepoBuilder/bin/monorepo-builder validate
+                # validate monorepo <=> packages composer dependencies
+                run: packages/MonorepoBuilder/bin/monorepo-builder validate
