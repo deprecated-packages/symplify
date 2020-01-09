@@ -93,6 +93,7 @@ jobs:
                         cd packages/EasyCodingStandard/compiler
                         composer install
                         bin/compile
+                        php build/box.phar info ../tmp/ecs.phar
                         ../tmp/ecs.phar
 
     binary_files:
