@@ -32,6 +32,9 @@ parameters:
         - 'types'
         - 'dead-code'
 
+    paths:
+        - 'packages'
+
     exclude_files:
         # tests
         - 'packages/*/tests/**Source/*.php'
