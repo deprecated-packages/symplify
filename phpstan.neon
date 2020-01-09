@@ -21,6 +21,7 @@ parameters:
         - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
         # tests
         - packages/PHPStanExtensions/tests/Rules/ClassMethod/Source/*
+        - packages/EasyCodingStandard/packages/Compiler/vendor/*
 
     autoload_files:
         - %currentWorkingDirectory%/tests/bootstrap.php

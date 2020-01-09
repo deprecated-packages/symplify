@@ -73,6 +73,26 @@ jobs:
                 name: Run
                 run: composer rector
 
+    ecs_phar_compile:
+            runs-on: ubuntu-latest
+
+            steps:
+                -
+                    name: Checkout code
+                    uses: actions/checkout@v2
+
+                -
+                    name: Setup PHP
+                    uses: shivammathur/setup-php@v1
+                    with:
+                        php-version: 7.3
+                        coverage: none
+
+                -   run:  |
+                        cd packages/EasyCodingStandard/packages/Compiler
+                        composer install --no-progress
+                        bin/compile
+                        ../tmp/ecs.phar
 
     binary_files:
         runs-on: ubuntu-latest
