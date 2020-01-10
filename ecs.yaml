@@ -39,6 +39,8 @@ parameters:
         # tests
         - 'packages/*/tests/**Source/*.php'
         - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
+        # own scope
+        - 'packages/EasyCodingStandard/compiler/build/scoper.inc.php'
 
     skip:
         # run form time to time, very slow and making many changes

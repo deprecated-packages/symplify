@@ -96,6 +96,27 @@ jobs:
                         php build/box.phar info ../tmp/ecs.phar
                         ../tmp/ecs.phar
 
+                        cd ..
+
+                        # Deploy PHAR to https://github.com/Symplify/EasyCodingStandardPrefixed
+                        # reuse tmp/rector.phar from previous job
+                        git clone https://${ACCESS_TOKEN}@github.com/Symplify/EasyCodingStandardPrefixed.git > /dev/null 2>&1
+                        cp tmp/ecs.phar EasyCodingStandardPrefixed/ecs.phar
+                        cp tmp/ecs.phar EasyCodingStandardPrefixed/ecs
+                        cd EasyCodingStandardPrefixed
+                        git config user.email "action@github.com"
+                        git config user.name "Github Actions"
+                        git add ecs ecs.phar
+
+                        if [ "${TRAVIS_TAG}" != "" ]; then COMMIT_MSG="ECS ${TRAVIS_TAG}"; else COMMIT_MSG="Updated ECS to commit ${TRAVIS_COMMIT}"; fi
+
+                        git commit -m "${COMMIT_MSG}"
+                        git push --quiet origin master
+
+                        if [ "${TRAVIS_TAG}" != "" ]; then git tag "${TRAVIS_TAG}" && git push --quiet origin ${TRAVIS_TAG}; fi
+                    env:
+                        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
     binary_files:
         runs-on: ubuntu-latest
 
