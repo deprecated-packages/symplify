@@ -29,6 +29,11 @@ final class ReplaceSectionJsonDecorator implements ComposerJsonDecoratorInterfac
         sort($mergedPackages);
 
         foreach ($mergedPackages as $mergedPackage) {
+            // prevent value override
+            if (isset($composerJson['replace'][$mergedPackage])) {
+                continue;
+            }
+
             $composerJson['replace'][$mergedPackage] = 'self.version';
         }
 

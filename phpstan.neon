@@ -18,9 +18,10 @@ parameters:
         # Symfony workaround
         - packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
         # 3rd party
-        - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
+        - packages/EasyCodingStandard/packages/SniffRunner/src/ValueObject/File.php
         # tests
         - packages/PHPStanExtensions/tests/Rules/ClassMethod/Source/*
+        - packages/EasyCodingStandard/compiler/vendor/*
 
     autoload_files:
         - %currentWorkingDirectory%/tests/bootstrap.php
@@ -132,3 +133,8 @@ parameters:
         - '#in iterable type#'
         - '#Method Symplify\\PHPStanExtensions\\Tests\\Rules\\Classes\\MatchingTypeConstantRuleTest\:\:getRule\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
         - '#Class Symplify\\PHPStanExtensions\\Rules\\ClassMethod\\BoolishClassMethodPrefixRule implements generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
+
+        - '#Strict comparison using \=\=\= between string\|false and null will always evaluate to false#'
+        - '#Parameter \#1 \$json of static method Nette\\Utils\\Json\:\:decode\(\) expects string, string\|false given#'
+        - '#Parameter \#1 \$jsonContent of method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:loadContentJsonStringToArray\(\) expects string, string\|false given#'
+        - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'

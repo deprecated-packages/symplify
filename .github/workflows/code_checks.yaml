@@ -73,7 +73,6 @@ jobs:
                 name: Run
                 run: composer rector
 
-
     binary_files:
         runs-on: ubuntu-latest
 
