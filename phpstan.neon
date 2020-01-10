@@ -3,8 +3,8 @@ includes:
 
 parameters:
     level: max
-    reportUnmatchedIgnoredErrors: false
     checkGenericClassInNonGenericObjectType: false
+    reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
         - *packages/MonorepoBuilder/packages/Init/templates/*
@@ -96,9 +96,6 @@ parameters:
         - '#Unreachable statement \- code above always terminates#'
         - '#Property Symplify\\Autodiscovery\\Tests\\Twig\\TwigPathAutodiscoveryTest\:\:\$twigFilesystemLoader \(Twig\\Loader\\FilesystemLoader\) does not accept Twig\\Loader\\LoaderInterface#'
 
-        # magic properties
-        - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:(.*?)#'
-
         # false positive
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
         - '#Parameter \#1 \$subject of static method Nette\\Utils\\Strings\:\:match\(\) expects string, string\|false given#'
@@ -117,24 +114,17 @@ parameters:
         - '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
         - '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\Migrator\\Worker\\StatieImportsAdder\:\:addImportSection\(\) expects array<string\>, array<array<string, string\>\|string\> given#'
         - '#Cannot access offset int on int#'
-        - '#Class Symplify\\PHPStanExtensions\\Rules\\Classes\\MatchingTypeConstantRule implements generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-        - '#Class Symplify\\PHPStanExtensions\\Tests\\Rules\\Classes\\MatchingTypeConstantRuleTest extends generic class PHPStan\\Testing\\RuleTestCase but does not specify its types\: TRule#'
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
         - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
-        - '#PHPDoc tag @var for variable \$reflectionClass contains generic class ReflectionClass but does not specify its types\: T#'
 
         # helps ide
-        - '#Class Symplify\\Statie\\Renderable\\File\\PostFile implements generic interface ArrayAccess but does not specify its types\: TKey, TValue#'
         - '#Method Symplify\\CodingStandard\\TokenRunner\\Tests\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
 
         # mixed by default, handled by coding standards
         - '#(has|with) no (return )?typehint specified#'
         - '#Offset (.*?) does not exist on array\|null#'
         - '#in iterable type#'
-        - '#Method Symplify\\PHPStanExtensions\\Tests\\Rules\\Classes\\MatchingTypeConstantRuleTest\:\:getRule\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
-        - '#Class Symplify\\PHPStanExtensions\\Rules\\ClassMethod\\BoolishClassMethodPrefixRule implements generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
 
         - '#Strict comparison using \=\=\= between string\|false and null will always evaluate to false#'
-        - '#Parameter \#1 \$json of static method Nette\\Utils\\Json\:\:decode\(\) expects string, string\|false given#'
         - '#Parameter \#1 \$jsonContent of method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:loadContentJsonStringToArray\(\) expects string, string\|false given#'
         - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'

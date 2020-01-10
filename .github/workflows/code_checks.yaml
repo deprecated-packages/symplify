@@ -8,90 +8,57 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            -
-                name: Checkout code
-                uses: actions/checkout@v2
-
-            -
-                name: Setup PHP
-                uses: shivammathur/setup-php@v1
-                with:
-                    php-version: 7.3
-                    coverage: none
-
-            -
-                name: Install
-                run: composer install --no-progress
-
-            -
-                name: Run
-                run: composer check-cs
-
-    phpstan:
-        runs-on: ubuntu-latest
-
-        steps:
-            -
-                name: Checkout code
-                uses: actions/checkout@v2
-
-            -
-                name: Setup PHP
-                uses: shivammathur/setup-php@v1
-                with:
-                    php-version: 7.3
-                    coverage: none
-
-            -
-                name: Install
-                run: composer install --no-progress
-
-            -
-                name: Run
-                run: composer phpstan
-
-    rector:
-        runs-on: ubuntu-latest
-
-        steps:
-            -
-                name: Checkout code
-                uses: actions/checkout@v2
-
-            -
-                name: Setup PHP
-                uses: shivammathur/setup-php@v1
-                with:
-                    php-version: 7.3
-                    coverage: none
-
-            -
-                name: Install
-                run: composer install --no-progress
-
-            -
-                name: Run
-                run: composer rector
-
-    binary_files:
-        runs-on: ubuntu-latest
-
-        steps:
-            -
-                name: Checkout code
-                uses: actions/checkout@v2
-
-            -
-                name: Setup PHP
-                uses: shivammathur/setup-php@v1
+            -   uses: actions/checkout@v2
+            # see https://github.com/shivammathur/setup-php
+            -   uses: shivammathur/setup-php@v1
                 with:
                     php-version: 7.3
                     coverage: none
 
             -   run: composer install --no-progress
+            -   run: composer check-cs
 
-            -
-                run: |
+    phpstan:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.3
+                    coverage: none
+
+            -   run: composer install --no-progress
+            -   run: composer phpstan
+
+    rector:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.3
+                    coverage: none
+
+            -   run: composer install --no-progress
+            -   run: composer rector
+
+    binary_files:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.3
+                    coverage: none
+
+            -   run: composer install --no-progress
+            -   run: |
                     # test run bin files
                     packages/Autodiscovery/bin/autodiscovery
                     packages/EasyCodingStandard/bin/ecs
@@ -107,22 +74,14 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            -
-                name: Checkout code
-                uses: actions/checkout@v2
+            -   uses: actions/checkout@v2
 
-            -
-                name: Setup PHP
-                uses: shivammathur/setup-php@v1
+            -   uses: shivammathur/setup-php@v1
                 with:
                     php-version: 7.3
                     coverage: none
 
-            -
-                name: Install
-                run: composer install --no-progress
+            -   run: composer install --no-progress
 
-            -
-                name: Run
-                # validate monorepo <=> packages composer dependencies
-                run: packages/MonorepoBuilder/bin/monorepo-builder validate
+            # validate monorepo <=> packages composer dependencies
+            -   run: packages/MonorepoBuilder/bin/monorepo-builder validate
