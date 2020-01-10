@@ -73,50 +73,6 @@ jobs:
                 name: Run
                 run: composer rector
 
-    ecs_phar_compile:
-            runs-on: ubuntu-latest
-
-            steps:
-                -
-                    name: Checkout code
-                    uses: actions/checkout@v2
-
-                -
-                    name: Setup PHP
-                    uses: shivammathur/setup-php@v1
-                    with:
-                        php-version: 7.2
-                        coverage: none
-
-                -
-                    run:  |
-                        cd packages/EasyCodingStandard/compiler
-                        composer install
-                        bin/compile
-                        php build/box.phar info ../tmp/ecs.phar
-                        ../tmp/ecs.phar
-
-                        cd ..
-
-                        # Deploy PHAR to https://github.com/Symplify/EasyCodingStandardPrefixed
-                        # reuse tmp/rector.phar from previous job
-                        git clone https://${ACCESS_TOKEN}@github.com/Symplify/EasyCodingStandardPrefixed.git > /dev/null 2>&1
-                        cp tmp/ecs.phar EasyCodingStandardPrefixed/ecs.phar
-                        cp tmp/ecs.phar EasyCodingStandardPrefixed/ecs
-                        cd EasyCodingStandardPrefixed
-                        git config user.email "action@github.com"
-                        git config user.name "Github Actions"
-                        git add ecs ecs.phar
-
-                        if [ "${TRAVIS_TAG}" != "" ]; then COMMIT_MSG="ECS ${TRAVIS_TAG}"; else COMMIT_MSG="Updated ECS to commit ${TRAVIS_COMMIT}"; fi
-
-                        git commit -m "${COMMIT_MSG}"
-                        git push --quiet origin master
-
-                        if [ "${TRAVIS_TAG}" != "" ]; then git tag "${TRAVIS_TAG}" && git push --quiet origin ${TRAVIS_TAG}; fi
-                    env:
-                        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-
     binary_files:
         runs-on: ubuntu-latest
 

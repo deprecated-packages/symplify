@@ -1,0 +1,75 @@
+name: Prefixed ECS Deploy
+
+on:
+    pull_request: null
+    push:
+        branches:
+            - master
+
+jobs:
+    ecs_phar_compile:
+        runs-on: ubuntu-latest
+
+        steps:
+            -
+                name: Checkout code
+                uses: actions/checkout@v2
+
+            -
+                name: Setup PHP
+                uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.2
+                    coverage: none
+
+            -
+                name: Install
+                run:  |
+                    # install
+                    cd packages/EasyCodingStandard/compiler
+                    composer install
+
+            -
+                name: Compile ecs.phar with Box and PHP Scoper
+                run:  |
+                    # compile
+                    cd packages/EasyCodingStandard/compiler
+                    bin/compile
+
+            -
+                name: Run ecs.phar
+                run:  |
+                    cd packages/EasyCodingStandard/compiler
+                    ../tmp/ecs.phar
+
+            -
+                name: Run ecs.phar with PSR-12 set
+                run:  |
+                    cd packages/EasyCodingStandard/compiler
+                    ../tmp/ecs.phar check ../src --set psr12 --dry-run --debug
+
+            # Deploy PHAR to https://github.com/Symplify/EasyCodingStandardPrefixed
+            -
+                name: Publish ecs.phar to Symplify/EasyCodingStandardPrefixed
+                run: |
+                    cd packages/EasyCodingStandard
+
+                    # reuse tmp/ecs.phar from previous job
+                    git clone https://${ACCESS_TOKEN}@github.com/Symplify/EasyCodingStandardPrefixed.git > /dev/null 2>&1
+
+                    cp tmp/ecs.phar EasyCodingStandardPrefixed/ecs.phar
+                    cp tmp/ecs.phar EasyCodingStandardPrefixed/ecs
+                    cd EasyCodingStandardPrefixed
+
+                    git config user.email "action@github.com"
+                    git config user.name "Github Actions"
+                    git add ecs ecs.phar
+
+                    if [ "${TRAVIS_TAG}" != "" ]; then COMMIT_MSG="ECS ${TRAVIS_TAG}"; else COMMIT_MSG="Updated ECS to commit ${TRAVIS_COMMIT}"; fi
+
+                    git commit -m "${COMMIT_MSG}"
+                    git push --quiet origin master
+
+                    if [ "${TRAVIS_TAG}" != "" ]; then git tag "${TRAVIS_TAG}" && git push --quiet origin ${TRAVIS_TAG}; fi
+                env:
+                    ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
