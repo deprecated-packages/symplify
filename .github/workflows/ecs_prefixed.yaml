@@ -39,14 +39,18 @@ jobs:
             -
                 name: Run ecs.phar
                 run:  |
-                    cd packages/EasyCodingStandard/compiler
-                    ../tmp/ecs.phar
+                    # remove local vendor, to prevent duplicated content
+                    rm -rf packages/EasyCodingStandard/vendor
+                    cd packages/EasyCodingStandard
+                    tmp/ecs.phar
 
             -
                 name: Run ecs.phar with PSR-12 set
                 run:  |
-                    cd packages/EasyCodingStandard/compiler
-                    ../tmp/ecs.phar check ../src --set psr12 --dry-run --debug
+                    cd packages/EasyCodingStandard
+                    # create dummy file
+                    echo "<?php echo 'hi';" >> someFile.php
+                    tmp/ecs.phar check someFile.php --set dead-code
 
             # Deploy PHAR to https://github.com/Symplify/EasyCodingStandardPrefixed
             -
@@ -57,19 +61,23 @@ jobs:
                     # reuse tmp/ecs.phar from previous job
                     git clone https://${ACCESS_TOKEN}@github.com/Symplify/EasyCodingStandardPrefixed.git > /dev/null 2>&1
 
+                    # copy phar files inside cloned repository
                     cp tmp/ecs.phar EasyCodingStandardPrefixed/ecs.phar
                     cp tmp/ecs.phar EasyCodingStandardPrefixed/ecs
-                    cd EasyCodingStandardPrefixed
 
+                    # go to clone repository
+                    cd EasyCodingStandardPrefixed
                     git config user.email "action@github.com"
                     git config user.name "Github Actions"
                     git add ecs ecs.phar
 
+                    # commit with new tag, if this commit is tagged, or with normal commit
                     if [ "${TRAVIS_TAG}" != "" ]; then COMMIT_MSG="ECS ${TRAVIS_TAG}"; else COMMIT_MSG="Updated ECS to commit ${TRAVIS_COMMIT}"; fi
-
                     git commit -m "${COMMIT_MSG}"
+
                     git push --quiet origin master
 
+                    # push tag, if this commit is tagged, or with normal push
                     if [ "${TRAVIS_TAG}" != "" ]; then git tag "${TRAVIS_TAG}" && git push --quiet origin ${TRAVIS_TAG}; fi
                 env:
                     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
