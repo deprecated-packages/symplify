@@ -24,3 +24,6 @@ jobs:
             # split monorepo to packages - only on merge to master
             # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
             -   run: packages/MonorepoBuilder/bin/monorepo-builder split --max-processes 7
+                env:
+                    GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
