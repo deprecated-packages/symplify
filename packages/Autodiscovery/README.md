@@ -1,6 +1,6 @@
 # Load Entities, Twig paths and Routes once and for All
 
-[![Build Status](https://img.shields.io/travis/Symplify/Autodiscovery/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Autodiscovery)
+[![Build Status Github Actions](https://img.shields.io/github/workflow/status/Symplify/Autodiscovery/Code_Checks?style=flat-square)](https://github.com/Symplify/Autodiscovery/actions)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/autodiscovery.svg?style=flat-square)](https://packagist.org/packages/symplify/autodiscovery/stats)
 
 For every

@@ -34,11 +34,11 @@ final class ConfigResolverTest extends TestCase
 
     public function provideOptionsAndExpectedConfig(): Iterator
     {
-        yield [['--config' => '.travis.yml'], getcwd() . '/.travis.yml'];
-        yield [['-c' => '.travis.yml'], getcwd() . '/.travis.yml'];
+        yield [['--config' => 'README.md'], getcwd() . '/README.md'];
+        yield [['-c' => 'README.md'], getcwd() . '/README.md'];
 
-        yield [['--config' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml'];
-        yield [['-c' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml'];
+        yield [['--config' => getcwd() . '/README.md'], getcwd() . '/README.md'];
+        yield [['-c' => getcwd() . '/README.md'], getcwd() . '/README.md'];
 
         yield [['--', 'sh', '-c' => '/bin/true'], null];
     }

@@ -1,6 +1,6 @@
 # Auto Bind Parameters for Symfony Apps
 
-[![Build Status](https://img.shields.io/travis/Symplify/AutoBindParameter/master.svg?style=flat-square)](https://travis-ci.org/Symplify/AutoBindParameter)
+[![Build Status Github Actions](https://img.shields.io/github/workflow/status/Symplify/AutoBindParameter/Code_Checks?style=flat-square)](https://github.com/Symplify/AutoBindParameter/actions)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/auto-bind-parameter.svg?style=flat-square)](https://packagist.org/packages/symplify/auto-bind-parameter/stats)
 
 ## Install

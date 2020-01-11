@@ -4,7 +4,7 @@
 
 <h1 align="center">Statie - Modern and Simple Static Site Generator in PHP</h1>
 
-[![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
+[![Build Status Github Actions](https://img.shields.io/github/workflow/status/Symplify/Statie/Code_Checks?style=flat-square)](https://github.com/Symplify/Statie/actions)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/statie.svg?style=flat-square)](https://packagist.org/packages/symplify/statie/stats)
 
 Statie takes HTML, Markdown and Twig files and generates static HTML page.

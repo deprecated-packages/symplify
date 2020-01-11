@@ -1,7 +1,7 @@
 
 # Package Builder
 
-[![Build Status](https://img.shields.io/travis/Symplify/PackageBuilder/master.svg?style=flat-square)](https://travis-ci.org/Symplify/PackageBuilder)
+[![Build Status Github Actions](https://img.shields.io/github/workflow/status/Symplify/PackageBuilder/Code_Checks?style=flat-square)](https://github.com/Symplify/PackageBuilder/actions)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder/stats)
 
 This tools helps you with Collectors in DependecyInjection, Console shortcuts, ParameterProvider as service and many more.
