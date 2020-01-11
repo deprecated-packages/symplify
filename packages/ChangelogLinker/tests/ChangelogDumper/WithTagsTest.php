@@ -25,6 +25,10 @@ final class WithTagsTest extends TestCase
 
     protected function setUp(): void
     {
+        if (! defined('SYMPLIFY_MONOREPO')) {
+            $this->markTestSkipped('This test is missing full git monorepo history in split');
+        }
+
         $this->changelogDumper = new ChangelogDumper(new GitCommitDateTagResolver(), new ChangelogFormatter());
 
         $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'v4.0.0')];
@@ -34,12 +38,7 @@ final class WithTagsTest extends TestCase
     {
         $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, false, false, 'categories');
 
-        if (defined('SYMPLIFY_MONOREPO')) {
-            $expectedFile = __DIR__ . '/WithTagsSource/expected1.md';
-        } else {
-            $expectedFile = __DIR__ . '/WithTagsSource/expected1-split.md';
-        }
-
+        $expectedFile = __DIR__ . '/WithTagsSource/expected1.md';
         $this->assertStringEqualsFile($expectedFile, $content);
     }
 
@@ -64,12 +63,7 @@ final class WithTagsTest extends TestCase
 
     public function provideDataForReportChangesWithHeadlines(): Iterator
     {
-        if (defined('SYMPLIFY_MONOREPO')) {
-            yield [true, false, null, __DIR__ . '/WithTagsSource/expected2.md'];
-            yield [false, true, null, __DIR__ . '/WithTagsSource/expected3.md'];
-        } else {
-            yield [true, false, null, __DIR__ . '/WithTagsSource/expected2-split.md'];
-            yield [false, true, null, __DIR__ . '/WithTagsSource/expected3-split.md'];
-        }
+        yield [true, false, null, __DIR__ . '/WithTagsSource/expected2.md'];
+        yield [false, true, null, __DIR__ . '/WithTagsSource/expected3.md'];
     }
 }
