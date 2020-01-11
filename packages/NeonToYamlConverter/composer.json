@@ -9,9 +9,9 @@
         "php": "^7.2",
         "nette/utils": "^3.0",
         "nette/neon": "^3.0",
-        "symplify/package-builder": "^7.3",
-        "symplify/smart-file-system": "^7.3",
-        "symplify/autowire-array-parameter": "^7.3",
+        "symplify/package-builder": "^7.2.1",
+        "symplify/smart-file-system": "^7.2.1",
+        "symplify/autowire-array-parameter": "^7.2.1",
         "symfony/http-kernel": "^4.4|^5.0",
         "symfony/yaml": "^4.4|^5.0"
     },
