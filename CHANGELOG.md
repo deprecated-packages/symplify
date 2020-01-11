@@ -9,7 +9,21 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v7.2.0 - 2020-01-06
+## Unreleased
+
+### Added
+
+#### EasyCodingStandard
+
+- [#1735] Add paths parameter to ECS
+- [#1734] Add ecs.phar
+
+### Changed
+
+- [#1731] Travis to Github Actions
+- [#1737] Improve Github Actions
+
+## [v7.2.0] - 2020-01-06
 
 - [#1716] Decouple new **AutoBindParameter** package
 - [#1715] Decouple new **AutowireArrayParameter** package
@@ -25,6 +39,8 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1722] Add BoolishClassMethodPrefixRule
 
 ### Changed
+
+- [#1728] travis: speedup coverage with pcov
 
 #### EasyCodingStandard
 
@@ -576,7 +592,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#1724]: https://github.com/Symplify/Symplify/pull/1724
 [#1723]: https://github.com/Symplify/Symplify/pull/1723
 [#1722]: https://github.com/Symplify/Symplify/pull/1722
-[#1721]: https://github.com/Symplify/Symplify/pull/1721
 [#1720]: https://github.com/Symplify/Symplify/pull/1720
 [#1718]: https://github.com/Symplify/Symplify/pull/1718
 [#1717]: https://github.com/Symplify/Symplify/pull/1717
@@ -603,3 +618,12 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@leofeyer]: https://github.com/leofeyer
 [@enumag]: https://github.com/enumag
 [@Rarst]: https://github.com/Rarst
+[#1737]: https://github.com/Symplify/Symplify/pull/1737
+[#1736]: https://github.com/Symplify/Symplify/pull/1736
+[#1735]: https://github.com/Symplify/Symplify/pull/1735
+[#1734]: https://github.com/Symplify/Symplify/pull/1734
+[#1733]: https://github.com/Symplify/Symplify/pull/1733
+[#1732]: https://github.com/Symplify/Symplify/pull/1732
+[#1731]: https://github.com/Symplify/Symplify/pull/1731
+[#1728]: https://github.com/Symplify/Symplify/pull/1728
+[v7.2.0]: https://github.com/Symplify/Symplify/compare/v7.1.3...v7.2.0
