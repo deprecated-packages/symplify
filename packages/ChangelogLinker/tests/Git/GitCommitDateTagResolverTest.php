@@ -55,8 +55,6 @@ final class GitCommitDateTagResolverTest extends TestCase
 
     public function provideDataResolveDateForTag(): Iterator
     {
-        yield ['v4.4.0', '2018-06-03'];
-
         // different dates on tags after split
         if (defined('SYMPLIFY_MONOREPO')) {
             yield ['v4.4.1', '2018-06-07'];

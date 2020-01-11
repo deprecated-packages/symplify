@@ -4,6 +4,64 @@ on:
     - pull_request
 
 jobs:
+    tests:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php: ['7.2', '7.3', '7.4']
+
+        name: PHP ${{ matrix.php }} tests
+        steps:
+            -   uses: actions/checkout@v2
+            # required for "git tag" presence for MonorepoBuilder split and ChangelogLinker git tags resolver; default is 1
+            -   run: git fetch --depth=100000 origin
+
+            # see https://github.com/shivammathur/setup-php
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: ${{ matrix.php }}
+                    coverage: none
+
+            -   run: composer install --no-progress
+            -   run: vendor/bin/phpunit
+
+    test_lowest_dependencies:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+            -   run: git fetch --depth=100000 origin
+
+            # see https://github.com/shivammathur/setup-php
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.2
+                    coverage: none
+
+            -   run: composer update --no-progress --prefer-lowest
+            -   run: vendor/bin/phpunit
+
+    test_coverage:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+            -   run: git fetch --depth=100000 origin
+
+            # see https://github.com/shivammathur/setup-php
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.2
+                    coverage: none
+
+            -   run: composer install --no-progress
+            -   run : |
+                    # code coverage run + upload to coveralls.io
+                    phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-clover coverage.xml
+                    # coveralls.io
+                    wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
+                    php php-coveralls.phar --verbose
+                env:
+                    COVERALLS_REPO_TOKEN: 'rYS9SgezlMuTKOFsiak3xD34lxNe8iQtl'
+
     ecs:
         runs-on: ubuntu-latest
 

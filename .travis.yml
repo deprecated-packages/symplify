@@ -2,19 +2,6 @@ os: linux
 
 language: php
 
-# required for "git tag" presence for MonorepoBuilder split and ChangelogLinker git tags resolver
-# see https://github.com/travis-ci/travis-ci/issues/7422
-git:
-    depth: false
-    # To ensure the line feeds aren't modified by git
-    # see https://docs.travis-ci.com/user/customizing-the-build/#git-end-of-line-conversion-control
-    autocrlf: false
-
-php:
-    - '7.2'
-    - '7.3'
-    - '7.4'
-
 script:
     - vendor/bin/phpunit
 
@@ -28,37 +15,6 @@ before_install:
 jobs:
     include:
         -
-            stage: test
-            name: 'Lowest Dependencies'
-            php: 7.2
-            install:
-                # install lowest dependencies
-                - composer update --prefer-lowest --no-progress
-
-        -
-            stage: test
-            name: Unit Tests
-
-        -
-            stage: test
-            name: Test Coverage
-            php: 7.3
-            script:
-                # code coverage run + upload to coveralls.io
-                - phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-clover coverage.xml
-                # coveralls.io
-                - wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
-                - php php-coveralls.phar --verbose
-
-        -
-            stage: deploy
-            name: 'Slow API Tests'
-            if: branch = master AND type = push
-            script:
-                # run slow api test only on master, because they require token
-                - vendor/bin/phpunit --group api
-
-        -
             stage: deploy
             name: 'Split Monorepo'
             if: branch = master AND type = push
@@ -67,11 +23,6 @@ jobs:
                 # split monorepo to packages - only on merge to master
                 # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
                 - packages/MonorepoBuilder/bin/monorepo-builder split --max-processes 7
-
-cache:
-    directories:
-        - $HOME/.composer/cache
-        - tmp
 
 notifications:
     email: false
