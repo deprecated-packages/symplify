@@ -72,8 +72,8 @@ jobs:
 
                     # go to clone repository
                     cd EasyCodingStandardPrefixed
-                    git config user.email "action@github.com"
-                    git config user.name "Github Actions"
+                    git config user.name "TomasVotruba"
+                    git config user.email "tomas.vot@gmail.com"
                     git add ecs ecs.phar
 
                     # commit with new tag, if this commit is tagged, or with normal commit
