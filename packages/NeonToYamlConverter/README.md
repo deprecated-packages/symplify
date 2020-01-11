@@ -1,6 +1,6 @@
 # Neon to Yaml Converter
 
-[![Build Status](https://img.shields.io/travis/Symplify/NeonToYamlConverter/master.svg?style=flat-square)](https://travis-ci.org/Symplify/NeonToYamlConverter)
+[![Build Status Github Actions](https://img.shields.io/github/workflow/status/Symplify/NeonToYamlConverter/Code_Checks?style=flat-square)](https://github.com/Symplify/NeonToYamlConverter/actions)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/neon-to-yaml-converter.svg?style=flat-square)](https://packagist.org/packages/symplify/neon-to-yaml-converter/stats)
 
 Do you want to turn your [Neon](https://ne-on.org/) templates to [Yaml](https://symfony.com/doc/current/components/yaml.html)? There are [many differences](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/) you need to watch out for.

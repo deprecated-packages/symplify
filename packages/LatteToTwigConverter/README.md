@@ -1,6 +1,6 @@
 # Latte to Twig Converter
 
-[![Build Status](https://img.shields.io/travis/Symplify/LatteToTwigConverter/master.svg?style=flat-square)](https://travis-ci.org/Symplify/LatteToTwigConverter)
+[![Build Status Github Actions](https://img.shields.io/github/workflow/status/Symplify/LatteToTwigConverter/Code_Checks?style=flat-square)](https://github.com/Symplify/LatteToTwigConverter/actions)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/latte-to-twig-converter.svg?style=flat-square)](https://packagist.org/packages/symplify/latte-to-twig-converter/stats)
 
 Do you want to turn your [Latte](https://latte.nette.org/en/) templates to [Twig](https://twig.symfony.com/)?

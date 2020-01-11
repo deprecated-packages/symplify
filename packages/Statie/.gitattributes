@@ -7,4 +7,3 @@ docs/ export-ignore
 
 # part of Statie templates
 # .gitignore export-ignore
-# .travis.yml export-ignore
