@@ -7,6 +7,16 @@ on:
             - master
 
 jobs:
+    # see https://github.community/t5/GitHub-Actions/How-to-get-just-the-tag-name/m-p/32163/highlight/true#M1024
+    get_tag:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+            -
+                name: Get the version
+                id: get_tag
+                run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
     ecs_phar_compile:
         runs-on: ubuntu-latest
 
@@ -67,12 +77,13 @@ jobs:
                     git add ecs ecs.phar
 
                     # commit with new tag, if this commit is tagged, or with normal commit
-                    if [ "${TRAVIS_TAG}" != "" ]; then COMMIT_MSG="ECS ${TRAVIS_TAG}"; else COMMIT_MSG="Updated ECS to commit ${TRAVIS_COMMIT}"; fi
-                    git commit -m "${COMMIT_MSG}"
+                    if [ "${CURRENT_TAG}" != "" ]; then COMMIT_MESSAGE="ECS ${CURRENT_TAG}"; else COMMIT_MESSAGE="Updated ECS to commit ${GITHUB_SHA}"; fi
+                    git commit -m "${COMMIT_MESSAGE}"
 
                     git push --quiet origin master
 
                     # push tag, if this commit is tagged, or with normal push
-                    if [ "${TRAVIS_TAG}" != "" ]; then git tag "${TRAVIS_TAG}" && git push --quiet origin ${TRAVIS_TAG}; fi
+                    if [ "${CURRENT_TAG}" != "" ]; then git tag "${CURRENT_TAG}" && git push --quiet origin ${CURRENT_TAG}; fi
                 env:
                     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                    CURRENT_TAG: ${{ steps.get_tag.outputs.VERSION }}
