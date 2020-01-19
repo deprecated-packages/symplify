@@ -35,11 +35,15 @@ final class ReleaseWorkerProvider
 
         $activeReleaseWorkers = [];
         foreach ($this->releaseWorkersByPriority as $releaseWorker) {
-            if ($releaseWorker instanceof StageAwareInterface) {
-                if ($stage === $releaseWorker->getStage()) {
-                    $activeReleaseWorkers[] = $releaseWorker;
-                }
+            if (! $releaseWorker instanceof StageAwareInterface) {
+                continue;
             }
+
+            if ($stage !== $releaseWorker->getStage()) {
+                continue;
+            }
+
+            $activeReleaseWorkers[] = $releaseWorker;
         }
 
         return $activeReleaseWorkers;

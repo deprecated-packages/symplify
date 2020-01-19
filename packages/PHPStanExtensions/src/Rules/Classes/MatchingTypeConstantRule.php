@@ -120,13 +120,15 @@ final class MatchingTypeConstantRule implements Rule
         }
 
         // special bool case
-        if ($expr instanceof ConstFetch && $type === 'bool') {
-            if (in_array($expr->name->toLowerString(), ['false', 'true'], true)) {
-                return true;
-            }
+        if (! $expr instanceof ConstFetch) {
+            return false;
         }
 
-        return false;
+        if ($type !== 'bool') {
+            return false;
+        }
+
+        return in_array($expr->name->toLowerString(), ['false', 'true'], true);
     }
 
     /**

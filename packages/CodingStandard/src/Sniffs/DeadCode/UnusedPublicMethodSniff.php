@@ -275,11 +275,11 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface, Resettab
     private function collectMethodNames(array $token): void
     {
         // possible method call in string
-        if ($token['code'] === T_CONSTANT_ENCAPSED_STRING) {
-            // match method name
-            if (Strings::match($token['content'], '#^\'[a-z]{1}[a-zA-Z]+\'$#')) {
-                $this->calledMethodNames[] = trim($token['content'], '\'');
-            }
+        if ($token['code'] === T_CONSTANT_ENCAPSED_STRING && Strings::match(
+            $token['content'],
+            '#^\'[a-z]{1}[a-zA-Z]+\'$#'
+        )) {
+            $this->calledMethodNames[] = trim($token['content'], '\'');
         }
 
         // SomeClass::"someMethod"

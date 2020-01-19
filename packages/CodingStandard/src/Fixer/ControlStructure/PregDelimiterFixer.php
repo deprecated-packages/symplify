@@ -172,12 +172,9 @@ final class PregDelimiterFixer extends AbstractSymplifyFixer implements Configur
             function (array $match): string {
                 $innerPattern = $match['content'];
 
-                if (strlen($innerPattern) > 2) {
-                    // change delimiter
-                    if ($innerPattern[0] === $innerPattern[strlen($innerPattern) - 1]) {
-                        $innerPattern[0] = $this->delimiter;
-                        $innerPattern[strlen($innerPattern) - 1] = $this->delimiter;
-                    }
+                if (strlen($innerPattern) > 2 && $innerPattern[0] === $innerPattern[strlen($innerPattern) - 1]) {
+                    $innerPattern[0] = $this->delimiter;
+                    $innerPattern[strlen($innerPattern) - 1] = $this->delimiter;
                 }
 
                 return $match['open'] . $innerPattern . $match['close'];
