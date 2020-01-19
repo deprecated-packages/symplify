@@ -128,3 +128,4 @@ parameters:
         - '#Strict comparison using \=\=\= between string\|false and null will always evaluate to false#'
         - '#Parameter \#1 \$jsonContent of method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:loadContentJsonStringToArray\(\) expects string, string\|false given#'
         - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'
+        - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File\:\:findNext\(\) expects int\|null, int<1, max\>\|int<min, \-1\>\|true given#'
