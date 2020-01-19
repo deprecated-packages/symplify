@@ -109,10 +109,8 @@ final class DependencyUpdater
                 continue;
             }
 
-            if ($shouldSkipCallback !== null) {
-                if ($shouldSkipCallback($smartFileInfo, $packageName, $section)) {
-                    continue;
-                }
+            if ($shouldSkipCallback !== null && $shouldSkipCallback($smartFileInfo, $packageName, $section)) {
+                continue;
             }
 
             $json[$section][$packageName] = $targetVersion;
@@ -142,10 +140,8 @@ final class DependencyUpdater
                 continue;
             }
 
-            if ($shouldSkipCallback !== null) {
-                if ($shouldSkipCallback($smartFileInfo, $packageName, $section)) {
-                    continue;
-                }
+            if ($shouldSkipCallback !== null && $shouldSkipCallback($smartFileInfo, $packageName, $section)) {
+                continue;
             }
 
             $json[$section][$packageName] = $targetVersion;

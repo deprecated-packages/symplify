@@ -344,11 +344,13 @@ final class ExplicitToAutodiscoveryConverter
      */
     private function processTags(array $service): array
     {
-        if (isset($service[YamlKey::TAGS])) {
-            if ($this->tagAnalyzer->isAutoconfiguredTags($service[YamlKey::TAGS])) {
-                unset($service[YamlKey::TAGS]);
-                $this->enableAutoconfigure = true;
-            }
+        if (! isset($service[YamlKey::TAGS])) {
+            return $service;
+        }
+
+        if ($this->tagAnalyzer->isAutoconfiguredTags($service[YamlKey::TAGS])) {
+            unset($service[YamlKey::TAGS]);
+            $this->enableAutoconfigure = true;
         }
 
         return $service;
