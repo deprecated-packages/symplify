@@ -6,8 +6,7 @@ services:
     Symplify\CodingStandard\TokenRunner\:
         resource: '../src'
         exclude:
-            - '../src/Naming/Name/Name.php'
-            - '../src/Analyzer/FixerAnalyzer/BlockInfo.php'
+            - '../src/ValueObject/*'
             - '../src/Wrapper/*Wrapper/*Wrapper.php'
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~

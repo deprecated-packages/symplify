@@ -66,7 +66,7 @@ parameters:
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Cannot access offset (.*?) on Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile#'
         - '#Parameter \#1 \$stack of function array_pop expects array, array<int, string>\|false given#'
-        - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
+        - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\ValueObject\\BlockInfo\|null#'
         - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
 
         # variadic

@@ -9,9 +9,9 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
+use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 final class LineLengthTransformer
