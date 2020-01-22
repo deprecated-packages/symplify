@@ -27,13 +27,10 @@ jobs:
                     php-version: 7.2
                     coverage: none
 
-            -
-                name: Install
-                run:  |
+            -   run: |
                     # install
                     cd packages/EasyCodingStandard/compiler
                     composer install
-
             -
                 name: Compile ecs.phar with Box and PHP Scoper
                 run:  |
