@@ -31,6 +31,6 @@ return [
     ],
     'whitelist' => [
         // needed for autoload, that is not prefixed, since it's in bin/* file
-        'Symplify\*',
+        'Symplify\*', 'PhpCsFixer\*', 'PHP_CodeSniffer\*'
     ],
 ];
