@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer;
+namespace Symplify\CodingStandard\TokenRunner\ValueObject;
 
 final class BlockInfo
 {

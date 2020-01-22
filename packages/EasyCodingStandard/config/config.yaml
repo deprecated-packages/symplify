@@ -4,7 +4,7 @@ imports:
     # A. in monorepo
     - { resource: '../../CodingStandard/packages/TokenRunner/config/config.yaml', ignore_errors: true }
     # B. as dependency
-    - { resource: '%vendor%/symplify/coding-standard/packages/TokenRunner/config/config.yaml', ignore_errors: true }
+    - { resource: '../../vendor/symplify/coding-standard/packages/TokenRunner/config/config.yaml', ignore_errors: true }
 
 parameters:
     # defaults for "PhpCsFixer\WhitespacesFixerConfig"

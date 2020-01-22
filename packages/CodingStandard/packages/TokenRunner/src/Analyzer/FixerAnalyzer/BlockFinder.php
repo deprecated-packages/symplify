@@ -8,6 +8,7 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Exception\MissingImplementationException;
+use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Throwable;
 
 final class BlockFinder

@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\TokenRunner\Naming\Name;
 use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\TokenRunner\ValueObject\Name;
 
 final class NameFactory
 {

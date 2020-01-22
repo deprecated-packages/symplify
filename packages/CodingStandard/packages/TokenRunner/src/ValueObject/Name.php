@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\TokenRunner\Naming\Name;
+namespace Symplify\CodingStandard\TokenRunner\ValueObject;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;

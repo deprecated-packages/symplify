@@ -15,8 +15,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
 use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
+use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Throwable;
 
 final class LineLengthFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
