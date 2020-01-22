@@ -1,0 +1,29 @@
+name: Unit Tests
+
+on:
+    pull_request: null
+    push:
+        branches:
+            - master
+
+jobs:
+    unit_tests:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php: ['7.2', '7.3', '7.4']
+
+        name: PHP ${{ matrix.php }} tests
+        steps:
+            -   uses: actions/checkout@v2
+            # required for "git tag" presence for MonorepoBuilder split and ChangelogLinker git tags resolver; default is 1
+            -   run: git fetch --depth=100000 origin
+
+            # see https://github.com/shivammathur/setup-php
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: ${{ matrix.php }}
+                    coverage: none
+
+            -   run: composer install --no-progress
+            -   run: vendor/bin/phpunit
