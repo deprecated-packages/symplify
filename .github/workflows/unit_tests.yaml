@@ -17,11 +17,8 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
             # required for "git tag" presence for monorepo-builder split and changelog-linker git tags resolver; default is 1
-                with:
-                    clean: false
-                    fetch-depth: 10000
-
-#            -   run: git fetch --depth=100000 origin
+            # https://github.com/actions/checkout#fetch-all-tags
+            -   run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
             # see https://github.com/shivammathur/setup-php
             -   uses: shivammathur/setup-php@v1

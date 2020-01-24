@@ -11,7 +11,7 @@ use Iterator;
  */
 final class ChangeFactoryTest extends AbstractChangeFactoryTest
 {
-    public function testeEgoTag(): void
+    public function testEgoTag(): void
     {
         $pullRequest = [
             'number' => 10,
@@ -71,17 +71,15 @@ final class ChangeFactoryTest extends AbstractChangeFactoryTest
 
     public function testTagDetection(): void
     {
-        if (! defined('SYMPLIFY_MONOREPO')) {
-            $this->markTestSkipped('Can be tested only with merge commit in monorepo, not in split where are no PRs.');
-        }
+        $this->markTestSkipped('Unable to run in Github Actions now');
 
         $pullRequest = [
             'number' => 10,
-            'title' => '[SomePackage] SomeMessage',
-            'merge_commit_sha' => '58f3eea3a043998e272e70079bccb46fac10e4ad',
+            'title' => 'whatever',
+            'merge_commit_sha' => '1dca927645478dabe8fa260b0e241c5068f01e63',
         ];
         $change = $this->changeFactory->createFromPullRequest($pullRequest);
 
-        $this->assertSame('v4.2.0', $change->getTag());
+        $this->assertSame('v7.2.0', $change->getTag());
     }
 }
