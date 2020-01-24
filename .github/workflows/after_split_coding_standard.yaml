@@ -19,8 +19,11 @@ jobs:
                     coverage: none
 
             -   run: |
+                    composer install --no-progress
+                    packages/monorepo-builder/bin/monorepo-builder localize-composer-paths
+
                     cd packages/coding-standard
 
                     # todo use local
-                    composer install --no-progress
+                    composer update --no-progress
                     vendor/bin/phpunit

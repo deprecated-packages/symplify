@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Release\Guard;
 
 use PharIo\Version\Version;
-use Symplify\MonorepoBuilder\Configuration\Option;
 use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Exception\ConfigurationException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 
 final class ReleaseGuard
 {

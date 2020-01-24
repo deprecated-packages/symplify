@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
-use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
+use Symplify\MonorepoBuilder\ValueObject\Section;
 
 final class SortAutoloadComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {

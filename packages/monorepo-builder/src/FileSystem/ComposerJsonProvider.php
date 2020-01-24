@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\FileSystem;
 
+use Symplify\MonorepoBuilder\Exception\ShouldNotHappenException;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -23,6 +24,11 @@ final class ComposerJsonProvider
     {
         $this->jsonFileManager = $jsonFileManager;
         $this->packageComposerFinder = $packageComposerFinder;
+    }
+
+    public function getRootFileInfo(): SmartFileInfo
+    {
+        return $this->packageComposerFinder->getRootPackageComposerFile();
     }
 
     /**
@@ -47,5 +53,19 @@ final class ComposerJsonProvider
     public function getRootAndPackageFileInfos(): array
     {
         return array_merge($this->getPackagesFileInfos(), [$this->packageComposerFinder->getRootPackageComposerFile()]);
+    }
+
+    public function getPackageByName(string $packageName): SmartFileInfo
+    {
+        foreach ($this->packageComposerFinder->getPackageComposerFiles() as $smartFileInfo) {
+            $json = $this->jsonFileManager->loadFromFileInfo($smartFileInfo);
+            if ($json['name'] !== $packageName) {
+                continue;
+            }
+
+            return $smartFileInfo;
+        }
+
+        throw new ShouldNotHappenException();
     }
 }

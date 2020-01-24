@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Package;
 
 use Symplify\MonorepoBuilder\ArraySorter;
-use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Configuration\MergedPackagesCollector;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\ValueObject\Section;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\SmartFileInfo;
 

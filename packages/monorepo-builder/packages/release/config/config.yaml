@@ -11,4 +11,4 @@ services:
     Symplify\MonorepoBuilder\Release\:
         resource: '../src'
         exclude:
-            - '../src/Exception'
+            - '../src/Exception/*'

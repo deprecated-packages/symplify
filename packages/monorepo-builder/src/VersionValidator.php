@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder;
 
-use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\ValueObject\Section;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class VersionValidator

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Configuration;
+namespace Symplify\MonorepoBuilder\ValueObject;
 
 final class Option
 {
