@@ -35,12 +35,12 @@ parameters:
 
 **Never share them publicly**, if you don't want to have child porn tweets under your name. 
 
-3. Add `statie.yml.local` to `statie.yml`
+3. Add `statie.yaml.local` to `statie.yaml`
 
 ```diff
  # statie.yml
 +imports:
-+    - { resource: 'statie.yml.local', ignore_errors: true }
++    - { resource: 'statie.yml.local', ignore_errors: not_found }
 ```
 
 4. Add it to `.gitignore` so it's secret
