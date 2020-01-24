@@ -52,7 +52,7 @@ final class SetFileFinder
 
         $firstFile = $this->getFirstFileFromFinder($finder);
         if ($firstFile !== null) {
-            if (! $firstFile->getRealPath()) {
+            if ($firstFile->getRealPath() !== '') {
                 return $firstFile->getPathname();
             }
 

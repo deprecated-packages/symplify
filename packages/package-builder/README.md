@@ -203,58 +203,6 @@ var_dump($parameterBag);
 
 <br>
 
-### Use `%vendor%` and `%cwd%` in Imports Paths
-
-Instead of 2 paths with `ignore_errors` use `%vendor%` and other parameters in imports paths:
-
-```diff
- imports:
--    - { resource: '../../easy-coding-standard/config/psr2.yml', ignore_errors: true }
--    - { resource: 'vendor/symplify/easy-coding-standard/config/psr2.yml', ignore_errors: true }
-+    - { resource: '%vendor%/symplify/easy-coding-standard/config/psr2.yml' }
-```
-
-You can have that with `Symplify\PackageBuilder\Yaml\FileLoader\ParameterImportsYamlFileLoader`:
-
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace App;
-
-use Symfony\Component\Config\Loader\DelegatingLoader;
-use Symfony\Component\Config\Loader\LoaderResolver;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
-use Symfony\Component\HttpKernel\Config\FileLocator;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\Yaml\FileLoader\ParameterImportsYamlFileLoader;
-
-final class AppKernel extends Kernel
-{
-    /**
-     * @param ContainerInterface|ContainerBuilder $container
-     */
-    protected function getContainerLoader(ContainerInterface $container): DelegatingLoader
-    {
-        $kernelFileLocator = new FileLocator($this);
-
-        $loaderResolver = new LoaderResolver([
-            new GlobFileLoader($container, $kernelFileLocator),
-            new ParameterImportsYamlFileLoader($container, $kernelFileLocator)
-        ]);
-
-        return new DelegatingLoader($loaderResolver);
-    }
-}
-```
-
-In case you need to do more work in YamlFileLoader, just extend the abstract parent `Symplify\PackageBuilder\Yaml\FileLoader\AbstractParameterImportsYamlFileLoader` and add your own logic.
-
-<br>
-
 ### Smart Compiler Passes for Lazy Programmers ↓
 
 [How to add compiler pass](https://symfony.com/doc/current/service_container/compiler_passes.html#working-with-compiler-passes-in-bundles)?
