@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory;
 
 use Iterator;
+use OndraM\CiDetector\CiDetector;
 
 /**
  * @requires PHP < 7.4
