@@ -18,7 +18,7 @@ final class ConfigurationTest extends AbstractKernelTestCase
         $configuration = self::$container->get(StatieConfiguration::class);
 
         $this->assertSame(
-            'https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/source',
+            'https://github.com/TomasVotruba/tomasvotruba.com/tree/master/source',
             $configuration->getGithubRepositorySourceDirectory()
         );
     }

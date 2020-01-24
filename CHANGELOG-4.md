@@ -229,7 +229,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 **2 New Packages!**
 
-- [LatteToTwigConverter](http://github.com/symplify/lattetotwigconverter) to convert Latte templates to Twig, see [the intro post](https://www.tomasvotruba.cz/blog/2018/07/05/how-to-convert-latte-templates-to-twig-in-27-regular-expressions/)
+- [LatteToTwigConverter](http://github.com/symplify/lattetotwigconverter) to convert Latte templates to Twig, see [the intro post](https://www.tomasvotruba.com/blog/2018/07/05/how-to-convert-latte-templates-to-twig-in-27-regular-expressions/)
 - and [MonorepoBuilder](https://github.com/symplify/monorepobuilder) that helps you with monorepo maintenance, from `composer.json` synchronization, version validation to Travis automated and parallel splits
 
 ### Added
@@ -625,7 +625,7 @@ This change was finished in [Statie](https://github.com/symplify/statie) and [Ea
 - [#693] **CodingStandard** Move checkers from static to services, follow up to [#680]
 - [#680] **BetterReflectionDocBlock** First steps to migration from [phpDocumentor/ReflectionDocBlock](https://github.com/phpDocumentor/ReflectionDocBlock) to [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser)
 - [#654] **Statie** Move from Yaml + Neon mixture to Yaml, similar to [#651]
-    - [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/#how-to-migrate-from-neon-to-yaml)?
+    - [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.com/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/#how-to-migrate-from-neon-to-yaml)?
 - [#721] Prefer `Input` and `Output` instances injected via constructor in used Console Applications
 
 #### PackageBuilder
@@ -667,7 +667,7 @@ This change was finished in [Statie](https://github.com/symplify/statie) and [Ea
                  - '*packages*'
     ```
 - [#651] Move from mixture custom neon + Symfony service DI to Yaml
-    - [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/#how-to-migrate-from-neon-to-yaml)?
+    - [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.com/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/#how-to-migrate-from-neon-to-yaml)?
 
 ### Fixed
 

@@ -47,7 +47,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### EasyCodingStandard
 
-- [#354] Added [clean-code set](https://www.tomasvotruba.cz/blog/2017/09/18/4-simple-checkers-for-coding-standard-haters-but-clean-code-lovers/)
+- [#354] Added [clean-code set](https://www.tomasvotruba.com/blog/2017/09/18/4-simple-checkers-for-coding-standard-haters-but-clean-code-lovers/)
 - [430fc5] ConflictingGuard feature added, see [#333]
 - [33f28a] Add new rules to `symfony-checkers`
 - [#342] Add parser error reporting, Thanks [@webrouse]
@@ -110,7 +110,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ## [v2.2.0] - 2017-07-26
 
-**News for EasyCodingStandard 2.2 explained in a post: [7 new features in EasyCodingStandard 2.2](https://www.tomasvotruba.cz/blog/2017/08/07/7-new-features-in-easy-coding-standard-22)**
+**News for EasyCodingStandard 2.2 explained in a post: [7 new features in EasyCodingStandard 2.2](https://www.tomasvotruba.com/blog/2017/08/07/7-new-features-in-easy-coding-standard-22)**
 
 ### Added
 
@@ -286,7 +286,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### EasyCodingStandard
 
-- [#179] use `Symfony\DependencyInjection` instead of `Nette\DI`, due to [new Symfony 3.3 features](https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/)
+- [#179] use `Symfony\DependencyInjection` instead of `Nette\DI`, due to [new Symfony 3.3 features](https://www.tomasvotruba.com/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/)
 - [#151] `Nette\DI` config loading style added, parameters are now in Container and sniffs/fixers are registered as services
 
 ### Fixed
@@ -305,7 +305,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
     - `Symplify\CodingStandard\Sniffs\Commenting\MethodCommentSniff`, use `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff` instead
     - `Symplify\CodingStandard\Sniffs\Commenting\MethodReturnTypeSniff`, use `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff` instead
 - [#152] Removed unused sniff `Symplify\CodingStandard\Sniffs\Commenting\ComponentFactoryCommentSniff`
-[Based on discussion with friends and maintainers](https://www.tomasvotruba.cz/blog/2017/05/29/symplify-packages-deprecations-brought-by-symfony-33/), I've found there are better managed and actively used packages, that provide similar features as few Simplify packages. So **these packages were deprecated**:
+[Based on discussion with friends and maintainers](https://www.tomasvotruba.com/blog/2017/05/29/symplify-packages-deprecations-brought-by-symfony-33/), I've found there are better managed and actively used packages, that provide similar features as few Simplify packages. So **these packages were deprecated**:
 - [#170] **EventDispatcher** package deprecated in favor of [contributte/event-dispatcher]
 - [#162] **DefaultAutowire** package deprecated in favor of Symfony 3.3 `_defaults` section
 - [#186] **ModularLatteFilter** package deprecated in favor of https://github.com/contributte/latte

@@ -47,7 +47,7 @@ doctrine:
                 is_bundle: false
 ```
 
-It's called [memory lock](https://www.tomasvotruba.cz/blog/2018/08/27/why-and-how-to-avoid-the-memory-lock/) and it nicely opens doors for "I forgot that..." bugs.
+It's called [memory lock](https://www.tomasvotruba.com/blog/2018/08/27/why-and-how-to-avoid-the-memory-lock/) and it nicely opens doors for "I forgot that..." bugs.
 
 How can we avoid that?
 
@@ -264,7 +264,7 @@ final class MyProjectKernel extends Kernel
 }
 ```
 
-This works very well with [local packages](https://www.tomasvotruba.cz/blog/2017/12/25/composer-local-packages-for-dummies/) or [monorepo architecture](https://www.tomasvotruba.cz/clusters/#monorepo-from-zero-to-hero).
+This works very well with [local packages](https://www.tomasvotruba.com/blog/2017/12/25/composer-local-packages-for-dummies/) or [monorepo architecture](https://www.tomasvotruba.com/clusters/#monorepo-from-zero-to-hero).
 
 ## YAML Convertor
 
@@ -273,7 +273,7 @@ vendor/bin/autodiscovery convert-yaml /src # directory
 vendor/bin/autodiscovery convert-yaml config/config.yaml # single file
 ```
 
-It will convert service definitions in `(config|services).(yml|yaml)` files, to new [Symfony 3.3 DI features described here](https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/).
+It will convert service definitions in `(config|services).(yml|yaml)` files, to new [Symfony 3.3 DI features described here](https://www.tomasvotruba.com/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/).
 
 ### Configuration
 

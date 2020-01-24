@@ -11,7 +11,7 @@ composer require symplify/set-config-resolver
 
 ## Load a Config for CLI Application?
 
-- Read [How to Load --config With Services in Symfony Console](https://www.tomasvotruba.cz/blog/2018/05/14/how-to-load-config-with-services-in-symfony-console/#code-argvinput-code-to-the-rescue)
+- Read [How to Load --config With Services in Symfony Console](https://www.tomasvotruba.com/blog/2018/05/14/how-to-load-config-with-services-in-symfony-console/#code-argvinput-code-to-the-rescue)
 
 Use in CLI entry file `bin/<app-name>`, e.g. `bin/ecs` or `bin/rector`.
 

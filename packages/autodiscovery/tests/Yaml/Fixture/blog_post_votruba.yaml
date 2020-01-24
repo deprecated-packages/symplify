@@ -1,4 +1,4 @@
-# https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/
+# https://www.tomasvotruba.com/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/
 services:
     some_service:
         class: App\SomeService

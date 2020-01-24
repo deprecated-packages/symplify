@@ -37,7 +37,7 @@ final class GithubTwigExtensionTest extends AbstractTwigExtensionTestCase
             'post' => $this->getFile(),
         ]);
 
-        $expectedUrl = 'https://github.com/TomasVotruba/tomasvotruba.cz/edit/master/source/_posts/2017-12-31-happy-new-years.md';
+        $expectedUrl = 'https://github.com/TomasVotruba/tomasvotruba.com/edit/master/source/_posts/2017-12-31-happy-new-years.md';
 
         $this->assertSame($expectedUrl, $content);
     }

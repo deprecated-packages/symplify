@@ -1,5 +1,5 @@
 parameters:
-    thanker_repository_name: "complete 'thanker_repository_name' parameter, e.g. 'tomasvotruba/tomasvotruba.cz'"
+    thanker_repository_name: "complete 'thanker_repository_name' parameter, e.g. 'tomasvotruba/tomasvotruba.com'"
     thanker_author_name: "complete 'thanker_author_name' parameter, e.g. 'TomasVotruba'"
 
     # create token here: https://github.com/settings/tokens/new

@@ -78,7 +78,7 @@ Is it there? Good, it works and only few steps remain to fully automate this :)
 
 Now we only put that logic on Travis and we're done.
 
-7. Open Travis for your repository, e.g. [https://travis-ci.org/TomasVotruba/tomasvotruba.cz](https://travis-ci.org/TomasVotruba/tomasvotruba.cz)
+7. Open Travis for your repository, e.g. [https://travis-ci.org/TomasVotruba/tomasvotruba.com](https://travis-ci.org/TomasVotruba/tomasvotruba.com)
 
 8. Got to *More options* => *Settings*
 
@@ -108,4 +108,4 @@ script:
     - if [[ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "false" && $TWEET != "" ]]; then vendor/bin/publish-new-tweet; fi
 ```
 
-13. Now you can [quit Twitter](https://www.tomasvotruba.cz/blog/2017/01/20/4-emotional-reasons-why-I-quit-my-twitter/) if you want and you posts will be still there :)
+13. Now you can [quit Twitter](https://www.tomasvotruba.com/blog/2017/01/20/4-emotional-reasons-why-I-quit-my-twitter/) if you want and you posts will be still there :)

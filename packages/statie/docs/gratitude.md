@@ -6,7 +6,7 @@
 ```yaml
 # statie.yml
 parameters:
-    thanker_repository_name: "tomasvotruba/tomasvotruba.cz"
+    thanker_repository_name: "tomasvotruba/tomasvotruba.com"
     thanker_author_name: "TomasVotruba" # this name will be skipped from stats  
 ```
 

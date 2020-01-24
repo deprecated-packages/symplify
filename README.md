@@ -24,7 +24,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
     [![Build Status](https://img.shields.io/github/workflow/status/symplify/easy-coding-standard/Code_Checks?style=flat-square)](https://github.com/symplify/easy-coding-standard/actions)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-coding-standard/stats)
 
-* **[Coding Standard](https://github.com/symplify/coding-standard)** - [Final interface](http://ocramius.github.io/blog/when-to-declare-classes-final/), [`::class` Constant](https://www.tomasvotruba.cz/blog/2017/08/21/5-useful-rules-from-symplify-coding-standard/#3-class-constant-fixer) and other useful Checkers for [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
+* **[Coding Standard](https://github.com/symplify/coding-standard)** - [Final interface](http://ocramius.github.io/blog/when-to-declare-classes-final/), [`::class` Constant](https://www.tomasvotruba.com/blog/2017/08/21/5-useful-rules-from-symplify-coding-standard/#3-class-constant-fixer) and other useful Checkers for [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
     [![Build Status](https://img.shields.io/github/workflow/status/symplify/coding-standard/Code_Checks?style=flat-square)](https://github.com/symplify/coding-standard/actions)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
@@ -77,7 +77,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
     [![Build Status](https://img.shields.io/github/workflow/status/symplify/monorepo-builder/Code_Checks?style=flat-square)](https://github.com/symplify/monorepo-builder/actions)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/monorepo-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo-builder/stats)
 
-- **[statie](https://github.com/symplify/statie)** - [www.statie.org](https://www.statie.org) - Static website generator in PHP with Twig/Latte, that fuels [Pehapkari.cz](https://github.com/pehapkari/pehapkari.cz) and [TomasVotruba.cz](https://github.com/tomasvotruba/tomasvotruba.cz).
+- **[statie](https://github.com/symplify/statie)** - [www.statie.org](https://www.statie.org) - Static website generator in PHP with Twig/Latte, that fuels [Pehapkari.cz](https://github.com/pehapkari/pehapkari.cz) and [tomasvotruba.com](https://github.com/tomasvotruba/tomasvotruba.com).
 
     [![Build Status](https://img.shields.io/github/workflow/status/symplify/statie/Code_Checks?style=flat-square)](https://github.com/symplify/statie/actions)
     [![Downloads](https://img.shields.io/packagist/dt/Symplify/statie.svg?style=flat-square)](https://packagist.org/packages/Symplify/statie/stats)

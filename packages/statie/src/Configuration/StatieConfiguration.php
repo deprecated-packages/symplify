@@ -83,7 +83,7 @@ final class StatieConfiguration
             'Settings of "%s" is required for "{{ post|github_edit_post_url }}" filter. '
             . 'Add it to "statie.yml" under "parameters" section, e.g.: "%s".',
             self::OPTION_GITHUB_REPOSITORY_SOURCE_DIRECTORY,
-            'https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/source'
+            'https://github.com/TomasVotruba/tomasvotruba.com/tree/master/source'
         ));
     }
 
