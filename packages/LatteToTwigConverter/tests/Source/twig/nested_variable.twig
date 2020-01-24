@@ -1,9 +1,0 @@
-{% set url = "%s/%s"|format(site.url, post.relativeUrl) %}
-
-{% set url = post.external %}
-
-{% set appendix = site.title . ' | ' . site.subtitle %}
-
-{% include "_snippets/layout/image.twig" with { src: project.image, url: project.repository, alt: project.name } %}
-
-{{ page.training.phpstorm.date|date('j. n. Y') }}

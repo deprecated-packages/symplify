@@ -1,8 +1,0 @@
-parameters:
-    file_storage: '%appDir%/file_storage'
-    public_storage: '%wwwDir%/some/upload'
-
-services:
-    Entrydo\App\Console\DB\LoadDemoDataCommand:
-        arguments:
-            - '%appDir%/../fixtures'
