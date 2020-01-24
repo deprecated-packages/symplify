@@ -1,0 +1,18 @@
+language: php
+
+php: 7.3
+
+if: branch = master AND type = push
+
+before_install:
+    # disable xdebug to speed up
+    - phpenv config-rm xdebug.ini
+
+install:
+    - composer update
+
+script:
+    - vendor/bin/monorepo-builder split --max-processes 6
+
+notifications:
+    email: false
