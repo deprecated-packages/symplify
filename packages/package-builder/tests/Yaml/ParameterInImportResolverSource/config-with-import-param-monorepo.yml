@@ -1,0 +1,2 @@
+imports:
+    - { resource: '%current_working_dir%/packages/package-builder/tests/Yaml/ParameterInImportResolverSource/imported-config.yml' }

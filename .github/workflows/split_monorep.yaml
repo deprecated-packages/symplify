@@ -10,7 +10,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v2
-            # required for "git tag" presence for MonorepoBuilder split and ChangelogLinker git tags resolver; default is 1
+            # required for "git tag" presence for monorepo-builder split and changelog-linker git tags resolver; default is 1
             -   run: git fetch --depth=100000 origin
 
             # see https://github.com/shivammathur/setup-php
@@ -23,7 +23,7 @@ jobs:
 
             # split monorepo to packages - only on merge to master
             # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
-            -   run: packages/MonorepoBuilder/bin/monorepo-builder split --max-processes 7
+            -   run: packages/monorepo-builder/bin/monorepo-builder split --max-processes 7
                 env:
                     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 

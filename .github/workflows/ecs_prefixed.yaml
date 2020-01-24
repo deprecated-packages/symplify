@@ -29,46 +29,46 @@ jobs:
 
             -   run: |
                     # install
-                    cd packages/EasyCodingStandard/compiler
+                    cd packages/easy-coding-standard/compiler
                     composer install
             -
                 name: Compile ecs.phar with Box and PHP Scoper
                 run:  |
                     # compile
-                    cd packages/EasyCodingStandard/compiler
+                    cd packages/easy-coding-standard/compiler
                     bin/compile
 
             -
                 name: Run ecs.phar
                 run:  |
                     # remove local vendor, to prevent duplicated content
-                    rm -rf packages/EasyCodingStandard/vendor
-                    cd packages/EasyCodingStandard
+                    rm -rf packages/easy-coding-standard/vendor
+                    cd packages/easy-coding-standard
                     tmp/ecs.phar
 
             -
                 name: Run ecs.phar with PSR-12 set
                 run:  |
-                    cd packages/EasyCodingStandard
+                    cd packages/easy-coding-standard
                     # create dummy file
                     echo "<?php echo 'hi';" >> someFile.php
                     tmp/ecs.phar check someFile.php --set dead-code
 
-            # Deploy PHAR to https://github.com/Symplify/EasyCodingStandardPrefixed
+            # Deploy PHAR to https://github.com/symplify/easy-coding-standard-prefixed
             -
-                name: Publish ecs.phar to Symplify/EasyCodingStandardPrefixed
+                name: Publish ecs.phar to symplify/easy-coding-standard-prefixed
                 run: |
-                    cd packages/EasyCodingStandard
+                    cd packages/easy-coding-standard
 
                     # reuse tmp/ecs.phar from previous job
-                    git clone https://${ACCESS_TOKEN}@github.com/Symplify/EasyCodingStandardPrefixed.git > /dev/null 2>&1
+                    git clone https://${ACCESS_TOKEN}@github.com/Symplify/easy-coding-standard-prefixed.git > /dev/null 2>&1
 
                     # copy phar files inside cloned repository
-                    cp tmp/ecs.phar EasyCodingStandardPrefixed/ecs.phar
-                    cp tmp/ecs.phar EasyCodingStandardPrefixed/ecs
+                    cp tmp/ecs.phar easy-coding-standard-prefixed/ecs.phar
+                    cp tmp/ecs.phar easy-coding-standard-prefixed/ecs
 
                     # go to clone repository
-                    cd EasyCodingStandardPrefixed
+                    cd easy-coding-standard-prefixed
                     git config user.name "TomasVotruba"
                     git config user.email "tomas.vot@gmail.com"
                     git add ecs ecs.phar
