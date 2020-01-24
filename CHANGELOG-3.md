@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
+PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/symplify/changelog-linker).
 
 ## [v3.2.0] - 2018-01-13
 
@@ -28,7 +28,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
     The sorter needs to implement `Symplify\Statie\Generator\Contract\ObjectSorterInterface` and be [loaded by composer](https://stackoverflow.com/a/25960097/1348344).
 
-    It returns sorting function. For inspiration see [`Symplify\Statie\Generator\FileNameObjectSorter`](/packages/Statie/packages/Generator/src/FileNameObjectSorter.php) for inspiration.
+    It returns sorting function. For inspiration see [`Symplify\Statie\Generator\FileNameObjectSorter`](/packages/statie/packages/generator/src/FileNameObjectSorter.php) for inspiration.
 
 ### Changed
 
@@ -185,51 +185,51 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 [comment]: # (links to issues, PRs and release diffs)
 
-[#577]: https://github.com/Symplify/Symplify/pull/577
-[#576]: https://github.com/Symplify/Symplify/pull/576
-[#574]: https://github.com/Symplify/Symplify/pull/574
-[#570]: https://github.com/Symplify/Symplify/pull/570
-[#562]: https://github.com/Symplify/Symplify/pull/562
-[#560]: https://github.com/Symplify/Symplify/pull/560
-[#559]: https://github.com/Symplify/Symplify/pull/559
-[#558]: https://github.com/Symplify/Symplify/pull/558
-[#508]: https://github.com/Symplify/Symplify/pull/508
-[#505]: https://github.com/Symplify/Symplify/pull/505
-[#488]: https://github.com/Symplify/Symplify/pull/488
-[#487]: https://github.com/Symplify/Symplify/pull/487
-[#484]: https://github.com/Symplify/Symplify/pull/484
-[#483]: https://github.com/Symplify/Symplify/pull/483
-[#481]: https://github.com/Symplify/Symplify/pull/481
-[#480]: https://github.com/Symplify/Symplify/pull/480
-[#477]: https://github.com/Symplify/Symplify/pull/477
-[#476]: https://github.com/Symplify/Symplify/pull/476
-[#475]: https://github.com/Symplify/Symplify/pull/475
-[#474]: https://github.com/Symplify/Symplify/pull/474
-[#473]: https://github.com/Symplify/Symplify/pull/473
-[#472]: https://github.com/Symplify/Symplify/pull/472
-[#466]: https://github.com/Symplify/Symplify/pull/466
-[#452]: https://github.com/Symplify/Symplify/pull/452
-[#447]: https://github.com/Symplify/Symplify/pull/447
-[#443]: https://github.com/Symplify/Symplify/pull/443
-[#442]: https://github.com/Symplify/Symplify/pull/442
-[#437]: https://github.com/Symplify/Symplify/pull/437
-[#432]: https://github.com/Symplify/Symplify/pull/432
-[#431]: https://github.com/Symplify/Symplify/pull/431
-[#430]: https://github.com/Symplify/Symplify/pull/430
-[#427]: https://github.com/Symplify/Symplify/pull/427
-[#421]: https://github.com/Symplify/Symplify/pull/421
-[#419]: https://github.com/Symplify/Symplify/pull/419
-[#417]: https://github.com/Symplify/Symplify/pull/417
-[#412]: https://github.com/Symplify/Symplify/pull/412
-[#406]: https://github.com/Symplify/Symplify/pull/406
-[#404]: https://github.com/Symplify/Symplify/pull/404
-[#402]: https://github.com/Symplify/Symplify/pull/402
-[#399]: https://github.com/Symplify/Symplify/pull/399
-[#397]: https://github.com/Symplify/Symplify/pull/397
-[#388]: https://github.com/Symplify/Symplify/pull/388
-[#386]: https://github.com/Symplify/Symplify/pull/386
-[#385]: https://github.com/Symplify/Symplify/pull/385
-[v3.2.0]: https://github.com/Symplify/Symplify/compare/v3.1.0...v3.2.0
+[#577]: https://github.com/symplify/symplify/pull/577
+[#576]: https://github.com/symplify/symplify/pull/576
+[#574]: https://github.com/symplify/symplify/pull/574
+[#570]: https://github.com/symplify/symplify/pull/570
+[#562]: https://github.com/symplify/symplify/pull/562
+[#560]: https://github.com/symplify/symplify/pull/560
+[#559]: https://github.com/symplify/symplify/pull/559
+[#558]: https://github.com/symplify/symplify/pull/558
+[#508]: https://github.com/symplify/symplify/pull/508
+[#505]: https://github.com/symplify/symplify/pull/505
+[#488]: https://github.com/symplify/symplify/pull/488
+[#487]: https://github.com/symplify/symplify/pull/487
+[#484]: https://github.com/symplify/symplify/pull/484
+[#483]: https://github.com/symplify/symplify/pull/483
+[#481]: https://github.com/symplify/symplify/pull/481
+[#480]: https://github.com/symplify/symplify/pull/480
+[#477]: https://github.com/symplify/symplify/pull/477
+[#476]: https://github.com/symplify/symplify/pull/476
+[#475]: https://github.com/symplify/symplify/pull/475
+[#474]: https://github.com/symplify/symplify/pull/474
+[#473]: https://github.com/symplify/symplify/pull/473
+[#472]: https://github.com/symplify/symplify/pull/472
+[#466]: https://github.com/symplify/symplify/pull/466
+[#452]: https://github.com/symplify/symplify/pull/452
+[#447]: https://github.com/symplify/symplify/pull/447
+[#443]: https://github.com/symplify/symplify/pull/443
+[#442]: https://github.com/symplify/symplify/pull/442
+[#437]: https://github.com/symplify/symplify/pull/437
+[#432]: https://github.com/symplify/symplify/pull/432
+[#431]: https://github.com/symplify/symplify/pull/431
+[#430]: https://github.com/symplify/symplify/pull/430
+[#427]: https://github.com/symplify/symplify/pull/427
+[#421]: https://github.com/symplify/symplify/pull/421
+[#419]: https://github.com/symplify/symplify/pull/419
+[#417]: https://github.com/symplify/symplify/pull/417
+[#412]: https://github.com/symplify/symplify/pull/412
+[#406]: https://github.com/symplify/symplify/pull/406
+[#404]: https://github.com/symplify/symplify/pull/404
+[#402]: https://github.com/symplify/symplify/pull/402
+[#399]: https://github.com/symplify/symplify/pull/399
+[#397]: https://github.com/symplify/symplify/pull/397
+[#388]: https://github.com/symplify/symplify/pull/388
+[#386]: https://github.com/symplify/symplify/pull/386
+[#385]: https://github.com/symplify/symplify/pull/385
+[v3.2.0]: https://github.com/symplify/symplify/compare/v3.1.0...v3.2.0
 [@tomasfejfar]: https://github.com/tomasfejfar
 [@ostrolucky]: https://github.com/ostrolucky
 [@mzstic]: https://github.com/mzstic

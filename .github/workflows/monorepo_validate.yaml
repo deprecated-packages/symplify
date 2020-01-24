@@ -18,4 +18,4 @@ jobs:
                     coverage: none
 
             -   run: composer install --no-progress
-            -   run: packages/MonorepoBuilder/bin/monorepo-builder validate
+            -   run: packages/monorepo-builder/bin/monorepo-builder validate

@@ -14,5 +14,5 @@ package-lock.json
 # phpunit
 .phpunit.result.cache
 
-packages/EasyCodingStandard/vendor/
-packages/EasyCodingStandard/tmp/
+packages/easy-coding-standard/vendor/
+packages/easy-coding-standard/tmp/

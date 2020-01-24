@@ -21,11 +21,11 @@ jobs:
             -   run: composer install --no-progress
             -   run: |
                     # test run bin files
-                    packages/Autodiscovery/bin/autodiscovery
-                    packages/EasyCodingStandard/bin/ecs
-                    packages/ChangelogLinker/bin/changelog-linker
-                    packages/Statie/bin/statie
-                    packages/MonorepoBuilder/bin/monorepo-builder
+                    packages/autodiscovery/bin/autodiscovery
+                    packages/easy-coding-standard/bin/ecs
+                    packages/changelog-linker/bin/changelog-linker
+                    packages/statie/bin/statie
+                    packages/monorepo-builder/bin/monorepo-builder
 
                     # test "check" options
-                    packages/EasyCodingStandard/bin/ecs check packages/ChangelogLinker/src --no-progress-bar --no-error-table --clear-cache
+                    packages/easy-coding-standard/bin/ecs check packages/changelog-linker/src --no-progress-bar --no-error-table --clear-cache

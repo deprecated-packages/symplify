@@ -1,9 +1,0 @@
-parameters:
-    repository_url: 'https://github.com/dummy/dummy'
-
-    names_to_urls:
-        'SomeThingToLink': 'https://someUrl.com'
-        # https://github.com/Symplify/Symplify/issues/1327
-        'shopsys/microservice-product-search': 'https://github.com/shopsys/microservice-product-search'
-        'shopsys/microservice-product-search-export': 'https://github.com/shopsys/microservice-product-search-export'
-        'shopsys/microservice-product': 'https://github.com/shopsys/microservice-product'

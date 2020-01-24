@@ -1,5 +1,5 @@
 includes:
-    - 'packages/PHPStanExtensions/config/config.neon'
+    - 'packages/phpstan-extensions/config/config.neon'
 
 parameters:
     level: max
@@ -7,26 +7,26 @@ parameters:
     reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
-        - *packages/MonorepoBuilder/packages/Init/templates/*
-        - *packages/CodingStandard/tests/**/correct*
-        - *packages/CodingStandard/tests/**/wrong*
-        - *packages/CodingStandard/tests/**/Wrong*
+        - *packages/monorepo-builder/packages/init/templates/*
+        - *packages/coding-standard/tests/**/correct*
+        - *packages/coding-standard/tests/**/wrong*
+        - *packages/coding-standard/tests/**/Wrong*
         # tests
-        - packages/PHPStanExtensions/tests/Rules/Classes/Source/ClassWithConstants.php
-        - packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
-        - packages/Statie/packages/MigratorSculpin/tests/SculpinToStatieMigrator/Source/Fixture/before/app/SculpinKernel.php
+        - packages/phpstan-extensions/tests/Rules/Classes/Source/ClassWithConstants.php
+        - packages/easy-coding-standard/packages/sniff-runner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
+        - packages/statie/packages/migrator-sculpin/tests/SculpinToStatieMigrator/Source/Fixture/before/app/SculpinKernel.php
         # Symfony workaround
-        - packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
+        - packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
         # 3rd party
-        - packages/EasyCodingStandard/packages/SniffRunner/src/ValueObject/File.php
+        - packages/easy-coding-standard/packages/sniff-runner/src/ValueObject/File.php
         # tests
-        - packages/PHPStanExtensions/tests/Rules/ClassMethod/Source/*
-        - packages/EasyCodingStandard/compiler/vendor/*
+        - packages/phpstan-extensions/tests/Rules/ClassMethod/Source/*
+        - packages/easy-coding-standard/compiler/vendor/*
 
     autoload_files:
         - %currentWorkingDirectory%/tests/bootstrap.php
-        - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php
-        - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
+        - packages/easy-coding-standard/packages/changed-files-detector/tests/ChangedFilesDetectorSource/OneClass.php
+        - packages/easy-coding-standard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
         - '#Cannot assign offset int to int#'
@@ -129,3 +129,5 @@ parameters:
         - '#Parameter \#1 \$jsonContent of method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:loadContentJsonStringToArray\(\) expects string, string\|false given#'
         - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File\:\:findNext\(\) expects int\|null, int<1, max\>\|int<min, \-1\>\|true given#'
+
+        - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:\$tabWidth#'

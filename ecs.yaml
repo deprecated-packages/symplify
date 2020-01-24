@@ -38,9 +38,9 @@ parameters:
     exclude_files:
         # tests
         - 'packages/*/tests/**Source/*.php'
-        - 'packages/CodingStandard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
+        - 'packages/coding-standard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
         # own scope
-        - 'packages/EasyCodingStandard/compiler/build/scoper.inc.php'
+        - 'packages/easy-coding-standard/compiler/build/scoper.inc.php'
 
     skip:
         # run form time to time, very slow and making many changes
@@ -60,74 +60,74 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff:
             # directory separator
-            - 'packages/MonorepoBuilder/tests/VersionValidator/VersionValidatorTest.php'
+            - 'packages/monorepo-builder/tests/VersionValidator/VersionValidatorTest.php'
 
         Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
             # allowed spots for Container
             - '*Kernel.php'
-            - 'packages/PackageBuilder/src/Parameter/ParameterProvider.php'
-            - 'packages/PackageBuilder/src/Parameter/ParameterTypoProofreader.php'
-            - 'packages/EasyCodingStandardTester/src/Testing/AbstractCheckerTestCase.php'
+            - 'packages/package-builder/src/Parameter/ParameterProvider.php'
+            - 'packages/package-builder/src/Parameter/ParameterTypoProofreader.php'
+            - 'packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php'
             # converts non-preferred type
-            - 'packages/SmartFileSystem/src/SmartFileInfo.php'
-            - 'packages/SmartFileSystem/src/Finder/FinderSanitizer.php'
-            - 'packages/SmartFileSystem/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
+            - 'packages/smart-file-system/src/SmartFileInfo.php'
+            - 'packages/smart-file-system/src/Finder/FinderSanitizer.php'
+            - 'packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
             # uses 3rd-party API
-            - 'packages/PackageBuilder/src/Configuration/LevelFileFinder.php'
-            - 'packages/CodingStandard/src/Fixer/*'
-            - 'packages/CodingStandard/tests/Fixer/*'
+            - 'packages/package-builder/src/Configuration/LevelFileFinder.php'
+            - 'packages/coding-standard/src/Fixer/*'
+            - 'packages/coding-standard/tests/Fixer/*'
             # SplFileInfo extension
-            - 'packages/PHPStanExtensions/src/Symfony/Type/SplFileInfoTolerantDynamicMethodReturnTypeExtension.php'
+            - 'packages/phpstan-extensions/src/Symfony/Type/SplFileInfoTolerantDynamicMethodReturnTypeExtension.php'
             # tests
-            - 'packages/MonorepoBuilder/tests/Package/PackageComposerJsonMergerTest.php'
-            - 'packages/MonorepoBuilder/tests/Package/CombineStringsToArrayJsonMergerTest.php'
+            - 'packages/monorepo-builder/tests/Package/PackageComposerJsonMergerTest.php'
+            - 'packages/monorepo-builder/tests/Package/CombineStringsToArrayJsonMergerTest.php'
 
-            - 'packages/SetConfigResolver/src/Finder/SetFileFinder.php'
-            - 'packages/SetConfigResolver/src/SetResolver.php'
+            - 'packages/set-config-resolver/src/Finder/SetFileFinder.php'
+            - 'packages/set-config-resolver/src/SetResolver.php'
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
-            - 'packages/EasyCodingStandard/tests/Indentation/IndentationTest.php'
+            - 'packages/easy-coding-standard/tests/Indentation/IndentationTest.php'
 
         Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
             # name parts, not classes
-            - 'packages/Autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php'
-            - 'packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php'
+            - 'packages/autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php'
+            - 'packages/coding-standard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php'
             # "Exception" is string part of the name
-            - 'packages/CodingStandard/src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
+            - 'packages/coding-standard/src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
             # class might not exist
             - '*packages/*/src/DependencyInjection/CompilerPass/*CompilerPass.php'
-            - 'packages/PHPStanExtensions/src/Symfony/Type/ContainerGetTypeExtension.php'
+            - 'packages/phpstan-extensions/src/Symfony/Type/ContainerGetTypeExtension.php'
 
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
-            - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
+            - 'packages/coding-standard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
             # reference for reflection of method with reference
-            - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
+            - 'packages/package-builder/src/Reflection/PrivatesCaller.php'
 
         Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
             # useful comments
-            - 'packages/LatteToTwigConverter/src/CaseConverter/*CaseConverter.php'
-            - 'packages/Statie/*/*FilterProvider.php'
+            - 'packages/latte-to-twig-converter/src/CaseConverter/*CaseConverter.php'
+            - 'packages/statie/*/*FilterProvider.php'
 
         Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
-            - 'packages/MonorepoBuilder/src/Console/Command/ValidateCommand.php'
-            - 'packages/PackageBuilder/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
-            - 'packages/AutowireArrayParameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
+            - 'packages/monorepo-builder/src/Console/Command/ValidateCommand.php'
+            - 'packages/package-builder/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
+            - 'packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
 
         SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable:
             # tests
-            - 'packages/Statie/packages/Generator/tests/GeneratorExceptionsTest.php'
+            - 'packages/statie/packages/generator/tests/GeneratorExceptionsTest.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingNativeTypeHint:
             - '*Sniff.php'
             - '*YamlFileLoader.php'
-            - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
+            - 'packages/package-builder/src/Reflection/PrivatesCaller.php'
 
         Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer:
             # temporary, BC layer
-            - 'packages/AutowireArrayParameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
-            - 'packages/AutoBindParameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php'
+            - 'packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
+            - 'packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php'
