@@ -8,7 +8,7 @@ script:
     # disable xdebug to speed up
     - phpenv config-rm xdebug.ini
     - composer update
-    - vendor/bin/monorepo-builder split --max-processes 6
+    - packages/monorepo-builder/bin/monorepo-builder split --max-processes 6
 
 notifications:
     email: false
