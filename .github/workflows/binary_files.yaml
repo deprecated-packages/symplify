@@ -25,7 +25,6 @@ jobs:
                     packages/EasyCodingStandard/bin/ecs
                     packages/ChangelogLinker/bin/changelog-linker
                     packages/Statie/bin/statie
-                    packages/LatteToTwigConverter/bin/latte-to-twig-converter
                     packages/MonorepoBuilder/bin/monorepo-builder
 
                     # test "check" options

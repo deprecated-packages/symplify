@@ -1,7 +1,0 @@
-services:
-	monologStreamHandler:
-		class: Monolog\Handler\StreamHandler('php://stderr')
-		tags: [monolog.handler]
-		setup:
-			- setFormatter(@Entrydo\Infrastructure\Logging\Monolog\LogDNAJsonFormatter)
-			- setThat(1, 2)

@@ -91,15 +91,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## Migration Utils
 
-- **[LatteToTwigConverter](https://github.com/Symplify/LatteToTwigConverter)** - Converts Latte templates to Twig
-
-    [![Build Status](https://img.shields.io/github/workflow/status/Symplify/LatteToTwigConverter/Code_Checks?style=flat-square)](https://github.com/Symplify/LatteToTwigConverter/actions)
-    [![Downloads](https://img.shields.io/packagist/dt/symplify/latte-to-twig-converter.svg?style=flat-square)](https://packagist.org/packages/symplify/latte-to-twig-converter/stats)
-
-- **[NeonToYamlConverter](https://github.com/Symplify/NeonToYamlConverter)** - Converts NEON files to YAML
-
-    [![Build Status](https://img.shields.io/github/workflow/status/Symplify/NeonToYamlConverter/Code_Checks?style=flat-square)](https://github.com/Symplify/NeonToYamlConverter/actions)
-    [![Downloads](https://img.shields.io/packagist/dt/symplify/neon-to-yaml-converter.svg?style=flat-square)](https://packagist.org/packages/symplify/neon-to-yaml-converter/stats)
+- All migration utils were moved to [Migrify](https://github.com/migrify/migrify/) project.
 
 ## Install
 

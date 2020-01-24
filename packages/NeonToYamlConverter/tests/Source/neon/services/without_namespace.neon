@@ -1,2 +1,0 @@
-services:
-    - SendGrid(@env::get('SENDGRID_API_KEY', ''))
