@@ -8,6 +8,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\CodingStandard\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\CodingStandard\TokenRunner\Naming\Name\NameFactory;
+use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\FixerClassWrapper;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 
 final class FixerClassWrapperFactory

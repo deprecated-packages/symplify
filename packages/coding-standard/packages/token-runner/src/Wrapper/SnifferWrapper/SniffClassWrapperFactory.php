@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper;
 use PHP_CodeSniffer\Files\File;
 use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use Symplify\CodingStandard\TokenRunner\Guard\TokenTypeGuard;
+use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\SnifferWrapper\SniffClassWrapper;
 
 final class SniffClassWrapperFactory
 {

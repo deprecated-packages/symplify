@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper;
+namespace Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
@@ -11,6 +11,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\CodingStandard\TokenRunner\Naming\Name\NameFactory;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\PropertyAccessWrapperFactory;
+use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\PropertyWrapperFactory;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 

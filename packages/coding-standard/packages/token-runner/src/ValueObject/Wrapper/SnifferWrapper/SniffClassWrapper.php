@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper;
+namespace Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\SnifferWrapper;
 
 use PHP_CodeSniffer\Files\File;
 use SlevomatCodingStandard\Helpers\TokenHelper;

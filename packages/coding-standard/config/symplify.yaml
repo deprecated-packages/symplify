@@ -5,6 +5,7 @@ imports:
 services:
     _defaults:
         autowire: true
+        autoconfigure: true
 
     # class has to be final, abstract or Doctrine entity
     PhpCsFixer\Fixer\ClassNotation\FinalInternalClassFixer: ~

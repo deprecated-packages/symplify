@@ -4,10 +4,9 @@ services:
         public: true
 
     Symplify\CodingStandard\TokenRunner\:
-        resource: '../src'
+        resource: "../src"
         exclude:
-            - '../src/ValueObject/*'
-            - '../src/Wrapper/*Wrapper/*Wrapper.php'
+            - "../src/ValueObject/*"
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
     PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer: ~

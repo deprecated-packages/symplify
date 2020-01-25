@@ -89,11 +89,8 @@ final class LocalizeComposerPathsCommand extends Command
         return ShellCode::SUCCESS;
     }
 
-
-    private function addRepositories(
-        SmartFileInfo $rootComposerJsonFileInfo,
-        array $packageComposerJson
-    ): array {
+    private function addRepositories(SmartFileInfo $rootComposerJsonFileInfo, array $packageComposerJson): array
+    {
         $packageNames = $this->packageNamesProvider->provide();
 
         // @see https://getcomposer.org/doc/05-repositories.md#path

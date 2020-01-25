@@ -8,6 +8,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
 use Symplify\CodingStandard\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\CodingStandard\TokenRunner\Naming\Name\NameFactory;
+use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\PropertyWrapper;
 
 final class PropertyWrapperFactory
 {
