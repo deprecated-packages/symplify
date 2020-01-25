@@ -18,7 +18,7 @@ final class PackagePathResolverTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        self::bootKernel(MonorepoBuilderKernel::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
         $this->packagePathResolver = self::$container->get(PackagePathResolver::class);
     }
 

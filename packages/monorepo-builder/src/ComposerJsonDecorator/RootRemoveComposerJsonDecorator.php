@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
+use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Configuration\MergedPackagesCollector;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
-use Symplify\MonorepoBuilder\ValueObject\Section;
 
 /**
  * Remove inter-dependencies in split packages from root,
@@ -25,38 +25,29 @@ final class RootRemoveComposerJsonDecorator implements ComposerJsonDecoratorInte
         $this->mergedPackagesCollector = $mergedPackagesCollector;
     }
 
-    /**
-     * @param mixed[] $composerJson
-     * @return mixed[]
-     */
-    public function decorate(array $composerJson): array
+    public function decorate(ComposerJson $composerJson): void
     {
-        foreach ($composerJson as $key => $values) {
-            if (! in_array($key, [Section::REQUIRE, Section::REQUIRE_DEV], true)) {
-                continue;
-            }
+        $require = $this->filterOutMergedPackages($composerJson->getRequire());
+        $composerJson->setRequire($require);
 
-            $composerJson = $this->processRequires($composerJson, $values, $key);
-        }
-
-        return $composerJson;
+        $requireDev = $this->filterOutMergedPackages($composerJson->getRequireDev());
+        $composerJson->setRequireDev($requireDev);
     }
 
     /**
-     * @param mixed[] $composerJson
-     * @param string[] $requires
-     * @return mixed[]
+     * @param string[] $require
+     * @return string[]
      */
-    private function processRequires(array $composerJson, array $requires, string $key): array
+    private function filterOutMergedPackages(array $require): array
     {
-        foreach (array_keys($requires) as $package) {
-            if (! in_array($package, $this->mergedPackagesCollector->getPackages(), true)) {
+        foreach (array_keys($require) as $packageName) {
+            if (! in_array($packageName, $this->mergedPackagesCollector->getPackages(), true)) {
                 continue;
             }
 
-            unset($composerJson[$key][$package]);
+            unset($require[$packageName]);
         }
 
-        return $composerJson;
+        return $require;
     }
 }

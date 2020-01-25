@@ -8,6 +8,7 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
+use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\PackageBuilder\Configuration\EolConfiguration;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -45,7 +46,9 @@ final class JsonFileManager
      */
     public function loadFromFilePath(string $filePath): array
     {
-        return Json::decode(FileSystem::read($filePath), Json::FORCE_ARRAY);
+        $fileContent = FileSystem::read($filePath);
+
+        return Json::decode($fileContent, Json::FORCE_ARRAY);
     }
 
     /**
@@ -57,12 +60,10 @@ final class JsonFileManager
         $this->symfonyFilesystem->dumpFile($smartFileInfo->getPathname(), $jsonString);
     }
 
-    /**
-     * @param mixed[] $json
-     */
-    public function saveJsonWithFilePath(array $json, string $filePath): void
+    public function saveJsonWithFilePath(ComposerJson $composerJson, string $filePath): void
     {
-        $jsonString = $this->encodeJsonToFileContent($json, $this->inlineSections);
+        $jsonString = $this->encodeJsonToFileContent($composerJson->getJsonArray(), $this->inlineSections);
+
         $this->symfonyFilesystem->dumpFile($filePath, $jsonString);
     }
 

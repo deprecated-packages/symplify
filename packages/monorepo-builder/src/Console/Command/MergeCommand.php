@@ -8,8 +8,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\MonorepoBuilder\ComposerJsonMerger;
 use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
-use Symplify\MonorepoBuilder\DependenciesMerger;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\VersionValidator;
@@ -29,9 +29,9 @@ final class MergeCommand extends Command
     private $packageComposerJsonMerger;
 
     /**
-     * @var DependenciesMerger
+     * @var ComposerJsonMerger
      */
-    private $dependenciesMerger;
+    private $composerJsonMerger;
 
     /**
      * @var VersionValidator
@@ -51,7 +51,7 @@ final class MergeCommand extends Command
     public function __construct(
         SymfonyStyle $symfonyStyle,
         PackageComposerJsonMerger $packageComposerJsonMerger,
-        DependenciesMerger $dependenciesMerger,
+        ComposerJsonMerger $composerJsonMerger,
         VersionValidator $versionValidator,
         ComposerJsonProvider $composerJsonProvider,
         ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter
@@ -59,7 +59,7 @@ final class MergeCommand extends Command
         parent::__construct();
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerJsonMerger = $packageComposerJsonMerger;
-        $this->dependenciesMerger = $dependenciesMerger;
+        $this->composerJsonMerger = $composerJsonMerger;
         $this->versionValidator = $versionValidator;
         $this->composerJsonProvider = $composerJsonProvider;
 
@@ -83,14 +83,17 @@ final class MergeCommand extends Command
             return ShellCode::ERROR;
         }
 
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos($this->composerJsonProvider->getPackagesFileInfos());
-        if ($merged === []) {
+        $mergedComposerJons = $this->packageComposerJsonMerger->mergeFileInfos(
+            $this->composerJsonProvider->getPackagesFileInfos()
+        );
+
+        if ($mergedComposerJons->isEmpty()) {
             $this->symfonyStyle->note('Nothing to merge.');
 
             return ShellCode::SUCCESS;
         }
 
-        $this->dependenciesMerger->mergeJsonToRootFilePathAndSave($merged, getcwd() . '/composer.json');
+        $this->composerJsonMerger->mergeJsonToRootFilePathAndSave($mergedComposerJons, getcwd() . '/composer.json');
 
         $this->symfonyStyle->success('Main "composer.json" was updated.');
 

@@ -4,77 +4,103 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
+use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
+use Symplify\MonorepoBuilder\Configuration\ModifyingComposerJsonProvider;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
-use Symplify\MonorepoBuilder\ValueObject\Section;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator\RemoverComposerJsonDecoratorTest
+ */
 final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {
     /**
-     * @var mixed[]
+     * @var ModifyingComposerJsonProvider
      */
-    private $dataToRemove = [];
+    private $modifyingComposerJsonProvider;
 
-    /**
-     * @param mixed[] $dataToRemove
-     */
-    public function __construct(array $dataToRemove)
+    public function __construct(ModifyingComposerJsonProvider $modifyingComposerJsonProvider)
     {
-        $this->dataToRemove = $dataToRemove;
+        $this->modifyingComposerJsonProvider = $modifyingComposerJsonProvider;
     }
 
-    /**
-     * @param mixed[] $composerJson
-     * @return mixed[]
-     */
-    public function decorate(array $composerJson): array
+    public function decorate(ComposerJson $composerJson): void
     {
-        foreach (array_keys($composerJson) as $key) {
-            if (! isset($this->dataToRemove[$key])) {
+        $removingComposerJson = $this->modifyingComposerJsonProvider->getRemovingComposerJson();
+        if ($removingComposerJson === null) {
+            return;
+        }
+
+        $this->processRequire($composerJson, $removingComposerJson);
+        $this->processRequireDev($composerJson, $removingComposerJson);
+
+        $this->processAutoload($composerJson, $removingComposerJson);
+        $this->processAutoloadDev($composerJson, $removingComposerJson);
+    }
+
+    private function processRequire(ComposerJson $composerJson, ComposerJson $composerJsonToRemove): void
+    {
+        if ($composerJsonToRemove->getRequire() === []) {
+            return;
+        }
+        $currentRequire = $composerJson->getRequire();
+        foreach (array_keys($composerJsonToRemove->getRequire()) as $package) {
+            unset($currentRequire[$package]);
+        }
+
+        $composerJson->setRequire($currentRequire);
+    }
+
+    private function processRequireDev(ComposerJson $composerJson, ComposerJson $composerJsonToRemove): void
+    {
+        if ($composerJsonToRemove->getRequireDev() === []) {
+            return;
+        }
+
+        $currentRequireDev = $composerJson->getRequireDev();
+        foreach (array_keys($composerJsonToRemove->getRequireDev()) as $package) {
+            unset($currentRequireDev[$package]);
+        }
+
+        $composerJson->setRequireDev($currentRequireDev);
+    }
+
+    private function processAutoload(ComposerJson $composerJson, ComposerJson $composerJsonToRemove): void
+    {
+        if ($composerJsonToRemove->getAutoload() === []) {
+            return;
+        }
+
+        $currentAutoload = $composerJson->getAutoload();
+        foreach ($composerJsonToRemove->getAutoload() as $type => $autoloadList) {
+            if (! is_array($autoloadList)) {
                 continue;
             }
 
-            $composerJson = $this->processRequires($composerJson, $key);
-            $composerJson = $this->processAutoloads($composerJson, $key);
-        }
-
-        return $composerJson;
-    }
-
-    /**
-     * @param mixed[] $composerJson
-     * @return mixed[]
-     */
-    private function processRequires(array $composerJson, string $key): array
-    {
-        if (! in_array($key, [Section::REQUIRE, Section::REQUIRE_DEV], true)) {
-            return $composerJson;
-        }
-
-        foreach (array_keys($this->dataToRemove[$key]) as $package) {
-            unset($composerJson[$key][$package]);
-        }
-
-        return $composerJson;
-    }
-
-    /**
-     * @param mixed[] $composerJson
-     * @return mixed[]
-     */
-    private function processAutoloads(array $composerJson, string $key): array
-    {
-        if (! in_array($key, [Section::AUTOLOAD, Section::AUTOLOAD_DEV], true)) {
-            return $composerJson;
-        }
-
-        foreach ($this->dataToRemove[$key] as $type => $autoloadList) {
-            if (is_array($autoloadList)) {
-                foreach (array_keys($autoloadList) as $namespace) {
-                    unset($composerJson[$key][$type][$namespace]);
-                }
+            foreach (array_keys($autoloadList) as $namespace) {
+                unset($currentAutoload[$type][$namespace]);
             }
         }
 
-        return $composerJson;
+        $composerJson->setAutoload($currentAutoload);
+    }
+
+    private function processAutoloadDev(ComposerJson $composerJson, ComposerJson $composerJsonToRemove): void
+    {
+        if ($composerJsonToRemove->getAutoloadDev() === []) {
+            return;
+        }
+
+        $currentAutoloadDev = $composerJson->getAutoloadDev();
+        foreach ($composerJsonToRemove->getAutoloadDev() as $type => $autoloadList) {
+            if (! is_array($autoloadList)) {
+                continue;
+            }
+
+            foreach (array_keys($autoloadList) as $namespace) {
+                unset($currentAutoloadDev[$type][$namespace]);
+            }
+        }
+
+        $composerJson->setAutoloadDev($currentAutoloadDev);
     }
 }

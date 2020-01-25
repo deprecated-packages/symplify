@@ -1,0 +1,14 @@
+{
+    "require-dev": {
+        "rector/rector": "v1.0.0",
+        "phpstan/phpstan": "^0.9",
+        "tracy/tracy": "^2.4",
+        "slam/php-cs-fixer-extensions": "^1.15"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src",
+            "Symplify\\Tests\\": "tests"
+        }
+    }
+}

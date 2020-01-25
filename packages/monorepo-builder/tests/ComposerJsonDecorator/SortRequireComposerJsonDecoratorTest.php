@@ -4,59 +4,38 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator;
 
-use Symplify\MonorepoBuilder\ComposerJsonDecorator\SortRequireComposerJsonDecorator;
+use Symplify\MonorepoBuilder\ComposerJsonObject\ComposerJsonFactory;
+use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 final class SortRequireComposerJsonDecoratorTest extends AbstractKernelTestCase
 {
     /**
-     * @var mixed[]
+     * @var ComposerJson
      */
-    private $composerJson = [
-        'required' => [
-            'b' => 'v1.0.0',
-            'a' => 'v1.0.0',
-        ],
-    ];
-
-    /**
-     * @var SortRequireComposerJsonDecorator
-     */
-    private $sortRequireComposerJsonDecorator;
+    private $composerJson;
 
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
-        $this->sortRequireComposerJsonDecorator = self::$container->get(SortRequireComposerJsonDecorator::class);
-    }
+        /** @var ComposerJsonFactory $composerJsonFactory */
+        $composerJsonFactory = self::$container->get(ComposerJsonFactory::class);
 
-    public function testNoSort(): void
-    {
-        $decorated = $this->sortRequireComposerJsonDecorator->decorate($this->composerJson);
-
-        $this->assertSame($this->composerJson, $decorated);
+        $this->composerJson = $composerJsonFactory->createFromArray([
+            'require' => [
+                'b' => 'v1.0.0',
+                'a' => 'v1.0.0',
+            ],
+        ]);
     }
 
     public function testSort(): void
     {
-        $composerJsonWithSort = $this->composerJson + [
-            'config' => [
-                'sort-packages' => true,
-            ],
-        ];
-
-        $decorated = $this->sortRequireComposerJsonDecorator->decorate($composerJsonWithSort);
-
         $this->assertSame([
-            'required' => [
-                'b' => 'v1.0.0',
-                'a' => 'v1.0.0',
-            ],
-            'config' => [
-                'sort-packages' => true,
-            ],
-        ], $decorated);
+            'a' => 'v1.0.0',
+            'b' => 'v1.0.0',
+        ], $this->composerJson->getRequire());
     }
 }

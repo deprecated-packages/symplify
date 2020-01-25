@@ -1,0 +1,9 @@
+parameters:
+    data_to_remove:
+        require:
+            phpunit/phpunit: "*"
+        autoload-dev:
+            psr-4:
+                Symplify\Tests\: "tests"
+            files:
+                - 'src/SomeFile.php'

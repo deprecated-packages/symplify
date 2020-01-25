@@ -24,7 +24,7 @@ final class WithTagsTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        self::bootKernel(ChangelogLinkerKernel::class);
+        $this->bootKernel(ChangelogLinkerKernel::class);
         $this->changelogDumper = self::$container->get(ChangelogDumper::class);
 
         $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'v4.0.0')];

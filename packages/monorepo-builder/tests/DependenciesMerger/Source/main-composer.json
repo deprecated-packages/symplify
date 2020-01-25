@@ -1,0 +1,19 @@
+{
+    "require": {
+        "php": "^7.1",
+        "symfony/dependency-injection": "^4.1"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/molaux/PostgreSearchBundle.git",
+            "options": {
+                "symlink": false
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/*"
+        }
+    ]
+}

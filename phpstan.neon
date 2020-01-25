@@ -131,3 +131,5 @@ parameters:
         - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File\:\:findNext\(\) expects int\|null, (.*?)#'
         - '#Property Symplify\\CodingStandard\\TokenRunner\\ValueObject\\Wrapper\\FixerWrapper\\FixerClassWrapper\:\:\$startBracketIndex \(int\) does not accept int\|null#'
+
+        - '#Parameter \#1 \$array of method Symplify\\MonorepoBuilder\\ArraySorter\:\:recursiveSort\(\) expects array, array\|string given#'

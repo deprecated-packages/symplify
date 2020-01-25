@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
+use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 
 final class SortComposerJsonDecorator implements ComposerJsonDecoratorInterface
@@ -21,13 +22,11 @@ final class SortComposerJsonDecorator implements ComposerJsonDecoratorInterface
         $this->sectionOrder = $sectionOrder;
     }
 
-    /**
-     * @param mixed[] $composerJson
-     * @return mixed[]
-     */
-    public function decorate(array $composerJson): array
+    public function decorate(ComposerJson $composerJson): void
     {
-        uksort($composerJson, function ($key1, $key2): int {
+        $orderedKeys = $composerJson->getOrderedKeys();
+
+        usort($orderedKeys, function ($key1, $key2): int {
             return array_search($key1, $this->sectionOrder, true) <=> array_search(
                 $key2,
                 $this->sectionOrder,
@@ -35,6 +34,6 @@ final class SortComposerJsonDecorator implements ComposerJsonDecoratorInterface
             );
         });
 
-        return $composerJson;
+        $composerJson->setOrderedKeys($orderedKeys);
     }
 }
