@@ -5,7 +5,7 @@
 # Symplify - Making Everyday PHP Development Simple
 
 [![Coverage](https://img.shields.io/coveralls/symplify/symplify/master.svg?style=flat-square)](https://coveralls.io/github/symplify/symplify?branch=master)
-[SonarCube](https://sonarcloud.io/dashboard?id=symplify_symplify)
+[![SonarCube](https://sonarcloud.io/dashboard?id=symplify_symplify)](https://img.shields.io/badge/SonarCube_Debt-%3C5-brightgreen.svg?style=flat-square)
 
 In [this monorepo](https://gomonorepo.org/) you'll find PHP packages that help you with:
 
