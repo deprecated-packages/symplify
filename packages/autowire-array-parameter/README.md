@@ -1,6 +1,5 @@
 # Autowire Array Parameters for Symfony Apps
 
-[![Build Status Github Actions](https://img.shields.io/github/workflow/status/symplify/autowire-array-parameter/Code_Checks?style=flat-square)](https://github.com/symplify/autowire-array-parameter/actions)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/autowire-array-parameter.svg?style=flat-square)](https://packagist.org/packages/symplify/autowire-array-parameter/stats)
 
 ## Install

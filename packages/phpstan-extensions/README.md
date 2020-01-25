@@ -1,6 +1,5 @@
 # PHPStan Extensions
 
-[![Build Status Github Actions](https://img.shields.io/github/workflow/status/symplify/phpstan-extensions/Code_Checks?style=flat-square)](https://github.com/symplify/phpstan-extensions/actions)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/phpstan-extensions.svg?style=flat-square)](https://packagist.org/packages/symplify/phpstan-extensions/stats)
 
 ## Install

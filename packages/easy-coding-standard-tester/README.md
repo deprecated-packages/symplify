@@ -1,6 +1,5 @@
 # The Best Way to Test Fixers and Sniffs
 
-[![Build Status Github Actions](https://img.shields.io/github/workflow/status/symplify/easy-coding-standard-tester/Code_Checks?style=flat-square)](https://github.com/symplify/easy-coding-standard-tester/actions)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/easy-coding-standard-tester.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-coding-standard-tester/stats)
 
 Do you write your own fixer and sniffs? Would you like to test them without having to learn a lot about their internals?

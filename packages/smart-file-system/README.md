@@ -1,8 +1,5 @@
 # Smart File System
 
-[![Build Status Github Actions](https://img.shields.io/github/workflow/status/symplify/smart-file-system/Code_Checks?style=flat-square)](https://github.com/symplify/smart-file-system/actions)
-[![Downloads total](https://img.shields.io/packagist/dt/symplify/smart-file-system.svg?style=flat-square)](https://packagist.org/packages/symplify/smart-file-system/stats)
-
 ## Install
 
 ```bash

@@ -1,6 +1,5 @@
 # Coding Standard
 
-[![Build Status Github Actions](https://img.shields.io/github/workflow/status/symplify/coding-standard/Code_Checks?style=flat-square)](https://github.com/symplify/coding-standard/actions)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
 
 Set of PHP_CodeSniffer Sniffs and PHP-CS-Fixer Fixers used by Symplify projects.

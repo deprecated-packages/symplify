@@ -1,6 +1,5 @@
 # Not only Composer tools to build a Monorepo
 
-[![Build Status Github Actions](https://img.shields.io/github/workflow/status/symplify/monorepo-builder/Code_Checks?style=flat-square)](https://github.com/symplify/monorepo-builder/actions)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/monorepo-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo-builder/stats)
 
 Do you maintain [a monorepo](https://gomonorepo.org/) with more packages?

@@ -1,6 +1,5 @@
 # Changelog Linker
 
-[![Build Status Github Actions](https://img.shields.io/github/workflow/status/symplify/changelog-linker/Code_Checks?style=flat-square)](https://github.com/symplify/changelog-linker/actions)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/changelog-linker.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker/stats)
 
 Turn your `CHANGELOG.md` from a machine readable text to a **rich text that makes every programmer happy**.

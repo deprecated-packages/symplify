@@ -1,6 +1,5 @@
 # Get Flex Loader code out of Kernel and Keep it Clean
 
-[![Build Status Github Actions](https://img.shields.io/github/workflow/status/symplify/flex-loader/Code_Checks?style=flat-square)](https://github.com/symplify/flex-loader/actions)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/flex-loader.svg?style=flat-square)](https://packagist.org/packages/symplify/flex-loader/stats)
 
 Keep your Symfony `Kernel` clean from boiler plate code. It easier work with Kernel when you can easily separate your code from *the Flex code*.

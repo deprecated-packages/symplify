@@ -1,6 +1,5 @@
 # Set Config Resolver
 
-[![Build Status Github Actions](https://img.shields.io/github/workflow/status/symplify/set-config-resolver/Code_Checks?style=flat-square)](https://github.com/symplify/set-config-resolver/actions)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/set-config-resolver.svg?style=flat-square)](https://packagist.org/packages/symplify/set-config-resolver/stats)
 
 ## Install

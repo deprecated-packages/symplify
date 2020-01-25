@@ -21,12 +21,10 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 * **[Easy Coding Standard](https://github.com/symplify/easy-coding-standard)** - The easiest way to start a coding standard in your project. Easy, simple and intuitive. Combines both [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
-    [![Build Status](https://img.shields.io/github/workflow/status/symplify/easy-coding-standard/Code_Checks?style=flat-square)](https://github.com/symplify/easy-coding-standard/actions)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-coding-standard/stats)
 
 * **[Coding Standard](https://github.com/symplify/coding-standard)** - [Final interface](http://ocramius.github.io/blog/when-to-declare-classes-final/), [`::class` Constant](https://www.tomasvotruba.com/blog/2017/08/21/5-useful-rules-from-symplify-coding-standard/#3-class-constant-fixer) and other useful Checkers for [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
-    [![Build Status](https://img.shields.io/github/workflow/status/symplify/coding-standard/Code_Checks?style=flat-square)](https://github.com/symplify/coding-standard/actions)
     [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
 
 ## Smarter Symfony Dependency Injection

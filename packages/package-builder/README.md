@@ -1,9 +1,6 @@
 
 # Package Builder
 
-[![Build Status Github Actions](https://img.shields.io/github/workflow/status/symplify/package-builder/Code_Checks?style=flat-square)](https://github.com/symplify/package-builder/actions)
-[![Downloads](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder/stats)
-
 This tools helps you with Collectors in DependecyInjection, Console shortcuts, ParameterProvider as service and many more.
 
 ## Install
