@@ -1,0 +1,47 @@
+name: After Split Testing
+
+on:
+    pull_request: null
+    push:
+        branches:
+            - master
+
+jobs:
+    after_split_testing:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                package_name:
+                    - autowire-array-parameter
+                    - auto-bind-parameter
+                    - smart-file-system
+                    - package-builder
+                    - easy-coding-standard
+                    - easy-coding-standard-tester
+                    - coding-standard
+                    - statie
+                    - changelog-linker
+                    - monorepo-builder
+                    - phpstan-extensions
+                    - flex-loader
+                    - autodiscovery
+                    - set-config-resolver
+
+        name: After Split Testing of ${{ matrix.package_name }}
+
+        steps:
+            -   uses: actions/checkout@v2
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.3
+                    coverage: none
+
+            -   run: |
+                    composer install --no-progress
+                    packages/monorepo-builder/bin/monorepo-builder localize-composer-paths
+
+                    cd packages/${{ matrix.package_name }}
+
+                    # todo use local
+                    composer update --no-progress
+                    vendor/bin/phpunit
