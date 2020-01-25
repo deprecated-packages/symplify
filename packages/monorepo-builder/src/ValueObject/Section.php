@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Composer;
+namespace Symplify\MonorepoBuilder\ValueObject;
 
 final class Section
 {
@@ -25,9 +25,4 @@ final class Section
      * @var string
      */
     public const AUTOLOAD_DEV = 'autoload-dev';
-
-    /**
-     * @var string
-     */
-    public const REPOSITORIES = 'repositories';
 }

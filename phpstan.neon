@@ -11,6 +11,7 @@ parameters:
         - *packages/coding-standard/tests/**/correct*
         - *packages/coding-standard/tests/**/wrong*
         - *packages/coding-standard/tests/**/Wrong*
+        - */vendor/*
         # tests
         - packages/phpstan-extensions/tests/Rules/Classes/Source/ClassWithConstants.php
         - packages/easy-coding-standard/packages/sniff-runner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
@@ -38,7 +39,6 @@ parameters:
 
         # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
-        - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, bool\|int given#'
 
         # invalid 3rd party-code
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
@@ -128,6 +128,5 @@ parameters:
         - '#Strict comparison using \=\=\= between string\|false and null will always evaluate to false#'
         - '#Parameter \#1 \$jsonContent of method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:loadContentJsonStringToArray\(\) expects string, string\|false given#'
         - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'
-        - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File\:\:findNext\(\) expects int\|null, int<1, max\>\|int<min, \-1\>\|true given#'
-
-        - '#Access to an undefined property PHP_CodeSniffer\\Config\:\:\$tabWidth#'
+        - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File\:\:findNext\(\) expects int\|null, (.*?)#'
+        - '#Property Symplify\\CodingStandard\\TokenRunner\\ValueObject\\Wrapper\\FixerWrapper\\FixerClassWrapper\:\:\$startBracketIndex \(int\) does not accept int\|null#'

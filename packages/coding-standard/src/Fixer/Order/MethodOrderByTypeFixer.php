@@ -12,7 +12,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapper;
+use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\FixerClassWrapper;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
 /**

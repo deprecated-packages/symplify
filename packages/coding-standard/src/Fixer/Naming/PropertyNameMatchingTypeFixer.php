@@ -14,10 +14,10 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapper;
+use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\ArgumentWrapper;
+use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\FixerClassWrapper;
+use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\PropertyWrapper;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\PropertyWrapper;
 use Symplify\PackageBuilder\Php\TypeAnalyzer;
 
 final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface

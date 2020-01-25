@@ -73,7 +73,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
         // for symplify package testing
         // 1. vendor installed
-        $tokenRunnerConfig = __DIR__ . '/../../../../../packages/TokenRunner/config/config.yaml';
+        $tokenRunnerConfig = __DIR__ . '/../../../../../packages/token-runner/config/config.yaml';
         if (file_exists($tokenRunnerConfig)) {
             $configs[] = $tokenRunnerConfig;
         }

@@ -9,7 +9,7 @@ use Symplify\CodingStandard\TokenRunner\Tests\HttpKernel\TokenRunnerKernel;
 use Symplify\CodingStandard\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWrapper\Source\AbstractClass;
 use Symplify\CodingStandard\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWrapper\Source\SomeClass;
 use Symplify\CodingStandard\TokenRunner\Tests\Wrapper\FixerWrapper\ClassWrapper\Source\SomeInterface;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapper;
+use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\FixerClassWrapper;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 

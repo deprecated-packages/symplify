@@ -12,6 +12,7 @@ parameters:
         - 'php-72'
 
     exclude_paths:
+        - '/vendor/'
         - '/init/'
         - '/Source/'
         - '/ChangedFilesDetectorSource/'
