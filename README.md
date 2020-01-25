@@ -27,6 +27,8 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 The easiest way to start a coding standard in your project. Easy, simple and intuitive. Combines both [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
+<br>
+
 ### Coding Standard
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
@@ -34,6 +36,8 @@ The easiest way to start a coding standard in your project. Easy, simple and int
 - [symplify/coding-standard](https://github.com/symplify/coding-standard)
 
 [Final interface](http://ocramius.github.io/blog/when-to-declare-classes-final/), [`::class` Constant](https://www.tomasvotruba.com/blog/2017/08/21/5-useful-rules-from-symplify-coding-standard/#3-class-constant-fixer) and other useful Checkers for [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
+
+<br>
 
 ## Symfony Kernel and Dependency Injection on MDMA
 
@@ -45,6 +49,8 @@ The easiest way to start a coding standard in your project. Easy, simple and int
 
 Forget manual registration of translations, templates, mappings and routes in Symfony Application
 
+<br>
+
 ### Flex Loader
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/flex-loader.svg?style=flat-square)](https://packagist.org/packages/symplify/flex-loader/stats)
@@ -52,6 +58,8 @@ Forget manual registration of translations, templates, mappings and routes in Sy
 - [symplify/flex-loader](https://github.com/symplify/flex-loader)
 
 Keep your Symfony Kernel slim again and let flex-loader load all the configs
+
+<br>
 
 ### Auto Bind Parameter
 
@@ -61,6 +69,8 @@ Keep your Symfony Kernel slim again and let flex-loader load all the configs
 
 Auto bind parameters for your Symfony applications
 
+<br>
+
 ### Autowire Array Parameter
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/autowire-array-parameter.svg?style=flat-square)](https://packagist.org/packages/symplify/autowire-array-parameter/stats)
@@ -68,6 +78,8 @@ Auto bind parameters for your Symfony applications
 - [symplify/autowire-array-parameter](https://github.com/symplify/autowire-array-parameter)
 
 Autowire Array Parameters for Symfony applications.
+
+<br>
 
 ## Symfony Utils
 
@@ -79,6 +91,8 @@ Autowire Array Parameters for Symfony applications.
 
 Speed up your package DI Containers integration and Console apps to Symfony
 
+<br>
+
 ### Smart File System
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/smart-file-system.svg?style=flat-square)](https://packagist.org/packages/symplify/smart-file-system/stats)
@@ -86,6 +100,8 @@ Speed up your package DI Containers integration and Console apps to Symfony
 - [symplify/smart-file-system](https://github.com/symplify/smart-file-system)**
 
 Making `SplFileInfo` smarter with methods you really need.
+
+<br>
 
 ## Maintainer's Friend
 
@@ -97,6 +113,8 @@ Making `SplFileInfo` smarter with methods you really need.
 
 Why write `CHANGELOG.md`, when you can generate it
 
+<br>
+
 ### Monorepo Builder
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/changelog-linker.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker/stats)
@@ -105,6 +123,8 @@ Why write `CHANGELOG.md`, when you can generate it
 
 Validate, split, release and maintain Monorepo like a boss
 
+<br>
+
 ### Statie
 
 [![Downloads](https://img.shields.io/packagist/dt/Symplify/statie.svg?style=flat-square)](https://packagist.org/packages/Symplify/statie/stats)
@@ -112,6 +132,8 @@ Validate, split, release and maintain Monorepo like a boss
 - [symplify/statie](https://github.com/symplify/statie)
 
 [www.statie.org](https://www.statie.org) - Static website generator in PHP with Twig/Latte, that fuels [Pehapkari.cz](https://github.com/pehapkari/pehapkari.cz) and [tomasvotruba.com](https://github.com/tomasvotruba/tomasvotruba.com).
+
+<br>
 
 ## CLI Utils
 
@@ -122,6 +144,8 @@ Validate, split, release and maintain Monorepo like a boss
 - [symplify/set-config-resolver](https://github.com/symplify/set-config-resolver)
 
 Loads configs to you with CLI --config, -c, --set, -s or sets parameter
+
+<br>
 
 ## Install
 
