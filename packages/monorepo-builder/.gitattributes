@@ -2,4 +2,6 @@
 .gitignore export-ignore
 phpunit.xml export-ignore
 *.md export-ignore
-docs/ export-ignore
+tests export-ignore
+packages/split/tests export-ignore
+packages/testing/tests export-ignore
