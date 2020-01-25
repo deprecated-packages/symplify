@@ -2,7 +2,9 @@ language: php
 
 php: 7.4
 
-if: branch = master AND type = push
+branches:
+    only:
+        - master
 
 script:
     # disable xdebug to speed up
