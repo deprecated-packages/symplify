@@ -31,6 +31,10 @@ final class ParametersMerger
         return $left;
     }
 
+    # my methods
+
+    # ....
+
     /**
      * The same as above, just with the case if both values being non-array, it will combined them to array:
      *

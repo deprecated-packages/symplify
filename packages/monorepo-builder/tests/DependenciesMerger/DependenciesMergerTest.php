@@ -4,56 +4,43 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\DependenciesMerger;
 
-use Symplify\MonorepoBuilder\DependenciesMerger;
-use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\MonorepoBuilder\ComposerJsonMerger;
+use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
+use Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
 
-final class DependenciesMergerTest extends AbstractKernelTestCase
+final class DependenciesMergerTest extends AbstractComposerJsonDecoratorTest
 {
     /**
-     * @var DependenciesMerger
+     * @var ComposerJsonMerger
      */
-    private $dependenciesMerger;
+    private $composerJsonMerger;
 
     /**
-     * @var JsonFileManager
+     * @var ComposerJson
      */
-    private $jsonFileManager;
+    private $composerJson;
+
+    /**
+     * @var ComposerJson
+     */
+    private $mergedComposerJson;
 
     protected function setUp(): void
     {
-        $this->bootKernel(MonorepoBuilderKernel::class);
+        parent::setUp();
 
-        $this->dependenciesMerger = self::$container->get(DependenciesMerger::class);
-        $this->jsonFileManager = self::$container->get(JsonFileManager::class);
+        $this->composerJson = $this->createComposerJson(__DIR__ . '/Source/main-composer.json');
+        $this->composerJsonMerger = self::$container->get(ComposerJsonMerger::class);
+
+        $this->mergedComposerJson = $this->createComposerJson(__DIR__ . '/Source/merged-composer.json');
     }
 
     public function test(): void
     {
-        $mergedJson = $this->dependenciesMerger->mergeJsonToRootFilePath([
-            'require' => [
-                'php' => '^7.1',
-                'symfony/dependency-injection' => '^4.1',
-            ],
-            'repositories' => [
-                [
-                    'type' => 'vcs',
-                    'url' => 'https://github.com/molaux/PostgreSearchBundle.git',
-                ],
-                [
-                    'options' => [
-                        'symlink' => false,
-                    ],
-                    'type' => 'path',
-                    'url' => './../packages/*',
-                ],
-            ],
-        ], __DIR__ . '/Source/root.json');
+        $this->composerJsonMerger->mergeJsonToRoot($this->mergedComposerJson, $this->composerJson);
 
-        $this->assertSame(
-            $mergedJson,
-            $this->jsonFileManager->loadFromFilePath(__DIR__ . '/Source/expected-root.json')
-        );
+        $expectedComposerJson = $this->createComposerJson(__DIR__ . '/Source/expected-root.json');
+
+        $this->assertComposerJsonEquals($expectedComposerJson, $this->composerJson);
     }
 }

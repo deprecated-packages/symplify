@@ -4,52 +4,41 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
+use Symplify\MonorepoBuilder\ComposerJsonMerger;
+use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
+use Symplify\MonorepoBuilder\Configuration\ModifyingComposerJsonProvider;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
-use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator\AppenderComposerJsonDecorator\AppenderComposerJsonDecoratorTest
+ */
 final class AppenderComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {
     /**
-     * @var mixed[]
+     * @var ComposerJsonMerger
      */
-    private $dataToAppend = [];
+    private $composerJsonMerger;
 
     /**
-     * @var ParametersMerger
+     * @var ModifyingComposerJsonProvider
      */
-    private $parametersMerger;
+    private $modifyingComposerJsonProvider;
 
-    /**
-     * @param mixed[] $dataToAppend
-     */
-    public function __construct(array $dataToAppend, ParametersMerger $parametersMerger)
-    {
-        $this->dataToAppend = $dataToAppend;
-        $this->parametersMerger = $parametersMerger;
+    public function __construct(
+        ComposerJsonMerger $composerJsonMerger,
+        ModifyingComposerJsonProvider $modifyingComposerJsonProvider
+    ) {
+        $this->composerJsonMerger = $composerJsonMerger;
+        $this->modifyingComposerJsonProvider = $modifyingComposerJsonProvider;
     }
 
-    /**
-     * @param mixed[] $composerJson
-     * @return mixed[]
-     */
-    public function decorate(array $composerJson): array
+    public function decorate(ComposerJson $rootComposerJson): void
     {
-        foreach (array_keys($composerJson) as $key) {
-            if (! isset($this->dataToAppend[$key])) {
-                continue;
-            }
-
-            $composerJson[$key] = $this->parametersMerger->merge($this->dataToAppend[$key], $composerJson[$key]);
-
-            unset($this->dataToAppend[$key]);
-
-            // fix unique repositories
-            if ($key === 'repositories') {
-                $composerJson[$key] = array_unique($composerJson[$key], SORT_REGULAR);
-            }
+        $appendingComposerJson = $this->modifyingComposerJsonProvider->getAppendingComposerJson();
+        if ($appendingComposerJson === null) {
+            return;
         }
 
-        // add what was skipped
-        return array_merge($composerJson, $this->dataToAppend);
+        $this->composerJsonMerger->mergeJsonToRoot($appendingComposerJson, $rootComposerJson);
     }
 }

@@ -21,6 +21,8 @@ final class MergedPackagesCollector
      */
     public function getPackages(): array
     {
+        sort($this->packages);
+
         return $this->packages;
     }
 }

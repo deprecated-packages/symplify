@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
+use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Configuration\MergedPackagesCollector;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 
@@ -19,24 +20,17 @@ final class ReplaceSectionJsonDecorator implements ComposerJsonDecoratorInterfac
         $this->mergedPackagesCollector = $mergedPackagesCollector;
     }
 
-    /**
-     * @param mixed[] $composerJson
-     * @return mixed[]
-     */
-    public function decorate(array $composerJson): array
+    public function decorate(ComposerJson $composerJson): void
     {
         $mergedPackages = $this->mergedPackagesCollector->getPackages();
-        sort($mergedPackages);
 
         foreach ($mergedPackages as $mergedPackage) {
             // prevent value override
-            if (isset($composerJson['replace'][$mergedPackage])) {
+            if ($composerJson->isReplacePackageSet($mergedPackage)) {
                 continue;
             }
 
-            $composerJson['replace'][$mergedPackage] = 'self.version';
+            $composerJson->setReplacePackage($mergedPackage, 'self.version');
         }
-
-        return $composerJson;
     }
 }

@@ -29,23 +29,22 @@ And the basic setup is done!
 
 Merges configured sections to the root `composer.json`, so you can only edit `composer.json` of particular packages and let script to synchronize it.
 
-```yaml
-# monorepo-builder.yml
-parameters:
-    merge_sections:
-        # default values
-        - 'require'
-        - 'require-dev'
-        - 'autoload'
-        - 'autoload-dev'
-        - 'repositories'
-```
+Sections that are needed for monorepo to work will be merged:
 
-To merge just run:
+- 'require'
+- 'require-dev'
+- 'autoload'
+- 'autoload-dev'
+- 'repositories'
+- 'extra'
+
+To merge run:
 
 ```bash
 vendor/bin/monorepo-builder merge
 ```
+
+<br>
 
 Typical location for packages is `/packages`. But what if you have different naming or extra `/projects` directory?
 

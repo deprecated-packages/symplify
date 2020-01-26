@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Contract;
 
+use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
+
 interface ComposerJsonDecoratorInterface
 {
-    /**
-     * @param mixed[] $composerJson
-     * @return mixed[]
-     */
-    public function decorate(array $composerJson): array;
+    public function decorate(ComposerJson $composerJson): void;
 }

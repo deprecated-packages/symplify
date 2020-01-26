@@ -8,44 +8,17 @@ final class PackageComposerJsonMergerTest extends AbstractMergeTestCase
 {
     public function test(): void
     {
-        $expectedJson = [
-            'require' => [
-                'phpunit/phpunit' => '^2.0',
-                'rector/rector' => '^2.0',
-                'symplify/symplify' => '^2.0',
-            ],
-            'autoload' => [
-                'psr-4' => [
-                    'Symplify\MonorepoBuilder\\' => $this->getRelativeSourcePath() . 'src',
-                    'Symplify\Statie\\' => $this->getRelativeSourcePath() . 'src',
-                ],
-            ],
-        ];
+        $expectedComposerJson = $this->createComposerJson(
+            __DIR__ . '/PackageComposerJsonMergerSource/expected-with-relative-paths.json'
+        );
 
-        $this->doTestDirectoryMergeToFile(__DIR__ . '/Source', $expectedJson);
+        $this->doTestDirectoryMergeToFile(__DIR__ . '/Source', $expectedComposerJson);
     }
 
     public function testUniqueRepositories(): void
     {
-        $expectedJson = [
-            'repositories' => [
-                [
-                    'type' => 'composer',
-                    'url' => 'https://packages.example.org/',
-                ],
-            ],
-            'require' => [
-                'php' => '^7.1',
-            ],
-        ];
+        $expectedComposerJson = $this->createComposerJson(__DIR__ . '/PackageComposerJsonMergerSource/expected.json');
 
-        $this->doTestDirectoryMergeToFile(__DIR__ . '/SourceUniqueRepositories', $expectedJson);
-    }
-
-    private function getRelativeSourcePath(): string
-    {
-        $prefix = defined('SYMPLIFY_MONOREPO') ? 'packages/monorepo-builder/' : '';
-
-        return $prefix . 'tests/Package/Source/';
+        $this->doTestDirectoryMergeToFile(__DIR__ . '/SourceUniqueRepositories', $expectedComposerJson);
     }
 }

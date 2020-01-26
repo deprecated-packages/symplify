@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\Package;
 
-use Nette\Utils\FileSystem;
-use Nette\Utils\Json;
 use Symfony\Component\Finder\Finder;
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-abstract class AbstractMergeTestCase extends AbstractKernelTestCase
+abstract class AbstractMergeTestCase extends AbstractComposerJsonDecoratorTest
 {
     /**
      * @var PackageComposerJsonMerger
@@ -27,24 +25,20 @@ abstract class AbstractMergeTestCase extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernel(MonorepoBuilderKernel::class);
+        parent::setUp();
 
         $this->packageComposerJsonMerger = self::$container->get(PackageComposerJsonMerger::class);
         $this->finderSanitizer = self::$container->get(FinderSanitizer::class);
     }
 
-    /**
-     * @param string|mixed[] $expected
-     */
-    public function doTestDirectoryMergeToFile(string $directoryWithJsonFiles, $expected): void
-    {
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos(
-            $this->getFileInfosFromDirectory($directoryWithJsonFiles)
-        );
+    protected function doTestDirectoryMergeToFile(
+        string $directoryWithJsonFiles,
+        ComposerJson $expectedComposerJson
+    ): void {
+        $fileInfos = $this->getFileInfosFromDirectory($directoryWithJsonFiles);
+        $mergedComposerJson = $this->packageComposerJsonMerger->mergeFileInfos($fileInfos);
 
-        $expectedJson = is_array($expected) ? $expected : $this->loadJsonFromFile($expected);
-
-        $this->assertSame($expectedJson, $merged);
+        $this->assertComposerJsonEquals($expectedComposerJson, $mergedComposerJson);
     }
 
     /**
@@ -58,15 +52,5 @@ abstract class AbstractMergeTestCase extends AbstractKernelTestCase
             ->sortByName();
 
         return $this->finderSanitizer->sanitize($finder);
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function loadJsonFromFile(string $filePath): array
-    {
-        $fileContent = FileSystem::read($filePath);
-
-        return Json::decode($fileContent, Json::FORCE_ARRAY);
     }
 }
