@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\FileSystem;
 
 use Symplify\MonorepoBuilder\Exception\ShouldNotHappenException;
-use Symplify\MonorepoBuilder\PackageComposerFinder;
+use Symplify\MonorepoBuilder\Finder\PackageComposerFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ComposerJsonProvider

@@ -132,4 +132,6 @@ parameters:
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File\:\:findNext\(\) expects int\|null, (.*?)#'
         - '#Property Symplify\\CodingStandard\\TokenRunner\\ValueObject\\Wrapper\\FixerWrapper\\FixerClassWrapper\:\:\$startBracketIndex \(int\) does not accept int\|null#'
 
-        - '#Parameter \#1 \$array of method Symplify\\MonorepoBuilder\\ArraySorter\:\:recursiveSort\(\) expects array, array\|string given#'
+        - '#Parameter \#1 \$array of method (.*?)\\ArraySorter\:\:recursiveSort\(\) expects array, array\|string given#'
+
+        - '#Cannot assign offset (.*?) to array\|string#'

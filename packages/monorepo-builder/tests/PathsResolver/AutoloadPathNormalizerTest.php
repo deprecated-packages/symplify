@@ -4,30 +4,23 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\PathsResolver;
 
-use Symplify\MonorepoBuilder\ComposerJsonObject\ComposerJsonFactory;
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
-use Symplify\MonorepoBuilder\PathResolver\AutoloadPathNormalizer;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
+use Symplify\MonorepoBuilder\Merge\PathResolver\AutoloadPathNormalizer;
+use Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class AutoloadPathNormalizerTest extends AbstractKernelTestCase
+final class AutoloadPathNormalizerTest extends AbstractComposerJsonDecoratorTest
 {
     /**
      * @var AutoloadPathNormalizer
      */
     private $autoloadPathNormalizer;
 
-    /**
-     * @var ComposerJsonFactory
-     */
-    private $composerJsonFactory;
-
     protected function setUp(): void
     {
-        $this->bootKernel(MonorepoBuilderKernel::class);
-        $this->autoloadPathNormalizer = self::$container->get(AutoloadPathNormalizer::class);
+        parent::setUp();
 
-        $this->composerJsonFactory = self::$container->get(ComposerJsonFactory::class);
+        $this->autoloadPathNormalizer = self::$container->get(AutoloadPathNormalizer::class);
     }
 
     public function test(): void
@@ -35,13 +28,17 @@ final class AutoloadPathNormalizerTest extends AbstractKernelTestCase
         $inputFileInfo = new SmartFileInfo(__DIR__ . '/AutoloadPathNormalizerSource/input.json');
 
         $composerJson = $this->composerJsonFactory->createFromFileInfo($inputFileInfo);
-
         $this->autoloadPathNormalizer->normalizeAutoloadPaths($composerJson, $inputFileInfo);
 
-        $this->assertSame([
-            'psr-4' => [
-                'App\\' => 'packages/monorepo-builder/tests/PathsResolver/AutoloadPathNormalizerSource/src',
-            ],
-        ], $composerJson->getAutoload());
+        $this->assertComposerJsonEquals($this->getExpectedComposerJons(), $composerJson);
+    }
+
+    private function getExpectedComposerJons(): ComposerJson
+    {
+        if (defined('SYMPLIFY_MONOREPO')) {
+            return $this->createComposerJson(__DIR__ . '/AutoloadPathNormalizerSource/expected.json');
+        }
+
+        return $this->createComposerJson(__DIR__ . '/AutoloadPathNormalizerSource/split-expected.json');
     }
 }

@@ -61,7 +61,7 @@ final class InitCommand extends Command
         $this->filesystem->mirror(__DIR__ . '/../../templates/monorepo', $output);
 
         // Replace MonorepoBuilder version in monorepo-builder.yml
-        $filename = sprintf('%s/monorepo-builder.yml', $output);
+        $filename = sprintf('%s/monorepo-builder.yaml', $output);
         $content = str_replace('<version>', $this->getMonorepoBuilderVersion(), NetteFileSystem::read($filename));
 
         $this->filesystem->dumpFile($filename, $content);
