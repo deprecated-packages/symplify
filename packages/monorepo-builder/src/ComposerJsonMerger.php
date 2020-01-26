@@ -85,7 +85,7 @@ final class ComposerJsonMerger
 
         $this->mergeRepositories($jsonToMerge, $rootComposerJson);
 
-        if ($jsonToMerge->getExtra()) {
+        if ($jsonToMerge->getExtra() !== []) {
             $extra = $this->parametersMerger->mergeWithCombine($rootComposerJson->getExtra(), $jsonToMerge->getExtra());
             if (is_array($extra)) {
                 $rootComposerJson->setExtra($extra);
@@ -118,7 +118,7 @@ final class ComposerJsonMerger
 
     private function mergeRequireDev(ComposerJson $jsonToMerge, ComposerJson $rootComposerJson): void
     {
-        if ($jsonToMerge->getRequireDev()) {
+        if ($jsonToMerge->getRequireDev() !== []) {
             $requireDev = $this->parametersMerger->mergeWithCombine(
                 $rootComposerJson->getRequireDev(),
                 $jsonToMerge->getRequireDev()

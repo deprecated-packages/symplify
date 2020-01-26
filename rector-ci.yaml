@@ -18,6 +18,7 @@ parameters:
         - '/ChangedFilesDetectorSource/'
         # parameter Symfony autowire hack
         - 'packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php'
+        - 'packages/monorepo-builder/packages/init/templates/*'
 
     exclude_rectors:
         # too free

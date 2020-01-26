@@ -21,11 +21,11 @@ final class ModifyingComposerJsonProvider
 
     public function __construct(ComposerJsonFactory $composerJsonFactory, array $dataToAppend, array $dataToRemove)
     {
-        if ($dataToAppend) {
+        if ($dataToAppend !== []) {
             $this->appendingComposerJson = $composerJsonFactory->createFromArray($dataToAppend);
         }
 
-        if ($dataToRemove) {
+        if ($dataToRemove !== []) {
             $this->removingComposerJson = $composerJsonFactory->createFromArray($dataToRemove);
         }
     }
