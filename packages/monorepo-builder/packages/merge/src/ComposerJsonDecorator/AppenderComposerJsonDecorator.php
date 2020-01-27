@@ -32,13 +32,13 @@ final class AppenderComposerJsonDecorator implements ComposerJsonDecoratorInterf
         $this->modifyingComposerJsonProvider = $modifyingComposerJsonProvider;
     }
 
-    public function decorate(ComposerJson $rootComposerJson): void
+    public function decorate(ComposerJson $mainComposerJson): void
     {
         $appendingComposerJson = $this->modifyingComposerJsonProvider->getAppendingComposerJson();
         if ($appendingComposerJson === null) {
             return;
         }
 
-        $this->composerJsonMerger->mergeJsonToRoot($rootComposerJson, $appendingComposerJson);
+        $this->composerJsonMerger->mergeJsonToRoot($mainComposerJson, $appendingComposerJson);
     }
 }

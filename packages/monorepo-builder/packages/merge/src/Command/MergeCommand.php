@@ -19,6 +19,7 @@ use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class MergeCommand extends Command
 {
@@ -97,20 +98,8 @@ final class MergeCommand extends Command
     {
         $this->ensureNoConflictingPackageVersions();
 
-        $mergedComposerJson = $this->composerJsonMerger->mergeFileInfos(
-            $this->composerJsonProvider->getPackagesFileInfos()
-        );
-
-        // decorate
-        foreach ($this->composerJsonDecorators as $composerJsonDecorator) {
-            $composerJsonDecorator->decorate($mergedComposerJson);
-        }
-
-        if ($mergedComposerJson->isEmpty()) {
-            $this->symfonyStyle->note('Nothing to merge.');
-
-            return ShellCode::SUCCESS;
-        }
+        $packageFileInfos = $this->composerJsonProvider->getPackagesFileInfos();
+        $mergedComposerJson = $this->mergePackageFileInfosAndDecorate($packageFileInfos);
 
         $this->mergeExistingComposerJsonAndMergedComposerJson($mergedComposerJson);
 
@@ -134,14 +123,27 @@ final class MergeCommand extends Command
 
     private function mergeExistingComposerJsonAndMergedComposerJson(ComposerJson $mergedComposerJson): void
     {
-        $rootComposerJsonFilePath = getcwd() . '/composer.json';
+        $mainComposerJsonFilePath = getcwd() . '/composer.json';
 
-        $rootComposerJson = $this->composerJsonFactory->createFromFilePath($rootComposerJsonFilePath);
+        $mainComposerJson = $this->composerJsonFactory->createFromFilePath($mainComposerJsonFilePath);
 
-        $this->composerJsonMerger->mergeJsonToRoot($rootComposerJson, $mergedComposerJson);
+        $this->composerJsonMerger->mergeJsonToRoot($mainComposerJson, $mergedComposerJson);
 
-        $this->jsonFileManager->saveComposerJsonToFilePath($rootComposerJson, $rootComposerJsonFilePath);
+        $this->jsonFileManager->saveComposerJsonToFilePath($mainComposerJson, $mainComposerJsonFilePath);
 
         $this->symfonyStyle->success('Main "composer.json" was updated.');
+    }
+
+    /**
+     * @param SmartFileInfo[] $packageFileInfos
+     */
+    private function mergePackageFileInfosAndDecorate(array $packageFileInfos): ComposerJson
+    {
+        $mergedComposerJson = $this->composerJsonMerger->mergeFileInfos($packageFileInfos);
+        foreach ($this->composerJsonDecorators as $composerJsonDecorator) {
+            $composerJsonDecorator->decorate($mergedComposerJson);
+        }
+
+        return $mergedComposerJson;
     }
 }

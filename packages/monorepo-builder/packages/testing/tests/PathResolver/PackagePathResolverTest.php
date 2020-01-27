@@ -24,14 +24,14 @@ final class PackagePathResolverTest extends AbstractKernelTestCase
 
     public function test(): void
     {
-        $rootComposerJson = new SmartFileInfo(__DIR__ . '/PackagePathResolverTestSource/some_root/composer.json');
+        $mainComposerJson = new SmartFileInfo(__DIR__ . '/PackagePathResolverTestSource/some_root/composer.json');
 
         $packageComposerJson = new SmartFileInfo(
             __DIR__ . '/PackagePathResolverTestSource/some_root/nested_packages/nested/composer.json'
         );
 
         $relativePathToLocalPackage = $this->packagePathResolver->resolveRelativePathToLocalPackage(
-            $rootComposerJson,
+            $mainComposerJson,
             $packageComposerJson
         );
 

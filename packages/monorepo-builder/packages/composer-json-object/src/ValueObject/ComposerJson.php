@@ -233,39 +233,6 @@ final class ComposerJson
         return $this->sortItemsByOrderedListOfKeys($array, $this->orderedKeys);
     }
 
-    public function isEmpty(): bool
-    {
-        if ($this->getName() !== '') {
-            return false;
-        }
-
-        if ($this->getAutoload() !== []) {
-            return false;
-        }
-
-        if ($this->getAutoloadDev() !== []) {
-            return false;
-        }
-
-        if ($this->getRepositories() !== []) {
-            return false;
-        }
-
-        if ($this->getReplace() !== []) {
-            return false;
-        }
-
-        if ($this->getExtra() !== []) {
-            return false;
-        }
-
-        if ($this->getScripts() !== []) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function setScripts(array $scripts): void
     {
         $this->scripts = $scripts;

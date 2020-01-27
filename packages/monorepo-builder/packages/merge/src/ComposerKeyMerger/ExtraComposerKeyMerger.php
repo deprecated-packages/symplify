@@ -9,13 +9,13 @@ use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
 
 final class ExtraComposerKeyMerger extends AbstractComposerKeyMerger implements ComposerKeyMergerInterface
 {
-    public function merge(ComposerJson $rootComposerJson, ComposerJson $jsonToMerge): void
+    public function merge(ComposerJson $mainComposerJson, ComposerJson $newComposerJson): void
     {
-        if ($jsonToMerge->getExtra() === []) {
+        if ($newComposerJson->getExtra() === []) {
             return;
         }
 
-        $extra = $this->parametersMerger->mergeWithCombine($rootComposerJson->getExtra(), $jsonToMerge->getExtra());
+        $extra = $this->parametersMerger->mergeWithCombine($mainComposerJson->getExtra(), $newComposerJson->getExtra());
 
         // do not merge extra alias as only for local packages
         if (isset($extra['branch-alias'])) {
@@ -26,6 +26,6 @@ final class ExtraComposerKeyMerger extends AbstractComposerKeyMerger implements 
             return;
         }
 
-        $rootComposerJson->setExtra($extra);
+        $mainComposerJson->setExtra($extra);
     }
 }

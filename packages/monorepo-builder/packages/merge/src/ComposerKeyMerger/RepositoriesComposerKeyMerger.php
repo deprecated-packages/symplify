@@ -9,15 +9,15 @@ use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
 
 final class RepositoriesComposerKeyMerger extends AbstractComposerKeyMerger implements ComposerKeyMergerInterface
 {
-    public function merge(ComposerJson $rootComposerJson, ComposerJson $jsonToMerge): void
+    public function merge(ComposerJson $mainComposerJson, ComposerJson $newComposerJson): void
     {
-        if ($jsonToMerge->getRepositories() === []) {
+        if ($newComposerJson->getRepositories() === []) {
             return;
         }
 
         $repositories = $this->mergeRecursiveAndSort(
-            $rootComposerJson->getRepositories(),
-            $jsonToMerge->getRepositories()
+            $mainComposerJson->getRepositories(),
+            $newComposerJson->getRepositories()
         );
 
         // uniquate special cases, ref https://github.com/symplify/symplify/issues/1197
@@ -25,6 +25,6 @@ final class RepositoriesComposerKeyMerger extends AbstractComposerKeyMerger impl
         // remove keys
         $repositories = array_values($repositories);
 
-        $rootComposerJson->setRepositories($repositories);
+        $mainComposerJson->setRepositories($repositories);
     }
 }

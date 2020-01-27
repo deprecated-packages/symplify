@@ -9,13 +9,16 @@ use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
 
 final class RequireDevComposerKeyMerger extends AbstractComposerKeyMerger implements ComposerKeyMergerInterface
 {
-    public function merge(ComposerJson $rootComposerJson, ComposerJson $jsonToMerge): void
+    public function merge(ComposerJson $mainComposerJson, ComposerJson $newComposerJson): void
     {
-        if ($jsonToMerge->getRequireDev() === []) {
+        if ($newComposerJson->getRequireDev() === []) {
             return;
         }
 
-        $requireDev = $this->mergeRecursiveAndSort($rootComposerJson->getRequireDev(), $jsonToMerge->getRequireDev());
-        $rootComposerJson->setRequireDev($requireDev);
+        $requireDev = $this->mergeRecursiveAndSort(
+            $mainComposerJson->getRequireDev(),
+            $newComposerJson->getRequireDev()
+        );
+        $mainComposerJson->setRequireDev($requireDev);
     }
 }

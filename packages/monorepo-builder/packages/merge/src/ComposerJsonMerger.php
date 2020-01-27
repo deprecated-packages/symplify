@@ -64,21 +64,21 @@ final class ComposerJsonMerger
     }
 
     public function mergeJsonToRoot(
-        ComposerJson $rootComposerJson,
-        ComposerJson $jsonToMerge,
+        ComposerJson $mainComposerJson,
+        ComposerJson $newComposerJson,
         ?SmartFileInfo $packageFileInfo = null
     ): void {
-        if ($jsonToMerge->getName()) {
-            $this->mergedPackagesCollector->addPackage($jsonToMerge->getName());
+        if ($newComposerJson->getName()) {
+            $this->mergedPackagesCollector->addPackage($newComposerJson->getName());
         }
 
         // prepare paths before autolaod merging
         if ($packageFileInfo !== null) {
-            $this->autoloadPathNormalizer->normalizeAutoloadPaths($jsonToMerge, $packageFileInfo);
+            $this->autoloadPathNormalizer->normalizeAutoloadPaths($newComposerJson, $packageFileInfo);
         }
 
         foreach ($this->composerKeyMergers as $composerKeyMerger) {
-            $composerKeyMerger->merge($rootComposerJson, $jsonToMerge);
+            $composerKeyMerger->merge($mainComposerJson, $newComposerJson);
         }
     }
 }
