@@ -12,8 +12,6 @@ jobs:
             name: "Split Monorepo"
             if: (branch = master OR tag IS present) && type = push
             script:
-                # disable xdebug to speed up
-                - phpenv config-rm xdebug.ini
                 - composer update
                 - packages/monorepo-builder/bin/monorepo-builder split --max-processes 6
 
