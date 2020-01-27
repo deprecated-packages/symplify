@@ -26,6 +26,10 @@ final class MergedAndDecoratedComposerJsonFactoryTest extends AbstractComposerJs
 
     public function test(): void
     {
+        if (! defined('SYMPLIFY_MONOREPO')) {
+            $this->markTestSkipped('Already tested on monorepo');
+        }
+
         $mainComposerJson = $this->createComposerJson(__DIR__ . '/Source/root_composer.json');
         $packagesFileInfos = [];
         $packagesFileInfos[] = new SmartFileInfo(__DIR__ . '/Source/packages/one_package.json');

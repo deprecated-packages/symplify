@@ -24,19 +24,17 @@ final class AutoloadPathNormalizerTest extends AbstractComposerJsonDecoratorTest
 
     public function test(): void
     {
+        if (! defined('SYMPLIFY_MONOREPO')) {
+            $this->markTestSkipped('Already tested on monorepo');
+        }
+
         $autoloadFileInfo = new SmartFileInfo(__DIR__ . '/AutoloadPathNormalizerSource/autoload.json');
         $composerJson = $this->createComposerJson($autoloadFileInfo);
 
         $this->autoloadPathNormalizer->normalizeAutoloadPaths($composerJson, $autoloadFileInfo);
-        $this->assertComposerJsonEquals($this->getExpectedComposerJson(), $composerJson);
-    }
-
-    private function getExpectedComposerJson(): string
-    {
-        if (defined('SYMPLIFY_MONOREPO')) {
-            return __DIR__ . '/AutoloadPathNormalizerSource/expected-autoload.json';
-        }
-
-        return __DIR__ . '/AutoloadPathNormalizerSource/split-expected-autoload.json';
+        $this->assertComposerJsonEquals(
+            __DIR__ . '/AutoloadPathNormalizerSource/expected-autoload.json',
+            $composerJson
+        );
     }
 }
