@@ -1,4 +1,4 @@
-name: After Split Testing
+name: Split Tests
 
 on:
     pull_request: null
@@ -27,7 +27,7 @@ jobs:
                     - autodiscovery
                     - set-config-resolver
 
-        name: After Split Testing of ${{ matrix.package_name }}
+        name: Split Tests of ${{ matrix.package_name }}
 
         steps:
             -   uses: actions/checkout@v2
@@ -42,6 +42,7 @@ jobs:
 
                     cd packages/${{ matrix.package_name }}
                     composer update --no-progress
+
             -   run: |
                     cd packages/${{ matrix.package_name }}
                     vendor/bin/phpunit
