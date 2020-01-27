@@ -1,6 +1,8 @@
 # inspired by https://github.com/rectorphp/rector/blob/master/.travis.yml
 language: php
 
+dist: bionic
+
 php: 7.4
 
 before_install:
