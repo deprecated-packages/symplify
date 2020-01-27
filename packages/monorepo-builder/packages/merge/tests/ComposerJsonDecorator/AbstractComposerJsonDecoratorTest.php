@@ -10,6 +10,7 @@ use Symplify\MonorepoBuilder\ComposerJsonObject\ComposerJsonFactory;
 use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
 {
@@ -32,12 +33,16 @@ abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
     }
 
     /**
-     * @param mixed[]|string $source
+     * @param mixed[]|SmartFileInfo|string $source
      */
     protected function createComposerJson($source): ComposerJson
     {
         if (is_array($source)) {
             return $this->composerJsonFactory->createFromArray($source);
+        }
+
+        if ($source instanceof SmartFileInfo) {
+            return $this->composerJsonFactory->createFromFileInfo($source);
         }
 
         return $this->composerJsonFactory->createFromFilePath($source);
