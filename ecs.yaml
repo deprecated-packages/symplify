@@ -135,3 +135,4 @@ parameters:
         Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
             - 'packages/monorepo-builder/packages/composer-json-object/src/ComposerJsonFactory.php'
             - 'packages/monorepo-builder/packages/composer-json-object/src/ValueObject/ComposerJson.php'
+            - 'packages/package-builder/src/Yaml/ParametersMerger.php'

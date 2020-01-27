@@ -135,3 +135,4 @@ parameters:
         - '#Parameter \#1 \$array of method (.*?)\\ArraySorter\:\:recursiveSort\(\) expects array, array\|string given#'
 
         - '#Cannot assign offset (.*?) to array\|string#'
+        - '#Cannot assign offset int\|null to PhpCsFixer\\Tokenizer\\Tokens#'

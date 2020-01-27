@@ -20,8 +20,11 @@ final class AutoloadPathNormalizer
      */
     public function normalizeAutoloadPaths(ComposerJson $packageComposerJson, SmartFileInfo $packageFile): void
     {
-        $this->normalizeAutoload($packageComposerJson, $packageFile);
-        $this->normalizeAutoloadDev($packageComposerJson, $packageFile);
+        $autoload = $this->normalizeAutoloadArray($packageFile, $packageComposerJson->getAutoload());
+        $packageComposerJson->setAutoload($autoload);
+
+        $autoloadDev = $this->normalizeAutoloadArray($packageFile, $packageComposerJson->getAutoloadDev());
+        $packageComposerJson->setAutoloadDev($autoloadDev);
     }
 
     /**
@@ -45,33 +48,16 @@ final class AutoloadPathNormalizer
         return $autoloadSubsection;
     }
 
-    private function normalizeAutoload(ComposerJson $packageComposerJson, SmartFileInfo $packageFile): void
+    private function normalizeAutoloadArray(SmartFileInfo $packageFile, array $autoloadArray): array
     {
-        $autoload = $packageComposerJson->getAutoload();
         foreach (self::SECTIONS_WITH_PATH as $sectionWithPath) {
-            if (! isset($autoload[$sectionWithPath])) {
+            if (! isset($autoloadArray[$sectionWithPath])) {
                 continue;
             }
 
-            // @todo objectivize?
-            $autoload[$sectionWithPath] = $this->relativizePath($autoload[$sectionWithPath], $packageFile);
+            $autoloadArray[$sectionWithPath] = $this->relativizePath($autoloadArray[$sectionWithPath], $packageFile);
         }
 
-        $packageComposerJson->setAutoload($autoload);
-    }
-
-    private function normalizeAutoloadDev(ComposerJson $packageComposerJson, SmartFileInfo $packageFile): void
-    {
-        $autoloadDev = $packageComposerJson->getAutoloadDev();
-        foreach (self::SECTIONS_WITH_PATH as $sectionWithPath) {
-            if (! isset($autoloadDev[$sectionWithPath])) {
-                continue;
-            }
-
-            // @todo objectivize?
-            $autoloadDev[$sectionWithPath] = $this->relativizePath($autoloadDev[$sectionWithPath], $packageFile);
-        }
-
-        $packageComposerJson->setAutoloadDev($autoloadDev);
+        return $autoloadArray;
     }
 }

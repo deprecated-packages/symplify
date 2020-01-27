@@ -7,18 +7,15 @@ namespace Symplify\MonorepoBuilder\Merge\ComposerKeyMerger;
 use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
 
-final class RequireDevComposerKeyMerger extends AbstractComposerKeyMerger implements ComposerKeyMergerInterface
+final class ReplaceComposerKeyMerger implements ComposerKeyMergerInterface
 {
     public function merge(ComposerJson $mainComposerJson, ComposerJson $newComposerJson): void
     {
-        if ($newComposerJson->getRequireDev() === []) {
+        if ($newComposerJson->getReplace() === []) {
             return;
         }
 
-        $requireDev = $this->mergeRecursiveAndSort(
-            $mainComposerJson->getRequireDev(),
-            $newComposerJson->getRequireDev()
-        );
-        $mainComposerJson->setRequireDev($requireDev);
+        $replace = array_merge($newComposerJson->getReplace(), $mainComposerJson->getReplace());
+        $mainComposerJson->setReplace($replace);
     }
 }

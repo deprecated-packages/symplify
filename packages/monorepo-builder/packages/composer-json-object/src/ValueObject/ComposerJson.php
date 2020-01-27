@@ -174,6 +174,8 @@ final class ComposerJson
 
     public function setReplace(array $replace): void
     {
+        ksort($replace);
+
         $this->replace = $replace;
     }
 
@@ -230,40 +232,11 @@ final class ComposerJson
             $array['config'] = $this->config;
         }
 
+        if ($this->replace !== []) {
+            $array['replace'] = $this->replace;
+        }
+
         return $this->sortItemsByOrderedListOfKeys($array, $this->orderedKeys);
-    }
-
-    public function isEmpty(): bool
-    {
-        if ($this->getName() !== '') {
-            return false;
-        }
-
-        if ($this->getAutoload() !== []) {
-            return false;
-        }
-
-        if ($this->getAutoloadDev() !== []) {
-            return false;
-        }
-
-        if ($this->getRepositories() !== []) {
-            return false;
-        }
-
-        if ($this->getReplace() !== []) {
-            return false;
-        }
-
-        if ($this->getExtra() !== []) {
-            return false;
-        }
-
-        if ($this->getScripts() !== []) {
-            return false;
-        }
-
-        return true;
     }
 
     public function setScripts(array $scripts): void
@@ -294,6 +267,16 @@ final class ComposerJson
     public function setLicense(string $license): void
     {
         $this->license = $license;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function getLicense(): ?string
+    {
+        return $this->license;
     }
 
     /**

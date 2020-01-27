@@ -7,9 +7,6 @@ namespace Symplify\MonorepoBuilder\Merge\Tests\Package\CombineStringsToArrayJson
 use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Merge\Tests\Package\AbstractMergeTestCase;
 
-/**
- * @see \Symplify\MonorepoBuilder\Merge\Package\PackageComposerJsonMerger
- */
 final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
 {
     public function testIdenticalNamespaces(): void

@@ -1,0 +1,33 @@
+{
+    "name": "symplify/set-config-resolver",
+    "description": "Resolve config and sets from configs and cli opptions for CLI applications",
+    "license": "MIT",
+    "require": {
+        "php": "^7.2",
+        "nette/utils": "^3.0",
+        "symfony/console": "^4.4|^5.0",
+        "symfony/finder": "^4.4|^5.0",
+        "symfony/filesystem": "^4.4|^5.0",
+        "symplify/smart-file-system": "^7.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\SetConfigResolver\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\SetConfigResolver\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "7.3-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

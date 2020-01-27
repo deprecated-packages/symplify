@@ -1,0 +1,34 @@
+{
+    "name": "symplify/symplify",
+    "description": "Repository for Symplify packages development.",
+    "license": "MIT",
+    "autoload-dev": {
+        "classmap": [
+            "packages/autodiscovery/tests/Source/KernelProjectDir"
+        ]
+    },
+    "scripts": {
+        "complete-check": [
+            "phpunit",
+            "@fix-cs",
+            "@phpstan"
+        ],
+        "check-cs": "packages/easy-coding-standard/bin/ecs check --ansi",
+        "fix-cs": [
+            "packages/easy-coding-standard/bin/ecs check --fix --ansi",
+            "bin/clear_readmes.sh"
+        ],
+        "phpstan": "phpstan analyse packages --error-format symplify --ansi",
+        "changelog": [
+            "packages/changelog-linker/bin/changelog-linker dump-merges --in-categories --in-packages --ansi",
+            "packages/changelog-linker/bin/changelog-linker link --ansi",
+            "packages/changelog-linker/bin/changelog-linker cleanup --ansi"
+        ],
+        "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
+        "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
+        "rector": "rector process packages --config rector-ci.yaml --dry-run --ansi"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

@@ -9,8 +9,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\MonorepoBuilder\\": "tests/Package/Source/src",
-            "Symplify\\Statie\\": "tests/Package/Source/src"
+            "Symplify\\MonorepoBuilder\\": "packages/merge/tests/Package/Source/src",
+            "Symplify\\Statie\\": "packages/merge/tests/Package/Source/src"
         }
     }
 }

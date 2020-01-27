@@ -8,5 +8,5 @@ use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 
 interface ComposerKeyMergerInterface
 {
-    public function merge(ComposerJson $rootComposerJson, ComposerJson $jsonToMerge): void;
+    public function merge(ComposerJson $mainComposerJson, ComposerJson $newToMerge): void;
 }

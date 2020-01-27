@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Tests\PathsResolver;
+namespace Symplify\MonorepoBuilder\Merge\Tests\PathResolver;
 
-use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Merge\PathResolver\AutoloadPathNormalizer;
 use Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -25,20 +24,19 @@ final class AutoloadPathNormalizerTest extends AbstractComposerJsonDecoratorTest
 
     public function test(): void
     {
-        $inputFileInfo = new SmartFileInfo(__DIR__ . '/AutoloadPathNormalizerSource/input.json');
+        $autoloadFileInfo = new SmartFileInfo(__DIR__ . '/AutoloadPathNormalizerSource/autoload.json');
+        $composerJson = $this->createComposerJson($autoloadFileInfo);
 
-        $composerJson = $this->composerJsonFactory->createFromFileInfo($inputFileInfo);
-        $this->autoloadPathNormalizer->normalizeAutoloadPaths($composerJson, $inputFileInfo);
-
+        $this->autoloadPathNormalizer->normalizeAutoloadPaths($composerJson, $autoloadFileInfo);
         $this->assertComposerJsonEquals($this->getExpectedComposerJson(), $composerJson);
     }
 
-    private function getExpectedComposerJson(): ComposerJson
+    private function getExpectedComposerJson(): string
     {
         if (defined('SYMPLIFY_MONOREPO')) {
-            return $this->createComposerJson(__DIR__ . '/AutoloadPathNormalizerSource/expected.json');
+            return __DIR__ . '/AutoloadPathNormalizerSource/expected-autoload.json';
         }
 
-        return $this->createComposerJson(__DIR__ . '/AutoloadPathNormalizerSource/split-expected.json');
+        return __DIR__ . '/AutoloadPathNormalizerSource/split-expected-autoload.json';
     }
 }

@@ -68,7 +68,7 @@ final class LocalizeComposerPathsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $rootComposerJsonFileInfo = $this->composerJsonProvider->getRootFileInfo();
+        $mainComposerJsonFileInfo = $this->composerJsonProvider->getRootFileInfo();
 
         foreach ($this->composerJsonProvider->getPackagesFileInfos() as $packageFileInfo) {
             $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
@@ -77,7 +77,7 @@ final class LocalizeComposerPathsCommand extends Command
             $packageComposerJson = $this->setAsteriskVersionForUsedPackages($packageComposerJson, $usedPackageNames);
 
             // possibly replace them all to cover recursive secondary dependencies
-            $packageComposerJson = $this->addRepositories($rootComposerJsonFileInfo, $packageComposerJson);
+            $packageComposerJson = $this->addRepositories($mainComposerJsonFileInfo, $packageComposerJson);
 
             $this->symfonyStyle->note(sprintf('File "%s" was updated', $packageFileInfo->getRelativeFilePathFromCwd()));
 
@@ -89,7 +89,7 @@ final class LocalizeComposerPathsCommand extends Command
         return ShellCode::SUCCESS;
     }
 
-    private function addRepositories(SmartFileInfo $rootComposerJsonFileInfo, array $packageComposerJson): array
+    private function addRepositories(SmartFileInfo $mainComposerJsonFileInfo, array $packageComposerJson): array
     {
         $packageNames = $this->packageNamesProvider->provide();
 
@@ -98,7 +98,7 @@ final class LocalizeComposerPathsCommand extends Command
             $usedPackageFileInfo = $this->composerJsonProvider->getPackageByName($packageName);
 
             $relativePathToLocalPackage = $this->packagePathResolver->resolveRelativePathToLocalPackage(
-                $rootComposerJsonFileInfo,
+                $mainComposerJsonFileInfo,
                 $usedPackageFileInfo
             );
 
