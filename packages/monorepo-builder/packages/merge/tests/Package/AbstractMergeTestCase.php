@@ -6,7 +6,7 @@ namespace Symplify\MonorepoBuilder\Merge\Tests\Package;
 
 use Symfony\Component\Finder\Finder;
 use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
-use Symplify\MonorepoBuilder\Merge\Package\PackageComposerJsonMerger;
+use Symplify\MonorepoBuilder\Merge\ComposerJsonMerger;
 use Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -14,9 +14,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 abstract class AbstractMergeTestCase extends AbstractComposerJsonDecoratorTest
 {
     /**
-     * @var PackageComposerJsonMerger
+     * @var ComposerJsonMerger
      */
-    private $packageComposerJsonMerger;
+    private $composerJsonMerger;
 
     /**
      * @var FinderSanitizer
@@ -27,7 +27,7 @@ abstract class AbstractMergeTestCase extends AbstractComposerJsonDecoratorTest
     {
         parent::setUp();
 
-        $this->packageComposerJsonMerger = self::$container->get(PackageComposerJsonMerger::class);
+        $this->composerJsonMerger = self::$container->get(ComposerJsonMerger::class);
         $this->finderSanitizer = self::$container->get(FinderSanitizer::class);
     }
 
@@ -36,7 +36,7 @@ abstract class AbstractMergeTestCase extends AbstractComposerJsonDecoratorTest
         ComposerJson $expectedComposerJson
     ): void {
         $fileInfos = $this->getFileInfosFromDirectory($directoryWithJsonFiles);
-        $mergedComposerJson = $this->packageComposerJsonMerger->mergeFileInfos($fileInfos);
+        $mergedComposerJson = $this->composerJsonMerger->mergeFileInfos($fileInfos);
 
         $this->assertComposerJsonEquals($expectedComposerJson, $mergedComposerJson);
     }

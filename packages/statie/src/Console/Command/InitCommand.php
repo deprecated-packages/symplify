@@ -17,19 +17,44 @@ final class InitCommand extends Command
     /**
      * @var string
      */
+    private const BLOG = 'blog';
+
+    /**
+     * @var string
+     */
+    private const TWIG = 'twig';
+
+    /**
+     * @var string
+     */
+    private const BLOG_TWIG = 'blog-twig';
+
+    /**
+     * @var string
+     */
+    private const TRAVIS_DEPLOY = 'travis-deploy';
+
+    /**
+     * @var string
+     */
+    private const BASE = 'base';
+
+    /**
+     * @var string
+     */
     private $targetDirectory;
 
     /**
      * @var string[]
      */
     private $templateDirectories = [
-        'base' => __DIR__ . '/../../../templates/statie-website',
-        'twig' => __DIR__ . '/../../../templates/statie-website-twig',
+        self::BASE => __DIR__ . '/../../../templates/statie-website',
+        self::TWIG => __DIR__ . '/../../../templates/statie-website-twig',
         // blog
-        'blog' => __DIR__ . '/../../../templates/statie-blog',
-        'blog-twig' => __DIR__ . '/../../../templates/statie-blog-twig',
+        self::BLOG => __DIR__ . '/../../../templates/statie-blog',
+        self::BLOG_TWIG => __DIR__ . '/../../../templates/statie-blog-twig',
         // travis-deploy
-        'travis-deploy' => __DIR__ . '/../../../templates/travis-deploy',
+        self::TRAVIS_DEPLOY => __DIR__ . '/../../../templates/travis-deploy',
     ];
 
     /**
@@ -59,8 +84,8 @@ final class InitCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // generate website
-        $this->copyTemplates('base');
-        $this->copyTemplates('twig');
+        $this->copyTemplates(self::BASE);
+        $this->copyTemplates(self::TWIG);
 
         $this->generateBlog();
         $this->generateTravis();
@@ -85,8 +110,8 @@ final class InitCommand extends Command
             return;
         }
 
-        $this->copyTemplates('blog');
-        $this->copyTemplates('blog-twig');
+        $this->copyTemplates(self::BLOG);
+        $this->copyTemplates(self::BLOG_TWIG);
     }
 
     private function generateTravis(): void
@@ -96,6 +121,6 @@ final class InitCommand extends Command
             return;
         }
 
-        $this->copyTemplates('travis-deploy');
+        $this->copyTemplates(self::TRAVIS_DEPLOY);
     }
 }

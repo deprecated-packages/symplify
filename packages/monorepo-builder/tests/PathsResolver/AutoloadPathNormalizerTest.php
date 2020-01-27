@@ -30,10 +30,10 @@ final class AutoloadPathNormalizerTest extends AbstractComposerJsonDecoratorTest
         $composerJson = $this->composerJsonFactory->createFromFileInfo($inputFileInfo);
         $this->autoloadPathNormalizer->normalizeAutoloadPaths($composerJson, $inputFileInfo);
 
-        $this->assertComposerJsonEquals($this->getExpectedComposerJons(), $composerJson);
+        $this->assertComposerJsonEquals($this->getExpectedComposerJson(), $composerJson);
     }
 
-    private function getExpectedComposerJons(): ComposerJson
+    private function getExpectedComposerJson(): ComposerJson
     {
         if (defined('SYMPLIFY_MONOREPO')) {
             return $this->createComposerJson(__DIR__ . '/AutoloadPathNormalizerSource/expected.json');

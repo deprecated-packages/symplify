@@ -43,8 +43,15 @@ abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
         return $this->composerJsonFactory->createFromFilePath($source);
     }
 
-    protected function assertComposerJsonEquals(ComposerJson $firstComposerJson, ComposerJson $secondComposerJson): void
+    /**
+     * @param string|ComposerJson $firstComposerJson
+     */
+    protected function assertComposerJsonEquals($firstComposerJson, ComposerJson $secondComposerJson): void
     {
+        if (is_string($firstComposerJson)) {
+            $firstComposerJson = $this->createComposerJson($firstComposerJson);
+        }
+
         $this->assertSame($firstComposerJson->getAutoload(), $secondComposerJson->getAutoload());
         $this->assertSame($firstComposerJson->getAutoloadDev(), $secondComposerJson->getAutoloadDev());
 

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Merge\Tests\DependenciesMerger;
+namespace Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonMerger;
 
 use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Merge\ComposerJsonMerger;
 use Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
 
-final class DependenciesMergerTest extends AbstractComposerJsonDecoratorTest
+final class ComposerJsonMergerTest extends AbstractComposerJsonDecoratorTest
 {
     /**
      * @var ComposerJsonMerger
@@ -18,7 +18,7 @@ final class DependenciesMergerTest extends AbstractComposerJsonDecoratorTest
     /**
      * @var ComposerJson
      */
-    private $composerJson;
+    private $mainComposerJson;
 
     /**
      * @var ComposerJson
@@ -29,18 +29,16 @@ final class DependenciesMergerTest extends AbstractComposerJsonDecoratorTest
     {
         parent::setUp();
 
-        $this->composerJson = $this->createComposerJson(__DIR__ . '/Source/main-composer.json');
-        $this->composerJsonMerger = self::$container->get(ComposerJsonMerger::class);
-
+        $this->mainComposerJson = $this->createComposerJson(__DIR__ . '/Source/main-composer.json');
         $this->mergedComposerJson = $this->createComposerJson(__DIR__ . '/Source/merged-composer.json');
+
+        $this->composerJsonMerger = self::$container->get(ComposerJsonMerger::class);
     }
 
     public function test(): void
     {
-        $this->composerJsonMerger->mergeJsonToRoot($this->composerJson, $this->mergedComposerJson);
+        $this->composerJsonMerger->mergeJsonToRoot($this->mainComposerJson, $this->mergedComposerJson);
 
-        $expectedComposerJson = $this->createComposerJson(__DIR__ . '/Source/expected-root.json');
-
-        $this->assertComposerJsonEquals($expectedComposerJson, $this->composerJson);
+        $this->assertComposerJsonEquals(__DIR__ . '/Source/expected-root.json', $this->mainComposerJson);
     }
 }

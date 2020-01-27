@@ -4,16 +4,25 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\Finder\PackageComposerFinder;
 
-use PHPUnit\Framework\TestCase;
 use Symplify\MonorepoBuilder\Finder\PackageComposerFinder;
-use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class PackageComposerFinderTest extends TestCase
+final class PackageComposerFinderTest extends AbstractKernelTestCase
 {
+    /**
+     * @var PackageComposerFinder
+     */
+    private $packageComposerFinder;
+
+    protected function setUp(): void
+    {
+        self::bootKernelWithConfigs(MonorepoBuilderKernel::class, [__DIR__ . '/Source/source_config.yaml']);
+        $this->packageComposerFinder = self::$container->get(PackageComposerFinder::class);
+    }
+
     public function test(): void
     {
-        /** @var PackageComposerFinder $packageComposerFinder */
-        $packageComposerFinder = new PackageComposerFinder([__DIR__ . '/Source'], new FinderSanitizer());
-        $this->assertCount(2, $packageComposerFinder->getPackageComposerFiles());
+        $this->assertCount(2, $this->packageComposerFinder->getPackageComposerFiles());
     }
 }

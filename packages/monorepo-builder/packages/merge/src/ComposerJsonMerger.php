@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Merge;
 
+use Symplify\MonorepoBuilder\ComposerJsonObject\ComposerJsonFactory;
 use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Merge\Arrays\ArraySorter;
 use Symplify\MonorepoBuilder\Merge\Configuration\MergedPackagesCollector;
@@ -33,7 +34,13 @@ final class ComposerJsonMerger
      */
     private $autoloadPathNormalizer;
 
+    /**
+     * @var ComposerJsonFactory
+     */
+    private $composerJsonFactory;
+
     public function __construct(
+        ComposerJsonFactory $composerJsonFactory,
         MergedPackagesCollector $mergedPackagesCollector,
         ParametersMerger $parametersMerger,
         ArraySorter $arraySorter,
@@ -43,6 +50,23 @@ final class ComposerJsonMerger
         $this->parametersMerger = $parametersMerger;
         $this->arraySorter = $arraySorter;
         $this->autoloadPathNormalizer = $autoloadPathNormalizer;
+        $this->composerJsonFactory = $composerJsonFactory;
+    }
+
+    /**
+     * @param SmartFileInfo[] $composerPackageFileInfos
+     */
+    public function mergeFileInfos(array $composerPackageFileInfos): ComposerJson
+    {
+        $mainComposerJson = new ComposerJson();
+
+        foreach ($composerPackageFileInfos as $packageFileInfo) {
+            $packageComposerJson = $this->composerJsonFactory->createFromFileInfo($packageFileInfo);
+
+            $this->mergeJsonToRoot($mainComposerJson, $packageComposerJson, $packageFileInfo);
+        }
+
+        return $mainComposerJson;
     }
 
     public function mergeJsonToRoot(
