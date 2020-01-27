@@ -61,7 +61,10 @@ final class ParametersMerger
     {
         foreach ($left as $key => $val) {
             if (is_int($key)) {
-                $right[] = $val;
+                // prevent duplicated values in unindexed arrays
+                if (! in_array($val, $right, true)) {
+                    $right[] = $val;
+                }
             } else {
                 if (isset($right[$key])) {
                     $val = $mergeCallback($val, $right[$key]);

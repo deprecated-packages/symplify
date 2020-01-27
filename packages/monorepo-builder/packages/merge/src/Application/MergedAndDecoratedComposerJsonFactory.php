@@ -36,12 +36,10 @@ final class MergedAndDecoratedComposerJsonFactory
     public function createFromRootConfigAndPackageFileInfos(
         ComposerJson $mainComposerJson,
         array $packageFileInfos
-    ): ComposerJson {
+    ): void {
         $mergedAndDecoratedComposerJson = $this->mergePackageFileInfosAndDecorate($packageFileInfos);
 
         $this->composerJsonMerger->mergeJsonToRoot($mainComposerJson, $mergedAndDecoratedComposerJson);
-
-        return $mainComposerJson;
     }
 
     /**

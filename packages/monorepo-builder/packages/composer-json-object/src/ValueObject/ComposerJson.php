@@ -174,6 +174,8 @@ final class ComposerJson
 
     public function setReplace(array $replace): void
     {
+        ksort($replace);
+
         $this->replace = $replace;
     }
 
@@ -230,6 +232,10 @@ final class ComposerJson
             $array['config'] = $this->config;
         }
 
+        if ($this->replace !== []) {
+            $array['replace'] = $this->replace;
+        }
+
         return $this->sortItemsByOrderedListOfKeys($array, $this->orderedKeys);
     }
 
@@ -261,6 +267,16 @@ final class ComposerJson
     public function setLicense(string $license): void
     {
         $this->license = $license;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function getLicense(): ?string
+    {
+        return $this->license;
     }
 
     /**

@@ -88,8 +88,7 @@ final class MergeCommand extends Command
         $mainComposerJsonFilePath = getcwd() . '/composer.json';
         $mainComposerJson = $this->composerJsonFactory->createFromFilePath($mainComposerJsonFilePath);
         $packageFileInfos = $this->composerJsonProvider->getPackagesFileInfos();
-
-        $mainComposerJson = $this->mergedAndDecoratedComposerJsonFactory->createFromRootConfigAndPackageFileInfos(
+        $this->mergedAndDecoratedComposerJsonFactory->createFromRootConfigAndPackageFileInfos(
             $mainComposerJson,
             $packageFileInfos
         );

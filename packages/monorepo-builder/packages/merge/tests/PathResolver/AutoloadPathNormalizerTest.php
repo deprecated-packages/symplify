@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonMerger;
+namespace Symplify\MonorepoBuilder\Merge\Tests\PathResolver;
 
 use Symplify\MonorepoBuilder\Merge\PathResolver\AutoloadPathNormalizer;
 use Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
