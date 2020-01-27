@@ -21,7 +21,7 @@ jobs:
             name: Compile and Release ecs.phar
             if: (branch = master OR tag IS present) && type = push
             script:
-                - cd compiler
+                - cd packages/easy-coding-standard/compiler
                 - composer install
                 - travis_retry bin/compile
                 - ../tmp/ecs.phar
