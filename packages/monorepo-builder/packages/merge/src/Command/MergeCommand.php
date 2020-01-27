@@ -138,7 +138,7 @@ final class MergeCommand extends Command
 
         $rootComposerJson = $this->composerJsonFactory->createFromFilePath($rootComposerJsonFilePath);
 
-        $this->composerJsonMerger->mergeJsonToRootFilePathAndSave($mergedComposerJson, $rootComposerJson);
+        $this->composerJsonMerger->mergeJsonToRoot($rootComposerJson, $mergedComposerJson);
 
         $this->jsonFileManager->saveComposerJsonToFilePath($rootComposerJson, $rootComposerJsonFilePath);
 
