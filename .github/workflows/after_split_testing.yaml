@@ -41,7 +41,7 @@ jobs:
                     packages/monorepo-builder/bin/monorepo-builder localize-composer-paths
 
                     cd packages/${{ matrix.package_name }}
-
-                    # todo use local
                     composer update --no-progress
+            -   run: |
+                    cd packages/${{ matrix.package_name }}
                     vendor/bin/phpunit
