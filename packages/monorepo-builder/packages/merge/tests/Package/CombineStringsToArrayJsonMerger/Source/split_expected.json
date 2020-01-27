@@ -1,0 +1,57 @@
+{
+    "autoload": {
+        "classmap": [
+            "tests/Package/SourceIdenticalNamespaces/PackageA/Something.php",
+            "tests/Package/SourceIdenticalNamespaces/PackageA/lib/",
+            "tests/Package/SourceIdenticalNamespaces/PackageA/src/"
+        ],
+        "exclude-from-classmap": [
+            "tests/Package/SourceIdenticalNamespaces/PackageA/Tests/",
+            "tests/Package/SourceIdenticalNamespaces/PackageA/test/",
+            "tests/Package/SourceIdenticalNamespaces/PackageA/tests/"
+        ],
+        "files": [
+            "tests/Package/SourceIdenticalNamespaces/PackageA/src/MyLibrary/functions.php"
+        ],
+        "psr-0": {
+            "": "tests/Package/SourceIdenticalNamespaces/PackageA/src/",
+            "Monolog\\": "tests/Package/SourceIdenticalNamespaces/PackageA/src/",
+            "UniqueGlobalClass": "tests/Package/SourceIdenticalNamespaces/PackageA/",
+            "Vendor\\Namespace\\": [
+                "tests/Package/SourceIdenticalNamespaces/PackageA/lib/",
+                "tests/Package/SourceIdenticalNamespaces/PackageA/src/"
+            ],
+            "Vendor_Namespace_": "tests/Package/SourceIdenticalNamespaces/PackageA/src/"
+        },
+        "psr-4": {
+            "App\\Collection\\": [
+                "tests/Package/SourceIdenticalNamespaces/PackageA/src/collection",
+                "tests/Package/SourceIdenticalNamespaces/PackageB/src/collection"
+            ],
+            "App\\Core\\": [
+                "tests/Package/SourceIdenticalNamespaces/PackageA/src/core",
+                "tests/Package/SourceIdenticalNamespaces/PackageB/src/core-extension"
+            ],
+            "App\\FixedArray\\": [
+                "tests/Package/SourceIdenticalNamespaces/PackageA/src/array",
+                "tests/Package/SourceIdenticalNamespaces/PackageA/src/list"
+            ],
+            "App\\Model\\": [
+                "tests/Package/SourceIdenticalNamespaces/PackageB/src/interfaces",
+                "tests/Package/SourceIdenticalNamespaces/SubA/PackageC/src/models"
+            ],
+            "App\\Shared\\": [
+                "tests/Package/SourceIdenticalNamespaces/PackageA/src/shared",
+                "tests/Package/SourceIdenticalNamespaces/PackageB/src/shared"
+            ],
+            "App\\Sub\\": [
+                "tests/Package/SourceIdenticalNamespaces/SubA/PackageC/src/package-c",
+                "tests/Package/SourceIdenticalNamespaces/SubB/PackageD/src/package-d"
+            ],
+            "App\\YetAnother\\": [
+                "tests/Package/SourceIdenticalNamespaces/PackageA/src",
+                "tests/Package/SourceIdenticalNamespaces/PackageB/src"
+            ]
+        }
+    }
+}

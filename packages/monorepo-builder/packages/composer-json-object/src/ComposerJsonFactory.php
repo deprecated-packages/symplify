@@ -42,6 +42,14 @@ final class ComposerJsonFactory
             $composerJson->setName($jsonArray['name']);
         }
 
+        if (isset($jsonArray['description'])) {
+            $composerJson->setDescription($jsonArray['description']);
+        }
+
+        if (isset($jsonArray['license'])) {
+            $composerJson->setLicense($jsonArray['license']);
+        }
+
         if (isset($jsonArray['require'])) {
             $composerJson->setRequire($jsonArray['require']);
         }
@@ -62,8 +70,16 @@ final class ComposerJsonFactory
             $composerJson->setReplace($jsonArray['replace']);
         }
 
+        if (isset($jsonArray['config'])) {
+            $composerJson->setConfig($jsonArray['config']);
+        }
+
         if (isset($jsonArray['extra'])) {
             $composerJson->setExtra($jsonArray['extra']);
+        }
+
+        if (isset($jsonArray['scripts'])) {
+            $composerJson->setScripts($jsonArray['scripts']);
         }
 
         $orderedKeys = array_keys($jsonArray);

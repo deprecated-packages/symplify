@@ -29,6 +29,7 @@
             "Symplify\\MonorepoBuilder\\Release\\": "packages/release/src",
             "Symplify\\MonorepoBuilder\\Init\\": "packages/init/src",
             "Symplify\\MonorepoBuilder\\Testing\\": "packages/testing/src",
+            "Symplify\\MonorepoBuilder\\Merge\\": "packages/merge/src",
             "Symplify\\MonorepoBuilder\\ComposerJsonObject\\": "packages/composer-json-object/src"
         }
     },
@@ -36,6 +37,7 @@
         "psr-4": {
             "Symplify\\MonorepoBuilder\\Tests\\": "tests",
             "Symplify\\MonorepoBuilder\\Split\\Tests\\": "packages/split/tests",
+            "Symplify\\MonorepoBuilder\\Merge\\Tests\\": "packages/merge/tests",
             "Symplify\\MonorepoBuilder\\Testing\\Tests\\": "packages/testing/tests"
         }
     },

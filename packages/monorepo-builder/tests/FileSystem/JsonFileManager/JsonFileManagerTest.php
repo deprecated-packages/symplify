@@ -38,13 +38,16 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
 
     public function testLoad(): void
     {
-        $this->assertSame([
+        $expectedJson = [
             'key' => 'value',
-        ], $this->jsonFileManager->loadFromFilePath(__DIR__ . '/Source/first.json'));
+        ];
 
-        $this->assertSame([
-            'key' => 'value',
-        ], $this->jsonFileManager->loadFromFileInfo(new SmartFileInfo(__DIR__ . '/Source/first.json')));
+        $this->assertSame($expectedJson, $this->jsonFileManager->loadFromFilePath(__DIR__ . '/Source/first.json'));
+
+        $this->assertSame(
+            $expectedJson,
+            $this->jsonFileManager->loadFromFileInfo(new SmartFileInfo(__DIR__ . '/Source/first.json'))
+        );
     }
 
     public function testEncodeArrayToString(): void

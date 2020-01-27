@@ -15,6 +15,16 @@ final class ComposerJson
     private $name;
 
     /**
+     * @var string|null
+     */
+    private $description;
+
+    /**
+     * @var string|null
+     */
+    private $license;
+
+    /**
      * @var mixed[]
      */
     private $repositories = [];
@@ -53,6 +63,16 @@ final class ComposerJson
      * @var string[]
      */
     private $replace = [];
+
+    /**
+     * @var mixed[]
+     */
+    private $scripts = [];
+
+    /**
+     * @var mixed[]
+     */
+    private $config = [];
 
     public function setName(string $name): void
     {
@@ -162,55 +182,55 @@ final class ComposerJson
         $this->replace[$packageName] = $version;
     }
 
-    public function isEqualTo(self $anotherComposerJson): bool
-    {
-        if ($this->getName() !== $anotherComposerJson->getName()) {
-            return false;
-        }
-
-        $currentRequire = $this->getRequire();
-        ksort($currentRequire);
-        $anotherRequire = $anotherComposerJson->getRequire();
-        ksort($anotherRequire);
-        if ($currentRequire !== $anotherRequire) {
-            return false;
-        }
-
-        $currentRequireDev = $this->getRequireDev();
-        ksort($currentRequireDev);
-
-        $anotherRequireDev = $anotherComposerJson->getRequireDev();
-        ksort($anotherRequireDev);
-        if ($currentRequireDev !== $anotherRequireDev) {
-            return false;
-        }
-
-        if ($this->getAutoload() !== $anotherComposerJson->getAutoload()) {
-            return false;
-        }
-
-        if ($this->getAutoloadDev() !== $anotherComposerJson->getAutoloadDev()) {
-            return false;
-        }
-
-        if ($this->getRepositories() !== $anotherComposerJson->getRepositories()) {
-            return false;
-        }
-
-        if ($this->getReplace() !== $anotherComposerJson->getReplace()) {
-            return false;
-        }
-
-        if ($this->getExtra() !== $anotherComposerJson->getExtra()) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function getJsonArray(): array
     {
-        return [];
+        $array = [];
+
+        if ($this->name !== null) {
+            $array['name'] = $this->name;
+        }
+
+        if ($this->description !== null) {
+            $array['description'] = $this->description;
+        }
+
+        if ($this->license !== null) {
+            $array['license'] = $this->license;
+        }
+
+        if ($this->require !== []) {
+            $array['require'] = $this->require;
+        }
+
+        if ($this->requireDev !== []) {
+            $array['require-dev'] = $this->requireDev;
+        }
+
+        if ($this->autoload !== []) {
+            $array['autoload'] = $this->autoload;
+        }
+
+        if ($this->autoloadDev !== []) {
+            $array['autoload-dev'] = $this->autoloadDev;
+        }
+
+        if ($this->repositories !== []) {
+            $array['repositories'] = $this->repositories;
+        }
+
+        if ($this->extra !== []) {
+            $array['extra'] = $this->extra;
+        }
+
+        if ($this->scripts !== []) {
+            $array['scripts'] = $this->scripts;
+        }
+
+        if ($this->config !== []) {
+            $array['config'] = $this->config;
+        }
+
+        return $this->sortItemsByOrderedListOfKeys($array, $this->orderedKeys);
     }
 
     public function isEmpty(): bool
@@ -239,7 +259,41 @@ final class ComposerJson
             return false;
         }
 
+        if ($this->getScripts() !== []) {
+            return false;
+        }
+
         return true;
+    }
+
+    public function setScripts(array $scripts): void
+    {
+        $this->scripts = $scripts;
+    }
+
+    public function getScripts(): array
+    {
+        return $this->scripts;
+    }
+
+    public function setConfig(array $config): void
+    {
+        $this->config = $config;
+    }
+
+    public function getConfig(): array
+    {
+        return $this->config;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function setLicense(string $license): void
+    {
+        $this->license = $license;
     }
 
     /**
@@ -251,5 +305,24 @@ final class ComposerJson
         $privatesCaller = new PrivatesCaller();
 
         return $privatesCaller->callPrivateMethodWithReference(JsonManipulator::class, 'sortPackages', $packages);
+    }
+
+    /**
+     * 2. sort item by prescribed key order
+     * @see https://www.designcise.com/web/tutorial/how-to-sort-an-array-by-keys-based-on-order-in-a-secondary-array-in-php
+     * @param mixed[] $contentItems
+     * @param string[] $orderedVisibleItems
+     * @return mixed[]
+     */
+    private function sortItemsByOrderedListOfKeys(array $contentItems, array $orderedVisibleItems): array
+    {
+        uksort($contentItems, function ($firstContentItem, $secondContentItem) use ($orderedVisibleItems): int {
+            $firstItemPosition = array_search($firstContentItem, $orderedVisibleItems, true);
+            $secondItemPosition = array_search($secondContentItem, $orderedVisibleItems, true);
+
+            return $firstItemPosition <=> $secondItemPosition;
+        });
+
+        return $contentItems;
     }
 }

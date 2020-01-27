@@ -42,6 +42,7 @@ final class DependencyUpdater
                 $packageComposerFileInfo,
                 $shouldSkipCallable
             );
+
             $json = $this->processSectionWithPackages(
                 $json,
                 $packageNames,

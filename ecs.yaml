@@ -131,3 +131,7 @@ parameters:
             # temporary, BC layer
             - 'packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
             - 'packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php'
+
+        Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
+            - 'packages/monorepo-builder/packages/composer-json-object/src/ComposerJsonFactory.php'
+            - 'packages/monorepo-builder/packages/composer-json-object/src/ValueObject/ComposerJson.php'

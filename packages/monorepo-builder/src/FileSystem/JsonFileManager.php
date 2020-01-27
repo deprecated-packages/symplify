@@ -60,10 +60,9 @@ final class JsonFileManager
         $this->symfonyFilesystem->dumpFile($smartFileInfo->getPathname(), $jsonString);
     }
 
-    public function saveJsonWithFilePath(ComposerJson $composerJson, string $filePath): void
+    public function saveComposerJsonToFilePath(ComposerJson $composerJson, string $filePath): void
     {
         $jsonString = $this->encodeJsonToFileContent($composerJson->getJsonArray(), $this->inlineSections);
-
         $this->symfonyFilesystem->dumpFile($filePath, $jsonString);
     }
 
