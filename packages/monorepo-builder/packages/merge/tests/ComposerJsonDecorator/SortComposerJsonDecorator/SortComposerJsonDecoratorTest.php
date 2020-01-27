@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator;
+namespace Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\SortComposerJsonDecorator;
 
 use Symplify\MonorepoBuilder\ComposerJsonObject\ComposerJsonFactory;
 use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
