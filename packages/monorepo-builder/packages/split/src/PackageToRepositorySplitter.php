@@ -100,6 +100,7 @@ final class PackageToRepositorySplitter
             );
 
             $process = $this->processFactory->createSubsplit(
+                $branch,
                 $tag,
                 $localDirectory,
                 $remoteRepositoryWithGithubKey
