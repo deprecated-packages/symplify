@@ -7,6 +7,7 @@ namespace Symplify\MonorepoBuilder\Split;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\Split\Configuration\Option;
+use Symplify\MonorepoBuilder\Split\Exception\InvalidBranchException;
 use Symplify\MonorepoBuilder\Split\Exception\PackageToRepositorySplitException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
@@ -66,6 +67,7 @@ final class PackageToRepositorySplitter
     public function splitDirectoriesToRepositories(
         array $splitConfig,
         string $rootDirectory,
+        string $branch,
         ?int $maxProcesses = null,
         ?string $tag = null
     ): void {
@@ -78,6 +80,16 @@ final class PackageToRepositorySplitter
             }
 
             $tag = $this->gitManager->getMostRecentTag($rootDirectory);
+        }
+
+        // Ensure branch exists on remotes/origin
+        if ($this->gitManager->doesBranchExistOnRemote($branch) === false) {
+            $message = sprintf(
+                'Given branch "%s" does\'t exist on remotes/origin. Please ensure to push it before running split.',
+                $branch
+            );
+
+            throw new InvalidBranchException($message);
         }
 
         foreach ($splitConfig as $localDirectory => $remoteRepository) {

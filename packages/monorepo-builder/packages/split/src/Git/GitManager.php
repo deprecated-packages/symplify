@@ -25,6 +25,14 @@ final class GitManager
         $this->githubToken = $githubToken;
     }
 
+    public function doesBranchExistOnRemote(string $branch): bool
+    {
+        $command = ['git', 'branch', '-a'];
+        $result = $this->processRunner->run($command);
+
+        return strpos($result, sprintf('remotes/origin/%s', $branch)) !== false;
+    }
+
     public function doTagsHaveCommitterDate(): bool
     {
         $command = ['git', 'tag', '-l', '--format="%(committerdate)"'];
