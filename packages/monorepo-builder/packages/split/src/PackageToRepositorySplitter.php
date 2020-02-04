@@ -82,14 +82,10 @@ final class PackageToRepositorySplitter
             $tag = $this->gitManager->getMostRecentTag($rootDirectory);
         }
 
-        // Ensure branch exists on remotes/origin
+        // If branch doesn't exist on origin, push it
         if ($this->gitManager->doesBranchExistOnRemote($branch) === false) {
-            $message = sprintf(
-                'Given branch "%s" does\'t exist on remotes/origin. Please ensure to push it before running split.',
-                $branch
-            );
-
-            throw new InvalidBranchException($message);
+            $this->symfonyStyle->note(sprintf('Branch "%s" does not exist on origin, pushing it...', $branch));
+            $this->symfonyStyle->writeln($this->gitManager->pushBranchToRemoteOrigin($branch));
         }
 
         foreach ($splitConfig as $localDirectory => $remoteRepository) {
