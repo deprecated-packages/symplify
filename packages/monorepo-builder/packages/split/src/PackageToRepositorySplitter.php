@@ -7,7 +7,6 @@ namespace Symplify\MonorepoBuilder\Split;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\Split\Configuration\Option;
-use Symplify\MonorepoBuilder\Split\Exception\InvalidBranchException;
 use Symplify\MonorepoBuilder\Split\Exception\PackageToRepositorySplitException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
