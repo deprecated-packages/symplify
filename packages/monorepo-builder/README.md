@@ -16,7 +16,7 @@ composer require symplify/monorepo-builder --dev
 
 ### 0. Are you New to Monorepo?
 
-The best to lean-in fast is to read basic intro at [goMonorepo.com](https://gomonorepo.org/).
+The best to lean-in fast is to read basic intro at blog post [All You Always Wanted to Know About Monorepo](https://www.tomasvotruba.com/blog/2019/10/28/all-you-always-wanted-to-know-about-monorepo-but-were-afraid-to-ask/#what-is-monorepo).
 We also made a simple command to make that easy for you:
 
 ```bash
