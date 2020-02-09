@@ -63,7 +63,12 @@ final class SplitCommand extends Command
                 'monorepo-builder.yml'
             )
         );
-        $this->addOption(Option::BRANCH, null, InputOption::VALUE_OPTIONAL, 'Branch to run split on, defaults to current branch');
+        $this->addOption(
+            Option::BRANCH,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Branch to run split on, defaults to current branch'
+        );
         $this->addOption(
             Option::MAX_PROCESSES,
             null,
