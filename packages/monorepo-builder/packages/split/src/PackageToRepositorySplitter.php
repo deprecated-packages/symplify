@@ -66,7 +66,7 @@ final class PackageToRepositorySplitter
     public function splitDirectoriesToRepositories(
         array $splitConfig,
         string $rootDirectory,
-        string $branch,
+        ?string $branch = null,
         ?int $maxProcesses = null,
         ?string $tag = null
     ): void {
@@ -80,6 +80,9 @@ final class PackageToRepositorySplitter
 
             $tag = $this->gitManager->getMostRecentTag($rootDirectory);
         }
+
+        // If branch not set, default to current branch
+        $branch = $branch ?? $this->gitManager->getCurrentBranch();
 
         // If branch doesn't exist on origin, push it
         if ($this->gitManager->doesBranchExistOnRemote($branch) === false) {

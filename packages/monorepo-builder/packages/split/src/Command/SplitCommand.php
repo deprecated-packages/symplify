@@ -63,7 +63,7 @@ final class SplitCommand extends Command
                 'monorepo-builder.yml'
             )
         );
-        $this->addOption(Option::BRANCH, null, InputOption::VALUE_OPTIONAL, 'Branch to run split on', 'master');
+        $this->addOption(Option::BRANCH, null, InputOption::VALUE_OPTIONAL, 'Branch to run split on, defaults to current branch');
         $this->addOption(
             Option::MAX_PROCESSES,
             null,
@@ -82,7 +82,7 @@ final class SplitCommand extends Command
     {
         $this->repositoryGuard->ensureIsRepositoryDirectory($this->rootDirectory);
 
-        $branch = (string) $input->getOption(Option::BRANCH);
+        $branch = $input->getOption(Option::BRANCH) ? (string) $input->getOption(Option::BRANCH) : null;
 
         $maxProcesses = $input->getOption(Option::MAX_PROCESSES) ? (int)
             $input->getOption(Option::MAX_PROCESSES)
