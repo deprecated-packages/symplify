@@ -29,6 +29,7 @@ services:
             - '../src/Sniffs/DeadCode/UnusedPublicMethodSniff.php'
             - '../src/Sniffs/CleanCode/ForbiddenParentClassSniff.php'
             - '../src/Fixer/Order/MethodOrderByTypeFixer.php'
+            - '../src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
     PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: ~

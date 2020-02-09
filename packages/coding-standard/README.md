@@ -809,38 +809,6 @@ $anotherValue = [];
 
 <br>
 
-### Prefer `sprintf()` over multiple concats ( . ).
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff`](src/Sniffs/ControlStructure/SprintfOverContactSniff.php)
-
-:x:
-
-```php
-<?php
-
-return 'Class ' . $oldClass . ' was removed from ' . $file . '. Use ' . self::class . " instead';
-```
-
-:+1:
-
-```php
-<?php
-
-return sprintf('Class "%s" was removed from "%s". Use "%s" instead', $oldClass, $file, self::class);
-```
-
-Is 2 `.` too strict? Just configure it:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff:
-        maxConcatCount: 4 # "3" by default
-```
-
-<br>
-
 ### There should not be comments with valid code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)
