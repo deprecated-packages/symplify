@@ -19,6 +19,16 @@ final class SprintfOverContactSniff implements Sniff
      */
     private $reportedFileLines = [];
 
+    public function __construct()
+    {
+        trigger_error(sprintf(
+            'Rule "%s" is deprecated, because it is as opinionated and depends on many conditions',
+            self::class
+        ));
+
+        sleep(3);
+    }
+
     /**
      * @return string[]
      */

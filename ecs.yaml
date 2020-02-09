@@ -58,10 +58,6 @@ parameters:
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
 
-        Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff:
-            # directory separator
-            - 'packages/monorepo-builder/tests/VersionValidator/VersionValidatorTest.php'
-
         Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
             # allowed spots for Container
             - '*Kernel.php'
