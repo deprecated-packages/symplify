@@ -102,15 +102,10 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
     /**
      * @param string[]|string[][] $files
-     * @param callable|null $callback Optional callback, e.g. for clear the cache
      */
-    protected function doTestFiles(array $files, ?callable $callback = null): void
+    protected function doTestFiles(array $files): void
     {
         foreach ($files as $file) {
-            if ($callback !== null) {
-                $callback();
-            }
-
             if (is_array($file)) {
                 // 2 files, wrong to fixed
                 $this->doTestWrongToFixedFile($file[0], $file[1]);

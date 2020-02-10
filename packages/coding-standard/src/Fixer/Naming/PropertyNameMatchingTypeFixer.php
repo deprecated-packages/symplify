@@ -14,6 +14,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenRunner\Naming\PropertyNaming;
 use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\ArgumentWrapper;
 use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\FixerClassWrapper;
 use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\PropertyWrapper;
@@ -25,7 +26,7 @@ final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implemen
     /**
      * @var string[]
      */
-    private $skippedClasses = [
+    private const SKIPPED_CLASSES = [
         'self',
         'static',
         'this',
@@ -57,10 +58,19 @@ final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implemen
      */
     private $typeAnalyzer;
 
-    public function __construct(FixerClassWrapperFactory $fixerClassWrapperFactory, TypeAnalyzer $typeAnalyzer)
-    {
+    /**
+     * @var PropertyNaming
+     */
+    private $propertyNaming;
+
+    public function __construct(
+        FixerClassWrapperFactory $fixerClassWrapperFactory,
+        TypeAnalyzer $typeAnalyzer,
+        PropertyNaming $propertyNaming
+    ) {
         $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->typeAnalyzer = $typeAnalyzer;
+        $this->propertyNaming = $propertyNaming;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -161,7 +171,7 @@ class SomeClass
                 continue;
             }
 
-            $expectedName = $this->getExpectedNameFromTypes($type);
+            $expectedName = $this->propertyNaming->getExpectedNameFromType($type);
             if ($expectedName === '') {
                 continue;
             }
@@ -221,45 +231,13 @@ class SomeClass
         }
 
         foreach ($typeWrapper->getTypes() as $type) {
-            $expectedName = $this->getExpectedNameFromTypes($type);
+            $expectedName = $this->propertyNaming->getExpectedNameFromType($type);
             if ($oldName === $expectedName) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    private function getExpectedNameFromTypes(string $type): string
-    {
-        $rawName = $type;
-
-        // is FQN namespace
-        if (Strings::contains($rawName, '\\')) {
-            $rawNameParts = explode('\\', $rawName);
-            $rawName = array_pop($rawNameParts);
-        }
-
-        $rawName = $this->removePrefixesAndSuffixes($rawName);
-
-        // if all is upper-cased, it should be lower-cased
-        if ($rawName === strtoupper($rawName)) {
-            $rawName = strtolower($rawName);
-        }
-
-        // remove "_"
-        $rawName = Strings::replace($rawName, '#_#', '');
-
-        // turns $SOMEUppercase => $someUppercase
-        for ($i = 0; $i <= strlen($rawName); ++$i) {
-            if (ctype_upper($rawName[$i]) && ctype_upper($rawName[$i + 1])) {
-                $rawName[$i] = strtolower($rawName[$i]);
-            } else {
-                break;
-            }
-        }
-
-        return lcfirst($rawName);
     }
 
     /**
@@ -284,34 +262,14 @@ class SomeClass
         }
 
         // starts with adjective, e.g. (Post $firstPost, Post $secondPost)
-        $expectedName = $this->getExpectedNameFromTypes($type);
+        $expectedName = $this->propertyNaming->getExpectedNameFromType($type);
 
         return Strings::contains($name, ucfirst($expectedName)) && Strings::endsWith($name, ucfirst($expectedName));
     }
 
-    private function removePrefixesAndSuffixes(string $rawName): string
-    {
-        // is SomeInterface
-        if (Strings::endsWith($rawName, 'Interface')) {
-            $rawName = Strings::substring($rawName, 0, -strlen('Interface'));
-        }
-
-        // is ISomeClass
-        if ($this->isPrefixedInterface($rawName)) {
-            $rawName = Strings::substring($rawName, 1);
-        }
-
-        // is AbstractClass
-        if (Strings::startsWith($rawName, 'Abstract')) {
-            $rawName = Strings::substring($rawName, strlen('Abstract'));
-        }
-
-        return $rawName;
-    }
-
     private function shouldSkipClass(string $class): bool
     {
-        $skippedClasses = array_merge($this->skippedClasses, $this->extraSkippedClasses);
+        $skippedClasses = array_merge(self::SKIPPED_CLASSES, $this->extraSkippedClasses);
 
         foreach ($skippedClasses as $skippedClass) {
             if (fnmatch($skippedClass, $class, FNM_NOESCAPE)) {
@@ -320,13 +278,5 @@ class SomeClass
         }
 
         return (bool) Strings::match($class, '#&|\s#');
-    }
-
-    private function isPrefixedInterface(string $rawName): bool
-    {
-        return strlen($rawName) > 3
-            && Strings::startsWith($rawName, 'I')
-            && ctype_upper($rawName[1])
-            && ctype_lower($rawName[2]);
     }
 }

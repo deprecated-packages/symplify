@@ -1,26 +1,3 @@
-services:
-    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
-        old_to_preferred_classes:
-            SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
-            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
-            DateTime: 'Nette\Utils\DateTime'
-            PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
-
-    Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
-        method_order_by_type:
-            PhpCsFixer\Fixer\FixerInterface:
-                - 'getDefinition'
-                - 'isCandidate'
-                - 'fix'
-                - 'getPriority'
-                - 'getName'
-                - 'isRisky'
-                - 'supports'
-
-    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
-        extra_parent_types_to_suffixes:
-            - 'FileDecorator'
-
 parameters:
     sets:
         - 'php70'
@@ -132,3 +109,29 @@ parameters:
             - 'packages/monorepo-builder/packages/composer-json-object/src/ComposerJsonFactory.php'
             - 'packages/monorepo-builder/packages/composer-json-object/src/ValueObject/ComposerJson.php'
             - 'packages/package-builder/src/Yaml/ParametersMerger.php'
+
+services:
+    Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
+        maxClassCognitiveComplexity: 40
+
+    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
+        old_to_preferred_classes:
+            SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            DateTime: 'Nette\Utils\DateTime'
+            PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
+
+    Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
+        method_order_by_type:
+            PhpCsFixer\Fixer\FixerInterface:
+                - 'getDefinition'
+                - 'isCandidate'
+                - 'fix'
+                - 'getPriority'
+                - 'getName'
+                - 'isRisky'
+                - 'supports'
+
+    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
+        extra_parent_types_to_suffixes:
+            - 'FileDecorator'
