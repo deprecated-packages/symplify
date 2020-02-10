@@ -26,10 +26,10 @@ services:
         resource: '../src'
         # checkers that needs configuration to run
         exclude:
-            - '../src/Sniffs/DeadCode/UnusedPublicMethodSniff.php'
-            - '../src/Sniffs/CleanCode/ForbiddenParentClassSniff.php'
-            - '../src/Fixer/Order/MethodOrderByTypeFixer.php'
             - '../src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
+            - '../src/Sniffs/CleanCode/ForbiddenParentClassSniff.php'
+            - '../src/Sniffs/DeadCode/UnusedPublicMethodSniff.php'
+            - '../src/Fixer/Order/MethodOrderByTypeFixer.php'
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
     PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: ~
@@ -41,7 +41,6 @@ services:
             - '*Exception'
             - 'Option'
             - 'InitCommand'
-            - 'ConvertCommand'
             # duplicated deprecation
             - 'FinderSanitizer'
             # extended 3rd party class

@@ -18,6 +18,147 @@ composer require symplify/coding-standard --dev
 
 <br>
 
+### Cognitive complexity for method must be less than X
+
+- :wrench:
+- class: [`Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/CognitiveComplexitySniff.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
+        maxCognitiveComplexity: 8 # default
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                if ($value !== 3) {
+                    if ($value !== 4) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value === 1) {
+            return true;
+        }
+
+        if ($value === 2) {
+            return true;
+        }
+
+        if ($value === 3) {
+            return true;
+        }
+
+        if ($value === 4) {
+            return true;
+        }
+
+        return false;
+    }
+}
+```
+
+<br>
+
+### Cognitive complexity for class must be less than X
+
+- :wrench:
+- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
+        maxCognitiveComplexity: 8 # default
+```
+
+Same as the one above just for classes.
+
+<br>
+
+### Remove extra around public/protected/private/static modifiers and const
+
+- class: [`Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer`](packages/coding-standard/src/Fixer/Spacing/RemoveSpacingAroundModifierAndConstFixer.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer: null
+```
+
+```diff
+ class SomeClass
+ {
+-    public     $protected;
++    public $protected;
+
+-    protected     static     $value;
++    protected static $value;
+
+-    private      const    VALUE = 5;
++    private const VALUE = 5;
+}
+```
+
+<br>
+
+### Bool Property should have default value, to prevent unintentional null comparison
+
+- class: [`Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer`](/packages/coding-standard/src/Fixer/Property/BoolPropertyDefaultValueFixer.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer: null
+```
+
+```diff
+ <?php
+
+ class SomeClass
+ {
+     /**
+      * @var string[]
+      */
+-    private $items;
++    private $items = [];
+
+     public function __construct()
+     {
+         foreach ($items as $item) {
+         }
+     }
+}
+```
+
+<br>
+
 ### Make sure That `@param`, `@var`, `@return` and `@throw` Types Exist
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff`](src/Sniffs/Commenting/AnnotationTypeExistsSniff.php)
@@ -154,7 +295,7 @@ services:
 
 ### Remove // end of ... Legacy Comments
 
-- class: [`\Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer`](src/Fixer/Commenting/RemoveEndOfFunctionCommentFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer`](src/Fixer/Commenting/RemoveEndOfFunctionCommentFixer.php)
 
 ```yaml
 # ecs.yml

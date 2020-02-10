@@ -20,7 +20,7 @@ final class RemoveSpacingAroundModifierAndConstFixer implements FixerInterface
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Removes extra around public/protected/private/static modifiers and const', []);
+        return new FixerDefinition('Remove extra around public/protected/private/static modifiers and const', []);
     }
 
     public function isCandidate(Tokens $tokens): bool
