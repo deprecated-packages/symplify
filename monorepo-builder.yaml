@@ -5,6 +5,8 @@ parameters:
             phpunit/phpunit: '^8.5|^9.0'
             rector/rector: 'dev-master'
             tracy/tracy: '^2.7'
+        "minimum-stability": "dev"
+        "prefer-stable": true
 
     # remove these to merge of packages' composer.json
     data_to_remove:

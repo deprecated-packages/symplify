@@ -1,4 +1,0 @@
-imports:
-    - { resource: source/_data/generators.yaml }
-    - { resource: source/_data/sculpin_kernel.yml }
-    - { resource: source/_data/sculpin_site.yml }

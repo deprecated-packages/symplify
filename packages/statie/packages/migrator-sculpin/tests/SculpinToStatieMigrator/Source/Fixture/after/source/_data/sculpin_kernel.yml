@@ -1,4 +1,0 @@
-parameters:
-    sculpin_content_types:
-        posts:
-            permalink: 'blog/:filename/'

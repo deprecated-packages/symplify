@@ -82,6 +82,14 @@ final class ComposerJsonFactory
             $composerJson->setScripts($jsonArray['scripts']);
         }
 
+        if (isset($jsonArray['minimum-stability'])) {
+            $composerJson->setMinimumStability($jsonArray['minimum-stability']);
+        }
+
+        if (isset($jsonArray['prefer-stable'])) {
+            $composerJson->setPreferStable($jsonArray['prefer-stable']);
+        }
+
         $orderedKeys = array_keys($jsonArray);
         $composerJson->setOrderedKeys($orderedKeys);
 
