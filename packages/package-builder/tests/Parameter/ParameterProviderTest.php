@@ -18,11 +18,15 @@ final class ParameterProviderTest extends AbstractKernelTestCase
         );
 
         $parameterProvider = self::$container->get(ParameterProvider::class);
-        $this->assertContains([
-            'key' => 'value',
-            'camelCase' => 'Lion',
-            'pascal_case' => 'Celsius',
-        ], $parameterProvider->provide());
+
+        $parameters = $parameterProvider->provide();
+        $this->assertArrayHasKey('key', $parameters);
+        $this->assertArrayHasKey('camelCase', $parameters);
+        $this->assertArrayHasKey('pascal_case', $parameters);
+
+        $this->assertSame('value', $parameters['key']);
+        $this->assertSame('Lion', $parameters['camelCase']);
+        $this->assertSame('Celsius', $parameters['pascal_case']);
 
         $this->assertSame('value', $parameterProvider->provideParameter('key'));
 
@@ -39,10 +43,12 @@ final class ParameterProviderTest extends AbstractKernelTestCase
 
         $parameterProvider = self::$container->get(ParameterProvider::class);
 
-        $this->assertContains([
-            'one' => 1,
-            'two' => 2,
-        ], $parameterProvider->provide());
+        $parameters = $parameterProvider->provide();
+        $this->assertArrayHasKey('one', $parameters);
+        $this->assertArrayHasKey('two', $parameters);
+
+        $this->assertSame(1, $parameters['one']);
+        $this->assertSame(2, $parameters['two']);
 
         $this->assertArrayHasKey('kernel.project_dir', $parameterProvider->provide());
     }

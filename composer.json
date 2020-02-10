@@ -136,7 +136,6 @@
         "symplify/changelog-linker": "7.2",
         "symplify/coding-standard": "7.2",
         "symplify/easy-coding-standard": "7.2",
-        "symplify/easy-coding-standard-compiler": "7.2",
         "symplify/easy-coding-standard-tester": "7.2",
         "symplify/flex-loader": "7.2",
         "symplify/latte-to-twig-converter": "7.2",
