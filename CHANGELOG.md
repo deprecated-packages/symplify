@@ -9,7 +9,69 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v7.2.1 - 2020-01-11
+## Unreleased
+
+### Added
+
+#### EasyCodingStandard
+
+- [#1762] add ecs.phar prefix build to travis
+
+#### MonorepoBuilder
+
+- [#1760] Add application test
+- [#1755] Add "After split" testing
+- [#1756] Add ComposerJson value object
+
+### Changed
+
+#### CodingStandard
+
+- [#1748] Make import paths phar friendly
+
+#### EasyCodingStandard
+
+- [#1747] Skip scoping of php cs fixer and code sniffer
+
+#### LatteToTwigConverter
+
+- [#1751] decouple to [@migrify]
+
+#### MonorepoBuilder
+
+- [#1767] Specific branch for split, Thanks to [@natepage]
+- [#1759] Decopule ComposerKeyMerger
+- [#1772] SplitCommand default branch option to current branch, Thanks to [@natepage]
+
+### Deprecated
+
+#### CodingStandard
+
+- [#1773] Deprecate `SprintfOverContactSniff`
+
+### Fixed
+
+- [#1768] fix: replace non exist site link to blog post, Thanks to [@ondraondra81]
+
+### Removed
+
+#### MonorepoBuilder
+
+- [#1771] Remove unused InvalidBranchException, Thanks to [@natepage]
+
+## [v7.2.2] - 2020-01-20
+
+### Changed
+
+- [#1745] use pcov for coverage
+- [#1740] move Travis from subpackages to Github Action
+- [#1739] Working with git on Github Actions tests
+
+#### ChangelogLinker
+
+- [#1741] Skip test that yield different values on after split and are already tested
+
+## [v7.2.1] - 2020-01-11
 
 ### Added
 
@@ -587,7 +649,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@sustmi]: https://github.com/sustmi
 [@DayS]: https://github.com/DayS
 [v7.0.0]: https://github.com/symplify/symplify/compare/v6.1.0...v7.0.0
-[#1727]: https://github.com/symplify/symplify/pull/1727
 [#1726]: https://github.com/symplify/symplify/pull/1726
 [#1724]: https://github.com/symplify/symplify/pull/1724
 [#1723]: https://github.com/symplify/symplify/pull/1723
@@ -619,11 +680,33 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@enumag]: https://github.com/enumag
 [@Rarst]: https://github.com/Rarst
 [#1737]: https://github.com/symplify/symplify/pull/1737
-[#1736]: https://github.com/symplify/symplify/pull/1736
 [#1735]: https://github.com/symplify/symplify/pull/1735
 [#1734]: https://github.com/symplify/symplify/pull/1734
-[#1733]: https://github.com/symplify/symplify/pull/1733
-[#1732]: https://github.com/symplify/symplify/pull/1732
 [#1731]: https://github.com/symplify/symplify/pull/1731
 [#1728]: https://github.com/symplify/symplify/pull/1728
 [v7.2.0]: https://github.com/symplify/symplify/compare/v7.1.3...v7.2.0
+[#1773]: https://github.com/symplify/symplify/pull/1773
+[#1772]: https://github.com/symplify/symplify/pull/1772
+[#1771]: https://github.com/symplify/symplify/pull/1771
+[#1768]: https://github.com/symplify/symplify/pull/1768
+[#1767]: https://github.com/symplify/symplify/pull/1767
+[#1762]: https://github.com/symplify/symplify/pull/1762
+[#1760]: https://github.com/symplify/symplify/pull/1760
+[#1759]: https://github.com/symplify/symplify/pull/1759
+[#1757]: https://github.com/symplify/symplify/pull/1757
+[#1756]: https://github.com/symplify/symplify/pull/1756
+[#1755]: https://github.com/symplify/symplify/pull/1755
+[#1754]: https://github.com/symplify/symplify/pull/1754
+[#1753]: https://github.com/symplify/symplify/pull/1753
+[#1752]: https://github.com/symplify/symplify/pull/1752
+[#1751]: https://github.com/symplify/symplify/pull/1751
+[#1748]: https://github.com/symplify/symplify/pull/1748
+[#1747]: https://github.com/symplify/symplify/pull/1747
+[#1745]: https://github.com/symplify/symplify/pull/1745
+[#1741]: https://github.com/symplify/symplify/pull/1741
+[#1740]: https://github.com/symplify/symplify/pull/1740
+[#1739]: https://github.com/symplify/symplify/pull/1739
+[v7.2.2]: https://github.com/symplify/symplify/compare/v7.2.1...v7.2.2
+[v7.2.1]: https://github.com/symplify/symplify/compare/v7.2.0...v7.2.1
+[@ondraondra81]: https://github.com/ondraondra81
+[@migrify]: https://github.com/migrify
