@@ -25,6 +25,16 @@ final class ComposerJson
     private $license;
 
     /**
+     * @var string|null
+     */
+    private $minimumStability;
+
+    /**
+     * @var bool|null
+     */
+    private $preferStable;
+
+    /**
      * @var mixed[]
      */
     private $repositories = [];
@@ -147,6 +157,26 @@ final class ComposerJson
         $this->repositories = $repositories;
     }
 
+    public function setMinimumStability(string $minimumStability): void
+    {
+        $this->minimumStability = $minimumStability;
+    }
+
+    public function getMinimumStability(): ?string
+    {
+        return $this->minimumStability;
+    }
+
+    public function getPreferStable(): ?bool
+    {
+        return $this->preferStable;
+    }
+
+    public function setPreferStable(bool $preferStable): void
+    {
+        $this->preferStable = $preferStable;
+    }
+
     public function getExtra(): array
     {
         return $this->extra;
@@ -236,6 +266,16 @@ final class ComposerJson
             $array['replace'] = $this->replace;
         }
 
+        if ($this->minimumStability !== null) {
+            $array['minimum-stability'] = $this->minimumStability;
+            $this->moveValueToBack('minimum-stability');
+        }
+
+        if ($this->preferStable !== null) {
+            $array['prefer-stable'] = $this->preferStable;
+            $this->moveValueToBack('prefer-stable');
+        }
+
         return $this->sortItemsByOrderedListOfKeys($array, $this->orderedKeys);
     }
 
@@ -307,5 +347,15 @@ final class ComposerJson
         });
 
         return $contentItems;
+    }
+
+    private function moveValueToBack(string $valueName): void
+    {
+        $key = array_search($valueName, $this->orderedKeys, true);
+        if ($key !== false) {
+            unset($this->orderedKeys[$key]);
+        }
+
+        $this->orderedKeys[] = $valueName;
     }
 }

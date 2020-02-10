@@ -40,9 +40,6 @@
             "Symplify\\Statie\\": "src",
             "Symplify\\Statie\\Generator\\": "packages/generator/src",
             "Symplify\\Statie\\Twig\\": "packages/twig/src",
-            "Symplify\\Statie\\MigratorJekyll\\": "packages/migrator-jekyll/src",
-            "Symplify\\Statie\\MigratorSculpin\\": "packages/migrator-sculpin/src",
-            "Symplify\\Statie\\Migrator\\": "packages/migrator/src",
             "Symplify\\Statie\\JoindIn\\": "packages/joind-in/src",
             "Symplify\\Statie\\Tweeter\\": "packages/tweeter/src",
             "Symplify\\Statie\\GithubContributorsThanker\\": "packages/github-contributors-thanker/src",
@@ -53,9 +50,6 @@
         "psr-4": {
             "Symplify\\Statie\\Tests\\": "tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/generator/tests",
-            "Symplify\\Statie\\MigratorJekyll\\Tests\\": "packages/migrator-jekyll/tests",
-            "Symplify\\Statie\\MigratorSculpin\\Tests\\": "packages/migrator-sculpin/tests",
-            "Symplify\\Statie\\Migrator\\Tests\\": "packages/migrator/tests",
             "Symplify\\Statie\\Twig\\Tests\\": "packages/twig/tests",
             "Symplify\\Statie\\Tweeter\\Tests\\": "packages/tweeter/tests",
             "Symplify\\Statie\\HeadlineAnchorLinker\\Tests\\": "packages/headline-anchor-linker/tests"

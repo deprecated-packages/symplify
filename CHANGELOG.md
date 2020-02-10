@@ -23,6 +23,10 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1755] Add "After split" testing
 - [#1756] Add ComposerJson value object
 
+#### CodingStandard
+
+- [#1776] Add `ClassCognitiveComplexitySniff`
+
 ### Changed
 
 #### CodingStandard
@@ -438,3 +442,5 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [v7.2.1]: https://github.com/symplify/symplify/compare/v7.2.0...v7.2.1
 [@ondraondra81]: https://github.com/ondraondra81
 [@migrify]: https://github.com/migrify
+[#1776]: https://github.com/symplify/symplify/pull/1776
+[#1774]: https://github.com/symplify/symplify/pull/1774
