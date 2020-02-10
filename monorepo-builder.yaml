@@ -2,9 +2,8 @@ parameters:
     # add these to merge of packages' composer.json
     data_to_append:
         require-dev:
-            phpstan/phpstan: '^0.12.10'
             phpunit/phpunit: '^8.5|^9.0'
-            rector/rector-prefixed: 'dev-master'
+            rector/rector: 'dev-master'
             tracy/tracy: '^2.7'
 
     # remove these to merge of packages' composer.json
