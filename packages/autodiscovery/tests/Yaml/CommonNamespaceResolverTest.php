@@ -6,6 +6,7 @@ namespace Symplify\Autodiscovery\Tests\Yaml;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
+use Symplify\Autodiscovery\ValueObject\ServiceConfig;
 use Symplify\Autodiscovery\Yaml\CommonNamespaceResolver;
 
 final class CommonNamespaceResolverTest extends TestCase
@@ -27,7 +28,9 @@ final class CommonNamespaceResolverTest extends TestCase
      */
     public function test(array $classes, int $level, array $expectedNamespaces): void
     {
-        $this->assertSame($expectedNamespaces, $this->commonNamespaceResolver->resolve($classes, $level));
+        $serviceConfig = new ServiceConfig($classes);
+
+        $this->assertSame($expectedNamespaces, $this->commonNamespaceResolver->resolve($serviceConfig, $level));
     }
 
     public function provideData(): Iterator

@@ -9,25 +9,11 @@ use ReflectionClass;
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\Autodiscovery\Exception\ClassLocationNotFoundException;
 use Symplify\Autodiscovery\Exception\ClassNotFoundException;
+use Symplify\Autodiscovery\ValueObject\ServiceConfig;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ExplicitToAutodiscoveryConverter
 {
-    /**
-     * @var bool
-     */
-    private $enableAutowire = false;
-
-    /**
-     * @var bool
-     */
-    private $enableAutoconfigure = false;
-
-    /**
-     * @var string[]
-     */
-    private $classes = [];
-
     /**
      * @var string[]
      */
@@ -55,6 +41,11 @@ final class ExplicitToAutodiscoveryConverter
      */
     private $yamlServiceProcessor;
 
+    /**
+     * @var ServiceConfig
+     */
+    private $serviceConfig;
+
     public function __construct(
         Filesystem $filesystem,
         CommonNamespaceResolver $commonNamespaceResolver,
@@ -71,7 +62,7 @@ final class ExplicitToAutodiscoveryConverter
      */
     public function convert(array $yaml, string $filePath, int $nestingLevel, string $filter): array
     {
-        $this->reset();
+        $this->serviceConfig = new ServiceConfig();
 
         // nothing to change
         if (! isset($yaml[YamlKey::SERVICES])) {
@@ -79,27 +70,20 @@ final class ExplicitToAutodiscoveryConverter
         }
 
         foreach ($yaml[YamlKey::SERVICES] as $name => $service) {
-            $yaml = $this->yamlServiceProcessor->process($yaml, $service, $name, $filter);
+            $yaml = $this->yamlServiceProcessor->process($yaml, $service, $name, $filter, $this->serviceConfig);
         }
 
         $yaml = $this->completeAutodiscovery($yaml, $filePath, $nestingLevel);
 
-        if ($this->enableAutoconfigure) {
+        if ($this->serviceConfig->isAutoconfigure()) {
             $yaml = $this->completeDefaultsKeyTrue($yaml, YamlKey::AUTOCONFIGURE);
         }
 
-        if ($this->enableAutowire) {
+        if ($this->serviceConfig->isAutowire()) {
             $yaml = $this->completeDefaultsKeyTrue($yaml, YamlKey::AUTOWIRE);
         }
 
         return $yaml;
-    }
-
-    private function reset(): void
-    {
-        $this->classes = [];
-        $this->enableAutowire = false;
-        $this->enableAutoconfigure = false;
     }
 
     /**
@@ -108,8 +92,8 @@ final class ExplicitToAutodiscoveryConverter
      */
     private function completeAutodiscovery(array $yaml, string $filePath, int $nestingLevel): array
     {
-        $commonNamespaces = $this->commonNamespaceResolver->resolve($this->classes, $nestingLevel);
-        $groupedServices = $this->groupServicesByNamespaces($this->classes, $commonNamespaces);
+        $commonNamespaces = $this->commonNamespaceResolver->resolve($this->serviceConfig, $nestingLevel);
+        $groupedServices = $this->groupServicesByNamespaces($this->serviceConfig, $commonNamespaces);
 
         foreach ($groupedServices as $namespace => $classes) {
             $namespaceKey = $namespace . '\\';
@@ -126,7 +110,7 @@ final class ExplicitToAutodiscoveryConverter
                 $yaml[YamlKey::SERVICES][$namespaceKey]['exclude'] = $exclude;
             }
 
-            $this->enableAutowire = true;
+            $this->serviceConfig->enableAutowire();
         }
 
         return $yaml;
@@ -164,17 +148,16 @@ final class ExplicitToAutodiscoveryConverter
     }
 
     /**
-     * @param string[] $services
      * @param string[] $commonNamespaces
      * @return string[][]
      */
-    private function groupServicesByNamespaces(array $services, array $commonNamespaces): array
+    private function groupServicesByNamespaces(ServiceConfig $serviceConfig, array $commonNamespaces): array
     {
         $groupedServicesByNamespace = [];
         foreach ($commonNamespaces as $commonNamespace) {
-            foreach ($services as $service) {
-                if (Strings::startsWith($service, $commonNamespace . '\\')) {
-                    $groupedServicesByNamespace[$commonNamespace][] = $service;
+            foreach ($serviceConfig->getClasses() as $class) {
+                if (Strings::startsWith($class, $commonNamespace . '\\')) {
+                    $groupedServicesByNamespace[$commonNamespace][] = $class;
                     continue;
                 }
             }

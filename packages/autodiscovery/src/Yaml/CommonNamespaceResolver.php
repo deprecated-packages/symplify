@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace Symplify\Autodiscovery\Yaml;
 
 use Nette\Utils\Strings;
+use Symplify\Autodiscovery\ValueObject\ServiceConfig;
 
 final class CommonNamespaceResolver
 {
     /**
-     * @param string[] $classes
      * @return string[]
      */
-    public function resolve(array $classes, int $nestingLevel): array
+    public function resolve(ServiceConfig $serviceConfig, int $nestingLevel): array
     {
-        if ($classes === []) {
+        if ($serviceConfig->getClasses() === []) {
             return [];
         }
 
         $namespaces = [];
-        foreach ($classes as $class) {
+        foreach ($serviceConfig->getClasses() as $class) {
             $namespace = Strings::before($class, '\\', $nestingLevel);
             if ($namespace) {
                 $namespaces[] = $namespace;
@@ -31,6 +31,6 @@ final class CommonNamespaceResolver
         }
 
         // reiterate with less strict nesting
-        return $this->resolve($classes, --$nestingLevel);
+        return $this->resolve($serviceConfig, --$nestingLevel);
     }
 }

@@ -7,6 +7,7 @@ namespace Symplify\Autodiscovery\Yaml;
 use Nette\Utils\Strings;
 use ReflectionClass;
 use Symplify\Autodiscovery\Arrays;
+use Symplify\Autodiscovery\ValueObject\ServiceConfig;
 
 final class YamlServiceProcessor
 {
@@ -20,6 +21,11 @@ final class YamlServiceProcessor
      */
     private $tagAnalyzer;
 
+    /**
+     * @var ServiceConfig
+     */
+    private $serviceConfig;
+
     public function __construct(TagAnalyzer $tagAnalyzer)
     {
         $this->tagAnalyzer = $tagAnalyzer;
@@ -30,8 +36,14 @@ final class YamlServiceProcessor
      * @param string|mixed[]|null $service
      * @return mixed[]
      */
-    public function process(array $yaml, $service, string $name, string $filter): array
-    {
+    public function process(
+        array $yaml,
+        $service,
+        string $name,
+        string $filter,
+        ServiceConfig $serviceConfig
+    ): array {
+        $this->serviceConfig = $serviceConfig;
         $this->removeService = false;
 
         if ($this->shouldSkipService($service, $name, $filter)) {
@@ -44,7 +56,7 @@ final class YamlServiceProcessor
 
         // anonymous service
         if ($service === null) {
-            $this->classes[] = $name;
+            $this->serviceConfig->addClass($name);
             $this->removeService = true;
         }
 
@@ -132,7 +144,7 @@ final class YamlServiceProcessor
         // remove autowire
         if (isset($service[YamlKey::AUTOWIRE])) {
             unset($service[YamlKey::AUTOWIRE]);
-            $this->enableAutowire = true;
+            $this->serviceConfig->enableAutowire();
         }
 
         return $service;
@@ -150,7 +162,7 @@ final class YamlServiceProcessor
 
         if ($this->tagAnalyzer->isAutoconfiguredTags($service[YamlKey::TAGS])) {
             unset($service[YamlKey::TAGS]);
-            $this->enableAutoconfigure = true;
+            $this->serviceConfig->enableAutoconfigure();
         }
 
         return $service;
