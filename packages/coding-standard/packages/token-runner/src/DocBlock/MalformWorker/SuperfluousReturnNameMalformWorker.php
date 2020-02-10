@@ -35,7 +35,7 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
                 self::RETURN_VARIABLE_NAME_PATTERN,
                 function (array $match) {
                     $replacement = $match[1];
-                    if ($match['type']) {
+                    if ($match['type'] !== []) {
                         $replacement .= $match['type'];
                     }
 

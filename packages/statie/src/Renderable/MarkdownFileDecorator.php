@@ -72,7 +72,7 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
             return;
         }
 
-        if ($configuration['perex']) {
+        if ($configuration['perex'] !== []) {
             $markdownedPerex = $this->parsedownExtra->text($configuration['perex']);
 
             // remove <p></p>

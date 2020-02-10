@@ -20,7 +20,7 @@
         "symplify/set-config-resolver": "^7.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.5|^9.0"
     },
     "autoload": {
         "psr-4": {

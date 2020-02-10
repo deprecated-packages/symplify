@@ -21,7 +21,7 @@
         "ocramius/package-versions": "^1.4",
         "phar-io/version": "^2.0.1",
         "phpstan/phpdoc-parser": "^0.4",
-        "phpstan/phpstan": "^0.12.7",
+        "phpstan/phpstan": "^0.12.10",
         "psr/simple-cache": "^1.0",
         "slevomat/coding-standard": "^6.0",
         "squizlabs/php_codesniffer": "^3.5",
@@ -45,9 +45,8 @@
         "doctrine/orm": "^2.7",
         "doctrine/persistence": "^1.3.3",
         "nikic/php-parser": "^4.3",
-        "phpstan/phpstan": "^0.12.7",
-        "phpunit/phpunit": "^8.5",
-        "rector/rector-prefixed": "^0.6.13",
+        "phpunit/phpunit": "^8.5|^9.0",
+        "rector/rector": "dev-master",
         "symfony/framework-bundle": "^4.4|^5.0",
         "symfony/templating": "^4.4|^5.0",
         "symfony/translation": "^4.4|^5.0",
@@ -73,9 +72,9 @@
             "Symplify\\MonorepoBuilder\\": "packages/monorepo-builder/src",
             "Symplify\\MonorepoBuilder\\ComposerJsonObject\\": "packages/monorepo-builder/packages/composer-json-object/src",
             "Symplify\\MonorepoBuilder\\Init\\": "packages/monorepo-builder/packages/init/src",
+            "Symplify\\MonorepoBuilder\\Merge\\": "packages/monorepo-builder/packages/merge/src",
             "Symplify\\MonorepoBuilder\\Release\\": "packages/monorepo-builder/packages/release/src",
             "Symplify\\MonorepoBuilder\\Split\\": "packages/monorepo-builder/packages/split/src",
-            "Symplify\\MonorepoBuilder\\Merge\\": "packages/monorepo-builder/packages/merge/src",
             "Symplify\\MonorepoBuilder\\Testing\\": "packages/monorepo-builder/packages/testing/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
@@ -110,9 +109,9 @@
             "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/easy-coding-standard/packages/sniff-runner/tests",
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/easy-coding-standard/tests",
             "Symplify\\FlexLoader\\Tests\\": "packages/flex-loader/tests",
+            "Symplify\\MonorepoBuilder\\Merge\\Tests\\": "packages/monorepo-builder/packages/merge/tests",
             "Symplify\\MonorepoBuilder\\Split\\Tests\\": "packages/monorepo-builder/packages/split/tests",
             "Symplify\\MonorepoBuilder\\Testing\\Tests\\": "packages/monorepo-builder/packages/testing/tests",
-            "Symplify\\MonorepoBuilder\\Merge\\Tests\\": "packages/monorepo-builder/packages/merge/tests",
             "Symplify\\MonorepoBuilder\\Tests\\": "packages/monorepo-builder/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
@@ -129,7 +128,10 @@
         }
     },
     "replace": {
+        "symfony/polyfill-php70": "*",
+        "symplify/auto-bind-parameter": "7.2",
         "symplify/autodiscovery": "7.2",
+        "symplify/autowire-array-parameter": "7.2",
         "symplify/better-phpdoc-parser": "7.2",
         "symplify/changelog-linker": "7.2",
         "symplify/coding-standard": "7.2",
@@ -141,12 +143,9 @@
         "symplify/neon-to-yaml-converter": "7.2",
         "symplify/package-builder": "7.2",
         "symplify/phpstan-extensions": "7.2",
-        "symplify/smart-file-system": "7.2",
         "symplify/set-config-resolver": "7.2",
-        "symplify/statie": "7.2",
-        "symplify/autowire-array-parameter": "7.2",
-        "symplify/auto-bind-parameter": "7.2",
-        "symplify/easy-coding-standard-compiler": "self.version"
+        "symplify/smart-file-system": "7.2",
+        "symplify/statie": "7.2"
     },
     "scripts": {
         "complete-check": [
@@ -159,7 +158,7 @@
             "packages/easy-coding-standard/bin/ecs check --fix --ansi",
             "bin/clear_readmes.sh"
         ],
-        "phpstan": "phpstan analyse packages --error-format symplify --ansi",
+        "phpstan": "vendor/bin/phpstan analyse packages --error-format symplify --ansi",
         "changelog": [
             "packages/changelog-linker/bin/changelog-linker dump-merges --in-categories --in-packages --ansi",
             "packages/changelog-linker/bin/changelog-linker link --ansi",
@@ -167,9 +166,11 @@
         ],
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
-        "rector": "rector process packages --config rector-ci.yaml --dry-run --ansi"
+        "rector": "vendor/bin/rector process packages --config rector-ci.yaml --dry-run --ansi"
     },
     "config": {
         "sort-packages": true
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

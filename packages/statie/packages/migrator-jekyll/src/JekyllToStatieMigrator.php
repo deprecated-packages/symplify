@@ -108,7 +108,7 @@ final class JekyllToStatieMigrator implements MigratorInterface
         $workingDirectory = rtrim($workingDirectory, '/');
 
         // remove unwated files
-        if ($this->migratorJekyll[MigratorOption::PATHS_TO_REMOVE]) {
+        if ($this->migratorJekyll[MigratorOption::PATHS_TO_REMOVE] !== []) {
             $this->filesystemRemover->processPaths(
                 $workingDirectory,
                 $this->migratorJekyll[MigratorOption::PATHS_TO_REMOVE]
@@ -116,7 +116,7 @@ final class JekyllToStatieMigrator implements MigratorInterface
         }
 
         // move files, rename
-        if ($this->migratorJekyll[MigratorOption::PATHS_TO_MOVE]) {
+        if ($this->migratorJekyll[MigratorOption::PATHS_TO_MOVE] !== []) {
             $this->filesystemMover->processPaths(
                 $workingDirectory,
                 $this->migratorJekyll[MigratorOption::PATHS_TO_MOVE]
@@ -133,7 +133,7 @@ final class JekyllToStatieMigrator implements MigratorInterface
         $this->twigSuffixChanger->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // clear regulars by paths
-        if ($this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS]) {
+        if ($this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS] !== []) {
             $this->filesystemRegularApplicator->processPaths(
                 $workingDirectory,
                 $this->migratorJekyll[MigratorOption::APPLY_REGULAR_IN_PATHS]

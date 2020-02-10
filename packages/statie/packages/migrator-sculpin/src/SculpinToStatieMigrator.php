@@ -100,7 +100,7 @@ final class SculpinToStatieMigrator implements MigratorInterface
         $workingDirectory = rtrim($workingDirectory, '/');
 
         // remove unwated files
-        if ($this->migratorSculpin[MigratorOption::PATHS_TO_REMOVE]) {
+        if ($this->migratorSculpin[MigratorOption::PATHS_TO_REMOVE] !== []) {
             $this->filesystemRemover->processPaths(
                 $workingDirectory,
                 $this->migratorSculpin[MigratorOption::PATHS_TO_REMOVE]
@@ -108,7 +108,7 @@ final class SculpinToStatieMigrator implements MigratorInterface
         }
 
         // move files, rename
-        if ($this->migratorSculpin[MigratorOption::PATHS_TO_MOVE]) {
+        if ($this->migratorSculpin[MigratorOption::PATHS_TO_MOVE] !== []) {
             $this->filesystemMover->processPaths(
                 $workingDirectory,
                 $this->migratorSculpin[MigratorOption::PATHS_TO_MOVE]
@@ -122,7 +122,7 @@ final class SculpinToStatieMigrator implements MigratorInterface
         $this->twigSuffixChanger->processSourceDirectory($sourceDirectory, $workingDirectory);
 
         // clear regulars by paths
-        if ($this->migratorSculpin[MigratorOption::APPLY_REGULAR_IN_PATHS]) {
+        if ($this->migratorSculpin[MigratorOption::APPLY_REGULAR_IN_PATHS] !== []) {
             $this->filesystemRegularApplicator->processPaths(
                 $workingDirectory,
                 $this->migratorSculpin[MigratorOption::APPLY_REGULAR_IN_PATHS]
