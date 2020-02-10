@@ -332,7 +332,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#1627] Deprecate `NoClassInstantiation` for inpractical and bloated usage
 
-
 [@natepage]: https://github.com/natepage
 [@jawira]: https://github.com/jawira
 [#1644]: https://github.com/symplify/symplify/pull/1644

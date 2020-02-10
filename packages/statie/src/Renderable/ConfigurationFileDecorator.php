@@ -79,7 +79,7 @@ final class ConfigurationFileDecorator implements FileDecoratorInterface
                 $file->setRawContent($rawContent);
             }
 
-            if ($matches['config']) {
+            if ($matches['config'] !== []) {
                 $this->setConfigurationToFileIfFoundAny($matches['config'], $file);
             }
         }

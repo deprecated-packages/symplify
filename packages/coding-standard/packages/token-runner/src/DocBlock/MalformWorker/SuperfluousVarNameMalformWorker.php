@@ -34,7 +34,7 @@ final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
                 self::VAR_VARIABLE_NAME_PATTERN,
                 function (array $match): string {
                     $replacement = $match[1];
-                    if ($match['type']) {
+                    if ($match['type'] !== []) {
                         $replacement .= $match['type'];
                     }
 

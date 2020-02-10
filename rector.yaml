@@ -1,9 +1,1 @@
 services:
-    Rector\PHPUnit\Rector\Class_\ArrayArgumentInTestToDataProviderRector:
-        $configuration:
-            -
-                class: PHPUnit\Framework\TestCase
-                old_method: doTestFiles
-                new_method: doTestFiles
-                variable_name: file
-

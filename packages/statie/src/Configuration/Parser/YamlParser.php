@@ -25,7 +25,7 @@ final class YamlParser
     public function decodeInSource(string $content, string $source): array
     {
         try {
-            return $this->parser->parse($content);
+            return (array) $this->parser->parse($content);
         } catch (ParseException $parseException) {
             throw new ParseException(sprintf(
                 'Invalid YAML syntax found in "%s": %s',

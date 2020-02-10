@@ -85,7 +85,7 @@ final class PackageToRepositorySplitter
         $branch = $branch ?? $this->gitManager->getCurrentBranch();
 
         // If branch doesn't exist on origin, push it
-        if ($this->gitManager->doesBranchExistOnRemote($branch) === false) {
+        if (! $this->gitManager->doesBranchExistOnRemote($branch)) {
             $this->symfonyStyle->note(sprintf('Branch "%s" does not exist on origin, pushing it...', $branch));
             $this->symfonyStyle->writeln($this->gitManager->pushBranchToRemoteOrigin($branch));
         }
