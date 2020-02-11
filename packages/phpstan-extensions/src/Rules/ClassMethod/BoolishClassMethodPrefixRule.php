@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
@@ -70,27 +71,11 @@ final class BoolishClassMethodPrefixRule implements Rule
             throw new ShouldNotHappenException();
         }
 
-        $returns = $this->findReturnsWithValues($node);
-        // nothing was returned
-        if ($returns === []) {
+        if ($this->shouldSkip($node, $scope, $classReflection)) {
             return [];
         }
 
-        $methodReflection = $classReflection->getNativeMethod($node->name->name);
-        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
-
-        if (! $returnType instanceof BooleanType && ! $this->areOnlyBoolReturnNodes($returns, $scope)) {
-            return [];
-        }
-
-        $prefixesPattern = '#^(' . implode('|', self::BOOL_PREFIXES) . ')#';
-        if (Strings::match($node->name->toString(), $prefixesPattern)) {
-            return [];
-        }
-
-        $ruleError = $this->createRuleError($node, $scope);
-
-        return [$ruleError];
+        return [$this->createRuleError($node, $scope)];
     }
 
     private function createRuleError(ClassMethod $classMethod, Scope $scope): RuleError
@@ -144,5 +129,47 @@ final class BoolishClassMethodPrefixRule implements Rule
         }
 
         return $returnsWithValues;
+    }
+
+    private function isMethodNameMatchingBoolPrefixes(string $methodName): bool
+    {
+        $prefixesPattern = '#^(' . implode('|', self::BOOL_PREFIXES) . ')#';
+
+        return (bool) Strings::match($methodName, $prefixesPattern);
+    }
+
+    private function shouldSkip(ClassMethod $classMethod, Scope $scope, ClassReflection $classReflection): bool
+    {
+        $methodName = $classMethod->name->toString();
+
+        $returns = $this->findReturnsWithValues($classMethod);
+        // nothing was returned
+        if ($returns === []) {
+            return true;
+        }
+
+        $methodReflection = $classReflection->getNativeMethod($methodName);
+        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        if (! $returnType instanceof BooleanType && ! $this->areOnlyBoolReturnNodes($returns, $scope)) {
+            return true;
+        }
+
+        if ($this->isMethodNameMatchingBoolPrefixes($methodName)) {
+            return true;
+        }
+
+        // is required by an interface
+        return $this->isMethodRequiredByParentInterface($classReflection, $methodName);
+    }
+
+    private function isMethodRequiredByParentInterface(ClassReflection $classReflection, string $methodName): bool
+    {
+        foreach ($classReflection->getInterfaces() as $interface) {
+            if ($interface->hasMethod($methodName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

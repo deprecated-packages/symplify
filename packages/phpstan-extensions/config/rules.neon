@@ -1,0 +1,4 @@
+rules:
+    - Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
+    - Symplify\PHPStanExtensions\Rules\Include_\ForbidReturnValueOfIncludeOnceRule
+    - Symplify\PHPStanExtensions\Rules\ClassMethod\BoolishClassMethodPrefixRule

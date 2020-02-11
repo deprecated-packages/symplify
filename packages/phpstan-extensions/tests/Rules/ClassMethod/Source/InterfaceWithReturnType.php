@@ -6,5 +6,5 @@ namespace Symplify\PHPStanExtensions\Tests\Rules\ClassMethod\Source;
 
 interface InterfaceWithReturnType
 {
-    public function nothing(): bool;
+    public function vote(): bool;
 }
