@@ -66,6 +66,11 @@ final class JsonFileManager
         $this->symfonyFilesystem->dumpFile($filePath, $jsonString);
     }
 
+    public function saveComposerJsonWithFileInfo(ComposerJson $composerJson, SmartFileInfo $smartFileInfo): void
+    {
+        $this->saveJsonWithFileInfo($composerJson->getJsonArray(), $smartFileInfo);
+    }
+
     /**
      * @param mixed[] $json
      * @param string[] $inlineSections
