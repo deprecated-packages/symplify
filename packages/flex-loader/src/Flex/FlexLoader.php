@@ -77,7 +77,7 @@ final class FlexLoader
     public function loadRoutes(RouteCollectionBuilder $routeCollectionBuilder, array $extraRoutingPaths = []): void
     {
         $routingPaths = $this->flexPathsFactory->createRoutingPaths($this->projectDir, $this->environment);
-        $routingPaths = array_merge($routingPaths, $extraRoutingPaths);
+        $routingPaths = array_merge($extraRoutingPaths, $routingPaths);
 
         foreach ($routingPaths as $routingPath) {
             $routeCollectionBuilder->import($routingPath . $this->configExtensions, '/', 'glob');
