@@ -46,15 +46,6 @@ gulp
 
 ## Do you use Jekyll or Sculpin?
 
-We'll help you migrate:
-
-```bash
-vendor/bin/statie migrate-jekyll
-vendor/bin/statie migrate-sculpin
-```
-
-They will do 95 % of migration for you. If you still struggle with migration, look at:
-
 - [9 Steps to Migrate From Jekyll to Statie](https://www.tomasvotruba.com/blog/2019/01/10/9-steps-to-migrate-from-jekyll-to-statie/)
 - [11 Steps to Migrate From Sculpin to Statie](https://www.tomasvotruba.com/blog/2019/01/14/11-steps-to-migrate-from-sculpin-to-statie/)
 
