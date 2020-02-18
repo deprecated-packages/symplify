@@ -136,3 +136,4 @@ parameters:
 
         - '#Cannot assign offset (.*?) to array\|string#'
         - '#Cannot assign offset int\|null to PhpCsFixer\\Tokenizer\\Tokens#'
+        - '#Parameter \#3 \$position of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer\:\:isIncrementingToken\(\) expects int, float\|int given#'
