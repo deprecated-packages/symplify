@@ -35,10 +35,6 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
 
         $this->composerJson = $this->createMainComposerJson();
         $this->expectedComposerJson = $this->createExpectedComposerJson();
-
-//        $composerJsonToRemove = $this->createComposerJsonToRemove();
-
-//        $this->removerComposerJsonDecorator->setComposerJsonToRemove($composerJsonToRemove);
     }
 
     public function test(): void
