@@ -27,6 +27,9 @@ parameters:
         - 'packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php'
         - 'packages/monorepo-builder/packages/init/templates/*'
 
+        # @todo solve: dead-code false positive
+        - "packages/statie/src/Renderable/CodeBlocksProtector.php"
+
     exclude_rectors:
         # too free
         - 'Rector\SOLID\Rector\ClassMethod\UseInterfaceOverImplementationInConstructorRector'
