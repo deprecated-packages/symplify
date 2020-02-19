@@ -1,3 +1,7 @@
+services:
+    Rector\SOLID\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector: null
+    Rector\SOLID\Rector\ClassMethod\ChangeReadOnlyVariableWithDefaultValueToConstantRector: null
+
 parameters:
     auto_import_names: true
     autoload_paths:
@@ -10,6 +14,9 @@ parameters:
         - 'php-70'
         - 'php-71'
         - 'php-72'
+
+    paths:
+        - "packages"
 
     exclude_paths:
         - '/vendor/'
