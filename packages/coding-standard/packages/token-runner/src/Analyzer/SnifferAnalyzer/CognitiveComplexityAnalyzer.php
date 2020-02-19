@@ -15,25 +15,10 @@ namespace Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer;
 final class CognitiveComplexityAnalyzer
 {
     /**
-     * @var int
-     */
-    private $cognitiveComplexity = 0;
-
-    /**
-     * @var int
-     */
-    private $previousMeasuredNestingLevel = 0;
-
-    /**
-     * @var bool
-     */
-    private $isInTryConstruction = false;
-
-    /**
      * B1. Increments
-     * @var int[]|string[]
+     * @var int[]
      */
-    private $increasingTokens = [
+    private const INCREASING_TOKENS = [
         T_IF,
         T_ELSE,
         T_ELSEIF,
@@ -51,7 +36,22 @@ final class CognitiveComplexityAnalyzer
      * B1. Increments
      * @var int[]
      */
-    private $breakingTokens = [T_CONTINUE, T_GOTO, T_BREAK];
+    private const BREAKING_TOKENS = [T_CONTINUE, T_GOTO, T_BREAK];
+
+    /**
+     * @var int
+     */
+    private $cognitiveComplexity = 0;
+
+    /**
+     * @var int
+     */
+    private $previousMeasuredNestingLevel = 0;
+
+    /**
+     * @var bool
+     */
+    private $isInTryConstruction = false;
 
     /**
      * @param mixed[] $tokens
@@ -84,7 +84,7 @@ final class CognitiveComplexityAnalyzer
             $measuredNestingLevel = $this->getMeasuredNestingLevel($currentToken, $tokens, $position);
 
             // increase for nesting level higher than 1 in the function
-            if (in_array($currentToken['code'], $this->breakingTokens, true)) {
+            if (in_array($currentToken['code'], self::BREAKING_TOKENS, true)) {
                 $this->previousMeasuredNestingLevel = $measuredNestingLevel;
                 continue;
             }
@@ -124,7 +124,7 @@ final class CognitiveComplexityAnalyzer
      */
     private function isIncrementingToken(array $token, array $tokens, int $position): bool
     {
-        if (in_array($token['code'], $this->increasingTokens, true)) {
+        if (in_array($token['code'], self::INCREASING_TOKENS, true)) {
             return true;
         }
 
@@ -134,7 +134,7 @@ final class CognitiveComplexityAnalyzer
         }
 
         // B1. goto LABEL, break LABEL, continue LABEL
-        if (in_array($token['code'], $this->breakingTokens, true)) {
+        if (in_array($token['code'], self::BREAKING_TOKENS, true)) {
             $nextToken = $tokens[$position + 1]['code'];
             if ($nextToken !== T_SEMICOLON) {
                 return true;

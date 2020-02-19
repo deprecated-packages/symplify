@@ -29,6 +29,11 @@ final class GithubApi
     private const URL_PULL_REQUEST_BY_ID = 'https://api.github.com/repos/%s/pulls/%d';
 
     /**
+     * @var int
+     */
+    private const MAX_PAGE = 10;
+
+    /**
      * @var string
      */
     private $repositoryName;
@@ -98,10 +103,9 @@ final class GithubApi
      */
     private function getPullRequestsSinceId(int $id, ?string $baseBranch = null): array
     {
-        $maxPage = 10; // max. 1000 merge requests to dump
-
+        // max. 1000 merge requests to dump
         $pullRequests = [];
-        for ($i = 1; $i <= $maxPage; ++$i) {
+        for ($i = 1; $i <= self::MAX_PAGE; ++$i) {
             $url = sprintf(self::URL_CLOSED_PULL_REQUESTS, $this->repositoryName) . '&page=' . $i;
             if ($baseBranch !== null) {
                 $url .= '&base=' . $baseBranch;
@@ -122,7 +126,6 @@ final class GithubApi
                 break;
             }
         }
-
         return $pullRequests;
     }
 

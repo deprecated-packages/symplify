@@ -23,6 +23,12 @@ use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 {
     /**
+     * These namespaces are already configured by their bundles/extensions.
+     * @var string[]
+     */
+    private const EXCLUDED_NAMESPACES = ['Doctrine', 'JMS', 'Symfony', 'Sensio', 'Knp', 'EasyCorp', 'Sonata', 'Twig'];
+
+    /**
      * Classes that create circular dependencies
      * @var string[]
      */
@@ -36,12 +42,6 @@ class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         'Sonata\Doctrine\Adapter\AdapterChain',
         'Sonata\Twig\Extension\TemplateExtension',
     ];
-
-    /**
-     * These namespaces are already configured by their bundles/extensions.
-     * @var string[]
-     */
-    private $excludedNamespaces = ['Doctrine', 'JMS', 'Symfony', 'Sensio', 'Knp', 'EasyCorp', 'Sonata', 'Twig'];
 
     /**
      * @var DefinitionFinder
@@ -87,7 +87,7 @@ class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         $resolvedClassName = $containerBuilder->getParameterBag()->resolveValue($definition->getClass());
 
         // skip 3rd party classes, they're autowired by own config
-        if (Strings::match($resolvedClassName, '#^(' . implode('|', $this->excludedNamespaces) . ')\\\\#')) {
+        if (Strings::match($resolvedClassName, '#^(' . implode('|', self::EXCLUDED_NAMESPACES) . ')\\\\#')) {
             return true;
         }
 

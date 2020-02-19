@@ -17,7 +17,7 @@ final class ExplicitToAutodiscoveryConverter
     /**
      * @var string[]
      */
-    private $possibleExcludedDirectories = [
+    private const POSSIBLE_EXCLUDED_DIRECTORIES = [
         'Entity',
         'Entities',
         'Exception',
@@ -190,7 +190,7 @@ final class ExplicitToAutodiscoveryConverter
         }
 
         $excludedDirectories = [];
-        foreach ($this->possibleExcludedDirectories as $possibleExcludedDirectory) {
+        foreach (self::POSSIBLE_EXCLUDED_DIRECTORIES as $possibleExcludedDirectory) {
             $possibleDirectoryPath = $absoluteServicesLocation . '/' . $possibleExcludedDirectory;
             if (is_dir($possibleDirectoryPath)) {
                 $excludedDirectories[] = $possibleExcludedDirectory;

@@ -18,14 +18,14 @@ final class Naming
     private const NAMESPACE_SEPARATOR = '\\';
 
     /**
+     * @var string[]
+     */
+    private const CLASS_NAMES_BY_FILE_PATH = [];
+
+    /**
      * @var mixed[][]
      */
     private $referencedNamesByFilePath = [];
-
-    /**
-     * @var string[]
-     */
-    private $classNamesByFilePath = [];
 
     /**
      * @var string[][]
@@ -35,8 +35,8 @@ final class Naming
     public function getFileClassName(File $file): ?string
     {
         // get name by path
-        if (isset($this->classNamesByFilePath[$file->path])) {
-            return $this->classNamesByFilePath[$file->path];
+        if (isset(self::CLASS_NAMES_BY_FILE_PATH[$file->path])) {
+            return self::CLASS_NAMES_BY_FILE_PATH[$file->path];
         }
 
         $classPosition = TokenHelper::findNext($file, T_CLASS, 1);

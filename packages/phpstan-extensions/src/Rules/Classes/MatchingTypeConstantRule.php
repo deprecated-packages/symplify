@@ -22,7 +22,7 @@ final class MatchingTypeConstantRule implements Rule
     /**
      * @var string[][]
      */
-    private $typeNodesToAcceptedTypes = [
+    private const TYPE_NODES_TO_ACCEPTED_TYPES = [
         LNumber::class => ['int'],
         DNumber::class => ['float', 'double'],
         String_::class => ['string'],
@@ -94,7 +94,7 @@ final class MatchingTypeConstantRule implements Rule
      */
     private function processConstantValue(Expr $expr, string $type): array
     {
-        foreach ($this->typeNodesToAcceptedTypes as $typeNode => $acceptedTypes) {
+        foreach (self::TYPE_NODES_TO_ACCEPTED_TYPES as $typeNode => $acceptedTypes) {
             /** @var string $typeNode */
             if (! is_a($expr, $typeNode, true)) {
                 continue;

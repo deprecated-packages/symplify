@@ -1,3 +1,7 @@
+services:
+    Rector\SOLID\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector: null
+    Rector\SOLID\Rector\ClassMethod\ChangeReadOnlyVariableWithDefaultValueToConstantRector: null
+
 parameters:
     auto_import_names: true
     autoload_paths:
@@ -11,6 +15,9 @@ parameters:
         - 'php-71'
         - 'php-72'
 
+    paths:
+        - "packages"
+
     exclude_paths:
         - '/vendor/'
         - '/init/'
@@ -19,6 +26,9 @@ parameters:
         # parameter Symfony autowire hack
         - 'packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php'
         - 'packages/monorepo-builder/packages/init/templates/*'
+
+        # @todo solve: dead-code false positive
+        - "packages/statie/src/Renderable/CodeBlocksProtector.php"
 
     exclude_rectors:
         # too free

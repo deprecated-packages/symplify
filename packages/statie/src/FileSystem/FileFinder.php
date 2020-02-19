@@ -13,7 +13,7 @@ final class FileFinder
     /**
      * @var string[]
      */
-    private $staticFileExtensions = [
+    private const STATIC_FILE_EXTENSIONS = [
         'CNAME',
         '*.png',
         '*.jpg',
@@ -95,7 +95,7 @@ final class FileFinder
         $finder = Finder::create()->files()
             ->in($directory);
 
-        foreach ($this->staticFileExtensions as $name) {
+        foreach (self::STATIC_FILE_EXTENSIONS as $name) {
             $finder->name($name);
         }
 

@@ -17,7 +17,7 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
      * @var string[]
      * @see https://help.github.com/articles/closing-issues-using-keywords/
      */
-    private $closesKeywords = [
+    private const CLOSES_KEYWORDS = [
         'close',
         'closes',
         'closed',
@@ -63,7 +63,7 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
     {
         return Strings::replace(
             $content,
-            sprintf('#(%s) \#%s#', implode('|', $this->closesKeywords), RegexPattern::VERSION),
+            sprintf('#(%s) \#%s#', implode('|', self::CLOSES_KEYWORDS), RegexPattern::VERSION),
             '$1 [#$2]'
         );
     }

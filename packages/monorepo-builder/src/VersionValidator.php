@@ -13,7 +13,7 @@ final class VersionValidator
     /**
      * @var string[]
      */
-    private $sections = [Section::REQUIRE, Section::REQUIRE_DEV];
+    private const SECTIONS = [Section::REQUIRE, Section::REQUIRE_DEV];
 
     /**
      * @var JsonFileManager
@@ -36,7 +36,7 @@ final class VersionValidator
         foreach ($smartFileInfos as $smartFileInfo) {
             $json = $this->jsonFileManager->loadFromFileInfo($smartFileInfo);
 
-            foreach ($this->sections as $section) {
+            foreach (self::SECTIONS as $section) {
                 if (! isset($json[$section])) {
                     continue;
                 }

@@ -12,7 +12,7 @@ final class ForbiddenStaticFunctionSniff implements Sniff
     /**
      * @var string[]
      */
-    private $allowedStaticFunctions = [
+    private const ALLOWED_STATIC_FUNCTIONS = [
         'getSubscribedEvents', # Symfony of event subscriber
     ];
 
@@ -41,7 +41,7 @@ final class ForbiddenStaticFunctionSniff implements Sniff
             return;
         }
 
-        if (in_array($functionNameToken['content'], $this->allowedStaticFunctions, true)) {
+        if (in_array($functionNameToken['content'], self::ALLOWED_STATIC_FUNCTIONS, true)) {
             return;
         }
 

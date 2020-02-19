@@ -15,6 +15,11 @@ abstract class AbstractGeneratorTest extends AbstractKernelTestCase
     /**
      * @var string
      */
+    private const SOURCE_DIRECTORY = __DIR__ . '/GeneratorSource/source';
+
+    /**
+     * @var string
+     */
     protected $outputDirectory = __DIR__ . '/GeneratorSource/output';
 
     /**
@@ -32,11 +37,6 @@ abstract class AbstractGeneratorTest extends AbstractKernelTestCase
      */
     protected $fileSystemWriter;
 
-    /**
-     * @var string
-     */
-    private $sourceDirectory = __DIR__ . '/GeneratorSource/source';
-
     protected function setUp(): void
     {
         $this->generator = self::$container->get(Generator::class);
@@ -53,7 +53,7 @@ abstract class AbstractGeneratorTest extends AbstractKernelTestCase
     private function prepareConfiguration(): void
     {
         $this->statieConfiguration = self::$container->get(StatieConfiguration::class);
-        $this->statieConfiguration->setSourceDirectory($this->sourceDirectory);
+        $this->statieConfiguration->setSourceDirectory(self::SOURCE_DIRECTORY);
         $this->statieConfiguration->setOutputDirectory($this->outputDirectory);
     }
 }

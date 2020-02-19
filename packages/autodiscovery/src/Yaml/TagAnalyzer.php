@@ -11,7 +11,7 @@ final class TagAnalyzer
     /**
      * @var string[]
      */
-    private $autoconfiguredTagNames = [
+    private const AUTOCONFIGURED_TAG_NAMES = [
         'console.command',
         'config_cache.resource_checker',
         'container.service_subscriber',
@@ -51,6 +51,6 @@ final class TagAnalyzer
 
     private function isAutoconfiguredTagName(string $tag): bool
     {
-        return in_array($tag, $this->autoconfiguredTagNames, true);
+        return in_array($tag, self::AUTOCONFIGURED_TAG_NAMES, true);
     }
 }

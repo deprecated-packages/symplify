@@ -18,7 +18,7 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
     /**
      * @var string[]
      */
-    private $allowedVariableNames = ['$this'];
+    private const ALLOWED_VARIABLE_NAMES = ['$this'];
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
@@ -58,7 +58,7 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
             return true;
         }
 
-        if (in_array($match['variableName'], $this->allowedVariableNames, true)) {
+        if (in_array($match['variableName'], self::ALLOWED_VARIABLE_NAMES, true)) {
             return true;
         }
         // has multiple return values? "@return array $one, $two"

@@ -13,7 +13,7 @@ final class GeneratorElementGuard
     /**
      * @var string[]
      */
-    private $requiredKeys = ['variable', 'variable_global', 'path', 'layout', 'route_prefix'];
+    private const REQUIRED_KEYS = ['variable', 'variable_global', 'path', 'layout', 'route_prefix'];
 
     /**
      * @param string|int $key
@@ -63,7 +63,7 @@ final class GeneratorElementGuard
      */
     private function ensureRequiredKeysAreSet($key, array $data): void
     {
-        foreach ($this->requiredKeys as $requiredKey) {
+        foreach (self::REQUIRED_KEYS as $requiredKey) {
             if (isset($data[$requiredKey])) {
                 continue;
             }
