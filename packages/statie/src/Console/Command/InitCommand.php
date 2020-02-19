@@ -40,14 +40,9 @@ final class InitCommand extends Command
     private const BASE = 'base';
 
     /**
-     * @var string
-     */
-    private $targetDirectory;
-
-    /**
      * @var string[]
      */
-    private $templateDirectories = [
+    private const TEMPLATE_DIRECTORIES = [
         self::BASE => __DIR__ . '/../../../templates/statie-website',
         self::TWIG => __DIR__ . '/../../../templates/statie-website-twig',
         // blog
@@ -56,6 +51,11 @@ final class InitCommand extends Command
         // travis-deploy
         self::TRAVIS_DEPLOY => __DIR__ . '/../../../templates/travis-deploy',
     ];
+
+    /**
+     * @var string
+     */
+    private $targetDirectory;
 
     /**
      * @var SymfonyStyle
@@ -100,7 +100,7 @@ final class InitCommand extends Command
 
     private function copyTemplates(string $name): void
     {
-        $this->filesystem->mirror($this->templateDirectories[$name], $this->targetDirectory);
+        $this->filesystem->mirror(self::TEMPLATE_DIRECTORIES[$name], $this->targetDirectory);
     }
 
     private function generateBlog(): void

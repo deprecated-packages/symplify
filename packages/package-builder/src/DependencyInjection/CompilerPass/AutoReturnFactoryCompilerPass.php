@@ -22,7 +22,7 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
     /**
      * @var string[]
      */
-    private $excludedFactoryTypes = ['Symfony\Component\DependencyInjection\ContainerInterface'];
+    private const EXCLUDED_FACTORY_TYPES = ['Symfony\Component\DependencyInjection\ContainerInterface'];
 
     public function process(ContainerBuilder $containerBuilder): void
     {
@@ -95,7 +95,7 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
         if ($createMethodReflection->getNumberOfRequiredParameters() > 0) {
             return false;
         }
-        return ! in_array($returnType, $this->excludedFactoryTypes, true);
+        return ! in_array($returnType, self::EXCLUDED_FACTORY_TYPES, true);
     }
 
     /**

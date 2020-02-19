@@ -19,7 +19,7 @@ final class GenerateCommandTest extends AbstractKernelTestCase
     /**
      * @var string
      */
-    private $outputDirectory = __DIR__ . '/GenerateCommandSource/output';
+    private const OUTPUT_DIRECTORY = __DIR__ . '/GenerateCommandSource/output';
 
     /**
      * @var StatieConsoleApplication
@@ -40,7 +40,7 @@ final class GenerateCommandTest extends AbstractKernelTestCase
 
     protected function tearDown(): void
     {
-        FileSystem::delete(addslashes($this->outputDirectory));
+        FileSystem::delete(addslashes(self::OUTPUT_DIRECTORY));
     }
 
     public function test(): void
@@ -49,13 +49,13 @@ final class GenerateCommandTest extends AbstractKernelTestCase
             'generate',
             addslashes(__DIR__) . '/GenerateCommandSource/source',
             '--output',
-            addslashes($this->outputDirectory),
+            addslashes(self::OUTPUT_DIRECTORY),
         ];
         $input = new StringInput(implode(' ', $stringInput));
 
         $this->statieConsoleApplication->run($input, new NullOutput());
 
-        $this->assertFileExists(addslashes($this->outputDirectory) . '/index.html');
+        $this->assertFileExists(addslashes(self::OUTPUT_DIRECTORY) . '/index.html');
     }
 
     public function testException(): void

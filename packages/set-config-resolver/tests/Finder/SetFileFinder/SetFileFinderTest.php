@@ -14,7 +14,7 @@ final class SetFileFinderTest extends TestCase
     /**
      * @var string
      */
-    private $sourceDirectory = __DIR__ . '/SetFileFinderSource/nested';
+    private const SOURCE_DIRECTORY = __DIR__ . '/SetFileFinderSource/nested';
 
     /**
      * @var SetFileFinder
@@ -32,17 +32,17 @@ final class SetFileFinderTest extends TestCase
      */
     public function test(array $options, string $expectedConfig): void
     {
-        $config = $this->setFileFinder->detectFromInputAndDirectory(new ArrayInput($options), $this->sourceDirectory);
+        $config = $this->setFileFinder->detectFromInputAndDirectory(new ArrayInput($options), self::SOURCE_DIRECTORY);
 
         $this->assertSame($expectedConfig, $config);
     }
 
     public function provideOptionsAndExpectedConfig(): Iterator
     {
-        yield [['-s' => 'someConfig'], $this->sourceDirectory . '/someConfig.yml'];
+        yield [['-s' => 'someConfig'], self::SOURCE_DIRECTORY . '/someConfig.yml'];
 
-        yield [['--set' => 'someConfig'], $this->sourceDirectory . '/someConfig.yml'];
+        yield [['--set' => 'someConfig'], self::SOURCE_DIRECTORY . '/someConfig.yml'];
 
-        yield [['--set' => 'anotherConfig'], $this->sourceDirectory . '/anotherConfig.yml'];
+        yield [['--set' => 'anotherConfig'], self::SOURCE_DIRECTORY . '/anotherConfig.yml'];
     }
 }

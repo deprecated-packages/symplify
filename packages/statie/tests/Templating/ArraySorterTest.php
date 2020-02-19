@@ -10,9 +10,9 @@ use Symplify\Statie\Templating\ArrayUtils;
 final class ArraySorterTest extends TestCase
 {
     /**
-     * @var mixed[]
+     * @var string[][]
      */
-    private $fixtureItems = [
+    private const FIXTURE_ITEMS = [
         ['name' => 'b'],
         ['name' => 'b'],
         ['name' => 'a'],
@@ -31,7 +31,7 @@ final class ArraySorterTest extends TestCase
 
     public function testGroupByField(): void
     {
-        $groupedItems = $this->arrayUtils->groupByField($this->fixtureItems, 'name');
+        $groupedItems = $this->arrayUtils->groupByField(self::FIXTURE_ITEMS, 'name');
 
         $expectedGroupedItems = [
             'a' => [
@@ -51,7 +51,7 @@ final class ArraySorterTest extends TestCase
 
     public function testSortByField(): void
     {
-        $sortedItems = $this->arrayUtils->sortByField($this->fixtureItems, 'name');
+        $sortedItems = $this->arrayUtils->sortByField(self::FIXTURE_ITEMS, 'name');
         $expectedSortedItems = [
             ['name' => 'a'],
             ['name' => 'b'],
@@ -60,7 +60,7 @@ final class ArraySorterTest extends TestCase
         ];
         $this->assertSame($expectedSortedItems, $sortedItems);
 
-        $sortedItems = $this->arrayUtils->sortByField($this->fixtureItems, 'name', 'desc');
+        $sortedItems = $this->arrayUtils->sortByField(self::FIXTURE_ITEMS, 'name', 'desc');
         $expectedSortedItems = [
             ['name' => 'c'],
             ['name' => 'b'],

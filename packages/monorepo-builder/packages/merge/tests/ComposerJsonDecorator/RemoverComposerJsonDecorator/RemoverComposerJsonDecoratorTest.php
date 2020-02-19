@@ -13,6 +13,23 @@ use Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\AbstractComposerJ
 final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecoratorTest
 {
     /**
+     * @var string[][][]|string[][]
+     */
+    private const COMPOSER_JSON_DATA = [
+        'require' => [
+            'phpunit/phpunit' => 'v1.0.0',
+            'rector/rector' => 'v1.0.0',
+        ],
+        'autoload-dev' => [
+            'psr-4' => [
+                'Symplify\Tests\\' => 'tests',
+                'Symplify\SuperTests\\' => 'super-tests',
+            ],
+            'files' => ['src/SomeFile.php', 'src/KeepFile.php'],
+        ],
+    ];
+
+    /**
      * @var ComposerJson
      */
     private $composerJson;
@@ -49,21 +66,7 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
         /** @var ComposerJsonFactory $composerJsonFactory */
         $composerJsonFactory = self::$container->get(ComposerJsonFactory::class);
 
-        $composerJsonData = [
-            'require' => [
-                'phpunit/phpunit' => 'v1.0.0',
-                'rector/rector' => 'v1.0.0',
-            ],
-            'autoload-dev' => [
-                'psr-4' => [
-                    'Symplify\Tests\\' => 'tests',
-                    'Symplify\SuperTests\\' => 'super-tests',
-                ],
-                'files' => ['src/SomeFile.php', 'src/KeepFile.php'],
-            ],
-        ];
-
-        return $composerJsonFactory->createFromArray($composerJsonData);
+        return $composerJsonFactory->createFromArray(self::COMPOSER_JSON_DATA);
     }
 
     private function createExpectedComposerJson(): ComposerJson

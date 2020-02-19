@@ -16,7 +16,7 @@ final class BlockFinder
     /**
      * @var int[]
      */
-    private $contentToBlockType = [
+    private const CONTENT_TO_BLOCK_TYPE = [
         '(' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
         ')' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
         '[' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
@@ -28,7 +28,7 @@ final class BlockFinder
     /**
      * @var string[]
      */
-    private $startEdges = ['(', '[', '{'];
+    private const START_EDGES = ['(', '[', '{'];
 
     /**
      * Accepts position to both start and end token, e.g. (, ), [, ], {, }
@@ -62,7 +62,7 @@ final class BlockFinder
         $blockType = $this->getBlockTypeByToken($token);
 
         try {
-            if (in_array($token->getContent(), $this->startEdges, true)) {
+            if (in_array($token->getContent(), self::START_EDGES, true)) {
                 $blockStart = $position;
                 $blockEnd = $tokens->findBlockEnd($blockType, $blockStart);
             } else {
@@ -103,8 +103,8 @@ final class BlockFinder
 
     private function getBlockTypeByContent(string $content): int
     {
-        if (isset($this->contentToBlockType[$content])) {
-            return $this->contentToBlockType[$content];
+        if (isset(self::CONTENT_TO_BLOCK_TYPE[$content])) {
+            return self::CONTENT_TO_BLOCK_TYPE[$content];
         }
 
         throw new MissingImplementationException(sprintf(

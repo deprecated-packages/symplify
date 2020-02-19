@@ -17,12 +17,12 @@ final class FileSystemWriterTest extends AbstractKernelTestCase
     /**
      * @var string
      */
-    private $sourceDirectory = __DIR__ . '/FileSystemWriterSource/source';
+    private const SOURCE_DIRECTORY = __DIR__ . '/FileSystemWriterSource/source';
 
     /**
      * @var string
      */
-    private $outputDirectory = __DIR__ . '/FileSystemWriterSource/output';
+    private const OUTPUT_DIRECTORY = __DIR__ . '/FileSystemWriterSource/output';
 
     /**
      * @var FileSystemWriter
@@ -39,8 +39,8 @@ final class FileSystemWriterTest extends AbstractKernelTestCase
         $this->bootKernel(StatieKernel::class);
 
         $configuration = self::$container->get(StatieConfiguration::class);
-        $configuration->setSourceDirectory($this->sourceDirectory);
-        $configuration->setOutputDirectory($this->outputDirectory);
+        $configuration->setSourceDirectory(self::SOURCE_DIRECTORY);
+        $configuration->setOutputDirectory(self::OUTPUT_DIRECTORY);
 
         $this->fileSystemWriter = self::$container->get(FileSystemWriter::class);
 
@@ -49,28 +49,28 @@ final class FileSystemWriterTest extends AbstractKernelTestCase
 
     protected function tearDown(): void
     {
-        FileSystem::delete($this->outputDirectory);
+        FileSystem::delete(self::OUTPUT_DIRECTORY);
     }
 
     public function testCopyStaticFiles(): void
     {
-        $file = new SmartFileInfo($this->sourceDirectory . '/index.html');
+        $file = new SmartFileInfo(self::SOURCE_DIRECTORY . '/index.html');
         $this->fileSystemWriter->copyStaticFiles([$file]);
 
-        $this->assertFileEquals($this->sourceDirectory . '/index.html', $this->outputDirectory . '/index.html');
+        $this->assertFileEquals(self::SOURCE_DIRECTORY . '/index.html', self::OUTPUT_DIRECTORY . '/index.html');
     }
 
     public function testCopyRenderableFiles(): void
     {
-        $fileInfo = new SmartFileInfo($this->sourceDirectory . '/contact.latte');
+        $fileInfo = new SmartFileInfo(self::SOURCE_DIRECTORY . '/contact.latte');
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
         $file->setOutputPath('contact.html');
 
         $this->fileSystemWriter->renderFiles([$file]);
 
         $this->assertFileEquals(
-            $this->sourceDirectory . '/contact.latte',
-            $this->outputDirectory . '/contact.html'
+            self::SOURCE_DIRECTORY . '/contact.latte',
+            self::OUTPUT_DIRECTORY . '/contact.html'
         );
     }
 }

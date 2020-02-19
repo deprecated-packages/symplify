@@ -11,6 +11,15 @@ use Iterator;
  */
 final class ChangeFactoryTest extends AbstractChangeFactoryTest
 {
+    /**
+     * @var int[]|string[]
+     */
+    private const PULL_REQUEST = [
+        'number' => 10,
+        'title' => 'whatever',
+        'merge_commit_sha' => '1dca927645478dabe8fa260b0e241c5068f01e63',
+    ];
+
     public function testEgoTag(): void
     {
         $pullRequest = [
@@ -72,13 +81,7 @@ final class ChangeFactoryTest extends AbstractChangeFactoryTest
     public function testTagDetection(): void
     {
         $this->markTestSkipped('Unable to run in Github Actions now');
-
-        $pullRequest = [
-            'number' => 10,
-            'title' => 'whatever',
-            'merge_commit_sha' => '1dca927645478dabe8fa260b0e241c5068f01e63',
-        ];
-        $change = $this->changeFactory->createFromPullRequest($pullRequest);
+        $change = $this->changeFactory->createFromPullRequest(self::PULL_REQUEST);
 
         $this->assertSame('v7.2.0', $change->getTag());
     }

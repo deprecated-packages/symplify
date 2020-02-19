@@ -20,6 +20,13 @@ use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 final class UnusedPublicMethodSniff implements Sniff, DualRunInterface, ResettableInterface
 {
     /**
+     * Fmmatch list of methods to ignore
+     *
+     * @var string[]
+     */
+    private const METHODS_TO_IGNORE = ['__*', 'test*', 'provide*', 'offset*'];
+
+    /**
      * Classes allowed to have unused public methods
      *
      * @var string[]
@@ -50,13 +57,6 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface, Resettab
      * @var mixed[]
      */
     private $tokens = [];
-
-    /**
-     * Fmmatch list of methods to ignore
-     *
-     * @var string[]
-     */
-    private $methodsToIgnore = ['__*', 'test*', 'provide*', 'offset*'];
 
     /**
      * @var string[]
@@ -310,6 +310,6 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface, Resettab
 
     private function shouldSkipMethod($methodName): bool
     {
-        return (bool) Strings::match($methodName, sprintf('#^(%s)#', implode('|', $this->methodsToIgnore)));
+        return (bool) Strings::match($methodName, sprintf('#^(%s)#', implode('|', self::METHODS_TO_IGNORE)));
     }
 }
