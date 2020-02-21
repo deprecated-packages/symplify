@@ -65,13 +65,13 @@ final class RenderableFilesProcessor
      * @param AbstractGeneratorFile[] $objects
      * @return AbstractGeneratorFile[]
      */
-    public function processGeneratorElementObjects(array $objects, GeneratorElement $generatorElement): array
+    public function processGeneratorElementObjectMetadata(array $objects, GeneratorElement $generatorElement): array
     {
         if (count($objects) === 0) {
             return [];
         }
 
-        foreach ($this->getFileDecorators() as $fileDecorator) {
+        foreach ($this->getFileDecorators() as $fileDecorator) if ($fileDecorator->getPriority() >= 1000) {
             $objects = $fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
         }
 
@@ -83,6 +83,20 @@ final class RenderableFilesProcessor
         $this->statieConfiguration->addOption($generatorElement->getVariableGlobal(), $objects);
 
         return $objects;
+    }
+
+    /**
+     * @param AbstractGeneratorFile[] $objects
+     */
+    public function processGeneratorElementObjects(array $objects, GeneratorElement $generatorElement): void
+    {
+        if (count($objects) === 0) {
+            return;
+        }
+
+        foreach ($this->getFileDecorators() as $fileDecorator) if ($fileDecorator->getPriority() < 1000) {
+            $fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
+        }
     }
 
     /**

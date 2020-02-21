@@ -94,7 +94,14 @@ final class Generator
             }
 
             // run them through decorator and render content to string
-            $generatorFilesByType[$key] = $this->renderableFilesProcessor->processGeneratorElementObjects(
+            $generatorFilesByType[$key] = $this->renderableFilesProcessor->processGeneratorElementObjectMetadata(
+                $generatorElement->getObjects(),
+                $generatorElement
+            );
+        }
+
+        foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
+            $this->renderableFilesProcessor->processGeneratorElementObjects(
                 $generatorElement->getObjects(),
                 $generatorElement
             );
