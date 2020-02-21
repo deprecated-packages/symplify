@@ -71,10 +71,8 @@ final class RenderableFilesProcessor
             return [];
         }
 
-        foreach ($this->getFileDecorators() as $fileDecorator) {
-			if ($fileDecorator->getPriority() >= 1000) {
-				$objects = $fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
-			}
+        foreach ($this->getFileDecorators() as $fileDecorator) if ($fileDecorator->getPriority() >= 1000) {
+            $objects = $fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
         }
 
         $objectSorter = $generatorElement->getObjectSorter();
@@ -96,10 +94,8 @@ final class RenderableFilesProcessor
             return;
         }
 
-        foreach ($this->getFileDecorators() as $fileDecorator) {
-			if ($fileDecorator->getPriority() < 1000) {
-				$fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
-			}
+        foreach ($this->getFileDecorators() as $fileDecorator) if ($fileDecorator->getPriority() < 1000) {
+            $fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
         }
     }
 
