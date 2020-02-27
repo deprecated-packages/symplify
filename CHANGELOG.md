@@ -19,6 +19,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### MonorepoBuilder
 
+- [#1781] Add `SortAutoloadNamespaceCommand`
 - [#1755] Add "After split" testing
 - [#1756] Add ComposerJson value object
 - [#1760] Add application test
@@ -470,6 +471,5 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@vrbata]: https://github.com/vrbata
 [#1774]: https://github.com/symplify/symplify/pull/1774
 [#1757]: https://github.com/symplify/symplify/pull/1757
-[#1754]: https://github.com/symplify/symplify/pull/1754
 [#1753]: https://github.com/symplify/symplify/pull/1753
-[#1752]: https://github.com/symplify/symplify/pull/1752
+[#1781]: https://github.com/symplify/symplify/pull/1781
