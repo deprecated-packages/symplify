@@ -85,9 +85,6 @@
             "Symplify\\Statie\\GithubContributorsThanker\\": "packages/statie/packages/github-contributors-thanker/src",
             "Symplify\\Statie\\HeadlineAnchorLinker\\": "packages/statie/packages/headline-anchor-linker/src",
             "Symplify\\Statie\\JoindIn\\": "packages/statie/packages/joind-in/src",
-            "Symplify\\Statie\\MigratorJekyll\\": "packages/statie/packages/migrator-jekyll/src",
-            "Symplify\\Statie\\MigratorSculpin\\": "packages/statie/packages/migrator-sculpin/src",
-            "Symplify\\Statie\\Migrator\\": "packages/statie/packages/migrator/src",
             "Symplify\\Statie\\Tweeter\\": "packages/statie/packages/tweeter/src",
             "Symplify\\Statie\\Twig\\": "packages/statie/packages/twig/src"
         }
@@ -119,9 +116,6 @@
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/statie/packages/generator/tests",
             "Symplify\\Statie\\HeadlineAnchorLinker\\Tests\\": "packages/statie/packages/headline-anchor-linker/tests",
-            "Symplify\\Statie\\MigratorJekyll\\Tests\\": "packages/statie/packages/migrator-jekyll/tests",
-            "Symplify\\Statie\\MigratorSculpin\\Tests\\": "packages/statie/packages/migrator-sculpin/tests",
-            "Symplify\\Statie\\Migrator\\Tests\\": "packages/statie/packages/migrator/tests",
             "Symplify\\Statie\\Tests\\": "packages/statie/tests",
             "Symplify\\Statie\\Tweeter\\Tests\\": "packages/statie/packages/tweeter/tests",
             "Symplify\\Statie\\Twig\\Tests\\": "packages/statie/packages/twig/tests"
