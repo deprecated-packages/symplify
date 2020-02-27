@@ -10,6 +10,11 @@ use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
 final class GitManager
 {
     /**
+     * @var string[]
+     */
+    private const COMMITER_DATE_COMMAND = ['git', 'tag', '-l', '--format="%(committerdate)"'];
+
+    /**
      * @var string|null
      */
     private $githubToken;
@@ -25,32 +30,9 @@ final class GitManager
         $this->githubToken = $githubToken;
     }
 
-    public function doesBranchExistOnRemote(string $branch): bool
-    {
-        $command = ['git', 'branch', '-a'];
-        $result = $this->processRunner->run($command);
-
-        return Strings::contains($result, sprintf('remotes/origin/%s', $branch));
-    }
-
-    public function getCurrentBranch(): string
-    {
-        $command = ['git', 'rev-parse', '--abbrev-ref', 'HEAD'];
-
-        return $this->processRunner->run($command);
-    }
-
-    public function pushBranchToRemoteOrigin(string $branch): string
-    {
-        $command = ['git', 'push', '--set-upstream', 'origin', $branch];
-
-        return $this->processRunner->run($command);
-    }
-
     public function doTagsHaveCommitterDate(): bool
     {
-        $command = ['git', 'tag', '-l', '--format="%(committerdate)"'];
-        $result = $this->processRunner->run($command);
+        $result = $this->processRunner->run(self::COMMITER_DATE_COMMAND);
 
         return preg_match('#^\s*$#', $result) !== false;
     }

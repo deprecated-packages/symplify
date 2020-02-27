@@ -15,7 +15,7 @@ jobs:
             if: (branch = master OR tag IS present) && type = push
             script:
                 - composer update
-                - packages/monorepo-builder/bin/monorepo-builder split --max-processes 6 --branch master
+                - packages/monorepo-builder/bin/monorepo-builder split --max-processes 6
 
         -
             name: Compile and Release ecs.phar
