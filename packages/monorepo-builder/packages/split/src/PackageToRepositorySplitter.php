@@ -66,7 +66,6 @@ final class PackageToRepositorySplitter
     public function splitDirectoriesToRepositories(
         array $splitConfig,
         string $rootDirectory,
-        ?string $branch = null,
         ?int $maxProcesses = null,
         ?string $tag = null
     ): void {
@@ -81,15 +80,6 @@ final class PackageToRepositorySplitter
             $tag = $this->gitManager->getMostRecentTag($rootDirectory);
         }
 
-        // If branch not set, default to current branch
-        $branch = $branch ?? $this->gitManager->getCurrentBranch();
-
-        // If branch doesn't exist on origin, push it
-        if (! $this->gitManager->doesBranchExistOnRemote($branch)) {
-            $this->symfonyStyle->note(sprintf('Branch "%s" does not exist on origin, pushing it...', $branch));
-            $this->symfonyStyle->writeln($this->gitManager->pushBranchToRemoteOrigin($branch));
-        }
-
         foreach ($splitConfig as $localDirectory => $remoteRepository) {
             $this->fileSystemGuard->ensureDirectoryExists($localDirectory);
 
@@ -98,7 +88,6 @@ final class PackageToRepositorySplitter
             );
 
             $process = $this->processFactory->createSubsplit(
-                $branch,
                 $tag,
                 $localDirectory,
                 $remoteRepositoryWithGithubKey
