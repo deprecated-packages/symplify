@@ -13,19 +13,15 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Added
 
-#### EasyCodingStandard
+#### CodingStandard
 
-- [#1762] add ecs.phar prefix build to travis
+- [#1776] Add ClassCognitiveComplexitySniff
 
 #### MonorepoBuilder
 
-- [#1760] Add application test
 - [#1755] Add "After split" testing
 - [#1756] Add ComposerJson value object
-
-#### CodingStandard
-
-- [#1776] Add `ClassCognitiveComplexitySniff`
+- [#1760] Add application test
 
 ### Changed
 
@@ -36,6 +32,11 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### EasyCodingStandard
 
 - [#1747] Skip scoping of php cs fixer and code sniffer
+- [#1762] add ecs.phar prefix build to travis
+
+#### FlexLoader
+
+- [#1782] Priority of loaded configs, Thanks to [@vrbata]
 
 #### LatteToTwigConverter
 
@@ -43,25 +44,42 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### MonorepoBuilder
 
-- [#1767] Specific branch for split, Thanks to [@natepage]
 - [#1759] Decopule ComposerKeyMerger
+- [#1794] Revert split --branch feature
 - [#1772] SplitCommand default branch option to current branch, Thanks to [@natepage]
+- [#1767] Specific branch for split, Thanks to [@natepage]
+
+#### PHPStanExtensions
+
+- [#1779] Make BoolishClassMethodPrefixRule skip parent interface required methods
+- [#1757] Merge pull request [#1757] from symplify/phsptan-reonce
+
+#### SOLID
+
+- [#1786] Move constant variables/propeties to constants
 
 ### Deprecated
 
 #### CodingStandard
 
-- [#1773] Deprecate `SprintfOverContactSniff`
+- [#1773] Deprecate SprintfOverContactSniff
 
 ### Fixed
 
+- [#1753] Merge pull request [#1753] from symplify/drop-vendor-dir
 - [#1768] fix: replace non exist site link to blog post, Thanks to [@ondraondra81]
+- [#1774] use fixed phpstan rector
+- [#1785] fix static
 
 ### Removed
 
 #### MonorepoBuilder
 
 - [#1771] Remove unused InvalidBranchException, Thanks to [@natepage]
+
+#### Statie
+
+- [#1777] Remove MigratorSculpin, Remove MigratorJekyll, unused
 
 ## [v7.2.2] - 2020-01-20
 
@@ -443,4 +461,15 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@ondraondra81]: https://github.com/ondraondra81
 [@migrify]: https://github.com/migrify
 [#1776]: https://github.com/symplify/symplify/pull/1776
+[#1794]: https://github.com/symplify/symplify/pull/1794
+[#1786]: https://github.com/symplify/symplify/pull/1786
+[#1785]: https://github.com/symplify/symplify/pull/1785
+[#1782]: https://github.com/symplify/symplify/pull/1782
+[#1779]: https://github.com/symplify/symplify/pull/1779
+[#1777]: https://github.com/symplify/symplify/pull/1777
+[@vrbata]: https://github.com/vrbata
 [#1774]: https://github.com/symplify/symplify/pull/1774
+[#1757]: https://github.com/symplify/symplify/pull/1757
+[#1754]: https://github.com/symplify/symplify/pull/1754
+[#1753]: https://github.com/symplify/symplify/pull/1753
+[#1752]: https://github.com/symplify/symplify/pull/1752
