@@ -95,7 +95,7 @@ class SomeClass
 # ecs.yaml
 services:
     Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
-        maxClassCognitiveComplexity: 8 # default
+        maxClassCognitiveComplexity: 50 # default
 ```
 
 Same as the one above just for classes.
