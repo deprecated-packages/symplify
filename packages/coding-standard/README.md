@@ -100,6 +100,68 @@ services:
 
 Same as the one above just for classes.
 
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function kindaSimple($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function kindaSimpleAgain($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function kindaOfSimpleAgain($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function kindaSimple($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+```
+
 <br>
 
 ### Remove extra around public/protected/private/static modifiers and const
