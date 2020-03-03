@@ -206,14 +206,15 @@ services:
  class SomeClass
  {
      /**
-      * @var string[]
+      * @var bool
       */
--    private $items;
-+    private $items = [];
+-    private $booleanProperty;
++    private $booleanProperty = false;
 
-     public function __construct()
+     public function run()
      {
-         foreach ($items as $item) {
+         if ($this->booleanProperty === false) {
+             // ...
          }
      }
 }
@@ -769,6 +770,12 @@ services:
 ### Array property should have default value, to prevent undefined array issues
 
 - class: [`Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer`](src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer: ~
+```
 
 ```diff
  class SomeClass
