@@ -65,6 +65,12 @@ final class SplitCommand extends Command
         );
 
         $this->addOption(
+            Option::BRANCH,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Branch to run split on, defaults to current branch'
+        );
+        $this->addOption(
             Option::MAX_PROCESSES,
             null,
             InputOption::VALUE_REQUIRED,
@@ -88,9 +94,12 @@ final class SplitCommand extends Command
 
         $tag = $input->getOption(Option::TAG);
 
+        $branch = $input->getOption(Option::BRANCH) ? (string) $input->getOption(Option::BRANCH) : null;
+
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
             $this->rootDirectory,
+            $branch,
             $maxProcesses,
             $tag
         );

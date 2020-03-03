@@ -30,6 +30,33 @@ final class GitManager
         $this->githubToken = $githubToken;
     }
 
+    public function doesBranchExistOnRemote(string $branch): bool
+    {
+        $command = ['git', 'branch', '-a'];
+        $result = $this->processRunner->run($command);
+
+        return Strings::contains($result, sprintf('remotes/origin/%s', $branch));
+    }
+
+    public function getCurrentBranch(): string
+    {
+        $command = ['git', 'rev-parse', '--abbrev-ref', 'HEAD'];
+        $currentBranch = trim($this->processRunner->run($command));
+
+        if ($currentBranch === 'HEAD') {
+            $currentBranch = 'master'; // Default to master when HEAD (e.g Travis)
+        }
+
+        return $currentBranch;
+    }
+
+    public function pushBranchToRemoteOrigin(string $branch): string
+    {
+        $command = ['git', 'push', '--set-upstream', 'origin', trim($branch)];
+
+        return $this->processRunner->run($command);
+    }
+
     public function doTagsHaveCommitterDate(): bool
     {
         $result = $this->processRunner->run(self::COMMITER_DATE_COMMAND);
