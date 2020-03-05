@@ -51,9 +51,6 @@
             "Symplify\\EasyCodingStandard\\Tests\\": "tests"
         }
     },
-    "replace": {
-        "symfony/polyfill-php70": "*"
-    },
     "extra": {
         "branch-alias": {
             "dev-master": "7.3-dev"
