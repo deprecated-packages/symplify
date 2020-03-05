@@ -1,0 +1,12 @@
+{
+    "name": "symplify/easy-coding-standard-phar",
+    "description": "Use Coding Standard with 0-knowledge of PHP-CS-Fixer and PHP_CodeSniffer.",
+    "license": "MIT",
+    "require": {
+        "php": "^7.2",
+        "symplify/easy-coding-standard": "^7.3"
+    },
+    "replace": {
+        "symfony/polyfill-php70": "*"
+    }
+}

@@ -7,7 +7,7 @@ return [
     'finders' => [],
     'patchers' => [
         function (string $filePath, string $prefix, string $content): string {
-            if ($filePath !== 'bin/ecs') {
+            if ($filePath !== 'vendor/symplify/easy-coding-standard/bin/ecs') {
                 return $content;
             }
             return str_replace('__DIR__ . \'/..', '\'phar://ecs.phar', $content);
@@ -15,6 +15,6 @@ return [
     ],
     'whitelist' => [
         // needed for autoload, that is not prefixed, since it's in bin/* file
-        'Symplify\*', 'PhpCsFixer\*', 'PHP_CodeSniffer\*', 'SlevomatCodingStandard\*'
+        'Symplify\*', 'PhpCsFixer\*', 'PHP_CodeSniffer\*', 'SlevomatCodingStandard\*',
     ],
 ];

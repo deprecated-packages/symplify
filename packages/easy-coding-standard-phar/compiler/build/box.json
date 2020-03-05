@@ -7,11 +7,9 @@
         "KevinGH\\Box\\Compactor\\PhpScoper"
     ],
     "directories": [
-        "config",
-        "src",
-        "packages",
         "vendor"
     ],
     "output": "tmp/ecs.phar",
-    "php-scoper": "compiler/build/scoper.inc.php"
+    "php-scoper": "compiler/build/scoper.inc.php",
+    "main": "vendor/symplify/easy-coding-standard/bin/ecs"
 }

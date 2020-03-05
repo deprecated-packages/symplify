@@ -29,27 +29,27 @@ jobs:
 
             -   run: |
                     # install
-                    cd packages/easy-coding-standard/compiler
+                    cd packages/easy-coding-standard-phar/compiler
                     composer install
             -
                 name: Compile ecs.phar with Box and PHP Scoper
                 run:  |
                     # compile
-                    cd packages/easy-coding-standard/compiler
+                    cd packages/easy-coding-standard-phar/compiler
                     bin/compile
 
             -
                 name: Run ecs.phar
                 run:  |
                     # remove local vendor, to prevent duplicated content
-                    rm -rf packages/easy-coding-standard/vendor
-                    cd packages/easy-coding-standard
+                    rm -rf packages/easy-coding-standard-phar/vendor
+                    cd packages/easy-coding-standard-phar
                     tmp/ecs.phar
 
             -
                 name: Run ecs.phar with PSR-12 set
                 run:  |
-                    cd packages/easy-coding-standard
+                    cd packages/easy-coding-standard-phar
                     # create dummy file
                     echo "<?php echo 'hi';" >> someFile.php
                     tmp/ecs.phar check someFile.php --set dead-code
@@ -58,7 +58,7 @@ jobs:
             -
                 name: Publish ecs.phar to symplify/easy-coding-standard-prefixed
                 run: |
-                    cd packages/easy-coding-standard
+                    cd packages/easy-coding-standard-phar
 
                     # reuse tmp/ecs.phar from previous job
                     git clone https://${ACCESS_TOKEN}@github.com/Symplify/easy-coding-standard-prefixed.git > /dev/null 2>&1
