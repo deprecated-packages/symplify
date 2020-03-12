@@ -24,7 +24,6 @@ jobs:
                     packages/autodiscovery/bin/autodiscovery
                     packages/easy-coding-standard/bin/ecs
                     packages/changelog-linker/bin/changelog-linker
-                    packages/statie/bin/statie
                     packages/monorepo-builder/bin/monorepo-builder
 
                     # test "check" options

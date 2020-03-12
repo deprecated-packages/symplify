@@ -84,16 +84,11 @@ parameters:
         Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
             # useful comments
             - 'packages/latte-to-twig-converter/src/CaseConverter/*CaseConverter.php'
-            - 'packages/statie/*/*FilterProvider.php'
 
         Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
             - 'packages/monorepo-builder/src/Console/Command/ValidateCommand.php'
             - 'packages/package-builder/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
             - 'packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
-
-        SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable:
-            # tests
-            - 'packages/statie/packages/generator/tests/GeneratorExceptionsTest.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingNativeTypeHint:
             - '*Sniff.php'

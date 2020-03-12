@@ -6,11 +6,6 @@ composer.lock
 /node_modules
 package-lock.json
 
-# statie
-/source
-/output
-/statie.yaml
-
 # phpunit
 .phpunit.result.cache
 

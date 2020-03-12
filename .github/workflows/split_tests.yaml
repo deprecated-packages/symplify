@@ -19,7 +19,6 @@ jobs:
                     - easy-coding-standard
                     - easy-coding-standard-tester
                     - coding-standard
-                    - statie
                     - changelog-linker
                     - monorepo-builder
                     - phpstan-extensions

@@ -16,7 +16,6 @@ parameters:
         # tests
         - packages/phpstan-extensions/tests/Rules/Classes/Source/ClassWithConstants.php
         - packages/easy-coding-standard/packages/sniff-runner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
-        - packages/statie/packages/migrator-sculpin/tests/SculpinToStatieMigrator/Source/Fixture/before/app/SculpinKernel.php
         # Symfony workaround
         - packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
         # 3rd party
@@ -31,8 +30,6 @@ parameters:
         - packages/easy-coding-standard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
-        - '#Cannot assign offset int to int#'
-
         # command argument value type conversion - known string
         -
             message: '#Cannot cast array<string>\|string\|null to string#'
@@ -44,11 +41,9 @@ parameters:
         # invalid 3rd party-code
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
         - '#Variable \$processedFileContent might not be defined#'
-        - '#Property Symplify\\CodingStandard\\TokenRunner\\Wrapper\\FixerWrapper\\FixerClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
 
         # known values
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, (.*?) given#'
-        - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, int\|true given#'
 
         # required for autowiring, since only interface is autowired
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
@@ -65,8 +60,6 @@ parameters:
         - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
-        - '#Cannot access offset (.*?) on Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile#'
-        - '#Parameter \#1 \$stack of function array_pop expects array, array<int, string>\|false given#'
         - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\ValueObject\\BlockInfo\|null#'
         - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
 
@@ -100,20 +93,13 @@ parameters:
         # false positive
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
         - '#Parameter \#1 \$subject of static method Nette\\Utils\\Strings\:\:match\(\) expects string, string\|false given#'
-        - '#Parameter \#1 \$tokens of method Symplify\\CodingStandard\\Fixer\\Naming\\CatchExceptionNameMatchingTypeFixer\:\:updateCatchBodyVariableName\(\) expects PhpCsFixer\\Tokenizer\\Tokens, array<int\|string, PhpCsFixer\\Tokenizer\\Token\> given#'
 
         # yield iterator
-        - '#Return type \(Iterator\) of method Symplify\\Statie\\Twig\\(.*?)\:\:(.*?)\(\) should be compatible with return type \(array<Twig\\(.*?)\>\) of method Twig\\Extension\\(.*?)\(\)#'
-        - '#PHPDoc tag @return with type array<Twig\\TwigFunction\> is incompatible with native type Iterator#'
-        - '#PHPDoc tag @return with type array<Twig\\TwigFilter\> is incompatible with native type Iterator#'
-
         - '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
         - '#Method Symplify\\SetConfigResolver\\Finder\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
         - '#Parameter \#1 \$unversionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<string\>, array<array<string\>\|string\> given#'
         - '#Parameter \#2 \$versionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<array<string\>\>, array<array<string\>\|string\> given#'
-        - '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, string\> given#'
         - '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
-        - '#Parameter \#2 \$filesToImport of method Symplify\\Statie\\Migrator\\Worker\\StatieImportsAdder\:\:addImportSection\(\) expects array<string\>, array<array<string, string\>\|string\> given#'
         - '#Cannot access offset int on int#'
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
         - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'

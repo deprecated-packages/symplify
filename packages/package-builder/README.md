@@ -77,7 +77,7 @@ namespace App\Configuration;
 
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
-final class StatieConfiguration
+final class ProjectConfiguration
 {
     /**
      * @var ParameterProvider
