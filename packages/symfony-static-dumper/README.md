@@ -9,10 +9,11 @@ Useful for deploy to Github Pages and other non-PHP static website hostings.
 composer require symplify/symfony-static-dumper
 ```
 
-Register bundle `config/bundles.php`:
+Register services in `config/services.yaml`:
 
-```php
-
+```yaml
+imports:
+    - { resource: '../vendor/symplify/symfony-static-dumper/config/config.yaml' }
 ```
 
 ## Use
@@ -20,3 +21,13 @@ Register bundle `config/bundles.php`:
 ```bash
 bin/console dump-static-website
 ```
+
+The website will be generated to `/output` directory in your root project.
+
+To see the website, just run local server:
+
+```bash
+php -S localhost:8001 -t output
+```
+
+And open [localhost:8001](http://localhost:8001/) in your browser.
