@@ -9,8 +9,8 @@
         "symfony/finder": "^4.4|^5.0",
         "symfony/http-foundation": "^4.4|^5.0",
         "symfony/routing": "^4.4|^5.0",
-        "symplify/package-builder": "^7.2.4",
-        "symplify/smart-file-system": "^7.2.4"
+        "symplify/package-builder": "^7.3",
+        "symplify/smart-file-system": "^7.3"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.10",
