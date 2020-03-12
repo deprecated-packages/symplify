@@ -28,3 +28,4 @@ parameters:
         packages/flex-loader: 'git@github.com:symplify/flex-loader.git'
         packages/autodiscovery: 'git@github.com:symplify/autodiscovery.git'
         packages/set-config-resolver: 'git@github.com:symplify/set-config-resolver.git'
+        packages/symfony-static-dumper: 'git@github.com:symplify/symfony-static-dumper.git'

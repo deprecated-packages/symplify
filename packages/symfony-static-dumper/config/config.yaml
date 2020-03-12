@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Symplify\SymfonyStaticDumper\:
+        resource: "../src"
+        exclude:
+            - "../src/Exception/*"
+
+    Symplify\SmartFileSystem\Finder\FinderSanitizer: null
