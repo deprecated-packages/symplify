@@ -10,6 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
@@ -23,7 +24,12 @@ final class DumpStaticSiteCommand extends Command
     /**
      * @var string
      */
-    public const PUBLIC_DIRECTORY = __DIR__ . '/../../../../public';
+    private $outputDirectory;
+
+    /**
+     * @var string
+     */
+    private $publicDirectory;
 
     /**
      * @var RouterInterface
@@ -46,12 +52,16 @@ final class DumpStaticSiteCommand extends Command
     private $finderSanitizer;
 
     public function __construct(
+        ParameterBagInterface $parameterBag,
         RouterInterface $router,
         SymfonyStyle $symfonyStyle,
         ControllerContentResolver $controllerContentResolver,
         FinderSanitizer $finderSanitizer
     ) {
         parent::__construct();
+
+        $this->publicDirectory = $parameterBag->get('kernel.project_dir') . '/public';
+        $this->outputDirectory = getcwd() . '/output';
 
         $this->router = $router;
         $this->symfonyStyle = $symfonyStyle;
@@ -66,13 +76,15 @@ final class DumpStaticSiteCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->symfonyStyle->section('Dumping static website');
+        $this->symfonyStyle->title('Dumping static website');
 
         $this->dumpControllerContents();
-        $this->symfonyStyle->success('Controllers generated');
+        $this->symfonyStyle->success(sprintf('Controllers generated to "%s"', $this->outputDirectory));
 
         $this->copyAssets();
         $this->symfonyStyle->success('Assets copied');
+
+        $this->symfonyStyle->note('Run local server to see the output: "php -S localhost:8001 -t output"');
 
         return ShellCode::SUCCESS;
     }
@@ -101,13 +113,14 @@ final class DumpStaticSiteCommand extends Command
     {
         $finder = new Finder();
         $finder->files()
-            ->in(self::PUBLIC_DIRECTORY)
+            ->in($this->publicDirectory)
             ->notName('*.php');
 
         $assetFileInfos = $this->finderSanitizer->sanitize($finder);
         foreach ($assetFileInfos as $assetFileInfo) {
-            $relativePathFromRoot = $assetFileInfo->getRelativeFilePathFromDirectory(self::PUBLIC_DIRECTORY);
-            FileSystem::copy($assetFileInfo->getRealPath(), getcwd() . '/output/' . $relativePathFromRoot);
+            $relativePathFromRoot = $assetFileInfo->getRelativeFilePathFromDirectory($this->publicDirectory);
+
+            FileSystem::copy($assetFileInfo->getRealPath(), $this->outputDirectory . '/' . $relativePathFromRoot);
         }
     }
 
@@ -123,7 +136,7 @@ final class DumpStaticSiteCommand extends Command
             $routePath .= '/index.html';
         }
 
-        return getcwd() . '/output/' . $routePath;
+        return $this->outputDirectory . '/' . $routePath;
     }
 
     private function isFileWithSuffix(string $routePath): bool
