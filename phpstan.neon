@@ -16,7 +16,6 @@ parameters:
         # tests
         - packages/phpstan-extensions/tests/Rules/Classes/Source/ClassWithConstants.php
         - packages/easy-coding-standard/packages/sniff-runner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
-        - packages/statie/packages/migrator-sculpin/tests/SculpinToStatieMigrator/Source/Fixture/before/app/SculpinKernel.php
         # Symfony workaround
         - packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
         # 3rd party

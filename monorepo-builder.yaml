@@ -22,7 +22,6 @@ parameters:
         packages/easy-coding-standard: 'git@github.com:symplify/easy-coding-standard.git'
         packages/easy-coding-standard-tester: 'git@github.com:symplify/easy-coding-standard-tester.git'
         packages/coding-standard: 'git@github.com:symplify/coding-standard.git'
-        packages/statie: 'git@github.com:symplify/statie.git'
         packages/changelog-linker: 'git@github.com:symplify/changelog-linker.git'
         packages/monorepo-builder: 'git@github.com:symplify/monorepo-builder.git'
         packages/phpstan-extensions: 'git@github.com:symplify/phpstan-extensions.git'
