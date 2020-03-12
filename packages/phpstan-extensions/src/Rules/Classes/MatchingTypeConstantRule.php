@@ -29,6 +29,16 @@ final class MatchingTypeConstantRule implements Rule
         ConstFetch::class => ['bool'],
     ];
 
+    /**
+     * @var string[]
+     */
+    private const TYPE_CLASS_TO_STRING_TYPE = [
+        String_::class => 'string',
+        LNumber::class => 'int',
+        DNumber::class => 'float',
+        ConstFetch::class => 'bool',
+    ];
+
     public function getNodeType(): string
     {
         return ClassConst::class;
@@ -44,17 +54,10 @@ final class MatchingTypeConstantRule implements Rule
             return [];
         }
 
-        $varAnnotations = $this->getVarAnnotationsForNode($node);
-        if (count($varAnnotations) === 0) {
+        $type = $this->resolveOnlyVarAnnotationType($node);
+        if ($type === null) {
             return [];
         }
-
-        $types = $varAnnotations[0]->getNormalizedTypes();
-        if (count($types) !== 1) {
-            return [];
-        }
-
-        $type = $types[0];
 
         // array, unable to resolve?
         if (Strings::endsWith($type, '[]')) {
@@ -139,7 +142,7 @@ final class MatchingTypeConstantRule implements Rule
         $message = sprintf(
             'Constant type should be "%s", but is "%s"',
             $expectedType,
-            $this->getStringFromNodeClass($typeNodeClass) // @todo stringify
+            $this->getStringFromNodeClass($typeNodeClass)
         );
 
         return [$message];
@@ -147,22 +150,30 @@ final class MatchingTypeConstantRule implements Rule
 
     private function getStringFromNodeClass(string $nodeClass): string
     {
-        if (is_a($nodeClass, String_::class, true)) {
-            return 'string';
-        }
+        foreach (self::TYPE_CLASS_TO_STRING_TYPE as $typeClass => $stringType) {
+            /** @var string $typeClass */
+            if (! is_a($nodeClass, $typeClass, true)) {
+                continue;
+            }
 
-        if (is_a($nodeClass, LNumber::class, true)) {
-            return 'int';
-        }
-
-        if (is_a($nodeClass, DNumber::class, true)) {
-            return 'float';
-        }
-
-        if (is_a($nodeClass, ConstFetch::class, true)) {
-            return 'bool';
+            return $stringType;
         }
 
         return $nodeClass;
+    }
+
+    private function resolveOnlyVarAnnotationType(ClassConst $classConst): ?string
+    {
+        $varAnnotations = $this->getVarAnnotationsForNode($classConst);
+        if (count($varAnnotations) === 0) {
+            return null;
+        }
+
+        $types = $varAnnotations[0]->getNormalizedTypes();
+        if (count($types) !== 1) {
+            return null;
+        }
+
+        return $types[0];
     }
 }
