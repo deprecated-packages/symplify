@@ -17,6 +17,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SymfonyStaticDumper\ControllerWithDataProviderMatcher;
 use Symplify\SymfonyStaticDumper\HttpFoundation\ControllerContentResolver;
 
 final class DumpStaticSiteCommand extends Command
@@ -51,12 +52,18 @@ final class DumpStaticSiteCommand extends Command
      */
     private $finderSanitizer;
 
+    /**
+     * @var ControllerWithDataProviderMatcher
+     */
+    private $controllerWithDataProviderMatcher;
+
     public function __construct(
-        ParameterBagInterface $parameterBag,
         RouterInterface $router,
         SymfonyStyle $symfonyStyle,
         ControllerContentResolver $controllerContentResolver,
-        FinderSanitizer $finderSanitizer
+        FinderSanitizer $finderSanitizer,
+        ControllerWithDataProviderMatcher $controllerWithDataProviderMatcher,
+        ParameterBagInterface $parameterBag
     ) {
         parent::__construct();
 
@@ -67,6 +74,7 @@ final class DumpStaticSiteCommand extends Command
         $this->symfonyStyle = $symfonyStyle;
         $this->controllerContentResolver = $controllerContentResolver;
         $this->finderSanitizer = $finderSanitizer;
+        $this->controllerWithDataProviderMatcher = $controllerWithDataProviderMatcher;
     }
 
     protected function configure(): void
@@ -76,9 +84,10 @@ final class DumpStaticSiteCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->symfonyStyle->title('Dumping static website');
+        $this->symfonyStyle->section('Dumping static website');
 
-        $this->dumpControllerContents();
+        $this->dumpControllerWithoutParametersContents();
+        $this->dumpControllerWithParametersContents();
         $this->symfonyStyle->success(sprintf('Controllers generated to "%s"', $this->outputDirectory));
 
         $this->copyAssets();
@@ -89,9 +98,14 @@ final class DumpStaticSiteCommand extends Command
         return ShellCode::SUCCESS;
     }
 
-    private function dumpControllerContents(): void
+    private function dumpControllerWithoutParametersContents(): void
     {
         foreach ($this->router->getRouteCollection() as $route) {
+            // needs arguments
+            if (Strings::match($route->getPath(), '#\{(.*?)\}#sm')) {
+                continue;
+            }
+
             $fileContent = $this->controllerContentResolver->resolveFromRoute($route);
             if ($fileContent === null) {
                 continue;
@@ -127,7 +141,6 @@ final class DumpStaticSiteCommand extends Command
     private function resolveFilePath(Route $route): string
     {
         $routePath = $route->getPath();
-
         $routePath = ltrim($routePath, '/');
 
         if ($routePath === '') {
@@ -139,6 +152,55 @@ final class DumpStaticSiteCommand extends Command
         return $this->outputDirectory . '/' . $routePath;
     }
 
+    private function resolveFilePathWithArgument(Route $route, ...$arguments): string
+    {
+        $filePath = $this->resolveFilePath($route);
+
+        $i = 0;
+        return Strings::replace($filePath, '#{(.*?)}#m', function ($match) use (&$i, $arguments) {
+            $value = $arguments[$i];
+
+            ++$i;
+
+            return $value;
+        });
+    }
+
+    private function dumpControllerWithParametersContents(): void
+    {
+        foreach ($this->router->getRouteCollection() as $route) {
+            // needs arguments
+            if (! Strings::match($route->getPath(), '#\{(.*?)\}#sm')) {
+                continue;
+            }
+
+            $controllerWithDataProvider = $this->controllerWithDataProviderMatcher->matchRoute($route);
+            if ($controllerWithDataProvider === null) {
+                continue;
+            }
+
+            foreach ($controllerWithDataProvider->getArguments() as $argument) {
+                $fileContent = $this->controllerContentResolver->resolveFromRouteAndArgument($route, $argument);
+                if ($fileContent === null) {
+                    continue;
+                }
+
+                $filePath = $this->resolveFilePathWithArgument($route, $argument);
+
+                $this->symfonyStyle->note(sprintf(
+                    'Dumping static content for "%s" route to "%s" path',
+                    $route->getPath(),
+                    $filePath
+                ));
+
+                FileSystem::write($filePath, $fileContent);
+            }
+        }
+    }
+
+    /**
+     * E.g. some.xml
+     */
     private function isFileWithSuffix(string $routePath): bool
     {
         return (bool) Strings::match($routePath, '#\.[\w]+#');

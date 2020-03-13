@@ -80,6 +80,8 @@ parameters:
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
             # reference for reflection of method with reference
             - 'packages/package-builder/src/Reflection/PrivatesCaller.php'
+            # anonymous foreach function
+            - 'packages/symfony-static-dumper/src/Command/DumpStaticSiteCommand.php'
 
         Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
             # useful comments
