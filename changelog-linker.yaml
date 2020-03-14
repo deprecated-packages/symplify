@@ -11,3 +11,4 @@ parameters:
         "Flex Loader": 'FlexLoader'
         FL: 'FlexLoader'
         LT: 'LatteToTwigConverter'
+        SSD: 'SymfonyStaticDumper'
