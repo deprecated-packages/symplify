@@ -108,7 +108,7 @@ Making `SplFileInfo` smarter with methods you really need.
 
 ### Changelog Linker
 
-[![Downloads](https://img.shields.io/packagist/dt/symplify/monorepo-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo-builder/stats)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/changelog-linker.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo-builder/stats)
 
 - [symplify/changelog-linker](https://github.com/symplify/changelog-linker)
 
@@ -118,7 +118,7 @@ Why write `CHANGELOG.md`, when you can generate it
 
 ### Monorepo Builder
 
-[![Downloads](https://img.shields.io/packagist/dt/symplify/changelog-linker.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker/stats)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/monorepo-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker/stats)
 
 - [symplify/monorepo-builder](https://github.com/symplify/monorepo-builder)
 
@@ -126,13 +126,15 @@ Validate, split, release and maintain Monorepo like a boss
 
 <br>
 
-### Statie
+## Static Sites
 
-[![Downloads](https://img.shields.io/packagist/dt/Symplify/statie.svg?style=flat-square)](https://packagist.org/packages/Symplify/statie/stats)
+### Symfony Static Dumper
 
-- [symplify/statie](https://github.com/symplify/statie)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/symfony-static-dumper.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker/stats)
 
-[www.statie.org](https://www.statie.org) - Static website generator in PHP with Twig/Latte, that fuels [Pehapkari.cz](https://github.com/pehapkari/pehapkari.cz) and [tomasvotruba.com](https://github.com/tomasvotruba/tomasvotruba.com).
+- [symplify/monorepo-builder](https://github.com/symplify/symfony-static-dumper)
+
+Dump your Symfony app to HTML + CSS + JS only static website. Useful for deploy to Github Pages and other non-PHP static website hostings.
 
 <br>
 
