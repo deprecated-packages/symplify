@@ -9,7 +9,6 @@ use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
-use Symplify\SymfonyStaticDumper\Configuration\SymfonyStaticDumperConfiguration;
 use Symplify\SymfonyStaticDumper\ControllerWithDataProviderMatcher;
 use Symplify\SymfonyStaticDumper\HttpFoundation\ControllerContentResolver;
 
@@ -31,11 +30,6 @@ final class ControllerDumper
     private $router;
 
     /**
-     * @var SymfonyStaticDumperConfiguration
-     */
-    private $symfonyStaticDumperConfiguration;
-
-    /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
@@ -44,23 +38,21 @@ final class ControllerDumper
         ControllerWithDataProviderMatcher $controllerWithDataProviderMatcher,
         ControllerContentResolver $controllerContentResolver,
         RouterInterface $router,
-        SymfonyStaticDumperConfiguration $symfonyStaticDumperConfiguration,
         SymfonyStyle $symfonyStyle
     ) {
         $this->controllerWithDataProviderMatcher = $controllerWithDataProviderMatcher;
         $this->controllerContentResolver = $controllerContentResolver;
         $this->router = $router;
-        $this->symfonyStaticDumperConfiguration = $symfonyStaticDumperConfiguration;
         $this->symfonyStyle = $symfonyStyle;
     }
 
-    public function dump(): void
+    public function dump(string $outputDirectory): void
     {
-        $this->dumpControllerWithoutParametersContents();
-        $this->dumpControllerWithParametersContents();
+        $this->dumpControllerWithoutParametersContents($outputDirectory);
+        $this->dumpControllerWithParametersContents($outputDirectory);
     }
 
-    private function dumpControllerWithoutParametersContents(): void
+    private function dumpControllerWithoutParametersContents($outputDirectory): void
     {
         foreach ($this->router->getRouteCollection() as $route) {
             // needs arguments
@@ -73,7 +65,7 @@ final class ControllerDumper
                 continue;
             }
 
-            $filePath = $this->resolveFilePath($route);
+            $filePath = $this->resolveFilePath($route, $outputDirectory);
 
             $this->symfonyStyle->note(sprintf(
                 'Dumping static content for "%s" route to "%s" path',
@@ -85,7 +77,7 @@ final class ControllerDumper
         }
     }
 
-    private function dumpControllerWithParametersContents(): void
+    private function dumpControllerWithParametersContents(string $outputDirectory): void
     {
         foreach ($this->router->getRouteCollection() as $route) {
             // needs arguments
@@ -104,7 +96,7 @@ final class ControllerDumper
                     continue;
                 }
 
-                $filePath = $this->resolveFilePathWithArgument($route, $argument);
+                $filePath = $this->resolveFilePathWithArgument($route, $outputDirectory, $argument);
 
                 $this->symfonyStyle->note(sprintf(
                     'Dumping static content for "%s" route to "%s" path',
@@ -117,9 +109,9 @@ final class ControllerDumper
         }
     }
 
-    private function resolveFilePathWithArgument(Route $route, ...$arguments): string
+    private function resolveFilePathWithArgument(Route $route, string $outputDirectory, ...$arguments): string
     {
-        $filePath = $this->resolveFilePath($route);
+        $filePath = $this->resolveFilePath($route, $outputDirectory);
 
         $i = 0;
         return Strings::replace($filePath, '#{(.*?)}#m', function ($match) use (&$i, $arguments) {
@@ -131,7 +123,7 @@ final class ControllerDumper
         });
     }
 
-    private function resolveFilePath(Route $route): string
+    private function resolveFilePath(Route $route, string $outputDirectory): string
     {
         $routePath = $route->getPath();
         $routePath = ltrim($routePath, '/');
@@ -142,7 +134,7 @@ final class ControllerDumper
             $routePath .= '/index.html';
         }
 
-        return $this->symfonyStaticDumperConfiguration->getOutputDirectory() . '/' . $routePath;
+        return $outputDirectory . '/' . $routePath;
     }
 
     /**

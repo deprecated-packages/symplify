@@ -8,46 +8,45 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\SymfonyStaticDumper\Configuration\SymfonyStaticDumperConfiguration;
-use Symplify\SymfonyStaticDumper\Controller\ControllerDumper;
-use Symplify\SymfonyStaticDumper\FileSystem\AssetsCopier;
+use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 
 final class DumpStaticSiteCommand extends Command
 {
+    /**
+     * @var string
+     */
+    private $publicDirectory;
+
+    /**
+     * @var string
+     */
+    private $outputDirectory;
+
     /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
 
     /**
-     * @var ControllerDumper
+     * @var SymfonyStaticDumperApplication
      */
-    private $controllerDumper;
-
-    /**
-     * @var SymfonyStaticDumperConfiguration
-     */
-    private $symfonyStaticDumperConfiguration;
-
-    /**
-     * @var AssetsCopier
-     */
-    private $assetsCopier;
+    private $symfonyStaticDumperApplication;
 
     public function __construct(
-        SymfonyStaticDumperConfiguration $symfonyStaticDumperConfiguration,
+        SymfonyStaticDumperApplication $symfonyStaticDumperApplication,
         SymfonyStyle $symfonyStyle,
-        ControllerDumper $controllerDumper,
-        AssetsCopier $assetsCopier
+        ParameterBagInterface $parameterBag
     ) {
         parent::__construct();
 
+        $this->publicDirectory = $parameterBag->get('kernel.project_dir') . '/public';
+        $this->outputDirectory = getcwd() . '/output';
+
         $this->symfonyStyle = $symfonyStyle;
-        $this->controllerDumper = $controllerDumper;
-        $this->symfonyStaticDumperConfiguration = $symfonyStaticDumperConfiguration;
-        $this->assetsCopier = $assetsCopier;
+        $this->symfonyStaticDumperApplication = $symfonyStaticDumperApplication;
     }
 
     protected function configure(): void
@@ -58,14 +57,7 @@ final class DumpStaticSiteCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->symfonyStyle->section('Dumping static website');
-
-        $this->controllerDumper->dump();
-        $this->symfonyStyle->success(
-            sprintf('Controllers generated to "%s"', $this->symfonyStaticDumperConfiguration->getOutputDirectory())
-        );
-
-        $this->assetsCopier->copyAssets();
-        $this->symfonyStyle->success('Assets copied');
+        $this->symfonyStaticDumperApplication->run($this->publicDirectory, $this->outputDirectory);
 
         $this->symfonyStyle->note('Run local server to see the output: "php -S localhost:8001 -t output"');
 
