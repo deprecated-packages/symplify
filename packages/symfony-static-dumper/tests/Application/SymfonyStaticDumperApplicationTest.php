@@ -60,12 +60,22 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
         $this->assertFileEquals(self::EXPECTED_DIRECTORY . '/some.css', self::OUTPUT_DIRECTORY . '/some.css');
 
         // controllers
-        $this->assertCount(1, $this->routesProvider->provide());
+        $this->assertCount(2, $this->routesProvider->provide());
 
         $this->assertFileExists(self::OUTPUT_DIRECTORY . '/kedlubna/index.html');
         $this->assertFileEquals(
             self::EXPECTED_DIRECTORY . '/kedlubna/index.html',
             self::OUTPUT_DIRECTORY . '/kedlubna/index.html'
         );
+
+        $this->assertFileExists(self::OUTPUT_DIRECTORY . '/api.json');
+
+        $expectedFileContent = FileSystem::read(self::EXPECTED_DIRECTORY . '/api.json');
+        $expectedFileContent = trim($expectedFileContent);
+
+        $outputFilecontent = FileSystem::read(self::OUTPUT_DIRECTORY . '/api.json');
+        $outputFilecontent = trim($outputFilecontent);
+
+        $this->assertSame($expectedFileContent, $outputFilecontent);
     }
 }
