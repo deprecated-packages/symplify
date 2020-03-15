@@ -20,21 +20,17 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## Coding Standard Utils
 
-### Easy Coding Standard
+### [Easy Coding Standard](https://github.com/symplify/easy-coding-standard)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-coding-standard/stats)
-
-- [symplify/easy-coding-standard](https://github.com/symplify/easy-coding-standard)
 
 The easiest way to start a coding standard in your project. Easy, simple and intuitive. Combines both [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
 <br>
 
-### Coding Standard
+### [Coding Standard](https://github.com/symplify/coding-standard)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
-
-- [symplify/coding-standard](https://github.com/symplify/coding-standard)
 
 [Final interface](http://ocramius.github.io/blog/when-to-declare-classes-final/), [`::class` Constant](https://www.tomasvotruba.com/blog/2017/08/21/5-useful-rules-from-symplify-coding-standard/#3-class-constant-fixer) and other useful Checkers for [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
@@ -42,41 +38,33 @@ The easiest way to start a coding standard in your project. Easy, simple and int
 
 ## Symfony Kernel and Dependency Injection on MDMA
 
-### Autodiscovery
+### [Autodiscovery](https://github.com/symplify/autodiscovery)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/autodiscovery.svg?style=flat-square)](https://packagist.org/packages/symplify/autodiscovery/stats)
-
-- [symplify/autodiscovery](https://github.com/symplify/autodiscovery)
 
 Forget manual registration of translations, templates, mappings and routes in Symfony Application
 
 <br>
 
-### Flex Loader
+### [Flex Loader](https://github.com/symplify/flex-loader)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/flex-loader.svg?style=flat-square)](https://packagist.org/packages/symplify/flex-loader/stats)
-
-- [symplify/flex-loader](https://github.com/symplify/flex-loader)
 
 Keep your Symfony Kernel slim again and let flex-loader load all the configs
 
 <br>
 
-### Auto Bind Parameter
+### [Auto Bind Parameter](https://github.com/symplify/auto-bind-parameter)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/auto-bind-parameter.svg?style=flat-square)](https://packagist.org/packages/symplify/auto-bind-parameter/stats)
-
-- [symplify/auto-bind-parameter](https://github.com/symplify/auto-bind-parameter)
 
 Auto bind parameters for your Symfony applications
 
 <br>
 
-### Autowire Array Parameter
+### [Autowire Array Parameter](https://github.com/symplify/autowire-array-parameter)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/autowire-array-parameter.svg?style=flat-square)](https://packagist.org/packages/symplify/autowire-array-parameter/stats)
-
-- [symplify/autowire-array-parameter](https://github.com/symplify/autowire-array-parameter)
 
 Autowire Array Parameters for Symfony applications.
 
@@ -84,21 +72,17 @@ Autowire Array Parameters for Symfony applications.
 
 ## Symfony Utils
 
-### Package Builder
+### [Package Builder](https://github.com/symplify/package-builder)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder/stats)
-
-- [symplify/package-builder](https://github.com/symplify/package-builder)
 
 Speed up your package DI Containers integration and Console apps to Symfony
 
 <br>
 
-### Smart File System
+### [Smart File System](https://github.com/symplify/smart-file-system)**
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/smart-file-system.svg?style=flat-square)](https://packagist.org/packages/symplify/smart-file-system/stats)
-
-- [symplify/smart-file-system](https://github.com/symplify/smart-file-system)**
 
 Making `SplFileInfo` smarter with methods you really need.
 
@@ -106,21 +90,17 @@ Making `SplFileInfo` smarter with methods you really need.
 
 ## Maintainer's Friend
 
-### Changelog Linker
+### [Changelog Linker](https://github.com/symplify/changelog-linker)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/changelog-linker.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo-builder/stats)
-
-- [symplify/changelog-linker](https://github.com/symplify/changelog-linker)
 
 Why write `CHANGELOG.md`, when you can generate it
 
 <br>
 
-### Monorepo Builder
+### [Monorepo Builder](https://github.com/symplify/monorepo-builder)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/monorepo-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker/stats)
-
-- [symplify/monorepo-builder](https://github.com/symplify/monorepo-builder)
 
 Validate, split, release and maintain Monorepo like a boss
 
@@ -128,11 +108,9 @@ Validate, split, release and maintain Monorepo like a boss
 
 ## Static Sites
 
-### Symfony Static Dumper
+### [Symfony Static Dumper](https://github.com/symplify/symfony-static-dumper)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/symfony-static-dumper.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker/stats)
-
-- [symplify/monorepo-builder](https://github.com/symplify/symfony-static-dumper)
 
 Dump your Symfony app to HTML + CSS + JS only static website. Useful for deploy to Github Pages and other non-PHP static website hostings.
 
@@ -140,11 +118,9 @@ Dump your Symfony app to HTML + CSS + JS only static website. Useful for deploy 
 
 ## CLI Utils
 
-### Set Config Resolver
+### [Set Config Resolver](https://github.com/symplify/set-config-resolver)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/set-config-resolver.svg?style=flat-square)](https://packagist.org/packages/symplify/set-config-resolver/stats)
-
-- [symplify/set-config-resolver](https://github.com/symplify/set-config-resolver)
 
 Loads configs to you with CLI --config, -c, --set, -s or sets parameter
 
