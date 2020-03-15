@@ -9,6 +9,7 @@ use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Route;
 use Symplify\SymfonyStaticDumper\ControllerWithDataProviderMatcher;
+use Symplify\SymfonyStaticDumper\FileSystem\FilePathResolver;
 use Symplify\SymfonyStaticDumper\HttpFoundation\ControllerContentResolver;
 use Symplify\SymfonyStaticDumper\Routing\RoutesProvider;
 
@@ -34,16 +35,23 @@ final class ControllerDumper
      */
     private $routesProvider;
 
+    /**
+     * @var FilePathResolver
+     */
+    private $filePathResolver;
+
     public function __construct(
         ControllerWithDataProviderMatcher $controllerWithDataProviderMatcher,
         ControllerContentResolver $controllerContentResolver,
         RoutesProvider $routesProvider,
-        SymfonyStyle $symfonyStyle
+        SymfonyStyle $symfonyStyle,
+        FilePathResolver $filePathResolver
     ) {
         $this->controllerWithDataProviderMatcher = $controllerWithDataProviderMatcher;
         $this->controllerContentResolver = $controllerContentResolver;
         $this->symfonyStyle = $symfonyStyle;
         $this->routesProvider = $routesProvider;
+        $this->filePathResolver = $filePathResolver;
     }
 
     public function dump(string $outputDirectory): void
@@ -65,7 +73,7 @@ final class ControllerDumper
                 continue;
             }
 
-            $filePath = $this->resolveFilePath($route, $outputDirectory);
+            $filePath = $this->filePathResolver->resolveFilePath($route, $outputDirectory);
 
             $this->symfonyStyle->note(sprintf(
                 'Dumping static content for "%s" route to "%s" path',
@@ -96,7 +104,7 @@ final class ControllerDumper
                     continue;
                 }
 
-                $filePath = $this->resolveFilePathWithArgument($route, $outputDirectory, $argument);
+                $filePath = $this->filePathResolver->resolveFilePathWithArgument($route, $outputDirectory, $argument);
 
                 $this->symfonyStyle->note(sprintf(
                     'Dumping static content for "%s" route to "%s" path',
@@ -107,42 +115,6 @@ final class ControllerDumper
                 FileSystem::write($filePath, $fileContent);
             }
         }
-    }
-
-    private function resolveFilePathWithArgument(Route $route, string $outputDirectory, ...$arguments): string
-    {
-        $filePath = $this->resolveFilePath($route, $outputDirectory);
-
-        $i = 0;
-        return Strings::replace($filePath, '#{(.*?)}#m', function ($match) use (&$i, $arguments) {
-            $value = $arguments[$i];
-
-            ++$i;
-
-            return $value;
-        });
-    }
-
-    private function resolveFilePath(Route $route, string $outputDirectory): string
-    {
-        $routePath = $route->getPath();
-        $routePath = ltrim($routePath, '/');
-
-        if ($routePath === '') {
-            $routePath = 'index.html';
-        } elseif (! $this->isFileWithSuffix($routePath)) {
-            $routePath .= '/index.html';
-        }
-
-        return $outputDirectory . '/' . $routePath;
-    }
-
-    /**
-     * E.g. some.xml
-     */
-    private function isFileWithSuffix(string $routePath): bool
-    {
-        return (bool) Strings::match($routePath, '#\.[\w]+#');
     }
 
     private function isRouteWithArguments(Route $route): bool

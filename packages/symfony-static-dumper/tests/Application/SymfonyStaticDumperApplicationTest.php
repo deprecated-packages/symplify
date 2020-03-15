@@ -39,7 +39,6 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
         $this->bootKernel(TestSymfonyStaticDumperKernel::class);
 
         $this->symfonyStaticDumperApplication = self::$container->get(SymfonyStaticDumperApplication::class);
-
         $this->routesProvider = self::$container->get(RoutesProvider::class);
 
         // disable output in tests
@@ -54,19 +53,29 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
 
     public function test(): void
     {
-        $this->symfonyStaticDumperApplication->run(__DIR__ . '/../Fixture/public', self::OUTPUT_DIRECTORY);
+        $this->symfonyStaticDumperApplication->run(__DIR__ . '/../test_project/public', self::OUTPUT_DIRECTORY);
 
         // css
         $this->assertFileExists(self::OUTPUT_DIRECTORY . '/some.css');
         $this->assertFileEquals(self::EXPECTED_DIRECTORY . '/some.css', self::OUTPUT_DIRECTORY . '/some.css');
 
         // controllers
-        $this->assertCount(1, $this->routesProvider->provide());
+        $this->assertCount(2, $this->routesProvider->provide());
 
         $this->assertFileExists(self::OUTPUT_DIRECTORY . '/kedlubna/index.html');
         $this->assertFileEquals(
             self::EXPECTED_DIRECTORY . '/kedlubna/index.html',
             self::OUTPUT_DIRECTORY . '/kedlubna/index.html'
         );
+
+        $this->assertFileExists(self::OUTPUT_DIRECTORY . '/api.json');
+
+        $expectedFileContent = FileSystem::read(self::EXPECTED_DIRECTORY . '/api.json');
+        $expectedFileContent = trim($expectedFileContent);
+
+        $outputFilecontent = FileSystem::read(self::OUTPUT_DIRECTORY . '/api.json');
+        $outputFilecontent = trim($outputFilecontent);
+
+        $this->assertSame($expectedFileContent, $outputFilecontent);
     }
 }
