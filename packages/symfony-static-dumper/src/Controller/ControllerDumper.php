@@ -8,9 +8,9 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouterInterface;
 use Symplify\SymfonyStaticDumper\ControllerWithDataProviderMatcher;
 use Symplify\SymfonyStaticDumper\HttpFoundation\ControllerContentResolver;
+use Symplify\SymfonyStaticDumper\Routing\RoutesProvider;
 
 final class ControllerDumper
 {
@@ -25,25 +25,25 @@ final class ControllerDumper
     private $controllerContentResolver;
 
     /**
-     * @var RouterInterface
-     */
-    private $router;
-
-    /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
 
+    /**
+     * @var RoutesProvider
+     */
+    private $routesProvider;
+
     public function __construct(
         ControllerWithDataProviderMatcher $controllerWithDataProviderMatcher,
         ControllerContentResolver $controllerContentResolver,
-        RouterInterface $router,
+        RoutesProvider $routesProvider,
         SymfonyStyle $symfonyStyle
     ) {
         $this->controllerWithDataProviderMatcher = $controllerWithDataProviderMatcher;
         $this->controllerContentResolver = $controllerContentResolver;
-        $this->router = $router;
         $this->symfonyStyle = $symfonyStyle;
+        $this->routesProvider = $routesProvider;
     }
 
     public function dump(string $outputDirectory): void
@@ -54,9 +54,9 @@ final class ControllerDumper
 
     private function dumpControllerWithoutParametersContents($outputDirectory): void
     {
-        foreach ($this->router->getRouteCollection() as $route) {
+        foreach ($this->routesProvider->provide() as $route) {
             // needs arguments
-            if (Strings::match($route->getPath(), '#\{(.*?)\}#sm')) {
+            if ($this->isRouteWithArguments($route)) {
                 continue;
             }
 
@@ -79,7 +79,7 @@ final class ControllerDumper
 
     private function dumpControllerWithParametersContents(string $outputDirectory): void
     {
-        foreach ($this->router->getRouteCollection() as $route) {
+        foreach ($this->routesProvider->provide() as $route) {
             // needs arguments
             if (! Strings::match($route->getPath(), '#\{(.*?)\}#sm')) {
                 continue;
@@ -143,5 +143,10 @@ final class ControllerDumper
     private function isFileWithSuffix(string $routePath): bool
     {
         return (bool) Strings::match($routePath, '#\.[\w]+#');
+    }
+
+    private function isRouteWithArguments(Route $route): bool
+    {
+        return (bool) Strings::match($route->getPath(), '#\{(.*?)\}#sm');
     }
 }

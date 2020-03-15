@@ -109,7 +109,8 @@
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
-            "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests"
+            "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
+            "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src"
         }
     },
     "replace": {

@@ -14,7 +14,11 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.10",
-        "phpunit/phpunit": "^8.5|^9.0"
+        "phpunit/phpunit": "^8.5|^9.0",
+        "symfony/framework-bundle": "^4.4|^5.0",
+        "symfony/twig-bundle": "^4.4|^5.0",
+        "symplify/autodiscovery": "7.3",
+        "symplify/flex-loader": "7.3"
     },
     "autoload": {
         "psr-4": {
@@ -23,7 +27,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\SymfonyStaticDumper\\Tests\\": "tests"
+            "Symplify\\SymfonyStaticDumper\\Tests\\": "tests",
+            "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "tests/test_project/src"
         }
     },
     "extra": {
