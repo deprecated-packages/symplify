@@ -39,7 +39,6 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
         $this->bootKernel(TestSymfonyStaticDumperKernel::class);
 
         $this->symfonyStaticDumperApplication = self::$container->get(SymfonyStaticDumperApplication::class);
-
         $this->routesProvider = self::$container->get(RoutesProvider::class);
 
         // disable output in tests
