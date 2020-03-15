@@ -53,7 +53,7 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
 
     public function test(): void
     {
-        $this->symfonyStaticDumperApplication->run(__DIR__ . '/../Fixture/public', self::OUTPUT_DIRECTORY);
+        $this->symfonyStaticDumperApplication->run(__DIR__ . '/../test_project/public', self::OUTPUT_DIRECTORY);
 
         // css
         $this->assertFileExists(self::OUTPUT_DIRECTORY . '/some.css');
