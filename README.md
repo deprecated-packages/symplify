@@ -80,7 +80,7 @@ Speed up your package DI Containers integration and Console apps to Symfony
 
 <br>
 
-### [Smart File System](https://github.com/symplify/smart-file-system)**
+### [Smart File System](https://github.com/symplify/smart-file-system)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/smart-file-system.svg?style=flat-square)](https://packagist.org/packages/symplify/smart-file-system/stats)
 
