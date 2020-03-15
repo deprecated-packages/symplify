@@ -6,8 +6,10 @@ namespace Symplify\SymfonyStaticDumper\Controller;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Symplify\SymfonyStaticDumper\Configuration\SymfonyStaticDumperConfiguration;
 use Symplify\SymfonyStaticDumper\ControllerWithDataProviderMatcher;
 use Symplify\SymfonyStaticDumper\HttpFoundation\ControllerContentResolver;
 
@@ -28,14 +30,28 @@ final class ControllerDumper
      */
     private $router;
 
+    /**
+     * @var SymfonyStaticDumperConfiguration
+     */
+    private $symfonyStaticDumperConfiguration;
+
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
     public function __construct(
         ControllerWithDataProviderMatcher $controllerWithDataProviderMatcher,
         ControllerContentResolver $controllerContentResolver,
-        RouterInterface $router
+        RouterInterface $router,
+        SymfonyStaticDumperConfiguration $symfonyStaticDumperConfiguration,
+        SymfonyStyle $symfonyStyle
     ) {
         $this->controllerWithDataProviderMatcher = $controllerWithDataProviderMatcher;
         $this->controllerContentResolver = $controllerContentResolver;
         $this->router = $router;
+        $this->symfonyStaticDumperConfiguration = $symfonyStaticDumperConfiguration;
+        $this->symfonyStyle = $symfonyStyle;
     }
 
     public function dump(): void
@@ -126,7 +142,7 @@ final class ControllerDumper
             $routePath .= '/index.html';
         }
 
-        return $this->outputDirectory . '/' . $routePath;
+        return $this->symfonyStaticDumperConfiguration->getOutputDirectory() . '/' . $routePath;
     }
 
     /**

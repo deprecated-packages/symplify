@@ -9,27 +9,15 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Routing\RouterInterface;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SymfonyStaticDumper\Configuration\SymfonyStaticDumperConfiguration;
 use Symplify\SymfonyStaticDumper\Controller\ControllerDumper;
-use Symplify\SymfonyStaticDumper\HttpFoundation\ControllerContentResolver;
 
 final class DumpStaticSiteCommand extends Command
 {
-    /**
-     * @var string
-     */
-    private $outputDirectory;
-
-    /**
-     * @var string
-     */
-    private $publicDirectory;
-
     /**
      * @var SymfonyStyle
      */
@@ -45,24 +33,23 @@ final class DumpStaticSiteCommand extends Command
      */
     private $controllerDumper;
 
+    /**
+     * @var SymfonyStaticDumperConfiguration
+     */
+    private $symfonyStaticDumperConfiguration;
+
     public function __construct(
-        RouterInterface $router,
+        SymfonyStaticDumperConfiguration $symfonyStaticDumperConfiguration,
         SymfonyStyle $symfonyStyle,
-        ControllerContentResolver $controllerContentResolver,
         FinderSanitizer $finderSanitizer,
-        ControllerDumper $controllerDumper,
-        ParameterBagInterface $parameterBag
+        ControllerDumper $controllerDumper
     ) {
         parent::__construct();
 
-        $this->publicDirectory = $parameterBag->get('kernel.project_dir') . '/public';
-        $this->outputDirectory = getcwd() . '/output';
-
-        $this->router = $router;
         $this->symfonyStyle = $symfonyStyle;
-        $this->controllerContentResolver = $controllerContentResolver;
         $this->finderSanitizer = $finderSanitizer;
         $this->controllerDumper = $controllerDumper;
+        $this->symfonyStaticDumperConfiguration = $symfonyStaticDumperConfiguration;
     }
 
     protected function configure(): void
@@ -76,7 +63,9 @@ final class DumpStaticSiteCommand extends Command
 
         $this->controllerDumper->dump();
 
-        $this->symfonyStyle->success(sprintf('Controllers generated to "%s"', $this->outputDirectory));
+        $this->symfonyStyle->success(
+            sprintf('Controllers generated to "%s"', $this->symfonyStaticDumperConfiguration->getOutputDirectory())
+        );
 
         $this->copyAssets();
         $this->symfonyStyle->success('Assets copied');
@@ -90,14 +79,19 @@ final class DumpStaticSiteCommand extends Command
     {
         $finder = new Finder();
         $finder->files()
-            ->in($this->publicDirectory)
+            ->in($this->symfonyStaticDumperConfiguration->getPublicDirectory())
             ->notName('*.php');
 
         $assetFileInfos = $this->finderSanitizer->sanitize($finder);
         foreach ($assetFileInfos as $assetFileInfo) {
-            $relativePathFromRoot = $assetFileInfo->getRelativeFilePathFromDirectory($this->publicDirectory);
+            $relativePathFromRoot = $assetFileInfo->getRelativeFilePathFromDirectory(
+                $this->symfonyStaticDumperConfiguration->getPublicDirectory()
+            );
 
-            FileSystem::copy($assetFileInfo->getRealPath(), $this->outputDirectory . '/' . $relativePathFromRoot);
+            FileSystem::copy(
+                $assetFileInfo->getRealPath(),
+                $this->symfonyStaticDumperConfiguration->getOutputDirectory() . '/' . $relativePathFromRoot
+            );
         }
     }
 }
