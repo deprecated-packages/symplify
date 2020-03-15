@@ -88,8 +88,12 @@ final class FileSystem
         $finder = Finder::create()
             ->directories()
             ->name($name)
-            ->in($this->getDirectories())
-            ->notPath('#tests#');
+            ->in($this->getDirectories());
+
+        // include "tests" skip in tests
+        if (! defined('PHPUNIT_COMPOSER_INSTALL')) {
+            $finder->notPath('#tests#');
+        }
 
         return $this->finderSanitizer->sanitize($finder);
     }
@@ -106,8 +110,12 @@ final class FileSystem
         $finder = Finder::create()
             ->files()
             ->name($name)
-            ->in($this->getDirectories())
-            ->notPath('#tests#');
+            ->in($this->getDirectories());
+
+        // include "tests" skip in tests
+        if (! defined('PHPUNIT_COMPOSER_INSTALL')) {
+            $finder->notPath('#tests#');
+        }
 
         return $this->finderSanitizer->sanitize($finder);
     }

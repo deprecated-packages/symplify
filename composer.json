@@ -32,6 +32,7 @@
         "symfony/event-dispatcher": "^4.4|^5.0",
         "symfony/filesystem": "^4.4|^5.0",
         "symfony/finder": "^4.4|^5.0",
+        "symfony/http-foundation": "^4.4|^5.0",
         "symfony/http-kernel": "^4.4|^5.0",
         "symfony/process": "^4.4|^5.0",
         "symfony/routing": "^4.4|^5.0",
@@ -107,7 +108,9 @@
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
-            "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests"
+            "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
+            "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
+            "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src"
         }
     },
     "replace": {
