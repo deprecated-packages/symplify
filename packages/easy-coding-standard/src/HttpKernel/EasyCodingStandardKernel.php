@@ -14,7 +14,6 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\AutoBindParameter\DependencyInjection\CompilerPass\AutoBindParameterCompilerPass;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\EasyCodingStandard\ChangedFilesDetector\CompilerPass\AddGetCwdWebalizedParameterCompilerPass;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\CompilerPass\AddSysGetTempDirParameterCompilerPass;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\ConflictingCheckersCompilerPass;
@@ -93,7 +92,6 @@ final class EasyCodingStandardKernel extends Kernel implements ExtraConfigAwareK
 
         // parameters
         $containerBuilder->addCompilerPass(new AddSysGetTempDirParameterCompilerPass());
-        $containerBuilder->addCompilerPass(new AddGetCwdWebalizedParameterCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParameterCompilerPass());
 
         // method calls
