@@ -44,7 +44,7 @@ abstract class AbstractMergeTestCase extends AbstractComposerJsonDecoratorTest
     /**
      * @return SmartFileInfo[]
      */
-    protected function getFileInfosFromDirectory(string $directory): array
+    private function getFileInfosFromDirectory(string $directory): array
     {
         $finder = Finder::create()->files()
             ->in($directory)
