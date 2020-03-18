@@ -62,13 +62,13 @@ final class ControllerDumper
 
     private function dumpControllerWithoutParametersContents($outputDirectory): void
     {
-        foreach ($this->routesProvider->provide() as $route) {
+        foreach ($this->routesProvider->provide() as $routeName => $route) {
             // needs arguments
             if ($this->isRouteWithArguments($route)) {
                 continue;
             }
 
-            $fileContent = $this->controllerContentResolver->resolveFromRoute($route);
+            $fileContent = $this->controllerContentResolver->resolveFromRoute($routeName, $route);
             if ($fileContent === null) {
                 continue;
             }
@@ -87,7 +87,7 @@ final class ControllerDumper
 
     private function dumpControllerWithParametersContents(string $outputDirectory): void
     {
-        foreach ($this->routesProvider->provide() as $route) {
+        foreach ($this->routesProvider->provide() as $routeName => $route) {
             // needs arguments
             if (! Strings::match($route->getPath(), '#\{(.*?)\}#sm')) {
                 continue;
@@ -99,7 +99,11 @@ final class ControllerDumper
             }
 
             foreach ($controllerWithDataProvider->getArguments() as $argument) {
-                $fileContent = $this->controllerContentResolver->resolveFromRouteAndArgument($route, $argument);
+                $fileContent = $this->controllerContentResolver->resolveFromRouteAndArgument(
+                    $routeName,
+                    $route,
+                    $argument
+                );
                 if ($fileContent === null) {
                     continue;
                 }

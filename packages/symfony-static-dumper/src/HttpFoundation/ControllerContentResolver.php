@@ -39,7 +39,7 @@ final class ControllerContentResolver
         $this->controllerMatcher = $controllerMatcher;
     }
 
-    public function resolveFromRouteAndArgument(Route $route, ...$values): ?string
+    public function resolveFromRouteAndArgument(string $routeName, Route $route, ...$values): ?string
     {
         [$controllerClass, $method] = $this->controllerMatcher->matchRouteToControllerAndMethod($route);
         if (! class_exists($controllerClass)) {
@@ -51,7 +51,7 @@ final class ControllerContentResolver
             throw new ShouldNotHappenException();
         }
 
-        $this->fakeRequest($route);
+        $this->fakeRequest($routeName);
 
         /** @var Response $response */
         $response = call_user_func([$controller, $method], ...$values);
@@ -59,7 +59,7 @@ final class ControllerContentResolver
         return (string) $response->getContent();
     }
 
-    public function resolveFromRoute(Route $route): ?string
+    public function resolveFromRoute(string $routeName, Route $route): ?string
     {
         [$controllerClass, $method] = $this->controllerMatcher->matchRouteToControllerAndMethod($route);
         if (! class_exists($controllerClass)) {
@@ -71,7 +71,7 @@ final class ControllerContentResolver
             throw new ShouldNotHappenException();
         }
 
-        $this->fakeRequest($route);
+        $this->fakeRequest($routeName);
 
         /** @var Response $response */
         $response = call_user_func([$controller, $method]);
@@ -79,11 +79,13 @@ final class ControllerContentResolver
         return (string) $response->getContent();
     }
 
-    private function fakeRequest(Route $route): void
+    private function fakeRequest(string $routeName): void
     {
         // fake the request
         $fakeRequest = new Request();
-        $fakeRequest->attributes->set('_route', $route->getPath());
+        $fakeRequest->attributes->set('_route', $routeName);
+
+        $this->requestStack->pop();
         $this->requestStack->push($fakeRequest);
     }
 }
