@@ -1,5 +1,7 @@
 # Symfony Static Dumper
 
+[![Downloads total](https://img.shields.io/packagist/dt/symplify/symfony-static-dumper.svg?style=flat-square)](https://packagist.org/packages/symplify/symfony-static-dumper/stats)
+
 Dump your Symfony app to HTML + CSS + JS only static website.
 Useful for deploy to Github Pages and other non-PHP static website hostings.
 
