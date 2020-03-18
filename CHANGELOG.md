@@ -11,7 +11,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- dumped content start -->
 
-## Unreleased
+## v7.2.8 - 2020-03-19
 
 ### Fixed
 
