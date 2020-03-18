@@ -38,6 +38,8 @@ abstract class AbstractMergeTestCase extends AbstractComposerJsonDecoratorTest
         $fileInfos = $this->getFileInfosFromDirectory($directoryWithJsonFiles);
         $mergedComposerJson = $this->composerJsonMerger->mergeFileInfos($fileInfos);
 
+        $this->assertNotEmpty($mergedComposerJson->getRepositories());
+
         $this->assertComposerJsonEquals($expectedComposerJson, $mergedComposerJson);
     }
 

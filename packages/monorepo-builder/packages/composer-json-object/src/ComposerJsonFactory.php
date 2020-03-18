@@ -90,6 +90,10 @@ final class ComposerJsonFactory
             $composerJson->setPreferStable($jsonArray['prefer-stable']);
         }
 
+        if (isset($jsonArray['repositories'])) {
+            $composerJson->setRepositories($jsonArray['repositories']);
+        }
+
         $orderedKeys = array_keys($jsonArray);
         $composerJson->setOrderedKeys($orderedKeys);
 
