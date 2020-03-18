@@ -71,6 +71,9 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
         $configs = [$config];
 
+        // autoload php code sniffer before Kernel boot
+        $this->autoloadCodeSniffer();
+
         // for symplify package testing
         // 1. vendor installed
         $tokenRunnerConfig = __DIR__ . '/../../../../../packages/token-runner/config/config.yaml';
@@ -367,5 +370,22 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
             $hash,
             $smartFileInfo->getBasename('.inc')
         );
+    }
+
+    private function autoloadCodeSniffer(): void
+    {
+        $possibleAutoloadPaths = [
+            __DIR__ . '/../../../../../vendor/squizlabs/php_codesniffer/autoload.php',
+            __DIR__ . '/../../../../vendor/squizlabs/php_codesniffer/autoload.php',
+        ];
+
+        foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+            if (! file_exists($possibleAutoloadPath)) {
+                continue;
+            }
+
+            require_once $possibleAutoloadPath;
+            return;
+        }
     }
 }
