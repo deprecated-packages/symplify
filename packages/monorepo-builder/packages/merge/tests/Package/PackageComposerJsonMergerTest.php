@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Merge\Tests\Package;
 
+use Symplify\MonorepoBuilder\Merge\ComposerJsonMerger;
+
 final class PackageComposerJsonMergerTest extends AbstractMergeTestCase
 {
     public function test(): void
@@ -23,6 +25,12 @@ final class PackageComposerJsonMergerTest extends AbstractMergeTestCase
     {
         $expectedComposerJson = $this->createComposerJson(__DIR__ . '/PackageComposerJsonMergerSource/expected.json');
 
-        $this->doTestDirectoryMergeToFile(__DIR__ . '/SourceUniqueRepositories', $expectedComposerJson);
+        $fileInfos = $this->getFileInfosFromDirectory(__DIR__ . '/SourceUniqueRepositories');
+
+        $composerJsonMerger = self::$container->get(ComposerJsonMerger::class);
+        $mergedComposerJson = $composerJsonMerger->mergeFileInfos($fileInfos);
+
+        $this->assertNotEmpty($mergedComposerJson->getRepositories());
+        $this->assertComposerJsonEquals($expectedComposerJson, $mergedComposerJson);
     }
 }
