@@ -27,7 +27,7 @@ final class JsonFileManager
     /**
      * @param string[] $inlineSections
      */
-    public function __construct(SymfonyFilesystem $symfonyFilesystem, array $inlineSections)
+    public function __construct(SymfonyFilesystem $symfonyFilesystem, array $inlineSections = [])
     {
         $this->symfonyFilesystem = $symfonyFilesystem;
         $this->inlineSections = $inlineSections;
