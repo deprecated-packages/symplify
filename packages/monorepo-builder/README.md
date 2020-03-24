@@ -58,6 +58,15 @@ parameters:
 
 Sections are sorted for you by saint defaults. Do you want change the order? Just override `section_order` parameter.
 
+To exclude a specific folder for ignoring the composer.json in this folder.
+
+```yaml
+# monorepo-builder.yml
+parameters:
+    package_directories_excludes:
+        - 'ExcludeThis'
+```
+
 #### After Merge Options
 
 Do you need to add or remove some packages only to root `composer.json`?
