@@ -29,8 +29,11 @@ final class PackageComposerFinder
      * @param string[] $packageDirectories
      * @param string[] $packageDirectoriesExcludes
      */
-    public function __construct(array $packageDirectories, array $packageDirectoriesExcludes, FinderSanitizer $finderSanitizer)
-    {
+    public function __construct(
+        array $packageDirectories,
+        array $packageDirectoriesExcludes,
+        FinderSanitizer $finderSanitizer
+    ) {
         $this->packageDirectories = $packageDirectories;
         $this->packageDirectoriesExcludes = $packageDirectoriesExcludes;
         $this->finderSanitizer = $finderSanitizer;
@@ -54,7 +57,7 @@ final class PackageComposerFinder
             ->exclude('node_modules')
             ->name('composer.json');
 
-        if ($this->packageDirectoriesExcludes) {
+        if ($this->packageDirectoriesExcludes !== []) {
             foreach ($this->packageDirectoriesExcludes as $excludeFolder) {
                 $finder->exclude($excludeFolder);
             }
