@@ -16,16 +16,26 @@ final class PackageComposerFinder
     private $packageDirectories = [];
 
     /**
+     * @var string[]
+     */
+    private $packageDirectoriesExcludes = [];
+
+    /**
      * @var FinderSanitizer
      */
     private $finderSanitizer;
 
     /**
      * @param string[] $packageDirectories
+     * @param string[] $packageDirectoriesExcludes
      */
-    public function __construct(array $packageDirectories, FinderSanitizer $finderSanitizer)
-    {
+    public function __construct(
+        array $packageDirectories,
+        array $packageDirectoriesExcludes,
+        FinderSanitizer $finderSanitizer
+    ) {
         $this->packageDirectories = $packageDirectories;
+        $this->packageDirectoriesExcludes = $packageDirectoriesExcludes;
         $this->finderSanitizer = $finderSanitizer;
     }
 
@@ -46,6 +56,10 @@ final class PackageComposerFinder
             ->exclude('vendor')
             ->exclude('node_modules')
             ->name('composer.json');
+
+        foreach ($this->packageDirectoriesExcludes as $excludeFolder) {
+            $finder->exclude($excludeFolder);
+        }
 
         if (! $this->isPHPUnit()) {
             $finder->notPath('#tests#');

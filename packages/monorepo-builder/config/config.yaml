@@ -5,6 +5,7 @@ imports:
 parameters:
     package_directories:
         - 'packages'
+    package_directories_excludes: []
     data_to_append: []
     data_to_remove: []
     package_alias_format: '<major>.<minor>-dev'
