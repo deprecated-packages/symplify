@@ -57,10 +57,8 @@ final class PackageComposerFinder
             ->exclude('node_modules')
             ->name('composer.json');
 
-        if ($this->packageDirectoriesExcludes !== []) {
-            foreach ($this->packageDirectoriesExcludes as $excludeFolder) {
-                $finder->exclude($excludeFolder);
-            }
+        foreach ($this->packageDirectoriesExcludes as $excludeFolder) {
+            $finder->exclude($excludeFolder);
         }
 
         if (! $this->isPHPUnit()) {
