@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder;
 
-use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\ValueObject\Section;
 use Symplify\SmartFileSystem\SmartFileInfo;
 

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\FileSystem;
+namespace Symplify\ComposerJsonManipulator\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
-use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\PackageBuilder\Configuration\EolConfiguration;
 use Symplify\SmartFileSystem\SmartFileInfo;
 

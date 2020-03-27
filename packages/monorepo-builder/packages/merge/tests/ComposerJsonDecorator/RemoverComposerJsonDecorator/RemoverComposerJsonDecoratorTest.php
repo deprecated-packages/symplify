@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\RemoverComposerJsonDecorator;
 
-use Symplify\MonorepoBuilder\ComposerJsonObject\ComposerJsonFactory;
-use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
+use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator\RemoverComposerJsonDecorator;
 use Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;

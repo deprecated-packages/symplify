@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Tests\FileSystem\JsonFileManager;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;

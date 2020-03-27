@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject;
+namespace Symplify\ComposerJsonManipulator\ValueObject;
 
 use Composer\Json\JsonManipulator;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
@@ -317,6 +317,34 @@ final class ComposerJson
     public function getLicense(): ?string
     {
         return $this->license;
+    }
+
+    /**
+     * @api
+     */
+    public function hasPackage(string $packageName): bool
+    {
+        if ($this->hasRequiredPackage($packageName)) {
+            return true;
+        }
+
+        return $this->hasRequiredDevPackage($packageName);
+    }
+
+    /**
+     * @api
+     */
+    public function hasRequiredPackage(string $packageName): bool
+    {
+        return isset($this->require[$packageName]);
+    }
+
+    /**
+     * @api
+     */
+    public function hasRequiredDevPackage(string $packageName): bool
+    {
+        return isset($this->requireDev[$packageName]);
     }
 
     /**

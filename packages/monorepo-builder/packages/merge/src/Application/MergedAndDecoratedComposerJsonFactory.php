@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Merge\Application;
 
-use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Merge\ComposerJsonMerger;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;

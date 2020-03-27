@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\FileSystem;
 
+use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\Exception\ShouldNotHappenException;
 use Symplify\MonorepoBuilder\Finder\PackageComposerFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -59,6 +60,10 @@ final class ComposerJsonProvider
     {
         foreach ($this->packageComposerFinder->getPackageComposerFiles() as $smartFileInfo) {
             $json = $this->jsonFileManager->loadFromFileInfo($smartFileInfo);
+            if (! isset($json['name'])) {
+                continue;
+            }
+
             if ($json['name'] !== $packageName) {
                 continue;
             }
