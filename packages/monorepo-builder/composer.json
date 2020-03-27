@@ -7,7 +7,7 @@
     ],
     "require": {
         "php": "^7.2",
-        "composer/composer": "^1.9",
+        "composer/composer": "^1.10",
         "nette/utils": "^3.0",
         "phar-io/version": "^2.0.1",
         "symfony/finder": "^4.4|^5.0",
@@ -15,6 +15,7 @@
         "symfony/console": "^4.4|^5.0",
         "symplify/package-builder": "^7.3",
         "symplify/autowire-array-parameter": "^7.3",
+        "symplify/composer-json-manipulator": "^7.3",
         "symplify/auto-bind-parameter": "^7.3",
         "symplify/smart-file-system": "^7.3",
         "symplify/set-config-resolver": "^7.3"
@@ -29,8 +30,7 @@
             "Symplify\\MonorepoBuilder\\Release\\": "packages/release/src",
             "Symplify\\MonorepoBuilder\\Init\\": "packages/init/src",
             "Symplify\\MonorepoBuilder\\Testing\\": "packages/testing/src",
-            "Symplify\\MonorepoBuilder\\Merge\\": "packages/merge/src",
-            "Symplify\\MonorepoBuilder\\ComposerJsonObject\\": "packages/composer-json-object/src"
+            "Symplify\\MonorepoBuilder\\Merge\\": "packages/merge/src"
         }
     },
     "autoload-dev": {

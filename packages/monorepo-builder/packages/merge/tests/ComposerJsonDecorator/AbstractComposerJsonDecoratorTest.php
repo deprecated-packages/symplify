@@ -6,8 +6,8 @@ namespace Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Json;
-use Symplify\MonorepoBuilder\ComposerJsonObject\ComposerJsonFactory;
-use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
+use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;

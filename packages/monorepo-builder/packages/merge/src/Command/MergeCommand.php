@@ -8,11 +8,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\MonorepoBuilder\ComposerJsonObject\ComposerJsonFactory;
+use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
+use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\Exception\ShouldNotHappenException;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\Merge\Application\MergedAndDecoratedComposerJsonFactory;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -88,6 +88,7 @@ final class MergeCommand extends Command
         $mainComposerJsonFilePath = getcwd() . '/composer.json';
         $mainComposerJson = $this->composerJsonFactory->createFromFilePath($mainComposerJsonFilePath);
         $packageFileInfos = $this->composerJsonProvider->getPackagesFileInfos();
+
         $this->mergedAndDecoratedComposerJsonFactory->createFromRootConfigAndPackageFileInfos(
             $mainComposerJson,
             $packageFileInfos

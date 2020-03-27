@@ -1,9 +1,0 @@
-services:
-    _defaults:
-        public: true
-        autowire: true
-
-    Symplify\MonorepoBuilder\ComposerJsonObject\:
-        resource: '../src'
-        exclude:
-            - '../src/ValueObject/*'

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\ComposerJsonObject;
+namespace Symplify\ComposerJsonManipulator;
 
-use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
-use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ComposerJsonFactory
@@ -96,8 +96,6 @@ final class ComposerJsonFactory
 
         $orderedKeys = array_keys($jsonArray);
         $composerJson->setOrderedKeys($orderedKeys);
-
-        // @todo the rest
 
         return $composerJson;
     }
