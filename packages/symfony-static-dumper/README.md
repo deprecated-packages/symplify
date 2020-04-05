@@ -18,6 +18,21 @@ imports:
     - { resource: '../vendor/symplify/symfony-static-dumper/config/config.yaml' }
 ```
 
+Add the `AutowireArrayParameterCompilerPass` in your `Kernel.php`:
+
+```php
+// src/Kernel.php
+<?php
+// ...
+use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
+// ...
+    protected function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new AutowireArrayParameterCompilerPass());
+    }
+// ...
+```
+
 ## Use
 
 ```bash
