@@ -12,3 +12,4 @@ parameters:
         FL: 'FlexLoader'
         LT: 'LatteToTwigConverter'
         SSD: 'SymfonyStaticDumper'
+        EH: 'EasyHydrator'
