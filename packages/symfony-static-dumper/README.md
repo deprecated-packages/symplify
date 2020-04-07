@@ -36,7 +36,7 @@ use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArr
 ## Use
 
 ```bash
-bin/console dump-static-website
+bin/console dump-static-site
 ```
 
 The website will be generated to `/output` directory in your root project.
