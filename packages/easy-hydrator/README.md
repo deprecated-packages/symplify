@@ -106,7 +106,9 @@ final class HumanRepository
 This is how you hydrate 1 item:
 
 ```php
-$personAsArray = $this->arrayToValueObjectHydrator->hydrateArray([
+<?php
+
+$singlePersonAsArray = [
     'name' => 'Tom',
     // will be retyped to int
     'age' => '30',
@@ -115,29 +117,29 @@ $personAsArray = $this->arrayToValueObjectHydrator->hydrateArray([
 ]);
 
 /** @var Person $person */
-$person = $this->arrayToValueObjectHydrator->hydrateArray($personAsArray, Person::class);
+$person = $this->arrayToValueObjectHydrator->hydrateArray($singlePersonAsArray, Person::class);
 ```
 
 But how can we hydrate multiple items?
 
 ```php
-$personsAsArrays = [
-    [
-        'name' => 'Tom',
-        // will be retyped to int
-        'age' => '30',
-        // will be retyped to DateTimeInterface
-        'metAt' => '2020-02-02',
-    ],
-    [
-        'name' => 'John',
-        // will be retyped to int
-        'age' => '25',
-        // will be retyped to DateTimeInterface
-        'metAt' => '2019-12-31',
-    ]
+$manyPersonsAsArray = [];
+$manyPersonsAsArray[] = [
+    'name' => 'Tom',
+    // will be retyped to int
+    'age' => '30',
+    // will be retyped to DateTimeInterface
+    'metAt' => '2020-02-02',
+];
+
+$manyPersonsAsArray[] = [
+    'name' => 'John',
+    // will be retyped to int
+    'age' => '25',
+    // will be retyped to DateTimeInterface
+    'metAt' => '2019-12-31',
 ];
 
 /** @var Person[] $persons */
-$persons = $this->arrayToValueObjectHydrator->hydrateArrays($personsAsArrays, Person::class);
+$persons = $this->arrayToValueObjectHydrator->hydrateArrays($manyPersonsAsArray, Person::class);
 ```
