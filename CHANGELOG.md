@@ -9,9 +9,42 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-<!-- dumped content start -->
+## Unreleased
 
-## v7.2.8 - 2020-03-19
+### Added
+
+#### Docs
+
+- [#1826] [Static Dumper] Add compiler pass in kernel, Thanks to [@Jibbarth]
+
+#### MonorepoBuilder
+
+- [#1821] Add composer exclude folders dynamicly, Thanks to [@bennsel]
+
+### Changed
+
+#### ComposerJsonManipulator
+
+- [#1822] Init new package
+
+#### MonorepoBuilder
+
+- [#1820] Allow inline sections to be empty for 3rd party use
+
+#### PHPStanExtensions
+
+- [#1818] Decouple symplify error formatter config
+
+### Fixed
+
+- [#1829] Fix command in README.md, Thanks to [@natepage]
+- [#1824] fix [#1712], Thanks to [@calvera]
+
+### Removed
+
+- [#1817] Remove typo referencing not-relevant file, Thanks to [@GenieTim]
+
+## [v7.2.8] - 2020-03-19
 
 ### Fixed
 
@@ -540,3 +573,17 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [v7.2.3]: https://github.com/symplify/symplify/compare/v7.2.2...v7.2.3
 [@cgaube]: https://github.com/cgaube
 [@Great-Antique]: https://github.com/Great-Antique
+[#1829]: https://github.com/symplify/symplify/pull/1829
+[#1826]: https://github.com/symplify/symplify/pull/1826
+[#1824]: https://github.com/symplify/symplify/pull/1824
+[#1822]: https://github.com/symplify/symplify/pull/1822
+[#1821]: https://github.com/symplify/symplify/pull/1821
+[#1820]: https://github.com/symplify/symplify/pull/1820
+[#1818]: https://github.com/symplify/symplify/pull/1818
+[#1817]: https://github.com/symplify/symplify/pull/1817
+[#1712]: https://github.com/symplify/symplify/pull/1712
+[v7.2.8]: https://github.com/symplify/symplify/compare/v7.2.6...v7.2.8
+[@calvera]: https://github.com/calvera
+[@bennsel]: https://github.com/bennsel
+[@Jibbarth]: https://github.com/Jibbarth
+[@GenieTim]: https://github.com/GenieTim
