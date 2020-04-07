@@ -24,6 +24,10 @@ parameters:
         - packages/phpstan-extensions/tests/Rules/ClassMethod/Source/*
         - packages/easy-coding-standard/compiler/vendor/*
 
+        # requires PHP 7.4
+        - 'packages/easy-hydrator/tests/Fixture/TypedProperty.php'
+        - 'packages/easy-hydrator/tests/TypedPropertiesTest.php'
+
     autoload_files:
         - %currentWorkingDirectory%/tests/bootstrap.php
         - packages/easy-coding-standard/packages/changed-files-detector/tests/ChangedFilesDetectorSource/OneClass.php

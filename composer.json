@@ -65,6 +65,7 @@
             "Symplify\\ComposerJsonManipulator\\": "packages/composer-json-manipulator/src",
             "Symplify\\EasyCodingStandardTester\\": "packages/easy-coding-standard-tester/src",
             "Symplify\\EasyCodingStandard\\": "packages/easy-coding-standard/src",
+            "Symplify\\EasyHydrator\\": "packages/easy-hydrator/src",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/easy-coding-standard/packages/changed-files-detector/src",
             "Symplify\\EasyCodingStandard\\Compiler\\": "packages/easy-coding-standard/compiler/src",
             "Symplify\\EasyCodingStandard\\Configuration\\": "packages/easy-coding-standard/packages/configuration/src",
@@ -96,6 +97,7 @@
             "Symplify\\CodingStandard\\Tests\\": "packages/coding-standard/tests",
             "Symplify\\CodingStandard\\TokenRunner\\Tests\\": "packages/coding-standard/packages/token-runner/tests",
             "Symplify\\EasyCodingStandardTester\\Tests\\": "packages/easy-coding-standard-tester/tests",
+            "Symplify\\EasyHydrator\\Tests\\": "packages/easy-hydrator/tests",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\Tests\\": "packages/easy-coding-standard/packages/changed-files-detector/tests",
             "Symplify\\EasyCodingStandard\\FixerRunner\\Tests\\": "packages/easy-coding-standard/packages/fixer-runner/tests",
             "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/easy-coding-standard/packages/sniff-runner/tests",
@@ -124,6 +126,7 @@
         "symplify/composer-json-manipulator": "7.3",
         "symplify/easy-coding-standard": "7.3",
         "symplify/easy-coding-standard-compiler": "7.3",
+        "symplify/easy-hydrator": "7.3",
         "symplify/easy-coding-standard-tester": "7.3",
         "symplify/flex-loader": "7.3",
         "symplify/latte-to-twig-converter": "7.3",
@@ -133,7 +136,6 @@
         "symplify/phpstan-extensions": "7.3",
         "symplify/set-config-resolver": "7.3",
         "symplify/smart-file-system": "7.3",
-        "symplify/statie": "7.3",
         "symplify/symfony-static-dumper": "7.3"
     },
     "scripts": {

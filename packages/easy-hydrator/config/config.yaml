@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    Symplify\EasyHydrator\:
+        resource: '../src'
+
+    Symfony\Component\Cache\Adapter\FilesystemAdapter: null
+
+    Symplify\PackageBuilder\Strings\StringFormatConverter: null
