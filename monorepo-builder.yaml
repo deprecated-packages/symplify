@@ -30,3 +30,4 @@ parameters:
         packages/set-config-resolver: 'git@github.com:symplify/set-config-resolver.git'
         packages/symfony-static-dumper: 'git@github.com:symplify/symfony-static-dumper.git'
         packages/composer-json-manipulator: 'git@github.com:symplify/composer-json-manipulator.git'
+        packages/easy-hydrator: 'git@github.com:symplify/easy-hydrator.git'
