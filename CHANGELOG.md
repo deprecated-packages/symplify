@@ -13,7 +13,12 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Added
 
-#### Docs
+#### EasyHydrator
+
+- [#1833] Add monorepo split
+- [#1832] Init new package
+
+#### SymfonyStaticDumper
 
 - [#1826] [Static Dumper] Add compiler pass in kernel, Thanks to [@Jibbarth]
 
@@ -85,16 +90,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### Statie
 
 - [#1803] Deprecate package
-
-## [v7.2.3] - 2020-02-27
-
-### Added
-
-#### MonorepoBuilder
-
-- [#1781] Add SortAutoloadNamespaceCommand
-
-<!-- dumped content end -->
 
 ## [v7.2.3] - 2020-02-27
 
@@ -587,3 +582,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@bennsel]: https://github.com/bennsel
 [@Jibbarth]: https://github.com/Jibbarth
 [@GenieTim]: https://github.com/GenieTim
+[#1833]: https://github.com/symplify/symplify/pull/1833
+[#1832]: https://github.com/symplify/symplify/pull/1832
+[#1831]: https://github.com/symplify/symplify/pull/1831
