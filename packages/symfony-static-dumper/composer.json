@@ -9,6 +9,7 @@
         "symfony/finder": "^4.4|^5.0",
         "symfony/http-foundation": "^4.4|^5.0",
         "symfony/routing": "^4.4|^5.0",
+        "symplify/autowire-array-parameter": "^7.3",
         "symplify/package-builder": "^7.3",
         "symplify/smart-file-system": "^7.3"
     },
