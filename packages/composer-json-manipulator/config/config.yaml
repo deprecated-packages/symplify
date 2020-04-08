@@ -7,8 +7,8 @@ services:
         autowire: true
         autoconfigure: true
 
-    Symplify\ComposerJsonManipulator\:
-        resource: '../src'
+    Symplify\ComposerJsonManipulator\ComposerJsonFactory: null
+    Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager: null
 
     Symfony\Component\Filesystem\Filesystem: null
     Symplify\PackageBuilder\Reflection\PrivatesCaller: null
