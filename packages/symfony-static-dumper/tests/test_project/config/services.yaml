@@ -1,6 +1,3 @@
-imports:
-    - { resource: "../../../config/config.yaml" }
-
 parameters:
     kernel.secret: "123"
 
