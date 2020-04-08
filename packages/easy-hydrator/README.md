@@ -15,6 +15,14 @@
 composer require symplify/easy-hydrator
 ```
 
+Add to `config/bundles.php`:
+
+```php
+return [
+    Symplify\EasyHydrator\EasyHydratorBundle::class => ['all' => true],
+];
+```
+
 ## Usage
 
 Having value object with constructor injection:

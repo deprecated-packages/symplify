@@ -7,6 +7,7 @@ namespace Symplify\EasyHydrator\Tests\HttpKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symplify\EasyHydrator\EasyHydratorBundle;
 
 final class EasyHydratorTestKernel extends Kernel
 {
@@ -20,7 +21,7 @@ final class EasyHydratorTestKernel extends Kernel
      */
     public function registerBundles(): iterable
     {
-        return [];
+        return [new EasyHydratorBundle()];
     }
 
     public function getCacheDir(): string
