@@ -12,9 +12,9 @@
         "symfony/dependency-injection": "^4.4|^5.0",
         "symfony/finder": "^4.4|^5.0",
         "symfony/routing": "^4.4|^5.0",
-        "symplify/package-builder": "^7.3",
-        "symplify/smart-file-system": "^7.3",
-        "symplify/autowire-array-parameter": "^7.3"
+        "symplify/package-builder": "^7.2.10",
+        "symplify/smart-file-system": "^7.2.10",
+        "symplify/autowire-array-parameter": "^7.2.10"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^2.0",
