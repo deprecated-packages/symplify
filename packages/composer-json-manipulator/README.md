@@ -30,24 +30,24 @@ declare(strict_types=1);
 
 namespace App;
 
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 
 class SomeClass
 {
     /**
-     * @var JsonFileManager
+     * @var ComposerJsonFactory
      */
-    private $jsonFileManager;
+    private $composerJsonFactory;
 
-    public function __construct(JsonFileManager $jsonFileManager)
+    public function __construct(ComposerJsonFactory $composerJsonFactory)
     {
-        $this->jsonFileManager = $jsonFileManager;
+        $this->composerJsonFactory = $composerJsonFactory;
     }
 
     public function run()
     {
         // ↓ instance of \Symplify\ComposerJsonManipulator\ValueObject\ComposerJson
-        $composerJson = $this->jsonFileManager->loadFromFilePath(getcwd() . '/composer.json');
+        $composerJson = $this->composerJsonFactory->createFromFilePath(getcwd() . '/composer.json');
         // ...
     }
 }
