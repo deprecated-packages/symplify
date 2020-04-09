@@ -88,6 +88,14 @@ Making `SplFileInfo` smarter with methods you really need.
 
 <br>
 
+### [Easy Hydrator](https://github.com/symplify/easy-hydrator)
+
+[![Downloads](https://img.shields.io/packagist/dt/symplify/easy-hydrator.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-hydrator/stats)
+
+Hydrate Arrays to Objects via `__construct` and PHP 7.4!
+
+<br>
+
 ## Maintainer's Friend
 
 ### [Changelog Linker](https://github.com/symplify/changelog-linker)
