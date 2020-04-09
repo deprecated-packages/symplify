@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder;
 
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\Merge\Configuration\ModifyingComposerJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\Section;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -16,13 +17,26 @@ final class VersionValidator
     private const SECTIONS = [Section::REQUIRE, Section::REQUIRE_DEV];
 
     /**
+     * @var string
+     */
+    private const MONOREPO_BUILDER_YAML = 'monorepo-builder.yaml';
+
+    /**
      * @var JsonFileManager
      */
     private $jsonFileManager;
 
-    public function __construct(JsonFileManager $jsonFileManager)
-    {
+    /**
+     * @var ModifyingComposerJsonProvider
+     */
+    private $modifyingComposerJsonProvider;
+
+    public function __construct(
+        JsonFileManager $jsonFileManager,
+        ModifyingComposerJsonProvider $modifyingComposerJsonProvider
+    ) {
         $this->jsonFileManager = $jsonFileManager;
+        $this->modifyingComposerJsonProvider = $modifyingComposerJsonProvider;
     }
 
     /**
@@ -32,6 +46,7 @@ final class VersionValidator
     public function findConflictingPackageVersionsInFileInfos(array $smartFileInfos): array
     {
         $packageVersionsPerFile = [];
+        $packageVersionsPerFile = $this->appendAppendingComposerJson($packageVersionsPerFile);
 
         foreach ($smartFileInfos as $smartFileInfo) {
             $json = $this->jsonFileManager->loadFromFileInfo($smartFileInfo);
@@ -70,5 +85,27 @@ final class VersionValidator
         }
 
         return $conflictingPackageVersionsPerFile;
+    }
+
+    /**
+     * @param mixed[] $packageVersionsPerFile
+     * @return mixed[]
+     */
+    private function appendAppendingComposerJson(array $packageVersionsPerFile): array
+    {
+        $appendingComposerJson = $this->modifyingComposerJsonProvider->getAppendingComposerJson();
+        if ($appendingComposerJson === null) {
+            return $packageVersionsPerFile;
+        }
+
+        foreach ($appendingComposerJson->getRequire() as $packageName => $packageVersion) {
+            $packageVersionsPerFile[$packageName][self::MONOREPO_BUILDER_YAML] = $packageVersion;
+        }
+
+        foreach ($appendingComposerJson->getRequireDev() as $packageName => $packageVersion) {
+            $packageVersionsPerFile[$packageName][self::MONOREPO_BUILDER_YAML] = $packageVersion;
+        }
+
+        return $packageVersionsPerFile;
     }
 }
