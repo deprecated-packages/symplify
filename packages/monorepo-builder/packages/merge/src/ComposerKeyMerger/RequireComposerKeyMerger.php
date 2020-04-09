@@ -15,7 +15,7 @@ final class RequireComposerKeyMerger extends AbstractComposerKeyMerger implement
             return;
         }
 
-        $require = $this->mergeRecursiveAndSort($mainComposerJson->getRequire(), $newComposerJson->getRequire());
+        $require = $this->mergeAndSort($newComposerJson->getRequire(), $mainComposerJson->getRequire());
         $mainComposerJson->setRequire($require);
     }
 }

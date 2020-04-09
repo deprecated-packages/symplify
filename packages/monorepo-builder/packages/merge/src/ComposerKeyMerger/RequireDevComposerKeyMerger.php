@@ -15,10 +15,7 @@ final class RequireDevComposerKeyMerger extends AbstractComposerKeyMerger implem
             return;
         }
 
-        $requireDev = $this->mergeRecursiveAndSort(
-            $mainComposerJson->getRequireDev(),
-            $newComposerJson->getRequireDev()
-        );
+        $requireDev = $this->mergeAndSort($newComposerJson->getRequireDev(), $mainComposerJson->getRequireDev());
         $mainComposerJson->setRequireDev($requireDev);
     }
 }
