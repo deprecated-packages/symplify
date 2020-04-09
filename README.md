@@ -7,7 +7,7 @@
 [![Coverage](https://img.shields.io/coveralls/symplify/symplify/master.svg?style=flat-square)](https://coveralls.io/github/symplify/symplify?branch=master)
 [![SonarCube](https://img.shields.io/badge/SonarCube_Debt-%3C3-brightgreen.svg?style=flat-square)](https://sonarcloud.io/dashboard?id=symplify_symplify)
 
-In [this monorepo](https://gomonorepo.org/) you'll find PHP packages that help you with:
+In [this monorepo](https://www.tomasvotruba.com/blog/2019/10/28/all-you-always-wanted-to-know-about-monorepo-but-were-afraid-to-ask/) you'll find PHP packages that help you with:
 
 * your **first coding standard**
 * **maintenance of monorepo** and changelog
