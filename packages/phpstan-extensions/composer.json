@@ -8,8 +8,8 @@
         "nette/di": "^3.0",
         "nette/utils": "^3.0",
         "phpstan/phpstan": "^0.12.10",
-        "symplify/package-builder": "^7.2.11",
-        "symplify/smart-file-system": "^7.2.11"
+        "symplify/package-builder": "^7.3",
+        "symplify/smart-file-system": "^7.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5|^9.0",
