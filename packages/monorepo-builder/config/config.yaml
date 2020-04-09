@@ -2,11 +2,6 @@ imports:
     - { resource: 'services.yaml' }
     - { resource: '../packages/**/config/config.yaml' }
 
-    # A. in monorepo
-    - { resource: '../../composer-json-manipulator/config/config.yaml', ignore_errors: not_found }
-    # B. as dependency
-    - { resource: '../../vendor/symplify/composer-json-manipulator/config/config.yaml', ignore_errors: not_found  }
-
 parameters:
     package_directories:
         - 'packages'
