@@ -16,6 +16,7 @@ use Symplify\AutoBindParameter\DependencyInjection\CompilerPass\AutoBindParamete
 use Symplify\Autodiscovery\Discovery;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\FlexLoader\Flex\FlexLoader;
+use Symplify\SymfonyStaticDumper\SymfonyStaticDumperBundle;
 
 final class TestSymfonyStaticDumperKernel extends Kernel
 {
@@ -49,7 +50,7 @@ final class TestSymfonyStaticDumperKernel extends Kernel
      */
     public function registerBundles(): array
     {
-        return [new FrameworkBundle(), new TwigBundle()];
+        return [new FrameworkBundle(), new TwigBundle(), new SymfonyStaticDumperBundle()];
     }
 
     public function getCacheDir(): string

@@ -11,26 +11,12 @@ Useful for deploy to Github Pages and other non-PHP static website hostings.
 composer require symplify/symfony-static-dumper
 ```
 
-Register services in `config/services.yaml`:
-
-```yaml
-imports:
-    - { resource: '../vendor/symplify/symfony-static-dumper/config/config.yaml' }
-```
-
-Add the `AutowireArrayParameterCompilerPass` in your `Kernel.php`:
+Add to `config/bundles.php`:
 
 ```php
-// src/Kernel.php
-<?php
-// ...
-use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-// ...
-    protected function build(ContainerBuilder $container)
-    {
-        $container->addCompilerPass(new AutowireArrayParameterCompilerPass());
-    }
-// ...
+return [
+    Symplify\SymfonyStaticDumper\SymfonyStaticDumperBundle::class => ['all' => true],
+];
 ```
 
 ## Use
