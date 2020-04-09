@@ -13,15 +13,15 @@
 composer require symplify/composer-json-manipulator
 ```
 
-## Usage
+Add to `config/bundles.php`:
 
-Add services to your package:
-
-```yaml
-# config/services.yaml
-imports:
-    - { resource: '../../vendor/symplify/composer-json-manipulator/config/config.yaml' }
+```php
+return [
+    Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle::class => ['all' => true],
+];
 ```
+
+## Usage
 
 ```php
 <?php
