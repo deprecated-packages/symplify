@@ -100,7 +100,7 @@ Hydrate Arrays to Objects via `__construct` and PHP 7.4!
 
 ### [Changelog Linker](https://github.com/symplify/changelog-linker)
 
-[![Downloads](https://img.shields.io/packagist/dt/symplify/changelog-linker.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo-builder/stats)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/changelog-linker.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker/stats)
 
 Why write `CHANGELOG.md`, when you can generate it
 
@@ -108,9 +108,17 @@ Why write `CHANGELOG.md`, when you can generate it
 
 ### [Monorepo Builder](https://github.com/symplify/monorepo-builder)
 
-[![Downloads](https://img.shields.io/packagist/dt/symplify/monorepo-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker/stats)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/monorepo-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo-builder/stats)
 
 Validate, split, release and maintain Monorepo like a boss
+
+<br>
+
+### [Composer Json Manipulator](https://github.com/symplify/composer-json-manipulator)
+
+[![Downloads](https://img.shields.io/packagist/dt/symplify/composer-json-manipulator.svg?style=flat-square)](https://packagist.org/packages/symplify/composer-json-manipulator/stats)
+
+Manipulate composer.json with Beautiful Object API
 
 <br>
 
