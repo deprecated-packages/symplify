@@ -7,6 +7,7 @@ namespace Symplify\SymfonyStaticDumper\Controller;
 use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Routing\Route;
 use Symplify\SymfonyStaticDumper\Contract\ControllerWithDataProviderInterface;
 use Symplify\SymfonyStaticDumper\ControllerWithDataProviderMatcher;
 use Symplify\SymfonyStaticDumper\FileSystem\FilePathResolver;
@@ -74,15 +75,7 @@ final class ControllerDumper
 
             $filePath = $this->filePathResolver->resolveFilePath($route, $outputDirectory);
 
-            if ($this->symfonyStyle->isDebug()) {
-                $this->symfonyStyle->note(sprintf(
-                    'Dumping static content for "%s" route to "%s" path',
-                    $route->getPath(),
-                    $filePath
-                ));
-            } elseif ($progressBar instanceof ProgressBar) {
-                $progressBar->advance();
-            }
+            $this->printProgressOrDumperFileInfo($route, $filePath, $progressBar);
 
             FileSystem::write($filePath, $fileContent);
         }
@@ -142,15 +135,7 @@ final class ControllerDumper
 
             $filePath = $this->filePathResolver->resolveFilePathWithArgument($route, $outputDirectory, $argument);
 
-            if ($this->symfonyStyle->isDebug()) {
-                $this->symfonyStyle->note(sprintf(
-                    'Dumping static content for "%s" route to "%s" path',
-                    $route->getPath(),
-                    $filePath
-                ));
-            } elseif ($progressBar instanceof ProgressBar) {
-                $progressBar->advance();
-            }
+            $this->printProgressOrDumperFileInfo($route, $filePath, $progressBar);
 
             FileSystem::write($filePath, $fileContent);
         }
@@ -165,5 +150,19 @@ final class ControllerDumper
 
         $stepCount = count($items);
         return $this->symfonyStyle->createProgressBar($stepCount);
+    }
+
+    private function printProgressOrDumperFileInfo(Route $route, string $filePath, ?ProgressBar $progressBar): void
+    {
+        if ($progressBar instanceof ProgressBar) {
+            $progressBar->advance();
+            return;
+        }
+
+        $this->symfonyStyle->note(sprintf(
+            'Dumping static content for "%s" route to "%s" path',
+            $route->getPath(),
+            $filePath
+        ));
     }
 }
