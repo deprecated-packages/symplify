@@ -7,6 +7,7 @@
         "nette/utils": "^3.0",
         "nette/finder": "^2.5",
         "squizlabs/php_codesniffer": "^3.5",
+        "slevomat/coding-standard": "^6.2",
         "friendsofphp/php-cs-fixer": "^2.16",
         "symplify/smart-file-system": "^7.3",
         "symplify/package-builder": "^7.3",
