@@ -74,6 +74,11 @@ final class PropagateCommand extends Command
             $newVersion = $filesToVersion['composer.json'];
             unset($filesToVersion['composer.json']);
 
+            if (isset($filesToVersion['monorepo-builder.yaml'])) {
+                unset($filesToVersion['monorepo-builder.yaml']);
+                $this->symfonyStyle->note(sprintf('Update "%s" manually', 'monorepo-builder.yaml'));
+            }
+
             foreach (array_keys($filesToVersion) as $filePath) {
                 $this->dependencyUpdater->updateFileInfosWithPackagesAndVersion(
                     [new SmartFileInfo($filePath)],
