@@ -11,7 +11,7 @@ Useful for deploy to Github Pages and other non-PHP static website hostings.
 composer require symplify/symfony-static-dumper
 ```
 
-Add to `config/bundles.php`:
+Add to `config/bundles.php` if you're not using Flex:
 
 ```php
 return [

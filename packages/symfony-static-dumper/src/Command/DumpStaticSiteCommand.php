@@ -52,6 +52,7 @@ final class DumpStaticSiteCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
+        $this->setDescription('Dump website to static HTML and CSS in the output directory');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
