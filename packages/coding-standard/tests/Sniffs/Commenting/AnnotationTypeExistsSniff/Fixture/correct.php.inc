@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\TokenRunner\Tests\DocBlock;
+namespace Symplify\CodingStandard\Tests\TokenRunner\DocBlock;
 
 use Iterator;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
