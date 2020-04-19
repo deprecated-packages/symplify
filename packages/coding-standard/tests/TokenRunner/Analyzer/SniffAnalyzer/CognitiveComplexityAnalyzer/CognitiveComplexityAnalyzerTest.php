@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\TokenRunner\Tests\Analyzer\SniffAnalyzer\CognitiveComplexityAnalyzer;
+namespace Symplify\CodingStandard\Tests\TokenRunner\Analyzer\SniffAnalyzer\CognitiveComplexityAnalyzer;
 
 use Iterator;
 use Nette\Utils\FileSystem;

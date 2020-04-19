@@ -95,7 +95,6 @@
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/changelog-linker/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/coding-standard/tests",
-            "Symplify\\CodingStandard\\TokenRunner\\Tests\\": "packages/coding-standard/packages/token-runner/tests",
             "Symplify\\EasyCodingStandardTester\\Tests\\": "packages/easy-coding-standard-tester/tests",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\Tests\\": "packages/easy-coding-standard/packages/changed-files-detector/tests",
             "Symplify\\EasyCodingStandard\\FixerRunner\\Tests\\": "packages/easy-coding-standard/packages/fixer-runner/tests",

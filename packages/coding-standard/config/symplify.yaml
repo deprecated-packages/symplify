@@ -1,17 +1,15 @@
 imports:
-    - { resource: '../packages/token-runner/config/config.yaml' }
+    - { resource: "config.yaml" }
 
 # set for EasyCodingStandard
 services:
     _defaults:
+        public: true
         autowire: true
         autoconfigure: true
 
     # class has to be final, abstract or Doctrine entity
-    PhpCsFixer\Fixer\ClassNotation\FinalInternalClassFixer: ~
-
-    # property doc should be docblock
-    PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\FinalInternalClassFixer: null
 
     # import namespaces for classes, constants and functions
     # configuration: https://github.com/slevomat/coding-standard#slevomatcodingstandardnamespacesreferenceusednamesonly-
@@ -26,13 +24,13 @@ services:
         resource: '../src'
         # checkers that needs configuration to run
         exclude:
+            - '../src/TokenRunner/ValueObject/*'
             - '../src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
             - '../src/Sniffs/CleanCode/ForbiddenParentClassSniff.php'
             - '../src/Sniffs/DeadCode/UnusedPublicMethodSniff.php'
             - '../src/Fixer/Order/MethodOrderByTypeFixer.php'
 
-    Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
-    PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
 
     Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
         allowed_class_names:
@@ -48,4 +46,3 @@ services:
             # tests
             - 'Some*'
             - 'GithubApi'
-

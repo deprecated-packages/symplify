@@ -22,14 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\CodingStandard\\": "src",
-            "Symplify\\CodingStandard\\TokenRunner\\": "packages/token-runner/src"
+            "Symplify\\CodingStandard\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\CodingStandard\\Tests\\": "tests",
-            "Symplify\\CodingStandard\\TokenRunner\\Tests\\": "packages/token-runner/tests"
+            "Symplify\\CodingStandard\\Tests\\": "tests"
         }
     },
     "extra": {

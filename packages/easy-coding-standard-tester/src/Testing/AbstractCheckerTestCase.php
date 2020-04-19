@@ -67,25 +67,13 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $this->fileSystemGuard = new FileSystemGuard();
 
         $config = $this->provideConfig();
+
         $this->fileSystemGuard->ensureFileExists($config, static::class);
 
         $configs = [$config];
 
         // autoload php code sniffer before Kernel boot
         $this->autoloadCodeSniffer();
-
-        // for symplify package testing
-        // 1. vendor installed
-        $tokenRunnerConfig = __DIR__ . '/../../../../../packages/token-runner/config/config.yaml';
-        if (file_exists($tokenRunnerConfig)) {
-            $configs[] = $tokenRunnerConfig;
-        }
-
-        // 2. monorepo
-        $tokenRunnerConfig = __DIR__ . '/../../../../packages/coding-standard/packages/token-runner/config/config.yaml';
-        if (file_exists($tokenRunnerConfig)) {
-            $configs[] = $tokenRunnerConfig;
-        }
 
         $this->bootKernelWithConfigs(EasyCodingStandardKernel::class, $configs);
 

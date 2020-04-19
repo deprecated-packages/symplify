@@ -109,7 +109,7 @@ parameters:
         - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
         # helps ide
-        - '#Method Symplify\\CodingStandard\\TokenRunner\\Tests\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
+        - '#Method Symplify\\CodingStandard\\Tests\\TokenRunner\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
 
         # mixed by default, handled by coding standards
         - '#(has|with) no (return )?typehint specified#'

@@ -1,0 +1,34 @@
+# set for coding standard services, excepts sniffs and fixers
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    # see https://github.com/symplify/codingstandard to see all loaded Symplify checkers
+    Symplify\CodingStandard\:
+        resource: '../src'
+        # checkers that needs configuration to run
+        exclude:
+            - '../src/TokenRunner/ValueObject/*'
+            - '../src/Sniffs/*'
+            - '../src/Fixer/*'
+
+    Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: null
+
+    PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: null
+    PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer: null
+    PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer: null
+    PhpCsFixer\Tokenizer\Analyzer\NamespacesAnalyzer: null
+    PhpCsFixer\WhitespacesFixerConfig: null
+
+    Symplify\PackageBuilder\Php\TypeAnalyzer: null
+    SlevomatCodingStandard\Helpers\NamespaceHelper: null
+
+    Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector: null
+
+    # property doc should be docblock
+    PHPStan\PhpDocParser\Parser\PhpDocParser: null
+    PHPStan\PhpDocParser\Parser\TypeParser: null
+    PHPStan\PhpDocParser\Parser\ConstExprParser: null
+    PHPStan\PhpDocParser\Lexer\Lexer: null
