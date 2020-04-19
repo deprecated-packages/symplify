@@ -24,6 +24,7 @@ final class BetterGuzzleClient
     }
 
     /**
+     * @api
      * @return mixed[]
      */
     public function requestToJson(string $url): array

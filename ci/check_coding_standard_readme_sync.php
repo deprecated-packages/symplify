@@ -5,7 +5,6 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 
@@ -94,8 +93,6 @@ final class CodingStandardSyncChecker
         $classesToExclude = [
             // abstract
             AbstractSymplifyFixer::class,
-            // deprecated
-            SprintfOverContactSniff::class,
         ];
 
         // filter out abstract class
