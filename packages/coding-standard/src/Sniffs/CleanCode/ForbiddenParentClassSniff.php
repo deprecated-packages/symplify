@@ -38,7 +38,7 @@ final class ForbiddenParentClassSniff implements Sniff
      */
     public function process(File $file, $position): void
     {
-        if (empty($this->forbiddenParentClasses)) {
+        if ($this->forbiddenParentClasses === []) {
             return;
         }
 
