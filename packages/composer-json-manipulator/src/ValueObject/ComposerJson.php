@@ -162,6 +162,11 @@ final class ComposerJson
         $this->minimumStability = $minimumStability;
     }
 
+    public function removeMinimumStability(): void
+    {
+        $this->minimumStability = null;
+    }
+
     public function getMinimumStability(): ?string
     {
         return $this->minimumStability;
@@ -175,6 +180,11 @@ final class ComposerJson
     public function setPreferStable(bool $preferStable): void
     {
         $this->preferStable = $preferStable;
+    }
+
+    public function removePreferStable(): void
+    {
+        $this->preferStable = null;
     }
 
     public function getExtra(): array

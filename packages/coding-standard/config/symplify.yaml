@@ -20,15 +20,19 @@ services:
         allowPartialUses: false
 
     # see https://github.com/symplify/codingstandard to see all loaded Symplify checkers
-    Symplify\CodingStandard\:
-        resource: '../src'
+    Symplify\CodingStandard\Fixer\:
+        resource: '../src/Fixer'
         # checkers that needs configuration to run
         exclude:
-            - '../src/TokenRunner/ValueObject/*'
+            - '../src/Fixer/Order/MethodOrderByTypeFixer.php'
+
+    Symplify\CodingStandard\Sniffs\:
+        resource: '../src/Sniffs'
+        # checkers that needs configuration to run
+        exclude:
             - '../src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
             - '../src/Sniffs/CleanCode/ForbiddenParentClassSniff.php'
             - '../src/Sniffs/DeadCode/UnusedPublicMethodSniff.php'
-            - '../src/Fixer/Order/MethodOrderByTypeFixer.php'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
 
