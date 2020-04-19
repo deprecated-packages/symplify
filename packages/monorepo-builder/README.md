@@ -216,7 +216,6 @@ vendor/bin/monorepo-builder release patch
 
 You can use `minor` and `major` too.
 
-
 ### 7. Set Your Own Release Flow
 
 There is set of few default release workers - classes that implement `Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface`.
