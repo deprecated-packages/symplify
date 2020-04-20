@@ -27,12 +27,6 @@ parameters:
         Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff: ~
 
-        # types: allow mixed
-        SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingAnyTypeHint: ~
-        SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff.MissingTraversableTypeHintSpecification: ~
-        SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingTraversableTypeHintSpecification: ~
-        SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff.MissingAnyTypeHint: ~
-
         PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff: ~
 
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
@@ -110,9 +104,6 @@ parameters:
             - 'packages/composer-json-manipulator/src/ComposerJsonFactory.php'
             - 'packages/composer-json-manipulator/src/ValueObject/ComposerJson.php'
             - 'packages/package-builder/src/Yaml/ParametersMerger.php'
-
-        # bugged on non PHP 7.4 package version
-        SlevomatCodingStandard\Sniffs\TypeHints\PropertyTypeHintSniff: null
 
 services:
     Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
