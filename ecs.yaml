@@ -111,9 +111,6 @@ parameters:
             - 'packages/composer-json-manipulator/src/ValueObject/ComposerJson.php'
             - 'packages/package-builder/src/Yaml/ParametersMerger.php'
 
-        # bugged on non PHP 7.4 package version
-        SlevomatCodingStandard\Sniffs\TypeHints\PropertyTypeHintSniff: null
-
 services:
     Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
         maxClassCognitiveComplexity: 40
