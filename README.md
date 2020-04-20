@@ -13,6 +13,7 @@ In [this monorepo](https://www.tomasvotruba.com/blog/2019/10/28/all-you-always-w
 * **maintenance of monorepo** and changelog
 * **clean Kernel** even with Flex loading methods
 * **slim and re-usable Symfony configs**
+test
 
 <br>
 
