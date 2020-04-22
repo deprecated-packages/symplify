@@ -69,6 +69,10 @@ CODE_SAMPLE
 
     public function isCandidate(Tokens $tokens): bool
     {
+        if ($this->methodOrderByType === []) {
+            return false;
+        }
+
         return $tokens->isAllTokenKindsFound([T_CLASS, T_FUNCTION]) && $tokens->isAnyTokenKindsFound(
             [T_IMPLEMENTS, T_EXTENDS]
         );
@@ -76,6 +80,10 @@ CODE_SAMPLE
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
+        if ($this->methodOrderByType === []) {
+            return;
+        }
+
         foreach ($this->getReversedClassyPositions($tokens) as $index) {
             $classWrapper = $this->fixerClassWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             if ($this->shouldSkip($classWrapper)) {

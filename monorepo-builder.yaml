@@ -3,16 +3,16 @@ parameters:
     data_to_append:
         require-dev:
             phpunit/phpunit: '^8.5|^9.0'
-            rector/rector: 'dev-master'
+            rector/rector: '^0.7.5'
             tracy/tracy: '^2.7'
-        "minimum-stability": "dev"
-        "prefer-stable": true
 
     # remove these to merge of packages' composer.json
     data_to_remove:
         require:
             'tracy/tracy': '*'
             'phpunit/phpunit': '*'
+        "minimum-stability": "dev"
+        "prefer-stable": true
 
     directories_to_repositories:
         packages/autowire-array-parameter: 'git@github.com:symplify/autowire-array-parameter.git'
@@ -22,10 +22,12 @@ parameters:
         packages/easy-coding-standard: 'git@github.com:symplify/easy-coding-standard.git'
         packages/easy-coding-standard-tester: 'git@github.com:symplify/easy-coding-standard-tester.git'
         packages/coding-standard: 'git@github.com:symplify/coding-standard.git'
-        packages/statie: 'git@github.com:symplify/statie.git'
         packages/changelog-linker: 'git@github.com:symplify/changelog-linker.git'
         packages/monorepo-builder: 'git@github.com:symplify/monorepo-builder.git'
         packages/phpstan-extensions: 'git@github.com:symplify/phpstan-extensions.git'
         packages/flex-loader: 'git@github.com:symplify/flex-loader.git'
         packages/autodiscovery: 'git@github.com:symplify/autodiscovery.git'
         packages/set-config-resolver: 'git@github.com:symplify/set-config-resolver.git'
+        packages/symfony-static-dumper: 'git@github.com:symplify/symfony-static-dumper.git'
+        packages/composer-json-manipulator: 'git@github.com:symplify/composer-json-manipulator.git'
+        packages/easy-hydrator: 'git@github.com:symplify/easy-hydrator.git'

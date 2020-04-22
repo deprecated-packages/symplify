@@ -58,6 +58,15 @@ parameters:
 
 Sections are sorted for you by saint defaults. Do you want change the order? Just override `section_order` parameter.
 
+To exclude a specific folder for ignoring the composer.json in this folder.
+
+```yaml
+# monorepo-builder.yml
+parameters:
+    package_directories_excludes:
+        - 'ExcludeThis'
+```
+
 #### After Merge Options
 
 Do you need to add or remove some packages only to root `composer.json`?
@@ -198,6 +207,14 @@ Are you afraid to tag and push? Use `--dry-run` to see only descriptions:
 ```bash
 vendor/bin/monorepo-builder release v7.0 --dry-run
 ```
+
+Do you want ot release next [patch version](https://semver.org/), e.g. current `v0.7.1` → next `v0.7.2`?
+
+```bash
+vendor/bin/monorepo-builder release patch
+```
+
+You can use `minor` and `major` too.
 
 ### 7. Set Your Own Release Flow
 

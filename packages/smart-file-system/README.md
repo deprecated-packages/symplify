@@ -1,5 +1,7 @@
 # Smart File System
 
+[![Downloads total](https://img.shields.io/packagist/dt/symplify/smart-file-system.svg?style=flat-square)](https://packagist.org/packages/symplify/smart-file-system/stats)
+
 ## Install
 
 ```bash

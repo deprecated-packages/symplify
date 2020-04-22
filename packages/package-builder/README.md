@@ -1,5 +1,6 @@
-
 # Package Builder
+
+[![Downloads total](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder/stats)
 
 This tools helps you with Collectors in DependecyInjection, Console shortcuts, ParameterProvider as service and many more.
 
@@ -77,7 +78,7 @@ namespace App\Configuration;
 
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
-final class StatieConfiguration
+final class ProjectConfiguration
 {
     /**
      * @var ParameterProvider

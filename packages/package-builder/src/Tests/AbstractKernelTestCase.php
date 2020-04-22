@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PackageBuilder\Tests;
 
-use Nette\Utils\Json;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
@@ -37,7 +36,7 @@ abstract class AbstractKernelTestCase extends TestCase
      */
     protected function bootKernelWithConfigs(string $kernelClass, array $configs): KernelInterface
     {
-        $configsHash = md5(Json::encode($configs));
+        $configsHash = $this->resolveConfigsHash($configs);
 
         $this->ensureKernelShutdown();
         static::$kernel = new $kernelClass('test_' . $configsHash, true);
@@ -112,5 +111,15 @@ abstract class AbstractKernelTestCase extends TestCase
         }
 
         return static::$kernel;
+    }
+
+    private function resolveConfigsHash(array $configs): string
+    {
+        $configsHash = '';
+        foreach ($configs as $config) {
+            $configsHash .= md5_file($config);
+        }
+
+        return md5($configsHash);
     }
 }

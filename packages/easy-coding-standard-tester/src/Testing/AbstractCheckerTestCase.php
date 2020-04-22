@@ -67,22 +67,13 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $this->fileSystemGuard = new FileSystemGuard();
 
         $config = $this->provideConfig();
+
         $this->fileSystemGuard->ensureFileExists($config, static::class);
 
         $configs = [$config];
 
-        // for symplify package testing
-        // 1. vendor installed
-        $tokenRunnerConfig = __DIR__ . '/../../../../../packages/token-runner/config/config.yaml';
-        if (file_exists($tokenRunnerConfig)) {
-            $configs[] = $tokenRunnerConfig;
-        }
-
-        // 2. monorepo
-        $tokenRunnerConfig = __DIR__ . '/../../../../packages/coding-standard/packages/token-runner/config/config.yaml';
-        if (file_exists($tokenRunnerConfig)) {
-            $configs[] = $tokenRunnerConfig;
-        }
+        // autoload php code sniffer before Kernel boot
+        $this->autoloadCodeSniffer();
 
         $this->bootKernelWithConfigs(EasyCodingStandardKernel::class, $configs);
 
@@ -367,5 +358,22 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
             $hash,
             $smartFileInfo->getBasename('.inc')
         );
+    }
+
+    private function autoloadCodeSniffer(): void
+    {
+        $possibleAutoloadPaths = [
+            __DIR__ . '/../../../../../vendor/squizlabs/php_codesniffer/autoload.php',
+            __DIR__ . '/../../../../vendor/squizlabs/php_codesniffer/autoload.php',
+        ];
+
+        foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+            if (! file_exists($possibleAutoloadPath)) {
+                continue;
+            }
+
+            require_once $possibleAutoloadPath;
+            return;
+        }
     }
 }

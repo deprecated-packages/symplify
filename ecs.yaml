@@ -18,17 +18,14 @@ parameters:
         - 'packages/coding-standard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
         # own scope
         - 'packages/easy-coding-standard/compiler/build/scoper.inc.php'
+        # requires PHP 7.4
+        - 'packages/easy-hydrator/tests/Fixture/TypedProperty.php'
+        - 'packages/easy-hydrator/tests/TypedPropertiesTest.php'
 
     skip:
         # run form time to time, very slow and making many changes
         Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff: ~
-
-        # types: allow mixed
-        SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingAnyTypeHint: ~
-        SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff.MissingTraversableTypeHintSpecification: ~
-        SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingTraversableTypeHintSpecification: ~
-        SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff.MissingAnyTypeHint: ~
 
         PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff: ~
 
@@ -80,20 +77,18 @@ parameters:
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
             # reference for reflection of method with reference
             - 'packages/package-builder/src/Reflection/PrivatesCaller.php'
+            # anonymous foreach function
+            - 'packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php'
+            - 'packages/symfony-static-dumper/src/Controller/ControllerDumper.php'
 
         Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
             # useful comments
             - 'packages/latte-to-twig-converter/src/CaseConverter/*CaseConverter.php'
-            - 'packages/statie/*/*FilterProvider.php'
 
         Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
             - 'packages/monorepo-builder/src/Console/Command/ValidateCommand.php'
             - 'packages/package-builder/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
             - 'packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
-
-        SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable:
-            # tests
-            - 'packages/statie/packages/generator/tests/GeneratorExceptionsTest.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingNativeTypeHint:
             - '*Sniff.php'
@@ -106,8 +101,8 @@ parameters:
             - 'packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
-            - 'packages/monorepo-builder/packages/composer-json-object/src/ComposerJsonFactory.php'
-            - 'packages/monorepo-builder/packages/composer-json-object/src/ValueObject/ComposerJson.php'
+            - 'packages/composer-json-manipulator/src/ComposerJsonFactory.php'
+            - 'packages/composer-json-manipulator/src/ValueObject/ComposerJson.php'
             - 'packages/package-builder/src/Yaml/ParametersMerger.php'
 
 services:

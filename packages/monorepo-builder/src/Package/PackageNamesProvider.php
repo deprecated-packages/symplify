@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Package;
 
+use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PackageNamesProvider

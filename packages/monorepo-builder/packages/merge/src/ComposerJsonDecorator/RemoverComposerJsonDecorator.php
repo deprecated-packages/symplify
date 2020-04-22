@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator;
 
-use Symplify\MonorepoBuilder\ComposerJsonObject\ValueObject\ComposerJson;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Merge\Configuration\ModifyingComposerJsonProvider;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
 
@@ -35,6 +35,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
 
         $this->processAutoload($composerJson, $removingComposerJson);
         $this->processAutoloadDev($composerJson, $removingComposerJson);
+
+        $this->processRoot($composerJson, $removingComposerJson);
     }
 
     private function processRequire(ComposerJson $composerJson, ComposerJson $composerJsonToRemove): void
@@ -102,5 +104,16 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
         }
 
         $composerJson->setAutoloadDev($currentAutoloadDev);
+    }
+
+    private function processRoot(ComposerJson $composerJson, ComposerJson $removingComposerJson): void
+    {
+        if ($removingComposerJson->getMinimumStability()) {
+            $composerJson->removeMinimumStability();
+        }
+
+        if ($removingComposerJson->getPreferStable()) {
+            $composerJson->removePreferStable();
+        }
     }
 }

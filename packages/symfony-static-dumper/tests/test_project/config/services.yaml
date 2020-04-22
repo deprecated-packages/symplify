@@ -1,0 +1,13 @@
+parameters:
+    kernel.secret: "123"
+
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    Symplify\SymfonyStaticDumper\Tests\TestProject\:
+        resource: "../src"
+        exclude:
+            - "../src/HttpKernel/*"

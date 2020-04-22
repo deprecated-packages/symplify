@@ -11,14 +11,14 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/molaux/PostgreSearchBundle.git"
-        },
-        {
+            "url": "https://github.com/molaux/PostgreSearchBundle.git",
             "options": {
                 "symlink": false
-            },
+            }
+        },
+        {
             "type": "path",
-            "url": "./../packages/*"
+            "url": "../../packages/*"
         }
     ]
 }

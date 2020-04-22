@@ -1,9 +1,0 @@
-/tests export-ignore
-.gitattributes export-ignore
-LICENSE export-ignore
-phpunit.xml export-ignore
-*.md export-ignore
-docs/ export-ignore
-
-# part of Statie templates
-# .gitignore export-ignore

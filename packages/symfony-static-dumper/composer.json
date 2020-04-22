@@ -1,0 +1,46 @@
+{
+    "name": "symplify/symfony-static-dumper",
+    "description": "Dump Symfony application to Static Website",
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "require": {
+        "php": "^7.2",
+        "symfony/console": "^4.4|^5.0",
+        "symfony/filesystem": "^4.4|^5.0",
+        "symfony/finder": "^4.4|^5.0",
+        "symfony/http-foundation": "^4.4|^5.0",
+        "symfony/http-kernel": "^4.4|^5.0",
+        "symfony/config": "^4.4|^5.0",
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "symfony/routing": "^4.4|^5.0",
+        "symplify/autowire-array-parameter": "^7.3",
+        "symplify/package-builder": "^7.3",
+        "symplify/smart-file-system": "^7.3"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.10",
+        "phpunit/phpunit": "^8.5|^9.0",
+        "symfony/framework-bundle": "^4.4|^5.0",
+        "symfony/twig-bundle": "^4.4|^5.0",
+        "symplify/autodiscovery": "^7.3",
+        "symplify/flex-loader": "^7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\SymfonyStaticDumper\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\SymfonyStaticDumper\\Tests\\": "tests",
+            "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "tests/test_project/src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "7.3-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

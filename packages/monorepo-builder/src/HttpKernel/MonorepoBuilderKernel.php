@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\AutoBindParameter\DependencyInjection\CompilerPass\AutoBindParameterCompilerPass;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
+use Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
@@ -55,7 +56,7 @@ final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKern
      */
     public function registerBundles(): iterable
     {
-        return [];
+        return [new ComposerJsonManipulatorBundle()];
     }
 
     protected function build(ContainerBuilder $containerBuilder): void

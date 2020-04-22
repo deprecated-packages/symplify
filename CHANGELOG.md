@@ -9,7 +9,89 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v7.2.3 - 2020-02-27
+## v7.2.10 - 2020-04-08
+
+### Added
+
+#### EasyHydrator
+
+- [#1833] Add monorepo split
+- [#1832] Init new package
+
+#### SymfonyStaticDumper
+
+- [#1826] [Static Dumper] Add compiler pass in kernel, Thanks to [@Jibbarth]
+
+#### MonorepoBuilder
+
+- [#1821] Add composer exclude folders dynamicly, Thanks to [@bennsel]
+
+### Changed
+
+#### ComposerJsonManipulator
+
+- [#1822] Init new package
+
+#### MonorepoBuilder
+
+- [#1820] Allow inline sections to be empty for 3rd party use
+
+#### PHPStanExtensions
+
+- [#1818] Decouple symplify error formatter config
+
+### Fixed
+
+- [#1829] Fix command in README.md, Thanks to [@natepage]
+- [#1824] fix [#1712], Thanks to [@calvera]
+
+### Removed
+
+- [#1817] Remove typo referencing not-relevant file, Thanks to [@GenieTim]
+
+## [v7.2.8] - 2020-03-19
+
+### Fixed
+
+#### MonorepoBuilder
+
+- [#1816] ISS_1814 Fixing the merge command of the monorepo builder tool, Thanks to [@cgaube]
+
+## [v7.2.6] - 2020-03-18
+
+#### SymfonyStaticDumper
+
+- [#1811] Fix route name
+
+## [v7.2.5] - 2020-03-17
+
+### Added
+
+- [#1808] Add dot file test case
+
+### Changed
+
+- [#1806] Improve dumping of argument-based controllers
+
+## [v7.2.4] - 2020-03-12
+
+### Added
+
+- [#1805] Add new package
+
+### Changed
+
+#### Unknown Package
+
+- [#1798] Update README.md, Thanks to [@Great-Antique]
+
+### Deprecated
+
+#### Statie
+
+- [#1803] Deprecate package
+
+## [v7.2.3] - 2020-02-27
 
 ### Added
 
@@ -473,3 +555,33 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#1757]: https://github.com/symplify/symplify/pull/1757
 [#1753]: https://github.com/symplify/symplify/pull/1753
 [#1781]: https://github.com/symplify/symplify/pull/1781
+[#1816]: https://github.com/symplify/symplify/pull/1816
+[#1811]: https://github.com/symplify/symplify/pull/1811
+[#1808]: https://github.com/symplify/symplify/pull/1808
+[#1806]: https://github.com/symplify/symplify/pull/1806
+[#1805]: https://github.com/symplify/symplify/pull/1805
+[#1803]: https://github.com/symplify/symplify/pull/1803
+[#1798]: https://github.com/symplify/symplify/pull/1798
+[v7.2.6]: https://github.com/symplify/symplify/compare/v7.2.5...v7.2.6
+[v7.2.5]: https://github.com/symplify/symplify/compare/v7.2.4...v7.2.5
+[v7.2.4]: https://github.com/symplify/symplify/compare/v7.2.3...v7.2.4
+[v7.2.3]: https://github.com/symplify/symplify/compare/v7.2.2...v7.2.3
+[@cgaube]: https://github.com/cgaube
+[@Great-Antique]: https://github.com/Great-Antique
+[#1829]: https://github.com/symplify/symplify/pull/1829
+[#1826]: https://github.com/symplify/symplify/pull/1826
+[#1824]: https://github.com/symplify/symplify/pull/1824
+[#1822]: https://github.com/symplify/symplify/pull/1822
+[#1821]: https://github.com/symplify/symplify/pull/1821
+[#1820]: https://github.com/symplify/symplify/pull/1820
+[#1818]: https://github.com/symplify/symplify/pull/1818
+[#1817]: https://github.com/symplify/symplify/pull/1817
+[#1712]: https://github.com/symplify/symplify/pull/1712
+[v7.2.8]: https://github.com/symplify/symplify/compare/v7.2.6...v7.2.8
+[@calvera]: https://github.com/calvera
+[@bennsel]: https://github.com/bennsel
+[@Jibbarth]: https://github.com/Jibbarth
+[@GenieTim]: https://github.com/GenieTim
+[#1833]: https://github.com/symplify/symplify/pull/1833
+[#1832]: https://github.com/symplify/symplify/pull/1832
+[#1831]: https://github.com/symplify/symplify/pull/1831
