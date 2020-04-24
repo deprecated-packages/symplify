@@ -22,6 +22,11 @@
             "Symplify\\ComposerJsonManipulator\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\ComposerJsonManipulator\\Tests\\": "tests"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "7.3-dev"
