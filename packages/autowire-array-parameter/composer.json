@@ -4,7 +4,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "nette/application": "^3.0",
         "nette/utils": "^3.0",
         "symfony/dependency-injection": "^4.4|^5.0",
         "symplify/package-builder": "^7.3"
