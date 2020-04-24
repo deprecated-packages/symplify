@@ -24,14 +24,21 @@ final class ComposerJsonFactory
     {
         $jsonArray = $this->jsonFileManager->loadFromFilePath($smartFileInfo->getRealPath());
 
-        return $this->createFromArray($jsonArray);
+        $composerJson = $this->createFromArray($jsonArray);
+        $composerJson->setOriginalFileInfo($smartFileInfo);
+
+        return $composerJson;
     }
 
     public function createFromFilePath(string $filePath): ComposerJson
     {
         $jsonArray = $this->jsonFileManager->loadFromFilePath($filePath);
 
-        return $this->createFromArray($jsonArray);
+        $composerJson = $this->createFromArray($jsonArray);
+        $fileInfo = new SmartFileInfo($filePath);
+        $composerJson->setOriginalFileInfo($fileInfo);
+
+        return $composerJson;
     }
 
     public function createFromArray(array $jsonArray): ComposerJson

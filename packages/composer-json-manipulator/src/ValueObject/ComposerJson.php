@@ -6,9 +6,15 @@ namespace Symplify\ComposerJsonManipulator\ValueObject;
 
 use Composer\Json\JsonManipulator;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ComposerJson
 {
+    /**
+     * @var string
+     */
+    private const CLASSMAP_KEY = 'classmap';
+
     /**
      * @var string|null
      */
@@ -83,6 +89,16 @@ final class ComposerJson
      * @var mixed[]
      */
     private $config = [];
+
+    /**
+     * @var SmartFileInfo|null
+     */
+    private $fileInfo;
+
+    public function setOriginalFileInfo(SmartFileInfo $fileInfo): void
+    {
+        $this->fileInfo = $fileInfo;
+    }
 
     public function setName(string $name): void
     {
@@ -355,6 +371,22 @@ final class ComposerJson
     public function hasRequiredDevPackage(string $packageName): bool
     {
         return isset($this->requireDev[$packageName]);
+    }
+
+    public function getFileInfo(): ?SmartFileInfo
+    {
+        return $this->fileInfo;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAllClassmaps(): array
+    {
+        $autoloadClassmaps = $this->autoload[self::CLASSMAP_KEY] ?? [];
+        $autoloadDevClassmaps = $this->autoloadDev[self::CLASSMAP_KEY] ?? [];
+
+        return array_merge($autoloadClassmaps, $autoloadDevClassmaps);
     }
 
     /**
