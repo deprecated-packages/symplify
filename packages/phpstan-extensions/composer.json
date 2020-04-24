@@ -7,8 +7,8 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "nette/utils": "^3.0",
         "phpstan/phpstan": "^0.12.10",
-        "symplify/package-builder": "^7.3",
-        "symplify/smart-file-system": "^7.3"
+        "symplify/package-builder": "^7.2.19",
+        "symplify/smart-file-system": "^7.2.19"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5|^9.0",
