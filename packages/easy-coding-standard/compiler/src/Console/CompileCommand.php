@@ -95,6 +95,7 @@ final class CompileCommand extends Command
         $json = Json::decode($fileContent, Json::FORCE_ARRAY);
 
         $json = $this->replaceDevSymplifyVersionWithLastStableVersion($json);
+        $json = $this->addReplaceForPhp70Polyfill($json);
         $json = $this->fixPhpCodeSnifferAutoloading($json);
 
         $json = $this->removeDevContent($json);
@@ -127,6 +128,13 @@ final class CompileCommand extends Command
 
             $json['require'][$package] = $symplifyVersionToRequire;
         }
+        return $json;
+    }
+
+    private function addReplaceForPhp70Polyfill(array $json): array
+    {
+        $json['replace']['symfony/polyfill-php70'] = '*';
+
         return $json;
     }
 
