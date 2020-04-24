@@ -96,6 +96,7 @@ try {
         }
 
         for ($i = $blockInfo->getStart(); $i < $blockInfo->getEnd(); $i++) {
+            /** @var Token $currentToken */
             $currentToken = $tokens[$i];
             if (! $currentToken->isGivenKind(T_VARIABLE)) {
                 continue;

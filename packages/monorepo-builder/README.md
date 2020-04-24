@@ -208,6 +208,14 @@ Are you afraid to tag and push? Use `--dry-run` to see only descriptions:
 vendor/bin/monorepo-builder release v7.0 --dry-run
 ```
 
+Do you want ot release next [patch version](https://semver.org/), e.g. current `v0.7.1` → next `v0.7.2`?
+
+```bash
+vendor/bin/monorepo-builder release patch
+```
+
+You can use `minor` and `major` too.
+
 ### 7. Set Your Own Release Flow
 
 There is set of few default release workers - classes that implement `Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface`.

@@ -91,7 +91,7 @@ final class ReleaseGuard
 
     public function guardVersion(Version $version, ?string $stage): void
     {
-        // stage is set and it doesn't need a validatoin
+        // stage is set and it doesn't need a validation
         if ($stage && in_array($stage, $this->stagesToAllowExistingTag, true)) {
             return;
         }

@@ -13,15 +13,15 @@
 composer require symplify/composer-json-manipulator
 ```
 
-## Usage
+Add to `config/bundles.php`:
 
-Add services to your package:
-
-```yaml
-# config/services.yaml
-imports:
-    - { resource: '../../vendor/symplify/composer-json-manipulator/config/config.yaml' }
+```php
+return [
+    Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle::class => ['all' => true],
+];
 ```
+
+## Usage
 
 ```php
 <?php
@@ -30,24 +30,24 @@ declare(strict_types=1);
 
 namespace App;
 
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 
 class SomeClass
 {
     /**
-     * @var JsonFileManager
+     * @var ComposerJsonFactory
      */
-    private $jsonFileManager;
+    private $composerJsonFactory;
 
-    public function __construct(JsonFileManager $jsonFileManager)
+    public function __construct(ComposerJsonFactory $composerJsonFactory)
     {
-        $this->jsonFileManager = $jsonFileManager;
+        $this->composerJsonFactory = $composerJsonFactory;
     }
 
     public function run()
     {
         // ↓ instance of \Symplify\ComposerJsonManipulator\ValueObject\ComposerJson
-        $composerJson = $this->jsonFileManager->loadFromFilePath(getcwd() . '/composer.json');
+        $composerJson = $this->composerJsonFactory->createFromFilePath(getcwd() . '/composer.json');
         // ...
     }
 }

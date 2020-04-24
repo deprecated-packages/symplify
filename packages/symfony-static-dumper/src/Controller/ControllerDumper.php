@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Symplify\SymfonyStaticDumper\Controller;
 
 use Nette\Utils\FileSystem;
-use Nette\Utils\Strings;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Route;
+use Symplify\SymfonyStaticDumper\Contract\ControllerWithDataProviderInterface;
 use Symplify\SymfonyStaticDumper\ControllerWithDataProviderMatcher;
 use Symplify\SymfonyStaticDumper\FileSystem\FilePathResolver;
 use Symplify\SymfonyStaticDumper\HttpFoundation\ControllerContentResolver;
@@ -62,12 +63,11 @@ final class ControllerDumper
 
     private function dumpControllerWithoutParametersContents($outputDirectory): void
     {
-        foreach ($this->routesProvider->provide() as $routeName => $route) {
-            // needs arguments
-            if ($this->isRouteWithArguments($route)) {
-                continue;
-            }
+        $routesWithoutArguments = $this->routesProvider->provideRoutesWithoutArguments();
 
+        $progressBar = $this->createProgressBarIfNeeded($routesWithoutArguments);
+
+        foreach ($routesWithoutArguments as $routeName => $route) {
             $fileContent = $this->controllerContentResolver->resolveFromRoute($routeName, $route);
             if ($fileContent === null) {
                 continue;
@@ -75,11 +75,7 @@ final class ControllerDumper
 
             $filePath = $this->filePathResolver->resolveFilePath($route, $outputDirectory);
 
-            $this->symfonyStyle->note(sprintf(
-                'Dumping static content for "%s" route to "%s" path',
-                $route->getPath(),
-                $filePath
-            ));
+            $this->printProgressOrDumperFileInfo($route, $filePath, $progressBar);
 
             FileSystem::write($filePath, $fileContent);
         }
@@ -87,42 +83,86 @@ final class ControllerDumper
 
     private function dumpControllerWithParametersContents(string $outputDirectory): void
     {
-        foreach ($this->routesProvider->provide() as $routeName => $route) {
-            // needs arguments
-            if (! Strings::match($route->getPath(), '#\{(.*?)\}#sm')) {
-                continue;
-            }
+        $routesWithParameters = $this->routesProvider->provideRoutesWithParameters();
 
+        foreach ($routesWithParameters as $routeName => $route) {
             $controllerWithDataProvider = $this->controllerWithDataProviderMatcher->matchRoute($route);
             if ($controllerWithDataProvider === null) {
                 continue;
             }
 
-            foreach ($controllerWithDataProvider->getArguments() as $argument) {
-                $fileContent = $this->controllerContentResolver->resolveFromRouteAndArgument(
-                    $routeName,
-                    $route,
-                    $argument
-                );
-                if ($fileContent === null) {
-                    continue;
-                }
+            $this->printHeadline($controllerWithDataProvider, $routeName);
 
-                $filePath = $this->filePathResolver->resolveFilePathWithArgument($route, $outputDirectory, $argument);
+            $progressBar = $this->createProgressBarIfNeeded($controllerWithDataProvider->getArguments());
 
-                $this->symfonyStyle->note(sprintf(
-                    'Dumping static content for "%s" route to "%s" path',
-                    $route->getPath(),
-                    $filePath
-                ));
-
-                FileSystem::write($filePath, $fileContent);
-            }
+            $this->processControllerWithDataProvider(
+                $controllerWithDataProvider,
+                $routeName,
+                $route,
+                $outputDirectory,
+                $progressBar
+            );
         }
     }
 
-    private function isRouteWithArguments(Route $route): bool
+    private function printHeadline(ControllerWithDataProviderInterface $controllerWithDataProvider, $routeName): void
     {
-        return (bool) Strings::match($route->getPath(), '#\{(.*?)\}#sm');
+        $this->symfonyStyle->newLine(2);
+        $this->symfonyStyle->section(sprintf(
+            'Dumping data for "%s" data provider and "%s" route',
+            get_class($controllerWithDataProvider),
+            $routeName
+        ));
+    }
+
+    private function processControllerWithDataProvider(
+        ControllerWithDataProviderInterface $controllerWithDataProvider,
+        $routeName,
+        $route,
+        string $outputDirectory,
+        ?ProgressBar $progressBar
+    ): void {
+        foreach ($controllerWithDataProvider->getArguments() as $argument) {
+            $fileContent = $this->controllerContentResolver->resolveFromRouteAndArgument(
+                $routeName,
+                $route,
+                $argument
+            );
+
+            if ($fileContent === null) {
+                continue;
+            }
+
+            $filePath = $this->filePathResolver->resolveFilePathWithArgument($route, $outputDirectory, $argument);
+
+            $this->printProgressOrDumperFileInfo($route, $filePath, $progressBar);
+
+            FileSystem::write($filePath, $fileContent);
+        }
+    }
+
+    private function createProgressBarIfNeeded(array $items): ?ProgressBar
+    {
+        if ($this->symfonyStyle->isDebug()) {
+            // show file names on debug, no progress bar
+            return null;
+        }
+
+        $stepCount = count($items);
+        return $this->symfonyStyle->createProgressBar($stepCount);
+    }
+
+    private function printProgressOrDumperFileInfo(Route $route, string $filePath, ?ProgressBar $progressBar): void
+    {
+        if ($progressBar instanceof ProgressBar) {
+            $progressBar->advance();
+            return;
+        }
+
+        $this->symfonyStyle->note(sprintf(
+            'Dumping static content for "%s" route to "%s" path',
+            $route->getPath(),
+            $filePath
+        ));
     }
 }

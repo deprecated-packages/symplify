@@ -109,7 +109,7 @@ parameters:
         - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
         # helps ide
-        - '#Method Symplify\\CodingStandard\\TokenRunner\\Tests\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
+        - '#Method Symplify\\CodingStandard\\Tests\\TokenRunner\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
 
         # mixed by default, handled by coding standards
         - '#(has|with) no (return )?typehint specified#'
@@ -128,3 +128,7 @@ parameters:
         - '#Cannot assign offset int\|null to PhpCsFixer\\Tokenizer\\Tokens#'
         - '#Parameter \#3 \$position of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer\:\:isIncrementingToken\(\) expects int, float\|int given#'
         - '#call_user_func#'
+        - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
+        - '#Property Symplify\\CodingStandard\\TokenRunner\\ValueObject\\Wrapper\\FixerWrapper\\FixerClassWrapper\:\:\$classToken \(PhpCsFixer\\Tokenizer\\Token\) does not accept PhpCsFixer\\Tokenizer\\Token\|null#'
+        - '#Parameter \#3 \$items of method PhpCsFixer\\Tokenizer\\Tokens\:\:overrideRange\(\) expects array<PhpCsFixer\\Tokenizer\\Token\>\|PhpCsFixer\\Tokenizer\\Tokens, array<int, PhpCsFixer\\Tokenizer\\Token\|null\> given#'
+        - '#Cannot clone PhpCsFixer\\Tokenizer\\Token\|null#'

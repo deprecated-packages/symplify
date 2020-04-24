@@ -2,11 +2,15 @@
     "name": "symplify/composer-json-manipulator",
     "description": "Package to load, merge and save composer.json file(s)",
     "license": "MIT",
+    "type": "symfony-bundle",
     "require": {
         "php": "^7.2",
-        "nette/utils": "^3.0",
         "composer/composer": "^1.10",
+        "nette/utils": "^3.0",
+        "symfony/config": "^4.4|^5.0",
+        "symfony/dependency-injection": "^4.4|^5.0",
         "symfony/filesystem": "^4.4|^5.0",
+        "symfony/http-kernel": "^4.4|^5.0",
         "symplify/package-builder": "^7.3",
         "symplify/smart-file-system": "^7.3"
     },
@@ -16,6 +20,11 @@
     "autoload": {
         "psr-4": {
             "Symplify\\ComposerJsonManipulator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\ComposerJsonManipulator\\Tests\\": "tests"
         }
     },
     "extra": {

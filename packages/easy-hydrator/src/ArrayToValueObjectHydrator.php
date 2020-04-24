@@ -8,24 +8,23 @@ use ReflectionClass;
 use ReflectionParameter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\CacheItem;
-use Symfony\Contracts\Cache\CacheInterface;
 use Symplify\EasyHydrator\Exception\MissingConstructorException;
 
 final class ArrayToValueObjectHydrator
 {
     /**
+     * @var FilesystemAdapter
+     */
+    private $filesystemAdapter;
+
+    /**
      * @var ValueResolver
      */
     private $valueResolver;
 
-    /**
-     * @var FilesystemAdapter&CacheInterface
-     */
-    private $cache;
-
     public function __construct(FilesystemAdapter $filesystemAdapter, ValueResolver $valueResolver)
     {
-        $this->cache = $filesystemAdapter;
+        $this->filesystemAdapter = $filesystemAdapter;
         $this->valueResolver = $valueResolver;
     }
 
@@ -37,7 +36,7 @@ final class ArrayToValueObjectHydrator
         $arrayHash = md5(serialize($data) . $class);
 
         /** @var CacheItem $cachedItem */
-        $cachedItem = $this->cache->getItem($arrayHash);
+        $cachedItem = $this->filesystemAdapter->getItem($arrayHash);
         if ($cachedItem->get() !== null) {
             return $cachedItem->get();
         }
@@ -47,7 +46,7 @@ final class ArrayToValueObjectHydrator
         $value = new $class(...$arguments);
 
         $cachedItem->set($value);
-        $this->cache->save($cachedItem);
+        $this->filesystemAdapter->save($cachedItem);
 
         return $value;
     }

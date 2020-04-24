@@ -73,9 +73,9 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
         $expectedFileContent = FileSystem::read(self::EXPECTED_DIRECTORY . '/api.json');
         $expectedFileContent = trim($expectedFileContent);
 
-        $outputFilecontent = FileSystem::read(self::OUTPUT_DIRECTORY . '/api.json');
-        $outputFilecontent = trim($outputFilecontent);
+        $outputFileContent = FileSystem::read(self::OUTPUT_DIRECTORY . '/api.json');
+        $outputFileContent = trim($outputFileContent);
 
-        $this->assertSame($expectedFileContent, $outputFilecontent);
+        $this->assertSame($expectedFileContent, $outputFileContent);
     }
 }
