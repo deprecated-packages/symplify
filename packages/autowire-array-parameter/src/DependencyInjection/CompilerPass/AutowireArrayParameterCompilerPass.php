@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass;
 
-use Nette\Application\UI\MethodReflection;
 use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
 use ReflectionClass;
@@ -66,7 +65,7 @@ class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 
             /** @var ReflectionClass $reflectionClass */
             $reflectionClass = $containerBuilder->getReflectionClass($definition->getClass());
-            /** @var MethodReflection $constructorMethodReflection */
+            /** @var ReflectionMethod $constructorMethodReflection */
             $constructorMethodReflection = $reflectionClass->getConstructor();
 
             $this->processParameters($containerBuilder, $constructorMethodReflection, $definition);
@@ -108,7 +107,7 @@ class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             return true;
         }
 
-        /** @var MethodReflection $constructorMethodReflection */
+        /** @var ReflectionMethod $constructorMethodReflection */
         $constructorMethodReflection = $reflectionClass->getConstructor();
         return ! $constructorMethodReflection->getParameters();
     }
