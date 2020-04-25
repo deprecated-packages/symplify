@@ -1051,32 +1051,6 @@ var_dump($value);
 
 <br>
 
-### Abstract class should have prefix "Abstract"
-
-- class: [`Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`](src/Sniffs/Naming/AbstractClassNameSniff.php)
-
-:x:
-
-```php
-<?php
-
-abstract class SomeClass
-{
-}
-```
-
-:+1:
-
-```php
-<?php
-
-abstract class AbstractSomeClass
-{
-}
-```
-
-<br>
-
 ### Class should have suffix by parent class/interface
 
 - :wrench:

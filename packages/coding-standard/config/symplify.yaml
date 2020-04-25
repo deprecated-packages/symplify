@@ -26,8 +26,10 @@ services:
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'
         exclude:
-            # experimental, required --clear-cache
-            - '../src/Sniffs/DeadCode/*'
+            # deprecated
+            - '../src/Sniffs/Naming/AbstractClassNameSniff.php'
+            - '../src/Sniffs/Naming/TraitNameSniff.php'
+            - '../src/Sniffs/Naming/InterfaceNameSniff.php'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
 

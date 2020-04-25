@@ -10,17 +10,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 final class InterfaceNameSniff implements Sniff
 {
-    public function __construct()
-    {
-        trigger_error(sprintf(
-            'Sniff "%s" is deprecated. Use instead "%s"',
-            self::class,
-            'https://github.com/Slamdunk/phpstan-extensions'
-        ));
-
-        sleep(3);
-    }
-
     /**
      * @var string
      */
@@ -35,6 +24,17 @@ final class InterfaceNameSniff implements Sniff
      * @var File
      */
     private $file;
+
+    public function __construct()
+    {
+        trigger_error(sprintf(
+            'Sniff "%s" is deprecated. Use instead "%s"',
+            self::class,
+            'https://github.com/Slamdunk/phpstan-extensions'
+        ));
+
+        sleep(3);
+    }
 
     /**
      * @return int[]
