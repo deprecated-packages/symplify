@@ -33,6 +33,12 @@ final class AssetsCopierTest extends AbstractKernelTestCase
         $this->assetsCopier->copyAssets(__DIR__ . '/Fixture', __DIR__ . '/temp');
 
         $this->assertFileExists(__DIR__ . '/temp/css/style.css');
-        $this->assertFileNotExists(__DIR__ . '/temp/file.php');
+
+        // PHPUnit 9 + 10 compatible
+        if (method_exists($this, 'assertFileDoesNotExist')) {
+            $this->assertFileDoesNotExist(__DIR__ . '/temp/file.php');
+        } else {
+            $this->assertFileNotExists(__DIR__ . '/temp/file.php');
+        }
     }
 }

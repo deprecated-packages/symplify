@@ -1,6 +1,7 @@
 includes:
     - packages/phpstan-extensions/config/config.neon
     - vendor/slam/phpstan-extensions/conf/slam-rules.neon
+    - vendor/slam/phpstan-extensions/conf/symfony-rules.neon
 
 parameters:
     level: max
@@ -131,3 +132,6 @@ parameters:
         - '#(.*?) of anonymous function has no typehint#'
         # false positive due to monorepo
         - '#Class (.*?) should be written with \:\:class notation, string found#'
+
+        # the Filesystem method is only iterable way
+        - '#Function file_exists is unsafe to use, rely on Symfony component Filesystem\:\:exists instead#'
