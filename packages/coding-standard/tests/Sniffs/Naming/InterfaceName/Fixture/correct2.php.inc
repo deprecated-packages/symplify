@@ -1,7 +1,0 @@
-<?php
-
-
-interface InterfaceSomeInterface
-{
-
-}

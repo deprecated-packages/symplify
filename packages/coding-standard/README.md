@@ -1137,58 +1137,6 @@ It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `Eve
 
 <br>
 
-### Interface should have suffix "Interface"
-
-- class: [`Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`](src/Sniffs/Naming/InterfaceNameSniff.php)
-
-:x:
-
-```php
-<?php
-
-interface Some
-{
-}
-```
-
-:+1:
-
-```php
-<?php
-
-interface SomeInterface
-{
-}
-```
-
-<br>
-
-### Trait should have suffix "Trait"
-
-- class: [`Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff`](src/Sniffs/Naming/TraitNameSniff.php)
-
-:x:
-
-```php
-<?php
-
-trait Some
-{
-}
-```
-
-:+1:
-
-```php
-<?php
-
-trait SomeTrait
-{
-}
-```
-
-<br>
-
 ## Contributing
 
 Open an [issue](https://github.com/symplify/symplify/issues) or send a [pull-request](https://github.com/symplify/symplify/pulls) to main repository.
