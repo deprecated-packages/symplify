@@ -1189,61 +1189,6 @@ trait SomeTrait
 
 <br>
 
-## Brave Checkers
-
-### Possible Unused Public Method
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`](src/Sniffs/DeadCode/UnusedPublicMethodSniff.php)
-- **Requires ECS due *double run* feature**, use with `--clear-cache` so all files are included.
-
-:x:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function usedMethod()
-    {
-    }
-
-    public function unusedMethod()
-    {
-    }
-}
-
-$someObject = new SomeClass;
-$someObject->usedMethod();
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function usedMethod()
-    {
-    }
-}
-
-$someObject = new SomeClass;
-$someObject->usedMethod();
-```
-
-Do you have public methods used only byr 3rd party? **Just skip them**:
-
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff:
-        allow_classes:
-            - 'Symplify\Autodiscovery\Discovery'
-            - 'Symplify\FlexLoader\Flex\FlexLoader'
-```
-
 ## Contributing
 
 Open an [issue](https://github.com/symplify/symplify/issues) or send a [pull-request](https://github.com/symplify/symplify/pulls) to main repository.
