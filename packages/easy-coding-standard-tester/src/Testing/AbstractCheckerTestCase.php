@@ -205,15 +205,12 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         if ($this->sniffFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->sniffFileProcessor->processFile($smartFileInfo);
 
-            if ($this->sniffFileProcessor->getDualRunCheckers() !== []) {
-                $this->sniffFileProcessor->processFileSecondRun($smartFileInfo);
-            }
-
             $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount(), sprintf(
                 'There should be no error in "%s" file, but %d errors found.',
                 $this->errorAndDiffCollector->getErrorCount(),
                 $smartFileInfo->getRealPath()
             ));
+
             $this->assertStringEqualsWithFileLocation($file, $processedFileContent);
         }
     }
@@ -235,9 +232,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
         if ($this->sniffFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->sniffFileProcessor->processFile($smartFileInfo);
-            if ($this->sniffFileProcessor->getDualRunCheckers() !== []) {
-                $processedFileContent = $this->sniffFileProcessor->processFileSecondRun($smartFileInfo);
-            }
         }
 
         $this->assertStringEqualsWithFileLocation($fixedFile, $processedFileContent);
@@ -254,10 +248,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $smartFileInfo = new SmartFileInfo($wrongFile);
 
         $this->sniffFileProcessor->processFile($smartFileInfo);
-        if ($this->sniffFileProcessor->getDualRunCheckers() !== []) {
-            $this->sniffFileProcessor->reset();
-            $this->sniffFileProcessor->processFileSecondRun($smartFileInfo);
-        }
 
         $this->assertGreaterThanOrEqual(
             1,
