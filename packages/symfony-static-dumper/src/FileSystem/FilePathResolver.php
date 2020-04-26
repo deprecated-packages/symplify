@@ -28,7 +28,7 @@ final class FilePathResolver
         $filePath = $this->resolveFilePath($route, $outputDirectory);
 
         $i = 0;
-        return Strings::replace($filePath, '#{(.*?)}#m', function ($match) use (&$i, $arguments) {
+        return Strings::replace($filePath, '#{(.*?)}#m', function (array $match) use (&$i, $arguments) {
             $value = $arguments[$i];
 
             ++$i;

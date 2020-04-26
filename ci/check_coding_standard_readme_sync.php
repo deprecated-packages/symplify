@@ -93,6 +93,10 @@ final class CodingStandardSyncChecker
         $classesToExclude = [
             // abstract
             AbstractSymplifyFixer::class,
+            // deprecated
+            \Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff::class,
+            \Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff::class,
+            \Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff::class,
         ];
 
         // filter out abstract class

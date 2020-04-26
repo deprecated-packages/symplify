@@ -1051,32 +1051,6 @@ var_dump($value);
 
 <br>
 
-### Abstract class should have prefix "Abstract"
-
-- class: [`Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`](src/Sniffs/Naming/AbstractClassNameSniff.php)
-
-:x:
-
-```php
-<?php
-
-abstract class SomeClass
-{
-}
-```
-
-:+1:
-
-```php
-<?php
-
-abstract class AbstractSomeClass
-{
-}
-```
-
-<br>
-
 ### Class should have suffix by parent class/interface
 
 - :wrench:
@@ -1134,58 +1108,6 @@ services:
 ```
 
 It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
-
-<br>
-
-### Interface should have suffix "Interface"
-
-- class: [`Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`](src/Sniffs/Naming/InterfaceNameSniff.php)
-
-:x:
-
-```php
-<?php
-
-interface Some
-{
-}
-```
-
-:+1:
-
-```php
-<?php
-
-interface SomeInterface
-{
-}
-```
-
-<br>
-
-### Trait should have suffix "Trait"
-
-- class: [`Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff`](src/Sniffs/Naming/TraitNameSniff.php)
-
-:x:
-
-```php
-<?php
-
-trait Some
-{
-}
-```
-
-:+1:
-
-```php
-<?php
-
-trait SomeTrait
-{
-}
-```
 
 <br>
 

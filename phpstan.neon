@@ -1,5 +1,7 @@
 includes:
-    - 'packages/phpstan-extensions/config/config.neon'
+    - packages/phpstan-extensions/config/config.neon
+    - vendor/slam/phpstan-extensions/conf/slam-rules.neon
+    - vendor/slam/phpstan-extensions/conf/symfony-rules.neon
 
 parameters:
     level: max
@@ -126,3 +128,10 @@ parameters:
         - '#Property Symplify\\CodingStandard\\TokenRunner\\ValueObject\\Wrapper\\FixerWrapper\\FixerClassWrapper\:\:\$classToken \(PhpCsFixer\\Tokenizer\\Token\) does not accept PhpCsFixer\\Tokenizer\\Token\|null#'
         - '#Parameter \#3 \$items of method PhpCsFixer\\Tokenizer\\Tokens\:\:overrideRange\(\) expects array<PhpCsFixer\\Tokenizer\\Token\>\|PhpCsFixer\\Tokenizer\\Tokens, array<int, PhpCsFixer\\Tokenizer\\Token\|null\> given#'
         - '#Cannot clone PhpCsFixer\\Tokenizer\\Token\|null#'
+
+        - '#(.*?) of anonymous function has no typehint#'
+        # false positive due to monorepo
+        - '#Class (.*?) should be written with \:\:class notation, string found#'
+
+        # the Filesystem method is only iterable way
+        - '#Function file_exists is unsafe to use, rely on Symfony component Filesystem\:\:exists instead#'
