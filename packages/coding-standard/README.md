@@ -577,33 +577,6 @@ Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all
 
 <br>
 
-### Consistent Delimiter in Regular Expression
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer`](src/Fixer/ControlStructure/PregDelimiterFixer.php)
-
-```diff
--preg_match('~pattern~', $value);
-+preg_match('#pattern#', $value);
-
--preg_match("~pattern~d", $value);
-+preg_match("#pattern#d", $value);
-
--Nette\Utils\Strings::match($value, '/pattern/');
-+Nette\Utils\Strings::match($value, '#pattern#');
-```
-
-Do you want another char than `#`? Configure it:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer:
-        delimiter: '_' # default "#"
-```
-
-<br>
-
 ### Include/Require should be followed by absolute path
 
 - class: [`Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer`](src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php)
