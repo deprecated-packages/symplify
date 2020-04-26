@@ -64,6 +64,14 @@ final class PregDelimiterFixer extends AbstractSymplifyFixer implements Configur
     public function __construct(ArgumentsAnalyzer $argumentsAnalyzer)
     {
         $this->argumentsAnalyzer = $argumentsAnalyzer;
+
+        trigger_error(sprintf(
+            'Fixer "%s" is deprecated. Use instead "%s"',
+            self::class,
+            'https://github.com/rectorphp/rector/blob/master/docs/AllRectorsOverview.md#consistentpregdelimiterrector'
+        ));
+
+        sleep(3);
     }
 
     public function getDefinition(): FixerDefinitionInterface

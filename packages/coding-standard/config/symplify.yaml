@@ -26,6 +26,9 @@ services:
             # deprecated
             - '../src/Fixer/Commenting/RemoveEndOfFunctionCommentFixer.php'
             - '../src/Fixer/Solid/FinalInterfaceFixer.php'
+            - '../src/Fixer/Solid/FinalInterfaceFixer.php'
+            - '../src/Fixer/ControlStructure/PregDelimiterFixer.php'
+            - '../src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php'
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'

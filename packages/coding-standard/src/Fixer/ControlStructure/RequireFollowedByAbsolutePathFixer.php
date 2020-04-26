@@ -21,6 +21,17 @@ final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
      */
     private const INCLUDY_TOKEN_KINDS = [T_REQUIRE, T_REQUIRE_ONCE, T_INCLUDE, T_INCLUDE_ONCE];
 
+    public function __construct()
+    {
+        trigger_error(sprintf(
+            'Fixer "%s" is deprecated. Use instead "%s"',
+            self::class,
+            'https://github.com/rectorphp/rector/blob/master/docs/AllRectorsOverview.md#absolutizerequireandincludepathrector'
+        ));
+
+        sleep(3);
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
