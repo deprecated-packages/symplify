@@ -28,6 +28,10 @@ final class RemoveEndOfFunctionCommentFixer extends AbstractSymplifyFixer
     public function __construct(WhitespacesFixerConfig $whitespacesFixerConfig)
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+
+        trigger_error(sprintf('Compiler pass "%s" is deprecated. Use regular expression instead', self::class));
+
+        sleep(3);
     }
 
     public function getDefinition(): FixerDefinitionInterface

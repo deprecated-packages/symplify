@@ -22,6 +22,9 @@ services:
     # see https://github.com/symplify/codingstandard to see all loaded Symplify checkers
     Symplify\CodingStandard\Fixer\:
         resource: '../src/Fixer'
+        exclude:
+            # deprecated
+            - '../src/Fixer/Commenting/RemoveEndOfFunctionCommentFixer.php'
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'
