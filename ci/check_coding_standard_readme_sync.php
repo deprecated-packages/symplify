@@ -5,6 +5,10 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer;
+use Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff;
+use Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff;
+use Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 
@@ -94,9 +98,10 @@ final class CodingStandardSyncChecker
             // abstract
             AbstractSymplifyFixer::class,
             // deprecated
-            \Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff::class,
-            \Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff::class,
-            \Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff::class,
+            AbstractClassNameSniff::class,
+            InterfaceNameSniff::class,
+            TraitNameSniff::class,
+            RemoveEndOfFunctionCommentFixer::class
         ];
 
         // filter out abstract class
