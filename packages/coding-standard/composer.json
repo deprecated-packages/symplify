@@ -9,15 +9,15 @@
         "squizlabs/php_codesniffer": "^3.5",
         "slevomat/coding-standard": "^6.3.2",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "symplify/smart-file-system": "^7.3",
-        "symplify/package-builder": "^7.3",
-        "symplify/autowire-array-parameter": "^7.3",
+        "symplify/smart-file-system": "^7.2.20",
+        "symplify/package-builder": "^7.2.20",
+        "symplify/autowire-array-parameter": "^7.2.20",
         "phpstan/phpdoc-parser": "^0.4"
     },
     "require-dev": {
         "nette/application": "^3.0",
-        "symplify/easy-coding-standard-tester": "^7.3",
-        "symplify/package-builder": "^7.3",
+        "symplify/easy-coding-standard-tester": "^7.2.20",
+        "symplify/package-builder": "^7.2.20",
         "phpunit/phpunit": "^8.5|^9.0"
     },
     "autoload": {
