@@ -29,7 +29,7 @@ final class RemoveEndOfFunctionCommentFixer extends AbstractSymplifyFixer
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
 
-        trigger_error(sprintf('Compiler pass "%s" is deprecated. Use regular expression instead', self::class));
+        trigger_error(sprintf('Fixer "%s" is deprecated. Use regular expression instead', self::class));
 
         sleep(3);
     }

@@ -30,6 +30,14 @@ final class FinalInterfaceFixer extends AbstractSymplifyFixer implements Configu
     public function __construct(FixerClassWrapperFactory $fixerClassWrapperFactory)
     {
         $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
+
+        trigger_error(sprintf(
+            'Fixer "%s" is deprecated. Use more advanced "%s" instead',
+            self::class,
+            'https://github.com/rectorphp/rector/blob/master/docs/AllRectorsOverview.md#finalizeclasseswithoutchildrenrector'
+        ));
+
+        sleep(3);
     }
 
     public function getDefinition(): FixerDefinitionInterface

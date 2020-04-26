@@ -25,6 +25,7 @@ services:
         exclude:
             # deprecated
             - '../src/Fixer/Commenting/RemoveEndOfFunctionCommentFixer.php'
+            - '../src/Fixer/Solid/FinalInterfaceFixer.php'
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'
