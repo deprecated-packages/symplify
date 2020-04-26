@@ -811,33 +811,6 @@ declare(strict_types=1);
 
 <br>
 
-### Non-abstract class that implements interface should be final
-
-*Except for Doctrine entities, they cannot be final.*
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer`](src/Fixer/Solid/FinalInterfaceFixer.php)
-
-```diff
--class SomeClass implements SomeInterface
-+final class SomeClass implements SomeInterface
- {
- }
-```
-
-In case want check this only for specific interfaces, you can **configure them**:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer:
-        only_interfaces:
-            - 'Symfony\Component\EventDispatcher\EventSubscriberInterface'
-            - 'Nette\Application\IPresenter'
-```
-
-<br>
-
 ### Use explicit and informative exception names over generic ones
 
 - class: [`Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff`](src/Sniffs/Architecture/ExplicitExceptionSniff.php)
