@@ -577,17 +577,6 @@ Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all
 
 <br>
 
-### Include/Require should be followed by absolute path
-
-- class: [`Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer`](src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php)
-
-```diff
--require 'vendor/autoload.php';
-+require __DIR__.'/vendor/autoload.php';
-```
-
-<br>
-
 ### Parameters, arguments and array items should be on the same/standalone line to fit line length
 
 - :wrench:

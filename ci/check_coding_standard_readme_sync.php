@@ -7,6 +7,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer;
 use Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer;
+use Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
 use Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff;
 use Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff;
@@ -106,6 +107,7 @@ final class CodingStandardSyncChecker
             RemoveEndOfFunctionCommentFixer::class,
             FinalInterfaceFixer::class,
             PregDelimiterFixer::class,
+            RequireFollowedByAbsolutePathFixer::class,
         ];
 
         // filter out abstract class
