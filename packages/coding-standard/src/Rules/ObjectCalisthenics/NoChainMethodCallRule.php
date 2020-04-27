@@ -6,7 +6,6 @@ namespace Symplify\CodingStandard\Rules\ObjectCalisthenics;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Stmt\Else_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 

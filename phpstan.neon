@@ -29,6 +29,7 @@ parameters:
         # requires PHP 7.4
         - 'packages/easy-hydrator/tests/Fixture/TypedProperty.php'
         - 'packages/easy-hydrator/tests/TypedPropertiesTest.php'
+        - '*/Source/*'
 
     autoload_files:
         - %currentWorkingDirectory%/tests/bootstrap.php

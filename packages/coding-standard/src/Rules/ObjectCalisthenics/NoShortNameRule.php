@@ -11,50 +11,31 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
+use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#6-do-not-abbreviate
  */
-final class NoShortNameRule implements Rule
+final class NoShortNameRule extends AbstractManyNodeTypeRule
 {
     /**
-     * @var class-string[]
+     * @return class-string[]
      */
-    private const NODE_TYPES_WITH_NAME = [
-        ClassLike::class,
-        FunctionLike::class,
-        ClassConst::class,
-        PropertyProperty::class,
-    ];
-
-    public function getNodeType(): string
+    public function getNodeTypes(): array
     {
-        return Node::class;
+        return [ClassLike::class, FunctionLike::class, ClassConst::class, PropertyProperty::class];
     }
 
-    public function processNode(Node $node, Scope $scope): array
+    /**
+     * @param ClassLike|FunctionLike|ClassConst|PropertyProperty $node
+     */
+    public function process(Node $node, Scope $scope): array
     {
-        if ($this->shouldSkip($node)) {
-            return [];
-        }
-
         $name = (string) $node->name;
         if (Strings::length($name) >= 3) {
             return [];
         }
 
         return ['Do not use names shorter than 3 chars'];
-    }
-
-    private function shouldSkip(Node $node): bool
-    {
-        foreach (self::NODE_TYPES_WITH_NAME as $nodeTypeWithName) {
-            if (is_a($node, $nodeTypeWithName, true)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

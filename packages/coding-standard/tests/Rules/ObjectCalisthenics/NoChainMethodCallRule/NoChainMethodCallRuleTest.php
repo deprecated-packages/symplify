@@ -7,7 +7,6 @@ namespace Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoChainMethodCa
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCallRule;
-use Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseKeywordRule;
 
 final class NoChainMethodCallRuleTest extends RuleTestCase
 {

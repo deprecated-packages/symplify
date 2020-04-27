@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoShortNameRule;
 
 use PHPStan\Rules\Rule;
