@@ -9,3 +9,7 @@ services:
         tags:
             - phpstan.rules.rule
 
+    -
+        class: Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortNameRule
+        tags:
+            - phpstan.rules.rule
