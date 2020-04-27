@@ -2,14 +2,29 @@
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
 
-Set of PHP_CodeSniffer Sniffs and PHP-CS-Fixer Fixers used by Symplify projects.
+Set of rules for PHP_CodeSniffer, PHP-CS-Fixer and PHPStan used by Symplify projects.
 
-**They run best with [EasyCodingStandard](https://github.com/symplify/easy-coding-standard)**.
+**They run best with [EasyCodingStandard](https://github.com/symplify/easy-coding-standard)** and **PHPStan**.
 
 ## Install
 
 ```bash
 composer require symplify/coding-standard --dev
+composer require symplify/easy-coding-standard --dev
+```
+
+1. Run with ECS:
+
+```bash
+vendor/bin/ecs process src --set symplify
+```
+
+2. Register rules for PHPStan:
+
+```neon
+# phpstan.neon
+includes:
+    - vendor/symplify/coding-standard/config/symplify-rules.neon
 ```
 
 ## Rules Overview
