@@ -23,12 +23,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\CodingStandard\\": "src"
+            "Symplify\\CodingStandard\\": "src",
+            "Symplify\\CodingStandard\\CognitiveComplexity\\": "packages/cognitive-complexity/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\CodingStandard\\Tests\\": "tests"
+            "Symplify\\CodingStandard\\Tests\\": "tests",
+            "Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\": "packages/cognitive-complexity/tests"
         }
     },
     "extra": {
