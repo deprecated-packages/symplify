@@ -1,0 +1,11 @@
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCallRule
+        tags:
+            - phpstan.rules.rule
+
+    -
+        class: Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseKeywordRule
+        tags:
+            - phpstan.rules.rule
+
