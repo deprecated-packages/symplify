@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoElseKeywordRule;
+namespace Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoElseRule;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseKeywordRule;
+use Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseRule;
 
-final class NoElseKeywordRuleTest extends RuleTestCase
+final class NoElseRuleTest extends RuleTestCase
 {
     public function testRule(): void
     {
@@ -17,6 +17,6 @@ final class NoElseKeywordRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoElseKeywordRule();
+        return new NoElseRule();
     }
 }

@@ -12,7 +12,7 @@ use PHPStan\Rules\Rule;
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#2-do-not-use-else-keyword
  */
-final class NoElseKeywordRule implements Rule
+final class NoElseRule implements Rule
 {
     public function getNodeType(): string
     {

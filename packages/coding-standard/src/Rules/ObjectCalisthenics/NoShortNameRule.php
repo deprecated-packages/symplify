@@ -6,9 +6,10 @@ namespace Symplify\CodingStandard\Rules\ObjectCalisthenics;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\FunctionLike;
-use PhpParser\Node\Stmt\ClassConst;
+use PhpParser\Node\Const_;
 use PhpParser\Node\Stmt\ClassLike;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
@@ -23,11 +24,11 @@ final class NoShortNameRule extends AbstractManyNodeTypeRule
      */
     public function getNodeTypes(): array
     {
-        return [ClassLike::class, FunctionLike::class, ClassConst::class, PropertyProperty::class];
+        return [ClassLike::class, Function_::class, ClassMethod::class, Const_::class, PropertyProperty::class];
     }
 
     /**
-     * @param ClassLike|FunctionLike|ClassConst|PropertyProperty $node
+     * @param ClassLike|Function_|ClassMethod|Const_|PropertyProperty $node
      */
     public function process(Node $node, Scope $scope): array
     {

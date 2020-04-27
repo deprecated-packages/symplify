@@ -33,6 +33,116 @@ includes:
 
 <br>
 
+### No `else`
+
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoElseRule.php)
+- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseRule
+```
+
+:x:
+
+```php
+<?php
+
+if ($value) {
+    return 5;
+} else {
+    return 10;
+}
+```
+
+:+1:
+
+```php
+if ($value) {
+    return 5;
+}
+
+return 10;
+```
+
+<br>
+
+### No Names Shorter than 3 Chars
+
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortName`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoShortName.php)
+- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortName
+```
+
+:x:
+
+```php
+<?php
+
+class EM
+{
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class EntityManager
+{
+}
+```
+
+### No Chain Method Call
+
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCall`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCall.php)
+- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
+- Also see [Fluent Interfaces are Evil](https://ocramius.github.io/blog/fluent-interfaces-are-evil/)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCall
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        return $this->create()->modify()->save();
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        $object = $this->create();
+        $object->modify();
+        $object->save();
+
+        return $object;
+    }
+}
+```
+
 ### Cognitive complexity for method must be less than X
 
 - :wrench:
