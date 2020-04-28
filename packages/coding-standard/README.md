@@ -145,6 +145,8 @@ class SomeClass
 
 ### Cognitive complexity for method must be less than X
 
+1) For ECS:
+
 - :wrench:
 - class: [`Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/CognitiveComplexitySniff.php)
 
@@ -153,6 +155,21 @@ class SomeClass
 services:
     Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
         maxCognitiveComplexity: 8 # default
+```
+
+2) For PHPStan:
+
+- :wrench:
+- class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
+
+```yaml
+# phpstan.neon
+parameters:
+    symplify:
+        max_cognitive_complexity: 8 # default
+
+rules:
+    - Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
 ```
 
 :x:

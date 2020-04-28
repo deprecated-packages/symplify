@@ -6,7 +6,10 @@ namespace Symplify\CodingStandard\CognitiveComplexity\Tests\AstCognitiveComplexi
 
 use Iterator;
 use Nette\Utils\FileSystem;
+use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Function_;
 use PhpParser\NodeFinder;
 use PhpParser\ParserFactory;
 use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
@@ -53,12 +56,17 @@ final class AstCognitiveComplexityAnalyzerTest extends AbstractKernelTestCase
         yield [__DIR__ . '/Source/function7.php.inc', 2];
     }
 
+    /**
+     * @return ClassMethod|Function_
+     */
     private function parseFileToFistFunctionLike(string $filePath): FunctionLike
     {
         $parser = (new ParserFactory())->create(ParserFactory::ONLY_PHP7);
         $fileCotent = FileSystem::read($filePath);
         $nodes = $parser->parse($fileCotent);
 
-        return (new NodeFinder())->findFirstInstanceOf($nodes, FunctionLike::class);
+        return (new NodeFinder())->findFirst($nodes, function (Node $node) {
+            return $node instanceof ClassMethod || $node instanceof Function_;
+        });
     }
 }

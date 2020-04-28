@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Rules\Readable;
+namespace Symplify\CodingStandard\CognitiveComplexity\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrowFunction;
@@ -11,9 +11,9 @@ use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\CodingStandard\Exception\ShouldNotHappenException;
+use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 
 /**
  * Based on https://www.sonarsource.com/docs/CognitiveComplexity.pdf
@@ -25,7 +25,7 @@ use Symplify\CodingStandard\Exception\ShouldNotHappenException;
  *
  * @see https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/
  */
-final class FunctionLikeCognitiveComplexityRule implements Rule
+final class FunctionLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
 {
     /**
      * @var int
@@ -45,15 +45,19 @@ final class FunctionLikeCognitiveComplexityRule implements Rule
         $this->astCognitiveComplexityAnalyzer = $astCognitiveComplexityAnalyzer;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return class-string[]
+     */
+    public function getNodeTypes(): array
     {
-        return FunctionLike::class;
+        return [ClassMethod::class, Function_::class];
     }
 
     /**
-     * @param FunctionLike $node
+     * @param Function_|ClassMethod $node
+     * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $functionLikeCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($node);
         if ($functionLikeCognitiveComplexity <= $this->maximumCognitiveComplexity) {

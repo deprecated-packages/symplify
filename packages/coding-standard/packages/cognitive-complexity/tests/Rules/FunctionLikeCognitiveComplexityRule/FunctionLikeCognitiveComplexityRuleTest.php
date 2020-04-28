@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\Readable\FunctionLikeCognitiveComplexityRule;
+namespace Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule;
 
 use Iterator;
+use Nette\Configurator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\Readable\FunctionLikeCognitiveComplexityRule;
-use Symplify\CodingStandard\Tests\HttpKernel\SymplifyCodingStandardKernel;
+use Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
 
 final class FunctionLikeCognitiveComplexityRuleTest extends RuleTestCase
 {
@@ -30,10 +30,11 @@ final class FunctionLikeCognitiveComplexityRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        $symplifyCodingStandardKernel = new SymplifyCodingStandardKernel('prod', true);
-        $symplifyCodingStandardKernel->boot();
-        $container = $symplifyCodingStandardKernel->getContainer();
+        $configurator = new Configurator();
+        $configurator->addConfig(__DIR__ . '/../../../../../config/symplify-rules.neon');
+        $configurator->setTempDirectory(sys_get_temp_dir() . '/symplify_cognitive_complexity_tests');
+        $container = $configurator->createContainer();
 
-        return $container->get(FunctionLikeCognitiveComplexityRule::class);
+        return $container->getByType(FunctionLikeCognitiveComplexityRule::class);
     }
 }

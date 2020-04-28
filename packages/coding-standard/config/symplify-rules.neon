@@ -1,21 +1,26 @@
+parameters:
+    symplify:
+        # configure here
+        max_cognitive_complexity: 8
+
 services:
     -
-        class: Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCallRule
+        class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
         tags:
             - phpstan.rules.rule
+        arguments:
+            2: "%symplify.max_cognitive_complexity%"
 
-    -
-        class: Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseKeywordRule
-        tags:
-            - phpstan.rules.rule
+    # rules
+    - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCallRule
+    - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseRule
+    - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortNameRule
 
-    -
-        class: Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortNameRule
-        tags:
-            - phpstan.rules.rule
+    - Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer
+    - Symplify\CodingStandard\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector
+    - Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\NestingNodeVisitor
+    - Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor
 
-
-    -
-        class: Symplify\CodingStandard\Rules\Readable\FunctionLikeCognitiveComplexityRule
-        tags:
-            - phpstan.rules.rule
+decorator:
+    PHPStan\Rules\Rule:
+        tags: ["phpstan.rules.rule"]
