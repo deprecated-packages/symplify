@@ -41,7 +41,7 @@ includes:
 ```yaml
 # phpstan.neon
 rules:
-     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIf
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIfRule
 ```
 
 :x:
@@ -70,13 +70,13 @@ return 10;
 
 ### No Names Shorter than 3 Chars
 
-- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortName`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoShortName.php)
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortNameRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoShortNameRule.php)
 - From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
 
 ```yaml
 # phpstan.neon
 rules:
-     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortName
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortNameRule
 ```
 
 :x:
@@ -146,14 +146,14 @@ final class Person
 
 ### No Chain Method Call
 
-- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCall`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCall.php)
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCallRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCallRule.php)
 - From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
 - Also see [Fluent Interfaces are Evil](https://ocramius.github.io/blog/fluent-interfaces-are-evil/)
 
 ```yaml
 # phpstan.neon
 rules:
-     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCall
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCallRule
 ```
 
 :x:
