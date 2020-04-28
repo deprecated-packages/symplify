@@ -33,15 +33,15 @@ includes:
 
 <br>
 
-### No `else`
+### No `else` And `elseif`
 
-- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoElseRule.php)
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIfRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoElseAndElseIfRule.php)
 - From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
 
 ```yaml
 # phpstan.neon
 rules:
-     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseRule
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIf
 ```
 
 :x:
@@ -98,6 +98,51 @@ class EntityManager
 {
 }
 ```
+
+<br>
+
+### No setter methods
+
+- class: [`\Symplify\CodingStandard\Rules\ObjectCalisthenics\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
+- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoSetterClassMethodRule
+```
+
+:x:
+
+```php
+<?php
+
+final class Person
+{
+    private string $name;
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+}
+```
+
+:+1:
+
+```php
+final class Person
+{
+    private string $name;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
+```
+
+<br>
 
 ### No Chain Method Call
 
@@ -184,9 +229,7 @@ class SomeClass
         if ($value !== 1) {
             if ($value !== 2) {
                 if ($value !== 3) {
-                    if ($value !== 4) {
-                        return false;
-                    }
+                    return false;
                 }
             }
         }
@@ -213,15 +256,7 @@ class SomeClass
             return true;
         }
 
-        if ($value === 3) {
-            return true;
-        }
-
-        if ($value === 4) {
-            return true;
-        }
-
-        return false;
+        return $value === 3;
     }
 }
 ```

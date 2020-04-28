@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoElseRule\Source;
+namespace Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoElseAndElseIfRule\Source;
 
 final class SomeElse
 {

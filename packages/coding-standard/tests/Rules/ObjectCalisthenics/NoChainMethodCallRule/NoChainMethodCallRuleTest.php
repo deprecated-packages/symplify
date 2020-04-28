@@ -12,7 +12,7 @@ final class NoChainMethodCallRuleTest extends RuleTestCase
 {
     public function testRule(): void
     {
-        $this->analyse([__DIR__ . '/Source/ChainMethodCall.php'], [['Do not use chained method calls', 11]]);
+        $this->analyse([__DIR__ . '/Source/ChainMethodCall.php'], [[NoChainMethodCallRule::ERROR_MESSAGE, 11]]);
     }
 
     protected function getRule(): Rule

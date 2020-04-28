@@ -12,7 +12,10 @@ final class NoSetterClassMethodRuleTest extends RuleTestCase
 {
     public function testRule(): void
     {
-        $this->analyse([__DIR__ . '/Source/SetterMethod.php'], [['... not use chained method calls', 11]]);
+        $this->analyse(
+            [__DIR__ . '/Source/SetterMethod.php'],
+            [[sprintf(NoSetterClassMethodRule::ERROR_MESSAGE, 'setName'), 9]]
+        );
     }
 
     protected function getRule(): Rule

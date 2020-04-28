@@ -13,10 +13,15 @@ use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#2-do-not-use-else-keyword
  *
- * @see \Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoElseRule\NoElseRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoElseAndElseIfRule\NoElseAndElseIfRuleTest
  */
-final class NoElseRule extends AbstractManyNodeTypeRule
+final class NoElseAndElseIfRule extends AbstractManyNodeTypeRule
 {
+    /**
+     * @var string
+     */
+    public const MESSAGE = 'Do not use "else/elseif". Prefer early return statement instead.';
+
     /**
      * @return class-string[]
      */
@@ -31,6 +36,6 @@ final class NoElseRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        return ['Do not use "else/elseif". Prefer early return statement instead.'];
+        return [self::MESSAGE];
     }
 }

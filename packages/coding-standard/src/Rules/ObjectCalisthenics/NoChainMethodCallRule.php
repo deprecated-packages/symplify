@@ -16,6 +16,11 @@ use PHPStan\Rules\Rule;
  */
 final class NoChainMethodCallRule implements Rule
 {
+    /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = 'Do not use chained method calls';
+
     public function getNodeType(): string
     {
         return MethodCall::class;
@@ -30,6 +35,6 @@ final class NoChainMethodCallRule implements Rule
             return [];
         }
 
-        return ['Do not use chained method calls'];
+        return [self::ERROR_MESSAGE];
     }
 }

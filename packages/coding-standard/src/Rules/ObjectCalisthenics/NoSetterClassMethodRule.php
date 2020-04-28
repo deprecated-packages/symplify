@@ -20,12 +20,12 @@ final class NoSetterClassMethodRule implements Rule
     /**
      * @var string
      */
-    private const SETTER_REGEX = '#^set[A-Z0-9]#';
+    public const ERROR_MESSAGE = 'Setter "%s()" is not allowed. Use constructor injection or behavior name instead, e.g. "changeName()"';
 
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Setter "%s()" is not allowed. Use constructor injection or behavior name instead, e.g. "changeName()"';
+    private const SETTER_REGEX = '#^set[A-Z0-9]#';
 
     public function getNodeType(): string
     {

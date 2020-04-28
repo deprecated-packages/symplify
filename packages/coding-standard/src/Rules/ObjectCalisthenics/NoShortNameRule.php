@@ -22,6 +22,11 @@ use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 final class NoShortNameRule extends AbstractManyNodeTypeRule
 {
     /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = 'Do not name "%s", shorter than 3 chars';
+
+    /**
      * @return class-string[]
      */
     public function getNodeTypes(): array
@@ -39,6 +44,6 @@ final class NoShortNameRule extends AbstractManyNodeTypeRule
             return [];
         }
 
-        return ['Do not use names shorter than 3 chars'];
+        return [sprintf(self::ERROR_MESSAGE, $name)];
     }
 }

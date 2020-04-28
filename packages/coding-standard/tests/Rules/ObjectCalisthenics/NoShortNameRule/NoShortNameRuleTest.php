@@ -13,8 +13,8 @@ final class NoShortNameRuleTest extends RuleTestCase
     public function testRule(): void
     {
         $this->analyse([__DIR__ . '/Source/ShortNamingClass.php'], [
-            ['Do not use names shorter than 3 chars', 9],
-            ['Do not use names shorter than 3 chars', 11],
+            [sprintf(NoShortNameRule::ERROR_MESSAGE, 'em'), 9],
+            [sprintf(NoShortNameRule::ERROR_MESSAGE, 'YE'), 11],
         ]);
     }
 
