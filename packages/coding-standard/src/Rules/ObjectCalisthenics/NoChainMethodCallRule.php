@@ -11,6 +11,8 @@ use PHPStan\Rules\Rule;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#5-use-only-one-object-operator---per-statement
+ *
+ * @see \Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoChainMethodCallRule\NoChainMethodCallRuleTest
  */
 final class NoChainMethodCallRule implements Rule
 {

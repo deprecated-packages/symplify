@@ -16,6 +16,8 @@ use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#6-do-not-abbreviate
+ *
+ * @see \Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoShortNameRule\NoShortNameRuleTest
  */
 final class NoShortNameRule extends AbstractManyNodeTypeRule
 {

@@ -6,24 +6,31 @@ namespace Symplify\CodingStandard\Rules\ObjectCalisthenics;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Else_;
+use PhpParser\Node\Stmt\ElseIf_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
+use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#2-do-not-use-else-keyword
+ *
+ * @see \Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoElseRule\NoElseRuleTest
  */
-final class NoElseRule implements Rule
+final class NoElseRule extends AbstractManyNodeTypeRule
 {
-    public function getNodeType(): string
+    /**
+     * @return class-string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Else_::class;
+        return [Else_::class, ElseIf_::class];
     }
 
     /**
-     * @param Else_ $node
+     * @param Else_|ElseIf_ $node
+     * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
-        return ['Do not use "else" keyword'];
+        return ['Do not use "else/elseif". Prefer early return statement instead.'];
     }
 }

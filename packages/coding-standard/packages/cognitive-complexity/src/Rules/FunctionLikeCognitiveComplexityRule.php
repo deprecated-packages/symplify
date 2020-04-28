@@ -24,6 +24,8 @@ use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
  * - B3. Increment when flow-breaking structures are nested
  *
  * @see https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/
+ *
+ * @see \Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\FunctionLikeCognitiveComplexityRuleTest
  */
 final class FunctionLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
 {
