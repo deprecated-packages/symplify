@@ -2,14 +2,29 @@
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
 
-Set of PHP_CodeSniffer Sniffs and PHP-CS-Fixer Fixers used by Symplify projects.
+Set of rules for PHP_CodeSniffer, PHP-CS-Fixer and PHPStan used by Symplify projects.
 
-**They run best with [EasyCodingStandard](https://github.com/symplify/easy-coding-standard)**.
+**They run best with [EasyCodingStandard](https://github.com/symplify/easy-coding-standard)** and **PHPStan**.
 
 ## Install
 
 ```bash
 composer require symplify/coding-standard --dev
+composer require symplify/easy-coding-standard --dev
+```
+
+1. Run with ECS:
+
+```bash
+vendor/bin/ecs process src --set symplify
+```
+
+2. Register rules for PHPStan:
+
+```neon
+# phpstan.neon
+includes:
+    - vendor/symplify/coding-standard/config/symplify-rules.neon
 ```
 
 ## Rules Overview
@@ -18,7 +33,164 @@ composer require symplify/coding-standard --dev
 
 <br>
 
+### No `else` And `elseif`
+
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIfRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoElseAndElseIfRule.php)
+- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIf
+```
+
+:x:
+
+```php
+<?php
+
+if ($value) {
+    return 5;
+} else {
+    return 10;
+}
+```
+
+:+1:
+
+```php
+if ($value) {
+    return 5;
+}
+
+return 10;
+```
+
+<br>
+
+### No Names Shorter than 3 Chars
+
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortName`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoShortName.php)
+- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortName
+```
+
+:x:
+
+```php
+<?php
+
+class EM
+{
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class EntityManager
+{
+}
+```
+
+<br>
+
+### No setter methods
+
+- class: [`\Symplify\CodingStandard\Rules\ObjectCalisthenics\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
+- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoSetterClassMethodRule
+```
+
+:x:
+
+```php
+<?php
+
+final class Person
+{
+    private string $name;
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+}
+```
+
+:+1:
+
+```php
+final class Person
+{
+    private string $name;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
+```
+
+<br>
+
+### No Chain Method Call
+
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCall`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCall.php)
+- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
+- Also see [Fluent Interfaces are Evil](https://ocramius.github.io/blog/fluent-interfaces-are-evil/)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCall
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        return $this->create()->modify()->save();
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        $object = $this->create();
+        $object->modify();
+        $object->save();
+
+        return $object;
+    }
+}
+```
+
 ### Cognitive complexity for method must be less than X
+
+1) For ECS:
 
 - :wrench:
 - class: [`Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/CognitiveComplexitySniff.php)
@@ -28,6 +200,21 @@ composer require symplify/coding-standard --dev
 services:
     Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
         maxCognitiveComplexity: 8 # default
+```
+
+2) For PHPStan:
+
+- :wrench:
+- class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
+
+```yaml
+# phpstan.neon
+parameters:
+    symplify:
+        max_cognitive_complexity: 8 # default
+
+rules:
+    - Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
 ```
 
 :x:
@@ -42,9 +229,7 @@ class SomeClass
         if ($value !== 1) {
             if ($value !== 2) {
                 if ($value !== 3) {
-                    if ($value !== 4) {
-                        return false;
-                    }
+                    return false;
                 }
             }
         }
@@ -71,15 +256,7 @@ class SomeClass
             return true;
         }
 
-        if ($value === 3) {
-            return true;
-        }
-
-        if ($value === 4) {
-            return true;
-        }
-
-        return false;
+        return $value === 3;
     }
 }
 ```
