@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder\Init\Command;
 
 use Composer\Composer;
 use Nette\Utils\FileSystem as NetteFileSystem;
+use Nette\Utils\Json as NetteJson;
 use PharIo\Version\InvalidVersionException;
 use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
@@ -17,7 +18,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use function dirname;
-use function json_decode;
 
 final class InitCommand extends Command
 {
@@ -93,11 +93,7 @@ final class InitCommand extends Command
         }
 
         if ($version === null) {
-            $this->symfonyStyle->warning(
-                'Could not guess "symplify/monorepo-builder" version, please update it manually inside the root "composer.json" file'
-            );
-
-            return '%UPDATE_VERSION_HERE%';
+            return 'Unknown';
         }
 
         return sprintf('^%d.%d', $version->getMajor()->getValue(), $version->getMinor()->getValue());
@@ -111,7 +107,7 @@ final class InitCommand extends Command
         $installedJsonFilename = sprintf('%s/composer/installed.json', dirname(__DIR__, 6));
 
         if (is_file($installedJsonFilename)) {
-            $installedJson = json_decode(NetteFileSystem::read($installedJsonFilename));
+            $installedJson = NetteJson::decode(NetteFileSystem::read($installedJsonFilename));
 
             foreach ($installedJson as $installedPackage) {
                 if ($installedPackage->name === 'symplify/monorepo-builder') {
