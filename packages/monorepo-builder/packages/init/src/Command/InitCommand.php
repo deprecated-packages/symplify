@@ -87,29 +87,39 @@ final class InitCommand extends Command
 
         try {
             $version = new Version(str_replace('x-dev', '0', $this->composer->getPackage()->getPrettyVersion()));
-        } catch (InvalidVersionException $e) {
+        } catch (InvalidVersionException $invalidVersionException) {
             // Version might not be explicitly set inside composer.json, looking for "vendor/composer/installed.json"
-            $installedJsonFilename = sprintf('%s/composer/installed.json', dirname(__DIR__, 6));
+            $version = $this->extractMonorepoBuilderVersionFromComposer();
+        }
 
-            if (is_file($installedJsonFilename)) {
-                $installedJson = json_decode(NetteFileSystem::read($installedJsonFilename));
+        if ($version === null) {
+            $this->symfonyStyle->warning(
+                'Could not guess "symplify/monorepo-builder" version, please update it manually inside the root "composer.json" file'
+            );
 
-                foreach ($installedJson as $installedPackage) {
-                    if ('symplify/monorepo-builder' === $installedPackage->name) {
-                        $version = new Version($installedPackage->version);
-
-                        break;
-                    }
-                }
-            }
-
-            if (null === $version) {
-                $this->symfonyStyle->warning('Could not update "symplify/monorepo-builder" version, please update it manually inside the root "composer.json" file');
-
-                return '%UPDATE_VERSION_HERE%';
-            }
+            return '%UPDATE_VERSION_HERE%';
         }
 
         return sprintf('^%d.%d', $version->getMajor()->getValue(), $version->getMinor()->getValue());
+    }
+
+    /**
+     * Returns current version of MonorepoBuilder extracting it from "vendor/composer/installed.json".
+     */
+    private function extractMonorepoBuilderVersionFromComposer(): string
+    {
+        $installedJsonFilename = sprintf('%s/composer/installed.json', dirname(__DIR__, 6));
+
+        if (is_file($installedJsonFilename)) {
+            $installedJson = json_decode(NetteFileSystem::read($installedJsonFilename));
+
+            foreach ($installedJson as $installedPackage) {
+                if ($installedPackage->name === 'symplify/monorepo-builder') {
+                    return new Version($installedPackage->version);
+                }
+            }
+        }
+
+        return null;
     }
 }
