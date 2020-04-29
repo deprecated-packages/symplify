@@ -106,7 +106,7 @@ final class InitCommand extends Command
     /**
      * Returns current version of MonorepoBuilder extracting it from "vendor/composer/installed.json".
      */
-    private function extractMonorepoBuilderVersionFromComposer(): string
+    private function extractMonorepoBuilderVersionFromComposer(): ?Version
     {
         $installedJsonFilename = sprintf('%s/composer/installed.json', dirname(__DIR__, 6));
 
