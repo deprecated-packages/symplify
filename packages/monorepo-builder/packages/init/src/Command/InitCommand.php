@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder\Init\Command;
 
 use Composer\Composer;
 use Nette\Utils\FileSystem as NetteFileSystem;
+use PharIo\Version\InvalidVersionException;
 use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,6 +16,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
+use function dirname;
+use function json_decode;
 
 final class InitCommand extends Command
 {
@@ -80,7 +83,32 @@ final class InitCommand extends Command
      */
     private function getMonorepoBuilderVersion(): string
     {
-        $version = new Version(str_replace('x-dev', '0', $this->composer->getPackage()->getPrettyVersion()));
+        $version = null;
+
+        try {
+            $version = new Version(str_replace('x-dev', '0', $this->composer->getPackage()->getPrettyVersion()));
+        } catch (InvalidVersionException $e) {
+            // Version might not be explicitly set inside composer.json, looking for "vendor/composer/installed.json"
+            $installedJsonFilename = sprintf('%s/composer/installed.json', dirname(__DIR__, 6));
+
+            if (is_file($installedJsonFilename)) {
+                $installedJson = json_decode(NetteFileSystem::read($installedJsonFilename));
+
+                foreach ($installedJson as $installedPackage) {
+                    if ('symplify/monorepo-builder' === $installedPackage->name) {
+                        $version = new Version($installedPackage->version);
+
+                        break;
+                    }
+                }
+            }
+
+            if (null === $version) {
+                $this->symfonyStyle->warning('Could not update "symplify/monorepo-builder" version, please update it manually inside the root "composer.json" file');
+
+                return '%UPDATE_VERSION_HERE%';
+            }
+        }
 
         return sprintf('^%d.%d', $version->getMajor()->getValue(), $version->getMinor()->getValue());
     }
