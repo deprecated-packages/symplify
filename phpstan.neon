@@ -138,5 +138,4 @@ parameters:
         - '#Function file_exists is unsafe to use, rely on Symfony component Filesystem\:\:exists instead#'
         - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return PhpParser\\Node\\FunctionLike but returns PhpParser\\Node\|null#'
         - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ but returns PhpParser\\Node\|null#'
-        - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\Rules\\FunctionLikeCognitiveComplexityRule\\FunctionLikeCognitiveComplexityRuleTest\:\:getRule\(\) should return PHPStan\\Rules\\Rule but returns object\|null#'
-
+        - '#Method Symplify\\CodingStandard\\(.*?)::getRule\(\) should return PHPStan\\Rules\\Rule but returns object\|null#'
