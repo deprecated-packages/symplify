@@ -29,170 +29,18 @@ includes:
 
 ## Rules Overview
 
+- Jump to [Object Calisthenics rules](#object-calisthenics-rules)
 - Rules with :wrench: are configurable.
 
 <br>
 
-### No `else` And `elseif`
-
-- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIfRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoElseAndElseIfRule.php)
-- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
-
-```yaml
-# phpstan.neon
-rules:
-     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIfRule
-```
-
-:x:
-
-```php
-<?php
-
-if ($value) {
-    return 5;
-} else {
-    return 10;
-}
-```
-
-:+1:
-
-```php
-if ($value) {
-    return 5;
-}
-
-return 10;
-```
-
-<br>
-
-### No Names Shorter than 3 Chars
-
-- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortNameRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoShortNameRule.php)
-- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
-
-```yaml
-# phpstan.neon
-rules:
-     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortNameRule
-```
-
-:x:
-
-```php
-<?php
-
-class EM
-{
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class EntityManager
-{
-}
-```
-
-<br>
-
-### No setter methods
-
-- class: [`\Symplify\CodingStandard\Rules\ObjectCalisthenics\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
-- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
-
-```yaml
-# phpstan.neon
-rules:
-     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoSetterClassMethodRule
-```
-
-:x:
-
-```php
-<?php
-
-final class Person
-{
-    private string $name;
-
-    public function setName(string $name)
-    {
-        $this->name = $name;
-    }
-}
-```
-
-:+1:
-
-```php
-final class Person
-{
-    private string $name;
-
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-    }
-}
-```
-
-<br>
-
-### No Chain Method Call
-
-- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCallRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCallRule.php)
-- From [Object Calisthenics](https://www.tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
-- Also see [Fluent Interfaces are Evil](https://ocramius.github.io/blog/fluent-interfaces-are-evil/)
-
-```yaml
-# phpstan.neon
-rules:
-     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCallRule
-```
-
-:x:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function run()
-    {
-        return $this->create()->modify()->save();
-    }
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function run()
-    {
-        $object = $this->create();
-        $object->modify();
-        $object->save();
-
-        return $object;
-    }
-}
-```
-
-### Cognitive complexity for method must be less than X
-
-1) For ECS:
+### Cognitive Complexity for Method Must be Less than X
 
 - :wrench:
+- [Why it's the best rule in your coding standard?](https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/)
+
+1) **For ECS**
+
 - class: [`Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/CognitiveComplexitySniff.php)
 
 ```yaml
@@ -202,9 +50,8 @@ services:
         maxCognitiveComplexity: 8 # default
 ```
 
-2) For PHPStan:
+2) **For PHPStan**
 
-- :wrench:
 - class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
 
 ```yaml
@@ -277,68 +124,6 @@ services:
 
 Same as the one above just for classes.
 
-:x:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function kindaSimple($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function kindaSimpleAgain($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function kindaOfSimpleAgain($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function kindaSimple($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-}
-```
-
 <br>
 
 ### Remove extra around public/protected/private/static modifiers and const
@@ -354,14 +139,8 @@ services:
 ```diff
  class SomeClass
  {
--    public     $protected;
-+    public $protected;
-
 -    protected     static     $value;
 +    protected static $value;
-
--    private      const    VALUE = 5;
-+    private const VALUE = 5;
 }
 ```
 
@@ -386,11 +165,11 @@ services:
       * @var bool
       */
 -    private $booleanProperty;
-+    private $booleanProperty = false;
++    private $booleanProperty = true;
 
      public function run()
      {
-         if ($this->booleanProperty === false) {
+         if (! $this->booleanProperty) {
              // ...
          }
      }
@@ -405,7 +184,7 @@ services:
 
 ```yaml
 services:
-    Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff: ~
+    Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff: null
 ```
 
 :x:
@@ -497,7 +276,7 @@ services:
 
 ```yaml
 services:
-    Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: ~
+    Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: null
 ```
 
 ```diff
@@ -533,28 +312,6 @@ services:
 
 <br>
 
-### Remove // end of ... Legacy Comments
-
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer`](src/Fixer/Commenting/RemoveEndOfFunctionCommentFixer.php)
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer: ~
-```
-
-```diff
- <?php
-
- function someFunction()
- {
-
--} // end of someFunction
-+}
-```
-
-<br>
-
 ### Order Private Methods by Their Use Order
 
 - class: [`Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer`](src/Fixer/Order/PrivateMethodOrderByUseFixer.php)
@@ -562,7 +319,7 @@ services:
 ```yaml
 # ecs.yml
 services:
-    Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
+    Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: null
 ```
 
 :x:
@@ -622,7 +379,7 @@ Properties are ordered by visibility first, then by complexity.
 ```yaml
 # ecs.yml
 services:
-    Symplify\CodingStandard\Fixer\Order\PropertyOrderByComplexityFixer: ~
+    Symplify\CodingStandard\Fixer\Order\PropertyOrderByComplexityFixer: null
 ```
 
 :x:
@@ -913,7 +670,7 @@ services:
 ```yaml
 # ecs.yaml
 services:
-    Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer: ~
+    Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer: null
 ```
 
 ```diff
@@ -1220,6 +977,162 @@ services:
 ```
 
 It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
+
+### Object Calisthenics rules
+
+- From [Object Calisthenics](https://tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
+- [Original source for PHPStan rules](https://github.com/object-calisthenics/phpcs-calisthenics-rules/)
+
+### No `else` And `elseif`
+
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIfRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoElseAndElseIfRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIfRule
+```
+
+:x:
+
+```php
+<?php
+
+if ($value) {
+    return 5;
+} else {
+    return 10;
+}
+```
+
+:+1:
+
+```php
+if ($value) {
+    return 5;
+}
+
+return 10;
+```
+
+<br>
+
+### No Names Shorter than 3 Chars
+
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortNameRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoShortNameRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortNameRule
+```
+
+:x:
+
+```php
+<?php
+
+class EM
+{
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class EntityManager
+{
+}
+```
+
+<br>
+
+### No setter methods
+
+- class: [`\Symplify\CodingStandard\Rules\ObjectCalisthenics\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoSetterClassMethodRule
+```
+
+:x:
+
+```php
+<?php
+
+final class Person
+{
+    private string $name;
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+}
+```
+
+:+1:
+
+```php
+final class Person
+{
+    private string $name;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
+```
+
+<br>
+
+### No Chain Method Call
+
+- class: [`Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCallRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCallRule.php)
+- Check [Fluent Interfaces are Evil](https://ocramius.github.io/blog/fluent-interfaces-are-evil/)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCallRule
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        return $this->create()->modify()->save();
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        $object = $this->create();
+        $object->modify();
+        $object->save();
+
+        return $object;
+    }
+}
+```
 
 <br>
 
