@@ -29,6 +29,7 @@ services:
             - '../src/Fixer/Solid/FinalInterfaceFixer.php'
             - '../src/Fixer/ControlStructure/PregDelimiterFixer.php'
             - '../src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php'
+            - '../src/Fixer/Naming/CatchExceptionNameMatchingTypeFixer.php'
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'
