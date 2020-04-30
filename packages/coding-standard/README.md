@@ -110,6 +110,49 @@ class SomeClass
 
 <br>
 
+### Classes with Static Methods must have "Static" in the Name
+
+- [Why is static bad?](https://tomasvotruba.com/blog/2019/04/01/removing-static-there-and-back-again/)
+- be honest about static
+- value object static constructor methods are excluded
+- EventSubscriber and Command classes are excluded
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\Naming\NoClassWithStaticMethodWithoutStaticNameRule
+```
+
+:x:
+
+```php
+<?php
+
+class FormatConverter
+{
+    public static function yamlToJson(array $yaml): array
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class StaticFormatConverter
+{
+    public static function yamlToJson(array $yaml): array
+    {
+        // ...
+    }
+}
+```
+
+<br>
+
 ### Cognitive complexity for class must be less than X
 
 - :wrench:

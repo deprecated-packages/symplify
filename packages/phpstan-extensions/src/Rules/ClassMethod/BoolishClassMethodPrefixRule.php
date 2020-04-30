@@ -13,8 +13,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
-use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\BooleanType;
 
@@ -46,6 +44,11 @@ final class BoolishClassMethodPrefixRule implements Rule
     ];
 
     /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Method "%s()" returns bool type, so the name should start with is/has/was...';
+
+    /**
      * @var NodeFinder
      */
     private $nodeFinder;
@@ -62,7 +65,7 @@ final class BoolishClassMethodPrefixRule implements Rule
 
     /**
      * @param ClassMethod $node
-     * @return RuleError[]
+     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
@@ -75,20 +78,7 @@ final class BoolishClassMethodPrefixRule implements Rule
             return [];
         }
 
-        return [$this->createRuleError($node, $scope)];
-    }
-
-    private function createRuleError(ClassMethod $classMethod, Scope $scope): RuleError
-    {
-        $ruleErrorBuilder = RuleErrorBuilder::message(sprintf(
-            'Method "%s()" returns bool type, so the name should start with is/has/was...',
-            $classMethod->name->toString()
-        ));
-
-        $ruleErrorBuilder->file($scope->getFile());
-        $ruleErrorBuilder->line($classMethod->getLine());
-
-        return $ruleErrorBuilder->build();
+        return [sprintf(self::ERROR_MESSAGE, (string) $node->name)];
     }
 
     /**
