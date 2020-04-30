@@ -73,8 +73,12 @@ final class ControllerContentResolver
 
         $this->fakeRequest($routeName);
 
+        $defaultParams = array_filter($route->getDefaults(), static function (string $key): bool {
+            return strpos($key, '_') !== 0;
+        }, ARRAY_FILTER_USE_KEY);
+
         /** @var Response $response */
-        $response = call_user_func([$controller, $method]);
+        $response = call_user_func([$controller, $method], ...array_values($defaultParams));
 
         return (string) $response->getContent();
     }
