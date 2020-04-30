@@ -23,6 +23,14 @@ final class CatchExceptionNameMatchingTypeFixer extends AbstractSymplifyFixer
     public function __construct(BlockFinder $blockFinder)
     {
         $this->blockFinder = $blockFinder;
+
+        trigger_error(sprintf(
+            'Sniff "%s" is deprecated. Use instead "%s"',
+            self::class,
+            'https://github.com/rectorphp/rector/blob/master/rules/coding-style/src/Rector/Catch_/CatchExceptionNameMatchingTypeRector.php'
+        ));
+
+        sleep(3);
     }
 
     public function getDefinition(): FixerDefinitionInterface
