@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Rules\ObjectCalisthenics;
+namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
@@ -12,7 +12,7 @@ use PHPStan\Rules\Rule;
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#5-use-only-one-object-operator---per-statement
  *
- * @see \Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoChainMethodCallRule\NoChainMethodCallRuleTest
+ * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoChainMethodCallRule\NoChainMethodCallRuleTest
  */
 final class NoChainMethodCallRule implements Rule
 {

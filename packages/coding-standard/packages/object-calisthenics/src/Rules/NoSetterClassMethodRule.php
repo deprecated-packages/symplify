@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Rules\ObjectCalisthenics;
+namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
@@ -13,7 +13,7 @@ use PHPStan\Rules\Rule;
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#9-do-not-use-getters-and-setters
  *
- * @see \Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoSetterClassMethodRule\NoSetterClassMethodRuleTest
+ * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoSetterClassMethodRule\NoSetterClassMethodRuleTest
  */
 final class NoSetterClassMethodRule implements Rule
 {

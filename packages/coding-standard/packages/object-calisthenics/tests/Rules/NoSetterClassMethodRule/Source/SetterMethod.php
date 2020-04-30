@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoSetterClassMethodRule\Source;
+namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoSetterClassMethodRule\Source;
 
 final class SetterMethod
 {
