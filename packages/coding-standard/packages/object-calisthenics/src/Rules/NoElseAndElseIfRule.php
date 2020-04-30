@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Rules\ObjectCalisthenics;
+namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Else_;
@@ -13,7 +13,7 @@ use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#2-do-not-use-else-keyword
  *
- * @see \Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoElseAndElseIfRule\NoElseAndElseIfRuleTest
+ * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoElseAndElseIfRule\NoElseAndElseIfRuleTest
  */
 final class NoElseAndElseIfRule extends AbstractManyNodeTypeRule
 {

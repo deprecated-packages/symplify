@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoSetterClassMethodRule;
+namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoSetterClassMethodRule;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\ObjectCalisthenics\NoSetterClassMethodRule;
+use Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule;
 
 final class NoSetterClassMethodRuleTest extends RuleTestCase
 {

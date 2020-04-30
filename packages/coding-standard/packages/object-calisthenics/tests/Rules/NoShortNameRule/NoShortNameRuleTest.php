@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoShortNameRule;
+namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoShortNameRule;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortNameRule;
+use Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule;
 
 final class NoShortNameRuleTest extends RuleTestCase
 {

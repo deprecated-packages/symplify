@@ -12,9 +12,9 @@ services:
             2: "%symplify.max_cognitive_complexity%"
 
     # rules
-    - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoChainMethodCallRule
-    - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIfRule
-    - Symplify\CodingStandard\Rules\ObjectCalisthenics\NoShortNameRule
+    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
+    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
+    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
 
     - Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer
     - Symplify\CodingStandard\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector

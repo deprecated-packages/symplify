@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoElseAndElseIfRule;
+namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoElseAndElseIfRule;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\ObjectCalisthenics\NoElseAndElseIfRule;
+use Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule;
 
 final class NoElseAndElseIfRuleTest extends RuleTestCase
 {

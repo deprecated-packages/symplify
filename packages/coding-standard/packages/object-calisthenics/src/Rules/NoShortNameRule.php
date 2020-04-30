@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Rules\ObjectCalisthenics;
+namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
@@ -17,7 +17,7 @@ use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#6-do-not-abbreviate
  *
- * @see \Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoShortNameRule\NoShortNameRuleTest
+ * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoShortNameRule\NoShortNameRuleTest
  */
 final class NoShortNameRule extends AbstractManyNodeTypeRule
 {

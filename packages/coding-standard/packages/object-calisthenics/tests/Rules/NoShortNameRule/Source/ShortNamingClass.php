@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ObjectCalisthenics\NoShortNameRule\Source;
+namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoShortNameRule\Source;
 
 final class ShortNamingClass
 {
