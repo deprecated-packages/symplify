@@ -13,6 +13,9 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
+/**
+ * @deprecated
+ */
 final class RemoveEndOfFunctionCommentFixer extends AbstractSymplifyFixer
 {
     /**

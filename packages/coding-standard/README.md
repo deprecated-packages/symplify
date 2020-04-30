@@ -110,6 +110,39 @@ class SomeClass
 
 <br>
 
+### Cognitive complexity for class must be less than X
+
+Same as the one above just for classes.
+
+- :wrench:
+
+1) **For ECS**
+
+- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
+        maxClassCognitiveComplexity: 50 # default
+```
+
+2) **For PHPStan**
+
+- class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
+
+```yaml
+# phpstan.neon
+parameters:
+    symplify:
+        max_class_cognitive_complexity: 50 # default
+
+rules:
+    - Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+```
+
+<br>
+
 ### Classes with Static Methods must have "Static" in the Name
 
 - [Why is static bad?](https://tomasvotruba.com/blog/2019/04/01/removing-static-there-and-back-again/)
@@ -150,22 +183,6 @@ class StaticFormatConverter
     }
 }
 ```
-
-<br>
-
-### Cognitive complexity for class must be less than X
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php)
-
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
-        maxClassCognitiveComplexity: 50 # default
-```
-
-Same as the one above just for classes.
 
 <br>
 

@@ -14,6 +14,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
+/**
+ * @deprecated
+ */
 final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
 {
     /**
