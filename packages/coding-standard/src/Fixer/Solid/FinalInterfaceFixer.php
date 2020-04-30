@@ -15,6 +15,9 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\FixerClassWrapper;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
+/**
+ * @deprecated
+ */
 final class FinalInterfaceFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**

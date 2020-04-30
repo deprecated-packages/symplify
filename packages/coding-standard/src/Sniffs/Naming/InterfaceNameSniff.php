@@ -8,6 +8,9 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
+/**
+ * @deprecated
+ */
 final class InterfaceNameSniff implements Sniff
 {
     /**

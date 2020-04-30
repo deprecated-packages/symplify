@@ -16,6 +16,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
+/**
+ * @deprecated
+ */
 final class PregDelimiterFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**

@@ -13,6 +13,9 @@ use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 
+/**
+ * @deprecated
+ */
 final class CatchExceptionNameMatchingTypeFixer extends AbstractSymplifyFixer
 {
     /**
