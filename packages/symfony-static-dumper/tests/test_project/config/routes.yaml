@@ -2,12 +2,10 @@ static_route:
     path: /static
     controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
     defaults:
-        # the path of the template to render
         template:  'static.twig'
 
 direct_static_route:
     path: /static.html
     controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
     defaults:
-        # the path of the template to render
         template:  'static.twig'
