@@ -30,6 +30,8 @@ services:
             - '../src/Fixer/ControlStructure/PregDelimiterFixer.php'
             - '../src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php'
             - '../src/Fixer/Naming/CatchExceptionNameMatchingTypeFixer.php'
+            - '../src/Fixer/Naming/CatchExceptionNameMatchingTypeFixer.php'
+            - '../src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php'
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'

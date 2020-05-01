@@ -5,6 +5,7 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer;
 use Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer;
 use Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer;
@@ -116,6 +117,7 @@ final class CodingStandardSyncChecker
             CognitiveComplexitySniff::class,
             ClassCognitiveComplexitySniff::class,
             ForbiddenStaticFunctionSniff::class,
+            RemoveEmptyDocBlockFixer::class
         ];
 
         // filter out abstract class
