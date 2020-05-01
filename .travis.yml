@@ -24,7 +24,7 @@ jobs:
             script:
                 - cd packages/easy-coding-standard/compiler
                 - composer install
-                - travis_retry bin/compile
+                - travis_retry bin/compile --ansi
                 - ../tmp/ecs.phar
 
                 - cd ..
