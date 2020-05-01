@@ -698,6 +698,13 @@ declare(strict_types=1);
 
 - class: [`Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff`](src/Sniffs/Architecture/ExplicitExceptionSniff.php)
 
+
+| Result | Code                                           |
+| ---    | ---                                            |
+| :x:    | ```throw new RuntimeException('...');```       |
+| :+1:   | ```throw new FileNotFoundException('...');```  |
+
+
 :x:
 
 ```php
