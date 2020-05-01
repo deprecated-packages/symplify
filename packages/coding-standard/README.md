@@ -60,7 +60,7 @@ services:
 
 ```yaml
 # phpstan.neon
-include:
+includes:
     - packages/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-rules.neon
 
 parameters:
