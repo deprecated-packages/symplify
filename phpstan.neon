@@ -140,3 +140,9 @@ parameters:
         - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return PhpParser\\Node\\FunctionLike but returns PhpParser\\Node\|null#'
         - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ but returns PhpParser\\Node\|null#'
         - '#Method Symplify\\CodingStandard\\(.*?)::getRule\(\) should return PHPStan\\Rules\\Rule but returns object\|null#'
+
+        # cognitive complexity
+        - '#Cognitive complexity for "fix\(\)" is 10, keep it under 8#'
+        - '#Cognitive complexity for "getJsonArray\(\)" is 14, keep it under 8#'
+        - '#Cognitive complexity for "createFromArray\(\)" is 14, keep it under 8#'
+
