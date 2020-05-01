@@ -12,6 +12,7 @@ use Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
 use Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff;
+use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff;
 use Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff;
 use Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff;
 use Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff;
@@ -114,6 +115,7 @@ final class CodingStandardSyncChecker
             CatchExceptionNameMatchingTypeFixer::class,
             CognitiveComplexitySniff::class,
             ClassCognitiveComplexitySniff::class,
+            ForbiddenStaticFunctionSniff::class,
         ];
 
         // filter out abstract class

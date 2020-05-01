@@ -809,38 +809,6 @@ function someFunction($var)
 
 <br>
 
-### Use services and constructor injection over static method
-
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff`](src/Sniffs/CleanCode/ForbiddenStaticFunctionSniff.php)
-
-:x:
-
-```php
-<?php
-
-class SomeClass
-{
-    public static function someFunction()
-    {
-    }
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function someFunction()
-    {
-    }
-}
-```
-
-<br>
-
 ### Constant should have docblock comment
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](src/Sniffs/Commenting/VarConstantCommentSniff.php)
