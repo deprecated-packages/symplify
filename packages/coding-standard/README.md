@@ -47,7 +47,7 @@ includes:
 ```yaml
 # phpstan.neon
 includes:
-    - packages/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-rules.neon
+    - vendor/symplify/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-rules.neon
 
 parameters:
     symplify:
