@@ -123,7 +123,6 @@
         }
     },
     "replace": {
-        "symfony/polyfill-php70": "*",
         "symplify/auto-bind-parameter": "7.3",
         "symplify/autodiscovery": "7.3",
         "symplify/autowire-array-parameter": "7.3",
