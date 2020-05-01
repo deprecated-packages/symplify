@@ -822,29 +822,6 @@ class SomeClass
 
 <br>
 
-### Use per line assign instead of multiple ones
-
-- class: [`Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff`](src/Sniffs/ControlStructure/ForbiddenDoubleAssignSniff.php)
-
-:x:
-
-```php
-<?php
-
-$value = $anotherValue = [];
-```
-
-:+1:
-
-```php
-<?php
-
-$value = [];
-$anotherValue = [];
-```
-
-<br>
-
 ### There should not be comments with valid code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)
