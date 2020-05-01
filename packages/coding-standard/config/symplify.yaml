@@ -38,6 +38,8 @@ services:
             - '../src/Sniffs/Naming/AbstractClassNameSniff.php'
             - '../src/Sniffs/Naming/TraitNameSniff.php'
             - '../src/Sniffs/Naming/InterfaceNameSniff.php'
+            - '../src/Sniffs/CleanCode/CognitiveComplexitySniff.php'
+            - '../src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
 

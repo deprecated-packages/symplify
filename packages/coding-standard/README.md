@@ -39,21 +39,7 @@ includes:
 - :wrench:
 - [Why it's the best rule in your coding standard?](https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/)
 
-1) **For ECS**
-
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/CognitiveComplexitySniff.php)
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php)
-
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
-        maxCognitiveComplexity: 8 # default
-    Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
-        maxClassCognitiveComplexity: 50 # default
-```
-
-2) **For PHPStan**
+**For PHPStan**
 
 - class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
 - class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)

@@ -100,15 +100,7 @@ parameters:
             - 'packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
             - 'packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php'
 
-        Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
-            - 'packages/composer-json-manipulator/src/ComposerJsonFactory.php'
-            - 'packages/composer-json-manipulator/src/ValueObject/ComposerJson.php'
-            - 'packages/package-builder/src/Yaml/ParametersMerger.php'
-
 services:
-    Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
-        maxClassCognitiveComplexity: 40
-
     Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
         old_to_preferred_classes:
             SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
