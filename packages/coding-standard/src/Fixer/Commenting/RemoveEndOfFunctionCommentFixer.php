@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
@@ -52,21 +53,7 @@ final class RemoveEndOfFunctionCommentFixer extends AbstractSymplifyFixer
         for ($index = count($tokens) - 1; $index > 1; --$index) {
             $token = $tokens[$index];
 
-            if (! $token->isGivenKind(T_COMMENT)) {
-                continue;
-            }
-
-            if (! Strings::match($token->getContent(), self::END_OF_FUNCTION_PATTERN)) {
-                continue;
-            }
-
-            $previousMeaningfulPosition = $tokens->getTokenNotOfKindSibling($index, -1, [[T_WHITESPACE]]);
-            if ($previousMeaningfulPosition === null) {
-                continue;
-            }
-
-            // right after the end of functions
-            if ($tokens[$previousMeaningfulPosition]->getContent() !== '}') {
+            if ($this->shouldSkipToken($token, $tokens, $index)) {
                 continue;
             }
 
@@ -85,5 +72,24 @@ final class RemoveEndOfFunctionCommentFixer extends AbstractSymplifyFixer
     public function getPriority(): int
     {
         return $this->getPriorityBefore(ClassDefinitionFixer::class);
+    }
+
+    private function shouldSkipToken(Token $token, Tokens $tokens, int $index): bool
+    {
+        if (! $token->isGivenKind(T_COMMENT)) {
+            return true;
+        }
+
+        if (! Strings::match($token->getContent(), self::END_OF_FUNCTION_PATTERN)) {
+            return true;
+        }
+
+        $previousMeaningfulPosition = $tokens->getTokenNotOfKindSibling($index, -1, [[T_WHITESPACE]]);
+        if ($previousMeaningfulPosition === null) {
+            return true;
+        }
+
+        // right after the end of functions
+        return $tokens[$previousMeaningfulPosition]->getContent() !== '}';
     }
 }

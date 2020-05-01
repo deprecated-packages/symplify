@@ -2,6 +2,7 @@ includes:
     - packages/phpstan-extensions/config/config.neon
     - vendor/slam/phpstan-extensions/conf/slam-rules.neon
     - vendor/slam/phpstan-extensions/conf/symfony-rules.neon
+    - packages/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-rules.neon
 
 parameters:
     level: max
@@ -139,3 +140,8 @@ parameters:
         - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return PhpParser\\Node\\FunctionLike but returns PhpParser\\Node\|null#'
         - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ but returns PhpParser\\Node\|null#'
         - '#Method Symplify\\CodingStandard\\(.*?)::getRule\(\) should return PHPStan\\Rules\\Rule but returns object\|null#'
+
+        # cognitive complexity
+        - '#Cognitive complexity for "Symplify\\CodingStandard\\Fixer\\Commenting\\RemoveEmptyDocBlockFixer::fix\(\)" is 10, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is 14, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is 14, keep it under 8#'

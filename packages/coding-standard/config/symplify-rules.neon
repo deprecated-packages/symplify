@@ -1,34 +1,3 @@
-parameters:
-    symplify:
-        # configure here
-        max_cognitive_complexity: 8
-        max_class_cognitive_complexity: 50
-
-services:
-    -
-        class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
-        tags:
-            - phpstan.rules.rule
-        arguments:
-            2: "%symplify.max_cognitive_complexity%"
-
-    -
-        class: Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
-        tags:
-            - phpstan.rules.rule
-        arguments:
-            2: "%symplify.max_class_cognitive_complexity%"
-
-    # rules
-    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
-    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
-    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
-
-    - Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer
-    - Symplify\CodingStandard\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector
-    - Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\NestingNodeVisitor
-    - Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor
-
-decorator:
-    PHPStan\Rules\Rule:
-        tags: ["phpstan.rules.rule"]
+includes:
+    - ../packages/object-calisthenics/config/object-calisthenics-rules.neon
+    - ../packages/cognitive-complexity/config/cognitive-complexity-rules.neon

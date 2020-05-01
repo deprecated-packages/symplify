@@ -21,7 +21,7 @@ vendor/bin/ecs process src --set symplify
 
 2. Register rules for PHPStan:
 
-```neon
+```yaml
 # phpstan.neon
 includes:
     - vendor/symplify/coding-standard/config/symplify-rules.neon
@@ -34,7 +34,7 @@ includes:
 
 <br>
 
-### Cognitive Complexity for Method Must be Less than X
+### Cognitive Complexity for Method and Class Must be Less than X
 
 - :wrench:
 - [Why it's the best rule in your coding standard?](https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/)
@@ -42,26 +42,31 @@ includes:
 1) **For ECS**
 
 - class: [`Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/CognitiveComplexitySniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php)
 
 ```yaml
 # ecs.yaml
 services:
     Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
         maxCognitiveComplexity: 8 # default
+    Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
+        maxClassCognitiveComplexity: 50 # default
 ```
 
 2) **For PHPStan**
 
 - class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
+- class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
 
-```neon
+```yaml
 # phpstan.neon
+includes:
+    - packages/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-rules.neon
+
 parameters:
     symplify:
         max_cognitive_complexity: 8 # default
-
-rules:
-    - Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
+        max_class_cognitive_complexity: 50 # default
 ```
 
 :x:
@@ -110,39 +115,6 @@ class SomeClass
 
 <br>
 
-### Cognitive complexity for class must be less than X
-
-Same as the one above just for classes.
-
-- :wrench:
-
-1) **For ECS**
-
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php)
-
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
-        maxClassCognitiveComplexity: 50 # default
-```
-
-2) **For PHPStan**
-
-- class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
-
-```neon
-# phpstan.neon
-parameters:
-    symplify:
-        max_class_cognitive_complexity: 50 # default
-
-rules:
-    - Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
-```
-
-<br>
-
 ### Classes with Static Methods must have "Static" in the Name
 
 - [Why is static bad?](https://tomasvotruba.com/blog/2019/04/01/removing-static-there-and-back-again/)
@@ -150,7 +122,7 @@ rules:
 - value object static constructor methods are excluded
 - EventSubscriber and Command classes are excluded
 
-```neon
+```yaml
 # phpstan.neon
 rules:
     - Symplify\CodingStandard\Rules\Naming\NoClassWithStaticMethodWithoutStaticNameRule
@@ -1032,7 +1004,7 @@ It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `Eve
 
 - class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoElseAndElseIfRule.php)
 
-```neon
+```yaml
 # phpstan.neon
 rules:
      - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
@@ -1066,7 +1038,7 @@ return 10;
 
 - class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoShortNameRule.php)
 
-```neon
+```yaml
 # phpstan.neon
 rules:
      - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
@@ -1098,7 +1070,7 @@ class EntityManager
 
 - class: [`\Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
 
-```neon
+```yaml
 # phpstan.neon
 rules:
      - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule
@@ -1141,7 +1113,7 @@ final class Person
 - class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCallRule.php)
 - Check [Fluent Interfaces are Evil](https://ocramius.github.io/blog/fluent-interfaces-are-evil/)
 
-```neon
+```yaml
 # phpstan.neon
 rules:
      - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
