@@ -201,6 +201,7 @@ services:
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff`](src/Sniffs/Commenting/AnnotationTypeExistsSniff.php)
 
 ```yaml
+# ecs.yaml
 services:
     Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff: null
 ```
@@ -293,6 +294,7 @@ services:
 - class: [`Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
 
 ```yaml
+# ecs.yaml
 services:
     Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: null
 ```
