@@ -12,15 +12,13 @@ parametersSchema:
 services:
     -
         class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
-        tags:
-            - phpstan.rules.rule
+        tags: [phpstan.rules.rule]
         arguments:
             2: "%symplify.max_cognitive_complexity%"
 
     -
         class: Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
-        tags:
-            - phpstan.rules.rule
+        tags: [phpstan.rules.rule]
         arguments:
             2: "%symplify.max_class_cognitive_complexity%"
 

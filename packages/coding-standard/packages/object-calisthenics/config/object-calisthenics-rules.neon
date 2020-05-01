@@ -1,15 +1,4 @@
-# section "rules" fails on tests, not sure why
-
-services:
-    # rules
-    -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
-        tags: [phpstan.rules.rule]
+rules:
+    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
+    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
+    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule

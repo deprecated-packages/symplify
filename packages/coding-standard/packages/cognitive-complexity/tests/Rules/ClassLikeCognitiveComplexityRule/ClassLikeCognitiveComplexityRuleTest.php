@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule;
 
 use Iterator;
-use Nette\Configurator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
+use Symplify\CodingStandard\Tests\PHPStan\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ClassLikeCognitiveComplexityRuleTest extends RuleTestCase
+final class ClassLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideDataForTest()
@@ -30,12 +29,9 @@ final class ClassLikeCognitiveComplexityRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        // @todo decouple to AbstractPHPStanContainerTestCase
-        $configurator = new Configurator();
-        $configurator->addConfig(__DIR__ . '/../../../../../config/symplify-rules.neon');
-        $configurator->setTempDirectory(sys_get_temp_dir() . '/symplify_cognitive_complexity_tests_2');
-        $container = $configurator->createContainer();
-
-        return $container->getByType(ClassLikeCognitiveComplexityRule::class);
+        return $this->getRuleFromConfig(
+            ClassLikeCognitiveComplexityRule::class,
+            __DIR__ . '/../../../../../config/symplify-rules.neon'
+        );
     }
 }
