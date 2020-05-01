@@ -21,7 +21,7 @@ vendor/bin/ecs process src --set symplify
 
 2. Register rules for PHPStan:
 
-```neon
+```yaml
 # phpstan.neon
 includes:
     - vendor/symplify/coding-standard/config/symplify-rules.neon
@@ -58,7 +58,7 @@ services:
 - class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
 - class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
 
-```neon
+```yaml
 # phpstan.neon
 include:
     - packages/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-rules.neon
@@ -122,7 +122,7 @@ class SomeClass
 - value object static constructor methods are excluded
 - EventSubscriber and Command classes are excluded
 
-```neon
+```yaml
 # phpstan.neon
 rules:
     - Symplify\CodingStandard\Rules\Naming\NoClassWithStaticMethodWithoutStaticNameRule
@@ -1004,7 +1004,7 @@ It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `Eve
 
 - class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoElseAndElseIfRule.php)
 
-```neon
+```yaml
 # phpstan.neon
 rules:
      - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
@@ -1038,7 +1038,7 @@ return 10;
 
 - class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoShortNameRule.php)
 
-```neon
+```yaml
 # phpstan.neon
 rules:
      - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
@@ -1070,7 +1070,7 @@ class EntityManager
 
 - class: [`\Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
 
-```neon
+```yaml
 # phpstan.neon
 rules:
      - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule
@@ -1113,7 +1113,7 @@ final class Person
 - class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCallRule.php)
 - Check [Fluent Interfaces are Evil](https://ocramius.github.io/blog/fluent-interfaces-are-evil/)
 
-```neon
+```yaml
 # phpstan.neon
 rules:
      - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule

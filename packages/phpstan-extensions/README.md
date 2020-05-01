@@ -4,7 +4,7 @@
 
 ## Install
 
-```neon
+```yaml
 # phpstan.neon
 includes:
     - 'vendor/symplify/phpstan-extensions/config/config.neon'

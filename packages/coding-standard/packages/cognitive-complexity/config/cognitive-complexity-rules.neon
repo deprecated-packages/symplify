@@ -4,10 +4,10 @@ parameters:
         max_class_cognitive_complexity: 50
 
 parametersSchema:
-	symplify: structure([
-		max_cognitive_complexity: int()
-		max_class_cognitive_complexity: int()
-	])
+    symplify: structure([
+        max_cognitive_complexity: int()
+        max_class_cognitive_complexity: int()
+    ])
 
 services:
     -
