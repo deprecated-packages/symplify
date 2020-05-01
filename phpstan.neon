@@ -142,7 +142,6 @@ parameters:
         - '#Method Symplify\\CodingStandard\\(.*?)::getRule\(\) should return PHPStan\\Rules\\Rule but returns object\|null#'
 
         # cognitive complexity
-        - '#Cognitive complexity for "fix\(\)" is 10, keep it under 8#'
-        - '#Cognitive complexity for "getJsonArray\(\)" is 14, keep it under 8#'
-        - '#Cognitive complexity for "createFromArray\(\)" is 14, keep it under 8#'
-
+        - '#Cognitive complexity for "Symplify\\CodingStandard\\Fixer\\Commenting\\RemoveEmptyDocBlockFixer::fix\(\)" is 10, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is 14, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is 14, keep it under 8#'

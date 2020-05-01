@@ -30,6 +30,11 @@ use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 final class FunctionLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
 {
     /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = 'Cognitive complexity for "%s" is %d, keep it under %d';
+
+    /**
      * @var int
      */
     private $maximumCognitiveComplexity;
@@ -66,10 +71,10 @@ final class FunctionLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
             return [];
         }
 
-        $functionLikeName = $this->resolveFunctionName($node);
+        $functionLikeName = $this->resolveFunctionName($node, $scope);
 
         $message = sprintf(
-            'Cognitive complexity for "%s" is %d, keep it under %d',
+            self::ERROR_MESSAGE,
             $functionLikeName,
             $functionLikeCognitiveComplexity,
             $this->maximumCognitiveComplexity
@@ -78,10 +83,21 @@ final class FunctionLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
         return [$message];
     }
 
-    private function resolveFunctionName(FunctionLike $functionLike): string
+    private function resolveFunctionName(FunctionLike $functionLike, Scope $scope): string
     {
-        if ($functionLike instanceof Function_ || $functionLike instanceof ClassMethod) {
+        if ($functionLike instanceof Function_) {
             return (string) $functionLike->name . '()';
+        }
+
+        if ($functionLike instanceof ClassMethod) {
+            $name = '';
+
+            $classReflection = $scope->getClassReflection();
+            if ($classReflection !== null) {
+                $name = $classReflection->getName() . '::';
+            }
+
+            return $name . $functionLike->name . '()';
         }
 
         if ($functionLike instanceof Closure) {

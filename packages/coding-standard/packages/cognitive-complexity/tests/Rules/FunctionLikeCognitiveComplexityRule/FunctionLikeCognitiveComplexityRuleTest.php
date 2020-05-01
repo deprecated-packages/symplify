@@ -9,6 +9,7 @@ use Nette\Configurator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
+use Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Source\ClassMethodOverComplicated;
 
 final class FunctionLikeCognitiveComplexityRuleTest extends RuleTestCase
 {
@@ -22,14 +23,21 @@ final class FunctionLikeCognitiveComplexityRuleTest extends RuleTestCase
 
     public function provideDataForTest(): Iterator
     {
-        yield [
-            __DIR__ . '/Source/function.php.inc',
-            [['Cognitive complexity for "someFunction()" is 9, keep it under 8', 3]],
-        ];
+        $errorMessage = sprintf(FunctionLikeCognitiveComplexityRule::ERROR_MESSAGE, 'someFunction()', 9, 8);
+        yield [__DIR__ . '/Source/function.php.inc', [[$errorMessage, 3]]];
+
+        $errorMessage = sprintf(
+            FunctionLikeCognitiveComplexityRule::ERROR_MESSAGE,
+            ClassMethodOverComplicated::class . '::someMethod()',
+            9,
+            8
+        );
+        yield [__DIR__ . '/Source/ClassMethodOverComplicated.php', [[$errorMessage, 7]]];
     }
 
     protected function getRule(): Rule
     {
+        // @todo use generic factory with unique container per run config
         $configurator = new Configurator();
         $configurator->addConfig(__DIR__ . '/../../../../../config/symplify-rules.neon');
         $configurator->setTempDirectory(sys_get_temp_dir() . '/symplify_cognitive_complexity_tests');
