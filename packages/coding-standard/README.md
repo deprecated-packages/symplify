@@ -495,22 +495,6 @@ $dateTime = new Nette\Utils\DateTime('now');
 
 <br>
 
-### There should not be empty PHPDoc blocks
-
-Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all doc block lines.
-
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer`](src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php)
-
-```diff
--/**
-- */
- public function someMethod()
- {
- }
-```
-
-<br>
-
 ### Block comment should not have 2 empty lines in a row
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
@@ -804,38 +788,6 @@ function someFunction(&$var)
 function someFunction($var)
 {
     return $var + 1;
-}
-```
-
-<br>
-
-### Use services and constructor injection over static method
-
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff`](src/Sniffs/CleanCode/ForbiddenStaticFunctionSniff.php)
-
-:x:
-
-```php
-<?php
-
-class SomeClass
-{
-    public static function someFunction()
-    {
-    }
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function someFunction()
-    {
-    }
 }
 ```
 

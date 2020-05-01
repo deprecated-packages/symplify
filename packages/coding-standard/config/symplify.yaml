@@ -30,6 +30,8 @@ services:
             - '../src/Fixer/ControlStructure/PregDelimiterFixer.php'
             - '../src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php'
             - '../src/Fixer/Naming/CatchExceptionNameMatchingTypeFixer.php'
+            - '../src/Fixer/Naming/CatchExceptionNameMatchingTypeFixer.php'
+            - '../src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php'
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'
@@ -40,6 +42,7 @@ services:
             - '../src/Sniffs/Naming/InterfaceNameSniff.php'
             - '../src/Sniffs/CleanCode/CognitiveComplexitySniff.php'
             - '../src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php'
+            - '../src/Sniffs/CleanCode/ForbiddenStaticFunctionSniff.php'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
 
@@ -50,8 +53,6 @@ services:
             - '*Exception'
             - 'Option'
             - 'InitCommand'
-            # duplicated deprecation
-            - 'FinderSanitizer'
             # extended 3rd party class
             - 'CommentedOutCodeSniff'
             # tests

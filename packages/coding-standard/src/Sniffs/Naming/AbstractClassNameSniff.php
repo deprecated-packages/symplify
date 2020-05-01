@@ -31,7 +31,7 @@ final class AbstractClassNameSniff implements Sniff
     public function __construct()
     {
         trigger_error(sprintf(
-            'Sniff "%s" is deprecated. Use instead "%s"',
+            'Sniff "%s" is deprecated. Use "%s" instead',
             self::class,
             'https://github.com/Slamdunk/phpstan-extensions'
         ));
