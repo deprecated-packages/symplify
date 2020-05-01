@@ -12,3 +12,6 @@ packages/*/docs/ export-ignore
 # To ensure the line feeds aren't modified by git
 # see https://github.community/t5/GitHub-Actions/git-config-core-autocrlf-should-default-to-false/td-p/30445
 * -text
+
+# highlight neon files as yaml
+*.neon linguist-language=YAML
