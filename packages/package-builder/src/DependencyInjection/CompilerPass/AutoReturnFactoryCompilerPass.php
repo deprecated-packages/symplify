@@ -34,12 +34,15 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
 
             $createReflectionMethod = new ReflectionMethod($passiveFactoryClass, 'create');
             $returnType = $this->resolveReturnType($createReflectionMethod);
+            if ($returnType === null) {
+                continue;
+            }
 
             // register factory
-            $containerBuilder->autowire($returnType)
-                ->setPublic(true)
-                ->setClass($returnType)
-                ->setFactory([new Reference($passiveFactoryClass), 'create']);
+            $definition = $containerBuilder->autowire($returnType);
+            $definition->setPublic(true);
+            $definition->setFactory([new Reference($passiveFactoryClass), 'create']);
+            $definition->setClass($returnType);
         }
     }
 

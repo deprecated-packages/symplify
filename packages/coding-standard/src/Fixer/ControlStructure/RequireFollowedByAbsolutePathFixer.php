@@ -63,6 +63,7 @@ final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
                 continue;
             }
 
+            /** @var Token $nextToken */
             $nextToken = $tokens[$nextTokenPosition];
 
             if ($this->shouldSkipToken($nextToken)) {

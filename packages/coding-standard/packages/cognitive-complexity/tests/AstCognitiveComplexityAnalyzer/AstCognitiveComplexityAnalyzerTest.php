@@ -50,10 +50,11 @@ final class AstCognitiveComplexityAnalyzerTest extends AbstractKernelTestCase
         yield [__DIR__ . '/Source/function.php.inc', 9];
         yield [__DIR__ . '/Source/function2.php.inc', 6];
         yield [__DIR__ . '/Source/function3.php.inc', 1];
-        yield [__DIR__ . '/Source/function4.php.inc', 2];
-        yield [__DIR__ . '/Source/function6.php.inc', 0];
         yield [__DIR__ . '/Source/function8.php.inc', 7];
-        yield [__DIR__ . '/Source/function7.php.inc', 2];
+
+        yield [__DIR__ . '/Source/function6.php.inc', 0];
+        yield [__DIR__ . '/Source/function4.php.inc', 2];
+        yield [__DIR__ . '/Source/function7.php.inc', 3];
     }
 
     /**
@@ -65,7 +66,7 @@ final class AstCognitiveComplexityAnalyzerTest extends AbstractKernelTestCase
         $fileCotent = FileSystem::read($filePath);
         $nodes = $parser->parse($fileCotent);
 
-        return (new NodeFinder())->findFirst($nodes, function (Node $node) {
+        return (new NodeFinder())->findFirst((array) $nodes, function (Node $node) {
             return $node instanceof ClassMethod || $node instanceof Function_;
         });
     }

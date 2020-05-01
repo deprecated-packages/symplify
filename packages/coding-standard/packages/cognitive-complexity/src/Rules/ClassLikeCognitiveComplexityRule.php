@@ -17,6 +17,11 @@ use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 final class ClassLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
 {
     /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = '%s cognitive complexity for "%s" is %d, keep it under %d';
+
+    /**
      * @var int
      */
     private $maximumClassCognitiveComplexity;
@@ -59,12 +64,12 @@ final class ClassLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
 
         $classLikeName = (string) $node->name;
 
-        $type = $node instanceof Class_ ? 'class' : 'trait';
+        $type = $node instanceof Class_ ? 'Class' : 'Trait';
 
         $message = sprintf(
-            'Cognitive complexity for "%s" %s is %d, keep it under %d',
-            $classLikeName,
+            self::ERROR_MESSAGE,
             $type,
+            $classLikeName,
             $classLikeCognitiveComplexity,
             $this->maximumClassCognitiveComplexity
         );

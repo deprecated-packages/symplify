@@ -43,9 +43,9 @@ abstract class AbstractComplexityNodeVisitor extends NodeVisitorAbstract
         While_::class,
         Do_::class,
         Catch_::class,
-        Ternary::class,
         // &&
         BooleanAnd::class,
+        Ternary::class,
     ];
 
     /**
@@ -70,18 +70,30 @@ abstract class AbstractComplexityNodeVisitor extends NodeVisitorAbstract
         }
 
         // B1. goto LABEL, break LABEL, continue LABEL
+        if ($node instanceof Ternary) {
+            return true;
+        }
+
+        if ($this->isBreakingNode($node)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function isBreakingNode(Node $node): bool
+    {
+        // B1. goto LABEL, break LABEL, continue LABEL
         if ($this->isNodeOfTypes($node, self::BREAKING_NODE_TYPES)) {
             // skip empty breaks
             /** @var Goto_|Break_|Continue_ $node */
-            if ($node instanceof Goto_ && $node->name === null) {
-                return false;
+            if ($node instanceof Goto_ && $node->name !== null) {
+                return true;
             }
 
-            if (($node instanceof Break_ || $node instanceof Continue_) && $node->num === null) {
-                return false;
+            if (($node instanceof Break_ || $node instanceof Continue_) && $node->num !== null) {
+                return true;
             }
-
-            return true;
         }
 
         return false;

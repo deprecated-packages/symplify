@@ -47,7 +47,7 @@ parameters:
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
 
         # invalid 3rd party-code
-        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
+        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\|null given#'
         - '#Variable \$processedFileContent might not be defined#'
 
         # known values
@@ -145,3 +145,11 @@ parameters:
         - '#Cognitive complexity for "Symplify\\CodingStandard\\Fixer\\Commenting\\RemoveEmptyDocBlockFixer::fix\(\)" is 10, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is 14, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is 14, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\PackageBuilder\\Yaml\\ParametersMerger::(.*?)\(\)" is \d+, keep it under 8#'
+
+
+        - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
+        - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
+        - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
+        - '#Parameter \#1 \.\.\.\$arg1 of function max expects array, array\|null given#'
+

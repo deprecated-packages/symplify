@@ -71,10 +71,15 @@ final class AnnotationTypeExistsSniff implements Sniff
      */
     private function resolveTypes(Annotation $annotation, string $annotationName): array
     {
-        $typeHintsDefinition = Strings::split($annotation->getContent(), '#\\s+#')[0];
+        $annotationContent = $annotation->getContent();
+        if ($annotationContent === null) {
+            return [];
+        }
+
+        $typeHintsDefinition = Strings::split($annotationContent, '#\\s+#')[0];
 
         if ($annotationName === '@var') {
-            $match = Strings::match($annotation->getContent(), '#^\$\\S+\\s+(.+)#');
+            $match = Strings::match($annotationContent, '#^\$\\S+\\s+(.+)#');
             if (isset($match[1]) && $match[1]) {
                 $typeHintsDefinition = $match[1];
             }

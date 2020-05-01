@@ -179,7 +179,10 @@ final class LineLengthTransformer
                 continue;
             }
 
+            /** @var Token $previousToken */
             $previousToken = $tokens[$i - 1];
+
+            /** @var Token $nextToken */
             $nextToken = $tokens[$i + 1];
 
             // do not clear before *doc end, removing spaces breaks stuff

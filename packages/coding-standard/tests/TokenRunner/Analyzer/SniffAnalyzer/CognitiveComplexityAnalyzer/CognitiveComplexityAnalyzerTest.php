@@ -40,6 +40,10 @@ final class CognitiveComplexityAnalyzerTest extends TestCase
             }
         }
 
+        if (! is_int($functionTokenPosition)) {
+            return;
+        }
+
         $cognitiveComplexity = $this->cognitiveComplexityAnalyzer->computeForFunctionFromTokensAndPosition(
             $tokens,
             $functionTokenPosition

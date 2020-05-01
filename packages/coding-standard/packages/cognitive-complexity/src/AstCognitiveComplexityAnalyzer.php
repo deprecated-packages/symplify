@@ -45,6 +45,7 @@ final class AstCognitiveComplexityAnalyzer
     public function analyzeFunctionLike(FunctionLike $functionLike): int
     {
         $this->cognitiveComplexityDataCollector->reset();
+        $this->nestingNodeVisitor->reset();
 
         $nodeTraverser = new NodeTraverser();
         $nodeTraverser->addVisitor($this->nestingNodeVisitor);

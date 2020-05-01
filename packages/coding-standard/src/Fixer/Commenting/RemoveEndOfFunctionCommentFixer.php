@@ -51,6 +51,7 @@ final class RemoveEndOfFunctionCommentFixer extends AbstractSymplifyFixer
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = count($tokens) - 1; $index > 1; --$index) {
+            /** @var Token $token */
             $token = $tokens[$index];
 
             if ($this->shouldSkipToken($token, $tokens, $index)) {

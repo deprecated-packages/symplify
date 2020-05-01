@@ -52,7 +52,9 @@ final class FinderSanitizerTest extends TestCase
         $files = $this->finderSanitizer->sanitize($finder);
         $this->assertCount(1, $files);
 
-        $this->validateFile(array_pop($files));
+        /** @var SmartFileInfo $firstFile */
+        $firstFile = array_pop($files);
+        $this->validateFile($firstFile);
     }
 
     private function validateFile(SmartFileInfo $smartFileInfo): void

@@ -15,6 +15,7 @@ final class PropertyNaming
         // is FQN namespace
         if (Strings::contains($rawName, '\\')) {
             $rawNameParts = explode('\\', $rawName);
+            /** @var string $rawName */
             $rawName = array_pop($rawNameParts);
         }
 

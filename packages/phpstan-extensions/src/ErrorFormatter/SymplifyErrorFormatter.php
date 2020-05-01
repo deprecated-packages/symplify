@@ -38,33 +38,20 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
     public function formatErrors(AnalysisResult $analysisResult, Output $output): int
     {
-        if ($analysisResult->getTotalErrorsCount() === 0) {
+        if ($analysisResult->getTotalErrorsCount() === 0 && $analysisResult->getWarnings() === []) {
             $this->symfonyStyle->success('No errors');
             return ShellCode::SUCCESS;
         }
 
-        foreach ($analysisResult->getFileSpecificErrors() as $fileSpecificError) {
-            $this->separator();
-
-            // clickable path
-            $relativeFilePath = $this->getRelativePath($fileSpecificError->getFile());
-            $this->symfonyStyle->writeln(' ' . $relativeFilePath . ':' . $fileSpecificError->getLine());
-            $this->separator();
-
-            // ignored path
-            $regexMessage = $this->regexMessage($fileSpecificError->getMessage());
-            $this->symfonyStyle->writeln(sprintf(" - '%s'", $regexMessage));
-
-            $this->separator();
-            $this->symfonyStyle->newLine();
-        }
+        $this->reportErrors($analysisResult);
 
         foreach ($analysisResult->getNotFileSpecificErrors() as $notFileSpecificError) {
-            $this->symfonyStyle->writeln($notFileSpecificError);
+            $this->symfonyStyle->warning($notFileSpecificError);
         }
 
-        $this->symfonyStyle->newLine(1);
-        $this->symfonyStyle->error(sprintf('Found %d errors', $analysisResult->getTotalErrorsCount()));
+        foreach ($analysisResult->getWarnings() as $warning) {
+            $this->symfonyStyle->warning($warning);
+        }
 
         return ShellCode::ERROR;
     }
@@ -90,5 +77,31 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $message = rtrim($message, '.');
 
         return '#' . preg_quote($message, '#') . '#';
+    }
+
+    private function reportErrors(AnalysisResult $analysisResult): void
+    {
+        if ($analysisResult->getFileSpecificErrors() === []) {
+            return;
+        }
+
+        foreach ($analysisResult->getFileSpecificErrors() as $fileSpecificError) {
+            $this->separator();
+
+            // clickable path
+            $relativeFilePath = $this->getRelativePath($fileSpecificError->getFile());
+            $this->symfonyStyle->writeln(' ' . $relativeFilePath . ':' . $fileSpecificError->getLine());
+            $this->separator();
+
+            // ignored path
+            $regexMessage = $this->regexMessage($fileSpecificError->getMessage());
+            $this->symfonyStyle->writeln(sprintf(" - '%s'", $regexMessage));
+
+            $this->separator();
+            $this->symfonyStyle->newLine();
+        }
+
+        $this->symfonyStyle->newLine(1);
+        $this->symfonyStyle->error(sprintf('Found %d errors', $analysisResult->getTotalErrorsCount()));
     }
 }

@@ -148,7 +148,9 @@ final class PregDelimiterFixer extends AbstractSymplifyFixer implements Configur
      */
     private function resolveArgumentsInfoForFunction(Tokens $tokens, int $position): array
     {
+        /** @var int $openingBracketPosition */
         $openingBracketPosition = $tokens->getNextTokenOfKind($position, ['(']);
+        /** @var int $closingBracketPosition */
         $closingBracketPosition = $tokens->getNextTokenOfKind($position, [')']);
 
         $argumentPositions = $this->argumentsAnalyzer->getArguments(
