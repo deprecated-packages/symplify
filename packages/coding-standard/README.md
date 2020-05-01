@@ -34,7 +34,7 @@ includes:
 
 <br>
 
-### Cognitive Complexity for Method Must be Less than X
+### Cognitive Complexity for Method and Class Must be Less than X
 
 - :wrench:
 - [Why it's the best rule in your coding standard?](https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/)
@@ -42,26 +42,31 @@ includes:
 1) **For ECS**
 
 - class: [`Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/CognitiveComplexitySniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php)
 
 ```yaml
 # ecs.yaml
 services:
     Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
         maxCognitiveComplexity: 8 # default
+    Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
+        maxClassCognitiveComplexity: 50 # default
 ```
 
 2) **For PHPStan**
 
 - class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
+- class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
 
 ```neon
 # phpstan.neon
+include:
+    - packages/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-rules.neon
+
 parameters:
     symplify:
         max_cognitive_complexity: 8 # default
-
-rules:
-    - Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
+        max_class_cognitive_complexity: 50 # default
 ```
 
 :x:
@@ -106,39 +111,6 @@ class SomeClass
         return $value === 3;
     }
 }
-```
-
-<br>
-
-### Cognitive complexity for class must be less than X
-
-Same as the one above just for classes.
-
-- :wrench:
-
-1) **For ECS**
-
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php)
-
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
-        maxClassCognitiveComplexity: 50 # default
-```
-
-2) **For PHPStan**
-
-- class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
-
-```neon
-# phpstan.neon
-parameters:
-    symplify:
-        max_class_cognitive_complexity: 50 # default
-
-rules:
-    - Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
 ```
 
 <br>
