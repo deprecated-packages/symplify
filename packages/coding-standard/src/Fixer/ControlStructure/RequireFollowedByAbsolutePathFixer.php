@@ -27,7 +27,7 @@ final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
     public function __construct()
     {
         trigger_error(sprintf(
-            'Fixer "%s" is deprecated. Use instead "%s"',
+            'Fixer "%s" is deprecated. Use "%s" instead',
             self::class,
             'https://github.com/rectorphp/rector/blob/master/docs/AllRectorsOverview.md#absolutizerequireandincludepathrector'
         ));

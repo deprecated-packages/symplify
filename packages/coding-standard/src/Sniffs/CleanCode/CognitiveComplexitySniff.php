@@ -28,7 +28,7 @@ final class CognitiveComplexitySniff implements Sniff
         $this->cognitiveComplexityAnalyzer = $cognitiveComplexityAnalyzer;
 
         trigger_error(sprintf(
-            'Sniff "%s" is deprecated. Use instead "%s"',
+            'Sniff "%s" is deprecated. Use "%s" instead',
             self::class,
             'https://github.com/symplify/coding-standard/blob/master/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php'
         ));

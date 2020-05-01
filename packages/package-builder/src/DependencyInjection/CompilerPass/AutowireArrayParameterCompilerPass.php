@@ -16,7 +16,7 @@ final class AutowireArrayParameterCompilerPass extends DecoupledCompilerPassAlia
         parent::__construct($excludedFatalClasses);
 
         trigger_error(sprintf(
-            'Compiler pass "%s" is deprecated. Use instead "%s"',
+            'Compiler pass "%s" is deprecated. Use "%s" instead',
             self::class,
             DecoupledCompilerPassAlias::class
         ));

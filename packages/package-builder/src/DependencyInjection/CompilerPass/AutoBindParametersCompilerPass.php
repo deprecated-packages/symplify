@@ -16,7 +16,7 @@ final class AutoBindParametersCompilerPass extends AutoBindParameterCompilerPass
     public function __construct()
     {
         trigger_error(sprintf(
-            'Compiler pass "%s" is deprecated. Use instead "%s"',
+            'Compiler pass "%s" is deprecated. Use "%s" instead',
             self::class,
             AutoBindParameterCompilerPass::class
         ));
