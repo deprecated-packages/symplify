@@ -20,6 +20,10 @@ final class IdsAnalyzer
     public function getHighestIdInChangelog(string $content): ?int
     {
         $ids = $this->getAllIdsInChangelog($content);
+        if ($ids === null || $ids === []) {
+            return 0;
+        }
+
         return (int) max($ids);
     }
 

@@ -62,15 +62,20 @@ try {
                 continue;
             }
 
+            /** @var int $exceptionTypePosition */
             $exceptionTypePosition = $tokens->getNextMeaningfulToken($position + 2);
+
+            /** @var int $variableNamePosition */
             $variableNamePosition = $tokens->getNextMeaningfulToken($exceptionTypePosition);
 
             // probably multiple types, unable to resolve right
+            /** @var Token $variableToken */
             $variableToken = $tokens[$variableNamePosition];
             if (! $variableToken->isGivenKind(T_VARIABLE)) {
                 continue;
             }
 
+            /** @var Token $exceptionTypeToken */
             $exceptionTypeToken = $tokens[$exceptionTypePosition];
             if ($this->isVariableNameMatchingType($variableToken, $exceptionTypeToken)) {
                 continue;
@@ -99,6 +104,10 @@ try {
     ): void {
         // fix also following occurrences
         $openingCatchBodyPosition = $tokens->getNextTokenOfKind($variableNamePosition, ['{']);
+        if ($openingCatchBodyPosition === null) {
+            return;
+        }
+
         $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $openingCatchBodyPosition);
 
         // no block to find

@@ -9,20 +9,31 @@ final class CognitiveComplexityDataCollector
     /**
      * @var int
      */
-    private $cognitiveComplexity = 0;
+    private $operationComplexity = 0;
 
-    public function increase(int $steps): void
+    /**
+     * @var int
+     */
+    private $nestingComplexity = 0;
+
+    public function increaseOperation(): void
     {
-        $this->cognitiveComplexity += $steps;
+        ++$this->operationComplexity;
+    }
+
+    public function increaseNesting(int $steps): void
+    {
+        $this->nestingComplexity += $steps;
     }
 
     public function getCognitiveComplexity(): int
     {
-        return $this->cognitiveComplexity;
+        return $this->nestingComplexity + $this->operationComplexity;
     }
 
     public function reset(): void
     {
-        $this->cognitiveComplexity = 0;
+        $this->operationComplexity = 0;
+        $this->nestingComplexity = 0;
     }
 }

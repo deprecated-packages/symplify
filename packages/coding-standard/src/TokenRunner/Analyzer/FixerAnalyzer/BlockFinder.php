@@ -36,6 +36,7 @@ final class BlockFinder
      */
     public function findInTokensByEdge(Tokens $tokens, int $position): ?BlockInfo
     {
+        /** @var Token $token */
         $token = $tokens[$position];
 
         // shift "array" to "(", event its position
@@ -46,6 +47,7 @@ final class BlockFinder
 
         if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
             $position = $tokens->getNextTokenOfKind($position, ['(', ';']);
+            /** @var Token $token */
             $token = $tokens[$position];
 
             // end of line was sooner => has no block
@@ -59,6 +61,7 @@ final class BlockFinder
             return null;
         }
 
+        /** @var Token $token */
         $blockType = $this->getBlockTypeByToken($token);
 
         try {

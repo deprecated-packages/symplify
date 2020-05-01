@@ -123,6 +123,10 @@ class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             }
 
             $parameterType = $this->resolveParameterType($parameterReflection->getName(), $reflectionMethod);
+            if ($parameterType === null) {
+                continue;
+            }
+
             $definitionsOfType = $this->definitionFinder->findAllByType($containerBuilder, $parameterType);
             $definitionsOfType = $this->filterOutAbstractDefinitions($definitionsOfType);
 

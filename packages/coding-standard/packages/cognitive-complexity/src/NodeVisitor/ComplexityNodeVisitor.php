@@ -25,7 +25,7 @@ final class ComplexityNodeVisitor extends AbstractComplexityNodeVisitor
             return null;
         }
 
-        $this->cognitiveComplexityDataCollector->increase(1);
+        $this->cognitiveComplexityDataCollector->increaseOperation();
 
         return null;
     }

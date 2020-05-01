@@ -14,17 +14,22 @@ final class ClassLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRul
     /**
      * @dataProvider provideDataForTest()
      */
-    public function test(string $file, ?array $expectedMessagesWithLines = null): void
+    public function test(string $file, array $expectedMessagesWithLines): void
     {
         $this->analyse([$file], $expectedMessagesWithLines);
     }
 
     public function provideDataForTest(): Iterator
     {
-        yield [
-            __DIR__ . '/Source/ClassWithManyComplexMethods.php',
-            [['Cognitive complexity for "ClassWithManyComplexMethods" class is 54, keep it under 50', 7]],
-        ];
+        $errorMessage = sprintf(
+            ClassLikeCognitiveComplexityRule::ERROR_MESSAGE,
+            'Class',
+            'ClassWithManyComplexMethods',
+            54,
+            50
+        );
+
+        yield [__DIR__ . '/Source/ClassWithManyComplexMethods.php', [[$errorMessage, 7]]];
     }
 
     protected function getRule(): Rule

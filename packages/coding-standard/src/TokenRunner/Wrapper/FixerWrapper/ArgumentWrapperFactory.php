@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper;
 
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\Exception\ShouldNotHappenException;
 use Symplify\CodingStandard\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\ArgumentWrapper;
 
@@ -25,9 +27,15 @@ final class ArgumentWrapperFactory
      */
     public function createArgumentsFromTokensAndFunctionPosition(Tokens $tokens, int $position): array
     {
-        $this->tokenTypeGuard->ensureIsTokenType($tokens[$position], [T_FUNCTION], __METHOD__);
+        /** @var Token $token */
+        $token = $tokens[$position];
+        $this->tokenTypeGuard->ensureIsTokenType($token, [T_FUNCTION], __METHOD__);
 
         $argumentsBracketStart = $tokens->getNextTokenOfKind($position, ['(']);
+        if (! is_int($argumentsBracketStart)) {
+            throw new ShouldNotHappenException();
+        }
+
         $argumentsBracketEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $argumentsBracketStart);
 
         // no arguments, return

@@ -67,7 +67,14 @@ final class AbstractClassNameSniff implements Sniff
         if (! $this->isClassAbstract()) {
             return true;
         }
-        return Strings::startsWith($this->getClassName(), 'Abstract');
+
+        $className = $this->getClassName();
+        // anonymous
+        if ($className === null) {
+            return true;
+        }
+
+        return Strings::startsWith($className, 'Abstract');
     }
 
     private function isClassAbstract(): bool
