@@ -9,7 +9,201 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v7.2.10 - 2020-04-08
+## Unreleased
+
+### Deprecated
+
+#### CodingStandard
+
+- [#1893] Deprecate BoolPropertyDefaultValueFixer
+
+## [v7.3.3] - 2020-05-02
+
+### Added
+
+- [#1891] Add ForbiddenParentClassRule, deprecate ForbiddenParentClassSniff
+- [#1892] Add NoDefaultExceptionRule +  Deprecate ExplicitExceptionSniff
+
+### Deprecated
+
+- [#1890] Deprecate ForbiddenDoubleAssignSniff
+
+## [v7.3.2] - 2020-05-02
+
+### Changed
+
+#### EasyCodingStandard
+
+- [#1889] Switch compiler to kernel
+
+### Fixed
+
+#### CodingStandard
+
+- [#1886] Fixing cognitive complexity
+
+#### EasyCodingStandard
+
+- [#1888] Fixing compiler command
+- [#1885] Fix ecs.phar compilation with phpstan
+
+## [v7.3.1] - 2020-05-01
+
+### Deprecated
+
+#### CodingStandard
+
+- [#1884] Deprecate ForbiddenStaticFunctionSniff + Deprecate RemoveEmptyDocBlockFixer
+- [#1883] Deprecate cognitive complexity sniff
+
+## [v7.3.0] - 2020-05-01
+
+### Added
+
+- [#1869] Add PHPStan version for object-calisthenics, Add PHPStan rule for cogntiive complexity
+- [#1880] Add ClassLikeCognitiveComplexityRule
+- [#1878] Add NoClassWithStaticMethodWithoutStaticNameRule
+
+### Changed
+
+- [#1877] move object calisthenics to its package
+- [#1876] update README
+
+#### EasyCodingStandard
+
+- [#1882] Do not install box.phar on ecs require
+
+#### MonorepoBuilder
+
+- [#1873] Handling version exceptions in "init" command, Thanks to [@liarco]
+
+#### SymfonyStaticDumper
+
+- [#1875] Handle render page created with TemplateController, Thanks to [@Jibbarth]
+
+#### Unknown Package
+
+- [#1881] Apply cognitive PHPStan rules to Symplify
+
+### Deprecated
+
+#### CodingStandard
+
+- [#1879] Deprecate CatchExceptionNameMatchingTypeFixer
+
+## [v7.2.20] - 2020-04-26
+
+- [#1863] Deprecate TraitNameSniff, InterfaceNameSnfif and AbstractClassNameSniff to slam/phpstan-extensions
+- [#1864] Deprecate RemoveEndOfFunctionCommentFixer
+- [#1865] Deprecate FinalInterfaceFixer
+- [#1866] Deprecate PregDelimiterFixer, deprecate RequireFollowedByAbsolutePathFixer
+
+### Removed
+
+#### EasyCodingStandard
+
+- [#1862] Drop buggy UnusedPublicMethodSniff and dual run feature, better use Rector [BC break]
+- [#1861] Show file/fixer/sniff on --debug, drop warning() method fallback in ECS Style
+
+## [v7.2.19] - 2020-04-24
+
+#### AutowireArrayParameter
+
+- [#1860] Drop nette/application dependency
+
+## [v7.2.18] - 2020-04-24
+
+### Added
+
+#### ComposerJsonManipulator
+
+- [#1859] Add option to add file path, getAllClassmaps(), simple test
+
+### Changed
+
+#### Unknown Package
+
+- [#1836] Do not replace the symfony php70 polyfill in easy-coding-standard, Thanks to [@Agares]
+
+## [v7.2.17] - 2020-04-20
+
+### Deprecated
+
+#### EasyCodingStandard
+
+- [#1857] Deprecate "psr2" set
+
+## [v7.2.16] - 2020-04-20
+
+### Changed
+
+- [#1854] Exclude breaking slevomat rules from "types" set
+
+#### Unknown Package
+
+- [#1855] lock to last working slevomat/coding-standard 6.2
+
+### Fixed
+
+- [#1856] use slevomat 6.3.2 fixed
+
+## [v7.2.14] - 2020-04-19
+
+#### CodingStandard
+
+- [#1852] Remove deprecated SprintfOverContactSniff, fix excludes to dir-paths in phar
+
+## [v7.2.13] - 2020-04-19
+
+### Added
+
+#### MonorepoBuilder
+
+- [#1850] Add release keyword for ReleaseCommand
+
+### Changed
+
+#### EasyCodingStandard
+
+- [#1851] Building phar improvements, refactoring to bundles over relative configs
+
+#### MonorepoBuilder
+
+- [#1848] Skip update of YAML file
+
+#### SymfonyStaticDumper
+
+- [#1847] Improve progress reporting
+- [#1844] Improve naming
+- [#1849] Decouple info method
+
+#### Unknown Package
+
+- [#1841] Move PackageBuilder dependency to require-dev, Thanks to [@TiGR]
+
+## [v7.2.12] - 2020-04-10
+
+### Added
+
+#### ComposerJsonManipulator
+
+- [#1839] Add ComposerJsonManipulatorBundle
+
+### Changed
+
+#### MonorepoBuilder
+
+- [#1837] Improve validate command to include config
+
+## [v7.2.11] - 2020-04-09
+
+### Added
+
+#### Unknown Package
+
+- [#1835] Add bundles
+
+## [v7.2.10] - 2020-04-08
 
 ### Added
 
@@ -584,4 +778,64 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@GenieTim]: https://github.com/GenieTim
 [#1833]: https://github.com/symplify/symplify/pull/1833
 [#1832]: https://github.com/symplify/symplify/pull/1832
-[#1831]: https://github.com/symplify/symplify/pull/1831
+[#1893]: https://github.com/symplify/symplify/pull/1893
+[#1892]: https://github.com/symplify/symplify/pull/1892
+[#1891]: https://github.com/symplify/symplify/pull/1891
+[#1890]: https://github.com/symplify/symplify/pull/1890
+[#1889]: https://github.com/symplify/symplify/pull/1889
+[#1888]: https://github.com/symplify/symplify/pull/1888
+[#1886]: https://github.com/symplify/symplify/pull/1886
+[#1885]: https://github.com/symplify/symplify/pull/1885
+[#1884]: https://github.com/symplify/symplify/pull/1884
+[#1883]: https://github.com/symplify/symplify/pull/1883
+[#1882]: https://github.com/symplify/symplify/pull/1882
+[#1881]: https://github.com/symplify/symplify/pull/1881
+[#1880]: https://github.com/symplify/symplify/pull/1880
+[#1879]: https://github.com/symplify/symplify/pull/1879
+[#1878]: https://github.com/symplify/symplify/pull/1878
+[#1877]: https://github.com/symplify/symplify/pull/1877
+[#1876]: https://github.com/symplify/symplify/pull/1876
+[#1875]: https://github.com/symplify/symplify/pull/1875
+[#1873]: https://github.com/symplify/symplify/pull/1873
+[#1869]: https://github.com/symplify/symplify/pull/1869
+[#1866]: https://github.com/symplify/symplify/pull/1866
+[#1865]: https://github.com/symplify/symplify/pull/1865
+[#1864]: https://github.com/symplify/symplify/pull/1864
+[#1863]: https://github.com/symplify/symplify/pull/1863
+[#1862]: https://github.com/symplify/symplify/pull/1862
+[#1861]: https://github.com/symplify/symplify/pull/1861
+[#1860]: https://github.com/symplify/symplify/pull/1860
+[#1859]: https://github.com/symplify/symplify/pull/1859
+[#1857]: https://github.com/symplify/symplify/pull/1857
+[#1856]: https://github.com/symplify/symplify/pull/1856
+[#1855]: https://github.com/symplify/symplify/pull/1855
+[#1854]: https://github.com/symplify/symplify/pull/1854
+[#1852]: https://github.com/symplify/symplify/pull/1852
+[#1851]: https://github.com/symplify/symplify/pull/1851
+[#1850]: https://github.com/symplify/symplify/pull/1850
+[#1849]: https://github.com/symplify/symplify/pull/1849
+[#1848]: https://github.com/symplify/symplify/pull/1848
+[#1847]: https://github.com/symplify/symplify/pull/1847
+[#1844]: https://github.com/symplify/symplify/pull/1844
+[#1841]: https://github.com/symplify/symplify/pull/1841
+[#1839]: https://github.com/symplify/symplify/pull/1839
+[#1837]: https://github.com/symplify/symplify/pull/1837
+[#1836]: https://github.com/symplify/symplify/pull/1836
+[#1835]: https://github.com/symplify/symplify/pull/1835
+[v7.3.3]: https://github.com/symplify/symplify/compare/v7.3.2...v7.3.3
+[v7.3.2]: https://github.com/symplify/symplify/compare/v7.3.1...v7.3.2
+[v7.3.1]: https://github.com/symplify/symplify/compare/v7.3.0...v7.3.1
+[v7.3.0]: https://github.com/symplify/symplify/compare/v7.2.20...v7.3.0
+[v7.2.20]: https://github.com/symplify/symplify/compare/v7.2.19...v7.2.20
+[v7.2.19]: https://github.com/symplify/symplify/compare/v7.2.18...v7.2.19
+[v7.2.18]: https://github.com/symplify/symplify/compare/v7.2.17...v7.2.18
+[v7.2.17]: https://github.com/symplify/symplify/compare/v7.2.16...v7.2.17
+[v7.2.16]: https://github.com/symplify/symplify/compare/v7.2.14...v7.2.16
+[v7.2.14]: https://github.com/symplify/symplify/compare/v7.2.13...v7.2.14
+[v7.2.13]: https://github.com/symplify/symplify/compare/v7.2.12...v7.2.13
+[v7.2.12]: https://github.com/symplify/symplify/compare/v7.2.11...v7.2.12
+[v7.2.11]: https://github.com/symplify/symplify/compare/v7.2.10...v7.2.11
+[v7.2.10]: https://github.com/symplify/symplify/compare/v7.2.8...v7.2.10
+[@liarco]: https://github.com/liarco
+[@TiGR]: https://github.com/TiGR
+[@Agares]: https://github.com/Agares
