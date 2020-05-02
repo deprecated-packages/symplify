@@ -26,7 +26,7 @@ final class FilePathResolver
     public function resolveFilePathWithArgument(Route $route, string $outputDirectory, $arguments): string
     {
         $filePath = $this->resolveFilePath($route, $outputDirectory);
-        if (!is_array($arguments)) {
+        if (! is_array($arguments)) {
             $arguments = [$arguments];
         }
         $i = 0;

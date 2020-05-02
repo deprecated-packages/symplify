@@ -21,7 +21,7 @@ final class OneArgumentController extends AbstractController implements Controll
 
     public function getControllerClass(): string
     {
-        return __CLASS__;
+        return self::class;
     }
 
     public function getControllerMethod(): string
@@ -31,9 +31,6 @@ final class OneArgumentController extends AbstractController implements Controll
 
     public function getArguments(): array
     {
-        return [
-            '1',
-            '2',
-        ];
+        return ['1', '2'];
     }
 }

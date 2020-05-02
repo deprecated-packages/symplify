@@ -16,12 +16,15 @@ final class TwoArgumentsController extends AbstractController implements Control
      */
     public function __invoke(string $type, string $param): Response
     {
-        return $this->render('two_params.twig', ['type' => $type, 'param' => $param]);
+        return $this->render('two_params.twig', [
+            'type' => $type,
+            'param' => $param,
+        ]);
     }
 
     public function getControllerClass(): string
     {
-        return __CLASS__;
+        return self::class;
     }
 
     public function getControllerMethod(): string
@@ -31,11 +34,6 @@ final class TwoArgumentsController extends AbstractController implements Control
 
     public function getArguments(): array
     {
-        return [
-            ['test', 1],
-            ['test', 2],
-            ['foo', 1],
-            ['foo', 2],
-        ];
+        return [['test', 1], ['test', 2], ['foo', 1], ['foo', 2]];
     }
 }

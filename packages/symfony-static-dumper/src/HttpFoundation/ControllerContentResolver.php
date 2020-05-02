@@ -53,7 +53,7 @@ final class ControllerContentResolver
 
         $this->fakeRequest($routeName);
 
-        if (!is_array($values)) {
+        if (! is_array($values)) {
             $values = [$values];
         }
         /** @var Response $response */
