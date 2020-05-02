@@ -26,6 +26,7 @@ use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff;
 use Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff;
 use Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff;
 use Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff;
+use Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff;
 use Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff;
 use Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff;
 use Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff;
@@ -144,7 +145,8 @@ final class CodingStandardSyncChecker
             DuplicatedClassShortNameSniff::class,
             ForbiddenReferenceSniff::class,
             ArrayPropertyDefaultValueFixer::class,
-            PropertyNameMatchingTypeFixer::class
+            PropertyNameMatchingTypeFixer::class,
+            DebugFunctionCallSniff::class
         ];
 
         // filter out abstract class

@@ -704,9 +704,15 @@ function someFunction($var)
 
 <br>
 
-### Debug functions should not be left in the code
+### Debug functions Cannot Be left in the Code
 
-- class: [`Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff`](src/Sniffs/Debug/DebugFunctionCallSniff.php)
+- class: [`Symplify\CodingStandard\Rules\NoDebugFuncCallRule`](src/Rules/NoDebugFuncCallRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDebugFuncCallRule
+```
 
 :x:
 
