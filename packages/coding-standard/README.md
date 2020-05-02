@@ -146,7 +146,7 @@ class StaticFormatConverter
 
 <br>
 
-### Remove extra around public/protected/private/static modifiers and const
+### Remove Extra Spaces around Property and Constants Modifiers
 
 - class: [`Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer`](packages/coding-standard/src/Fixer/Spacing/RemoveSpacingAroundModifierAndConstFixer.php)
 
@@ -229,12 +229,17 @@ services:
  /**
 - * @param $name string
 + * @param string $name
+  *
 - * @return int $value
 + * @return int
   */
  function someFunction($name)
  {
  }
+```
+
+```diff
+ <?php
 
  class SomeClass
  {
@@ -244,7 +249,9 @@ services:
       */
      private $property;
  }
+```
 
+```diff
 -/* @var int $value */
 +/** @var int $value */
  $value = 5;
@@ -575,36 +582,6 @@ services:
     Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
         allow_classes:
             - 'SomeClass'
-```
-
-<br>
-
-### Array property should have default value, to prevent undefined array issues
-
-- class: [`Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer`](src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
-
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer: null
-```
-
-```diff
- class SomeClass
- {
-     /**
-      * @var string[]
-      */
--    public $apples;
-+    public $apples = [];
-
-     public function run()
-     {
-         foreach ($this->apples as $mac) {
-             // ...
-         }
-     }
- }
 ```
 
 <br>
