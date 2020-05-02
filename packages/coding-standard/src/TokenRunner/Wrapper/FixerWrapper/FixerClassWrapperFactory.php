@@ -6,7 +6,6 @@ namespace Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\CodingStandard\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\CodingStandard\TokenRunner\Naming\Name\NameFactory;
 use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\FixerClassWrapper;
@@ -14,26 +13,6 @@ use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 
 final class FixerClassWrapperFactory
 {
-    /**
-     * @var PropertyWrapperFactory
-     */
-    private $propertyWrapperFactory;
-
-    /**
-     * @var MethodWrapperFactory
-     */
-    private $methodWrapperFactory;
-
-    /**
-     * @var DocBlockFinder
-     */
-    private $docBlockFinder;
-
-    /**
-     * @var PropertyAccessWrapperFactory
-     */
-    private $propertyAccessWrapperFactory;
-
     /**
      * @var NameFactory
      */
@@ -50,18 +29,10 @@ final class FixerClassWrapperFactory
     private $classLikeExistenceChecker;
 
     public function __construct(
-        PropertyWrapperFactory $propertyWrapperFactory,
-        MethodWrapperFactory $methodWrapperFactory,
-        DocBlockFinder $docBlockFinder,
-        PropertyAccessWrapperFactory $propertyAccessWrapperFactory,
         NameFactory $nameFactory,
         TokenTypeGuard $tokenTypeGuard,
         ClassLikeExistenceChecker $classLikeExistenceChecker
     ) {
-        $this->propertyWrapperFactory = $propertyWrapperFactory;
-        $this->methodWrapperFactory = $methodWrapperFactory;
-        $this->docBlockFinder = $docBlockFinder;
-        $this->propertyAccessWrapperFactory = $propertyAccessWrapperFactory;
         $this->nameFactory = $nameFactory;
         $this->tokenTypeGuard = $tokenTypeGuard;
         $this->classLikeExistenceChecker = $classLikeExistenceChecker;
@@ -73,15 +44,6 @@ final class FixerClassWrapperFactory
         $token = $tokens[$startIndex];
         $this->tokenTypeGuard->ensureIsTokenType($token, [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
 
-        return new FixerClassWrapper(
-            $tokens,
-            $startIndex,
-            $this->propertyWrapperFactory,
-            $this->methodWrapperFactory,
-            $this->docBlockFinder,
-            $this->propertyAccessWrapperFactory,
-            $this->nameFactory,
-            $this->classLikeExistenceChecker
-        );
+        return new FixerClassWrapper($tokens, $startIndex, $this->nameFactory, $this->classLikeExistenceChecker);
     }
 }

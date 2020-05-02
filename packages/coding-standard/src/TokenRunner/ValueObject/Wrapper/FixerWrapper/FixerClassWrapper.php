@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\CodingStandard\TokenRunner\Naming\Name\NameFactory;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\PropertyAccessWrapperFactory;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\PropertyWrapperFactory;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 
@@ -77,21 +72,6 @@ final class FixerClassWrapper
     private $classyElements = [];
 
     /**
-     * @var PropertyAccessWrapperFactory
-     */
-    private $propertyAccessWrapperFactory;
-
-    /**
-     * @var MethodWrapperFactory
-     */
-    private $methodWrapperFactory;
-
-    /**
-     * @var DocBlockFinder
-     */
-    private $docBlockFinder;
-
-    /**
      * @var Tokens
      */
     private $tokens;
@@ -116,18 +96,9 @@ final class FixerClassWrapper
      */
     private $classLikeExistenceChecker;
 
-    /**
-     * @var PropertyWrapperFactory
-     */
-    private $propertyWrapperFactory;
-
     public function __construct(
         Tokens $tokens,
         int $startIndex,
-        PropertyWrapperFactory $propertyWrapperFactory,
-        MethodWrapperFactory $methodWrapperFactory,
-        DocBlockFinder $docBlockFinder,
-        PropertyAccessWrapperFactory $propertyAccessWrapperFactory,
         NameFactory $nameFactory,
         ClassLikeExistenceChecker $classLikeExistenceChecker
     ) {
@@ -141,10 +112,6 @@ final class FixerClassWrapper
         $this->tokens = $tokens;
         $this->tokensAnalyzer = new TokensAnalyzer($tokens);
         $this->startIndex = $startIndex;
-        $this->propertyWrapperFactory = $propertyWrapperFactory;
-        $this->methodWrapperFactory = $methodWrapperFactory;
-        $this->docBlockFinder = $docBlockFinder;
-        $this->propertyAccessWrapperFactory = $propertyAccessWrapperFactory;
         $this->nameFactory = $nameFactory;
         $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
@@ -194,75 +161,12 @@ final class FixerClassWrapper
         return $this->filterClassyTokens($this->getClassyElements(), ['property']);
     }
 
-    public function renameEveryPropertyOccurrence(string $oldName, string $newName): void
-    {
-        for ($i = $this->startBracketIndex + 1; $i < $this->endBracketIndex; ++$i) {
-            $token = $this->tokens[$i];
-
-            if (! $token->isGivenKind(T_VARIABLE)) {
-                continue;
-            }
-
-            if ($token->getContent() !== '$this') {
-                continue;
-            }
-
-            $propertyAccessWrapper = $this->propertyAccessWrapperFactory->createFromTokensAndPosition(
-                $this->tokens,
-                $i
-            );
-
-            if ($propertyAccessWrapper->getName() === $oldName) {
-                $propertyAccessWrapper->changeName($newName);
-            }
-        }
-    }
-
-    /**
-     * @return PropertyWrapper[]
-     */
-    public function getPropertyWrappers(): array
-    {
-        $propertyWrappers = [];
-
-        foreach (array_keys($this->getProperties()) as $propertyPosition) {
-            $propertyWrappers[] = $this->propertyWrapperFactory->createFromTokensAndPosition(
-                $this->tokens,
-                $propertyPosition
-            );
-        }
-
-        return $propertyWrappers;
-    }
-
-    /**
-     * @return MethodWrapper[]
-     */
-    public function getMethodWrappers(): array
-    {
-        $methodWrappers = [];
-
-        foreach (array_keys($this->getMethods()) as $methodPosition) {
-            $methodWrappers[] = $this->methodWrapperFactory->createFromTokensAndPosition(
-                $this->tokens,
-                $methodPosition
-            );
-        }
-
-        return $methodWrappers;
-    }
-
     /**
      * @param int[] $tokenKinds
      */
     public function isGivenKind(array $tokenKinds): bool
     {
         return $this->classToken->isGivenKind($tokenKinds);
-    }
-
-    public function doesImplementInterface(): bool
-    {
-        return (bool) $this->getInterfaceNames();
     }
 
     public function isFinal(): bool
@@ -273,16 +177,6 @@ final class FixerClassWrapper
     public function isAbstract(): bool
     {
         return (bool) $this->tokens->findGivenKind(T_ABSTRACT, 0, $this->startIndex);
-    }
-
-    public function isDoctrineEntity(): bool
-    {
-        $docCommentPosition = $this->docBlockFinder->findPreviousPosition($this->tokens, $this->startIndex);
-        if (! $docCommentPosition) {
-            return false;
-        }
-
-        return Strings::contains($this->tokens[$docCommentPosition]->getContent(), 'Entity');
     }
 
     public function isAnonymous(): bool
@@ -464,14 +358,6 @@ final class FixerClassWrapper
         }
 
         return $this->classyElements = $this->tokensAnalyzer->getClassyElements();
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function getMethods(): array
-    {
-        return $this->filterClassyTokens($this->getClassyElements(), ['method']);
     }
 
     /**
