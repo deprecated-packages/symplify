@@ -67,11 +67,6 @@ final class SniffClassWrapper
         return (bool) $this->getImplementsPosition();
     }
 
-    public function doesExtendClass(): bool
-    {
-        return (bool) $this->file->findNext(T_EXTENDS, $this->position, $this->position + 5);
-    }
-
     public function getParentClassName(): ?string
     {
         $extendsTokenPosition = TokenHelper::findNext($this->file, T_EXTENDS, $this->position, $this->position + 10);
