@@ -69,28 +69,6 @@ final class VersionValidator
      * @param mixed[] $packageVersionsPerFile
      * @return mixed[]
      */
-    private function filterConflictingPackageVersionsPerFile(array $packageVersionsPerFile): array
-    {
-        $conflictingPackageVersionsPerFile = [];
-        foreach ($packageVersionsPerFile as $packageName => $filesToVersions) {
-            $uniqueVersions = array_unique($filesToVersions);
-            if (count($uniqueVersions) <= 1) {
-                continue;
-            }
-
-            // sort by versions to make more readable
-            asort($filesToVersions);
-
-            $conflictingPackageVersionsPerFile[$packageName] = $filesToVersions;
-        }
-
-        return $conflictingPackageVersionsPerFile;
-    }
-
-    /**
-     * @param mixed[] $packageVersionsPerFile
-     * @return mixed[]
-     */
     private function appendAppendingComposerJson(array $packageVersionsPerFile): array
     {
         $appendingComposerJson = $this->modifyingComposerJsonProvider->getAppendingComposerJson();
@@ -107,5 +85,27 @@ final class VersionValidator
         }
 
         return $packageVersionsPerFile;
+    }
+
+    /**
+     * @param mixed[] $packageVersionsPerFile
+     * @return mixed[]
+     */
+    private function filterConflictingPackageVersionsPerFile(array $packageVersionsPerFile): array
+    {
+        $conflictingPackageVersionsPerFile = [];
+        foreach ($packageVersionsPerFile as $packageName => $filesToVersions) {
+            $uniqueVersions = array_unique($filesToVersions);
+            if (count($uniqueVersions) <= 1) {
+                continue;
+            }
+
+            // sort by versions to make more readable
+            asort($filesToVersions);
+
+            $conflictingPackageVersionsPerFile[$packageName] = $filesToVersions;
+        }
+
+        return $conflictingPackageVersionsPerFile;
     }
 }

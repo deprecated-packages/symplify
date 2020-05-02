@@ -78,18 +78,19 @@ final class MatchingTypeConstantRule implements Rule
         return count($classConst->consts) !== 1;
     }
 
-    /**
-     * @return Annotation[]
-     */
-    private function getVarAnnotationsForNode(Node $node): array
+    private function resolveOnlyVarAnnotationType(ClassConst $classConst): ?string
     {
-        if ($node->getDocComment() === null) {
-            return [];
+        $varAnnotations = $this->getVarAnnotationsForNode($classConst);
+        if (count($varAnnotations) === 0) {
+            return null;
         }
 
-        $docBlock = new DocBlock($node->getDocComment()->getText());
+        $types = $varAnnotations[0]->getNormalizedTypes();
+        if (count($types) !== 1) {
+            return null;
+        }
 
-        return $docBlock->getAnnotationsOfType('var');
+        return $types[0];
     }
 
     /**
@@ -111,6 +112,20 @@ final class MatchingTypeConstantRule implements Rule
         }
 
         return [];
+    }
+
+    /**
+     * @return Annotation[]
+     */
+    private function getVarAnnotationsForNode(Node $node): array
+    {
+        if ($node->getDocComment() === null) {
+            return [];
+        }
+
+        $docBlock = new DocBlock($node->getDocComment()->getText());
+
+        return $docBlock->getAnnotationsOfType('var');
     }
 
     /**
@@ -160,20 +175,5 @@ final class MatchingTypeConstantRule implements Rule
         }
 
         return $nodeClass;
-    }
-
-    private function resolveOnlyVarAnnotationType(ClassConst $classConst): ?string
-    {
-        $varAnnotations = $this->getVarAnnotationsForNode($classConst);
-        if (count($varAnnotations) === 0) {
-            return null;
-        }
-
-        $types = $varAnnotations[0]->getNormalizedTypes();
-        if (count($types) !== 1) {
-            return null;
-        }
-
-        return $types[0];
     }
 }

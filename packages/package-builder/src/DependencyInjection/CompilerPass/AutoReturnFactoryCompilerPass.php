@@ -101,6 +101,23 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
         return ! in_array($returnType, self::EXCLUDED_FACTORY_TYPES, true);
     }
 
+    private function resolveReturnType(ReflectionMethod $reflectionMethod): ?string
+    {
+        $returnType = $reflectionMethod->getReturnType();
+        if ($returnType !== null) {
+            return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
+        }
+
+        $match = Strings::match((string) $reflectionMethod->getDocComment(), self::RETURN_TYPE_PATTERN);
+        if (isset($match['returnType'])) {
+            $classReflection = $reflectionMethod->getDeclaringClass();
+
+            return Reflection::expandClassName($match['returnType'], $classReflection);
+        }
+
+        return null;
+    }
+
     /**
      * @return string[]
      */
@@ -123,22 +140,5 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
         }
 
         return $activeFactories;
-    }
-
-    private function resolveReturnType(ReflectionMethod $reflectionMethod): ?string
-    {
-        $returnType = $reflectionMethod->getReturnType();
-        if ($returnType !== null) {
-            return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
-        }
-
-        $match = Strings::match((string) $reflectionMethod->getDocComment(), self::RETURN_TYPE_PATTERN);
-        if (isset($match['returnType'])) {
-            $classReflection = $reflectionMethod->getDeclaringClass();
-
-            return Reflection::expandClassName($match['returnType'], $classReflection);
-        }
-
-        return null;
     }
 }
