@@ -17,3 +17,6 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenParentClasses: "%symplify.forbidden_parent_classes%"
+
+rules:
+    - Symplify\CodingStandard\Rules\DocBlock\NoNonExistingVarParamReturnThrowRule
