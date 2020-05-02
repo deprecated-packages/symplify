@@ -14,6 +14,9 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
+/**
+ * @deprecated
+ */
 final class BoolPropertyDefaultValueFixer extends AbstractSymplifyFixer
 {
     /**
@@ -32,6 +35,14 @@ final class BoolPropertyDefaultValueFixer extends AbstractSymplifyFixer
     ) {
         $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->docBlockManipulator = $docBlockManipulator;
+
+        trigger_error(sprintf(
+            'Fixer "%s" is deprecated. Use "%s" instead',
+            self::class,
+            'AddFalseDefaultToBoolPropertyRector'
+        ));
+
+        sleep(3);
     }
 
     public function getDefinition(): FixerDefinitionInterface
