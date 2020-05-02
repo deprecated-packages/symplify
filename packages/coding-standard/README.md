@@ -168,7 +168,6 @@ services:
 
 ### Use Unique Class Short Names
 
-- :wrench:
 - class: [`Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule`](src/Rules/NoDuplicatedShortClassNameRule.php)
 
 ```yaml
