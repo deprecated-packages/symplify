@@ -736,33 +736,6 @@ function someFunction($var)
 
 <br>
 
-### Constant should have docblock comment
-
-- class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](src/Sniffs/Commenting/VarConstantCommentSniff.php)
-
-```php
-class SomeClass
-{
-    private const EMPATH_LEVEL = 55;
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    /**
-     * @var int
-     */
-    private const EMPATH_LEVEL = 55;
-}
-```
-
-<br>
-
 ### There should not be comments with valid code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)

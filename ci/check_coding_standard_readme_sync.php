@@ -19,6 +19,7 @@ use Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff;
 use Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff;
+use Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff;
 use Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff;
 use Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff;
 use Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff;
@@ -128,7 +129,8 @@ final class CodingStandardSyncChecker
             ExplicitExceptionSniff::class,
             BoolPropertyDefaultValueFixer::class,
             AnnotationTypeExistsSniff::class,
-            PreferredClassSniff::class
+            PreferredClassSniff::class,
+            VarConstantCommentSniff::class
         ];
 
         // filter out abstract class
