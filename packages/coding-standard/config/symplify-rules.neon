@@ -7,8 +7,9 @@ parameters:
         forbidden_parent_classes: []
 
 parametersSchema:
-    symplify:
-        forbidden_parent_classes: listOf(string())
+    symplify: structure([
+        forbidden_parent_classes: arrayOf(string())
+    ])
 
 services:
     -

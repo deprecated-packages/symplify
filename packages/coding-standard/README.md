@@ -723,7 +723,8 @@ throw new FileNotFoundException('...');
 - class: [`\Symplify\CodingStandard\Rules\CleanCode\ForbiddenParentClassRule`](src/Rules/CleanCode/ForbiddenParentClassRule.php)
 
 ```yaml
-include:
+# phpstan.neon
+includes:
     - vendor/symplify/coding-standard/config/symplify-rules.neon
 
 # phpstan.neon

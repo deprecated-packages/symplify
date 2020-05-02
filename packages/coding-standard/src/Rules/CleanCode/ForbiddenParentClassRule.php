@@ -25,11 +25,11 @@ final class ForbiddenParentClassRule implements Rule
     private $forbiddenParentClasses = [];
 
     /**
-     * @param string[] $forbiddentParentClasses
+     * @param string[] $forbiddenParentClasses
      */
-    public function __construct(array $forbiddentParentClasses = [])
+    public function __construct(array $forbiddenParentClasses = [])
     {
-        $this->forbiddenParentClasses = $forbiddentParentClasses;
+        $this->forbiddenParentClasses = $forbiddenParentClasses;
     }
 
     public function getNodeType(): string

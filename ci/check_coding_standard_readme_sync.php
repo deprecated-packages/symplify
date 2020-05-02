@@ -13,6 +13,7 @@ use Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
 use Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff;
+use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff;
 use Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff;
 use Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff;
@@ -119,7 +120,8 @@ final class CodingStandardSyncChecker
             ClassCognitiveComplexitySniff::class,
             ForbiddenStaticFunctionSniff::class,
             RemoveEmptyDocBlockFixer::class,
-            ForbiddenDoubleAssignSniff::class
+            ForbiddenDoubleAssignSniff::class,
+            ForbiddenParentClassSniff::class
         ];
 
         // filter out abstract class
