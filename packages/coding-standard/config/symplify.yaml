@@ -47,6 +47,7 @@ services:
             - '../src/Sniffs/ControlStructure/ForbiddenDoubleAssignSniff.php'
             - '../src/Sniffs/CleanCode/ForbiddenParentClassSniff.php'
             - '../src/Sniffs/Architecture/ExplicitExceptionSniff.php'
+            - '../src/Sniffs/Commenting/AnnotationTypeExistsSniff.php'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
 

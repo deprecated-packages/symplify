@@ -14,6 +14,7 @@ parameters:
 
     exclude_files:
         # tests
+        - '*/Fixture/*'
         - 'packages/*/tests/**Source/*.php'
         - 'packages/coding-standard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
         # own scope

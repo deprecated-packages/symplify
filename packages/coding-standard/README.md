@@ -164,46 +164,6 @@ services:
 
 <br>
 
-### Make sure That `@param`, `@var`, `@return` and `@throw` Types Exist
-
-- class: [`Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff`](src/Sniffs/Commenting/AnnotationTypeExistsSniff.php)
-
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff: null
-```
-
-:x:
-
-```php
-<?php
-
-class SomeClass
-{
-    /**
-     * @var NonExistingClass
-     */
-    private $property;
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    /**
-     * @var ExistingClass
-     */
-    private $property;
-}
-```
-
-<br>
-
 ### Use Unique Class Short Names
 
 - :wrench:
