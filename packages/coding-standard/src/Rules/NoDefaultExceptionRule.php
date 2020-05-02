@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Exception;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name;
@@ -11,7 +12,6 @@ use PhpParser\Node\Stmt\Throw_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use ReflectionClass;
-use Throwable;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoDefaultExceptionRule\NoDefaultExceptionRuleTest
@@ -45,7 +45,7 @@ final class NoDefaultExceptionRule implements Rule
         }
 
         $exceptionClass = (string) $new->class;
-        if (! is_a($exceptionClass, Throwable::class, true)) {
+        if (! is_a($exceptionClass, Exception::class, true)) {
             return [];
         }
 

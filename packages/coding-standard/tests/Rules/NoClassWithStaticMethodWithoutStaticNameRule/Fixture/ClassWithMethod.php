@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\Naming\NoClassWithStaticMethodWithoutStaticNameRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule\Fixture;
 
 final class ClassWithMethod
 {

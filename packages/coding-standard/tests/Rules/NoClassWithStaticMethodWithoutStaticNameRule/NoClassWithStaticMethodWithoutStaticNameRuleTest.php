@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\Naming\NoClassWithStaticMethodWithoutStaticNameRule;
+namespace Symplify\CodingStandard\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\Naming\NoClassWithStaticMethodWithoutStaticNameRule;
+use Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule;
 
 final class NoClassWithStaticMethodWithoutStaticNameRuleTest extends RuleTestCase
 {

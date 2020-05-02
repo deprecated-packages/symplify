@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Rules\Naming;
+namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
@@ -16,7 +16,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\Naming\NoClassWithStaticMethodWithoutStaticNameRule\NoClassWithStaticMethodWithoutStaticNameRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule\NoClassWithStaticMethodWithoutStaticNameRuleTest
  */
 final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule
 {
