@@ -491,32 +491,6 @@ services:
 
 <br>
 
-### Property name should match its key, if possible
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer`](src/Fixer/Naming/PropertyNameMatchingTypeFixer.php)
-
-```diff
--public function __construct(EntityManagerInterface $eventManager)
-+public function __construct(EntityManagerInterface $entityManager)
- {
--    $this->eventManager = $eventManager;
-+    $this->entityManager = $entityManager;
- }
-```
-
-This checker ignores few **system classes like `std*` or `Spl*` by default**. In case want to skip more classes, you can **configure it**:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer:
-        extra_skipped_classes:
-            - 'MyApp*' # accepts anything like fnmatch
-```
-
-<br>
-
 ### Public Methods Should have Specific Order by Interface/Parent Class
 
 - :wrench:
