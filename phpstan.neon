@@ -55,9 +55,15 @@ parameters:
         -
             message: '#Instead of "SplFileInfo" use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
             paths:
-                 - 'packages/smart-file-system/src/Finder/FinderSanitizer.php'
-                 - 'packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
-                 - '*Fixer.php'
+                - 'packages/smart-file-system/src/Finder/FinderSanitizer.php'
+                - 'packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
+                - '*Fixer.php'
+
+        -
+            message: "#^Use explicit return value over magic &reference$#"
+            paths:
+                - packages/package-builder/src/Reflection/PrivatesCaller.php
+                - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php
 
         # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
@@ -159,10 +165,8 @@ parameters:
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is 14, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\PackageBuilder\\Yaml\\ParametersMerger::(.*?)\(\)" is \d+, keep it under 8#'
 
-
         - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
         - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
         - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error\|PhpParser\\Node\\Expr\\Variable\:\:\$name#'
-
