@@ -49,6 +49,8 @@ services:
             - '../src/Sniffs/Architecture/ExplicitExceptionSniff.php'
             - '../src/Sniffs/Commenting/AnnotationTypeExistsSniff.php'
             - '../src/Sniffs/Architecture/PreferredClassSniff.php'
+            - '../src/Sniffs/Architecture/PreferredClassSniff.php'
+            - '../src/Sniffs/Commenting/VarConstantCommentSniff.php'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
 
