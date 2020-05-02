@@ -56,29 +56,6 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         return ShellCode::ERROR;
     }
 
-    private function separator(): void
-    {
-        $separator = str_repeat('-', $this->terminal->getWidth() - self::BULGARIAN_CONSTANT);
-        $this->symfonyStyle->writeln(' ' . $separator);
-    }
-
-    private function getRelativePath(string $filePath): string
-    {
-        if (! file_exists($filePath)) {
-            return $filePath;
-        }
-
-        return (new SmartFileInfo($filePath))->getRelativeFilePathFromDirectory(getcwd());
-    }
-
-    private function regexMessage(string $message): string
-    {
-        // remove extra ".", that is really not part of message
-        $message = rtrim($message, '.');
-
-        return '#' . preg_quote($message, '#') . '#';
-    }
-
     private function reportErrors(AnalysisResult $analysisResult): void
     {
         if ($analysisResult->getFileSpecificErrors() === []) {
@@ -103,5 +80,28 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
         $this->symfonyStyle->newLine(1);
         $this->symfonyStyle->error(sprintf('Found %d errors', $analysisResult->getTotalErrorsCount()));
+    }
+
+    private function separator(): void
+    {
+        $separator = str_repeat('-', $this->terminal->getWidth() - self::BULGARIAN_CONSTANT);
+        $this->symfonyStyle->writeln(' ' . $separator);
+    }
+
+    private function getRelativePath(string $filePath): string
+    {
+        if (! file_exists($filePath)) {
+            return $filePath;
+        }
+
+        return (new SmartFileInfo($filePath))->getRelativeFilePathFromDirectory(getcwd());
+    }
+
+    private function regexMessage(string $message): string
+    {
+        // remove extra ".", that is really not part of message
+        $message = rtrim($message, '.');
+
+        return '#' . preg_quote($message, '#') . '#';
     }
 }

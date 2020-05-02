@@ -294,6 +294,15 @@ final class LineLengthTransformer
         return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
     }
 
+    private function isBlockStartOrEnd(Token $previousToken, Token $nextToken): bool
+    {
+        if (in_array($previousToken->getContent(), ['(', '['], true)) {
+            return true;
+        }
+
+        return in_array($nextToken->getContent(), [')', ']'], true);
+    }
+
     /**
      * @param Tokens|Token[] $tokens
      */
@@ -304,14 +313,5 @@ final class LineLengthTransformer
         }
 
         return $tokens[$position]->isGivenKind(T_OPEN_TAG);
-    }
-
-    private function isBlockStartOrEnd(Token $previousToken, Token $nextToken): bool
-    {
-        if (in_array($previousToken->getContent(), ['(', '['], true)) {
-            return true;
-        }
-
-        return in_array($nextToken->getContent(), [')', ']'], true);
     }
 }

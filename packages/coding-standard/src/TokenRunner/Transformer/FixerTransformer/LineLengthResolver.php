@@ -45,6 +45,18 @@ final class LineLengthResolver
     /**
      * @param Tokens|Token[] $tokens
      */
+    private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
+    {
+        if (Strings::startsWith($tokens[$position]->getContent(), EolConfiguration::getEolChar())) {
+            return true;
+        }
+
+        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
+    }
+
+    /**
+     * @param Tokens|Token[] $tokens
+     */
     private function getLenthFromFunctionStartToEndOfArguments(BlockInfo $blockInfo, Tokens $tokens): int
     {
         $length = 0;
@@ -68,18 +80,6 @@ final class LineLengthResolver
         }
 
         return $length;
-    }
-
-    /**
-     * @param Tokens|Token[] $tokens
-     */
-    private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
-    {
-        if (Strings::startsWith($tokens[$position]->getContent(), EolConfiguration::getEolChar())) {
-            return true;
-        }
-
-        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
     }
 
     /**

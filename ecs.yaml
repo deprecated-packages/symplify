@@ -33,29 +33,6 @@ parameters:
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
 
-        Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
-            # allowed spots for Container
-            - '*Kernel.php'
-            - 'packages/package-builder/src/Parameter/ParameterProvider.php'
-            - 'packages/package-builder/src/Parameter/ParameterTypoProofreader.php'
-            - 'packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php'
-            # converts non-preferred type
-            - 'packages/smart-file-system/src/SmartFileInfo.php'
-            - 'packages/smart-file-system/src/Finder/FinderSanitizer.php'
-            - 'packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
-            # uses 3rd-party API
-            - 'packages/package-builder/src/Configuration/LevelFileFinder.php'
-            - 'packages/coding-standard/src/Fixer/*'
-            - 'packages/coding-standard/tests/Fixer/*'
-            # SplFileInfo extension
-            - 'packages/phpstan-extensions/src/Symfony/Type/SplFileInfoTolerantDynamicMethodReturnTypeExtension.php'
-            # tests
-            - 'packages/monorepo-builder/tests/Package/PackageComposerJsonMergerTest.php'
-            - 'packages/monorepo-builder/tests/Package/CombineStringsToArrayJsonMergerTest.php'
-
-            - 'packages/set-config-resolver/src/Finder/SetFileFinder.php'
-            - 'packages/set-config-resolver/src/SetResolver.php'
-
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - 'packages/easy-coding-standard/tests/Indentation/IndentationTest.php'
 
@@ -71,25 +48,13 @@ parameters:
 
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
-            - 'packages/coding-standard/src/Rules/CleanCode/NoDefaultExceptionRule.php'
+            - 'packages/coding-standard/src/Rules/NoDefaultExceptionRule.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
-
-        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
-            # reference for reflection of method with reference
-            - 'packages/package-builder/src/Reflection/PrivatesCaller.php'
-            # anonymous foreach function
-            - 'packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php'
-            - 'packages/symfony-static-dumper/src/Controller/ControllerDumper.php'
 
         Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
             # useful comments
             - 'packages/latte-to-twig-converter/src/CaseConverter/*CaseConverter.php'
-
-        Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
-            - 'packages/monorepo-builder/src/Console/Command/ValidateCommand.php'
-            - 'packages/package-builder/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
-            - 'packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingNativeTypeHint:
             - '*Sniff.php'
@@ -102,13 +67,6 @@ parameters:
             - 'packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php'
 
 services:
-    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
-        old_to_preferred_classes:
-            SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
-            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
-            DateTime: 'Nette\Utils\DateTime'
-            PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
-
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
             PhpCsFixer\Fixer\FixerInterface:

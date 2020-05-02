@@ -2,12 +2,20 @@ includes:
     - packages/phpstan-extensions/config/config.neon
     - vendor/slam/phpstan-extensions/conf/slam-rules.neon
     - vendor/slam/phpstan-extensions/conf/symfony-rules.neon
-    - packages/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-rules.neon
+    - packages/coding-standard/config/symplify-rules.neon
 
 parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
-#    reportUnmatchedIgnoredErrors: false
+
+    symplify:
+        old_to_preffered_classes:
+            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            DateTime: 'Nette\Utils\DateTime'
+            PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
+
+    reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
         - *packages/monorepo-builder/packages/init/templates/*
@@ -31,6 +39,7 @@ parameters:
         - 'packages/easy-hydrator/tests/Fixture/TypedProperty.php'
         - 'packages/easy-hydrator/tests/TypedPropertiesTest.php'
         - '*/Source/*'
+        - '*/Fixture/*'
 
     autoload_files:
         - %currentWorkingDirectory%/tests/bootstrap.php
@@ -42,6 +51,13 @@ parameters:
         -
             message: '#Cannot cast array<string>\|string\|null to string#'
             path: '*packages/*Command.php'
+
+        -
+            message: '#Instead of "SplFileInfo" use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
+            paths:
+                 - 'packages/smart-file-system/src/Finder/FinderSanitizer.php'
+                 - 'packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
+                 - '*Fixer.php'
 
         # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
@@ -147,3 +163,6 @@ parameters:
         - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
         - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
         - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
+        - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
+        - '#Access to an undefined property PhpParser\\Node\\Expr\\Error\|PhpParser\\Node\\Expr\\Variable\:\:\$name#'
+

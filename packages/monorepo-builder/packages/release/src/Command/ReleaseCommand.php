@@ -116,6 +116,13 @@ final class ReleaseCommand extends Command
         return ShellCode::SUCCESS;
     }
 
+    private function resolveStage(InputInterface $input): ?string
+    {
+        $stage = $input->getOption(Option::STAGE);
+
+        return $stage !== null ? (string) $stage : $stage;
+    }
+
     private function printReleaseWorkerMetadata(ReleaseWorkerInterface $releaseWorker): void
     {
         if (! $this->symfonyStyle->isVerbose()) {
@@ -126,12 +133,5 @@ final class ReleaseCommand extends Command
         $this->symfonyStyle->writeln('priority: ' . $releaseWorker->getPriority());
         $this->symfonyStyle->writeln('class: ' . get_class($releaseWorker));
         $this->symfonyStyle->newLine();
-    }
-
-    private function resolveStage(InputInterface $input): ?string
-    {
-        $stage = $input->getOption(Option::STAGE);
-
-        return $stage !== null ? (string) $stage : $stage;
     }
 }

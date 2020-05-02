@@ -48,18 +48,10 @@ services:
             - '../src/Sniffs/CleanCode/ForbiddenParentClassSniff.php'
             - '../src/Sniffs/Architecture/ExplicitExceptionSniff.php'
             - '../src/Sniffs/Commenting/AnnotationTypeExistsSniff.php'
+            - '../src/Sniffs/Architecture/PreferredClassSniff.php'
+            - '../src/Sniffs/Architecture/PreferredClassSniff.php'
+            - '../src/Sniffs/Commenting/VarConstantCommentSniff.php'
+            - '../src/Sniffs/Architecture/DuplicatedClassShortNameSniff.php'
+            - '../src/Sniffs/CleanCode/ForbiddenReferenceSniff.php'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
-
-    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
-        allowed_class_names:
-            - 'File*'
-            # per monorepo package unique
-            - '*Exception'
-            - 'Option'
-            - 'InitCommand'
-            # extended 3rd party class
-            - 'CommentedOutCodeSniff'
-            # tests
-            - 'Some*'
-            - 'GithubApi'

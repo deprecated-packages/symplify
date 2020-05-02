@@ -103,6 +103,8 @@ class SomeClass
 
 ### Classes with Static Methods must have "Static" in the Name
 
+- class: [`Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule`](src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
+
 - [Why is static bad?](https://tomasvotruba.com/blog/2019/04/01/removing-static-there-and-back-again/)
 - be honest about static
 - value object static constructor methods are excluded
@@ -111,7 +113,7 @@ class SomeClass
 ```yaml
 # phpstan.neon
 rules:
-    - Symplify\CodingStandard\Rules\Naming\NoClassWithStaticMethodWithoutStaticNameRule
+    - Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule
 ```
 
 :x:
@@ -166,8 +168,13 @@ services:
 
 ### Use Unique Class Short Names
 
-- :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff`](/src/Sniffs/Architecture/DuplicatedClassShortNameSniff.php)
+- class: [`Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule`](src/Rules/NoDuplicatedShortClassNameRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule
+```
 
 :x:
 
@@ -202,17 +209,6 @@ class Finder
 +class EntityFinder
  {
  }
-```
-
-Do you want skip some classes? Configure it:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
-        allowed_class_names:
-            - 'Request'
-            - 'Response'
 ```
 
 <br>
@@ -383,14 +379,17 @@ final class SomeFixer
 ### Prefer Another Class
 
 - :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff`](src/Sniffs/Architecture/PreferredClassSniff.php)
+- class: [`Symplify\CodingStandard\Rules\PreferredClassRule`](src/Rules/PreferredClassRule.php)
 
 ```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
-        oldToPreferredClasses:
+# phpstan.neon
+parameters:
+    symplify:
+        old_to_preffered_classes:
             DateTime: 'Nette\Utils\DateTime'
+
+rules:
+    - Symplify\CodingStandard\Rules\PreferredClassRule
 ```
 
 :x:
@@ -626,12 +625,12 @@ declare(strict_types=1);
 
 ### Use custom exceptions instead of Native Ones
 
-- class: [`Symplify\CodingStandard\Rules\CleanCode\NoDefaultExceptionRule`](src/Rules/CleanCode/NoDefaultExceptionRule.php)
+- class: [`Symplify\CodingStandard\Rules\NoDefaultExceptionRule`](src/Rules/NoDefaultExceptionRule.php)
 
 ```yaml
 # phpstan.neon
 rules:
-    - Symplify\CodingStandard\Rules\CleanCode\NoDefaultExceptionRule
+    - Symplify\CodingStandard\Rules\NoDefaultExceptionRule
 ```
 
 :x:
@@ -654,7 +653,7 @@ throw new FileNotFoundException('...');
 
 ### Class "%s" inherits from forbidden parent class "%s". Use composition over inheritance instead
 
-- class: [`\Symplify\CodingStandard\Rules\CleanCode\ForbiddenParentClassRule`](src/Rules/CleanCode/ForbiddenParentClassRule.php)
+- class: [`Symplify\CodingStandard\Rules\ForbiddenParentClassRule`](src/Rules/ForbiddenParentClassRule.php)
 
 ```yaml
 # phpstan.neon
@@ -707,7 +706,13 @@ final class ProductRepository
 
 ### Use explicit return values over magic "&$variable" reference
 
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff`](src/Sniffs/CleanCode/ForbiddenReferenceSniff.php)
+- class: [`Symplify\CodingStandard\Rules\NoReferenceRule`](src/Rules/NoReferenceRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoReferenceRule
+```
 
 :x:
 
@@ -728,33 +733,6 @@ function someFunction(&$var)
 function someFunction($var)
 {
     return $var + 1;
-}
-```
-
-<br>
-
-### Constant should have docblock comment
-
-- class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](src/Sniffs/Commenting/VarConstantCommentSniff.php)
-
-```php
-class SomeClass
-{
-    private const EMPATH_LEVEL = 55;
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    /**
-     * @var int
-     */
-    private const EMPATH_LEVEL = 55;
 }
 ```
 
@@ -857,7 +835,7 @@ It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `Eve
 
 ### No `else` And `elseif`
 
-- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoElseAndElseIfRule.php)
+- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
 
 ```yaml
 # phpstan.neon
@@ -891,7 +869,7 @@ return 10;
 
 ### No Names Shorter than 3 Chars
 
-- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoShortNameRule.php)
+- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule`](packages/object-calisthenics/src/Rules/NoShortNameRule.php)
 
 ```yaml
 # phpstan.neon
@@ -923,7 +901,7 @@ class EntityManager
 
 ### No setter methods
 
-- class: [`\Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
+- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
 
 ```yaml
 # phpstan.neon

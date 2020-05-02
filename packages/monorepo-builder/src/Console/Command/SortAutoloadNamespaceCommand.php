@@ -67,6 +67,15 @@ final class SortAutoloadNamespaceCommand extends Command
         return ShellCode::SUCCESS;
     }
 
+    private function sortAutoloadSections(ComposerJson $composerJson): void
+    {
+        $sortedAutoload = $this->sortAutoload($composerJson->getAutoload());
+        $composerJson->setAutoload($sortedAutoload);
+
+        $sortedAutoloadDev = $this->sortAutoload($composerJson->getAutoloadDev());
+        $composerJson->setAutoloadDev($sortedAutoloadDev);
+    }
+
     private function sortAutoload(array $autoload): array
     {
         // 2. sort by namespaces
@@ -75,14 +84,5 @@ final class SortAutoloadNamespaceCommand extends Command
         }
 
         return $autoload;
-    }
-
-    private function sortAutoloadSections(ComposerJson $composerJson): void
-    {
-        $sortedAutoload = $this->sortAutoload($composerJson->getAutoload());
-        $composerJson->setAutoload($sortedAutoload);
-
-        $sortedAutoloadDev = $this->sortAutoload($composerJson->getAutoloadDev());
-        $composerJson->setAutoloadDev($sortedAutoloadDev);
     }
 }
