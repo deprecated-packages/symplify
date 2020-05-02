@@ -114,16 +114,6 @@ class AutoBindParameterCompilerPass implements CompilerPassInterface
         return $argumentNames;
     }
 
-    private function getReflectionParameterTypeString(ReflectionParameter $reflectionParameter): string
-    {
-        $returnType = $reflectionParameter->getType();
-        if ($returnType !== null) {
-            return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
-        }
-
-        return '';
-    }
-
     /**
      * @see https://stackoverflow.com/a/2792045/1348344
      */
@@ -132,5 +122,15 @@ class AutoBindParameterCompilerPass implements CompilerPassInterface
         $string = str_replace('_', '', ucwords($string, '_'));
 
         return lcfirst($string);
+    }
+
+    private function getReflectionParameterTypeString(ReflectionParameter $reflectionParameter): string
+    {
+        $returnType = $reflectionParameter->getType();
+        if ($returnType !== null) {
+            return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
+        }
+
+        return '';
     }
 }

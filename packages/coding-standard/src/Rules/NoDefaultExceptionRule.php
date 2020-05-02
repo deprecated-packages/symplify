@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Rules\CleanCode;
+namespace Symplify\CodingStandard\Rules;
 
 use Exception;
 use PhpParser\Node;
@@ -14,7 +14,7 @@ use PHPStan\Rules\Rule;
 use ReflectionClass;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\CleanCode\NoDefaultExceptionRule\NoDefaultExceptionRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\NoDefaultExceptionRule\NoDefaultExceptionRuleTest
  */
 final class NoDefaultExceptionRule implements Rule
 {

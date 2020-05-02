@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CleanCode\ForbiddenParentClassRule;
+namespace Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\CleanCode\ForbiddenParentClassRule;
-use Symplify\CodingStandard\Tests\Rules\CleanCode\ForbiddenParentClassRule\Fixture\AnotherForbiddenParent;
-use Symplify\CodingStandard\Tests\Rules\CleanCode\ForbiddenParentClassRule\Fixture\ClassForbiddenParent;
-use Symplify\CodingStandard\Tests\Rules\CleanCode\ForbiddenParentClassRule\Source\ForbiddenParent;
-use Symplify\CodingStandard\Tests\Rules\CleanCode\ForbiddenParentClassRule\Source\SomeFnMatched;
+use Symplify\CodingStandard\Rules\ForbiddenParentClassRule;
+use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\AnotherForbiddenParent;
+use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\ClassForbiddenParent;
+use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\ForbiddenParent;
+use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\SomeFnMatched;
 
 final class ForbiddenParentClassRuleTest extends RuleTestCase
 {

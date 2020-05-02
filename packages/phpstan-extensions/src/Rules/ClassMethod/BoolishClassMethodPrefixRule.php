@@ -81,23 +81,28 @@ final class BoolishClassMethodPrefixRule implements Rule
         return [sprintf(self::ERROR_MESSAGE, (string) $node->name)];
     }
 
-    /**
-     * @param Return_[] $returns
-     */
-    private function areOnlyBoolReturnNodes(array $returns, Scope $scope): bool
+    private function shouldSkip(ClassMethod $classMethod, Scope $scope, ClassReflection $classReflection): bool
     {
-        foreach ($returns as $return) {
-            if ($return->expr === null) {
-                continue;
-            }
+        $methodName = $classMethod->name->toString();
 
-            $returnedNodeType = $scope->getType($return->expr);
-            if (! $returnedNodeType instanceof BooleanType) {
-                return false;
-            }
+        $returns = $this->findReturnsWithValues($classMethod);
+        // nothing was returned
+        if ($returns === []) {
+            return true;
         }
 
-        return true;
+        $methodReflection = $classReflection->getNativeMethod($methodName);
+        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        if (! $returnType instanceof BooleanType && ! $this->areOnlyBoolReturnNodes($returns, $scope)) {
+            return true;
+        }
+
+        if ($this->isMethodNameMatchingBoolPrefixes($methodName)) {
+            return true;
+        }
+
+        // is required by an interface
+        return $this->isMethodRequiredByParentInterface($classReflection, $methodName);
     }
 
     /**
@@ -121,35 +126,30 @@ final class BoolishClassMethodPrefixRule implements Rule
         return $returnsWithValues;
     }
 
+    /**
+     * @param Return_[] $returns
+     */
+    private function areOnlyBoolReturnNodes(array $returns, Scope $scope): bool
+    {
+        foreach ($returns as $return) {
+            if ($return->expr === null) {
+                continue;
+            }
+
+            $returnedNodeType = $scope->getType($return->expr);
+            if (! $returnedNodeType instanceof BooleanType) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private function isMethodNameMatchingBoolPrefixes(string $methodName): bool
     {
         $prefixesPattern = '#^(' . implode('|', self::BOOL_PREFIXES) . ')#';
 
         return (bool) Strings::match($methodName, $prefixesPattern);
-    }
-
-    private function shouldSkip(ClassMethod $classMethod, Scope $scope, ClassReflection $classReflection): bool
-    {
-        $methodName = $classMethod->name->toString();
-
-        $returns = $this->findReturnsWithValues($classMethod);
-        // nothing was returned
-        if ($returns === []) {
-            return true;
-        }
-
-        $methodReflection = $classReflection->getNativeMethod($methodName);
-        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
-        if (! $returnType instanceof BooleanType && ! $this->areOnlyBoolReturnNodes($returns, $scope)) {
-            return true;
-        }
-
-        if ($this->isMethodNameMatchingBoolPrefixes($methodName)) {
-            return true;
-        }
-
-        // is required by an interface
-        return $this->isMethodRequiredByParentInterface($classReflection, $methodName);
     }
 
     private function isMethodRequiredByParentInterface(ClassReflection $classReflection, string $methodName): bool

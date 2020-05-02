@@ -89,32 +89,6 @@ final class LocalizeComposerPathsCommand extends Command
         return ShellCode::SUCCESS;
     }
 
-    private function addRepositories(SmartFileInfo $mainComposerJsonFileInfo, array $packageComposerJson): array
-    {
-        $packageNames = $this->packageNamesProvider->provide();
-
-        // @see https://getcomposer.org/doc/05-repositories.md#path
-        foreach ($packageNames as $packageName) {
-            $usedPackageFileInfo = $this->composerJsonProvider->getPackageByName($packageName);
-
-            $relativePathToLocalPackage = $this->packagePathResolver->resolveRelativePathToLocalPackage(
-                $mainComposerJsonFileInfo,
-                $usedPackageFileInfo
-            );
-
-            $packageComposerJson['repositories'][] = [
-                'type' => 'path',
-                'url' => $relativePathToLocalPackage,
-                // we need hard copy of files, as in normal composer install of standalone package
-                'options' => [
-                    'symlink' => false,
-                ],
-            ];
-        }
-
-        return $packageComposerJson;
-    }
-
     /**
      * @return string[]
      */
@@ -151,6 +125,32 @@ final class LocalizeComposerPathsCommand extends Command
 
                 $packageComposerJson[$section][$usedPackageName] = '*';
             }
+        }
+
+        return $packageComposerJson;
+    }
+
+    private function addRepositories(SmartFileInfo $mainComposerJsonFileInfo, array $packageComposerJson): array
+    {
+        $packageNames = $this->packageNamesProvider->provide();
+
+        // @see https://getcomposer.org/doc/05-repositories.md#path
+        foreach ($packageNames as $packageName) {
+            $usedPackageFileInfo = $this->composerJsonProvider->getPackageByName($packageName);
+
+            $relativePathToLocalPackage = $this->packagePathResolver->resolveRelativePathToLocalPackage(
+                $mainComposerJsonFileInfo,
+                $usedPackageFileInfo
+            );
+
+            $packageComposerJson['repositories'][] = [
+                'type' => 'path',
+                'url' => $relativePathToLocalPackage,
+                // we need hard copy of files, as in normal composer install of standalone package
+                'options' => [
+                    'symlink' => false,
+                ],
+            ];
         }
 
         return $packageComposerJson;

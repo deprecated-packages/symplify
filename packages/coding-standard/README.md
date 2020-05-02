@@ -111,7 +111,7 @@ class SomeClass
 ```yaml
 # phpstan.neon
 rules:
-    - Symplify\CodingStandard\Rules\Naming\NoClassWithStaticMethodWithoutStaticNameRule
+    - Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule
 ```
 
 :x:
@@ -629,12 +629,12 @@ declare(strict_types=1);
 
 ### Use custom exceptions instead of Native Ones
 
-- class: [`Symplify\CodingStandard\Rules\CleanCode\NoDefaultExceptionRule`](src/Rules/CleanCode/NoDefaultExceptionRule.php)
+- class: [`Symplify\CodingStandard\Rules\NoDefaultExceptionRule`](src/Rules/NoDefaultExceptionRule.php)
 
 ```yaml
 # phpstan.neon
 rules:
-    - Symplify\CodingStandard\Rules\CleanCode\NoDefaultExceptionRule
+    - Symplify\CodingStandard\Rules\NoDefaultExceptionRule
 ```
 
 :x:
@@ -657,7 +657,7 @@ throw new FileNotFoundException('...');
 
 ### Class "%s" inherits from forbidden parent class "%s". Use composition over inheritance instead
 
-- class: [`\Symplify\CodingStandard\Rules\CleanCode\ForbiddenParentClassRule`](src/Rules/CleanCode/ForbiddenParentClassRule.php)
+- class: [`\Symplify\CodingStandard\Rules\ForbiddenParentClassRule`](src/Rules/ForbiddenParentClassRule.php)
 
 ```yaml
 # phpstan.neon
@@ -860,7 +860,7 @@ It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `Eve
 
 ### No `else` And `elseif`
 
-- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoElseAndElseIfRule.php)
+- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
 
 ```yaml
 # phpstan.neon
@@ -894,7 +894,7 @@ return 10;
 
 ### No Names Shorter than 3 Chars
 
-- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoShortNameRule.php)
+- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule`](packages/object-calisthenics/src/Rules/NoShortNameRule.php)
 
 ```yaml
 # phpstan.neon
