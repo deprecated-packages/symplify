@@ -1,3 +1,19 @@
 includes:
     - ../packages/object-calisthenics/config/object-calisthenics-rules.neon
     - ../packages/cognitive-complexity/config/cognitive-complexity-rules.neon
+
+parameters:
+    symplify:
+        forbidden_parent_classes: []
+
+parametersSchema:
+    symplify: structure([
+        forbidden_parent_classes: arrayOf(string())
+    ])
+
+services:
+    -
+        class: Symplify\CodingStandard\Rules\CleanCode\ForbiddenParentClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenParentClasses: "%symplify.forbidden_parent_classes%"

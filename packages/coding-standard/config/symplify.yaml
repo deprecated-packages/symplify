@@ -44,6 +44,7 @@ services:
             - '../src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php'
             - '../src/Sniffs/CleanCode/ForbiddenStaticFunctionSniff.php'
             - '../src/Sniffs/ControlStructure/ForbiddenDoubleAssignSniff.php'
+            - '../src/Sniffs/CleanCode/ForbiddenParentClassSniff.php'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
 
