@@ -11,6 +11,7 @@ use Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer;
 use Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer;
 use Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
+use Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff;
@@ -121,7 +122,8 @@ final class CodingStandardSyncChecker
             ForbiddenStaticFunctionSniff::class,
             RemoveEmptyDocBlockFixer::class,
             ForbiddenDoubleAssignSniff::class,
-            ForbiddenParentClassSniff::class
+            ForbiddenParentClassSniff::class,
+            ExplicitExceptionSniff::class
         ];
 
         // filter out abstract class

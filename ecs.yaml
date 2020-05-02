@@ -70,7 +70,7 @@ parameters:
 
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
-            - 'packages/coding-standard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
+            - 'packages/coding-standard/src/Rules/CleanCode/NoDefaultExceptionRule.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 

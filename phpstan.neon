@@ -123,7 +123,6 @@ parameters:
         - '#Parameter \#1 \$array of method (.*?)\\ArraySorter\:\:recursiveSort\(\) expects array, array\|string given#'
 
         - '#Cannot assign offset (.*?) to array\|string#'
-        - '#Cannot assign offset int\|null to PhpCsFixer\\Tokenizer\\Tokens#'
         - '#Parameter \#3 \$position of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer\:\:isIncrementingToken\(\) expects int, float\|int given#'
         - '#call_user_func#'
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
@@ -137,12 +136,9 @@ parameters:
 
         # the Filesystem method is only iterable way
         - '#Function file_exists is unsafe to use, rely on Symfony component Filesystem\:\:exists instead#'
-        - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return PhpParser\\Node\\FunctionLike but returns PhpParser\\Node\|null#'
-        - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ but returns PhpParser\\Node\|null#'
-        - '#Method Symplify\\CodingStandard\\(.*?)::getRule\(\) should return PHPStan\\Rules\\Rule but returns object\|null#'
+        - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
         # cognitive complexity
-        - '#Cognitive complexity for "Symplify\\CodingStandard\\Fixer\\Commenting\\RemoveEmptyDocBlockFixer::fix\(\)" is 10, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is 14, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is 14, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\PackageBuilder\\Yaml\\ParametersMerger::(.*?)\(\)" is \d+, keep it under 8#'
@@ -151,5 +147,4 @@ parameters:
         - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
         - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
         - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
-        - '#Parameter \#1 \.\.\.\$arg1 of function max expects array, array\|null given#'
 
