@@ -29,5 +29,5 @@ services:
         arguments:
             oldToPrefferedClasses: "%symplify.old_to_preffered_classes%"
 
-rules:
+    - Symplify\CodingStandard\Rules\NoReferenceRule
     - Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule

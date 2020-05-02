@@ -52,13 +52,6 @@ parameters:
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 
-        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
-            # reference for reflection of method with reference
-            - 'packages/package-builder/src/Reflection/PrivatesCaller.php'
-            # anonymous foreach function
-            - 'packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php'
-            - 'packages/symfony-static-dumper/src/Controller/ControllerDumper.php'
-
         Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
             # useful comments
             - 'packages/latte-to-twig-converter/src/CaseConverter/*CaseConverter.php'

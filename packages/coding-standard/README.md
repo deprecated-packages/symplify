@@ -718,7 +718,13 @@ final class ProductRepository
 
 ### Use explicit return values over magic "&$variable" reference
 
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff`](src/Sniffs/CleanCode/ForbiddenReferenceSniff.php)
+- class: [`Symplify\CodingStandard\Rules\NoReferenceRule`](src/Rules/NoReferenceRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoReferenceRule
+```
 
 :x:
 

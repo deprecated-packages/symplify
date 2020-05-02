@@ -21,9 +21,15 @@ final class NoReferenceRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        $errorMessage = sprintf(NoReferenceRule::ERROR_MESSAGE, 'parammmm');
+        yield [__DIR__ . '/Fixture/MethodWithReference.php', [NoReferenceRule::ERROR_MESSAGE, 9]];
 
-        yield [__DIR__ . '/Fixture/MethodWithReference.php', [$errorMessage, 7]];
+        yield [__DIR__ . '/Fixture/FunctionWithReference.php', [NoReferenceRule::ERROR_MESSAGE, 7]];
+
+        yield [__DIR__ . '/Fixture/VariableReference.php', [NoReferenceRule::ERROR_MESSAGE, 11]];
+
+        yield [__DIR__ . '/Fixture/ReferenceArgument.php', [NoReferenceRule::ERROR_MESSAGE, 11]];
+
+        yield [__DIR__ . '/Fixture/UseInReference.php', [NoReferenceRule::ERROR_MESSAGE, 16]];
     }
 
     protected function getRule(): Rule
