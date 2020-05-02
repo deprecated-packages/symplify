@@ -12,6 +12,9 @@ use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @deprecated
+ */
 final class DuplicatedClassShortNameSniff implements Sniff
 {
     /**
@@ -38,6 +41,10 @@ final class DuplicatedClassShortNameSniff implements Sniff
     {
         $this->naming = $naming;
         $this->changedFilesDetector = $changedFilesDetector;
+
+        trigger_error(sprintf('Sniff "%s" is deprecated. Use "%s" instead', self::class, '@todo rule'));
+
+        sleep(3);
     }
 
     /**
