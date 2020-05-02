@@ -383,14 +383,17 @@ final class SomeFixer
 ### Prefer Another Class
 
 - :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff`](src/Sniffs/Architecture/PreferredClassSniff.php)
+- class: [`Symplify\CodingStandard\Rules\PreferredClassRule`](src/Rules/PreferredClassRule.php)
 
 ```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
-        oldToPreferredClasses:
+# phpstan.yml
+parameters:
+    symplify:
+        old_to_preffered_classes:
             DateTime: 'Nette\Utils\DateTime'
+
+rules:
+    - Symplify\CodingStandard\Rules\PreferredClassRule
 ```
 
 :x:
