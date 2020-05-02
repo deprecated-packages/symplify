@@ -579,36 +579,6 @@ services:
 
 <br>
 
-### Array property should have default value, to prevent undefined array issues
-
-- class: [`Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer`](src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
-
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer: null
-```
-
-```diff
- class SomeClass
- {
-     /**
-      * @var string[]
-      */
--    public $apples;
-+    public $apples = [];
-
-     public function run()
-     {
-         foreach ($this->apples as $mac) {
-             // ...
-         }
-     }
- }
-```
-
-<br>
-
 ### Strict types declaration has to be followed by empty line
 
 - class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)

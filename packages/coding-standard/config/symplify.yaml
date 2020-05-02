@@ -33,6 +33,8 @@ services:
             - '../src/Fixer/Naming/CatchExceptionNameMatchingTypeFixer.php'
             - '../src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php'
             - '../src/Fixer/Property/BoolPropertyDefaultValueFixer.php'
+            - '../src/Fixer/Property/BoolPropertyDefaultValueFixer.php'
+            - '../src/Fixer/Property/ArrayPropertyDefaultValueFixer.php'
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'
