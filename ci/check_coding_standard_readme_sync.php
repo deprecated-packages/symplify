@@ -13,6 +13,7 @@ use Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer;
 use Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
 use Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff;
+use Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff;
@@ -29,7 +30,6 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $codingStandardSyncChecker = new CodingStandardSyncChecker();
 $codingStandardSyncChecker->run();
-
 
 final class CodingStandardSyncChecker
 {
@@ -127,7 +127,8 @@ final class CodingStandardSyncChecker
             ForbiddenParentClassSniff::class,
             ExplicitExceptionSniff::class,
             BoolPropertyDefaultValueFixer::class,
-            AnnotationTypeExistsSniff::class
+            AnnotationTypeExistsSniff::class,
+            PreferredClassSniff::class
         ];
 
         // filter out abstract class

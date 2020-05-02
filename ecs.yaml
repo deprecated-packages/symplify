@@ -33,29 +33,6 @@ parameters:
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
 
-        Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
-            # allowed spots for Container
-            - '*Kernel.php'
-            - 'packages/package-builder/src/Parameter/ParameterProvider.php'
-            - 'packages/package-builder/src/Parameter/ParameterTypoProofreader.php'
-            - 'packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php'
-            # converts non-preferred type
-            - 'packages/smart-file-system/src/SmartFileInfo.php'
-            - 'packages/smart-file-system/src/Finder/FinderSanitizer.php'
-            - 'packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
-            # uses 3rd-party API
-            - 'packages/package-builder/src/Configuration/LevelFileFinder.php'
-            - 'packages/coding-standard/src/Fixer/*'
-            - 'packages/coding-standard/tests/Fixer/*'
-            # SplFileInfo extension
-            - 'packages/phpstan-extensions/src/Symfony/Type/SplFileInfoTolerantDynamicMethodReturnTypeExtension.php'
-            # tests
-            - 'packages/monorepo-builder/tests/Package/PackageComposerJsonMergerTest.php'
-            - 'packages/monorepo-builder/tests/Package/CombineStringsToArrayJsonMergerTest.php'
-
-            - 'packages/set-config-resolver/src/Finder/SetFileFinder.php'
-            - 'packages/set-config-resolver/src/SetResolver.php'
-
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - 'packages/easy-coding-standard/tests/Indentation/IndentationTest.php'
 
@@ -102,13 +79,6 @@ parameters:
             - 'packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php'
 
 services:
-    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
-        old_to_preferred_classes:
-            SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
-            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
-            DateTime: 'Nette\Utils\DateTime'
-            PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
-
     Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
         method_order_by_type:
             PhpCsFixer\Fixer\FixerInterface:

@@ -48,6 +48,7 @@ services:
             - '../src/Sniffs/CleanCode/ForbiddenParentClassSniff.php'
             - '../src/Sniffs/Architecture/ExplicitExceptionSniff.php'
             - '../src/Sniffs/Commenting/AnnotationTypeExistsSniff.php'
+            - '../src/Sniffs/Architecture/PreferredClassSniff.php'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
 
