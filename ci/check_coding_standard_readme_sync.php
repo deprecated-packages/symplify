@@ -19,6 +19,7 @@ use Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff;
+use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff;
 use Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff;
 use Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff;
@@ -138,7 +139,8 @@ final class CodingStandardSyncChecker
             AnnotationTypeExistsSniff::class,
             PreferredClassSniff::class,
             VarConstantCommentSniff::class,
-            DuplicatedClassShortNameSniff::class
+            DuplicatedClassShortNameSniff::class,
+            ForbiddenReferenceSniff::class
         ];
 
         // filter out abstract class
