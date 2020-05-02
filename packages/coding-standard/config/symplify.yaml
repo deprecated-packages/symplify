@@ -35,6 +35,7 @@ services:
             - '../src/Fixer/Property/BoolPropertyDefaultValueFixer.php'
             - '../src/Fixer/Property/BoolPropertyDefaultValueFixer.php'
             - '../src/Fixer/Property/ArrayPropertyDefaultValueFixer.php'
+            - '../src/Fixer/Naming/PropertyNameMatchingTypeFixer.php'
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'
