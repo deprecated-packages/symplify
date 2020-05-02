@@ -18,7 +18,7 @@ parametersSchema:
 
 services:
     -
-        class: Symplify\CodingStandard\Rules\CleanCode\ForbiddenParentClassRule
+        class: Symplify\CodingStandard\Rules\ForbiddenParentClassRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenParentClasses: "%symplify.forbidden_parent_classes%"

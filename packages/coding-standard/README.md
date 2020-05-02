@@ -629,12 +629,12 @@ declare(strict_types=1);
 
 ### Use custom exceptions instead of Native Ones
 
-- class: [`Symplify\CodingStandard\Rules\CleanCode\NoDefaultExceptionRule`](src/Rules/CleanCode/NoDefaultExceptionRule.php)
+- class: [`Symplify\CodingStandard\Rules\NoDefaultExceptionRule`](src/Rules/CleanCode/NoDefaultExceptionRule.php)
 
 ```yaml
 # phpstan.neon
 rules:
-    - Symplify\CodingStandard\Rules\CleanCode\NoDefaultExceptionRule
+    - Symplify\CodingStandard\Rules\NoDefaultExceptionRule
 ```
 
 :x:
@@ -657,7 +657,7 @@ throw new FileNotFoundException('...');
 
 ### Class "%s" inherits from forbidden parent class "%s". Use composition over inheritance instead
 
-- class: [`\Symplify\CodingStandard\Rules\CleanCode\ForbiddenParentClassRule`](src/Rules/CleanCode/ForbiddenParentClassRule.php)
+- class: [`\Symplify\CodingStandard\Rules\ForbiddenParentClassRule`](src/Rules/CleanCode/ForbiddenParentClassRule.php)
 
 ```yaml
 # phpstan.neon

@@ -6,7 +6,7 @@ namespace Symplify\CodingStandard\Sniffs\CleanCode;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\Rules\CleanCode\ForbiddenParentClassRule;
+use Symplify\CodingStandard\Rules\ForbiddenParentClassRule;
 use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 
 /**

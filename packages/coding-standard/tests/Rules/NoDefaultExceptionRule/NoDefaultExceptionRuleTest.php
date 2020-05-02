@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CleanCode\NoDefaultExceptionRule;
+namespace Symplify\CodingStandard\Tests\Rules\NoDefaultExceptionRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use RuntimeException;
-use Symplify\CodingStandard\Rules\CleanCode\NoDefaultExceptionRule;
+use Symplify\CodingStandard\Rules\NoDefaultExceptionRule;
 
 final class NoDefaultExceptionRuleTest extends RuleTestCase
 {
