@@ -11,11 +11,34 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ## Unreleased
 
+### Added
+
+#### CodingStandard
+
+- [#1901] Add NoReferenceRule + Deprecate ForbiddenReferenceSniff
+- [#1899] Deprecate DuplicatedClassShortNameSniff, Added NoDuplicatedShortClassNameRule
+- [#1896] Add PreferredClassRule, deprecate PrefferedClassSniff
+
+#### Unknown Package
+
+- [#1900] Add token to increate GitHub api on Travis
+
+### Changed
+
+#### SymfonyStaticDumper
+
+- [#1895] controller with multiple args, Thanks to [@Jibbarth]
+
 ### Deprecated
 
 #### CodingStandard
 
+- [#1904] Deprecate PropertyNameMatchingTypeFixer
+- [#1903] Deprecate ArrayPropertyDefaultValueFixer
+- [#1898] Deprecate VarConstantCommentSniff
+- [#1894] Deprecate AnnotationTypeExistsSniff
 - [#1893] Deprecate BoolPropertyDefaultValueFixer
+- [#1897] Move rules location one level up, remove category
 
 ## [v7.3.3] - 2020-05-02
 
@@ -839,3 +862,13 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@liarco]: https://github.com/liarco
 [@TiGR]: https://github.com/TiGR
 [@Agares]: https://github.com/Agares
+[#1904]: https://github.com/symplify/symplify/pull/1904
+[#1903]: https://github.com/symplify/symplify/pull/1903
+[#1901]: https://github.com/symplify/symplify/pull/1901
+[#1900]: https://github.com/symplify/symplify/pull/1900
+[#1899]: https://github.com/symplify/symplify/pull/1899
+[#1898]: https://github.com/symplify/symplify/pull/1898
+[#1897]: https://github.com/symplify/symplify/pull/1897
+[#1896]: https://github.com/symplify/symplify/pull/1896
+[#1895]: https://github.com/symplify/symplify/pull/1895
+[#1894]: https://github.com/symplify/symplify/pull/1894
