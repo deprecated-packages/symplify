@@ -16,6 +16,7 @@ services:
             - '../src/TokenRunner/ValueObject/*'
             - '../src/Sniffs/*'
             - '../src/Fixer/*'
+            - '../src/Rules/*'
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: null
 
