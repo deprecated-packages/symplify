@@ -103,6 +103,8 @@ class SomeClass
 
 ### Classes with Static Methods must have "Static" in the Name
 
+- class: [`Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule`](src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
+
 - [Why is static bad?](https://tomasvotruba.com/blog/2019/04/01/removing-static-there-and-back-again/)
 - be honest about static
 - value object static constructor methods are excluded
@@ -167,7 +169,13 @@ services:
 ### Use Unique Class Short Names
 
 - :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff`](/src/Sniffs/Architecture/DuplicatedClassShortNameSniff.php)
+- class: [`Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule`](src/Rules/NoDuplicatedShortClassNameRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule
+```
 
 :x:
 
@@ -386,7 +394,7 @@ final class SomeFixer
 - class: [`Symplify\CodingStandard\Rules\PreferredClassRule`](src/Rules/PreferredClassRule.php)
 
 ```yaml
-# phpstan.yml
+# phpstan.neon
 parameters:
     symplify:
         old_to_preffered_classes:
@@ -657,7 +665,7 @@ throw new FileNotFoundException('...');
 
 ### Class "%s" inherits from forbidden parent class "%s". Use composition over inheritance instead
 
-- class: [`\Symplify\CodingStandard\Rules\ForbiddenParentClassRule`](src/Rules/ForbiddenParentClassRule.php)
+- class: [`Symplify\CodingStandard\Rules\ForbiddenParentClassRule`](src/Rules/ForbiddenParentClassRule.php)
 
 ```yaml
 # phpstan.neon
@@ -899,7 +907,7 @@ class EntityManager
 
 ### No setter methods
 
-- class: [`\Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
+- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
 
 ```yaml
 # phpstan.neon

@@ -12,6 +12,8 @@ use Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePath
 use Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer;
 use Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
+use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
+use Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff;
 use Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff;
 use Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff;
@@ -43,7 +45,7 @@ final class CodingStandardSyncChecker
      * @see https://regex101.com/r/Unygf7/2/
      * @var string
      */
-    private const CHECKER_CLASS_PATTERN = '#`(?<checker_class>Symplify\\\\CodingStandard.*?(Fixer|Sniff))`#';
+    private const CHECKER_CLASS_PATTERN = '#`(?<checker_class>Symplify\\\\CodingStandard.*?(Fixer|Sniff|Rule))`#';
 
     /**
      * @var SymfonyStyle
@@ -52,8 +54,7 @@ final class CodingStandardSyncChecker
 
     public function __construct()
     {
-        $symfonyStyleFactory = new SymfonyStyleFactory();
-        $this->symfonyStyle = $symfonyStyleFactory->create();
+        $this->symfonyStyle = (new SymfonyStyleFactory())->create();
     }
 
     public function run(): void
@@ -64,6 +65,7 @@ final class CodingStandardSyncChecker
         $missingCheckerClasses = array_diff($existingCheckerClasses, $readmeCheckerClasses);
 
         if ($missingCheckerClasses === []) {
+            $this->symfonyStyle->success('README.md is up to date');
             die(ShellCode::SUCCESS);
         }
 
@@ -102,7 +104,10 @@ final class CodingStandardSyncChecker
 
         $robotLoader->addDirectory(__DIR__ . '/../packages/coding-standard/src/Fixer');
         $robotLoader->addDirectory(__DIR__ . '/../packages/coding-standard/src/Sniffs');
-        $robotLoader->acceptFiles = ['*Sniff.php', '*Fixer.php'];
+        $robotLoader->addDirectory(__DIR__ . '/../packages/coding-standard/src/Rules');
+        $robotLoader->addDirectory(__DIR__ . '/../packages/coding-standard/packages/cognitive-complexity/src/Rules');
+        $robotLoader->addDirectory(__DIR__ . '/../packages/coding-standard/packages/object-calisthenics/src/Rules');
+        $robotLoader->acceptFiles = ['*Sniff.php', '*Fixer.php', '*Rule.php'];
         $robotLoader->rebuild();
 
         $existingCheckerRules = array_keys($robotLoader->getIndexedClasses());
@@ -111,6 +116,8 @@ final class CodingStandardSyncChecker
         $classesToExclude = [
             // abstract
             AbstractSymplifyFixer::class,
+            AbstractManyNodeTypeRule::class,
+
             // deprecated
             AbstractClassNameSniff::class,
             InterfaceNameSniff::class,
@@ -130,7 +137,8 @@ final class CodingStandardSyncChecker
             BoolPropertyDefaultValueFixer::class,
             AnnotationTypeExistsSniff::class,
             PreferredClassSniff::class,
-            VarConstantCommentSniff::class
+            VarConstantCommentSniff::class,
+            DuplicatedClassShortNameSniff::class
         ];
 
         // filter out abstract class
