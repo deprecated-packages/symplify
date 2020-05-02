@@ -60,7 +60,7 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
         $this->assertFileEquals(self::EXPECTED_DIRECTORY . '/some.css', self::OUTPUT_DIRECTORY . '/some.css');
 
         // controllers
-        $this->assertCount(4, $this->routesProvider->provide());
+        $this->assertCount(5, $this->routesProvider->provide());
 
         $this->assertFileExists(self::OUTPUT_DIRECTORY . '/kedlubna/index.html');
         $this->assertFileEquals(
@@ -88,6 +88,19 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
         $this->assertFileEquals(
             self::OUTPUT_DIRECTORY . '/static.html',
             self::OUTPUT_DIRECTORY . '/static/index.html'
+        );
+
+        // controller with 1 arg
+        $this->assertFileExists(self::OUTPUT_DIRECTORY . '/one-param/1/index.html');
+        $this->assertFileExists(self::OUTPUT_DIRECTORY . '/one-param/2/index.html');
+
+        $this->assertFileEquals(
+            self::EXPECTED_DIRECTORY . '/one-param/1.html',
+            self::OUTPUT_DIRECTORY . '/one-param/1/index.html'
+        );
+        $this->assertFileEquals(
+            self::EXPECTED_DIRECTORY . '/one-param/2.html',
+            self::OUTPUT_DIRECTORY . '/one-param/2/index.html'
         );
     }
 }
