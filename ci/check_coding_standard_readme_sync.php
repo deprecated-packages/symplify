@@ -10,6 +10,7 @@ use Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer;
 use Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer;
 use Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer;
 use Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer;
+use Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
 use Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff;
@@ -123,7 +124,8 @@ final class CodingStandardSyncChecker
             RemoveEmptyDocBlockFixer::class,
             ForbiddenDoubleAssignSniff::class,
             ForbiddenParentClassSniff::class,
-            ExplicitExceptionSniff::class
+            ExplicitExceptionSniff::class,
+            BoolPropertyDefaultValueFixer::class
         ];
 
         // filter out abstract class

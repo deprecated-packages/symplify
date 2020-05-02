@@ -164,38 +164,6 @@ services:
 
 <br>
 
-### Bool Property should have default value, to prevent unintentional null comparison
-
-- class: [`Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer`](/packages/coding-standard/src/Fixer/Property/BoolPropertyDefaultValueFixer.php)
-
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer: null
-```
-
-```diff
- <?php
-
- class SomeClass
- {
-     /**
-      * @var bool
-      */
--    private $booleanProperty;
-+    private $booleanProperty = true;
-
-     public function run()
-     {
-         if (! $this->booleanProperty) {
-             // ...
-         }
-     }
-}
-```
-
-<br>
-
 ### Make sure That `@param`, `@var`, `@return` and `@throw` Types Exist
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff`](src/Sniffs/Commenting/AnnotationTypeExistsSniff.php)
