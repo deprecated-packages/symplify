@@ -35,13 +35,6 @@ final class FixerClassWrapper
     private $endBracketIndex;
 
     /**
-     * Static cache
-     *
-     * @var string[][]
-     */
-    private static $parentInterfacesPerInterface = [];
-
-    /**
      * @var string[]
      */
     private $classTypes = [];
@@ -67,11 +60,6 @@ final class FixerClassWrapper
     private $propertyElements = [];
 
     /**
-     * @var mixed[]
-     */
-    private $classyElements = [];
-
-    /**
      * @var Tokens
      */
     private $tokens;
@@ -80,16 +68,6 @@ final class FixerClassWrapper
      * @var NameFactory
      */
     private $nameFactory;
-
-    /**
-     * @var Token
-     */
-    private $classToken;
-
-    /**
-     * @var TokensAnalyzer
-     */
-    private $tokensAnalyzer;
 
     /**
      * @var ClassLikeExistenceChecker
@@ -102,7 +80,6 @@ final class FixerClassWrapper
         NameFactory $nameFactory,
         ClassLikeExistenceChecker $classLikeExistenceChecker
     ) {
-        $this->classToken = $tokens[$startIndex];
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
 
         if ($this->startBracketIndex !== null) {
@@ -110,7 +87,6 @@ final class FixerClassWrapper
         }
 
         $this->tokens = $tokens;
-        $this->tokensAnalyzer = new TokensAnalyzer($tokens);
         $this->startIndex = $startIndex;
         $this->nameFactory = $nameFactory;
         $this->classLikeExistenceChecker = $classLikeExistenceChecker;
@@ -153,35 +129,9 @@ final class FixerClassWrapper
         return $parentClassName->getName();
     }
 
-    /**
-     * @return mixed[]
-     */
-    public function getProperties(): array
-    {
-        return $this->filterClassyTokens($this->getClassyElements(), ['property']);
-    }
-
-    /**
-     * @param int[] $tokenKinds
-     */
-    public function isGivenKind(array $tokenKinds): bool
-    {
-        return $this->classToken->isGivenKind($tokenKinds);
-    }
-
-    public function isFinal(): bool
-    {
-        return (bool) $this->tokens->findGivenKind(T_FINAL, 0, $this->startIndex);
-    }
-
     public function isAbstract(): bool
     {
         return (bool) $this->tokens->findGivenKind(T_ABSTRACT, 0, $this->startIndex);
-    }
-
-    public function isAnonymous(): bool
-    {
-        return (new TokensAnalyzer($this->tokens))->isAnonymousClass($this->startIndex);
     }
 
     /**
@@ -194,43 +144,6 @@ final class FixerClassWrapper
         }
 
         return $this->propertyElements = $this->getElementsByType('property');
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getInterfaceNames(): array
-    {
-        $implementTokens = $this->tokens->findGivenKind(T_IMPLEMENTS, $this->startIndex, $this->startBracketIndex);
-        if ($implementTokens === []) {
-            return [];
-        }
-
-        $implementPosition = $this->getArrayFirstKey($implementTokens);
-        $interfacePartialNameTokens = $this->tokens->findGivenKind(
-            T_STRING,
-            $implementPosition,
-            $this->startBracketIndex
-        );
-
-        $interfaceNames = [];
-        foreach (array_keys($interfacePartialNameTokens) as $position) {
-            $interfaceNames[] = $this->nameFactory->createFromTokensAndStart($this->tokens, $position)->getName();
-        }
-
-        // non-direct parent interfaces via autoload
-        foreach ($interfaceNames as $interfaceName) {
-            if (isset(self::$parentInterfacesPerInterface[$interfaceName])) {
-                $parentInterfaces = self::$parentInterfacesPerInterface[$interfaceName];
-                $interfaceNames = array_merge($interfaceNames, $parentInterfaces);
-            } elseif (interface_exists($interfaceName)) {
-                $parentInterfaces = class_implements($interfaceName);
-                $interfaceNames = array_merge($interfaceNames, $parentInterfaces);
-                self::$parentInterfacesPerInterface[$interfaceName] = $parentInterfaces;
-            }
-        }
-
-        return array_unique($interfaceNames);
     }
 
     /**
@@ -325,42 +238,6 @@ final class FixerClassWrapper
     }
 
     /**
-     * @param mixed[] $classyElements
-     * @param string[] $types
-     * @return mixed[]
-     */
-    private function filterClassyTokens(array $classyElements, array $types): array
-    {
-        $filteredClassyTokens = [];
-
-        foreach ($classyElements as $index => $classyToken) {
-            if (! $this->isInClassRange($index)) {
-                continue;
-            }
-
-            if (! in_array($classyToken['type'], $types, true)) {
-                continue;
-            }
-
-            $filteredClassyTokens[$index] = $classyToken;
-        }
-
-        return $filteredClassyTokens;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function getClassyElements(): array
-    {
-        if ($this->classyElements !== []) {
-            return $this->classyElements;
-        }
-
-        return $this->classyElements = $this->tokensAnalyzer->getClassyElements();
-    }
-
-    /**
      * @return mixed[]
      */
     private function getElementsByType(string $type): array
@@ -400,13 +277,5 @@ final class FixerClassWrapper
         }
 
         return $tokens[$tokens->getNextMeaningfulToken($index)]->equals('(');
-    }
-
-    private function isInClassRange(int $index): bool
-    {
-        if ($index < $this->startBracketIndex) {
-            return false;
-        }
-        return $index <= $this->endBracketIndex;
     }
 }

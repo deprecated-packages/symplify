@@ -51,15 +51,6 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
     }
 
     /**
-     * @return int[]
-     */
-    protected function getReversedClassAndTraitPositions(Tokens $tokens): array
-    {
-        $classyTokensByTokenKind = $tokens->findGivenKind([T_CLASS, T_TRAIT]);
-        return $this->getReversedPositionsFromTokens($classyTokensByTokenKind);
-    }
-
-    /**
      * Helper method to run this before specified fixer,
      * works even in case of change.
      */
@@ -82,7 +73,6 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
     private function getReversedPositionsFromTokens(array $tokens): array
     {
         $classyTokens = array_replace(...$tokens);
-
         return array_reverse(array_keys($classyTokens));
     }
 }

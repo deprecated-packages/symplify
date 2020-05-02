@@ -145,7 +145,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $sortedPropertyElements = $this->sortPropertyWrappers($propertyElements);
+            $sortedPropertyElements = $this->sortPropertyElements($propertyElements);
 
             $this->classElementSorter->apply($tokens, $propertyElements, $sortedPropertyElements);
         }
@@ -190,7 +190,7 @@ CODE_SAMPLE
      * @param mixed[] $propertyElements
      * @return mixed[]
      */
-    private function sortPropertyWrappers(array $propertyElements): array
+    private function sortPropertyElements(array $propertyElements): array
     {
         usort($propertyElements, function (array $firstPropertyElement, array $secondPropertyElement): int {
             return $firstPropertyElement['rating'] <=> $secondPropertyElement['rating'];
