@@ -211,17 +211,6 @@ class Finder
  }
 ```
 
-Do you want skip some classes? Configure it:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
-        allowed_class_names:
-            - 'Request'
-            - 'Response'
-```
-
 <br>
 
 ### Make `@param`, `@return` and `@var` Format United
