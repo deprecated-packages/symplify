@@ -718,17 +718,20 @@ throw new FileNotFoundException('...');
 
 <br>
 
-### Class "X" cannot be parent class. Use composition over inheritance instead.
+### Class "%s" inherits from forbidden parent class "%s". Use composition over inheritance instead
 
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff`](src/Sniffs/CleanCode/ForbiddenParentClassSniff.php)
+- class: [`\Symplify\CodingStandard\Rules\CleanCode\ForbiddenParentClassRule`](src/Rules/CleanCode/ForbiddenParentClassRule.php)
 
 ```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff:
-        forbiddenParentClasses:
+include:
+    - vendor/symplify/coding-standard/config/symplify-rules.neon
+
+# phpstan.neon
+parameters:
+    symplify:
+        forbidden_parent_classes:
             - 'Doctrine\ORM\EntityRepository'
-            # again, you can use fnmatch() pattern
+            # you can use fnmatch() pattern
             - '*\AbstractController'
 ```
 

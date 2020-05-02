@@ -15,6 +15,9 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
+/**
+ * @see \Symplify\CodingStandard\Tests\Rules\Naming\NoClassWithStaticMethodWithoutStaticNameRule\NoClassWithStaticMethodWithoutStaticNameRuleTest
+ */
 final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule
 {
     /**
