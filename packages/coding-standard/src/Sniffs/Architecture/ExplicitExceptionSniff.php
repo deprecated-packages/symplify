@@ -7,7 +7,6 @@ namespace Symplify\CodingStandard\Sniffs\Architecture;
 use BadFunctionCallException;
 use BadMethodCallException;
 use DomainException;
-use Exception;
 use InvalidArgumentException;
 use LengthException;
 use LogicException;
@@ -22,6 +21,9 @@ use Throwable;
 use UnderflowException;
 use UnexpectedValueException;
 
+/**
+ * @deprecated
+ */
 final class ExplicitExceptionSniff implements Sniff
 {
     /**
@@ -65,7 +67,7 @@ final class ExplicitExceptionSniff implements Sniff
     private function isNativeExceptionName(string $exceptionName): bool
     {
         return in_array($exceptionName, [
-            Exception::class,
+            Throwable::class,
             Throwable::class,
             BadFunctionCallException::class,
             BadMethodCallException::class,

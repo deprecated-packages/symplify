@@ -696,9 +696,15 @@ declare(strict_types=1);
 
 <br>
 
-### Use explicit and informative exception names over generic ones
+### Use custom exceptions instead of Native Ones
 
-- class: [`Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff`](src/Sniffs/Architecture/ExplicitExceptionSniff.php)
+- class: [`Symplify\CodingStandard\Rules\CleanCode\NoDefaultExceptionRule`](src/Rules/CleanCode/NoDefaultExceptionRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\CleanCode\NoDefaultExceptionRule
+```
 
 :x:
 
