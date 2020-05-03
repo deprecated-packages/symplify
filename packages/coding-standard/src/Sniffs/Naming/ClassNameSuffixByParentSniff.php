@@ -9,6 +9,9 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 
+/**
+ * @deprecated
+ */
 final class ClassNameSuffixByParentSniff implements Sniff
 {
     /**

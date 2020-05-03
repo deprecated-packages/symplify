@@ -729,8 +729,22 @@ var_dump($value);
 
 ### Class should have suffix by parent class/interface
 
+Covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
+
 - :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff`](src/Sniffs/Naming/ClassNameSuffixByParentSniff.php)
+- class: [`Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule`](src/Rules/ClassNameRespectsParentSuffixRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
+
+parameters:
+    symplify:
+        parent_classes:
+            - Rector
+            - Rule
+```
 
 :x:
 
@@ -751,39 +765,6 @@ class SomeCommand extends Command
 {
 }
 ```
-
-This checker check few names by default. But if you need, you can **configure it**:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
-        parentTypesToSuffixes:
-            # defaults
-            - 'Command'
-            - 'Controller'
-            - 'Repository'
-            - 'Presenter'
-            - 'Request'
-            - 'Response'
-            - 'EventSubscriber'
-            - 'FixerInterface'
-            - 'Sniff'
-            - 'Exception'
-            - 'Handler'
-```
-
-Or keep all defaults values by using `extra_parent_types_to_suffixes`:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
-        extraParentTypesToSuffixes:
-            - 'ProviderInterface'
-```
-
-It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
 
 ### Object Calisthenics rules
 

@@ -170,3 +170,4 @@ parameters:
         - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error\|PhpParser\\Node\\Expr\\Variable\:\:\$name#'
+        - '#Method Symplify\\CodingStandard\\Rules\\ClassNameRespectsParentSuffixRule\:\:resolveShortClassName\(\) should return string but returns string\|null#'

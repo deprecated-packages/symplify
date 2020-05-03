@@ -57,5 +57,6 @@ services:
             - '../src/Sniffs/Architecture/DuplicatedClassShortNameSniff.php'
             - '../src/Sniffs/CleanCode/ForbiddenReferenceSniff.php'
             - '../src/Sniffs/Debug/DebugFunctionCallSniff.php'
+            - '../src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
