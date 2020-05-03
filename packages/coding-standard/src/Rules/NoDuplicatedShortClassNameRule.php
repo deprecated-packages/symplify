@@ -18,7 +18,7 @@ final class NoDuplicatedShortClassNameRule implements Rule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class with base "%s" name is already used in "%s".' . PHP_EOL . PHP_EOL . 'Use unique name to make classes  easy to recognize';
+    public const ERROR_MESSAGE = 'Class with base "%s" name is already used in "%s". Use unique name to make classes easy to recognize';
 
     /**
      * @var string[][]
