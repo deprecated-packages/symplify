@@ -64,19 +64,3 @@ parameters:
             # temporary, BC layer
             - 'packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
             - 'packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php'
-
-services:
-    Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
-        method_order_by_type:
-            PhpCsFixer\Fixer\FixerInterface:
-                - 'getDefinition'
-                - 'isCandidate'
-                - 'fix'
-                - 'getPriority'
-                - 'getName'
-                - 'isRisky'
-                - 'supports'
-
-    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
-        extra_parent_types_to_suffixes:
-            - 'FileDecorator'
