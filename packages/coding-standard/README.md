@@ -766,7 +766,9 @@ class SomeCommand extends Command
 }
 ```
 
-### Object Calisthenics rules
+<br>
+
+## Object Calisthenics rules
 
 - From [Object Calisthenics](https://tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
 - [Original source for PHPStan rules](https://github.com/object-calisthenics/phpcs-calisthenics-rules/)
