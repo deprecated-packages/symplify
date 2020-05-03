@@ -263,64 +263,6 @@ services:
 
 <br>
 
-### Order Private Methods by Their Use Order
-
-- class: [`Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer`](src/Fixer/Order/PrivateMethodOrderByUseFixer.php)
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: null
-```
-
-:x:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function run()
-    {
-        $this->call1();
-        $this->call2();
-    }
-
-    private function call2()
-    {
-    }
-
-    private function call1()
-    {
-    }
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function run()
-    {
-        $this->call1();
-        $this->call2();
-    }
-
-    private function call1()
-    {
-    }
-
-    private function call2()
-    {
-    }
-}
-```
-
-<br>
-
 ### Order Properties From Simple to Complex
 
 Properties are ordered by visibility first, then by complexity.

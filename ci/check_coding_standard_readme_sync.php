@@ -11,6 +11,7 @@ use Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer;
 use Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer;
 use Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer;
 use Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer;
+use Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer;
 use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
 use Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer;
 use Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer;
@@ -150,7 +151,8 @@ final class CodingStandardSyncChecker
             PropertyNameMatchingTypeFixer::class,
             DebugFunctionCallSniff::class,
             ClassNameSuffixByParentSniff::class,
-            ClassStringToClassConstantFixer::class
+            ClassStringToClassConstantFixer::class,
+            PrivateMethodOrderByUseFixer::class,
         ];
 
         // filter out abstract class
