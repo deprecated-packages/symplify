@@ -4,6 +4,8 @@ use Nette\Loaders\RobotLoader;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
+use Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer;
@@ -50,10 +52,10 @@ final class CodingStandardSyncChecker
     private const CODING_STANDARD_README_PATH = __DIR__ . '/../packages/coding-standard/README.md';
 
     /**
-     * @see https://regex101.com/r/Unygf7/2/
+     * @see https://regex101.com/r/Unygf7/3/
      * @var string
      */
-    private const CHECKER_CLASS_PATTERN = '#`(?<checker_class>Symplify\\\\CodingStandard.*?(Fixer|Sniff|Rule))`#';
+    private const CHECKER_CLASS_PATTERN = '#(?<checker_class>Symplify\\\\CodingStandard.*?(Fixer|Sniff|Rule)[\w+\\\\]+(Fixer|Sniff|Rule))#';
 
     /**
      * @var SymfonyStyle
@@ -125,6 +127,10 @@ final class CodingStandardSyncChecker
             // abstract
             AbstractSymplifyFixer::class,
             AbstractManyNodeTypeRule::class,
+
+            // part of included set
+            ClassLikeCognitiveComplexityRule::class,
+            FunctionLikeCognitiveComplexityRule::class,
 
             // deprecated
             AbstractClassNameSniff::class,

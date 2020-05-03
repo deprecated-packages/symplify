@@ -13,7 +13,7 @@ composer require symplify/coding-standard --dev
 composer require symplify/easy-coding-standard --dev
 ```
 
-1. Run with ECS:
+1. Run with [ECS](https://github.com/symplify/easy-coding-standard):
 
 ```bash
 vendor/bin/ecs process src --set symplify
@@ -30,19 +30,17 @@ includes:
 ## Rules Overview
 
 - Jump to [Object Calisthenics rules](#object-calisthenics-rules)
-- Rules with :wrench: are configurable.
 
 <br>
 
 ### Cognitive Complexity for Method and Class Must be Less than X
 
-- :wrench:
 - [Why it's the best rule in your coding standard?](https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/)
 
 **For PHPStan**
 
-- class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
-- class: [`Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
+- class: [`FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
+- class: [`ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
 
 ```yaml
 # phpstan.neon
@@ -105,10 +103,9 @@ class SomeClass
 
 - class: [`Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule`](src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
 
-- [Why is static bad?](https://tomasvotruba.com/blog/2019/04/01/removing-static-there-and-back-again/)
-- be honest about static
-- value object static constructor methods are excluded
-- EventSubscriber and Command classes are excluded
+Be honest about static. [Why is static bad?](https://tomasvotruba.com/blog/2019/04/01/removing-static-there-and-back-again/)
+
+Value object static constructors, EventSubscriber and Command classe are excluded.
 
 ```yaml
 # phpstan.neon
@@ -215,7 +212,7 @@ class Finder
 
 ### Make `@param`, `@return` and `@var` Format United
 
-- class: [`Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
+- class: [`ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
 
 ```yaml
 # ecs.yaml
@@ -267,7 +264,7 @@ services:
 
 Properties are ordered by visibility first, then by complexity.
 
-- class: [`Symplify\CodingStandard\Fixer\Order\PropertyOrderByComplexityFixer`](src/Fixer/Order/PropertyOrderByComplexityFixer.php)
+- class: [`PropertyOrderByComplexityFixer`](src/Fixer/Order/PropertyOrderByComplexityFixer.php)
 
 ```yaml
 # ecs.yml
@@ -327,8 +324,7 @@ final class SomeFixer
 
 ### Prefer Another Class
 
-- :wrench:
-- class: [`Symplify\CodingStandard\Rules\PreferredClassRule`](src/Rules/PreferredClassRule.php)
+- class: [`PreferredClassRule`](src/Rules/PreferredClassRule.php)
 
 ```yaml
 # phpstan.neon
@@ -361,7 +357,13 @@ $dateTime = new Nette\Utils\DateTime('now');
 
 ### Indexed PHP arrays should have 1 item per line
 
-- class: [`Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`](src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
+- class: [`StandaloneLineInMultilineArrayFixer`](src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer: null
+```
 
 ```diff
 -$friends = [1 => 'Peter', 2 => 'Paul'];
@@ -375,7 +377,13 @@ $dateTime = new Nette\Utils\DateTime('now');
 
 ### Block comment should not have 2 empty lines in a row
 
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
+- class: [`RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer: null
+```
 
 ```diff
  /**
@@ -391,10 +399,19 @@ $dateTime = new Nette\Utils\DateTime('now');
 
 <br>
 
-### Parameters, arguments and array items should be on the same/standalone line to fit line length
+### Parameters, Arguments and Array items should be on the same/standalone line to fit Line Length
 
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`](src/Fixer/LineLength/LineLengthFixer.php)
+- class: [`LineLengthFixer`](src/Fixer/LineLength/LineLengthFixer.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
+        # defaults
+        max_line_length: 120
+        break_long_lines: true
+        inline_short_lines: true
+```
 
 ```diff
  class SomeClass
@@ -417,25 +434,17 @@ $dateTime = new Nette\Utils\DateTime('now');
  }
 ```
 
-- Are 120 characters too long for you?
-- Do you want to break longs lines but not inline short lines or vice versa?
-
-**Change it**:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
-        max_line_length: 100 # default: 120
-        break_long_lines: true # default: true
-        inline_short_lines: false # default: true
-```
-
 <br>
 
 ### Strict types declaration has to be followed by empty line
 
-- class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
+- class: [`BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer: null
+```
 
 ```diff
  <?php
@@ -449,7 +458,7 @@ declare(strict_types=1);
 
 ### Use custom exceptions instead of Native Ones
 
-- class: [`Symplify\CodingStandard\Rules\NoDefaultExceptionRule`](src/Rules/NoDefaultExceptionRule.php)
+- class: [`NoDefaultExceptionRule`](src/Rules/NoDefaultExceptionRule.php)
 
 ```yaml
 # phpstan.neon
@@ -477,14 +486,13 @@ throw new FileNotFoundException('...');
 
 ### Class "%s" inherits from forbidden parent class "%s". Use composition over inheritance instead
 
-- class: [`Symplify\CodingStandard\Rules\ForbiddenParentClassRule`](src/Rules/ForbiddenParentClassRule.php)
+- class: [`ForbiddenParentClassRule`](src/Rules/ForbiddenParentClassRule.php)
 
 ```yaml
 # phpstan.neon
-includes:
-    - vendor/symplify/coding-standard/config/symplify-rules.neon
+rules:
+    - Symplify\CodingStandard\Rules\ForbiddenParentClassRule
 
-# phpstan.neon
 parameters:
     symplify:
         forbidden_parent_classes:
@@ -530,7 +538,7 @@ final class ProductRepository
 
 ### Use explicit return values over magic "&$variable" reference
 
-- class: [`Symplify\CodingStandard\Rules\NoReferenceRule`](src/Rules/NoReferenceRule.php)
+- class: [`NoReferenceRule`](src/Rules/NoReferenceRule.php)
 
 ```yaml
 # phpstan.neon
@@ -564,7 +572,13 @@ function someFunction($var)
 
 ### There should not be comments with valid code
 
-- class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)
+- class: [`CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff: null
+```
 
 :x:
 
@@ -579,7 +593,7 @@ function someFunction($var)
 
 ### Debug functions Cannot Be left in the Code
 
-- class: [`Symplify\CodingStandard\Rules\NoDebugFuncCallRule`](src/Rules/NoDebugFuncCallRule.php)
+- class: [`NoDebugFuncCallRule`](src/Rules/NoDebugFuncCallRule.php)
 
 ```yaml
 # phpstan.neon
@@ -604,8 +618,7 @@ var_dump($value);
 
 Covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
 
-- :wrench:
-- class: [`Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule`](src/Rules/ClassNameRespectsParentSuffixRule.php)
+- class: [`ClassNameRespectsParentSuffixRule`](src/Rules/ClassNameRespectsParentSuffixRule.php)
 
 ```yaml
 # phpstan.neon
