@@ -38,6 +38,7 @@ services:
             - '../src/Fixer/Naming/PropertyNameMatchingTypeFixer.php'
             - '../src/Fixer/Naming/PropertyNameMatchingTypeFixer.php'
             - '../src/Fixer/Php/ClassStringToClassConstantFixer.php'
+            - '../src/Fixer/Order/PrivateMethodOrderByUseFixer.php'
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'
