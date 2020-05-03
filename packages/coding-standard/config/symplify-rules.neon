@@ -36,6 +36,10 @@ services:
         tags: [phpstan.rules.rule]
 
     -
+        class: Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule
         tags: [phpstan.rules.rule]
 
