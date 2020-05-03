@@ -24,7 +24,7 @@ final class ClassNameRespectsParentSuffixRule implements Rule
     /**
      * @var string[]
      */
-    private const PARENT_CLASS_PATTERN = [
+    private const DEFAULT_PARENT_CLASSES = [
         'Command',
         'Controller',
         'Repository',
@@ -121,8 +121,8 @@ final class ClassNameRespectsParentSuffixRule implements Rule
     {
         $determiningShortClassName = $this->resolveExpectedSuffix($determiningShortClassName);
 
-        foreach ($this->getParentClassesToCheck() as $parentClassPattern) {
-            if (! Strings::endsWith($parentClassPattern, $determiningShortClassName)) {
+        foreach ($this->getParentClassesToCheck() as $parentClass) {
+            if (! Strings::endsWith($parentClass, $determiningShortClassName)) {
                 continue;
             }
 
@@ -143,6 +143,6 @@ final class ClassNameRespectsParentSuffixRule implements Rule
      */
     private function getParentClassesToCheck(): array
     {
-        return array_merge(self::PARENT_CLASS_PATTERN, $this->parentClasses);
+        return array_merge(self::DEFAULT_PARENT_CLASSES, $this->parentClasses);
     }
 }
