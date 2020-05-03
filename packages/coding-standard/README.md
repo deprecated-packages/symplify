@@ -433,42 +433,6 @@ services:
 
 <br>
 
-### Public Methods Should have Specific Order by Interface/Parent Class
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer`](src/Fixer/Order/MethodOrderByTypeFixer.php)
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
-        method_order_by_type:
-            Rector\Contract\Rector\PhpRectorInterface:
-                - 'getNodeTypes'
-                - 'refactor'
-```
-
-↓
-
-```diff
- final class SomeRector implements PhpRectorInterface
- {
--    public function refactor()
-+    public function getNodeTypes()
-     {
--        // refactoring
-+        return ['SomeType'];
-     }
--
--    public function getNodeTypes()
-+    public function refactor(): void
-     {
--        return ['SomeType'];
-+        // refactoring
-     }
- }
-```
-
 ### Strict types declaration has to be followed by empty line
 
 - class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)

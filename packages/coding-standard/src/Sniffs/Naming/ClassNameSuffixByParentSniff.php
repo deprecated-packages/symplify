@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\Sniffs\Naming;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule;
 use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 
 /**
@@ -49,6 +50,14 @@ final class ClassNameSuffixByParentSniff implements Sniff
     public function __construct(SniffClassWrapperFactory $sniffClassWrapperFactory)
     {
         $this->sniffClassWrapperFactory = $sniffClassWrapperFactory;
+
+        trigger_error(sprintf(
+            'Sniff "%s" is deprecated. Use "%s" instead',
+            self::class,
+            ClassNameRespectsParentSuffixRule::class
+        ));
+
+        sleep(3);
     }
 
     /**
