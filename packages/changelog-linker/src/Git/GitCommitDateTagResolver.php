@@ -6,7 +6,6 @@ namespace Symplify\ChangelogLinker\Git;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Process\Process;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 final class GitCommitDateTagResolver
 {
@@ -25,7 +24,7 @@ final class GitCommitDateTagResolver
      */
     public function __construct()
     {
-        $datesWithTags = (array) explode(EolConfiguration::getEolChar(), $this->getDatesWithTagsInString());
+        $datesWithTags = (array) explode(PHP_EOL, $this->getDatesWithTagsInString());
 
         foreach ($datesWithTags as $datesWithTag) {
             $dateMatch = Strings::match($datesWithTag, '#(?<date>\d{4}-\d{2}-\d{2})#');

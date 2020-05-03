@@ -13,7 +13,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
+use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 /**
  * Inspired by https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/2.8/src/Fixer/Phpdoc/NoEmptyPhpdocFixer.php
@@ -63,7 +63,7 @@ final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
 
             $previousWhitespaceContent = $previousToken->getContent();
 
-            $lastLineBreak = strrpos($previousWhitespaceContent, EolConfiguration::getEolChar());
+            $lastLineBreak = strrpos($previousWhitespaceContent, StaticEolConfiguration::getEolChar());
             // nothing found
             if (is_bool($lastLineBreak)) {
                 continue;

@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
 use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
-use Symplify\MonorepoBuilder\Release\ValueObject\SemVersion;
+use Symplify\MonorepoBuilder\Release\ValueObject\StaticSemVersion;
 use Symplify\MonorepoBuilder\Release\Version\VersionFactory;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -62,7 +62,7 @@ final class ReleaseCommand extends Command
 
         $description = sprintf(
             'Release version, in format "<major>.<minor>.<patch>" or "v<major>.<minor>.<patch> or one of keywords: "%s"',
-            implode('", "', SemVersion::getAll())
+            implode('", "', StaticSemVersion::getAll())
         );
         $this->addArgument(Option::VERSION, InputArgument::REQUIRED, $description);
 

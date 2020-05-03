@@ -171,3 +171,9 @@ parameters:
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error\|PhpParser\\Node\\Expr\\Variable\:\:\$name#'
         - '#Method Symplify\\CodingStandard\\Rules\\ClassNameRespectsParentSuffixRule\:\:resolveShortClassName\(\) should return string but returns string\|null#'
+
+        # might be BC break
+        - '#Class "CommandNaming" with static method must have "static" in its name#'
+        - '#Class "InputDetector" with static method must have "static" in its name#'
+
+        - '#Class with base "Error" name is already used in "PhpParser\\Node\\Expr\\Error", "PhpParser\\Error"\. Use unique name to make classes easy to recognize#'
