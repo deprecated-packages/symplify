@@ -18,8 +18,6 @@ services:
             - '../src/Fixer/*'
             - '../src/Rules/*'
 
-    Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: null
-
     PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: null
     PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer: null
     PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer: null
