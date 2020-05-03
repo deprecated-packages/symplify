@@ -36,6 +36,8 @@ services:
             - '../src/Fixer/Property/BoolPropertyDefaultValueFixer.php'
             - '../src/Fixer/Property/ArrayPropertyDefaultValueFixer.php'
             - '../src/Fixer/Naming/PropertyNameMatchingTypeFixer.php'
+            - '../src/Fixer/Naming/PropertyNameMatchingTypeFixer.php'
+            - '../src/Fixer/Php/ClassStringToClassConstantFixer.php'
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'

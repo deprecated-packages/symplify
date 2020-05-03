@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator;
 
-use Nette\Utils\FileSystem;
-use Nette\Utils\Json;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
@@ -24,12 +22,6 @@ abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
         $this->bootKernel(MonorepoBuilderKernel::class);
 
         $this->composerJsonFactory = self::$container->get(ComposerJsonFactory::class);
-    }
-
-    public static function dumpArrayToJsonFile(array $json, string $filePath): void
-    {
-        $content = Json::encode($json, Json::PRETTY);
-        FileSystem::write($filePath, $content);
     }
 
     /**

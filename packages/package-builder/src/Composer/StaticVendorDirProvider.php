@@ -8,7 +8,7 @@ use Composer\Autoload\ClassLoader;
 use Nette\Utils\Strings;
 use ReflectionClass;
 
-final class VendorDirProvider
+final class StaticVendorDirProvider
 {
     public static function provide(): string
     {

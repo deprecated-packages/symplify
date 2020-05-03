@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\Autodiscovery;
 
-final class Arrays
+final class StaticArrays
 {
     /**
      * @param mixed[] $items

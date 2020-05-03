@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Release\ValueObject;
 
-final class SemVersion
+final class StaticSemVersion
 {
     /**
      * @var string

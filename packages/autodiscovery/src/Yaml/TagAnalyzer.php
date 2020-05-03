@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\Autodiscovery\Yaml;
 
-use Symplify\Autodiscovery\Arrays;
+use Symplify\Autodiscovery\StaticArrays;
 
 final class TagAnalyzer
 {
@@ -42,7 +42,7 @@ final class TagAnalyzer
             return $this->isAutoconfiguredTagName($tags[0]);
         }
 
-        if (! Arrays::hasOnlyKey($tags[0], 'name')) {
+        if (! StaticArrays::hasOnlyKey($tags[0], 'name')) {
             return false;
         }
 

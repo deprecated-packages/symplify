@@ -12,7 +12,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
+use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 final class LineLengthTransformer
 {
@@ -139,7 +139,7 @@ final class LineLengthTransformer
         $lineLength += strlen($currentToken->getContent());
 
         // minus end of lines, do not count line feeds as characters
-        $endOfLineCount = substr_count($currentToken->getContent(), EolConfiguration::getEolChar());
+        $endOfLineCount = substr_count($currentToken->getContent(), StaticEolConfiguration::getEolChar());
         $lineLength -= $endOfLineCount;
 
         // compute from here to end of line
@@ -287,7 +287,7 @@ final class LineLengthTransformer
      */
     private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
     {
-        if (Strings::startsWith($tokens[$position]->getContent(), EolConfiguration::getEolChar())) {
+        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
             return true;
         }
 
@@ -308,7 +308,7 @@ final class LineLengthTransformer
      */
     private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
     {
-        if (Strings::startsWith($tokens[$position]->getContent(), EolConfiguration::getEolChar())) {
+        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
             return true;
         }
 

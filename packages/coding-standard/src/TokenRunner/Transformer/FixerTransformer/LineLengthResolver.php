@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
+use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 final class LineLengthResolver
 {
@@ -47,7 +47,7 @@ final class LineLengthResolver
      */
     private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
     {
-        if (Strings::startsWith($tokens[$position]->getContent(), EolConfiguration::getEolChar())) {
+        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
             return true;
         }
 
@@ -90,7 +90,7 @@ final class LineLengthResolver
         $length = 0;
 
         $currentPosition = $blockInfo->getEnd();
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), EolConfiguration::getEolChar())) {
+        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), StaticEolConfiguration::getEolChar())) {
             $currentToken = $tokens[$currentPosition];
 
             $length += strlen($currentToken->getContent());
