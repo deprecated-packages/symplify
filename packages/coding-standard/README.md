@@ -527,39 +527,6 @@ services:
  }
 ```
 
-<br>
-
-### `::class` references should be used over string for classes and interfaces
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer`](src/Fixer/Php/ClassStringToClassConstantFixer.php)
-
-```diff
--$className = 'DateTime';
-+$className = DateTime::class;
-```
-
-This checker takes **only existing classes by default**. In case want to check another code not loaded by local composer, you can **configure it**:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
-        class_must_exist: false # true by default
-```
-
-Do you want to allow some classes to be in string format?
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
-        allow_classes:
-            - 'SomeClass'
-```
-
-<br>
-
 ### Strict types declaration has to be followed by empty line
 
 - class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
