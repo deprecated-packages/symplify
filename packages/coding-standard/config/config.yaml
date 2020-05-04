@@ -28,9 +28,3 @@ services:
     SlevomatCodingStandard\Helpers\NamespaceHelper: null
 
     Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector: null
-
-    # property doc should be docblock
-    PHPStan\PhpDocParser\Parser\PhpDocParser: null
-    PHPStan\PhpDocParser\Parser\TypeParser: null
-    PHPStan\PhpDocParser\Parser\ConstExprParser: null
-    PHPStan\PhpDocParser\Lexer\Lexer: null
