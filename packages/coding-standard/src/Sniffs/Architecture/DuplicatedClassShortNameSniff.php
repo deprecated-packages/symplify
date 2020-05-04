@@ -42,7 +42,13 @@ final class DuplicatedClassShortNameSniff implements Sniff
         $this->naming = $naming;
         $this->changedFilesDetector = $changedFilesDetector;
 
-        trigger_error(sprintf('Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead', self::class, '@todo rule'));
+        trigger_error(
+            sprintf(
+                'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+                self::class,
+                '@todo rule'
+            )
+        );
 
         sleep(3);
     }
