@@ -29,7 +29,7 @@ final class ForbiddenParentClassSniff implements Sniff
         $this->sniffClassWrapperFactory = $sniffClassWrapperFactory;
 
         trigger_error(sprintf(
-            'Sniff "%s" is deprecated. Use "%s" instead',
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
             self::class,
             ForbiddenParentClassRule::class
         ));

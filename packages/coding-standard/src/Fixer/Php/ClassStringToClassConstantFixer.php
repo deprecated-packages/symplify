@@ -48,7 +48,7 @@ final class ClassStringToClassConstantFixer extends AbstractSymplifyFixer implem
         $this->classLikeExistenceChecker = $classLikeExistenceChecker;
 
         trigger_error(sprintf(
-            'Fixer "%s" is deprecated. Use "%s" instead',
+            'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
             self::class,
             'https://github.com/rectorphp/rector/blob/master/docs/rector_rules_overview.md#stringclassnametoclassconstantrector'
         ));

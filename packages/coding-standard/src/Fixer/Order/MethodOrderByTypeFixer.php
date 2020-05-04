@@ -45,7 +45,7 @@ final class MethodOrderByTypeFixer extends AbstractSymplifyFixer implements Conf
 
         trigger_error(
             sprintf(
-                'Fixer "%s" is deprecated. Use "%s" instead',
+                'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
                 self::class,
                 'https://github.com/rectorphp/rector/pull/3304'
             )

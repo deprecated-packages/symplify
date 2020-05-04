@@ -22,7 +22,7 @@ final class ForbiddenStaticFunctionSniff implements Sniff
     public function __construct()
     {
         trigger_error(sprintf(
-            'Sniff "%s" is deprecated. Use "%s" instead',
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
             self::class,
             'https://github.com/symplify/coding-standard/blob/master/src/Rules/Naming/NoClassWithStaticMethodWithoutStaticNameRule.php'
         ));

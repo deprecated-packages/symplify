@@ -29,7 +29,7 @@ final class PreferredClassSniff implements Sniff
         $this->naming = $naming;
 
         trigger_error(sprintf(
-            'Sniff "%s" is deprecated. Use "%s" instead',
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
             self::class,
             PreferredClassRule::class
         ));

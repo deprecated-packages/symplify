@@ -16,7 +16,7 @@ final class AutoBindParametersCompilerPass extends AutoBindParameterCompilerPass
     public function __construct()
     {
         trigger_error(sprintf(
-            'Compiler pass "%s" is deprecated. Use "%s" instead',
+            'Compiler pass "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
             self::class,
             AutoBindParameterCompilerPass::class
         ));

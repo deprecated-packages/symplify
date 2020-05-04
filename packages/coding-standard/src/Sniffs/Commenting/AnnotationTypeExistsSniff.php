@@ -30,7 +30,7 @@ final class AnnotationTypeExistsSniff implements Sniff
         $this->classLikeExistenceChecker = $classLikeExistenceChecker;
 
         trigger_error(sprintf(
-            'Sniff "%s" is deprecated. Use "%s" and "%s" instead',
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" and "%s" instead',
             self::class,
             'https://github.com/phpstan/phpstan-src/blob/master/src/Rules/Properties/ExistingClassesInPropertiesRule.php',
             'https://github.com/phpstan/phpstan-src/blob/master/src/Rules/Functions/ExistingClassesInTypehintsRule.php'

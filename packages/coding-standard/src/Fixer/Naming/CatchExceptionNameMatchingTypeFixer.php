@@ -28,7 +28,7 @@ final class CatchExceptionNameMatchingTypeFixer extends AbstractSymplifyFixer
         $this->blockFinder = $blockFinder;
 
         trigger_error(sprintf(
-            'Sniff "%s" is deprecated. Use "%s" instead',
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
             self::class,
             'https://github.com/rectorphp/rector/blob/master/rules/coding-style/src/Rector/Catch_/CatchExceptionNameMatchingTypeRector.php'
         ));

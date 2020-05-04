@@ -26,7 +26,7 @@ final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
     public function __construct()
     {
         trigger_error(sprintf(
-            'Fixer "%s" is deprecated. Use "%s" instead',
+            'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
             self::class,
             NoEmptyPhpdocFixer::class
         ));
