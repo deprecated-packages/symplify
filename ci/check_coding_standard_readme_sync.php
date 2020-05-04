@@ -15,6 +15,7 @@ use Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer;
 use Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer;
 use Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer;
 use Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer;
+use Symplify\CodingStandard\Fixer\Order\PropertyOrderByComplexityFixer;
 use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
 use Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer;
 use Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer;
@@ -161,6 +162,7 @@ final class CodingStandardSyncChecker
             ClassStringToClassConstantFixer::class,
             PrivateMethodOrderByUseFixer::class,
             MethodOrderByTypeFixer::class,
+            PropertyOrderByComplexityFixer::class
         ];
 
         // filter out abstract class
