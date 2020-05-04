@@ -11,17 +11,17 @@
         "slevomat/coding-standard": "^6.3.2",
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpstan/phpstan": "^0.12.10",
-        "symplify/smart-file-system": "^7.3.8",
-        "symplify/package-builder": "^7.3.8",
-        "symplify/autowire-array-parameter": "^7.3.8",
-        "symplify/phpstan-extensions": "^7.3.8",
+        "symplify/smart-file-system": "^7.4",
+        "symplify/package-builder": "^7.4",
+        "symplify/autowire-array-parameter": "^7.4",
+        "symplify/phpstan-extensions": "^7.4",
         "phpstan/phpdoc-parser": "^0.4"
     },
     "require-dev": {
         "nette/application": "^3.0",
         "nette/bootstrap": "^3.0",
-        "symplify/easy-coding-standard-tester": "^7.3.8",
-        "symplify/package-builder": "^7.3.8",
+        "symplify/easy-coding-standard-tester": "^7.4",
+        "symplify/package-builder": "^7.4",
         "phpunit/phpunit": "^8.5|^9.0"
     },
     "autoload": {
