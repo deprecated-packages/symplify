@@ -5,15 +5,15 @@ includes:
     - packages/coding-standard/config/symplify-rules.neon
 
 parameters:
-    level: max
-    checkGenericClassInNonGenericObjectType: false
-
     symplify:
         old_to_preffered_classes:
             Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
             SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
             PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
+
+    level: max
+    checkGenericClassInNonGenericObjectType: false
 
     reportUnmatchedIgnoredErrors: false
 
@@ -168,9 +168,6 @@ parameters:
         - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
         - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
         - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
-        - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
-        - '#Access to an undefined property PhpParser\\Node\\Expr\\Error\|PhpParser\\Node\\Expr\\Variable\:\:\$name#'
-        - '#Method Symplify\\CodingStandard\\Rules\\ClassNameRespectsParentSuffixRule\:\:resolveShortClassName\(\) should return string but returns string\|null#'
 
         # might be BC break
         - '#Class "CommandNaming" with static method must have "static" in its name#'
