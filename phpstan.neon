@@ -15,7 +15,7 @@ parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
 
-    reportUnmatchedIgnoredErrors: false
+#    reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
         - *packages/monorepo-builder/packages/init/templates/*
