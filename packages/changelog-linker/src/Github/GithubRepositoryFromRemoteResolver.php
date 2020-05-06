@@ -6,16 +6,16 @@ namespace Symplify\ChangelogLinker\Github;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Exception\Git\InvalidGitRemoteException;
-use const PATHINFO_DIRNAME;
-use const PATHINFO_FILENAME;
-use const PHP_URL_HOST;
-use const PHP_URL_PATH;
-use const PHP_URL_SCHEME;
 use function parse_url;
 use function pathinfo;
 use function rtrim;
 use function sprintf;
 use function str_replace;
+use const PATHINFO_DIRNAME;
+use const PATHINFO_FILENAME;
+use const PHP_URL_HOST;
+use const PHP_URL_PATH;
+use const PHP_URL_SCHEME;
 
 final class GithubRepositoryFromRemoteResolver
 {
