@@ -15,7 +15,7 @@ parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
 
-#    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
         - *packages/monorepo-builder/packages/init/templates/*
@@ -82,8 +82,6 @@ parameters:
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
 
         # phpstan 0.10 news
-        - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
-        - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\ValueObject\\BlockInfo\|null#'
