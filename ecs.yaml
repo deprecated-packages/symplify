@@ -11,12 +11,12 @@ parameters:
 
     paths:
         - 'packages'
+        - 'tests'
 
     exclude_files:
         # tests
         - '*/Fixture/*'
         - 'packages/*/tests/**Source/*.php'
-        - 'packages/coding-standard/tests/Fixer/Order/MethodOrderByTypeFixer/Wrong/*'
         # own scope
         - 'packages/easy-coding-standard/compiler/build/scoper.inc.php'
         # requires PHP 7.4
@@ -24,43 +24,23 @@ parameters:
         - 'packages/easy-hydrator/tests/TypedPropertiesTest.php'
 
     skip:
-        # run form time to time, very slow and making many changes
-        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff: ~
-
         PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff: ~
 
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
-
+        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - 'packages/easy-coding-standard/tests/Indentation/IndentationTest.php'
-
-        Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
-            # name parts, not classes
-            - 'packages/autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php'
-            - 'packages/coding-standard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php'
-            # "Exception" is string part of the name
-            - 'packages/coding-standard/src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
-            # class might not exist
-            - '*packages/*/src/DependencyInjection/CompilerPass/*CompilerPass.php'
-            - 'packages/phpstan-extensions/src/Symfony/Type/ContainerGetTypeExtension.php'
 
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
             - 'packages/coding-standard/src/Rules/NoDefaultExceptionRule.php'
-
-        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
-
-        Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
-            # useful comments
-            - 'packages/latte-to-twig-converter/src/CaseConverter/*CaseConverter.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingNativeTypeHint:
             - '*Sniff.php'
             - '*YamlFileLoader.php'
             - 'packages/package-builder/src/Reflection/PrivatesCaller.php'
 
-        Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer:
-            # temporary, BC layer
-            - 'packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php'
-            - 'packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php'
+        Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
+            # useful comments
+            - 'packages/latte-to-twig-converter/src/CaseConverter/*CaseConverter.php'
