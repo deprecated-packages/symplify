@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Rules\Classes;
+namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\Annotation;
@@ -17,8 +17,16 @@ use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
+/**
+ * @see \Symplify\CodingStandard\Tests\Rules\MatchingTypeConstantRule\MatchingTypeConstantRuleTest
+ */
 final class MatchingTypeConstantRule implements Rule
 {
+    /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = 'Constant type should be "%s", but is "%s"';
+
     /**
      * @var string[][]
      */
@@ -154,11 +162,7 @@ final class MatchingTypeConstantRule implements Rule
      */
     private function reportMissmatch(string $expectedType, string $typeNodeClass): array
     {
-        $message = sprintf(
-            'Constant type should be "%s", but is "%s"',
-            $expectedType,
-            $this->getStringFromNodeClass($typeNodeClass)
-        );
+        $message = sprintf(self::ERROR_MESSAGE, $expectedType, $this->getStringFromNodeClass($typeNodeClass));
 
         return [$message];
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Tests\Rules\ClassMethod\Source;
+namespace Symplify\CodingStandard\Tests\Rules\BoolishClassMethodPrefixRule\Source;
 
 class SkipRequiredByInterface implements InterfaceWithReturnType
 {

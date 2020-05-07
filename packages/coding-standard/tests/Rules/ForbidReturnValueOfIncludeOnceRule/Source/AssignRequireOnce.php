@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Tests\Rules\Include_\Source;
+namespace Symplify\CodingStandard\Tests\Rules\ForbidReturnValueOfIncludeOnceRule\Source;
 
 final class AssignRequireOnce
 {
-    public function run()
+    public function run(): void
     {
         $result = require_once 'Test.php';
     }

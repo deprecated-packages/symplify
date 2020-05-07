@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Rules\ClassMethod;
+namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
@@ -16,8 +16,16 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\BooleanType;
 
+/**
+ * @see \Symplify\CodingStandard\Tests\Rules\BoolishClassMethodPrefixRule\BoolishClassMethodPrefixRuleTest
+ */
 final class BoolishClassMethodPrefixRule implements Rule
 {
+    /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = 'Method "%s()" returns bool type, so the name should start with is/has/was...';
+
     /**
      * @var string[]
      */
@@ -42,11 +50,6 @@ final class BoolishClassMethodPrefixRule implements Rule
         # array access
         'offsetExists',
     ];
-
-    /**
-     * @var string
-     */
-    private const ERROR_MESSAGE = 'Method "%s()" returns bool type, so the name should start with is/has/was...';
 
     /**
      * @var NodeFinder

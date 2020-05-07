@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Tests\Rules\Classes\Source;
+namespace Symplify\CodingStandard\Tests\Rules\MatchingTypeConstantRule\Source;
 
 final class ClassWithConstants
 {

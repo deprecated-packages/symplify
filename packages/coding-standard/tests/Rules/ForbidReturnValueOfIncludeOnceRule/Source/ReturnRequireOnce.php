@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Tests\Rules\Include_\Source;
+namespace Symplify\CodingStandard\Tests\Rules\ForbidReturnValueOfIncludeOnceRule\Source;
 
 final class ReturnRequireOnce
 {

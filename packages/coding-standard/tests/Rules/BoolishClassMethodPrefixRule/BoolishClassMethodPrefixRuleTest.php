@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Tests\Rules\ClassMethod;
+namespace Symplify\CodingStandard\Tests\Rules\BoolishClassMethodPrefixRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\PHPStanExtensions\Rules\ClassMethod\BoolishClassMethodPrefixRule;
+use Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule;
 
 final class BoolishClassMethodPrefixRuleTest extends RuleTestCase
 {
@@ -21,18 +21,17 @@ final class BoolishClassMethodPrefixRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
+        $firstErrorMessage = sprintf(BoolishClassMethodPrefixRule::ERROR_MESSAGE, 'honesty');
+        $secondErrorMessage = sprintf(BoolishClassMethodPrefixRule::ERROR_MESSAGE, 'thatWasGreat');
+
         yield [
             __DIR__ . '/Source/ClassWithBoolishMethods.php',
-            [
-                ['Method "honesty()" returns bool type, so the name should start with is/has/was...', 9],
-                ['Method "thatWasGreat()" returns bool type, so the name should start with is/has/was...', 14],
-            ],
+            [[$firstErrorMessage, 9], [$secondErrorMessage, 14]],
         ];
 
+        // no erros
         yield [__DIR__ . '/Source/ClassWithEmptyReturn.php', []];
-
         yield [__DIR__ . '/Source/ClassThatImplementsInterface.php', []];
-
         yield [__DIR__ . '/Source/SkipRequiredByInterface.php', []];
     }
 

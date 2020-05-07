@@ -2,22 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Tests\Rules\Classes;
+namespace Symplify\CodingStandard\Tests\Rules\MatchingTypeConstantRule;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule;
+use Symplify\CodingStandard\Rules\MatchingTypeConstantRule;
 
 final class MatchingTypeConstantRuleTest extends RuleTestCase
 {
     public function testRule(): void
     {
+        $firstErrorMessage = sprintf(MatchingTypeConstantRule::ERROR_MESSAGE, 'bool', 'string');
+
+        $secondErrorMessage = sprintf(MatchingTypeConstantRule::ERROR_MESSAGE, 'string', 'bool');
+
         $this->analyse(
             [__DIR__ . '/Source/ClassWithConstants.php'],
-            [
-                ['Constant type should be "bool", but is "string"', 12],
-                ['Constant type should be "string", but is "bool"', 17],
-            ]
+            [[$firstErrorMessage, 12], [$secondErrorMessage, 17]]
         );
     }
 

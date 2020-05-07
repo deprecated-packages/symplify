@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Tests\Rules\Include_;
+namespace Symplify\CodingStandard\Tests\Rules\ForbidReturnValueOfIncludeOnceRule;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\PHPStanExtensions\Rules\Include_\ForbidReturnValueOfIncludeOnceRule;
+use Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule;
 
 final class ForbidReturnValueOfIncludeOnceRuleTest extends RuleTestCase
 {
@@ -14,12 +14,12 @@ final class ForbidReturnValueOfIncludeOnceRuleTest extends RuleTestCase
     {
         $this->analyse(
             [__DIR__ . '/Source/ReturnRequireOnce.php'],
-            [['Cannot return include_once/require_once', 11]]
+            [[ForbidReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]
         );
 
         $this->analyse(
             [__DIR__ . '/Source/AssignRequireOnce.php'],
-            [['Cannot return include_once/require_once', 11]]
+            [[ForbidReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]
         );
     }
 
