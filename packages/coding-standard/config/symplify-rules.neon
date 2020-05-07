@@ -8,6 +8,7 @@ parameters:
         max_cognitive_complexity: 8
         max_class_cognitive_complexity: 50
         parent_classes: []
+        required_see_types: []
 
 parametersSchema:
     symplify: structure([
@@ -16,6 +17,7 @@ parametersSchema:
         max_cognitive_complexity: int()
         max_class_cognitive_complexity: int()
         parent_classes: arrayOf(string())
+        required_see_types: arrayOf(string())
     ])
 
 services:
@@ -64,3 +66,9 @@ services:
     -
         class: Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredSeeTypes: "%symplify.required_see_types%"
