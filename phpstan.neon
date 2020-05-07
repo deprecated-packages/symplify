@@ -11,6 +11,10 @@ parameters:
             SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
             PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
+        required_see_types:
+            - PHPStan\Rules\Rule
+            - PHP_CodeSniffer\Sniffs\Sniff
+            - PHP_CodeSniffer\Fixer
 
     level: max
     checkGenericClassInNonGenericObjectType: false

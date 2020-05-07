@@ -293,6 +293,52 @@ $dateTime = new Nette\Utils\DateTime('now');
 
 <br>
 
+### Require @see annotation to class Test case by Type
+
+- class: [`SeeAnnotationToTestRule`](src/Rules/SeeAnnotationToTestRule.php)
+
+```yaml
+# phpstan.neon
+parameters:
+    symplify:
+        required_see_types:
+            - PHPStan\Rules\Rule
+
+rules:
+    - Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
+```
+
+:x:
+
+```php
+<?php
+
+use PHPStan\Rules\Rule;
+
+class SomeRule implements Rule
+{
+    // ...
+}
+```
+
+:+1:
+
+```php
+<?php
+
+use PHPStan\Rules\Rule;
+
+/**
+ * @see SomeRuleTest
+ */
+class SomeRule implements Rule
+{
+    // ...
+}
+```
+
+<br>
+
 ### Indexed PHP arrays should have 1 item per line
 
 - class: [`StandaloneLineInMultilineArrayFixer`](src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)

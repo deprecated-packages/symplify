@@ -10,6 +10,8 @@ use PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\CommentedOutCodeSniff as PHP_Code
 /**
  * Additionally to parent check,
  * it skips single line comments - often examples
+ *
+ * @see \Symplify\CodingStandard\Tests\Sniffs\Debug\CommentedOutCode\CommentedOutCodeSniffTest
  */
 final class CommentedOutCodeSniff extends PHP_CodeSnifferCommentedOutCodeSniff
 {
