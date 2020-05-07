@@ -72,3 +72,19 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             requiredSeeTypes: "%symplify.required_see_types%"
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDynamicMethodNameRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDefaultExceptionRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\MatchingTypeConstantRule
+        tags: [phpstan.rules.rule]

@@ -118,21 +118,7 @@ rules:
 ```php
 <?php
 
-class FormatConverter
-{
-    public static function yamlToJson(array $yaml): array
-    {
-        // ...
-    }
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class StaticFormatConverter
+class FormatConverter // should be: "StaticFormatConverter"
 {
     public static function yamlToJson(array $yaml): array
     {
@@ -190,22 +176,9 @@ class Finder
 
 namespace App\Entity;
 
-class Finder
+class Finder // should be e.g. "EntityFinder"
 {
 }
-```
-
-:+1:
-
-```diff
- <?php
-
- namespace App\Entity;
-
--class Finder
-+class EntityFinder
- {
- }
 ```
 
 <br>
@@ -280,15 +253,7 @@ rules:
 ```php
 <?php
 
-$dateTime = new DateTime('now');
-```
-
-:+1:
-
-```php
-<?php
-
-$dateTime = new Nette\Utils\DateTime('now');
+$dateTime = new DateTime('now'); // should be "Nette\Utils\DateTime"
 ```
 
 <br>
@@ -561,15 +526,7 @@ rules:
 ```php
 <?php
 
-throw new RuntimeException('...');
-```
-
-:+1:
-
-```php
-<?php
-
-throw new FileNotFoundException('...');
+throw new RuntimeException('...'); // should be e.g. "App\Exception\FileNotFoundException"
 ```
 
 <br>
@@ -660,6 +617,58 @@ function someFunction($var)
 
 <br>
 
+### Use explicit Method Names over Dynamic
+
+- class: [`NoDynamicMethodNameRule`](src/Rules/NoDynamicMethodNameRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDynamicMethodNameRule
+```
+
+:x:
+
+```php
+<?php
+
+final class DynamicMethodCallName
+{
+    public function run($value)
+    {
+        $this->$value();
+    }
+}
+```
+
+<br>
+
+### Use explicit Property Fetch Names over Dynamic
+
+- class: [`NoDynamicPropertyFetchNameRule`](src/Rules/NoDynamicPropertyFetchNameRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule
+```
+
+:x:
+
+```php
+<?php
+
+final class DynamicPropertyFetchName
+{
+    public function run($value)
+    {
+        $this->$value;
+    }
+}
+```
+
+<br>
+
 ### There should not be comments with valid code
 
 - class: [`CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)
@@ -727,17 +736,7 @@ parameters:
 ```php
 <?php
 
-class Some extends Command
-{
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeCommand extends Command
+class Some extends Command // should be "SomeCommand"
 {
 }
 ```
@@ -798,17 +797,7 @@ rules:
 ```php
 <?php
 
-class EM
-{
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class EntityManager
+class EM // should be e.g. "EntityManager"
 {
 }
 ```
@@ -834,21 +823,7 @@ final class Person
 {
     private string $name;
 
-    public function setName(string $name)
-    {
-        $this->name = $name;
-    }
-}
-```
-
-:+1:
-
-```php
-final class Person
-{
-    private string $name;
-
-    public function __construct(string $name)
+    public function setName(string $name) // should be "__construct"
     {
         $this->name = $name;
     }
