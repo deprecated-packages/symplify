@@ -76,3 +76,15 @@ services:
     -
         class: Symplify\CodingStandard\Rules\NoDynamicMethodNameRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDefaultExceptionRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\MatchingTypeConstantRule
+        tags: [phpstan.rules.rule]

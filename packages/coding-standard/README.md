@@ -617,7 +617,7 @@ function someFunction($var)
 
 <br>
 
-### Use explicit method names over dynamic
+### Use explicit Method Names over Dynamic
 
 - class: [`NoDynamicMethodNameRule`](src/Rules/NoDynamicMethodNameRule.php)
 
@@ -639,7 +639,32 @@ final class DynamicMethodCallName
         $this->$value();
     }
 }
+```
 
+<br>
+
+### Use explicit Property Fetch Names over Dynamic
+
+- class: [`NoDynamicPropertyFetchNameRule`](src/Rules/NoDynamicPropertyFetchNameRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule
+```
+
+:x:
+
+```php
+<?php
+
+final class DynamicPropertyFetchName
+{
+    public function run($value)
+    {
+        $this->$value;
+    }
+}
 ```
 
 <br>
