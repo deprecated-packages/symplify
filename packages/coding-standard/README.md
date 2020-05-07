@@ -330,7 +330,9 @@ class SomeClass
     public function run()
     {
         $alwaysCallMeWithConstant = new AlwaysCallMeWithConstant();
-        $alwaysCallMeWithConstant->call(TypeList::SOME);
+        $alwaysCallMeWithConstant->call('someValue');
+        // should be: $alwaysCallMeWithConstant->call(TypeList::SOME);
+
     }
 }
 ```
