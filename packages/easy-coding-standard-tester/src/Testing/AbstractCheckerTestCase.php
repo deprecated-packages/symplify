@@ -256,6 +256,23 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         );
     }
 
+    private function autoloadCodeSniffer(): void
+    {
+        $possibleAutoloadPaths = [
+            __DIR__ . '/../../../../../vendor/squizlabs/php_codesniffer/autoload.php',
+            __DIR__ . '/../../../../vendor/squizlabs/php_codesniffer/autoload.php',
+        ];
+
+        foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+            if (! file_exists($possibleAutoloadPath)) {
+                continue;
+            }
+
+            require_once $possibleAutoloadPath;
+            return;
+        }
+    }
+
     private function processFile(string $file): void
     {
         $fileInfo = new SmartFileInfo($file);
@@ -348,22 +365,5 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
             $hash,
             $smartFileInfo->getBasename('.inc')
         );
-    }
-
-    private function autoloadCodeSniffer(): void
-    {
-        $possibleAutoloadPaths = [
-            __DIR__ . '/../../../../../vendor/squizlabs/php_codesniffer/autoload.php',
-            __DIR__ . '/../../../../vendor/squizlabs/php_codesniffer/autoload.php',
-        ];
-
-        foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
-            if (! file_exists($possibleAutoloadPath)) {
-                continue;
-            }
-
-            require_once $possibleAutoloadPath;
-            return;
-        }
     }
 }

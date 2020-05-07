@@ -6,9 +6,26 @@ namespace Symplify\CodingStandard\Sniffs\CleanCode;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\CodingStandard\Rules\NoReferenceRule;
 
+/**
+ * @deprecated
+ */
 final class ForbiddenReferenceSniff implements Sniff
 {
+    public function __construct()
+    {
+        trigger_error(
+            sprintf(
+                'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+                self::class,
+                NoReferenceRule::class
+            )
+        );
+
+        sleep(3);
+    }
+
     /**
      * @return int[]
      */

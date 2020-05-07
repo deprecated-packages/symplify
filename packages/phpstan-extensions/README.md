@@ -26,33 +26,14 @@ vendor/bin/phpstan analyse src --level max --error-format symplify
 ↓
 
 ```bash
------------------------------------------------------------------------------------------------------------------
-packages/MonorepoBuilder/packages/Release/src/Command/ReleaseCommand.php:51
------------------------------------------------------------------------------------------------------------------
-- "Call to an undefined method Symplify\\MonorepoBuilder\\Release\\Command\\ReleaseCommand\:\:nonExistingCall\(\)"
------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+src/Command/ReleaseCommand.php:51
+------------------------------------------------------------------------------------------
+- "Call to an undefined method Symplify\\Command\\ReleaseCommand\:\:nonExistingCall\(\)"
+------------------------------------------------------------------------------------------
 ```
 
-The config also loads few rules and return type extensions.
-
-### Rules
-
-#### `Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule`
-
-Validate type of default constant value vs. its docs:
-
-```php
-/**
- * @var int
- */
-private LIMIT = 'max';
-```
-
-↓
-
-```bash
-Constant type should be "int", but is "string"
-```
+The config also loads few return type extensions.
 
 ### Return Type Extensions
 

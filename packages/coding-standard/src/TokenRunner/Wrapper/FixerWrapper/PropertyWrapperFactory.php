@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper;
 
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
 use Symplify\CodingStandard\TokenRunner\Guard\TokenTypeGuard;
@@ -39,7 +40,10 @@ final class PropertyWrapperFactory
 
     public function createFromTokensAndPosition(Tokens $tokens, int $position): PropertyWrapper
     {
-        $this->tokenTypeGuard->ensureIsTokenType($tokens[$position], [T_VARIABLE], __METHOD__);
+        /** @var Token $token */
+        $token = $tokens[$position];
+
+        $this->tokenTypeGuard->ensureIsTokenType($token, [T_VARIABLE], __METHOD__);
 
         return new PropertyWrapper($tokens, $position, $this->nameFactory, $this->docBlockManipulator);
     }

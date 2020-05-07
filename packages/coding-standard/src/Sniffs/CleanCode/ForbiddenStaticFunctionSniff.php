@@ -7,6 +7,9 @@ namespace Symplify\CodingStandard\Sniffs\CleanCode;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
+/**
+ * @deprecated
+ */
 final class ForbiddenStaticFunctionSniff implements Sniff
 {
     /**
@@ -15,6 +18,17 @@ final class ForbiddenStaticFunctionSniff implements Sniff
     private const ALLOWED_STATIC_FUNCTIONS = [
         'getSubscribedEvents', # Symfony of event subscriber
     ];
+
+    public function __construct()
+    {
+        trigger_error(sprintf(
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+            self::class,
+            'https://github.com/symplify/coding-standard/blob/master/src/Rules/Naming/NoClassWithStaticMethodWithoutStaticNameRule.php'
+        ));
+
+        sleep(3);
+    }
 
     /**
      * @return int[]

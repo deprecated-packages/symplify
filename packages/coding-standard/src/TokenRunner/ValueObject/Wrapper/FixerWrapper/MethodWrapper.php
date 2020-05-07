@@ -73,6 +73,7 @@ final class MethodWrapper
         }
 
         for ($i = $this->bodyEnd - 1; $i > $this->bodyStart; --$i) {
+            /** @var Token $token */
             $token = $this->tokens[$i];
             if ($this->shouldSkip($oldName, $token)) {
                 continue;

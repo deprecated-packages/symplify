@@ -7,12 +7,26 @@ namespace Symplify\CodingStandard\Sniffs\ControlStructure;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
+/**
+ * @deprecated
+ */
 final class ForbiddenDoubleAssignSniff implements Sniff
 {
     /**
      * @var string
      */
     private const MESSAGE = 'Use per line assign instead of multiple ones.';
+
+    public function __construct()
+    {
+        trigger_error(sprintf(
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+            self::class,
+            'https://github.com/rectorphp/rector/blob/master/rules/coding-style/src/Rector/Assign/SplitDoubleAssignRector.php'
+        ));
+
+        sleep(3);
+    }
 
     /**
      * @return int[]|string[]

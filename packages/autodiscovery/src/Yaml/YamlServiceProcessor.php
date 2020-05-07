@@ -6,7 +6,7 @@ namespace Symplify\Autodiscovery\Yaml;
 
 use Nette\Utils\Strings;
 use ReflectionClass;
-use Symplify\Autodiscovery\Arrays;
+use Symplify\Autodiscovery\StaticArrays;
 use Symplify\Autodiscovery\ValueObject\ServiceConfig;
 
 final class YamlServiceProcessor
@@ -108,7 +108,7 @@ final class YamlServiceProcessor
         $service = $this->processTags($service);
 
         // is only named services
-        if (Arrays::hasOnlyKey($service, 'class')) {
+        if (StaticArrays::hasOnlyKey($service, 'class')) {
             unset($yaml[YamlKey::SERVICES][$name]);
 
             $name = $service['class'];

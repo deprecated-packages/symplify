@@ -68,8 +68,9 @@ final class ComposerJsonMerger
         ComposerJson $newComposerJson,
         ?SmartFileInfo $packageFileInfo = null
     ): void {
-        if ($newComposerJson->getName()) {
-            $this->mergedPackagesCollector->addPackage($newComposerJson->getName());
+        $name = $newComposerJson->getName();
+        if ($name !== null) {
+            $this->mergedPackagesCollector->addPackage($name);
         }
 
         // prepare paths before autolaod merging

@@ -133,7 +133,10 @@ final class FixerClassWrapper
     ) {
         $this->classToken = $tokens[$startIndex];
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
-        $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->startBracketIndex);
+
+        if ($this->startBracketIndex !== null) {
+            $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->startBracketIndex);
+        }
 
         $this->tokens = $tokens;
         $this->tokensAnalyzer = new TokensAnalyzer($tokens);
@@ -152,11 +155,12 @@ final class FixerClassWrapper
             return $this->className;
         }
 
-        if (! $this->getNamePosition()) {
+        $namePosition = $this->getNamePosition();
+        if ($namePosition === null) {
             return null;
         }
 
-        $className = $this->nameFactory->createFromTokensAndStart($this->tokens, $this->getNamePosition());
+        $className = $this->nameFactory->createFromTokensAndStart($this->tokens, $namePosition);
 
         return $this->className = $className->getName();
     }
@@ -493,12 +497,19 @@ final class FixerClassWrapper
     private function isThisMethodCall(Tokens $tokens, int $index): bool
     {
         $prevIndex = $tokens->getPrevMeaningfulToken($index);
+        if (! is_int($prevIndex)) {
+            return false;
+        }
+
         if (! $tokens[$prevIndex]->equals([T_OBJECT_OPERATOR, '->'])) {
             return false;
         }
 
         $prevPrevIndex = $tokens->getPrevMeaningfulToken($prevIndex);
-        if ($tokens[$prevPrevIndex]->getContent() !== '$this') {
+
+        /** @var Token $previousToken */
+        $previousToken = $tokens[$prevPrevIndex];
+        if ($previousToken->getContent() !== '$this') {
             return false;
         }
 

@@ -2,10 +2,23 @@ includes:
     - packages/phpstan-extensions/config/config.neon
     - vendor/slam/phpstan-extensions/conf/slam-rules.neon
     - vendor/slam/phpstan-extensions/conf/symfony-rules.neon
+    - packages/coding-standard/config/symplify-rules.neon
 
 parameters:
+    symplify:
+        old_to_preffered_classes:
+            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            DateTime: 'Nette\Utils\DateTime'
+            PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
+        required_see_types:
+            - PHPStan\Rules\Rule
+            - PHP_CodeSniffer\Sniffs\Sniff
+            - PHP_CodeSniffer\Fixer
+
     level: max
     checkGenericClassInNonGenericObjectType: false
+
     reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
@@ -29,6 +42,8 @@ parameters:
         # requires PHP 7.4
         - 'packages/easy-hydrator/tests/Fixture/TypedProperty.php'
         - 'packages/easy-hydrator/tests/TypedPropertiesTest.php'
+        - '*/Source/*'
+        - '*/Fixture/*'
 
     autoload_files:
         - %currentWorkingDirectory%/tests/bootstrap.php
@@ -41,11 +56,24 @@ parameters:
             message: '#Cannot cast array<string>\|string\|null to string#'
             path: '*packages/*Command.php'
 
+        -
+            message: '#Instead of "SplFileInfo" use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
+            paths:
+                - 'packages/smart-file-system/src/Finder/FinderSanitizer.php'
+                - 'packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
+                - '*Fixer.php'
+
+        -
+            message: "#^Use explicit return value over magic &reference$#"
+            paths:
+                - packages/package-builder/src/Reflection/PrivatesCaller.php
+                - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php
+
         # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
 
         # invalid 3rd party-code
-        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
+        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\|null given#'
         - '#Variable \$processedFileContent might not be defined#'
 
         # known values
@@ -58,8 +86,6 @@ parameters:
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
 
         # phpstan 0.10 news
-        - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
-        - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\ValueObject\\BlockInfo\|null#'
@@ -121,7 +147,6 @@ parameters:
         - '#Parameter \#1 \$array of method (.*?)\\ArraySorter\:\:recursiveSort\(\) expects array, array\|string given#'
 
         - '#Cannot assign offset (.*?) to array\|string#'
-        - '#Cannot assign offset int\|null to PhpCsFixer\\Tokenizer\\Tokens#'
         - '#Parameter \#3 \$position of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer\:\:isIncrementingToken\(\) expects int, float\|int given#'
         - '#call_user_func#'
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
@@ -135,3 +160,21 @@ parameters:
 
         # the Filesystem method is only iterable way
         - '#Function file_exists is unsafe to use, rely on Symfony component Filesystem\:\:exists instead#'
+        - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
+
+        # cognitive complexity
+        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is 14, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is 14, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\PackageBuilder\\Yaml\\ParametersMerger::(.*?)\(\)" is \d+, keep it under 8#'
+
+        - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
+        - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
+        - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
+
+        # might be BC break
+        - '#Class "CommandNaming" with static method must have "static" in its name#'
+        - '#Class "InputDetector" with static method must have "static" in its name#'
+
+        - '#Class with base "Error" name is already used in "PhpParser\\Node\\Expr\\Error", "PhpParser\\Error"\. Use unique name to make classes easy to recognize#'
+        - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
+        - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'

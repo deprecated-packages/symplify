@@ -34,12 +34,15 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
 
             $createReflectionMethod = new ReflectionMethod($passiveFactoryClass, 'create');
             $returnType = $this->resolveReturnType($createReflectionMethod);
+            if ($returnType === null) {
+                continue;
+            }
 
             // register factory
-            $containerBuilder->autowire($returnType)
-                ->setPublic(true)
-                ->setClass($returnType)
-                ->setFactory([new Reference($passiveFactoryClass), 'create']);
+            $definition = $containerBuilder->autowire($returnType);
+            $definition->setPublic(true);
+            $definition->setFactory([new Reference($passiveFactoryClass), 'create']);
+            $definition->setClass($returnType);
         }
     }
 
@@ -98,6 +101,23 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
         return ! in_array($returnType, self::EXCLUDED_FACTORY_TYPES, true);
     }
 
+    private function resolveReturnType(ReflectionMethod $reflectionMethod): ?string
+    {
+        $returnType = $reflectionMethod->getReturnType();
+        if ($returnType !== null) {
+            return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
+        }
+
+        $match = Strings::match((string) $reflectionMethod->getDocComment(), self::RETURN_TYPE_PATTERN);
+        if (isset($match['returnType'])) {
+            $classReflection = $reflectionMethod->getDeclaringClass();
+
+            return Reflection::expandClassName($match['returnType'], $classReflection);
+        }
+
+        return null;
+    }
+
     /**
      * @return string[]
      */
@@ -120,22 +140,5 @@ final class AutoReturnFactoryCompilerPass implements CompilerPassInterface
         }
 
         return $activeFactories;
-    }
-
-    private function resolveReturnType(ReflectionMethod $reflectionMethod): ?string
-    {
-        $returnType = $reflectionMethod->getReturnType();
-        if ($returnType !== null) {
-            return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
-        }
-
-        $match = Strings::match((string) $reflectionMethod->getDocComment(), self::RETURN_TYPE_PATTERN);
-        if (isset($match['returnType'])) {
-            $classReflection = $reflectionMethod->getDeclaringClass();
-
-            return Reflection::expandClassName($match['returnType'], $classReflection);
-        }
-
-        return null;
     }
 }

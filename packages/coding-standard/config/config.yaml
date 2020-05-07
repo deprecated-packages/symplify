@@ -1,3 +1,6 @@
+imports:
+    - { resource: "../packages/*/config/*.yaml" }
+
 # set for coding standard services, excepts sniffs and fixers
 services:
     _defaults:
@@ -13,6 +16,7 @@ services:
             - '../src/TokenRunner/ValueObject/*'
             - '../src/Sniffs/*'
             - '../src/Fixer/*'
+            - '../src/Rules/*'
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: null
 

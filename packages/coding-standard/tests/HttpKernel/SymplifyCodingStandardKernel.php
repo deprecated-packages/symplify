@@ -8,6 +8,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\CodingStandard\SymplifyCodingStandardBundle;
+use Symplify\ConsoleColorDiff\ConsoleColorDiffBundle;
 use Symplify\EasyCodingStandard\EasyCodingStandardBundle;
 
 final class SymplifyCodingStandardKernel extends Kernel
@@ -31,6 +32,6 @@ final class SymplifyCodingStandardKernel extends Kernel
      */
     public function registerBundles(): iterable
     {
-        return [new SymplifyCodingStandardBundle(), new EasyCodingStandardBundle()];
+        return [new SymplifyCodingStandardBundle(), new EasyCodingStandardBundle(), new ConsoleColorDiffBundle()];
     }
 }

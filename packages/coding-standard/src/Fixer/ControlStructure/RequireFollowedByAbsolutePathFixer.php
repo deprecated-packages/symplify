@@ -14,6 +14,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
+/**
+ * @deprecated
+ */
 final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
 {
     /**
@@ -24,7 +27,7 @@ final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
     public function __construct()
     {
         trigger_error(sprintf(
-            'Fixer "%s" is deprecated. Use instead "%s"',
+            'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
             self::class,
             'https://github.com/rectorphp/rector/blob/master/docs/AllRectorsOverview.md#absolutizerequireandincludepathrector'
         ));
@@ -60,6 +63,7 @@ final class RequireFollowedByAbsolutePathFixer extends AbstractSymplifyFixer
                 continue;
             }
 
+            /** @var Token $nextToken */
             $nextToken = $tokens[$nextTokenPosition];
 
             if ($this->shouldSkipToken($nextToken)) {

@@ -12,6 +12,9 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
+/**
+ * @deprecated
+ */
 final class PrivateMethodOrderByUseFixer extends AbstractSymplifyFixer
 {
     /**
@@ -30,6 +33,14 @@ final class PrivateMethodOrderByUseFixer extends AbstractSymplifyFixer
     ) {
         $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->classElementSorter = $classElementSorter;
+
+        trigger_error(sprintf(
+            'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+            self::class,
+            'https://github.com/rectorphp/rector/pull/3301'
+        ));
+
+        sleep(3);
     }
 
     public function getDefinition(): FixerDefinitionInterface

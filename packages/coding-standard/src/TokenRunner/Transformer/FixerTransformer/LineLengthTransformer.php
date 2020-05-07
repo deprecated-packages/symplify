@@ -12,7 +12,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
+use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 final class LineLengthTransformer
 {
@@ -139,7 +139,7 @@ final class LineLengthTransformer
         $lineLength += strlen($currentToken->getContent());
 
         // minus end of lines, do not count line feeds as characters
-        $endOfLineCount = substr_count($currentToken->getContent(), EolConfiguration::getEolChar());
+        $endOfLineCount = substr_count($currentToken->getContent(), StaticEolConfiguration::getEolChar());
         $lineLength -= $endOfLineCount;
 
         // compute from here to end of line
@@ -179,7 +179,10 @@ final class LineLengthTransformer
                 continue;
             }
 
+            /** @var Token $previousToken */
             $previousToken = $tokens[$i - 1];
+
+            /** @var Token $nextToken */
             $nextToken = $tokens[$i + 1];
 
             // do not clear before *doc end, removing spaces breaks stuff
@@ -284,23 +287,11 @@ final class LineLengthTransformer
      */
     private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
     {
-        if (Strings::startsWith($tokens[$position]->getContent(), EolConfiguration::getEolChar())) {
+        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
             return true;
         }
 
         return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
-    }
-
-    /**
-     * @param Tokens|Token[] $tokens
-     */
-    private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
-    {
-        if (Strings::startsWith($tokens[$position]->getContent(), EolConfiguration::getEolChar())) {
-            return true;
-        }
-
-        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
     }
 
     private function isBlockStartOrEnd(Token $previousToken, Token $nextToken): bool
@@ -310,5 +301,17 @@ final class LineLengthTransformer
         }
 
         return in_array($nextToken->getContent(), [')', ']'], true);
+    }
+
+    /**
+     * @param Tokens|Token[] $tokens
+     */
+    private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
+    {
+        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
+            return true;
+        }
+
+        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
     }
 }

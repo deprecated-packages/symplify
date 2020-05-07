@@ -15,6 +15,9 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\FixerClassWrapper;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
+/**
+ * @deprecated
+ */
 final class FinalInterfaceFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**
@@ -32,7 +35,7 @@ final class FinalInterfaceFixer extends AbstractSymplifyFixer implements Configu
         $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
 
         trigger_error(sprintf(
-            'Fixer "%s" is deprecated. Use more advanced "%s" instead',
+            'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use more advanced "%s" instead',
             self::class,
             'https://github.com/rectorphp/rector/blob/master/docs/AllRectorsOverview.md#finalizeclasseswithoutchildrenrector'
         ));

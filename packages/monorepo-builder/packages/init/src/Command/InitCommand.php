@@ -6,6 +6,8 @@ namespace Symplify\MonorepoBuilder\Init\Command;
 
 use Composer\Composer;
 use Nette\Utils\FileSystem as NetteFileSystem;
+use Nette\Utils\Json as NetteJson;
+use PharIo\Version\InvalidVersionException;
 use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,6 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
+use function dirname;
 
 final class InitCommand extends Command
 {
@@ -80,8 +83,39 @@ final class InitCommand extends Command
      */
     private function getMonorepoBuilderVersion(): string
     {
-        $version = new Version(str_replace('x-dev', '0', $this->composer->getPackage()->getPrettyVersion()));
+        $version = null;
+
+        try {
+            $version = new Version(str_replace('x-dev', '0', $this->composer->getPackage()->getPrettyVersion()));
+        } catch (InvalidVersionException $invalidVersionException) {
+            // Version might not be explicitly set inside composer.json, looking for "vendor/composer/installed.json"
+            $version = $this->extractMonorepoBuilderVersionFromComposer();
+        }
+
+        if ($version === null) {
+            return 'Unknown';
+        }
 
         return sprintf('^%d.%d', $version->getMajor()->getValue(), $version->getMinor()->getValue());
+    }
+
+    /**
+     * Returns current version of MonorepoBuilder extracting it from "vendor/composer/installed.json".
+     */
+    private function extractMonorepoBuilderVersionFromComposer(): ?Version
+    {
+        $installedJsonFilename = sprintf('%s/composer/installed.json', dirname(__DIR__, 6));
+
+        if (is_file($installedJsonFilename)) {
+            $installedJson = NetteJson::decode(NetteFileSystem::read($installedJsonFilename));
+
+            foreach ($installedJson as $installedPackage) {
+                if ($installedPackage->name === 'symplify/monorepo-builder') {
+                    return new Version($installedPackage->version);
+                }
+            }
+        }
+
+        return null;
     }
 }

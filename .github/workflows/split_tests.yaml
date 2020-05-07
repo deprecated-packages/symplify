@@ -21,7 +21,6 @@ jobs:
                     - coding-standard
                     - changelog-linker
                     - monorepo-builder
-                    - phpstan-extensions
                     - flex-loader
                     - autodiscovery
                     - set-config-resolver

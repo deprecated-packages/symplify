@@ -1,0 +1,16 @@
+parameters:
+    symplify:
+        required_see_types:
+            - PHPStan\Rules\Rule
+
+parametersSchema:
+    symplify: structure([
+        required_see_types: arrayOf(string())
+    ])
+
+services:
+    -
+        class: Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredSeeTypes: "%symplify.required_see_types%"

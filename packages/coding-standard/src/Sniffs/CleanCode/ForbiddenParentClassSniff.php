@@ -6,8 +6,12 @@ namespace Symplify\CodingStandard\Sniffs\CleanCode;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\CodingStandard\Rules\ForbiddenParentClassRule;
 use Symplify\CodingStandard\TokenRunner\Wrapper\SnifferWrapper\SniffClassWrapperFactory;
 
+/**
+ * @deprecated
+ */
 final class ForbiddenParentClassSniff implements Sniff
 {
     /**
@@ -23,6 +27,14 @@ final class ForbiddenParentClassSniff implements Sniff
     public function __construct(SniffClassWrapperFactory $sniffClassWrapperFactory)
     {
         $this->sniffClassWrapperFactory = $sniffClassWrapperFactory;
+
+        trigger_error(sprintf(
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+            self::class,
+            ForbiddenParentClassRule::class
+        ));
+
+        sleep(3);
     }
 
     /**

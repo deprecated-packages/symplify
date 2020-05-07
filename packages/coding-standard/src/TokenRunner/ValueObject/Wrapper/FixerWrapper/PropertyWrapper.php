@@ -39,6 +39,7 @@ final class PropertyWrapper extends AbstractVariableWrapper
         }
 
         $types = $this->getTypes();
+        /** @var string $type */
         $type = array_pop($types);
 
         return $this->nameFactory->resolveForName($this->tokens, $type);

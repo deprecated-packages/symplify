@@ -15,6 +15,8 @@ use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 
 /**
  * @inspiration https://github.com/slevomat/coding-standard/blob/90dbcb3258dd1dcd5fa7d960a8bd30c6cb915b3a/SlevomatCodingStandard/Sniffs/Namespaces/FullyQualifiedClassNameInAnnotationSniff.php
+ *
+ * @deprecated
  */
 final class AnnotationTypeExistsSniff implements Sniff
 {
@@ -26,6 +28,15 @@ final class AnnotationTypeExistsSniff implements Sniff
     public function __construct(ClassLikeExistenceChecker $classLikeExistenceChecker)
     {
         $this->classLikeExistenceChecker = $classLikeExistenceChecker;
+
+        trigger_error(sprintf(
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" and "%s" instead',
+            self::class,
+            'https://github.com/phpstan/phpstan-src/blob/master/src/Rules/Properties/ExistingClassesInPropertiesRule.php',
+            'https://github.com/phpstan/phpstan-src/blob/master/src/Rules/Functions/ExistingClassesInTypehintsRule.php'
+        ));
+
+        sleep(3);
     }
 
     /**
@@ -71,10 +82,15 @@ final class AnnotationTypeExistsSniff implements Sniff
      */
     private function resolveTypes(Annotation $annotation, string $annotationName): array
     {
-        $typeHintsDefinition = Strings::split($annotation->getContent(), '#\\s+#')[0];
+        $annotationContent = $annotation->getContent();
+        if ($annotationContent === null) {
+            return [];
+        }
+
+        $typeHintsDefinition = Strings::split($annotationContent, '#\\s+#')[0];
 
         if ($annotationName === '@var') {
-            $match = Strings::match($annotation->getContent(), '#^\$\\S+\\s+(.+)#');
+            $match = Strings::match($annotationContent, '#^\$\\S+\\s+(.+)#');
             if (isset($match[1]) && $match[1]) {
                 $typeHintsDefinition = $match[1];
             }

@@ -2,32 +2,55 @@
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
 
-Set of PHP_CodeSniffer Sniffs and PHP-CS-Fixer Fixers used by Symplify projects.
+Set of rules for PHP_CodeSniffer, PHP-CS-Fixer and PHPStan used by Symplify projects.
 
-**They run best with [EasyCodingStandard](https://github.com/symplify/easy-coding-standard)**.
+**They run best with [EasyCodingStandard](https://github.com/symplify/easy-coding-standard)** and **PHPStan**.
 
 ## Install
 
 ```bash
 composer require symplify/coding-standard --dev
+composer require symplify/easy-coding-standard --dev
+```
+
+1. Run with [ECS](https://github.com/symplify/easy-coding-standard):
+
+```bash
+vendor/bin/ecs process src --set symplify
+```
+
+2. Register rules for PHPStan:
+
+```yaml
+# phpstan.neon
+includes:
+    - vendor/symplify/coding-standard/config/symplify-rules.neon
 ```
 
 ## Rules Overview
 
-- Rules with :wrench: are configurable.
+- Jump to [Object Calisthenics rules](#object-calisthenics-rules)
 
 <br>
 
-### Cognitive complexity for method must be less than X
+### Cognitive Complexity for Method and Class Must be Less than X
 
-- :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/CognitiveComplexitySniff.php)
+- [Why it's the best rule in your coding standard?](https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/)
+
+**For PHPStan**
+
+- class: [`FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
+- class: [`ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
 
 ```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
-        maxCognitiveComplexity: 8 # default
+# phpstan.neon
+includes:
+    - vendor/symplify/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-rules.neon
+
+parameters:
+    symplify:
+        max_cognitive_complexity: 8 # default
+        max_class_cognitive_complexity: 50 # default
 ```
 
 :x:
@@ -42,9 +65,7 @@ class SomeClass
         if ($value !== 1) {
             if ($value !== 2) {
                 if ($value !== 3) {
-                    if ($value !== 4) {
-                        return false;
-                    }
+                    return false;
                 }
             }
         }
@@ -71,100 +92,44 @@ class SomeClass
             return true;
         }
 
-        if ($value === 3) {
-            return true;
-        }
-
-        if ($value === 4) {
-            return true;
-        }
-
-        return false;
+        return $value === 3;
     }
 }
 ```
 
 <br>
 
-### Cognitive complexity for class must be less than X
+### Classes with Static Methods must have "Static" in the Name
 
-- :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff`](packages/coding-standard/src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php)
+- class: [`Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule`](src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
+
+Be honest about static. [Why is static bad?](https://tomasvotruba.com/blog/2019/04/01/removing-static-there-and-back-again/)
+
+Value object static constructors, EventSubscriber and Command classe are excluded.
 
 ```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff:
-        maxClassCognitiveComplexity: 50 # default
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule
 ```
-
-Same as the one above just for classes.
 
 :x:
 
 ```php
 <?php
 
-class SomeClass
+class FormatConverter // should be: "StaticFormatConverter"
 {
-    public function kindaSimple($value)
+    public static function yamlToJson(array $yaml): array
     {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function kindaSimpleAgain($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function kindaOfSimpleAgain($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function kindaSimple($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
+        // ...
     }
 }
 ```
 
 <br>
 
-### Remove extra around public/protected/private/static modifiers and const
+### Remove Extra Spaces around Property and Constants Modifiers
 
 - class: [`Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer`](packages/coding-standard/src/Fixer/Spacing/RemoveSpacingAroundModifierAndConstFixer.php)
 
@@ -177,85 +142,8 @@ services:
 ```diff
  class SomeClass
  {
--    public     $protected;
-+    public $protected;
-
 -    protected     static     $value;
 +    protected static $value;
-
--    private      const    VALUE = 5;
-+    private const VALUE = 5;
-}
-```
-
-<br>
-
-### Bool Property should have default value, to prevent unintentional null comparison
-
-- class: [`Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer`](/packages/coding-standard/src/Fixer/Property/BoolPropertyDefaultValueFixer.php)
-
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer: null
-```
-
-```diff
- <?php
-
- class SomeClass
- {
-     /**
-      * @var bool
-      */
--    private $booleanProperty;
-+    private $booleanProperty = false;
-
-     public function run()
-     {
-         if ($this->booleanProperty === false) {
-             // ...
-         }
-     }
-}
-```
-
-<br>
-
-### Make sure That `@param`, `@var`, `@return` and `@throw` Types Exist
-
-- class: [`Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff`](src/Sniffs/Commenting/AnnotationTypeExistsSniff.php)
-
-```yaml
-services:
-    Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff: ~
-```
-
-:x:
-
-```php
-<?php
-
-class SomeClass
-{
-    /**
-     * @var NonExistingClass
-     */
-    private $property;
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    /**
-     * @var ExistingClass
-     */
-    private $property;
 }
 ```
 
@@ -263,8 +151,13 @@ class SomeClass
 
 ### Use Unique Class Short Names
 
-- :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff`](/src/Sniffs/Architecture/DuplicatedClassShortNameSniff.php)
+- class: [`Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule`](src/Rules/NoDuplicatedShortClassNameRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule
+```
 
 :x:
 
@@ -283,44 +176,21 @@ class Finder
 
 namespace App\Entity;
 
-class Finder
+class Finder // should be e.g. "EntityFinder"
 {
 }
-```
-
-:+1:
-
-```diff
- <?php
-
- namespace App\Entity;
-
--class Finder
-+class EntityFinder
- {
- }
-```
-
-Do you want skip some classes? Configure it:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
-        allowed_class_names:
-            - 'Request'
-            - 'Response'
 ```
 
 <br>
 
 ### Make `@param`, `@return` and `@var` Format United
 
-- class: [`Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
+- class: [`ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
 
 ```yaml
+# ecs.yaml
 services:
-    Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: ~
+    Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: null
 ```
 
 ```diff
@@ -329,12 +199,17 @@ services:
  /**
 - * @param $name string
 + * @param string $name
+  *
 - * @return int $value
 + * @return int
   */
  function someFunction($name)
  {
  }
+```
+
+```diff
+ <?php
 
  class SomeClass
  {
@@ -344,7 +219,9 @@ services:
       */
      private $property;
  }
+```
 
+```diff
 -/* @var int $value */
 +/** @var int $value */
  $value = 5;
@@ -356,159 +233,19 @@ services:
 
 <br>
 
-### Remove // end of ... Legacy Comments
-
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer`](src/Fixer/Commenting/RemoveEndOfFunctionCommentFixer.php)
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer: ~
-```
-
-```diff
- <?php
-
- function someFunction()
- {
-
--} // end of someFunction
-+}
-```
-
-<br>
-
-### Order Private Methods by Their Use Order
-
-- class: [`Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer`](src/Fixer/Order/PrivateMethodOrderByUseFixer.php)
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer: ~
-```
-
-:x:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function run()
-    {
-        $this->call1();
-        $this->call2();
-    }
-
-    private function call2()
-    {
-    }
-
-    private function call1()
-    {
-    }
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function run()
-    {
-        $this->call1();
-        $this->call2();
-    }
-
-    private function call1()
-    {
-    }
-
-    private function call2()
-    {
-    }
-}
-```
-
-<br>
-
-### Order Properties From Simple to Complex
-
-Properties are ordered by visibility first, then by complexity.
-
-- class: [`Symplify\CodingStandard\Fixer\Order\PropertyOrderByComplexityFixer`](src/Fixer/Order/PropertyOrderByComplexityFixer.php)
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Order\PropertyOrderByComplexityFixer: ~
-```
-
-:x:
-
-```php
-<?php
-
-final class SomeFixer
-{
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var Type
-     */
-    private $service;
-
-    /**
-     * @var int
-     */
-    private $price;
-}
-```
-
-:+1:
-
-```php
-<?php
-
-final class SomeFixer
-{
-    /**
-     * @var int
-     */
-    private $price;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var Type
-     */
-    private $service;
-}
-```
-
-<br>
-
 ### Prefer Another Class
 
-- :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff`](src/Sniffs/Architecture/PreferredClassSniff.php)
+- class: [`PreferredClassRule`](src/Rules/PreferredClassRule.php)
 
 ```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
-        oldToPreferredClasses:
+# phpstan.neon
+parameters:
+    symplify:
+        old_to_preffered_classes:
             DateTime: 'Nette\Utils\DateTime'
+
+rules:
+    - Symplify\CodingStandard\Rules\PreferredClassRule
 ```
 
 :x:
@@ -516,7 +253,37 @@ services:
 ```php
 <?php
 
-$dateTime = new DateTime('now');
+$dateTime = new DateTime('now'); // should be "Nette\Utils\DateTime"
+```
+
+<br>
+
+### Require @see annotation to class Test case by Type
+
+- class: [`SeeAnnotationToTestRule`](src/Rules/SeeAnnotationToTestRule.php)
+
+```yaml
+# phpstan.neon
+parameters:
+    symplify:
+        required_see_types:
+            - PHPStan\Rules\Rule
+
+rules:
+    - Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
+```
+
+:x:
+
+```php
+<?php
+
+use PHPStan\Rules\Rule;
+
+class SomeRule implements Rule
+{
+    // ...
+}
 ```
 
 :+1:
@@ -524,14 +291,61 @@ $dateTime = new DateTime('now');
 ```php
 <?php
 
-$dateTime = new Nette\Utils\DateTime('now');
+use PHPStan\Rules\Rule;
+
+/**
+ * @see SomeRuleTest
+ */
+class SomeRule implements Rule
+{
+    // ...
+}
+```
+
+<br>
+
+### Defined Method Argument should be Always Constant Value
+
+- class: [`ForceMethodCallArgumentConstantRule`](src/Rules/ForceMethodCallArgumentConstantRule.php)
+
+```yaml
+# phpstan.neon
+parameters:
+    symplify:
+        constant_arg_by_method_by_type:
+            AlwaysCallMeWithConstant:
+                some_type: [0] # positions
+
+rules:
+    - Symplify\CodingStandard\Rules\ForceMethodCallArgumentConstantRule
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        $alwaysCallMeWithConstant = new AlwaysCallMeWithConstant();
+        $alwaysCallMeWithConstant->call(TypeList::SOME);
+    }
+}
 ```
 
 <br>
 
 ### Indexed PHP arrays should have 1 item per line
 
-- class: [`Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`](src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
+- class: [`StandaloneLineInMultilineArrayFixer`](src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer: null
+```
 
 ```diff
 -$friends = [1 => 'Peter', 2 => 'Paul'];
@@ -543,25 +357,15 @@ $dateTime = new Nette\Utils\DateTime('now');
 
 <br>
 
-### There should not be empty PHPDoc blocks
-
-Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all doc block lines.
-
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer`](src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php)
-
-```diff
--/**
-- */
- public function someMethod()
- {
- }
-```
-
-<br>
-
 ### Block comment should not have 2 empty lines in a row
 
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
+- class: [`RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer: null
+```
 
 ```diff
  /**
@@ -577,10 +381,19 @@ Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all
 
 <br>
 
-### Parameters, arguments and array items should be on the same/standalone line to fit line length
+### Parameters, Arguments and Array items should be on the same/standalone line to fit Line Length
 
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`](src/Fixer/LineLength/LineLengthFixer.php)
+- class: [`LineLengthFixer`](src/Fixer/LineLength/LineLengthFixer.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
+        # defaults
+        max_line_length: 120
+        break_long_lines: true
+        inline_short_lines: true
+```
 
 ```diff
  class SomeClass
@@ -603,165 +416,17 @@ Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all
  }
 ```
 
-- Are 120 characters too long for you?
-- Do you want to break longs lines but not inline short lines or vice versa?
-
-**Change it**:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
-        max_line_length: 100 # default: 120
-        break_long_lines: true # default: true
-        inline_short_lines: false # default: true
-```
-
-<br>
-
-### Property name should match its key, if possible
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer`](src/Fixer/Naming/PropertyNameMatchingTypeFixer.php)
-
-```diff
--public function __construct(EntityManagerInterface $eventManager)
-+public function __construct(EntityManagerInterface $entityManager)
- {
--    $this->eventManager = $eventManager;
-+    $this->entityManager = $entityManager;
- }
-```
-
-This checker ignores few **system classes like `std*` or `Spl*` by default**. In case want to skip more classes, you can **configure it**:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer:
-        extra_skipped_classes:
-            - 'MyApp*' # accepts anything like fnmatch
-```
-
-<br>
-
-### Exception name should match its type, if possible
-
-- class: [`Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer`](src/Fixer/Naming/CatchExceptionNameMatchingTypeFixer.php)
-
-```diff
- try {
--} catch (SomeException $typoException) {
-+} catch (SomeException $someException) {
--    $typeException->getMessage();
-+    $someException->getMessage();
- }
-```
-
-<br>
-
-### Public Methods Should have Specific Order by Interface/Parent Class
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer`](src/Fixer/Order/MethodOrderByTypeFixer.php)
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
-        method_order_by_type:
-            Rector\Contract\Rector\PhpRectorInterface:
-                - 'getNodeTypes'
-                - 'refactor'
-```
-
-↓
-
-```diff
- final class SomeRector implements PhpRectorInterface
- {
--    public function refactor()
-+    public function getNodeTypes()
-     {
--        // refactoring
-+        return ['SomeType'];
-     }
--
--    public function getNodeTypes()
-+    public function refactor(): void
-     {
--        return ['SomeType'];
-+        // refactoring
-     }
- }
-```
-
-<br>
-
-### `::class` references should be used over string for classes and interfaces
-
-- :wrench:
-- class: [`Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer`](src/Fixer/Php/ClassStringToClassConstantFixer.php)
-
-```diff
--$className = 'DateTime';
-+$className = DateTime::class;
-```
-
-This checker takes **only existing classes by default**. In case want to check another code not loaded by local composer, you can **configure it**:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
-        class_must_exist: false # true by default
-```
-
-Do you want to allow some classes to be in string format?
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
-        allow_classes:
-            - 'SomeClass'
-```
-
-<br>
-
-### Array property should have default value, to prevent undefined array issues
-
-- class: [`Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer`](src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
-
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer: ~
-```
-
-```diff
- class SomeClass
- {
-     /**
-      * @var string[]
-      */
--    public $apples;
-+    public $apples = [];
-
-     public function run()
-     {
-         foreach ($this->apples as $mac) {
-             // ...
-         }
-     }
- }
-```
-
 <br>
 
 ### Strict types declaration has to be followed by empty line
 
-- class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
+- class: [`BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer: null
+```
 
 ```diff
  <?php
@@ -773,16 +438,28 @@ declare(strict_types=1);
 
 <br>
 
-### Use explicit and informative exception names over generic ones
+### Constant type Must Match its Value
 
-- class: [`Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff`](src/Sniffs/Architecture/ExplicitExceptionSniff.php)
+- class: [`MatchingTypeConstantRule`](src/Rules/MatchingTypeConstantRule.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Rules\MatchingTypeConstantRule: null
+```
 
 :x:
 
 ```php
 <?php
 
-throw new RuntimeException('...');
+class SomeClass
+{
+    /**
+     * @var int
+     */
+    private const LIMIT = 'max';
+}
 ```
 
 :+1:
@@ -790,22 +467,117 @@ throw new RuntimeException('...');
 ```php
 <?php
 
-throw new FileNotFoundException('...');
+class SomeClass
+{
+    /**
+     * @var string
+     */
+    private const LIMIT = 'max';
+}
 ```
 
 <br>
 
-### Class "X" cannot be parent class. Use composition over inheritance instead.
+### Boolish Methods has to have is/has/was Name
 
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff`](src/Sniffs/CleanCode/ForbiddenParentClassSniff.php)
+- class: [`BoolishClassMethodPrefixRule`](src/Rules/BoolishClassMethodPrefixRule.php)
 
 ```yaml
-# ecs.yml
+# ecs.yaml
 services:
-    Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff:
-        forbiddenParentClasses:
+    Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule: null
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function old(): bool
+    {
+        return $this->age > 100;
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function isOld(): bool
+    {
+        return $this->age > 100;
+    }
+}
+```
+
+<br>
+
+### Forbidden return of `require_once()`/`incude_once()`
+
+- class: [`ForbidReturnValueOfIncludeOnceRule`](src/Rules/ForbidReturnValueOfIncludeOnceRule.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule: null
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        return require_once 'Test.php';
+    }
+}
+```
+
+<br>
+
+### Use custom exceptions instead of Native Ones
+
+- class: [`NoDefaultExceptionRule`](src/Rules/NoDefaultExceptionRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDefaultExceptionRule
+```
+
+:x:
+
+```php
+<?php
+
+throw new RuntimeException('...'); // should be e.g. "App\Exception\FileNotFoundException"
+```
+
+<br>
+
+### Class "%s" inherits from forbidden parent class "%s". Use composition over inheritance instead
+
+- class: [`ForbiddenParentClassRule`](src/Rules/ForbiddenParentClassRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\ForbiddenParentClassRule
+
+parameters:
+    symplify:
+        forbidden_parent_classes:
             - 'Doctrine\ORM\EntityRepository'
-            # again, you can use fnmatch() pattern
+            # you can use fnmatch() pattern
             - '*\AbstractController'
 ```
 
@@ -846,7 +618,13 @@ final class ProductRepository
 
 ### Use explicit return values over magic "&$variable" reference
 
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff`](src/Sniffs/CleanCode/ForbiddenReferenceSniff.php)
+- class: [`NoReferenceRule`](src/Rules/NoReferenceRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoReferenceRule
+```
 
 :x:
 
@@ -872,91 +650,67 @@ function someFunction($var)
 
 <br>
 
-### Use services and constructor injection over static method
+### Use explicit Method Names over Dynamic
 
-- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff`](src/Sniffs/CleanCode/ForbiddenStaticFunctionSniff.php)
+- class: [`NoDynamicMethodNameRule`](src/Rules/NoDynamicMethodNameRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDynamicMethodNameRule
+```
 
 :x:
 
 ```php
 <?php
 
-class SomeClass
+final class DynamicMethodCallName
 {
-    public static function someFunction()
+    public function run($value)
     {
-    }
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    public function someFunction()
-    {
+        $this->$value();
     }
 }
 ```
 
 <br>
 
-### Constant should have docblock comment
+### Use explicit Property Fetch Names over Dynamic
 
-- class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](src/Sniffs/Commenting/VarConstantCommentSniff.php)
+- class: [`NoDynamicPropertyFetchNameRule`](src/Rules/NoDynamicPropertyFetchNameRule.php)
 
-```php
-class SomeClass
-{
-    private const EMPATH_LEVEL = 55;
-}
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule
 ```
-
-:+1:
-
-```php
-<?php
-
-class SomeClass
-{
-    /**
-     * @var int
-     */
-    private const EMPATH_LEVEL = 55;
-}
-```
-
-<br>
-
-### Use per line assign instead of multiple ones
-
-- class: [`Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff`](src/Sniffs/ControlStructure/ForbiddenDoubleAssignSniff.php)
 
 :x:
 
 ```php
 <?php
 
-$value = $anotherValue = [];
-```
-
-:+1:
-
-```php
-<?php
-
-$value = [];
-$anotherValue = [];
+final class DynamicPropertyFetchName
+{
+    public function run($value)
+    {
+        $this->$value;
+    }
+}
 ```
 
 <br>
 
 ### There should not be comments with valid code
 
-- class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)
+- class: [`CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff: null
+```
 
 :x:
 
@@ -969,9 +723,15 @@ $anotherValue = [];
 
 <br>
 
-### Debug functions should not be left in the code
+### Debug functions Cannot Be left in the Code
 
-- class: [`Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff`](src/Sniffs/Debug/DebugFunctionCallSniff.php)
+- class: [`NoDebugFuncCallRule`](src/Rules/NoDebugFuncCallRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDebugFuncCallRule
+```
 
 :x:
 
@@ -988,16 +748,197 @@ var_dump($value);
 
 ### Class should have suffix by parent class/interface
 
-- :wrench:
-- class: [`Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff`](src/Sniffs/Naming/ClassNameSuffixByParentSniff.php)
+Covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
+
+- class: [`ClassNameRespectsParentSuffixRule`](src/Rules/ClassNameRespectsParentSuffixRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
+
+parameters:
+    symplify:
+        parent_classes:
+            - Rector
+            - Rule
+```
 
 :x:
 
 ```php
 <?php
 
-class Some extends Command
+class Some extends Command // should be "SomeCommand"
 {
+}
+```
+
+<br>
+
+### No Parameter can Have Default Value
+
+- class: [`NoDefaultParameterValueRule`](src/Rules/NoDefaultParameterValueRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDefaultParameterValueRule
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run($vaulue = true)
+    {
+    }
+}
+```
+
+<br>
+
+### No Parameter can be Nullable
+
+Inspired by [Null Hell](https://afilina.com/null-hell) by @afilina
+
+- class: [`NoNullableParameterRule`](src/Rules/NoNullableParameterRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoNullableParameterRule
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run(?string $vaulue = true)
+    {
+    }
+}
+```
+
+<br>
+
+## Object Calisthenics rules
+
+- From [Object Calisthenics](https://tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
+- [Original source for PHPStan rules](https://github.com/object-calisthenics/phpcs-calisthenics-rules/)
+
+### No `else` And `elseif`
+
+- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
+```
+
+:x:
+
+```php
+<?php
+
+if ($value) {
+    return 5;
+} else {
+    return 10;
+}
+```
+
+:+1:
+
+```php
+if ($value) {
+    return 5;
+}
+
+return 10;
+```
+
+<br>
+
+### No Names Shorter than 3 Chars
+
+- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule`](packages/object-calisthenics/src/Rules/NoShortNameRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
+```
+
+:x:
+
+```php
+<?php
+
+class EM // should be e.g. "EntityManager"
+{
+}
+```
+
+<br>
+
+### No setter methods
+
+- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule
+```
+
+:x:
+
+```php
+<?php
+
+final class Person
+{
+    private string $name;
+
+    public function setName(string $name) // should be "__construct"
+    {
+        $this->name = $name;
+    }
+}
+```
+
+<br>
+
+### No Chain Method Call
+
+- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCallRule.php)
+- Check [Fluent Interfaces are Evil](https://ocramius.github.io/blog/fluent-interfaces-are-evil/)
+
+```yaml
+# phpstan.neon
+rules:
+     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        return $this->create()->modify()->save();
+    }
 }
 ```
 
@@ -1006,43 +947,18 @@ class Some extends Command
 ```php
 <?php
 
-class SomeCommand extends Command
+class SomeClass
 {
+    public function run()
+    {
+        $object = $this->create();
+        $object->modify();
+        $object->save();
+
+        return $object;
+    }
 }
 ```
-
-This checker check few names by default. But if you need, you can **configure it**:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
-        parentTypesToSuffixes:
-            # defaults
-            - 'Command'
-            - 'Controller'
-            - 'Repository'
-            - 'Presenter'
-            - 'Request'
-            - 'Response'
-            - 'EventSubscriber'
-            - 'FixerInterface'
-            - 'Sniff'
-            - 'Exception'
-            - 'Handler'
-```
-
-Or keep all defaults values by using `extra_parent_types_to_suffixes`:
-
-```yaml
-# ecs.yml
-services:
-    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
-        extraParentTypesToSuffixes:
-            - 'ProviderInterface'
-```
-
-It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
 
 <br>
 

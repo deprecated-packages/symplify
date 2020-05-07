@@ -8,6 +8,9 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
+/**
+ * @deprecated
+ */
 final class TraitNameSniff implements Sniff
 {
     /**
@@ -28,7 +31,7 @@ final class TraitNameSniff implements Sniff
     public function __construct()
     {
         trigger_error(sprintf(
-            'Sniff "%s" is deprecated. Use instead "%s"',
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
             self::class,
             'https://github.com/Slamdunk/phpstan-extensions'
         ));

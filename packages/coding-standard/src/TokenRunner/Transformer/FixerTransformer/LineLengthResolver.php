@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
+use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 final class LineLengthResolver
 {
@@ -45,6 +45,18 @@ final class LineLengthResolver
     /**
      * @param Tokens|Token[] $tokens
      */
+    private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
+    {
+        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
+            return true;
+        }
+
+        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
+    }
+
+    /**
+     * @param Tokens|Token[] $tokens
+     */
     private function getLenthFromFunctionStartToEndOfArguments(BlockInfo $blockInfo, Tokens $tokens): int
     {
         $length = 0;
@@ -73,24 +85,12 @@ final class LineLengthResolver
     /**
      * @param Tokens|Token[] $tokens
      */
-    private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
-    {
-        if (Strings::startsWith($tokens[$position]->getContent(), EolConfiguration::getEolChar())) {
-            return true;
-        }
-
-        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
-    }
-
-    /**
-     * @param Tokens|Token[] $tokens
-     */
     private function getLengthFromEndOfArgumentToLineBreak(BlockInfo $blockInfo, Tokens $tokens): int
     {
         $length = 0;
 
         $currentPosition = $blockInfo->getEnd();
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), EolConfiguration::getEolChar())) {
+        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), StaticEolConfiguration::getEolChar())) {
             $currentToken = $tokens[$currentPosition];
 
             $length += strlen($currentToken->getContent());

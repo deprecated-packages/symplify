@@ -1,4 +1,5 @@
 rules:
-    - Symplify\PHPStanExtensions\Rules\Classes\MatchingTypeConstantRule
-    - Symplify\PHPStanExtensions\Rules\Include_\ForbidReturnValueOfIncludeOnceRule
-    - Symplify\PHPStanExtensions\Rules\ClassMethod\BoolishClassMethodPrefixRule
+    # for BC, remove in Symplify 8
+    - Symplify\CodingStandard\Rules\MatchingTypeConstantRule
+    - Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule
+    - Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule

@@ -6,27 +6,19 @@
         "php": "^7.2",
         "friendsofphp/php-cs-fixer": "^2.16",
         "nette/utils": "^3.0",
-        "phpstan/phpstan": "^0.12.10",
-        "symplify/package-builder": "^7.3",
-        "symplify/smart-file-system": "^7.3"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^8.5|^9.0",
-        "nikic/php-parser": "^4.3"
+        "phpstan/phpstan": "^0.12.23",
+        "symplify/coding-standard": "^7.4",
+        "symplify/package-builder": "^7.4",
+        "symplify/smart-file-system": "^7.4"
     },
     "autoload": {
         "psr-4": {
             "Symplify\\PHPStanExtensions\\": "src"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Symplify\\PHPStanExtensions\\Tests\\": "tests"
-        }
-    },
     "extra": {
         "branch-alias": {
-            "dev-master": "7.3-dev"
+            "dev-master": "7.4-dev"
         }
     },
     "minimum-stability": "dev",

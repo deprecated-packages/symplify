@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper;
 
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\CodingStandard\TokenRunner\Guard\TokenTypeGuard;
@@ -68,7 +69,9 @@ final class FixerClassWrapperFactory
 
     public function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): FixerClassWrapper
     {
-        $this->tokenTypeGuard->ensureIsTokenType($tokens[$startIndex], [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
+        /** @var Token $token */
+        $token = $tokens[$startIndex];
+        $this->tokenTypeGuard->ensureIsTokenType($token, [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
 
         return new FixerClassWrapper(
             $tokens,
