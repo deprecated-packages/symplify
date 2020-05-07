@@ -89,6 +89,9 @@ final class ReleaseCommand extends Command
 
         $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($stage);
 
+        dump($activeReleaseWorkers);
+        die;
+
         $totalWorkerCount = count($activeReleaseWorkers);
         $i = 0;
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);

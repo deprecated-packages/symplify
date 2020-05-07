@@ -1,3 +1,28 @@
+services:
+    # release workers - in order to execute
+
+    # priority: 800
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker: null
+
+    # priority: 500
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker: null
+
+    # priority: 400
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker: null
+
+    # priority: 300
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker: null
+
+    # priority: 200
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker: null
+
+    # priority: 100
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker: null
+
+    # priority: 50
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker: null
+
+
 parameters:
     # add these to merge of packages' composer.json
     data_to_append:
