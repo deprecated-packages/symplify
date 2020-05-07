@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
+use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
 use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
 use Symplify\MonorepoBuilder\Release\ValueObject\StaticSemVersion;
@@ -89,9 +90,6 @@ final class ReleaseCommand extends Command
 
         $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($stage);
 
-        dump($activeReleaseWorkers);
-        die;
-
         $totalWorkerCount = count($activeReleaseWorkers);
         $i = 0;
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
@@ -133,8 +131,10 @@ final class ReleaseCommand extends Command
         }
 
         // show priority and class on -v/--verbose/--debug
-        $this->symfonyStyle->writeln('priority: ' . $releaseWorker->getPriority());
         $this->symfonyStyle->writeln('class: ' . get_class($releaseWorker));
+        if ($releaseWorker instanceof StageAwareInterface) {
+            $this->symfonyStyle->writeln('stage: ' . $releaseWorker->getStage());
+        }
         $this->symfonyStyle->newLine();
     }
 }

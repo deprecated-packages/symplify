@@ -8,11 +8,6 @@ use PharIo\Version\Version;
 
 final class SetCurrentMutualDependenciesReleaseWorker extends AbstractMutualDependencyReleaseWorker
 {
-    public function getPriority(): int
-    {
-        return 800;
-    }
-
     public function work(Version $version): void
     {
         $versionInString = $this->versionUtils->getRequiredFormat($version);

@@ -6,21 +6,20 @@ namespace Symplify\MonorepoBuilder\Release;
 
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
-use Symplify\MonorepoBuilder\Release\Exception\ConflictingPriorityException;
 
 final class ReleaseWorkerProvider
 {
     /**
      * @var ReleaseWorkerInterface[]
      */
-    private $releaseWorkersByPriority = [];
+    private $releaseWorkers = [];
 
     /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
      */
     public function __construct(array $releaseWorkers)
     {
-        $this->setWorkersAndSortByPriority($releaseWorkers);
+        $this->releaseWorkers = $releaseWorkers;
     }
 
     /**
@@ -29,11 +28,11 @@ final class ReleaseWorkerProvider
     public function provideByStage(?string $stage): array
     {
         if ($stage === null) {
-            return $this->releaseWorkersByPriority;
+            return $this->releaseWorkers;
         }
 
         $activeReleaseWorkers = [];
-        foreach ($this->releaseWorkersByPriority as $releaseWorker) {
+        foreach ($this->releaseWorkers as $releaseWorker) {
             if (! $releaseWorker instanceof StageAwareInterface) {
                 continue;
             }
@@ -46,22 +45,5 @@ final class ReleaseWorkerProvider
         }
 
         return $activeReleaseWorkers;
-    }
-
-    /**
-     * @param ReleaseWorkerInterface[] $releaseWorkers
-     */
-    private function setWorkersAndSortByPriority(array $releaseWorkers): void
-    {
-        foreach ($releaseWorkers as $releaseWorker) {
-            $priority = $releaseWorker->getPriority();
-            if (isset($this->releaseWorkersByPriority[$priority])) {
-                throw new ConflictingPriorityException($releaseWorker, $this->releaseWorkersByPriority[$priority]);
-            }
-
-            $this->releaseWorkersByPriority[$priority] = $releaseWorker;
-        }
-
-        krsort($this->releaseWorkersByPriority);
     }
 }

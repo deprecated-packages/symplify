@@ -27,11 +27,6 @@ final class PushNextDevReleaseWorker implements ReleaseWorkerInterface
         $this->versionUtils = $versionUtils;
     }
 
-    public function getPriority(): int
-    {
-        return 50;
-    }
-
     public function work(Version $version): void
     {
         $versionInString = $this->getVersionDev($version);

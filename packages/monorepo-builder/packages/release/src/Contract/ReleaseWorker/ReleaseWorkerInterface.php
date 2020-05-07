@@ -16,10 +16,5 @@ interface ReleaseWorkerInterface
      */
     public function getDescription(Version $version): string;
 
-    /**
-     * Higher first
-     */
-    public function getPriority(): int;
-
     public function work(Version $version): void;
 }
