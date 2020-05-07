@@ -7,9 +7,9 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "nette/utils": "^3.0",
         "phpstan/phpstan": "^0.12.23",
-        "symplify/coding-standard": "^7.4",
-        "symplify/package-builder": "^7.4",
-        "symplify/smart-file-system": "^7.4"
+        "symplify/coding-standard": "^7.3.10",
+        "symplify/package-builder": "^7.3.10",
+        "symplify/smart-file-system": "^7.3.10"
     },
     "autoload": {
         "psr-4": {
