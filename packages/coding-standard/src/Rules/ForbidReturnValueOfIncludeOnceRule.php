@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Rules\Include_;
+namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
@@ -11,8 +11,16 @@ use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
+/**
+ * @see \Symplify\CodingStandard\Tests\Rules\ForbidReturnValueOfIncludeOnceRule\ForbidReturnValueOfIncludeOnceRuleTest
+ */
 final class ForbidReturnValueOfIncludeOnceRule implements Rule
 {
+    /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = 'Cannot return include_once/require_once';
+
     public function getNodeType(): string
     {
         return Node::class;
@@ -28,8 +36,7 @@ final class ForbidReturnValueOfIncludeOnceRule implements Rule
             return [];
         }
 
-        // is include_once/require_once
-        return ['Cannot return include_once/require_once'];
+        return [self::ERROR_MESSAGE];
     }
 
     /**

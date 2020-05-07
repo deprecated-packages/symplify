@@ -16,7 +16,7 @@ parameters:
     exclude_files:
         # tests
         - '*/Fixture/*'
-        - 'packages/*/tests/**Source/*.php'
+        - '*/Source/*'
         # own scope
         - 'packages/easy-coding-standard/compiler/build/scoper.inc.php'
         # requires PHP 7.4

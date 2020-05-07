@@ -394,6 +394,112 @@ declare(strict_types=1);
 
 <br>
 
+### Constant type Must Match its Value
+
+- class: [`MatchingTypeConstantRule`](src/Rules/MatchingTypeConstantRule.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Rules\MatchingTypeConstantRule: null
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    /**
+     * @var int
+     */
+    private const LIMIT = 'max';
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class SomeClass
+{
+    /**
+     * @var string
+     */
+    private const LIMIT = 'max';
+}
+```
+
+<br>
+
+### Boolish Methods has to have is/has/was Name
+
+- class: [`BoolishClassMethodPrefixRule`](src/Rules/BoolishClassMethodPrefixRule.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule: null
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function old(): bool
+    {
+        return $this->age > 100;
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function isOld(): bool
+    {
+        return $this->age > 100;
+    }
+}
+```
+
+<br>
+
+### Forbidden return of `require_once()`/`incude_once()`
+
+- class: [`ForbidReturnValueOfIncludeOnceRule`](src/Rules/ForbidReturnValueOfIncludeOnceRule.php)
+
+```yaml
+# ecs.yaml
+services:
+    Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule: null
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        return require_once 'Test.php';
+    }
+}
+```
+
+<br>
+
 ### Use custom exceptions instead of Native Ones
 
 - class: [`NoDefaultExceptionRule`](src/Rules/NoDefaultExceptionRule.php)

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Tests\Rules\ClassMethod\Source;
+namespace Symplify\CodingStandard\Tests\Rules\BoolishClassMethodPrefixRule\Source;
 
 final class ClassWithBoolishMethods
 {
@@ -13,7 +13,7 @@ final class ClassWithBoolishMethods
 
     public function thatWasGreat()
     {
-        if (rand(1, 3)) {
+        if (random_int(1, 3)) {
             return true;
         }
 

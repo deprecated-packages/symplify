@@ -52,3 +52,15 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             parentClasses: "%symplify.parent_classes%"
+
+    -
+        class: Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\MatchingTypeConstantRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule
+        tags: [phpstan.rules.rule]
