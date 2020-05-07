@@ -743,6 +743,31 @@ class Some extends Command // should be "SomeCommand"
 
 <br>
 
+### No Parameter can Have Default Value
+
+- class: [`NoDefaultParameterValueRule`](src/Rules/NoDefaultParameterValueRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDefaultParameterValueRule
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run($vaulue = true)
+    {
+    }
+}
+```
+
+<br>
+
 ## Object Calisthenics rules
 
 - From [Object Calisthenics](https://tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
