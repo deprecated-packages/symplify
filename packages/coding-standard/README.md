@@ -304,6 +304,39 @@ class SomeRule implements Rule
 
 <br>
 
+### Defined Method Argument should be Always Constant Value
+
+- class: [`ForceMethodCallArgumentConstantRule`](src/Rules/ForceMethodCallArgumentConstantRule.php)
+
+```yaml
+# phpstan.neon
+parameters:
+    symplify:
+        constant_arg_by_method_by_type:
+            AlwaysCallMeWithConstant:
+                some_type: [0] # positions
+
+rules:
+    - Symplify\CodingStandard\Rules\ForceMethodCallArgumentConstantRule
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        $alwaysCallMeWithConstant = new AlwaysCallMeWithConstant();
+        $alwaysCallMeWithConstant->call(TypeList::SOME);
+    }
+}
+```
+
+<br>
+
 ### Indexed PHP arrays should have 1 item per line
 
 - class: [`StandaloneLineInMultilineArrayFixer`](src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)

@@ -5,10 +5,13 @@ parameters:
     symplify:
         forbidden_parent_classes: []
         old_to_preffered_classes: []
-        max_cognitive_complexity: 8
-        max_class_cognitive_complexity: 50
+        constant_arg_by_method_by_type: []
         parent_classes: []
         required_see_types: []
+
+        # cognitive complexity
+        max_cognitive_complexity: 8
+        max_class_cognitive_complexity: 50
 
 parametersSchema:
     symplify: structure([
@@ -18,6 +21,7 @@ parametersSchema:
         max_class_cognitive_complexity: int()
         parent_classes: arrayOf(string())
         required_see_types: arrayOf(string())
+        constant_arg_by_method_by_type: arrayOf(arrayOf(arrayOf(int())))
     ])
 
 services:
@@ -88,3 +92,9 @@ services:
     -
         class: Symplify\CodingStandard\Rules\MatchingTypeConstantRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\ForceMethodCallArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByMethodByType: "%symplify.constant_arg_by_method_by_type%"
