@@ -137,11 +137,12 @@ final class ReleaseCommand extends Command
             return;
         }
 
-        // show priority and class on -v/--verbose/--debug
+        // show debug data on -v/--verbose/--debug
         $this->symfonyStyle->writeln('class: ' . get_class($releaseWorker));
         if ($releaseWorker instanceof StageAwareInterface) {
             $this->symfonyStyle->writeln('stage: ' . $releaseWorker->getStage());
         }
+
         $this->symfonyStyle->newLine();
     }
 }

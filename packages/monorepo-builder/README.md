@@ -142,7 +142,7 @@ Classic use case for monorepo is to synchronize last tag and the `master` branch
 parameters:
     directories_to_repositories:
         packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
-        packages/MonorepoBuilder: 'git@github.com:Symplify/MonorepoBuilder.git'
+        packagages/MonorepoBuilder: 'git@github.com:Symplify/MonorepoBuilder.git'
 ```
 
 And run by:
@@ -220,20 +220,35 @@ You can use `minor` and `major` too.
 
 There is set of few default release workers - classes that implement `Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface`.
 
-You can extend it by adding your own:
+You need to register them as services. Feel free to start with default ones:
 
 ```yaml
 # monorepo-builder.yaml
 services:
-    App\Release\ShareOnTwitterReleaseWorker: ~
+    # release workers - in order to execute
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker: null
 ```
 
-And or disable default ones:
+You can extend it by adding your own:
 
-```yaml
-# monorepo-builder.yaml
-parameters:
-    enable_default_release_workers: false
+```diff
+ # monorepo-builder.yaml
+ services:
+     # release workers - in order to execute
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker: null
++    App\MonorepoBuilder\ReleaseWorker\TweetReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker: null
 ```
 
 ## Contributing
