@@ -768,6 +768,33 @@ class SomeClass
 
 <br>
 
+### No Parameter can be Nullable
+
+Inspired by [Null Hell](https://afilina.com/null-hell) by @afilina
+
+- class: [`NoNullableParameterRule`](src/Rules/NoNullableParameterRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoNullableParameterRule
+```
+
+:x:
+
+```php
+<?php
+
+class SomeClass
+{
+    public function run(?string $vaulue = true)
+    {
+    }
+}
+```
+
+<br>
+
 ## Object Calisthenics rules
 
 - From [Object Calisthenics](https://tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now/)
