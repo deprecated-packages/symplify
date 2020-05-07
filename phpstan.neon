@@ -176,3 +176,5 @@ parameters:
         - '#Class "InputDetector" with static method must have "static" in its name#'
 
         - '#Class with base "Error" name is already used in "PhpParser\\Node\\Expr\\Error", "PhpParser\\Error"\. Use unique name to make classes easy to recognize#'
+        - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
+        - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
