@@ -617,6 +617,33 @@ function someFunction($var)
 
 <br>
 
+### Use explicit method names over dynamic
+
+- class: [`NoDynamicMethodNameRule`](src/Rules/NoDynamicMethodNameRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoDynamicMethodNameRule
+```
+
+:x:
+
+```php
+<?php
+
+final class DynamicMethodCallName
+{
+    public function run($value)
+    {
+        $this->$value();
+    }
+}
+
+```
+
+<br>
+
 ### There should not be comments with valid code
 
 - class: [`CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)

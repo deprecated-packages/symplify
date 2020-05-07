@@ -72,3 +72,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             requiredSeeTypes: "%symplify.required_see_types%"
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDynamicMethodNameRule
+        tags: [phpstan.rules.rule]
