@@ -99,6 +99,9 @@ final class CodingStandardSyncChecker
             // abstract
             AbstractSymplifyFixer::class,
             AbstractManyNodeTypeRule::class,
+            // part of imported config
+            ClassLikeCognitiveComplexityRule::class,
+            FunctionLikeCognitiveComplexityRule::class,
         ];
 
         // filter out abstract class
