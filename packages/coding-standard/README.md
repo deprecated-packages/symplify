@@ -118,21 +118,7 @@ rules:
 ```php
 <?php
 
-class FormatConverter
-{
-    public static function yamlToJson(array $yaml): array
-    {
-        // ...
-    }
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class StaticFormatConverter
+class FormatConverter // should be: "StaticFormatConverter"
 {
     public static function yamlToJson(array $yaml): array
     {
@@ -190,22 +176,9 @@ class Finder
 
 namespace App\Entity;
 
-class Finder
+class Finder // should be e.g. "EntityFinder"
 {
 }
-```
-
-:+1:
-
-```diff
- <?php
-
- namespace App\Entity;
-
--class Finder
-+class EntityFinder
- {
- }
 ```
 
 <br>
@@ -280,15 +253,7 @@ rules:
 ```php
 <?php
 
-$dateTime = new DateTime('now');
-```
-
-:+1:
-
-```php
-<?php
-
-$dateTime = new Nette\Utils\DateTime('now');
+$dateTime = new DateTime('now'); // should be "Nette\Utils\DateTime"
 ```
 
 <br>
@@ -561,15 +526,7 @@ rules:
 ```php
 <?php
 
-throw new RuntimeException('...');
-```
-
-:+1:
-
-```php
-<?php
-
-throw new FileNotFoundException('...');
+throw new RuntimeException('...'); // should be e.g. "App\Exception\FileNotFoundException"
 ```
 
 <br>
@@ -727,17 +684,7 @@ parameters:
 ```php
 <?php
 
-class Some extends Command
-{
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class SomeCommand extends Command
+class Some extends Command // should be "SomeCommand"
 {
 }
 ```
@@ -798,17 +745,7 @@ rules:
 ```php
 <?php
 
-class EM
-{
-}
-```
-
-:+1:
-
-```php
-<?php
-
-class EntityManager
+class EM // should be e.g. "EntityManager"
 {
 }
 ```
@@ -834,21 +771,7 @@ final class Person
 {
     private string $name;
 
-    public function setName(string $name)
-    {
-        $this->name = $name;
-    }
-}
-```
-
-:+1:
-
-```php
-final class Person
-{
-    private string $name;
-
-    public function __construct(string $name)
+    public function setName(string $name) // should be "__construct"
     {
         $this->name = $name;
     }
