@@ -7,6 +7,9 @@ namespace Symplify\MonorepoBuilder\Release;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Release\Tests\ReleaseWorkerProvider\ReleaseWorkerProviderTest
+ */
 final class ReleaseWorkerProvider
 {
     /**
@@ -25,12 +28,16 @@ final class ReleaseWorkerProvider
     /**
      * @return ReleaseWorkerInterface[]
      */
-    public function provideByStage(?string $stage): array
+    public function provide(): array
     {
-        if ($stage === null) {
-            return $this->releaseWorkers;
-        }
+        return $this->releaseWorkers;
+    }
 
+    /**
+     * @return ReleaseWorkerInterface[]
+     */
+    public function provideByStage(string $stage): array
+    {
         $activeReleaseWorkers = [];
         foreach ($this->releaseWorkers as $releaseWorker) {
             if (! $releaseWorker instanceof StageAwareInterface) {

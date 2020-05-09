@@ -88,7 +88,12 @@ final class ReleaseCommand extends Command
         $versionArgument = $input->getArgument(Option::VERSION);
         $version = $this->versionFactory->createValidVersion($versionArgument, $stage);
 
-        $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($stage);
+        if ($stage !== null) {
+            $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($stage);
+        } else {
+            $activeReleaseWorkers = $this->releaseWorkerProvider->provide();
+        }
+
         if ($activeReleaseWorkers === []) {
             $this->symfonyStyle->error(
                 'There are no release workers registered. Be sure to add them to monorepo-builder.yaml'
