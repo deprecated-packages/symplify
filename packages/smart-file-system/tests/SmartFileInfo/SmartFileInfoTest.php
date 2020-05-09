@@ -23,8 +23,14 @@ final class SmartFileInfoTest extends TestCase
 
         $this->assertNotSame($smartFileInfo->getRelativePath(), $smartFileInfo->getRealPath());
 
-        $this->assertStringEndsWith($smartFileInfo->getRelativePath(), __DIR__);
-        $this->assertStringEndsWith($smartFileInfo->getRelativePathname(), __FILE__);
+        $this->assertStringEndsWith(
+            $this->normalizePath($smartFileInfo->getRelativePath()),
+            $this->normalizePath(__DIR__)
+        );
+        $this->assertStringEndsWith(
+            $this->normalizePath($smartFileInfo->getRelativePathname()),
+            $this->normalizePath(__FILE__)
+        );
     }
 
     public function testRelativeToDir(): void
@@ -40,5 +46,13 @@ final class SmartFileInfoTest extends TestCase
 
         $this->expectException(DirectoryNotFoundException::class);
         $smartFileInfo->getRelativeFilePathFromDirectory('non-existing-path');
+    }
+
+    /**
+     * Normalizing required to allow running tests on windows.
+     */
+    private function normalizePath($path): string
+    {
+        return str_replace('\\', '/', $path);
     }
 }
