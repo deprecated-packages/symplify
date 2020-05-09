@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Release\Command;
 
+use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -82,18 +83,7 @@ final class ReleaseCommand extends Command
         // validation phase
         $stage = $this->resolveStage($input);
 
-        $this->releaseGuard->guardStage($stage);
-
-        /** @var string $versionArgument */
-        $versionArgument = $input->getArgument(Option::VERSION);
-        $version = $this->versionFactory->createValidVersion($versionArgument, $stage);
-
-        if ($stage !== null) {
-            $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($stage);
-        } else {
-            $activeReleaseWorkers = $this->releaseWorkerProvider->provide();
-        }
-
+        $activeReleaseWorkers = $this->getReleaseWorkers($stage);
         if ($activeReleaseWorkers === []) {
             $this->symfonyStyle->error(
                 'There are no release workers registered. Be sure to add them to monorepo-builder.yaml'
@@ -105,6 +95,8 @@ final class ReleaseCommand extends Command
         $totalWorkerCount = count($activeReleaseWorkers);
         $i = 0;
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
+
+        $version = $this->resolveVersion($input, $stage);
 
         foreach ($activeReleaseWorkers as $releaseWorker) {
             $title = sprintf('%d/%d) %s', ++$i, $totalWorkerCount, $releaseWorker->getDescription($version));
@@ -129,13 +121,6 @@ final class ReleaseCommand extends Command
         return ShellCode::SUCCESS;
     }
 
-    private function resolveStage(InputInterface $input): ?string
-    {
-        $stage = $input->getOption(Option::STAGE);
-
-        return $stage !== null ? (string) $stage : $stage;
-    }
-
     private function printReleaseWorkerMetadata(ReleaseWorkerInterface $releaseWorker): void
     {
         if (! $this->symfonyStyle->isVerbose()) {
@@ -149,5 +134,41 @@ final class ReleaseCommand extends Command
         }
 
         $this->symfonyStyle->newLine();
+    }
+
+    private function resolveStage(InputInterface $input): ?string
+    {
+        $stage = $input->getOption(Option::STAGE);
+
+        // string or null
+        if ($stage === null) {
+            $this->releaseGuard->guardRequiredStageOnEmptyStage();
+            return null;
+        }
+
+        $stage = (string) $stage;
+        $this->releaseGuard->guardStage($stage);
+
+        return $stage;
+    }
+
+    private function resolveVersion(InputInterface $input, ?string $stage): Version
+    {
+        /** @var string $versionArgument */
+        $versionArgument = $input->getArgument(Option::VERSION);
+
+        return $this->versionFactory->createValidVersion($versionArgument, $stage);
+    }
+
+    /**
+     * @return ReleaseWorkerInterface[]
+     */
+    private function getReleaseWorkers(?string $stage): array
+    {
+        if ($stage === null) {
+            return $this->releaseWorkerProvider->provide();
+        }
+
+        return $this->releaseWorkerProvider->provideByStage($stage);
     }
 }

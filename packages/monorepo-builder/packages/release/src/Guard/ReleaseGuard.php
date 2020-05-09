@@ -55,27 +55,28 @@ final class ReleaseGuard
         $this->stagesToAllowExistingTag = $stagesToAllowExistingTag;
     }
 
-    public function guardStage(?string $stage): void
+    public function guardRequiredStageOnEmptyStage(): void
     {
-        if ($stage === null) {
-            // there are no stages → nothing to filter by
-            if ($this->getStages() === []) {
-                return;
-            }
-
-            // stage is optional → all right
-            if (! $this->isStageRequired) {
-                return;
-            }
-
-            // stage is required → show options
-            throw new ConfigurationException(sprintf(
-                'Set "--%s <name>" option first. Pick one of: "%s"',
-                Option::STAGE,
-                implode('", "', $this->getStages())
-            ));
+        // there are no stages → nothing to filter by
+        if ($this->getStages() === []) {
+            return;
         }
 
+        // stage is optional → all right
+        if (! $this->isStageRequired) {
+            return;
+        }
+
+        // stage is required → show options
+        throw new ConfigurationException(sprintf(
+            'Set "--%s <name>" option first. Pick one of: "%s"',
+            Option::STAGE,
+            implode('", "', $this->getStages())
+        ));
+    }
+
+    public function guardStage(string $stage): void
+    {
         // stage is correct
         if (in_array($stage, $this->getStages(), true)) {
             return;
