@@ -21,6 +21,9 @@ use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\Propert
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 use Symplify\PackageBuilder\Php\TypeAnalyzer;
 
+/**
+ * @deprecated
+ */
 final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**
@@ -71,6 +74,14 @@ final class PropertyNameMatchingTypeFixer extends AbstractSymplifyFixer implemen
         $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->typeAnalyzer = $typeAnalyzer;
         $this->propertyNaming = $propertyNaming;
+
+        trigger_error(sprintf(
+            'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+            self::class,
+            'https://github.com/rectorphp/rector/pull/3293/files'
+        ));
+
+        sleep(3);
     }
 
     public function getDefinition(): FixerDefinitionInterface

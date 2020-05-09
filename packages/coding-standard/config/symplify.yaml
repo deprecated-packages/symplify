@@ -29,6 +29,18 @@ services:
             - '../src/Fixer/Solid/FinalInterfaceFixer.php'
             - '../src/Fixer/ControlStructure/PregDelimiterFixer.php'
             - '../src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php'
+            - '../src/Fixer/Naming/CatchExceptionNameMatchingTypeFixer.php'
+            - '../src/Fixer/Naming/CatchExceptionNameMatchingTypeFixer.php'
+            - '../src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php'
+            - '../src/Fixer/Property/BoolPropertyDefaultValueFixer.php'
+            - '../src/Fixer/Property/BoolPropertyDefaultValueFixer.php'
+            - '../src/Fixer/Property/ArrayPropertyDefaultValueFixer.php'
+            - '../src/Fixer/Naming/PropertyNameMatchingTypeFixer.php'
+            - '../src/Fixer/Naming/PropertyNameMatchingTypeFixer.php'
+            - '../src/Fixer/Php/ClassStringToClassConstantFixer.php'
+            - '../src/Fixer/Order/PrivateMethodOrderByUseFixer.php'
+            - '../src/Fixer/Order/MethodOrderByTypeFixer.php'
+            - '../src/Fixer/Order/PropertyOrderByComplexityFixer.php'
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'
@@ -37,20 +49,19 @@ services:
             - '../src/Sniffs/Naming/AbstractClassNameSniff.php'
             - '../src/Sniffs/Naming/TraitNameSniff.php'
             - '../src/Sniffs/Naming/InterfaceNameSniff.php'
+            - '../src/Sniffs/CleanCode/CognitiveComplexitySniff.php'
+            - '../src/Sniffs/CleanCode/ClassCognitiveComplexitySniff.php'
+            - '../src/Sniffs/CleanCode/ForbiddenStaticFunctionSniff.php'
+            - '../src/Sniffs/ControlStructure/ForbiddenDoubleAssignSniff.php'
+            - '../src/Sniffs/CleanCode/ForbiddenParentClassSniff.php'
+            - '../src/Sniffs/Architecture/ExplicitExceptionSniff.php'
+            - '../src/Sniffs/Commenting/AnnotationTypeExistsSniff.php'
+            - '../src/Sniffs/Architecture/PreferredClassSniff.php'
+            - '../src/Sniffs/Architecture/PreferredClassSniff.php'
+            - '../src/Sniffs/Commenting/VarConstantCommentSniff.php'
+            - '../src/Sniffs/Architecture/DuplicatedClassShortNameSniff.php'
+            - '../src/Sniffs/CleanCode/ForbiddenReferenceSniff.php'
+            - '../src/Sniffs/Debug/DebugFunctionCallSniff.php'
+            - '../src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
-
-    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
-        allowed_class_names:
-            - 'File*'
-            # per monorepo package unique
-            - '*Exception'
-            - 'Option'
-            - 'InitCommand'
-            # duplicated deprecation
-            - 'FinderSanitizer'
-            # extended 3rd party class
-            - 'CommentedOutCodeSniff'
-            # tests
-            - 'Some*'
-            - 'GithubApi'

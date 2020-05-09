@@ -13,6 +13,9 @@ use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 
+/**
+ * @deprecated
+ */
 final class CatchExceptionNameMatchingTypeFixer extends AbstractSymplifyFixer
 {
     /**
@@ -23,6 +26,14 @@ final class CatchExceptionNameMatchingTypeFixer extends AbstractSymplifyFixer
     public function __construct(BlockFinder $blockFinder)
     {
         $this->blockFinder = $blockFinder;
+
+        trigger_error(sprintf(
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+            self::class,
+            'https://github.com/rectorphp/rector/blob/master/rules/coding-style/src/Rector/Catch_/CatchExceptionNameMatchingTypeRector.php'
+        ));
+
+        sleep(3);
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -51,15 +62,20 @@ try {
                 continue;
             }
 
+            /** @var int $exceptionTypePosition */
             $exceptionTypePosition = $tokens->getNextMeaningfulToken($position + 2);
+
+            /** @var int $variableNamePosition */
             $variableNamePosition = $tokens->getNextMeaningfulToken($exceptionTypePosition);
 
             // probably multiple types, unable to resolve right
+            /** @var Token $variableToken */
             $variableToken = $tokens[$variableNamePosition];
             if (! $variableToken->isGivenKind(T_VARIABLE)) {
                 continue;
             }
 
+            /** @var Token $exceptionTypeToken */
             $exceptionTypeToken = $tokens[$exceptionTypePosition];
             if ($this->isVariableNameMatchingType($variableToken, $exceptionTypeToken)) {
                 continue;
@@ -88,6 +104,10 @@ try {
     ): void {
         // fix also following occurrences
         $openingCatchBodyPosition = $tokens->getNextTokenOfKind($variableNamePosition, ['{']);
+        if ($openingCatchBodyPosition === null) {
+            return;
+        }
+
         $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $openingCatchBodyPosition);
 
         // no block to find

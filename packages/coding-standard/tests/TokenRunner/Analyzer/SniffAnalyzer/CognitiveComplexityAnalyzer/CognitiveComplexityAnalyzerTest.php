@@ -11,7 +11,7 @@ use PHP_CodeSniffer\Tokenizers\PHP;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\CognitiveComplexityAnalyzer;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
+use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 final class CognitiveComplexityAnalyzerTest extends TestCase
 {
@@ -38,6 +38,10 @@ final class CognitiveComplexityAnalyzerTest extends TestCase
                 $functionTokenPosition = $position;
                 break;
             }
+        }
+
+        if (! is_int($functionTokenPosition)) {
+            return;
         }
 
         $cognitiveComplexity = $this->cognitiveComplexityAnalyzer->computeForFunctionFromTokensAndPosition(
@@ -68,7 +72,7 @@ final class CognitiveComplexityAnalyzerTest extends TestCase
      */
     private function fileToTokens(string $fileContent): array
     {
-        return (new PHP($fileContent, $this->getLegacyConfig(), EolConfiguration::getEolChar()))->getTokens();
+        return (new PHP($fileContent, $this->getLegacyConfig(), StaticEolConfiguration::getEolChar()))->getTokens();
     }
 
     /**

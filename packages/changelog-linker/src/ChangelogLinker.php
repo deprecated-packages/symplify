@@ -7,7 +7,6 @@ namespace Symplify\ChangelogLinker;
 use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
 
 final class ChangelogLinker
 {
@@ -80,12 +79,11 @@ final class ChangelogLinker
 
     private function appendLinksToContentIfAny(string $content): string
     {
-        $eolChar = EolConfiguration::getEolChar();
         $linksToAppend = $this->linkAppender->getLinksToAppend();
         if ($linksToAppend !== []) {
-            $content = rtrim($content) . $eolChar;
-            $content .= $this->linkAppender->hadExistingLinks() ? '' : $eolChar;
-            $content .= implode($eolChar, $linksToAppend) . $eolChar;
+            $content = rtrim($content) . PHP_EOL;
+            $content .= $this->linkAppender->hadExistingLinks() ? '' : PHP_EOL;
+            $content .= implode(PHP_EOL, $linksToAppend) . PHP_EOL;
         }
 
         return $content;

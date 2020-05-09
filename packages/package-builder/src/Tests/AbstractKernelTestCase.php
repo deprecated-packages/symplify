@@ -81,6 +81,16 @@ abstract class AbstractKernelTestCase extends TestCase
         static::$container = null;
     }
 
+    private function resolveConfigsHash(array $configs): string
+    {
+        $configsHash = '';
+        foreach ($configs as $config) {
+            $configsHash .= md5_file($config);
+        }
+
+        return md5($configsHash);
+    }
+
     private function ensureIsConfigAwareKernel(): void
     {
         if (static::$kernel instanceof ExtraConfigAwareKernelInterface) {
@@ -111,15 +121,5 @@ abstract class AbstractKernelTestCase extends TestCase
         }
 
         return static::$kernel;
-    }
-
-    private function resolveConfigsHash(array $configs): string
-    {
-        $configsHash = '';
-        foreach ($configs as $config) {
-            $configsHash .= md5_file($config);
-        }
-
-        return md5($configsHash);
     }
 }

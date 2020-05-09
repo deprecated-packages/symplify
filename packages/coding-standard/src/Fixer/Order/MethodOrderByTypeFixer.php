@@ -17,6 +17,7 @@ use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFa
 
 /**
  * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
+ * @deprecated
  */
 final class MethodOrderByTypeFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
@@ -41,6 +42,16 @@ final class MethodOrderByTypeFixer extends AbstractSymplifyFixer implements Conf
     ) {
         $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->classElementSorter = $classElementSorter;
+
+        trigger_error(
+            sprintf(
+                'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+                self::class,
+                'https://github.com/rectorphp/rector/pull/3304'
+            )
+        );
+
+        sleep(3);
     }
 
     public function getDefinition(): FixerDefinitionInterface

@@ -400,6 +400,16 @@ final class ComposerJson
         return $privatesCaller->callPrivateMethodWithReference(JsonManipulator::class, 'sortPackages', $packages);
     }
 
+    private function moveValueToBack(string $valueName): void
+    {
+        $key = array_search($valueName, $this->orderedKeys, true);
+        if ($key !== false) {
+            unset($this->orderedKeys[$key]);
+        }
+
+        $this->orderedKeys[] = $valueName;
+    }
+
     /**
      * 2. sort item by prescribed key order
      * @see https://www.designcise.com/web/tutorial/how-to-sort-an-array-by-keys-based-on-order-in-a-secondary-array-in-php
@@ -417,15 +427,5 @@ final class ComposerJson
         });
 
         return $contentItems;
-    }
-
-    private function moveValueToBack(string $valueName): void
-    {
-        $key = array_search($valueName, $this->orderedKeys, true);
-        if ($key !== false) {
-            unset($this->orderedKeys[$key]);
-        }
-
-        $this->orderedKeys[] = $valueName;
     }
 }

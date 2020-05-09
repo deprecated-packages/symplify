@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\Sniffs\Debug;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\ForbiddenFunctionsSniff;
 
 /**
+ * @deprecated
  * Debug functions should not be left in the code.
  */
 final class DebugFunctionCallSniff extends ForbiddenFunctionsSniff

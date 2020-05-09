@@ -160,6 +160,13 @@ final class GithubApi
         });
     }
 
+    private function getSinglePullRequestJson(int $pullRequestId): array
+    {
+        $url = sprintf(self::URL_PULL_REQUEST_BY_ID, $this->repositoryName, $pullRequestId);
+        $response = $this->getResponseToUrl($url);
+        return $this->responseFormatter->formatToJson($response);
+    }
+
     private function getResponseToUrl(string $url): ResponseInterface
     {
         try {
@@ -190,12 +197,5 @@ final class GithubApi
         $message = $reason . PHP_EOL . 'Create a token at https://github.com/settings/tokens/new with only repository scope and use it as ENV variable: "GITHUB_TOKEN=... vendor/bin/changelog-linker ..." option.';
 
         return new GithubApiException($message, $throwable->getCode(), $throwable);
-    }
-
-    private function getSinglePullRequestJson(int $pullRequestId): array
-    {
-        $url = sprintf(self::URL_PULL_REQUEST_BY_ID, $this->repositoryName, $pullRequestId);
-        $response = $this->getResponseToUrl($url);
-        return $this->responseFormatter->formatToJson($response);
     }
 }

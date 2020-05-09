@@ -15,6 +15,9 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\DocBlock\DocBlockManipulator;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFactory;
 
+/**
+ * @deprecated
+ */
 final class ArrayPropertyDefaultValueFixer extends AbstractSymplifyFixer
 {
     /**
@@ -38,6 +41,14 @@ final class ArrayPropertyDefaultValueFixer extends AbstractSymplifyFixer
     ) {
         $this->fixerClassWrapperFactory = $fixerClassWrapperFactory;
         $this->docBlockManipulator = $docBlockManipulator;
+
+        trigger_error(sprintf(
+            'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+            self::class,
+            'https://github.com/rectorphp/rector/blob/master/rules/coding-style/src/Rector/Class_/AddArrayDefaultToArrayPropertyRector.php'
+        ));
+
+        sleep(3);
     }
 
     public function getDefinition(): FixerDefinitionInterface

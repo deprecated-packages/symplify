@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -12,14 +13,27 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
+use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 /**
  * Inspired by https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/2.8/src/Fixer/Phpdoc/NoEmptyPhpdocFixer.php
  * With difference: it doesn't add extra spaces instead of docblock.
+ *
+ * @deprecated
  */
 final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
 {
+    public function __construct()
+    {
+        trigger_error(sprintf(
+            'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+            self::class,
+            NoEmptyPhpdocFixer::class
+        ));
+
+        sleep(3);
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('There should not be empty PHPDoc blocks.', [new CodeSample('<?php
@@ -49,7 +63,7 @@ final class RemoveEmptyDocBlockFixer extends AbstractSymplifyFixer
 
             $previousWhitespaceContent = $previousToken->getContent();
 
-            $lastLineBreak = strrpos($previousWhitespaceContent, EolConfiguration::getEolChar());
+            $lastLineBreak = strrpos($previousWhitespaceContent, StaticEolConfiguration::getEolChar());
             // nothing found
             if (is_bool($lastLineBreak)) {
                 continue;

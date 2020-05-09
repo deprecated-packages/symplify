@@ -16,6 +16,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
+/**
+ * @deprecated
+ */
 final class PregDelimiterFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**
@@ -66,7 +69,7 @@ final class PregDelimiterFixer extends AbstractSymplifyFixer implements Configur
         $this->argumentsAnalyzer = $argumentsAnalyzer;
 
         trigger_error(sprintf(
-            'Fixer "%s" is deprecated. Use instead "%s"',
+            'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
             self::class,
             'https://github.com/rectorphp/rector/blob/master/docs/AllRectorsOverview.md#consistentpregdelimiterrector'
         ));
@@ -145,7 +148,9 @@ final class PregDelimiterFixer extends AbstractSymplifyFixer implements Configur
      */
     private function resolveArgumentsInfoForFunction(Tokens $tokens, int $position): array
     {
+        /** @var int $openingBracketPosition */
         $openingBracketPosition = $tokens->getNextTokenOfKind($position, ['(']);
+        /** @var int $closingBracketPosition */
         $closingBracketPosition = $tokens->getNextTokenOfKind($position, [')']);
 
         $argumentPositions = $this->argumentsAnalyzer->getArguments(

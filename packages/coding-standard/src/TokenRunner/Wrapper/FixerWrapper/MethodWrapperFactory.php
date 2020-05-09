@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper;
 
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper\MethodWrapper;
@@ -28,7 +29,9 @@ final class MethodWrapperFactory
 
     public function createFromTokensAndPosition(Tokens $tokens, int $position): MethodWrapper
     {
-        $this->tokenTypeGuard->ensureIsTokenType($tokens[$position], [T_FUNCTION], __METHOD__);
+        /** @var Token $token */
+        $token = $tokens[$position];
+        $this->tokenTypeGuard->ensureIsTokenType($token, [T_FUNCTION], __METHOD__);
 
         return new MethodWrapper(
             $tokens,

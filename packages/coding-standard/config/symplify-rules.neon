@@ -1,0 +1,100 @@
+includes:
+    - ../packages/cognitive-complexity/config/cognitive-complexity-rules.neon
+
+parameters:
+    symplify:
+        forbidden_parent_classes: []
+        old_to_preffered_classes: []
+        constant_arg_by_method_by_type: []
+        parent_classes: []
+        required_see_types: []
+
+        # cognitive complexity
+        max_cognitive_complexity: 8
+        max_class_cognitive_complexity: 50
+
+parametersSchema:
+    symplify: structure([
+        forbidden_parent_classes: arrayOf(string())
+        old_to_preffered_classes: arrayOf(string())
+        max_cognitive_complexity: int()
+        max_class_cognitive_complexity: int()
+        parent_classes: arrayOf(string())
+        required_see_types: arrayOf(string())
+        constant_arg_by_method_by_type: arrayOf(arrayOf(arrayOf(int())))
+    ])
+
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenParentClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenParentClasses: "%symplify.forbidden_parent_classes%"
+
+    -
+        class: Symplify\CodingStandard\Rules\PreferredClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            oldToPrefferedClasses: "%symplify.old_to_preffered_classes%"
+
+    -
+        class: Symplify\CodingStandard\Rules\NoReferenceRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDebugFuncCallRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            parentClasses: "%symplify.parent_classes%"
+
+    -
+        class: Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\MatchingTypeConstantRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredSeeTypes: "%symplify.required_see_types%"
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDynamicMethodNameRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDefaultExceptionRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\MatchingTypeConstantRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\ForceMethodCallArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByMethodByType: "%symplify.constant_arg_by_method_by_type%"

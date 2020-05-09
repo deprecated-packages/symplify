@@ -1,0 +1,28 @@
+parameters:
+    symplify:
+        max_cognitive_complexity: 8
+        max_class_cognitive_complexity: 50
+
+parametersSchema:
+    symplify: structure([
+        max_cognitive_complexity: int()
+        max_class_cognitive_complexity: int()
+    ])
+
+services:
+    -
+        class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maximumCognitiveComplexity: "%symplify.max_cognitive_complexity%"
+
+    -
+        class: Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maximumClassCognitiveComplexity: "%symplify.max_class_cognitive_complexity%"
+
+    - Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer
+    - Symplify\CodingStandard\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector
+    - Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\NestingNodeVisitor
+    - Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor

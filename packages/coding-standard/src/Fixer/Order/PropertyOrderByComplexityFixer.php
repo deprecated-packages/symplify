@@ -20,6 +20,7 @@ use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\FixerClassWrapperFa
 use Symplify\PackageBuilder\Php\TypeAnalyzer;
 
 /**
+ * @deprecated
  * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
  */
 final class PropertyOrderByComplexityFixer extends AbstractSymplifyFixer
@@ -59,6 +60,14 @@ final class PropertyOrderByComplexityFixer extends AbstractSymplifyFixer
         $this->typeAnalyzer = $typeAnalyzer;
         $this->classElementSorter = $classElementSorter;
         $this->docBlockManipulator = $docBlockManipulator;
+
+        trigger_error(sprintf(
+            'Fixer "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+            self::class,
+            'https://github.com/rectorphp/rector/pull/3305'
+        ));
+
+        sleep(3);
     }
 
     public function getDefinition(): FixerDefinitionInterface

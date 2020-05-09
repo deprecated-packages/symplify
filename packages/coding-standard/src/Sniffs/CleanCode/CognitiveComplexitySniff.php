@@ -8,6 +8,9 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\TokenRunner\Analyzer\SnifferAnalyzer\CognitiveComplexityAnalyzer;
 
+/**
+ * @deprecated
+ */
 final class CognitiveComplexitySniff implements Sniff
 {
     /**
@@ -23,6 +26,14 @@ final class CognitiveComplexitySniff implements Sniff
     public function __construct(CognitiveComplexityAnalyzer $cognitiveComplexityAnalyzer)
     {
         $this->cognitiveComplexityAnalyzer = $cognitiveComplexityAnalyzer;
+
+        trigger_error(sprintf(
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+            self::class,
+            'https://github.com/symplify/coding-standard/blob/master/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php'
+        ));
+
+        sleep(3);
     }
 
     /**
