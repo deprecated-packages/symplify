@@ -19,21 +19,17 @@ parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
 
+    paths:
+        - packages
+
     reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
-        # buggy
-        - packages/coding-standard/src/Rules/*
-        - packages/coding-standard/packages/object-calisthenics/src/Rules/*
-        - packages/coding-standard/packages/cognitive-complexity/src/Rules/*
-        - packages/coding-standard/src/Sniffs/*
-
         - *packages/monorepo-builder/packages/init/templates/*
         - *packages/coding-standard/tests/**/correct*
         - *packages/coding-standard/tests/**/wrong*
         - *packages/coding-standard/tests/**/Wrong*
         - *packages/phpstan-extensions/**/Source/**
-        - */vendor/*
         # tests
         - packages/easy-coding-standard/packages/sniff-runner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
         # Symfony workaround
@@ -74,15 +70,9 @@ parameters:
                 - packages/package-builder/src/Reflection/PrivatesCaller.php
                 - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php
 
-        # lvl 7
-        - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
-
         # invalid 3rd party-code
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\|null given#'
         - '#Variable \$processedFileContent might not be defined#'
-
-        # known values
-        - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, (.*?) given#'
 
         # required for autowiring, since only interface is autowired
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
@@ -94,7 +84,6 @@ parameters:
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\ValueObject\\BlockInfo\|null#'
-        - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
 
         # variadic
         - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'
@@ -113,7 +102,6 @@ parameters:
         - '#Cannot cast array<string\>\|bool\|string to string#'
 
         # known values
-        - '#Parameter \#1 \$code of static method PhpCsFixer\\Tokenizer\\Tokens\:\:fromCode\(\) expects string, string\|false given#'
         - '#Cannot call method (get|has)\(\) on (.*?)\|null#'
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept object\|null#'
         - '#Call to an undefined method Psr\\Container\\ContainerInterface\:\:set\(\)#'
@@ -135,9 +123,6 @@ parameters:
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
         - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
-        # helps ide
-        - '#Method Symplify\\CodingStandard\\Tests\\TokenRunner\\Analyzer\\SniffAnalyzer\\CognitiveComplexityAnalyzer\\CognitiveComplexityAnalyzerTest\:\:getLegacyConfig\(\) never returns PHP_CodeSniffer\\Config so it can be removed from the return typehint#'
-
         # mixed by default, handled by coding standards
         - '#(has|with) no (return )?typehint specified#'
         - '#Offset (.*?) does not exist on array\|null#'
@@ -146,17 +131,11 @@ parameters:
         - '#Strict comparison using \=\=\= between string\|false and null will always evaluate to false#'
         - '#Parameter \#1 \$jsonContent of method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:loadContentJsonStringToArray\(\) expects string, string\|false given#'
         - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'
-        - '#Property Symplify\\CodingStandard\\TokenRunner\\ValueObject\\Wrapper\\FixerWrapper\\FixerClassWrapper\:\:\$startBracketIndex \(int\) does not accept int\|null#'
 
         - '#Parameter \#1 \$array of method (.*?)\\ArraySorter\:\:recursiveSort\(\) expects array, array\|string given#'
 
         - '#Cannot assign offset (.*?) to array\|string#'
-        - '#Parameter \#3 \$position of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer\:\:isIncrementingToken\(\) expects int, float\|int given#'
         - '#call_user_func#'
-        - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
-        - '#Property Symplify\\CodingStandard\\TokenRunner\\ValueObject\\Wrapper\\FixerWrapper\\FixerClassWrapper\:\:\$classToken \(PhpCsFixer\\Tokenizer\\Token\) does not accept PhpCsFixer\\Tokenizer\\Token\|null#'
-        - '#Parameter \#3 \$items of method PhpCsFixer\\Tokenizer\\Tokens\:\:overrideRange\(\) expects array<PhpCsFixer\\Tokenizer\\Token\>\|PhpCsFixer\\Tokenizer\\Tokens, array<int, PhpCsFixer\\Tokenizer\\Token\|null\> given#'
-        - '#Cannot clone PhpCsFixer\\Tokenizer\\Token\|null#'
 
         - '#(.*?) of anonymous function has no typehint#'
         # false positive due to monorepo
@@ -183,3 +162,5 @@ parameters:
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
         - '#Method Symplify\\MonorepoBuilder\\Release\\Tests\\ReleaseWorkerProvider\\ReleaseWorkerProviderTest\:\:loadConfigReleaseWorkerOrder\(\) should return array<string\> but returns array<int, int\|string\>#'
+
+        - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
