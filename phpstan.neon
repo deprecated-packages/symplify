@@ -22,6 +22,12 @@ parameters:
     reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
+        # buggy
+        - packages/coding-standard/src/Rules/*
+        - packages/coding-standard/packages/object-calisthenics/src/Rules/*
+        - packages/coding-standard/packages/cognitive-complexity/src/Rules/*
+        - packages/coding-standard/src/Sniffs/*
+
         - *packages/monorepo-builder/packages/init/templates/*
         - *packages/coding-standard/tests/**/correct*
         - *packages/coding-standard/tests/**/wrong*
@@ -29,7 +35,6 @@ parameters:
         - *packages/phpstan-extensions/**/Source/**
         - */vendor/*
         # tests
-        - packages/phpstan-extensions/tests/Rules/Classes/Source/ClassWithConstants.php
         - packages/easy-coding-standard/packages/sniff-runner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
         # Symfony workaround
         - packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Exception\Parameter;
+namespace Symplify\ParameterNameGuard\Exception;
 
 use Exception;
 

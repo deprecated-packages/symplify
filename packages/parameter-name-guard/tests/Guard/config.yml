@@ -1,0 +1,6 @@
+parameters:
+    typo: 'is wrong'
+
+    correct_to_typos:
+        correct:
+            - 'typo'
