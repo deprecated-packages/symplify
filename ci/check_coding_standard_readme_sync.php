@@ -7,36 +7,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
 use Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer;
-use Symplify\CodingStandard\Fixer\Commenting\RemoveEndOfFunctionCommentFixer;
-use Symplify\CodingStandard\Fixer\ControlStructure\PregDelimiterFixer;
-use Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer;
-use Symplify\CodingStandard\Fixer\Naming\CatchExceptionNameMatchingTypeFixer;
-use Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer;
-use Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer;
-use Symplify\CodingStandard\Fixer\Order\PrivateMethodOrderByUseFixer;
-use Symplify\CodingStandard\Fixer\Order\PropertyOrderByComplexityFixer;
-use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
-use Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer;
-use Symplify\CodingStandard\Fixer\Property\BoolPropertyDefaultValueFixer;
-use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
 use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
-use Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff;
-use Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff;
-use Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff;
-use Symplify\CodingStandard\Sniffs\CleanCode\ClassCognitiveComplexitySniff;
-use Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff;
-use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff;
-use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff;
-use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff;
-use Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff;
-use Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff;
-use Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff;
-use Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff;
-use Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff;
-use Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff;
-use Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff;
-use Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 
@@ -128,41 +99,9 @@ final class CodingStandardSyncChecker
             // abstract
             AbstractSymplifyFixer::class,
             AbstractManyNodeTypeRule::class,
-
-            // part of included set
+            // part of imported config
             ClassLikeCognitiveComplexityRule::class,
             FunctionLikeCognitiveComplexityRule::class,
-
-            // deprecated
-            AbstractClassNameSniff::class,
-            InterfaceNameSniff::class,
-            TraitNameSniff::class,
-            RemoveEndOfFunctionCommentFixer::class,
-            FinalInterfaceFixer::class,
-            PregDelimiterFixer::class,
-            RequireFollowedByAbsolutePathFixer::class,
-            CatchExceptionNameMatchingTypeFixer::class,
-            CognitiveComplexitySniff::class,
-            ClassCognitiveComplexitySniff::class,
-            ForbiddenStaticFunctionSniff::class,
-            RemoveEmptyDocBlockFixer::class,
-            ForbiddenDoubleAssignSniff::class,
-            ForbiddenParentClassSniff::class,
-            ExplicitExceptionSniff::class,
-            BoolPropertyDefaultValueFixer::class,
-            AnnotationTypeExistsSniff::class,
-            PreferredClassSniff::class,
-            VarConstantCommentSniff::class,
-            DuplicatedClassShortNameSniff::class,
-            ForbiddenReferenceSniff::class,
-            ArrayPropertyDefaultValueFixer::class,
-            PropertyNameMatchingTypeFixer::class,
-            DebugFunctionCallSniff::class,
-            ClassNameSuffixByParentSniff::class,
-            ClassStringToClassConstantFixer::class,
-            PrivateMethodOrderByUseFixer::class,
-            MethodOrderByTypeFixer::class,
-            PropertyOrderByComplexityFixer::class
         ];
 
         // filter out abstract class

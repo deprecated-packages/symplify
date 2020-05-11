@@ -6,7 +6,6 @@ parameters:
         - 'symplify'
         - 'common'
         - 'psr12'
-        - 'types'
         - 'dead-code'
 
     paths:
