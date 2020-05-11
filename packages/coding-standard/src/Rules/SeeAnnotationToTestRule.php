@@ -11,11 +11,13 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Broker\Broker;
 use PHPStan\PhpDoc\ResolvedPhpDocBlock;
 use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\FileTypeMapper;
 use PHPUnit\Framework\TestCase;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\SeeAnnotationToTestRule\SeeAnnotationToTestRuleTest
@@ -42,11 +44,18 @@ final class SeeAnnotationToTestRule implements Rule
      */
     private $requiredSeeTypes = [];
 
+    /**
+     * @var PrivatesAccessor
+     */
+    private $privatesAccessor;
+
     public function __construct(Broker $broker, FileTypeMapper $fileTypeMapper, array $requiredSeeTypes = [])
     {
         $this->fileTypeMapper = $fileTypeMapper;
         $this->broker = $broker;
         $this->requiredSeeTypes = $requiredSeeTypes;
+
+        $this->privatesAccessor = new PrivatesAccessor();
     }
 
     public function getNodeType(): string
@@ -77,14 +86,12 @@ final class SeeAnnotationToTestRule implements Rule
         $resolvedPhpDoc = $this->resolvePhpDoc($scope, $classReflection, $docComment);
 
         // skip deprectaed
-        $deprecatedTags = $resolvedPhpDoc->getPhpDocNode()->getTagsByName('@deprecated');
-        if ($deprecatedTags !== []) {
+        $deprecatedTags = $resolvedPhpDoc->getDeprecatedTag();
+        if ($deprecatedTags !== null) {
             return [];
         }
 
-        /** @var PhpDocTagNode[] $seeTags */
-        $seeTags = $resolvedPhpDoc->getPhpDocNode()->getTagsByName('@see');
-
+        $seeTags = $this->getSeeTagNodes($resolvedPhpDoc);
         if ($this->hasSeeTestCaseAnnotation($seeTags)) {
             return [];
         }
@@ -148,5 +155,16 @@ final class SeeAnnotationToTestRule implements Rule
         }
 
         return false;
+    }
+
+    /**
+     * @return PhpDocTagNode[]
+     */
+    private function getSeeTagNodes(ResolvedPhpDocBlock $resolvedPhpDoc): array
+    {
+        /** @var PhpDocNode $phpDocNode */
+        $phpDocNode = $this->privatesAccessor->getPrivateProperty($resolvedPhpDoc, 'phpDocNode');
+
+        return $phpDocNode->getTagsByName('@see');
     }
 }
