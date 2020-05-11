@@ -1,5 +1,4 @@
 includes:
-    - 'php.level.neon'
-    - 'symfony.level.neon'
-    - 'rules.neon'
-    - 'symplify.error_formatter.neon'
+    - php.level.neon
+    - symfony.level.neon
+    - symplify.error_formatter.neon
