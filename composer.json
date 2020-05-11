@@ -115,6 +115,7 @@
             "Symplify\\EasyHydrator\\Tests\\": "packages/easy-hydrator/tests",
             "Symplify\\FlexLoader\\Tests\\": "packages/flex-loader/tests",
             "Symplify\\MonorepoBuilder\\Merge\\Tests\\": "packages/monorepo-builder/packages/merge/tests",
+            "Symplify\\MonorepoBuilder\\Release\\Tests\\": "packages/monorepo-builder/packages/release/tests",
             "Symplify\\MonorepoBuilder\\Split\\Tests\\": "packages/monorepo-builder/packages/split/tests",
             "Symplify\\MonorepoBuilder\\Testing\\Tests\\": "packages/monorepo-builder/packages/testing/tests",
             "Symplify\\MonorepoBuilder\\Tests\\": "packages/monorepo-builder/tests",

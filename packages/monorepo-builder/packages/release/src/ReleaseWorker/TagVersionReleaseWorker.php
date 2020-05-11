@@ -21,11 +21,6 @@ final class TagVersionReleaseWorker implements ReleaseWorkerInterface
         $this->processRunner = $processRunner;
     }
 
-    public function getPriority(): int
-    {
-        return 400;
-    }
-
     public function work(Version $version): void
     {
         try {

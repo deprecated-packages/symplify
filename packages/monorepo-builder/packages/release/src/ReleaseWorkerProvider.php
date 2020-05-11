@@ -4,37 +4,42 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Release;
 
-use Nette\Utils\Strings;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
-use Symplify\MonorepoBuilder\Release\Exception\ConflictingPriorityException;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Release\Tests\ReleaseWorkerProvider\ReleaseWorkerProviderTest
+ */
 final class ReleaseWorkerProvider
 {
     /**
      * @var ReleaseWorkerInterface[]
      */
-    private $releaseWorkersByPriority = [];
+    private $releaseWorkers = [];
 
     /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
      */
-    public function __construct(array $releaseWorkers, bool $enableDefaultReleaseWorkers)
+    public function __construct(array $releaseWorkers)
     {
-        $this->setWorkersAndSortByPriority($releaseWorkers, $enableDefaultReleaseWorkers);
+        $this->releaseWorkers = $releaseWorkers;
     }
 
     /**
      * @return ReleaseWorkerInterface[]
      */
-    public function provideByStage(?string $stage): array
+    public function provide(): array
     {
-        if ($stage === null) {
-            return $this->releaseWorkersByPriority;
-        }
+        return $this->releaseWorkers;
+    }
 
+    /**
+     * @return ReleaseWorkerInterface[]
+     */
+    public function provideByStage(string $stage): array
+    {
         $activeReleaseWorkers = [];
-        foreach ($this->releaseWorkersByPriority as $releaseWorker) {
+        foreach ($this->releaseWorkers as $releaseWorker) {
             if (! $releaseWorker instanceof StageAwareInterface) {
                 continue;
             }
@@ -47,35 +52,5 @@ final class ReleaseWorkerProvider
         }
 
         return $activeReleaseWorkers;
-    }
-
-    /**
-     * @param ReleaseWorkerInterface[] $releaseWorkers
-     */
-    private function setWorkersAndSortByPriority(array $releaseWorkers, bool $enableDefaultReleaseWorkers): void
-    {
-        foreach ($releaseWorkers as $releaseWorker) {
-            if ($this->shouldSkip($releaseWorker, $enableDefaultReleaseWorkers)) {
-                continue;
-            }
-
-            $priority = $releaseWorker->getPriority();
-            if (isset($this->releaseWorkersByPriority[$priority])) {
-                throw new ConflictingPriorityException($releaseWorker, $this->releaseWorkersByPriority[$priority]);
-            }
-
-            $this->releaseWorkersByPriority[$priority] = $releaseWorker;
-        }
-
-        krsort($this->releaseWorkersByPriority);
-    }
-
-    private function shouldSkip(ReleaseWorkerInterface $releaseWorker, bool $enableDefaultReleaseWorkers): bool
-    {
-        if ($enableDefaultReleaseWorkers) {
-            return false;
-        }
-
-        return Strings::startsWith(get_class($releaseWorker), 'Symplify\MonorepoBuilder\Release');
     }
 }

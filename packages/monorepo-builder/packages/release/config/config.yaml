@@ -1,5 +1,4 @@
 parameters:
-    enable_default_release_workers: true
     is_stage_required: false
     stages_to_allow_existing_tag: []
 
@@ -12,3 +11,5 @@ services:
         resource: '../src'
         exclude:
             - '../src/Exception/*'
+            # register manually in desired order + allows add your own
+            - '../src/ReleaseWorker/*'

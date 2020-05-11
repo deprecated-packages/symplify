@@ -128,7 +128,6 @@ parameters:
         - '#Parameter \#1 \$subject of static method Nette\\Utils\\Strings\:\:match\(\) expects string, string\|false given#'
 
         # yield iterator
-        - '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
         - '#Method Symplify\\SetConfigResolver\\Finder\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
         - '#Parameter \#1 \$unversionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<string\>, array<array<string\>\|string\> given#'
         - '#Parameter \#2 \$versionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<array<string\>\>, array<array<string\>\|string\> given#'
@@ -183,3 +182,4 @@ parameters:
         - '#Class with base "Error" name is already used in "PhpParser\\Node\\Expr\\Error", "PhpParser\\Error"\. Use unique name to make classes easy to recognize#'
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
+        - '#Method Symplify\\MonorepoBuilder\\Release\\Tests\\ReleaseWorkerProvider\\ReleaseWorkerProviderTest\:\:loadConfigReleaseWorkerOrder\(\) should return array<string\> but returns array<int, int\|string\>#'

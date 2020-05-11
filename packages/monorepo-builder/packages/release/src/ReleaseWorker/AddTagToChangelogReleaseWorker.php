@@ -12,11 +12,6 @@ use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterfa
 
 final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
 {
-    public function getPriority(): int
-    {
-        return 500;
-    }
-
     public function work(Version $version): void
     {
         $changelogFilePath = getcwd() . '/CHANGELOG.md';
