@@ -49,7 +49,7 @@ vendor/bin/monorepo-builder merge
 Typical location for packages is `/packages`. But what if you have different naming or extra `/projects` directory?
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     package_directories:
         - 'packages'
@@ -61,7 +61,7 @@ Sections are sorted for you by saint defaults. Do you want change the order? Jus
 To exclude a specific folder for ignoring the composer.json in this folder.
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     package_directories_excludes:
         - 'ExcludeThis'
@@ -72,7 +72,7 @@ parameters:
 Do you need to add or remove some packages only to root `composer.json`?
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     data_to_append:
         autoload-dev:
@@ -128,7 +128,7 @@ This will add alias `3.1-dev` to `composer.json` in each package.
 If you prefer [`3.1.x-dev`](https://getcomposer.org/doc/articles/aliases.md#branch-alias) over default `3.1-dev`, you can configure it:
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     package_alias_format: '<major>.<minor>.x-dev' # default: "<major>.<minor>-dev"
 ```
@@ -138,7 +138,7 @@ parameters:
 Classic use case for monorepo is to synchronize last tag and the `master` branch to allow testing of `@dev` version.
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     directories_to_repositories:
         packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
@@ -167,7 +167,7 @@ git init --bare
 Then you can set the target using `file://` prefix for absolute path:
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     directories_to_repositories:
         packages/PackageBuilder: 'file:///home/developer/git/PackageBuilder.git'
@@ -223,7 +223,7 @@ There is set of few default release workers - classes that implement `Symplify\M
 You can extend it by adding your own:
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 services:
     App\Release\ShareOnTwitterReleaseWorker: ~
 ```
@@ -231,7 +231,7 @@ services:
 And or disable default ones:
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     enable_default_release_workers: false
 ```

@@ -75,16 +75,16 @@ Symplify\PackageBuilder\Composer\StaticVendorDirProvider::provide(); // returns 
 In Symfony [the last parameter wins by default](https://github.com/symfony/symfony/issues/26713)*, which is bad if you want to decouple your parameters.
 
 ```yaml
-# first.yml
+# first.yaml
 parameters:
     another_key:
        - skip_this
 ```
 
 ```yaml
-# second.yml
+# second.yaml
 imports:
-    - { resource: 'first.yml' }
+    - { resource: 'first.yaml' }
 
 parameters:
     another_key:
@@ -152,7 +152,7 @@ declare(strict_types=1);
 
 $parameterMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParameterMergingYamlLoader;
 
-$parameterBag = $parameterMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yml');
+$parameterBag = $parameterMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yaml');
 
 var_dump($parameterBag);
 // instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
