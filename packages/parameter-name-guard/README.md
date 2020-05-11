@@ -2,7 +2,7 @@
 
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/parameter-name-guard.svg?style=flat-square)](https://packagist.org/packages/symplify/parameter-name-guard/stats)
 
-Prevent silent parameter typos that silently break your app.
+Prevent parameter typos that silently break your app.
 
 ## Install
 
@@ -14,8 +14,8 @@ composer require symplify/parameter-name-guard
 
 ### Prevent Parameter Typos
 
-Was it `ignoreFiles`? Or `ignored_files`? Or `ignore_file`? Are you lazy to ready every `README.md` to find out the corrent name?
-Make developer's live happy by helping them.
+Was it `ignoreFiles`? Or `ignored_files`? Or `ignore_file`? Are you lazy to read every `README.md` to find out the correct name?
+Make developers' live happy by helping them.
 
 ```yaml
 # app/config/services.yaml
