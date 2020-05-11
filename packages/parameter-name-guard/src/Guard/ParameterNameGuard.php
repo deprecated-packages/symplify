@@ -2,17 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Parameter;
+namespace Symplify\ParameterNameGuard\Guard;
 
 use Nette\Utils\RegexpException;
 use Nette\Utils\Strings;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
-use Symplify\PackageBuilder\Exception\Parameter\ParameterTypoException;
+use Symplify\ParameterNameGuard\Exception\ParameterTypoException;
 
-final class ParameterTypoProofreader
+final class ParameterNameGuard
 {
     /**
      * @var mixed[]
@@ -25,12 +22,11 @@ final class ParameterTypoProofreader
     private $parameterBag;
 
     /**
-     * @param Container $container
      * @param mixed[] $correctToTypos
      */
-    public function __construct(array $correctToTypos, ContainerInterface $container)
+    public function __construct(array $correctToTypos, ParameterBagInterface $parameterBag)
     {
-        $this->parameterBag = $container->getParameterBag();
+        $this->parameterBag = $parameterBag;
         $this->correctToTypos = $correctToTypos;
     }
 
@@ -92,7 +88,7 @@ final class ParameterTypoProofreader
         throw new ParameterTypoException(sprintf(
             'Parameter "parameters > %s" does not exist.%sUse "parameters > %s" instead.',
             $providedParameterName,
-            StaticEolConfiguration::getEolChar(),
+            PHP_EOL,
             $correctParameterName
         ));
     }

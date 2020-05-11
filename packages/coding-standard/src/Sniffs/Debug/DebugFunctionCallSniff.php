@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Sniffs\Debug;
 
 use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\ForbiddenFunctionsSniff;
+use Symplify\CodingStandard\Rules\NoDebugFuncCallRule;
 
 /**
  * @deprecated
@@ -24,4 +25,15 @@ final class DebugFunctionCallSniff extends ForbiddenFunctionsSniff
         'dump' => null,
         'var_dump' => null,
     ];
+
+    public function __construct()
+    {
+        trigger_error(sprintf(
+            'Sniff "%s" is deprecated and will be removed in Symplify 8 (May 2020). Use "%s" instead',
+            self::class,
+            NoDebugFuncCallRule::class
+        ));
+
+        sleep(3);
+    }
 }

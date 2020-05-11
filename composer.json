@@ -87,6 +87,7 @@
             "Symplify\\MonorepoBuilder\\Testing\\": "packages/monorepo-builder/packages/testing/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
+            "Symplify\\ParameterNameGuard\\": "packages/parameter-name-guard/src",
             "Symplify\\SetConfigResolver\\": "packages/set-config-resolver/src",
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src"
@@ -119,6 +120,7 @@
             "Symplify\\MonorepoBuilder\\Tests\\": "packages/monorepo-builder/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
+            "Symplify\\ParameterNameGuard\\Tests\\": "packages/parameter-name-guard/tests",
             "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
@@ -143,6 +145,7 @@
         "symplify/monorepo-builder": "7.3",
         "symplify/neon-to-yaml-converter": "7.3",
         "symplify/package-builder": "7.3",
+        "symplify/parameter-name-guard": "self.version",
         "symplify/phpstan-extensions": "7.3",
         "symplify/set-config-resolver": "7.3",
         "symplify/smart-file-system": "7.3",

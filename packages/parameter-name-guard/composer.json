@@ -1,0 +1,33 @@
+{
+    "name": "symplify/parameter-name-guard",
+    "description": "Prevent silent parameter typos that silently break your app",
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "require": {
+        "php": "^7.2",
+        "nette/utils": "^3.0",
+        "symfony/config": "^4.4|^5.0",
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "symfony/http-kernel": "^4.4|^5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5|^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\ParameterNameGuard\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\ParameterNameGuard\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "7.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
