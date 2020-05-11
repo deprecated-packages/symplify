@@ -6,7 +6,7 @@
         "php": "^7.2",
         "friendsofphp/php-cs-fixer": "^2.16",
         "nette/utils": "^3.0",
-        "phpstan/phpstan": "^0.12.23",
+        "phpstan/phpstan": "^0.12.25",
         "symplify/coding-standard": "^7.4",
         "symplify/package-builder": "^7.4",
         "symplify/smart-file-system": "^7.4"
