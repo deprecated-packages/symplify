@@ -84,11 +84,16 @@ final class CodingStandardSyncChecker
         $robotLoader = new RobotLoader();
         $robotLoader->setTempDirectory(sys_get_temp_dir() . '/coding_standard_readme_sync');
 
-        $robotLoader->addDirectory(__DIR__ . '/../packages/coding-standard/src/Fixer');
-        $robotLoader->addDirectory(__DIR__ . '/../packages/coding-standard/src/Sniffs');
-        $robotLoader->addDirectory(__DIR__ . '/../packages/coding-standard/src/Rules');
-        $robotLoader->addDirectory(__DIR__ . '/../packages/coding-standard/packages/cognitive-complexity/src/Rules');
-        $robotLoader->addDirectory(__DIR__ . '/../packages/coding-standard/packages/object-calisthenics/src/Rules');
+        $pathsWithRules = [
+            __DIR__ . '/../packages/coding-standard/src/Fixer',
+            __DIR__ . '/../packages/coding-standard/src/Sniffs',
+            __DIR__ . '/../packages/coding-standard/src/Rules',
+            __DIR__ . '/../packages/coding-standard/packages/cognitive-complexity/src/Rules',
+            __DIR__ . '/../packages/coding-standard/packages/object-calisthenics/src/Rules',
+        ];
+
+        $robotLoader->addDirectory(...$pathsWithRules);
+
         $robotLoader->acceptFiles = ['*Sniff.php', '*Fixer.php', '*Rule.php'];
         $robotLoader->rebuild();
 
