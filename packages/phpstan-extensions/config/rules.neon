@@ -1,5 +1,0 @@
-rules:
-    # for BC, remove in Symplify 8
-    - Symplify\CodingStandard\Rules\MatchingTypeConstantRule
-    - Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule
-    - Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule
