@@ -18,4 +18,4 @@ jobs:
                     coverage: none
 
             -   run: composer install --no-progress
-            -   run: vendor/bin/config-class-presence check packages
+            -   run: vendor/bin/config-class-presence check packages --ansi
