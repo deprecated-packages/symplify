@@ -12,51 +12,10 @@ composer require symplify/package-builder
 
 ## Use
 
-### Prevent Parameter Typos
-
-Was it `ignoreFiles`? Or `ignored_files`? Or `ignore_file`? Are you lazy to ready every `README.md` to find out the corrent name?
-Make developer's live happy by helping them.
-
-```yaml
-parameters:
-    correctKey: 'value'
-
-services:
-    _defaults:
-        public: true
-        autowire: true
-
-    Symfony\Component\EventDispatcher\EventDispatcher: ~
-    # this subscribe will check parameters on every Console and Kernel run
-    Symplify\PackageBuilder\EventSubscriber\ParameterTypoProofreaderEventSubscriber: ~
-
-    Symplify\PackageBuilder\Parameter\ParameterTypoProofreader:
-        $correctToTypos:
-            # correct key name
-            correct_key:
-                # the most common typos that people make
-                - 'correctKey'
-
-                # regexp also works!
-                - '#correctKey(s)?#i'
-```
-
-This way user is informed on every typo he or she makes via exception:
-
-```bash
-Parameter "parameters > correctKey" does not exist.
-Use "parameters > correct_key" instead.
-```
-
-They can focus less on remembering all the keys and more on programming.
-
-<br>
-
 ### Get All Parameters via Service
 
 ```yaml
 # app/config/services.yaml
-
 parameters:
     source: "src"
 
@@ -106,7 +65,7 @@ final class ProjectConfiguration
 
 declare(strict_types=1);
 
-Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // returns path to vendor directory
+Symplify\PackageBuilder\Composer\StaticVendorDirProvider::provide(); // returns path to vendor directory
 ```
 
 <br>
@@ -116,16 +75,16 @@ Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // returns path t
 In Symfony [the last parameter wins by default](https://github.com/symfony/symfony/issues/26713)*, which is bad if you want to decouple your parameters.
 
 ```yaml
-# first.yml
+# first.yaml
 parameters:
     another_key:
        - skip_this
 ```
 
 ```yaml
-# second.yml
+# second.yaml
 imports:
-    - { resource: 'first.yml' }
+    - { resource: 'first.yaml' }
 
 parameters:
     another_key:
@@ -193,7 +152,7 @@ declare(strict_types=1);
 
 $parameterMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParameterMergingYamlLoader;
 
-$parameterBag = $parameterMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yml');
+$parameterBag = $parameterMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yaml');
 
 var_dump($parameterBag);
 // instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"

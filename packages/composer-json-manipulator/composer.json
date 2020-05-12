@@ -11,8 +11,8 @@
         "symfony/dependency-injection": "^4.4|^5.0",
         "symfony/filesystem": "^4.4|^5.0",
         "symfony/http-kernel": "^4.4|^5.0",
-        "symplify/package-builder": "^7.3",
-        "symplify/smart-file-system": "^7.3"
+        "symplify/package-builder": "^7.4",
+        "symplify/smart-file-system": "^7.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5|^9.0"
@@ -22,9 +22,14 @@
             "Symplify\\ComposerJsonManipulator\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\ComposerJsonManipulator\\Tests\\": "tests"
+        }
+    },
     "extra": {
         "branch-alias": {
-            "dev-master": "7.3-dev"
+            "dev-master": "7.4-dev"
         }
     },
     "minimum-stability": "dev",

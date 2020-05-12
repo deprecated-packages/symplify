@@ -23,12 +23,14 @@ final class FilePathResolver
         return $outputDirectory . '/' . $routePath;
     }
 
-    public function resolveFilePathWithArgument(Route $route, string $outputDirectory, ...$arguments): string
+    public function resolveFilePathWithArgument(Route $route, string $outputDirectory, $arguments): string
     {
         $filePath = $this->resolveFilePath($route, $outputDirectory);
-
+        if (! is_array($arguments)) {
+            $arguments = [$arguments];
+        }
         $i = 0;
-        return Strings::replace($filePath, '#{(.*?)}#m', function ($match) use (&$i, $arguments) {
+        return Strings::replace($filePath, '#{(.*?)}#m', function (array $match) use (&$i, $arguments) {
             $value = $arguments[$i];
 
             ++$i;

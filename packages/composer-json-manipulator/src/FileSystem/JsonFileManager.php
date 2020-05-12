@@ -9,7 +9,7 @@ use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
+use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class JsonFileManager
@@ -77,7 +77,7 @@ final class JsonFileManager
      */
     public function encodeJsonToFileContent(array $json, array $inlineSections = []): string
     {
-        $jsonContent = Json::encode($json, Json::PRETTY) . EolConfiguration::getEolChar();
+        $jsonContent = Json::encode($json, Json::PRETTY) . StaticEolConfiguration::getEolChar();
 
         foreach ($inlineSections as $inlineSection) {
             $pattern = '#("' . preg_quote($inlineSection, '#') . '": )\[(.*?)\](,)#ms';

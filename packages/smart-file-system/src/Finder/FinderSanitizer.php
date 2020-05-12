@@ -40,6 +40,6 @@ final class FinderSanitizer
             return false;
         }
 
-        return (bool) filesize($fileInfo->getRealPath());
+        return true;
     }
 }

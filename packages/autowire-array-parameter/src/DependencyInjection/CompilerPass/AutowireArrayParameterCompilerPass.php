@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass;
 
-use Nette\Application\UI\MethodReflection;
 use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
 use ReflectionClass;
@@ -20,7 +19,7 @@ use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
  * @inspiration https://github.com/nette/di/pull/178
  * Not final just for BC with previous class location
  */
-class AutowireArrayParameterCompilerPass implements CompilerPassInterface
+final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 {
     /**
      * These namespaces are already configured by their bundles/extensions.
@@ -66,7 +65,7 @@ class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 
             /** @var ReflectionClass $reflectionClass */
             $reflectionClass = $containerBuilder->getReflectionClass($definition->getClass());
-            /** @var MethodReflection $constructorMethodReflection */
+            /** @var ReflectionMethod $constructorMethodReflection */
             $constructorMethodReflection = $reflectionClass->getConstructor();
 
             $this->processParameters($containerBuilder, $constructorMethodReflection, $definition);
@@ -108,7 +107,7 @@ class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             return true;
         }
 
-        /** @var MethodReflection $constructorMethodReflection */
+        /** @var ReflectionMethod $constructorMethodReflection */
         $constructorMethodReflection = $reflectionClass->getConstructor();
         return ! $constructorMethodReflection->getParameters();
     }
@@ -124,6 +123,10 @@ class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             }
 
             $parameterType = $this->resolveParameterType($parameterReflection->getName(), $reflectionMethod);
+            if ($parameterType === null) {
+                continue;
+            }
+
             $definitionsOfType = $this->definitionFinder->findAllByType($containerBuilder, $parameterType);
             $definitionsOfType = $this->filterOutAbstractDefinitions($definitionsOfType);
 

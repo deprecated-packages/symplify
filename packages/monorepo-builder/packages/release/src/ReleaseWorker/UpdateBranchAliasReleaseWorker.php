@@ -37,11 +37,6 @@ final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
         $this->versionUtils = $versionUtils;
     }
 
-    public function getPriority(): int
-    {
-        return 100;
-    }
-
     public function work(Version $version): void
     {
         $nextAlias = $this->versionUtils->getNextAliasFormat($version);

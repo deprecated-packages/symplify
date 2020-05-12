@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Release\Command;
 
+use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,9 +12,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
+use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
 use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
-use Symplify\MonorepoBuilder\Release\ValueObject\SemVersion;
+use Symplify\MonorepoBuilder\Release\ValueObject\StaticSemVersion;
 use Symplify\MonorepoBuilder\Release\Version\VersionFactory;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -62,7 +64,7 @@ final class ReleaseCommand extends Command
 
         $description = sprintf(
             'Release version, in format "<major>.<minor>.<patch>" or "v<major>.<minor>.<patch> or one of keywords: "%s"',
-            implode('", "', SemVersion::getAll())
+            implode('", "', StaticSemVersion::getAll())
         );
         $this->addArgument(Option::VERSION, InputArgument::REQUIRED, $description);
 
@@ -81,17 +83,20 @@ final class ReleaseCommand extends Command
         // validation phase
         $stage = $this->resolveStage($input);
 
-        $this->releaseGuard->guardStage($stage);
+        $activeReleaseWorkers = $this->getReleaseWorkers($stage);
+        if ($activeReleaseWorkers === []) {
+            $this->symfonyStyle->error(
+                'There are no release workers registered. Be sure to add them to monorepo-builder.yaml'
+            );
 
-        /** @var string $versionArgument */
-        $versionArgument = $input->getArgument(Option::VERSION);
-        $version = $this->versionFactory->createValidVersion($versionArgument, $stage);
-
-        $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($stage);
+            return ShellCode::ERROR;
+        }
 
         $totalWorkerCount = count($activeReleaseWorkers);
         $i = 0;
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
+
+        $version = $this->resolveVersion($input, $stage);
 
         foreach ($activeReleaseWorkers as $releaseWorker) {
             $title = sprintf('%d/%d) %s', ++$i, $totalWorkerCount, $releaseWorker->getDescription($version));
@@ -122,9 +127,12 @@ final class ReleaseCommand extends Command
             return;
         }
 
-        // show priority and class on -v/--verbose/--debug
-        $this->symfonyStyle->writeln('priority: ' . $releaseWorker->getPriority());
+        // show debug data on -v/--verbose/--debug
         $this->symfonyStyle->writeln('class: ' . get_class($releaseWorker));
+        if ($releaseWorker instanceof StageAwareInterface) {
+            $this->symfonyStyle->writeln('stage: ' . $releaseWorker->getStage());
+        }
+
         $this->symfonyStyle->newLine();
     }
 
@@ -132,6 +140,35 @@ final class ReleaseCommand extends Command
     {
         $stage = $input->getOption(Option::STAGE);
 
-        return $stage !== null ? (string) $stage : $stage;
+        // string or null
+        if ($stage === null) {
+            $this->releaseGuard->guardRequiredStageOnEmptyStage();
+            return null;
+        }
+
+        $stage = (string) $stage;
+        $this->releaseGuard->guardStage($stage);
+
+        return $stage;
+    }
+
+    private function resolveVersion(InputInterface $input, ?string $stage): Version
+    {
+        /** @var string $versionArgument */
+        $versionArgument = $input->getArgument(Option::VERSION);
+
+        return $this->versionFactory->createValidVersion($versionArgument, $stage);
+    }
+
+    /**
+     * @return ReleaseWorkerInterface[]
+     */
+    private function getReleaseWorkers(?string $stage): array
+    {
+        if ($stage === null) {
+            return $this->releaseWorkerProvider->provide();
+        }
+
+        return $this->releaseWorkerProvider->provideByStage($stage);
     }
 }

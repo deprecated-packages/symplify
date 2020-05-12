@@ -6,7 +6,7 @@ namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
+use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 final class InlineVariableDocBlockMalformWorker extends AbstractMalformWorker
 {
@@ -22,7 +22,7 @@ final class InlineVariableDocBlockMalformWorker extends AbstractMalformWorker
         }
 
         // more than 2 newlines - keep it
-        if (substr_count($docContent, EolConfiguration::getEolChar()) > 2) {
+        if (substr_count($docContent, StaticEolConfiguration::getEolChar()) > 2) {
             return $docContent;
         }
 

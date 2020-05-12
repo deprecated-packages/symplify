@@ -10,7 +10,6 @@
     },
     "require-dev": {
         "nette/finder": "^2.5",
-        "phpstan/phpstan": "^0.12.10",
         "phpunit/phpunit": "^8.5|^9.0"
     },
     "autoload": {
@@ -25,7 +24,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "7.3-dev"
+            "dev-master": "7.4-dev"
         }
     },
     "minimum-stability": "dev",

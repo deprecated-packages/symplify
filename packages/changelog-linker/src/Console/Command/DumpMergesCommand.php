@@ -148,11 +148,14 @@ final class DumpMergesCommand extends Command
 
         $this->changelogPlaceholderGuard->ensurePlaceholderIsPresent($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
+        /** @var int $sinceId */
         $sinceId = $this->getSinceIdFromInputAndContent($input, $content) ?: 1;
-        $pullRequests = $this->githubApi->getMergedPullRequestsSinceId(
-            $sinceId,
-            $input->getOption(Option::BASE_BRANCH)
-        );
+
+        /** @var string $baseBranch */
+        $baseBranch = $input->getOption(Option::BASE_BRANCH);
+
+        $pullRequests = $this->githubApi->getMergedPullRequestsSinceId($sinceId, $baseBranch);
+
         if (count($pullRequests) === 0) {
             $this->symfonyStyle->note(
                 sprintf('There are no new pull requests to be added since ID "%d".', $sinceId)

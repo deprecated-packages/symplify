@@ -49,7 +49,7 @@ vendor/bin/monorepo-builder merge
 Typical location for packages is `/packages`. But what if you have different naming or extra `/projects` directory?
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     package_directories:
         - 'packages'
@@ -61,7 +61,7 @@ Sections are sorted for you by saint defaults. Do you want change the order? Jus
 To exclude a specific folder for ignoring the composer.json in this folder.
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     package_directories_excludes:
         - 'ExcludeThis'
@@ -72,7 +72,7 @@ parameters:
 Do you need to add or remove some packages only to root `composer.json`?
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     data_to_append:
         autoload-dev:
@@ -128,7 +128,7 @@ This will add alias `3.1-dev` to `composer.json` in each package.
 If you prefer [`3.1.x-dev`](https://getcomposer.org/doc/articles/aliases.md#branch-alias) over default `3.1-dev`, you can configure it:
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     package_alias_format: '<major>.<minor>.x-dev' # default: "<major>.<minor>-dev"
 ```
@@ -138,11 +138,11 @@ parameters:
 Classic use case for monorepo is to synchronize last tag and the `master` branch to allow testing of `@dev` version.
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     directories_to_repositories:
         packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
-        packages/MonorepoBuilder: 'git@github.com:Symplify/MonorepoBuilder.git'
+        packagages/MonorepoBuilder: 'git@github.com:Symplify/MonorepoBuilder.git'
 ```
 
 And run by:
@@ -167,7 +167,7 @@ git init --bare
 Then you can set the target using `file://` prefix for absolute path:
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 parameters:
     directories_to_repositories:
         packages/PackageBuilder: 'file:///home/developer/git/PackageBuilder.git'
@@ -220,20 +220,35 @@ You can use `minor` and `major` too.
 
 There is set of few default release workers - classes that implement `Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface`.
 
-You can extend it by adding your own:
+You need to register them as services. Feel free to start with default ones:
 
 ```yaml
-# monorepo-builder.yml
+# monorepo-builder.yaml
 services:
-    App\Release\ShareOnTwitterReleaseWorker: ~
+    # release workers - in order to execute
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker: null
 ```
 
-And or disable default ones:
+You can extend it by adding your own:
 
-```yaml
-# monorepo-builder.yml
-parameters:
-    enable_default_release_workers: false
+```diff
+ # monorepo-builder.yaml
+ services:
+     # release workers - in order to execute
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker: null
++    App\MonorepoBuilder\ReleaseWorker\TweetReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker: null
+     Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker: null
 ```
 
 ## Contributing

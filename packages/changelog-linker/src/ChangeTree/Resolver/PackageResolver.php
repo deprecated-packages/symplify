@@ -38,7 +38,7 @@ final class PackageResolver
     /**
      * E.g. "[ChangelogLinker] Add feature XY" => "ChangelogLinker"
      */
-    public function resolvePackage(string $message): ?string
+    public function resolvePackage(string $message): string
     {
         $match = Strings::match($message, self::PACKAGE_NAME_PATTERN);
         if (! isset($match['package'])) {

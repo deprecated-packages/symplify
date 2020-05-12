@@ -25,23 +25,5 @@ services:
 
     Symplify\CodingStandard\Sniffs\:
         resource: '../src/Sniffs'
-        exclude:
-            # experimental, required --clear-cache
-            - '../src/Sniffs/DeadCode/*'
 
     PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: null
-
-    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
-        allowed_class_names:
-            - 'File*'
-            # per monorepo package unique
-            - '*Exception'
-            - 'Option'
-            - 'InitCommand'
-            # duplicated deprecation
-            - 'FinderSanitizer'
-            # extended 3rd party class
-            - 'CommentedOutCodeSniff'
-            # tests
-            - 'Some*'
-            - 'GithubApi'

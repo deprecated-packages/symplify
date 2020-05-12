@@ -39,7 +39,7 @@ final class ControllerContentResolver
         $this->controllerMatcher = $controllerMatcher;
     }
 
-    public function resolveFromRouteAndArgument(string $routeName, Route $route, ...$values): ?string
+    public function resolveFromRouteAndArgument(string $routeName, Route $route, $values): ?string
     {
         [$controllerClass, $method] = $this->controllerMatcher->matchRouteToControllerAndMethod($route);
         if (! class_exists($controllerClass)) {
@@ -53,6 +53,9 @@ final class ControllerContentResolver
 
         $this->fakeRequest($routeName);
 
+        if (! is_array($values)) {
+            $values = [$values];
+        }
         /** @var Response $response */
         $response = call_user_func([$controller, $method], ...$values);
 
@@ -73,8 +76,12 @@ final class ControllerContentResolver
 
         $this->fakeRequest($routeName);
 
+        $defaultParams = array_filter($route->getDefaults(), static function (string $key): bool {
+            return strpos($key, '_') !== 0;
+        }, ARRAY_FILTER_USE_KEY);
+
         /** @var Response $response */
-        $response = call_user_func([$controller, $method]);
+        $response = call_user_func([$controller, $method], ...array_values($defaultParams));
 
         return (string) $response->getContent();
     }

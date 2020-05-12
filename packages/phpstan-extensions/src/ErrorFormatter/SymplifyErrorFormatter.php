@@ -38,9 +38,28 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
     public function formatErrors(AnalysisResult $analysisResult, Output $output): int
     {
-        if ($analysisResult->getTotalErrorsCount() === 0) {
+        if ($analysisResult->getTotalErrorsCount() === 0 && $analysisResult->getWarnings() === []) {
             $this->symfonyStyle->success('No errors');
             return ShellCode::SUCCESS;
+        }
+
+        $this->reportErrors($analysisResult);
+
+        foreach ($analysisResult->getNotFileSpecificErrors() as $notFileSpecificError) {
+            $this->symfonyStyle->warning($notFileSpecificError);
+        }
+
+        foreach ($analysisResult->getWarnings() as $warning) {
+            $this->symfonyStyle->warning($warning);
+        }
+
+        return ShellCode::ERROR;
+    }
+
+    private function reportErrors(AnalysisResult $analysisResult): void
+    {
+        if ($analysisResult->getFileSpecificErrors() === []) {
+            return;
         }
 
         foreach ($analysisResult->getFileSpecificErrors() as $fileSpecificError) {
@@ -59,14 +78,8 @@ final class SymplifyErrorFormatter implements ErrorFormatter
             $this->symfonyStyle->newLine();
         }
 
-        foreach ($analysisResult->getNotFileSpecificErrors() as $notFileSpecificError) {
-            $this->symfonyStyle->writeln($notFileSpecificError);
-        }
-
         $this->symfonyStyle->newLine(1);
         $this->symfonyStyle->error(sprintf('Found %d errors', $analysisResult->getTotalErrorsCount()));
-
-        return ShellCode::ERROR;
     }
 
     private function separator(): void

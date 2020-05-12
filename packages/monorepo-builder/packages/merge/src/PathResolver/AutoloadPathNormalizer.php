@@ -27,6 +27,19 @@ final class AutoloadPathNormalizer
         $packageComposerJson->setAutoloadDev($autoloadDev);
     }
 
+    private function normalizeAutoloadArray(SmartFileInfo $packageFile, array $autoloadArray): array
+    {
+        foreach (self::SECTIONS_WITH_PATH as $sectionWithPath) {
+            if (! isset($autoloadArray[$sectionWithPath])) {
+                continue;
+            }
+
+            $autoloadArray[$sectionWithPath] = $this->relativizePath($autoloadArray[$sectionWithPath], $packageFile);
+        }
+
+        return $autoloadArray;
+    }
+
     /**
      * @param mixed[] $autoloadSubsection
      * @return mixed[]
@@ -46,18 +59,5 @@ final class AutoloadPathNormalizer
         }
 
         return $autoloadSubsection;
-    }
-
-    private function normalizeAutoloadArray(SmartFileInfo $packageFile, array $autoloadArray): array
-    {
-        foreach (self::SECTIONS_WITH_PATH as $sectionWithPath) {
-            if (! isset($autoloadArray[$sectionWithPath])) {
-                continue;
-            }
-
-            $autoloadArray[$sectionWithPath] = $this->relativizePath($autoloadArray[$sectionWithPath], $packageFile);
-        }
-
-        return $autoloadArray;
     }
 }

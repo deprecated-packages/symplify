@@ -12,7 +12,7 @@ composer require symplify/changelog-linker --dev
 
 ## Usage
 
-Create `changelog-linker.yml` with configuration:
+Create `changelog-linker.yaml` with configuration:
 
 ```yaml
 parameters:
@@ -189,7 +189,7 @@ Of course! Give your contributors credit they deserve:
 You can exclude core maintainers, to give external contributors more credit:
 
 ```yaml
-# changelog-linker.yml
+# changelog-linker.yaml
 parameters:
     authors_to_ignore: ['TomasVotruba']
 ```
@@ -199,7 +199,7 @@ parameters:
 In Symplify, I need that every `EasyCodingStandard` word leads to `https://github.com/symplify/easy-coding-standard/`.
 
 ```yaml
-# changelog-linker.yml
+# changelog-linker.yaml
 parameters:
     names_to_urls:
         EasyCodingStandard: 'https://github.com/symplify/easy-coding-standard/'
@@ -223,7 +223,7 @@ parameters:
 Just add alias to config:
 
 ```yaml
-# changelog-linker.yml
+# changelog-linker.yaml
 parameters:
     package_aliases:
         CS: 'CodingStandard'

@@ -105,6 +105,31 @@ final class ControllerDumper
         }
     }
 
+    private function createProgressBarIfNeeded(array $items): ?ProgressBar
+    {
+        if ($this->symfonyStyle->isDebug()) {
+            // show file names on debug, no progress bar
+            return null;
+        }
+
+        $stepCount = count($items);
+        return $this->symfonyStyle->createProgressBar($stepCount);
+    }
+
+    private function printProgressOrDumperFileInfo(Route $route, string $filePath, ?ProgressBar $progressBar): void
+    {
+        if ($progressBar instanceof ProgressBar) {
+            $progressBar->advance();
+            return;
+        }
+
+        $this->symfonyStyle->note(sprintf(
+            'Dumping static content for "%s" route to "%s" path',
+            $route->getPath(),
+            $filePath
+        ));
+    }
+
     private function printHeadline(ControllerWithDataProviderInterface $controllerWithDataProvider, $routeName): void
     {
         $this->symfonyStyle->newLine(2);
@@ -139,30 +164,5 @@ final class ControllerDumper
 
             FileSystem::write($filePath, $fileContent);
         }
-    }
-
-    private function createProgressBarIfNeeded(array $items): ?ProgressBar
-    {
-        if ($this->symfonyStyle->isDebug()) {
-            // show file names on debug, no progress bar
-            return null;
-        }
-
-        $stepCount = count($items);
-        return $this->symfonyStyle->createProgressBar($stepCount);
-    }
-
-    private function printProgressOrDumperFileInfo(Route $route, string $filePath, ?ProgressBar $progressBar): void
-    {
-        if ($progressBar instanceof ProgressBar) {
-            $progressBar->advance();
-            return;
-        }
-
-        $this->symfonyStyle->note(sprintf(
-            'Dumping static content for "%s" route to "%s" path',
-            $route->getPath(),
-            $filePath
-        ));
     }
 }

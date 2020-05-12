@@ -6,16 +6,16 @@ namespace Symplify\ChangelogLinker\Github;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Exception\Git\InvalidGitRemoteException;
-use const PATHINFO_DIRNAME;
-use const PATHINFO_FILENAME;
-use const PHP_URL_HOST;
-use const PHP_URL_PATH;
-use const PHP_URL_SCHEME;
 use function parse_url;
 use function pathinfo;
 use function rtrim;
 use function sprintf;
 use function str_replace;
+use const PATHINFO_DIRNAME;
+use const PATHINFO_FILENAME;
+use const PHP_URL_HOST;
+use const PHP_URL_PATH;
+use const PHP_URL_SCHEME;
 
 final class GithubRepositoryFromRemoteResolver
 {
@@ -28,13 +28,18 @@ final class GithubRepositoryFromRemoteResolver
     {
         // Normalizing "https" url
         if (Strings::startsWith($url, self::HTTPS_SCHEME)) {
-            $url_scheme = parse_url($url, PHP_URL_SCHEME);
-            $url_host = parse_url($url, PHP_URL_HOST);
-            $url_path = parse_url($url, PHP_URL_PATH);
-            $path_dirname = pathinfo($url_path, PATHINFO_DIRNAME);
-            $path_filename = pathinfo($url_path, PATHINFO_FILENAME);
+            $urlScheme = parse_url($url, PHP_URL_SCHEME);
+            $urlHost = parse_url($url, PHP_URL_HOST);
 
-            return sprintf('%s://%s%s/%s', $url_scheme, $url_host, $path_dirname, $path_filename);
+            $urlPath = parse_url($url, PHP_URL_PATH);
+            if ($urlPath === false || $urlPath === null) {
+                $this->throwException($url);
+            }
+
+            $pathDirname = pathinfo($urlPath, PATHINFO_DIRNAME);
+            $pathFilename = pathinfo($urlPath, PATHINFO_FILENAME);
+
+            return sprintf('%s://%s%s/%s', $urlScheme, $urlHost, $pathDirname, $pathFilename);
         }
 
         // turn SSH format to "https"
@@ -46,6 +51,11 @@ final class GithubRepositoryFromRemoteResolver
             return sprintf('%s://%s', self::HTTPS_SCHEME, $url);
         }
 
+        $this->throwException($url);
+    }
+
+    private function throwException(string $url): void
+    {
         throw new InvalidGitRemoteException(sprintf(
             'Remote url "%s" could not be resolved to https form. Have you added it via "git remote add origin"?',
             $url

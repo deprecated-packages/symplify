@@ -8,6 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\Finder\PackageComposerFinder;
 use Symplify\MonorepoBuilder\Utils\VersionUtils;
@@ -74,7 +75,10 @@ final class PackageAliasCommand extends Command
 
     private function getExpectedAlias(): string
     {
-        $lastTag = exec('git describe --abbrev=0 --tags');
+        $process = new Process(['git', 'describe', '--abbrev', '0', '--tags']);
+        $process->run();
+
+        $lastTag = $process->getOutput();
 
         return $this->versionUtils->getNextAliasFormat($lastTag);
     }

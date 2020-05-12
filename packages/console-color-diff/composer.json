@@ -1,0 +1,34 @@
+{
+    "name": "symplify/console-color-diff",
+    "description": "Package to print diffs in console with colors",
+    "license": "MIT",
+    "require": {
+        "php": "^7.2",
+        "nette/utils": "^3.0",
+        "symfony/console": "^4.4|^5.0",
+        "sebastian/diff": "^3.0|^4.0",
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "symfony/http-kernel": "^4.4|^5.0",
+        "symplify/package-builder": "^7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5|^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\ConsoleColorDiff\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\ConsoleColorDiff\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "7.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

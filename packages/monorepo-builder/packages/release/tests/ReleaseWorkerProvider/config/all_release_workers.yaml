@@ -1,0 +1,8 @@
+services:
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker: null

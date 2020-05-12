@@ -23,8 +23,13 @@ jobs:
             if: (branch = master OR tag IS present) && type = push
             script:
                 - cd packages/easy-coding-standard/compiler
+
+                # see https://gist.github.com/jeffersonmartin/d0d4a8dfec90d224d14f250b36c74d2f
+                # see https://www.previousnext.com.au/blog/managing-composer-github-access-personal-access-tokens
+                - composer config -g github-oauth.github.com $GITHUB_TOKEN
+
                 - composer install
-                - travis_retry bin/compile
+                - travis_retry bin/compile --ansi
                 - ../tmp/ecs.phar
 
                 - cd ..
@@ -41,7 +46,7 @@ jobs:
                 - if [ "${TRAVIS_TAG}" != "" ]; then COMMIT_MSG="ECS ${TRAVIS_TAG}"; else COMMIT_MSG="Updated ECS to commit ${TRAVIS_COMMIT}"; fi
 
                 - git commit -m "${COMMIT_MSG}"
-                - git push --quiet origin master --force
+                - travis_retry git push --quiet origin master --force
 
                 - if [ "${TRAVIS_TAG}" != "" ]; then git tag "${TRAVIS_TAG}" && git push --quiet origin ${TRAVIS_TAG}; fi
 

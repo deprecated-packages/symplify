@@ -7,7 +7,6 @@ namespace Symplify\ChangelogLinker\FileSystem;
 use Nette\Utils\FileSystem;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\Configuration\Option;
-use Symplify\PackageBuilder\Configuration\EolConfiguration;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\FileSystemGuard;
 
@@ -62,16 +61,14 @@ final class ChangelogFileSystem
     {
         $changelogContent = $this->readChangelog();
 
-        $eolChar = EolConfiguration::getEolChar();
-
         $this->changelogPlaceholderGuard->ensurePlaceholderIsPresent($changelogContent, $placeholder);
 
         $contentToWrite = sprintf(
             '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->',
             $placeholder,
-            $eolChar,
-            $eolChar,
-            $eolChar,
+            PHP_EOL,
+            PHP_EOL,
+            PHP_EOL,
             $newContent
         );
 

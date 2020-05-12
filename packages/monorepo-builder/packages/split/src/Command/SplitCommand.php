@@ -92,6 +92,7 @@ final class SplitCommand extends Command
             $input->getOption(Option::MAX_PROCESSES)
             : null;
 
+        /** @var string|null $tag */
         $tag = $input->getOption(Option::TAG);
 
         $branch = $input->getOption(Option::BRANCH) ? (string) $input->getOption(Option::BRANCH) : null;
