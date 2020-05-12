@@ -97,6 +97,11 @@
     "autoload-dev": {
         "classmap": [
             "packages/autodiscovery/tests/Source/KernelProjectDir",
+            "vendor/squizlabs/php_codesniffer/src/Standards/Generic",
+            "vendor/squizlabs/php_codesniffer/src/Standards/PSR2",
+            "vendor/squizlabs/php_codesniffer/src/Standards/PSR12",
+            "vendor/squizlabs/php_codesniffer/src/Standards/PEAR",
+            "vendor/squizlabs/php_codesniffer/src/Standards/Squiz",
             "vendor/squizlabs/php_codesniffer/src/Sniffs"
         ],
         "psr-4": {
