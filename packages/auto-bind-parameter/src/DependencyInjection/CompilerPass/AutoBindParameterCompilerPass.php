@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  * - from "%value_name%"
  * - to "$valueName"
  */
-class AutoBindParameterCompilerPass implements CompilerPassInterface
+final class AutoBindParameterCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $containerBuilder): void
     {
