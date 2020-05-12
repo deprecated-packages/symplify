@@ -96,13 +96,10 @@
     },
     "autoload-dev": {
         "classmap": [
-            "packages/autodiscovery/tests/Source/KernelProjectDir",
-            "vendor/squizlabs/php_codesniffer/src/Standards/Generic",
-            "vendor/squizlabs/php_codesniffer/src/Standards/PSR2",
-            "vendor/squizlabs/php_codesniffer/src/Standards/PSR12",
-            "vendor/squizlabs/php_codesniffer/src/Standards/PEAR",
-            "vendor/squizlabs/php_codesniffer/src/Standards/Squiz",
-            "vendor/squizlabs/php_codesniffer/src/Sniffs"
+            "packages/autodiscovery/tests/Source/KernelProjectDir"
+        ],
+        "files": [
+            "vendor/squizlabs/php_codesniffer/src/Sniffs/Sniff.php"
         ],
         "psr-4": {
             "Symplify\\AutoBindParameter\\Tests\\": "packages/auto-bind-parameter/tests",
