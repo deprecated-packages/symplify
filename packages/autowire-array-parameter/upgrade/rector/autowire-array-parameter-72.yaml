@@ -1,3 +1,0 @@
-services:
-    Rector\Renaming\Rector\Class_\RenameClassRector:
-        Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass: 'Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass'

@@ -98,6 +98,9 @@
         "classmap": [
             "packages/autodiscovery/tests/Source/KernelProjectDir"
         ],
+        "files": [
+            "vendor/squizlabs/php_codesniffer/src/Sniffs/Sniff.php"
+        ],
         "psr-4": {
             "Symplify\\AutoBindParameter\\Tests\\": "packages/auto-bind-parameter/tests",
             "Symplify\\Autodiscovery\\Tests\\": "packages/autodiscovery/tests",
