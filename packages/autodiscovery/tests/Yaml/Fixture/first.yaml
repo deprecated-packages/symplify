@@ -1,5 +1,5 @@
 services:
-    Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass: ~
+    Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass: null
     Symplify\Autodiscovery\Tests\Yaml\Source\SomeClass:
         autowire: true
 

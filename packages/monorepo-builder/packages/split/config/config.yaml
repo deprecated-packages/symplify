@@ -19,4 +19,4 @@ services:
             - '../src/Exception'
             - '../src/Process/SplitProcessInfo.php'
 
-    Symplify\SmartFileSystem\FileSystemGuard: ~
+    Symplify\SmartFileSystem\FileSystemGuard: null

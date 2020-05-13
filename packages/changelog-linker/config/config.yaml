@@ -14,7 +14,7 @@ services:
         autowire: true
         public: true
 
-    Symplify\SmartFileSystem\FileSystemGuard: ~
+    Symplify\SmartFileSystem\FileSystemGuard: null
 
     Symplify\ChangelogLinker\:
         resource: '../src'
@@ -25,8 +25,8 @@ services:
             - '../src/Exception'
             - '../src/ChangeTree/Change.php'
 
-    Symplify\PackageBuilder\Yaml\ParametersMerger: ~
-    Symplify\PackageBuilder\Parameter\ParameterProvider: ~
-    Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
+    Symplify\PackageBuilder\Yaml\ParametersMerger: null
+    Symplify\PackageBuilder\Parameter\ParameterProvider: null
+    Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: null
 
-    GuzzleHttp\Client: ~
+    GuzzleHttp\Client: null

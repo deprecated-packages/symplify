@@ -1,5 +1,5 @@
 services:
-    Symplify\Autodiscovery\Tests\Yaml\Source\SomeClass: ~
+    Symplify\Autodiscovery\Tests\Yaml\Source\SomeClass: null
 
     Symplify\Autodiscovery\Tests\Yaml\Source\SomeInterface:
         alias: 'Symplify\Autodiscovery\Tests\Yaml\Source\AnotherClass'

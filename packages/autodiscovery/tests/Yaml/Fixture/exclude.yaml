@@ -3,7 +3,7 @@ services:
         class: Symplify\Autodiscovery\Tests\Source\KernelProjectDir\Controller\SomeController
         autowire: true
 
-    Symplify\Autodiscovery\Tests\Source\KernelProjectDir\Service\SomeService: ~
+    Symplify\Autodiscovery\Tests\Source\KernelProjectDir\Service\SomeService: null
 -----
 services:
     _defaults:
