@@ -52,7 +52,7 @@ final class ProcessFactory
             realpath(self::SUBSPLIT_BASH_FILE),
             sprintf('--from-directory=%s', $directory),
             sprintf('--to-repository=%s', $remoteRepository),
-            '--branch=symplify7',
+            '--branch=master',
             $theMostRecentTag ? sprintf('--tag=%s', $theMostRecentTag) : '',
             sprintf('--repository=%s', $this->repository),
         ];
