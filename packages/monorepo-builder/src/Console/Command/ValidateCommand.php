@@ -43,6 +43,7 @@ final class ValidateCommand extends Command
         ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter
     ) {
         parent::__construct();
+
         $this->symfonyStyle = $symfonyStyle;
         $this->versionValidator = $versionValidator;
         $this->composerJsonProvider = $composerJsonProvider;

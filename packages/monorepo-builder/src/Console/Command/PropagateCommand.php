@@ -44,6 +44,7 @@ final class PropagateCommand extends Command
         DependencyUpdater $dependencyUpdater
     ) {
         parent::__construct();
+
         $this->symfonyStyle = $symfonyStyle;
         $this->versionValidator = $versionValidator;
         $this->composerJsonProvider = $composerJsonProvider;

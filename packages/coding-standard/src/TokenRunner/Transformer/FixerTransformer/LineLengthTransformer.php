@@ -155,7 +155,8 @@ final class LineLengthTransformer
             ++$currentPosition;
 
             if (count($explode) > 1) {
-                break; // no longer need to continue searching for end of arguments
+                // no longer need to continue searching for end of arguments
+                break;
             }
 
             if (! isset($tokens[$currentPosition])) {
@@ -271,7 +272,8 @@ final class LineLengthTransformer
             --$currentPosition;
 
             if (count($explode) > 1) {
-                break; // no longer need to continue searching for newline
+                // no longer need to continue searching for newline
+                break;
             }
 
             if (! isset($tokens[$currentPosition])) {

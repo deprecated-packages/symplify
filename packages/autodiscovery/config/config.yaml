@@ -12,6 +12,6 @@ services:
             - '../src/*/*Autodiscoverer.php'
             - '../src/Discovery.php'
 
-    Symfony\Component\Filesystem\Filesystem: ~
-    Symplify\SmartFileSystem\Finder\FinderSanitizer: ~
-    Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
+    Symfony\Component\Filesystem\Filesystem: null
+    Symplify\SmartFileSystem\Finder\FinderSanitizer: null
+    Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: null

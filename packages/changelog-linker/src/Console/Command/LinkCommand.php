@@ -36,6 +36,7 @@ final class LinkCommand extends Command
         SymfonyStyle $symfonyStyle
     ) {
         parent::__construct();
+
         $this->changelogLinker = $changelogLinker;
         $this->changelogFileSystem = $changelogFileSystem;
         $this->symfonyStyle = $symfonyStyle;

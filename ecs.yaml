@@ -23,11 +23,10 @@ parameters:
         - 'packages/easy-hydrator/tests/TypedPropertiesTest.php'
 
     skip:
-        PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff: ~
+        PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff: null
 
-        PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
-        PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
-        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
+        PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: null
+        PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: null
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - 'packages/easy-coding-standard/tests/Indentation/IndentationTest.php'
 

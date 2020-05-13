@@ -116,7 +116,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
     protected function provideConfig(): string
     {
-        if ($this->getCheckerClass() !== '') { // use local if not overloaded
+        // use local if not overloaded
+        if ($this->getCheckerClass() !== '') {
             $hash = $this->createConfigHash();
 
             $configFileTempPath = sprintf(sys_get_temp_dir() . '/ecs_temp_tests/config_%s.yaml', $hash);
@@ -129,7 +130,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
             $servicesConfiguration = [
                 'services' => [
                     '_defaults' => [
-                        'public' => true, // for tests
+                        // for tests
+                        'public' => true,
                         'autowire' => true,
                     ],
                     $this->getCheckerClass() => $this->getCheckerConfiguration() ?: null,

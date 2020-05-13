@@ -52,7 +52,8 @@ final class PackageComposerFinder
         $finder = Finder::create()
             ->files()
             ->in($this->packageDirectories)
-            ->exclude('templates') // "init" command template data
+            // "init" command template data
+            ->exclude('templates')
             ->exclude('vendor')
             ->exclude('node_modules')
             ->name('composer.json');

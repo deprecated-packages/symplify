@@ -48,11 +48,13 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
             }
 
             $entityMappings[] = [
-                'name' => $namespace, // required name
+                // required name
+                'name' => $namespace,
                 'prefix' => $namespace,
                 'type' => 'annotation',
                 'dir' => $entityDirectory->getRealPath(),
-                'is_bundle' => false, // performance
+                // performance
+                'is_bundle' => false,
             ];
         }
 
@@ -67,7 +69,8 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
             $xmlNamespaces[] = $namespace;
 
             $entityMappings[] = [
-                'name' => $namespace, // required name
+                // required name
+                'name' => $namespace,
                 'prefix' => $namespace,
                 'type' => 'xml',
                 'dir' => $directory,

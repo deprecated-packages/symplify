@@ -44,6 +44,7 @@ final class InitCommand extends Command
     public function __construct(Filesystem $filesystem, SymfonyStyle $symfonyStyle, Composer $composer)
     {
         parent::__construct();
+
         $this->filesystem = $filesystem;
         $this->symfonyStyle = $symfonyStyle;
         $this->composer = $composer;

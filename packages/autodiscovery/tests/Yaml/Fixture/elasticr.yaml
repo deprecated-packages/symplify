@@ -4,32 +4,32 @@ services:
         autoconfigure: true
         public: true
 
-    Elasticr\Bundle\CatalogBundle\DataFixtures\CategoryFixtures: ~
-    Elasticr\Bundle\CatalogBundle\DataFixtures\ProductFixtures: ~
+    Elasticr\Bundle\CatalogBundle\DataFixtures\CategoryFixtures: null
+    Elasticr\Bundle\CatalogBundle\DataFixtures\ProductFixtures: null
 
-    Elasticr\Bundle\CatalogBundle\Manufacturer\ManufacturerRepository: ~
+    Elasticr\Bundle\CatalogBundle\Manufacturer\ManufacturerRepository: null
 
     Elasticr\Component\Catalog\Manufacturer\ManufacturerRepository:
         alias: Elasticr\Bundle\CatalogBundle\Manufacturer\ManufacturerRepository
 
-    Elasticr\Bundle\CatalogBundle\Product\ProductRepository: ~
+    Elasticr\Bundle\CatalogBundle\Product\ProductRepository: null
 
     Elasticr\Component\Catalog\Product\ProductRepository:
         alias: Elasticr\Bundle\CatalogBundle\Product\ProductRepository
 
-    Elasticr\Bundle\CatalogBundle\Category\CategoryRepository: ~
+    Elasticr\Bundle\CatalogBundle\Category\CategoryRepository: null
 
     Elasticr\Component\Catalog\Category\CategoryRepository:
         alias: Elasticr\Bundle\CatalogBundle\Category\CategoryRepository
 
-    Elasticr\Bundle\CatalogBundle\Product\EntityLocator: ~
+    Elasticr\Bundle\CatalogBundle\Product\EntityLocator: null
 
     Elasticr\Component\Catalog\Product\EntityLocator:
         alias: Elasticr\Bundle\CatalogBundle\Product\EntityLocator
 
-    Elasticr\Component\Catalog\Product\ProductService: ~
-    Elasticr\Component\Catalog\Manufacturer\ManufacturerService: ~
-    Elasticr\Component\Catalog\Category\CategoryService: ~
+    Elasticr\Component\Catalog\Product\ProductService: null
+    Elasticr\Component\Catalog\Manufacturer\ManufacturerService: null
+    Elasticr\Component\Catalog\Category\CategoryService: null
 -----
 services:
     _defaults:

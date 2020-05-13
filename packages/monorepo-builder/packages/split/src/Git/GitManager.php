@@ -44,7 +44,8 @@ final class GitManager
         $currentBranch = trim($this->processRunner->run($command));
 
         if ($currentBranch === 'HEAD') {
-            $currentBranch = 'master'; // Default to master when HEAD (e.g Travis)
+            // Default to master when HEAD (e.g Travis)
+            $currentBranch = 'master';
         }
 
         return $currentBranch;
