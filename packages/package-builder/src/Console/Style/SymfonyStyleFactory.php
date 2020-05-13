@@ -25,7 +25,7 @@ final class SymfonyStyleFactory
 
     public function create(): SymfonyStyle
     {
-        // to prevent missing argv indes
+        // to prevent missing argv indexes
         if (! isset($_SERVER['argv'])) {
             $_SERVER['argv'] = [];
         }

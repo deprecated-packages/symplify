@@ -36,6 +36,7 @@ final class CleanupCommand extends Command
         SymfonyStyle $symfonyStyle
     ) {
         parent::__construct();
+
         $this->changelogFileSystem = $changelogFileSystem;
         $this->changelogCleaner = $changelogCleaner;
         $this->symfonyStyle = $symfonyStyle;

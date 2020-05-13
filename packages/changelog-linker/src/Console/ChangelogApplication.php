@@ -31,6 +31,7 @@ final class ChangelogApplication extends Application
     {
         $this->parameterProvider = $parameterProvider;
         $this->addCommands($commands);
+
         parent::__construct();
     }
 

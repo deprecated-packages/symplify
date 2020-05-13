@@ -58,6 +58,7 @@ final class ConvertYamlCommand extends Command
         FinderSanitizer $finderSanitizer
     ) {
         parent::__construct();
+
         $this->explicitToAutodiscoveryConverter = $explicitToAutodiscoveryConverter;
         $this->symfonyStyle = $symfonyStyle;
         $this->finderSanitizer = $finderSanitizer;

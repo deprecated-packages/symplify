@@ -57,6 +57,7 @@ final class LocalizeComposerPathsCommand extends Command
         $this->symfonyStyle = $symfonyStyle;
 
         parent::__construct();
+
         $this->packagePathResolver = $packagePathResolver;
     }
 

@@ -27,7 +27,6 @@ parameters:
 
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
-        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - 'packages/easy-coding-standard/tests/Indentation/IndentationTest.php'
 

@@ -89,6 +89,7 @@ final class DumpMergesCommand extends Command
         ChangelogPlaceholderGuard $changelogPlaceholderGuard
     ) {
         parent::__construct();
+
         $this->githubApi = $githubApi;
         $this->symfonyStyle = $symfonyStyle;
         $this->idsAnalyzer = $idsAnalyzer;
@@ -177,7 +178,8 @@ final class DumpMergesCommand extends Command
             $sortPriority
         );
 
-        $content = $this->changelogLinker->processContent($content); // partial content
+        // partial content
+        $content = $this->changelogLinker->processContent($content);
 
         if ($input->getOption(Option::DRY_RUN)) {
             $this->symfonyStyle->writeln($content);
