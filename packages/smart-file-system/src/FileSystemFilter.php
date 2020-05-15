@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\FileSystem;
+namespace Symplify\SmartFileSystem;
 
-final class FileSystem
+/**
+ * @see \Symplify\SmartFileSystem\Tests\FileSystemFilter\FileSystemFilterTest
+ */
+final class FileSystemFilter
 {
     /**
      * @param mixed[] $filesAndDirectories
