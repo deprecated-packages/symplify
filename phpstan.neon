@@ -4,6 +4,12 @@ includes:
     - vendor/slam/phpstan-extensions/conf/symfony-rules.neon
     - packages/coding-standard/config/symplify-rules.neon
 
+services:
+    -
+         class: Ergebnis\PHPStan\Rules\Classes\PHPUnit\Framework\TestCaseWithSuffixRule
+         tags:
+                 - phpstan.rules.rule
+
 parameters:
     symplify:
         old_to_preffered_classes:
