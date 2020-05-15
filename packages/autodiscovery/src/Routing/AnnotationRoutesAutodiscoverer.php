@@ -6,7 +6,7 @@ namespace Symplify\Autodiscovery\Routing;
 
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symplify\Autodiscovery\Contract\AutodiscovererInterface;
-use Symplify\Autodiscovery\FileSystem;
+use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 
 final class AnnotationRoutesAutodiscoverer implements AutodiscovererInterface
 {
@@ -16,11 +16,11 @@ final class AnnotationRoutesAutodiscoverer implements AutodiscovererInterface
     private $routeCollectionBuilder;
 
     /**
-     * @var FileSystem
+     * @var AutodiscoveryFinder
      */
     private $fileSystem;
 
-    public function __construct(RouteCollectionBuilder $routeCollectionBuilder, FileSystem $fileSystem)
+    public function __construct(RouteCollectionBuilder $routeCollectionBuilder, AutodiscoveryFinder $fileSystem)
     {
         $this->routeCollectionBuilder = $routeCollectionBuilder;
         $this->fileSystem = $fileSystem;

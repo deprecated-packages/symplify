@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\Autodiscovery;
+namespace Symplify\Autodiscovery\Finder;
 
 use Symfony\Component\Finder\Finder;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class FileSystem
+final class AutodiscoveryFinder
 {
     /**
      * @var string

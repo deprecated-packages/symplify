@@ -7,6 +7,7 @@ namespace Symplify\Autodiscovery;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symplify\Autodiscovery\Doctrine\DoctrineEntityMappingAutodiscoverer;
+use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 use Symplify\Autodiscovery\Routing\AnnotationRoutesAutodiscoverer;
 use Symplify\Autodiscovery\Translation\TranslationPathAutodiscoverer;
 use Symplify\Autodiscovery\Twig\TwigPathAutodiscoverer;
@@ -14,7 +15,7 @@ use Symplify\Autodiscovery\Twig\TwigPathAutodiscoverer;
 final class Discovery
 {
     /**
-     * @var FileSystem
+     * @var AutodiscoveryFinder
      */
     private $fileSystem;
 
@@ -23,7 +24,7 @@ final class Discovery
      */
     public function __construct(string $projectDirectory, array $packageDirectories = [])
     {
-        $this->fileSystem = new FileSystem($projectDirectory, $packageDirectories);
+        $this->fileSystem = new AutodiscoveryFinder($projectDirectory, $packageDirectories);
     }
 
     public function discoverTemplates(ContainerBuilder $containerBuilder): void
