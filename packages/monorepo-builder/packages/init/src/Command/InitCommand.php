@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Init\Command;
 
-use Composer\Composer;
+use Jean85\PrettyVersions;
 use Nette\Utils\FileSystem as NetteFileSystem;
 use Nette\Utils\Json as NetteJson;
+use OutOfBoundsException;
 use PharIo\Version\InvalidVersionException;
 use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
@@ -27,11 +28,6 @@ final class InitCommand extends Command
     private const OUTPUT = 'output';
 
     /**
-     * @var Composer
-     */
-    private $composer;
-
-    /**
      * @var Filesystem
      */
     private $filesystem;
@@ -41,13 +37,12 @@ final class InitCommand extends Command
      */
     private $symfonyStyle;
 
-    public function __construct(Filesystem $filesystem, SymfonyStyle $symfonyStyle, Composer $composer)
+    public function __construct(Filesystem $filesystem, SymfonyStyle $symfonyStyle)
     {
         parent::__construct();
 
         $this->filesystem = $filesystem;
         $this->symfonyStyle = $symfonyStyle;
-        $this->composer = $composer;
     }
 
     protected function configure(): void
@@ -87,8 +82,9 @@ final class InitCommand extends Command
         $version = null;
 
         try {
-            $version = new Version(str_replace('x-dev', '0', $this->composer->getPackage()->getPrettyVersion()));
-        } catch (InvalidVersionException $invalidVersionException) {
+            $prettyVersion = PrettyVersions::getVersion('symplify/monorepo-builder')->getPrettyVersion();
+            $version = new Version(str_replace('x-dev', '0', $prettyVersion));
+        } catch (OutOfBoundsException | InvalidVersionException $exceptoin) {
             // Version might not be explicitly set inside composer.json, looking for "vendor/composer/installed.json"
             $version = $this->extractMonorepoBuilderVersionFromComposer();
         }

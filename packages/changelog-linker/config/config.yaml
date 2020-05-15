@@ -26,6 +26,9 @@ services:
 
     Symplify\PackageBuilder\Yaml\ParametersMerger: null
     Symplify\PackageBuilder\Parameter\ParameterProvider: null
+
     Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: null
+    Symfony\Component\Console\Style\SymfonyStyle:
+        factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
 
     GuzzleHttp\Client: null

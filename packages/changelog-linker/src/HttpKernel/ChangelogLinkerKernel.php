@@ -12,7 +12,6 @@ use Symplify\AutoBindParameter\DependencyInjection\CompilerPass\AutoBindParamete
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\AddRepositoryUrlAndRepositoryNameParametersCompilerPass;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
 
 final class ChangelogLinkerKernel extends Kernel implements ExtraConfigAwareKernelInterface
 {
@@ -61,9 +60,6 @@ final class ChangelogLinkerKernel extends Kernel implements ExtraConfigAwareKern
      */
     protected function build(ContainerBuilder $containerBuilder): void
     {
-        // needs to be first, since it's adding new service definitions
-        $containerBuilder->addCompilerPass(new AutoReturnFactoryCompilerPass());
-
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
         $containerBuilder->addCompilerPass(new AddRepositoryUrlAndRepositoryNameParametersCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParameterCompilerPass());

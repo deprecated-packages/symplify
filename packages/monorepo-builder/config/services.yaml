@@ -22,4 +22,8 @@ services:
 
     Symplify\PackageBuilder\Reflection\PrivatesCaller: null
     Symplify\PackageBuilder\Yaml\ParametersMerger: null
+
     Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: null
+    Symfony\Component\Console\Style\SymfonyStyle:
+        factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
+
