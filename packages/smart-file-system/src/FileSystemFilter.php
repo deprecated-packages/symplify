@@ -10,22 +10,28 @@ namespace Symplify\SmartFileSystem;
 final class FileSystemFilter
 {
     /**
-     * @param mixed[] $filesAndDirectories
-     * @return mixed[][]
+     * @param string[] $filesAndDirectories
+     * @return string[]
      */
-    public function separateFilesAndDirectories(array $filesAndDirectories): array
+    public function filterDirectories(array $filesAndDirectories): array
     {
-        $files = [];
-        $directories = [];
+        $directories = array_filter($filesAndDirectories, function (string $path) {
+            return ! is_file($path);
+        });
 
-        foreach ($filesAndDirectories as $filesOrDirectory) {
-            if (is_file($filesOrDirectory)) {
-                $files[] = $filesOrDirectory;
-            } else {
-                $directories[] = $filesOrDirectory;
-            }
-        }
+        return array_values($directories);
+    }
 
-        return [$files, $directories];
+    /**
+     * @param string[] $filesAndDirectories
+     * @return string[]
+     */
+    public function filterFiles(array $filesAndDirectories): array
+    {
+        $files = array_filter($filesAndDirectories, function (string $path) {
+            return is_file($path);
+        });
+
+        return array_values($files);
     }
 }

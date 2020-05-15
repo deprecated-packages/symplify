@@ -23,9 +23,13 @@ final class FileSystemFilterTest extends TestCase
     {
         $sources = [__DIR__, __DIR__ . '/FileSystemFilterTest.php'];
 
-        [$files, $directories] = $this->fileSystemFilter->separateFilesAndDirectories($sources);
+        $files = $this->fileSystemFilter->filterFiles($sources);
+        $directories = $this->fileSystemFilter->filterDirectories($sources);
 
         $this->assertCount(1, $files);
         $this->assertCount(1, $directories);
+
+        $this->assertSame($files, [__DIR__ . '/FileSystemFilterTest.php']);
+        $this->assertSame($directories, [__DIR__]);
     }
 }
