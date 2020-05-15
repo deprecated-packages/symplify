@@ -19,6 +19,5 @@ services:
             - '../src/Rules/*'
 
     PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer: null
-    PhpCsFixer\WhitespacesFixerConfig: null
 
     Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector: null

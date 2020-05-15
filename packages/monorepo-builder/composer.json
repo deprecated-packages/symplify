@@ -9,6 +9,7 @@
         "php": "^7.2",
         "composer/composer": "^1.10",
         "nette/utils": "^3.0",
+        "jean85/pretty-package-versions": "^1.2",
         "phar-io/version": "^2.0.1",
         "symfony/finder": "^4.4|^5.0",
         "symfony/dependency-injection": "^4.4|^5.0",

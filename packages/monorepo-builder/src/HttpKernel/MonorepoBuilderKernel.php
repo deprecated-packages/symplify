@@ -14,7 +14,6 @@ use Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 
 final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKernelInterface
@@ -61,9 +60,6 @@ final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKern
 
     protected function build(ContainerBuilder $containerBuilder): void
     {
-        // needs to be first, since it's adding new service definitions
-        $containerBuilder->addCompilerPass(new AutoReturnFactoryCompilerPass());
-
         $containerBuilder->addCompilerPass(new AutowireInterfacesCompilerPass([ReleaseWorkerInterface::class]));
 
         $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());

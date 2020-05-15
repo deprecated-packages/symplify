@@ -166,64 +166,6 @@ var_dump($parameterBag);
 
 <br>
 
-### Do not Repeat Simple Factories
-
-This prevent repeating factory definitions for obvious 1-instance factories:
-
-```diff
- services:
-     Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory: ~
--    Symfony\Component\Console\Style\SymfonyStyle:
--        factory: ['@Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory', 'create']
-```
-
-**How this works?**
-
-The factory class needs to have return type + `create()` method:
-
-```php
-<?php
-
-namespace Symplify\PackageBuilder\Console\Style;
-
-use Symfony\Component\Console\Style\SymfonyStyle;
-
-final class SymfonyStyleFactory
-{
-    public function create(): SymfonyStyle
-    {
-        // ...
-    }
-}
-```
-
-That's all! The "factory" definition is generated from this obvious usage.
-
-**Put this compiler pass first**, as it creates new definitions that other compiler passes might work with:
-
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace App;
-
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoReturnFactoryCompilerPass;
-
-final class AppKernel extends Kernel
-{
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new AutoReturnFactoryCompilerPass());
-        // ...
-    }
-}
-```
-
-<br>
-
 ### Always Autowire this Type
 
 Do you want to allow users to register services without worrying about autowiring? After all, they might forget it and that would break their code. Set types to always autowire:
