@@ -6,7 +6,7 @@ namespace Symplify\Autodiscovery\Translation;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\Autodiscovery\Contract\AutodiscovererInterface;
-use Symplify\Autodiscovery\FileSystem;
+use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 
 /**
  * @see https://symfony.com/doc/current/translation.html#translation-resource-file-names-and-locations
@@ -19,11 +19,11 @@ final class TranslationPathAutodiscoverer implements AutodiscovererInterface
     private $containerBuilder;
 
     /**
-     * @var FileSystem
+     * @var AutodiscoveryFinder
      */
     private $fileSystem;
 
-    public function __construct(ContainerBuilder $containerBuilder, FileSystem $fileSystem)
+    public function __construct(ContainerBuilder $containerBuilder, AutodiscoveryFinder $fileSystem)
     {
         $this->containerBuilder = $containerBuilder;
         $this->fileSystem = $fileSystem;

@@ -6,7 +6,7 @@ namespace Symplify\Autodiscovery\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\Autodiscovery\Contract\AutodiscovererInterface;
-use Symplify\Autodiscovery\FileSystem;
+use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 
 /**
  * @see https://github.com/Haehnchen/idea-php-symfony2-plugin/issues/1216
@@ -19,11 +19,11 @@ final class TwigPathAutodiscoverer implements AutodiscovererInterface
     private $containerBuilder;
 
     /**
-     * @var Filesystem
+     * @var AutodiscoveryFinder
      */
     private $filesystem;
 
-    public function __construct(ContainerBuilder $containerBuilder, FileSystem $fileSystem)
+    public function __construct(ContainerBuilder $containerBuilder, AutodiscoveryFinder $fileSystem)
     {
         $this->filesystem = $fileSystem;
         $this->containerBuilder = $containerBuilder;

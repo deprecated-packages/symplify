@@ -6,9 +6,8 @@ services:
     Symplify\Autodiscovery\:
         resource: '../src'
         exclude:
-            - '../src/Contract/'
-            - '../src/HttpKernel/AutodiscoveryKernel.php'
-            - '../src/FileSystem.php'
+            - '../src/HttpKernel/*'
+            - '../src/Finder/*'
             - '../src/*/*Autodiscoverer.php'
             - '../src/Discovery.php'
 

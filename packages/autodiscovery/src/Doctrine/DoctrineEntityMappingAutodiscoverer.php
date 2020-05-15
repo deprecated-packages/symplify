@@ -7,7 +7,7 @@ namespace Symplify\Autodiscovery\Doctrine;
 use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\Autodiscovery\Contract\AutodiscovererInterface;
-use Symplify\Autodiscovery\FileSystem;
+use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 use Symplify\Autodiscovery\NamespaceDetector;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -24,11 +24,11 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
     private $namespaceDetector;
 
     /**
-     * @var FileSystem
+     * @var AutodiscoveryFinder
      */
     private $fileSystem;
 
-    public function __construct(ContainerBuilder $containerBuilder, FileSystem $fileSystem)
+    public function __construct(ContainerBuilder $containerBuilder, AutodiscoveryFinder $fileSystem)
     {
         $this->containerBuilder = $containerBuilder;
         $this->namespaceDetector = new NamespaceDetector();
