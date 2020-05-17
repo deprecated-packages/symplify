@@ -75,7 +75,7 @@ final class PackageAliasCommand extends Command
 
     private function getExpectedAlias(): string
     {
-        $process = new Process(['git', 'describe', '--abbrev', '0', '--tags']);
+        $process = new Process(['git', 'describe', '--abbrev=0', '--tags']);
         $process->run();
 
         $lastTag = $process->getOutput();
