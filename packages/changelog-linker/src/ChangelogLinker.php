@@ -8,6 +8,9 @@ use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\ChangelogLinker\ChangelogLinkerTest
+ */
 final class ChangelogLinker
 {
     /**
