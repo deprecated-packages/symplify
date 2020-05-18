@@ -6,6 +6,9 @@ namespace Symplify\MonorepoBuilder\Utils;
 
 use PharIo\Version\Version;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Tests\Utils\VersionUtilsTest
+ */
 final class VersionUtils
 {
     /**
@@ -25,9 +28,15 @@ final class VersionUtils
     {
         $version = $this->normalizeVersion($version);
 
+        if ($version->hasPreReleaseSuffix()) {
+            $minor = $version->getMinor()->getValue();
+        } else {
+            $minor = $version->getMinor()->getValue() + 1;
+        }
+
         return str_replace(
             ['<major>', '<minor>'],
-            [$version->getMajor()->getValue(), $version->getMinor()->getValue() + 1],
+            [$version->getMajor()->getValue(), $minor],
             $this->packageAliasFormat
         );
     }
@@ -39,7 +48,13 @@ final class VersionUtils
     {
         $version = $this->normalizeVersion($version);
 
-        return '^' . $version->getMajor()->getValue() . '.' . ($version->getMinor()->getValue() + 1);
+        if ($version->hasPreReleaseSuffix()) {
+            $minor = $version->getMinor()->getValue();
+        } else {
+            $minor = $version->getMinor()->getValue() + 1;
+        }
+
+        return '^' . $version->getMajor()->getValue() . '.' . $minor;
     }
 
     /**
