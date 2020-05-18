@@ -1,5 +1,19 @@
 # Changelog
 
+## v2.0.0
+
+### Added
+
+```php
+/**
+ * @var annotation
+ */
+```
+
+- #123, #345 some text, thanks @rectorphp
+-----
+# Changelog
+
 ## [v2.0.0]
 
 ### Added
