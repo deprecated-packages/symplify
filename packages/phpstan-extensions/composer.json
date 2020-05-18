@@ -5,8 +5,8 @@
     "require": {
         "php": "^7.2",
         "phpstan/phpstan": "^0.12.25",
-        "symplify/package-builder": "^8.1",
-        "symplify/smart-file-system": "^8.1"
+        "symplify/package-builder": "^8.0",
+        "symplify/smart-file-system": "^8.0"
     },
     "autoload": {
         "psr-4": {
