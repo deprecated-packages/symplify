@@ -17,6 +17,10 @@ final class ParameterNameGuardCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $containerBuilder): void
     {
+        if (! $containerBuilder->hasParameter(self::CORRECT_TO_TYPOS)) {
+            return;
+        }
+
         $correctToTypos = $containerBuilder->getParameter(self::CORRECT_TO_TYPOS);
 
         $parameterNameGuard = new ParameterNameGuard($correctToTypos, $containerBuilder->getParameterBag());
