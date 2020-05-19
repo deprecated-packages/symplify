@@ -8,7 +8,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
-use Symplify\ParameterNameGuard\ParameterNameGuardBundle;
+use Symplify\ParameterNameGuard\Bundle\ParameterNameGuardBundle;
 
 final class ParameterNameGuardHttpKernel extends Kernel implements ExtraConfigAwareKernelInterface
 {
