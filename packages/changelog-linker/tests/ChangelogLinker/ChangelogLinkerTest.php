@@ -6,10 +6,10 @@ namespace Symplify\ChangelogLinker\Tests\ChangelogLinker;
 
 use Iterator;
 use Nette\Utils\Strings;
-use Symfony\Component\Finder\Finder;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Tests\StaticFixtureLoader;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -41,16 +41,11 @@ final class ChangelogLinkerTest extends AbstractKernelTestCase
         [$oldContent, $expectedContent] = Strings::split($fixtureFileInfo->getContents(), "#-----\n#");
 
         $processedContent = $this->changelogLinker->processContentWithLinkAppends($oldContent);
-        $this->assertSame($expectedContent, $processedContent);
+        $this->assertSame($expectedContent, $processedContent, $fixtureFileInfo->getRelativeFilePathFromCwd());
     }
 
     public function dataProvider(): Iterator
     {
-        $finder = (new Finder())->files()
-            ->in(__DIR__ . '/Fixture/');
-
-        foreach ($finder as $fileInfo) {
-            yield [new SmartFileInfo($fileInfo->getRealPath())];
-        }
+        return StaticFixtureLoader::loadFromDirectory(__DIR__ . '/Fixture');
     }
 }
