@@ -11,7 +11,7 @@ use Symplify\ChangelogLinker\LinkAppender;
 final class LinkifyWorker implements WorkerInterface
 {
     /**
-     * @var string[]
+     * @var array<string, string>
      */
     private $namesToUrls = [];
 
@@ -21,7 +21,7 @@ final class LinkifyWorker implements WorkerInterface
     private $linkAppender;
 
     /**
-     * @param string[] $namesToUrls
+     * @param array<string, string> $namesToUrls
      */
     public function __construct(LinkAppender $linkAppender, array $namesToUrls)
     {
@@ -31,24 +31,76 @@ final class LinkifyWorker implements WorkerInterface
 
     public function processContent(string $content): string
     {
-        foreach ($this->namesToUrls as $name => $url) {
-            // https://regex101.com/r/4C9MwZ/3
-            $pattern = '#([^-\[]\b)(' . preg_quote($name, '#') . ')(\b[^-\]])#';
-            if (! Strings::match($content, $pattern)) {
+        $contentLines = explode(PHP_EOL, $content);
+
+        foreach ($contentLines as $key => $contentLine) {
+            if ($this->shouldSkipContentLine($contentLine)) {
                 continue;
             }
 
-            $content = Strings::replace($content, $pattern, '$1[$2]$3');
-
-            $link = sprintf('[%s]: %s', $name, $url);
-            $this->linkAppender->add($name, $link);
+            $contentLines[$key] = $this->linkifyContentLine($contentLine);
         }
 
-        return $content;
+        return implode(PHP_EOL, $contentLines);
     }
 
     public function getPriority(): int
     {
         return 900;
+    }
+
+    private function shouldSkipContentLine(string $contentLine): bool
+    {
+        // skip spaces only
+        if (Strings::match($contentLine, '#^\s+$#')) {
+            return true;
+        }
+
+        // skip links
+        if (Strings::match($contentLine, '#^\-(\s+)?\[\#\d+#')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function linkifyContentLine(string $contentLine): string
+    {
+        foreach ($this->namesToUrls as $name => $url) {
+            $quotedName = preg_quote($name, '#');
+
+            if ($this->shouldSkipContentLineAndName($quotedName, $contentLine)) {
+                continue;
+            }
+
+            $unlinkedPattern = '#\b(' . $quotedName . ')\b#';
+            if (! Strings::match($contentLine, $unlinkedPattern)) {
+                continue;
+            }
+
+            $contentLine = Strings::replace($contentLine, $unlinkedPattern, '[$1]');
+            $link = sprintf('[%s]: %s', $name, $url);
+
+            $this->linkAppender->add($name, $link);
+        }
+
+        return $contentLine;
+    }
+
+    private function shouldSkipContentLineAndName(string $quotedName, string $contentLine): bool
+    {
+        // is already linked
+        $linkedPattern = '#\[' . $quotedName . '\]#';
+        if (Strings::match($contentLine, $linkedPattern)) {
+            return true;
+        }
+
+        // part of another string, e.g. "linked-", "to-be-linked"
+        $partOfAnotherStringPattern = '#\-' . $quotedName . '|' . $quotedName . '\-#';
+        if (Strings::match($contentLine, $partOfAnotherStringPattern)) {
+            return true;
+        }
+
+        return false;
     }
 }
