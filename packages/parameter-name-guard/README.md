@@ -10,6 +10,15 @@ Prevent parameter typos that silently break your app.
 composer require symplify/parameter-name-guard
 ```
 
+Register bundle:
+
+```php
+# config/bundles.php
+return [
+    Symplify\ParameterNameGuard\Bundle\ParameterNameGuardBundle::class => ['all' => true],
+];
+```
+
 ## Use
 
 ### Prevent Parameter Typos
