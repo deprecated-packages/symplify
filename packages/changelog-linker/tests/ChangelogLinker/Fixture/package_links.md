@@ -1,5 +1,15 @@
 ## Changelog
 
+shopsys/microservice-product-search
+
+shopsys/microservice-product-search-export
+
+shopsys/microservice-product
+
+[shopsys/microservice-product]: link
+-----
+## Changelog
+
 [shopsys/microservice-product-search]
 
 [shopsys/microservice-product-search-export]

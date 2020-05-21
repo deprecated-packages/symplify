@@ -9,7 +9,7 @@ use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Utils\VersionUtils;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
-final class UtilsTest extends AbstractKernelTestCase
+final class VersionUtilsTest extends AbstractKernelTestCase
 {
     /**
      * @var VersionUtils
@@ -36,6 +36,7 @@ final class UtilsTest extends AbstractKernelTestCase
         yield ['v4.0.0', '4.1-dev'];
         yield ['4.0.0', '4.1-dev'];
         yield ['4.5.0', '4.6-dev'];
+        yield ['v8.0-beta', '8.0-dev'];
     }
 
     /**
@@ -50,6 +51,7 @@ final class UtilsTest extends AbstractKernelTestCase
     {
         yield ['v4.0.0', '^4.1'];
         yield ['4.0.0', '^4.1'];
+        yield ['8.0-beta', '^8.0'];
     }
 
     /**

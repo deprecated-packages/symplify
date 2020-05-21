@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ParameterNameGuard;
+namespace Symplify\ParameterNameGuard\Bundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
