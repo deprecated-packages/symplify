@@ -11,7 +11,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Added
 
-#### Unknown Package
+#### EasyCodingStandard
 
 - [#1935] added phar info & link to README.md, Thanks to [@c33s]
 
@@ -42,9 +42,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Fixed
 
-#### Unknown Package
-
--
 ## [v7.3.9] - 2020-05-05
 
 ### Changed
@@ -99,10 +96,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1901] Add NoReferenceRule + Deprecate ForbiddenReferenceSniff
 - [#1899] Deprecate DuplicatedClassShortNameSniff, Added NoDuplicatedShortClassNameRule
 - [#1896] Add PreferredClassRule, deprecate PrefferedClassSniff
-
-#### Unknown Package
-
-- [#1900] Add token to increate GitHub api on Travis
 
 ### Changed
 
@@ -185,14 +178,11 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#1875] Handle render page created with TemplateController, Thanks to [@Jibbarth]
 
-#### Unknown Package
-
-- [#1881] Apply cognitive PHPStan rules to Symplify
-
 ### Deprecated
 
 #### CodingStandard
 
+- [#1881] Apply cognitive PHPStan rules to Symplify
 - [#1879] Deprecate CatchExceptionNameMatchingTypeFixer
 
 ## [v7.2.20] - 2020-04-26
@@ -225,8 +215,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Changed
 
-#### Unknown Package
-
 - [#1836] Do not replace the symfony php70 polyfill in easy-coding-standard, Thanks to [@Agares]
 
 ## [v7.2.17] - 2020-04-20
@@ -242,9 +230,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 ### Changed
 
 - [#1854] Exclude breaking slevomat rules from "types" set
-
-#### Unknown Package
-
 - [#1855] lock to last working slevomat/coding-standard 6.2
 
 ### Fixed
@@ -281,7 +266,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1844] Improve naming
 - [#1849] Decouple info method
 
-#### Unknown Package
+### Fixed
 
 - [#1841] Move PackageBuilder dependency to require-dev, Thanks to [@TiGR]
 
@@ -302,8 +287,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 ## [v7.2.11] - 2020-04-09
 
 ### Added
-
-#### Unknown Package
 
 - [#1835] Add bundles
 
@@ -378,8 +361,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1805] Add new package
 
 ### Changed
-
-#### Unknown Package
 
 - [#1798] Update README.md, Thanks to [@Great-Antique]
 
@@ -553,6 +534,8 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Changed
 
+- [#1695] open to PHPStan 0.12 and Rector supporting it
+
 #### ChangelogLinker
 
 - [#1692] Honouring final new line in changelog (for real), Thanks to [@jawira]
@@ -564,10 +547,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### PackageBuilder
 
 - [#1705] Handle single characters in the StringFormatConverter::camelCaseToGlue() method, Thanks to [@leofeyer]
-
-#### Unknown Package
-
-- [#1695] open to PHPStan 0.12 and Rector supporting it
 
 ### Removed
 
@@ -582,10 +561,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### PackageBuilder
 
 - [#1698] Remove dependency on symfony/debug, Thanks to [@enumag]
-
-#### Unknown Package
-
-- [#1696] drop unused env
 
 ## [v7.1] - 2019-12-09
 

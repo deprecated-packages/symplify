@@ -45,6 +45,8 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Changed
 
+- [#1959] bump Rector 0.7.26
+
 #### CodingStandard
 
 - [#1943] Improve SeeAnnotationToTestRule
@@ -65,10 +67,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### SmartFileSystem
 
 - [#1955] Move separateFilesAndDirectories() from FileSystem here [BC break]
-
-#### Unknown Package
-
-- [#1959] bump Rector 0.7.26
 
 ### Deprecated
 

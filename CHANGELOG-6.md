@@ -99,8 +99,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Fixed
 
-#### Unknown Package
-
 - [#1565] Fix path to set config in readme, Thanks to [@Big-Shark]
 - [#1561] Fixed AutowireSinglyImplementedCompilerPass - alias referencing itself, Thanks to [@JanMikes]
 
@@ -119,8 +117,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 ## [v6.0.1] - 2019-05-30
 
 ### Added
-
-#### Unknown Package
 
 - [#1558] Add psr/simple-cache as a dependency, Thanks to [@jakzal]
 
