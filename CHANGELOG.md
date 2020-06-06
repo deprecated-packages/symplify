@@ -9,7 +9,170 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v7.3.4 - 2020-05-02
+<!-- dumped content start -->
+
+## [v8.0.0-beta3]
+
+### Added
+
+#### ChangelogLinker
+
+- [#1966] added failing test with expected result in ChangelogLinkerTest, Thanks to [@pesektomas]
+
+#### ParamaterNameGuard
+
+- [#1968] Dislocate ParameterNameGuardBundle to prevent auto-adding on ECS install
+
+### Changed
+
+#### ChangelogLinker
+
+- [#1965] Simplify ChangelogLinkerTest
+
+### Fixed
+
+- [#1967] Fix inner-link of words to link
+
+## [v8.0.0-beta2]
+
+#### MonorepoBuilder
+
+- [#1964] Fix pre-release versioning for next version
+
+## [v8.0.0-beta1]
+
+### Added
+
+#### ci
+
+- [#1944] add config class presence
+
+### Changed
+
+#### CodingStandard
+
+- [#1943] Improve SeeAnnotationToTestRule
+
+#### EasyCodingStandard
+
+- [#1951] improve basic sets with new slevomat rules
+- [#1957] Dislocate bundle locations to prevent symfony/flex autoregistration [BC break]
+
+#### MonorepoBuilder
+
+- [#1934] Switch from default workers to manually registered workers
+
+#### PHPStanExtensions
+
+- [#1942] Reduce dependencies
+
+#### SmartFileSystem
+
+- [#1955] Move separateFilesAndDirectories() from FileSystem here [BC break]
+
+#### Unknown Package
+
+- [#1959] bump Rector 0.7.26
+
+### Deprecated
+
+- [#1945] Remove deprecated content
+- [#1902] [Symplify 8] Remove deprecated code
+
+### Fixed
+
+- [#1941] Fix typos, Thanks to [@staabm]
+
+### Removed
+
+#### PackageBuilder
+
+- [#1956] Drop too magic AutoReturnFactoryCompilerPass [BC break]
+
+## [v7.3.11] - 2020-05-11
+
+### Added
+
+#### Unknown Package
+
+- [#1935] added phar info & link to README.md, Thanks to [@c33s]
+
+### Changed
+
+#### ParamaterNameGuard
+
+- [#1938] Decouple new package
+
+#### SmartFileSystem
+
+- [#1936] read zero sized files, Thanks to [@c33s]
+
+## [v7.3.10] - 2020-05-07
+
+### Added
+
+#### CodingStandard
+
+- [#1933] Add NoDefaultParameterValueRule + NoNullableParameterValueRule
+- [#1932] Add ForceMethodCallArgumentConstantRule
+- [#1931] Add NoDynamicMethodNameRule + NoDynamicPropertyFetchNameRule
+- [#1930] Add [@see] rule to refer test case
+
+### Changed
+
+- [#1929] Move rules from PHPStan Extensions
+
+### Fixed
+
+#### Unknown Package
+
+- 
+## [v7.3.9] - 2020-05-05
+
+### Changed
+
+#### ConsoleColorDiff
+
+- [#1920] Init new package
+
+## [v7.3.7] - 2020-05-04
+
+### Added
+
+#### CodingStandard
+
+- [#1913] Improve README, add example for every rule
+
+### Deprecated
+
+- [#1914] Deprecate PropertyOrderByComplexityFixer
+
+## [v7.3.6] - 2020-05-04
+
+- [#1912] Deprecate MethodOrderByTypeFixer
+- [#1911] Deprecate PrivateMethodOrderByUseFixer
+- [#1910] Deprecate ClassStringToClassConstantFixer
+
+## [v7.3.5] - 2020-05-03
+
+### Added
+
+- [#1906] Add ClassNameRespectsParentSuffixRule, deprecate ClassNameSuffixByParentSniff
+- [#1905] Add NoDebugFunCallRule + deprecate DebugFunctionCallSniff
+
+#### PHPStanExtensions
+
+- [#1908] Add AbstractServiceAwareRuleTestCase
+
+### Changed
+
+#### CodingStandard
+
+- [#1909] Make use of phpstan generic test case extension
+
+<!-- dumped content end -->
+
+## [v7.3.4] - 2020-05-02
 
 ### Added
 
@@ -872,3 +1035,54 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#1896]: https://github.com/symplify/symplify/pull/1896
 [#1895]: https://github.com/symplify/symplify/pull/1895
 [#1894]: https://github.com/symplify/symplify/pull/1894
+[#1968]: https://github.com/symplify/symplify/pull/1968
+[#1967]: https://github.com/symplify/symplify/pull/1967
+[#1966]: https://github.com/symplify/symplify/pull/1966
+[#1965]: https://github.com/symplify/symplify/pull/1965
+[#1964]: https://github.com/symplify/symplify/pull/1964
+[#1959]: https://github.com/symplify/symplify/pull/1959
+[#1957]: https://github.com/symplify/symplify/pull/1957
+[#1956]: https://github.com/symplify/symplify/pull/1956
+[#1955]: https://github.com/symplify/symplify/pull/1955
+[#1951]: https://github.com/symplify/symplify/pull/1951
+[#1945]: https://github.com/symplify/symplify/pull/1945
+[#1944]: https://github.com/symplify/symplify/pull/1944
+[#1943]: https://github.com/symplify/symplify/pull/1943
+[#1942]: https://github.com/symplify/symplify/pull/1942
+[#1941]: https://github.com/symplify/symplify/pull/1941
+[#1938]: https://github.com/symplify/symplify/pull/1938
+[#1936]: https://github.com/symplify/symplify/pull/1936
+[#1935]: https://github.com/symplify/symplify/pull/1935
+[#1934]: https://github.com/symplify/symplify/pull/1934
+[#1933]: https://github.com/symplify/symplify/pull/1933
+[#1932]: https://github.com/symplify/symplify/pull/1932
+[#1931]: https://github.com/symplify/symplify/pull/1931
+[#1930]: https://github.com/symplify/symplify/pull/1930
+[#1929]: https://github.com/symplify/symplify/pull/1929
+[#1927]: https://github.com/symplify/symplify/pull/1927
+[#1920]: https://github.com/symplify/symplify/pull/1920
+[#1914]: https://github.com/symplify/symplify/pull/1914
+[#1913]: https://github.com/symplify/symplify/pull/1913
+[#1912]: https://github.com/symplify/symplify/pull/1912
+[#1911]: https://github.com/symplify/symplify/pull/1911
+[#1910]: https://github.com/symplify/symplify/pull/1910
+[#1909]: https://github.com/symplify/symplify/pull/1909
+[#1908]: https://github.com/symplify/symplify/pull/1908
+[#1906]: https://github.com/symplify/symplify/pull/1906
+[#1905]: https://github.com/symplify/symplify/pull/1905
+[#1902]: https://github.com/symplify/symplify/pull/1902
+[v8.0.0-beta3]: https://github.com/symplify/symplify/compare/v8.0.0-beta2...v8.0.0-beta3
+[v8.0.0-beta2]: https://github.com/symplify/symplify/compare/v8.0.0-beta1...v8.0.0-beta2
+[v8.0.0-beta1]: https://github.com/symplify/symplify/compare/v7.3.11...v8.0.0-beta1
+[v7.3.9]: https://github.com/symplify/symplify/compare/v7.3.7...v7.3.9
+[v7.3.7]: https://github.com/symplify/symplify/compare/v7.3.6...v7.3.7
+[v7.3.6]: https://github.com/symplify/symplify/compare/v7.3.5...v7.3.6
+[v7.3.5]: https://github.com/symplify/symplify/compare/v7.3.4...v7.3.5
+[v7.3.4]: https://github.com/symplify/symplify/compare/v7.3.3...v7.3.4
+[v7.3.11]: https://github.com/symplify/symplify/compare/v7.3.10...v7.3.11
+[v7.3.10]: https://github.com/symplify/symplify/compare/v7.3.9...v7.3.10
+[@staabm]: https://github.com/staabm
+[@see]: https://github.com/see
+[@pesektomas]: https://github.com/pesektomas
+[@drupol]: https://github.com/drupol
+[@c33s]: https://github.com/c33s
