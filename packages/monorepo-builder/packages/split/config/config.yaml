@@ -16,7 +16,7 @@ services:
     Symplify\MonorepoBuilder\Split\:
         resource: '../src'
         exclude:
-            - '../src/Exception'
-            - '../src/Process/SplitProcessInfo.php'
+            - '../src/Exception/*'
+            - '../src/ValueObject/*'
 
     Symplify\SmartFileSystem\FileSystemGuard: null

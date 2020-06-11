@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Split\Process;
+namespace Symplify\MonorepoBuilder\Split\ValueObject;
 
 use Symfony\Component\Process\Process;
 

@@ -10,7 +10,7 @@ use Symplify\MonorepoBuilder\Split\Configuration\Option;
 use Symplify\MonorepoBuilder\Split\Exception\PackageToRepositorySplitException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
-use Symplify\MonorepoBuilder\Split\Process\SplitProcessInfo;
+use Symplify\MonorepoBuilder\Split\ValueObject\SplitProcessInfo;
 use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
 use Symplify\SmartFileSystem\FileSystemGuard;
 
@@ -24,7 +24,7 @@ final class PackageToRepositorySplitter
     /**
      * @var SplitProcessInfo[]
      */
-    private $processInfos = [];
+    private $splitProcessInfos = [];
 
     /**
      * @var SymfonyStyle
@@ -108,7 +108,7 @@ final class PackageToRepositorySplitter
             $process->start();
 
             $this->activeProcesses[] = $process;
-            $this->processInfos[] = new SplitProcessInfo($process, $localDirectory, $remoteRepository);
+            $this->splitProcessInfos[] = new SplitProcessInfo($process, $localDirectory, $remoteRepository);
 
             if ($maxProcesses && count($this->activeProcesses) === $maxProcesses) {
                 $this->processActiveProcesses(1);
@@ -138,7 +138,7 @@ final class PackageToRepositorySplitter
 
     private function reportFinishedProcesses(): void
     {
-        foreach ($this->processInfos as $processInfo) {
+        foreach ($this->splitProcessInfos as $processInfo) {
             $process = $processInfo->getProcess();
 
             if (! $process->isSuccessful()) {
