@@ -82,6 +82,7 @@
             "Symplify\\EasyHydrator\\": "packages/easy-hydrator/src",
             "Symplify\\FlexLoader\\": "packages/flex-loader/src",
             "Symplify\\MonorepoBuilder\\": "packages/monorepo-builder/src",
+            "Symplify\\MonorepoBuilder\\Compiler\\": "packages/monorepo-builder/compiler/src",
             "Symplify\\MonorepoBuilder\\Init\\": "packages/monorepo-builder/packages/init/src",
             "Symplify\\MonorepoBuilder\\Merge\\": "packages/monorepo-builder/packages/merge/src",
             "Symplify\\MonorepoBuilder\\Release\\": "packages/monorepo-builder/packages/release/src",

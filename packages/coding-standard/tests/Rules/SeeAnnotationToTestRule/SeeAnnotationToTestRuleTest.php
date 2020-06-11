@@ -30,7 +30,6 @@ final class SeeAnnotationToTestRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/RuleWithSeeRandom.php', [[$errorMessage, 13]]];
 
         yield [__DIR__ . '/Fixture/DeprecatedRuleWithoutSee.php', []];
-        yield [__DIR__ . '/Fixture/RuleWithSee.php', []];
     }
 
     protected function getRule(): Rule

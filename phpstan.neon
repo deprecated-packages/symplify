@@ -52,7 +52,7 @@ parameters:
         - '*/Source/*'
         - '*/Fixture/*'
 
-    autoload_files:
+    bootstrapFiles:
         - %currentWorkingDirectory%/tests/bootstrap.php
         - packages/easy-coding-standard/packages/changed-files-detector/tests/ChangedFilesDetectorSource/OneClass.php
         - packages/easy-coding-standard/tests/Finder/SourceFinderSource/Source/SomeClass.php
@@ -170,3 +170,4 @@ parameters:
         - '#Method Symplify\\MonorepoBuilder\\Release\\Tests\\ReleaseWorkerProvider\\ReleaseWorkerProviderTest\:\:loadConfigReleaseWorkerOrder\(\) should return array<string\> but returns array<int, int\|string\>#'
 
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
+        - '#Parameter \#1 \$arr1 of function array_replace expects array, PhpCsFixer\\Tokenizer\\Token given#'
