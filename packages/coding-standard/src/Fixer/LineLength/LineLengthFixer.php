@@ -19,6 +19,10 @@ use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\LineLengthT
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Throwable;
 
+/**
+ * @see \Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer\LineLengthFixerTest
+ * @see \Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer\ConfiguredLineLengthFixerTest
+ */
 final class LineLengthFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**

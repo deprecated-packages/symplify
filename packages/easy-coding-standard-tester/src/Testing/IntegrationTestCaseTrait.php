@@ -6,6 +6,7 @@ namespace Symplify\EasyCodingStandardTester\Testing;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
+use Symplify\EasyTesting\Fixture\FixtureSplitter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -18,16 +19,9 @@ trait IntegrationTestCaseTrait
      */
     protected function splitContentToOriginalFileAndExpectedFile(SmartFileInfo $smartFileInfo): array
     {
-        if (Strings::match($smartFileInfo->getContents(), AbstractCheckerTestCase::SPLIT_LINE)) {
-            // original → expected
-            [
-             $originalContent, $expectedContent,
-            ] = Strings::split($smartFileInfo->getContents(), AbstractCheckerTestCase::SPLIT_LINE);
-        } else {
-            // no changes
-            $originalContent = $smartFileInfo->getContents();
-            $expectedContent = $originalContent;
-        }
+        $fixtureSplitter = new FixtureSplitter();
+        [$originalContent, $expectedContent] = $fixtureSplitter->splitFileInfoToBeforeAfter($smartFileInfo);
+
         $originalFile = $this->createTemporaryPathWithPrefix($smartFileInfo, 'original');
         $expectedFile = $this->createTemporaryPathWithPrefix($smartFileInfo, 'expected');
         FileSystem::write($originalFile, $originalContent);

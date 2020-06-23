@@ -28,6 +28,8 @@ use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\SwitchedTypeAndNa
  * @see SwitchedTypeAndNameMalformWorker
  * @see SuperfluousReturnNameMalformWorker
  * @see SuperfluousVarNameMalformWorker
+ *
+ * @see \Symplify\CodingStandard\Tests\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer\ParamReturnAndVarTagMalformsFixerTest
  */
 final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
 {

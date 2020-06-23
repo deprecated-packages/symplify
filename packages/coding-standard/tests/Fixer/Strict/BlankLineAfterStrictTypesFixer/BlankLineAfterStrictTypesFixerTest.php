@@ -7,22 +7,22 @@ namespace Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFi
 use Iterator;
 use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class BlankLineAfterStrictTypesFixerTest extends AbstractCheckerTestCase
 {
     /**
-     * @dataProvider provideDataForTestFix()
+     * @dataProvider provideData()
      */
-    public function testFix(string $file): void
+    public function testFix(SmartFileInfo $fileInfo): void
     {
-        $this->doTestFiles([$file]);
+        $this->doTestFileInfo($fileInfo);
     }
 
-    public function provideDataForTestFix(): Iterator
+    public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/correct.php.inc'];
-        yield [__DIR__ . '/Fixture/wrong.php.inc'];
-        yield [__DIR__ . '/Fixture/wrong2.php.inc'];
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
     }
 
     protected function getCheckerClass(): string

@@ -15,6 +15,8 @@ use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
+use Symplify\EasyTesting\Fixture\FixtureSplitter;
+use Symplify\EasyTesting\ValueObject\SplitLine;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -89,6 +91,14 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $this->errorAndDiffCollector->resetCounters();
 
         $this->autoloadTestFixture = false;
+    }
+
+    protected function doTestFileInfo(SmartFileInfo $fileInfo): void
+    {
+        $fixtureSplitter = new FixtureSplitter();
+        [$beforeFileInfo, $afterFileInfo] = $fixtureSplitter->splitFileInfoToLocalBeforeAfterFileInfos($fileInfo);
+
+        $this->doTestWrongToFixedFile($beforeFileInfo->getRealPath(), $afterFileInfo->getRealPath());
     }
 
     /**
@@ -217,9 +227,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         }
     }
 
-    /**
-     * @todo resolve their combination with PSR-12
-     */
     protected function doTestWrongToFixedFile(string $wrongFile, string $fixedFile): void
     {
         $this->ensureSomeCheckersAreRegistered();
@@ -280,7 +287,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $fileInfo = new SmartFileInfo($file);
 
         // ----- fixture regardless the file name
-        if (Strings::match($fileInfo->getContents(), self::SPLIT_LINE)) {
+        if (Strings::match($fileInfo->getContents(), SplitLine::SPLIT_LINE)) {
             $this->activeFileInfo = $fileInfo;
             $this->doTestFiles([$this->splitContentToOriginalFileAndExpectedFile($fileInfo)]);
             return;
@@ -335,14 +342,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
      */
     private function splitContentToOriginalFileAndExpectedFile(SmartFileInfo $smartFileInfo): array
     {
-        if (Strings::match($smartFileInfo->getContents(), self::SPLIT_LINE)) {
-            // original → expected
-            [$originalContent, $expectedContent] = Strings::split($smartFileInfo->getContents(), self::SPLIT_LINE);
-        } else {
-            // no changes
-            $originalContent = $smartFileInfo->getContents();
-            $expectedContent = $originalContent;
-        }
+        $fixtureSplitter = new FixtureSplitter();
+        [$originalContent, $expectedContent] = $fixtureSplitter->splitFileInfoToBeforeAfter($smartFileInfo);
 
         $originalFile = $this->createTemporaryPathWithPrefix($smartFileInfo, 'original');
         $expectedFile = $this->createTemporaryPathWithPrefix($smartFileInfo, 'expected');

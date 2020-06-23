@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\Autodiscovery\Tests\Yaml;
 
-use Nette\Utils\FileSystem;
-use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Autodiscovery\HttpKernel\AutodiscoveryKernel;
 use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
+use Symplify\EasyTesting\Fixture\FixtureSplitter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var string
-     */
-    private const SPLIT_LINE = "#-----\n#";
-
     /**
      * @var ExplicitToAutodiscoveryConverter
      */
@@ -48,9 +43,9 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
 
     private function doTestFile(string $file, int $nestingLevel): void
     {
-        $yamlContent = FileSystem::read($file);
-
-        [$originalYamlContent, $expectedYamlContent] = $this->splitFile($yamlContent);
+        $fixtureSplitter = new FixtureSplitter();
+        $fileInfo = new SmartFileInfo($file);
+        [$originalYamlContent, $expectedYamlContent] = $fixtureSplitter->splitFileInfoToBeforeAfter($fileInfo);
 
         $originalYaml = Yaml::parse($originalYamlContent);
         $expectedYaml = Yaml::parse($expectedYamlContent);
@@ -60,17 +55,5 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
             $this->explicitToAutodiscoveryConverter->convert($originalYaml, $file, $nestingLevel, ''),
             'Caused by ' . $file
         );
-    }
-
-    /**
-     * @return string[]
-     */
-    private function splitFile(string $yamlContent): array
-    {
-        if (Strings::match($yamlContent, self::SPLIT_LINE)) {
-            return Strings::split($yamlContent, self::SPLIT_LINE);
-        }
-
-        return [$yamlContent, $yamlContent];
     }
 }
