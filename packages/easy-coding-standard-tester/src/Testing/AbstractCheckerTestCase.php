@@ -15,7 +15,7 @@ use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
-use Symplify\EasyTesting\Fixture\FixtureSplitter;
+use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -65,7 +65,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
     protected function doTestFileInfo(SmartFileInfo $fileInfo): void
     {
-        $fixtureSplitter = new FixtureSplitter();
+        $fixtureSplitter = new StaticFixtureSplitter();
         [$beforeFileInfo, $afterFileInfo] = $fixtureSplitter->splitFileInfoToLocalInputAndExpectedFileInfos($fileInfo);
 
         $this->doTestWrongToFixedFile($beforeFileInfo, $afterFileInfo->getRealPath());

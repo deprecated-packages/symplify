@@ -60,7 +60,7 @@ namespace App\Tests\SomeTest;
 use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
-use Symplify\EasyTesting\Fixture\FixtureSplitter;
+use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SomeTest extends TestCase
@@ -70,8 +70,7 @@ final class SomeTest extends TestCase
      */
     public function test(SmartFileInfo $fileInfo)
     {
-        $fixtureSplitter = new FixtureSplitter();
-        [$inputContent, $expectedContent] = $fixtureSplitter->splitFileInfoToInputAndExpected($fileInfo);
+        [$inputContent, $expectedContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
 
         // test before content
         $someService = new SomeService();

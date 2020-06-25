@@ -9,12 +9,12 @@ use Nette\Utils\Strings;
 use Symplify\EasyTesting\ValueObject\SplitLine;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class FixtureSplitter
+final class StaticFixtureSplitter
 {
     /**
      * @return string[]
      */
-    public function splitFileInfoToInputAndExpected(SmartFileInfo $smartFileInfo): array
+    public static function splitFileInfoToInputAndExpected(SmartFileInfo $smartFileInfo): array
     {
         if (Strings::match($smartFileInfo->getContents(), SplitLine::SPLIT_LINE)) {
             // original → expected
@@ -28,12 +28,12 @@ final class FixtureSplitter
     /**
      * @return SmartFileInfo[]
      */
-    public function splitFileInfoToLocalInputAndExpectedFileInfos(SmartFileInfo $smartFileInfo, bool $autoloadTestFixture = false): array
+    public static function splitFileInfoToLocalInputAndExpectedFileInfos(SmartFileInfo $smartFileInfo, bool $autoloadTestFixture = false): array
     {
-        [$originalContent, $expectedContent] = $this->splitFileInfoToInputAndExpected($smartFileInfo);
+        [$originalContent, $expectedContent] = self::splitFileInfoToInputAndExpected($smartFileInfo);
 
-        $originalFileInfo = $this->createTemporaryFileInfo($smartFileInfo, 'original', $originalContent);
-        $expectedFileInfo = $this->createTemporaryFileInfo($smartFileInfo, 'expected', $expectedContent);
+        $originalFileInfo = self::createTemporaryFileInfo($smartFileInfo, 'original', $originalContent);
+        $expectedFileInfo = self::createTemporaryFileInfo($smartFileInfo, 'expected', $expectedContent);
 
         // some files needs to be autoload to enable reflection
         if ($autoloadTestFixture) {
@@ -43,7 +43,15 @@ final class FixtureSplitter
         return [$originalFileInfo, $expectedFileInfo];
     }
 
-    private function createTemporaryPathWithPrefix(SmartFileInfo $smartFileInfo, string $prefix): string
+    private static function createTemporaryFileInfo(SmartFileInfo $smartFileInfo, string $prefix, string $fileContent): SmartFileInfo
+    {
+        $temporaryFilePath = self::createTemporaryPathWithPrefix($smartFileInfo, $prefix);
+        FileSystem::write($temporaryFilePath, $fileContent);
+
+        return new SmartFileInfo($temporaryFilePath);
+    }
+
+    private static function createTemporaryPathWithPrefix(SmartFileInfo $smartFileInfo, string $prefix): string
     {
         $hash = Strings::substring(md5($smartFileInfo->getRealPath()), 0, 5);
 
@@ -53,13 +61,5 @@ final class FixtureSplitter
             $hash,
             $smartFileInfo->getBasename('.inc')
         );
-    }
-
-    private function createTemporaryFileInfo(SmartFileInfo $smartFileInfo, string $prefix, string $fileContent): SmartFileInfo
-    {
-        $temporaryFilePath = $this->createTemporaryPathWithPrefix($smartFileInfo, $prefix);
-        FileSystem::write($temporaryFilePath, $fileContent);
-
-        return new SmartFileInfo($temporaryFilePath);
     }
 }

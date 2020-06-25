@@ -8,7 +8,7 @@ use Iterator;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
-use Symplify\EasyTesting\Fixture\FixtureSplitter;
+use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -38,8 +38,7 @@ final class ChangelogLinkerTest extends AbstractKernelTestCase
      */
     public function test(SmartFileInfo $fixtureFileInfo): void
     {
-        $fixtureSplitter = new FixtureSplitter();
-        [$inputContent, $expectedContent] = $fixtureSplitter->splitFileInfoToInputAndExpected($fixtureFileInfo);
+        [$inputContent, $expectedContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
 
         $processedContent = $this->changelogLinker->processContentWithLinkAppends($inputContent);
         $this->assertSame($expectedContent, $processedContent, $fixtureFileInfo->getRelativeFilePathFromCwd());

@@ -7,7 +7,7 @@ namespace Symplify\Autodiscovery\Tests\Yaml;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Autodiscovery\HttpKernel\AutodiscoveryKernel;
 use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
-use Symplify\EasyTesting\Fixture\FixtureSplitter;
+use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -43,9 +43,8 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
 
     private function doTestFile(string $file, int $nestingLevel): void
     {
-        $fixtureSplitter = new FixtureSplitter();
         $fileInfo = new SmartFileInfo($file);
-        [$inputYamlContent, $expectedYamlContent] = $fixtureSplitter->splitFileInfoToInputAndExpected($fileInfo);
+        [$inputYamlContent, $expectedYamlContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
 
         $originalYaml = Yaml::parse($inputYamlContent);
         $expectedYaml = Yaml::parse($expectedYamlContent);
