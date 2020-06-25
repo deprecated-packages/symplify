@@ -7,20 +7,22 @@ namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer;
 use Iterator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConfiguredLineLengthFixerTest extends AbstractCheckerTestCase
 {
     /**
-     * @dataProvider provideDataForTest()
+     * @dataProvider provideData()
      */
-    public function test(string $file): void
+    public function test(SmartFileInfo $fileInfo): void
     {
-        $this->doTestFiles([$file]);
+        $this->doTestFileInfo($fileInfo);
     }
 
-    public function provideDataForTest(): Iterator
+    public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/configured-wrong.php.inc'];
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/FixtureConfigured');
     }
 
     protected function getCheckerClass(): string

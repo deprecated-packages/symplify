@@ -7,31 +7,22 @@ namespace Symplify\CodingStandard\Tests\Sniffs\Debug\CommentedOutCode;
 use Iterator;
 use Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class CommentedOutCodeSniffTest extends AbstractCheckerTestCase
 {
     /**
-     * @dataProvider provideDataForTest()
+     * @dataProvider provideData()
      */
-    public function test(string $file): void
+    public function test(SmartFileInfo $fileInfo): void
     {
-        $this->doTestFiles([$file]);
+        $this->doTestFileInfo($fileInfo);
     }
 
-    public function provideDataForTest(): Iterator
+    public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/wrong.php.inc'];
-        yield [__DIR__ . '/Fixture/wrong2.php.inc'];
-        yield [__DIR__ . '/Fixture/wrong3.php.inc'];
-        yield [__DIR__ . '/Fixture/wrong4.php.inc'];
-        yield [__DIR__ . '/Fixture/correct.php.inc'];
-        yield [__DIR__ . '/Fixture/correct2.php.inc'];
-        yield [__DIR__ . '/Fixture/correct3.php.inc'];
-        yield [__DIR__ . '/Fixture/correct4.php.inc'];
-        yield [__DIR__ . '/Fixture/correct5.php.inc'];
-        yield [__DIR__ . '/Fixture/correct6.php.inc'];
-        yield [__DIR__ . '/Fixture/correct7.php.inc'];
-        yield [__DIR__ . '/Fixture/correct8.php.inc'];
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
     }
 
     protected function getCheckerClass(): string

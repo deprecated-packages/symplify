@@ -7,20 +7,22 @@ namespace Symplify\CodingStandard\Tests\Fixer\Spacing\RemoveSpacingAroundModifie
 use Iterator;
 use Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class RemoveSpacingAroundModifierAndConstFixerTest extends AbstractCheckerTestCase
 {
     /**
-     * @dataProvider provideDataForTest()
+     * @dataProvider provideData()
      */
-    public function test(string $file): void
+    public function test(SmartFileInfo $fileInfo): void
     {
-        $this->doTestFiles([$file]);
+        $this->doTestFileInfo($fileInfo);
     }
 
-    public function provideDataForTest(): Iterator
+    public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/wrong.php.inc'];
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
     }
 
     protected function getCheckerClass(): string

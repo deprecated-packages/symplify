@@ -4,31 +4,28 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
 
+use Iterator;
 use Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @mimic https://github.com/rectorphp/rector/pull/807/files
- * @see \Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer
  */
 final class ParamReturnAndVarTagMalformsFixerTest extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideData()
+     */
+    public function test(SmartFileInfo $fileInfo): void
     {
-        $this->doTestCorrectFiles([__DIR__ . '/Fixture/correct.php.inc', __DIR__ . '/Fixture/correct2.php.inc']);
+        $this->doTestFileInfo($fileInfo);
+    }
 
-        $this->doTestWrongToFixedFiles([
-            __DIR__ . '/Fixture/wrong.php.inc',
-            __DIR__ . '/Fixture/wrong2.php.inc',
-            __DIR__ . '/Fixture/wrong3.php.inc',
-            __DIR__ . '/Fixture/wrong4.php.inc',
-            __DIR__ . '/Fixture/wrong5.php.inc',
-            __DIR__ . '/Fixture/wrong6.php.inc',
-            __DIR__ . '/Fixture/wrong7.php.inc',
-            __DIR__ . '/Fixture/wrong8.php.inc',
-            __DIR__ . '/Fixture/wrong9.php.inc',
-            __DIR__ . '/Fixture/wrong10.php.inc',
-        ]);
+    public function provideData(): Iterator
+    {
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
     }
 
     protected function getCheckerClass(): string

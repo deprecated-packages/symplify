@@ -15,28 +15,13 @@ use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
+use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 {
-    /**
-     * @var string
-     */
-    public const SPLIT_LINE = "#-----\n#";
-
-    /**
-     * To invalidate new versions
-     * @var string
-     */
-    private const CACHE_VERSION_ID = 'v1';
-
-    /**
-     * @var bool
-     */
-    protected $autoloadTestFixture = false;
-
     /**
      * @var FixerFileProcessor
      */
@@ -53,24 +38,13 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     private $errorAndDiffCollector;
 
     /**
-     * @var FileSystemGuard
-     */
-    private $fileSystemGuard;
-
-    /**
      * @var SmartFileInfo|null
      */
     private $activeFileInfo;
 
     protected function setUp(): void
     {
-        $this->fileSystemGuard = new FileSystemGuard();
-
-        $config = $this->provideConfig();
-
-        $this->fileSystemGuard->ensureFileExists($config, static::class);
-
-        $configs = [$config];
+        $configs = $this->getValidatedConfigs();
 
         // autoload php code sniffer before Kernel boot
         $this->autoloadCodeSniffer();
@@ -87,25 +61,14 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
         // reset error count from previous possibly container cached run
         $this->errorAndDiffCollector->resetCounters();
-
-        $this->autoloadTestFixture = false;
     }
 
-    /**
-     * @param string[]|string[][] $files
-     */
-    protected function doTestFiles(array $files): void
+    protected function doTestFileInfo(SmartFileInfo $fileInfo): void
     {
-        foreach ($files as $file) {
-            if (is_array($file)) {
-                // 2 files, wrong to fixed
-                $this->doTestWrongToFixedFile($file[0], $file[1]);
-            } else {
-                $this->processFile($file);
-            }
+        $fixtureSplitter = new StaticFixtureSplitter();
+        [$beforeFileInfo, $afterFileInfo] = $fixtureSplitter->splitFileInfoToLocalInputAndExpectedFileInfos($fileInfo);
 
-            $this->activeFileInfo = null;
-        }
+        $this->doTestWrongToFixedFile($beforeFileInfo, $afterFileInfo->getRealPath());
     }
 
     protected function getCheckerClass(): string
@@ -159,103 +122,63 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     }
 
     /**
-     * @param string[] $files
-     */
-    protected function doTestCorrectFiles(array $files): void
-    {
-        foreach ($files as $file) {
-            $this->doTestCorrectFile($file);
-        }
-    }
-
-    /**
-     * @param string[] $files
-     */
-    protected function doTestWrongFiles(array $files): void
-    {
-        foreach ($files as $file) {
-            $this->doTestWrongFile($file);
-        }
-    }
-
-    /**
-     * @param string[] $files
-     */
-    protected function doTestWrongToFixedFiles(array $files): void
-    {
-        foreach ($files as $file) {
-            $this->processFile($file);
-        }
-    }
-
-    /**
      * File should stay the same and contain 0 errors
      * @todo resolve their combination with PSR-12
      */
-    protected function doTestCorrectFile(string $file): void
+    protected function doTestCorrectFileInfo(SmartFileInfo $fileInfo): void
     {
         $this->errorAndDiffCollector->resetCounters();
         $this->ensureSomeCheckersAreRegistered();
 
-        $smartFileInfo = new SmartFileInfo($file);
-
         if ($this->fixerFileProcessor->getCheckers() !== []) {
-            $processedFileContent = $this->fixerFileProcessor->processFile($smartFileInfo);
-            $this->assertStringEqualsWithFileLocation($file, $processedFileContent);
+            $processedFileContent = $this->fixerFileProcessor->processFile($fileInfo);
+            $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent);
         }
 
         if ($this->sniffFileProcessor->getCheckers() !== []) {
-            $processedFileContent = $this->sniffFileProcessor->processFile($smartFileInfo);
+            $processedFileContent = $this->sniffFileProcessor->processFile($fileInfo);
 
             $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount(), sprintf(
                 'There should be no error in "%s" file, but %d errors found.',
                 $this->errorAndDiffCollector->getErrorCount(),
-                $smartFileInfo->getRealPath()
+                $fileInfo->getRealPath()
             ));
 
-            $this->assertStringEqualsWithFileLocation($file, $processedFileContent);
+            $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent);
         }
     }
 
-    /**
-     * @todo resolve their combination with PSR-12
-     */
-    protected function doTestWrongToFixedFile(string $wrongFile, string $fixedFile): void
+    protected function doTestFileInfoWithErrorCountOf(SmartFileInfo $wrongFileInfo, int $errorCount): void
+    {
+        $this->ensureSomeCheckersAreRegistered();
+        $this->errorAndDiffCollector->resetCounters();
+
+        $this->sniffFileProcessor->processFile($wrongFileInfo);
+
+        $message = sprintf(
+            'There should be %d error(s) in "%s" file, but none found.',
+            $errorCount,
+            $wrongFileInfo->getRealPath()
+        );
+
+        $this->assertSame($errorCount, $this->errorAndDiffCollector->getErrorCount(), $message);
+    }
+
+    private function doTestWrongToFixedFile(SmartFileInfo $wrongFileInfo, string $fixedFile): void
     {
         $this->ensureSomeCheckersAreRegistered();
 
-        $smartFileInfo = new SmartFileInfo($wrongFile);
-
         if ($this->fixerFileProcessor->getCheckers() !== []) {
-            $processedFileContent = $this->fixerFileProcessor->processFile($smartFileInfo);
+            $processedFileContent = $this->fixerFileProcessor->processFile($wrongFileInfo);
 
             $this->assertStringEqualsWithFileLocation($fixedFile, $processedFileContent);
         }
 
         if ($this->sniffFileProcessor->getCheckers() !== []) {
-            $processedFileContent = $this->sniffFileProcessor->processFile($smartFileInfo);
+            $processedFileContent = $this->sniffFileProcessor->processFile($wrongFileInfo);
         }
 
         $this->assertStringEqualsWithFileLocation($fixedFile, $processedFileContent);
-    }
-
-    /**
-     * @todo resolve their combination with PSR-12
-     */
-    protected function doTestWrongFile(string $wrongFile): void
-    {
-        $this->ensureSomeCheckersAreRegistered();
-        $this->errorAndDiffCollector->resetCounters();
-
-        $smartFileInfo = new SmartFileInfo($wrongFile);
-
-        $this->sniffFileProcessor->processFile($smartFileInfo);
-
-        $this->assertGreaterThanOrEqual(
-            1,
-            $this->errorAndDiffCollector->getErrorCount(),
-            sprintf('There should be at least 1 error in "%s" file, but none found.', $smartFileInfo->getRealPath())
-        );
     }
 
     private function autoloadCodeSniffer(): void
@@ -275,34 +198,10 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         }
     }
 
-    private function processFile(string $file): void
-    {
-        $fileInfo = new SmartFileInfo($file);
-
-        // ----- fixture regardless the file name
-        if (Strings::match($fileInfo->getContents(), self::SPLIT_LINE)) {
-            $this->activeFileInfo = $fileInfo;
-            $this->doTestFiles([$this->splitContentToOriginalFileAndExpectedFile($fileInfo)]);
-            return;
-        }
-
-        if (Strings::match($file, '#correct#i')) {
-            $this->doTestCorrectFile($file);
-            return;
-        } elseif (Strings::match($file, '#wrong#i')) {
-            $this->doTestWrongFile($file);
-            return;
-        }
-
-        // fall back to split ----- fixture
-        $this->activeFileInfo = $fileInfo;
-        $this->doTestFiles([$this->splitContentToOriginalFileAndExpectedFile($fileInfo)]);
-    }
-
     private function createConfigHash(): string
     {
         return Strings::substring(
-            md5($this->getCheckerClass() . Json::encode($this->getCheckerConfiguration()) . self::CACHE_VERSION_ID),
+            md5($this->getCheckerClass() . Json::encode($this->getCheckerConfiguration())),
             0,
             10
         );
@@ -333,39 +232,11 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     /**
      * @return string[]
      */
-    private function splitContentToOriginalFileAndExpectedFile(SmartFileInfo $smartFileInfo): array
+    private function getValidatedConfigs(): array
     {
-        if (Strings::match($smartFileInfo->getContents(), self::SPLIT_LINE)) {
-            // original → expected
-            [$originalContent, $expectedContent] = Strings::split($smartFileInfo->getContents(), self::SPLIT_LINE);
-        } else {
-            // no changes
-            $originalContent = $smartFileInfo->getContents();
-            $expectedContent = $originalContent;
-        }
+        $config = $this->provideConfig();
+        (new FileSystemGuard())->ensureFileExists($config, static::class);
 
-        $originalFile = $this->createTemporaryPathWithPrefix($smartFileInfo, 'original');
-        $expectedFile = $this->createTemporaryPathWithPrefix($smartFileInfo, 'expected');
-        FileSystem::write($originalFile, $originalContent);
-        FileSystem::write($expectedFile, $expectedContent);
-
-        // file needs to be autoload to enable reflection
-        if ($this->autoloadTestFixture) {
-            require_once $originalFile;
-        }
-
-        return [$originalFile, $expectedFile];
-    }
-
-    private function createTemporaryPathWithPrefix(SmartFileInfo $smartFileInfo, string $prefix): string
-    {
-        $hash = Strings::substring(md5($smartFileInfo->getRealPath()), 0, 5);
-
-        return sprintf(
-            sys_get_temp_dir() . '/ecs_temp_tests/%s_%s_%s',
-            $prefix,
-            $hash,
-            $smartFileInfo->getBasename('.inc')
-        );
+        return [$config];
     }
 }

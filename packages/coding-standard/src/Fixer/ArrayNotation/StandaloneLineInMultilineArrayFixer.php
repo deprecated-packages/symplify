@@ -16,6 +16,9 @@ use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\LineLengthT
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
+/**
+ * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer\StandaloneLineInMultilineArrayFixerTest
+ */
 final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
 {
     /**

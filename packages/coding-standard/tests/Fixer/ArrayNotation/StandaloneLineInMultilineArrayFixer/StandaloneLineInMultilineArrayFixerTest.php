@@ -7,29 +7,22 @@ namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMult
 use Iterator;
 use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class StandaloneLineInMultilineArrayFixerTest extends AbstractCheckerTestCase
 {
     /**
-     * @dataProvider provideDataForTest()
+     * @dataProvider provideData()
      */
-    public function test(string $file): void
+    public function test(SmartFileInfo $fileInfo): void
     {
-        $this->doTestFiles([$file]);
+        $this->doTestFileInfo($fileInfo);
     }
 
-    public function provideDataForTest(): Iterator
+    public function provideData(): Iterator
     {
-        yield [__DIR__ . '/fixture/correct.php.inc'];
-        yield [__DIR__ . '/fixture/correct2.php.inc'];
-        yield [__DIR__ . '/fixture/correct3.php.inc'];
-        yield [__DIR__ . '/fixture/correct4.php.inc'];
-        yield [__DIR__ . '/fixture/correct5.php.inc'];
-        yield [__DIR__ . '/fixture/correct6.php.inc'];
-        yield [__DIR__ . '/fixture/wrong.php.inc'];
-        yield [__DIR__ . '/fixture/wrong2.php.inc'];
-        yield [__DIR__ . '/fixture/wrong3.php.inc'];
-        yield [__DIR__ . '/fixture/wrong4.php.inc'];
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
     }
 
     protected function getCheckerClass(): string

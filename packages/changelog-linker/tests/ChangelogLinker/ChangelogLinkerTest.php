@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\Tests\ChangelogLinker;
 
 use Iterator;
-use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
-use Symplify\PackageBuilder\Tests\StaticFixtureLoader;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -38,14 +38,14 @@ final class ChangelogLinkerTest extends AbstractKernelTestCase
      */
     public function test(SmartFileInfo $fixtureFileInfo): void
     {
-        [$oldContent, $expectedContent] = Strings::split($fixtureFileInfo->getContents(), "#-----\n#");
+        [$inputContent, $expectedContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
 
-        $processedContent = $this->changelogLinker->processContentWithLinkAppends($oldContent);
+        $processedContent = $this->changelogLinker->processContentWithLinkAppends($inputContent);
         $this->assertSame($expectedContent, $processedContent, $fixtureFileInfo->getRelativeFilePathFromCwd());
     }
 
     public function dataProvider(): Iterator
     {
-        return StaticFixtureLoader::loadFromDirectory(__DIR__ . '/Fixture');
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.md');
     }
 }

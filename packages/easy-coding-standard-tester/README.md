@@ -25,17 +25,38 @@ declare(strict_types=1);
 
 namespace Your\CodingStandard\Tests\Fixer\YourFixer;
 
+use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class YourFixerTest extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideData()
+     */
+    public function test(SmartFileInfo $fileInfo): void
     {
-        $this->doTestFiles([
-            __DIR__ . '/correct/correct.php.inc', // matches "correct" → 0 errors
-            __DIR__ . '/wrong/wrong.php.inc', // matches "wrong" → at least 1 error
-            [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'] // 2 items in array → wrong to fixed
-        ]);
+        $this->doTestFileInfo($fileInfo);
+    }
+
+    public function provideData(): Iterator
+    {
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
+    }
+
+    /**
+     * @dataProvider provideDataWithFileErrors()
+     */
+    public function testFileErrors(SmartFileInfo $fileInfo, int $expectedErrorCount): void
+    {
+        $this->doTestFileInfoWithErrorCountOf($fileInfo, $expectedErrorCount);
+    }
+
+    public function provideDataWithFileErrors(): Iterator
+    {
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/wrong.php.inc'), 1];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/correct.php.inc'), 0];
     }
 
     protected function getCheckerClass(): string
@@ -65,30 +86,4 @@ $array = [];
 before
 ------
 after
-```
-
-### Non-Fixing Sniff?
-
-There is one extra method for sniff that doesn't fix the error, but only finds it:
-
-- `doTestWrongFile($wrongFile)`
-
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace Your\CodingStandard\Tests\Sniff\YourSniff;
-
-use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
-
-final class YourSniffTest extends AbstractCheckerTestCase
-{
-    // ...
-
-    public function testWrongCases(): void
-    {
-        $this->doTestWrongFile(__DIR__ . '/wrong/wrong.php.inc');
-    }
-}
 ```

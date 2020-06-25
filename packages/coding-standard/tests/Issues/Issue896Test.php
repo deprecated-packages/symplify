@@ -7,20 +7,21 @@ namespace Symplify\CodingStandard\Tests\Issues;
 use Iterator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class Issue896Test extends AbstractCheckerTestCase
 {
     /**
-     * @dataProvider provideDataForTest()
+     * @dataProvider provideData()
      */
-    public function test(string $file): void
+    public function test(SmartFileInfo $fileInfo): void
     {
-        $this->doTestFiles([$file]);
+        $this->doTestFileInfo($fileInfo);
     }
 
-    public function provideDataForTest(): Iterator
+    public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/correct896.php.inc'];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/correct896.php.inc')];
     }
 
     protected function getCheckerClass(): string

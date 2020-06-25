@@ -1,23 +1,26 @@
 {
-    "name": "symplify/easy-coding-standard-tester",
-    "description": "The Best Way to Test Sniffs and Fixers",
+    "name": "symplify/easy-testing",
+    "description": "Testing made easy",
     "license": "MIT",
+    "type": "symfony-bundle",
     "require": {
         "php": "^7.2",
-        "phpunit/phpunit": "^8.5|^9.0",
-        "symplify/easy-coding-standard": "^8.1",
+        "nette/utils": "^3.0",
+        "symfony/finder": "^4.4|^5.0",
         "symplify/package-builder": "^8.1",
-        "symplify/easy-testing": "^8.1",
         "symplify/smart-file-system": "^8.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5|^9.0"
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\EasyCodingStandardTester\\": "src"
+            "Symplify\\EasyTesting\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\EasyCodingStandardTester\\Tests\\": "tests"
+            "Symplify\\EasyTesting\\Tests\\": "tests"
         }
     },
     "extra": {
