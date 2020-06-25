@@ -48,6 +48,15 @@ final class StaticFixtureSplitter
         return [$originalFileInfo, $expectedFileInfo];
     }
 
+    public static function getTemporaryPath(): string
+    {
+        if (self::$customTemporaryPath !== null) {
+            return self::$customTemporaryPath;
+        }
+
+        return sys_get_temp_dir() . '/_temp_fixture_easy_testing';
+    }
+
     private static function createTemporaryFileInfo(SmartFileInfo $smartFileInfo, string $prefix, string $fileContent): SmartFileInfo
     {
         $temporaryFilePath = self::createTemporaryPathWithPrefix($smartFileInfo, $prefix);
@@ -63,14 +72,5 @@ final class StaticFixtureSplitter
         $fileBaseName = $smartFileInfo->getBasename('.inc');
 
         return self::getTemporaryPath() . sprintf('/%s_%s_%s', $prefix, $hash, $fileBaseName);
-    }
-
-    private static function getTemporaryPath(): string
-    {
-        if (self::$customTemporaryPath !== null) {
-            return self::$customTemporaryPath;
-        }
-
-        return sys_get_temp_dir() . '/_temp_fixture_easy_testing';
     }
 }
