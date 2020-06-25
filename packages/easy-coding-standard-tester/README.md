@@ -25,22 +25,31 @@ declare(strict_types=1);
 
 namespace Your\CodingStandard\Tests\Fixer\YourFixer;
 
-use SebastianBergmann\FileIterator\Iterator;use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Iterator;
+use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class YourFixerTest extends AbstractCheckerTestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideData()
+     */
+    public function test(SmartFileInfo $fileInfo): void
     {
-        $this->doTestFiles([
-            __DIR__ . '/correct/correct.php.inc', // matches "correct" → 0 errors
-            __DIR__ . '/wrong/wrong.php.inc', // matches "wrong" → at least 1 error
-            [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'] // 2 items in array → wrong to fixed
-        ]);
+        // tests unchanged files with 0 errors and changed files
+        $this->doTestFileInfo($fileInfo);
     }
 
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
+    }
+
+    public function testWrongFiles(): void
+    {
+        // at least 1 error
+        $this->doTestWrongFile(__DIR__ . '/wrong/wrong.php.inc');
     }
 
     protected function getCheckerClass(): string
