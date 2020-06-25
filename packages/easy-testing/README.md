@@ -50,7 +50,7 @@ It is common to organize test fixture in the test directory:
 How this package makes it easy to work with them? 2 classes:
 
 - `Symplify\EasyTesting\DataProvider\StaticFixtureFinder`
-- `Symplify\EasyTesting\Fixture\FixtureSplitter`
+- `Symplify\EasyTesting\Fixture\StaticFixtureSplitter`
 
 ```php
 // tests/SomeTest/SomeTest.php
@@ -93,8 +93,10 @@ Do you need the input code to be in separated files? E.g. to test the file was m
 Instead of `splitFileInfoToInputAndExpected()` use `splitFileInfoToLocalInputAndExpectedFileInfos()`:
 
 ```diff
--[$inputContent, $expectedContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
-+[$inputFileInfo, $expectedFileInfo] = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos($fileInfo);
+-[$inputContent, $expectedContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected(
++[$inputFileInfo, $expectedFileInfo] = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos(
+    $fileInfo
+ );
 ```
 
 Compared to formated method, `splitFileInfoToLocalInputAndExpectedFileInfos()` will:
@@ -104,7 +106,9 @@ Compared to formated method, `splitFileInfoToLocalInputAndExpectedFileInfos()` w
 - optionally autoload the first one, e.g. if you need it for Reflection
 
 ```php
-[$inputFileInfo, $expectedFileInfo] = $fixtureSplitter->splitFileInfoToLocalInputAndExpectedFileInfos($fileInfo, true);
+[$inputFileInfo, $expectedFileInfo] = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos(
+    $fileInfo, true
+);
 ```
 
 <br>
