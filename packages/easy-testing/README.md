@@ -93,9 +93,8 @@ Do you need the input code to be in separated files? E.g. to test the file was m
 Instead of `splitFileInfoToInputAndExpected()` use `splitFileInfoToLocalInputAndExpectedFileInfos()`:
 
 ```diff
- $fixtureSplitter = new FixtureSplitter();
--[$inputContent, $expectedContent] = $fixtureSplitter->splitFileInfoToInputAndExpected($fileInfo);
-+[$inputFileInfo, $expectedFileInfo] = $fixtureSplitter->splitFileInfoToLocalInputAndExpectedFileInfos($fileInfo);
+-[$inputContent, $expectedContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
++[$inputFileInfo, $expectedFileInfo] = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos($fileInfo);
 ```
 
 Compared to formated method, `splitFileInfoToLocalInputAndExpectedFileInfos()` will:
