@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace Your\CodingStandard\Tests\Fixer\YourFixer;
 
-use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use SebastianBergmann\FileIterator\Iterator;use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 
 final class YourFixerTest extends AbstractCheckerTestCase
 {
@@ -36,6 +36,11 @@ final class YourFixerTest extends AbstractCheckerTestCase
             __DIR__ . '/wrong/wrong.php.inc', // matches "wrong" → at least 1 error
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'] // 2 items in array → wrong to fixed
         ]);
+    }
+
+    public function provideData(): Iterator
+    {
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
     }
 
     protected function getCheckerClass(): string

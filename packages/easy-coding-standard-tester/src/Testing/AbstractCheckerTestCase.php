@@ -24,11 +24,6 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 {
     /**
-     * @var string
-     */
-    public const SPLIT_LINE = "#-----\n#";
-
-    /**
      * To invalidate new versions
      * @var string
      */
