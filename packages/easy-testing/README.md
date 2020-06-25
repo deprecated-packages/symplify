@@ -106,6 +106,8 @@ Compared to formated method, `splitFileInfoToLocalInputAndExpectedFileInfos()` w
 - optionally autoload the first one, e.g. if you need it for Reflection
 
 ```php
+use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
+
 [$inputFileInfo, $expectedFileInfo] = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos(
     $fileInfo, true
 );
@@ -116,11 +118,15 @@ Compared to formated method, `splitFileInfoToLocalInputAndExpectedFileInfos()` w
 By default, the `StaticFixtureFinder` finds only `*.php.inc` files.
 
 ```php
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+
 return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
 ```
 
 In case you use different files, e.g. `*.twig` or `*.md`, change it in 2nd argument:
 
 ```php
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+
 return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.md');
 ```

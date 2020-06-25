@@ -12,6 +12,11 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class StaticFixtureSplitter
 {
     /**
+     * @var string|null
+     */
+    public static $customTemporaryPath;
+
+    /**
      * @return string[]
      */
     public static function splitFileInfoToInputAndExpected(SmartFileInfo $smartFileInfo): array
@@ -53,13 +58,19 @@ final class StaticFixtureSplitter
 
     private static function createTemporaryPathWithPrefix(SmartFileInfo $smartFileInfo, string $prefix): string
     {
-        $hash = Strings::substring(md5($smartFileInfo->getRealPath()), 0, 5);
+        $hash = Strings::substring(md5($smartFileInfo->getRealPath()), -20);
 
-        return sprintf(
-            sys_get_temp_dir() . '/ecs_temp_tests/%s_%s_%s',
-            $prefix,
-            $hash,
-            $smartFileInfo->getBasename('.inc')
-        );
+        $fileBaseName = $smartFileInfo->getBasename('.inc');
+
+        return self::getTemporaryPath() . sprintf('/%s_%s_%s', $prefix, $hash, $fileBaseName);
+    }
+
+    private static function getTemporaryPath(): string
+    {
+        if (self::$customTemporaryPath !== null) {
+            return self::$customTemporaryPath;
+        }
+
+        return sys_get_temp_dir() . '/_temp_fixture_easy_testing';
     }
 }
