@@ -37,7 +37,6 @@ final class YourFixerTest extends AbstractCheckerTestCase
      */
     public function test(SmartFileInfo $fileInfo): void
     {
-        // tests unchanged files with 0 errors and changed files
         $this->doTestFileInfo($fileInfo);
     }
 
@@ -46,10 +45,18 @@ final class YourFixerTest extends AbstractCheckerTestCase
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
     }
 
-    public function testWrongFiles(): void
+    /**
+     * @dataProvider provideDataWithFileErrors()
+     */
+    public function testFileErrors(SmartFileInfo $fileInfo, int $expectedErrorCount): void
     {
-        // at least 1 error
-        $this->doTestWrongFile(__DIR__ . '/wrong/wrong.php.inc');
+        $this->doTestFileInfoWithErrorCountOf($fileInfo, $expectedErrorCount);
+    }
+
+    public function provideDataWithFileErrors(): Iterator
+    {
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/wrong.php.inc'), 1];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/correct.php.inc'), 0];
     }
 
     protected function getCheckerClass(): string
@@ -79,30 +86,4 @@ $array = [];
 before
 ------
 after
-```
-
-### Non-Fixing Sniff?
-
-There is one extra method for sniff that doesn't fix the error, but only finds it:
-
-- `doTestWrongFile($wrongFile)`
-
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace Your\CodingStandard\Tests\Sniff\YourSniff;
-
-use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
-
-final class YourSniffTest extends AbstractCheckerTestCase
-{
-    // ...
-
-    public function testWrongCases(): void
-    {
-        $this->doTestWrongFile(__DIR__ . '/wrong/wrong.php.inc');
-    }
-}
 ```
