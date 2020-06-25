@@ -12,11 +12,25 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class FixtureSplitter
 {
     /**
+     * @return string[]
+     */
+    public function splitFileInfoToInputAndExpected(SmartFileInfo $smartFileInfo): array
+    {
+        if (Strings::match($smartFileInfo->getContents(), SplitLine::SPLIT_LINE)) {
+            // original → expected
+            return Strings::split($smartFileInfo->getContents(), SplitLine::SPLIT_LINE);
+        }
+
+        // no changes
+        return [$smartFileInfo->getContents(), $smartFileInfo->getContents()];
+    }
+
+    /**
      * @return SmartFileInfo[]
      */
-    public function splitFileInfoToLocalBeforeAfterFileInfos(SmartFileInfo $smartFileInfo, bool $autoloadTestFixture = false): array
+    public function splitFileInfoToLocalInputAndExpectedFileInfos(SmartFileInfo $smartFileInfo, bool $autoloadTestFixture = false): array
     {
-        [$originalContent, $expectedContent] = $this->splitFileInfoToBeforeAfter($smartFileInfo);
+        [$originalContent, $expectedContent] = $this->splitFileInfoToInputAndExpected($smartFileInfo);
 
         $originalFileInfo = $this->createTemporaryFileInfo($smartFileInfo, 'original', $originalContent);
         $expectedFileInfo = $this->createTemporaryFileInfo($smartFileInfo, 'expected', $expectedContent);
@@ -27,20 +41,6 @@ final class FixtureSplitter
         }
 
         return [$originalFileInfo, $expectedFileInfo];
-    }
-
-    /**
-     * @return string[]
-     */
-    public function splitFileInfoToBeforeAfter(SmartFileInfo $smartFileInfo): array
-    {
-        if (Strings::match($smartFileInfo->getContents(), SplitLine::SPLIT_LINE)) {
-            // original → expected
-            return Strings::split($smartFileInfo->getContents(), SplitLine::SPLIT_LINE);
-        }
-
-        // no changes
-        return [$smartFileInfo->getContents(), $smartFileInfo->getContents()];
     }
 
     private function createTemporaryPathWithPrefix(SmartFileInfo $smartFileInfo, string $prefix): string

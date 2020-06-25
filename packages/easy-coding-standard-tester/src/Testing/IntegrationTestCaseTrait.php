@@ -20,14 +20,15 @@ trait IntegrationTestCaseTrait
     protected function splitContentToOriginalFileAndExpectedFile(SmartFileInfo $smartFileInfo): array
     {
         $fixtureSplitter = new FixtureSplitter();
-        [$originalContent, $expectedContent] = $fixtureSplitter->splitFileInfoToBeforeAfter($smartFileInfo);
+        [$inputContent, $expectedContent] = $fixtureSplitter->splitFileInfoToInputAndExpected($smartFileInfo);
 
-        $originalFile = $this->createTemporaryPathWithPrefix($smartFileInfo, 'original');
+        $inputFile = $this->createTemporaryPathWithPrefix($smartFileInfo, 'input');
         $expectedFile = $this->createTemporaryPathWithPrefix($smartFileInfo, 'expected');
-        FileSystem::write($originalFile, $originalContent);
+
+        FileSystem::write($inputFile, $inputContent);
         FileSystem::write($expectedFile, $expectedContent);
 
-        return [$originalFile, $expectedFile];
+        return [$inputFile, $expectedFile];
     }
 
     private function createTemporaryPathWithPrefix(SmartFileInfo $smartFileInfo, string $prefix): string

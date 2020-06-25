@@ -45,9 +45,9 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
     {
         $fixtureSplitter = new FixtureSplitter();
         $fileInfo = new SmartFileInfo($file);
-        [$originalYamlContent, $expectedYamlContent] = $fixtureSplitter->splitFileInfoToBeforeAfter($fileInfo);
+        [$inputYamlContent, $expectedYamlContent] = $fixtureSplitter->splitFileInfoToInputAndExpected($fileInfo);
 
-        $originalYaml = Yaml::parse($originalYamlContent);
+        $originalYaml = Yaml::parse($inputYamlContent);
         $expectedYaml = Yaml::parse($expectedYamlContent);
 
         $this->assertSame(

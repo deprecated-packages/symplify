@@ -39,9 +39,9 @@ final class ChangelogLinkerTest extends AbstractKernelTestCase
     public function test(SmartFileInfo $fixtureFileInfo): void
     {
         $fixtureSplitter = new FixtureSplitter();
-        [$oldContent, $expectedContent] = $fixtureSplitter->splitFileInfoToBeforeAfter($fixtureFileInfo);
+        [$inputContent, $expectedContent] = $fixtureSplitter->splitFileInfoToInputAndExpected($fixtureFileInfo);
 
-        $processedContent = $this->changelogLinker->processContentWithLinkAppends($oldContent);
+        $processedContent = $this->changelogLinker->processContentWithLinkAppends($inputContent);
         $this->assertSame($expectedContent, $processedContent, $fixtureFileInfo->getRelativeFilePathFromCwd());
     }
 

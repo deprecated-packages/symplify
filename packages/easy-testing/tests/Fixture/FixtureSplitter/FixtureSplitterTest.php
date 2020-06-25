@@ -24,9 +24,9 @@ final class FixtureSplitterTest extends TestCase
     {
         $fileInfo = new SmartFileInfo(__DIR__ . '/Source/simple_fixture.php.inc');
 
-        [$beforeContent, $afterContent] = $this->fixtureSplitter->splitFileInfoToBeforeAfter($fileInfo);
+        [$inputContent, $expectedContent] = $this->fixtureSplitter->splitFileInfoToInputAndExpected($fileInfo);
 
-        $this->assertSame('a' . PHP_EOL, $beforeContent);
-        $this->assertSame('b' . PHP_EOL, $afterContent);
+        $this->assertSame('a' . PHP_EOL, $inputContent);
+        $this->assertSame('b' . PHP_EOL, $expectedContent);
     }
 }
