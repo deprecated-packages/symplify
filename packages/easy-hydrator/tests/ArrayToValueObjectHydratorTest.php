@@ -15,6 +15,14 @@ use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
 {
     /**
+     * @var string[][]
+     */
+    private const TIME_EVENTS_DATA = [
+        ['when' => '2020-02-02'],
+        ['when' => '2020-04-04'],
+    ];
+
+    /**
      * @var ArrayToValueObjectHydrator
      */
     private $arrayToValueObjectHydrator;
@@ -66,14 +74,8 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
 
     public function testMultiple(): void
     {
-        $timeEventsData = [
-            ['when' => '2020-02-02'],
-            ['when' => '2020-04-04'],
-        ];
-
-        $timeEvents = $this->arrayToValueObjectHydrator->hydrateArrays($timeEventsData, TimeEvent::class);
+        $timeEvents = $this->arrayToValueObjectHydrator->hydrateArrays(self::TIME_EVENTS_DATA, TimeEvent::class);
         $this->assertCount(2, $timeEvents);
-
         foreach ($timeEvents as $timeEvent) {
             $this->assertInstanceOf(TimeEvent::class, $timeEvent);
         }

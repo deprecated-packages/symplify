@@ -80,9 +80,6 @@ final class NoIssetOrEmptyOnObjectRule extends AbstractManyNodeTypeRule
         }
 
         $varType = $scope->getType($expr);
-        if (! $varType instanceof TypeWithClassName) {
-            return true;
-        }
-        return false;
+        return ! $varType instanceof TypeWithClassName;
     }
 }

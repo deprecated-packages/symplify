@@ -67,7 +67,7 @@ final class ClassNameRespectsParentSuffixRule implements Rule
             return [];
         }
 
-        if ($node->extends) {
+        if ($node->extends !== null) {
             return $this->processParent($node, $node->extends);
         }
 
