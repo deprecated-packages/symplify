@@ -6,7 +6,7 @@ namespace Symplify\EasyCodingStandardTester\Testing;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
-use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
+use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**

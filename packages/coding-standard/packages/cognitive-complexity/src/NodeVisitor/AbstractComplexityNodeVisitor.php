@@ -25,7 +25,7 @@ abstract class AbstractComplexityNodeVisitor extends NodeVisitorAbstract
 {
     /**
      * B1. Increments
-     * @var class-string[]
+     * @var string[]
      */
     private const BREAKING_NODE_TYPES = [Continue_::class, Goto_::class, Break_::class];
 
@@ -74,11 +74,7 @@ abstract class AbstractComplexityNodeVisitor extends NodeVisitorAbstract
             return true;
         }
 
-        if ($this->isBreakingNode($node)) {
-            return true;
-        }
-
-        return false;
+        return $this->isBreakingNode($node);
     }
 
     protected function isBreakingNode(Node $node): bool

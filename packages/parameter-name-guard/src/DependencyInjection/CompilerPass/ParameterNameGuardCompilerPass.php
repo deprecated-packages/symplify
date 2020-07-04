@@ -11,7 +11,7 @@ use Symplify\ParameterNameGuard\Guard\ParameterNameGuard;
 final class ParameterNameGuardCompilerPass implements CompilerPassInterface
 {
     /**
-     * @var string[]
+     * @var string
      */
     private const CORRECT_TO_TYPOS = 'correct_to_typos';
 

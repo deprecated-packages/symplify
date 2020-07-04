@@ -28,11 +28,7 @@ final class VersionUtils
     {
         $version = $this->normalizeVersion($version);
 
-        if ($version->hasPreReleaseSuffix()) {
-            $minor = $version->getMinor()->getValue();
-        } else {
-            $minor = $version->getMinor()->getValue() + 1;
-        }
+        $minor = $this->getNextMinorNumber($version);
 
         return str_replace(
             ['<major>', '<minor>'],
@@ -47,12 +43,7 @@ final class VersionUtils
     public function getRequiredNextFormat($version): string
     {
         $version = $this->normalizeVersion($version);
-
-        if ($version->hasPreReleaseSuffix()) {
-            $minor = $version->getMinor()->getValue();
-        } else {
-            $minor = $version->getMinor()->getValue() + 1;
-        }
+        $minor = $this->getNextMinorNumber($version);
 
         return '^' . $version->getMajor()->getValue() . '.' . $minor;
     }
@@ -84,5 +75,10 @@ final class VersionUtils
         }
 
         return $version;
+    }
+
+    private function getNextMinorNumber(Version $version): int
+    {
+        return $version->hasPreReleaseSuffix() ? (int) $version->getMinor()->getValue() : $version->getMinor()->getValue() + 1;
     }
 }

@@ -21,14 +21,9 @@ final class NoDuplicatedShortClassNameRule implements Rule
     public const ERROR_MESSAGE = 'Class with base "%s" name is already used in "%s". Use unique name to make classes easy to recognize';
 
     /**
-     * @var string[][]
-     */
-    private $declaredClassesByShortName = [];
-
-    /**
      * @var string[]
      */
-    private $ALLOWED_CLASS_NAMES = [
+    private const ALLOWED_CLASS_NAMES = [
         '#File$#',
         # per monorepo package unique
         '#Exception$#',
@@ -40,6 +35,11 @@ final class NoDuplicatedShortClassNameRule implements Rule
         '#Some#',
         '#GithubApi#',
     ];
+
+    /**
+     * @var string[][]
+     */
+    private $declaredClassesByShortName = [];
 
     public function getNodeType(): string
     {
@@ -99,7 +99,7 @@ final class NoDuplicatedShortClassNameRule implements Rule
     private function isAllowedClass(string $name): bool
     {
         // is allowed
-        foreach ($this->ALLOWED_CLASS_NAMES as $allowedClassName) {
+        foreach (self::ALLOWED_CLASS_NAMES as $allowedClassName) {
             if (Strings::match($name, $allowedClassName)) {
                 return true;
             }

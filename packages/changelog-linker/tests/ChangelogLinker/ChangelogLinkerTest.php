@@ -8,7 +8,7 @@ use Iterator;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
-use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
+use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 

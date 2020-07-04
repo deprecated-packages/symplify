@@ -53,10 +53,8 @@ final class NoReferenceRule extends AbstractManyNodeTypeRule
     {
         $errorMessages = [];
 
-        if (property_exists($node, 'byRef')) {
-            if ($node->byRef) {
-                $errorMessages[] = self::ERROR_MESSAGE;
-            }
+        if (property_exists($node, 'byRef') && $node->byRef) {
+            $errorMessages[] = self::ERROR_MESSAGE;
         }
 
         if ($node instanceof AssignRef) {

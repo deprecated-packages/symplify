@@ -57,11 +57,7 @@ final class LinkifyWorker implements WorkerInterface
         }
 
         // skip links
-        if (Strings::match($contentLine, '#^\-(\s+)?\[\#\d+#')) {
-            return true;
-        }
-
-        return false;
+        return (bool) Strings::match($contentLine, '#^\-(\s+)?\[\#\d+#');
     }
 
     private function linkifyContentLine(string $contentLine): string
@@ -97,10 +93,7 @@ final class LinkifyWorker implements WorkerInterface
 
         // part of another string, e.g. "linked-", "to-be-linked"
         $partOfAnotherStringPattern = '#\-' . $quotedName . '|' . $quotedName . '\-#';
-        if (Strings::match($contentLine, $partOfAnotherStringPattern)) {
-            return true;
-        }
 
-        return false;
+        return (bool) Strings::match($contentLine, $partOfAnotherStringPattern);
     }
 }

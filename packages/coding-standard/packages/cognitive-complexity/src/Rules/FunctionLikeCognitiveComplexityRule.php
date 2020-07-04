@@ -86,7 +86,7 @@ final class FunctionLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
     private function resolveFunctionName(FunctionLike $functionLike, Scope $scope): string
     {
         if ($functionLike instanceof Function_) {
-            return (string) $functionLike->name . '()';
+            return $functionLike->name . '()';
         }
 
         if ($functionLike instanceof ClassMethod) {

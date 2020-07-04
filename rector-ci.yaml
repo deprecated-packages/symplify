@@ -22,6 +22,7 @@ parameters:
         - '/vendor/'
         - '/init/'
         - '/Source/'
+        - '/Fixture/'
         - '/ChangedFilesDetectorSource/'
         # parameter Symfony autowire hack
         - 'packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php'
