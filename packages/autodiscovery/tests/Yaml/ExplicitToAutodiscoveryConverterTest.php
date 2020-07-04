@@ -7,7 +7,7 @@ namespace Symplify\Autodiscovery\Tests\Yaml;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Autodiscovery\HttpKernel\AutodiscoveryKernel;
 use Symplify\Autodiscovery\Yaml\ExplicitToAutodiscoveryConverter;
-use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
+use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 

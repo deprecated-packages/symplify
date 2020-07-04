@@ -50,7 +50,7 @@ It is common to organize test fixture in the test directory:
 How this package makes it easy to work with them? 2 classes:
 
 - `Symplify\EasyTesting\DataProvider\StaticFixtureFinder`
-- `Symplify\EasyTesting\Fixture\StaticFixtureSplitter`
+- `Symplify\EasyTesting\StaticFixtureSplitter`
 
 ```php
 // tests/SomeTest/SomeTest.php
@@ -60,7 +60,7 @@ namespace App\Tests\SomeTest;
 use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
-use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
+use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SomeTest extends TestCase
@@ -106,7 +106,7 @@ Compared to formated method, `splitFileInfoToLocalInputAndExpectedFileInfos()` w
 - optionally autoload the first one, e.g. if you need it for Reflection
 
 ```php
-use Symplify\EasyTesting\Fixture\StaticFixtureSplitter;
+use Symplify\EasyTesting\StaticFixtureSplitter;
 
 [$inputFileInfo, $expectedFileInfo] = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos(
     $fileInfo, true

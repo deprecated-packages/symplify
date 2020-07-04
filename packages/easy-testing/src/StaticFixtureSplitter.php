@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyTesting\Fixture;
+namespace Symplify\EasyTesting;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
@@ -33,8 +33,10 @@ final class StaticFixtureSplitter
     /**
      * @return SmartFileInfo[]
      */
-    public static function splitFileInfoToLocalInputAndExpectedFileInfos(SmartFileInfo $smartFileInfo, bool $autoloadTestFixture = false): array
-    {
+    public static function splitFileInfoToLocalInputAndExpectedFileInfos(
+        SmartFileInfo $smartFileInfo,
+        bool $autoloadTestFixture = false
+    ): array {
         [$originalContent, $expectedContent] = self::splitFileInfoToInputAndExpected($smartFileInfo);
 
         $originalFileInfo = self::createTemporaryFileInfo($smartFileInfo, 'original', $originalContent);
@@ -57,8 +59,11 @@ final class StaticFixtureSplitter
         return sys_get_temp_dir() . '/_temp_fixture_easy_testing';
     }
 
-    private static function createTemporaryFileInfo(SmartFileInfo $smartFileInfo, string $prefix, string $fileContent): SmartFileInfo
-    {
+    private static function createTemporaryFileInfo(
+        SmartFileInfo $smartFileInfo,
+        string $prefix,
+        string $fileContent
+    ): SmartFileInfo {
         $temporaryFilePath = self::createTemporaryPathWithPrefix($smartFileInfo, $prefix);
         FileSystem::write($temporaryFilePath, $fileContent);
 
