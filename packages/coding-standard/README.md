@@ -678,6 +678,57 @@ final class DynamicMethodCallName
 
 <br>
 
+### No isset/empty on objects
+
+- class: [`NoIssetOrEmptyOnObjectRule`](src/Rules/NoIssetOrEmptyOnObjectRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoIssetOrEmptyOnObjectRule
+```
+
+:x:
+
+```php
+<?php
+
+final class IssetOnObject
+{
+    public function run()
+    {
+        if (mt_rand(0, 1)) {
+            $object = new SomeClass();
+        }
+
+        if (isset($object)) {
+            return $object;
+        }
+    }
+}
+```
+
+:+1:
+
+```php
+final class IssetOnObject
+{
+    public function run()
+    {
+        $object = null;
+        if (mt_rand(0, 1)) {
+            $object = new SomeClass();
+        }
+
+        if ($object !== null) {
+            return $object;
+        }
+    }
+}
+```
+
+<br>
+
 ### Use explicit Property Fetch Names over Dynamic
 
 - class: [`NoDynamicPropertyFetchNameRule`](src/Rules/NoDynamicPropertyFetchNameRule.php)
