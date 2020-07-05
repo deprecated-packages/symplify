@@ -12,11 +12,26 @@ jobs:
             fail-fast: false
             matrix:
                 actions:
-                    - { name: Coding Standard, run: composer check-cs }
-                    - { name: Coding Standard README Sync, run: php ci/check_coding_standard_readme_sync.php }
-                    - { name: Validate Monorepo, run: packages/monorepo-builder/bin/monorepo-builder validate }
-                    - { name: PHPStan, run: composer phpstan }
-                    - { name: Rector CI, run: composer rector }
+                    -
+                        name: Coding Standard
+                        run: 'composer check-cs'
+
+                    -
+                        name: Coding Standard README Sync
+                        run: 'php ci/check_coding_standard_readme_sync.php'
+
+                    -
+                        name: Validate Monorepo
+                        run: 'packages/monorepo-builder/bin/monorepo-builder validate'
+
+                    -
+                        name: PHPStan
+                        run: composer phpstan
+
+                    -
+                        name: Rector CI
+                        run: composer rector
+
                     -
                         name: Binary File Run
                         run: |
