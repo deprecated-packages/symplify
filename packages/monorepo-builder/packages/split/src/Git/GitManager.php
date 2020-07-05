@@ -15,7 +15,7 @@ final class GitManager
     private const COMMITER_DATE_COMMAND = ['git', 'tag', '-l', '--format="%(committerdate)"'];
 
     /**
-     * @var string|null
+     * @var string
      */
     private $githubToken;
 
@@ -27,7 +27,7 @@ final class GitManager
     public function __construct(ProcessRunner $processRunner, ?string $githubToken)
     {
         $this->processRunner = $processRunner;
-        $this->githubToken = $githubToken;
+        $this->githubToken = (string) $githubToken;
     }
 
     public function doesBranchExistOnRemote(string $branch): bool
@@ -80,9 +80,9 @@ final class GitManager
         $tagList = $this->parseTags($this->processRunner->run($command));
 
         /** @var string $theMostRecentTag */
-        $theMostRecentTag = array_pop($tagList);
+        $theMostRecentTag = (string) array_pop($tagList);
 
-        if (empty($theMostRecentTag)) {
+        if ($theMostRecentTag === '') {
             return null;
         }
 
@@ -103,7 +103,7 @@ final class GitManager
     public function completeRemoteRepositoryWithGithubToken(string $remoteRepository): string
     {
         // Do nothing if it is null or an empty string.
-        if (empty($this->githubToken)) {
+        if ($this->githubToken === '') {
             return $remoteRepository;
         }
 

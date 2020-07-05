@@ -755,6 +755,46 @@ final class DynamicPropertyFetchName
 
 <br>
 
+### Use explicit comparison over empty()
+
+- class: [`NoEmptyRule`](src/Rules/NoEmptyRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoEmptyRule
+```
+
+:x:
+
+```php
+<?php
+
+final class SomeClass
+{
+    public function run($value)
+    {
+        return empty($value);
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+final class SomeClass
+{
+    public function run(array $value)
+    {
+        return $value === [];
+    }
+}
+```
+
+<br>
+
 ### There should not be comments with valid code
 
 - class: [`CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)

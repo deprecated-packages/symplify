@@ -86,6 +86,10 @@ services:
         tags: [phpstan.rules.rule]
 
     -
+        class: Symplify\CodingStandard\Rules\NoEmptyRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule
         tags: [phpstan.rules.rule]
 

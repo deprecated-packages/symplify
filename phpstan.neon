@@ -63,6 +63,12 @@ parameters:
             message: '#Cannot cast array<string>\|string\|null to string#'
             path: '*packages/*Command.php'
 
+        # copied 3rd party magic
+        -
+            message: '#Use strict comparison instead of empty#'
+            paths:
+                - 'packages/package-builder/src/Yaml/ParametersMerger.php'
+
         -
             message: '#Instead of "SplFileInfo" use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
             paths:
