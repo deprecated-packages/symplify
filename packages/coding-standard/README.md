@@ -678,7 +678,7 @@ final class DynamicMethodCallName
 
 <br>
 
-### No isset/empty on objects
+### No isset on objects
 
 - class: [`NoIssetOnObjectRule`](src/Rules/NoIssetOnObjectRule.php)
 
@@ -723,6 +723,57 @@ final class IssetOnObject
         if ($object !== null) {
             return $object;
         }
+    }
+}
+```
+
+<br>
+
+### No Function Call on Method Call
+
+- class: [`NoFunctionCallInMethodCallRule`](src/Rules/NoFunctionCallInMethodCallRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoFunctionCallInMethodCallRule
+```
+
+:x:
+
+```php
+<?php
+
+final class SomeClass
+{
+    public function run($value): void
+    {
+        $this->someMethod(strlen('fooo'));
+    }
+
+    private function someMethod($value)
+    {
+        return $value;
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+final class SomeClass
+{
+    public function run($value): void
+    {
+        $fooSize = strlen('fooo');
+        $this->someMethod($fooSize);
+    }
+
+    private function someMethod($value)
+    {
+        return $value;
     }
 }
 ```
