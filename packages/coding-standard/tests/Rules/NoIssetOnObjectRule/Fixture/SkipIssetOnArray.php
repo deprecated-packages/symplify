@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoIssetOrEmptyOnObjectRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\NoIssetOnObjectRule\Fixture;
 
 final class SkipIssetOnArray
 {

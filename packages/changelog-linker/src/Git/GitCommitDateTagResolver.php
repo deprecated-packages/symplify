@@ -68,7 +68,7 @@ final class GitCommitDateTagResolver
             $this->commitHashToTag[$commitHash] = $tag;
         }
 
-        if (empty($tag)) {
+        if ($tag === '') {
             return 'Unreleased';
         }
 

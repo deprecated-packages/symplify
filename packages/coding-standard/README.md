@@ -680,12 +680,12 @@ final class DynamicMethodCallName
 
 ### No isset/empty on objects
 
-- class: [`NoIssetOrEmptyOnObjectRule`](src/Rules/NoIssetOrEmptyOnObjectRule.php)
+- class: [`NoIssetOnObjectRule`](src/Rules/NoIssetOnObjectRule.php)
 
 ```yaml
 # phpstan.neon
 rules:
-    - Symplify\CodingStandard\Rules\NoIssetOrEmptyOnObjectRule
+    - Symplify\CodingStandard\Rules\NoIssetOnObjectRule
 ```
 
 :x:
@@ -749,6 +749,46 @@ final class DynamicPropertyFetchName
     public function run($value)
     {
         $this->$value;
+    }
+}
+```
+
+<br>
+
+### Use explicit comparison over empty()
+
+- class: [`NoEmptyRule`](src/Rules/NoEmptyRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoEmptyRule
+```
+
+:x:
+
+```php
+<?php
+
+final class SomeClass
+{
+    public function run($value)
+    {
+        return empty($value);
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+final class SomeClass
+{
+    public function run(array $value)
+    {
+        return $value === [];
     }
 }
 ```

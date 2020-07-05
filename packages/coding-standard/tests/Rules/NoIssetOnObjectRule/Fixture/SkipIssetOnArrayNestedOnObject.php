@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoIssetOrEmptyOnObjectRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\NoIssetOnObjectRule\Fixture;
 
 use PhpParser\Node\Expr\MethodCall;
 

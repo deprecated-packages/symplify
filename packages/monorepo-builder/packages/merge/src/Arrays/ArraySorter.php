@@ -12,7 +12,7 @@ final class ArraySorter
      */
     public function recursiveSort(array $array): array
     {
-        if (empty($array)) {
+        if ($array === []) {
             return $array;
         }
 
