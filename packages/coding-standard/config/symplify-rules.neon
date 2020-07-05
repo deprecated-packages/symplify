@@ -82,7 +82,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoIssetOrEmptyOnObjectRule
+        class: Symplify\CodingStandard\Rules\NoIssetOnObjectRule
         tags: [phpstan.rules.rule]
 
     -

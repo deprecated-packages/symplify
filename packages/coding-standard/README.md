@@ -680,12 +680,12 @@ final class DynamicMethodCallName
 
 ### No isset/empty on objects
 
-- class: [`NoIssetOrEmptyOnObjectRule`](src/Rules/NoIssetOrEmptyOnObjectRule.php)
+- class: [`NoIssetOnObjectRule`](src/Rules/NoIssetOnObjectRule.php)
 
 ```yaml
 # phpstan.neon
 rules:
-    - Symplify\CodingStandard\Rules\NoIssetOrEmptyOnObjectRule
+    - Symplify\CodingStandard\Rules\NoIssetOnObjectRule
 ```
 
 :x:

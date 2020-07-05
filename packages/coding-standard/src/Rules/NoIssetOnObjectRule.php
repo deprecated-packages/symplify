@@ -13,9 +13,9 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoIssetOrEmptyOnObjectRule\NoIssetOrEmptyOnObjectRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\NoIssetOnObjectRule\NoIssetOnObjectRuleTest
  */
-final class NoIssetOrEmptyOnObjectRule extends AbstractManyNodeTypeRule
+final class NoIssetOnObjectRule extends AbstractManyNodeTypeRule
 {
     /**
      * @var string

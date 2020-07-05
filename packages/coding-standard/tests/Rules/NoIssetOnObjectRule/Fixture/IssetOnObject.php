@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoIssetOrEmptyOnObjectRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\NoIssetOnObjectRule\Fixture;
 
 use stdClass;
 
-final class EmptyOnObject
+final class IssetOnObject
 {
     public function run()
     {
@@ -14,7 +14,7 @@ final class EmptyOnObject
             $object = new stdClass();
         }
 
-        if (empty($object)) {
+        if (isset($object)) {
             return $object;
         }
     }

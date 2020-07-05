@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoIssetOrEmptyOnObjectRule;
+namespace Symplify\CodingStandard\Tests\Rules\NoIssetOnObjectRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\NoIssetOrEmptyOnObjectRule;
+use Symplify\CodingStandard\Rules\NoIssetOnObjectRule;
 
-final class NoIssetOrEmptyOnObjectRuleTest extends RuleTestCase
+final class NoIssetOnObjectRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -21,8 +21,7 @@ final class NoIssetOrEmptyOnObjectRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/IssetOnObject.php', [[NoIssetOrEmptyOnObjectRule::ERROR_MESSAGE, 17]]];
-        yield [__DIR__ . '/Fixture/EmptyOnObject.php', [[NoIssetOrEmptyOnObjectRule::ERROR_MESSAGE, 17]]];
+        yield [__DIR__ . '/Fixture/IssetOnObject.php', [[NoIssetOnObjectRule::ERROR_MESSAGE, 17]]];
 
         yield [__DIR__ . '/Fixture/SkipIssetOnArray.php', []];
         yield [__DIR__ . '/Fixture/SkipIssetOnArrayNestedOnObject.php', []];
@@ -30,6 +29,6 @@ final class NoIssetOrEmptyOnObjectRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoIssetOrEmptyOnObjectRule();
+        return new NoIssetOnObjectRule();
     }
 }
