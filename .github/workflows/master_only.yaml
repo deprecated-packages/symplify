@@ -1,0 +1,50 @@
+name: Master Only
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    matrix:
+        strategy:
+            fail-fast: false
+            matrix:
+                actions:
+                    -
+                        name: Sonar Cube
+                        uses: sonarsource/sonarcloud-github-action@master
+                        env:
+                            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                            # get token here: https://sonarcloud.io/account/security/
+                            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                    -
+                        name: Code Coverage
+                        run: |
+                            vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+                            # coveralls.io
+                            wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
+                            php php-coveralls.phar --verbose
+                        env:
+                            COVERALLS_REPO_TOKEN: 'RHw66pHYro4o5N7lH7ZAPmgypuAiJAPJw'
+                    - { name: 'Twitter API Tests', run: vendor/bin/phpunit --group api }
+
+        name: ${{ matrix.actions.name }}
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+            # needed for tests
+            -   run: git fetch --depth=100000 origin
+
+            # see https://github.com/shivammathur/setup-php
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.3
+                    coverage: pcov
+
+            -   run: composer install --no-progress
+
+            -
+                name: ${{ matrix.actions.name }}
+                run: ${{ matrix.actions.run }}

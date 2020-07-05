@@ -1,0 +1,47 @@
+name: Code Analysis
+
+on:
+    pull_request: null
+    push:
+        branches:
+            - master
+
+jobs:
+    matrix:
+        strategy:
+            fail-fast: false
+            matrix:
+                actions:
+                    - { name: Coding Standard, run: composer check-cs }
+                    - { name: Coding Standard README Sync, run: php ci/check_coding_standard_readme_sync.php }
+                    - { name: Validate Monorepo, run: packages/monorepo-builder/bin/monorepo-builder validate }
+                    - { name: PHPStan, run: composer phpstan }
+                    - { name: Rector CI, run: composer rector }
+                    -
+                        name: Binary File Run
+                        run: |
+                            # test run bin files
+                            packages/autodiscovery/bin/autodiscovery
+                            packages/easy-coding-standard/bin/ecs
+                            packages/changelog-linker/bin/changelog-linker
+                            packages/monorepo-builder/bin/monorepo-builder
+
+                            # test "check" options
+                            packages/easy-coding-standard/bin/ecs check packages/changelog-linker/src --no-progress-bar --no-error-table --clear-cache
+
+        name: ${{ matrix.actions.name }}
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+            # see https://github.com/shivammathur/setup-php
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.4
+                    coverage: none
+
+            -   run: composer install --no-progress
+
+            -
+                name: ${{ matrix.actions.name }}
+                run: ${{ matrix.actions.run }}
