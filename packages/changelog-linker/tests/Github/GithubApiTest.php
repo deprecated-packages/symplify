@@ -32,6 +32,8 @@ final class GithubApiTest extends AbstractKernelTestCase
         }
 
         $mergedPullRequests = $this->githubApi->getMergedPullRequestsSinceId(1000);
-        $this->assertGreaterThanOrEqual(45, count($mergedPullRequests));
+
+        $mergedPullRequestCount = count($mergedPullRequests);
+        $this->assertGreaterThanOrEqual(45, $mergedPullRequestCount);
     }
 }

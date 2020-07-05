@@ -90,6 +90,10 @@ services:
         tags: [phpstan.rules.rule]
 
     -
+        class: Symplify\CodingStandard\Rules\NoFunctionCallInMethodCallRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule
         tags: [phpstan.rules.rule]
 

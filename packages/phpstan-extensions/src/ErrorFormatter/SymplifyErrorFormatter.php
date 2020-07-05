@@ -72,14 +72,17 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
             // ignored path
             $regexMessage = $this->regexMessage($fileSpecificError->getMessage());
-            $this->symfonyStyle->writeln(sprintf(" - '%s'", $regexMessage));
+            $itemMessage = sprintf(" - '%s'", $regexMessage);
+            $this->symfonyStyle->writeln($itemMessage);
 
             $this->separator();
             $this->symfonyStyle->newLine();
         }
 
         $this->symfonyStyle->newLine(1);
-        $this->symfonyStyle->error(sprintf('Found %d errors', $analysisResult->getTotalErrorsCount()));
+
+        $errorMessage = sprintf('Found %d errors', $analysisResult->getTotalErrorsCount());
+        $this->symfonyStyle->error($errorMessage);
     }
 
     private function separator(): void

@@ -51,7 +51,8 @@ final class AddRepositoryUrlAndRepositoryNameParametersCompilerPass implements C
         $process = new Process(['git', 'config', '--get', 'remote.origin.url']);
         $process->run();
 
-        return $this->githubRepositoryFromRemoteResolver->resolveFromUrl(trim($process->getOutput()));
+        $trimmedOutput = trim($process->getOutput());
+        return $this->githubRepositoryFromRemoteResolver->resolveFromUrl($trimmedOutput);
     }
 
     private function detectRepositoryName(ContainerBuilder $containerBuilder): string

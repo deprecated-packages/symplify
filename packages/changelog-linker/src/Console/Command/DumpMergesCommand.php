@@ -158,9 +158,8 @@ final class DumpMergesCommand extends Command
         $pullRequests = $this->githubApi->getMergedPullRequestsSinceId($sinceId, $baseBranch);
 
         if (count($pullRequests) === 0) {
-            $this->symfonyStyle->note(
-                sprintf('There are no new pull requests to be added since ID "%d".', $sinceId)
-            );
+            $message = sprintf('There are no new pull requests to be added since ID "%d".', $sinceId);
+            $this->symfonyStyle->note($message);
 
             return ShellCode::SUCCESS;
         }

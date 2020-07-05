@@ -80,7 +80,8 @@ final class LocalizeComposerPathsCommand extends Command
             // possibly replace them all to cover recursive secondary dependencies
             $packageComposerJson = $this->addRepositories($mainComposerJsonFileInfo, $packageComposerJson);
 
-            $this->symfonyStyle->note(sprintf('File "%s" was updated', $packageFileInfo->getRelativeFilePathFromCwd()));
+            $message = sprintf('File "%s" was updated', $packageFileInfo->getRelativeFilePathFromCwd());
+            $this->symfonyStyle->note($message);
 
             $this->jsonFileManager->saveJsonWithFileInfo($packageComposerJson, $packageFileInfo);
         }

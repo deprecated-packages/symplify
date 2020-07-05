@@ -72,7 +72,8 @@ final class ProcessRunner
     {
         if ($process->isSuccessful()) {
             if ($shouldDisplayOutput) {
-                $this->symfonyStyle->writeln(trim($process->getOutput()));
+                $trimmedOutput = trim($process->getOutput());
+                $this->symfonyStyle->writeln($trimmedOutput);
             }
 
             return;

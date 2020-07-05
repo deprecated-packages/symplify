@@ -76,7 +76,8 @@ final class BumpInterdependencyCommand extends Command
             $version
         );
 
-        $this->symfonyStyle->success(sprintf('Inter-dependencies of packages were updated to "%s".', $version));
+        $successMessage = sprintf('Inter-dependencies of packages were updated to "%s".', $version);
+        $this->symfonyStyle->success($successMessage);
 
         return ShellCode::SUCCESS;
     }

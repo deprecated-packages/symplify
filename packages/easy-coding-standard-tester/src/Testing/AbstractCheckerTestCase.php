@@ -138,11 +138,12 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         if ($this->sniffFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->sniffFileProcessor->processFile($fileInfo);
 
-            $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount(), sprintf(
+            $failedAssertMessage = sprintf(
                 'There should be no error in "%s" file, but %d errors found.',
                 $this->errorAndDiffCollector->getErrorCount(),
                 $fileInfo->getRealPath()
-            ));
+            );
+            $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount(), $failedAssertMessage);
 
             $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent);
         }

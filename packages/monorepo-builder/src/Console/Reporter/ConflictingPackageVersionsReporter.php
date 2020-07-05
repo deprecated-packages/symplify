@@ -25,7 +25,8 @@ final class ConflictingPackageVersionsReporter
     public function report(array $conflictingPackages): void
     {
         foreach ($conflictingPackages as $packageName => $filesToVersions) {
-            $this->symfonyStyle->title(sprintf('Package "%s" has incompatible version', $packageName));
+            $message = sprintf('Package "%s" has incompatible version', $packageName);
+            $this->symfonyStyle->title($message);
 
             $tableRows = $this->createTableRows($filesToVersions);
             $this->symfonyStyle->table(['File', 'Version'], $tableRows);

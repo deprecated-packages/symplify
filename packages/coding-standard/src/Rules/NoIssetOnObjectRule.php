@@ -20,7 +20,7 @@ final class NoIssetOnObjectRule extends AbstractManyNodeTypeRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use default null value and nullable compare instead of isset/empty on object';
+    public const ERROR_MESSAGE = 'Use default null value and nullable compare instead of isset on object';
 
     /**
      * @return class-string[]
@@ -80,6 +80,7 @@ final class NoIssetOnObjectRule extends AbstractManyNodeTypeRule
         }
 
         $varType = $scope->getType($expr);
+
         return ! $varType instanceof TypeWithClassName;
     }
 }
