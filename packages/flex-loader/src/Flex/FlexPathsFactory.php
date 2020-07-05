@@ -23,7 +23,8 @@ final class FlexPathsFactory
             $projectDir . '/config/parameters_' . $environment,
         ];
 
-        return $this->filterExistingPaths(array_merge($extraServicePaths, $servicePaths));
+        $allServicePaths = array_merge($extraServicePaths, $servicePaths);
+        return $this->filterExistingPaths($allServicePaths);
     }
 
     /**

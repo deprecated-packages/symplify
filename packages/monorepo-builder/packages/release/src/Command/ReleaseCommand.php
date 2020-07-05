@@ -111,11 +111,15 @@ final class ReleaseCommand extends Command
         if ($isDryRun) {
             $this->symfonyStyle->note('Running in dry mode, nothing is changed');
         } elseif ($stage === null) {
-            $this->symfonyStyle->success(sprintf('Version "%s" is now released!', $version->getVersionString()));
+            $message = sprintf('Version "%s" is now released!', $version->getVersionString());
+            $this->symfonyStyle->success($message);
         } else {
-            $this->symfonyStyle->success(
-                sprintf('Stage "%s" for version "%s" is now finished!', $stage, $version->getVersionString())
+            $finishedMessage = sprintf(
+                'Stage "%s" for version "%s" is now finished!',
+                $stage,
+                $version->getVersionString()
             );
+            $this->symfonyStyle->success($finishedMessage);
         }
 
         return ShellCode::SUCCESS;

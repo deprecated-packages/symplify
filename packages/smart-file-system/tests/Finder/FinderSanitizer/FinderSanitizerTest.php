@@ -37,7 +37,9 @@ final class FinderSanitizerTest extends TestCase
             ->files()
             ->in(__DIR__ . '/Source');
 
-        $this->assertCount(2, iterator_to_array($finder->getIterator()));
+        $fileInfos = iterator_to_array($finder->getIterator());
+
+        $this->assertCount(2, $fileInfos);
         $files = $this->finderSanitizer->sanitize($finder);
         $this->assertCount(2, $files);
 
@@ -49,7 +51,9 @@ final class FinderSanitizerTest extends TestCase
         $finder = NetteFinder::findFiles('*')
             ->from(__DIR__ . '/Source');
 
-        $this->assertCount(2, iterator_to_array($finder->getIterator()));
+        $fileInfos = iterator_to_array($finder->getIterator());
+        $this->assertCount(2, $fileInfos);
+
         $files = $this->finderSanitizer->sanitize($finder);
         $this->assertCount(2, $files);
 

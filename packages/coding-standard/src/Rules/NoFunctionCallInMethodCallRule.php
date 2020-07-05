@@ -22,6 +22,11 @@ final class NoFunctionCallInMethodCallRule implements Rule
      */
     public const ERROR_MESSAGE = 'Separate function "%s()" in method call to standalone row to improve readability';
 
+    /**
+     * @var string[]
+     */
+    private const ALLOWED_FUNC_CALL_NAMES = ['getcwd', 'sys_get_temp_dir'];
+
     public function getNodeType(): string
     {
         return MethodCall::class;
@@ -41,6 +46,10 @@ final class NoFunctionCallInMethodCallRule implements Rule
             }
 
             $funcCallName = $this->resolveFuncCallName($arg);
+            if (in_array($funcCallName, self::ALLOWED_FUNC_CALL_NAMES, true)) {
+                continue;
+            }
+
             $messages[] = sprintf(self::ERROR_MESSAGE, $funcCallName);
         }
 

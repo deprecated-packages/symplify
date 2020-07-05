@@ -68,7 +68,9 @@ final class PackageAliasCommand extends Command
         $alias = $this->getExpectedAlias();
 
         $this->devMasterAliasUpdater->updateFileInfosWithAlias($composerPackageFiles, $alias);
-        $this->symfonyStyle->success(sprintf('Alias "dev-master" was updated to "%s" in all packages.', $alias));
+
+        $message = sprintf('Alias "dev-master" was updated to "%s" in all packages.', $alias);
+        $this->symfonyStyle->success($message);
 
         return ShellCode::SUCCESS;
     }

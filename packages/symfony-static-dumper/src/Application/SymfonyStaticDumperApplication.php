@@ -38,7 +38,9 @@ final class SymfonyStaticDumperApplication
     public function run(string $publicDirectory, string $outputDirectory): void
     {
         $this->controllerDumper->dump($outputDirectory);
-        $this->symfonyStyle->success(sprintf('Files generated to "%s"', $outputDirectory));
+
+        $message = sprintf('Files generated to "%s"', $outputDirectory);
+        $this->symfonyStyle->success($message);
 
         $this->assetsCopier->copyAssets($publicDirectory, $outputDirectory);
         $this->symfonyStyle->success('Assets copied');

@@ -104,8 +104,8 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
                 return [];
             }
 
-            $errorMesage = sprintf(self::ERROR_MESSAGE, $oldClass, $prefferedClass);
-            return [$errorMesage];
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $oldClass, $prefferedClass);
+            return [$errorMessage];
         }
 
         return [];
@@ -121,8 +121,8 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
                 continue;
             }
 
-            $errorMesage = sprintf(self::ERROR_MESSAGE, $oldClass, $prefferedClass);
-            return [$errorMesage];
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $oldClass, $prefferedClass);
+            return [$errorMessage];
         }
 
         return [];

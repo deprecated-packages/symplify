@@ -66,10 +66,11 @@ final class InitCommand extends Command
         $this->filesystem->dumpFile($filename, $content);
 
         $this->symfonyStyle->success('Congrats! Your first monorepo is here.');
-        $this->symfonyStyle->note(sprintf(
+        $message = sprintf(
             'Try the next step - merge "composer.json" files from packages to the root one:%s "vendor/bin/monorepo-builder merge"',
             PHP_EOL
-        ));
+        );
+        $this->symfonyStyle->note($message);
 
         return ShellCode::SUCCESS;
     }

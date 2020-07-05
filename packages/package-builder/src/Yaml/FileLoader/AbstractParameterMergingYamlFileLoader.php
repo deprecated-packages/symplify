@@ -100,7 +100,8 @@ abstract class AbstractParameterMergingYamlFileLoader extends YamlFileLoader
          * - $this->anonymousServicesCount = 0;
          * - $this->anonymousServicesSuffix = ContainerBuilder::hash($path);
          */
-        $this->setCurrentDir(dirname($path));
+        $directory = dirname($path);
+        $this->setCurrentDir($directory);
         try {
             // $this->parseDefinitions($content, $path);
             $this->privatesCaller->callPrivateMethod($this, 'parseDefinitions', $content, $path);

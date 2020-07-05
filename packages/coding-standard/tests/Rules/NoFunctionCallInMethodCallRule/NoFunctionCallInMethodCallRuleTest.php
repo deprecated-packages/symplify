@@ -14,6 +14,8 @@ final class NoFunctionCallInMethodCallRuleTest extends RuleTestCase
     {
         $errorMessage = sprintf(NoFunctionCallInMethodCallRule::ERROR_MESSAGE, 'strlen');
         $this->analyse([__DIR__ . '/Fixture/FunctionCallNestedToMethodCall.php'], [[$errorMessage, 11]]);
+
+        $this->analyse([__DIR__ . '/Fixture/SkipGetCwd.php'], []);
     }
 
     protected function getRule(): Rule

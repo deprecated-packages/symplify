@@ -67,7 +67,8 @@ final class CompileCommand extends Command
         /** @var string $composerJsonFilePath */
         $composerJsonFilePath = realpath($this->buildDir . '/composer.json');
 
-        $this->symfonyStyle->title(sprintf('1. Loading and updating "%s"', realpath($composerJsonFilePath)));
+        $titleMessage = sprintf('1. Loading and updating "%s"', realpath($composerJsonFilePath));
+        $this->symfonyStyle->title($titleMessage);
 
         $this->composerJsonManipulator->fixComposerJson($composerJsonFilePath);
 

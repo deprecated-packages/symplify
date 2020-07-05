@@ -123,21 +123,21 @@ final class ControllerDumper
             return;
         }
 
-        $this->symfonyStyle->note(sprintf(
-            'Dumping static content for "%s" route to "%s" path',
-            $route->getPath(),
-            $filePath
-        ));
+        $message = sprintf('Dumping static content for "%s" route to "%s" path', $route->getPath(), $filePath);
+        $this->symfonyStyle->note($message);
     }
 
     private function printHeadline(ControllerWithDataProviderInterface $controllerWithDataProvider, $routeName): void
     {
         $this->symfonyStyle->newLine(2);
-        $this->symfonyStyle->section(sprintf(
+
+        $message = sprintf(
             'Dumping data for "%s" data provider and "%s" route',
             get_class($controllerWithDataProvider),
             $routeName
-        ));
+        );
+
+        $this->symfonyStyle->section($message);
     }
 
     private function processControllerWithDataProvider(

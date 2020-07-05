@@ -86,7 +86,8 @@ final class PackageToRepositorySplitter
 
         // If branch doesn't exist on origin, push it
         if (! $this->gitManager->doesBranchExistOnRemote($branch)) {
-            $this->symfonyStyle->note(sprintf('Branch "%s" does not exist on origin, pushing it...', $branch));
+            $missingBranchMessage = sprintf('Branch "%s" does not exist on origin, pushing it...', $branch);
+            $this->symfonyStyle->note($missingBranchMessage);
             $this->symfonyStyle->writeln($this->gitManager->pushBranchToRemoteOrigin($branch));
         }
 
@@ -115,9 +116,12 @@ final class PackageToRepositorySplitter
             }
         }
 
-        $this->symfonyStyle->success(sprintf('Running %d jobs in parallel', count($this->activeProcesses)));
+        $activeProcessCount = count($this->activeProcesses);
 
-        $this->processActiveProcesses(count($this->activeProcesses));
+        $missingBranchMessage = sprintf('Running %d jobs in parallel', $activeProcessCount);
+        $this->symfonyStyle->success($missingBranchMessage);
+
+        $this->processActiveProcesses($activeProcessCount);
         $this->reportFinishedProcesses();
     }
 
@@ -151,15 +155,15 @@ final class PackageToRepositorySplitter
                 throw new PackageToRepositorySplitException($message);
             }
 
-            $this->symfonyStyle->success(
-                sprintf(
-                    'Push of "%s" directory to "%s" repository was successful: %s "%s"',
-                    $processInfo->getLocalDirectory(),
-                    $processInfo->getRemoteRepository(),
-                    PHP_EOL . PHP_EOL,
-                    $process->getOutput()
-                )
+            $successMessage = sprintf(
+                'Push of "%s" directory to "%s" repository was successful: %s "%s"',
+                $processInfo->getLocalDirectory(),
+                $processInfo->getRemoteRepository(),
+                PHP_EOL . PHP_EOL,
+                $process->getOutput()
             );
+
+            $this->symfonyStyle->success($successMessage);
         }
     }
 }
