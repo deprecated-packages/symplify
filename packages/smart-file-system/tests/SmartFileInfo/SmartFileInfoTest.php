@@ -33,6 +33,16 @@ final class SmartFileInfoTest extends TestCase
         );
     }
 
+    public function testRealPathWithoutSuffix(): void
+    {
+        $smartFileInfo = new SmartFileInfo(__DIR__ . '/Source/AnotherFile.txt');
+
+        $this->assertStringEndsWith(
+            'tests/SmartFileInfo/Source/AnotherFile',
+            $smartFileInfo->getRealPathWithoutSuffix()
+        );
+    }
+
     public function testRelativeToDir(): void
     {
         $smartFileInfo = new SmartFileInfo(__DIR__ . '/Source/AnotherFile.txt');
