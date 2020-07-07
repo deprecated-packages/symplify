@@ -21,4 +21,14 @@ class SkipNestedCall
             $value
         );
     }
+
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public static function typeCast(string $type, $value)
+    {
+        return $value;
+    }
 }
