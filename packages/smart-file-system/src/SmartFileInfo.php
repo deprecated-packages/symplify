@@ -46,6 +46,11 @@ final class SmartFileInfo extends SplFileInfo
         return pathinfo($this->getFilename(), PATHINFO_EXTENSION);
     }
 
+    public function getRealPathWithoutSuffix(): string
+    {
+        return Strings::replace($this->getRealPath(), '#\.[^.]+$#');
+    }
+
     public function getRelativeFilePath(): string
     {
         return $this->getRelativePathname();
