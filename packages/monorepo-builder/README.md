@@ -2,7 +2,7 @@
 
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/monorepo-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo-builder/stats)
 
-Do you maintain [a monorepo](https://gomonorepo.org/) with more packages?
+Do you maintain [a monorepo](https://tomasvotruba.com/blog/2019/10/28/all-you-always-wanted-to-know-about-monorepo-but-were-afraid-to-ask/) with more packages?
 
 **This package has few useful tools, that will make that easier**.
 
