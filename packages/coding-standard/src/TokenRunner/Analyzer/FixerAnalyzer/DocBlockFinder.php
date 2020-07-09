@@ -22,7 +22,7 @@ final class DocBlockFinder
                 return null;
             }
 
-            if ($token->isComment()) {
+            if ($token->isGivenKind(T_DOC_COMMENT)) {
                 return $i;
             }
         }
