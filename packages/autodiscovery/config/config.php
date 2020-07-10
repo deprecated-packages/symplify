@@ -31,6 +31,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SymfonyStyleFactory::class);
 
     $services->set(SymfonyStyle::class)
-        ->factory([service(SymfonyStyleFactory::class), 'create'])
+        ->factory([ref(SymfonyStyleFactory::class), 'create'])
     ;
 };
