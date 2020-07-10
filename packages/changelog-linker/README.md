@@ -68,7 +68,7 @@ vendor/bin/changelog-linker dump-merges --in-categories
 
 Nice, now everything is nicely grouped.
 
-*(Do you want to know how we detect the category? [Follow me](https://github.com/symplify/symplify/blob/master/packages/ChangelogLinker/src/ChangeTree/Resolver/CategoryResolver.php))*
+*(Do you want to know how we detect the category? [Follow me](https://github.com/symplify/symplify/blob/master/packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php))*
 
 What about packages - can we have group them as well? Sure:
 
