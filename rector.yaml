@@ -1,0 +1,8 @@
+services:
+    Rector\Symfony\Rector\Class_\ChangeFileLoaderInExtensionAndKernelRector:
+        $from: 'yaml'
+        $to: 'php'
+
+parameters:
+    paths:
+        - packages/*/src/HttpKernel
