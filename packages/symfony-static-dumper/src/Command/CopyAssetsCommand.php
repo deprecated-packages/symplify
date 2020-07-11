@@ -13,7 +13,7 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 
-final class DumpStaticSiteCommand extends Command
+final class CopyAssetsCommand extends Command
 {
     /**
      * @var string
@@ -52,16 +52,13 @@ final class DumpStaticSiteCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Dump website to static HTML and CSS in the output directory');
+        $this->setDescription('Copy assets from public dir to the output directory');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->symfonyStyle->section('Dumping static website');
-        $this->symfonyStaticDumperApplication->dumpControllers($this->outputDirectory);
+        $this->symfonyStyle->section('Dumping assetss');
         $this->symfonyStaticDumperApplication->copyAssets($this->publicDirectory, $this->outputDirectory);
-
-        $this->symfonyStyle->note('Run local server to see the output: "php -S localhost:8001 -t output"');
 
         return ShellCode::SUCCESS;
     }

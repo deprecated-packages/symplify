@@ -55,15 +55,15 @@ final class ControllerDumper
         $this->filePathResolver = $filePathResolver;
     }
 
-    public function dump(string $outputDirectory): void
+    public function dump(string $outputDirectory, RouteFilterInterface $routeFilter): void
     {
-        $this->dumpControllerWithoutParametersContents($outputDirectory);
-        $this->dumpControllerWithParametersContents($outputDirectory);
+        $this->dumpControllerWithoutParametersContents($outputDirectory, $routeFilter);
+        $this->dumpControllerWithParametersContents($outputDirectory, $routeFilter);
     }
 
-    private function dumpControllerWithoutParametersContents($outputDirectory): void
+    private function dumpControllerWithoutParametersContents($outputDirectory, RouteFilterInterface $routeFilter): void
     {
-        $routesWithoutArguments = $this->routesProvider->provideRoutesWithoutArguments();
+        $routesWithoutArguments = $routeFilter->filter($this->routesProvider->provideRoutesWithoutArguments());
 
         $progressBar = $this->createProgressBarIfNeeded($routesWithoutArguments);
 
@@ -81,9 +81,9 @@ final class ControllerDumper
         }
     }
 
-    private function dumpControllerWithParametersContents(string $outputDirectory): void
+    private function dumpControllerWithParametersContents(string $outputDirectory, RouteFilterInterface $routeFilter): void
     {
-        $routesWithParameters = $this->routesProvider->provideRoutesWithParameters();
+        $routesWithParameters = $routeFilter->filter($this->routesProvider->provideRoutesWithParameters());
 
         foreach ($routesWithParameters as $routeName => $route) {
             $controllerWithDataProvider = $this->controllerWithDataProviderMatcher->matchRoute($route);

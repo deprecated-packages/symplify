@@ -6,20 +6,15 @@ namespace Symplify\SymfonyStaticDumper\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 
-final class DumpStaticSiteCommand extends Command
+final class DumpControllersCommand extends Command
 {
-    /**
-     * @var string
-     */
-    private $publicDirectory;
-
     /**
      * @var string
      */
@@ -37,12 +32,10 @@ final class DumpStaticSiteCommand extends Command
 
     public function __construct(
         SymfonyStaticDumperApplication $symfonyStaticDumperApplication,
-        SymfonyStyle $symfonyStyle,
-        ParameterBagInterface $parameterBag
+        SymfonyStyle $symfonyStyle
     ) {
         parent::__construct();
 
-        $this->publicDirectory = $parameterBag->get('kernel.project_dir') . '/public';
         $this->outputDirectory = getcwd() . '/output';
 
         $this->symfonyStyle = $symfonyStyle;
@@ -52,16 +45,19 @@ final class DumpStaticSiteCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Dump website to static HTML and CSS in the output directory');
+        $this->setDescription('Dump controllers to the output directory');
+        $this->addOption(
+            'route',
+            '',
+            InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+            'dump only given route names, if not provided all routes are dumped'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->symfonyStyle->section('Dumping static website');
-        $this->symfonyStaticDumperApplication->dumpControllers($this->outputDirectory);
-        $this->symfonyStaticDumperApplication->copyAssets($this->publicDirectory, $this->outputDirectory);
-
-        $this->symfonyStyle->note('Run local server to see the output: "php -S localhost:8001 -t output"');
+        $this->symfonyStyle->section('Dumping Controllers');
+        $this->symfonyStaticDumperApplication->dumpControllers($this->outputDirectory, $input->getOption('route'));
 
         return ShellCode::SUCCESS;
     }
