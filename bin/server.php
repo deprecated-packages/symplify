@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Clue\React\NDJson\Decoder;
+use Clue\React\NDJson\Encoder;
 use React\ChildProcess\Process;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -12,37 +14,64 @@ $loop = \React\EventLoop\Factory::create();
 $server = new \React\Socket\TcpServer(0, $loop);
 
 $processes = [];
+$results = [];
 
-$server->on('connection', function (React\Socket\ConnectionInterface $connection) use ($loop) {
-    $connection->on('data', function ($data) use ($connection, $loop) {
-        echo $connection->getRemoteAddress() . ': ' . $data . PHP_EOL;
+$server->on('connection', function (React\Socket\ConnectionInterface $clientConnection) use (&$results) {
+    $in = new Decoder($clientConnection, true);
+    $out = new Encoder($clientConnection);
 
-        if ($data === 'exit') {
-            $connection->close();
+    $in->on('data', function (array $data) use ($out) {
+        if ($data['action'] !== 'hello') {
+            return;
         }
 
-        if ($data === 'hello') {
-            // $connection->pipe(new React\Stream\WritableResourceStream(STDOUT, $loop));
-            $connection->write('analyse');
+        echo '[SERVER] Received hello from: ' . $data['id'] . PHP_EOL;
+
+        $out->write([
+            'action' => 'analyse',
+            'files' => [
+                uniqid() . '.php',
+                uniqid() . '.php',
+                uniqid() . '.php',
+            ],
+        ]);
+    });
+
+    $in->on('data', function (array $data) use ($clientConnection, &$results) {
+        if ($data['action'] !== 'result') {
+            return;
         }
+
+        echo '[SERVER] Received results from ' . $data['id'] . PHP_EOL;
+        print_r($data['results']);
+
+        $results = array_merge($results, $data['results']);
+
+        $clientConnection->close();
     });
 });
 
+// Starting children processes
 for($i=0 ; $i<=2 ; $i++) {
     $id = uniqid();
     $command = 'php bin/client.php ' . $server->getAddress() . ' ' . $id;
-    $process = new Process($command, null, null, []);
-    $process->start($loop);
+    $childProcess = new Process($command, null, null, []);
     $processes[$id] = $id;
 
-    $process->on('exit', function ($exitcode) use ($server, &$processes, $id) {
+    $childProcess->on('exit', function ($exitCode) use ($server, &$processes, $id) {
+        echo $id . ': ' . $exitCode . PHP_EOL;
         unset($processes[$id]);
 
         if (count($processes) === 0) {
-            echo 'No more processes, closing server' . PHP_EOL;
+            echo '[SERVER] No more processes, closing server' . PHP_EOL;
             $server->close();
         }
     });
+
+    $childProcess->start($loop);
 }
 
 $loop->run();
+
+echo '[MAIN PROCESS] Collected results:' . PHP_EOL;
+print_r($results);

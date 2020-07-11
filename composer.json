@@ -4,6 +4,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "clue/ndjson-react": "^1.1",
         "composer/composer": "^1.10",
         "composer/xdebug-handler": "^1.4",
         "erusev/parsedown": "^1.7",
