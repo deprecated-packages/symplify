@@ -26,11 +26,11 @@ final class ForceMethodCallArgumentConstantRule implements Rule
     /**
      * @var mixed[]
      */
-    private $constantARgByMethodByType = [];
+    private $constantArgByMethodByType = [];
 
     public function __construct(array $constantArgByMethodByType = [])
     {
-        $this->constantARgByMethodByType = $constantArgByMethodByType;
+        $this->constantArgByMethodByType = $constantArgByMethodByType;
     }
 
     public function getNodeType(): string
@@ -52,7 +52,7 @@ final class ForceMethodCallArgumentConstantRule implements Rule
 
         $methodName = (string) $node->name;
 
-        foreach ($this->constantARgByMethodByType as $type => $positionsByMethods) {
+        foreach ($this->constantArgByMethodByType as $type => $positionsByMethods) {
             $positions = $this->matchPositions($node, $scope, $type, $positionsByMethods, $methodName);
             if ($positions === null) {
                 continue;
