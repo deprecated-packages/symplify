@@ -76,6 +76,8 @@ final class JsonFileManager
      */
     public function encodeJsonToFileContent(array $json, array $inlineSections = []): string
     {
+        // Empty arrays may lead to bad encoding since we can't be sure whether they need to be arrays or objects.
+        $json = $this->removeEmptyKeysFromJsonArray($json);
         $jsonContent = Json::encode($json, Json::PRETTY) . StaticEolConfiguration::getEolChar();
 
         foreach ($inlineSections as $inlineSection) {
@@ -91,5 +93,22 @@ final class JsonFileManager
         }
 
         return $jsonContent;
+    }
+
+    private function removeEmptyKeysFromJsonArray(array $json): array
+    {
+        foreach ($json as $key => $value) {
+            if (! is_array($value)) {
+                continue;
+            }
+
+            if (count($value) === 0) {
+                unset($json[$key]);
+            } else {
+                $json[$key] = $this->removeEmptyKeysFromJsonArray($value);
+            }
+        }
+
+        return $json;
     }
 }
