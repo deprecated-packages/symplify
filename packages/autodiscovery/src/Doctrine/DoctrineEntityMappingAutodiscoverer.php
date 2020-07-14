@@ -10,6 +10,7 @@ use Symplify\Autodiscovery\Contract\AutodiscovererInterface;
 use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 use Symplify\Autodiscovery\NamespaceDetector;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterface
 {
@@ -31,7 +32,7 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
     public function __construct(ContainerBuilder $containerBuilder, AutodiscoveryFinder $fileSystem)
     {
         $this->containerBuilder = $containerBuilder;
-        $this->namespaceDetector = new NamespaceDetector();
+        $this->namespaceDetector = new NamespaceDetector(new SmartFileSystem());
         $this->fileSystem = $fileSystem;
     }
 

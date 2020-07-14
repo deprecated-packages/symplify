@@ -8,6 +8,7 @@ use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 use Symplify\SymfonyStaticDumper\Tests\TestProject\HttpKernel\TestSymfonyStaticDumperKernel;
 
@@ -28,11 +29,18 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
      */
     private $symfonyStaticDumperApplication;
 
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
     protected function setUp(): void
     {
         $this->bootKernel(TestSymfonyStaticDumperKernel::class);
 
         $this->symfonyStaticDumperApplication = self::$container->get(SymfonyStaticDumperApplication::class);
+
+        $this->smartFileSystem = new SmartFileSystem();
 
         // disable output in tests
         $symfonyStyle = self::$container->get(SymfonyStyle::class);
@@ -66,10 +74,10 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
     {
         $this->assertFileExists(self::OUTPUT_DIRECTORY . '/api.json');
 
-        $expectedFileContent = FileSystem::read(self::EXPECTED_DIRECTORY . '/api.json');
+        $expectedFileContent = $this->smartFileSystem->readFile(self::EXPECTED_DIRECTORY . '/api.json');
         $expectedFileContent = trim($expectedFileContent);
 
-        $outputFileContent = FileSystem::read(self::OUTPUT_DIRECTORY . '/api.json');
+        $outputFileContent = $this->smartFileSystem->readFile(self::OUTPUT_DIRECTORY . '/api.json');
         $outputFileContent = trim($outputFileContent);
 
         $this->assertSame($expectedFileContent, $outputFileContent);

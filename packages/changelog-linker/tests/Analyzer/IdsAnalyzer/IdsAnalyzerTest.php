@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\Tests\Analyzer\IdsAnalyzer;
 
 use Iterator;
-use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\EasyTesting\StaticFixtureSplitter;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class IdsAnalyzerTest extends TestCase
 {
@@ -24,17 +26,16 @@ final class IdsAnalyzerTest extends TestCase
     /**
      * @dataProvider provideData()
      */
-    public function test(string $filePath, int $expectedId): void
+    public function test(SmartFileInfo $fixtureFileInfo): void
     {
-        $content = FileSystem::read($filePath);
-        $this->assertSame($expectedId, $this->idsAnalyzer->getHighestIdInChangelog($content));
+        [$inputContent, $expectedId] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
+
+        $foundHighestId = $this->idsAnalyzer->getHighestIdInChangelog($inputContent);
+        $this->assertSame($expectedId, $foundHighestId);
     }
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Source/SomeFile.md', 15];
-        yield [__DIR__ . '/Source/SomeFileWithLinks.md', 20];
-        yield [__DIR__ . '/Source/SomeFileWithAnotherType.md', 428];
-        yield [__DIR__ . '/Source/ShopsysChangelog.md', 449];
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Source', '*.md');
     }
 }

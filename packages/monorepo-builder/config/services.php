@@ -6,12 +6,13 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -28,9 +29,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(EventDispatcher::class);
 
-    $services->alias('Symfony\Component\EventDispatcher\EventDispatcherInterface', EventDispatcher::class);
+    $services->alias(EventDispatcherInterface::class, EventDispatcher::class);
 
-    $services->set(Filesystem::class);
+    $services->set(SmartFileSystem::class);
 
     $services->set(FileSystemGuard::class);
 

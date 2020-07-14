@@ -30,6 +30,6 @@ final class ChangelogCleaner
             $changelogContent = Strings::replace($changelogContent, $deadLinkPattern);
         }
 
-        return $changelogContent;
+        return rtrim($changelogContent) . PHP_EOL;
     }
 }

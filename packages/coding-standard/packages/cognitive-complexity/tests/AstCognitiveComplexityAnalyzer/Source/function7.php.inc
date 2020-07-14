@@ -7,4 +7,5 @@ function overriddenSymbolFrom()
     }
 }
 
-// Cognitive Complexity 3
+-----
+3

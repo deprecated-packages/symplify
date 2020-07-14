@@ -4,4 +4,6 @@ interface SomeInterface
 {
     function overriddenSymbolFrom(ClassJavaType $classType);
 }
-// Cognitive Complexity 0
+
+-----
+0

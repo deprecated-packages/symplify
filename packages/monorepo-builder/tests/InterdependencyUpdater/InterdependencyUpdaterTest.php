@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\InterdependencyUpdater;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class InterdependencyUpdaterTest extends AbstractKernelTestCase
 {
@@ -18,21 +18,21 @@ final class InterdependencyUpdaterTest extends AbstractKernelTestCase
     private $dependencyUpdater;
 
     /**
-     * @var Filesystem
+     * @var SmartFileSystem
      */
-    private $filesystem;
+    private $smartFileSystem;
 
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
         $this->dependencyUpdater = self::$container->get(DependencyUpdater::class);
-        $this->filesystem = self::$container->get(Filesystem::class);
+        $this->smartFileSystem = self::$container->get(SmartFileSystem::class);
     }
 
     protected function tearDown(): void
     {
-        $this->filesystem->copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json', true);
+        $this->smartFileSystem->copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json', true);
     }
 
     public function testVendor(): void

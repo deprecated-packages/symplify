@@ -8,6 +8,7 @@ use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemGuard;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
@@ -21,8 +22,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->defaults()
         ->autowire()
-        ->public()
-    ;
+        ->public();
 
     $services->set(FileSystemGuard::class);
 
@@ -42,8 +42,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SymfonyStyleFactory::class);
 
     $services->set(SymfonyStyle::class)
-        ->factory([ref(SymfonyStyleFactory::class), 'create'])
-    ;
+        ->factory([ref(SymfonyStyleFactory::class), 'create']);
 
     $services->set(Client::class);
+
+    $services->set(SmartFileSystem::class);
 };

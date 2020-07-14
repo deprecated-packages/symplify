@@ -10,6 +10,7 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -34,9 +35,15 @@ final class CodingStandardSyncChecker
      */
     private $symfonyStyle;
 
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
     public function __construct()
     {
         $this->symfonyStyle = (new SymfonyStyleFactory())->create();
+        $this->smartFileSystem = new SmartFileSystem();
     }
 
     public function run(): void
@@ -62,8 +69,7 @@ final class CodingStandardSyncChecker
      */
     private function resolveCheckerClassesInReadme(): array
     {
-        $codingStandardReadmeContent = FileSystem::read(self::CODING_STANDARD_README_PATH);
-
+        $codingStandardReadmeContent = $this->smartFileSystem->readFile(self::CODING_STANDARD_README_PATH);
         $checkerClassMatches = Strings::matchAll($codingStandardReadmeContent, self::CHECKER_CLASS_PATTERN);
 
         $checkerClasses = [];

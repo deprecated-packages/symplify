@@ -6,11 +6,10 @@ namespace Symplify\Autodiscovery\Yaml;
 
 use Nette\Utils\Strings;
 use ReflectionClass;
-use Symfony\Component\Filesystem\Filesystem;
 use Symplify\Autodiscovery\Exception\ClassLocationNotFoundException;
 use Symplify\Autodiscovery\Exception\ClassNotFoundException;
 use Symplify\Autodiscovery\ValueObject\ServiceConfig;
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ExplicitToAutodiscoveryConverter
 {
@@ -27,11 +26,6 @@ final class ExplicitToAutodiscoveryConverter
     ];
 
     /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
      * @var CommonNamespaceResolver
      */
     private $commonNamespaceResolver;
@@ -46,14 +40,19 @@ final class ExplicitToAutodiscoveryConverter
      */
     private $serviceConfig;
 
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
     public function __construct(
-        Filesystem $filesystem,
         CommonNamespaceResolver $commonNamespaceResolver,
-        YamlServiceProcessor $yamlServiceProcessor
+        YamlServiceProcessor $yamlServiceProcessor,
+        SmartFileSystem $smartFileSystem
     ) {
-        $this->filesystem = $filesystem;
         $this->commonNamespaceResolver = $commonNamespaceResolver;
         $this->yamlServiceProcessor = $yamlServiceProcessor;
+        $this->smartFileSystem = $smartFileSystem;
     }
 
     /**
@@ -226,10 +225,10 @@ final class ExplicitToAutodiscoveryConverter
             throw new ClassLocationNotFoundException(sprintf('Location for "%s" class was not found.', $class));
         }
 
-        $fileInfo = new SmartFileInfo($configFilePath);
+        $fileInfo = $this->smartFileSystem->readFileToSmartFileInfo($configFilePath);
         $configDirectory = dirname($fileInfo->getRealPath());
 
-        $relativePath = $this->filesystem->makePathRelative($classDirectory, $configDirectory);
+        $relativePath = $this->smartFileSystem->makePathRelative($classDirectory, $configDirectory);
 
         return rtrim($relativePath, '/');
     }

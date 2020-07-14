@@ -23,7 +23,11 @@ final class StaticFixtureSplitter
     {
         if (Strings::match($smartFileInfo->getContents(), SplitLine::SPLIT_LINE)) {
             // original → expected
-            return Strings::split($smartFileInfo->getContents(), SplitLine::SPLIT_LINE);
+            [$original, $expected] = Strings::split($smartFileInfo->getContents(), SplitLine::SPLIT_LINE);
+
+            $expected = self::retypeExpected($expected);
+
+            return [$original, $expected];
         }
 
         // no changes
@@ -77,5 +81,22 @@ final class StaticFixtureSplitter
         $fileBaseName = $smartFileInfo->getBasename('.inc');
 
         return self::getTemporaryPath() . sprintf('/%s_%s_%s', $prefix, $hash, $fileBaseName);
+    }
+
+    private static function retypeExpected($expected)
+    {
+        if (! is_numeric(trim($expected))) {
+            return $expected;
+        }
+
+        // value re-type
+        if (strlen((string) (int) $expected) === strlen(trim($expected))) {
+            return (int) $expected;
+        }
+        if (strlen((string) (float) $expected) === strlen(trim($expected))) {
+            return (float) $expected;
+        }
+
+        return $expected;
     }
 }
