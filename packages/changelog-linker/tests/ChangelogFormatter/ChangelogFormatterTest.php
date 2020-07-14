@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\Tests\ChangelogFormatter;
 
 use Iterator;
-use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogFormatter;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\EasyTesting\StaticFixtureSplitter;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ChangelogFormatterTest extends TestCase
 {
@@ -24,16 +26,16 @@ final class ChangelogFormatterTest extends TestCase
     /**
      * @dataProvider provideData()
      */
-    public function test(string $fileToFormat, string $expectedFormattedFile): void
+    public function test(SmartFileInfo $fixtureFileInfo): void
     {
-        $fileContentToFormat = FileSystem::read($fileToFormat);
+        [$input, $expectedOutput] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
 
-        $this->assertStringEqualsFile($expectedFormattedFile, $this->changelogFormatter->format($fileContentToFormat));
+        $output = $this->changelogFormatter->format($input);
+        $this->assertSame($expectedOutput, $output, $fixtureFileInfo->getRelativeFilePathFromCwd());
     }
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/ChangelogFormatterSource/before.txt', __DIR__ . '/ChangelogFormatterSource/after.txt'];
-        yield [__DIR__ . '/ChangelogFormatterSource/before2.txt', __DIR__ . '/ChangelogFormatterSource/after2.txt'];
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Source', '*.txt');
     }
 }

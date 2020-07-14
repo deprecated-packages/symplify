@@ -1,4 +1,3 @@
-
 ## Unreleased
 
 [SomePackage] Message

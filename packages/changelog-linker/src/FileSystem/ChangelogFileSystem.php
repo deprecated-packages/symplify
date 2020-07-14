@@ -9,6 +9,7 @@ use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\FileSystemGuard;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ChangelogFileSystem
 {
@@ -32,16 +33,23 @@ final class ChangelogFileSystem
      */
     private $fileSystemGuard;
 
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
     public function __construct(
         ChangelogLinker $changelogLinker,
         ChangelogPlaceholderGuard $changelogPlaceholderGuard,
         FileSystemGuard $fileSystemGuard,
-        ParameterProvider $parameterProvider
+        ParameterProvider $parameterProvider,
+        SmartFileSystem $smartFileSystem
     ) {
         $this->changelogLinker = $changelogLinker;
         $this->changelogPlaceholderGuard = $changelogPlaceholderGuard;
         $this->parameterProvider = $parameterProvider;
         $this->fileSystemGuard = $fileSystemGuard;
+        $this->smartFileSystem = $smartFileSystem;
     }
 
     public function readChangelog(): string
@@ -49,7 +57,7 @@ final class ChangelogFileSystem
         $changelogFilePath = $this->getChangelogFilePath();
         $this->fileSystemGuard->ensureFileExists($changelogFilePath, __METHOD__);
 
-        return FileSystem::read($changelogFilePath);
+        return $this->smartFileSystem->readFile($changelogFilePath);
     }
 
     public function storeChangelog(string $content): void

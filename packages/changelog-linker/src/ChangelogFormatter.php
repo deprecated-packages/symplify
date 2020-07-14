@@ -18,7 +18,9 @@ final class ChangelogFormatter
     {
         $content = $this->wrapHeadlinesWithEmptyLines($content);
 
-        return $this->removeSuperfluousSpaces($content);
+        $content = $this->removeSuperfluousSpaces($content);
+
+        return ltrim($content);
     }
 
     /**
