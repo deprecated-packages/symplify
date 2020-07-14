@@ -23,7 +23,16 @@ final class StaticFixtureSplitter
     {
         if (Strings::match($smartFileInfo->getContents(), SplitLine::SPLIT_LINE)) {
             // original → expected
-            return Strings::split($smartFileInfo->getContents(), SplitLine::SPLIT_LINE);
+            [$original, $expected] = Strings::split($smartFileInfo->getContents(), SplitLine::SPLIT_LINE);
+
+            // value re-type
+            if (intval($expected) === (int) $expected) {
+                $expected = (int) $expected;
+            } elseif (floatval($expected) === (float) $expected) {
+                $expected = (float) $expected;
+            }
+
+            return [$original, $expected];
         }
 
         // no changes

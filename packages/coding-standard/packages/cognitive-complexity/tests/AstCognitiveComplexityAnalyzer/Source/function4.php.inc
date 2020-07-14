@@ -7,4 +7,5 @@ function myMethod2 () {
     };
 }
 
-// Cognitive Complexity 2
+-----
+2

@@ -13,4 +13,5 @@ function getWords($number) {
     }
 }
 
-// Cognitive Complexity 1
+-----
+1

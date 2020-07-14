@@ -13,8 +13,10 @@ use PhpParser\NodeFinder;
 use PhpParser\ParserFactory;
 use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\CodingStandard\Tests\HttpKernel\SymplifyCodingStandardKernel;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
-use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class AstCognitiveComplexityAnalyzerTest extends AbstractKernelTestCase
 {
@@ -32,9 +34,13 @@ final class AstCognitiveComplexityAnalyzerTest extends AbstractKernelTestCase
     /**
      * @dataProvider provideTokensAndExpectedCognitiveComplexity()
      */
-    public function test(string $filePath, int $expectedCognitiveComplexity): void
+    public function test(SmartFileInfo $fixtureFileInfo): void
     {
-        $functionLike = $this->parseFileToFistFunctionLike($filePath);
+        [$inputContent, $expectedCognitiveComplexity] = StaticFixtureSplitter::splitFileInfoToInputAndExpected(
+            $fixtureFileInfo
+        );
+
+        $functionLike = $this->parseFileToFistFunctionLike($inputContent);
         $cognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($functionLike);
 
         $this->assertSame($expectedCognitiveComplexity, $cognitiveComplexity);
@@ -45,26 +51,16 @@ final class AstCognitiveComplexityAnalyzerTest extends AbstractKernelTestCase
      */
     public function provideTokensAndExpectedCognitiveComplexity(): Iterator
     {
-        // passing
-        yield [__DIR__ . '/Source/function.php.inc', 9];
-        yield [__DIR__ . '/Source/function2.php.inc', 6];
-        yield [__DIR__ . '/Source/function3.php.inc', 1];
-        yield [__DIR__ . '/Source/function8.php.inc', 7];
-
-        yield [__DIR__ . '/Source/function6.php.inc', 0];
-        yield [__DIR__ . '/Source/function4.php.inc', 2];
-        yield [__DIR__ . '/Source/function7.php.inc', 3];
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Source');
     }
 
     /**
      * @return ClassMethod|Function_
      */
-    private function parseFileToFistFunctionLike(string $filePath): FunctionLike
+    private function parseFileToFistFunctionLike(string $fileContent): FunctionLike
     {
         $parser = (new ParserFactory())->create(ParserFactory::ONLY_PHP7);
-
-        $fileCotent = (new SmartFileSystem())->readFile($filePath);
-        $nodes = $parser->parse($fileCotent);
+        $nodes = $parser->parse($fileContent);
 
         return (new NodeFinder())->findFirst((array) $nodes, function (Node $node) {
             return $node instanceof ClassMethod || $node instanceof Function_;

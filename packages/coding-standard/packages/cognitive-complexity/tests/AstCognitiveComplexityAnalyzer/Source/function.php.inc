@@ -15,4 +15,5 @@ function someFunction($var)
     }
 }
 
-// Cognitive Complexity 9
+-----
+9

@@ -14,4 +14,5 @@ function sumOfPrimes(int $max): int {
     return $total;
 }
 
-// Cognitive Complexity 7
+-----
+7
