@@ -3,26 +3,36 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Filesystem;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
-use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+
+    $parameters->set('dataDir', '%kernel.project_dir%/build');
+
+    $parameters->set('buildDir', '%kernel.project_dir%/..');
+
     $services = $containerConfigurator->services();
 
     $services->defaults()
+        ->public()
         ->autowire()
-        ->autoconfigure()
-        ->public();
+        ->autoconfigure();
 
-    $services->load('Symplify\SymfonyStaticDumper\\', __DIR__ . '/../src')
+    $services->load('Symplify\MonorepoBuilder\Compiler\\', __DIR__ . '/../src')
         ->exclude([
-            __DIR__ . '/../src/Exception/*',
+            __DIR__ . '/../src/HttpKernel/*',
+            __DIR__ . '/../src/Process/*',
         ]);
-
-    $services->set(FinderSanitizer::class);
 
     $services->set(SymfonyStyleFactory::class);
 
     $services->set(SymfonyStyle::class)
         ->factory([ref(SymfonyStyleFactory::class), 'create']);
+
+    $services->set(Filesystem::class);
+
+    $services->set(SmartFileSystem::class);
 };
