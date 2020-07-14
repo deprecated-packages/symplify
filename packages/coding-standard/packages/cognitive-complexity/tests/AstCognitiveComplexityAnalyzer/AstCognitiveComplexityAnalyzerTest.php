@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\CognitiveComplexity\Tests\AstCognitiveComplexityAnalyzer;
 
 use Iterator;
-use Nette\Utils\FileSystem;
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -15,6 +14,7 @@ use PhpParser\ParserFactory;
 use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\CodingStandard\Tests\HttpKernel\SymplifyCodingStandardKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class AstCognitiveComplexityAnalyzerTest extends AbstractKernelTestCase
 {
@@ -35,7 +35,6 @@ final class AstCognitiveComplexityAnalyzerTest extends AbstractKernelTestCase
     public function test(string $filePath, int $expectedCognitiveComplexity): void
     {
         $functionLike = $this->parseFileToFistFunctionLike($filePath);
-
         $cognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($functionLike);
 
         $this->assertSame($expectedCognitiveComplexity, $cognitiveComplexity);
@@ -63,7 +62,8 @@ final class AstCognitiveComplexityAnalyzerTest extends AbstractKernelTestCase
     private function parseFileToFistFunctionLike(string $filePath): FunctionLike
     {
         $parser = (new ParserFactory())->create(ParserFactory::ONLY_PHP7);
-        $fileCotent = FileSystem::read($filePath);
+
+        $fileCotent = (new SmartFileSystem())->readFile($filePath);
         $nodes = $parser->parse($fileCotent);
 
         return (new NodeFinder())->findFirst((array) $nodes, function (Node $node) {

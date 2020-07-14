@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\Tests\ChangelogCleaner;
 
 use Iterator;
-use Nette\Utils\FileSystem;
 use Symplify\ChangelogLinker\ChangelogCleaner;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ChangelogCleanerTest extends AbstractKernelTestCase
 {
@@ -20,25 +22,22 @@ final class ChangelogCleanerTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(ChangelogLinkerKernel::class);
-
         $this->changelogCleaner = self::$container->get(ChangelogCleaner::class);
     }
 
     /**
      * @dataProvider dataProvider()
      */
-    public function test(string $originalFile, string $expectedFile): void
+    public function test(SmartFileInfo $fixtureFile): void
     {
-        $processedFile = $this->changelogCleaner->processContent(FileSystem::read($originalFile));
+        [$inputContent, $expectedContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFile);
 
-        $this->assertStringEqualsFile($expectedFile, $processedFile);
+        $outputContent = $this->changelogCleaner->processContent($inputContent);
+        $this->assertSame($expectedContent, $outputContent, $fixtureFile->getRelativeFilePathFromCwd());
     }
 
     public function dataProvider(): Iterator
     {
-        yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
-        yield [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'];
-        yield [__DIR__ . '/Source/before/03.md', __DIR__ . '/Source/after/03.md'];
-        yield [__DIR__ . '/Source/before/04.md', __DIR__ . '/Source/after/04.md'];
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Source/fixture', '*.md');
     }
 }

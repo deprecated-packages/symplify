@@ -9,9 +9,20 @@ use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
 {
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
+    public function __construct(SmartFileSystem $smartFileSystem)
+    {
+        $this->smartFileSystem = $smartFileSystem;
+    }
+
     public function work(Version $version): void
     {
         $changelogFilePath = getcwd() . '/CHANGELOG.md';
@@ -21,7 +32,7 @@ final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
 
         $newHeadline = $this->createNewHeadline($version);
 
-        $changelogFileContent = FileSystem::read($changelogFilePath);
+        $changelogFileContent = $this->smartFileSystem->readFile($changelogFilePath);
         $changelogFileContent = Strings::replace($changelogFileContent, '#\#\# Unreleased#', '## ' . $newHeadline);
 
         FileSystem::write($changelogFilePath, $changelogFileContent);
