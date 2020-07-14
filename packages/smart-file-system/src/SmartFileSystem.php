@@ -17,9 +17,8 @@ final class SmartFileSystem extends Filesystem
     public function readFile(string $filename): string
     {
         $source = @file_get_contents($filename);
-        if ($source === false) {
+        if (! $source) {
             $message = sprintf('Failed to read "%s" file: "%s"', $filename, $this->getLastError());
-
             throw new IOException($message, 0, null, $filename);
         }
 

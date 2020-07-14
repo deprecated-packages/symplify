@@ -90,12 +90,10 @@ final class StaticFixtureSplitter
         }
 
         // value re-type
-        if (intval($expected) === (int) $expected && strlen((string) (int) $expected) === strlen(trim($expected))) {
+        if (strlen((string) (int) $expected) === strlen(trim($expected))) {
             return (int) $expected;
         }
-        if (floatval($expected) === (float) $expected && strlen((string) (float) $expected) === strlen(
-            trim($expected)
-        )) {
+        if (strlen((string) (float) $expected) === strlen(trim($expected))) {
             return (float) $expected;
         }
 
