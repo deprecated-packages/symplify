@@ -11,16 +11,16 @@
         "slevomat/coding-standard": "^6.3.5",
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpstan/phpstan": "^0.12.25",
-        "symplify/smart-file-system": "^8.2",
-        "symplify/package-builder": "^8.2",
-        "symplify/autowire-array-parameter": "^8.2",
-        "symplify/phpstan-extensions": "^8.2"
+        "symplify/smart-file-system": "^8.1.7",
+        "symplify/package-builder": "^8.1.7",
+        "symplify/autowire-array-parameter": "^8.1.7",
+        "symplify/phpstan-extensions": "^8.1.7"
     },
     "require-dev": {
         "nette/application": "^3.0",
         "nette/bootstrap": "^3.0",
-        "symplify/easy-coding-standard-tester": "^8.2",
-        "symplify/package-builder": "^8.2",
+        "symplify/easy-coding-standard-tester": "^8.1.7",
+        "symplify/package-builder": "^8.1.7",
         "phpunit/phpunit": "^8.5|^9.0"
     },
     "autoload": {
