@@ -6,7 +6,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/services.php');
-    $containerConfigurator->import(__DIR__ . '/../packages/**/config/config.yaml');
+    $containerConfigurator->import(__DIR__ . '/../packages/**/config/config.php');
 
     $parameters = $containerConfigurator->parameters();
 

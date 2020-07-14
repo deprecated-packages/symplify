@@ -24,8 +24,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ;
 
     $services->load('Symplify\\MonorepoBuilder\\', __DIR__ . '/../src')
-        ->exclude([__DIR__ . '/../src/Exception/*', __DIR__ . '/../src/HttpKernel/*'])
-    ;
+        ->exclude([
+            __DIR__ . '/../src/Exception/*',
+            __DIR__ . '/../src/HttpKernel/*',
+        ]);
 
     $services->set(EventDispatcher::class);
 
