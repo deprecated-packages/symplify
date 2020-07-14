@@ -11,14 +11,14 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\NodeFinder;
 use PhpParser\ParserFactory;
+use PHPStan\DependencyInjection\ContainerFactory;
+use PHPUnit\Framework\TestCase;
 use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
-use Symplify\CodingStandard\Tests\HttpKernel\SymplifyCodingStandardKernel;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class AstCognitiveComplexityAnalyzerTest extends AbstractKernelTestCase
+final class AstCognitiveComplexityAnalyzerTest extends TestCase
 {
     /**
      * @var AstCognitiveComplexityAnalyzer
@@ -27,8 +27,16 @@ final class AstCognitiveComplexityAnalyzerTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernel(SymplifyCodingStandardKernel::class);
-        $this->astCognitiveComplexityAnalyzer = self::$container->get(AstCognitiveComplexityAnalyzer::class);
+        $phpstanContainerFactory = new ContainerFactory(getcwd());
+
+        $tempFile = sys_get_temp_dir() . '/_symplify_cogntive_complexity_test';
+        $container = $phpstanContainerFactory->create(
+            $tempFile,
+            [__DIR__ . '/../../config/cognitive-complexity-rules.neon'],
+            []
+        );
+
+        $this->astCognitiveComplexityAnalyzer = $container->getByType(AstCognitiveComplexityAnalyzer::class);
     }
 
     /**
