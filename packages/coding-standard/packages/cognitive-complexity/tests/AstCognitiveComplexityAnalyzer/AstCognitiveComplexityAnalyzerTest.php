@@ -28,9 +28,13 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
     protected function setUp(): void
     {
         $phpstanContainerFactory = new ContainerFactory(getcwd());
-        $container = $phpstanContainerFactory->create(sys_get_temp_dir() . '/_symplify_cogntive_complexity_test', [
-            __DIR__ . '/../../config/cognitive-complexity-rules.neon',
-        ], []);
+
+        $tempFile = sys_get_temp_dir() . '/_symplify_cogntive_complexity_test';
+        $container = $phpstanContainerFactory->create(
+            $tempFile,
+            [__DIR__ . '/../../config/cognitive-complexity-rules.neon'],
+            []
+        );
 
         $this->astCognitiveComplexityAnalyzer = $container->getByType(AstCognitiveComplexityAnalyzer::class);
     }
