@@ -6,7 +6,9 @@ services:
 
     Symplify\EasyHydrator\:
         resource: '../src'
+        exclude:
+            - '../src/DepencencyInjection/*'
+            - '../src/EasyHydratorBundle.php'
 
     Symfony\Component\Cache\Adapter\FilesystemAdapter: null
-
     Symplify\PackageBuilder\Strings\StringFormatConverter: null
