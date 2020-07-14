@@ -9,7 +9,6 @@ use ReflectionClass;
 use Symplify\Autodiscovery\Exception\ClassLocationNotFoundException;
 use Symplify\Autodiscovery\Exception\ClassNotFoundException;
 use Symplify\Autodiscovery\ValueObject\ServiceConfig;
-use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ExplicitToAutodiscoveryConverter
@@ -226,7 +225,7 @@ final class ExplicitToAutodiscoveryConverter
             throw new ClassLocationNotFoundException(sprintf('Location for "%s" class was not found.', $class));
         }
 
-        $fileInfo = new SmartFileInfo($configFilePath);
+        $fileInfo = $this->smartFileSystem->readFileToSmartFileInfo($configFilePath);
         $configDirectory = dirname($fileInfo->getRealPath());
 
         $relativePath = $this->smartFileSystem->makePathRelative($classDirectory, $configDirectory);

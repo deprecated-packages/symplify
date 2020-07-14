@@ -95,6 +95,20 @@ echo $smartFileInfo->doesFnmatch('*Repo*');
 // true
 ```
 
+### Smart FileSystem - Just like Symfony, just Better
+
+New method - `readFile()` (to read files):
+
+```php
+$smartFileSystem = new Symplify\SmartFileSystem\SmartFileSystem();
+$fileContent = $smartFileSystem->readFile(__DIR__ . '/SomeFile.php');
+```
+
+```
+// if you plan to use SmartFileInfo, use this
+$smartFileInfo = $smartFileSystem->readFileToSmartFileInfo(__DIR__ . '/SomeFile.php');
+```
+
 ### Sanitizer various files to `SmartFileInfo[]`
 
 Do you have multiple file inputs that can mix-up?
