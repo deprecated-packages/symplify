@@ -41,17 +41,17 @@ final class ValueResolver
             return DateTime::from($value);
         }
 
-        $parameterType = (string) $reflectionParameter->getType();
-        if ($parameterType === 'string') {
-            return (string) $value;
-        }
+        $parameterType = $reflectionParameter->getType();
 
-        if ($parameterType === 'bool') {
-            return (bool) $value;
-        }
-
-        if ($parameterType === 'int') {
-            return (int) $value;
+        if ($parameterType !== null) {
+            switch ($parameterType->getName()) {
+                case 'string':
+                    return (string) $value;
+                case 'bool':
+                    return (bool) $value;
+                case 'int':
+                    return (int) $value;
+            }
         }
 
         return $value;
