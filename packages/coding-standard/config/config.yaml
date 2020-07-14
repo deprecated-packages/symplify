@@ -1,6 +1,3 @@
-imports:
-    - { resource: "../packages/*/config/*.yaml" }
-
 # set for coding standard services, excepts sniffs and fixers
 services:
     _defaults:
