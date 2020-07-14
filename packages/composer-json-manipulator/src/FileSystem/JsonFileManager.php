@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\ComposerJsonManipulator\FileSystem;
 
-use Nette\Utils\FileSystem;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class JsonFileManager
 {
@@ -20,16 +19,16 @@ final class JsonFileManager
     private $inlineSections = [];
 
     /**
-     * @var SymfonyFilesystem
+     * @var SmartFileSystem
      */
-    private $symfonyFilesystem;
+    private $smartFileSystem;
 
     /**
      * @param string[] $inlineSections
      */
-    public function __construct(SymfonyFilesystem $symfonyFilesystem, array $inlineSections = [])
+    public function __construct(SmartFileSystem $smartFileSystem, array $inlineSections = [])
     {
-        $this->symfonyFilesystem = $symfonyFilesystem;
+        $this->smartFileSystem = $smartFileSystem;
         $this->inlineSections = $inlineSections;
     }
 
@@ -46,7 +45,7 @@ final class JsonFileManager
      */
     public function loadFromFilePath(string $filePath): array
     {
-        $fileContent = FileSystem::read($filePath);
+        $fileContent = $this->smartFileSystem->readFile($filePath);
 
         return Json::decode($fileContent, Json::FORCE_ARRAY);
     }
@@ -57,13 +56,13 @@ final class JsonFileManager
     public function saveJsonWithFileInfo(array $json, SmartFileInfo $smartFileInfo): void
     {
         $jsonString = $this->encodeJsonToFileContent($json, $this->inlineSections);
-        $this->symfonyFilesystem->dumpFile($smartFileInfo->getPathname(), $jsonString);
+        $this->smartFileSystem->dumpFile($smartFileInfo->getPathname(), $jsonString);
     }
 
     public function saveComposerJsonToFilePath(ComposerJson $composerJson, string $filePath): void
     {
         $jsonString = $this->encodeJsonToFileContent($composerJson->getJsonArray(), $this->inlineSections);
-        $this->symfonyFilesystem->dumpFile($filePath, $jsonString);
+        $this->smartFileSystem->dumpFile($filePath, $jsonString);
     }
 
     public function saveComposerJsonWithFileInfo(ComposerJson $composerJson, SmartFileInfo $smartFileInfo): void

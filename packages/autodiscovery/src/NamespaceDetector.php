@@ -4,12 +4,22 @@ declare(strict_types=1);
 
 namespace Symplify\Autodiscovery;
 
-use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class NamespaceDetector
 {
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
+    public function __construct(SmartFileSystem $smartFileSystem)
+    {
+        $this->smartFileSystem = $smartFileSystem;
+    }
+
     public function detectFromDirectory(SmartFileInfo $directoryInfo): ?string
     {
         $filesInDirectory = (array) glob($directoryInfo->getRealPath() . '/*.php');
@@ -37,7 +47,7 @@ final class NamespaceDetector
 
     private function detectFromFile(string $filePath): ?string
     {
-        $fileContent = FileSystem::read($filePath);
+        $fileContent = $this->smartFileSystem->readFile($filePath);
         $match = Strings::match($fileContent, '#namespace(\s+)(?<namespace>[\w\\\\]*?);#');
 
         if (! isset($match['namespace'])) {

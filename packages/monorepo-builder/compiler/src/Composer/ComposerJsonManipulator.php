@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Compiler\Composer;
 
-use Nette\Utils\FileSystem as NetteFileSystem;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
-use Symfony\Component\Filesystem\Filesystem;
 use Symplify\ConsoleColorDiff\Console\Output\ConsoleDiffer;
 use Symplify\MonorepoBuilder\Compiler\Packagist\SymplifyStableVersionProvider;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ComposerJsonManipulator
 {
@@ -24,11 +23,6 @@ final class ComposerJsonManipulator
     private $composerJsonFilePath;
 
     /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
      * @var SymplifyStableVersionProvider
      */
     private $symplifyStableVersionProvider;
@@ -38,21 +32,26 @@ final class ComposerJsonManipulator
      */
     private $consoleDiffer;
 
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
     public function __construct(
         SymplifyStableVersionProvider $symplifyStableVersionProvider,
-        Filesystem $filesystem,
-        ConsoleDiffer $consoleDiffer
+        ConsoleDiffer $consoleDiffer,
+        SmartFileSystem $smartFileSystem
     ) {
         $this->symplifyStableVersionProvider = $symplifyStableVersionProvider;
-        $this->filesystem = $filesystem;
         $this->consoleDiffer = $consoleDiffer;
+        $this->smartFileSystem = $smartFileSystem;
     }
 
     public function fixComposerJson(string $composerJsonFilePath): void
     {
         $this->composerJsonFilePath = $composerJsonFilePath;
 
-        $fileContent = NetteFileSystem::read($composerJsonFilePath);
+        $fileContent = $this->smartFileSystem->readFile($composerJsonFilePath);
         $this->originalComposerJsonFileContent = $fileContent;
 
         $json = Json::decode($fileContent, Json::FORCE_ARRAY);
@@ -67,7 +66,7 @@ final class ComposerJsonManipulator
         // show diff
         $this->consoleDiffer->diff($this->originalComposerJsonFileContent, $encodedJson);
 
-        $this->filesystem->dumpFile($composerJsonFilePath, $encodedJson);
+        $this->smartFileSystem->dumpFile($composerJsonFilePath, $encodedJson);
     }
 
     /**
@@ -75,7 +74,7 @@ final class ComposerJsonManipulator
      */
     public function restore(): void
     {
-        $this->filesystem->dumpFile($this->composerJsonFilePath, $this->originalComposerJsonFileContent);
+        $this->smartFileSystem->dumpFile($this->composerJsonFilePath, $this->originalComposerJsonFileContent);
     }
 
     private function replaceDevSymplifyVersionWithLastStableVersion(array $json): array

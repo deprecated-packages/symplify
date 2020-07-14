@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\FileSystem\JsonFileManager;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class JsonFileManagerTest extends AbstractKernelTestCase
 {
@@ -18,22 +18,22 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
     private $jsonFileManager;
 
     /**
-     * @var Filesystem
+     * @var SmartFileSystem
      */
-    private $filesystem;
+    private $smartFileSystem;
 
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
         $this->jsonFileManager = self::$container->get(JsonFileManager::class);
-        $this->filesystem = self::$container->get(Filesystem::class);
+        $this->smartFileSystem = self::$container->get(SmartFileSystem::class);
     }
 
     protected function tearDown(): void
     {
-        $this->filesystem->remove(__DIR__ . '/Source/second.json');
-        $this->filesystem->remove(__DIR__ . '/Source/third.json');
+        $this->smartFileSystem->remove(__DIR__ . '/Source/second.json');
+        $this->smartFileSystem->remove(__DIR__ . '/Source/third.json');
     }
 
     public function testLoad(): void

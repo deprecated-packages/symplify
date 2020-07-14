@@ -15,9 +15,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Filesystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\SmartFileSystem\SmartFileSystem;
 use function dirname;
 
 final class InitCommand extends Command
@@ -28,21 +28,21 @@ final class InitCommand extends Command
     private const OUTPUT = 'output';
 
     /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
 
-    public function __construct(Filesystem $filesystem, SymfonyStyle $symfonyStyle)
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
+    public function __construct(SymfonyStyle $symfonyStyle, SmartFileSystem $smartFileSystem)
     {
         parent::__construct();
 
-        $this->filesystem = $filesystem;
         $this->symfonyStyle = $symfonyStyle;
+        $this->smartFileSystem = $smartFileSystem;
     }
 
     protected function configure(): void
@@ -57,13 +57,15 @@ final class InitCommand extends Command
         /** @var string $output */
         $output = $input->getArgument(self::OUTPUT);
 
-        $this->filesystem->mirror(__DIR__ . '/../../templates/monorepo', $output);
+        $this->smartFileSystem->mirror(__DIR__ . '/../../templates/monorepo', $output);
 
         // Replace MonorepoBuilder version in monorepo-builder.yml
         $filename = sprintf('%s/monorepo-builder.yaml', $output);
-        $content = str_replace('<version>', $this->getMonorepoBuilderVersion(), NetteFileSystem::read($filename));
 
-        $this->filesystem->dumpFile($filename, $content);
+        $fileContent = $this->smartFileSystem->readFile($filename);
+        $content = str_replace('<version>', $this->getMonorepoBuilderVersion(), $fileContent);
+
+        $this->smartFileSystem->dumpFile($filename, $content);
 
         $this->symfonyStyle->success('Congrats! Your first monorepo is here.');
         $message = sprintf(
