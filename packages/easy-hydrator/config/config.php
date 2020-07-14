@@ -3,7 +3,6 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -23,6 +22,4 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(FilesystemAdapter::class);
 
     $services->set(StringFormatConverter::class);
-
-    $services->set(ArrayToValueObjectHydrator::class);
 };
