@@ -30,7 +30,7 @@ final class FilePathResolver
             $arguments = [$arguments];
         }
         $i = 0;
-        return Strings::replace($filePath, '#{(.*?)}#m', function (array $match) use (&$i, $arguments) {
+        return Strings::replace($filePath, '#{(.*?)}#m', function () use (&$i, $arguments) {
             $value = $arguments[$i];
 
             ++$i;
