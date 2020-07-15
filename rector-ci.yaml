@@ -6,6 +6,7 @@ parameters:
     auto_import_names: true
     autoload_paths:
         - 'tests/bootstrap.php'
+        - "ecs.php"
 
     sets:
         - 'code-quality'
