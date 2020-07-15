@@ -10,6 +10,7 @@ use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symplify\EasyCodingStandard\Configuration\Option;
 
 final class YamlSetsResolver
 {
@@ -29,7 +30,7 @@ final class YamlSetsResolver
         $sets = [];
         foreach ($configFiles as $configFile) {
             $delegatingLoader->load($configFile);
-            $sets += $containerBuilder->getParameter('sets');
+            $sets += $containerBuilder->getParameter(Option::SETS);
         }
 
         return $sets;
