@@ -1,0 +1,7 @@
+parameters:
+    sets:
+        - atypical
+
+services:
+    ArrayFixer:
+        syntax: short

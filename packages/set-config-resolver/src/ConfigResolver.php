@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\SetConfigResolver;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Symplify\SetConfigResolver\Config\SetsParameterResolver;
 use Symplify\SetConfigResolver\Console\Option\OptionName;
 use Symplify\SetConfigResolver\Console\OptionValueResolver;
-use Symplify\SetConfigResolver\Yaml\YamlSetsResolver;
 use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -19,9 +19,9 @@ final class ConfigResolver
     private $firstResolverConfig;
 
     /**
-     * @var YamlSetsResolver
+     * @var SetsParameterResolver
      */
-    private $yamlSetsResolver;
+    private $setsParameterResolver;
 
     /**
      * @var SetResolver
@@ -36,7 +36,7 @@ final class ConfigResolver
     public function __construct()
     {
         $this->setResolver = new SetResolver();
-        $this->yamlSetsResolver = new YamlSetsResolver();
+        $this->setsParameterResolver = new SetsParameterResolver();
         $this->optionValueResolver = new OptionValueResolver();
     }
 
@@ -75,7 +75,7 @@ final class ConfigResolver
      */
     public function resolveFromParameterSetsFromConfigFiles(array $configFiles, string $setDirectory): array
     {
-        $sets = $this->yamlSetsResolver->resolveFromConfigFiles($configFiles);
+        $sets = $this->setsParameterResolver->resolveFromConfigFiles($configFiles);
 
         return $this->resolveFromSets($sets, $setDirectory);
     }
