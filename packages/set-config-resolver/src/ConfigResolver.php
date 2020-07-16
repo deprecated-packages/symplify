@@ -19,9 +19,9 @@ final class ConfigResolver
     private $firstResolverConfig;
 
     /**
-     * @var \Symplify\SetConfigResolver\Config\SetsParameterResolver
+     * @var SetsParameterResolver
      */
-    private $yamlSetsResolver;
+    private $setsParameterResolver;
 
     /**
      * @var SetResolver
@@ -36,7 +36,7 @@ final class ConfigResolver
     public function __construct()
     {
         $this->setResolver = new SetResolver();
-        $this->yamlSetsResolver = new SetsParameterResolver();
+        $this->setsParameterResolver = new SetsParameterResolver();
         $this->optionValueResolver = new OptionValueResolver();
     }
 
@@ -75,7 +75,7 @@ final class ConfigResolver
      */
     public function resolveFromParameterSetsFromConfigFiles(array $configFiles, string $setDirectory): array
     {
-        $sets = $this->yamlSetsResolver->resolveFromConfigFiles($configFiles);
+        $sets = $this->setsParameterResolver->resolveFromConfigFiles($configFiles);
 
         return $this->resolveFromSets($sets, $setDirectory);
     }
