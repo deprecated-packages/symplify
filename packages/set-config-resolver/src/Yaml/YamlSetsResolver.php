@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Symplify\SetConfigResolver\Yaml;
 
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Config\Loader\DelegatingLoader;
-use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Yaml\Yaml;
 use Symplify\EasyCodingStandard\Configuration\Option;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class YamlSetsResolver
 {
@@ -21,16 +20,18 @@ final class YamlSetsResolver
     public function resolveFromConfigFiles(array $configFiles): array
     {
         $containerBuilder = new ContainerBuilder();
-
-        $delegatingLoader = new DelegatingLoader(new LoaderResolver([
-            new PhpFileLoader($containerBuilder, new FileLocator()),
-            new YamlFileLoader($containerBuilder, new FileLocator()),
-        ]));
+        $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator());
 
         $sets = [];
         foreach ($configFiles as $configFile) {
-            $delegatingLoader->load($configFile);
-            $sets += $containerBuilder->getParameter(Option::SETS);
+            $configFileInfo = new SmartFileInfo($configFile);
+            if (in_array($configFileInfo->getSuffix(), ['yml', 'yaml'], true)) {
+                $configContent = Yaml::parse($configFileInfo->getContents());
+                $sets += $configContent['parameters'][Option::SETS] ?? [];
+            } else {
+                $phpFileLoader->load($configFile);
+                $sets += $containerBuilder->getParameter(Option::SETS);
+            }
         }
 
         return $sets;
