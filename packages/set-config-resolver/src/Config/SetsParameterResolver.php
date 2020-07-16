@@ -8,7 +8,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\Yaml\Yaml;
-use Symplify\EasyCodingStandard\Configuration\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SetsParameterResolver
@@ -35,7 +34,7 @@ final class SetsParameterResolver
     {
         if (in_array($configFileInfo->getSuffix(), ['yml', 'yaml'], true)) {
             $configContent = Yaml::parse($configFileInfo->getContents());
-            return $configContent['parameters'][Option::SETS] ?? [];
+            return $configContent['parameters']['sets'] ?? [];
         }
 
         // php file loader
@@ -43,6 +42,6 @@ final class SetsParameterResolver
         $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator());
         $phpFileLoader->load($configFileInfo->getRealPath());
 
-        return $containerBuilder->getParameter(Option::SETS);
+        return $containerBuilder->getParameter('sets');
     }
 }
