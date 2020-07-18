@@ -13,6 +13,11 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class SetsParameterResolver
 {
     /**
+     * @var string
+     */
+    private const SETS = 'sets';
+
+    /**
      * @param string[] $configFiles
      * @return string[]
      */
@@ -34,7 +39,7 @@ final class SetsParameterResolver
     {
         if (in_array($configFileInfo->getSuffix(), ['yml', 'yaml'], true)) {
             $configContent = Yaml::parse($configFileInfo->getContents());
-            return $configContent['parameters']['sets'] ?? [];
+            return $configContent['parameters'][self::SETS] ?? [];
         }
 
         // php file loader
@@ -42,10 +47,10 @@ final class SetsParameterResolver
         $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator());
         $phpFileLoader->load($configFileInfo->getRealPath());
 
-        if (! $containerBuilder->hasParameter('sets')) {
+        if (! $containerBuilder->hasParameter(self::SETS)) {
             return [];
         }
 
-        return $containerBuilder->getParameter('sets');
+        return $containerBuilder->getParameter(self::SETS);
     }
 }
