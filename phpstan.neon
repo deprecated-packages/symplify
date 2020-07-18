@@ -178,3 +178,8 @@ parameters:
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
         - '#Parameter \#1 \$arr1 of function array_replace expects array, PhpCsFixer\\Tokenizer\\Token given#'
         - '#Class with base "Error" name is already used in "PhpParser\\Node\\Expr\\Error", "PhpParser\\Error", "PHPStan\\Analyser\\Error"\. Use unique name to make classes easy to recognize#'
+        - '#Cannot call method getPathname\(\) on Symplify\\SmartFileSystem\\SmartFileInfo\|null#'
+
+        -
+            message: '#Instead of "Symfony\\Component\\Finder\\SplFileInfo" use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
+            path: 'packages/set-config-resolver/src/SetResolver.php'
