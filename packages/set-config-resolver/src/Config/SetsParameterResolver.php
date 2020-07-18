@@ -42,6 +42,10 @@ final class SetsParameterResolver
         $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator());
         $phpFileLoader->load($configFileInfo->getRealPath());
 
+        if (! $containerBuilder->hasParameter('sets')) {
+            return [];
+        }
+
         return $containerBuilder->getParameter('sets');
     }
 }
