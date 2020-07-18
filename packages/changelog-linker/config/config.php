@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use GuzzleHttp\Client;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();

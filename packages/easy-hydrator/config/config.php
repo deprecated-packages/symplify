@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
 return static function (ContainerConfigurator $containerConfigurator): void {

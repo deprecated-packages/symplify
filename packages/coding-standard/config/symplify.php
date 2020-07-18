@@ -1,10 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use PhpCsFixer\Fixer\ClassNotation\FinalInternalClassFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/config.yaml');
