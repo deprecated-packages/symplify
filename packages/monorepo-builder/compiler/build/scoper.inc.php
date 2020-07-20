@@ -10,7 +10,7 @@ return [
             if ($filePath !== 'bin/monorepo-builder') {
                 return $content;
             }
-            return str_replace('__DIR__ . \'/..', '\'phar://monorepo-builder.phar', $content);
+            return str_replace("__DIR__ . '/..", "'phar://monorepo-builder.phar", $content);
         },
     ],
     'whitelist' => [

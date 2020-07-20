@@ -178,7 +178,7 @@
         ],
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
-        "rector": "vendor/bin/rector process --config rector-ci.yaml --dry-run --ansi",
+        "rector": "vendor/bin/rector process --config rector-ci.php --dry-run --ansi",
         "validate-monorepo": "packages/monorepo-builder/bin/monorepo-builder validate --ansi"
     },
     "config": {
