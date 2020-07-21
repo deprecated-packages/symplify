@@ -41,13 +41,4 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php',
         __DIR__ . '/packages/monorepo-builder/packages/init/templates/*',
     ]);
-
-    $parameters->set(Option::EXCLUDE_RECTORS, [
-        # too free
-        UseInterfaceOverImplementationInConstructorRector::class,
-        # needs to skip dev classes
-        StringClassNameToClassConstantRector::class,
-        # many edge cases on known array key contents
-        CountOnNullRector::class,
-    ]);
 };

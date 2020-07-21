@@ -15,6 +15,7 @@ final class ExplicitToAutodiscoveryConverter
 {
     /**
      * @var string[]
+     * @noRector
      */
     private const POSSIBLE_EXCLUDED_DIRECTORIES = [
         'Entity',

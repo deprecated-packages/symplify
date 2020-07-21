@@ -83,7 +83,7 @@ final class MatchingTypeConstantRule implements Rule
             return true;
         }
 
-        return count($classConst->consts) !== 1;
+        return count((array) $classConst->consts) !== 1;
     }
 
     private function resolveOnlyVarAnnotationType(ClassConst $classConst): ?string

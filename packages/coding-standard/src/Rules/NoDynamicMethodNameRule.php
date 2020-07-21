@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Closure;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
@@ -65,7 +66,7 @@ final class NoDynamicMethodNameRule extends AbstractManyNodeTypeRule
             return false;
         }
 
-        return $nameStaticType->getClassName() === 'Closure';
+        return $nameStaticType->getClassName() === Closure::class;
     }
 
     private function unwrapNullableType(Type $type): Type
