@@ -35,7 +35,7 @@ $configFileInfos = [];
 
 $configResolver = new ConfigResolver();
 $inputConfigFileInfo = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [
-    'monorepo-builder.yml', 'monorepo-builder.yaml'
+    'monorepo-builder.yml', 'monorepo-builder.yaml', 'monorepo-builder.php'
 ]);
 
 if ($inputConfigFileInfo !== null) {

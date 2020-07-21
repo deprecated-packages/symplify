@@ -20,8 +20,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->defaults()
         ->public()
         ->autowire()
-        ->autoconfigure()
-    ;
+        ->autoconfigure();
 
     $services->load('Symplify\\MonorepoBuilder\\', __DIR__ . '/../src')
         ->exclude([
