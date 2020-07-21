@@ -1,0 +1,76 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Symplify\SetConfigResolver;
+
+use Symfony\Component\Console\Input\InputInterface;
+use Symplify\SetConfigResolver\Console\Option\OptionName;
+use Symplify\SetConfigResolver\Console\OptionValueResolver;
+use Symplify\SmartFileSystem\Exception\FileNotFoundException;
+use Symplify\SmartFileSystem\SmartFileInfo;
+
+abstract class AbstractConfigResolver
+{
+    /**
+     * @var SmartFileInfo|null
+     */
+    private $firstResolvedConfigFileInfo;
+
+    /**
+     * @var OptionValueResolver
+     */
+    private $optionValueResolver;
+
+    public function __construct()
+    {
+        $this->optionValueResolver = new OptionValueResolver();
+    }
+
+    /**
+     * @param string[] $fallbackFiles
+     */
+    public function resolveFromInputWithFallback(InputInterface $input, array $fallbackFiles = []): ?SmartFileInfo
+    {
+        $configValue = $this->optionValueResolver->getOptionValue($input, OptionName::CONFIG);
+
+        if ($configValue !== null) {
+            if (! file_exists($configValue)) {
+                $message = sprintf('File "%s" was not found', $configValue);
+                throw new FileNotFoundException($message);
+            }
+
+            return $this->createFileInfo($configValue);
+        }
+
+        return $this->createFallbackFileInfoIfFound($fallbackFiles);
+    }
+
+    public function getFirstResolvedConfigFileInfo(): ?SmartFileInfo
+    {
+        return $this->firstResolvedConfigFileInfo;
+    }
+
+    /**
+     * @param string[] $fallbackFiles
+     */
+    private function createFallbackFileInfoIfFound(array $fallbackFiles): ?SmartFileInfo
+    {
+        foreach ($fallbackFiles as $fallbackFile) {
+            $rootFallbackFile = getcwd() . DIRECTORY_SEPARATOR . $fallbackFile;
+            if (is_file($rootFallbackFile)) {
+                return $this->createFileInfo($rootFallbackFile);
+            }
+        }
+
+        return null;
+    }
+
+    private function createFileInfo(string $configValue): SmartFileInfo
+    {
+        $configFileInfo = new SmartFileInfo($configValue);
+        $this->firstResolvedConfigFileInfo = $configFileInfo;
+
+        return $configFileInfo;
+    }
+}

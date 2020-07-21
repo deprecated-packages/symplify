@@ -12,6 +12,7 @@ use Symplify\AutoBindParameter\DependencyInjection\CompilerPass\AutoBindParamete
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\AddRepositoryUrlAndRepositoryNameParametersCompilerPass;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ChangelogLinkerKernel extends Kernel implements ExtraConfigAwareKernelInterface
 {
@@ -30,11 +31,17 @@ final class ChangelogLinkerKernel extends Kernel implements ExtraConfigAwareKern
     }
 
     /**
-     * @param string[] $configs
+     * @param string[]|SmartFileInfo[] $configs
      */
     public function setConfigs(array $configs): void
     {
-        $this->configs = $configs;
+        foreach ($configs as $config) {
+            if ($config instanceof SmartFileInfo) {
+                $this->configs[] = $config->getRealPath();
+            } else {
+                $this->configs[] = $config;
+            }
+        }
     }
 
     public function getCacheDir(): string

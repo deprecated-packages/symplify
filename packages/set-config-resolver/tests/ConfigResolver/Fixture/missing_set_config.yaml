@@ -1,7 +1,8 @@
 parameters:
     sets:
-        - atypical
+        - 'not_here'
 
+# just to test atypical format, typical for ECS
 services:
     ArrayFixer:
         syntax: short

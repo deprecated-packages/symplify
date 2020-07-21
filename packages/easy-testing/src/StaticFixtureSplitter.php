@@ -54,6 +54,17 @@ final class StaticFixtureSplitter
         return [$originalFileInfo, $expectedFileInfo];
     }
 
+    /**
+     * @return SmartFileInfo[]|mixed[]
+     */
+    public static function splitFileInfoToInputFileInfoAndExpected(SmartFileInfo $smartFileInfo): array
+    {
+        [$originalContent, $expectedContent] = self::splitFileInfoToInputAndExpected($smartFileInfo);
+
+        $originalFileInfo = self::createTemporaryFileInfo($smartFileInfo, 'original', $originalContent);
+        return [$originalFileInfo, $expectedContent];
+    }
+
     public static function getTemporaryPath(): string
     {
         if (self::$customTemporaryPath !== null) {

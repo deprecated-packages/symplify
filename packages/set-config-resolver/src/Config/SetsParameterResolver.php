@@ -8,6 +8,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\Yaml\Yaml;
+use Symplify\SetConfigResolver\SetResolver;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SetsParameterResolver
@@ -18,18 +19,30 @@ final class SetsParameterResolver
     private const SETS = 'sets';
 
     /**
-     * @param string[] $configFiles
-     * @return string[]
+     * @var SetResolver
      */
-    public function resolveFromConfigFiles(array $configFiles): array
+    private $setResolver;
+
+    public function __construct(SetResolver $setResolver)
     {
-        $sets = [];
-        foreach ($configFiles as $configFile) {
-            $configFileInfo = new SmartFileInfo($configFile);
-            $sets += $this->resolveSetsFromFileInfo($configFileInfo);
+        $this->setResolver = $setResolver;
+    }
+
+    /**
+     * @param SmartFileInfo[] $fileInfos
+     * @return SmartFileInfo[]
+     */
+    public function resolveFromFileInfos(array $fileInfos): array
+    {
+        $setFileInfos = [];
+        foreach ($fileInfos as $fileInfo) {
+            $setsNames = $this->resolveSetsFromFileInfo($fileInfo);
+            foreach ($setsNames as $setsName) {
+                $setFileInfos[] = $this->setResolver->detectFromName($setsName);
+            }
         }
 
-        return $sets;
+        return $setFileInfos;
     }
 
     /**
@@ -37,11 +50,28 @@ final class SetsParameterResolver
      */
     private function resolveSetsFromFileInfo(SmartFileInfo $configFileInfo): array
     {
-        if (in_array($configFileInfo->getSuffix(), ['yml', 'yaml'], true)) {
-            $configContent = Yaml::parse($configFileInfo->getContents());
-            return $configContent['parameters'][self::SETS] ?? [];
+        if ($configFileInfo->hasSuffixes(['yml', 'yaml'])) {
+            return $this->resolveSetsParameterFromYamlFileInfo($configFileInfo);
         }
 
+        return $this->resolveSetsParameterFromPhpFileInfo($configFileInfo);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function resolveSetsParameterFromYamlFileInfo(SmartFileInfo $configFileInfo): array
+    {
+        $configContent = Yaml::parse($configFileInfo->getContents());
+
+        return (array) ($configContent['parameters'][self::SETS] ?? []);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function resolveSetsParameterFromPhpFileInfo(SmartFileInfo $configFileInfo): array
+    {
         // php file loader
         $containerBuilder = new ContainerBuilder();
         $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator());
@@ -51,6 +81,6 @@ final class SetsParameterResolver
             return [];
         }
 
-        return $containerBuilder->getParameter(self::SETS);
+        return (array) $containerBuilder->getParameter(self::SETS);
     }
 }

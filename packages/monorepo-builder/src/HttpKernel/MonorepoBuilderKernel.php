@@ -12,9 +12,9 @@ use Symplify\AutoBindParameter\DependencyInjection\CompilerPass\AutoBindParamete
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKernelInterface
 {
@@ -33,11 +33,17 @@ final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKern
     }
 
     /**
-     * @param string[] $configs
+     * @param string[]|SmartFileInfo[] $configs
      */
     public function setConfigs(array $configs): void
     {
-        $this->configs = $configs;
+        foreach ($configs as $config) {
+            if ($config instanceof SmartFileInfo) {
+                $this->configs[] = $config->getRealPath();
+            } else {
+                $this->configs[] = $config;
+            }
+        }
     }
 
     public function getCacheDir(): string
@@ -61,8 +67,6 @@ final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKern
     protected function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new AutowireInterfacesCompilerPass([ReleaseWorkerInterface::class]));
-
-        $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParameterCompilerPass());
     }
