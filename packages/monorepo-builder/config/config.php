@@ -11,45 +11,42 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters = $containerConfigurator->parameters();
 
-    $parameters->set('package_directories', ['packages']);
+    $parameters->set(Option::PACKAGE_DIRECTORIES, [getcwd() . '/packages']);
 
-    $parameters->set('package_directories_excludes', []);
+    $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, []);
 
-    $parameters->set('data_to_append', []);
+    $parameters->set(Option::DATA_TO_APPEND, []);
 
-    $parameters->set('data_to_remove', []);
+    $parameters->set(Option::DATA_TO_REMOVE, []);
 
     $parameters->set(Option::ROOT_DIRECTORY, getcwd());
 
-    $parameters->set('package_alias_format', '<major>.<minor>-dev');
+    $parameters->set(Option::PACKAGE_ALIAS_FORMAT, '<major>.<minor>-dev');
 
-    $parameters->set('inline_sections', ['keywords']);
+    $parameters->set(Option::INLINE_SECTIONS, ['keywords']);
 
-    $parameters->set(
-        'section_order',
-        [
-            'name',
-            'type',
-            'description',
-            'keywords',
-            'homepage',
-            'license',
-            'authors',
-            'bin',
-            'require',
-            'require-dev',
-            'autoload',
-            'autoload-dev',
-            'repositories',
-            'conflict',
-            'replace',
-            'provide',
-            'scripts',
-            'suggest',
-            'config',
-            'minimum-stability',
-            'prefer-stable',
-            'extra',
-        ]
-    );
+    $parameters->set(Option::SECTION_ORDER, [
+        'name',
+        'type',
+        'description',
+        'keywords',
+        'homepage',
+        'license',
+        'authors',
+        'bin',
+        'require',
+        'require-dev',
+        'autoload',
+        'autoload-dev',
+        'repositories',
+        'conflict',
+        'replace',
+        'provide',
+        'scripts',
+        'suggest',
+        'config',
+        'minimum-stability',
+        'prefer-stable',
+        'extra',
+    ]);
 };

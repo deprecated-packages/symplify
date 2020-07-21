@@ -16,7 +16,7 @@ final class SetNotFoundException extends Exception
     /**
      * @var string[]
      */
-    private $availableSetNames;
+    private $availableSetNames = [];
 
     /**
      * @param string[] $availableSetNames

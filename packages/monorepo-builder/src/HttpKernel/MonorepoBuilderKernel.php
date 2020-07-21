@@ -38,11 +38,7 @@ final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKern
     public function setConfigs(array $configs): void
     {
         foreach ($configs as $config) {
-            if ($config instanceof SmartFileInfo) {
-                $this->configs[] = $config->getRealPath();
-            } else {
-                $this->configs[] = $config;
-            }
+            $this->configs[] = $config instanceof SmartFileInfo ? $config->getRealPath() : $config;
         }
     }
 
