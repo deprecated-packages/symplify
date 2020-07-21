@@ -178,3 +178,5 @@ parameters:
 
         - '#Cannot call method getSetFileInfo\(\) on Symplify\\SetConfigResolver\\ValueObject\\Set\|null#'
         - '#Cannot call method getRealPath\(\) on Symplify\\SmartFileSystem\\SmartFileInfo\|null#'
+        - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
+
