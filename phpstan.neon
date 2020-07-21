@@ -97,9 +97,6 @@ parameters:
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\ValueObject\\BlockInfo\|null#'
 
-        # variadic
-        - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'
-
         # mixed up iterables
         - '#PHPDoc tag @return with type array<string\> is incompatible with native type Iterator#'
 
@@ -128,9 +125,6 @@ parameters:
         - '#Parameter \#1 \$subject of static method Nette\\Utils\\Strings\:\:match\(\) expects string, string\|false given#'
 
         # yield iterator
-        - '#Method Symplify\\SetConfigResolver\\Finder\\SetFileFinder\:\:detectFromInputAndDirectory\(\) should return string\|null but return statement is missing#'
-        - '#Parameter \#1 \$unversionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<string\>, array<array<string\>\|string\> given#'
-        - '#Parameter \#2 \$versionedSets of method Symplify\\SetConfigResolver\\SetResolver\:\:createSetListInString\(\) expects array<array<string\>\>, array<array<string\>\|string\> given#'
         - '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
         - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
@@ -177,9 +171,10 @@ parameters:
 
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
         - '#Parameter \#1 \$arr1 of function array_replace expects array, PhpCsFixer\\Tokenizer\\Token given#'
-        - '#Class with base "Error" name is already used in "PhpParser\\Node\\Expr\\Error", "PhpParser\\Error", "PHPStan\\Analyser\\Error"\. Use unique name to make classes easy to recognize#'
-        - '#Cannot call method getPathname\(\) on Symplify\\SmartFileSystem\\SmartFileInfo\|null#'
 
         -
             message: '#Instead of "Symfony\\Component\\Finder\\SplFileInfo" use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
             path: 'packages/set-config-resolver/src/SetResolver.php'
+
+        - '#Cannot call method getSetFileInfo\(\) on Symplify\\SetConfigResolver\\ValueObject\\Set\|null#'
+        - '#Cannot call method getRealPath\(\) on Symplify\\SmartFileSystem\\SmartFileInfo\|null#'

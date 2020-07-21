@@ -36,13 +36,13 @@ jobs:
                         name: Binary File Run
                         run: |
                             # test run bin files
-                            packages/autodiscovery/bin/autodiscovery
-                            packages/easy-coding-standard/bin/ecs
-                            packages/changelog-linker/bin/changelog-linker
-                            packages/monorepo-builder/bin/monorepo-builder
+                            packages/autodiscovery/bin/autodiscovery --ansi
+                            packages/easy-coding-standard/bin/ecs --ansi
+                            packages/changelog-linker/bin/changelog-linker --ansi
+                            packages/monorepo-builder/bin/monorepo-builder --ansi
 
                             # test "check" options
-                            packages/easy-coding-standard/bin/ecs check packages/changelog-linker/src --no-progress-bar --no-error-table --clear-cache
+                            packages/easy-coding-standard/bin/ecs check packages/changelog-linker/src --no-progress-bar --no-error-table --clear-cache --ansi
 
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest

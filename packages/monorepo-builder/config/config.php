@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/services.php');
@@ -17,6 +18,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set('data_to_append', []);
 
     $parameters->set('data_to_remove', []);
+
+    $parameters->set(Option::ROOT_DIRECTORY, getcwd());
 
     $parameters->set('package_alias_format', '<major>.<minor>-dev');
 

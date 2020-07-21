@@ -20,4 +20,9 @@ final class Option
      * @var string
      */
     public const STAGE = 'stage';
+
+    /**
+     * @var string
+     */
+    public const ROOT_DIRECTORY = 'root_directory';
 }

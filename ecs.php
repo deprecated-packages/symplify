@@ -9,7 +9,6 @@ use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
 use SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff;
 use Symplify\EasyCodingStandard\Configuration\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -42,10 +41,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::SKIP, [
-        ArrayDeclarationSniff::class => null, BlankLineAfterOpeningTagFixer::class => null,
+        ArrayDeclarationSniff::class => null,
+        BlankLineAfterOpeningTagFixer::class => null,
         UnaryOperatorSpacesFixer::class => null,
         PhpUnitStrictFixer::class => [
             __DIR__ . '/packages/easy-coding-standard/tests/Indentation/IndentationTest.php',
+            __DIR__ . '/packages/set-config-resolver/tests/ConfigResolver/SetAwareConfigResolverTest.php',
         ],
         ReferenceThrowableOnlySniff::class . '.ReferencedGeneralException' => [
             __DIR__ . '/packages/coding-standard/src/Rules/NoDefaultExceptionRule.php',
@@ -54,9 +55,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             '*Sniff.php',
             '*YamlFileLoader.php',
             __DIR__ . '/packages/package-builder/src/Reflection/PrivatesCaller.php',
-        ],
-        CommentedOutCodeSniff::class => [
-            __DIR__ . '/packages/latte-to-twig-converter/src/CaseConverter/*CaseConverter.php',
         ],
     ]);
 };

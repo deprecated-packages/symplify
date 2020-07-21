@@ -35,11 +35,11 @@ jobs:
                     coverage: none
 
             -   run: |
-                    composer install --no-progress
-                    packages/monorepo-builder/bin/monorepo-builder localize-composer-paths
+                    composer install --no-progress --ansi
+                    packages/monorepo-builder/bin/monorepo-builder localize-composer-paths --ansi
 
                     cd packages/${{ matrix.package_name }}
-                    composer update --no-progress
+                    composer update --no-progress --ansi
 
             -   run: |
                     cd packages/${{ matrix.package_name }}

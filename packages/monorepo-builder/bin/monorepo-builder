@@ -7,6 +7,7 @@ use Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\SetConfigResolver\ConfigResolver;
+use Symplify\SetConfigResolver\SetAwareConfigResolver;
 use Symplify\PackageBuilder\Console\Input\InputDetector;
 
 # 1. autoload
@@ -30,22 +31,22 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 }
 
 
-$configs = [];
+$configFileInfos = [];
 
 $configResolver = new ConfigResolver();
-$inputConfig = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [
+$inputConfigFileInfo = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [
     'monorepo-builder.yml', 'monorepo-builder.yaml'
 ]);
 
-if ($inputConfig !== null) {
-    $configs[] = $inputConfig;
+if ($inputConfigFileInfo !== null) {
+    $configFileInfos[] = $inputConfigFileInfo;
 }
 
 // the environment name must be "random", so configs are invalidated without clearing the cache
 $environment = 'prod' . random_int(0, 100000);
 $monorepoBuilderKernel = new MonorepoBuilderKernel($environment, InputDetector::isDebug());
-if ($configs !== []) {
-    $monorepoBuilderKernel->setConfigs($configs);
+if ($configFileInfos !== []) {
+    $monorepoBuilderKernel->setConfigs($configFileInfos);
 }
 $monorepoBuilderKernel->boot();
 

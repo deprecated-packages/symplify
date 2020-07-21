@@ -22,12 +22,13 @@ Use in CLI entry file `bin/<app-name>`, e.g. `bin/ecs` or `bin/rector`.
 declare(strict_types=1);
 
 use Symfony\Component\Console\Input\ArgvInput;
-use Symplify\SetConfigResolver\ConfigResolver;
+use Symplify\EasyCodingStandard\Set\EasyCodingStandardSetProvider;
+use Symplify\SetConfigResolver\SetAwareConfigResolver;
 
 $configs = [];
 
 // 1. --config CLI option or local fallback
-$configResolver = new ConfigResolver();
+$configResolver = new SetAwareConfigResolver(new EasyCodingStandardSetProvider());
 $inputConfig = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [
     'ecs.yml', 'ecs.yaml', 'easy-coding-standard.yml', 'easy-coding-standard.yaml',
 ]);
@@ -37,15 +38,13 @@ if ($inputConfig !== null) {
 }
 
 // 2. --set CLI option
-$setsDirectory = __DIR__ . '/../config/sets';
-
-$setInputConfig = $configResolver->resolveSetFromInputAndDirectory(new ArgvInput(), $setsDirectory);
+$setInputConfig = $configResolver->resolveSetFromInput(new ArgvInput());
 if ($setInputConfig) {
     $configs[] = $setInputConfig;
 }
 
 // 3. "parameters > set" in provided yaml files
-$parameterSetsConfigs = $configResolver->resolveFromParameterSetsFromConfigFiles($configs, $setsDirectory);
+$parameterSetsConfigs = $configResolver->resolveFromParameterSetsFromConfigFiles($configs);
 if ($parameterSetsConfigs !== []) {
     $configs = array_merge($configs, $parameterSetsConfigs);
 }
