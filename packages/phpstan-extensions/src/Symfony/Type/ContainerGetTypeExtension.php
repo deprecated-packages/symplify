@@ -14,6 +14,7 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @inspiration https://github.com/phpstan/phpstan-symfony/blob/master/src/Type/Symfony/ServiceDynamicReturnTypeExtension.php
@@ -22,7 +23,7 @@ final class ContainerGetTypeExtension implements DynamicMethodReturnTypeExtensio
 {
     public function getClass(): string
     {
-        return 'Symfony\Component\DependencyInjection\ContainerInterface';
+        return ContainerInterface::class;
     }
 
     public function isMethodSupported(MethodReflection $methodReflection): bool

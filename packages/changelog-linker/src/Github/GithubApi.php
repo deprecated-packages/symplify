@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\Github;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
@@ -45,7 +45,7 @@ final class GithubApi
     private $options = [];
 
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
@@ -55,7 +55,7 @@ final class GithubApi
     private $responseFormatter;
 
     public function __construct(
-        Client $client,
+        ClientInterface $client,
         string $repositoryName,
         ResponseFormatter $responseFormatter,
         ?string $githubToken

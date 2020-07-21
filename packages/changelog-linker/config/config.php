@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
@@ -45,6 +46,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->factory([ref(SymfonyStyleFactory::class), 'create']);
 
     $services->set(Client::class);
+
+    $services->alias(ClientInterface::class, Client::class);
 
     $services->set(SmartFileSystem::class);
 };

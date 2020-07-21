@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PackageBuilder\Http;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request;
 use Nette\Utils\Json;
@@ -14,11 +14,11 @@ use Psr\Http\Message\ResponseInterface;
 final class BetterGuzzleClient
 {
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }

@@ -30,6 +30,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
     /**
      * Classes that create circular dependencies
      * @var string[]
+     * @noRector
      */
     private $excludedFatalClasses = [
         'Symfony\Component\Form\FormExtensionInterface',

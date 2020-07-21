@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff;
 use PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer;
@@ -9,11 +11,21 @@ use SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff;
 use Symplify\EasyCodingStandard\Configuration\Option;
+use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
-    $parameters->set(Option::SETS, ['php70', 'php71', 'clean-code', 'symplify', 'common', 'psr12', 'dead-code']);
+    $parameters->set(Option::SETS, [
+        SetList::PHP_70,
+        SetList::PHP_71,
+        SetList::CLEAN_CODE,
+        SetList::SYMPLIFY,
+        SetList::SYMPLIFY,
+        SetList::COMMON,
+        SetList::PSR_12,
+        SetList::DEAD_CODE,
+    ]);
 
     $parameters->set(Option::PATHS, [
         __DIR__ . '/packages',
