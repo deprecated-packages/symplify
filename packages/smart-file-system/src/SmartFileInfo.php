@@ -21,8 +21,8 @@ final class SmartFileInfo extends SplFileInfo
     {
         $this->filesystem = new Filesystem();
 
-        $realPath = realpath($filePath);
-        if (! file_exists($filePath) || ! $realPath) {
+        // accepts also dirs
+        if (! file_exists($filePath)) {
             throw new FileNotFoundException(sprintf(
                 'File path "%s" was not found while creating "%s" object.',
                 $filePath,
@@ -30,8 +30,15 @@ final class SmartFileInfo extends SplFileInfo
             ));
         }
 
-        $relativeFilePath = rtrim($this->filesystem->makePathRelative($realPath, getcwd()), '/');
-        $relativeDirectoryPath = dirname($relativeFilePath);
+        // real path doesn't work in PHAR: https://www.php.net/manual/en/function.realpath.php
+        if (Strings::startsWith($filePath, 'phar://')) {
+            $relativeFilePath = $filePath;
+            $relativeDirectoryPath = dirname($filePath);
+        } else {
+            $realPath = realpath($filePath);
+            $relativeFilePath = rtrim($this->filesystem->makePathRelative($realPath, getcwd()), '/');
+            $relativeDirectoryPath = dirname($relativeFilePath);
+        }
 
         parent::__construct($filePath, $relativeDirectoryPath, $relativeFilePath);
     }
