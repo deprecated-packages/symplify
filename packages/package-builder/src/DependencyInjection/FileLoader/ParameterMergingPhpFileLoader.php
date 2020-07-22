@@ -43,10 +43,7 @@ final class ParameterMergingPhpFileLoader extends PhpFileLoader
         parent::load($resource);
 
         foreach ($oldParameters as $key => $oldValue) {
-            $newValue = $this->parametersMerger->merge(
-                $oldValue,
-                $this->container->getParameter($key)
-            );
+            $newValue = $this->parametersMerger->merge($oldValue, $this->container->getParameter($key));
 
             $this->container->setParameter($key, $newValue);
         }
