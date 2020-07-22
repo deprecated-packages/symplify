@@ -4,6 +4,12 @@
 
 ## Install
 
+```bash
+composer require symplify/phpstan-extensions --dev
+```
+
+Update config:
+
 ```yaml
 # phpstan.neon
 includes:
