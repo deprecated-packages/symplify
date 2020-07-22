@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
@@ -13,7 +14,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule\NoClassWithStaticMethodWithoutStaticNameRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\NoFunctionCallInMethodCallRule\NoFunctionCallInMethodCallRuleTest
  */
 final class NoFunctionCallInMethodCallRule implements Rule
 {
@@ -46,6 +47,11 @@ final class NoFunctionCallInMethodCallRule implements Rule
             }
 
             $funcCallName = $this->resolveFuncCallName($arg);
+
+            if (Strings::contains($funcCallName, '\\')) {
+                continue;
+            }
+
             if (in_array($funcCallName, self::ALLOWED_FUNC_CALL_NAMES, true)) {
                 continue;
             }

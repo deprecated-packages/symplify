@@ -16,6 +16,7 @@ final class NoFunctionCallInMethodCallRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/Fixture/FunctionCallNestedToMethodCall.php'], [[$errorMessage, 11]]);
 
         $this->analyse([__DIR__ . '/Fixture/SkipGetCwd.php'], []);
+        $this->analyse([__DIR__ . '/Fixture/SkipNamespacedFunction.php'], []);
     }
 
     protected function getRule(): Rule
