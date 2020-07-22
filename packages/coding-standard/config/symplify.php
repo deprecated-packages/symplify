@@ -6,7 +6,7 @@ use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__ . '/config.yaml');
+    $containerConfigurator->import(__DIR__ . '/config.php');
 
     $services = $containerConfigurator->services();
 
