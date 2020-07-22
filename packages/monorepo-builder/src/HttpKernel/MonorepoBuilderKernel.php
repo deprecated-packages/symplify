@@ -39,8 +39,7 @@ final class MonorepoBuilderKernel extends Kernel implements ExtraConfigAwareKern
     {
         foreach ($configs as $config) {
             if ($config instanceof SmartFileInfo) {
-                // for phar compatibility @see https://github.com/rectorphp/rector/commit/e5d7cee69558f7e6b35d995a5ca03fa481b0407c
-                $config = $config->getRealPath() ?: $config->getPathname();
+                $config = $config->getRealPath();
             }
 
             $this->configs[] = $config;

@@ -75,8 +75,7 @@ final class SetsParameterResolver
         // php file loader
         $containerBuilder = new ContainerBuilder();
         $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator());
-        // cannot use "getRealPath()" as phar does not support it
-        $phpFileLoader->load($configFileInfo->getRealPath() ?: $configFileInfo->getPathname());
+        $phpFileLoader->load($configFileInfo->getRealPath());
 
         if (! $containerBuilder->hasParameter(self::SETS)) {
             return [];
