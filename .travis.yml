@@ -30,7 +30,7 @@ jobs:
 
                 - composer install
                 - travis_retry bin/compile --ansi
-                - ../tmp/ecs.phar
+                - ../tmp/ecs.phar --debug --ansi
 
                 - cd ..
 
