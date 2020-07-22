@@ -16,8 +16,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->public();
 
     $services->load('Symplify\MonorepoBuilder\Release\\', __DIR__ . '/../src')
-        ->exclude([
-            __DIR__ . '/../src/Exception/*',
-            __DIR__ . '/../src/ReleaseWorker/*',
-        ]);
+        ->exclude([__DIR__ . '/../src/Exception/*', __DIR__ . '/../src/ReleaseWorker/*']);
 };
