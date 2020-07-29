@@ -5,27 +5,18 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Split;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symplify\MonorepoBuilder\Split\Closure\ClosureFactory;
 use Symplify\MonorepoBuilder\Split\Configuration\Option;
 use Symplify\MonorepoBuilder\Split\Exception\PackageToRepositorySplitException;
+use Symplify\MonorepoBuilder\Split\Exception\UnsupportedGitVersionException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
-use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
-use Symplify\MonorepoBuilder\Split\ValueObject\SplitProcessInfo;
 use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
 use Symplify\SmartFileSystem\FileSystemGuard;
+use Throwable;
 
 final class PackageToRepositorySplitter
 {
-    /**
-     * @var Process[]
-     */
-    private $activeProcesses = [];
-
-    /**
-     * @var SplitProcessInfo[]
-     */
-    private $splitProcessInfos = [];
-
     /**
      * @var SymfonyStyle
      */
@@ -37,9 +28,9 @@ final class PackageToRepositorySplitter
     private $fileSystemGuard;
 
     /**
-     * @var ProcessFactory
+     * @var ClosureFactory
      */
-    private $processFactory;
+    private $closureFactory;
 
     /**
      * @var GitManager
@@ -49,12 +40,12 @@ final class PackageToRepositorySplitter
     public function __construct(
         SymfonyStyle $symfonyStyle,
         FileSystemGuard $fileSystemGuard,
-        ProcessFactory $processFactory,
+        ClosureFactory $closureFactory,
         GitManager $gitManager
     ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->fileSystemGuard = $fileSystemGuard;
-        $this->processFactory = $processFactory;
+        $this->closureFactory = $closureFactory;
         $this->gitManager = $gitManager;
     }
 
@@ -62,13 +53,16 @@ final class PackageToRepositorySplitter
      * @param array<string, string> $splitConfig
      * @throws PackageToRepositorySplitException
      * @throws DirectoryNotFoundException
+     * @throws UnsupportedGitVersionException
+     * @throws ProcessFailedException
      */
     public function splitDirectoriesToRepositories(
         array $splitConfig,
         string $rootDirectory,
         ?string $branch = null,
         ?int $maxProcesses = null,
-        ?string $tag = null
+        ?string $tag = null,
+        bool $dryRun = false
     ): void {
         if ($tag === null) {
             // If user let the tool to automatically select the last tag, check if there are valid
@@ -93,6 +87,7 @@ final class PackageToRepositorySplitter
             $this->symfonyStyle->writeln($this->gitManager->pushBranchToRemoteOrigin($branch));
         }
 
+        $count = 0;
         foreach ($splitConfig as $localDirectory => $remoteRepository) {
             $this->fileSystemGuard->ensureDirectoryExists($localDirectory);
 
@@ -100,72 +95,28 @@ final class PackageToRepositorySplitter
                 $remoteRepository
             );
 
-            $process = $this->processFactory->createSubsplit(
+            $closure = $this->closureFactory->createSubsplit(
                 $tag,
                 $localDirectory,
                 $remoteRepositoryWithGithubKey,
-                $branch
+                $branch,
+                $dryRun
             );
 
-            $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
-            $process->start();
-
-            $this->activeProcesses[] = $process;
-            $this->splitProcessInfos[] = new SplitProcessInfo($process, $localDirectory, $remoteRepository);
-
-            if ($maxProcesses && count($this->activeProcesses) === $maxProcesses) {
-                $this->processActiveProcesses(1);
+            try {
+                call_user_func($closure);
+            } catch (Throwable $throwable) {
+                $status = sprintf('Failed to split %s to %s', $localDirectory, $remoteRepository);
+                $this->symfonyStyle->error($status);
+                throw $throwable;
             }
+
+            $count++;
         }
 
-        $activeProcessCount = count($this->activeProcesses);
-
-        $missingBranchMessage = sprintf('Running %d jobs in parallel', $activeProcessCount);
-        $this->symfonyStyle->success($missingBranchMessage);
-
-        $this->processActiveProcesses($activeProcessCount);
-        $this->reportFinishedProcesses();
-    }
-
-    private function processActiveProcesses(int $numberOfProcessesToWaitFor): void
-    {
-        while ($numberOfProcessesToWaitFor > 0) {
-            foreach ($this->activeProcesses as $i => $runningProcess) {
-                if (! $runningProcess->isRunning()) {
-                    unset($this->activeProcesses[$i]);
-                    --$numberOfProcessesToWaitFor;
-                }
-            }
-
-            // check every second
-            sleep(1);
-        }
-    }
-
-    private function reportFinishedProcesses(): void
-    {
-        foreach ($this->splitProcessInfos as $processInfo) {
-            $process = $processInfo->getProcess();
-
-            if (! $process->isSuccessful()) {
-                $message = sprintf(
-                    'Process failed with "%d" code: "%s"',
-                    $process->getExitCode(),
-                    $process->getErrorOutput()
-                );
-
-                throw new PackageToRepositorySplitException($message);
-            }
-
-            $successMessage = sprintf(
-                'Push of "%s" directory to "%s" repository was successful: %s "%s"',
-                $processInfo->getLocalDirectory(),
-                $processInfo->getRemoteRepository(),
-                PHP_EOL . PHP_EOL,
-                $process->getOutput()
-            );
-
-            $this->symfonyStyle->success($successMessage);
+        if (! $this->symfonyStyle->isQuiet()) {
+            $status = sprintf('Succesfully split into %s repositories', $count);
+            $this->symfonyStyle->success($status);
         }
     }
 }

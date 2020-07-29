@@ -90,6 +90,13 @@ final class SplitCommand extends Command
             InputOption::VALUE_REQUIRED,
             'Specify the Git tag use for split. Use the most recent one by default'
         );
+
+        $this->addOption(
+            Option::DRY_RUN,
+            null,
+            InputOption::VALUE_NONE,
+            'Do not actually push to target repositories (use git push --dry-run)'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -107,12 +114,16 @@ final class SplitCommand extends Command
 
         $resolvedDirectoriesToRepository = $this->getDirectoriesToRepositories();
 
+        /** @var bool */
+        $dryRun = $input->getOption(Option::DRY_RUN);
+
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $resolvedDirectoriesToRepository,
             $this->rootDirectory,
             $branch,
             $maxProcesses,
-            $tag
+            $tag,
+            $dryRun
         );
 
         return ShellCode::SUCCESS;

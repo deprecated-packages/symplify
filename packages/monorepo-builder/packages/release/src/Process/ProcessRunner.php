@@ -29,13 +29,17 @@ final class ProcessRunner
     /**
      * @param string|string[] $commandLine
      */
-    public function run($commandLine): string
-    {
+    public function run(
+        $commandLine,
+        bool $shouldDisplayOutput = false,
+        ?string $cwd = null,
+        ?array $env = null
+    ): string {
         if ($this->symfonyStyle->isVerbose()) {
             $this->symfonyStyle->note('Running process: ' . $this->normalizeToString($commandLine));
         }
 
-        $process = $this->createProcess($commandLine);
+        $process = $this->createProcess($commandLine, $cwd, $env);
         $process->run();
 
         $this->reportResult($process);
@@ -58,14 +62,14 @@ final class ProcessRunner
     /**
      * @param string|string[] $commandLine
      */
-    private function createProcess($commandLine): Process
+    private function createProcess($commandLine, ?string $cwd = null, ?array $env = null): Process
     {
         // @since Symfony 4.2: https://github.com/symfony/symfony/pull/27821
         if (is_string($commandLine) && method_exists(Process::class, 'fromShellCommandline')) {
-            return Process::fromShellCommandline($commandLine, null, null, null, self::TIMEOUT);
+            return Process::fromShellCommandline($commandLine, $cwd, $env, null, self::TIMEOUT);
         }
 
-        return new Process($commandLine, null, null, null, self::TIMEOUT);
+        return new Process($commandLine, $cwd, $env, null, self::TIMEOUT);
     }
 
     private function reportResult(Process $process): void

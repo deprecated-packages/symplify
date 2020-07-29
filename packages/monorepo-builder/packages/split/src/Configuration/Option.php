@@ -20,4 +20,9 @@ final class Option
      * @var string
      */
     public const TAG = 'tag';
+
+    /**
+     * @var string
+     */
+    public const DRY_RUN = 'dry-run';
 }
