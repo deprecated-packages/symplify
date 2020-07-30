@@ -169,3 +169,26 @@ final class SomeTestCase extends TestCase
     // data provider...
 }
 ```
+
+## Assert 2 Directories by Files and Content
+
+Do you generate large portion of files? Do you want to skip nitpicking tests file by file?
+
+Use `assertDirectoryEquals()` method to validate the files and their content is as expected.
+
+```php
+<?php
+
+use PHPUnit\Framework\TestCase;
+use Symplify\EasyTesting\PHPUnit\Behavior\DirectoryAssertableTrait;
+
+final class DirectoryAssertableTraitTest extends TestCase
+{
+    use DirectoryAssertableTrait;
+
+    public function testSuccess(): void
+    {
+        $this->assertDirectoryEquals(__DIR__ . '/Fixture/first_directory', __DIR__ . '/Fixture/second_directory');
+    }
+}
+```
