@@ -130,3 +130,65 @@ use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 
 return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.md');
 ```
+
+## Updating Fixture
+
+[How to Update Hundreds of Test Fixtures with Single PHPUnit run](https://tomasvotruba.com/blog/2020/07/20/how-to-update-hundreds-of-test-fixtures-with-single-phpunit-run/)?
+
+If you change an output of your software on purpose, you might want to update your fixture. Manually? No, from command line:
+
+```bash
+UPDATE_TESTS=1 vendor/bin/phpunit
+UT=1 vendor/bin/phpunit
+```
+
+To make this work, we have to add `StaticFixtureUpdater::updateFixtureContent()` call to our test case:
+
+```php
+use PHPUnit\Framework\TestCase;
+use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
+use Symplify\EasyTesting\StaticFixtureSplitter;
+use Symplify\SmartFileSystem\SmartFileInfo;
+
+final class SomeTestCase extends TestCase
+{
+    /**
+     * @dataProvider provideData()
+     */
+    public function test(SmartFileInfo $fixtureFileInfo)
+    {
+        [$originalFileInfo, $expectedFileInfo] = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos($fixtureFileInfo);
+
+        // process content
+        $currentContent = '...';
+
+        // here we update test fixture if the content changed
+        StaticFixtureUpdater::updateFixtureContent($originalFileInfo, $currentContent, $fixtureFileInfo);
+    }
+
+    // data provider...
+}
+```
+
+## Assert 2 Directories by Files and Content
+
+Do you generate large portion of files? Do you want to skip nitpicking tests file by file?
+
+Use `assertDirectoryEquals()` method to validate the files and their content is as expected.
+
+```php
+<?php
+
+use PHPUnit\Framework\TestCase;
+use Symplify\EasyTesting\PHPUnit\Behavior\DirectoryAssertableTrait;
+
+final class DirectoryAssertableTraitTest extends TestCase
+{
+    use DirectoryAssertableTrait;
+
+    public function testSuccess(): void
+    {
+        $this->assertDirectoryEquals(__DIR__ . '/Fixture/first_directory', __DIR__ . '/Fixture/second_directory');
+    }
+}
+```
