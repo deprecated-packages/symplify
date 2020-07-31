@@ -190,11 +190,11 @@ final class GitSubsplit
 
     private function splitTag(string $workDir, string $subdir, string $tag, bool $dryRun): void
     {
-        $operation = sprintf("syncing tag '%s' (this can take a while!)", $tag);
+        $operation = sprintf("syncing tag '%s'", $tag);
 
         $localBranch = sprintf('local-%s', $tag);
 
-        $status = sprintf('      %s', $operation);
+        $status = sprintf('      %s (this can take a while!)', $operation);
         $this->say($status);
 
         try {
