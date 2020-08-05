@@ -87,7 +87,7 @@ parameters:
         - '#Variable \$processedFileContent might not be defined#'
 
         # required for autowiring, since only interface is autowired
-        - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
+        - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag\(\)#'
 
         # intersect/union buggy
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
