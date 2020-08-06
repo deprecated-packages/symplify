@@ -133,10 +133,19 @@ class FormatConverter // should be: "StaticFormatConverter"
 
 - class: [`Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer`](packages/coding-standard/src/Fixer/Spacing/RemoveSpacingAroundModifierAndConstFixer.php)
 
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer: null
+```php
+<?php
+
+// ecs.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->set(Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer::class);
+};
 ```
 
 ```diff
@@ -187,10 +196,19 @@ class Finder // should be e.g. "EntityFinder"
 
 - class: [`ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
 
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: null
+```php
+<?php
+
+// ecs.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->set(Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer::class);
+};
 ```
 
 ```diff
@@ -343,10 +361,19 @@ class SomeClass
 
 - class: [`StandaloneLineInMultilineArrayFixer`](src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
 
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer: null
+```php
+<?php
+
+// ecs.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->set(Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer::class);
+};
 ```
 
 ```diff
@@ -363,10 +390,20 @@ services:
 
 - class: [`RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
 
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer: null
+```php
+<?php
+
+// ecs.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->set(RemoveSuperfluousDocBlockWhitespaceFixer::class);
+};
 ```
 
 ```diff
@@ -387,15 +424,26 @@ services:
 
 - class: [`LineLengthFixer`](src/Fixer/LineLength/LineLengthFixer.php)
 
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
-        # defaults
-        max_line_length: 120
-        break_long_lines: true
-        inline_short_lines: true
-```
+```php
+<?php
+
+// ecs.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->set(LineLengthFixer::class)
+        ->call('configure', [[
+            LineLengthFixer::LINE_LENGTH => 120,
+            LineLengthFixer::BREAK_LONG_LINES => true,
+            LineLengthFixer::INLINE_SHORT_LINES => true,
+        ]]);
+};
+````
 
 ```diff
  class SomeClass
@@ -424,10 +472,19 @@ services:
 
 - class: [`BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
 
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer: null
+```php
+<?php
+
+// ecs.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->set(Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer::class);
+};
 ```
 
 ```diff
@@ -444,10 +501,19 @@ declare(strict_types=1);
 
 - class: [`MatchingTypeConstantRule`](src/Rules/MatchingTypeConstantRule.php)
 
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Rules\MatchingTypeConstantRule: null
+```php
+<?php
+
+// ecs.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->set(Symplify\CodingStandard\Rules\MatchingTypeConstantRule::class);
+};
 ```
 
 :x:
@@ -484,10 +550,20 @@ class SomeClass
 
 - class: [`BoolishClassMethodPrefixRule`](src/Rules/BoolishClassMethodPrefixRule.php)
 
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule: null
+```php
+<?php
+
+// ecs.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->set(BoolishClassMethodPrefixRule::class);
+};
 ```
 
 :x:
@@ -524,10 +600,20 @@ class SomeClass
 
 - class: [`ForbidReturnValueOfIncludeOnceRule`](src/Rules/ForbidReturnValueOfIncludeOnceRule.php)
 
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule: null
+```php
+<?php
+
+// ecs.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->set(ForbidReturnValueOfIncludeOnceRule::class);
+};
 ```
 
 :x:
@@ -850,10 +936,20 @@ final class SomeClass
 
 - class: [`CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)
 
-```yaml
-# ecs.yaml
-services:
-    Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff: null
+```php
+<?php
+
+// ecs.php
+
+declare(strict_types=1);
+
+use Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->set(CommentedOutCodeSniff::class);
+};
 ```
 
 :x:
