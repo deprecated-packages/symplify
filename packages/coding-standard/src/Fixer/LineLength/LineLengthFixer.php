@@ -26,6 +26,24 @@ use Throwable;
 final class LineLengthFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
 {
     /**
+     * @api
+     * @var string
+     */
+    public const LINE_LENGTH = 'line_length';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const BREAK_LONG_LINES = 'break_long_lines';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const INLINE_SHORT_LINES = 'inline_short_lines';
+
+    /**
      * @var int
      */
     private $lineLength = 120;
@@ -120,9 +138,9 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
      */
     public function configure(?array $configuration = null): void
     {
-        $this->lineLength = $configuration['line_length'] ?? 120;
-        $this->breakLongLines = $configuration['break_long_lines'] ?? true;
-        $this->inlineShortLines = $configuration['inline_short_lines'] ?? true;
+        $this->lineLength = $configuration[self::LINE_LENGTH] ?? 120;
+        $this->breakLongLines = $configuration[self::BREAK_LONG_LINES] ?? true;
+        $this->inlineShortLines = $configuration[self::INLINE_SHORT_LINES] ?? true;
     }
 
     private function processMethodCall(Tokens $tokens, int $position): void

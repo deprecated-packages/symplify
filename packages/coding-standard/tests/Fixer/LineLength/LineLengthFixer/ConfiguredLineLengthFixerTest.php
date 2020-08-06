@@ -36,9 +36,9 @@ final class ConfiguredLineLengthFixerTest extends AbstractCheckerTestCase
     protected function getCheckerConfiguration(): array
     {
         return [
-            'line_length' => 100,
-            'break_long_lines' => true,
-            'inline_short_lines' => false,
+            LineLengthFixer::LINE_LENGTH => 100,
+            LineLengthFixer::BREAK_LONG_LINES => true,
+            LineLengthFixer::INLINE_SHORT_LINES => false,
         ];
     }
 }
