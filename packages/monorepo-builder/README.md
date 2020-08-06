@@ -48,43 +48,53 @@ vendor/bin/monorepo-builder merge
 
 Typical location for packages is `/packages`. But what if you have different naming or extra `/projects` directory?
 
-```yaml
-# monorepo-builder.yaml
-parameters:
-    package_directories:
-        - 'packages'
-        - 'projects'
-```
+```php
+<?php
 
-Sections are sorted for you by saint defaults. Do you want change the order? Just override `section_order` parameter.
+// monorepo-builder.php
 
-To exclude a specific folder for ignoring the composer.json in this folder.
+declare(strict_types=1);
 
-```yaml
-# monorepo-builder.yaml
-parameters:
-    package_directories_excludes:
-        - 'ExcludeThis'
-```
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 
-#### After Merge Options
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
 
-Do you need to add or remove some packages only to root `composer.json`?
+    // where are the packages located?
+    $parameters->set(Option::PACKAGE_DIRECTORIES, [
+        // default vaulue
+        __DIR__ . '/packages',
+        // custom
+        __DIR__ . '/projects'
+    ]);
 
-```yaml
-# monorepo-builder.yaml
-parameters:
-    data_to_append:
-        autoload-dev:
-            psr-4:
-                'Symplify\Tests\': 'tests'
-        require-dev:
-            phpstan/phpstan: '^0.9'
+    // how skip packages in loaded direectories?
+    $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, [
+        __DIR__ . '/packages/secret-package'
+    ]);
 
-    data_to_remove:
-        require:
-            # the line is removed by key, so version is irrelevant, thus *
-            'phpunit/phpunit': '*'
+    // "merge" command related
+
+    // what extra parts to add after merge?
+    $parameters->set(Option::DATA_TO_APPEND, [
+        'autoload-dev' => [
+            'psr-4' => [
+                'Symplify\Tests\\' => 'tests',
+            ],
+        ],
+        'require-dev' => [
+            'phpstan/phpstan' => '^0.12',
+        ],
+    ]);
+
+    $parameters->set(Option::DATA_TO_REMOVE, [
+        'require' => [
+            // the line is removed by key, so version is irrelevant, thus *
+            'phpunit/phpunit' => '*',
+        ],
+    ]);
+};
 ```
 
 ### 2. Bump Package Inter-dependencies
@@ -127,22 +137,44 @@ This will add alias `3.1-dev` to `composer.json` in each package.
 
 If you prefer [`3.1.x-dev`](https://getcomposer.org/doc/articles/aliases.md#branch-alias) over default `3.1-dev`, you can configure it:
 
-```yaml
-# monorepo-builder.yaml
-parameters:
-    package_alias_format: '<major>.<minor>.x-dev' # default: "<major>.<minor>-dev"
+```php
+<?php
+
+// monorepo-builder.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    // default: "<major>.<minor>-dev"
+    $parameters->set(Option::PACKAGE_ALIAS_FORMAT, '<major>.<minor>.x-dev');
+};
 ```
 
 ### 5. Split Directories to Git Repositories
 
 Classic use case for monorepo is to synchronize last tag and the `master` branch to allow testing of `@dev` version.
 
-```yaml
-# monorepo-builder.yaml
-parameters:
-    directories_to_repositories:
-        packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
-        packagages/MonorepoBuilder: 'git@github.com:Symplify/MonorepoBuilder.git'
+```php
+<?php
+
+// monorepo-builder.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    $parameters->set(Option::DIRECTORIES_TO_REPOSITORIES, [
+        __DIR__ . '/packages/PackageBuilder' => 'git@github.com:Symplify/PackageBuilder.git',
+        __DIR__ . '/packagages/MonorepoBuilder' => 'git@github.com:Symplify/MonorepoBuilder.git',
+    ]);
+};
 ```
 
 And run by:
@@ -166,12 +198,23 @@ git init --bare
 
 Then you can set the target using `file://` prefix for absolute path:
 
-```yaml
-# monorepo-builder.yaml
-parameters:
-    directories_to_repositories:
-        packages/PackageBuilder: 'file:///home/developer/git/PackageBuilder.git'
-        packages/MonorepoBuilder: 'file:///home/developer/git/MonorepoBuilder.git'
+```php
+<?php
+
+// monorepo-builder.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    $parameters->set(Option::DIRECTORIES_TO_REPOSITORIES, [
+        __DIR__ . '/packages/PackageBuilder' => 'file:///home/developer/git/PackageBuilder.git',
+        __DIR__ . '/packagages/MonorepoBuilder' => 'file:///home/developer/git/MonorepoBuilder.git',
+    ]);
+};
 ```
 
 After that you can test the result:
@@ -222,33 +265,32 @@ There is set of few default release workers - classes that implement `Symplify\M
 
 You need to register them as services. Feel free to start with default ones:
 
-```yaml
-# monorepo-builder.yaml
-services:
-    # release workers - in order to execute
-    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker: null
-    Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker: null
-    Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker: null
-    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker: null
-    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker: null
-    Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker: null
-    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker: null
-```
+```php
+<?php
 
-You can extend it by adding your own:
+// monorepo-builder.php
 
-```diff
- # monorepo-builder.yaml
- services:
-     # release workers - in order to execute
-     Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker: null
-     Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker: null
-     Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker: null
-     Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker: null
-+    App\MonorepoBuilder\ReleaseWorker\TweetReleaseWorker: null
-     Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker: null
-     Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker: null
-     Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker: null
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    // release workers - in order to execute
+    $services->set(Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker::class);
+    $services->set(Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker::class);
+
+    // you can extend with your own
+    $services->set(App\SendPigeonToTwitterReleaseWorker::class);
+
+    $services->set(Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker::class);
+    $services->set(Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker::class);
+    $services->set(Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker::class);
+    $services->set(Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker::class);
+    $services->set(Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker::class);
+};
 ```
 
 ## Contributing
