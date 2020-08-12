@@ -22,8 +22,6 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConvertYamlCommand extends Command
 {
-    private $unusedProperty;
-
     /**
      * @var string
      */
@@ -38,6 +36,8 @@ final class ConvertYamlCommand extends Command
      * @var string
      */
     private const ARGUMENT_SOURCE = 'source';
+
+    private $unusedProperty;
 
     /**
      * @var ExplicitToAutodiscoveryConverter
