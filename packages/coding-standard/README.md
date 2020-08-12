@@ -902,7 +902,6 @@ rules:
     - Symplify\CodingStandard\Rules\PreventParentMethodVisibilityOverrideRule
 ```
 
-
 ```php
 <?php
 
