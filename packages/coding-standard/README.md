@@ -892,6 +892,39 @@ final class DynamicPropertyFetchName
 
 <br>
 
+### Prevent Override of Parent Method Visbility
+
+- class: [`PreventParentMethodVisibilityOverrideRule`](src/Rules/PreventParentMethodVisibilityOverrideRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\PreventParentMethodVisibilityOverrideRule
+```
+
+
+```php
+<?php
+
+class ProtectedVisibility
+{
+    protected function run()
+    {
+    }
+}
+
+final class PublicOverride extends ProtectedVisibility
+{
+    public function run()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
 ### Use explicit comparison over empty()
 
 - class: [`NoEmptyRule`](src/Rules/NoEmptyRule.php)
