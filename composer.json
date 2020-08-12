@@ -48,6 +48,7 @@
         "ergebnis/phpstan-rules": "^0.15.0",
         "migrify/class-presence": "^0.3.6",
         "migrify/config-transformer": "^0.3.6",
+        "migrify/easy-ci": "^0.3.25",
         "nette/application": "^3.0",
         "nette/bootstrap": "^3.0",
         "nikic/php-parser": "^4.7",
