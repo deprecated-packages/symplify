@@ -91,7 +91,6 @@
             "Symplify\\MonorepoBuilder\\Testing\\": "packages/monorepo-builder/packages/testing/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
-            "Symplify\\ParameterNameGuard\\": "packages/parameter-name-guard/src",
             "Symplify\\SetConfigResolver\\": "packages/set-config-resolver/src",
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src"
@@ -129,7 +128,6 @@
             "Symplify\\MonorepoBuilder\\Tests\\": "packages/monorepo-builder/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
-            "Symplify\\ParameterNameGuard\\Tests\\": "packages/parameter-name-guard/tests",
             "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
@@ -152,7 +150,6 @@
         "symplify/flex-loader": "8.1.19",
         "symplify/monorepo-builder": "8.1.19",
         "symplify/package-builder": "8.1.19",
-        "symplify/parameter-name-guard": "8.1.19",
         "symplify/phpstan-extensions": "8.1.19",
         "symplify/set-config-resolver": "8.1.19",
         "symplify/smart-file-system": "8.1.19",

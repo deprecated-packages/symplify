@@ -54,7 +54,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'packages/composer-json-manipulator' => 'git@github.com:symplify/composer-json-manipulator.git',
         'packages/easy-hydrator' => 'git@github.com:symplify/easy-hydrator.git',
         'packages/console-color-diff' => 'git@github.com:symplify/console-color-diff.git',
-        'packages/parameter-name-guard' => 'git@github.com:symplify/parameter-name-guard.git',
         'packages/easy-testing' => 'git@github.com:symplify/easy-testing.git',
     ]);
 };
