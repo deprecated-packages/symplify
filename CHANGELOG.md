@@ -10,7 +10,70 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 <!-- changelog-linker -->
 
 <!-- dumped content start -->
-## v8.1.18 - 2020-07-29
+## [v8.2.2]
+
+### Added
+
+#### CodingStandard
+
+- [#2054] Add PreventParentMethodVisibilityOverrideRule
+
+### Changed
+
+#### Unknown Package
+
+- [#2051] Update php-cs-fixer-psr2.php, Thanks to [@seb-jean]
+- [#2050] Update symfony.php, Thanks to [@seb-jean]
+- [#2049] Update symfony-risky.php, Thanks to [@seb-jean]
+
+### Deprecated
+
+#### ParameterNameGuard
+
+- [#2056] Deprecated for PHP config with constants
+
+## [v8.1.21] - 2020-08-07
+
+### Added
+
+#### EasyCodingStandard
+
+- [#2044] Add rest of config constants
+
+#### Unknown Package
+
+- [#2045] Add PHP syntax to README
+- [#2042] add "strict" set to EasyCodingStandardSetProvider, Thanks to [@hustlahusky]
+
+### Changed
+
+- [#2043] Update ecs.php, Thanks to [@cafferata]
+
+### Deprecated
+
+#### EasyCodingStandard
+
+- [#2046] Warn about deprecated YAML syntax
+- [#2040] Deprecate "find" command
+
+## [v8.1.20] - 2020-08-06
+
+### Removed
+
+- [#2039] remove slevomat cs, breaking build for too many months
+
+## [v8.1.19] - 2020-07-30
+
+### Added
+
+#### EasyTesting
+
+- [#2035] Add directory compare assertion and fixture updater
+
+<!-- dumped content end -->
+
+<!-- dumped content start -->
+## [v8.1.18] - 2020-07-29
 
 ### Changed
 
@@ -330,3 +393,24 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@jschaedl]: https://github.com/jschaedl
 [@JarJak]: https://github.com/JarJak
 [@EnCz]: https://github.com/EnCz
+[#2056]: https://github.com/symplify/symplify/pull/2056
+[#2054]: https://github.com/symplify/symplify/pull/2054
+[#2051]: https://github.com/symplify/symplify/pull/2051
+[#2050]: https://github.com/symplify/symplify/pull/2050
+[#2049]: https://github.com/symplify/symplify/pull/2049
+[#2046]: https://github.com/symplify/symplify/pull/2046
+[#2045]: https://github.com/symplify/symplify/pull/2045
+[#2044]: https://github.com/symplify/symplify/pull/2044
+[#2043]: https://github.com/symplify/symplify/pull/2043
+[#2042]: https://github.com/symplify/symplify/pull/2042
+[#2040]: https://github.com/symplify/symplify/pull/2040
+[#2039]: https://github.com/symplify/symplify/pull/2039
+[#2035]: https://github.com/symplify/symplify/pull/2035
+[v8.2.2]: https://github.com/symplify/symplify/compare/v8.1.21...v8.2.2
+[v8.1.21]: https://github.com/symplify/symplify/compare/v8.1.20...v8.1.21
+[v8.1.20]: https://github.com/symplify/symplify/compare/v8.1.19...v8.1.20
+[v8.1.19]: https://github.com/symplify/symplify/compare/v8.1.18...v8.1.19
+[v8.1.18]: https://github.com/symplify/symplify/compare/v8.1.15...v8.1.18
+[@seb-jean]: https://github.com/seb-jean
+[@hustlahusky]: https://github.com/hustlahusky
+[@cafferata]: https://github.com/cafferata
