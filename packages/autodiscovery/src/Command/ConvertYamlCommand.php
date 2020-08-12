@@ -22,6 +22,8 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConvertYamlCommand extends Command
 {
+    private $unusedProperty;
+
     /**
      * @var string
      */
