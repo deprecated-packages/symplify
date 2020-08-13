@@ -159,6 +159,11 @@ final class ComposerJson
     /**
      * @var string
      */
+    public const KEY_PROVIDE = 'provide';
+
+    /**
+     * @var string
+     */
     private const ERROR_INVALID_KEY = 'The key "%s" looks like an invalid composer.json element';
 
     /**
@@ -197,6 +202,7 @@ final class ComposerJson
         self::KEY_AUTOLOAD             => 'is_array',
         self::KEY_AUTOLOAD_DEV         => 'is_array',
         self::KEY_CONFLICT             => 'is_array',
+        self::KEY_PROVIDE              => 'is_array',
         self::KEY_TARGET_DIR           => 'is_string',
         self::KEY_ARCHIVE              => 'is_array',
         self::KEY_REPLACE              => 'is_array',
