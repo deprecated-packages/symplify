@@ -866,6 +866,51 @@ final class SomeClass
 
 <br>
 
+### No Array Access on Object
+
+- class: [`NoArrayAccessOnObjectRule`](src/Rules/NoArrayAccessOnObjectRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoArrayAccessOnObjectRule
+```
+
+:x:
+
+```php
+<?php
+
+final class SomeClass
+{
+    public function run(MagicArrayObject $magicArrayObject)
+    {
+        return $magicArrayObject['more_magic'];
+    }
+}
+
+final class MagicArrayObject implements ArrayAccess
+{
+    public function offsetExists($offset)
+    {
+    }
+
+    public function offsetGet($offset)
+    {
+    }
+
+    public function offsetSet($offset,$value)
+    {
+    }
+
+    public function offsetUnset($offset)
+    {
+    }
+}
+```
+
+<br>
+
 ### Use explicit Property Fetch Names over Dynamic
 
 - class: [`NoDynamicPropertyFetchNameRule`](src/Rules/NoDynamicPropertyFetchNameRule.php)

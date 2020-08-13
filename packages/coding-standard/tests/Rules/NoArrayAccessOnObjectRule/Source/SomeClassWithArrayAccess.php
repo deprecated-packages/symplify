@@ -6,7 +6,7 @@ namespace Symplify\CodingStandard\Tests\Rules\NoArrayAccessOnObjectRule\Source;
 
 use ArrayAccess;
 
-final class SomeClassWithArrayAccess implements ArrayAccess
+class SomeClassWithArrayAccess implements ArrayAccess
 {
     public function offsetExists($offset)
     {

@@ -22,8 +22,11 @@ final class NoArrayAccessOnObjectRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/ArrayAccessOnObject.php', [[NoArrayAccessOnObjectRule::ERROR_MESSAGE, 14]]];
+        yield [__DIR__ . '/Fixture/ArrayAccessOnNestedObject.php', [[NoArrayAccessOnObjectRule::ERROR_MESSAGE, 14]]];
 
         yield [__DIR__ . '/Fixture/SkipOnArray.php', []];
+        yield [__DIR__ . '/Fixture/SkipSplFixedArray.php', []];
+        yield [__DIR__ . '/Fixture/SkipTokens.php', []];
     }
 
     protected function getRule(): Rule
