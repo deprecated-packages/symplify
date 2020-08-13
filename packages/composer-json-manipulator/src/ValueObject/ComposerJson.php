@@ -458,7 +458,9 @@ final class ComposerJson
 
     public function isReplacePackageSet(string $packageName): bool
     {
-        return isset($this->getReplace()[$packageName]);
+        $replacements = $this->getReplace();
+
+        return isset($replacements[$packageName]);
     }
 
     /**
@@ -544,7 +546,9 @@ final class ComposerJson
      */
     public function hasRequiredPackage(string $packageName): bool
     {
-        return isset($this->getRequire()[$packageName]);
+        $require = $this->getRequire();
+
+        return isset($require[$packageName]);
     }
 
     /**
@@ -560,7 +564,9 @@ final class ComposerJson
      */
     public function hasRequiredDevPackage(string $packageName): bool
     {
-        return isset($this->getRequireDev()[$packageName]);
+        $requireDev = $this->getRequireDev();
+
+        return isset($requireDev[$packageName]);
     }
 
     /**
@@ -581,8 +587,11 @@ final class ComposerJson
      */
     public function getAllClassmaps(): array
     {
-        $autoloadClassmaps = $this->getAutoload()[self::KEY_AUTOLOAD_CLASSMAP] ?? [];
-        $autoloadDevClassmaps = $this->getAutoloadDev()[self::KEY_AUTOLOAD_CLASSMAP] ?? [];
+        $autoload = $this->getAutoload();
+        $autoloadClassmaps = $autoload[self::KEY_AUTOLOAD_CLASSMAP] ?? [];
+
+        $autoloadDev = $this->getAutoloadDev();
+        $autoloadDevClassmaps = $autoloadDev[self::KEY_AUTOLOAD_CLASSMAP] ?? [];
 
         return array_merge($autoloadClassmaps, $autoloadDevClassmaps);
     }
