@@ -188,37 +188,37 @@ final class ComposerJson
      * @var callable[]
      */
     private const KEYS_ALLOWED = [
-        self::KEY_NAME                 => 'is_string',
-        self::KEY_TYPE                 => 'is_string',
-        self::KEY_LICENSE              => 'is_string',
-        self::KEY_DESCRIPTION          => 'is_string',
-        self::KEY_KEYWORDS             => 'is_array',
-        self::KEY_README               => 'is_string',
-        self::KEY_TIME                 => 'is_string',
-        self::KEY_FUNDING              => 'is_array',
-        self::KEY_HOMEPAGE             => 'is_string',
-        self::KEY_SUPPORT              => 'is_array',
-        self::KEY_AUTHORS              => 'is_array',
-        self::KEY_BIN                  => 'is_array',
-        self::KEY_INCLUDE_PATH         => 'is_array',
-        self::KEY_REPOSITORIES         => 'is_array',
-        self::KEY_REQUIRE              => 'is_array',
-        self::KEY_REQUIRE_DEV          => 'is_array',
-        self::KEY_AUTOLOAD             => 'is_array',
-        self::KEY_AUTOLOAD_DEV         => 'is_array',
-        self::KEY_CONFLICT             => 'is_array',
-        self::KEY_PROVIDE              => 'is_array',
-        self::KEY_SUGGEST              => 'is_array',
-        self::KEY_TARGET_DIR           => 'is_string',
-        self::KEY_ARCHIVE              => 'is_array',
-        self::KEY_REPLACE              => 'is_array',
-        self::KEY_EXTRA                => 'is_array',
-        self::KEY_SCRIPTS              => 'is_array',
-        self::KEY_CONFIG               => 'is_array',
+        self::KEY_NAME => 'is_string',
+        self::KEY_TYPE => 'is_string',
+        self::KEY_LICENSE => 'is_string',
+        self::KEY_DESCRIPTION => 'is_string',
+        self::KEY_KEYWORDS => 'is_array',
+        self::KEY_README => 'is_string',
+        self::KEY_TIME => 'is_string',
+        self::KEY_FUNDING => 'is_array',
+        self::KEY_HOMEPAGE => 'is_string',
+        self::KEY_SUPPORT => 'is_array',
+        self::KEY_AUTHORS => 'is_array',
+        self::KEY_BIN => 'is_array',
+        self::KEY_INCLUDE_PATH => 'is_array',
+        self::KEY_REPOSITORIES => 'is_array',
+        self::KEY_REQUIRE => 'is_array',
+        self::KEY_REQUIRE_DEV => 'is_array',
+        self::KEY_AUTOLOAD => 'is_array',
+        self::KEY_AUTOLOAD_DEV => 'is_array',
+        self::KEY_CONFLICT => 'is_array',
+        self::KEY_PROVIDE => 'is_array',
+        self::KEY_SUGGEST => 'is_array',
+        self::KEY_TARGET_DIR => 'is_string',
+        self::KEY_ARCHIVE => 'is_array',
+        self::KEY_REPLACE => 'is_array',
+        self::KEY_EXTRA => 'is_array',
+        self::KEY_SCRIPTS => 'is_array',
+        self::KEY_CONFIG => 'is_array',
         self::KEY_NON_FEATURE_BRANCHES => 'is_array',
-        self::KEY_ABANDONED            => 'is_bool',
-        self::KEY_MINIMUM_STABILITY    => 'is_string',
-        self::KEY_PREFER_STABLE        => 'is_bool',
+        self::KEY_ABANDONED => 'is_bool',
+        self::KEY_MINIMUM_STABILITY => 'is_string',
+        self::KEY_PREFER_STABLE => 'is_bool',
     ];
 
     /**
@@ -226,10 +226,7 @@ final class ComposerJson
      *
      * @var string[]
      */
-    private const KEYS_CASTS_TO_ARRAY = [
-        self::KEY_BIN,
-        self::KEY_INCLUDE_PATH,
-    ];
+    private const KEYS_CASTS_TO_ARRAY = [self::KEY_BIN, self::KEY_INCLUDE_PATH];
 
     /**
      * @var string[]
@@ -242,21 +239,17 @@ final class ComposerJson
     private $fileInfo;
 
     /**
-     * @var array|mixed[]
+     * @var mixed[]
      */
     private $data = [];
 
-    /**
-     * @param array $data
-     */
+
     public function __construct(array $data = [])
     {
         $this->merge($data);
     }
 
-    /**
-     * @param array $data
-     */
+
     public function merge(array $data): void
     {
         foreach ($data as $key => $value) {
@@ -269,7 +262,6 @@ final class ComposerJson
     /**
      * Sets a new value into composer data by its key
      *
-     * @param string $key
      * @param mixed $value
      */
     public function set(string $key, $value): void
@@ -295,63 +287,6 @@ final class ComposerJson
         $this->data[$key] = $value;
     }
 
-    /**
-     * Some of the composer elements accept both strings and arrays. Both
-     * entries are correct, but they should be cast into an array.
-     *
-     * For example:
-     *
-     * <code>
-     *  {"bin": "path/to/binary"}
-     * </code>
-     *
-     * <code>
-     *  {"bin": ["path/to/binary"]}
-     * <code>
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return mixed
-     */
-    private function castKeyVal(string $key, $value)
-    {
-        if (in_array($key, self::KEYS_CASTS_TO_ARRAY, true)) {
-            return is_array($value) ? $value : [$value];
-        }
-
-        return $value;
-    }
-
-    /**
-     * Validates that the value of composer data is correct by its key.
-     *
-     * @param string $key
-     * @param $value
-     */
-    private function assertKeyValIsValid(string $key, $value): void
-    {
-        if (! isset(self::KEYS_ALLOWED[$key])) {
-            throw new InvalidArgumentException(sprintf(self::ERROR_INVALID_KEY, $key), 1);
-        }
-
-        /** @var callable $matcher */
-        $matcher = self::KEYS_ALLOWED[$key];
-
-        if (! $matcher($value)) {
-            throw new InvalidArgumentException(sprintf(self::ERROR_INVALID_VALUE, $key, gettype($value)), 2);
-        }
-    }
-
-    /**
-     * @param string[] $packages
-     * @return string[]
-     */
-    private function sortPackages(array $packages): array
-    {
-        return (new PrivatesCaller())
-            ->callPrivateMethodWithReference(JsonManipulator::class, 'sortPackages', $packages);
-    }
-
     public function getName(): ?string
     {
         return $this->get(self::KEY_NAME);
@@ -360,7 +295,6 @@ final class ComposerJson
     /**
      * Returns value from composer data by its key
      *
-     * @param string $key
      * @param mixed|null $default
      * @return mixed|null
      */
@@ -421,8 +355,6 @@ final class ComposerJson
 
     /**
      * Remove composer value by its key
-     *
-     * @param string $key
      */
     public function remove(string $key): void
     {
@@ -561,36 +493,6 @@ final class ComposerJson
         return $this->sortItemsByOrderedListOfKeys($array, $this->orderedKeys);
     }
 
-    private function moveValueToBack(string $valueName): void
-    {
-        $key = array_search($valueName, $this->orderedKeys, true);
-        if ($key !== false) {
-            unset($this->orderedKeys[$key]);
-        }
-
-        $this->orderedKeys[] = $valueName;
-    }
-
-    /**
-     * 2. sort item by prescribed key order
-     *
-     * @see https://www.designcise.com/web/tutorial/how-to-sort-an-array-by-keys-based-on-order-in-a-secondary-array-in-php
-     * @param mixed[] $contentItems
-     * @param string[] $orderedVisibleItems
-     * @return mixed[]
-     */
-    private function sortItemsByOrderedListOfKeys(array $contentItems, array $orderedVisibleItems): array
-    {
-        uksort($contentItems, static function ($firstContentItem, $secondContentItem) use ($orderedVisibleItems): int {
-            $firstItemPosition = array_search($firstContentItem, $orderedVisibleItems, true);
-            $secondItemPosition = array_search($secondContentItem, $orderedVisibleItems, true);
-
-            return $firstItemPosition <=> $secondItemPosition;
-        });
-
-        return $contentItems;
-    }
-
     /**
      * @return array[]
      */
@@ -667,9 +569,7 @@ final class ComposerJson
         return $this->get(self::KEY_REQUIRE_DEV, []);
     }
 
-    /**
-     * @return SmartFileInfo|null
-     */
+
     public function getFileInfo(): ?SmartFileInfo
     {
         return $this->fileInfo;
@@ -702,20 +602,100 @@ final class ComposerJson
         return $this->get(self::KEY_AUTOLOAD_DEV, []);
     }
 
-    /**
-     * @param SmartFileInfo $fileInfo
-     */
+
     public function setOriginalFileInfo(SmartFileInfo $fileInfo): void
     {
         $this->fileInfo = $fileInfo;
     }
 
-    /**
-     * @param string $key
-     * @return bool
-     */
+
     public function has(string $key): bool
     {
         return isset($this->data[$key]);
+    }
+
+    /**
+     * Some of the composer elements accept both strings and arrays. Both
+     * entries are correct, but they should be cast into an array.
+     *
+     * For example:
+     *
+     * <code>
+     *  {"bin": "path/to/binary"}
+     * </code>
+     *
+     * <code>
+     *  {"bin": ["path/to/binary"]}
+     * <code>
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    private function castKeyVal(string $key, $value)
+    {
+        if (in_array($key, self::KEYS_CASTS_TO_ARRAY, true)) {
+            return is_array($value) ? $value : [$value];
+        }
+
+        return $value;
+    }
+
+    /**
+     * Validates that the value of composer data is correct by its key.
+     *
+     * @param $value
+     */
+    private function assertKeyValIsValid(string $key, $value): void
+    {
+        if (! isset(self::KEYS_ALLOWED[$key])) {
+            throw new InvalidArgumentException(sprintf(self::ERROR_INVALID_KEY, $key), 1);
+        }
+
+        /** @var callable $matcher */
+        $matcher = self::KEYS_ALLOWED[$key];
+
+        if (! $matcher($value)) {
+            throw new InvalidArgumentException(sprintf(self::ERROR_INVALID_VALUE, $key, gettype($value)), 2);
+        }
+    }
+
+    /**
+     * @param string[] $packages
+     * @return string[]
+     */
+    private function sortPackages(array $packages): array
+    {
+        return (new PrivatesCaller())
+            ->callPrivateMethodWithReference(JsonManipulator::class, 'sortPackages', $packages);
+    }
+
+    private function moveValueToBack(string $valueName): void
+    {
+        $key = array_search($valueName, $this->orderedKeys, true);
+        if ($key !== false) {
+            unset($this->orderedKeys[$key]);
+        }
+
+        $this->orderedKeys[] = $valueName;
+    }
+
+    /**
+     * 2. sort item by prescribed key order
+     *
+     * @see https://www.designcise.com/web/tutorial/how-to-sort-an-array-by-keys-based-on-order-in-a-secondary-array-in-php
+     * @param mixed[] $contentItems
+     * @param string[] $orderedVisibleItems
+     * @return mixed[]
+     */
+    private function sortItemsByOrderedListOfKeys(array $contentItems, array $orderedVisibleItems): array
+    {
+        uksort($contentItems, static function ($firstContentItem, $secondContentItem) use ($orderedVisibleItems): int {
+            $firstItemPosition = array_search($firstContentItem, $orderedVisibleItems, true);
+            $secondItemPosition = array_search($secondContentItem, $orderedVisibleItems, true);
+
+            return $firstItemPosition <=> $secondItemPosition;
+        });
+
+        return $contentItems;
     }
 }
