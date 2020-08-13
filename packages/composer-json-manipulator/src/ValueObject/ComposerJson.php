@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ComposerJsonManipulator\ValueObject;
 
 use Composer\Json\JsonManipulator;
-use InvalidArgumentException;
+use Symplify\ComposerJsonManipulator\Exception\InvalidComposerJsonKeyException;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -242,7 +242,6 @@ final class ComposerJson
      * @var mixed[]
      */
     private $data = [];
-
 
     public function __construct(array $data = [])
     {
@@ -572,7 +571,6 @@ final class ComposerJson
         return $this->get(self::KEY_REQUIRE_DEV, []);
     }
 
-
     public function getFileInfo(): ?SmartFileInfo
     {
         return $this->fileInfo;
@@ -605,12 +603,10 @@ final class ComposerJson
         return $this->get(self::KEY_AUTOLOAD_DEV, []);
     }
 
-
     public function setOriginalFileInfo(SmartFileInfo $fileInfo): void
     {
         $this->fileInfo = $fileInfo;
     }
-
 
     public function has(string $key): bool
     {
@@ -646,19 +642,19 @@ final class ComposerJson
     /**
      * Validates that the value of composer data is correct by its key.
      *
-     * @param $value
+     * @param mixed $value
      */
     private function assertKeyValIsValid(string $key, $value): void
     {
         if (! isset(self::KEYS_ALLOWED[$key])) {
-            throw new InvalidArgumentException(sprintf(self::ERROR_INVALID_KEY, $key), 1);
+            throw new InvalidComposerJsonKeyException(sprintf(self::ERROR_INVALID_KEY, $key), 1);
         }
 
         /** @var callable $matcher */
         $matcher = self::KEYS_ALLOWED[$key];
 
         if (! $matcher($value)) {
-            throw new InvalidArgumentException(sprintf(self::ERROR_INVALID_VALUE, $key, gettype($value)), 2);
+            throw new InvalidComposerJsonKeyException(sprintf(self::ERROR_INVALID_VALUE, $key, gettype($value)), 2);
         }
     }
 

@@ -45,7 +45,9 @@ final class ComposerJsonFactory
     {
         $composerJson = new ComposerJson($jsonArray);
 
-        $composerJson->setOrderedKeys(array_keys($jsonArray));
+        $orderedKeys = array_keys($jsonArray);
+
+        $composerJson->setOrderedKeys($orderedKeys);
 
         return $composerJson;
     }
