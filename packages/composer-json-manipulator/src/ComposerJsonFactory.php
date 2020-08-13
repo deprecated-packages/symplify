@@ -43,66 +43,9 @@ final class ComposerJsonFactory
 
     public function createFromArray(array $jsonArray): ComposerJson
     {
-        $composerJson = new ComposerJson();
+        $composerJson = new ComposerJson($jsonArray);
 
-        if (isset($jsonArray['name'])) {
-            $composerJson->setName($jsonArray['name']);
-        }
-
-        if (isset($jsonArray['description'])) {
-            $composerJson->setDescription($jsonArray['description']);
-        }
-
-        if (isset($jsonArray['license'])) {
-            $composerJson->setLicense($jsonArray['license']);
-        }
-
-        if (isset($jsonArray['require'])) {
-            $composerJson->setRequire($jsonArray['require']);
-        }
-
-        if (isset($jsonArray['require-dev'])) {
-            $composerJson->setRequireDev($jsonArray['require-dev']);
-        }
-
-        if (isset($jsonArray['autoload'])) {
-            $composerJson->setAutoload($jsonArray['autoload']);
-        }
-
-        if (isset($jsonArray['autoload-dev'])) {
-            $composerJson->setAutoloadDev($jsonArray['autoload-dev']);
-        }
-
-        if (isset($jsonArray['replace'])) {
-            $composerJson->setReplace($jsonArray['replace']);
-        }
-
-        if (isset($jsonArray['config'])) {
-            $composerJson->setConfig($jsonArray['config']);
-        }
-
-        if (isset($jsonArray['extra'])) {
-            $composerJson->setExtra($jsonArray['extra']);
-        }
-
-        if (isset($jsonArray['scripts'])) {
-            $composerJson->setScripts($jsonArray['scripts']);
-        }
-
-        if (isset($jsonArray['minimum-stability'])) {
-            $composerJson->setMinimumStability($jsonArray['minimum-stability']);
-        }
-
-        if (isset($jsonArray['prefer-stable'])) {
-            $composerJson->setPreferStable($jsonArray['prefer-stable']);
-        }
-
-        if (isset($jsonArray['repositories'])) {
-            $composerJson->setRepositories($jsonArray['repositories']);
-        }
-
-        $orderedKeys = array_keys($jsonArray);
-        $composerJson->setOrderedKeys($orderedKeys);
+        $composerJson->setOrderedKeys(array_keys($jsonArray));
 
         return $composerJson;
     }
