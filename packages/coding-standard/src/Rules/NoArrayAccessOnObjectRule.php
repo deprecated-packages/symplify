@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\ArrayDimFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
+use SplFixedArray;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoArrayAccessOnObjectRule\NoArrayAccessOnObjectRuleTest
@@ -33,6 +34,10 @@ final class NoArrayAccessOnObjectRule implements Rule
     {
         $varStaticType = $scope->getType($node->var);
         if (! $varStaticType instanceof TypeWithClassName) {
+            return [];
+        }
+
+        if (is_a($varStaticType->getClassName(), SplFixedArray::class, true)) {
             return [];
         }
 
