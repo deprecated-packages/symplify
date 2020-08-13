@@ -42,6 +42,10 @@ services:
         tags: [phpstan.rules.rule]
 
     -
+        class: Symplify\CodingStandard\Rules\NoArrayAccessOnObjectRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule
         tags: [phpstan.rules.rule]
 
