@@ -249,13 +249,16 @@ final class ComposerJson
         $this->merge($data);
     }
 
-
     public function merge(array $data): void
     {
         foreach ($data as $key => $value) {
             assert(is_string($key));
 
-            $this->set($key, $value);
+            try {
+                $this->set($key, $value);
+            } catch (\InvalidArgumentException $e) {
+                // Just ignore non-registered composer key
+            }
         }
     }
 
