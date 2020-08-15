@@ -39,8 +39,8 @@ jobs:
 
             -   run: composer install --no-progress --ansi
 
-            ## First run Rector
-            -   run: composer rector
+            ## First run Rector without --dry-run, it would stop the process with exit 1 here
+            -   run: vendor/bin/rector process --config rector-ci.php --ansi
 
             -
                 name: Check for Rector modified files
