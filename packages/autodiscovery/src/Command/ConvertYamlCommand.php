@@ -37,8 +37,6 @@ final class ConvertYamlCommand extends Command
      */
     private const ARGUMENT_SOURCE = 'source';
 
-    private $unusedProperty;
-
     /**
      * @var ExplicitToAutodiscoveryConverter
      */
