@@ -13,7 +13,7 @@ use Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\AbstractComposerJ
 final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecoratorTest
 {
     /**
-     * @var string[][]|string[][][]
+     * @var array<string, string>[]|string[][][]
      */
     private const COMPOSER_JSON_DATA = [
         'require' => [
