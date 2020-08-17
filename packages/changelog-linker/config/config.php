@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ChangelogLinker\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
@@ -15,11 +16,11 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
-    $parameters->set('authors_to_ignore', []);
-    $parameters->set('names_to_urls', []);
-    $parameters->set('package_aliases', []);
+    $parameters->set(Option::AUTHORS_TO_IGNORE, []);
+    $parameters->set(Option::NAMES_TO_URLS, []);
+    $parameters->set(Option::PACKAGE_ALIASES, []);
     $parameters->set('env(GITHUB_TOKEN)', null);
-    $parameters->set('github_token', '%env(GITHUB_TOKEN)%');
+    $parameters->set(Option::GITHUB_TOKEN, '%env(GITHUB_TOKEN)%');
 
     $services = $containerConfigurator->services();
 
@@ -34,7 +35,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/../src/HttpKernel',
             __DIR__ . '/../src/DependencyInjection/CompilerPass',
             __DIR__ . '/../src/Exception',
-            __DIR__ . '/../src/ChangeTree/Change.php',
+            __DIR__ . '/../src/ValueObject',
         ])
     ;
 

@@ -6,8 +6,8 @@ namespace Symplify\ChangelogLinker\Tests\ChangeTree;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
-use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
+use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
 final class ChangeSorterTogetherTest extends TestCase
 {
@@ -171,7 +171,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 '- [#893] Rename FlatWhite to Latte and move Latte-related code there',
                 'v2.0'
             ),
-            new Change(
+            new \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change(
                 '- [#888]  [Statie] Return collector-based approach to FileDecorators, with priorities',
                 'Unknown Category',
                 'Statie',
@@ -213,7 +213,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 '- [#901]  Allow list option in ClassNameSuffixByParentFixer',
                 'Unreleased'
             ),
-            new Change(
+            new \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change(
                 '- [#878] [ChangelogLinker] Static fixes',
                 'Fixed',
                 'ChangelogLinker',
@@ -248,7 +248,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 '- [#880] Improve cognitive comlexity',
                 'Unreleased'
             ),
-            new Change(
+            new \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change(
                 '- [#872] Update CHANGELOG for news after 4.4',
                 'Changed',
                 'Unknown Package',
@@ -283,15 +283,21 @@ final class ChangeSorterTogetherTest extends TestCase
                 '- [#871] Improve test coverage',
                 'Unreleased'
             ),
-            new Change('- [#892] [Statie] Add Twig', 'Added', 'Statie', '- [#892] Add Twig', 'Unreleased'),
-            new Change(
+            new \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change(
+                '- [#892] [Statie] Add Twig',
+                'Added',
+                'Statie',
+                '- [#892] Add Twig',
+                'Unreleased'
+            ),
+            new \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change(
                 "- [#900] [CodingStandard] Add 'extra_parent_types_to_suffixes' option to ClassNameSuffixByParentFixer",
                 'Added',
                 'CodingStandard',
                 "- [#900] Add 'extra_parent_types_to_suffixes' option to ClassNameSuffixByParentFixer",
                 'Unreleased'
             ),
-            new Change(
+            new \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change(
                 '- [#903] [ChangelogLinker] Add --linkfy option to dump-merges command',
                 'Added',
                 'ChangelogLinker',

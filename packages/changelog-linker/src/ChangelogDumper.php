@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker;
 
-use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
+use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
 final class ChangelogDumper
 {
@@ -49,7 +49,7 @@ final class ChangelogDumper
     }
 
     /**
-     * @param Change[] $changes
+     * @param \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change[] $changes
      */
     public function reportChangesWithHeadlines(
         array $changes,

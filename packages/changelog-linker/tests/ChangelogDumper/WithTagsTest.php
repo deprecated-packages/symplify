@@ -6,14 +6,14 @@ namespace Symplify\ChangelogLinker\Tests\ChangelogDumper;
 
 use Iterator;
 use Symplify\ChangelogLinker\ChangelogDumper;
-use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
+use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 final class WithTagsTest extends AbstractKernelTestCase
 {
     /**
-     * @var Change[]
+     * @var \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change[]
      */
     private $changes = [];
 
