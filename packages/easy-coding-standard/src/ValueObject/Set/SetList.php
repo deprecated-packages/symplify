@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject\Set;
 
+/**
+ * @todo refactor to rull paths
+ */
 final class SetList
 {
     /**
      * @var string
      * @api
+     *
+     * @todo
      */
-    public const PSR_12 = 'psr12';
+    public const PSR_12 = __DIR__ . '/../../../config/set/psr12.php';
 
     /**
      * @var string
