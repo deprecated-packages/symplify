@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\Tests\ChangeTree;
 
-use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
+use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
 final class ChangeSorterTest extends TestCase
 {
@@ -62,27 +62,9 @@ final class ChangeSorterTest extends TestCase
     private function createChanges(): array
     {
         return [
-            new Change(
-                '[B] message',
-                'Changed',
-                'B',
-                'message',
-                'Unreleased'
-            ),
-            new Change(
-                '[B] message',
-                'Added',
-                'B',
-                'message',
-                'Unreleased'
-            ),
-            new Change(
-                '[A] message',
-                'Removed',
-                'A',
-                'message',
-                'Unreleased'
-            ),
+            new Change('[B] message', 'Changed', 'B', 'message', 'Unreleased'),
+            new Change('[B] message', 'Added', 'B', 'message', 'Unreleased'),
+            new Change('[A] message', 'Removed', 'A', 'message', 'Unreleased'),
         ];
     }
 }
