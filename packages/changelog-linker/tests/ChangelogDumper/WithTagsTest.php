@@ -13,7 +13,7 @@ use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 final class WithTagsTest extends AbstractKernelTestCase
 {
     /**
-     * @var \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change[]
+     * @var Change[]
      */
     private $changes = [];
 

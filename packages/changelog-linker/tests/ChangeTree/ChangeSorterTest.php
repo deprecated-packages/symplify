@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\Tests\ChangeTree;
 
+use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
 
@@ -26,12 +27,12 @@ final class ChangeSorterTest extends TestCase
         $sortedChanges = $this->changeSorter->sort($changes, ChangeSorter::PRIORITY_CATEGORIES);
         $this->assertNotSame($changes, $sortedChanges);
 
-        /** @var \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change $firstChange */
+        /** @var Change $firstChange */
         $firstChange = array_shift($sortedChanges);
         $this->assertSame('Added', $firstChange->getCategory());
         $this->assertSame('B', $firstChange->getPackage());
 
-        /** @var \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change $secondChange */
+        /** @var Change $secondChange */
         $secondChange = array_shift($sortedChanges);
         $this->assertSame('Changed', $secondChange->getCategory());
         $this->assertSame('B', $secondChange->getPackage());
@@ -44,38 +45,38 @@ final class ChangeSorterTest extends TestCase
         $sortedChanges = $this->changeSorter->sort($changes, ChangeSorter::PRIORITY_PACKAGES);
         $this->assertNotSame($changes, $sortedChanges);
 
-        /** @var \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change $firstChange */
+        /** @var Change $firstChange */
         $firstChange = array_shift($sortedChanges);
         $this->assertSame('A', $firstChange->getPackage());
         $this->assertSame('Removed', $firstChange->getCategory());
 
-        /** @var \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change $secondChange */
+        /** @var Change $secondChange */
         $secondChange = array_shift($sortedChanges);
         $this->assertSame('B', $secondChange->getPackage());
         $this->assertSame('Added', $secondChange->getCategory());
     }
 
     /**
-     * @return \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change[]
+     * @return Change[]
      */
     private function createChanges(): array
     {
         return [
-            new \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change(
+            new Change(
                 '[B] message',
                 'Changed',
                 'B',
                 'message',
                 'Unreleased'
             ),
-            new \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change(
+            new Change(
                 '[B] message',
                 'Added',
                 'B',
                 'message',
                 'Unreleased'
             ),
-            new \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change(
+            new Change(
                 '[A] message',
                 'Removed',
                 'A',

@@ -49,7 +49,7 @@ final class ChangelogDumper
     }
 
     /**
-     * @param \Symplify\ChangelogLinker\ValueObject\ChangeTree\Change[] $changes
+     * @param Change[] $changes
      */
     public function reportChangesWithHeadlines(
         array $changes,
