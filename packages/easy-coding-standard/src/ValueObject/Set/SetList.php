@@ -107,4 +107,10 @@ final class SetList
      * @api
      */
     public const SYMFONY_RISKY = 'symfony-risky';
+
+    /**
+     * @var string
+     * @api
+     */
+    public const DOCTINE_ANNOTATOINS = 'doctrine-annotations';
 }
