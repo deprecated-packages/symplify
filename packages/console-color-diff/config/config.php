@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use SebastianBergmann\Diff\Differ;
 use Symfony\Component\Console\Style\SymfonyStyle;
