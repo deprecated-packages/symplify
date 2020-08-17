@@ -59,7 +59,7 @@ final class PackageToRepositorySplitter
     }
 
     /**
-     * @param mixed[] $splitConfig
+     * @param array<string, string> $splitConfig
      * @throws PackageToRepositorySplitException
      * @throws DirectoryNotFoundException
      */
