@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker;
 
-use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
+use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
 final class ChangelogDumper
 {

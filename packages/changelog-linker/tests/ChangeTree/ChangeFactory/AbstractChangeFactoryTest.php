@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory;
 
-use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
+use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 
 abstract class AbstractChangeFactoryTest extends AbstractKernelTestCase

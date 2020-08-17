@@ -8,8 +8,8 @@ use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogDumper;
 use Symplify\ChangelogLinker\ChangelogFormatter;
-use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
+use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
 final class ChangelogDumperTest extends TestCase
 {

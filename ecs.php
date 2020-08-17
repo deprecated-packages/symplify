@@ -28,7 +28,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::DOCTINE_ANNOTATIONS,
     ]);
 
-    $parameters->set(Option::PATHS, [__DIR__ . '/packages', __DIR__ . '/tests', __DIR__ . '/ecs.php']);
+    $parameters->set(Option::PATHS, [
+        __DIR__ . '/packages',
+        __DIR__ . '/tests',
+        __DIR__ . '/ecs.php',
+        __DIR__ . '/changelog-linker.php',
+        __DIR__ . '/monorepo-builder.php',
+    ]);
 
     $parameters->set(Option::EXCLUDE_PATHS, [
         '*/Fixture/*',

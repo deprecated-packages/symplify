@@ -31,7 +31,7 @@ $configFileInfos = [];
 
 $configResolver = new ConfigResolver();
 $inputConfigFileInfos = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [
-    'changelog-linker.yml', 'changelog-linker.yaml'
+    'changelog-linker.php', 'changelog-linker.yml', 'changelog-linker.yaml'
 ]);
 
 if ($inputConfigFileInfos !== null) {

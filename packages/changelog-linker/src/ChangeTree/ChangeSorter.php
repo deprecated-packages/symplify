@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\ChangeTree;
 
+use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
+
 final class ChangeSorter
 {
     /**

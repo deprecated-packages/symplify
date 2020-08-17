@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\ChangeTree;
+namespace Symplify\ChangelogLinker\ValueObject\ChangeTree;
 
 final class Change
 {
