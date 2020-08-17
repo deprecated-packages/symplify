@@ -24,8 +24,18 @@ abstract class AbstractSetProvider implements SetProviderInterface
 
     public function provideByName(string $setName): ?Set
     {
+        // 1. name-based approach
         foreach ($this->provide() as $set) {
             if ($set->getName() !== $setName) {
+                continue;
+            }
+
+            return $set;
+        }
+
+        // 2. path-based approach
+        foreach ($this->provide() as $set) {
+            if (realpath($set->getSetFileInfo()->getRealPath()) !== realpath($setName)) {
                 continue;
             }
 

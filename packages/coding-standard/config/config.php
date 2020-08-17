@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
