@@ -32,6 +32,8 @@ $symfonyStyleFactory = new SymfonyStyleFactory();
 $symfonyStyle = $symfonyStyleFactory->create();
 
 # 2. create container
+
+
 try {
     $configFileInfos = [];
 
@@ -88,19 +90,7 @@ try {
     $easyCodingStandardKernel->boot();
     $container = $easyCodingStandardKernel->getContainer();
 } catch (SetNotFoundException $setNotFoundException) {
-    $symfonyStyle = (new SymfonyStyleFactory())->create();
-
-    $symfonyStyle->error($setNotFoundException->getMessage());
-
-    $suggestedSet = ObjectHelpers::getSuggestion($setNotFoundException->getAvailableSetNames(), $setNotFoundException->getSetName());
-    if ($suggestedSet !== null) {
-        $symfonyStyle->warning($suggestedSet);
-    }
-
-    if ($setNotFoundException->getAvailableSetNames() !== []) {
-        $symfonyStyle->note('Pick one of:');
-        $symfonyStyle->listing($setNotFoundException->getAvailableSetNames());
-    }
+    (new InvalidSetReporter())->report($setNotFoundException);
     exit(ShellCode::ERROR);
 } catch (Throwable $throwable) {
     $symfonyStyle = (new SymfonyStyleFactory())->create();
@@ -279,4 +269,23 @@ function computeConfigHash(array $configFileInfos): string
     }
 
     return $hash;
+}
+
+final class InvalidSetReporter
+{
+    public function report(SetNotFoundException $setNotFoundException): void
+    {
+        $symfonyStyle = (new SymfonyStyleFactory())->create();
+        $symfonyStyle->error($setNotFoundException->getMessage());
+
+        $suggestedSet = ObjectHelpers::getSuggestion($setNotFoundException->getAvailableSetNames(), $setNotFoundException->getSetName());
+        if ($suggestedSet !== null) {
+            $symfonyStyle->warning($suggestedSet);
+        }
+
+        if ($setNotFoundException->getAvailableSetNames() !== []) {
+            $symfonyStyle->note('Pick one of:');
+            $symfonyStyle->listing($setNotFoundException->getAvailableSetNames());
+        }
+    }
 }
