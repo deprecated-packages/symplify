@@ -171,8 +171,29 @@ use Symplify\MonorepoBuilder\ValueObject\Option;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::DIRECTORIES_TO_REPOSITORIES, [
-        __DIR__ . '/packages/PackageBuilder' => 'git@github.com:Symplify/PackageBuilder.git',
-        __DIR__ . '/packagages/MonorepoBuilder' => 'git@github.com:Symplify/MonorepoBuilder.git',
+        __DIR__ . '/packages/package-builder' => 'git@github.com:symplify/package-builder.git',
+        __DIR__ . '/packagages/monorepo-builder' => 'git@github.com:symplify/monorepo-builder.git',
+        __DIR__ . '/packagages/coding-standard' => 'git@github.com:symplify/coding-standard.git',
+    ]);
+};
+```
+
+Or even simpler:
+
+```php
+<?php
+
+// monorepo-builder.php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    $parameters->set(Option::DIRECTORIES_TO_REPOSITORIES, [
+        __DIR__ . '/packages/*' => 'git@github.com:symplify/*.git',
     ]);
 };
 ```
@@ -211,8 +232,8 @@ use Symplify\MonorepoBuilder\ValueObject\Option;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::DIRECTORIES_TO_REPOSITORIES, [
-        __DIR__ . '/packages/PackageBuilder' => 'file:///home/developer/git/PackageBuilder.git',
-        __DIR__ . '/packagages/MonorepoBuilder' => 'file:///home/developer/git/MonorepoBuilder.git',
+        __DIR__ . '/packages/package-builder' => 'file:///home/developer/git/package-builder.git',
+        __DIR__ . '/packagages/monorepo-builder' => 'file:///home/developer/git/monorepo-builder.git',
     ]);
 };
 ```
@@ -222,8 +243,8 @@ After that you can test the result:
 ```bash
 vendor/bin/monorepo-builder split
 cd /tmp
-git clone /home/developer/git/PackageBuilder.git
-cd PackageBuilder
+git clone /home/developer/git/package-builder.git
+cd package-builder
 git log
 ```
 

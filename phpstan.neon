@@ -180,3 +180,6 @@ parameters:
         - '#Cannot call method getRealPath\(\) on Symplify\\SmartFileSystem\\SmartFileInfo\|null#'
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
 
+        -
+            message: '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings\:\:after\(\) expects string, string\|false given#'
+            path: 'packages/monorepo-builder/packages/split/src/Command/SplitCommand.php'

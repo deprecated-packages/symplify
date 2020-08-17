@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Split\Command;
 
+use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -97,8 +98,10 @@ final class SplitCommand extends Command
 
         $branch = $input->getOption(Option::BRANCH) ? (string) $input->getOption(Option::BRANCH) : null;
 
+        $resolvedDirectoriesToRepository = $this->getDirectoriesToRepositories();
+
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
-            $this->directoriesToRepositories,
+            $resolvedDirectoriesToRepository,
             $this->rootDirectory,
             $branch,
             $maxProcesses,
@@ -106,5 +109,32 @@ final class SplitCommand extends Command
         );
 
         return ShellCode::SUCCESS;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function getDirectoriesToRepositories(): array
+    {
+        $resolvedDirectoriesToRepository = [];
+
+        foreach ($this->directoriesToRepositories as $directory => $repository) {
+            if (! Strings::contains($directory, '*')) {
+                $resolvedDirectoriesToRepository[$directory] = $repository;
+                continue;
+            }
+
+            // fnmatch
+            $patternWithoutAsterisk = (string) trim($directory, '*');
+            foreach ((array) glob($directory) as $foundDirectory) {
+                /** @var string $foundDirectory */
+                $exclusiveName = Strings::after($foundDirectory, $patternWithoutAsterisk);
+                $targetRepository = Strings::replace($repository, '#\*#', $exclusiveName);
+
+                $resolvedDirectoriesToRepository[$foundDirectory] = $targetRepository;
+            }
+        }
+
+        return $resolvedDirectoriesToRepository;
     }
 }
