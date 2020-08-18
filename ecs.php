@@ -25,7 +25,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::COMMON,
         SetList::PSR_12,
         SetList::DEAD_CODE,
-        SetList::DOCTINE_ANNOTATIONS,
+        SetList::DOCTRINE_ANNOTATIONS,
     ]);
 
     $parameters->set(Option::PATHS, [
