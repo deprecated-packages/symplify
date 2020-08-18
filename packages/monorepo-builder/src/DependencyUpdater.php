@@ -28,29 +28,14 @@ final class DependencyUpdater
     public function updateFileInfosWithPackagesAndVersion(
         array $smartFileInfos,
         array $packageNames,
-        string $version,
-        ?callable $shouldSkipCallable = null
+        string $version
     ): void {
         foreach ($smartFileInfos as $packageComposerFileInfo) {
             $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFileInfo);
 
-            $json = $this->processSectionWithPackages(
-                $json,
-                $packageNames,
-                $version,
-                Section::REQUIRE,
-                $packageComposerFileInfo,
-                $shouldSkipCallable
-            );
+            $json = $this->processSectionWithPackages($json, $packageNames, $version, Section::REQUIRE);
 
-            $json = $this->processSectionWithPackages(
-                $json,
-                $packageNames,
-                $version,
-                Section::REQUIRE_DEV,
-                $packageComposerFileInfo,
-                $shouldSkipCallable
-            );
+            $json = $this->processSectionWithPackages($json, $packageNames, $version, Section::REQUIRE_DEV);
 
             $this->jsonFileManager->saveJsonWithFileInfo($json, $packageComposerFileInfo);
         }
@@ -62,29 +47,15 @@ final class DependencyUpdater
     public function updateFileInfosWithVendorAndVersion(
         array $smartFileInfos,
         string $vendor,
-        string $version,
-        ?callable $shouldSkipCallable = null
+        string $version
     ): void {
         foreach ($smartFileInfos as $packageComposerFileInfo) {
             $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFileInfo);
 
-            $json = $this->processSection(
-                $json,
-                $vendor,
-                $version,
-                Section::REQUIRE,
-                $packageComposerFileInfo,
-                $shouldSkipCallable
-            );
+            $json = $this->processSection($json, $vendor, $version, Section::REQUIRE);
 
-            $json = $this->processSection(
-                $json,
-                $vendor,
-                $version,
-                Section::REQUIRE_DEV,
-                $packageComposerFileInfo,
-                $shouldSkipCallable
-            );
+            $json = $this->processSection($json, $vendor, $version, Section::REQUIRE_DEV);
+
             $this->jsonFileManager->saveJsonWithFileInfo($json, $packageComposerFileInfo);
         }
     }
@@ -98,9 +69,7 @@ final class DependencyUpdater
         array $json,
         array $packageNames,
         string $targetVersion,
-        string $section,
-        SmartFileInfo $smartFileInfo,
-        ?callable $shouldSkipCallback = null
+        string $section
     ): array {
         if (! isset($json[$section])) {
             return $json;
@@ -108,10 +77,6 @@ final class DependencyUpdater
 
         foreach (array_keys($json[$section]) as $packageName) {
             if (! in_array($packageName, $packageNames, true)) {
-                continue;
-            }
-
-            if ($shouldSkipCallback !== null && $shouldSkipCallback($smartFileInfo, $packageName, $section)) {
                 continue;
             }
 
@@ -125,24 +90,14 @@ final class DependencyUpdater
      * @param mixed[] $json
      * @return mixed[]
      */
-    private function processSection(
-        array $json,
-        string $vendor,
-        string $targetVersion,
-        string $section,
-        SmartFileInfo $smartFileInfo,
-        ?callable $shouldSkipCallback = null
-    ): array {
+    private function processSection(array $json, string $vendor, string $targetVersion, string $section): array
+    {
         if (! isset($json[$section])) {
             return $json;
         }
 
         foreach ($json[$section] as $packageName => $packageVersion) {
             if ($this->shouldSkip($vendor, $targetVersion, $packageName, $packageVersion)) {
-                continue;
-            }
-
-            if ($shouldSkipCallback !== null && $shouldSkipCallback($smartFileInfo, $packageName, $section)) {
                 continue;
             }
 
