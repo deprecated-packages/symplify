@@ -45,7 +45,7 @@ final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFix
      */
     protected function fixAnnotations(Tokens $tokens): void
     {
-        $tokenCount = count($tokens);
+        $tokenCount = $tokens->count();
 
         $this->indentCounter = 0;
 
