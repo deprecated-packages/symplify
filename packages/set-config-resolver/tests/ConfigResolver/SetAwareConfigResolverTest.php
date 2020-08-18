@@ -31,7 +31,7 @@ final class SetAwareConfigResolverTest extends TestCase
      */
     public function testDetectFromInputAndProvideWithAbsolutePath(array $options, ?string $expectedConfig): void
     {
-        $resolvedConfigFileInfo = $this->setAwareConfigResolver->resolveFromInputWithFallback(new ArrayInput($options));
+        $resolvedConfigFileInfo = $this->setAwareConfigResolver->resolveFromInput(new ArrayInput($options));
 
         if ($expectedConfig === null) {
             $this->assertNull($resolvedConfigFileInfo);
@@ -90,6 +90,6 @@ final class SetAwareConfigResolverTest extends TestCase
         $this->expectException(FileNotFoundException::class);
 
         $input = new ArrayInput(['--config' => 'someFile.yml']);
-        $this->setAwareConfigResolver->resolveFromInputWithFallback($input);
+        $this->setAwareConfigResolver->resolveFromInput($input);
     }
 }

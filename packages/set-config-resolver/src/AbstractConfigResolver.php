@@ -27,10 +27,7 @@ abstract class AbstractConfigResolver
         $this->optionValueResolver = new OptionValueResolver();
     }
 
-    /**
-     * @param string[] $fallbackFiles
-     */
-    public function resolveFromInputWithFallback(InputInterface $input, array $fallbackFiles = []): ?SmartFileInfo
+    public function resolveFromInput(InputInterface $input): ?SmartFileInfo
     {
         $configValue = $this->optionValueResolver->getOptionValue($input, OptionName::CONFIG);
 
@@ -41,6 +38,19 @@ abstract class AbstractConfigResolver
             }
 
             return $this->createFileInfo($configValue);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string[] $fallbackFiles
+     */
+    public function resolveFromInputWithFallback(InputInterface $input, array $fallbackFiles): ?SmartFileInfo
+    {
+        $configFileInfo = $this->resolveFromInput($input);
+        if ($configFileInfo !== null) {
+            return $configFileInfo;
         }
 
         return $this->createFallbackFileInfoIfFound($fallbackFiles);

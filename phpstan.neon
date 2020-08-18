@@ -3,7 +3,7 @@ includes:
     - vendor/slam/phpstan-extensions/conf/slam-rules.neon
     - vendor/slam/phpstan-extensions/conf/symfony-rules.neon
     - packages/coding-standard/config/symplify-rules.neon
-    # @todo resolve in next PR
+    # @todo resolve when in good mood :)
     # - packages/coding-standard/config/symplify-strict-rules.neon
 
 services:
@@ -185,3 +185,16 @@ parameters:
         -
             message: '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings\:\:after\(\) expects string, string\|false given#'
             path: 'packages/monorepo-builder/packages/split/src/Command/SplitCommand.php'
+
+        # optional CLI parameter
+        -
+            message: '#Parameter "stage" cannot be nullable#'
+            paths:
+                - 'packages/monorepo-builder/packages/release/src/Command/*'
+
+        # inherited from Symfony class
+        -
+            message: '#Parameter "type" cannot have default value#'
+            paths:
+                 - 'packages/package-builder/src/DependencyInjection/FileLoader/ParameterMergingPhpFileLoader.php'
+                 - 'packages/package-builder/src/Yaml/FileLoader/AbstractParameterMergingYamlFileLoader.php'
