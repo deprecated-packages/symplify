@@ -5,10 +5,10 @@
     "require": {
         "php": "^7.2",
         "phpunit/phpunit": "^8.5|^9.0",
-        "symplify/easy-coding-standard": "^8.3",
-        "symplify/package-builder": "^8.3",
-        "symplify/easy-testing": "^8.3",
-        "symplify/smart-file-system": "^8.3"
+        "symplify/easy-coding-standard": "^8.2.4",
+        "symplify/package-builder": "^8.2.4",
+        "symplify/easy-testing": "^8.2.4",
+        "symplify/smart-file-system": "^8.2.4"
     },
     "autoload": {
         "psr-4": {
