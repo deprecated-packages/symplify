@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Fixer\Annotation;
 
 use Doctrine\Common\Annotations\DocLexer;
+use Nette\Utils\Strings;
 use PhpCsFixer\AbstractDoctrineAnnotationFixer;
 use PhpCsFixer\Doctrine\Annotation\Token;
 use PhpCsFixer\Doctrine\Annotation\Tokens;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use Symplify\CodingStandard\Exception\NotImplementedYetException;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DoctrineBlockFinder;
+use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\Annotation\NewlineInNestedAnnotationFixer\NewlineInNestedAnnotationFixerTest
@@ -22,6 +23,11 @@ final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFix
      * @var DoctrineBlockFinder
      */
     private $doctrineBlockFinder;
+
+    /**
+     * @var BlockInfo|null
+     */
+    private $currentBlockInfo;
 
     public function __construct(DoctrineBlockFinder $doctrineBlockFinder)
     {
@@ -51,6 +57,8 @@ final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFix
     {
         $tokenCount = $tokens->count();
 
+        $this->currentBlockInfo = null;
+
         // what about foreach?
         for ($index = 0; $index < $tokenCount; ++$index) {
             /** @var Token $currentToken */
@@ -67,21 +75,42 @@ final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFix
             }
 
             // docblock opener → skip it
-            if ($previousToken->isType(DocLexer::T_NONE)) {
+            if ($this->isDocOpener($previousToken)) {
                 continue;
-            }
-
-            if (! $previousToken->isType(DocLexer::T_OPEN_CURLY_BRACES)) {
-                throw new NotImplementedYetException();
             }
 
             $tokens->insertAt($index, new Token(DocLexer::T_NONE, ' * '));
             $tokens->insertAt($index, new Token(DocLexer::T_NONE, "\n"));
 
-            $block = $this->doctrineBlockFinder->findInTokensByEdge($tokens, $previousTokenPosition);
-            if ($block !== null) {
-                $tokens->insertAt($block->getEnd(), new Token(DocLexer::T_NONE, ' * '));
-                $tokens->insertAt($block->getEnd(), new Token(DocLexer::T_NONE, "\n"));
+            // remove redundant space
+            if ($previousToken->isType(DocLexer::T_NONE)) {
+                $tokens->offsetUnset($previousTokenPosition);
+            }
+
+            $this->processEndBracket($index, $tokens, $previousTokenPosition);
+        }
+    }
+
+    private function isDocOpener(Token $token): bool
+    {
+        if ($token->isType(DocLexer::T_NONE)) {
+            return Strings::contains($token->getContent(), '*');
+        }
+
+        return false;
+    }
+
+    private function processEndBracket(int $index, $tokens, int $previousTokenPosition): void
+    {
+        if ($this->currentBlockInfo === null || ! $this->currentBlockInfo->contains($index)) {
+            $this->currentBlockInfo = $this->doctrineBlockFinder->findInTokensByEdge(
+                $tokens,
+                $previousTokenPosition
+            );
+
+            if ($this->currentBlockInfo !== null) {
+                $tokens->insertAt($this->currentBlockInfo->getEnd(), new Token(DocLexer::T_NONE, ' * '));
+                $tokens->insertAt($this->currentBlockInfo->getEnd(), new Token(DocLexer::T_NONE, "\n"));
             }
         }
     }

@@ -44,6 +44,7 @@ final class BoolishClassMethodPrefixRule implements Rule
         'could',
         'should',
         'starts',
+        'contains',
         'ends',
         'exists',
         'supports',
