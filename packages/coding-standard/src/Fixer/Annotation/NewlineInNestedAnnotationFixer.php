@@ -19,11 +19,6 @@ use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DoctrineBlockFind
 final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFixer
 {
     /**
-     * @var int
-     */
-    private $indentCounter = 0;
-
-    /**
      * @var DoctrineBlockFinder
      */
     private $doctrineBlockFinder;
@@ -35,19 +30,26 @@ final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFix
         parent::__construct();
     }
 
+    public function getPriority(): int
+    {
+        // must run before \PhpCsFixer\Fixer\DoctrineAnnotation\DoctrineAnnotationIndentationFixer
+        return 100;
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Nested annotation should start on standalone line', []);
     }
 
     /**
+     * @note indent is covered by
+     * @see \PhpCsFixer\Fixer\DoctrineAnnotation\DoctrineAnnotationIndentationFixer
+     *
      * @param iterable<\PhpCsFixer\Doctrine\Annotation\Token>&Tokens $tokens
      */
     protected function fixAnnotations(Tokens $tokens): void
     {
         $tokenCount = $tokens->count();
-
-        $this->indentCounter = 0;
 
         // what about foreach?
         for ($index = 0; $index < $tokenCount; ++$index) {
@@ -64,8 +66,6 @@ final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFix
                 continue;
             }
 
-            ++$this->indentCounter;
-
             // docblock opener → skip it
             if ($previousToken->isType(DocLexer::T_NONE)) {
                 continue;
@@ -75,9 +75,6 @@ final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFix
                 throw new NotImplementedYetException();
             }
 
-            // add a newline with indent - @todo resolve indent and removing of spaces
-            $indentWhitespace = str_repeat(' ', ($this->indentCounter - 1) * 4);
-            $tokens->insertAt($index, new Token(DocLexer::T_NONE, $indentWhitespace));
             $tokens->insertAt($index, new Token(DocLexer::T_NONE, ' * '));
             $tokens->insertAt($index, new Token(DocLexer::T_NONE, "\n"));
 
