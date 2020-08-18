@@ -73,9 +73,11 @@ final class PackageToRepositorySplitter
         if ($tag === null) {
             // If user let the tool to automatically select the last tag, check if there are valid
             if ($this->gitManager->doTagsHaveCommitterDate()) {
-                $this->symfonyStyle->warning(
-                    'Some of the tags on this repository don\'t have committer\'s date. This may lead to unwanted tag selection during split. You may want to use the "' . Option::TAG . '" parameter.'
+                $message = sprintf(
+                    'Some of the tags on this repository do not have committer date. This may lead to unwanted tag selection during split. You may want to use the "%s" parameter.',
+                    Option::TAG
                 );
+                $this->symfonyStyle->warning($message);
             }
 
             $tag = $this->gitManager->getMostRecentTag($rootDirectory);
