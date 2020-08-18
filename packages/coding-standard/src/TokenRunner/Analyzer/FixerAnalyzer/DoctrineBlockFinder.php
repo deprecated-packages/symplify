@@ -38,11 +38,6 @@ final class DoctrineBlockFinder
     private const START_EDGES = ['(', '{'];
 
     /**
-     * @var mixed[]
-     */
-    private $blockEndCache = [];
-
-    /**
      * Accepts position to both start and end token, e.g. (, ), {, }
      */
     public function findInTokensByEdge(Tokens $tokens, int $position): ?BlockInfo

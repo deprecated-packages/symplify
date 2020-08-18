@@ -15,9 +15,9 @@ use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DoctrineBlockFind
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Fixer\Annotation\NewlineInNestedAnnotationFixer\NewlineInNestedAnnotationFixerTest
+ * @see \Symplify\CodingStandard\Tests\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer\DoctrineAnnotationNewlineInNestedAnnotationFixerTest
  */
-final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFixer
+final class DoctrineAnnotationNewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFixer
 {
     /**
      * @var DoctrineBlockFinder

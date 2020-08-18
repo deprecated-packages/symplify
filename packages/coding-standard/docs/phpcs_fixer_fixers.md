@@ -243,7 +243,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
-    $services->set(Symplify\CodingStandard\Fixer\Annotation\NewlineInNestedAnnotationFixer::class);
+    $services->set(Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer::class);
 };
 ```
 

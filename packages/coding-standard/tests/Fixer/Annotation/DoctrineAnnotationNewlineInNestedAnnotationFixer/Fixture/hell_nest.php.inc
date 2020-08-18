@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\CodingStandard\Tests\Fixer\Annotation\NewlineInNestedAnnotationFixer\Fixture;
+namespace Symplify\CodingStandard\Tests\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,7 +16,7 @@ class HellNest
 -----
 <?php
 
-namespace Symplify\CodingStandard\Tests\Fixer\Annotation\NewlineInNestedAnnotationFixer\Fixture;
+namespace Symplify\CodingStandard\Tests\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 
