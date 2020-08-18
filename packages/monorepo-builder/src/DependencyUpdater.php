@@ -76,6 +76,7 @@ final class DependencyUpdater
                 $packageComposerFileInfo,
                 $shouldSkipCallable
             );
+
             $json = $this->processSection(
                 $json,
                 $vendor,

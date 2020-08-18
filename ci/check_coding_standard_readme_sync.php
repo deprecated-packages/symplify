@@ -22,7 +22,7 @@ final class CodingStandardSyncChecker
     /**
      * @var string
      */
-    private const CODING_STANDARD_README_PATH = __DIR__ . '/../packages/coding-standard/README.md';
+    private const CODING_STANDARD_DOCS_GLOB_PATH = __DIR__ . '/../packages/coding-standard/*/**.md';
 
     /**
      * @see https://regex101.com/r/Unygf7/3/
@@ -69,12 +69,16 @@ final class CodingStandardSyncChecker
      */
     private function resolveCheckerClassesInReadme(): array
     {
-        $codingStandardReadmeContent = $this->smartFileSystem->readFile(self::CODING_STANDARD_README_PATH);
-        $checkerClassMatches = Strings::matchAll($codingStandardReadmeContent, self::CHECKER_CLASS_PATTERN);
+        $filePaths = glob(self::CODING_STANDARD_DOCS_GLOB_PATH);
 
         $checkerClasses = [];
-        foreach ($checkerClassMatches as $checkerClassMatch) {
-            $checkerClasses[] = $checkerClassMatch['checker_class'];
+        foreach ($filePaths as $filePath) {
+            $docFileContent = $this->smartFileSystem->readFile($filePath);
+
+            $checkerClassMatches = Strings::matchAll($docFileContent, self::CHECKER_CLASS_PATTERN);
+            foreach ($checkerClassMatches as $checkerClassMatch) {
+                $checkerClasses[] = $checkerClassMatch['checker_class'];
+            }
         }
 
         $checkerClasses = array_unique($checkerClasses);

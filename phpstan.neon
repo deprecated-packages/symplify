@@ -3,6 +3,8 @@ includes:
     - vendor/slam/phpstan-extensions/conf/slam-rules.neon
     - vendor/slam/phpstan-extensions/conf/symfony-rules.neon
     - packages/coding-standard/config/symplify-rules.neon
+    # @todo resolve in next PR
+    # - packages/coding-standard/config/symplify-strict-rules.neon
 
 services:
     -

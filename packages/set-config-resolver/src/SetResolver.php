@@ -16,7 +16,7 @@ final class SetResolver
     /**
      * @var string[]
      */
-    private $optionNames = [];
+    private $optionNames = OptionName::SET;
 
     /**
      * @var OptionValueResolver
@@ -28,12 +28,8 @@ final class SetResolver
      */
     private $setProvider;
 
-    /**
-     * @param string[] $optionNames
-     */
-    public function __construct(SetProviderInterface $setProvider, array $optionNames = OptionName::SET)
+    public function __construct(SetProviderInterface $setProvider)
     {
-        $this->optionNames = $optionNames;
         $this->optionValueResolver = new OptionValueResolver();
         $this->setProvider = $setProvider;
     }
