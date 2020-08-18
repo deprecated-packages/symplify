@@ -57,25 +57,27 @@ final class ComposerJsonMerger
         foreach ($composerPackageFileInfos as $packageFileInfo) {
             $packageComposerJson = $this->composerJsonFactory->createFromFileInfo($packageFileInfo);
 
-            $this->mergeJsonToRoot($mainComposerJson, $packageComposerJson, $packageFileInfo);
+            $this->mergeJsonToRootWithPackageFileInfo($mainComposerJson, $packageComposerJson, $packageFileInfo);
         }
 
         return $mainComposerJson;
     }
 
-    public function mergeJsonToRoot(
+    public function mergeJsonToRootWithPackageFileInfo(
         ComposerJson $mainComposerJson,
         ComposerJson $newComposerJson,
-        ?SmartFileInfo $packageFileInfo = null
+        SmartFileInfo $packageFileInfo
     ): void {
+        // prepare paths before autolaod merging
+        $this->autoloadPathNormalizer->normalizeAutoloadPaths($newComposerJson, $packageFileInfo);
+        $this->mergeJsonToRoot($mainComposerJson, $newComposerJson);
+    }
+
+    public function mergeJsonToRoot(ComposerJson $mainComposerJson, ComposerJson $newComposerJson): void
+    {
         $name = $newComposerJson->getName();
         if ($name !== null) {
             $this->mergedPackagesCollector->addPackage($name);
-        }
-
-        // prepare paths before autolaod merging
-        if ($packageFileInfo !== null) {
-            $this->autoloadPathNormalizer->normalizeAutoloadPaths($newComposerJson, $packageFileInfo);
         }
 
         foreach ($this->composerKeyMergers as $composerKeyMerger) {
