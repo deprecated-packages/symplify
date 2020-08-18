@@ -23,7 +23,7 @@ final class DoctrineBlockFinder
     private const BLOCK_TYPE_CURLY_BRACE = 2;
 
     /**
-     * @var int[]
+     * @var array<string, int>
      */
     private const CONTENT_TO_BLOCK_TYPE = [
         '{' => self::BLOCK_TYPE_CURLY_BRACE,
@@ -36,11 +36,6 @@ final class DoctrineBlockFinder
      * @var string[]
      */
     private const START_EDGES = ['(', '{'];
-
-    /**
-     * @var mixed[]
-     */
-    private $blockEndCache = [];
 
     /**
      * Accepts position to both start and end token, e.g. (, ), {, }
@@ -84,24 +79,15 @@ final class DoctrineBlockFinder
     }
 
     /**
-     * @param int  $type        type of block, one of BLOCK_TYPE_*
-     * @param int  $searchIndex index of starting brace
-     * @param bool $findEnd     if method should find block's end or start
-     *
-     * @return int index of opposite brace
-     *
      * @copied from
      * @see \PhpCsFixer\Tokenizer\Tokens::findBlockEnd()
      */
-    private function findOppositeBlockEdge(Tokens $tokens, $type, $searchIndex, bool $findEnd = true)
+    private function findOppositeBlockEdge(Tokens $tokens, int $type, int $searchIndex, bool $findEnd = true): int
     {
         $blockEdgeDefinitions = $this->getBlockEdgeDefinitions();
         if (! isset($blockEdgeDefinitions[$type])) {
-            throw new EdgeFindingException(sprintf('Invalid param type: "%s".', $type));
-        }
-
-        if (isset($this->blockEndCache[$searchIndex])) {
-            return $this->blockEndCache[$searchIndex];
+            $message = sprintf('Invalid param type: "%s".', $type);
+            throw new EdgeFindingException($message);
         }
 
         $startEdge = $blockEdgeDefinitions[$type]['start'];
@@ -127,9 +113,6 @@ final class DoctrineBlockFinder
             $message = sprintf('Missing block "%s".', $findEnd ? 'end' : 'start');
             throw new EdgeFindingException($message);
         }
-
-        $this->blockEndCache[$startIndex] = $index;
-        $this->blockEndCache[$index] = $startIndex;
 
         return $index;
     }

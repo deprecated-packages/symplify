@@ -15,9 +15,9 @@ use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DoctrineBlockFind
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Fixer\Annotation\NewlineInNestedAnnotationFixer\NewlineInNestedAnnotationFixerTest
+ * @see \Symplify\CodingStandard\Tests\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer\DoctrineAnnotationNewlineInNestedAnnotationFixerTest
  */
-final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFixer
+final class DoctrineAnnotationNewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFixer
 {
     /**
      * @var DoctrineBlockFinder
@@ -55,9 +55,9 @@ final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFix
      */
     protected function fixAnnotations(Tokens $tokens): void
     {
-        $tokenCount = $tokens->count();
-
         $this->currentBlockInfo = null;
+
+        $tokenCount = $tokens->count();
 
         // what about foreach?
         for ($index = 0; $index < $tokenCount; ++$index) {
@@ -100,18 +100,31 @@ final class NewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFix
         return false;
     }
 
-    private function processEndBracket(int $index, $tokens, int $previousTokenPosition): void
+    private function processEndBracket(int $index, Tokens $tokens, int $previousTokenPosition): void
     {
-        if ($this->currentBlockInfo === null || ! $this->currentBlockInfo->contains($index)) {
+        /** @var Token $previousToken */
+        $previousToken = $tokens->offsetGet($previousTokenPosition);
+        // already a space → skip
+        if ($previousToken->isType(DocLexer::T_NONE)) {
+            return;
+        }
+
+        // reset
+        if ($this->currentBlockInfo !== null && ! $this->currentBlockInfo->contains($index)) {
+            $this->currentBlockInfo = null;
+            return;
+        }
+
+        if ($this->currentBlockInfo === null) {
             $this->currentBlockInfo = $this->doctrineBlockFinder->findInTokensByEdge(
                 $tokens,
                 $previousTokenPosition
             );
+        }
 
-            if ($this->currentBlockInfo !== null) {
-                $tokens->insertAt($this->currentBlockInfo->getEnd(), new Token(DocLexer::T_NONE, ' * '));
-                $tokens->insertAt($this->currentBlockInfo->getEnd(), new Token(DocLexer::T_NONE, "\n"));
-            }
+        if ($this->currentBlockInfo !== null) {
+            $tokens->insertAt($this->currentBlockInfo->getEnd(), new Token(DocLexer::T_NONE, ' * '));
+            $tokens->insertAt($this->currentBlockInfo->getEnd(), new Token(DocLexer::T_NONE, "\n"));
         }
     }
 }

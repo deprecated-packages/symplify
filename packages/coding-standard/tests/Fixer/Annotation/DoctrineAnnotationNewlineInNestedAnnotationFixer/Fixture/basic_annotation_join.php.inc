@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\CodingStandard\Tests\Fixer\Annotation\NewlineInNestedAnnotationFixer\Fixture;
+namespace Symplify\CodingStandard\Tests\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,7 +15,7 @@ class SomeEntity
 -----
 <?php
 
-namespace Symplify\CodingStandard\Tests\Fixer\Annotation\NewlineInNestedAnnotationFixer\Fixture;
+namespace Symplify\CodingStandard\Tests\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 
