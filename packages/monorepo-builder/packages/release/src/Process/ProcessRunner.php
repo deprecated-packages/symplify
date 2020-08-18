@@ -71,9 +71,6 @@ final class ProcessRunner
     private function reportResult(Process $process): void
     {
         if ($process->isSuccessful()) {
-            $trimmedOutput = trim($process->getOutput());
-            $this->symfonyStyle->writeln($trimmedOutput);
-
             return;
         }
 
