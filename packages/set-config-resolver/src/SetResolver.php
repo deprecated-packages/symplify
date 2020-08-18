@@ -16,7 +16,7 @@ final class SetResolver
     /**
      * @var string[]
      */
-    private $optionNames = OptionName::SET;
+    private const OPTION_NAMES = OptionName::SET;
 
     /**
      * @var OptionValueResolver
@@ -36,7 +36,7 @@ final class SetResolver
 
     public function detectFromInput(InputInterface $input): ?SmartFileInfo
     {
-        $setName = $this->optionValueResolver->getOptionValue($input, $this->optionNames);
+        $setName = $this->optionValueResolver->getOptionValue($input, self::OPTION_NAMES);
         if ($setName === null) {
             return null;
         }
