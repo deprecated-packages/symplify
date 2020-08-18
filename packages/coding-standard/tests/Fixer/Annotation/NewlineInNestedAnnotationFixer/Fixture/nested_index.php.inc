@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Annotation\NewlineInNestedAnnotati
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="user", indexes={@ORM\Index(name="user_id", columns={"another_id"})})
+ * @ORM\Table(name="a_dokumenty", indexes={@ORM\Index(name="...", columns={"..."}), @ORM\Index(name="...", columns={"..."})})
  */
 class SomeEntity
 {
@@ -20,8 +20,9 @@ namespace Symplify\CodingStandard\Tests\Fixer\Annotation\NewlineInNestedAnnotati
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="user", indexes={
- * @ORM\Index(name="user_id", columns={"another_id"})
+ * @ORM\Table(name="a_dokumenty", indexes={
+ * @ORM\Index(name="...", columns={"..."}),
+ * @ORM\Index(name="...", columns={"..."})
  * })
  */
 class SomeEntity
