@@ -2,7 +2,7 @@
 
 ## There should not be comments with valid code
 
-- class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](../src/Sniffs/Debug/CommentedOutCodeSniff.php)
 
 ```php
 <?php

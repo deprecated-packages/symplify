@@ -4,7 +4,7 @@
 
 Inspired by [Null Hell](https://afilina.com/null-hell) by @afilina
 
-- class: [`NoNullableParameterRule`](src/Rules/NoNullableParameterRule.php)
+- class: [`NoNullableParameterRule`](../src/Rules/NoNullableParameterRule.php)
 
 ```yaml
 # phpstan.neon
@@ -25,7 +25,7 @@ class SomeClass
 
 ## No Parameter can Have Default Value
 
-- class: [`NoDefaultParameterValueRule`](src/Rules/NoDefaultParameterValueRule.php)
+- class: [`NoDefaultParameterValueRule`](../src/Rules/NoDefaultParameterValueRule.php)
 
 ```yaml
 # phpstan.neon
@@ -48,7 +48,7 @@ class SomeClass
 
 Covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
 
-- class: [`ClassNameRespectsParentSuffixRule`](src/Rules/ClassNameRespectsParentSuffixRule.php)
+- class: [`ClassNameRespectsParentSuffixRule`](../src/Rules/ClassNameRespectsParentSuffixRule.php)
 
 ```yaml
 # phpstan.neon
@@ -74,7 +74,7 @@ class Some extends Command // should be "SomeCommand"
 
 ## Debug functions Cannot Be left in the Code
 
-- class: [`NoDebugFuncCallRule`](src/Rules/NoDebugFuncCallRule.php)
+- class: [`NoDebugFuncCallRule`](../src/Rules/NoDebugFuncCallRule.php)
 
 ```yaml
 # phpstan.neon
@@ -95,7 +95,7 @@ var_dump($value);
 
 ## Use explicit comparison over `empty()`
 
-- class: [`NoEmptyRule`](src/Rules/NoEmptyRule.php)
+- class: [`NoEmptyRule`](../src/Rules/NoEmptyRule.php)
 
 ```yaml
 # phpstan.neon
@@ -130,7 +130,7 @@ final class SomeClass
 
 ## Prevent Override of Parent Method Visbility
 
-- class: [`PreventParentMethodVisibilityOverrideRule`](src/Rules/PreventParentMethodVisibilityOverrideRule.php)
+- class: [`PreventParentMethodVisibilityOverrideRule`](../src/Rules/PreventParentMethodVisibilityOverrideRule.php)
 
 ```yaml
 # phpstan.neon
@@ -160,7 +160,7 @@ final class PublicOverride extends ProtectedVisibility
 
 ## Use explicit Property Fetch Names over Dynamic
 
-- class: [`NoDynamicPropertyFetchNameRule`](src/Rules/NoDynamicPropertyFetchNameRule.php)
+- class: [`NoDynamicPropertyFetchNameRule`](../src/Rules/NoDynamicPropertyFetchNameRule.php)
 
 ```yaml
 # phpstan.neon
@@ -184,7 +184,7 @@ final class DynamicPropertyFetchName
 
 ## No Function Call on Method Call
 
-- class: [`NoFunctionCallInMethodCallRule`](src/Rules/NoFunctionCallInMethodCallRule.php)
+- class: [`NoFunctionCallInMethodCallRule`](../src/Rules/NoFunctionCallInMethodCallRule.php)
 
 ```yaml
 # phpstan.neon
@@ -231,7 +231,7 @@ final class SomeClass
 
 ## No Array Access on Object
 
-- class: [`NoArrayAccessOnObjectRule`](src/Rules/NoArrayAccessOnObjectRule.php)
+- class: [`NoArrayAccessOnObjectRule`](../src/Rules/NoArrayAccessOnObjectRule.php)
 
 ```yaml
 # phpstan.neon
@@ -286,7 +286,7 @@ final class SomeClass
 
 ## No isset on objects
 
-- class: [`NoIssetOnObjectRule`](src/Rules/NoIssetOnObjectRule.php)
+- class: [`NoIssetOnObjectRule`](../src/Rules/NoIssetOnObjectRule.php)
 
 ```yaml
 # phpstan.neon
@@ -335,7 +335,7 @@ final class IssetOnObject
 
 ## Use explicit Method Names over Dynamic
 
-- class: [`NoDynamicMethodNameRule`](src/Rules/NoDynamicMethodNameRule.php)
+- class: [`NoDynamicMethodNameRule`](../src/Rules/NoDynamicMethodNameRule.php)
 
 ```yaml
 # phpstan.neon
@@ -358,7 +358,7 @@ final class DynamicMethodCallName
 
 ## Use explicit return values over magic "&$variable" reference
 
-- class: [`NoReferenceRule`](src/Rules/NoReferenceRule.php)
+- class: [`NoReferenceRule`](../src/Rules/NoReferenceRule.php)
 
 ```yaml
 # phpstan.neon
@@ -389,7 +389,7 @@ function someFunction($var)
 
 ## Class "%s" inherits from forbidden parent class "%s". Use Composition over Inheritance instead
 
-- class: [`ForbiddenParentClassRule`](src/Rules/ForbiddenParentClassRule.php)
+- class: [`ForbiddenParentClassRule`](../src/Rules/ForbiddenParentClassRule.php)
 
 ```yaml
 # phpstan.neon
@@ -437,7 +437,7 @@ final class ProductRepository
 
 ## Use custom exceptions instead of Native Ones
 
-- class: [`NoDefaultExceptionRule`](src/Rules/NoDefaultExceptionRule.php)
+- class: [`NoDefaultExceptionRule`](../src/Rules/NoDefaultExceptionRule.php)
 
 ```yaml
 # phpstan.neon
@@ -463,7 +463,7 @@ throw new FileNotFoundExceptoin('...');
 
 ## Forbidden return of `require_once()`/`incude_once()`
 
-- class: [`ForbidReturnValueOfIncludeOnceRule`](src/Rules/ForbidReturnValueOfIncludeOnceRule.php)
+- class: [`ForbidReturnValueOfIncludeOnceRule`](../src/Rules/ForbidReturnValueOfIncludeOnceRule.php)
 
 ```php
 // ecs.php
@@ -495,7 +495,7 @@ class SomeClass
 
 ## Boolish Methods has to have is/has/was Name
 
-- class: [`BoolishClassMethodPrefixRule`](src/Rules/BoolishClassMethodPrefixRule.php)
+- class: [`BoolishClassMethodPrefixRule`](../src/Rules/BoolishClassMethodPrefixRule.php)
 
 ```php
 // ecs.php
@@ -540,7 +540,7 @@ class SomeClass
 
 ## Constant type Must Match its Value
 
-- class: [`MatchingTypeConstantRule`](src/Rules/MatchingTypeConstantRule.php)
+- class: [`MatchingTypeConstantRule`](../src/Rules/MatchingTypeConstantRule.php)
 
 ```php
 // ecs.php
@@ -583,7 +583,7 @@ class SomeClass
 
 ## Defined Method Argument should be Always Constant Value
 
-- class: [`ForceMethodCallArgumentConstantRule`](src/Rules/ForceMethodCallArgumentConstantRule.php)
+- class: [`ForceMethodCallArgumentConstantRule`](../src/Rules/ForceMethodCallArgumentConstantRule.php)
 
 ```yaml
 # phpstan.neon
@@ -616,7 +616,7 @@ class SomeClass
 
 ## Require @see annotation to class Test case by Type
 
-- class: [`SeeAnnotationToTestRule`](src/Rules/SeeAnnotationToTestRule.php)
+- class: [`SeeAnnotationToTestRule`](../src/Rules/SeeAnnotationToTestRule.php)
 
 ```yaml
 # phpstan.neon
@@ -656,7 +656,7 @@ class SomeRule implements Rule
 
 ## Prefer Another Class
 
-- class: [`PreferredClassRule`](src/Rules/PreferredClassRule.php)
+- class: [`PreferredClassRule`](../src/Rules/PreferredClassRule.php)
 
 ```yaml
 # phpstan.neon
@@ -679,7 +679,7 @@ $dateTime = new DateTime('now'); // should be "Nette\Utils\DateTime"
 
 ## Classes with Static Methods must have "Static" in the Name
 
-- class: [`Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule`](src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
+- class: [`Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule`](../src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
 
 Be honest about static. [Why is static bad?](https://tomasvotruba.com/blog/2019/04/01/removing-static-there-and-back-again/)
 
@@ -707,7 +707,7 @@ class FormatConverter // should be: "StaticFormatConverter"
 
 ## Use Unique Class Short Names
 
-- class: [`Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule`](src/Rules/NoDuplicatedShortClassNameRule.php)
+- class: [`Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule`](../src/Rules/NoDuplicatedShortClassNameRule.php)
 
 ```yaml
 # phpstan.neon
