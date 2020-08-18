@@ -74,8 +74,7 @@ final class DoctrineAnnotationNewlineInNestedAnnotationFixer extends AbstractDoc
                 continue;
             }
 
-            // docblock opener → skip it
-            if ($this->isDocOpener($previousToken)) {
+            if ($this->shouldSkip($index, $tokens, $previousToken)) {
                 continue;
             }
 
@@ -126,5 +125,28 @@ final class DoctrineAnnotationNewlineInNestedAnnotationFixer extends AbstractDoc
             $tokens->insertAt($this->currentBlockInfo->getEnd(), new Token(DocLexer::T_NONE, ' * '));
             $tokens->insertAt($this->currentBlockInfo->getEnd(), new Token(DocLexer::T_NONE, "\n"));
         }
+    }
+
+    private function shouldSkip(int $index, Tokens $tokens, Token $previousToken): bool
+    {
+        // docblock opener → skip it
+        if ($this->isDocOpener($previousToken)) {
+            return true;
+        }
+
+        $nextTokenPosition = $index + 1;
+
+        /** @var Token|null $nextToken */
+        $nextToken = $tokens[$nextTokenPosition] ?? null;
+        if ($nextToken === null) {
+            return true;
+        }
+
+        if (! Strings::startsWith($nextToken->getContent(), 'ORM')) {
+            return true;
+        }
+
+        // not an entity annotation, just some comment
+        return $nextToken->getContent() === 'ORM';
     }
 }
