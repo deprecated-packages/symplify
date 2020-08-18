@@ -16,7 +16,7 @@ final class SetResolver
     /**
      * @var string[]
      */
-    private $optionNames = [];
+    private const OPTION_NAMES = OptionName::SET;
 
     /**
      * @var OptionValueResolver
@@ -28,19 +28,15 @@ final class SetResolver
      */
     private $setProvider;
 
-    /**
-     * @param string[] $optionNames
-     */
-    public function __construct(SetProviderInterface $setProvider, array $optionNames = OptionName::SET)
+    public function __construct(SetProviderInterface $setProvider)
     {
-        $this->optionNames = $optionNames;
         $this->optionValueResolver = new OptionValueResolver();
         $this->setProvider = $setProvider;
     }
 
     public function detectFromInput(InputInterface $input): ?SmartFileInfo
     {
-        $setName = $this->optionValueResolver->getOptionValue($input, $this->optionNames);
+        $setName = $this->optionValueResolver->getOptionValue($input, self::OPTION_NAMES);
         if ($setName === null) {
             return null;
         }
