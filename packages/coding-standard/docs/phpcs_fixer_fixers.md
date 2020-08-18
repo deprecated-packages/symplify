@@ -22,7 +22,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 ```diff
  <?php
 
-declare(strict_types=1);
+ declare(strict_types=1);
 +
  namespace SomeNamespace;
 ```
