@@ -1,0 +1,32 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Symplify\CodingStandard\Tests\Fixer\Annotation\NewlineInNestedAnnotationFixer;
+
+use Iterator;
+use Symplify\CodingStandard\Fixer\Annotation\NewlineInNestedAnnotationFixer;
+use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\SmartFileSystem\SmartFileInfo;
+
+final class NewlineInNestedAnnotationFixerTest extends AbstractCheckerTestCase
+{
+    /**
+     * @dataProvider provideData()
+     */
+    public function test(SmartFileInfo $fileInfo): void
+    {
+        $this->doTestFileInfo($fileInfo);
+    }
+
+    public function provideData(): Iterator
+    {
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
+    }
+
+    protected function getCheckerClass(): string
+    {
+        return NewlineInNestedAnnotationFixer::class;
+    }
+}

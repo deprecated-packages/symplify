@@ -37,11 +37,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
      */
     private $errorAndDiffCollector;
 
-    /**
-     * @var SmartFileInfo|null
-     */
-    private $activeFileInfo;
-
     protected function setUp(): void
     {
         $configs = $this->getValidatedConfigs();
@@ -68,7 +63,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $fixtureSplitter = new StaticFixtureSplitter();
         [$beforeFileInfo, $afterFileInfo] = $fixtureSplitter->splitFileInfoToLocalInputAndExpectedFileInfos($fileInfo);
 
-        $this->doTestWrongToFixedFile($beforeFileInfo, $afterFileInfo->getRealPath());
+        $this->doTestWrongToFixedFile($beforeFileInfo, $afterFileInfo->getRealPath(), $fileInfo);
     }
 
     protected function getCheckerClass(): string
@@ -132,7 +127,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
         if ($this->fixerFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->fixerFileProcessor->processFile($fileInfo);
-            $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent);
+            $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent, $fileInfo);
         }
 
         if ($this->sniffFileProcessor->getCheckers() !== []) {
@@ -145,7 +140,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
             );
             $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount(), $failedAssertMessage);
 
-            $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent);
+            $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent, $fileInfo);
         }
     }
 
@@ -165,21 +160,24 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $this->assertSame($errorCount, $this->errorAndDiffCollector->getErrorCount(), $message);
     }
 
-    private function doTestWrongToFixedFile(SmartFileInfo $wrongFileInfo, string $fixedFile): void
-    {
+    private function doTestWrongToFixedFile(
+        SmartFileInfo $wrongFileInfo,
+        string $fixedFile,
+        SmartFileInfo $fixtureFileInfo
+    ): void {
         $this->ensureSomeCheckersAreRegistered();
 
         if ($this->fixerFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->fixerFileProcessor->processFile($wrongFileInfo);
 
-            $this->assertStringEqualsWithFileLocation($fixedFile, $processedFileContent);
+            $this->assertStringEqualsWithFileLocation($fixedFile, $processedFileContent, $fixtureFileInfo);
         }
 
         if ($this->sniffFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->sniffFileProcessor->processFile($wrongFileInfo);
         }
 
-        $this->assertStringEqualsWithFileLocation($fixedFile, $processedFileContent);
+        $this->assertStringEqualsWithFileLocation($fixedFile, $processedFileContent, $fixtureFileInfo);
     }
 
     private function autoloadCodeSniffer(): void
@@ -223,10 +221,12 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         );
     }
 
-    private function assertStringEqualsWithFileLocation(string $file, string $processedFileContent): void
-    {
-        $message = 'Caused by ' . ($this->activeFileInfo !== null ? $this->activeFileInfo->getRealPath() : $file);
-
+    private function assertStringEqualsWithFileLocation(
+        string $file,
+        string $processedFileContent,
+        SmartFileInfo $fixtureFileInfo
+    ): void {
+        $message = $fixtureFileInfo->getRelativeFilePathFromCwd();
         $this->assertStringEqualsFile($file, $processedFileContent, $message);
     }
 
