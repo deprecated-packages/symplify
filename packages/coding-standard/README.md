@@ -29,8 +29,8 @@ includes:
 
 ## Rules Overview
 
-- [PHP_CodeSniffer Sniffs](/docs/php_code_sniffer_sniffs.md)
-- [PHP CS Fixer Fixers](/docs/phpcs_fixer_fixers.md)
+- [PHP_CodeSniffer sniffs](/docs/php_code_sniffer_sniffs.md)
+- [PHP CS Fixer fixers](/docs/phpcs_fixer_fixers.md)
 - [PHPStan rules](/docs/phpstan_rules.md)
 - [Object Calisthenics rules](/docs/phpstan_rules.md#object-calisthenics-rules)
 - [Cognitive Complexity rules](/docs/phpstan_rules.md#cognitive-complexity)

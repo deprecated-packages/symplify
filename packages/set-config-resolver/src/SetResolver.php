@@ -14,11 +14,6 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class SetResolver
 {
     /**
-     * @var string[]
-     */
-    private const OPTION_NAMES = OptionName::SET;
-
-    /**
      * @var OptionValueResolver
      */
     private $optionValueResolver;
@@ -36,7 +31,7 @@ final class SetResolver
 
     public function detectFromInput(InputInterface $input): ?SmartFileInfo
     {
-        $setName = $this->optionValueResolver->getOptionValue($input, self::OPTION_NAMES);
+        $setName = $this->optionValueResolver->getOptionValue($input, OptionName::SET);
         if ($setName === null) {
             return null;
         }

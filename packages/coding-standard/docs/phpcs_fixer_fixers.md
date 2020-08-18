@@ -2,7 +2,7 @@
 
 ## Strict Types Declaration has to be Followed by Empty Line
 
-- class: [`BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
+- class: [`BlankLineAfterStrictTypesFixer`](../src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
 
 ```php
 <?php
@@ -22,7 +22,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 ```diff
  <?php
 
-declare(strict_types=1);
+ declare(strict_types=1);
 +
  namespace SomeNamespace;
 ```
@@ -31,7 +31,7 @@ declare(strict_types=1);
 
 ## Parameters, Arguments and Array items should be on the same/standalone line to fit Line Length
 
-- class: [`LineLengthFixer`](src/Fixer/LineLength/LineLengthFixer.php)
+- class: [`LineLengthFixer`](../src/Fixer/LineLength/LineLengthFixer.php)
 
 ```php
 <?php
@@ -79,7 +79,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ## Block comment should not have 2 empty lines in a row
 
-- class: [`RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
+- class: [`RemoveSuperfluousDocBlockWhitespaceFixer`](../src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
 
 ```php
 <?php
@@ -113,7 +113,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ## Indexed PHP arrays should have 1 item per line
 
-- class: [`StandaloneLineInMultilineArrayFixer`](src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
+- class: [`StandaloneLineInMultilineArrayFixer`](../src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
 
 ```php
 <?php
@@ -142,7 +142,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ## Make `@param`, `@return` and `@var` Format United
 
-- class: [`ParamReturnAndVarTagMalformsFixer`](src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
+- class: [`ParamReturnAndVarTagMalformsFixer`](../src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
 
 ```php
 <?php
