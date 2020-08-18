@@ -29,7 +29,7 @@ final class ProcessRunner
     /**
      * @param string|string[] $commandLine
      */
-    public function run($commandLine, bool $shouldDisplayOutput = false): string
+    public function run($commandLine): string
     {
         if ($this->symfonyStyle->isVerbose()) {
             $this->symfonyStyle->note('Running process: ' . $this->normalizeToString($commandLine));
@@ -38,7 +38,7 @@ final class ProcessRunner
         $process = $this->createProcess($commandLine);
         $process->run();
 
-        $this->reportResult($shouldDisplayOutput, $process);
+        $this->reportResult($process);
 
         return $process->getOutput();
     }
@@ -68,13 +68,11 @@ final class ProcessRunner
         return new Process($commandLine, null, null, null, self::TIMEOUT);
     }
 
-    private function reportResult(bool $shouldDisplayOutput, Process $process): void
+    private function reportResult(Process $process): void
     {
         if ($process->isSuccessful()) {
-            if ($shouldDisplayOutput) {
-                $trimmedOutput = trim($process->getOutput());
-                $this->symfonyStyle->writeln($trimmedOutput);
-            }
+            $trimmedOutput = trim($process->getOutput());
+            $this->symfonyStyle->writeln($trimmedOutput);
 
             return;
         }
