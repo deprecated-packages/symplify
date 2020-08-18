@@ -10,6 +10,69 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 <!-- changelog-linker -->
 
 <!-- dumped content start -->
+## Unreleased
+
+### Added
+
+#### CI
+
+- [#2060] Add Rector CI
+
+#### CodingStandard
+
+- [#2078] Add anntotation new-line indent rule
+
+#### EasyCodingStandard
+
+- [#2071] Add missing require in scoper config, Thanks to [@nclsHart]
+- [#2069] Add doctrine annotations set, switch set strings to constants
+
+#### MonorepoBuilder
+
+- [#2073] Add asterisk split support
+
+#### Unknown Package
+
+- [#2070] add constant dashes string method
+
+### Changed
+
+#### ChangelogLinker
+
+- [#2074] YAML to PHP
+
+#### CodingStandard
+
+- [#2079] Improving README
+
+#### PHPStanExtensions
+
+- [#2072] Clear trait path in report
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#2075] Fix common.php, Thanks to [@enumag]
+
+## [v8.2.3] - 2020-08-14
+
+### Added
+
+#### CodingStandard
+
+- [#2066] Add no array access rule to README and set
+- [#2062] Add NoArrayAccessOnObjectRule
+
+### Changed
+
+#### Unknown Package
+
+- [#2057] Update symfony-risky.php, Thanks to [@seb-jean]
+
+<!-- dumped content end -->
+
+<!-- dumped content start -->
 ## [v8.2.2]
 
 ### Added
@@ -414,3 +477,19 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@seb-jean]: https://github.com/seb-jean
 [@hustlahusky]: https://github.com/hustlahusky
 [@cafferata]: https://github.com/cafferata
+[#2079]: https://github.com/symplify/symplify/pull/2079
+[#2078]: https://github.com/symplify/symplify/pull/2078
+[#2075]: https://github.com/symplify/symplify/pull/2075
+[#2074]: https://github.com/symplify/symplify/pull/2074
+[#2073]: https://github.com/symplify/symplify/pull/2073
+[#2072]: https://github.com/symplify/symplify/pull/2072
+[#2071]: https://github.com/symplify/symplify/pull/2071
+[#2070]: https://github.com/symplify/symplify/pull/2070
+[#2069]: https://github.com/symplify/symplify/pull/2069
+[#2066]: https://github.com/symplify/symplify/pull/2066
+[#2062]: https://github.com/symplify/symplify/pull/2062
+[#2060]: https://github.com/symplify/symplify/pull/2060
+[#2057]: https://github.com/symplify/symplify/pull/2057
+[v8.2.3]: https://github.com/symplify/symplify/compare/v8.2.2...v8.2.3
+[@nclsHart]: https://github.com/nclsHart
+[@enumag]: https://github.com/enumag
