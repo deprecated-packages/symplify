@@ -58,7 +58,7 @@ final class CodingStandardSyncChecker
             die(ShellCode::SUCCESS);
         }
 
-        $this->symfonyStyle->error(sprintf('Complete %d checkers to CodingStandard README.md', count($missingCheckerClasses)));
+        $this->symfonyStyle->error(sprintf('Complete %d checkers to CodingStandard README.md file in /docs', count($missingCheckerClasses)));
         $this->symfonyStyle->listing($missingCheckerClasses);
 
         die(ShellCode::ERROR);

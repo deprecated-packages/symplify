@@ -2,15 +2,9 @@
 
 declare(strict_types=1);
 
-use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
-use Rector\CodingStyle\Rector\Use_\RemoveUnusedAliasRector;
 use Rector\Core\Configuration\Option;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
-use Rector\Php70\Rector\MethodCall\ThisCallOnStaticMethodToStaticCallRector;
-use Rector\Php71\Rector\FuncCall\CountOnNullRector;
 use Rector\Set\ValueObject\SetList;
-use Rector\SOLID\Rector\ClassMethod\ChangeReadOnlyVariableWithDefaultValueToConstantRector;
-use Rector\SOLID\Rector\ClassMethod\UseInterfaceOverImplementationInConstructorRector;
 use Rector\SOLID\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -19,7 +13,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ChangeReadOnlyPropertyWithDefaultValueToConstantRector::class);
 
-    $services->set(ChangeReadOnlyVariableWithDefaultValueToConstantRector::class);
+    $services->set(StringClassNameToClassConstantRector::class)
+        ->call('configure', [[
+            StringClassNameToClassConstantRector::CLASSES_TO_SKIP => [
+                'Error',
+                'Exception',
+                'Doctrine\ORM\EntityManagerInterface',
+                'Doctrine\ORM\EntityManager',
+            ]
+        ]]);
 
     $parameters = $containerConfigurator->parameters();
 

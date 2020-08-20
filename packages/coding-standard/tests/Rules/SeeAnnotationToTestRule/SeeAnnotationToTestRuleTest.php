@@ -24,10 +24,10 @@ final class SeeAnnotationToTestRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(SeeAnnotationToTestRule::ERROR_MESSAGE, RuleWithoutSee::class);
-        yield [__DIR__ . '/Fixture/RuleWithoutSee.php', [[$errorMessage, 10]]];
+        yield [__DIR__ . '/Fixture/RuleWithoutSee.php', [[$errorMessage, 12]]];
 
         $errorMessage = sprintf(SeeAnnotationToTestRule::ERROR_MESSAGE, RuleWithSeeRandom::class);
-        yield [__DIR__ . '/Fixture/RuleWithSeeRandom.php', [[$errorMessage, 13]]];
+        yield [__DIR__ . '/Fixture/RuleWithSeeRandom.php', [[$errorMessage, 15]]];
 
         yield [__DIR__ . '/Fixture/DeprecatedRuleWithoutSee.php', []];
     }
