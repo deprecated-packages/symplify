@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Bootstrap;
+namespace Symplify\SetConfigResolver\Bootstrap;
 
 use Nette\Utils\ObjectHelpers;
 use Symfony\Component\Console\Style\SymfonyStyle;
