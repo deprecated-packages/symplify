@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules;
 use PHPStan\Rules\Rule;
 
 /**

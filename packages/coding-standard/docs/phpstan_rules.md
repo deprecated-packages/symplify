@@ -1,5 +1,88 @@
 # PHPStan Rules
 
+## Use specific Repository over EntityManager in Controller
+
+- class: [`NoEntityManagerInControllerRule`](../src/Rules/NoEntityManagerInControllerRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoEntityManagerInControllerRule
+```
+
+```php
+use Doctrine\ORM\EntityManagerInterface;
+
+final class SomeController
+{
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeController
+{
+    public function __construct(SomeEntityRepository $someEntityRepository)
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## `getRepository()` is allowed only in Repository constructor
+
+- class: [`NoGetRepositoryOutsideConstructorRule`](../src/Rules/NoGetRepositoryOutsideConstructorRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoGetRepositoryOutsideConstructorRule
+```
+
+```php
+use Doctrine\ORM\EntityManager;
+
+final class SomeController
+{
+    public function someAction(EntityManager $entityManager)
+    {
+        $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
+    }
+}
+```
+
+:x:
+
+```php
+use Doctrine\ORM\EntityManager;
+
+final class SomeRepository
+{
+    /**
+     * @var \Doctrine\ORM\EntityRepository<SomeEntity>
+     */
+    public $someEntityRepository;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->someEntityRepository = $entityManager->getRepository(SomeEntity::class);
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## No Parameter can be Nullable
 
 Inspired by [Null Hell](https://afilina.com/null-hell) by @afilina
@@ -23,6 +106,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ## No Parameter can Have Default Value
 
 - class: [`NoDefaultParameterValueRule`](../src/Rules/NoDefaultParameterValueRule.php)
@@ -43,6 +128,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ## Class should have suffix by parent class/interface
 
@@ -127,6 +214,7 @@ final class SomeClass
 }
 ```
 
+<br>
 
 ## Prevent Override of Parent Method Visbility
 
@@ -283,6 +371,7 @@ final class SomeClass
 
 :+1:
 
+<br>
 
 ## No isset on objects
 
@@ -355,6 +444,7 @@ final class DynamicMethodCallName
 
 :x:
 
+<br>
 
 ## Use explicit return values over magic "&$variable" reference
 
@@ -580,6 +670,7 @@ class SomeClass
 
 :+1:
 
+<br>
 
 ## Defined Method Argument should be Always Constant Value
 
@@ -653,6 +744,8 @@ class SomeRule implements Rule
     // ...
 }
 ```
+
+<br>
 
 ## Prefer Another Class
 
@@ -733,6 +826,8 @@ class Finder // should be e.g. "EntityFinder"
 }
 ```
 
+<br>
+
 ## Cognitive Complexity
 
 ### Cognitive Complexity for Method and Class Must be Less than X
@@ -792,6 +887,8 @@ class SomeClass
 ```
 
 :+1:
+
+<br>
 
 ## Object Calisthenics Rules
 

@@ -25,6 +25,16 @@ parametersSchema:
     ])
 
 services:
+    # doctrine-related
+    -
+        class: Symplify\CodingStandard\Rules\NoEntityManagerInControllerRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoGetRepositoryOutsideConstructorRule
+        tags: [phpstan.rules.rule]
+
+    # parenting
     -
         class: Symplify\CodingStandard\Rules\ForbiddenParentClassRule
         tags: [phpstan.rules.rule]
