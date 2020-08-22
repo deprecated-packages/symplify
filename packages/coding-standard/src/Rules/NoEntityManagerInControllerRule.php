@@ -54,16 +54,12 @@ final class NoEntityManagerInControllerRule implements Rule
 
     private function isInControllerClass(Scope $scope): bool
     {
-        if ($scope->getClassReflection() === null) {
-            return false;
-        }
-
         $classReflection = $scope->getClassReflection();
-        if ($classReflection->getParentClassesNames() === []) {
+        if ($classReflection === null) {
             return false;
         }
 
-        return Strings::endsWith($classReflection->getName(), 'Controller');
+        return (bool) Strings::match($classReflection->getName(), '#(Controller|Presenter)$#');
     }
 
     private function isEntityManagerParam(Param $param): bool
@@ -77,7 +73,7 @@ final class NoEntityManagerInControllerRule implements Rule
         }
 
         $paramType = $param->type->toString();
-        if (is_a($paramType, 'Doctrine\ORM\EntityManager', true)) {
+        if ($paramType === 'Doctrine\ORM\EntityManager') {
             return true;
         }
 
