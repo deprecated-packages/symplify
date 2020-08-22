@@ -10,16 +10,16 @@
         "squizlabs/php_codesniffer": "^3.5",
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpstan/phpstan": "^0.12.36",
-        "symplify/smart-file-system": "^8.2.10",
-        "symplify/package-builder": "^8.2.10",
-        "symplify/autowire-array-parameter": "^8.2.10",
-        "symplify/phpstan-extensions": "^8.2.10"
+        "symplify/smart-file-system": "^8.3",
+        "symplify/package-builder": "^8.3",
+        "symplify/autowire-array-parameter": "^8.3",
+        "symplify/phpstan-extensions": "^8.3"
     },
     "require-dev": {
         "nette/application": "^3.0",
         "nette/bootstrap": "^3.0",
-        "symplify/easy-coding-standard-tester": "^8.2.10",
-        "symplify/package-builder": "^8.2.10",
+        "symplify/easy-coding-standard-tester": "^8.3",
+        "symplify/package-builder": "^8.3",
         "phpunit/phpunit": "^8.5|^9.0"
     },
     "autoload": {
