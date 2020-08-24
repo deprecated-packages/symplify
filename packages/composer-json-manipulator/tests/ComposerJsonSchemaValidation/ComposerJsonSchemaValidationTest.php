@@ -6,10 +6,10 @@ namespace Symplify\ComposerJsonManipulator\Tests\ComposerJsonSchemaValidation;
 
 use Composer\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Filesystem\Filesystem;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\Tests\HttpKernel\ComposerJsonManipulatorKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
 {
@@ -19,16 +19,16 @@ class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
     private $jsonFileManager;
 
     /**
-     * @var Filesystem
+     * @var SmartFileSystem
      */
-    private $fileSystem;
+    private $smartFileSystem;
 
     protected function setUp(): void
     {
         $this->bootKernel(ComposerJsonManipulatorKernel::class);
 
         $this->jsonFileManager = self::$container->get(JsonFileManager::class);
-        $this->fileSystem = new Filesystem();
+        $this->smartFileSystem = new SmartFileSystem();
     }
 
     public function testCheckEmptyKeysAreRemoved(): void
@@ -37,7 +37,7 @@ class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
         $targetJsonPath = sys_get_temp_dir() . '/composer_json_manipulator_test_schema_validation.json';
 
         $sourceJson = $this->jsonFileManager->loadFromFilePath($sourceJsonPath);
-        $this->fileSystem->dumpFile($targetJsonPath, $this->jsonFileManager->encodeJsonToFileContent($sourceJson));
+        $this->smartFileSystem->dumpFile($targetJsonPath, $this->jsonFileManager->encodeJsonToFileContent($sourceJson));
 
         $sourceJson = $this->jsonFileManager->loadFromFilePath($sourceJsonPath);
         $targetJson = $this->jsonFileManager->loadFromFilePath($targetJsonPath);

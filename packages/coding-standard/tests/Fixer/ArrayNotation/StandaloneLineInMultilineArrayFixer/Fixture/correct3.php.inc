@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer\Fixture;
 
 $emotions = ['/<id>/<pid>', [
     'id' => 123,

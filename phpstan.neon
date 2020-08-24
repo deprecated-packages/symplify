@@ -16,10 +16,14 @@ services:
 parameters:
     symplify:
         old_to_preffered_classes:
-            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
             SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
             PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
+            # smart file system
+            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            Nette\Utils\FileSystem: 'Symplify\SmartFileSystem\SmartFileSystem'
+            Symfony\Component\Filesystem\Filesystem: 'Symplify\SmartFileSystem\SmartFileSystem'
+
         required_see_types:
             - PHPStan\Rules\Rule
             - PHP_CodeSniffer\Sniffs\Sniff

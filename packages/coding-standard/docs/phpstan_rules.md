@@ -4,12 +4,6 @@
 
 - class: [`NoEntityManagerInControllerRule`](../src/Rules/NoEntityManagerInControllerRule.php)
 
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoEntityManagerInControllerRule
-```
-
 ```php
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -41,12 +35,6 @@ final class SomeController
 ## `getRepository()` is allowed only in Repository constructor
 
 - class: [`NoGetRepositoryOutsideConstructorRule`](../src/Rules/NoGetRepositoryOutsideConstructorRule.php)
-
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoGetRepositoryOutsideConstructorRule
-```
 
 ```php
 use Doctrine\ORM\EntityManager;
@@ -89,12 +77,6 @@ Inspired by [Null Hell](https://afilina.com/null-hell) by @afilina
 
 - class: [`NoNullableParameterRule`](../src/Rules/NoNullableParameterRule.php)
 
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoNullableParameterRule
-```
-
 ```php
 class SomeClass
 {
@@ -111,12 +93,6 @@ class SomeClass
 ## No Parameter can Have Default Value
 
 - class: [`NoDefaultParameterValueRule`](../src/Rules/NoDefaultParameterValueRule.php)
-
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoDefaultParameterValueRule
-```
 
 ```php
 class SomeClass
@@ -163,12 +139,6 @@ class Some extends Command // should be "SomeCommand"
 
 - class: [`NoDebugFuncCallRule`](../src/Rules/NoDebugFuncCallRule.php)
 
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoDebugFuncCallRule
-```
-
 :x:
 
 ```php
@@ -183,12 +153,6 @@ var_dump($value);
 ## Use explicit comparison over `empty()`
 
 - class: [`NoEmptyRule`](../src/Rules/NoEmptyRule.php)
-
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoEmptyRule
-```
 
 :x:
 
@@ -220,12 +184,6 @@ final class SomeClass
 
 - class: [`PreventParentMethodVisibilityOverrideRule`](../src/Rules/PreventParentMethodVisibilityOverrideRule.php)
 
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\PreventParentMethodVisibilityOverrideRule
-```
-
 ```php
 class ProtectedVisibility
 {
@@ -250,12 +208,6 @@ final class PublicOverride extends ProtectedVisibility
 
 - class: [`NoDynamicPropertyFetchNameRule`](../src/Rules/NoDynamicPropertyFetchNameRule.php)
 
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule
-```
-
 ```php
 final class DynamicPropertyFetchName
 {
@@ -273,12 +225,6 @@ final class DynamicPropertyFetchName
 ## No Function Call on Method Call
 
 - class: [`NoFunctionCallInMethodCallRule`](../src/Rules/NoFunctionCallInMethodCallRule.php)
-
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoFunctionCallInMethodCallRule
-```
 
 ```php
 final class SomeClass
@@ -321,12 +267,6 @@ final class SomeClass
 
 - class: [`NoArrayAccessOnObjectRule`](../src/Rules/NoArrayAccessOnObjectRule.php)
 
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoArrayAccessOnObjectRule
-```
-
 ```php
 final class MagicArrayObject implements ArrayAccess
 {
@@ -352,7 +292,6 @@ final class MagicArrayObject implements ArrayAccess
 }
 ```
 
-
 ```php
 final class SomeClass
 {
@@ -367,21 +306,9 @@ final class SomeClass
 
 <br>
 
-
-
-:+1:
-
-<br>
-
 ## No isset on objects
 
 - class: [`NoIssetOnObjectRule`](../src/Rules/NoIssetOnObjectRule.php)
-
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoIssetOnObjectRule
-```
 
 ```php
 final class IssetOnObject
@@ -426,12 +353,6 @@ final class IssetOnObject
 
 - class: [`NoDynamicMethodNameRule`](../src/Rules/NoDynamicMethodNameRule.php)
 
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoDynamicMethodNameRule
-```
-
 ```php
 final class DynamicMethodCallName
 {
@@ -449,12 +370,6 @@ final class DynamicMethodCallName
 ## Use explicit return values over magic "&$variable" reference
 
 - class: [`NoReferenceRule`](../src/Rules/NoReferenceRule.php)
-
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoReferenceRule
-```
 
 ```php
 function someFunction(&$var)
@@ -529,12 +444,6 @@ final class ProductRepository
 
 - class: [`NoDefaultExceptionRule`](../src/Rules/NoDefaultExceptionRule.php)
 
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoDefaultExceptionRule
-```
-
 ```php
 throw new RuntimeException('...');
 ```
@@ -556,6 +465,8 @@ throw new FileNotFoundExceptoin('...');
 - class: [`ForbidReturnValueOfIncludeOnceRule`](../src/Rules/ForbidReturnValueOfIncludeOnceRule.php)
 
 ```php
+<?php
+
 // ecs.php
 
 declare(strict_types=1);
@@ -588,21 +499,6 @@ class SomeClass
 - class: [`BoolishClassMethodPrefixRule`](../src/Rules/BoolishClassMethodPrefixRule.php)
 
 ```php
-// ecs.php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(BoolishClassMethodPrefixRule::class);
-};
-```
-
-
-```php
 class SomeClass
 {
     public function old(): bool
@@ -631,19 +527,6 @@ class SomeClass
 ## Constant type Must Match its Value
 
 - class: [`MatchingTypeConstantRule`](../src/Rules/MatchingTypeConstantRule.php)
-
-```php
-// ecs.php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(Symplify\CodingStandard\Rules\MatchingTypeConstantRule::class);
-};
-```
 
 ```php
 class SomeClass
@@ -778,12 +661,6 @@ Be honest about static. [Why is static bad?](https://tomasvotruba.com/blog/2019/
 
 Value object static constructors, EventSubscriber and Command classe are excluded.
 
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule
-```
-
 :x:
 
 ```php
@@ -801,12 +678,6 @@ class FormatConverter // should be: "StaticFormatConverter"
 ## Use Unique Class Short Names
 
 - class: [`Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule`](../src/Rules/NoDuplicatedShortClassNameRule.php)
-
-```yaml
-# phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule
-```
 
 :x:
 
@@ -896,12 +767,6 @@ class SomeClass
 
 - class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
 
-```yaml
-# phpstan.neon
-rules:
-     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
-```
-
 ```php
 <?php
 
@@ -930,12 +795,6 @@ return 10;
 
 - class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule`](packages/object-calisthenics/src/Rules/NoShortNameRule.php)
 
-```yaml
-# phpstan.neon
-rules:
-     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
-```
-
 ```php
 <?php
 
@@ -962,12 +821,6 @@ final class EverestMule
 
 - class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
 
-```yaml
-# phpstan.neon
-rules:
-     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule
-```
-
 :x:
 
 ```php
@@ -989,12 +842,6 @@ final class Person
 - class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCallRule.php)
 - Check [Fluent Interfaces are Evil](https://ocramius.github.io/blog/fluent-interfaces-are-evil/) and [Fluent Interfaces Are Bad for Maintainability
 ](https://www.yegor256.com/2018/03/13/fluent-interfaces.html)
-
-```yaml
-# phpstan.neon
-rules:
-     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
-```
 
 ```php
 class SomeClass
