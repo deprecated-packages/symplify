@@ -58,7 +58,7 @@ final class ArrayWrapper
         $startToken = $tokens[$this->startIndex];
         // old array
         if ($startToken->getContent() === '(') {
-            $startIndex = $startIndex - 1;
+            --$startIndex;
         }
 
         $arrayContent = $this->tokens->generatePartialCode($startIndex, $endIndex);
