@@ -1,5 +1,19 @@
 # PHP CS Fixer Fixers
 
+## Remove Extra Spaces around Property and Constants Modifiers
+
+- class: [`ArrayOpenerNewlineFixer`](../src/Fixer/ArrayNotation/ArrayOpenerNewlineFixer.php)
+
+```diff
+-$items = [$item,
++$items = [
++    $item,
+     $item2
+ ];
+```
+
+<br>
+
 ## Add Doctrine Annotations
 
 - class: [`DoctrineAnnotationNewlineInNestedAnnotationFixer`](../src/Fixer/Annotation/DoctrineAnnotationNewlineInNestedAnnotationFixer.php)

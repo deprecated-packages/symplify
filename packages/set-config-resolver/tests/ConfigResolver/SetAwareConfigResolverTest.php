@@ -48,7 +48,14 @@ final class SetAwareConfigResolverTest extends TestCase
         yield [['--config' => getcwd() . '/README.md'], getcwd() . '/README.md'];
         yield [['-c' => getcwd() . '/README.md'], getcwd() . '/README.md'];
 
-        yield [['--', 'sh', '-c' => '/bin/true'], null];
+        yield [
+            [
+                '--',
+                'sh',
+                '-c' => '/bin/true',
+            ],
+            null,
+        ];
     }
 
     public function testSetsNotFound(): void
