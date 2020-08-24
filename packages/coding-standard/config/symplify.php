@@ -18,7 +18,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(FinalInternalClassFixer::class);
 
-    $services->load('Symplify\CodingStandard\Fixer\\', __DIR__ . '/../src/Fixer');
+    $services->load('Symplify\CodingStandard\Fixer\\', __DIR__ . '/../src/Fixer')
+        ->exclude([
+            __DIR__ . '/../src/Fixer/Annotation/DoctrineAnnotationNewlineInNestedAnnotationFixer.php',
+            __DIR__ . '/../src/Fixer/ArrayNotation/ArrayOpenerNewlineFixer.php',
+        ]);
 
     $services->load('Symplify\CodingStandard\Sniffs\\', __DIR__ . '/../src/Sniffs');
 

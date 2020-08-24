@@ -1,7 +1,6 @@
 <?php
 
 use Nette\Loaders\RobotLoader;
-use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
@@ -25,10 +24,10 @@ final class CodingStandardSyncChecker
     private const CODING_STANDARD_DOCS_GLOB_PATH = __DIR__ . '/../packages/coding-standard/*/**.md';
 
     /**
-     * @see https://regex101.com/r/Unygf7/3/
+     * @see https://regex101.com/r/Unygf7/5
      * @var string
      */
-    private const CHECKER_CLASS_PATTERN = '#(?<checker_class>Symplify\\\\CodingStandard.*?(Fixer|Sniff|Rule)[\w+\\\\]+(Fixer|Sniff|Rule))#';
+    private const CHECKER_CLASS_PATTERN = '#\b(?<class_name>\w+(Fixer|Sniff|Rule))\b#m';
 
     /**
      * @var SymfonyStyle
@@ -48,9 +47,9 @@ final class CodingStandardSyncChecker
 
     public function run(): void
     {
-        $readmeCheckerClasses = $this->resolveCheckerClassesInReadme();
+        $readmeCheckerClasses = $this->getReadmeClasses();
 
-        $existingCheckerClasses = $this->getExistingCheckerClasses();
+        $existingCheckerClasses = $this->getExistingCheckerShortClasses();
         $missingCheckerClasses = array_diff($existingCheckerClasses, $readmeCheckerClasses);
 
         if ($missingCheckerClasses === []) {
@@ -58,7 +57,8 @@ final class CodingStandardSyncChecker
             die(ShellCode::SUCCESS);
         }
 
-        $this->symfonyStyle->error(sprintf('Complete %d checkers to CodingStandard README.md file in /docs', count($missingCheckerClasses)));
+        $message = sprintf('Complete %d checkers to CodingStandard README.md file in /docs', count($missingCheckerClasses));
+        $this->symfonyStyle->error($message);
         $this->symfonyStyle->listing($missingCheckerClasses);
 
         die(ShellCode::ERROR);
@@ -67,17 +67,18 @@ final class CodingStandardSyncChecker
     /**
      * @return string[]
      */
-    private function resolveCheckerClassesInReadme(): array
+    private function getReadmeClasses(): array
     {
         $filePaths = glob(self::CODING_STANDARD_DOCS_GLOB_PATH);
 
         $checkerClasses = [];
+
         foreach ($filePaths as $filePath) {
             $docFileContent = $this->smartFileSystem->readFile($filePath);
-
             $checkerClassMatches = Strings::matchAll($docFileContent, self::CHECKER_CLASS_PATTERN);
+
             foreach ($checkerClassMatches as $checkerClassMatch) {
-                $checkerClasses[] = $checkerClassMatch['checker_class'];
+                $checkerClasses[] = $checkerClassMatch['class_name'];
             }
         }
 
@@ -89,7 +90,7 @@ final class CodingStandardSyncChecker
     /**
      * @return string[]
      */
-    private function getExistingCheckerClasses(): array
+    private function getExistingCheckerShortClasses(): array
     {
         $robotLoader = new RobotLoader();
         $robotLoader->setTempDirectory(sys_get_temp_dir() . '/coding_standard_readme_sync');
@@ -120,14 +121,15 @@ final class CodingStandardSyncChecker
         ];
 
         // filter out abstract class
+        $shortClasses = [];
         foreach ($existingCheckerRules as $key => $existingCheckerRule) {
-            if (! in_array($existingCheckerRule, $classesToExclude, true)) {
+            if (in_array($existingCheckerRule, $classesToExclude, true)) {
                 continue;
             }
 
-            unset($existingCheckerRules[$key]);
+            $shortClasses[] = Strings::after($existingCheckerRule, '\\', -1);
         }
 
-        return $existingCheckerRules;
+        return $shortClasses;
     }
 }

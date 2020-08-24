@@ -1,9 +1,9 @@
 includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - packages/phpstan-extensions/config/config.neon
+    - packages/coding-standard/config/symplify-rules.neon
     - vendor/slam/phpstan-extensions/conf/slam-rules.neon
     - vendor/slam/phpstan-extensions/conf/symfony-rules.neon
-    - packages/coding-standard/config/symplify-rules.neon
     # @todo resolve when in good mood :)
     # - packages/coding-standard/config/symplify-strict-rules.neon
 
@@ -16,10 +16,14 @@ services:
 parameters:
     symplify:
         old_to_preffered_classes:
-            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
             SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
             PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
+            # smart file system
+            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+            Nette\Utils\FileSystem: 'Symplify\SmartFileSystem\SmartFileSystem'
+            Symfony\Component\Filesystem\Filesystem: 'Symplify\SmartFileSystem\SmartFileSystem'
+
         required_see_types:
             - PHPStan\Rules\Rule
             - PHP_CodeSniffer\Sniffs\Sniff
@@ -202,3 +206,4 @@ parameters:
 
         # false positive
         - '#Property Symplify\\ChangelogLinker\\ChangelogDumper\:\:\$content is never written, only read#'
+        - '#Property Symplify\\CodingStandard\\TokenRunner\\ValueObject\\Wrapper\\FixerWrapper\\ArrayWrapper\:\:\$array \(PhpParser\\Node\\Expr\\Array_\) does not accept PhpParser\\Node#'

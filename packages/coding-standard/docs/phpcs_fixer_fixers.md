@@ -1,23 +1,42 @@
 # PHP CS Fixer Fixers
 
+## Remove Extra Spaces around Property and Constants Modifiers
+
+- class: [`ArrayOpenerNewlineFixer`](../src/Fixer/ArrayNotation/ArrayOpenerNewlineFixer.php)
+
+```diff
+-$items = [$item,
++$items = [
++    $item,
+     $item2
+ ];
+```
+
+<br>
+
+## Add Doctrine Annotations
+
+- class: [`DoctrineAnnotationNewlineInNestedAnnotationFixer`](../src/Fixer/Annotation/DoctrineAnnotationNewlineInNestedAnnotationFixer.php)
+
+```diff
+ /**
+- * @ORM\Table(name="table_name", indexes={@ORM\Index(name="...", columns={"..."}), @ORM\Index(name="...", columns={"..."})})
++ * @ORM\Table(name="table_name", indexes={
++ *     @ORM\Index(name="...", columns={"..."}),
++ *     @ORM\Index(name="...", columns={"..."})
++ * })
+  */
+class SomeEntity
+{
+}
+```
+
+The left side indent is handled by teaming up with `DoctrineAnnotationIndentationFixer`.
+
+
 ## Strict Types Declaration has to be Followed by Empty Line
 
 - class: [`BlankLineAfterStrictTypesFixer`](../src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
-
-```php
-<?php
-
-// ecs.php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer::class);
-};
-```
 
 ```diff
  <?php
@@ -81,22 +100,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 - class: [`RemoveSuperfluousDocBlockWhitespaceFixer`](../src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
 
-```php
-<?php
-
-// ecs.php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(RemoveSuperfluousDocBlockWhitespaceFixer::class);
-};
-```
-
 ```diff
  /**
   * @param int $value
@@ -115,21 +118,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 - class: [`StandaloneLineInMultilineArrayFixer`](../src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
 
-```php
-<?php
-
-// ecs.php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer::class);
-};
-```
-
 ```diff
 -$friends = [1 => 'Peter', 2 => 'Paul'];
 +$friends = [
@@ -143,21 +131,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 ## Make `@param`, `@return` and `@var` Format United
 
 - class: [`ParamReturnAndVarTagMalformsFixer`](../src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
-
-```php
-<?php
-
-// ecs.php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer::class);
-};
-```
 
 ```diff
  <?php
@@ -201,22 +174,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ## Remove Extra Spaces around Property and Constants Modifiers
 
-- class: [`Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer`](packages/coding-standard/src/Fixer/Spacing/RemoveSpacingAroundModifierAndConstFixer.php)
-
-```php
-<?php
-
-// ecs.php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer::class);
-};
-```
+- class: [`RemoveSpacingAroundModifierAndConstFixer`](packages/coding-standard/src/Fixer/Spacing/RemoveSpacingAroundModifierAndConstFixer.php)
 
 ```diff
  class SomeClass
@@ -225,40 +183,3 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 +    protected static $value;
 }
 ```
-
-<br>
-
-## Indent nested Annotations to Newline
-
-- class: [`Symplify\CodingStandard\Fixer\Annotation\NewlineInNestedAnnotationFixer`](packages/coding-standard/src/Fixer/Annotation/NewlineInNestedAnnotationFixer.php)
-
-```php
-<?php
-
-// ecs.php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer::class);
-};
-```
-
-```diff
- use Doctrine\ORM\Mapping as ORM;
-
- /**
-- * @ORM\Table(name="user", indexes={@ORM\Index(name="user_id", columns={"another_id"})})
-+ * @ORM\Table(name="user", indexes={
-+ *     @ORM\Index(name="user_id", columns={"another_id"})
-+ * })
-  */
- class SomeEntity
- {
- }
-```
-
-<br>

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\SmartFileSystem;
 
 use Nette\Utils\Strings;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
 use Symplify\SmartFileSystem\Exception\FileNotFoundException;
@@ -13,13 +12,13 @@ use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 final class SmartFileInfo extends SplFileInfo
 {
     /**
-     * @var Filesystem
+     * @var SmartFileSystem
      */
-    private $filesystem;
+    private $smartFileSystem;
 
     public function __construct($filePath)
     {
-        $this->filesystem = new Filesystem();
+        $this->smartFileSystem = new SmartFileSystem();
 
         // accepts also dirs
         if (! file_exists($filePath)) {
@@ -36,7 +35,7 @@ final class SmartFileInfo extends SplFileInfo
             $relativeDirectoryPath = dirname($filePath);
         } else {
             $realPath = realpath($filePath);
-            $relativeFilePath = rtrim($this->filesystem->makePathRelative($realPath, getcwd()), '/');
+            $relativeFilePath = rtrim($this->smartFileSystem->makePathRelative($realPath, getcwd()), '/');
             $relativeDirectoryPath = dirname($relativeFilePath);
         }
 
@@ -84,7 +83,7 @@ final class SmartFileInfo extends SplFileInfo
         }
 
         return rtrim(
-            $this->filesystem->makePathRelative($this->getNormalizedRealPath(), (string) realpath($directory)),
+            $this->smartFileSystem->makePathRelative($this->getNormalizedRealPath(), (string) realpath($directory)),
             '/'
         );
     }
