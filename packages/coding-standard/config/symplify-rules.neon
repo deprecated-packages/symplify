@@ -8,6 +8,7 @@ parameters:
         constant_arg_by_method_by_type: []
         parent_classes: []
         required_see_types: []
+        string_arg_by_method_by_type: []
 
         # cognitive complexity
         max_cognitive_complexity: 8
@@ -22,9 +23,25 @@ parametersSchema:
         parent_classes: arrayOf(string())
         required_see_types: arrayOf(string())
         constant_arg_by_method_by_type: arrayOf(arrayOf(arrayOf(int())))
+        string_arg_by_method_by_type: arrayOf(arrayOf(arrayOf(int())))
     ])
 
 services:
+    - Symplify\CodingStandard\PhpParser\NodeNameResolver
+
+    # arrays
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenArrayDestructRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenArrayWithStringKeysRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenComplexArrayConfigInSetRule
+        tags: [phpstan.rules.rule]
+
     # doctrine-related
     -
         class: Symplify\CodingStandard\Rules\NoEntityManagerInControllerRule
@@ -124,3 +141,9 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             constantArgByMethodByType: "%symplify.constant_arg_by_method_by_type%"
+
+    -
+        class: Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            stringArgByMethodByType: "%symplify.string_arg_by_method_by_type%"

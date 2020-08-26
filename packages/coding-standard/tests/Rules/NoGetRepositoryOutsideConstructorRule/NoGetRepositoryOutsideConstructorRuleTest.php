@@ -26,6 +26,8 @@ final class NoGetRepositoryOutsideConstructorRuleTest extends RuleTestCase
             [[NoGetRepositoryOutsideConstructorRule::ERROR_MESSAGE, 25]],
         ];
         yield [__DIR__ . '/Fixture/TwoTestRepository.php', []];
+
+        yield [__DIR__ . '/Fixture/SkipTestCase.php', []];
     }
 
     protected function getRule(): Rule
