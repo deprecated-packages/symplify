@@ -16,20 +16,18 @@ final class NoReferenceRuleTest extends RuleTestCase
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([$filePath], [$expectedErrorMessagesWithLines]);
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/MethodWithReference.php', [NoReferenceRule::ERROR_MESSAGE, 9]];
+        yield [__DIR__ . '/Fixture/MethodWithReference.php', [[NoReferenceRule::ERROR_MESSAGE, 9]]];
+        yield [__DIR__ . '/Fixture/FunctionWithReference.php', [[NoReferenceRule::ERROR_MESSAGE, 7]]];
+        yield [__DIR__ . '/Fixture/VariableReference.php', [[NoReferenceRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/ReferenceArgument.php', [[NoReferenceRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/AssignReference.php', [[NoReferenceRule::ERROR_MESSAGE, 14]]];
 
-        yield [__DIR__ . '/Fixture/FunctionWithReference.php', [NoReferenceRule::ERROR_MESSAGE, 7]];
-
-        yield [__DIR__ . '/Fixture/VariableReference.php', [NoReferenceRule::ERROR_MESSAGE, 11]];
-
-        yield [__DIR__ . '/Fixture/ReferenceArgument.php', [NoReferenceRule::ERROR_MESSAGE, 11]];
-
-        yield [__DIR__ . '/Fixture/UseInReference.php', [NoReferenceRule::ERROR_MESSAGE, 16]];
+        yield [__DIR__ . '/Fixture/SkipUseInReference.php', []];
     }
 
     protected function getRule(): Rule

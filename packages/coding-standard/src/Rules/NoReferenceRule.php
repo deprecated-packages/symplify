@@ -10,7 +10,6 @@ use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\AssignRef;
 use PhpParser\Node\Expr\Closure;
-use PhpParser\Node\Expr\ClosureUse;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Foreach_;
@@ -37,12 +36,10 @@ final class NoReferenceRule extends AbstractManyNodeTypeRule
             Function_::class,
             AssignRef::class,
             Arg::class,
-            ClosureUse::class,
             Foreach_::class,
             ArrayItem::class,
             ArrowFunction::class,
             Closure::class,
-            ClosureUse::class,
         ];
     }
 
@@ -53,7 +50,7 @@ final class NoReferenceRule extends AbstractManyNodeTypeRule
     {
         $errorMessages = [];
 
-        if (property_exists($node, 'byRef') && $node->byRef) {
+        if (property_exists($node, 'byRef') && $node->byRef === true) {
             $errorMessages[] = self::ERROR_MESSAGE;
         }
 
