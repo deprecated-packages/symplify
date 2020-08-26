@@ -1,5 +1,153 @@
 # PHPStan Rules
 
+## Use Explicit String over ::class Reference on Specific Method Call Position
+
+Useful for PHAR prefixing with [php-scoper](https://github.com/humbug/php-scoper) and [box](https://github.com/humbug/box). This allows you to keep configurable string-classes unprefixed. If `::class` is used, they would be prefixed with `Prefix30281...`, so the original class would never be found.
+
+- **configuration required**
+- class: [`RequireStringArgumentInMethodCallRule`](../src/Rules/RequireStringArgumentInMethodCallRule.php)
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule
+
+parameters:
+    symplify:
+        string_arg_by_method_by_type:
+            SomeObject:
+                someMethod: [1]
+```
+
+```php
+class SomeClass
+{
+    public function run(SomeObject $someObject)
+    {
+        $this->someObject->someMethod('yes', Another::class);
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function run(SomeObject $someObject)
+    {
+        $this->someObject->someMethod('yes', 'Another');
+    }
+}
+```
+
+:+1:
+
+## Array Destruct is not Allowed, use Value Object instead
+
+- class: [`ForbiddenArrayDestructRule`](../src/Rules/ForbiddenArrayDestructRule.php)
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        [$firstValue, $secondValue] = $this->getRandomData();
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        $resultValueObject = $this->getRandomData();
+        $firstValue = $resultValueObject->getFirstValue();
+        $secondValue = $resultValueObject->getSecondValue();
+    }
+}
+```
+
+:+1:
+
+## Array with String Keys is not allowed, Use Value Object instead
+
+- class: [`ForbiddenArrayWithStringKeysRule`](../src/Rules/ForbiddenArrayWithStringKeysRule.php)
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        return [
+            'name' => 'John',
+            'surname' => 'Dope',
+        ];
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        return new Person('John', 'Dope');
+    }
+}
+```
+
+:+1:
+
+## Use Value Objects over Array in Complex PHP Configs
+
+- class: [`ForbiddenComplexArrayConfigInSetRule`](../src/Rules/ForbiddenComplexArrayConfigInSetRule.php)
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(NormalToFluentRector::class)
+        ->call('configure', [[
+            'options' => [
+                'Cake\Network\Response', ['withLocation', 'withHeader']
+            ]
+        ]]);
+};
+```
+
+:x:
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(NormalToFluentRector::class)
+        ->call('configure', [[
+            'options' => inline_value_objects([
+                new SomeValueObject('Cake\Network\Response', [
+                    'withLocation',
+                    'withHeader'
+                ])
+            ])
+        ]]);
+};
+```
+
+:+1:
+
+
+
+
 ## Use specific Repository over EntityManager in Controller
 
 - class: [`NoEntityManagerInControllerRule`](../src/Rules/NoEntityManagerInControllerRule.php)

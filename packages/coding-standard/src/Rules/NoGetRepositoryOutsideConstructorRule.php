@@ -16,7 +16,7 @@ final class NoGetRepositoryOutsideConstructorRule implements Rule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Do not use "$entityManager->getRepository()" outside of the constructor of repository service';
+    public const ERROR_MESSAGE = 'Do not use "$entityManager->getRepository()" outside of the constructor of repository service or setUp() method in test case';
 
     public function getNodeType(): string
     {
@@ -42,7 +42,7 @@ final class NoGetRepositoryOutsideConstructorRule implements Rule
             return [];
         }
 
-        if ($functionReflection->getName() === '__construct') {
+        if (in_array($functionReflection->getName(), ['__construct', 'setUp'], true)) {
             return [];
         }
 
