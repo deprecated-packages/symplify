@@ -6,7 +6,7 @@ namespace Symplify\CodingStandard\Tests\Rules\NoReferenceRule\Fixture;
 
 use Nette\Utils\Strings;
 
-final class UseInReference
+final class SkipUseInReference
 {
     public function someMethod($filePath)
     {
