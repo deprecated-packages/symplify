@@ -14,9 +14,9 @@ final class StaticFixtureSplitterTest extends TestCase
     {
         $fileInfo = new SmartFileInfo(__DIR__ . '/Source/simple_fixture.php.inc');
 
-        [$inputContent, $expectedContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
+        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
 
-        $this->assertSame('a' . PHP_EOL, $inputContent);
-        $this->assertSame('b' . PHP_EOL, $expectedContent);
+        $this->assertSame('a' . PHP_EOL, $inputAndExpected->getInput());
+        $this->assertSame('b' . PHP_EOL, $inputAndExpected->getExpected());
     }
 }
