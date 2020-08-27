@@ -34,7 +34,7 @@ final class ControllerWithDataProviderMatcher
         $controllerCallable = $this->controllerMatcher->matchRouteToControllerAndMethod($route);
 
         foreach ($this->controllerWithDataProviders as $controllerWithDataProvider) {
-            if ($controllerWithDataProvider->getControllerClass() !== $controllerCallable->getMethod()) {
+            if ($controllerWithDataProvider->getControllerClass() !== $controllerCallable->getClass()) {
                 continue;
             }
 

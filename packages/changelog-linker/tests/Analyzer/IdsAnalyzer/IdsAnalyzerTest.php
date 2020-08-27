@@ -28,10 +28,10 @@ final class IdsAnalyzerTest extends TestCase
      */
     public function test(SmartFileInfo $fixtureFileInfo): void
     {
-        [$inputContent, $expectedId] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
+        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
 
-        $foundHighestId = $this->idsAnalyzer->getHighestIdInChangelog($inputContent);
-        $this->assertSame($expectedId, $foundHighestId);
+        $foundHighestId = $this->idsAnalyzer->getHighestIdInChangelog($inputAndExpected->getInput());
+        $this->assertSame((int) $inputAndExpected->getExpected(), $foundHighestId);
     }
 
     public function provideData(): Iterator

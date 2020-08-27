@@ -12,6 +12,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
+use Symplify\CodingStandard\TokenRunner\ValueObject\LineLenghtAndPosition;
 use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 final class LineLengthTransformer
@@ -125,13 +126,13 @@ final class LineLengthTransformer
      */
     private function getFirstLineLength(int $startPosition, Tokens $tokens): int
     {
-        $lineLength = 0;
-
         // compute from here to start of line
         $currentPosition = $startPosition;
 
         // collect length of tokens on current line which precede token at $currentPosition
-        [$lineLength, $currentPosition] = $this->getLengthToStartOfLine($tokens, $currentPosition);
+        $lineLenghtAndPosition = $this->getLengthToStartOfLine($tokens, $currentPosition);
+        $lineLength = $lineLenghtAndPosition->getLineLenght();
+        $currentPosition = $lineLenghtAndPosition->getCurrentPosition();
 
         $currentToken = $tokens[$currentPosition];
 
@@ -253,10 +254,7 @@ final class LineLengthTransformer
         $tokens->ensureWhitespaceAtIndex($arrayStartIndex, 1, $this->newlineIndentWhitespace);
     }
 
-    /**
-     * @return int[]
-     */
-    private function getLengthToStartOfLine(Tokens $tokens, int $currentPosition): array
+    private function getLengthToStartOfLine(Tokens $tokens, int $currentPosition): LineLenghtAndPosition
     {
         $length = 0;
 
@@ -281,7 +279,7 @@ final class LineLengthTransformer
             }
         }
 
-        return [$length, $currentPosition];
+        return new LineLenghtAndPosition($length, $currentPosition);
     }
 
     /**

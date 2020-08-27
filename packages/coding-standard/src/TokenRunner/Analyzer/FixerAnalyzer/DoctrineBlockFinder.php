@@ -9,6 +9,7 @@ use PhpCsFixer\Doctrine\Annotation\Tokens;
 use Symplify\CodingStandard\Exception\EdgeFindingException;
 use Symplify\CodingStandard\TokenRunner\Exception\MissingImplementationException;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
+use Symplify\CodingStandard\TokenRunner\ValueObject\DocBlockEdgeDefinition;
 
 final class DoctrineBlockFinder
 {
@@ -36,6 +37,19 @@ final class DoctrineBlockFinder
      * @var string[]
      */
     private const START_EDGES = ['(', '{'];
+
+    /**
+     * @var DocBlockEdgeDefinition[]
+     */
+    private $docBlockEdgeDefinitions = [];
+
+    public function __construct()
+    {
+        $this->docBlockEdgeDefinitions = [
+            new DocBlockEdgeDefinition(self::BLOCK_TYPE_CURLY_BRACE, '{', '}'),
+            new DocBlockEdgeDefinition(self::BLOCK_TYPE_PARENTHESIS_BRACE, '(', ')'),
+        ];
+    }
 
     /**
      * Accepts position to both start and end token, e.g. (, ), {, }
@@ -84,54 +98,16 @@ final class DoctrineBlockFinder
      */
     private function findOppositeBlockEdge(Tokens $tokens, int $type, int $searchIndex, bool $findEnd = true): int
     {
-        $blockEdgeDefinitions = $this->getBlockEdgeDefinitions();
-        if (! isset($blockEdgeDefinitions[$type])) {
-            $message = sprintf('Invalid param type: "%s".', $type);
-            throw new EdgeFindingException($message);
+        foreach ($this->docBlockEdgeDefinitions as $docBlockEdgeDefinition) {
+            if ($docBlockEdgeDefinition->getKind() !== $type) {
+                continue;
+            }
+
+            return $this->resolveDocBlockEdgeByType($docBlockEdgeDefinition, $searchIndex, $tokens, $findEnd);
         }
 
-        $startEdge = $blockEdgeDefinitions[$type]['start'];
-        $endEdge = $blockEdgeDefinitions[$type]['end'];
-        $startIndex = $searchIndex;
-
-        $endIndex = $tokens->count() - 1;
-        $indexOffset = 1;
-
-        if (! $findEnd) {
-            [$startEdge, $endEdge] = [$endEdge, $startEdge];
-            $indexOffset = -1;
-            $endIndex = 0;
-        }
-
-        $this->ensureStartTokenIsNotStartEdge($tokens, $startIndex, $startEdge, $findEnd);
-
-        $index = $this->resolveIndexForBlockLevel($startIndex, $endIndex, $tokens, $startEdge, $endEdge, $indexOffset);
-
-        /** @var Token $currentToken */
-        $currentToken = $tokens[$index];
-        if ($currentToken->getContent() !== $endEdge) {
-            $message = sprintf('Missing block "%s".', $findEnd ? 'end' : 'start');
-            throw new EdgeFindingException($message);
-        }
-
-        return $index;
-    }
-
-    /**
-     * @return array<int, array<string, string>>
-     */
-    private function getBlockEdgeDefinitions(): array
-    {
-        return [
-            self::BLOCK_TYPE_CURLY_BRACE => [
-                'start' => '{',
-                'end' => '}',
-            ],
-            self::BLOCK_TYPE_PARENTHESIS_BRACE => [
-                'start' => '(',
-                'end' => ')',
-            ],
-        ];
+        $message = sprintf('Invalid param type: "%s".', $type);
+        throw new EdgeFindingException($message);
     }
 
     private function resolveIndexForBlockLevel(
@@ -182,5 +158,38 @@ final class DoctrineBlockFinder
                 $findEnd ? 'start' : 'end'
             ));
         }
+    }
+
+    private function resolveDocBlockEdgeByType(
+        DocBlockEdgeDefinition $docBlockEdgeDefinition,
+        int $searchIndex,
+        Tokens $tokens,
+        bool $findEnd
+    ): int {
+        $startChart = $docBlockEdgeDefinition->getStartChar();
+        $endChar = $docBlockEdgeDefinition->getEndChar();
+        $startIndex = $searchIndex;
+
+        $endIndex = $tokens->count() - 1;
+        $indexOffset = 1;
+
+        if (! $findEnd) {
+            [$startChart, $endChar] = [$endChar, $startChart];
+            $indexOffset = -1;
+            $endIndex = 0;
+        }
+
+        $this->ensureStartTokenIsNotStartEdge($tokens, $startIndex, $startChart, $findEnd);
+
+        $index = $this->resolveIndexForBlockLevel($startIndex, $endIndex, $tokens, $startChart, $endChar, $indexOffset);
+
+        /** @var Token $currentToken */
+        $currentToken = $tokens[$index];
+        if ($currentToken->getContent() !== $endChar) {
+            $message = sprintf('Missing block "%s".', $findEnd ? 'end' : 'start');
+            throw new EdgeFindingException($message);
+        }
+
+        return $index;
     }
 }

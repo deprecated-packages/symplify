@@ -14,7 +14,6 @@ use Symplify\MonorepoBuilder\Package\PackageNamesProvider;
 use Symplify\MonorepoBuilder\Testing\ComposerJson\ComposerJsonSymlinker;
 use Symplify\MonorepoBuilder\Testing\ComposerJson\ComposerVersionManipulator;
 use Symplify\MonorepoBuilder\Testing\PackageDependency\UsedPackagesResolver;
-use Symplify\MonorepoBuilder\Testing\PathResolver\PackagePathResolver;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -42,11 +41,6 @@ final class LocalizeComposerPathsCommand extends Command
     private $symfonyStyle;
 
     /**
-     * @var PackagePathResolver
-     */
-    private $packagePathResolver;
-
-    /**
      * @var ComposerJsonSymlinker
      */
     private $composerJsonSymlinker;
@@ -66,7 +60,6 @@ final class LocalizeComposerPathsCommand extends Command
         PackageNamesProvider $packageNamesProvider,
         JsonFileManager $jsonFileManager,
         SymfonyStyle $symfonyStyle,
-        PackagePathResolver $packagePathResolver,
         ComposerJsonSymlinker $composerJsonSymlinker,
         ComposerVersionManipulator $composerVersionManipulator,
         UsedPackagesResolver $usedPackagesResolver
@@ -75,7 +68,6 @@ final class LocalizeComposerPathsCommand extends Command
         $this->packageNamesProvider = $packageNamesProvider;
         $this->jsonFileManager = $jsonFileManager;
         $this->symfonyStyle = $symfonyStyle;
-        $this->packagePathResolver = $packagePathResolver;
         $this->composerJsonSymlinker = $composerJsonSymlinker;
         $this->composerVersionManipulator = $composerVersionManipulator;
         $this->usedPackagesResolver = $usedPackagesResolver;
