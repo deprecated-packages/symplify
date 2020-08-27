@@ -213,3 +213,7 @@ parameters:
 #        - '#Array destruct is not allowed\. Use value object to pass data instead#'
 #        - '#Array with keys is not allowed\. Use value object to pass data instead#'
 
+        -
+            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
+            paths:
+                - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php

@@ -11,8 +11,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Package\PackageNamesProvider;
+use Symplify\MonorepoBuilder\Testing\ComposerJson\ComposerJsonSymlinker;
+use Symplify\MonorepoBuilder\Testing\ComposerJson\ComposerVersionManipulator;
+use Symplify\MonorepoBuilder\Testing\PackageDependency\UsedPackagesResolver;
 use Symplify\MonorepoBuilder\Testing\PathResolver\PackagePathResolver;
-use Symplify\MonorepoBuilder\ValueObject\Section;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -44,21 +46,41 @@ final class LocalizeComposerPathsCommand extends Command
      */
     private $packagePathResolver;
 
+    /**
+     * @var ComposerJsonSymlinker
+     */
+    private $composerJsonSymlinker;
+
+    /**
+     * @var ComposerVersionManipulator
+     */
+    private $composerVersionManipulator;
+
+    /**
+     * @var UsedPackagesResolver
+     */
+    private $usedPackagesResolver;
+
     public function __construct(
         ComposerJsonProvider $composerJsonProvider,
         PackageNamesProvider $packageNamesProvider,
         JsonFileManager $jsonFileManager,
         SymfonyStyle $symfonyStyle,
-        PackagePathResolver $packagePathResolver
+        PackagePathResolver $packagePathResolver,
+        ComposerJsonSymlinker $composerJsonSymlinker,
+        ComposerVersionManipulator $composerVersionManipulator,
+        UsedPackagesResolver $usedPackagesResolver
     ) {
         $this->composerJsonProvider = $composerJsonProvider;
         $this->packageNamesProvider = $packageNamesProvider;
         $this->jsonFileManager = $jsonFileManager;
         $this->symfonyStyle = $symfonyStyle;
+        $this->packagePathResolver = $packagePathResolver;
+        $this->composerJsonSymlinker = $composerJsonSymlinker;
+        $this->composerVersionManipulator = $composerVersionManipulator;
+        $this->usedPackagesResolver = $usedPackagesResolver;
 
         parent::__construct();
-
-        $this->packagePathResolver = $packagePathResolver;
     }
 
     protected function configure(): void
@@ -72,18 +94,7 @@ final class LocalizeComposerPathsCommand extends Command
         $mainComposerJsonFileInfo = $this->composerJsonProvider->getRootFileInfo();
 
         foreach ($this->composerJsonProvider->getPackagesFileInfos() as $packageFileInfo) {
-            $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
-
-            $usedPackageNames = $this->resolveUsedPackages($packageComposerJson);
-            $packageComposerJson = $this->setAsteriskVersionForUsedPackages($packageComposerJson, $usedPackageNames);
-
-            // possibly replace them all to cover recursive secondary dependencies
-            $packageComposerJson = $this->addRepositories($mainComposerJsonFileInfo, $packageComposerJson);
-
-            $message = sprintf('File "%s" was updated', $packageFileInfo->getRelativeFilePathFromCwd());
-            $this->symfonyStyle->note($message);
-
-            $this->jsonFileManager->saveJsonWithFileInfo($packageComposerJson, $packageFileInfo);
+            $this->processPackage($packageFileInfo, $mainComposerJsonFileInfo);
         }
 
         $this->symfonyStyle->success('Package paths have been updated');
@@ -91,70 +102,28 @@ final class LocalizeComposerPathsCommand extends Command
         return ShellCode::SUCCESS;
     }
 
-    /**
-     * @return string[]
-     */
-    private function resolveUsedPackages(array $packageComposerJson): array
+    private function processPackage(SmartFileInfo $packageFileInfo, SmartFileInfo $mainComposerJsonFileInfo): void
     {
-        $usedPackageNames = [];
-        foreach ([Section::REQUIRE, Section::REQUIRE_DEV] as $section) {
-            if (! isset($packageComposerJson[$section])) {
-                continue;
-            }
+        $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
 
-            foreach (array_keys($packageComposerJson[$section]) as $packageName) {
-                if (! in_array($packageName, $this->packageNamesProvider->provide(), true)) {
-                    continue;
-                }
+        $usedPackageNames = $this->usedPackagesResolver->resolveForPackage($packageComposerJson);
+        $packageComposerJson = $this->composerVersionManipulator->setAsteriskVersionForUsedPackages(
+            $packageComposerJson,
+            $usedPackageNames
+        );
 
-                $usedPackageNames[] = $packageName;
-            }
-        }
-
-        return $usedPackageNames;
-    }
-
-    /**
-     * @param string[] $usedPackageNames
-     */
-    private function setAsteriskVersionForUsedPackages(array $packageComposerJson, array $usedPackageNames): array
-    {
-        foreach ([Section::REQUIRE, Section::REQUIRE_DEV] as $section) {
-            foreach ($usedPackageNames as $usedPackageName) {
-                if (! isset($packageComposerJson[$section][$usedPackageName])) {
-                    continue;
-                }
-
-                $packageComposerJson[$section][$usedPackageName] = '*';
-            }
-        }
-
-        return $packageComposerJson;
-    }
-
-    private function addRepositories(SmartFileInfo $mainComposerJsonFileInfo, array $packageComposerJson): array
-    {
+        // possibly replace them all to cover recursive secondary dependencies
         $packageNames = $this->packageNamesProvider->provide();
 
-        // @see https://getcomposer.org/doc/05-repositories.md#path
-        foreach ($packageNames as $packageName) {
-            $usedPackageFileInfo = $this->composerJsonProvider->getPackageByName($packageName);
+        $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
+            $packageComposerJson,
+            $packageNames,
+            $mainComposerJsonFileInfo
+        );
 
-            $relativePathToLocalPackage = $this->packagePathResolver->resolveRelativePathToLocalPackage(
-                $mainComposerJsonFileInfo,
-                $usedPackageFileInfo
-            );
+        $message = sprintf('File "%s" was updated', $packageFileInfo->getRelativeFilePathFromCwd());
+        $this->symfonyStyle->note($message);
 
-            $packageComposerJson['repositories'][] = [
-                'type' => 'path',
-                'url' => $relativePathToLocalPackage,
-                // we need hard copy of files, as in normal composer install of standalone package
-                'options' => [
-                    'symlink' => false,
-                ],
-            ];
-        }
-
-        return $packageComposerJson;
+        $this->jsonFileManager->saveJsonWithFileInfo($packageComposerJson, $packageFileInfo);
     }
 }
