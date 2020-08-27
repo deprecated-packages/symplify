@@ -44,14 +44,12 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
      */
     public function test(SmartFileInfo $fixtureFileInfo): void
     {
-        [$inputContent, $expectedCognitiveComplexity] = StaticFixtureSplitter::splitFileInfoToInputAndExpected(
-            $fixtureFileInfo
-        );
+        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
 
-        $functionLike = $this->parseFileToFistFunctionLike($inputContent);
+        $functionLike = $this->parseFileToFistFunctionLike($inputAndExpected->getInput());
         $cognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($functionLike);
 
-        $this->assertSame($expectedCognitiveComplexity, $cognitiveComplexity);
+        $this->assertSame((int) $inputAndExpected->getExpected(), $cognitiveComplexity);
     }
 
     /**

@@ -30,10 +30,10 @@ final class ChangelogCleanerTest extends AbstractKernelTestCase
      */
     public function test(SmartFileInfo $fixtureFile): void
     {
-        [$inputContent, $expectedContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFile);
+        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFile);
 
-        $outputContent = $this->changelogCleaner->processContent($inputContent);
-        $this->assertSame($expectedContent, $outputContent, $fixtureFile->getRelativeFilePathFromCwd());
+        $outputContent = $this->changelogCleaner->processContent($inputAndExpected->getInput());
+        $this->assertSame($inputAndExpected->getExpected(), $outputContent, $fixtureFile->getRelativeFilePathFromCwd());
     }
 
     public function dataProvider(): Iterator

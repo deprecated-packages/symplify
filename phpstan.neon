@@ -209,7 +209,21 @@ parameters:
         - '#Property Symplify\\CodingStandard\\TokenRunner\\ValueObject\\Wrapper\\FixerWrapper\\ArrayWrapper\:\:\$array \(PhpParser\\Node\\Expr\\Array_\) does not accept PhpParser\\Node#'
         - '#Call to an undefined method PhpParser\\Node\\Expr\\Error\|PhpParser\\Node\\Identifier\:\:toString\(\)#'
 
-        # fix in next PR
-        - '#Array destruct is not allowed\. Use value object to pass data instead#'
-        - '#Array with keys is not allowed\. Use value object to pass data instead#'
+        -
+            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
+            paths:
+                # json array
+                - *Json*
 
+                # php scoper config array
+                - packages/monorepo-builder/compiler/build/scoper.inc.php
+                - packages/easy-coding-standard/compiler/build/scoper.inc.php
+
+                # Symfony API
+                - packages/autodiscovery/src/Doctrine/DoctrineEntityMappingAutodiscoverer.php
+
+        -
+            message: '#Array destruct is not allowed\. Use value object to pass data instead#'
+            paths:
+                - packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php

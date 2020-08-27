@@ -70,13 +70,13 @@ final class SomeTest extends TestCase
      */
     public function test(SmartFileInfo $fileInfo)
     {
-        [$inputContent, $expectedContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
+        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
 
         // test before content
         $someService = new SomeService();
-        $changedContent = $someService->process($inputContent);
+        $changedContent = $someService->process($inputAndExpected->getInput());
 
-        $this->assertSame($expectedContent, $changedContent);
+        $this->assertSame($inputAndExpected->getExpected(), $changedContent);
     }
 
     public function provideData(): Iterator
@@ -93,8 +93,8 @@ Do you need the input code to be in separated files? E.g. to test the file was m
 Instead of `splitFileInfoToInputAndExpected()` use `splitFileInfoToLocalInputAndExpectedFileInfos()`:
 
 ```diff
--[$inputContent, $expectedContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected(
-+[$inputFileInfo, $expectedFileInfo] = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos(
+-$inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected(
++$inputFileInfoAndExpectedFileInfo = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos(
     $fileInfo
  );
 ```
@@ -108,7 +108,7 @@ Compared to formated method, `splitFileInfoToLocalInputAndExpectedFileInfos()` w
 ```php
 use Symplify\EasyTesting\StaticFixtureSplitter;
 
-[$inputFileInfo, $expectedFileInfo] = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos(
+$inputFileInfoAndExpectedFileInfo = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos(
     $fileInfo, true
 );
 ```
@@ -157,13 +157,17 @@ final class SomeTestCase extends TestCase
      */
     public function test(SmartFileInfo $fixtureFileInfo)
     {
-        [$originalFileInfo, $expectedFileInfo] = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos($fixtureFileInfo);
+        $inputFileInfoAndExpectedFileInfo = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos($fixtureFileInfo);
 
         // process content
         $currentContent = '...';
 
         // here we update test fixture if the content changed
-        StaticFixtureUpdater::updateFixtureContent($originalFileInfo, $currentContent, $fixtureFileInfo);
+        StaticFixtureUpdater::updateFixtureContent(
+            $inputFileInfoAndExpectedFileInfo->getInputFileInfo(),
+            $currentContent,
+            $fixtureFileInfo
+        );
     }
 
     // data provider...

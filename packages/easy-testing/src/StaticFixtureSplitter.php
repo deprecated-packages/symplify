@@ -6,6 +6,8 @@ namespace Symplify\EasyTesting;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
+use Symplify\EasyTesting\ValueObject\InputAndExpected;
+use Symplify\EasyTesting\ValueObject\InputFileInfoAndExpectedFileInfo;
 use Symplify\EasyTesting\ValueObject\SplitLine;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -16,53 +18,36 @@ final class StaticFixtureSplitter
      */
     public static $customTemporaryPath;
 
-    /**
-     * @return string[]
-     */
-    public static function splitFileInfoToInputAndExpected(SmartFileInfo $smartFileInfo): array
+    public static function splitFileInfoToInputAndExpected(SmartFileInfo $smartFileInfo): InputAndExpected
     {
         if (Strings::match($smartFileInfo->getContents(), SplitLine::SPLIT_LINE)) {
-            // original → expected
-            [$original, $expected] = Strings::split($smartFileInfo->getContents(), SplitLine::SPLIT_LINE);
+            // input → expected
+            [$input, $expected] = Strings::split($smartFileInfo->getContents(), SplitLine::SPLIT_LINE);
 
             $expected = self::retypeExpected($expected);
 
-            return [$original, $expected];
+            return new InputAndExpected($input, $expected);
         }
 
         // no changes
-        return [$smartFileInfo->getContents(), $smartFileInfo->getContents()];
+        return new InputAndExpected($smartFileInfo->getContents(), $smartFileInfo->getContents());
     }
 
-    /**
-     * @return SmartFileInfo[]
-     */
     public static function splitFileInfoToLocalInputAndExpectedFileInfos(
         SmartFileInfo $smartFileInfo,
         bool $autoloadTestFixture = false
-    ): array {
-        [$originalContent, $expectedContent] = self::splitFileInfoToInputAndExpected($smartFileInfo);
+    ): InputFileInfoAndExpectedFileInfo {
+        $inputAndExpected = self::splitFileInfoToInputAndExpected($smartFileInfo);
 
-        $originalFileInfo = self::createTemporaryFileInfo($smartFileInfo, 'original', $originalContent);
-        $expectedFileInfo = self::createTemporaryFileInfo($smartFileInfo, 'expected', $expectedContent);
+        $inputFileInfo = self::createTemporaryFileInfo($smartFileInfo, 'input', $inputAndExpected->getInput());
+        $expectedFileInfo = self::createTemporaryFileInfo($smartFileInfo, 'expected', $inputAndExpected->getExpected());
 
         // some files needs to be autoload to enable reflection
         if ($autoloadTestFixture) {
-            require_once $originalFileInfo->getRealPath();
+            require_once $inputFileInfo->getRealPath();
         }
 
-        return [$originalFileInfo, $expectedFileInfo];
-    }
-
-    /**
-     * @return SmartFileInfo[]|mixed[]
-     */
-    public static function splitFileInfoToInputFileInfoAndExpected(SmartFileInfo $smartFileInfo): array
-    {
-        [$originalContent, $expectedContent] = self::splitFileInfoToInputAndExpected($smartFileInfo);
-
-        $originalFileInfo = self::createTemporaryFileInfo($smartFileInfo, 'original', $originalContent);
-        return [$originalFileInfo, $expectedContent];
+        return new InputFileInfoAndExpectedFileInfo($inputFileInfo, $expectedFileInfo);
     }
 
     public static function getTemporaryPath(): string

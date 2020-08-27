@@ -31,14 +31,14 @@ final class ControllerWithDataProviderMatcher
 
     public function matchRoute(Route $route): ?ControllerWithDataProviderInterface
     {
-        [$controllerClass, $method] = $this->controllerMatcher->matchRouteToControllerAndMethod($route);
+        $controllerCallable = $this->controllerMatcher->matchRouteToControllerAndMethod($route);
 
         foreach ($this->controllerWithDataProviders as $controllerWithDataProvider) {
-            if ($controllerWithDataProvider->getControllerClass() !== $controllerClass) {
+            if ($controllerWithDataProvider->getControllerClass() !== $controllerCallable->getClass()) {
                 continue;
             }
 
-            if ($controllerWithDataProvider->getControllerMethod() !== $method) {
+            if ($controllerWithDataProvider->getControllerMethod() !== $controllerCallable->getMethod()) {
                 continue;
             }
 

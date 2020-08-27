@@ -44,15 +44,15 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
     private function doTestFile(string $file, int $nestingLevel): void
     {
         $fileInfo = new SmartFileInfo($file);
-        [$inputYamlContent, $expectedYamlContent] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
+        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
 
-        $originalYaml = Yaml::parse($inputYamlContent);
-        $expectedYaml = Yaml::parse($expectedYamlContent);
+        $originalYaml = Yaml::parse($inputAndExpected->getInput());
+        $expectedYaml = Yaml::parse($inputAndExpected->getExpected());
 
         $this->assertSame(
             $expectedYaml,
             $this->explicitToAutodiscoveryConverter->convert($originalYaml, $file, $nestingLevel, ''),
-            'Caused by ' . $file
+            $file
         );
     }
 }

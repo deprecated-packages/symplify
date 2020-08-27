@@ -28,10 +28,10 @@ final class ChangelogFormatterTest extends TestCase
      */
     public function test(SmartFileInfo $fixtureFileInfo): void
     {
-        [$input, $expectedOutput] = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
+        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
 
-        $output = $this->changelogFormatter->format($input);
-        $this->assertSame($expectedOutput, $output, $fixtureFileInfo->getRelativeFilePathFromCwd());
+        $output = $this->changelogFormatter->format($inputAndExpected->getInput());
+        $this->assertSame($inputAndExpected->getExpected(), $output, $fixtureFileInfo->getRelativeFilePathFromCwd());
     }
 
     public function provideData(): Iterator
