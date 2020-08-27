@@ -50,7 +50,8 @@ final class NoReferenceRule extends AbstractManyNodeTypeRule
     {
         $errorMessages = [];
 
-        if (property_exists($node, 'byRef') && $node->byRef === true) {
+        // param is handled bellow
+        if (property_exists($node, 'byRef') && $node->byRef === true && ! $node instanceof Param) {
             $errorMessages[] = self::ERROR_MESSAGE;
         }
 
@@ -58,17 +59,23 @@ final class NoReferenceRule extends AbstractManyNodeTypeRule
             $errorMessages[] = self::ERROR_MESSAGE;
         }
 
-        $paramErrorMessage = $this->collectParamErrorMessages($node);
+        $paramErrorMessage = $this->collectParamErrorMessages($node, $scope);
+        $errorMessages = array_merge($errorMessages, $paramErrorMessage);
 
-        return array_merge($errorMessages, $paramErrorMessage);
+        return array_unique($errorMessages);
     }
 
     /**
      * @return string[]
      */
-    private function collectParamErrorMessages(Node $node): array
+    private function collectParamErrorMessages(Node $node, Scope $scope): array
     {
         if (! $node instanceof Function_ && ! $node instanceof ClassMethod) {
+            return [];
+        }
+
+        // has parent method? → skip it as enforced by parent
+        if ($this->hasParentClassMethodWithSameName($scope, $node)) {
             return [];
         }
 
@@ -83,5 +90,26 @@ final class NoReferenceRule extends AbstractManyNodeTypeRule
         }
 
         return $errorMessages;
+    }
+
+    private function hasParentClassMethodWithSameName(Scope $scope, Node $node): bool
+    {
+        if (! $node instanceof ClassMethod) {
+            return false;
+        }
+
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return false;
+        }
+
+        $methodName = (string) $node->name;
+        foreach ($classReflection->getParents() as $parentClass) {
+            if ($parentClass->hasMethod($methodName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
