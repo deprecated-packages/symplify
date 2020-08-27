@@ -28,8 +28,13 @@ parametersSchema:
 
 services:
     - Symplify\CodingStandard\PhpParser\NodeNameResolver
+    - Symplify\CodingStandard\PHPStan\ParentMethodAnalyser
 
     # arrays
+    -
+        class: Symplify\CodingStandard\Rules\NoReturnArrayVariableList
+        tags: [phpstan.rules.rule]
+
     -
         class: Symplify\CodingStandard\Rules\ForbiddenArrayDestructRule
         tags: [phpstan.rules.rule]
