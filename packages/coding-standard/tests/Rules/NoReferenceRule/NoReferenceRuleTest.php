@@ -28,6 +28,7 @@ final class NoReferenceRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/AssignReference.php', [[NoReferenceRule::ERROR_MESSAGE, 14]]];
 
         yield [__DIR__ . '/Fixture/SkipUseInReference.php', []];
+        yield [__DIR__ . '/Fixture/SkipParentMethodWithReference.php', []];
     }
 
     protected function getRule(): Rule
