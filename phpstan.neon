@@ -216,8 +216,7 @@ parameters:
                 - *Json*
 
                 # php scoper config array
-                - packages/monorepo-builder/compiler/build/scoper.inc.php
-                - packages/easy-coding-standard/compiler/build/scoper.inc.php
+                - */scoper.inc.php
 
                 # Symfony API
                 - packages/autodiscovery/src/Doctrine/DoctrineEntityMappingAutodiscoverer.php
@@ -226,4 +225,13 @@ parameters:
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'
             paths:
                 - packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
+
+        -
+            message: '#Use value object over return of values#'
+            paths:
+                # php scoper config array
+                - */scoper.inc.php
+
+                # Symfony API
                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php

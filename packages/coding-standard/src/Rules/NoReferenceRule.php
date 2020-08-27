@@ -15,6 +15,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoReferenceRule\NoReferenceRuleTest
@@ -25,6 +26,16 @@ final class NoReferenceRule extends AbstractManyNodeTypeRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Use explicit return value over magic &reference';
+
+    /**
+     * @var ParentMethodAnalyser
+     */
+    private $parentMethodAnalyser;
+
+    public function __construct(ParentMethodAnalyser $parentMethodAnalyser)
+    {
+        $this->parentMethodAnalyser = $parentMethodAnalyser;
+    }
 
     /**
      * @return string[]
@@ -44,18 +55,16 @@ final class NoReferenceRule extends AbstractManyNodeTypeRule
     }
 
     /**
+     * @param ClassMethod|Function_|AssignRef|Arg|Foreach_|ArrayItem|ArrowFunction|Closure $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
         $errorMessages = [];
 
-        // param is handled bellow
-        if (property_exists($node, 'byRef') && $node->byRef === true && ! $node instanceof Param) {
-            $errorMessages[] = self::ERROR_MESSAGE;
-        }
-
         if ($node instanceof AssignRef) {
+            $errorMessages[] = self::ERROR_MESSAGE;
+        } elseif ($node->byRef) {
             $errorMessages[] = self::ERROR_MESSAGE;
         }
 
@@ -75,7 +84,8 @@ final class NoReferenceRule extends AbstractManyNodeTypeRule
         }
 
         // has parent method? → skip it as enforced by parent
-        if ($this->hasParentClassMethodWithSameName($scope, $node)) {
+        $methodName = (string) $node->name;
+        if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
             return [];
         }
 
@@ -90,26 +100,5 @@ final class NoReferenceRule extends AbstractManyNodeTypeRule
         }
 
         return $errorMessages;
-    }
-
-    private function hasParentClassMethodWithSameName(Scope $scope, Node $node): bool
-    {
-        if (! $node instanceof ClassMethod) {
-            return false;
-        }
-
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
-            return false;
-        }
-
-        $methodName = (string) $node->name;
-        foreach ($classReflection->getParents() as $parentClass) {
-            if ($parentClass->hasMethod($methodName)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

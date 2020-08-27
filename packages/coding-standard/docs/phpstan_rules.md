@@ -1,5 +1,37 @@
 # PHPStan Rules
 
+## Use Value Object over Return of Values
+
+- class: [`NoReturnArrayVariableList`](../src/Rules/NoReturnArrayVariableList.php)
+
+```php
+final class ReturnVariables
+{
+    /**
+     * @return mixed[a
+     */
+    public function run($value, $value2): array
+    {
+        return [$value, $value2];
+    }
+}
+```
+
+:x:
+
+```php
+final class ReturnVariables
+{
+    public function run($value, $value2): ValueObject
+    {
+        return new ValueObject($value, $value2);
+    }
+}
+```
+
+:+1:
+
+
 ## Use Explicit String over ::class Reference on Specific Method Call Position
 
 Useful for PHAR prefixing with [php-scoper](https://github.com/humbug/php-scoper) and [box](https://github.com/humbug/box). This allows you to keep configurable string-classes unprefixed. If `::class` is used, they would be prefixed with `Prefix30281...`, so the original class would never be found.

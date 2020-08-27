@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\Tests\Rules\NoReferenceRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 use Symplify\CodingStandard\Rules\NoReferenceRule;
 
 final class NoReferenceRuleTest extends RuleTestCase
@@ -33,6 +34,6 @@ final class NoReferenceRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoReferenceRule();
+        return new NoReferenceRule(new ParentMethodAnalyser());
     }
 }
