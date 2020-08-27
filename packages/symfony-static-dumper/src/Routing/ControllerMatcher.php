@@ -6,13 +6,11 @@ namespace Symplify\SymfonyStaticDumper\Routing;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Routing\Route;
+use Symplify\SymfonyStaticDumper\ValueObject\ControllerCallable;
 
 final class ControllerMatcher
 {
-    /**
-     * @return string[]
-     */
-    public function matchRouteToControllerAndMethod(Route $route): array
+    public function matchRouteToControllerAndMethod(Route $route): ControllerCallable
     {
         $controller = $route->getDefault('_controller');
 
@@ -23,6 +21,6 @@ final class ControllerMatcher
             $method = '__invoke';
         }
 
-        return [$controllerClass, $method];
+        return new ControllerCallable($controllerClass, $method);
     }
 }

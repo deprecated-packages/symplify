@@ -41,12 +41,12 @@ final class ControllerContentResolver
 
     public function resolveFromRouteAndArgument(string $routeName, Route $route, $values): ?string
     {
-        [$controllerClass, $method] = $this->controllerMatcher->matchRouteToControllerAndMethod($route);
-        if (! class_exists($controllerClass)) {
+        $controllerCallable = $this->controllerMatcher->matchRouteToControllerAndMethod($route);
+        if (! class_exists($controllerCallable->getClass())) {
             return null;
         }
 
-        $controller = $this->container->get($controllerClass);
+        $controller = $this->container->get($controllerCallable->getClass());
         if (! is_object($controller)) {
             throw new ShouldNotHappenException();
         }
@@ -57,19 +57,19 @@ final class ControllerContentResolver
             $values = [$values];
         }
         /** @var Response $response */
-        $response = call_user_func([$controller, $method], ...$values);
+        $response = call_user_func([$controller, $controllerCallable->getMethod()], ...$values);
 
         return (string) $response->getContent();
     }
 
     public function resolveFromRoute(string $routeName, Route $route): ?string
     {
-        [$controllerClass, $method] = $this->controllerMatcher->matchRouteToControllerAndMethod($route);
-        if (! class_exists($controllerClass)) {
+        $controllerCallable = $this->controllerMatcher->matchRouteToControllerAndMethod($route);
+        if (! class_exists($controllerCallable->getClass())) {
             return null;
         }
 
-        $controller = $this->container->get($controllerClass);
+        $controller = $this->container->get($controllerCallable->getClass());
         if (! is_object($controller)) {
             throw new ShouldNotHappenException();
         }
@@ -81,7 +81,7 @@ final class ControllerContentResolver
         }, ARRAY_FILTER_USE_KEY);
 
         /** @var Response $response */
-        $response = call_user_func([$controller, $method], ...array_values($defaultParams));
+        $response = call_user_func([$controller, $controllerCallable->getMethod()], ...array_values($defaultParams));
 
         return (string) $response->getContent();
     }

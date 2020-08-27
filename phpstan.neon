@@ -210,6 +210,6 @@ parameters:
         - '#Call to an undefined method PhpParser\\Node\\Expr\\Error\|PhpParser\\Node\\Identifier\:\:toString\(\)#'
 
         # fix in next PR
-        - '#Array destruct is not allowed\. Use value object to pass data instead#'
-        - '#Array with keys is not allowed\. Use value object to pass data instead#'
+#        - '#Array destruct is not allowed\. Use value object to pass data instead#'
+#        - '#Array with keys is not allowed\. Use value object to pass data instead#'
 
