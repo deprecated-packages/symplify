@@ -6,10 +6,11 @@
         "php": "^7.2",
         "nette/utils": "^3.0",
         "nette/finder": "^2.5",
-        "nikic/php-parser": "^4.7",
+        "nikic/php-parser": "^4.8",
         "squizlabs/php_codesniffer": "^3.5",
+        "slevomat/coding-standard": "^6.3.11",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "phpstan/phpstan": "^0.12.36",
+        "phpstan/phpstan": "^0.12.40",
         "symplify/package-builder": "^8.3",
         "symplify/autowire-array-parameter": "^8.3"
     },

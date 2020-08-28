@@ -51,7 +51,7 @@ final class DoctrineAnnotationNewlineInNestedAnnotationFixer extends AbstractDoc
      * @note indent is covered by
      * @see \PhpCsFixer\Fixer\DoctrineAnnotation\DoctrineAnnotationIndentationFixer
      *
-     * @param iterable<\PhpCsFixer\Doctrine\Annotation\Token>&Tokens $tokens
+     * @param iterable<Token>&Tokens $tokens
      */
     protected function fixAnnotations(Tokens $tokens): void
     {

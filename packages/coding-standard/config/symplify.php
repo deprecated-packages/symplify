@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use PhpCsFixer\Fixer\ClassNotation\FinalInternalClassFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer;
+use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -25,6 +26,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     $services->load('Symplify\CodingStandard\Sniffs\\', __DIR__ . '/../src/Sniffs');
+
+    $services->set(ReferenceUsedNamesOnlySniff::class)
+        ->property('searchAnnotations', true)
+        ->property('allowFallbackGlobalFunctions', true)
+        ->property('allowFallbackGlobalConstants', true)
+        ->property('allowPartialUses', false);
 
     $services->set(PhpdocLineSpanFixer::class);
 };
