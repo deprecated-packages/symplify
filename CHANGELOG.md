@@ -10,7 +10,91 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 <!-- changelog-linker -->
 
 <!-- dumped content start -->
-## v8.2.4 - 2020-08-18
+## Unreleased
+
+### Added
+
+#### PHPStanExtensions
+
+- [#2099] Add NoReturnArrayVariableList
+
+### Changed
+
+#### CodingStandard
+
+- [#2097] Skip parent-enforced reference in NoReferenceRule
+
+#### Unknown Package
+
+- [#2101] restore slevomat, finally working with new phpdoc-parser
+- [#2098] From arrays to value objects
+
+## [v8.2.14] - 2020-08-26
+
+### Added
+
+#### CodingStandard
+
+- [#2094] Add ForbiddenComplexArrayConfigInSetRule, ForbiddenArrayDestructRule, ForbiddenArrayWithStringKeysRule, RequireStringArgumentInMethodCallRule
+
+### Changed
+
+- [#2095] Skip closure use in NoReferenceRule
+
+## [v8.2.12] - 2020-08-24
+
+- [#2093] Improve array list indents
+
+#### Unknown Package
+
+- [#2091] Move dependencies to require-dev, Thanks to [@enumag]
+
+## [v8.2.10] - 2020-08-22
+
+### Added
+
+#### CodingStandard
+
+- [#2086] Add NoEntityManagerInControllerRule, NoGetRepositoryOutsideConstructorRule
+
+### Changed
+
+- [#2089] README update with coding-standard registrations
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#2088] Fix config example showing usage of CACHE_DIRECTORY option as array, Thanks to [@nclsHart]
+
+## [v8.2.8] - 2020-08-18
+
+### Changed
+
+#### CodingStandard
+
+- [#2084] Various NewlineInNestedAnnotationFixer improvements
+
+## [v8.2.6] - 2020-08-18
+
+#### Unknown Package
+
+- [#2082] do not show output if not needed
+
+## [v8.2.5] - 2020-08-18
+
+#### CodingStandard
+
+- [#2081] Improve nested array annotations
+
+#### static
+
+- [#2080] Stricter params
+
+<!-- dumped content end -->
+
+<!-- dumped content start -->
+## [v8.2.4] - 2020-08-18
 
 ### Added
 
@@ -493,3 +577,25 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [v8.2.3]: https://github.com/symplify/symplify/compare/v8.2.2...v8.2.3
 [@nclsHart]: https://github.com/nclsHart
 [@enumag]: https://github.com/enumag
+[#2101]: https://github.com/symplify/symplify/pull/2101
+[#2099]: https://github.com/symplify/symplify/pull/2099
+[#2098]: https://github.com/symplify/symplify/pull/2098
+[#2097]: https://github.com/symplify/symplify/pull/2097
+[#2095]: https://github.com/symplify/symplify/pull/2095
+[#2094]: https://github.com/symplify/symplify/pull/2094
+[#2093]: https://github.com/symplify/symplify/pull/2093
+[#2091]: https://github.com/symplify/symplify/pull/2091
+[#2089]: https://github.com/symplify/symplify/pull/2089
+[#2088]: https://github.com/symplify/symplify/pull/2088
+[#2086]: https://github.com/symplify/symplify/pull/2086
+[#2084]: https://github.com/symplify/symplify/pull/2084
+[#2082]: https://github.com/symplify/symplify/pull/2082
+[#2081]: https://github.com/symplify/symplify/pull/2081
+[#2080]: https://github.com/symplify/symplify/pull/2080
+[v8.2.8]: https://github.com/symplify/symplify/compare/v8.2.6...v8.2.8
+[v8.2.6]: https://github.com/symplify/symplify/compare/v8.2.5...v8.2.6
+[v8.2.5]: https://github.com/symplify/symplify/compare/v8.2.4...v8.2.5
+[v8.2.4]: https://github.com/symplify/symplify/compare/v8.2.3...v8.2.4
+[v8.2.14]: https://github.com/symplify/symplify/compare/v8.2.12...v8.2.14
+[v8.2.12]: https://github.com/symplify/symplify/compare/v8.2.10...v8.2.12
+[v8.2.10]: https://github.com/symplify/symplify/compare/v8.2.8...v8.2.10
