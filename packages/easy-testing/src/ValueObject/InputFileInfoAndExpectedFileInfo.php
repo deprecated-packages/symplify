@@ -16,12 +16,12 @@ final class InputFileInfoAndExpectedFileInfo
     /**
      * @var SmartFileInfo
      */
-    private $expectedFilenfo;
+    private $expectedFileInfo;
 
     public function __construct(SmartFileInfo $inputFileInfo, SmartFileInfo $expectedFilenfo)
     {
         $this->inputFileInfo = $inputFileInfo;
-        $this->expectedFilenfo = $expectedFilenfo;
+        $this->expectedFileInfo = $expectedFilenfo;
     }
 
     public function getInputFileInfo(): SmartFileInfo
@@ -29,13 +29,13 @@ final class InputFileInfoAndExpectedFileInfo
         return $this->inputFileInfo;
     }
 
-    public function getExpectedFilenfo(): SmartFileInfo
+    public function getExpectedFileInfo(): SmartFileInfo
     {
-        return $this->expectedFilenfo;
+        return $this->expectedFileInfo;
     }
 
     public function getExpectedFilenfoRealPath(): string
     {
-        return $this->expectedFilenfo->getRealPath();
+        return $this->expectedFileInfo->getRealPath();
     }
 }
