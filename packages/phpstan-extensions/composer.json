@@ -3,7 +3,7 @@
     "description": "'stats' and 'ignore' error format, solid Symfony SplFileInfo and other useful extensions for PHPStan.",
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^7.2|^8.0",
         "phpstan/phpstan": "^0.12.40",
         "symplify/package-builder": "^8.3",
         "symplify/smart-file-system": "^8.3"
