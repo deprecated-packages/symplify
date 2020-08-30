@@ -3,7 +3,7 @@
     "description": "The Best Way to Test Sniffs and Fixers",
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^7.2|^8.0",
         "phpunit/phpunit": "^8.5|^9.0",
         "symplify/easy-coding-standard": "^8.3",
         "symplify/package-builder": "^8.3",
