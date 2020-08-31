@@ -19,7 +19,7 @@ final class NoEmptyRule extends AbstractManyNodeTypeRule
     public const ERROR_MESSAGE = 'Use strict comparison instead of empty';
 
     /**
-     * @return array<int, string>
+     * @return string[]
      */
     public function getNodeTypes(): array
     {
@@ -28,7 +28,7 @@ final class NoEmptyRule extends AbstractManyNodeTypeRule
 
     /**
      * @param Empty_ $node
-     * @return array<int, string>
+     * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {

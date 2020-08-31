@@ -36,7 +36,7 @@ final class ConflictingPackageVersionsReporter
     }
 
     /**
-     * @return array<int, array<int, mixed>>
+     * @return array<int, mixed[]>
      */
     private function createTableRows($filesToVersions): array
     {

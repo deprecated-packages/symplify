@@ -34,7 +34,7 @@ final class ForbiddenArrayWithStringKeysRule implements Rule
 
     /**
      * @param Array_ $node
-     * @return array<int, string>
+     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {

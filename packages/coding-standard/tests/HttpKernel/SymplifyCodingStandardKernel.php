@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\CodingStandard\Bundle\SymplifyCodingStandardBundle;
 use Symplify\ConsoleColorDiff\ConsoleColorDiffBundle;
@@ -28,7 +27,7 @@ final class SymplifyCodingStandardKernel extends Kernel
     }
 
     /**
-     * @return BundleInterface[]
+     * @return SymplifyCodingStandardBundle[]|ConsoleColorDiffBundle[]|EasyCodingStandardBundle[]
      */
     public function registerBundles(): iterable
     {

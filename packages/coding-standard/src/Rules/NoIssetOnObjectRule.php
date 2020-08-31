@@ -44,7 +44,7 @@ final class NoIssetOnObjectRule extends AbstractManyNodeTypeRule
     }
 
     /**
-     * @return array<int, string>
+     * @return string[]
      */
     private function processIsset(Isset_ $isset, Scope $scope): array
     {
@@ -60,7 +60,7 @@ final class NoIssetOnObjectRule extends AbstractManyNodeTypeRule
     }
 
     /**
-     * @return array<int, string>
+     * @return string[]
      */
     private function processEmpty(Empty_ $empty, Scope $scope): array
     {

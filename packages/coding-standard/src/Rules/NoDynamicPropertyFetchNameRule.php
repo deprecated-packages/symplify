@@ -30,7 +30,7 @@ final class NoDynamicPropertyFetchNameRule extends AbstractManyNodeTypeRule
 
     /**
      * @param PropertyFetch|StaticPropertyFetch $node
-     * @return array<int, string>
+     * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {

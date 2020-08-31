@@ -13,7 +13,7 @@ final class CheckerClassFinder
 {
     /**
      * @param string[] $directories
-     * @return string[]
+     * @return class-string[]
      */
     public function findInDirectories(array $directories): array
     {

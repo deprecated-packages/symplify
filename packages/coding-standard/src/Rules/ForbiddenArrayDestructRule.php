@@ -44,7 +44,7 @@ final class ForbiddenArrayDestructRule implements Rule
 
     /**
      * @param Assign $node
-     * @return array<int, string>
+     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {

@@ -33,7 +33,7 @@ final class TwoArgumentsController extends AbstractController implements Control
     }
 
     /**
-     * @return mixed[]
+     * @return int[][]|string[][]
      */
     public function getArguments(): array
     {

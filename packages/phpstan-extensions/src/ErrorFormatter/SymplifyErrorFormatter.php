@@ -121,7 +121,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
     }
 
     /**
-     * @return array<string, array<int, Error>>
+     * @return array<string, Error[]>
      */
     private function groupFileSpecificErrorsByMessage(AnalysisResult $analysisResult): array
     {

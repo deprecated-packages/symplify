@@ -27,7 +27,7 @@ final class ForbidReturnValueOfIncludeOnceRule implements Rule
     }
 
     /**
-     * @return array<int, string>
+     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {

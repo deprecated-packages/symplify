@@ -36,7 +36,7 @@ final class ParametersMerger
      *
      * $this->mergeWithCombine(1, 2); // [1, 2]
      *
-     * @return mixed[]|mixed|string
+     * @return mixed[]|mixed
      */
     public function mergeWithCombine($left, $right)
     {

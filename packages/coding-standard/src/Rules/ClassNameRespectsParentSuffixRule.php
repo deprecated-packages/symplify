@@ -59,7 +59,7 @@ final class ClassNameRespectsParentSuffixRule implements Rule
 
     /**
      * @param Class_ $node
-     * @return mixed[]|string[]
+     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {

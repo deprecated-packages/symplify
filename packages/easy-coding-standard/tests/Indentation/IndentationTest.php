@@ -31,7 +31,7 @@ final class IndentationTest extends AbstractKernelTestCase
     {
         $this->bootKernelWithConfigs(
             EasyCodingStandardKernel::class,
-            [__DIR__ . '/IndentationSource/config-with-spaces-indentation.yml']
+            [__DIR__ . '/IndentationSource/config-with-spaces-indentation.php']
         );
 
         /** @var IndentationTypeFixer $indentationTypeFixer */
@@ -51,7 +51,7 @@ final class IndentationTest extends AbstractKernelTestCase
     {
         $this->bootKernelWithConfigs(
             EasyCodingStandardKernel::class,
-            [__DIR__ . '/IndentationSource/config-with-tabs-indentation.yml']
+            [__DIR__ . '/IndentationSource/config-with-tabs-indentation.php']
         );
 
         /** @var IndentationTypeFixer $indentationTypeFixer */

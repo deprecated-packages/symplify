@@ -75,7 +75,7 @@ final class NoReferenceRule extends AbstractManyNodeTypeRule
     }
 
     /**
-     * @return array<int, string>
+     * @return string[]
      */
     private function collectParamErrorMessages(Node $node, Scope $scope): array
     {

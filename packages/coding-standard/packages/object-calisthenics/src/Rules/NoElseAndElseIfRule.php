@@ -32,7 +32,7 @@ final class NoElseAndElseIfRule extends AbstractManyNodeTypeRule
 
     /**
      * @param Else_|ElseIf_ $node
-     * @return array<int, string>
+     * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {

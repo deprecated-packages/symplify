@@ -44,7 +44,7 @@ final class NoReturnArrayVariableList implements Rule
 
     /**
      * @param Return_ $node
-     * @return array<int, string>
+     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
