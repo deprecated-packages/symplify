@@ -105,6 +105,9 @@ final class ComposerJson
         $this->name = $name;
     }
 
+    /**
+     * @param mixed[] $require
+     */
     public function setRequire(array $require): void
     {
         $require = $this->sortPackages($require);
@@ -112,11 +115,17 @@ final class ComposerJson
         $this->require = $require;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getRequire(): array
     {
         return $this->require;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getRequireDev(): array
     {
         return $this->requireDev;
@@ -143,31 +152,49 @@ final class ComposerJson
         return $this->orderedKeys;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getAutoload(): array
     {
         return $this->autoload;
     }
 
+    /**
+     * @param mixed[] $autoload
+     */
     public function setAutoload(array $autoload): void
     {
         $this->autoload = $autoload;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getAutoloadDev(): array
     {
         return $this->autoloadDev;
     }
 
+    /**
+     * @param mixed[] $autoloadDev
+     */
     public function setAutoloadDev(array $autoloadDev): void
     {
         $this->autoloadDev = $autoloadDev;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getRepositories(): array
     {
         return $this->repositories;
     }
 
+    /**
+     * @param mixed[] $repositories
+     */
     public function setRepositories(array $repositories): void
     {
         $this->repositories = $repositories;
@@ -203,11 +230,17 @@ final class ComposerJson
         $this->preferStable = null;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getExtra(): array
     {
         return $this->extra;
     }
 
+    /**
+     * @param mixed[] $extra
+     */
     public function setExtra(array $extra): void
     {
         $this->extra = $extra;
@@ -218,6 +251,9 @@ final class ComposerJson
         return $this->name;
     }
 
+    /**
+     * @return string[]
+     */
     public function getReplace(): array
     {
         return $this->replace;
@@ -228,6 +264,9 @@ final class ComposerJson
         return isset($this->replace[$packageName]);
     }
 
+    /**
+     * @param string[] $replace
+     */
     public function setReplace(array $replace): void
     {
         ksort($replace);
@@ -240,6 +279,9 @@ final class ComposerJson
         $this->replace[$packageName] = $version;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getJsonArray(): array
     {
         $array = [];
@@ -305,21 +347,33 @@ final class ComposerJson
         return $this->sortItemsByOrderedListOfKeys($array, $this->orderedKeys);
     }
 
+    /**
+     * @param mixed[] $scripts
+     */
     public function setScripts(array $scripts): void
     {
         $this->scripts = $scripts;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getScripts(): array
     {
         return $this->scripts;
     }
 
+    /**
+     * @param mixed[] $config
+     */
     public function setConfig(array $config): void
     {
         $this->config = $config;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getConfig(): array
     {
         return $this->config;

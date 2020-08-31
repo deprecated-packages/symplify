@@ -29,7 +29,7 @@ final class NoEntityManagerInControllerRule implements Rule
 
     /**
      * @param ClassMethod $node
-     * @return string[]
+     * @return array<int, string>
      */
     public function processNode(Node $node, Scope $scope): array
     {

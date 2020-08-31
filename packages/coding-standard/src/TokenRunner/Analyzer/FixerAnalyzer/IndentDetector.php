@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer;
 
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 
@@ -24,6 +25,7 @@ final class IndentDetector
         $indent = $this->whitespacesFixerConfig->getIndent();
 
         for ($i = $startIndex; $i > 0; --$i) {
+            /** @var Token $token */
             $token = $tokens[$i];
 
             $lastNewlinePos = strrpos($token->getContent(), "\n");

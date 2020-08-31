@@ -31,7 +31,7 @@ final class ForbiddenComplexArrayConfigInSetRule implements Rule
 
     /**
      * @param ArrayItem $node
-     * @return string[]
+     * @return array<int, string>
      */
     public function processNode(Node $node, Scope $scope): array
     {

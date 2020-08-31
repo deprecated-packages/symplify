@@ -23,7 +23,7 @@ final class NoIssetOnObjectRule extends AbstractManyNodeTypeRule
     public const ERROR_MESSAGE = 'Use default null value and nullable compare instead of isset on object';
 
     /**
-     * @return class-string[]
+     * @return string[]
      */
     public function getNodeTypes(): array
     {
@@ -44,7 +44,7 @@ final class NoIssetOnObjectRule extends AbstractManyNodeTypeRule
     }
 
     /**
-     * @return string[]
+     * @return array<int, string>
      */
     private function processIsset(Isset_ $isset, Scope $scope): array
     {
@@ -60,7 +60,7 @@ final class NoIssetOnObjectRule extends AbstractManyNodeTypeRule
     }
 
     /**
-     * @return string[]
+     * @return array<int, string>
      */
     private function processEmpty(Empty_ $empty, Scope $scope): array
     {

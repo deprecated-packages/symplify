@@ -11,6 +11,7 @@ use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
@@ -109,6 +110,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     {
         // function arguments, function call parameters, lambda use()
         for ($position = count($tokens) - 1; $position >= 0; --$position) {
+            /** @var Token $token */
             $token = $tokens[$position];
 
             if ($token->equals(')')) {
@@ -203,6 +205,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         }
 
         $previousTokenPosition = $blockStart - 1;
+        /** @var Token $possibleMethodNameToken */
         $possibleMethodNameToken = $tokens[$previousTokenPosition];
 
         // not a "methodCall()"
@@ -233,6 +236,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
         // heredoc/nowdoc => skip
         $nextTokenPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
+        /** @var Token $nextToken */
         $nextToken = $tokens[$nextTokenPosition];
 
         if (Strings::contains($nextToken->getContent(), '<<<')) {

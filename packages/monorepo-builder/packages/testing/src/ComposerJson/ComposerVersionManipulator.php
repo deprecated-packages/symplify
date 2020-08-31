@@ -11,6 +11,7 @@ final class ComposerVersionManipulator
     /**
      * @param mixed[] $packageComposerJson
      * @param string[] $usedPackageNames
+     * @return mixed[]
      */
     public function setAsteriskVersionForUsedPackages(array $packageComposerJson, array $usedPackageNames): array
     {

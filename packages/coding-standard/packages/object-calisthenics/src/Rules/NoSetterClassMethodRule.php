@@ -35,6 +35,7 @@ final class NoSetterClassMethodRule implements Rule
 
     /**
      * @param ClassMethod $node
+     * @return array<int, string>
      */
     public function processNode(Node $node, Scope $scope): array
     {

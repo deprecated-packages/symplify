@@ -17,7 +17,7 @@ final class IdsAnalyzer
      */
     private const PR_REFERENCE_IN_LIST = '#- \[?(\#(?<id>\d+))\]?#';
 
-    public function getHighestIdInChangelog(string $content): ?int
+    public function getHighestIdInChangelog(string $content): int
     {
         $ids = $this->getAllIdsInChangelog($content);
         if ($ids === null || $ids === []) {

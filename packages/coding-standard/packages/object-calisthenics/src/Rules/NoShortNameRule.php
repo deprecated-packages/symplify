@@ -36,6 +36,7 @@ final class NoShortNameRule extends AbstractManyNodeTypeRule
 
     /**
      * @param ClassLike|Function_|ClassMethod|Const_|PropertyProperty $node
+     * @return array<int, string>
      */
     public function process(Node $node, Scope $scope): array
     {

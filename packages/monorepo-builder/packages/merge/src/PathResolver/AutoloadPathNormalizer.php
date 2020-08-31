@@ -27,6 +27,9 @@ final class AutoloadPathNormalizer
         $packageComposerJson->setAutoloadDev($autoloadDev);
     }
 
+    /**
+     * @return mixed[]
+     */
     private function normalizeAutoloadArray(SmartFileInfo $packageFile, array $autoloadArray): array
     {
         foreach (self::SECTIONS_WITH_PATH as $sectionWithPath) {

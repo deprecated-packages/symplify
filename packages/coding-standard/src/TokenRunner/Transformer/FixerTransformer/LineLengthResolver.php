@@ -47,11 +47,14 @@ final class LineLengthResolver
      */
     private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
     {
-        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
+        /** @var Token $currentToken */
+        $currentToken = $tokens[$position];
+
+        if (Strings::startsWith($currentToken->getContent(), StaticEolConfiguration::getEolChar())) {
             return true;
         }
 
-        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
+        return $currentToken->isGivenKind(T_OPEN_TAG);
     }
 
     /**
@@ -62,16 +65,18 @@ final class LineLengthResolver
         $length = 0;
 
         $currentPosition = $blockInfo->getStart();
+
         while ($currentPosition < $blockInfo->getEnd()) {
             /** @var Token $currentToken */
             $currentToken = $tokens[$currentPosition];
+
             if ($currentToken->isGivenKind(T_WHITESPACE)) {
                 ++$length;
                 ++$currentPosition;
                 continue;
             }
 
-            $length += strlen($tokens[$currentPosition]->getContent());
+            $length += strlen($currentToken->getContent());
             ++$currentPosition;
 
             if (! isset($tokens[$currentPosition])) {
@@ -90,15 +95,20 @@ final class LineLengthResolver
         $length = 0;
 
         $currentPosition = $blockInfo->getEnd();
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), StaticEolConfiguration::getEolChar())) {
-            $currentToken = $tokens[$currentPosition];
 
+        /** @var Token $currentToken */
+        $currentToken = $tokens[$currentPosition];
+
+        while (! Strings::startsWith($currentToken->getContent(), StaticEolConfiguration::getEolChar())) {
             $length += strlen($currentToken->getContent());
             ++$currentPosition;
 
             if (! isset($tokens[$currentPosition])) {
                 break;
             }
+
+            /** @var Token $currentToken */
+            $currentToken = $tokens[$currentPosition];
         }
 
         return $length;

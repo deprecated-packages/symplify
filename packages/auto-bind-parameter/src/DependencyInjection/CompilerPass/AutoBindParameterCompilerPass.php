@@ -126,7 +126,9 @@ final class AutoBindParameterCompilerPass implements CompilerPassInterface
     {
         $returnType = $reflectionParameter->getType();
         if ($returnType !== null) {
-            return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
+            // various PHP version compatible
+            $bareType = method_exists($returnType, 'getName') ? $returnType->getName() : (string) $returnType;
+            return ($returnType->allowsNull() ? '?' : '') . $bareType;
         }
 
         return '';

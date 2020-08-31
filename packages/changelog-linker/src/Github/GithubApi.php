@@ -160,6 +160,9 @@ final class GithubApi
         });
     }
 
+    /**
+     * @return mixed[]
+     */
     private function getSinglePullRequestJson(int $pullRequestId): array
     {
         $url = sprintf(self::URL_PULL_REQUEST_BY_ID, $this->repositoryName, $pullRequestId);

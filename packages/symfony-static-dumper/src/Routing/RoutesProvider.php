@@ -38,6 +38,9 @@ final class RoutesProvider
         });
     }
 
+    /**
+     * @return Route[]
+     */
     public function provideRoutesWithParameters(): array
     {
         return array_filter($this->provide(), function (Route $route): bool {

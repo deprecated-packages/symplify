@@ -65,6 +65,9 @@ final class ArrayToValueObjectHydrator
         return $objects;
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     private function resolveClassConstructorValues(string $class, array $data): array
     {
         $arguments = [];

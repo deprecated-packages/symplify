@@ -21,7 +21,7 @@ final class NoDynamicPropertyFetchNameRule extends AbstractManyNodeTypeRule
     public const ERROR_MESSAGE = 'Use explicit property fetch names over dynamic';
 
     /**
-     * @return class-string[]
+     * @return string[]
      */
     public function getNodeTypes(): array
     {
@@ -30,7 +30,7 @@ final class NoDynamicPropertyFetchNameRule extends AbstractManyNodeTypeRule
 
     /**
      * @param PropertyFetch|StaticPropertyFetch $node
-     * @return string[]
+     * @return array<int, string>
      */
     public function process(Node $node, Scope $scope): array
     {

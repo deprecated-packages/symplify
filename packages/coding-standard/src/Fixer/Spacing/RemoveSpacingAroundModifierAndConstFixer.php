@@ -6,7 +6,6 @@ namespace Symplify\CodingStandard\Fixer\Spacing;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
-use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
@@ -18,7 +17,7 @@ final class RemoveSpacingAroundModifierAndConstFixer implements FixerInterface
      */
     private const MODIFIER_TOKENS = [T_PUBLIC, T_PROTECTED, T_PRIVATE, T_STATIC, T_CONST];
 
-    public function getDefinition(): FixerDefinitionInterface
+    public function getDefinition(): FixerDefinition
     {
         return new FixerDefinition('Remove extra around public/protected/private/static modifiers and const', []);
     }

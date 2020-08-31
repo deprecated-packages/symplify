@@ -48,8 +48,13 @@ final class SymplifyErrorFormatterTest extends TestCase
 
     public function provideData(): Iterator
     {
-        $errors = [new Error('Some message', 'some_file.php')];
-
+        $errors = [new Error('Some message', 'some_file.php', 55)];
         yield [$errors, __DIR__ . '/Fixture/expected_single_error_report.txt'];
+
+        $sameMessageErrors = [
+            new Error('The identical message', 'some_file.php'),
+            new Error('The identical message', 'another_some_file.php'),
+        ];
+        yield [$sameMessageErrors, __DIR__ . '/Fixture/expected_single_message_many_files_report.txt'];
     }
 }

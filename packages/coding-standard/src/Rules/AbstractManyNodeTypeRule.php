@@ -15,6 +15,9 @@ abstract class AbstractManyNodeTypeRule implements Rule
         return Node::class;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function processNode(Node $node, Scope $scope): array
     {
         if ($this->shouldSkip($node)) {

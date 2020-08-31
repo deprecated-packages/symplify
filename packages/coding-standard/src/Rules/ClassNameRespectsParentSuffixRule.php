@@ -59,7 +59,7 @@ final class ClassNameRespectsParentSuffixRule implements Rule
 
     /**
      * @param Class_ $node
-     * @return string[]
+     * @return mixed[]|string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
@@ -117,6 +117,9 @@ final class ClassNameRespectsParentSuffixRule implements Rule
         return $this->processClassNameAndShort($className, $parentShortClassName);
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function processClassNameAndShort(string $className, string $determiningShortClassName): array
     {
         $determiningShortClassName = $this->resolveExpectedSuffix($determiningShortClassName);

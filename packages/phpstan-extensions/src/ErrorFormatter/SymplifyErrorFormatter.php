@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanExtensions\ErrorFormatter;
 
 use Nette\Utils\Strings;
+use PHPStan\Analyser\Error;
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use PHPStan\Command\Output;
@@ -72,21 +73,15 @@ final class SymplifyErrorFormatter implements ErrorFormatter
             return;
         }
 
-        foreach ($analysisResult->getFileSpecificErrors() as $fileSpecificError) {
-            $this->separator();
+        $fileSpecificErrorsByMessage = $this->groupFileSpecificErrorsByMessage($analysisResult);
 
-            // clickable path
-            $relativeFilePath = $this->getRelativePath($fileSpecificError->getFile());
-            $this->writeln(' ' . $relativeFilePath . ':' . $fileSpecificError->getLine());
-            $this->separator();
-
-            // ignored path
-            $regexMessage = $this->regexMessage($fileSpecificError->getMessage());
-            $itemMessage = sprintf(" - '%s'", $regexMessage);
-            $this->writeln($itemMessage);
-
-            $this->separator();
-            $this->symfonyStyle->newLine();
+        foreach ($fileSpecificErrorsByMessage as $message => $errors) {
+            if (count($errors) === 1) {
+                // @todo print with "path" only, but also specific!
+                $this->printSingleError($errors[0]);
+            } else {
+                $this->printMultiFileErrors($message, $errors);
+            }
         }
 
         $this->symfonyStyle->newLine(1);
@@ -109,19 +104,80 @@ final class SymplifyErrorFormatter implements ErrorFormatter
             return $clearFilePath;
         }
 
-        return (new SmartFileInfo($clearFilePath))->getRelativeFilePathFromCwd();
+        $smartFileInfo = new SmartFileInfo($clearFilePath);
+        return $smartFileInfo->getRelativeFilePathFromCwd();
     }
 
     private function regexMessage(string $message): string
     {
         // remove extra ".", that is really not part of message
         $message = rtrim($message, '.');
-
         return '#' . preg_quote($message, '#') . '#';
     }
 
     private function writeln(string $separator): void
     {
         $this->output->writeLineFormatted(' ' . $separator);
+    }
+
+    /**
+     * @return array<string, array<int, Error>>
+     */
+    private function groupFileSpecificErrorsByMessage(AnalysisResult $analysisResult): array
+    {
+        $errorsByFile = [];
+
+        foreach ($analysisResult->getFileSpecificErrors() as $fileSpecificError) {
+            $errorsByFile[$fileSpecificError->getMessage()][] = $fileSpecificError;
+        }
+
+        // sort values with multiple files per error last
+        uasort($errorsByFile, function (array $firstErrors, array $secondErrors): int {
+            return count($firstErrors) <=> count($secondErrors);
+        });
+
+        return $errorsByFile;
+    }
+
+    private function printSingleError(Error $error): void
+    {
+        $this->separator();
+
+        // clickable path
+        $relativeFilePath = $this->getRelativePath($error->getFile());
+        $this->writeln(' ' . $relativeFilePath . ':' . $error->getLine());
+        $this->separator();
+
+        // ignored path
+        $regexMessage = $this->regexMessage((string) $error->getMessage());
+        $itemMessage = sprintf(" - '%s'", $regexMessage);
+        $this->writeln($itemMessage);
+
+        $this->separator();
+        $this->symfonyStyle->newLine();
+    }
+
+    /**
+     * @param Error[] $errors
+     */
+    private function printMultiFileErrors(string $message, array $errors): void
+    {
+        $this->writeln('-');
+        $this->writeln("    message: '" . $this->regexMessage($message) . "'");
+        $this->writeln('    paths:');
+
+        // uniquate errors per file
+        $errorsByFile = [];
+        foreach ($errors as $error) {
+            $relativeFilePath = $this->getRelativePath($error->getFile());
+            $errorsByFile[$relativeFilePath] = $error;
+        }
+
+        foreach ($errorsByFile as $error) {
+            $relativeFilePath = $this->getRelativePath($error->getFile());
+            $this->writeln('        - ' . $relativeFilePath);
+        }
+
+        $this->symfonyStyle->newLine();
     }
 }

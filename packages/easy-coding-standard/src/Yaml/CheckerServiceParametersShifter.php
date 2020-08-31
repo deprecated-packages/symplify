@@ -206,6 +206,9 @@ final class CheckerServiceParametersShifter
         return $serviceDefinition;
     }
 
+    /**
+     * @return mixed|mixed[]|string
+     */
     private function escapeValue($value)
     {
         if (! is_array($value) && ! is_string($value)) {

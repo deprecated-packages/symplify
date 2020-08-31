@@ -95,6 +95,9 @@ final class JsonFileManager
         return $jsonContent;
     }
 
+    /**
+     * @return mixed[]
+     */
     private function removeEmptyKeysFromJsonArray(array $json): array
     {
         foreach ($json as $key => $value) {

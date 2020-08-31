@@ -30,6 +30,9 @@ abstract class AbstractComposerKeyMerger
         $this->arraySorter = $arraySorter;
     }
 
+    /**
+     * @return mixed[]
+     */
     protected function mergeRecursiveAndSort(array $firstArray, array $secondArray): array
     {
         $mergedArray = $this->parametersMerger->mergeWithCombine($firstArray, $secondArray);
@@ -37,6 +40,9 @@ abstract class AbstractComposerKeyMerger
         return $this->arraySorter->recursiveSort($mergedArray);
     }
 
+    /**
+     * @return mixed[]
+     */
     protected function mergeAndSort(array $firstArray, array $secondArray): array
     {
         $mergedArray = $this->parametersMerger->merge($firstArray, $secondArray);

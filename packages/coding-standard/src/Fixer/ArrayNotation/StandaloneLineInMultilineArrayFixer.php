@@ -8,6 +8,7 @@ use PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
@@ -104,7 +105,9 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
                 return false;
             }
 
-            return ! $tokens[$previousTokenPosition]->isGivenKind(T_DOUBLE_ARROW);
+            /** @var Token $previousToken */
+            $previousToken = $tokens[$previousTokenPosition];
+            return ! $previousToken->isGivenKind(T_DOUBLE_ARROW);
         }
 
         return false;

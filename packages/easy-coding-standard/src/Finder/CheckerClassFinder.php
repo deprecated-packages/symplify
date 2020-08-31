@@ -47,7 +47,7 @@ final class CheckerClassFinder
 
     /**
      * @param string[] $checkerClasses
-     * @return string[]
+     * @return array<int, class-string>
      */
     private function filterOutAbstractAndNonPhpClasses(array $checkerClasses): array
     {

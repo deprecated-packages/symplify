@@ -15,6 +15,7 @@ final class CommandNaming
      */
     public static function classToName(string $class): string
     {
+        /** @var string $shortClassName */
         $shortClassName = self::getShortClassName($class);
         $rawCommandName = Strings::substring($shortClassName, 0, -strlen('Command'));
 
@@ -34,7 +35,7 @@ final class CommandNaming
         });
     }
 
-    private static function getShortClassName(string $class): string
+    private static function getShortClassName(string $class): ?string
     {
         $classParts = explode('\\', $class);
 

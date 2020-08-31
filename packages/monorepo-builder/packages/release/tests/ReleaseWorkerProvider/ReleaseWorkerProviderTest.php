@@ -35,7 +35,7 @@ final class ReleaseWorkerProviderTest extends AbstractKernelTestCase
     }
 
     /**
-     * @return string[]
+     * @return int[]|string[]
      */
     private function loadConfigReleaseWorkerOrder(): array
     {
@@ -46,7 +46,7 @@ final class ReleaseWorkerProviderTest extends AbstractKernelTestCase
 
     /**
      * @param object[] $objects
-     * @return string[]
+     * @return array<int, class-string>
      */
     private function getClasses(array $objects): array
     {

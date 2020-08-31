@@ -29,7 +29,7 @@ final class NoDynamicMethodNameRule extends AbstractManyNodeTypeRule
 
     /**
      * @param MethodCall|StaticCall|FuncCall $node
-     * @return string[]
+     * @return array<int, string>
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -45,7 +45,7 @@ final class NoDynamicMethodNameRule extends AbstractManyNodeTypeRule
     }
 
     /**
-     * @return class-string[]
+     * @return string[]
      */
     public function getNodeTypes(): array
     {

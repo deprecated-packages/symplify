@@ -16,7 +16,7 @@ use PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\CommentedOutCodeSniff as PHP_Code
 final class CommentedOutCodeSniff extends PHP_CodeSnifferCommentedOutCodeSniff
 {
     /**
-     * @return int[]
+     * @return array<int, int>
      */
     public function register(): array
     {

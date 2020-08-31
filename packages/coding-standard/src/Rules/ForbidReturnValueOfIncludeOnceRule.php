@@ -26,6 +26,9 @@ final class ForbidReturnValueOfIncludeOnceRule implements Rule
         return Node::class;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node instanceof Assign && ! $node instanceof Return_) {

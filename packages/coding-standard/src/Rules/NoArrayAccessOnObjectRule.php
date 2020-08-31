@@ -28,7 +28,7 @@ final class NoArrayAccessOnObjectRule implements Rule
 
     /**
      * @param ArrayDimFetch $node
-     * @return string[]
+     * @return array<int, string>
      */
     public function processNode(Node $node, Scope $scope): array
     {
