@@ -5,7 +5,7 @@
     "type": "symfony-bundle",
     "require": {
         "php": "^7.2|^8.0",
-        "composer/composer": "^1.10",
+        "composer/composer": "^1.10|^2.0",
         "nette/utils": "^3.0",
         "symfony/config": "^4.4|^5.0",
         "symfony/dependency-injection": "^4.4|^5.0",
