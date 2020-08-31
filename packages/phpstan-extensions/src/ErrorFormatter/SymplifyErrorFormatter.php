@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use PHPStan\Command\Output;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use PHPStan\Command\Symfony\SymfonyStyle;
 use Symfony\Component\Console\Terminal;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -31,14 +31,23 @@ final class SymplifyErrorFormatter implements ErrorFormatter
      */
     private $terminal;
 
-    public function __construct(SymfonyStyle $symfonyStyle, Terminal $terminal)
+    /**
+     * @var Output
+     */
+    private $output;
+
+    public function __construct(Terminal $terminal)
     {
-        $this->symfonyStyle = $symfonyStyle;
         $this->terminal = $terminal;
     }
 
     public function formatErrors(AnalysisResult $analysisResult, Output $output): int
     {
+        /** @var SymfonyStyle $consoleStyle */
+        $consoleStyle = $output->getStyle();
+        $this->output = $output;
+        $this->symfonyStyle = $consoleStyle;
+
         if ($analysisResult->getTotalErrorsCount() === 0 && $analysisResult->getWarnings() === []) {
             $this->symfonyStyle->success('No errors');
             return ShellCode::SUCCESS;
@@ -68,13 +77,13 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
             // clickable path
             $relativeFilePath = $this->getRelativePath($fileSpecificError->getFile());
-            $this->symfonyStyle->writeln(' ' . $relativeFilePath . ':' . $fileSpecificError->getLine());
+            $this->writeln(' ' . $relativeFilePath . ':' . $fileSpecificError->getLine());
             $this->separator();
 
             // ignored path
             $regexMessage = $this->regexMessage($fileSpecificError->getMessage());
             $itemMessage = sprintf(" - '%s'", $regexMessage);
-            $this->symfonyStyle->writeln($itemMessage);
+            $this->writeln($itemMessage);
 
             $this->separator();
             $this->symfonyStyle->newLine();
@@ -89,7 +98,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
     private function separator(): void
     {
         $separator = str_repeat('-', $this->terminal->getWidth() - self::BULGARIAN_CONSTANT);
-        $this->symfonyStyle->writeln(' ' . $separator);
+        $this->writeln($separator);
     }
 
     private function getRelativePath(string $filePath): string
@@ -100,7 +109,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
             return $clearFilePath;
         }
 
-        return (new SmartFileInfo($clearFilePath))->getRelativeFilePathFromDirectory(getcwd());
+        return (new SmartFileInfo($clearFilePath))->getRelativeFilePathFromCwd();
     }
 
     private function regexMessage(string $message): string
@@ -109,5 +118,10 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $message = rtrim($message, '.');
 
         return '#' . preg_quote($message, '#') . '#';
+    }
+
+    private function writeln(string $separator): void
+    {
+        $this->output->writeLineFormatted(' ' . $separator);
     }
 }

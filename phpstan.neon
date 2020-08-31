@@ -235,3 +235,5 @@ parameters:
 
                 # Symfony API
                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
+
+        - '#Call to an undefined method _HumbugBoxb11bbfeb1693\\Symfony\\Component\\Console\\Style\\StyleInterface\:\:writeln\(\)#'
