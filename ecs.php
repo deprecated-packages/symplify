@@ -28,6 +28,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::PSR_12,
         SetList::DEAD_CODE,
         SetList::DOCTRINE_ANNOTATIONS,
+        SetList::ARRAY,
     ]);
 
     $parameters->set(Option::PATHS, [
