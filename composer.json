@@ -54,7 +54,7 @@
         "nette/bootstrap": "^3.0",
         "nikic/php-parser": "^4.8",
         "phpunit/phpunit": "^8.5|^9.0",
-        "rector/rector": "^0.8.1",
+        "rector/rector": "^0.8.2",
         "slam/phpstan-extensions": "^5.0",
         "symfony/framework-bundle": "^4.4|^5.0",
         "symfony/templating": "^4.4|^5.0",
