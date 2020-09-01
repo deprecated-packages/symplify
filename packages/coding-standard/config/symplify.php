@@ -21,8 +21,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Symplify\CodingStandard\Fixer\\', __DIR__ . '/../src/Fixer')
         ->exclude([
-            __DIR__ . '/../src/Fixer/Annotation/DoctrineAnnotationNewlineInNestedAnnotationFixer.php',
-            __DIR__ . '/../src/Fixer/ArrayNotation/ArrayOpenerNewlineFixer.php',
+            // this must be full path, as PHAR + Symfony fails here
+            __DIR__ . '/../src/Fixer/Annotation',
+            __DIR__ . '/../src/Fixer/ArrayNotation',
         ]);
 
     $services->load('Symplify\CodingStandard\Sniffs\\', __DIR__ . '/../src/Sniffs');
