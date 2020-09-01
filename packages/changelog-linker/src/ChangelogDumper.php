@@ -8,6 +8,9 @@ use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\ChangelogDumper\ChangelogDumperTest
+ */
 final class ChangelogDumper
 {
     /**

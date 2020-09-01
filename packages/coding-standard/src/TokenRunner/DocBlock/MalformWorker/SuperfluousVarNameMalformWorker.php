@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
@@ -64,6 +65,7 @@ final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
             return true;
         }
 
+        /** @var Token $nextMeaningfulToken */
         $nextMeaningfulToken = $tokens[$nextMeaningfulTokenPosition];
 
         // should be protected/private/public/static, to know we're property

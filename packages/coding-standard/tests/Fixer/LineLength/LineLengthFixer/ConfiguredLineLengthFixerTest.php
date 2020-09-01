@@ -31,7 +31,7 @@ final class ConfiguredLineLengthFixerTest extends AbstractCheckerTestCase
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, int|bool>
      */
     protected function getCheckerConfiguration(): array
     {

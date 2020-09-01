@@ -34,7 +34,7 @@ final class YamlServiceProcessor
     /**
      * @param mixed[] $yaml
      * @param string|mixed[]|null $service
-     * @return mixed[]
+     * @return mixed[]|mixed
      */
     public function process(
         array $yaml,

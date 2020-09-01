@@ -6,7 +6,6 @@ namespace Symplify\CodingStandard\CognitiveComplexity\Tests\AstCognitiveComplexi
 
 use Iterator;
 use PhpParser\Node;
-use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\NodeFinder;
@@ -63,12 +62,12 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
     /**
      * @return ClassMethod|Function_
      */
-    private function parseFileToFistFunctionLike(string $fileContent): FunctionLike
+    private function parseFileToFistFunctionLike(string $fileContent): ?Node
     {
         $parser = (new ParserFactory())->create(ParserFactory::ONLY_PHP7);
         $nodes = $parser->parse($fileContent);
 
-        return (new NodeFinder())->findFirst((array) $nodes, function (Node $node) {
+        return (new NodeFinder())->findFirst((array) $nodes, function (Node $node): bool {
             return $node instanceof ClassMethod || $node instanceof Function_;
         });
     }

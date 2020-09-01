@@ -32,6 +32,9 @@ final class TwoArgumentsController extends AbstractController implements Control
         return '__invoke';
     }
 
+    /**
+     * @return int[][]|string[][]
+     */
     public function getArguments(): array
     {
         return [['test', 1], ['test', 2], ['foo', 1], ['foo', 2]];

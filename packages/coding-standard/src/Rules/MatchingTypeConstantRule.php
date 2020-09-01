@@ -28,7 +28,7 @@ final class MatchingTypeConstantRule implements Rule
     public const ERROR_MESSAGE = 'Constant type should be "%s", but is "%s"';
 
     /**
-     * @var string[][]
+     * @var array<string, array<string>>
      */
     private const TYPE_NODES_TO_ACCEPTED_TYPES = [
         LNumber::class => ['int'],
@@ -38,7 +38,7 @@ final class MatchingTypeConstantRule implements Rule
     ];
 
     /**
-     * @var string[]
+     * @var array<string, string>
      */
     private const TYPE_CLASS_TO_STRING_TYPE = [
         String_::class => 'string',

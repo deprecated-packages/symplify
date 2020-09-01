@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
@@ -48,11 +49,15 @@ final class InlineVariableDocBlockMalformWorker extends AbstractMalformWorker
             return false;
         }
 
-        if ($tokens[$nextNextPosition]->isGivenKind([T_STATIC, T_FUNCTION])) {
+        /** @var Token $nextNextToken */
+        $nextNextToken = $tokens[$nextNextPosition];
+        if ($nextNextToken->isGivenKind([T_STATIC, T_FUNCTION])) {
             return false;
         }
 
         // is inline variable
-        return $tokens[$nextPosition]->isGivenKind(T_VARIABLE);
+        /** @var Token $nextToken */
+        $nextToken = $tokens[$nextPosition];
+        return $nextToken->isGivenKind(T_VARIABLE);
     }
 }

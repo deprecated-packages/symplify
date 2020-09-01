@@ -42,15 +42,6 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
     }
 
     /**
-     * @return int[]
-     */
-    protected function getReversedClassyPositions(Tokens $tokens): array
-    {
-        $classyTokensByTokenKind = $tokens->findGivenKind(Token::getClassyTokenKinds());
-        return $this->getReversedPositionsFromTokens($classyTokensByTokenKind);
-    }
-
-    /**
      * Helper method to run this before specified fixer,
      * works even in case of change.
      */
@@ -60,19 +51,11 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
             return 0;
         }
 
+        $reflectionClass = (new ReflectionClass($fixerClass));
+
         /** @var FixerInterface $fixer */
-        $fixer = (new ReflectionClass($fixerClass))->newInstanceWithoutConstructor();
+        $fixer = $reflectionClass->newInstanceWithoutConstructor();
 
         return $fixer->getPriority() + 5;
-    }
-
-    /**
-     * @param Token[] $tokens
-     * @return int[]
-     */
-    private function getReversedPositionsFromTokens(array $tokens): array
-    {
-        $classyTokens = array_replace(...$tokens);
-        return array_reverse(array_keys($classyTokens));
     }
 }

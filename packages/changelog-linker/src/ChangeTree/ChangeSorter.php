@@ -6,6 +6,9 @@ namespace Symplify\ChangelogLinker\ChangeTree;
 
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\ChangeTree\ChangeSorterTest
+ */
 final class ChangeSorter
 {
     /**

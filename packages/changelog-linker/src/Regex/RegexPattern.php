@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\Regex;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\Regex\RegexPatternTest
+ */
 final class RegexPattern
 {
     /**

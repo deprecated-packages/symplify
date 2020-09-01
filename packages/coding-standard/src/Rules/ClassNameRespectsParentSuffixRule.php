@@ -117,6 +117,9 @@ final class ClassNameRespectsParentSuffixRule implements Rule
         return $this->processClassNameAndShort($className, $parentShortClassName);
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function processClassNameAndShort(string $className, string $determiningShortClassName): array
     {
         $determiningShortClassName = $this->resolveExpectedSuffix($determiningShortClassName);

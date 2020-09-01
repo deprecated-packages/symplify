@@ -65,7 +65,10 @@ final class ValueResolver
         }
 
         /** @var ReflectionType $parameterType */
-        $parameterTypeName = $parameterType->getName();
+        $parameterTypeName = method_exists(
+            $parameterType,
+            'getName'
+        ) ? $parameterType->getName() : (string) $parameterType;
 
         return is_a($parameterTypeName, DateTimeInterface::class, true);
     }

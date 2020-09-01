@@ -65,6 +65,9 @@ parameters:
         - packages/easy-coding-standard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
+        # whole skipped rules
+        - '#Function file_exists is unsafe to use, rely on Symfony component Filesystem\:\:exists instead#'
+
         # command argument value type conversion - known string
         -
             message: '#Cannot cast array<string>\|string\|null to string#'
@@ -179,10 +182,6 @@ parameters:
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
         - '#Parameter \#1 \$arr1 of function array_replace expects array, PhpCsFixer\\Tokenizer\\Token given#'
 
-        -
-            message: '#Instead of "Symfony\\Component\\Finder\\SplFileInfo" use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
-            path: 'packages/set-config-resolver/src/SetResolver.php'
-
         - '#Cannot call method getSetFileInfo\(\) on Symplify\\SetConfigResolver\\ValueObject\\Set\|null#'
         - '#Cannot call method getRealPath\(\) on Symplify\\SmartFileSystem\\SmartFileInfo\|null#'
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
@@ -235,3 +234,31 @@ parameters:
 
                 # Symfony API
                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
+
+
+        - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
+        # symfony console
+        - '#Cannot cast array<string\>\|bool\|string\|null to string#'
+
+        -
+             message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
+             paths:
+                 - packages/smart-file-system/src/Finder/FinderSanitizer.php
+                 - packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
+
+        -
+             message: '#Use value object over return of values#'
+             paths:
+                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
+                 - packages/easy-coding-standard/compiler/build/scoper.inc.php
+                 - packages/monorepo-builder/compiler/build/scoper.inc.php
+
+
+        # 3rd party code
+        -
+            message: '#PHPDoc tag @return with type mixed is not subtype of native type array#'
+            paths:
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
+                - packages/package-builder/src/Http/BetterGuzzleClient.php
+
+        - '#Parameter \#1 \$functionLike of method Symplify\\CodingStandard\\CognitiveComplexity\\AstCognitiveComplexityAnalyzer\:\:analyzeFunctionLike\(\) expects PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_\|null given#'

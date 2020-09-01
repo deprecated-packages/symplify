@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  * Bind parameters by default:
  * - from "%value_name%"
  * - to "$valueName"
+ * @see \Symplify\AutoBindParameter\Tests\DependencyInjection\CompilerPass\AutoBindParameterCompilerPassTest
  */
 final class AutoBindParameterCompilerPass implements CompilerPassInterface
 {
@@ -126,7 +127,9 @@ final class AutoBindParameterCompilerPass implements CompilerPassInterface
     {
         $returnType = $reflectionParameter->getType();
         if ($returnType !== null) {
-            return ($returnType->allowsNull() ? '?' : '') . $returnType->getName();
+            // various PHP version compatible
+            $bareType = method_exists($returnType, 'getName') ? $returnType->getName() : (string) $returnType;
+            return ($returnType->allowsNull() ? '?' : '') . $bareType;
         }
 
         return '';

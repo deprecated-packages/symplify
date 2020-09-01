@@ -23,7 +23,7 @@ final class NoElseAndElseIfRule extends AbstractManyNodeTypeRule
     public const MESSAGE = 'Do not use "else/elseif". Prefer early return statement instead.';
 
     /**
-     * @return class-string[]
+     * @return string[]
      */
     public function getNodeTypes(): array
     {

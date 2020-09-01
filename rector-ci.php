@@ -6,12 +6,15 @@ use Rector\Core\Configuration\Option;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Set\ValueObject\SetList;
 use Rector\SOLID\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\AddArrayParamDocTypeRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(ChangeReadOnlyPropertyWithDefaultValueToConstantRector::class);
+
+    $services->set(AddArrayParamDocTypeRector::class);
 
     $services->set(StringClassNameToClassConstantRector::class)
         ->call('configure', [[
@@ -35,6 +38,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::PHP_70,
         SetList::PHP_71,
         SetList::PHP_72,
+        SetList::TYPE_DECLARATION,
+        SetList::PHPUNIT_CODE_QUALITY,
     ]);
 
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);

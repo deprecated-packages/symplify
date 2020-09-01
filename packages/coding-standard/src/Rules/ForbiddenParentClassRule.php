@@ -39,6 +39,7 @@ final class ForbiddenParentClassRule implements Rule
 
     /**
      * @param Class_ $node
+     * @return array<int, string>
      */
     public function processNode(Node $node, Scope $scope): array
     {

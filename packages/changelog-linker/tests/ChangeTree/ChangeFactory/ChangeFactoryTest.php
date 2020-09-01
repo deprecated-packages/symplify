@@ -12,7 +12,7 @@ use Iterator;
 final class ChangeFactoryTest extends AbstractChangeFactoryTest
 {
     /**
-     * @var int[]|string[]
+     * @var array<string, int|string>
      */
     private const PULL_REQUEST = [
         'number' => 10,

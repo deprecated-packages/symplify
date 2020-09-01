@@ -28,6 +28,9 @@ final class ForceMethodCallArgumentConstantRule implements Rule
      */
     private $constantArgByMethodByType = [];
 
+    /**
+     * @param mixed[] $constantArgByMethodByType
+     */
     public function __construct(array $constantArgByMethodByType = [])
     {
         $this->constantArgByMethodByType = $constantArgByMethodByType;
@@ -78,6 +81,9 @@ final class ForceMethodCallArgumentConstantRule implements Rule
         return $methodVarType->equals($desiredObjectType);
     }
 
+    /**
+     * @return mixed|null
+     */
     private function matchPositions(
         $node,
         Scope $scope,

@@ -29,12 +29,13 @@ final class ComposerJsonSymlinker
     /**
      * @param mixed[] $packageComposerJson
      * @param string[] $packageNames
+     * @return mixed[]
      */
     public function decoratePackageComposerJsonWithPackageSymlinks(
         array $packageComposerJson,
         array $packageNames,
         SmartFileInfo $mainComposerJsonFileInfo
-    ) {
+    ): array {
         // @see https://getcomposer.org/doc/05-repositories.md#path
         foreach ($packageNames as $packageName) {
             $usedPackageFileInfo = $this->composerJsonProvider->getPackageByName($packageName);

@@ -7,6 +7,9 @@ namespace Symplify\ChangelogLinker;
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\ChangelogCleaner\ChangelogCleanerTest
+ */
 final class ChangelogCleaner
 {
     /**

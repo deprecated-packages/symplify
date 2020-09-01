@@ -9,6 +9,9 @@ use Symfony\Component\Finder\Finder;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\SymfonyStaticDumper\Tests\FileSystem\AssetsCopierTest
+ */
 final class AssetsCopier
 {
     /**

@@ -8,6 +8,9 @@ use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symplify\Autodiscovery\Contract\AutodiscovererInterface;
 use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 
+/**
+ * @see \Symplify\Autodiscovery\Tests\Routing\AnnotationRoutesAutodiscovererTest
+ */
 final class AnnotationRoutesAutodiscoverer implements AutodiscovererInterface
 {
     /**

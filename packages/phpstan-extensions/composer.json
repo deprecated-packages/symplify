@@ -1,6 +1,6 @@
 {
     "name": "symplify/phpstan-extensions",
-    "description": "'stats' and 'ignore' error format, solid Symfony SplFileInfo and other useful extensions for PHPStan.",
+    "description": "Pre-escaped error messages in 'symplify' error format, container aware test case and other useful extensions for PHPStan",
     "license": "MIT",
     "require": {
         "php": "^7.2|^8.0",
@@ -11,6 +11,11 @@
     "autoload": {
         "psr-4": {
             "Symplify\\PHPStanExtensions\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\PHPStanExtensions\\Tests\\": "tests"
         }
     },
     "extra": {

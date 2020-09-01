@@ -6,6 +6,9 @@ namespace Symplify\ChangelogLinker;
 
 use Nette\Utils\Strings;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\ChangelogFormatter\ChangelogFormatterTest
+ */
 final class ChangelogFormatter
 {
     /**

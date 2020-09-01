@@ -9,6 +9,9 @@ use Nette\Utils\Strings;
 use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Split\Tests\Process\ProcessFactoryTest
+ */
 final class ProcessFactory
 {
     /**

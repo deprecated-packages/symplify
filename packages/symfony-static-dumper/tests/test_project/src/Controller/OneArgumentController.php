@@ -29,6 +29,9 @@ final class OneArgumentController extends AbstractController implements Controll
         return '__invoke';
     }
 
+    /**
+     * @return string[]
+     */
     public function getArguments(): array
     {
         return ['1', '2'];

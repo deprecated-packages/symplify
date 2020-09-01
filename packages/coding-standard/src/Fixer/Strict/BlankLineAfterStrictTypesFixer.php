@@ -17,6 +17,7 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
  * Inspired at https://github.com/aidantwoods/PHP-CS-Fixer/tree/feature/DeclareStrictTypesFixer-split
  *
  * @thanks Aidan Woods
+ * @see \Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFixer\BlankLineAfterStrictTypesFixerTest
  */
 final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
 {

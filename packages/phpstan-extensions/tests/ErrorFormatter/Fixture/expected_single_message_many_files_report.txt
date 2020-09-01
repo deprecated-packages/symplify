@@ -1,0 +1,5 @@
+ -
+     message: '#The identical message#'
+     paths:
+         - another_some_file.php
+         - some_file.php

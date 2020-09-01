@@ -77,6 +77,9 @@ final class ComposerJsonManipulator
         $this->smartFileSystem->dumpFile($this->composerJsonFilePath, $this->originalComposerJsonFileContent);
     }
 
+    /**
+     * @return mixed[]
+     */
     private function replaceDevSymplifyVersionWithLastStableVersion(array $json): array
     {
         $symplifyVersionToRequire = $this->symplifyStableVersionProvider->provide();
@@ -95,6 +98,7 @@ final class ComposerJsonManipulator
 
     /**
      * This prevent installing packages, that are not needed here.
+     * @return mixed[]
      */
     private function changeReplace(array $json): array
     {
@@ -103,6 +107,9 @@ final class ComposerJsonManipulator
         return $json;
     }
 
+    /**
+     * @return mixed[]
+     */
     private function removeDevContent(array $json): array
     {
         unset($json['extra'], $json['require-dev'], $json['autoload-dev']);

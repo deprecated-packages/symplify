@@ -23,6 +23,7 @@ final class StaticSemVersion
 
     /**
      * @var string[]
+     * @return string[]
      */
     public static function getAll(): array
     {

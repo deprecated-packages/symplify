@@ -11,6 +11,9 @@ use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Tests\FileSystem\JsonFileManager\JsonFileManagerTest
+ */
 final class JsonFileManager
 {
     /**
@@ -95,6 +98,9 @@ final class JsonFileManager
         return $jsonContent;
     }
 
+    /**
+     * @return mixed[]
+     */
     private function removeEmptyKeysFromJsonArray(array $json): array
     {
         foreach ($json as $key => $value) {

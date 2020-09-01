@@ -23,6 +23,9 @@ final class ForbiddenParentClassRuleTest extends RuleTestCase
         $this->analyse([$filePath], [$expectedErrorMessagesWithLines]);
     }
 
+    /**
+     * @return Iterator<mixed>
+     */
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(

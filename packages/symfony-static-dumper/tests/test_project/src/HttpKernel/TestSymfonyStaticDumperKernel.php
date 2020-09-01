@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symplify\AutoBindParameter\DependencyInjection\CompilerPass\AutoBindParameterCompilerPass;
@@ -46,7 +45,7 @@ final class TestSymfonyStaticDumperKernel extends Kernel
     }
 
     /**
-     * @return BundleInterface[]
+     * @return FrameworkBundle[]|TwigBundle[]|SymfonyStaticDumperBundle[]
      */
     public function registerBundles(): array
     {

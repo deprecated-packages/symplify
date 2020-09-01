@@ -23,7 +23,7 @@ final class NoIssetOnObjectRule extends AbstractManyNodeTypeRule
     public const ERROR_MESSAGE = 'Use default null value and nullable compare instead of isset on object';
 
     /**
-     * @return class-string[]
+     * @return string[]
      */
     public function getNodeTypes(): array
     {
