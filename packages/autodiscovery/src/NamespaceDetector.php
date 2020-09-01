@@ -8,6 +8,9 @@ use Nette\Utils\Strings;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @see \Symplify\Autodiscovery\Tests\NamespaceDetector\NamespaceDetectorTest
+ */
 final class NamespaceDetector
 {
     /**

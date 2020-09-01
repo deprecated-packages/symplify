@@ -8,6 +8,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symplify\PackageBuilder\Exception\DependencyInjection\DefinitionForTypeNotFoundException;
 
+/**
+ * @see \Symplify\PackageBuilder\Tests\DependencyInjection\DefinitionFinderTest
+ */
 final class DefinitionFinder
 {
     /**

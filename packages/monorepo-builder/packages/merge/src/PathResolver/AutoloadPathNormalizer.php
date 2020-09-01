@@ -7,6 +7,9 @@ namespace Symplify\MonorepoBuilder\Merge\PathResolver;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Merge\Tests\PathResolver\AutoloadPathNormalizerTest
+ */
 final class AutoloadPathNormalizer
 {
     /**

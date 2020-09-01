@@ -9,6 +9,9 @@ use Nette\Utils\FileSystem;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use ReflectionClass;
 
+/**
+ * @see \Symplify\EasyCodingStandard\Tests\Finder\CheckerClassFinderTest
+ */
 final class CheckerClassFinder
 {
     /**

@@ -14,6 +14,9 @@ use Symplify\ChangelogLinker\Exception\Github\GithubApiException;
 use Symplify\ChangelogLinker\Guzzle\ResponseFormatter;
 use Throwable;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\Github\GithubApiTest
+ */
 final class GithubApi
 {
     /**

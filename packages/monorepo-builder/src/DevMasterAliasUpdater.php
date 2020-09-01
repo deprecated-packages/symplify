@@ -7,6 +7,9 @@ namespace Symplify\MonorepoBuilder;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Tests\DevMasterAliasUpdater\DevMasterAliasUpdaterTest
+ */
 final class DevMasterAliasUpdater
 {
     /**

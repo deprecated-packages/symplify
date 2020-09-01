@@ -6,6 +6,9 @@ namespace Symplify\PackageBuilder\Console\Command;
 
 use Nette\Utils\Strings;
 
+/**
+ * @see \Symplify\PackageBuilder\Tests\Console\Command\CommandNamingTest
+ */
 final class CommandNaming
 {
     /**

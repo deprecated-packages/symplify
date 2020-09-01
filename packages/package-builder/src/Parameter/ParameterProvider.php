@@ -7,6 +7,9 @@ namespace Symplify\PackageBuilder\Parameter;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * @see \Symplify\PackageBuilder\Tests\Parameter\ParameterProviderTest
+ */
 final class ParameterProvider
 {
     /**

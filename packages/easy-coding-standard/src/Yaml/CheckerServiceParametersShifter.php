@@ -32,6 +32,7 @@ use Symplify\PackageBuilder\Strings\StringFormatConverter;
  *      ArraySniff:
  *          parameters:
  *              $syntax: 'short'
+ * @see \Symplify\EasyCodingStandard\Tests\Yaml\CheckerServiceParametersShifter\CheckerServiceParametersShifterTest
  */
 final class CheckerServiceParametersShifter
 {

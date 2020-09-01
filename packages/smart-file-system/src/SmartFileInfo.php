@@ -9,6 +9,9 @@ use Symfony\Component\Finder\SplFileInfo;
 use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
 use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 
+/**
+ * @see \Symplify\SmartFileSystem\Tests\SmartFileInfo\SmartFileInfoTest
+ */
 final class SmartFileInfo extends SplFileInfo
 {
     /**

@@ -10,6 +10,9 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\CacheItem;
 use Symplify\EasyHydrator\Exception\MissingConstructorException;
 
+/**
+ * @see \Symplify\EasyHydrator\Tests\ArrayToValueObjectHydratorTest
+ */
 final class ArrayToValueObjectHydrator
 {
     /**

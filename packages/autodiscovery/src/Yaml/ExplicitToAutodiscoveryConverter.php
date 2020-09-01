@@ -11,6 +11,9 @@ use Symplify\Autodiscovery\Exception\ClassNotFoundException;
 use Symplify\Autodiscovery\ValueObject\ServiceConfig;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @see \Symplify\Autodiscovery\Tests\Yaml\ExplicitToAutodiscoveryConverterTest
+ */
 final class ExplicitToAutodiscoveryConverter
 {
     /**

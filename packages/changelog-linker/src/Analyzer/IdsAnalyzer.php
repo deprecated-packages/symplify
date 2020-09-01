@@ -6,6 +6,9 @@ namespace Symplify\ChangelogLinker\Analyzer;
 
 use Nette\Utils\Strings;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\Analyzer\IdsAnalyzer\IdsAnalyzerTest
+ */
 final class IdsAnalyzer
 {
     /**

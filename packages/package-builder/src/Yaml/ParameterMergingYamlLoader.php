@@ -12,6 +12,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Yaml\FileLoader\ParameterMergingYamlFileLoader;
 
+/**
+ * @see \Symplify\PackageBuilder\Tests\Yaml\ParameterMergingYamlLoader\ParameterMergingYamlLoaderTest
+ */
 final class ParameterMergingYamlLoader
 {
     /**

@@ -14,6 +14,9 @@ use Symfony\Component\Console\Terminal;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\PHPStanExtensions\Tests\ErrorFormatter\SymplifyErrorFormatterTest
+ */
 final class SymplifyErrorFormatter implements ErrorFormatter
 {
     /**

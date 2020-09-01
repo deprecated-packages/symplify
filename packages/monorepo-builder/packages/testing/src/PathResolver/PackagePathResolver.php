@@ -6,6 +6,9 @@ namespace Symplify\MonorepoBuilder\Testing\PathResolver;
 
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Testing\Tests\PathResolver\PackagePathResolverTest
+ */
 final class PackagePathResolver
 {
     /**

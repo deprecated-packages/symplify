@@ -12,6 +12,9 @@ use Symplify\CodingStandard\CognitiveComplexity\DataCollector\CognitiveComplexit
 use Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor;
 use Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\NestingNodeVisitor;
 
+/**
+ * @see \Symplify\CodingStandard\CognitiveComplexity\Tests\AstCognitiveComplexityAnalyzer\AstCognitiveComplexityAnalyzerTest
+ */
 final class AstCognitiveComplexityAnalyzer
 {
     /**

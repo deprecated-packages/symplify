@@ -17,6 +17,9 @@ use const PHP_URL_HOST;
 use const PHP_URL_PATH;
 use const PHP_URL_SCHEME;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\Github\GithubRepositoryFromRemoteResolverTest
+ */
 final class GithubRepositoryFromRemoteResolver
 {
     /**

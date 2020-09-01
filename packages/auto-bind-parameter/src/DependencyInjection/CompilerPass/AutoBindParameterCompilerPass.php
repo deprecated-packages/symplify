@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  * Bind parameters by default:
  * - from "%value_name%"
  * - to "$valueName"
+ * @see \Symplify\AutoBindParameter\Tests\DependencyInjection\CompilerPass\AutoBindParameterCompilerPassTest
  */
 final class AutoBindParameterCompilerPass implements CompilerPassInterface
 {

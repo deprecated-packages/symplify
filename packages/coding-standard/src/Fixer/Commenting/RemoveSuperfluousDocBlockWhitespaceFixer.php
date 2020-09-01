@@ -13,6 +13,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
+/**
+ * @see \Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer\RemoveSuperfluousDocBlockWhitespaceFixerTest
+ */
 final class RemoveSuperfluousDocBlockWhitespaceFixer extends AbstractSymplifyFixer
 {
     /**
