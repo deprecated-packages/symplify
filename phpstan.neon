@@ -254,4 +254,11 @@ parameters:
                  - packages/monorepo-builder/compiler/build/scoper.inc.php
 
 
+        # 3rd party code
+        -
+            message: '#PHPDoc tag @return with type mixed is not subtype of native type array#'
+            paths:
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
+                - packages/package-builder/src/Http/BetterGuzzleClient.php
+
         - '#Parameter \#1 \$functionLike of method Symplify\\CodingStandard\\CognitiveComplexity\\AstCognitiveComplexityAnalyzer\:\:analyzeFunctionLike\(\) expects PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_\|null given#'

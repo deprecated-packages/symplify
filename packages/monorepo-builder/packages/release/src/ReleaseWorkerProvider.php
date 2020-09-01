@@ -34,7 +34,7 @@ final class ReleaseWorkerProvider
     }
 
     /**
-     * @return ReleaseWorkerInterface&StageAwareInterface[]
+     * @return ReleaseWorkerInterface[]
      */
     public function provideByStage(string $stage): array
     {

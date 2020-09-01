@@ -165,7 +165,7 @@ final class ReleaseCommand extends Command
     }
 
     /**
-     * @return ReleaseWorkerInterface[]|ReleaseWorkerInterface&\Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface[]
+     * @return ReleaseWorkerInterface[]
      */
     private function getReleaseWorkers(?string $stage): array
     {
