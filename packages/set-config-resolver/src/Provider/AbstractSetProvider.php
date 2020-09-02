@@ -24,11 +24,11 @@ abstract class AbstractSetProvider implements SetProviderInterface
         return $setNames;
     }
 
-    public function provideByName(string $setName): ?Set
+    public function provideByName(string $desiredSetName): ?Set
     {
         // 1. name-based approach
         foreach ($this->provide() as $set) {
-            if ($set->getName() !== $setName) {
+            if ($set->getName() !== $desiredSetName) {
                 continue;
             }
 
@@ -37,14 +37,15 @@ abstract class AbstractSetProvider implements SetProviderInterface
 
         // 2. path-based approach
         foreach ($this->provide() as $set) {
-            if (realpath($set->getSetFileInfo()->getRealPath()) !== realpath($setName)) {
+            // possible bug for PHAR files, see https://bugs.php.net/bug.php?id=52769
+            if (realpath($set->getSetFileInfo()->getRealPath()) !== realpath($desiredSetName)) {
                 continue;
             }
 
             return $set;
         }
 
-        $message = sprintf('Set "%s" was not found', $setName);
-        throw new SetNotFoundException($message, $setName, $this->provideSetNames());
+        $message = sprintf('Set "%s" was not found', $desiredSetName);
+        throw new SetNotFoundException($message, $desiredSetName, $this->provideSetNames());
     }
 }
