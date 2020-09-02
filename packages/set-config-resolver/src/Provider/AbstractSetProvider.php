@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\SetConfigResolver\Provider;
 
+use Symplify\EasyTesting\Exception\ShouldNotHappenException;
 use Symplify\SetConfigResolver\Contract\SetProviderInterface;
+use Symplify\SetConfigResolver\Exception\SetNotFoundException;
 use Symplify\SetConfigResolver\ValueObject\Set;
 
 abstract class AbstractSetProvider implements SetProviderInterface
@@ -42,6 +44,7 @@ abstract class AbstractSetProvider implements SetProviderInterface
             return $set;
         }
 
-        return null;
+        $message = sprintf('Set "%s" was not found', $setName);
+        throw new SetNotFoundException($message, $setName, $this->provideSetNames());
     }
 }
