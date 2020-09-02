@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\SetConfigResolver\Provider;
 
 use Nette\Utils\Strings;
-use Symplify\EasyTesting\Exception\ShouldNotHappenException;
 use Symplify\SetConfigResolver\Contract\SetProviderInterface;
 use Symplify\SetConfigResolver\Exception\SetNotFoundException;
+use Symplify\SetConfigResolver\Exception\ShouldNotHappenException;
 use Symplify\SetConfigResolver\ValueObject\Set;
 
 abstract class AbstractSetProvider implements SetProviderInterface
@@ -37,17 +37,20 @@ abstract class AbstractSetProvider implements SetProviderInterface
         }
 
         // 2. path-based approach
-        foreach ($this->provide() as $set) {
-            // possible bug for PHAR files, see https://bugs.php.net/bug.php?id=52769
-            // this is very tricky to handle, see https://stackoverflow.com/questions/27838025/how-to-get-a-phar-file-real-directory-within-the-phar-file-code
-            $setUniqueId = $this->resolveSetUniquePathId($set->getSetFileInfo()->getPathname());
-            $desiredSetUniqueId = $this->resolveSetUniquePathId($desiredSetName);
+        try {
+            foreach ($this->provide() as $set) {
+                // possible bug for PHAR files, see https://bugs.php.net/bug.php?id=52769
+                // this is very tricky to handle, see https://stackoverflow.com/questions/27838025/how-to-get-a-phar-file-real-directory-within-the-phar-file-code
+                $setUniqueId = $this->resolveSetUniquePathId($set->getSetFileInfo()->getPathname());
+                $desiredSetUniqueId = $this->resolveSetUniquePathId($desiredSetName);
 
-            if ($setUniqueId !== $desiredSetUniqueId) {
-                continue;
+                if ($setUniqueId !== $desiredSetUniqueId) {
+                    continue;
+                }
+
+                return $set;
             }
-
-            return $set;
+        } catch (ShouldNotHappenException $shouldNotHappenException) {
         }
 
         $message = sprintf('Set "%s" was not found', $desiredSetName);
