@@ -27,10 +27,14 @@ final class MarkdownCodeFormatterCommand extends Command
         }
 
         $content = file_get_contents($markdownFile);
-        preg_match_all('/\`\`\`php\s(.*)\s\`\`\`/', $content, $matches);
+        preg_match_all('#\`\`\`php\s([\s\S]+)\s\`\`\`#', $content, $matches);
 
         if (empty($matches[1])) {
             return 0;
+        }
+
+        foreach ($matches[1] as $key => $match) {
+            file_put_contents("php-code-${key}", $match);
         }
 
         return 0;
