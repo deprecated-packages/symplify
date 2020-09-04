@@ -8,9 +8,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 use Symplify\EasyCodingStandard\Application\SingleFileProcessor;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
-use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class MarkdownCodeFormatterCommand extends Command
@@ -20,15 +20,9 @@ final class MarkdownCodeFormatterCommand extends Command
      */
     private $smartFileSystem;
 
-    /**
-     * @var SingleFileProcessor
-     */
-    private $singleFileProcessor;
-
-    public function __construct(SmartFileSystem $smartFileSystem, SingleFileProcessor $singleFileProcessor)
+    public function __construct(SmartFileSystem $smartFileSystem)
     {
         $this->smartFileSystem = $smartFileSystem;
-        $this->singleFileProcessor = $singleFileProcessor;
 
         parent::__construct();
     }
@@ -61,16 +55,15 @@ final class MarkdownCodeFormatterCommand extends Command
         foreach ($matches[1] as $key => $match) {
             $file = sprintf('php-code-%s.php', $key);
             $match = ltrim($match, '<?php');
-            $match = '<?php' . PHP_EOL . trim($match);
+            $match = '<?php' . PHP_EOL . $match;
             $this->smartFileSystem->dumpFile($file, $match);
 
-            $fileInfo = new SmartFileInfo($file);
-            $this->singleFileProcessor->processFileInfo($fileInfo);
-
             // try using shell_exec ?
-            shell_exec(dirname(__DIR__, 3) . '/bin/ecs check ' . $file . ' --fix');
+            $process = new Process([dirname(__DIR__, 3) . '/bin/ecs', 'check', $file, '--fix']);
+            $process->run();
+            echo $process->getOutput();
 
-            $fixedContents[] = trim(ltrim(file_get_contents($file), '<?php' . PHP_EOL));
+            $fixedContents[] = ltrim(file_get_contents($file), '<?php' . PHP_EOL);
         }
 
         foreach (array_keys($fixedContents) as $key) {
@@ -79,7 +72,7 @@ final class MarkdownCodeFormatterCommand extends Command
                 function () use ($fixedContents): string {
                     static $key = 0;
 
-                    $result = '```php' . PHP_EOL . $fixedContents[$key] . PHP_EOL . '```';
+                    $result = '```php' . PHP_EOL . $fixedContents[$key] . '```';
                     $key++;
 
                     return $result;
