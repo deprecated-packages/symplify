@@ -50,6 +50,7 @@ final class MarkdownCodeFormatterCommand extends Command
 
         /** @var string $content */
         $content = file_get_contents($markdownFile);
+        // @see https://regex101.com/r/4YUIu1/1
         preg_match_all('#\`\`\`php\s+([^\`\`\`]+)\s+\`\`\`#', $content, $matches);
 
         if ($matches[1] === []) {
