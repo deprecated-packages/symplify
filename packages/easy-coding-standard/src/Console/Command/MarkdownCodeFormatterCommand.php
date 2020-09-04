@@ -75,7 +75,8 @@ final class MarkdownCodeFormatterCommand extends Command
         $r->setValue($this->fixerFileProcessor, $this->configuration);
 
         /** @var string $content */
-        $content = $tempContent = file_get_contents($markdownFile);
+        $content = file_get_contents($markdownFile);
+        $tempContent = $content;
         // @see https://regex101.com/r/4YUIu1/1
         preg_match_all('#\`\`\`php\s+([^\`\`\`]+)\s+\`\`\`#', $content, $matches);
 
