@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console\Command;
 
+use ReflectionProperty;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
-use Symplify\EasyCodingStandard\Application\SingleFileProcessor;
+use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
+use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class MarkdownCodeFormatterCommand extends Command
@@ -20,9 +22,24 @@ final class MarkdownCodeFormatterCommand extends Command
      */
     private $smartFileSystem;
 
-    public function __construct(SmartFileSystem $smartFileSystem)
-    {
+    /**
+     * @var FixerFileProcessor
+     */
+    private $fixerFileProcessor;
+
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    public function __construct(
+        SmartFileSystem $smartFileSystem,
+        FixerFileProcessor $fixerFileProcessor,
+        Configuration $configuration
+    ) {
         $this->smartFileSystem = $smartFileSystem;
+        $this->fixerFileProcessor = $fixerFileProcessor;
+        $this->configuration = $configuration;
 
         parent::__construct();
     }
@@ -42,6 +59,12 @@ final class MarkdownCodeFormatterCommand extends Command
             throw new NoMarkdownFileException(sprintf('Markdown file %s not found', $markdownFile));
         }
 
+        $this->configuration->resolveFromArray(['isFixer' => true]);
+
+        $r = new ReflectionProperty($this->fixerFileProcessor, 'configuration');
+        $r->setAccessible(true);
+        $r->setValue($this->fixerFileProcessor, $this->configuration);
+
         /** @var string $content */
         $content = file_get_contents($markdownFile);
         // @see https://regex101.com/r/4YUIu1/1
@@ -58,10 +81,8 @@ final class MarkdownCodeFormatterCommand extends Command
             $match = '<?php' . PHP_EOL . $match;
             $this->smartFileSystem->dumpFile($file, $match);
 
-            // try using shell_exec ?
-            $process = new Process([dirname(__DIR__, 3) . '/bin/ecs', 'check', $file, '--fix']);
-            $process->run();
-            echo $process->getOutput();
+            $fileInfo = new SmartFileInfo($file);
+            $this->fixerFileProcessor->processFile($fileInfo);
 
             $fixedContents[] = ltrim(file_get_contents($file), '<?php' . PHP_EOL);
         }
@@ -72,7 +93,7 @@ final class MarkdownCodeFormatterCommand extends Command
                 function () use ($fixedContents): string {
                     static $key = 0;
 
-                    $result = '```php' . PHP_EOL . $fixedContents[$key] . '```';
+                    $result = '```php' . PHP_EOL . ltrim($fixedContents[$key], ' ') . '```';
                     $key++;
 
                     return $result;
