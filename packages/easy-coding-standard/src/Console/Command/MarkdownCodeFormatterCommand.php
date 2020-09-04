@@ -56,6 +56,7 @@ final class MarkdownCodeFormatterCommand extends Command
             return 0;
         }
 
+        $fixedContents = [];
         foreach ($matches[1] as $key => $match) {
             $file = sprintf('php-code-%s.php', $key);
             $match = ltrim($match, '<?php');
@@ -67,7 +68,28 @@ final class MarkdownCodeFormatterCommand extends Command
 
             // try using shell_exec ?
             shell_exec(dirname(__DIR__, 3) . '/bin/ecs check ' . $file . ' --fix');
+
+            $fixedContents[] = trim(ltrim(file_get_contents($file), '<?php' . PHP_EOL));
         }
+
+        foreach (array_keys($fixedContents) as $key) {
+            $content = preg_replace_callback(
+                '#\\`\\`\\`php\\s+([^\\`\\`\\`]+)\\s+\\`\\`\\`#',
+                function () use ($fixedContents): string {
+                    static $key = 0;
+
+                    $result = '```php' . PHP_EOL . $fixedContents[$key] . PHP_EOL . '```';
+                    $key++;
+
+                    return $result;
+                },
+                $content
+            );
+
+            unlink(sprintf('php-code-%s.php', $key));
+        }
+
+        $this->smartFileSystem->dumpFile($markdownFile, $content);
 
         return 0;
     }
