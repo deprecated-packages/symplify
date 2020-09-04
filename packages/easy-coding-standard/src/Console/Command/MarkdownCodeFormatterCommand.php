@@ -122,7 +122,7 @@ final class MarkdownCodeFormatterCommand extends Command
                 function () use ($fixedContents): string {
                     static $key = 0;
 
-                    $result = '```php' . PHP_EOL . ltrim($fixedContents[$key], ' ') . '```';
+                    $result = '```php' . PHP_EOL . '<?php' . PHP_EOL . PHP_EOL . ltrim($fixedContents[$key], ' ') . '```';
                     $key++;
 
                     return $result;
