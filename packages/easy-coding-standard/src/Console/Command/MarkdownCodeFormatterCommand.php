@@ -65,8 +65,8 @@ final class MarkdownCodeFormatterCommand extends Command
             $fileInfo = new SmartFileInfo($file);
             $this->singleFileProcessor->processFileInfo($fileInfo);
 
-            $content = ltrim(file_get_contents($file), '<?php' . PHP_EOL);
-            echo $content . PHP_EOL;
+            // try using shell_exec ?
+            shell_exec(dirname(__DIR__, 3) . '/bin/ecs check ' . $file . ' --fix');
         }
 
         return 0;
