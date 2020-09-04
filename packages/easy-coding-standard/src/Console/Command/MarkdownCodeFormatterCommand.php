@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console\Command;
 
-use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
-use Symplify\EasyCodingStandard\Configuration\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
 
 final class MarkdownCodeFormatterCommand extends Command
 {
@@ -17,11 +16,7 @@ final class MarkdownCodeFormatterCommand extends Command
     {
         $this->setName('markdown-code-format');
         $this->setDescription('Format markdown code');
-        $this->addArgument(
-            'markdown-file',
-            InputArgument::REQUIRED,
-            'The markdown file'
-        );
+        $this->addArgument('markdown-file', InputArgument::REQUIRED, 'The markdown file');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
