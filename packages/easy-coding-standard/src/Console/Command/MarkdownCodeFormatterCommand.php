@@ -8,10 +8,24 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCodingStandard\Application\SingleFileProcessor;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class MarkdownCodeFormatterCommand extends Command
 {
+    /**
+     * @var SingleFileProcessor
+     */
+    private $singleFileProcessor;
+
+    public function __construct(SingleFileProcessor $singleFileProcessor)
+    {
+        $this->singleFileProcessor = $singleFileProcessor;
+
+        parent::__construct();
+    }
+
     protected function configure(): void
     {
         $this->setName('markdown-code-format');
@@ -34,7 +48,11 @@ final class MarkdownCodeFormatterCommand extends Command
         }
 
         foreach ($matches[1] as $key => $match) {
-            file_put_contents("php-code-${key}", $match);
+            $file = "php-code-${key}.php";
+            file_put_contents($file, trim($match));
+
+            $fileInfo = new SmartFileInfo($file);
+            $this->singleFileProcessor->processFileInfo($fileInfo);
         }
 
         return 0;
