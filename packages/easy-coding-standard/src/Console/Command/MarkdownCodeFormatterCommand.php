@@ -76,6 +76,7 @@ final class MarkdownCodeFormatterCommand extends Command
 
         $fixedContents = [];
         foreach ($matches[1] as $key => $match) {
+            /** @var string $file */
             $file = sprintf('php-code-%s.php', $key);
             $match = ltrim($match, '<?php');
             $match = '<?php' . PHP_EOL . $match;
@@ -84,7 +85,9 @@ final class MarkdownCodeFormatterCommand extends Command
             $fileInfo = new SmartFileInfo($file);
             $this->fixerFileProcessor->processFile($fileInfo);
 
-            $fixedContents[] = ltrim(file_get_contents($file), '<?php' . PHP_EOL);
+            /** @var string $fileContent */
+            $fileContent = file_get_contents($file);
+            $fixedContents[] = ltrim($fileContent, '<?php' . PHP_EOL);
         }
 
         foreach (array_keys($fixedContents) as $key) {
@@ -98,13 +101,15 @@ final class MarkdownCodeFormatterCommand extends Command
 
                     return $result;
                 },
-                $content
+                (string) $content
             );
 
-            unlink(sprintf('php-code-%s.php', $key));
+            /** @var string $file */
+            $file = sprintf('php-code-%s.php', $key);
+            $this->smartFileSystem->remove($file);
         }
 
-        $this->smartFileSystem->dumpFile($markdownFile, $content);
+        $this->smartFileSystem->dumpFile($markdownFile, (string) $content);
 
         return 0;
     }
