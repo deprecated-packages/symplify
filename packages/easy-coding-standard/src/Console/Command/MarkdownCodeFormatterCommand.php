@@ -11,7 +11,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
+use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
+use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -32,14 +34,21 @@ final class MarkdownCodeFormatterCommand extends Command
      */
     private $configuration;
 
+    /**
+     * @var EasyCodingStandardStyle
+     */
+    private $easyCodingStandardStyle;
+
     public function __construct(
         SmartFileSystem $smartFileSystem,
         FixerFileProcessor $fixerFileProcessor,
-        Configuration $configuration
+        Configuration $configuration,
+        EasyCodingStandardStyle $easyCodingStandardStyle
     ) {
         $this->smartFileSystem = $smartFileSystem;
         $this->fixerFileProcessor = $fixerFileProcessor;
         $this->configuration = $configuration;
+        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
 
         parent::__construct();
     }
@@ -66,12 +75,13 @@ final class MarkdownCodeFormatterCommand extends Command
         $r->setValue($this->fixerFileProcessor, $this->configuration);
 
         /** @var string $content */
-        $content = file_get_contents($markdownFile);
+        $content = $tempContent = file_get_contents($markdownFile);
         // @see https://regex101.com/r/4YUIu1/1
         preg_match_all('#\`\`\`php\s+([^\`\`\`]+)\s+\`\`\`#', $content, $matches);
 
         if ($matches[1] === []) {
-            return 0;
+            $this->easyCodingStandardStyle->success('No php code found in the markdown');
+            return ShellCode::SUCCESS;
         }
 
         $fixedContents = [];
@@ -111,6 +121,12 @@ final class MarkdownCodeFormatterCommand extends Command
 
         $this->smartFileSystem->dumpFile($markdownFile, (string) $content);
 
-        return 0;
+        if ($tempContent === $content) {
+            $this->easyCodingStandardStyle->success('php code in markdown already follow coding standard');
+        } else {
+            $this->easyCodingStandardStyle->success('php code in markdown has been fixed to follow coding standard');
+        }
+
+        return ShellCode::SUCCESS;
     }
 }
