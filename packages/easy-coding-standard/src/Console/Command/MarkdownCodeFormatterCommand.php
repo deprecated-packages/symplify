@@ -26,7 +26,9 @@ final class MarkdownCodeFormatterCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $markdownFile = $input->getArgument('markdown-file');
-        echo $markdownFile;
+        if (file_exists($markdownFile)) {
+            throw
+        }
 
         return 0;
     }
