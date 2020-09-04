@@ -107,6 +107,8 @@ final class MarkdownCodeFormatterCommand extends Command
 
             $fileInfo = new SmartFileInfo($file);
             $this->fixerFileProcessor->processFile($fileInfo);
+
+            $fileInfo = new SmartFileInfo($file);
             $this->sniffFileProcessor->processFile($fileInfo);
 
             /** @var string $fileContent */
