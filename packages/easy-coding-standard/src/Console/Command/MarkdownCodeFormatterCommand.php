@@ -16,7 +16,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class MarkdownCodeFormatterCommand extends Command
 {
     /**
-     * SmartFileSystem
+     * @var SmartFileSystem
      */
     private $smartFileSystem;
 
@@ -57,7 +57,7 @@ final class MarkdownCodeFormatterCommand extends Command
         }
 
         foreach ($matches[1] as $key => $match) {
-            $file = "php-code-${key}.php";
+            $file = sprintf('php-code-%s.php', $key);
             $match = ltrim($match, '<?php');
             $match = '<?php' . PHP_EOL . trim($match);
             $this->smartFileSystem->dumpFile($file, $match);
