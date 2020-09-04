@@ -11,16 +11,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Application\SingleFileProcessor;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class MarkdownCodeFormatterCommand extends Command
 {
+    /**
+     * SmartFileSystem
+     */
+    private $smartFileSystem;
+
     /**
      * @var SingleFileProcessor
      */
     private $singleFileProcessor;
 
-    public function __construct(SingleFileProcessor $singleFileProcessor)
+    public function __construct(SmartFileSystem $smartFileSystem, SingleFileProcessor $singleFileProcessor)
     {
+        $this->smartFileSystem = $smartFileSystem;
         $this->singleFileProcessor = $singleFileProcessor;
 
         parent::__construct();
@@ -35,21 +42,24 @@ final class MarkdownCodeFormatterCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        /** @var string $markdownFile */
         $markdownFile = $input->getArgument('markdown-file');
         if (! file_exists($markdownFile)) {
             throw new NoMarkdownFileException(sprintf('Markdown file %s not found', $markdownFile));
         }
 
+        /** @var string $content */
         $content = file_get_contents($markdownFile);
         preg_match_all('#\`\`\`php\s+([^\`\`\`]+)\s+\`\`\`#', $content, $matches);
 
-        if (empty($matches[1])) {
+        if ($matches[1] === []) {
             return 0;
         }
 
         foreach ($matches[1] as $key => $match) {
             $file = "php-code-${key}.php";
-            file_put_contents($file, trim($match));
+            $match = trim($match);
+            $this->smartFileSystem->dumpFile($file, $match);
 
             $fileInfo = new SmartFileInfo($file);
             $this->singleFileProcessor->processFileInfo($fileInfo);
