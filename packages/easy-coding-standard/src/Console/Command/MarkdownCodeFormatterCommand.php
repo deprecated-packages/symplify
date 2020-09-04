@@ -13,6 +13,7 @@ use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
+use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -30,6 +31,11 @@ final class MarkdownCodeFormatterCommand extends Command
     private $fixerFileProcessor;
 
     /**
+     * @var SniffFileProcessor
+     */
+    private $sniffFileProcessor;
+
+    /**
      * @var Configuration
      */
     private $configuration;
@@ -42,11 +48,13 @@ final class MarkdownCodeFormatterCommand extends Command
     public function __construct(
         SmartFileSystem $smartFileSystem,
         FixerFileProcessor $fixerFileProcessor,
+        SniffFileProcessor $sniffFileProcessor,
         Configuration $configuration,
         EasyCodingStandardStyle $easyCodingStandardStyle
     ) {
         $this->smartFileSystem = $smartFileSystem;
         $this->fixerFileProcessor = $fixerFileProcessor;
+        $this->sniffFileProcessor = $sniffFileProcessor;
         $this->configuration = $configuration;
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
 
@@ -74,6 +82,10 @@ final class MarkdownCodeFormatterCommand extends Command
         $r->setAccessible(true);
         $r->setValue($this->fixerFileProcessor, $this->configuration);
 
+        $r = new ReflectionProperty($this->sniffFileProcessor, 'configuration');
+        $r->setAccessible(true);
+        $r->setValue($this->sniffFileProcessor, $this->configuration);
+
         /** @var string $content */
         $content = file_get_contents($markdownFile);
         $tempContent = $content;
@@ -95,6 +107,7 @@ final class MarkdownCodeFormatterCommand extends Command
 
             $fileInfo = new SmartFileInfo($file);
             $this->fixerFileProcessor->processFile($fileInfo);
+            $this->sniffFileProcessor->processFile($fileInfo);
 
             /** @var string $fileContent */
             $fileContent = file_get_contents($file);
