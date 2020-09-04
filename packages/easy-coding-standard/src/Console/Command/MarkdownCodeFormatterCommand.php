@@ -26,6 +26,13 @@ final class MarkdownCodeFormatterCommand extends Command
             throw new NoMarkdownFileException(sprintf('Markdown file %s not found', $markdownFile));
         }
 
+        $content = file_get_contents($markdownFile);
+        preg_match_all('/\`\`\`php\s(.*)\s\`\`\`/', $content, $matches);
+
+        if (empty($matches[1])) {
+            return 0;
+        }
+
         return 0;
     }
 }
