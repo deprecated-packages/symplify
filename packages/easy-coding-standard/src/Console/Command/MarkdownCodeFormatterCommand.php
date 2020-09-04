@@ -58,7 +58,8 @@ final class MarkdownCodeFormatterCommand extends Command
 
         foreach ($matches[1] as $key => $match) {
             $file = "php-code-${key}.php";
-            $match = trim($match);
+            $match = ltrim($match, '<?php');
+            $match = '<?php' . PHP_EOL . trim($match);
             $this->smartFileSystem->dumpFile($file, $match);
 
             $fileInfo = new SmartFileInfo($file);
