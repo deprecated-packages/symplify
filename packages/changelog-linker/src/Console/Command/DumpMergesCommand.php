@@ -10,9 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
-use Symplify\ChangelogLinker\ChangelogDumper;
-use Symplify\ChangelogLinker\ChangelogLinker;
-use Symplify\ChangelogLinker\ChangeTree\ChangeResolver;
+use Symplify\ChangelogLinker\Application\ChangelogLinkerApplication;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
@@ -48,11 +46,6 @@ final class DumpMergesCommand extends Command
     private $idsAnalyzer;
 
     /**
-     * @var ChangelogDumper
-     */
-    private $changelogDumper;
-
-    /**
      * @var ChangelogFileSystem
      */
     private $changelogFileSystem;
@@ -63,42 +56,33 @@ final class DumpMergesCommand extends Command
     private $priorityResolver;
 
     /**
-     * @var ChangeResolver
-     */
-    private $changeResolver;
-
-    /**
-     * @var ChangelogLinker
-     */
-    private $changelogLinker;
-
-    /**
      * @var ChangelogPlaceholderGuard
      */
     private $changelogPlaceholderGuard;
+
+    /**
+     * @var ChangelogLinkerApplication
+     */
+    private $changelogLinkerApplication;
 
     public function __construct(
         GithubApi $githubApi,
         SymfonyStyle $symfonyStyle,
         IdsAnalyzer $idsAnalyzer,
-        ChangelogDumper $changelogDumper,
-        ChangelogLinker $changelogLinker,
         ChangelogFileSystem $changelogFileSystem,
         PriorityResolver $priorityResolver,
-        ChangeResolver $changeResolver,
-        ChangelogPlaceholderGuard $changelogPlaceholderGuard
+        ChangelogPlaceholderGuard $changelogPlaceholderGuard,
+        ChangelogLinkerApplication $changelogLinkerApplication
     ) {
         parent::__construct();
 
         $this->githubApi = $githubApi;
         $this->symfonyStyle = $symfonyStyle;
         $this->idsAnalyzer = $idsAnalyzer;
-        $this->changelogDumper = $changelogDumper;
-        $this->changelogLinker = $changelogLinker;
         $this->changelogFileSystem = $changelogFileSystem;
         $this->priorityResolver = $priorityResolver;
-        $this->changeResolver = $changeResolver;
         $this->changelogPlaceholderGuard = $changelogPlaceholderGuard;
+        $this->changelogLinkerApplication = $changelogLinkerApplication;
     }
 
     protected function configure(): void
@@ -156,7 +140,6 @@ final class DumpMergesCommand extends Command
         $baseBranch = $input->getOption(Option::BASE_BRANCH);
 
         $pullRequests = $this->githubApi->getMergedPullRequestsSinceId($sinceId, $baseBranch);
-
         if (count($pullRequests) === 0) {
             $message = sprintf('There are no new pull requests to be added since ID "%d".', $sinceId);
             $this->symfonyStyle->note($message);
@@ -165,20 +148,15 @@ final class DumpMergesCommand extends Command
         }
 
         $sortPriority = $this->priorityResolver->resolveFromInput($input);
-        $changes = $this->changeResolver->resolveSortedChangesFromPullRequestsWithSortPriority(
+        $inCategories = (bool) $input->getOption(Option::IN_CATEGORIES);
+        $inPackages = (bool) $input->getOption(Option::IN_PACKAGES);
+
+        $content = $this->changelogLinkerApplication->createContentFromPullRequestsBySortPriority(
             $pullRequests,
-            $sortPriority
+            $sortPriority,
+            $inCategories,
+            $inPackages
         );
-
-        $content = $this->changelogDumper->reportChangesWithHeadlines(
-            $changes,
-            (bool) $input->getOption(Option::IN_CATEGORIES),
-            (bool) $input->getOption(Option::IN_PACKAGES),
-            $sortPriority
-        );
-
-        // partial content
-        $content = $this->changelogLinker->processContent($content);
 
         if ($input->getOption(Option::DRY_RUN)) {
             $this->symfonyStyle->writeln($content);
@@ -187,7 +165,6 @@ final class DumpMergesCommand extends Command
         }
 
         $this->changelogFileSystem->addToChangelogOnPlaceholder($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
-
         $this->symfonyStyle->success('The CHANGELOG.md was updated');
 
         return ShellCode::SUCCESS;
@@ -213,7 +190,6 @@ final class DumpMergesCommand extends Command
     private function findHighestIdMergedInBranch(string $content, string $branch): ?int
     {
         $allIdsInChangelog = $this->idsAnalyzer->getAllIdsInChangelog($content);
-
         if ($allIdsInChangelog === null) {
             return null;
         }
