@@ -1,4 +1,4 @@
-# PHPStan Rules
+# 31+ PHPStan Rules
 
 ## Prefer Static Call over specific Function
 

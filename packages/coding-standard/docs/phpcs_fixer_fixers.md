@@ -1,4 +1,4 @@
-# PHP CS Fixer Fixers
+# 8+ PHP CS Fixer Fixers
 
 ## Remove Extra Spaces around Property and Constants Modifiers
 
