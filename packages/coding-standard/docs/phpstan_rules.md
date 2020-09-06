@@ -1,4 +1,39 @@
-# 31+ PHPStan Rules
+# 32+ PHPStan Rules
+
+## Keep Low Public Elements in a Class
+
+- class: [`ExcessivePublicCountRule`](../src/Rules/ExcessivePublicCountRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\ExcessivePublicCountRule
+
+parameters:
+    symplify:
+        # [default: 45]
+        max_public_class_element_count: 30
+```
+
+```php
+final class SomeClass
+{
+    public const NAME = 'value';
+
+    public $value;
+
+    public function run()
+    {
+    }
+
+    // ...
+}
+```
+
+:x:
+
+<br>
 
 ## Prefer Static Call over specific Function
 
