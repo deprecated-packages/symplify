@@ -35,11 +35,11 @@ final class RepositoryGuardTest extends AbstractKernelTestCase
     public function provideDataForEnsureIsRepository(): Iterator
     {
         yield ['.git'];
-        yield ['git@github.com:Symplify/Symplify.git'];
-        yield ['secretToken@github.com:Symplify/Symplify.git'];
+        yield ['git@github.com:symplify/symplify.git'];
+        yield ['secretToken@github.com:symplify/symplify.git'];
         yield ['https://github.com/symplify/symplify.git'];
         yield ['AUTHTOKEN@ssh.dev.azure.com:v3/username/symplify/symplify'];
-        yield ['https://AUTHTOKEN@dev.azure.com/username/Symplify/_git/Symplify'];
+        yield ['https://AUTHTOKEN@dev.azure.com/username/symplify/_git/symplify'];
         yield ['file:///home/developer/git/project.git'];
     }
 }
