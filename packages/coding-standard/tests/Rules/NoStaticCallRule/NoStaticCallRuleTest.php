@@ -22,13 +22,12 @@ final class NoStaticCallRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        $firstErrorMessage = sprintf(NoStaticCallRule::ERROR_MESSAGE, 'honesty');
-
-        yield [__DIR__ . '/Fixture/SomeStaticCall.php', [[$firstErrorMessage, 13]]];
+        yield [__DIR__ . '/Fixture/SomeStaticCall.php', [[NoStaticCallRule::ERROR_MESSAGE, 13]]];
 
         yield [__DIR__ . '/Fixture/SkipAllowedStaticCall.php', []];
         yield [__DIR__ . '/Fixture/SkipAllowedDateTime.php', []];
         yield [__DIR__ . '/Fixture/SkipParentSelfStatic.php', []];
+        yield [__DIR__ . '/Fixture/SkipStaticFactory.php', []];
     }
 
     protected function getRule(): Rule

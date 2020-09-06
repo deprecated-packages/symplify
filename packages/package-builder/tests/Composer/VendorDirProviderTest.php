@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Symplify\PackageBuilder\Tests\Composer;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\PackageBuilder\Composer\StaticVendorDirProvider;
+use Symplify\PackageBuilder\Composer\VendorDirProvider;
 
 final class VendorDirProviderTest extends TestCase
 {
     public function testProvide(): void
     {
-        $this->assertStringEndsWith('vendor', StaticVendorDirProvider::provide());
+        $vendorDirProvider = new VendorDirProvider();
+        $this->assertStringEndsWith('vendor', $vendorDirProvider->provide());
 
-        $this->assertFileExists(StaticVendorDirProvider::provide() . '/autoload.php');
+        $this->assertFileExists($vendorDirProvider->provide() . '/autoload.php');
     }
 }

@@ -65,7 +65,9 @@ final class ProjectConfiguration
 
 declare(strict_types=1);
 
-Symplify\PackageBuilder\Composer\StaticVendorDirProvider::provide(); // returns path to vendor directory
+$vendorDirProvider = new Symplify\PackageBuilder\Composer\VendorDirProvider();
+// returns path to vendor directory
+$vendorDirProvider->provide();
 ```
 
 <br>

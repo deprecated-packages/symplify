@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\SymfonyStaticDumper\Tests\FileSystem;
 
-use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SymfonyStaticDumper\FileSystem\AssetsCopier;
 use Symplify\SymfonyStaticDumper\Tests\TestProject\HttpKernel\TestSymfonyStaticDumperKernel;
 
@@ -25,7 +25,8 @@ final class AssetsCopierTest extends AbstractKernelTestCase
 
     protected function tearDown(): void
     {
-        FileSystem::delete(__DIR__ . '/temp');
+        $smartFileSystem = new SmartFileSystem();
+        $smartFileSystem->remove(__DIR__ . '/temp');
     }
 
     public function test(): void
