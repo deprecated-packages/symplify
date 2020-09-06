@@ -11,6 +11,9 @@ use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @see \Symplify\EasyCodingStandard\Tests\Markdown\MarkdownPHPCodeFormatterTest
+ */
 final class MarkdownPHPCodeFormatter
 {
     /**
@@ -18,11 +21,6 @@ final class MarkdownPHPCodeFormatter
      * @var string
      */
     private const PHP_CODE_SNIPPET_IN_MARKDOWN = '#\`\`\`php\s+(?<content>[^\`\`\`]+)\s+\`\`\`#ms';
-
-    /**
-     * @var string
-     */
-    private const PHP_CODE_SNIPPET_IN_MARKDOWN_BACK = '#\\`\\`\\`php\\s+([^\\`\\`\\`]+)\\s+\\`\\`\\`#';
 
     /**
      * @var SmartFileSystem
@@ -56,69 +54,44 @@ final class MarkdownPHPCodeFormatter
         $this->configuration = $configuration;
     }
 
-    public function format(SmartFileInfo $fileInfo): ?string
+    public function format(SmartFileInfo $fileInfo): string
     {
         // enable fixing
         $this->configuration->resolveFromArray(['isFixer' => true]);
 
-        $content = $fileInfo->getContents();
-
-        $matches = Strings::matchAll($content, self::PHP_CODE_SNIPPET_IN_MARKDOWN);
-        if ($matches === []) {
-            // nothing changed
-            return null;
-        }
-
-        $fixedContents = $this->collectFixedContents($matches);
-
-        foreach ($fixedContents as $key => $fixedContent) {
-            $content = (string) Strings::replace(
-                $content,
-                self::PHP_CODE_SNIPPET_IN_MARKDOWN_BACK,
-                function () use ($fixedContent): string {
-                    static $key = 0;
-
-                    $result = '```php' . PHP_EOL . '<?php' . PHP_EOL . ltrim($fixedContent, ' ') . PHP_EOL . '```';
-                    $key++;
-
-                    return $result;
-                }
-            );
-
-            /** @var string $file */
-            $file = sprintf('php-code-%s.php', $key);
-            $this->smartFileSystem->remove($file);
-        }
-
-        return $content;
+        return (string) Strings::replace(
+            $fileInfo->getContents(),
+            self::PHP_CODE_SNIPPET_IN_MARKDOWN,
+            function ($match): string {
+                $fixedContent = $this->replaceMatch($match['content']);
+                return $this->createMarkdownPHPCodeSnippet($fixedContent);
+            }
+        );
     }
 
-    /**
-     * @param string[][] $matches
-     * @return string[]
-     */
-    private function collectFixedContents(array $matches): array
+    private function replaceMatch(string $content): string
     {
-        $fixedContents = [];
+        $key = md5($content);
 
-        foreach ($matches as $key => $match) {
-            /** @var string $file */
-            $file = sprintf('php-code-%s.php', $key);
+        /** @var string $file */
+        $file = sprintf('php-code-%s.php', $key);
 
-            $fileContent = '<?php' . PHP_EOL . ltrim($match['content'], '<?php');
-            $this->smartFileSystem->dumpFile($file, $fileContent);
+        $fileContent = '<?php' . PHP_EOL . ltrim($content, '<?php');
+        $this->smartFileSystem->dumpFile($file, $fileContent);
 
-            $fileInfo = new SmartFileInfo($file);
-            $this->fixerFileProcessor->processFile($fileInfo);
+        $fileInfo = new SmartFileInfo($file);
+        $this->fixerFileProcessor->processFile($fileInfo);
+        $this->sniffFileProcessor->processFile($fileInfo);
 
-            $fileInfo = new SmartFileInfo($file);
-            $this->sniffFileProcessor->processFile($fileInfo);
+        $fileContent = $fileInfo->getContents();
 
-            /** @var string $fileContent */
-            $fileContent = file_get_contents($file);
-            $fixedContents[] = ltrim($fileContent, '<?php' . PHP_EOL);
-        }
+        $this->smartFileSystem->remove($file);
 
-        return $fixedContents;
+        return ltrim($fileContent, '<?php' . PHP_EOL);
+    }
+
+    private function createMarkdownPHPCodeSnippet(string $fixedContent): string
+    {
+        return '```php' . PHP_EOL . '<?php' . PHP_EOL . ltrim($fixedContent, ' ') . PHP_EOL . '```';
     }
 }

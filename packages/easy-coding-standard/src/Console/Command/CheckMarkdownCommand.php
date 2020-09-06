@@ -16,12 +16,12 @@ use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class MarkdownCodeFormatterCommand extends Command
+final class CheckMarkdownCommand extends Command
 {
     /**
      * @var string
      */
-    private const SOURCE = 'markdown-file';
+    private const SOURCE = 'source';
 
     /**
      * @var SmartFileSystem
@@ -68,16 +68,15 @@ final class MarkdownCodeFormatterCommand extends Command
         }
 
         $markdownFileInfo = new SmartFileInfo($markdownFile);
-        $tempContent = $markdownFileInfo->getContents();
-
         $fixedContent = $this->markdownPHPCodeFormatter->format($markdownFileInfo);
-        $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
 
-        if ($tempContent === $fixedContent) {
+        if ($markdownFileInfo->getContents() === $fixedContent) {
             $successMessage = 'PHP code in Markdown already follow coding standard';
         } else {
+            $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
             $successMessage = 'PHP code in Markdown has been fixed to follow coding standard';
         }
+
         $this->easyCodingStandardStyle->success($successMessage);
 
         return ShellCode::SUCCESS;
