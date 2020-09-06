@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandardTester\Testing;
 
-use Nette\Utils\FileSystem;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,6 +18,7 @@ use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 {
@@ -102,8 +102,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
             ];
 
             $yamlContent = Yaml::dump($servicesConfiguration, Yaml::DUMP_OBJECT_AS_MAP);
-
-            FileSystem::write($configFileTempPath, $yamlContent);
+            (new SmartFileSystem())->dumpFile($configFileTempPath, $yamlContent);
 
             return $configFileTempPath;
         }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
 use Nette\Utils\DateTime;
-use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
@@ -35,7 +34,7 @@ final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
         $changelogFileContent = $this->smartFileSystem->readFile($changelogFilePath);
         $changelogFileContent = Strings::replace($changelogFileContent, '#\#\# Unreleased#', '## ' . $newHeadline);
 
-        FileSystem::write($changelogFilePath, $changelogFileContent);
+        $this->smartFileSystem->dumpFile($changelogFilePath, $changelogFileContent);
     }
 
     public function getDescription(Version $version): string

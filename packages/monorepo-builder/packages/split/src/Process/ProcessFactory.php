@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Split\Process;
 
-use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * @see \Symplify\MonorepoBuilder\Split\Tests\Process\ProcessFactoryTest
@@ -34,14 +34,21 @@ final class ProcessFactory
      */
     private $repositoryGuard;
 
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
     public function __construct(
         RepositoryGuard $repositoryGuard,
+        SmartFileSystem $smartFileSystem,
         string $subsplitCacheDirectory,
         string $repository
     ) {
         $this->repositoryGuard = $repositoryGuard;
         $this->subsplitCacheDirectory = $subsplitCacheDirectory;
         $this->repository = $repository;
+        $this->smartFileSystem = $smartFileSystem;
     }
 
     public function createSubsplit(
@@ -71,8 +78,8 @@ final class ProcessFactory
     {
         $directory = $this->subsplitCacheDirectory . DIRECTORY_SEPARATOR . Strings::webalize($directory);
 
-        FileSystem::delete($directory);
-        FileSystem::createDir($directory);
+        $this->smartFileSystem->remove($directory);
+        $this->smartFileSystem->mkdir($directory);
 
         return new Process($commandLine, $directory, null, null, null);
     }
