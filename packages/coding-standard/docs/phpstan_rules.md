@@ -885,8 +885,8 @@ class Finder // should be e.g. "EntityFinder"
 
 - [Why it's the best rule in your coding standard?](https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/)
 
-- class: [`FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
-- class: [`ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
+- class: [`FunctionLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
+- class: [`ClassLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
 
 ```yaml
 # phpstan.neon
@@ -945,7 +945,7 @@ class SomeClass
 
 ### No `else` And `elseif`
 
-- class: [`NoElseAndElseIfRule`](packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
+- class: [`NoElseAndElseIfRule`](../packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
 
 ```php
 <?php
@@ -973,7 +973,7 @@ return 10;
 
 ### No Names Shorter than 3 Chars
 
-- class: [`NoShortNameRule`](packages/object-calisthenics/src/Rules/NoShortNameRule.php)
+- class: [`NoShortNameRule`](../packages/object-calisthenics/src/Rules/NoShortNameRule.php)
 
 ```php
 <?php
@@ -999,7 +999,7 @@ final class EverestMule
 
 ### No Setter Methods
 
-- class: [`NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
+- class: [`NoSetterClassMethodRule`](../packages/object-calisthenics/src/Rules/NoSetterClassMethodRule.php)
 
 :x:
 
@@ -1019,7 +1019,7 @@ final class Person
 
 ### No Chain Method Call
 
-- class: [`NoChainMethodCallRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCallRule.php)
+- class: [`NoChainMethodCallRule`](../packages/object-calisthenics/src/Rules/NoChainMethodCallRule.php)
 - Check [Fluent Interfaces are Evil](https://ocramius.github.io/blog/fluent-interfaces-are-evil/) and [Fluent Interfaces Are Bad for Maintainability
 ](https://www.yegor256.com/2018/03/13/fluent-interfaces.html)
 
