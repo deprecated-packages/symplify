@@ -28,6 +28,8 @@ final class SomeClass
 
 :x:
 
+<br>
+
 ## Keep Low Parameter Count in Methods and Functions
 
 - class: [`ExcessiveParameterListRule`](../src/Rules/ExcessiveParameterListRule.php)
@@ -54,6 +56,8 @@ final class SomeClass
 ```
 
 :x:
+
+<br>
 
 ## No Static Calls
 
@@ -83,6 +87,8 @@ final class SomeClass
 ```
 
 :x:
+
+<br>
 
 ## Use Value Object over Return of Values
 
@@ -115,6 +121,7 @@ final class ReturnVariables
 
 :+1:
 
+<br>
 
 ## Use Explicit String over ::class Reference on Specific Method Call Position
 
@@ -159,6 +166,8 @@ class SomeClass
 
 :+1:
 
+<br>
+
 ## Array Destruct is not Allowed, use Value Object instead
 
 - class: [`ForbiddenArrayDestructRule`](../src/Rules/ForbiddenArrayDestructRule.php)
@@ -188,6 +197,8 @@ final class SomeClass
 ```
 
 :+1:
+
+<br>
 
 ## Array with String Keys is not allowed, Use Value Object instead
 
@@ -219,6 +230,8 @@ final class SomeClass
 ```
 
 :+1:
+
+<br>
 
 ## Use Value Objects over Array in Complex PHP Configs
 
@@ -261,8 +274,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 :+1:
 
-
-
+<br>
 
 ## Use specific Repository over EntityManager in Controller
 
@@ -570,7 +582,7 @@ final class SomeClass
 
 <br>
 
-## No isset on objects
+## No `isset()` on objects
 
 - class: [`NoIssetOnObjectRule`](../src/Rules/NoIssetOnObjectRule.php)
 
@@ -652,7 +664,6 @@ function someFunction($var)
 ```
 
 :+1:
-
 
 <br>
 
