@@ -1,5 +1,42 @@
 # 32+ PHPStan Rules
 
+## Keep Low Property Count in a Class
+
+- class: [`TooManyFieldsRule`](../src/Rules/TooManyFieldsRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\TooManyFieldsRule
+
+parameters:
+    symplify:
+        # [default: 15]
+        max_property_count: 10
+```
+
+```php
+final class SomeClass
+{
+    public $value;
+
+    public $value2;
+
+    protected $value3;
+
+    protected $value4;
+
+    private $value5;
+
+    private $value6;
+
+    // ...
+}
+```
+
+:x:
+
 ## Keep Low Public Elements in a Class
 
 - class: [`ExcessivePublicCountRule`](../src/Rules/ExcessivePublicCountRule.php)
