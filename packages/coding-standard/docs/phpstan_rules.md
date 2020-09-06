@@ -925,7 +925,7 @@ includes:
 
 parameters:
     symplify:
-        max_cognitive_complexity: 8 # default
+        max_method_cognitive_complexity: 8 # default
         max_class_cognitive_complexity: 50 # default
 ```
 
