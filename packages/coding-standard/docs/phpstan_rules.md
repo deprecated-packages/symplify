@@ -1,5 +1,32 @@
 # PHPStan Rules
 
+## Keep Low Parameter Count in Methods and Functions
+
+- class: [`ExcessiveParameterListRule`](../src/Rules/ExcessiveParameterListRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\ExcessiveParameterListRule
+
+parameters:
+    symplify:
+        # [default: 10]
+        max_parameter_count: 5
+```
+
+```php
+final class SomeClass
+{
+    public function run($one, $two, $three, $four, $five, $six)
+    {
+    }
+}
+```
+
+:x:
+
 ## No Static Calls
 
 - class: [`NoStaticCallRule`](../src/Rules/NoStaticCallRule.php)
@@ -28,7 +55,6 @@ final class SomeClass
 ```
 
 :x:
-
 
 ## Use Value Object over Return of Values
 

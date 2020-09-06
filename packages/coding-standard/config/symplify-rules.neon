@@ -3,6 +3,9 @@ includes:
 
 parameters:
     symplify:
+        # for \Symplify\CodingStandard\Rules\ExcessiveParameterListRule
+        max_parameter_count: 10
+
         forbidden_parent_classes: []
 
         # for \Symplify\CodingStandard\Rules\PreferredClassRule
@@ -23,6 +26,9 @@ parameters:
 
 parametersSchema:
     symplify: structure([
+        # for \Symplify\CodingStandard\Rules\ExcessiveParameterListRule
+        max_parameter_count: int()
+
         forbidden_parent_classes: arrayOf(string())
 
         # for \Symplify\CodingStandard\Rules\PreferredClassRule
@@ -172,3 +178,9 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             allowedStaticCallClasses: "%symplify.allowed_static_call_classes%"
+
+    -
+        class: Symplify\CodingStandard\Rules\ExcessiveParameterListRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxParameterCount: "%symplify.max_parameter_count%"
