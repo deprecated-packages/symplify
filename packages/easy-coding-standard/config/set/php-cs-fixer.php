@@ -140,7 +140,7 @@ use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-$services = $containerConfigurator->services();
+    $services = $containerConfigurator->services();
     $services->set(AlignMultilineCommentFixer::class);
     $services->set(ArrayIndentationFixer::class);
     $services->set(ArraySyntaxFixer::class)
