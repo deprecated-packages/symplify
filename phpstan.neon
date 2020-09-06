@@ -18,16 +18,22 @@ parameters:
         old_to_preffered_classes:
             SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
             DateTime: 'Nette\Utils\DateTime'
-            PhpCsFixer\Finder: 'Symfony\Component\Finder\Finder'
+            'PhpCsFixer\Finder': 'Symfony\Component\Finder\Finder'
             # smart file system
-            Symfony\Component\Finder\SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
-            Nette\Utils\FileSystem: 'Symplify\SmartFileSystem\SmartFileSystem'
-            Symfony\Component\Filesystem\Filesystem: 'Symplify\SmartFileSystem\SmartFileSystem'
+            'Symfony\Component\Finder\SplFileInfo': 'Symplify\SmartFileSystem\SmartFileInfo'
+            'Nette\Utils\FileSystem': 'Symplify\SmartFileSystem\SmartFileSystem'
+            'Symfony\Component\Filesystem\Filesystem': 'Symplify\SmartFileSystem\SmartFileSystem'
 
         required_see_types:
             - PHPStan\Rules\Rule
             - PHP_CodeSniffer\Sniffs\Sniff
             - PHP_CodeSniffer\Fixer
+
+        # for \Symplify\CodingStandard\Rules\NoStaticCallRule
+        allowed_static_call_classes:
+            - 'Symplify\PackageBuilder\Console\Command\CommandNaming'
+            - 'PHPStan\Reflection\ParametersAcceptorSelector'
+            - 'Symplify\PackageBuilder\Configuration\StaticEolConfiguration'
 
     level: max
     checkGenericClassInNonGenericObjectType: false
