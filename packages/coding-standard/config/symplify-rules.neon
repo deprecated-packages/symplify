@@ -8,6 +8,13 @@ parameters:
 
         forbidden_parent_classes: []
 
+        # for \Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
+        func_call_to_preffered_static_calls:
+            'preg_match': ['Nette\Utils\Strings', 'match']
+            'preg_match_all': ['Nette\Utils\Strings', 'match']
+            'preg_replace': ['Nette\Utils\Strings', 'replace']
+            'preg_split': ['Nette\Utils\Strings', 'split']
+
         # for \Symplify\CodingStandard\Rules\PreferredClassRule
         old_to_preffered_classes: []
         constant_arg_by_method_by_type: []
@@ -30,6 +37,9 @@ parametersSchema:
         max_parameter_count: int()
 
         forbidden_parent_classes: arrayOf(string())
+
+        # for \Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
+        func_call_to_preffered_static_calls: arrayOf(arrayOf(string()))
 
         # for \Symplify\CodingStandard\Rules\PreferredClassRule
         old_to_preffered_classes: arrayOf(string())
@@ -184,3 +194,9 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxParameterCount: "%symplify.max_parameter_count%"
+
+    -
+        class: Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPrefferedStaticCalls: "%symplify.func_call_to_preffered_static_calls%"

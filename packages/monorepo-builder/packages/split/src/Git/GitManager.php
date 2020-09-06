@@ -62,7 +62,7 @@ final class GitManager
     {
         $result = $this->processRunner->run(self::COMMITER_DATE_COMMAND);
 
-        return preg_match('#^\s*$#', $result) !== false;
+        return (bool) Strings::match($result, '#^\s*$#');
     }
 
     /**
