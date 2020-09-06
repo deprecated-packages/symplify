@@ -4,6 +4,8 @@ includes:
 parameters:
     symplify:
         forbidden_parent_classes: []
+
+        # for \Symplify\CodingStandard\Rules\PreferredClassRule
         old_to_preffered_classes: []
         constant_arg_by_method_by_type: []
         parent_classes: []
@@ -20,6 +22,8 @@ parameters:
 parametersSchema:
     symplify: structure([
         forbidden_parent_classes: arrayOf(string())
+
+        # for \Symplify\CodingStandard\Rules\PreferredClassRule
         old_to_preffered_classes: arrayOf(string())
         max_cognitive_complexity: int()
         max_class_cognitive_complexity: int()

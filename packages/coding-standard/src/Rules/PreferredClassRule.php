@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
@@ -41,11 +42,11 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
      */
     public function getNodeTypes(): array
     {
-        return [New_::class, Name::class, Class_::class];
+        return [New_::class, Name::class, Class_::class, StaticCall::class];
     }
 
     /**
-     * @param New_|Name|Class_ $node
+     * @param New_|Name|Class_|StaticCall $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
@@ -56,6 +57,10 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
 
         if ($node instanceof Class_) {
             return $this->processClass($node);
+        }
+
+        if ($node instanceof StaticCall) {
+            return $this->processStaticCall($node, $scope);
         }
 
         return $this->processClassName($node->toString(), $node, $scope);
@@ -162,5 +167,19 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
         }
 
         return false;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processStaticCall(StaticCall $staticCall, Scope $scope): array
+    {
+        if ($staticCall->class instanceof Expr) {
+            return [];
+        }
+
+        $className = (string) $staticCall->class;
+
+        return $this->processClassName($className, $staticCall, $scope);
     }
 }
