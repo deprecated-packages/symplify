@@ -16,7 +16,9 @@ parameters:
         allowed_static_call_classes: []
 
         # cognitive complexity
-        max_cognitive_complexity: 8
+        max_method_cognitive_complexity: 8
+        # deprecated, old alias
+        max_cognitive_complexity: "%symplify.max_method_cognitive_complexity%"
         max_class_cognitive_complexity: 50
 
 parametersSchema:
@@ -26,6 +28,7 @@ parametersSchema:
         # for \Symplify\CodingStandard\Rules\PreferredClassRule
         old_to_preffered_classes: arrayOf(string())
         max_cognitive_complexity: int()
+        max_method_cognitive_complexity: int()
         max_class_cognitive_complexity: int()
         parent_classes: arrayOf(string())
         required_see_types: arrayOf(string())
