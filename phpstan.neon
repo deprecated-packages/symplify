@@ -283,3 +283,10 @@ parameters:
                 # complex stuff json
                 - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
                 - packages/easy-coding-standard/packages/configuration/src/Configuration.php
+
+        -
+            message: '#Class has too many properties \d+\. Try narrowing it down under \d+#'
+            paths:
+                # composer complex json
+                - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
+
