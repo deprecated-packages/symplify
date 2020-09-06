@@ -29,6 +29,10 @@ parameters:
             - PHP_CodeSniffer\Sniffs\Sniff
             - PHP_CodeSniffer\Fixer
 
+        # for \Symplify\CodingStandard\Rules\NoStaticCallRule
+        allowed_static_call_classes:
+            -
+
     level: max
     checkGenericClassInNonGenericObjectType: false
 

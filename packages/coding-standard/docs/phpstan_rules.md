@@ -1,5 +1,35 @@
 # PHPStan Rules
 
+## No Static Calls
+
+- class: [`NoStaticCallRule`](../src/Rules/NoStaticCallRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoStaticCallRule
+
+parameters:
+    symplify:
+        # for \Symplify\CodingStandard\Rules\NoStaticCallRule
+        allowed_static_call_classes:
+            - 'Nette\Utils\DateTime'
+```
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        return StaticClass::staticMethod();
+    }
+}
+```
+
+:x:
+
+
 ## Use Value Object over Return of Values
 
 - class: [`NoReturnArrayVariableList`](../src/Rules/NoReturnArrayVariableList.php)
