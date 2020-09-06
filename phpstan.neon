@@ -24,6 +24,8 @@ parameters:
             'Nette\Utils\FileSystem': 'Symplify\SmartFileSystem\SmartFileSystem'
             'Symfony\Component\Filesystem\Filesystem': 'Symplify\SmartFileSystem\SmartFileSystem'
 
+        max_parameter_count: 7
+
         required_see_types:
             - PHPStan\Rules\Rule
             - PHP_CodeSniffer\Sniffs\Sniff
