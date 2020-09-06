@@ -1,5 +1,33 @@
 # PHPStan Rules
 
+## Prefer Static Call over specific Function
+
+- class: [`PrefferedStaticCallOverFuncCallRule`](../src/Rules/PrefferedStaticCallOverFuncCallRule.php)
+- **configuration required**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
+
+parameters:
+    symplify:
+        func_call_to_preffered_static_calls:
+            'preg_match': ['Nette\Utils\Strings', 'match']
+```
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        return preg_match('#\d+#', 'content 1');
+    }
+}
+```
+
+:x:
+
 ## Keep Low Parameter Count in Methods and Functions
 
 - class: [`ExcessiveParameterListRule`](../src/Rules/ExcessiveParameterListRule.php)
