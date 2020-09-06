@@ -8,6 +8,9 @@ parameters:
 
         forbidden_parent_classes: []
 
+        # for \Symplify\CodingStandard\Rules\ExcessivePublicCountRule
+        max_public_class_element_count: 10
+
         # for \Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
         func_call_to_preffered_static_calls:
             'preg_match': ['Nette\Utils\Strings', 'match']
@@ -36,6 +39,9 @@ parametersSchema:
     symplify: structure([
         # for \Symplify\CodingStandard\Rules\ExcessiveParameterListRule
         max_parameter_count: int()
+
+        # for \Symplify\CodingStandard\Rules\ExcessivePublicCountRule
+        max_public_class_element_count: int()
 
         forbidden_parent_classes: arrayOf(string())
 
@@ -201,3 +207,9 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             funcCallToPrefferedStaticCalls: "%symplify.func_call_to_preffered_static_calls%"
+
+    -
+        class: Symplify\CodingStandard\Rules\ExcessivePublicCountRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPublicClassElementCount: "%symplify.max_public_class_element_count%"

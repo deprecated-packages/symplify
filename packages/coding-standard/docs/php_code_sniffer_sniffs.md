@@ -1,4 +1,4 @@
-# PHP Code Sniffer Sniffs
+# 1 PHP Code Sniffer Sniff
 
 ## There should not be comments with valid code
 

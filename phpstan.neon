@@ -274,3 +274,12 @@ parameters:
         -
             message: '#Method "__construct\(\)" is using too many parameters \- 9\. Make it under 8#'
             path: 'packages/easy-coding-standard/packages/fixer-runner/src/Application/FixerFileProcessor.php'
+
+        -
+            message: '#Too many public elements on class \- \d+\. Try narrow it down under \d+#'
+            paths:
+                # native PHP code
+                - packages/smart-file-system/src/SmartFileInfo.php
+                # complex stuff json
+                - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
+                - packages/easy-coding-standard/packages/configuration/src/Configuration.php
