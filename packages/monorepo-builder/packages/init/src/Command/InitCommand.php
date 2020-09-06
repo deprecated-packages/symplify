@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Init\Command;
 
 use Jean85\PrettyVersions;
-use Nette\Utils\FileSystem as NetteFileSystem;
 use Nette\Utils\Json as NetteJson;
 use OutOfBoundsException;
 use PharIo\Version\InvalidVersionException;
@@ -107,7 +106,8 @@ final class InitCommand extends Command
         $installedJsonFilename = sprintf('%s/composer/installed.json', dirname(__DIR__, 6));
 
         if (is_file($installedJsonFilename)) {
-            $installedJson = NetteJson::decode(NetteFileSystem::read($installedJsonFilename));
+            $installedJsonFileContent = $this->smartFileSystem->readFile($installedJsonFilename);
+            $installedJson = NetteJson::decode($installedJsonFileContent);
 
             foreach ($installedJson as $installedPackage) {
                 if ($installedPackage->name === 'symplify/monorepo-builder') {

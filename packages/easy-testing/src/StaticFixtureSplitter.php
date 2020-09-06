@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\EasyTesting;
 
-use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symplify\EasyTesting\ValueObject\InputAndExpected;
 use Symplify\EasyTesting\ValueObject\InputFileInfoAndExpectedFileInfo;
 use Symplify\EasyTesting\ValueObject\SplitLine;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class StaticFixtureSplitter
 {
@@ -65,7 +65,9 @@ final class StaticFixtureSplitter
         string $fileContent
     ): SmartFileInfo {
         $temporaryFilePath = self::createTemporaryPathWithPrefix($smartFileInfo, $prefix);
-        FileSystem::write($temporaryFilePath, $fileContent);
+
+        $smartFileSystem = new SmartFileSystem();
+        $smartFileSystem->dumpFile($temporaryFilePath, $fileContent);
 
         return new SmartFileInfo($temporaryFilePath);
     }

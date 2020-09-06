@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\DevMasterAliasUpdater;
 
-use Nette\Utils\FileSystem;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class DevMasterAliasUpdaterTest extends AbstractKernelTestCase
 {
@@ -17,16 +17,22 @@ final class DevMasterAliasUpdaterTest extends AbstractKernelTestCase
      */
     private $devMasterAliasUpdater;
 
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
         $this->devMasterAliasUpdater = self::$container->get(DevMasterAliasUpdater::class);
+        $this->smartFileSystem = self::$container->get(SmartFileSystem::class);
     }
 
     protected function tearDown(): void
     {
-        FileSystem::copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json');
+        $this->smartFileSystem->copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json');
     }
 
     public function test(): void

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\SymfonyStaticDumper\FileSystem;
 
-use Nette\Utils\FileSystem;
 use Symfony\Component\Finder\Finder;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * @see \Symplify\SymfonyStaticDumper\Tests\FileSystem\AssetsCopierTest
@@ -19,9 +19,15 @@ final class AssetsCopier
      */
     private $finderSanitizer;
 
-    public function __construct(FinderSanitizer $finderSanitizer)
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
+    public function __construct(FinderSanitizer $finderSanitizer, SmartFileSystem $smartFileSystem)
     {
         $this->finderSanitizer = $finderSanitizer;
+        $this->smartFileSystem = $smartFileSystem;
     }
 
     public function copyAssets(string $publicDirectory, string $outputDirectory): void
@@ -31,7 +37,7 @@ final class AssetsCopier
         foreach ($assetFileInfos as $assetFileInfo) {
             $relativePathFromRoot = $assetFileInfo->getRelativeFilePathFromDirectory($publicDirectory);
 
-            FileSystem::copy($assetFileInfo->getRealPath(), $outputDirectory . '/' . $relativePathFromRoot);
+            $this->smartFileSystem->copy($assetFileInfo->getRealPath(), $outputDirectory . '/' . $relativePathFromRoot);
         }
     }
 
