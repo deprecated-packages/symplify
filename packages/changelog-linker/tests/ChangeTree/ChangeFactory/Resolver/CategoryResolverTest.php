@@ -12,85 +12,70 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
 {
     /**
      * @dataProvider provideDataAdded()
+     * @dataProvider provideDataChanged()
+     * @dataProvider provideDataFixed()
+     * @dataProvider provideDataUnknownCategory()
      */
-    public function testAdded(string $title): void
+    public function test(string $title, string $expectedCategory): void
     {
         $change = $this->createChangeForTitle($title);
-        $this->assertSame(Category::ADDED, $change->getCategory());
+        $this->assertSame($expectedCategory, $change->getCategory());
     }
 
     public function provideDataAdded(): Iterator
     {
-        yield ['[CodingStandard] Add feature'];
-        yield ['add'];
-        yield ['adds'];
-        yield ['added'];
-        yield ['adding'];
-    }
-
-    /**
-     * @dataProvider provideDataChanged()
-     */
-    public function testChanged(string $title): void
-    {
-        $change = $this->createChangeForTitle($title);
-        $this->assertSame(Category::CHANGED, $change->getCategory());
+        yield ['[CodingStandard] Add feature', Category::ADDED];
+        yield ['add', Category::ADDED];
+        yield ['adds', Category::ADDED];
+        yield ['added', Category::ADDED];
+        yield ['adding', Category::ADDED];
     }
 
     public function provideDataChanged(): Iterator
     {
-        yield ['Improve behavior'];
-        yield ['change'];
-        yield ['changes'];
-        yield ['changed'];
-        yield ['changing'];
-        yield ['improve'];
-        yield ['improves'];
-        yield ['improved'];
-        yield ['improving'];
-        yield ['bump'];
-        yield ['bumps'];
-        yield ['bumped'];
-        yield ['bumping'];
-        yield ['allow'];
-        yield ['allows'];
-        yield ['allowed'];
-        yield ['allowing'];
-        yield ['disallow'];
-        yield ['disallows'];
-        yield ['disallowed'];
-        yield ['disallowing'];
-        yield ['return'];
-        yield ['returns'];
-        yield ['returned'];
-        yield ['returning'];
-        yield ['rename'];
-        yield ['renames'];
-        yield ['renamed'];
-        yield ['renaming'];
-        yield ['decouple'];
-        yield ['decouples'];
-        yield ['decoupled'];
-        yield ['decoupling'];
-        yield ['now'];
-    }
-
-    /**
-     * @dataProvider provideDataFixed()
-     */
-    public function testFixed(string $title): void
-    {
-        $change = $this->createChangeForTitle($title);
-        $this->assertSame(Category::FIXED, $change->getCategory());
+        yield ['Improve behavior', Category::CHANGED];
+        yield ['change', Category::CHANGED];
+        yield ['changes', Category::CHANGED];
+        yield ['changed', Category::CHANGED];
+        yield ['changing', Category::CHANGED];
+        yield ['improve', Category::CHANGED];
+        yield ['improves', Category::CHANGED];
+        yield ['improved', Category::CHANGED];
+        yield ['improving', Category::CHANGED];
+        yield ['bump', Category::CHANGED];
+        yield ['bumps', Category::CHANGED];
+        yield ['bumped', Category::CHANGED];
+        yield ['bumping', Category::CHANGED];
+        yield ['allow', Category::CHANGED];
+        yield ['allows', Category::CHANGED];
+        yield ['allowed', Category::CHANGED];
+        yield ['allowing', Category::CHANGED];
+        yield ['disallow', Category::CHANGED];
+        yield ['disallows', Category::CHANGED];
+        yield ['disallowed', Category::CHANGED];
+        yield ['disallowing', Category::CHANGED];
+        yield ['return', Category::CHANGED];
+        yield ['returns', Category::CHANGED];
+        yield ['returned', Category::CHANGED];
+        yield ['returning', Category::CHANGED];
+        yield ['rename', Category::CHANGED];
+        yield ['renames', Category::CHANGED];
+        yield ['renamed', Category::CHANGED];
+        yield ['renaming', Category::CHANGED];
+        yield ['decouple', Category::CHANGED];
+        yield ['decouples', Category::CHANGED];
+        yield ['decoupled', Category::CHANGED];
+        yield ['decoupling', Category::CHANGED];
+        yield ['now', Category::CHANGED];
     }
 
     public function provideDataFixed(): Iterator
     {
-        yield ['This fixed some bug'];
-        yield ['fix'];
-        yield ['fixes'];
-        yield ['fixed'];
-        yield ['fixing'];
+        yield ['This fixed some bug', Category::FIXED];
+        yield ['fix', Category::FIXED];
+        yield ['fixes', Category::FIXED];
+        yield ['fixed', Category::FIXED];
+        yield ['fixing', Category::FIXED];
     }
 
     /**
@@ -122,27 +107,18 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
         yield ['dropping'];
     }
 
-    /**
-     * @dataProvider provideDataUnknownCategory()
-     */
-    public function testChangedCategoryFallback(string $title): void
-    {
-        $change = $this->createChangeForTitle($title);
-        $this->assertSame(Category::CHANGED, $change->getCategory(), $title);
-    }
-
     public function provideDataUnknownCategory(): Iterator
     {
-        yield ['New design of a hydroplane'];
-        yield ['changelog'];
-        yield ['exchanged'];
-        yield ['addidas'];
-        yield ['sexchanging'];
-        yield ['improvesation'];
-        yield ['disimproves'];
-        yield ['bumpage'];
-        yield ['doubledrop'];
-        yield ['unremove'];
-        yield ['unreturned'];
+        yield ['New design of a hydroplane', Category::CHANGED];
+        yield ['changelog', Category::CHANGED];
+        yield ['exchanged', Category::CHANGED];
+        yield ['addidas', Category::CHANGED];
+        yield ['sexchanging', Category::CHANGED];
+        yield ['improvesation', Category::CHANGED];
+        yield ['disimproves', Category::CHANGED];
+        yield ['bumpage', Category::CHANGED];
+        yield ['doubledrop', Category::CHANGED];
+        yield ['unremove', Category::CHANGED];
+        yield ['unreturned', Category::CHANGED];
     }
 }

@@ -26,6 +26,7 @@ final class ExcessivePublicCountRuleTest extends RuleTestCase
 
         yield [__DIR__ . '/Fixture/SkipUnderLimit.php', []];
         yield [__DIR__ . '/Fixture/ValueObject/SkipConstantInValueObject.php', []];
+        yield [__DIR__ . '/Fixture/SkipConstructorAndMagicMethods.php', []];
     }
 
     protected function getRule(): Rule

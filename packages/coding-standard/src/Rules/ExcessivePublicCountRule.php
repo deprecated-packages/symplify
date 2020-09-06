@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -44,7 +45,7 @@ final class ExcessivePublicCountRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $classPublicElementCount = $this->resolveClassPublicElementCount($node, $scope);
+        $classPublicElementCount = $this->resolveClassPublicElementCount($node);
         if ($classPublicElementCount < $this->maxPublicClassElementCount) {
             return [];
         }
@@ -53,22 +54,14 @@ final class ExcessivePublicCountRule implements Rule
         return [$errorMessage];
     }
 
-    private function resolveClassPublicElementCount(Class_ $class, Scope $scope): int
+    private function resolveClassPublicElementCount(Class_ $class): int
     {
         $publicElementCount = 0;
 
         $className = (string) $class->namespacedName;
 
         foreach ($class->stmts as $classStmt) {
-            if (! $classStmt instanceof Property && ! $classStmt instanceof ClassMethod && ! $classStmt instanceof ClassConst) {
-                continue;
-            }
-
-            if (! $classStmt->isPublic()) {
-                continue;
-            }
-
-            if (Strings::match($className, '#\bValueObject\b#') && $classStmt instanceof ClassConst) {
+            if ($this->shouldSkipClassStmt($classStmt, $className)) {
                 continue;
             }
 
@@ -76,5 +69,27 @@ final class ExcessivePublicCountRule implements Rule
         }
 
         return $publicElementCount;
+    }
+
+    private function shouldSkipClassStmt(Stmt $classStmt, string $className): bool
+    {
+        if (! $classStmt instanceof Property && ! $classStmt instanceof ClassMethod && ! $classStmt instanceof ClassConst) {
+            return true;
+        }
+
+        if (! $classStmt->isPublic()) {
+            return true;
+        }
+
+        if (Strings::match($className, '#\bValueObject\b#') && $classStmt instanceof ClassConst) {
+            return true;
+        }
+
+        if ($classStmt instanceof ClassMethod) {
+            $methodName = (string) $classStmt->name;
+            return Strings::startsWith($methodName, '__');
+        }
+
+        return false;
     }
 }
