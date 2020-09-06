@@ -11,8 +11,9 @@ parameters:
         # for \Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
         func_call_to_preffered_static_calls:
             'preg_match': ['Nette\Utils\Strings', 'match']
-            'preg_match_all': ['Nette\Utils\Strings', 'match']
+            'preg_match_all': ['Nette\Utils\Strings', 'matchAll']
             'preg_replace': ['Nette\Utils\Strings', 'replace']
+            'preg_replace_callback': ['Nette\Utils\Strings', 'replace']
             'preg_split': ['Nette\Utils\Strings', 'split']
 
         # for \Symplify\CodingStandard\Rules\PreferredClassRule
