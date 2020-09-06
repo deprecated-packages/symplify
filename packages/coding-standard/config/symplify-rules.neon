@@ -11,6 +11,9 @@ parameters:
         # for \Symplify\CodingStandard\Rules\ExcessivePublicCountRule
         max_public_class_element_count: 10
 
+        # for \Symplify\CodingStandard\Rules\TooManyFieldsRule
+        max_property_count: 10
+
         # for \Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
         func_call_to_preffered_static_calls:
             'preg_match': ['Nette\Utils\Strings', 'match']
@@ -44,6 +47,9 @@ parametersSchema:
         max_public_class_element_count: int()
 
         forbidden_parent_classes: arrayOf(string())
+
+        # for \Symplify\CodingStandard\Rules\TooManyFieldsRule
+        max_property_count: int()
 
         # for \Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
         func_call_to_preffered_static_calls: arrayOf(arrayOf(string()))
@@ -213,3 +219,9 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxPublicClassElementCount: "%symplify.max_public_class_element_count%"
+
+    -
+        class: Symplify\CodingStandard\Rules\TooManyFieldsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPropertyCount: "%symplify.max_property_count%"
