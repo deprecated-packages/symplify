@@ -24,6 +24,8 @@ parameters:
             'Nette\Utils\FileSystem': 'Symplify\SmartFileSystem\SmartFileSystem'
             'Symfony\Component\Filesystem\Filesystem': 'Symplify\SmartFileSystem\SmartFileSystem'
 
+        max_parameter_count: 8
+
         required_see_types:
             - PHPStan\Rules\Rule
             - PHP_CodeSniffer\Sniffs\Sniff
@@ -268,3 +270,7 @@ parameters:
                 - packages/package-builder/src/Http/BetterGuzzleClient.php
 
         - '#Parameter \#1 \$functionLike of method Symplify\\CodingStandard\\CognitiveComplexity\\AstCognitiveComplexityAnalyzer\:\:analyzeFunctionLike\(\) expects PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_\|null given#'
+
+        -
+            message: '#Method "__construct\(\)" is using too many parameters \- 9\. Make it under 8#'
+            path: 'packages/easy-coding-standard/packages/fixer-runner/src/Application/FixerFileProcessor.php'
