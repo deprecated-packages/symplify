@@ -7,6 +7,9 @@ namespace Symplify\ChangelogLinker\Analyzer;
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\Analyzer\LinksAnalyzer\LinksAnalyzerTest
+ */
 final class LinksAnalyzer
 {
     /**

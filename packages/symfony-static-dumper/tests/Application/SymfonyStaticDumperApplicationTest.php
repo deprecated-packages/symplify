@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\SymfonyStaticDumper\Tests\Application;
 
-use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
@@ -51,7 +50,7 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
 
     protected function tearDown(): void
     {
-        FileSystem::delete(self::OUTPUT_DIRECTORY);
+        $this->smartFileSystem->remove(self::OUTPUT_DIRECTORY);
     }
 
     public function testCssIsDumped(): void

@@ -15,7 +15,7 @@ use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
 {
     /**
-     * @var string[][]
+     * @var array<int, array<string, string>>
      */
     private const TIME_EVENTS_DATA = [
         ['when' => '2020-02-02'],

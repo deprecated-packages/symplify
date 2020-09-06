@@ -1,5 +1,35 @@
 # PHPStan Rules
 
+## No Static Calls
+
+- class: [`NoStaticCallRule`](../src/Rules/NoStaticCallRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoStaticCallRule
+
+parameters:
+    symplify:
+        # for \Symplify\CodingStandard\Rules\NoStaticCallRule
+        allowed_static_call_classes:
+            - 'Nette\Utils\DateTime'
+```
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        return StaticClass::staticMethod();
+    }
+}
+```
+
+:x:
+
+
 ## Use Value Object over Return of Values
 
 - class: [`NoReturnArrayVariableList`](../src/Rules/NoReturnArrayVariableList.php)
@@ -835,7 +865,7 @@ $dateTime = new DateTime('now'); // should be "Nette\Utils\DateTime"
 
 ## Classes with Static Methods must have "Static" in the Name
 
-- class: [`Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule`](../src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
+- class: [`NoClassWithStaticMethodWithoutStaticNameRule`](../src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
 
 Be honest about static. [Why is static bad?](https://tomasvotruba.com/blog/2019/04/01/removing-static-there-and-back-again/)
 
@@ -857,7 +887,7 @@ class FormatConverter // should be: "StaticFormatConverter"
 
 ## Use Unique Class Short Names
 
-- class: [`Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule`](../src/Rules/NoDuplicatedShortClassNameRule.php)
+- class: [`NoDuplicatedShortClassNameRule`](../src/Rules/NoDuplicatedShortClassNameRule.php)
 
 :x:
 
@@ -885,8 +915,8 @@ class Finder // should be e.g. "EntityFinder"
 
 - [Why it's the best rule in your coding standard?](https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/)
 
-- class: [`FunctionLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
-- class: [`ClassLikeCognitiveComplexityRule`](packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
+- class: [`FunctionLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
+- class: [`ClassLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
 
 ```yaml
 # phpstan.neon
@@ -945,7 +975,7 @@ class SomeClass
 
 ### No `else` And `elseif`
 
-- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
+- class: [`NoElseAndElseIfRule`](../packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
 
 ```php
 <?php
@@ -973,7 +1003,7 @@ return 10;
 
 ### No Names Shorter than 3 Chars
 
-- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule`](packages/object-calisthenics/src/Rules/NoShortNameRule.php)
+- class: [`NoShortNameRule`](../packages/object-calisthenics/src/Rules/NoShortNameRule.php)
 
 ```php
 <?php
@@ -999,7 +1029,7 @@ final class EverestMule
 
 ### No Setter Methods
 
-- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoSetterClassMethodRule.php)
+- class: [`NoSetterClassMethodRule`](../packages/object-calisthenics/src/Rules/NoSetterClassMethodRule.php)
 
 :x:
 
@@ -1019,7 +1049,7 @@ final class Person
 
 ### No Chain Method Call
 
-- class: [`Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule`](packages/coding-standard/src/Rules/ObjectCalisthenics/NoChainMethodCallRule.php)
+- class: [`NoChainMethodCallRule`](../packages/object-calisthenics/src/Rules/NoChainMethodCallRule.php)
 - Check [Fluent Interfaces are Evil](https://ocramius.github.io/blog/fluent-interfaces-are-evil/) and [Fluent Interfaces Are Bad for Maintainability
 ](https://www.yegor256.com/2018/03/13/fluent-interfaces.html)
 

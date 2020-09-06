@@ -9,6 +9,9 @@ use Symfony\Component\Finder\SplFileInfo;
 use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
 use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 
+/**
+ * @see \Symplify\SmartFileSystem\Tests\SmartFileInfo\SmartFileInfoTest
+ */
 final class SmartFileInfo extends SplFileInfo
 {
     /**
@@ -108,7 +111,7 @@ final class SmartFileInfo extends SplFileInfo
         return fnmatch('*/' . $string, $this->getNormalizedRealPath());
     }
 
-    public function getRealPath()
+    public function getRealPath(): string
     {
         // for phar compatibility @see https://github.com/rectorphp/rector/commit/e5d7cee69558f7e6b35d995a5ca03fa481b0407c
         return parent::getRealPath() ?: $this->getPathname();

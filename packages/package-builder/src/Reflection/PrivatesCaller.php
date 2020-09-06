@@ -7,6 +7,9 @@ namespace Symplify\PackageBuilder\Reflection;
 use ReflectionClass;
 use ReflectionMethod;
 
+/**
+ * @see \Symplify\PackageBuilder\Tests\Reflection\PrivatesCallerTest
+ */
 final class PrivatesCaller
 {
     /**

@@ -19,7 +19,7 @@ final class NoEmptyRule extends AbstractManyNodeTypeRule
     public const ERROR_MESSAGE = 'Use strict comparison instead of empty';
 
     /**
-     * @return class-string[]
+     * @return string[]
      */
     public function getNodeTypes(): array
     {

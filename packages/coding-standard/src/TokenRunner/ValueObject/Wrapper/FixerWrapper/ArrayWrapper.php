@@ -91,6 +91,7 @@ final class ArrayWrapper
         for ($i = $this->endIndex - 1; $i >= $this->startIndex; --$i) {
             $i = $this->tokenSkipper->skipBlocksReversed($this->tokens, $i);
 
+            /** @var Token $token */
             $token = $this->tokens[$i];
             if ($token->isGivenKind(T_DOUBLE_ARROW)) {
                 $nextTokenAfterArrowPosition = $this->tokens->getNextNonWhitespace($i);
@@ -98,6 +99,7 @@ final class ArrayWrapper
                     return false;
                 }
 
+                /** @var Token $nextToken */
                 $nextToken = $this->tokens[$nextTokenAfterArrowPosition];
 
                 return $nextToken->isGivenKind(self::ARRAY_OPEN_TOKENS);

@@ -7,6 +7,9 @@ namespace Symplify\Autodiscovery\Yaml;
 use Nette\Utils\Strings;
 use Symplify\Autodiscovery\ValueObject\ServiceConfig;
 
+/**
+ * @see \Symplify\Autodiscovery\Tests\Yaml\CommonNamespaceResolverTest
+ */
 final class CommonNamespaceResolver
 {
     /**

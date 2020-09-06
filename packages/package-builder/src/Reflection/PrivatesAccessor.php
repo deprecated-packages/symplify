@@ -6,6 +6,9 @@ namespace Symplify\PackageBuilder\Reflection;
 
 use ReflectionProperty;
 
+/**
+ * @see \Symplify\PackageBuilder\Tests\Reflection\PrivatesAccessorTest
+ */
 final class PrivatesAccessor
 {
     public function getPrivateProperty(object $object, string $propertyName)

@@ -54,7 +54,7 @@ final class DoctrineBlockFinder
     /**
      * Accepts position to both start and end token, e.g. (, ), {, }
      */
-    public function findInTokensByEdge(Tokens $tokens, int $position): ?BlockInfo
+    public function findInTokensByEdge(Tokens $tokens, int $position): BlockInfo
     {
         /** @var Token $token */
         $token = $tokens[$position];

@@ -35,6 +35,9 @@ final class ConflictingPackageVersionsReporter
         $this->symfonyStyle->error('Found conflicting package versions, fix them first.');
     }
 
+    /**
+     * @return array<int, mixed[]>
+     */
     private function createTableRows($filesToVersions): array
     {
         $tableRows = [];

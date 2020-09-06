@@ -8,6 +8,9 @@ use Nette\Utils\Strings;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * @see \Symplify\SymfonyStaticDumper\Tests\Routing\RoutesProviderTest
+ */
 final class RoutesProvider
 {
     /**
@@ -38,6 +41,9 @@ final class RoutesProvider
         });
     }
 
+    /**
+     * @return Route[]
+     */
     public function provideRoutesWithParameters(): array
     {
         return array_filter($this->provide(), function (Route $route): bool {

@@ -7,6 +7,9 @@ namespace Symplify\MonorepoBuilder\Merge\PathResolver;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Merge\Tests\PathResolver\AutoloadPathNormalizerTest
+ */
 final class AutoloadPathNormalizer
 {
     /**
@@ -27,6 +30,9 @@ final class AutoloadPathNormalizer
         $packageComposerJson->setAutoloadDev($autoloadDev);
     }
 
+    /**
+     * @return mixed[]
+     */
     private function normalizeAutoloadArray(SmartFileInfo $packageFile, array $autoloadArray): array
     {
         foreach (self::SECTIONS_WITH_PATH as $sectionWithPath) {

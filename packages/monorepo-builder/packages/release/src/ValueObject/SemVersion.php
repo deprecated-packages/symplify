@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Release\ValueObject;
 
-final class StaticSemVersion
+final class SemVersion
 {
     /**
      * @var string
@@ -24,8 +24,5 @@ final class StaticSemVersion
     /**
      * @var string[]
      */
-    public static function getAll(): array
-    {
-        return [self::MAJOR, self::MINOR, self::PATCH];
-    }
+    public const ALL = [self::MAJOR, self::MINOR, self::PATCH];
 }

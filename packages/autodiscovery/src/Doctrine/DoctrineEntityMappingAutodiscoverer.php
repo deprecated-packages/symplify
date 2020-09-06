@@ -93,7 +93,7 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
 
     /**
      * @param SmartFileInfo[] $entityXmlFiles
-     * @return string[]
+     * @return int[]|string[]
      */
     private function resolveDirectoryByNamespace(array $entityXmlFiles): array
     {

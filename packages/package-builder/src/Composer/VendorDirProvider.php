@@ -8,9 +8,12 @@ use Composer\Autoload\ClassLoader;
 use Nette\Utils\Strings;
 use ReflectionClass;
 
-final class StaticVendorDirProvider
+/**
+ * @see \Symplify\PackageBuilder\Tests\Composer\VendorDirProviderTest
+ */
+final class VendorDirProvider
 {
-    public static function provide(): string
+    public function provide(): string
     {
         $rootFolder = getenv('SystemDrive', true) . DIRECTORY_SEPARATOR;
 
@@ -23,10 +26,10 @@ final class StaticVendorDirProvider
             return $path;
         }
 
-        return self::reflectionFallback();
+        return $this->reflectionFallback();
     }
 
-    private static function reflectionFallback(): string
+    private function reflectionFallback(): string
     {
         $classLoaderReflection = new ReflectionClass(ClassLoader::class);
 

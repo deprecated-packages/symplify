@@ -6,6 +6,9 @@ namespace Symplify\PackageBuilder\Strings;
 
 use Nette\Utils\Strings;
 
+/**
+ * @see \Symplify\PackageBuilder\Tests\Strings\StringFormatConverterTest
+ */
 final class StringFormatConverter
 {
     public function underscoreAndHyphenToCamelCase(string $value): string

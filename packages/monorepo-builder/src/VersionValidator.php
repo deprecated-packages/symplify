@@ -9,6 +9,9 @@ use Symplify\MonorepoBuilder\Merge\Configuration\ModifyingComposerJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\Section;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Tests\VersionValidator\VersionValidatorTest
+ */
 final class VersionValidator
 {
     /**

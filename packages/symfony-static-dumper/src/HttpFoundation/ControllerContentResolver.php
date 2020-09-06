@@ -39,6 +39,9 @@ final class ControllerContentResolver
         $this->controllerMatcher = $controllerMatcher;
     }
 
+    /**
+     * @param mixed $values
+     */
     public function resolveFromRouteAndArgument(string $routeName, Route $route, $values): ?string
     {
         $controllerCallable = $this->controllerMatcher->matchRouteToControllerAndMethod($route);

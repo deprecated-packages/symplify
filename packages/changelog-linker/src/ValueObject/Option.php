@@ -29,4 +29,10 @@ final class Option
      * @var string
      */
     public const GITHUB_TOKEN = 'github_token';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const REPOSITORY_URL = 'repository_url';
 }

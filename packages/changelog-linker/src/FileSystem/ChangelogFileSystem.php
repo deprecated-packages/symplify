@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\FileSystem;
 
-use Nette\Utils\FileSystem;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
@@ -62,7 +61,7 @@ final class ChangelogFileSystem
 
     public function storeChangelog(string $content): void
     {
-        FileSystem::write($this->getChangelogFilePath(), $content);
+        $this->smartFileSystem->dumpFile($this->getChangelogFilePath(), $content);
     }
 
     public function addToChangelogOnPlaceholder(string $newContent, string $placeholder): void

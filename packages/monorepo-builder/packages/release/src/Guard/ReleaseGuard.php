@@ -101,7 +101,7 @@ final class ReleaseGuard
     }
 
     /**
-     * @return string[]
+     * @return string[] <int, string>
      */
     private function getStages(): array
     {

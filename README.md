@@ -153,7 +153,7 @@ If you have issue and want to improve some package, put it all into this reposit
 Fork, clone your repository and install dependencies:
 
 ```bash
-git clone git@github.com:<your-name>/Symplify.git
+git clone git@github.com:<your-name>/symplify.git
 cd Symplify
 composer update
 ```

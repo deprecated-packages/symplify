@@ -14,7 +14,7 @@ final class ParametersMerger
      * @autor David Grudl (https://davidgrudl.com)
      * @source https://github.com/nette/di/blob/8eb90721a131262f17663e50aee0032a62d0ef08/src/DI/Config/Helpers.php#L31
      *
-     * @return mixed[]|string
+     * @return mixed[]|mixed
      */
     public function merge($left, $right)
     {
@@ -36,7 +36,7 @@ final class ParametersMerger
      *
      * $this->mergeWithCombine(1, 2); // [1, 2]
      *
-     * @return mixed[]|string
+     * @return mixed[]|mixed
      */
     public function mergeWithCombine($left, $right)
     {
@@ -57,6 +57,9 @@ final class ParametersMerger
         return $left;
     }
 
+    /**
+     * @return mixed[]
+     */
     private function mergeLeftToRightWithCallable(array $left, array $right, Closure $mergeCallback): array
     {
         foreach ($left as $key => $val) {

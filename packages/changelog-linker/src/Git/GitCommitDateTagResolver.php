@@ -7,6 +7,9 @@ namespace Symplify\ChangelogLinker\Git;
 use Nette\Utils\Strings;
 use Symfony\Component\Process\Process;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\Git\GitCommitDateTagResolverTest
+ */
 final class GitCommitDateTagResolver
 {
     /**

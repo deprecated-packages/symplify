@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 final class InlineVarMalformWorker extends AbstractMalformWorker
@@ -16,7 +17,10 @@ final class InlineVarMalformWorker extends AbstractMalformWorker
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
-        if (! $tokens[$position]->isGivenKind(T_COMMENT)) {
+        /** @var Token $token */
+        $token = $tokens[$position];
+
+        if (! $token->isGivenKind(T_COMMENT)) {
             return $docContent;
         }
 

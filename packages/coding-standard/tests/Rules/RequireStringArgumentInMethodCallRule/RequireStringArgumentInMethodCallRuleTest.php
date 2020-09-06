@@ -21,6 +21,9 @@ final class RequireStringArgumentInMethodCallRuleTest extends RuleTestCase
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<mixed>
+     */
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(RequireStringArgumentInMethodCallRule::ERROR_MESSAGE, 'callMe', 1);

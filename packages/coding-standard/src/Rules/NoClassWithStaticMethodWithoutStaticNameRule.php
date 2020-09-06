@@ -100,7 +100,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule
 
     private function isStaticConstructorOfValueObject(ClassMethod $classMethod): bool
     {
-        return (bool) $this->nodeFinder->findFirst((array) $classMethod->stmts, function (Node $node) {
+        return (bool) $this->nodeFinder->findFirst((array) $classMethod->stmts, function (Node $node): bool {
             if (! $node instanceof Return_) {
                 return false;
             }

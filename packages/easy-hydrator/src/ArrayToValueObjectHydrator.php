@@ -10,6 +10,9 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\CacheItem;
 use Symplify\EasyHydrator\Exception\MissingConstructorException;
 
+/**
+ * @see \Symplify\EasyHydrator\Tests\ArrayToValueObjectHydratorTest
+ */
 final class ArrayToValueObjectHydrator
 {
     /**
@@ -65,6 +68,9 @@ final class ArrayToValueObjectHydrator
         return $objects;
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     private function resolveClassConstructorValues(string $class, array $data): array
     {
         $arguments = [];

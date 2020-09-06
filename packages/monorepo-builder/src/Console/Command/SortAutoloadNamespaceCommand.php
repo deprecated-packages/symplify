@@ -76,6 +76,9 @@ final class SortAutoloadNamespaceCommand extends Command
         $composerJson->setAutoloadDev($sortedAutoloadDev);
     }
 
+    /**
+     * @return mixed[]
+     */
     private function sortAutoload(array $autoload): array
     {
         // 2. sort by namespaces

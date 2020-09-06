@@ -10,6 +10,9 @@ use Symplify\ChangelogLinker\ChangeTree\Resolver\PackageResolver;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory\ChangeFactoryTest
+ */
 final class ChangeFactory
 {
     /**

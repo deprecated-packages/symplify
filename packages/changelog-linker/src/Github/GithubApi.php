@@ -14,6 +14,9 @@ use Symplify\ChangelogLinker\Exception\Github\GithubApiException;
 use Symplify\ChangelogLinker\Guzzle\ResponseFormatter;
 use Throwable;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\Github\GithubApiTest
+ */
 final class GithubApi
 {
     /**
@@ -160,6 +163,9 @@ final class GithubApi
         });
     }
 
+    /**
+     * @return mixed[]
+     */
     private function getSinglePullRequestJson(int $pullRequestId): array
     {
         $url = sprintf(self::URL_PULL_REQUEST_BY_ID, $this->repositoryName, $pullRequestId);

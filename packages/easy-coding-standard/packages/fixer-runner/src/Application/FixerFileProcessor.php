@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\FixerRunner\Application;
 
-use Nette\Utils\FileSystem;
 use PhpCsFixer\Differ\DifferInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -17,8 +16,12 @@ use Symplify\EasyCodingStandard\FixerRunner\Exception\Application\FixerFailedExc
 use Symplify\EasyCodingStandard\FixerRunner\Parser\FileToTokensParser;
 use Symplify\EasyCodingStandard\Skipper;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 use Throwable;
 
+/**
+ * @see \Symplify\EasyCodingStandard\Tests\Error\ErrorCollector\FixerFileProcessorTest
+ */
 final class FixerFileProcessor implements FileProcessorInterface
 {
     /**
@@ -67,6 +70,11 @@ final class FixerFileProcessor implements FileProcessorInterface
     private $easyCodingStandardStyle;
 
     /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
+    /**
      * @param FixerInterface[] $fixers
      */
     public function __construct(
@@ -77,6 +85,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         Skipper $skipper,
         DifferInterface $differ,
         EasyCodingStandardStyle $easyCodingStandardStyle,
+        SmartFileSystem $smartFileSystem,
         array $fixers = []
     ) {
         $this->errorAndDiffCollector = $errorAndDiffCollector;
@@ -87,6 +96,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         $this->differ = $differ;
         $this->fixers = $this->sortFixers($fixers);
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
+        $this->smartFileSystem = $smartFileSystem;
     }
 
     /**
@@ -122,7 +132,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         $this->errorAndDiffCollector->addDiffForFileInfo($smartFileInfo, $diff, $this->appliedFixers);
 
         if ($this->configuration->isFixer()) {
-            FileSystem::write($smartFileInfo->getRealPath(), $tokens->generateCode());
+            $this->smartFileSystem->dumpFile($smartFileInfo->getRealPath(), $tokens->generateCode());
         }
 
         Tokens::clearCache();

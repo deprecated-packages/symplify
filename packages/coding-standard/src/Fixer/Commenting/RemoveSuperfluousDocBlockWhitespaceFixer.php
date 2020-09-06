@@ -13,6 +13,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 
+/**
+ * @see \Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer\RemoveSuperfluousDocBlockWhitespaceFixerTest
+ */
 final class RemoveSuperfluousDocBlockWhitespaceFixer extends AbstractSymplifyFixer
 {
     /**
@@ -33,6 +36,7 @@ final class RemoveSuperfluousDocBlockWhitespaceFixer extends AbstractSymplifyFix
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = count($tokens) - 1; $index > 1; --$index) {
+            /** @var Token $token */
             $token = $tokens[$index];
 
             if (! $token->isGivenKind(T_DOC_COMMENT)) {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\Autodiscovery\Command;
 
-use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,6 +18,7 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ConvertYamlCommand extends Command
 {
@@ -52,16 +52,23 @@ final class ConvertYamlCommand extends Command
      */
     private $finderSanitizer;
 
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
     public function __construct(
         ExplicitToAutodiscoveryConverter $explicitToAutodiscoveryConverter,
         SymfonyStyle $symfonyStyle,
-        FinderSanitizer $finderSanitizer
+        FinderSanitizer $finderSanitizer,
+        SmartFileSystem $smartFileSystem
     ) {
         parent::__construct();
 
         $this->explicitToAutodiscoveryConverter = $explicitToAutodiscoveryConverter;
         $this->symfonyStyle = $symfonyStyle;
         $this->finderSanitizer = $finderSanitizer;
+        $this->smartFileSystem = $smartFileSystem;
     }
 
     protected function configure(): void
@@ -128,7 +135,7 @@ final class ConvertYamlCommand extends Command
             $convertedContent = Strings::replace($convertedContent, '#^( {4}([A-Z].*?): )(null)$#m', '$1~');
 
             // save
-            FileSystem::write($yamlFileInfo->getRealPath(), $convertedContent);
+            $this->smartFileSystem->dumpFile($yamlFileInfo->getRealPath(), $convertedContent);
 
             $this->symfonyStyle->note('File converted');
         }

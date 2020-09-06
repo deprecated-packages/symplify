@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\SymfonyStaticDumper\Controller;
 
-use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Route;
+use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SymfonyStaticDumper\Contract\ControllerWithDataProviderInterface;
 use Symplify\SymfonyStaticDumper\ControllerWithDataProviderMatcher;
 use Symplify\SymfonyStaticDumper\FileSystem\FilePathResolver;
@@ -41,18 +41,25 @@ final class ControllerDumper
      */
     private $filePathResolver;
 
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
     public function __construct(
         ControllerWithDataProviderMatcher $controllerWithDataProviderMatcher,
         ControllerContentResolver $controllerContentResolver,
         RoutesProvider $routesProvider,
         SymfonyStyle $symfonyStyle,
-        FilePathResolver $filePathResolver
+        FilePathResolver $filePathResolver,
+        SmartFileSystem $smartFileSystem
     ) {
         $this->controllerWithDataProviderMatcher = $controllerWithDataProviderMatcher;
         $this->controllerContentResolver = $controllerContentResolver;
         $this->symfonyStyle = $symfonyStyle;
         $this->routesProvider = $routesProvider;
         $this->filePathResolver = $filePathResolver;
+        $this->smartFileSystem = $smartFileSystem;
     }
 
     public function dump(string $outputDirectory): void
@@ -77,7 +84,7 @@ final class ControllerDumper
 
             $this->printProgressOrDumperFileInfo($route, $filePath, $progressBar);
 
-            FileSystem::write($filePath, $fileContent);
+            $this->smartFileSystem->dumpFile($filePath, $fileContent);
         }
     }
 
@@ -162,7 +169,7 @@ final class ControllerDumper
 
             $this->printProgressOrDumperFileInfo($route, $filePath, $progressBar);
 
-            FileSystem::write($filePath, $fileContent);
+            $this->smartFileSystem->dumpFile($filePath, $fileContent);
         }
     }
 }

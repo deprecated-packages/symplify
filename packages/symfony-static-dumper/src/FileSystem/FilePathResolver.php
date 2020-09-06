@@ -23,6 +23,9 @@ final class FilePathResolver
         return $outputDirectory . '/' . $routePath;
     }
 
+    /**
+     * @param mixed|mixed[] $arguments
+     */
     public function resolveFilePathWithArgument(Route $route, string $outputDirectory, $arguments): string
     {
         $filePath = $this->resolveFilePath($route, $outputDirectory);

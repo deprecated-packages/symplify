@@ -4,11 +4,16 @@ includes:
 parameters:
     symplify:
         forbidden_parent_classes: []
+
+        # for \Symplify\CodingStandard\Rules\PreferredClassRule
         old_to_preffered_classes: []
         constant_arg_by_method_by_type: []
         parent_classes: []
         required_see_types: []
         string_arg_by_method_by_type: []
+
+        # for \Symplify\CodingStandard\Rules\NoStaticCallRule
+        allowed_static_call_classes: []
 
         # cognitive complexity
         max_cognitive_complexity: 8
@@ -17,11 +22,17 @@ parameters:
 parametersSchema:
     symplify: structure([
         forbidden_parent_classes: arrayOf(string())
+
+        # for \Symplify\CodingStandard\Rules\PreferredClassRule
         old_to_preffered_classes: arrayOf(string())
         max_cognitive_complexity: int()
         max_class_cognitive_complexity: int()
         parent_classes: arrayOf(string())
         required_see_types: arrayOf(string())
+
+        # for \Symplify\CodingStandard\Rules\NoStaticCallRule
+        allowed_static_call_classes: arrayOf(string())
+
         constant_arg_by_method_by_type: arrayOf(arrayOf(arrayOf(int())))
         string_arg_by_method_by_type: arrayOf(arrayOf(arrayOf(int())))
     ])
@@ -152,3 +163,9 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             stringArgByMethodByType: "%symplify.string_arg_by_method_by_type%"
+
+    -
+        class: Symplify\CodingStandard\Rules\NoStaticCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedStaticCallClasses: "%symplify.allowed_static_call_classes%"

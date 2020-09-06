@@ -7,6 +7,9 @@ namespace Symplify\ChangelogLinker\ChangeTree\Resolver;
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Configuration\Package;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory\Resolver\PackageResolverTest
+ */
 final class PackageResolver
 {
     /**

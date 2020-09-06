@@ -25,6 +25,7 @@ final class NoGetRepositoryOutsideConstructorRule implements Rule
 
     /**
      * @param MethodCall $node
+     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {

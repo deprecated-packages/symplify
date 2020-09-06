@@ -9,6 +9,9 @@ use Symplify\MonorepoBuilder\Split\Exception\InvalidGitRepositoryException;
 use Symplify\MonorepoBuilder\Split\Exception\InvalidRepositoryFormatException;
 use Symplify\SmartFileSystem\FileSystemGuard;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Split\Tests\Configuration\RepositoryGuardTest
+ */
 final class RepositoryGuard
 {
     /**

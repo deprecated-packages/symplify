@@ -26,6 +26,7 @@ final class ForbiddenArrayDestructRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SkipSwap.php', []];
         yield [__DIR__ . '/Fixture/SkipExplode.php', []];
         yield [__DIR__ . '/Fixture/SkipStringsSplit.php', []];
+        yield [__DIR__ . '/Fixture/SkipExternalReturnArray.php', []];
     }
 
     protected function getRule(): Rule

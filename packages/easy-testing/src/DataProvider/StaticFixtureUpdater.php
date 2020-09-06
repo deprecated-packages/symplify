@@ -34,6 +34,6 @@ final class StaticFixtureUpdater
             return $originalFileInfo->getContents();
         }
 
-        return $originalFileInfo->getContents() . '-----' . $changedContent;
+        return $originalFileInfo->getContents() . '-----' . PHP_EOL . $changedContent;
     }
 }
