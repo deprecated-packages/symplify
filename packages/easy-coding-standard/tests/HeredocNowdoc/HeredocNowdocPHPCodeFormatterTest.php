@@ -20,7 +20,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class HeredocNowdocPHPCodeFormatterTest extends AbstractKernelTestCase
 {
     /**
-     * @var HeredocPHPCodeFormatter
+     * @var HeredocNowdocPHPCodeFormatter
      */
     private $heredocnowdocPHPFormatter;
 
