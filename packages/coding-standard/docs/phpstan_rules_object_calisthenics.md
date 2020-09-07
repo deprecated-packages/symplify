@@ -232,7 +232,7 @@ final class SomeClass
 ```yaml
 # phpstan.neon
 parameters:
-    symplify:
+    object_calisthenics:
         # default
         max_property_count: 15
 ```
@@ -268,7 +268,7 @@ final class SomeClass
 ```yaml
 # phpstan.neon
 parameters:
-    symplify:
+    object_calisthenics:
         # default
         max_method_count: 15
 ```
