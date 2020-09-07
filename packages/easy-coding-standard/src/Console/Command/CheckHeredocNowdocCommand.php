@@ -94,7 +94,7 @@ final class CheckHeredocNowdocCommand extends Command
                     $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
                     $alreadyFollowCodingStandard = false;
                 }
-            } catch (Throwable $e) {
+            } catch (Throwable $throwable) {
                 continue;
             }
         }
