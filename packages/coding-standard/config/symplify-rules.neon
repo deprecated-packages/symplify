@@ -6,6 +6,9 @@ parameters:
         # for \Symplify\CodingStandard\Rules\ExcessiveParameterListRule
         max_parameter_count: 10
 
+        # for \Symplify\CodingStandard\Rules\TooLongVariableRule
+        max_variable_length: 40
+
         forbidden_parent_classes: []
 
         # for \Symplify\CodingStandard\Rules\ExcessivePublicCountRule
@@ -42,6 +45,9 @@ parametersSchema:
     symplify: structure([
         # for \Symplify\CodingStandard\Rules\ExcessiveParameterListRule
         max_parameter_count: int()
+
+        # for \Symplify\CodingStandard\Rules\TooLongVariableRule
+        max_variable_length: int()
 
         # for \Symplify\CodingStandard\Rules\ExcessivePublicCountRule
         max_public_class_element_count: int()
@@ -225,3 +231,9 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxPropertyCount: "%symplify.max_property_count%"
+
+    -
+        class: Symplify\CodingStandard\Rules\TooLongVariableRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxVariableLength: "%symplify.max_variable_length%"

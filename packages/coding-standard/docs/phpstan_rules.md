@@ -1,4 +1,32 @@
-# 32+ PHPStan Rules
+# 33+ PHPStan Rules
+
+## Keep Variable Not Too Long
+
+- class: [`TooLongVariableRule`](../src/Rules/TooLongVariableRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\TooLongVariableRule
+
+parameters:
+    symplify:
+        # [default: 20]
+        max_variable_length: 15
+```
+
+```php
+final class SomeClass
+{
+    public function run($superLongVariableThatGoesBeyongReadingFewWords)
+    {
+        return $superLongVariableThatGoesBeyongReadingFewWords;
+    }
+}
+```
+
+:x:
 
 ## Keep Low Property Count in a Class
 
