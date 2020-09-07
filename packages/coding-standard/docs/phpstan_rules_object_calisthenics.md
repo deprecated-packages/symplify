@@ -121,6 +121,7 @@ class SomeClass
 
 :+1:
 
+<br>
 
 ## Rule 6: No Names Shorter than 3 Chars
 
@@ -156,8 +157,9 @@ final class EverestMule
 
 :+1:
 
+<br>
 
-## Rule 7 - Keep Your Classes Small
+## Rule 7: Keep Your Classes Small
 
 - class: [`TooLongClassLikeRule`](../packages/object-calisthenics/src/Rules/TooLongClassLikeRule.php)
 - **configuration allowed**
@@ -212,8 +214,6 @@ final class SomeClass
 
 ---
 
-## Keep Low Property Count in a Class
-
 - class: [`TooManyPropertiesRule`](../packages/object-calisthenics/src/Rules/TooManyPropertiesRule.php)
 - **configuration allowed**
 
@@ -243,6 +243,42 @@ final class SomeClass
     private $value6;
 
     // ...
+}
+```
+
+:x:
+
+<br>
+
+## Keep Low Method Count in a Class
+
+- class: [`TooManyMethodsRule`](../packages/object-calisthenics/src/Rules/TooManyMethodsRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+parameters:
+    symplify:
+        # default
+        max_method_count: 15
+```
+
+```php
+<?php declare(strict_types=1);
+
+final class SomeClass
+{
+    public function go()
+    {
+    }
+
+    public function run()
+    {
+    }
+
+    public function too()
+    {
+    }
 }
 ```
 

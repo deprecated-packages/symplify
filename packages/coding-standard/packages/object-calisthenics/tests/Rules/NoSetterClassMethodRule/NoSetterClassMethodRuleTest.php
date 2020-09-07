@@ -23,10 +23,12 @@ final class NoSetterClassMethodRuleTest extends RuleTestCase
     {
         $errorMessage = sprintf(NoSetterClassMethodRule::ERROR_MESSAGE, 'setName');
         yield [__DIR__ . '/Fixture/SetterMethod.php', [[$errorMessage, 9]]];
+
+        yield [__DIR__ . '/Fixture/AllowedClass.php', []];
     }
 
     protected function getRule(): Rule
     {
-        return new NoSetterClassMethodRule();
+        return new NoSetterClassMethodRule(['*\AllowedClass']);
     }
 }

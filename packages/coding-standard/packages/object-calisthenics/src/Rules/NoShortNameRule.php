@@ -34,7 +34,7 @@ final class NoShortNameRule extends AbstractManyNodeTypeRule
     /**
      * @var string[]
      */
-    private $allowedShortNames;
+    private $allowedShortNames = [];
 
     /**
      * @param string[] $allowedShortNames

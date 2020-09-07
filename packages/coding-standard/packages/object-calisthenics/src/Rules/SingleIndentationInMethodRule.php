@@ -52,6 +52,7 @@ final class SingleIndentationInMethodRule implements Rule
 
         $nodeTraverser = new NodeTraverser();
         $nodeTraverser->addVisitor($indentationNodeVisitor);
+
         $this->indentationNodeTraverser = $nodeTraverser;
 
         $this->maxNestingLevel = $maxNestingLevel;

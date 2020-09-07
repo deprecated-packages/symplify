@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\TooManyPropertiesRule\TooManyPropertiesRuleTest
+ * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooManyPropertiesRule\TooManyPropertiesRuleTest
  */
 final class TooManyPropertiesRule implements Rule
 {
