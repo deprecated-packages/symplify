@@ -89,6 +89,7 @@ abstract class AbstractPHPFormatter
 
             $fileContent = $fileInfo->getContents();
         } catch (Throwable $throwable) {
+            // Skipped parsed error when processing php file
         } finally {
             $this->smartFileSystem->remove($file);
         }
