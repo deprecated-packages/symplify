@@ -78,14 +78,14 @@ final class CheckMarkdownCommand extends Command
                 $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
                 $successMessage = 'PHP code in Markdown has been fixed to follow coding standard';
             }
+
+            $this->easyCodingStandardStyle->success($successMessage);
         } catch (Throwable $throwable) {
         }
 
         // ensure clean up php-code-* files that undeleted yet because of parse error
         $mask = 'php-code-*';
         array_map('unlink', (array) glob($mask));
-
-        $this->easyCodingStandardStyle->success($successMessage);
 
         return ShellCode::SUCCESS;
     }
