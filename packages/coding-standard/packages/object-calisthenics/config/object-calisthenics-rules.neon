@@ -2,3 +2,7 @@ rules:
     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
+
+    # not so practical - add them manually
+    #- Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule
+    #- Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
