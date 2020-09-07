@@ -8,11 +8,13 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoDirectoryException;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\HeredocNowdoc\HeredocNowdocPHPCodeFormatter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\SmartFileSystem\FileSystemFilter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -64,20 +66,38 @@ final class CheckHeredocNowdocCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var string $markdownFile */
-        $markdownFile = $input->getArgument(self::SOURCE);
-        if (! is_dir($markdownFile)) {
-            $message = sprintf('Directory "%s" not found', $markdownFile);
+        /** @var string $heredocNowDocDirectory */
+        $heredocNowDocDirectory = $input->getArgument(self::SOURCE);
+        if (! is_dir($heredocNowDocDirectory)) {
+            $message = sprintf('Directory "%s" not found', $heredocNowDocDirectory);
             throw new NoDirectoryException($message);
         }
 
-        $markdownFileInfo = new SmartFileInfo($markdownFile);
-        $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($markdownFileInfo);
+        $finder = new Finder();
+        $finder->files()->in($heredocNowDocDirectory)->name('*.php');
 
-        if ($markdownFileInfo->getContents() === $fixedContent) {
+        if (! $finder->hasResults()) {
+            $message = sprintf('No file in "%s"', $heredocNowDocDirectory);
+            throw new NoPHPFileException($message);
+        }
+
+        $alreadyFollowCodingStandard = true;
+        foreach ($finder as $file) {
+            $absoluteFilePath = $file->getRealPath();
+
+            $phpFileInfo = new SmartFileInfo($absoluteFilePath);
+            $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo);
+
+            if ($phpFileInfo->getContents() !== $fixedContent) {
+                file_put_contents($absoluteFilePath, $fixedContent);
+            }
+
+            $alreadyFollowCodingStandard = false;
+        }
+
+        if ($alreadyFollowCodingStandard) {
             $successMessage = 'PHP code in Heredoc/Nowdoc already follow coding standard';
         } else {
-            $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
             $successMessage = 'PHP code in Heredoc/Nowdoc has been fixed to follow coding standard';
         }
 

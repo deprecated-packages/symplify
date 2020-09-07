@@ -75,10 +75,7 @@ final class HeredocNowdocPHPCodeFormatter
 
         /** @var string $file */
         $file = sprintf('php-code-%s.php', $key);
-
-        if (! Strings::startsWith($content, '<?php')) {
-            $content = '<?php' . PHP_EOL . $content;
-        }
+        $content = '<?php' . PHP_EOL . $content;
 
         $fileContent = $content;
 
@@ -88,10 +85,10 @@ final class HeredocNowdocPHPCodeFormatter
         $this->fixerFileProcessor->processFile($fileInfo);
         $this->sniffFileProcessor->processFile($fileInfo);
 
-        $fileContent = $fileInfo->getContents();
+        $fileContent = trim($fileInfo->getContents());
 
         $this->smartFileSystem->remove($file);
 
-        return ltrim($fileContent, '<?php' . PHP_EOL);
+        return str_replace('<?php', '', $fileContent) . PHP_EOL;
     }
 }
