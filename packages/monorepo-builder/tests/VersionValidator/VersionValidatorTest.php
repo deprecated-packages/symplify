@@ -44,14 +44,11 @@ final class VersionValidatorTest extends AbstractKernelTestCase
 
         $this->assertArrayHasKey('some/package', $conflictingPackageVersionsPerFile);
 
-        $expectedConflictingPackageVersionsPerFile = [
+        $expectedConflictingVersionsPerFile = [
             __DIR__ . DIRECTORY_SEPARATOR . 'Source' . DIRECTORY_SEPARATOR . 'first.json' => '^1.0',
             __DIR__ . DIRECTORY_SEPARATOR . 'Source' . DIRECTORY_SEPARATOR . 'second.json' => '^2.0',
         ];
 
-        $this->assertSame(
-            $expectedConflictingPackageVersionsPerFile,
-            $conflictingPackageVersionsPerFile['some/package']
-        );
+        $this->assertSame($expectedConflictingVersionsPerFile, $conflictingPackageVersionsPerFile['some/package']);
     }
 }
