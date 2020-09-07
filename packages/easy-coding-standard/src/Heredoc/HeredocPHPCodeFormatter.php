@@ -92,6 +92,6 @@ final class HeredocPHPCodeFormatter
 
         $this->smartFileSystem->remove($file);
 
-        return $fileContent;
+        return ltrim($fileContent, '<?php' . PHP_EOL);
     }
 }
