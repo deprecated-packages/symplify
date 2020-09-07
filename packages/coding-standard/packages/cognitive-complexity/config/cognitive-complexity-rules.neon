@@ -17,13 +17,13 @@ services:
         class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
-            maximumMethodCognitiveComplexity: "%symplify.max_method_cognitive_complexity%"
+            maxMethodCognitiveComplexity: "%symplify.max_method_cognitive_complexity%"
 
     -
         class: Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
-            maximumClassCognitiveComplexity: "%symplify.max_class_cognitive_complexity%"
+            maxClassCognitiveComplexity: "%symplify.max_class_cognitive_complexity%"
 
     - Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer
     - Symplify\CodingStandard\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector

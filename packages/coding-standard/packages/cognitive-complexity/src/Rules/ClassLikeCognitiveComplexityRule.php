@@ -24,7 +24,7 @@ final class ClassLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
     /**
      * @var int
      */
-    private $maximumClassCognitiveComplexity;
+    private $maxClassCognitiveComplexity;
 
     /**
      * @var AstCognitiveComplexityAnalyzer
@@ -33,9 +33,9 @@ final class ClassLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
 
     public function __construct(
         AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
-        int $maximumClassCognitiveComplexity = 50
+        int $maxClassCognitiveComplexity = 50
     ) {
-        $this->maximumClassCognitiveComplexity = $maximumClassCognitiveComplexity;
+        $this->maxClassCognitiveComplexity = $maxClassCognitiveComplexity;
         $this->astCognitiveComplexityAnalyzer = $astCognitiveComplexityAnalyzer;
     }
 
@@ -58,7 +58,7 @@ final class ClassLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
             $classLikeCognitiveComplexity += $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($classMethod);
         }
 
-        if ($classLikeCognitiveComplexity <= $this->maximumClassCognitiveComplexity) {
+        if ($classLikeCognitiveComplexity <= $this->maxClassCognitiveComplexity) {
             return [];
         }
 
@@ -71,7 +71,7 @@ final class ClassLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
             $type,
             $classLikeName,
             $classLikeCognitiveComplexity,
-            $this->maximumClassCognitiveComplexity
+            $this->maxClassCognitiveComplexity
         );
 
         return [$message];

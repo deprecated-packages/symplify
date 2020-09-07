@@ -24,7 +24,26 @@ final class NoShortNameRule extends AbstractManyNodeTypeRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Do not name "%s", shorter than 3 chars';
+    public const ERROR_MESSAGE = 'Do not name "%s", shorter than %d chars';
+
+    /**
+     * @var int
+     */
+    private $minNameLenght;
+
+    /**
+     * @var string[]
+     */
+    private $allowedShortNames = [];
+
+    /**
+     * @param string[] $allowedShortNames
+     */
+    public function __construct(int $minNameLenght, array $allowedShortNames)
+    {
+        $this->minNameLenght = $minNameLenght;
+        $this->allowedShortNames = $allowedShortNames;
+    }
 
     /**
      * @return class-string[]
@@ -41,10 +60,15 @@ final class NoShortNameRule extends AbstractManyNodeTypeRule
     public function process(Node $node, Scope $scope): array
     {
         $name = (string) $node->name;
-        if (Strings::length($name) >= 3) {
+        if (Strings::length($name) >= $this->minNameLenght) {
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $name)];
+        if (in_array($name, $this->allowedShortNames, true)) {
+            return [];
+        }
+
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $name, $this->minNameLenght);
+        return [$errorMessage];
     }
 }

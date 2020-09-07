@@ -55,7 +55,7 @@ includes:
 
 Particular PHPStan sub-sets:
 
-- [Object Calisthenics rules](/docs/phpstan_rules.md#object-calisthenics-rules)
+- [Object Calisthenics rules](/docs/phpstan_rules_object_calisthenics.md)
 - [Cognitive Complexity rules](/docs/phpstan_rules.md#cognitive-complexity)
 
 <br>

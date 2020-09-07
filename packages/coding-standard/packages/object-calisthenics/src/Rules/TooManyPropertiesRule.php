@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Rules;
+namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
@@ -10,9 +10,9 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\TooManyFieldsRule\TooManyFieldsRuleTest
+ * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooManyPropertiesRule\TooManyPropertiesRuleTest
  */
-final class TooManyFieldsRule implements Rule
+final class TooManyPropertiesRule implements Rule
 {
     /**
      * @var string

@@ -37,7 +37,7 @@ final class FunctionLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
     /**
      * @var int
      */
-    private $maximumMethodCognitiveComplexity;
+    private $maxMethodCognitiveComplexity;
 
     /**
      * @var AstCognitiveComplexityAnalyzer
@@ -46,9 +46,9 @@ final class FunctionLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
 
     public function __construct(
         AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
-        int $maximumMethodCognitiveComplexity = 8
+        int $maxMethodCognitiveComplexity = 8
     ) {
-        $this->maximumMethodCognitiveComplexity = $maximumMethodCognitiveComplexity;
+        $this->maxMethodCognitiveComplexity = $maxMethodCognitiveComplexity;
         $this->astCognitiveComplexityAnalyzer = $astCognitiveComplexityAnalyzer;
     }
 
@@ -67,7 +67,7 @@ final class FunctionLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
     public function process(Node $node, Scope $scope): array
     {
         $functionLikeCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($node);
-        if ($functionLikeCognitiveComplexity <= $this->maximumMethodCognitiveComplexity) {
+        if ($functionLikeCognitiveComplexity <= $this->maxMethodCognitiveComplexity) {
             return [];
         }
 
@@ -77,7 +77,7 @@ final class FunctionLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
             self::ERROR_MESSAGE,
             $functionLikeName,
             $functionLikeCognitiveComplexity,
-            $this->maximumMethodCognitiveComplexity
+            $this->maxMethodCognitiveComplexity
         );
 
         return [$message];

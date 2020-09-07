@@ -1,4 +1,94 @@
+parameters:
+    object_calisthenics:
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+        max_nesting_level: 1
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
+        min_name_lenght: 3
+        allowed_short_names: ['id', 'to', 'up']
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassLikeRule
+        max_class_like_length: 300
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        max_function_like_length: 20
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyPropertiesRule
+        max_property_count: 10
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyMethodsRule
+        max_method_count: 10
+
+parametersSchema:
+    object_calisthenics: structure([
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+        max_nesting_level: int()
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
+        min_name_lenght: int()
+        allowed_short_names: arrayOf(string())
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassLikeRule
+        max_class_like_length: int()
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        max_function_like_length: int()
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyPropertiesRule
+        max_property_count: int()
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyMethodsRule
+        max_method_count: int()
+    ])
+
+services:
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            minNameLenght: "%object_calisthenics.min_name_lenght%"
+            allowedShortNames: "%object_calisthenics.allowed_short_names%"
+
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxVariableLength: "%object_calisthenics.max_nesting_level%"
+
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassLikeLength: "%object_calisthenics.max_class_like_length%"
+
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxFunctionLikeLength: "%object_calisthenics.max_function_like_length%"
+
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyPropertiesRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPropertyCount: "%object_calisthenics.max_property_count%"
+
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyMethodsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPropertyCount: "%object_calisthenics.max_method_count%"
+
+    -
+         class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule
+         tags: [phpstan.rules.rule]
+         arguments:
+            allowedSetterClasses: "%object_calisthenics.allowed_setter_classes%"
+
+    # not so practical for major use - add them manually
+    # better is cognitive complexity rule, it handles human readable code better
+    #- Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+
 rules:
     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
-    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule

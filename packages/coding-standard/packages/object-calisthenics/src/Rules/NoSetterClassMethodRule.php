@@ -25,8 +25,22 @@ final class NoSetterClassMethodRule implements Rule
 
     /**
      * @var string
+     * @see https://regex101.com/r/IMIpoN/1/
      */
-    private const SETTER_REGEX = '#^set[A-Z0-9]#';
+    private const SETTER_REGEX = '#^set[\w+]#';
+
+    /**
+     * @var string[]
+     */
+    private $allowedSetterClasses = [];
+
+    /**
+     * @param string[] $allowedSetterClasses
+     */
+    public function __construct(array $allowedSetterClasses = [])
+    {
+        $this->allowedSetterClasses = $allowedSetterClasses;
+    }
 
     public function getNodeType(): string
     {
@@ -35,16 +49,36 @@ final class NoSetterClassMethodRule implements Rule
 
     /**
      * @param ClassMethod $node
-     * @return array<int, string>
+     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
         $methodName = (string) $node->name;
-
         if (! Strings::match($methodName, self::SETTER_REGEX)) {
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $methodName)];
+        if ($this->isClassExcluded($scope)) {
+            return [];
+        }
+
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $methodName);
+        return [$errorMessage];
+    }
+
+    private function isClassExcluded(Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return false;
+        }
+
+        foreach ($this->allowedSetterClasses as $allowedClass) {
+            if (fnmatch($allowedClass, $classReflection->getName())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
