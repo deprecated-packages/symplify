@@ -20,7 +20,7 @@ final class HeredocNowdocPHPCodeFormatter
      * @see https://regex101.com/r/SZr0X5/3
      * @var string
      */
-    private const PHP_CODE_SNIPPET_IN_HEREDOC_NOWDOC = '#(?<opening><<<(\'?PHP\'?|\"?PHP\"?)\s+)(?<content>[^PHP]+\n)(?<closing>(\s+)?PHP)#ms';
+    private const PHP_CODE_SNIPPET_IN_HEREDOC_NOWDOC = '#(?<opening><<<(\'?([A-Z]+)\'?|\"?([A-Z]+)\"?)\s+|(\'?([A-Z]+)\'?|\"?([A-Z]+)\"?)\s+)(?<content>[^\3|\4]+\n)(?<closing>(\s+)?\3|\4)#ms';
 
     /**
      * @var SmartFileSystem
