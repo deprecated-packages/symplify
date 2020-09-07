@@ -45,15 +45,17 @@ parameters:
 ```
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
     public $value;
 
     public $value2;
 
-    protected $value3;
+    private $value3;
 
-    protected $value4;
+    private $value4;
 
     private $value5;
 
@@ -82,13 +84,15 @@ parameters:
 ```
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
     public const NAME = 'value';
 
     public $value;
 
-    public function run()
+    public function run(): void
     {
     }
 
@@ -117,6 +121,8 @@ parameters:
 ```
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
     public function run()
@@ -147,9 +153,11 @@ parameters:
 ```
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
-    public function run($one, $two, $three, $four, $five, $six)
+    public function run($one, $two, $three, $four, $five, $six): void
     {
     }
 }
@@ -177,6 +185,8 @@ parameters:
 ```
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
     public function run()
@@ -195,6 +205,8 @@ final class SomeClass
 - class: [`NoReturnArrayVariableList`](../src/Rules/NoReturnArrayVariableList.php)
 
 ```php
+<?php declare(strict_types=1);
+
 final class ReturnVariables
 {
     /**
@@ -210,6 +222,8 @@ final class ReturnVariables
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 final class ReturnVariables
 {
     public function run($value, $value2): ValueObject
@@ -243,9 +257,11 @@ parameters:
 ```
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
-    public function run(SomeObject $someObject)
+    public function run(SomeObject $someObject): void
     {
         $this->someObject->someMethod('yes', Another::class);
     }
@@ -255,9 +271,11 @@ class SomeClass
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
-    public function run(SomeObject $someObject)
+    public function run(SomeObject $someObject): void
     {
         $this->someObject->someMethod('yes', 'Another');
     }
@@ -273,9 +291,11 @@ class SomeClass
 - class: [`ForbiddenArrayDestructRule`](../src/Rules/ForbiddenArrayDestructRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
-    public function run()
+    public function run(): void
     {
         [$firstValue, $secondValue] = $this->getRandomData();
     }
@@ -285,9 +305,11 @@ final class SomeClass
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
-    public function run()
+    public function run(): void
     {
         $resultValueObject = $this->getRandomData();
         $firstValue = $resultValueObject->getFirstValue();
@@ -305,6 +327,8 @@ final class SomeClass
 - class: [`ForbiddenArrayWithStringKeysRule`](../src/Rules/ForbiddenArrayWithStringKeysRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
     public function run()
@@ -320,6 +344,8 @@ final class SomeClass
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
     public function run()
@@ -338,6 +364,8 @@ final class SomeClass
 - class: [`ForbiddenComplexArrayConfigInSetRule`](../src/Rules/ForbiddenComplexArrayConfigInSetRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -345,9 +373,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(NormalToFluentRector::class)
         ->call('configure', [[
-            'options' => [
-                'Cake\Network\Response', ['withLocation', 'withHeader']
-            ]
+            'options' => ['Cake\Network\Response', ['withLocation', 'withHeader']],
         ]]);
 };
 ```
@@ -355,6 +381,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -363,11 +391,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NormalToFluentRector::class)
         ->call('configure', [[
             'options' => inline_value_objects([
-                new SomeValueObject('Cake\Network\Response', [
-                    'withLocation',
-                    'withHeader'
-                ])
-            ])
+                new SomeValueObject('Cake\Network\Response', ['withLocation', 'withHeader']),
+            ]),
         ]]);
 };
 ```
@@ -381,6 +406,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 - class: [`NoEntityManagerInControllerRule`](../src/Rules/NoEntityManagerInControllerRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 use Doctrine\ORM\EntityManagerInterface;
 
 final class SomeController
@@ -395,6 +422,8 @@ final class SomeController
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeController
 {
     public function __construct(SomeEntityRepository $someEntityRepository)
@@ -413,11 +442,13 @@ final class SomeController
 - class: [`NoGetRepositoryOutsideConstructorRule`](../src/Rules/NoGetRepositoryOutsideConstructorRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 use Doctrine\ORM\EntityManager;
 
 final class SomeController
 {
-    public function someAction(EntityManager $entityManager)
+    public function someAction(EntityManager $entityManager): void
     {
         $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
     }
@@ -427,12 +458,15 @@ final class SomeController
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 
 final class SomeRepository
 {
     /**
-     * @var \Doctrine\ORM\EntityRepository<SomeEntity>
+     * @var EntityRepository<SomeEntity>
      */
     public $someEntityRepository;
 
@@ -454,9 +488,11 @@ Inspired by [Null Hell](https://afilina.com/null-hell) by @afilina
 - class: [`NoNullableParameterRule`](../src/Rules/NoNullableParameterRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
-    public function run(?string $vaulue = true)
+    public function run(?string $vaulue = true): void
     {
     }
 }
@@ -471,9 +507,11 @@ class SomeClass
 - class: [`NoDefaultParameterValueRule`](../src/Rules/NoDefaultParameterValueRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
-    public function run($vaulue = true)
+    public function run($vaulue = true): void
     {
     }
 }
@@ -504,7 +542,10 @@ parameters:
 :x:
 
 ```php
-class Some extends Command // should be "SomeCommand"
+<?php declare(strict_types=1);
+
+// should be "SomeCommand"
+class Some extends Command
 {
 }
 ```
@@ -518,6 +559,8 @@ class Some extends Command // should be "SomeCommand"
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 d($value);
 dd($value);
 dump($value);
@@ -533,6 +576,8 @@ var_dump($value);
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
     public function run($value)
@@ -545,6 +590,8 @@ final class SomeClass
 :+1:
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
     public function run(array $value)
@@ -561,16 +608,18 @@ final class SomeClass
 - class: [`PreventParentMethodVisibilityOverrideRule`](../src/Rules/PreventParentMethodVisibilityOverrideRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 class ProtectedVisibility
 {
-    protected function run()
+    protected function run(): void
     {
     }
 }
 
 final class PublicOverride extends ProtectedVisibility
 {
-    public function run()
+    public function run(): void
     {
     }
 }
@@ -585,11 +634,13 @@ final class PublicOverride extends ProtectedVisibility
 - class: [`NoDynamicPropertyFetchNameRule`](../src/Rules/NoDynamicPropertyFetchNameRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 final class DynamicPropertyFetchName
 {
-    public function run($value)
+    public function run($value): void
     {
-        $this->$value;
+        $this->{$value};
     }
 }
 ```
@@ -603,6 +654,8 @@ final class DynamicPropertyFetchName
 - class: [`NoFunctionCallInMethodCallRule`](../src/Rules/NoFunctionCallInMethodCallRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
     public function run($value): void
@@ -620,6 +673,8 @@ final class SomeClass
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
     public function run($value): void
@@ -644,24 +699,26 @@ final class SomeClass
 - class: [`NoArrayAccessOnObjectRule`](../src/Rules/NoArrayAccessOnObjectRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 final class MagicArrayObject implements ArrayAccess
 {
-    public function offsetExists($offset)
+    public function offsetExists($offset): void
     {
         // ...
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): void
     {
         // ...
     }
 
-    public function offsetSet($offset,$value)
+    public function offsetSet($offset, $value): void
     {
         // ...
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         // ...
     }
@@ -669,6 +726,8 @@ final class MagicArrayObject implements ArrayAccess
 ```
 
 ```php
+<?php declare(strict_types=1);
+
 final class SomeClass
 {
     public function run(MagicArrayObject $magicArrayObject)
@@ -687,11 +746,13 @@ final class SomeClass
 - class: [`NoIssetOnObjectRule`](../src/Rules/NoIssetOnObjectRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 final class IssetOnObject
 {
     public function run()
     {
-        if (mt_rand(0, 1)) {
+        if (random_int(0, 1)) {
             $object = new SomeClass();
         }
 
@@ -705,12 +766,14 @@ final class IssetOnObject
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 final class IssetOnObject
 {
     public function run()
     {
         $object = null;
-        if (mt_rand(0, 1)) {
+        if (random_int(0, 1)) {
             $object = new SomeClass();
         }
 
@@ -730,11 +793,13 @@ final class IssetOnObject
 - class: [`NoDynamicMethodNameRule`](../src/Rules/NoDynamicMethodNameRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 final class DynamicMethodCallName
 {
-    public function run($value)
+    public function run($value): void
     {
-        $this->$value();
+        $this->{$value}();
     }
 }
 ```
@@ -748,7 +813,9 @@ final class DynamicMethodCallName
 - class: [`NoReferenceRule`](../src/Rules/NoReferenceRule.php)
 
 ```php
-function someFunction(&$var)
+<?php declare(strict_types=1);
+
+function someFunction(&$var): void
 {
     $var + 1;
 }
@@ -757,6 +824,8 @@ function someFunction(&$var)
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 function someFunction($var)
 {
     return $var + 1;
@@ -785,6 +854,8 @@ parameters:
 ```
 
 ```php
+<?php declare(strict_types=1);
+
 use Doctrine\ORM\EntityRepository;
 
 final class ProductRepository extends EntityRepository
@@ -795,6 +866,8 @@ final class ProductRepository extends EntityRepository
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 use Doctrine\ORM\EntityRepository;
 
 final class ProductRepository
@@ -820,12 +893,16 @@ final class ProductRepository
 - class: [`NoDefaultExceptionRule`](../src/Rules/NoDefaultExceptionRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 throw new RuntimeException('...');
 ```
 
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 use App\Exception\FileNotFoundExceptoin;
 
 throw new FileNotFoundExceptoin('...');
@@ -858,6 +935,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
     public function run()
@@ -874,6 +953,8 @@ class SomeClass
 - class: [`BoolishClassMethodPrefixRule`](../src/Rules/BoolishClassMethodPrefixRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
     public function old(): bool
@@ -886,6 +967,8 @@ class SomeClass
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
     public function isOld(): bool
@@ -904,6 +987,8 @@ class SomeClass
 - class: [`MatchingTypeConstantRule`](../src/Rules/MatchingTypeConstantRule.php)
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
     /**
@@ -917,6 +1002,8 @@ class SomeClass
 
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
     /**
@@ -949,14 +1036,15 @@ rules:
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
-    public function run()
+    public function run(): void
     {
         $alwaysCallMeWithConstant = new AlwaysCallMeWithConstant();
         $alwaysCallMeWithConstant->call('someValue');
         // should be: $alwaysCallMeWithConstant->call(TypeList::SOME);
-
     }
 }
 ```
@@ -981,6 +1069,8 @@ rules:
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 use PHPStan\Rules\Rule;
 
 class SomeRule implements Rule
@@ -992,6 +1082,8 @@ class SomeRule implements Rule
 :+1:
 
 ```php
+<?php declare(strict_types=1);
+
 use PHPStan\Rules\Rule;
 
 /**
@@ -1023,7 +1115,10 @@ rules:
 :x:
 
 ```php
-$dateTime = new DateTime('now'); // should be "Nette\Utils\DateTime"
+<?php declare(strict_types=1);
+
+// should be "Nette\Utils\DateTime"
+$dateTime = new DateTime('now');
 ```
 
 <br>
@@ -1039,7 +1134,10 @@ Value object static constructors, EventSubscriber and Command classe are exclude
 :x:
 
 ```php
-class FormatConverter // should be: "StaticFormatConverter"
+<?php declare(strict_types=1);
+
+// should be: "StaticFormatConverter"
+class FormatConverter
 {
     public static function yamlToJson(array $yaml): array
     {
@@ -1057,6 +1155,8 @@ class FormatConverter // should be: "StaticFormatConverter"
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 namespace App;
 
 class Finder
@@ -1065,9 +1165,12 @@ class Finder
 ```
 
 ```php
+<?php declare(strict_types=1);
+
 namespace App\Entity;
 
-class Finder // should be e.g. "EntityFinder"
+// should be e.g. "EntityFinder"
+class Finder
 {
 }
 ```
@@ -1095,6 +1198,8 @@ parameters:
 ```
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
     public function simple($value)
@@ -1115,6 +1220,8 @@ class SomeClass
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
     public function simple($value)
@@ -1143,7 +1250,7 @@ class SomeClass
 - class: [`NoElseAndElseIfRule`](../packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 if ($value) {
     return 5;
@@ -1155,6 +1262,8 @@ if ($value) {
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 if ($value) {
     return 5;
 }
@@ -1171,7 +1280,7 @@ return 10;
 - class: [`NoShortNameRule`](../packages/object-calisthenics/src/Rules/NoShortNameRule.php)
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 final class EM
 {
@@ -1181,7 +1290,7 @@ final class EM
 :x:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 final class EverestMule
 {
@@ -1199,11 +1308,14 @@ final class EverestMule
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 final class Person
 {
     private string $name;
 
-    public function setName(string $name) // should be "__construct"
+    // should be "__construct"
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -1219,6 +1331,8 @@ final class Person
 ](https://www.yegor256.com/2018/03/13/fluent-interfaces.html)
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
     public function run()
@@ -1231,6 +1345,8 @@ class SomeClass
 :x:
 
 ```php
+<?php declare(strict_types=1);
+
 class SomeClass
 {
     public function run()
