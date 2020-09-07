@@ -34,7 +34,7 @@ final class CheckHeredocNowdocCommand extends Command
     private $easyCodingStandardStyle;
 
     /**
-     * @var heredocnowdocPHPCodeFormatter
+     * @var HeredocNowdocPHPCodeFormatter
      */
     private $heredocnowdocPHPCodeFormatter;
 
