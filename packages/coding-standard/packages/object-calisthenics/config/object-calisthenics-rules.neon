@@ -3,18 +3,45 @@ parameters:
         # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
         max_nesting_level: 1
 
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
+        min_name_lenght: 3
+        allowed_short_names: ['id', 'to', 'up']
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassRule
+        max_class_length: 300
+
 parametersSchema:
     symplify: structure([
         # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
         max_nesting_level: int()
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
+        min_name_lenght: int()
+        allowed_short_names: arrayOf(string())
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassRule
+        max_class_length: int()
     ])
 
 services:
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            minNameLenght: "%object_calisthenics.min_name_lenght%"
+            allowedShortNames: "%object_calisthenics.allowed_short_names%"
+
     -
         class: Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
         tags: [phpstan.rules.rule]
         arguments:
             maxVariableLength: "%object_calisthenics.max_nesting_level%"
+
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassLength: "%object_calisthenics.max_class_length%"
 
     # not so practical for major use - add them manually
     #- Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule

@@ -7,13 +7,10 @@
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
-
 parameters:
     object_calisthenics:
-        # [default: 1]
-        max_nesting_level: 2
+        # default
+        max_nesting_level: 1
 ```
 
 ```php
@@ -128,6 +125,16 @@ class SomeClass
 ## Rule 6: No Names Shorter than 3 Chars
 
 - class: [`NoShortNameRule`](../packages/object-calisthenics/src/Rules/NoShortNameRule.php)
+- **configuration allowed**
+
+```yaml
+# phsptan.neon
+parameters:
+    object_calisthenics:
+        # defaults
+        min_name_lenght: 3
+        allowed_short_names: ['id']
+```
 
 ```php
 <?php declare(strict_types=1);

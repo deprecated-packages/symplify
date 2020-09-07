@@ -21,14 +21,16 @@ final class NoShortNameRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/ShortNamingClass.php', [
-            [sprintf(NoShortNameRule::ERROR_MESSAGE, 'em'), 9],
-            [sprintf(NoShortNameRule::ERROR_MESSAGE, 'YE'), 11],
-        ]];
+        $emErrorMessage = sprintf(NoShortNameRule::ERROR_MESSAGE, 'em', 3);
+        $yeErrorMEssage = sprintf(NoShortNameRule::ERROR_MESSAGE, 'YE', 3);
+
+        yield [__DIR__ . '/Fixture/ShortNamingClass.php', [[$emErrorMessage, 9], [$yeErrorMEssage, 11]]];
+
+        yield [__DIR__ . '/Fixture/SkipId.php', []];
     }
 
     protected function getRule(): Rule
     {
-        return new NoShortNameRule();
+        return new NoShortNameRule(3, ['id']);
     }
 }
