@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Heredoc;
+namespace Symplify\EasyCodingStandard\HeredocNowdoc;
 
 use Nette\Utils\Strings;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
@@ -12,15 +12,15 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
- * @see \Symplify\EasyCodingStandard\Tests\Heredoc\HeredocPHPCodeFormatterTest
+ * @see \Symplify\EasyCodingStandard\Tests\HeredocNowdoc\HeredocNowdocPHPCodeFormatterTest
  */
-final class HeredocPHPCodeFormatter
+final class HeredocNowdocPHPCodeFormatter
 {
     /**
      * @see https://regex101.com/r/SZr0X5/3
      * @var string
      */
-    private const PHP_CODE_SNIPPET_IN_HEREDOC = '#(?<opening><<<(\'?PHP\'?|\"?PHP\"?)\s+)(?<content>[^PHP]+\n)(?<closing>(\s+)?PHP)#ms';
+    private const PHP_CODE_SNIPPET_IN_HEREDOC_NOWDOC = '#(?<opening><<<(\'?PHP\'?|\"?PHP\"?)\s+)(?<content>[^PHP]+\n)(?<closing>(\s+)?PHP)#ms';
 
     /**
      * @var SmartFileSystem
@@ -61,7 +61,7 @@ final class HeredocPHPCodeFormatter
 
         return (string) Strings::replace(
             $fileInfo->getContents(),
-            self::PHP_CODE_SNIPPET_IN_HEREDOC,
+            self::PHP_CODE_SNIPPET_IN_HEREDOC_NOWDOC,
             function ($match): string {
                 $fixedContent = $this->fixContent($match['content']);
                 return $match['opening'] . $fixedContent . $match['closing'];

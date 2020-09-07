@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Tests\Heredoc;
+namespace Symplify\EasyCodingStandard\Tests\HeredocNowdoc;
 
 use Iterator;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\Heredoc\HeredocPHPCodeFormatter;
+use Symplify\EasyCodingStandard\HeredocNowdoc\HeredocNowdocPHPCodeFormatter;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
@@ -17,17 +17,17 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 /**
  * For testing approach @see https://github.com/symplify/easy-testing
  */
-final class HeredocPHPCodeFormatterTest extends AbstractKernelTestCase
+final class HeredocNowdocPHPCodeFormatterTest extends AbstractKernelTestCase
 {
     /**
      * @var HeredocPHPCodeFormatter
      */
-    private $HeredocPHPFormatter;
+    private $heredocnowdocPHPFormatter;
 
     protected function setUp(): void
     {
         self::bootKernelWithConfigs(EasyCodingStandardKernel::class, [__DIR__ . '/config/array_fixer.php']);
-        $this->HeredocPHPFormatter = self::$container->get(HeredocPHPCodeFormatter::class);
+        $this->heredocnowdocPHPFormatter = self::$container->get(HeredocNowdocPHPCodeFormatter::class);
 
         /** @var EasyCodingStandardStyle $easyCodingStandardSymfonyStyle */
         $easyCodingStandardSymfonyStyle = self::$container->get(EasyCodingStandardStyle::class);
@@ -43,7 +43,7 @@ final class HeredocPHPCodeFormatterTest extends AbstractKernelTestCase
             $fixtureFileInfo
         );
 
-        $changedContent = $this->HeredocPHPFormatter->format($inputAndExpectedFileInfos->getInputFileInfo());
+        $changedContent = $this->heredocnowdocPHPFormatter->format($inputAndExpectedFileInfos->getInputFileInfo());
         $expectedContent = $inputAndExpectedFileInfos->getExpectedFileInfo()->getContents();
         $this->assertSame($expectedContent, $changedContent, $fixtureFileInfo->getRelativeFilePathFromCwd());
     }

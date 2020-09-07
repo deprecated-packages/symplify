@@ -10,13 +10,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoDirectoryException;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\Heredoc\HeredocPHPCodeFormatter;
+use Symplify\EasyCodingStandard\HeredocNowdoc\HeredocNowdocPHPCodeFormatter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class CheckHeredocCommand extends Command
+final class CheckHeredocNowdocCommand extends Command
 {
     /**
      * @var string
@@ -34,31 +34,31 @@ final class CheckHeredocCommand extends Command
     private $easyCodingStandardStyle;
 
     /**
-     * @var HeredocPHPCodeFormatter
+     * @var heredocnowdocPHPCodeFormatter
      */
-    private $heredocPHPCodeFormatter;
+    private $heredocnowdocPHPCodeFormatter;
 
     public function __construct(
         SmartFileSystem $smartFileSystem,
         EasyCodingStandardStyle $easyCodingStandardStyle,
-        HeredocPHPCodeFormatter $heredocPHPCodeFormatter
+        HeredocNowdocPHPCodeFormatter $heredocnowdocPHPCodeFormatter
     ) {
         $this->smartFileSystem = $smartFileSystem;
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
 
         parent::__construct();
 
-        $this->heredocPHPCodeFormatter = $heredocPHPCodeFormatter;
+        $this->heredocnowdocPHPCodeFormatter = $heredocnowdocPHPCodeFormatter;
     }
 
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Format Heredoc PHP code');
+        $this->setDescription('Format Heredoc/Nowdoc PHP code');
         $this->addArgument(
             self::SOURCE,
             InputArgument::REQUIRED,
-            'Path to the directory containing PHP Code with Heredoc inside'
+            'Path to the directory containing PHP Code with Heredoc/Nowdoc inside'
         );
     }
 
@@ -72,13 +72,13 @@ final class CheckHeredocCommand extends Command
         }
 
         $markdownFileInfo = new SmartFileInfo($markdownFile);
-        $fixedContent = $this->heredocPHPCodeFormatter->format($markdownFileInfo);
+        $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($markdownFileInfo);
 
         if ($markdownFileInfo->getContents() === $fixedContent) {
-            $successMessage = 'PHP code in Heredoc already follow coding standard';
+            $successMessage = 'PHP code in Heredoc/Nowdoc already follow coding standard';
         } else {
             $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
-            $successMessage = 'PHP code in Heredoc has been fixed to follow coding standard';
+            $successMessage = 'PHP code in Heredoc/Nowdoc has been fixed to follow coding standard';
         }
 
         $this->easyCodingStandardStyle->success($successMessage);
