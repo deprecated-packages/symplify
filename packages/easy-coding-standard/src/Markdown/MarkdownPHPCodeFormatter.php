@@ -92,6 +92,8 @@ final class MarkdownPHPCodeFormatter
 
     private function createMarkdownPHPCodeSnippet(string $fixedContent): string
     {
-        return '```php' . PHP_EOL . '<?php' . PHP_EOL . ltrim($fixedContent, ' ') . PHP_EOL . '```';
+        $fixedContent = ltrim($fixedContent, ' ');
+        $fixedContent = rtrim($fixedContent, PHP_EOL);
+        return '```php' . PHP_EOL . '<?php' . PHP_EOL . $fixedContent . PHP_EOL . '```';
     }
 }
