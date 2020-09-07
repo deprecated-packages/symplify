@@ -43,6 +43,7 @@ final class NoStaticCallRule extends AbstractManyNodeTypeRule
         'Symplify\EasyTesting\DataProvider\StaticFixtureFinder',
         'Symplify\EasyTesting\StaticFixtureSplitter',
         'Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment',
+        'Symplify\PackageBuilder\Console\Command\CommandNaming',
         // composer
         'Composer\Factory',
         // various
