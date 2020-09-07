@@ -99,6 +99,10 @@ final class CheckHeredocNowdocCommand extends Command
             }
         }
 
+        // ensure clean up php-code-* files that undeleted yet because of parse error
+        $mask = 'php-code-*';
+        array_map('unlink', glob($mask));
+
         if ($alreadyFollowCodingStandard) {
             $successMessage = 'PHP code in Heredoc/Nowdoc already follow coding standard';
         } else {
