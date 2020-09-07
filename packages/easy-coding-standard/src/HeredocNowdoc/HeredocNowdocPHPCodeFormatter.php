@@ -17,7 +17,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class HeredocNowdocPHPCodeFormatter
 {
     /**
-     * @see https://regex101.com/r/SZr0X5/3
+     * @see https://regex101.com/r/SZr0X5/4
      * @var string
      */
     private const PHP_CODE_SNIPPET_IN_HEREDOC_NOWDOC = '#(?<opening><<<(\'?([A-Z]+)\'?|\"?([A-Z]+)\"?)\s+|(\'?([A-Z]+)\'?|\"?([A-Z]+)\"?)\s+)(?<content>[^\3|\4]+\n)(?<closing>(\s+)?\3|\4)#ms';
