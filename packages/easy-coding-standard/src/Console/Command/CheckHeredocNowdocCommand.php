@@ -85,12 +85,16 @@ final class CheckHeredocNowdocCommand extends Command
         foreach ($finder as $file) {
             $absoluteFilePath = $file->getRealPath();
 
-            $phpFileInfo = new SmartFileInfo($absoluteFilePath);
-            $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo);
+            try {
+                $phpFileInfo = new SmartFileInfo($absoluteFilePath);
+                $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo);
 
-            if ($phpFileInfo->getContents() !== $fixedContent) {
-                $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
-                $alreadyFollowCodingStandard = false;
+                if ($phpFileInfo->getContents() !== $fixedContent) {
+                    $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
+                    $alreadyFollowCodingStandard = false;
+                }
+            } catch (\Throwable $e) {
+                continue;
             }
         }
 
