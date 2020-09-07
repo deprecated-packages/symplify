@@ -1,8 +1,27 @@
+parameters:
+    object_calisthenics:
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+        max_nesting_level: 1
+
+parametersSchema:
+    symplify: structure([
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+        max_nesting_level: int()
+    ])
+
+services:
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxVariableLength: "%object_calisthenics.max_nesting_level%"
+
+    # not so practical for major use - add them manually
+    #- Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule
+    # better is cognitive complexity rule, it handles human readable code better
+    #- Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+
 rules:
     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
     - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
-
-    # not so practical - add them manually
-    #- Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule
-    #- Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
