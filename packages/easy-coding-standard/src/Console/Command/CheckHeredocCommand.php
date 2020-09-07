@@ -55,7 +55,11 @@ final class CheckHeredocCommand extends Command
     {
         $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Format Heredoc PHP code');
-        $this->addArgument(self::SOURCE, InputArgument::REQUIRED, 'Path to the directory containing PHP Code with Heredoc inside');
+        $this->addArgument(
+            self::SOURCE,
+            InputArgument::REQUIRED,
+            'Path to the directory containing PHP Code with Heredoc inside'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
