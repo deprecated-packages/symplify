@@ -17,7 +17,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class HeredocPHPCodeFormatter
 {
     /**
-     * @see https://regex101.com/r/SZr0X5/2
+     * @see https://regex101.com/r/SZr0X5/3
      * @var string
      */
     private const PHP_CODE_SNIPPET_IN_HEREDOC = '#(?<opening><<<(\'?PHP\'?|\"?PHP\"?)\s+)(?<content>[^PHP]+\n)(?<closing>(\s+)?PHP)#ms';
