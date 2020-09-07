@@ -14,6 +14,11 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 abstract class AbstractPHPFormatter
 {
     /**
+     * Regex to be overridden in derived classes
+     */
+    protected const PHP_CODE_SNIPPET = '##';
+
+    /**
      * @var SmartFileSystem
      */
     protected $smartFileSystem;
