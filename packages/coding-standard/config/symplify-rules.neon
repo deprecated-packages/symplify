@@ -79,6 +79,10 @@ services:
     - Symplify\CodingStandard\PhpParser\NodeNameResolver
     - Symplify\CodingStandard\PHPStan\ParentMethodAnalyser
 
+    -
+        class: Symplify\CodingStandard\Rules\UppercaseConstantRule
+        tags: [phpstan.rules.rule]
+
     # arrays
     -
         class: Symplify\CodingStandard\Rules\NoReturnArrayVariableList

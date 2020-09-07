@@ -1,4 +1,17 @@
-# 33+ PHPStan Rules
+# 34+ PHPStan Rules
+
+## Require UpperCase Class Constants
+
+- class: [`UppercaseConstantRule`](../src/Rules/UppercaseConstantRule.php)
+
+```php
+final class SomeClass
+{
+    public const some = 'value';
+}
+```
+
+:x:
 
 ## Keep Variable Not Too Long
 
