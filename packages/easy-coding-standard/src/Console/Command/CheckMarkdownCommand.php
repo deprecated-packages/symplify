@@ -15,6 +15,7 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Throwable;
 
 final class CheckMarkdownCommand extends Command
 {
@@ -67,8 +68,15 @@ final class CheckMarkdownCommand extends Command
             throw new NoMarkdownFileException($message);
         }
 
-        $markdownFileInfo = new SmartFileInfo($markdownFile);
-        $fixedContent = $this->markdownPHPCodeFormatter->format($markdownFileInfo);
+        try {
+            $markdownFileInfo = new SmartFileInfo($markdownFile);
+            $fixedContent = $this->markdownPHPCodeFormatter->format($markdownFileInfo);
+        } catch (Throwable $throwable) {
+        }
+
+        // ensure clean up php-code-* files that undeleted yet because of parse error
+        $mask = 'php-code-*';
+        array_map('unlink', (array) glob($mask));
 
         if ($markdownFileInfo->getContents() === $fixedContent) {
             $successMessage = 'PHP code in Markdown already follow coding standard';
