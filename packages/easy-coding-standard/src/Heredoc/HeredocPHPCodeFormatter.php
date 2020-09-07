@@ -61,7 +61,7 @@ final class HeredocPHPCodeFormatter
 
         return (string) Strings::replace(
             $fileInfo->getContents(),
-            self::PHP_CODE_SNIPPET_IN_MARKDOWN,
+            self::PHP_CODE_SNIPPET_IN_HEREDOC,
             function ($match): string {
                 $fixedContent = $this->fixContent($match['content']);
                 return $match['opening'] . $fixedContent . $match['closing'];
