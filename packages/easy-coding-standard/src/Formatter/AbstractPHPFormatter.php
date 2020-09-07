@@ -10,6 +10,7 @@ use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Throwable;
 
 abstract class AbstractPHPFormatter
 {
@@ -82,12 +83,15 @@ abstract class AbstractPHPFormatter
         $this->smartFileSystem->dumpFile($file, $fileContent);
 
         $fileInfo = new SmartFileInfo($file);
-        $this->fixerFileProcessor->processFile($fileInfo);
-        $this->sniffFileProcessor->processFile($fileInfo);
+        try {
+            $this->fixerFileProcessor->processFile($fileInfo);
+            $this->sniffFileProcessor->processFile($fileInfo);
 
-        $fileContent = $fileInfo->getContents();
-
-        $this->smartFileSystem->remove($file);
+            $fileContent = $fileInfo->getContents();
+        } catch (Throwable $throwable) {
+        } finally {
+            $this->smartFileSystem->remove($file);
+        }
 
         return $fileContent;
     }

@@ -15,7 +15,6 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
-use Throwable;
 
 final class CheckMarkdownCommand extends Command
 {
@@ -68,24 +67,17 @@ final class CheckMarkdownCommand extends Command
             throw new NoMarkdownFileException($message);
         }
 
-        try {
-            $markdownFileInfo = new SmartFileInfo($markdownFile);
-            $fixedContent = $this->markdownPHPCodeFormatter->format($markdownFileInfo);
+        $markdownFileInfo = new SmartFileInfo($markdownFile);
+        $fixedContent = $this->markdownPHPCodeFormatter->format($markdownFileInfo);
 
-            if ($markdownFileInfo->getContents() === $fixedContent) {
-                $successMessage = 'PHP code in Markdown already follow coding standard';
-            } else {
-                $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
-                $successMessage = 'PHP code in Markdown has been fixed to follow coding standard';
-            }
-
-            $this->easyCodingStandardStyle->success($successMessage);
-        } catch (Throwable $throwable) {
+        if ($markdownFileInfo->getContents() === $fixedContent) {
+            $successMessage = 'PHP code in Markdown already follow coding standard';
+        } else {
+            $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
+            $successMessage = 'PHP code in Markdown has been fixed to follow coding standard';
         }
 
-        // ensure clean up php-code-* files that undeleted yet because of parse error
-        $mask = 'php-code-*';
-        array_map('unlink', (array) glob($mask));
+        $this->easyCodingStandardStyle->success($successMessage);
 
         return ShellCode::SUCCESS;
     }

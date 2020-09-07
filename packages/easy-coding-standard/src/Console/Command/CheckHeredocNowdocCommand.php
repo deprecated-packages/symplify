@@ -17,7 +17,6 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
-use Throwable;
 
 final class CheckHeredocNowdocCommand extends Command
 {
@@ -86,22 +85,14 @@ final class CheckHeredocNowdocCommand extends Command
         foreach ($finder as $file) {
             $absoluteFilePath = $file->getRealPath();
 
-            try {
-                $phpFileInfo = new SmartFileInfo($absoluteFilePath);
-                $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo);
+            $phpFileInfo = new SmartFileInfo($absoluteFilePath);
+            $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo);
 
-                if ($phpFileInfo->getContents() !== $fixedContent) {
-                    $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
-                    $alreadyFollowCodingStandard = false;
-                }
-            } catch (Throwable $throwable) {
-                continue;
+            if ($phpFileInfo->getContents() !== $fixedContent) {
+                $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
+                $alreadyFollowCodingStandard = false;
             }
         }
-
-        // ensure clean up php-code-* files that undeleted yet because of parse error
-        $mask = 'php-code-*';
-        array_map('unlink', (array) glob($mask));
 
         if ($alreadyFollowCodingStandard) {
             $successMessage = 'PHP code in Heredoc/Nowdoc already follow coding standard';
