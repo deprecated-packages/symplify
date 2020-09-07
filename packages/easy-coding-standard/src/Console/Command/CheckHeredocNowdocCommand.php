@@ -10,11 +10,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoDirectoryException;
+use Symplify\EasyCodingStandard\Configuration\Exception\NoPHPFileException;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\HeredocNowdoc\HeredocNowdocPHPCodeFormatter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\SmartFileSystem\FileSystemFilter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -89,8 +89,8 @@ final class CheckHeredocNowdocCommand extends Command
             $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo);
 
             if ($phpFileInfo->getContents() !== $fixedContent) {
-               $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
-               $alreadyFollowCodingStandard = false;
+                $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
+                $alreadyFollowCodingStandard = false;
             }
         }
 
