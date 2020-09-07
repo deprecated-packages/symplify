@@ -183,8 +183,6 @@ final class SomeClass
 
 :x:
 
-<br>
-
 ---
 
 - class: [`TooLongFunctionLikeRule`](../packages/object-calisthenics/src/Rules/TooLongFunctionLikeRule.php)
@@ -248,9 +246,7 @@ final class SomeClass
 
 :x:
 
-<br>
-
-## Keep Low Method Count in a Class
+---
 
 - class: [`TooManyMethodsRule`](../packages/object-calisthenics/src/Rules/TooManyMethodsRule.php)
 - **configuration allowed**
