@@ -15,6 +15,7 @@ abstract class AbstractPHPFormatter
 {
     /**
      * Regex to be overridden in derived classes
+     * var string
      */
     protected const PHP_CODE_SNIPPET = '##';
 
