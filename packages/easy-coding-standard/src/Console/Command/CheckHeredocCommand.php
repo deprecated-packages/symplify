@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoDirectoryException;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\Markdown\MarkdownPHPCodeFormatter;
+use Symplify\EasyCodingStandard\Heredoc\HeredocPHPCodeFormatter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -34,28 +34,28 @@ final class CheckHeredocCommand extends Command
     private $easyCodingStandardStyle;
 
     /**
-     * @var MarkdownPHPCodeFormatter
+     * @var HeredocPHPCodeFormatter
      */
-    private $markdownPHPCodeFormatter;
+    private $heredocPHPCodeFormatter;
 
     public function __construct(
         SmartFileSystem $smartFileSystem,
         EasyCodingStandardStyle $easyCodingStandardStyle,
-        MarkdownPHPCodeFormatter $markdownPHPCodeFormatter
+        HeredocPHPCodeFormatter $heredocPHPCodeFormatter
     ) {
         $this->smartFileSystem = $smartFileSystem;
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
 
         parent::__construct();
 
-        $this->markdownPHPCodeFormatter = $markdownPHPCodeFormatter;
+        $this->heredocPHPCodeFormatter = $heredocPHPCodeFormatter;
     }
 
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Format Markdown PHP code');
-        $this->addArgument(self::SOURCE, InputArgument::REQUIRED, 'Path to the Markdown file');
+        $this->setDescription('Format Heredoc PHP code');
+        $this->addArgument(self::SOURCE, InputArgument::REQUIRED, 'Path to the directory containing PHP Code with Heredoc inside');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -68,7 +68,7 @@ final class CheckHeredocCommand extends Command
         }
 
         $markdownFileInfo = new SmartFileInfo($markdownFile);
-        $fixedContent = $this->markdownPHPCodeFormatter->format($markdownFileInfo);
+        $fixedContent = $this->heredocPHPCodeFormatter->format($markdownFileInfo);
 
         if ($markdownFileInfo->getContents() === $fixedContent) {
             $successMessage = 'PHP code in Heredoc already follow coding standard';
