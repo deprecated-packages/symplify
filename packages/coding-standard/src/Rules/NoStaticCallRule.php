@@ -48,6 +48,7 @@ final class NoStaticCallRule extends AbstractManyNodeTypeRule
         // various
         'PhpCsFixer\Tokenizer\Tokens',
         'Jean85\PrettyVersions',
+        'DG\BypassFinals',
     ];
 
     /**
