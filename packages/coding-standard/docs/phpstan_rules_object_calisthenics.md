@@ -1,5 +1,19 @@
 # PHPStan Rules - Object Calisthenics
 
+Install:
+
+```bash
+composer require symplify/coding-standard --dev
+```
+
+Include full rules:
+
+```yaml
+# phsptan.neon
+includes:
+    - vendor/symplify/coding-standard/packages/object-calisthenics/config/object-calisthenics-rules.neon
+```
+
 ## Rule 1: Only X Level of Indentation per Method
 
 - class: [`SingleIndentationInMethodRule`](../packages/object-calisthenics/src/Rules/SingleIndentationInMethodRule.php)

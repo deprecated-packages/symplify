@@ -85,10 +85,10 @@ services:
          arguments:
             allowedSetterClasses: "%object_calisthenics.allowed_setter_classes%"
 
-    # not so practical for major use - add them manually
-    # better is cognitive complexity rule, it handles human readable code better
-    #- Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
+        tags: [phpstan.rules.rule]
 
-rules:
-    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
-    - Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
+        tags: [phpstan.rules.rule]
