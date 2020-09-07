@@ -89,6 +89,8 @@ final class HeredocNowdocPHPCodeFormatter
 
         $this->smartFileSystem->remove($file);
 
-        return str_replace('<?php', '', $fileContent) . PHP_EOL;
+        $fileContent = substr($fileContent, 6);
+
+        return $fileContent . PHP_EOL;
     }
 }
