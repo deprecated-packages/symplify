@@ -7,8 +7,14 @@ parameters:
         min_name_lenght: 3
         allowed_short_names: ['id', 'to', 'up']
 
-        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassRule
-        max_class_length: 300
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassLikeRule
+        max_class_like_length: 300
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        max_function_like_length: 20
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyPropertiesRule
+        max_property_count: 10
 
 parametersSchema:
     symplify: structure([
@@ -19,8 +25,14 @@ parametersSchema:
         min_name_lenght: int()
         allowed_short_names: arrayOf(string())
 
-        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassRule
-        max_class_length: int()
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassLikeRule
+        max_class_like_length: int()
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        max_function_like_length: int()
+
+        # for \Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyPropertiesRule
+        max_property_count: int()
     ])
 
 services:
@@ -38,10 +50,22 @@ services:
             maxVariableLength: "%object_calisthenics.max_nesting_level%"
 
     -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassRule
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassLikeRule
         tags: [phpstan.rules.rule]
         arguments:
-            maxClassLength: "%object_calisthenics.max_class_length%"
+            maxClassLikeLength: "%object_calisthenics.max_class_like_length%"
+
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxFunctionLikeLength: "%object_calisthenics.max_function_like_length%"
+
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyPropertiesRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPropertyCount: "%object_calisthenics.max_property_count%"
 
     # not so practical for major use - add them manually
     #- Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule

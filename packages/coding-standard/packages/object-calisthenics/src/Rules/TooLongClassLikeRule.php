@@ -8,14 +8,13 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Interface_;
-use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
 /**
- * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooLongClassRule\TooLongClassRuleTest
+ * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooLongClassLikeRule\TooLongClassLikeRuleTest
  */
-final class TooLongClassRule implements Rule
+final class TooLongClassLikeRule implements Rule
 {
     /**
      * @var string
@@ -25,11 +24,11 @@ final class TooLongClassRule implements Rule
     /**
      * @var int
      */
-    private $maxClassLength;
+    private $maxClassLikeLength;
 
-    public function __construct(int $maxClassLength)
+    public function __construct(int $maxClassLikeLength)
     {
-        $this->maxClassLength = $maxClassLength;
+        $this->maxClassLikeLength = $maxClassLikeLength;
     }
 
     public function getNodeType(): string
@@ -44,13 +43,13 @@ final class TooLongClassRule implements Rule
     public function processNode(Node $node, Scope $scope): array
     {
         $currentClassLenght = $this->getNodeLength($node);
-        if ($currentClassLenght <= $this->maxClassLength) {
+        if ($currentClassLenght <= $this->maxClassLikeLength) {
             return [];
         }
 
         $classLikeType = $this->resolveClassLikeType($node);
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $classLikeType, $currentClassLenght, $this->maxClassLength);
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $classLikeType, $currentClassLenght, $this->maxClassLikeLength);
         return [$errorMessage];
     }
 

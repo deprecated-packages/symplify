@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooLongClassRule\Fixture;
+namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooLongClassLikeRule\Fixture;
 
 final class SuperLongClass
 {

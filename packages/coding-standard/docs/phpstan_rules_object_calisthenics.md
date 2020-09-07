@@ -159,9 +159,96 @@ final class EverestMule
 
 ## Rule 7 - Keep Your Classes Small
 
-@todo
+- class: [`TooLongClassLikeRule`](../packages/object-calisthenics/src/Rules/TooLongClassLikeRule.php)
+- **configuration allowed**
 
+```yaml
+# phpstan.neon
+parameters:
+    object_calisthenics:
+        # default
+        max_class_like_length: 300
+```
 
+```php
+<?php declare(strict_types=1);
+
+final class SomeClass
+{
+    // 300 lines
+}
+```
+
+:x:
+
+<br>
+
+---
+
+- class: [`TooLongFunctionLikeRule`](../packages/object-calisthenics/src/Rules/TooLongFunctionLikeRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+parameters:
+    object_calisthenics:
+        # default
+        max_function_like_length: 20
+```
+
+```php
+<?php declare(strict_types=1);
+
+final class SomeClass
+{
+    public function run()
+    {
+        // 20 lines
+    }
+}
+```
+
+:x:
+
+---
+
+## Keep Low Property Count in a Class
+
+- class: [`TooManyPropertiesRule`](../packages/object-calisthenics/src/Rules/TooManyPropertiesRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+parameters:
+    symplify:
+        # default
+        max_property_count: 15
+```
+
+```php
+<?php declare(strict_types=1);
+
+final class SomeClass
+{
+    public $value;
+
+    public $value2;
+
+    private $value3;
+
+    private $value4;
+
+    private $value5;
+
+    private $value6;
+
+    // ...
+}
+```
+
+:x:
+
+<br>
 
 ## Rule 9: No Setter Methods
 
