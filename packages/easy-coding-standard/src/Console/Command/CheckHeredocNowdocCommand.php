@@ -17,6 +17,7 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Throwable;
 
 final class CheckHeredocNowdocCommand extends Command
 {
@@ -93,7 +94,7 @@ final class CheckHeredocNowdocCommand extends Command
                     $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
                     $alreadyFollowCodingStandard = false;
                 }
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 continue;
             }
         }
