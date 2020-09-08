@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Formatter;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Throwable;
+use ReflectionProperty;
 
 abstract class AbstractPHPFormatter
 {
@@ -52,7 +54,7 @@ abstract class AbstractPHPFormatter
         $this->configuration = $configuration;
     }
 
-    public function format(SmartFileInfo $fileInfo): string
+    public function format(SmartFileInfo $fileInfo, bool $noStrictTypesDeclaration): string
     {
         // enable fixing
         $this->configuration->resolveFromArray(['isFixer' => true]);
@@ -60,14 +62,14 @@ abstract class AbstractPHPFormatter
         return (string) Strings::replace(
             $fileInfo->getContents(),
             static::PHP_CODE_SNIPPET,
-            function ($match): string {
-                $fixedContent = rtrim($this->fixContent($match['content']), PHP_EOL) . PHP_EOL;
+            function ($match) use ($noStrictTypesDeclaration) : string {
+                $fixedContent = rtrim($this->fixContent($match['content'], $noStrictTypesDeclaration), PHP_EOL) . PHP_EOL;
                 return rtrim($match['opening'], PHP_EOL) . PHP_EOL . $fixedContent . $match['closing'];
             }
         );
     }
 
-    protected function fixContent(string $content): string
+    protected function fixContent(string $content, bool $noStrictTypesDeclaration): string
     {
         $key = md5($content);
 
@@ -86,6 +88,22 @@ abstract class AbstractPHPFormatter
 
         $fileInfo = new SmartFileInfo($file);
         try {
+            if ($noStrictTypesDeclaration) {
+                $checkers = $this->fixerFileProcessor->getCheckers();
+                $temps    = [];
+                foreach ($checkers as $checker) {
+                    if ($checker instanceof DeclareStrictTypesFixer) {
+                        continue;
+                    }
+
+                    $temps[] = $checker;
+                }
+
+                $r = new ReflectionProperty($this->fixerFileProcessor, 'fixers');
+                $r->setAccessible(true);
+                $r->setValue($this->fixerFileProcessor, $temps);
+            }
+
             $this->fixerFileProcessor->processFile($fileInfo);
             $this->sniffFileProcessor->processFile($fileInfo);
 
