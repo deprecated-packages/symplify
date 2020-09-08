@@ -75,6 +75,10 @@ services:
     - Symplify\CodingStandard\PHPStan\ParentMethodAnalyser
 
     -
+        class: Symplify\CodingStandard\Rules\NoAbstactMethodRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\CodingStandard\Rules\UppercaseConstantRule
         tags: [phpstan.rules.rule]
 

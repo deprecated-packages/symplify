@@ -1,4 +1,19 @@
-# 34+ PHPStan Rules
+# 35+ PHPStan Rules
+
+## Use Contract or Service over Abstratc Method
+
+- class: [`NoAbstactMethodRule`](../src/Rules/NoAbstactMethodRule.php)
+
+```php
+abstract class SomeClass
+{
+    abstract public function run();
+}
+```
+
+:x:
+
+<br>
 
 ## Require UpperCase Class Constants
 

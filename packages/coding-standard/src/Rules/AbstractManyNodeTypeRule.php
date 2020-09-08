@@ -7,8 +7,9 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use Symplify\CodingStandard\Contract\ManyNodeRuleInterface;
 
-abstract class AbstractManyNodeTypeRule implements Rule
+abstract class AbstractManyNodeTypeRule implements Rule, ManyNodeRuleInterface
 {
     public function getNodeType(): string
     {
@@ -26,13 +27,6 @@ abstract class AbstractManyNodeTypeRule implements Rule
 
         return $this->process($node, $scope);
     }
-
-    /**
-     * @return class-string[]
-     */
-    abstract public function getNodeTypes(): array;
-
-    abstract public function process(Node $node, Scope $scope): array;
 
     private function shouldSkip(Node $node): bool
     {
