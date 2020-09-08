@@ -57,7 +57,9 @@ abstract class AbstractPHPFormatter
     public function format(SmartFileInfo $fileInfo, bool $noStrictTypesDeclaration, bool $fix): string
     {
         // enable fixing
-        $this->configuration->resolveFromArray(['isFixer' => true]);
+        if ($fix) {
+            $this->configuration->resolveFromArray(['isFixer' => true]);
+        }
 
         return (string) Strings::replace(
             $fileInfo->getContents(),
