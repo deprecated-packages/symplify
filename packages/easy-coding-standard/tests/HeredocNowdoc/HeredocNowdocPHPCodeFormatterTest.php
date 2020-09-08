@@ -45,6 +45,7 @@ final class HeredocNowdocPHPCodeFormatterTest extends AbstractKernelTestCase
 
         $changedContent = $this->heredocnowdocPHPFormatter->format(
             $inputAndExpectedFileInfos->getInputFileInfo(),
+            true,
             true
         );
         $expectedContent = $inputAndExpectedFileInfos->getExpectedFileInfo()->getContents();

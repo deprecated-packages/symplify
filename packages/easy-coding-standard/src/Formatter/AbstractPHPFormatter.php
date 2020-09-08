@@ -54,7 +54,7 @@ abstract class AbstractPHPFormatter
         $this->configuration = $configuration;
     }
 
-    public function format(SmartFileInfo $fileInfo, bool $noStrictTypesDeclaration): string
+    public function format(SmartFileInfo $fileInfo, bool $noStrictTypesDeclaration, bool $fix): string
     {
         // enable fixing
         $this->configuration->resolveFromArray(['isFixer' => true]);

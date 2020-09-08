@@ -90,12 +90,13 @@ final class CheckHeredocNowdocCommand extends Command
         }
 
         $noStrictTypesDeclaration = (bool) $input->getOption(self::NO_STRICT_TYPES_DECLARATION);
+        $fix = (bool) $input->getOption(Option::FIX);
         $alreadyFollowCodingStandard = true;
         foreach ($finder as $file) {
             $absoluteFilePath = $file->getRealPath();
 
             $phpFileInfo = new SmartFileInfo($absoluteFilePath);
-            $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo, $noStrictTypesDeclaration);
+            $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo, $noStrictTypesDeclaration, $fix);
 
             if ($phpFileInfo->getContents() !== $fixedContent) {
                 $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
