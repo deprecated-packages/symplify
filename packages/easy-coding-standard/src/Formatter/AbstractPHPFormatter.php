@@ -69,6 +69,27 @@ abstract class AbstractPHPFormatter
         );
     }
 
+    private function skipStrictTypesDeclaration(bool $noStrictTypesDeclaration): void
+    {
+        if (! $noStrictTypesDeclaration) {
+            return;
+        }
+
+        $checkers = $this->fixerFileProcessor->getCheckers();
+        $temps    = [];
+        foreach ($checkers as $checker) {
+            if ($checker instanceof DeclareStrictTypesFixer) {
+                continue;
+            }
+
+            $temps[] = $checker;
+        }
+
+        $r = new ReflectionProperty($this->fixerFileProcessor, 'fixers');
+        $r->setAccessible(true);
+        $r->setValue($this->fixerFileProcessor, $temps);
+    }
+
     protected function fixContent(string $content, bool $noStrictTypesDeclaration): string
     {
         $key = md5($content);
@@ -88,22 +109,7 @@ abstract class AbstractPHPFormatter
 
         $fileInfo = new SmartFileInfo($file);
         try {
-            if ($noStrictTypesDeclaration) {
-                $checkers = $this->fixerFileProcessor->getCheckers();
-                $temps    = [];
-                foreach ($checkers as $checker) {
-                    if ($checker instanceof DeclareStrictTypesFixer) {
-                        continue;
-                    }
-
-                    $temps[] = $checker;
-                }
-
-                $r = new ReflectionProperty($this->fixerFileProcessor, 'fixers');
-                $r->setAccessible(true);
-                $r->setValue($this->fixerFileProcessor, $temps);
-            }
-
+            $this->skipStrictTypesDeclaration($noStrictTypesDeclaration);
             $this->fixerFileProcessor->processFile($fileInfo);
             $this->sniffFileProcessor->processFile($fileInfo);
 
