@@ -61,8 +61,8 @@ abstract class AbstractPHPFormatter
             $fileInfo->getContents(),
             static::PHP_CODE_SNIPPET,
             function ($match): string {
-                $fixedContent = $this->fixContent($match['content']);
-                return $match['opening'] . $fixedContent . $match['closing'];
+                $fixedContent = rtrim($this->fixContent($match['content']), PHP_EOL) . PHP_EOL;
+                return trim($match['opening']) . PHP_EOL . $fixedContent . $match['closing'];
             }
         );
     }
