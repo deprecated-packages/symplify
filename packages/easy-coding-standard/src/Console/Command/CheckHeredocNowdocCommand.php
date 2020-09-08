@@ -12,6 +12,7 @@ use Symfony\Component\Finder\Finder;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoDirectoryException;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoPHPFileException;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
+use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\HeredocNowdoc\HeredocNowdocPHPCodeFormatter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -68,6 +69,7 @@ final class CheckHeredocNowdocCommand extends Command
             'Path to the directory containing PHP Code with Heredoc/Nowdoc inside'
         );
         $this->addOption(self::NO_STRICT_TYPES_DECLARATION, null, null, 'No strict types declaration');
+        $this->addOption(Option::FIX, null, null, 'Fix found violations.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

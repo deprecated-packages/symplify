@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Markdown\MarkdownPHPCodeFormatter;
+use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -61,6 +62,7 @@ final class CheckMarkdownCommand extends Command
         $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Format Markdown PHP code');
         $this->addArgument(self::SOURCE, InputArgument::REQUIRED, 'Path to the Markdown file');
+        $this->addOption(Option::FIX, null, null, 'Fix found violations.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
