@@ -102,11 +102,16 @@ abstract class AbstractPHPFormatter
             $this->smartFileSystem->remove($file);
         }
 
+        // handle already has declare(strict_types=1);
+        // before apply fix
+        if ($noStrictTypesDeclaration && strpos($fileContent, 'declare(strict_types=1);') === 6) {
+            $fileContent = substr($fileContent, 32);
+            $fileContent = '<?php' . PHP_EOL . $fileContent;
+        }
+
         if (! $hasPreviouslyOpeningPHPTag) {
             $fileContent = substr($fileContent, 6);
         }
-
-        // echo $fileContent;die;
 
         return $fileContent;
     }
