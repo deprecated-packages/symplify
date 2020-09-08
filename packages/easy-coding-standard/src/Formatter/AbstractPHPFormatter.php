@@ -6,13 +6,13 @@ namespace Symplify\EasyCodingStandard\Formatter;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
+use ReflectionProperty;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Throwable;
-use ReflectionProperty;
 
 abstract class AbstractPHPFormatter
 {
@@ -62,32 +62,14 @@ abstract class AbstractPHPFormatter
         return (string) Strings::replace(
             $fileInfo->getContents(),
             static::PHP_CODE_SNIPPET,
-            function ($match) use ($noStrictTypesDeclaration) : string {
-                $fixedContent = rtrim($this->fixContent($match['content'], $noStrictTypesDeclaration), PHP_EOL) . PHP_EOL;
+            function ($match) use ($noStrictTypesDeclaration): string {
+                $fixedContent = rtrim(
+                    $this->fixContent($match['content'], $noStrictTypesDeclaration),
+                    PHP_EOL
+                ) . PHP_EOL;
                 return rtrim($match['opening'], PHP_EOL) . PHP_EOL . $fixedContent . $match['closing'];
             }
         );
-    }
-
-    private function skipStrictTypesDeclaration(bool $noStrictTypesDeclaration): void
-    {
-        if (! $noStrictTypesDeclaration) {
-            return;
-        }
-
-        $checkers = $this->fixerFileProcessor->getCheckers();
-        $temps    = [];
-        foreach ($checkers as $checker) {
-            if ($checker instanceof DeclareStrictTypesFixer) {
-                continue;
-            }
-
-            $temps[] = $checker;
-        }
-
-        $r = new ReflectionProperty($this->fixerFileProcessor, 'fixers');
-        $r->setAccessible(true);
-        $r->setValue($this->fixerFileProcessor, $temps);
     }
 
     protected function fixContent(string $content, bool $noStrictTypesDeclaration): string
@@ -124,6 +106,29 @@ abstract class AbstractPHPFormatter
             $fileContent = substr($fileContent, 6);
         }
 
+        // echo $fileContent;die;
+
         return $fileContent;
+    }
+
+    private function skipStrictTypesDeclaration(bool $noStrictTypesDeclaration): void
+    {
+        if (! $noStrictTypesDeclaration) {
+            return;
+        }
+
+        $checkers = $this->fixerFileProcessor->getCheckers();
+        $temps = [];
+        foreach ($checkers as $checker) {
+            if ($checker instanceof DeclareStrictTypesFixer) {
+                continue;
+            }
+
+            $temps[] = $checker;
+        }
+
+        $r = new ReflectionProperty($this->fixerFileProcessor, 'fixers');
+        $r->setAccessible(true);
+        $r->setValue($this->fixerFileProcessor, $temps);
     }
 }
