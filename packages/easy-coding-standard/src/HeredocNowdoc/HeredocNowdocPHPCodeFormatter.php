@@ -20,8 +20,6 @@ final class HeredocNowdocPHPCodeFormatter extends AbstractPHPFormatter
     protected function fixContent(string $content): string
     {
         $fileContent = trim(parent::fixContent($content));
-        $fileContent = substr($fileContent, 6);
-
         return $fileContent . PHP_EOL;
     }
 }
