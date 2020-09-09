@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
 use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
 use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
@@ -52,16 +53,23 @@ final class CheckMarkdownCommand extends Command
      */
     private $outputFormatterCollector;
 
+    /**
+     * @var Configuration
+     */
+    protected $configuration;
+
     public function __construct(
         SmartFileSystem $smartFileSystem,
         EasyCodingStandardStyle $easyCodingStandardStyle,
         MarkdownPHPCodeFormatter $markdownPHPCodeFormatter,
-        OutputFormatterCollector $outputFormatterCollector
+        OutputFormatterCollector $outputFormatterCollector,
+        Configuration $configuration
     ) {
         $this->smartFileSystem = $smartFileSystem;
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
         $this->markdownPHPCodeFormatter = $markdownPHPCodeFormatter;
         $this->outputFormatterCollector = $outputFormatterCollector;
+        $this->configuration = $configuration;
 
         parent::__construct();
     }
@@ -103,6 +111,8 @@ final class CheckMarkdownCommand extends Command
                 $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
                 $successMessage = 'PHP code in Markdown has been fixed to follow coding standard';
             } else {
+                $this->configuration->resolveFromArray(['isFixer' => false]);
+
                 $outputFormat = $this->resolveOutputFormat($input);
                 $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
 
