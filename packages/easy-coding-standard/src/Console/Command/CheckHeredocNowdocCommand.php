@@ -130,18 +130,16 @@ final class CheckHeredocNowdocCommand extends Command
 
             if ($fix) {
                 $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
-            } else {
-                $this->configuration->resolveFromArray(['isFixer' => false]);
-
-                $outputFormat = $this->resolveOutputFormat($input);
-
-                /** @var ConsoleOutputFormatter $outputFormatter */
-                $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
-                $outputFormatter->addCustomFileName($absoluteFilePath);
-
-                $countFixable++;
+                continue;
             }
 
+            $this->configuration->resolveFromArray(['isFixer' => false]);
+            $outputFormat = $this->resolveOutputFormat($input);
+
+            /** @var ConsoleOutputFormatter $outputFormatter */
+            $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
+            $outputFormatter->addCustomFileName($absoluteFilePath);
+            $countFixable++;
             $alreadyFollowCodingStandard = false;
         }
 
