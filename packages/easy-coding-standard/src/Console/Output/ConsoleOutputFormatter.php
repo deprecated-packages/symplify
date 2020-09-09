@@ -103,16 +103,10 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         $i = 0;
         foreach ($fileDiffPerFile as $file => $fileDiffs) {
             $this->easyCodingStandardStyle->newLine(2);
-            if (self::$customFileNames === []) {
-                $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, $file);
-                $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
-            }
+            $this->handleBoldNumberedMessageInFile($i, $file);
 
             foreach ($fileDiffs as $fileDiff) {
-                if (! $this->disableHeaderFileDiff && isset(self::$customFileNames[$i])) {
-                    $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, self::$customFileNames[$i - 1]);
-                    $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
-                }
+                $this->handleBoldNumberedMessageInFileDiff($i);
 
                 $this->easyCodingStandardStyle->newLine();
                 $this->easyCodingStandardStyle->writeln($fileDiff->getDiffConsoleFormatted());
@@ -122,6 +116,22 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
                 $this->easyCodingStandardStyle->newLine();
                 $this->easyCodingStandardStyle->listing($fileDiff->getAppliedCheckers());
             }
+        }
+    }
+
+    private function handleBoldNumberedMessageInFile(&$i, $file): void
+    {
+        if (self::$customFileNames === []) {
+            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, $file);
+            $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
+        }
+    }
+
+    private function handleBoldNumberedMessageInFileDiff(&$i): void
+    {
+        if (! $this->disableHeaderFileDiff && isset(self::$customFileNames[$i])) {
+            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, self::$customFileNames[$i - 1]);
+            $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
         }
     }
 
