@@ -63,13 +63,15 @@ abstract class AbstractPHPFormatter
             $fileInfo->getContents(),
             static::PHP_CODE_SNIPPET,
             function ($match) use ($noStrictTypesDeclaration): string {
-                $fixedContent = trim($this->fixContent($match['content'], $noStrictTypesDeclaration));
-                return trim($match['opening']) . PHP_EOL . $fixedContent . PHP_EOL . trim($match['closing']);
+                $fixedContent = $this->fixContent($match['content'], $noStrictTypesDeclaration);
+                return rtrim($match['opening'], PHP_EOL) . PHP_EOL
+                    . $fixedContent
+                    . ltrim($match['closing'], PHP_EOL);
             }
         );
     }
 
-    protected function fixContent(string $content, bool $noStrictTypesDeclaration): string
+    private function fixContent(string $content, bool $noStrictTypesDeclaration): string
     {
         $content = trim($content);
         $key = md5($content);
@@ -111,7 +113,7 @@ abstract class AbstractPHPFormatter
             $fileContent = substr($fileContent, 6);
         }
 
-        return $fileContent;
+        return rtrim($fileContent, PHP_EOL) . PHP_EOL;
     }
 
     private function skipStrictTypesDeclaration(bool $noStrictTypesDeclaration): void
