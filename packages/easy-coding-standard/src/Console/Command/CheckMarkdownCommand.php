@@ -115,7 +115,7 @@ final class CheckMarkdownCommand extends Command
 
                 $outputFormat = $this->resolveOutputFormat($input);
                 $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
-                $outputFormatter::$customFileName = $markdownFile;
+                $outputFormatter->setCustomFileName($markdownFile);
 
                 return $outputFormatter->report(1);
             }
