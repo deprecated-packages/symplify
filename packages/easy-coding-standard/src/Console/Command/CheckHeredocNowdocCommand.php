@@ -7,10 +7,14 @@ namespace Symplify\EasyCodingStandard\Console\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
+use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoDirectoryException;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoPHPFileException;
+use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
+use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\HeredocNowdoc\HeredocNowdocPHPCodeFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Option;
@@ -32,6 +36,11 @@ final class CheckHeredocNowdocCommand extends Command
     private const NO_STRICT_TYPES_DECLARATION = 'no-strict-types-declaration';
 
     /**
+     * @var Configuration
+     */
+    protected $configuration;
+
+    /**
      * @var SmartFileSystem
      */
     private $smartFileSystem;
@@ -46,17 +55,25 @@ final class CheckHeredocNowdocCommand extends Command
      */
     private $heredocnowdocPHPCodeFormatter;
 
+    /**
+     * @var OutputFormatterCollector
+     */
+    private $outputFormatterCollector;
+
     public function __construct(
         SmartFileSystem $smartFileSystem,
         EasyCodingStandardStyle $easyCodingStandardStyle,
-        HeredocNowdocPHPCodeFormatter $heredocnowdocPHPCodeFormatter
+        HeredocNowdocPHPCodeFormatter $heredocnowdocPHPCodeFormatter,
+        OutputFormatterCollector $outputFormatterCollector,
+        Configuration $configuration
     ) {
         $this->smartFileSystem = $smartFileSystem;
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
+        $this->heredocnowdocPHPCodeFormatter = $heredocnowdocPHPCodeFormatter;
+        $this->outputFormatterCollector = $outputFormatterCollector;
+        $this->configuration = $configuration;
 
         parent::__construct();
-
-        $this->heredocnowdocPHPCodeFormatter = $heredocnowdocPHPCodeFormatter;
     }
 
     protected function configure(): void
@@ -70,6 +87,13 @@ final class CheckHeredocNowdocCommand extends Command
         );
         $this->addOption(self::NO_STRICT_TYPES_DECLARATION, null, null, 'No strict types declaration');
         $this->addOption(Option::FIX, null, null, 'Fix found violations.');
+        $this->addOption(
+            Option::OUTPUT_FORMAT,
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Select output format',
+            ConsoleOutputFormatter::NAME
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -92,6 +116,8 @@ final class CheckHeredocNowdocCommand extends Command
         $noStrictTypesDeclaration = (bool) $input->getOption(self::NO_STRICT_TYPES_DECLARATION);
         $fix = (bool) $input->getOption(Option::FIX);
         $alreadyFollowCodingStandard = true;
+
+        $countFixable = 0;
         foreach ($finder as $file) {
             $absoluteFilePath = $file->getRealPath();
 
@@ -104,8 +130,22 @@ final class CheckHeredocNowdocCommand extends Command
 
             if ($fix) {
                 $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
+            } else {
+                $this->configuration->resolveFromArray(['isFixer' => false]);
+
+                $outputFormat = $this->resolveOutputFormat($input);
+                /** @var ConsoleOutputFormatter $outputFormatter */
+                $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
+                $outputFormatter->setCustomFileName($absoluteFilePath);
+
+                $countFixable++;
             }
+
             $alreadyFollowCodingStandard = false;
+        }
+
+        if ($countFixable > 0) {
+            return $outputFormatter->report($countFixable);
         }
 
         if ($alreadyFollowCodingStandard) {
@@ -117,5 +157,17 @@ final class CheckHeredocNowdocCommand extends Command
         $this->easyCodingStandardStyle->success($successMessage);
 
         return ShellCode::SUCCESS;
+    }
+
+    private function resolveOutputFormat(InputInterface $input): string
+    {
+        $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
+
+        // Backwards compatibility with older version
+        if ($outputFormat === 'table') {
+            return ConsoleOutputFormatter::NAME;
+        }
+
+        return $outputFormat;
     }
 }
