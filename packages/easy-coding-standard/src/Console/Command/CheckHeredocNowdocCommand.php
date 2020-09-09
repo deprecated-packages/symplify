@@ -100,24 +100,17 @@ final class CheckHeredocNowdocCommand extends Command
     {
         /** @var string $heredocNowDocDirectory */
         $heredocNowDocDirectory = $input->getArgument(self::SOURCE);
-        if (! is_dir($heredocNowDocDirectory)) {
-            $message = sprintf('Directory "%s" not found', $heredocNowDocDirectory);
-            throw new NoDirectoryException($message);
-        }
+        $this->verifyDirectory($heredocNowDocDirectory);
 
         $finder = new Finder();
-        $finder->files()->in($heredocNowDocDirectory)->name('*.php');
-
-        if (! $finder->hasResults()) {
-            $message = sprintf('No file in "%s"', $heredocNowDocDirectory);
-            throw new NoPHPFileException($message);
-        }
+        $this->verifyHasFiles($finder, $heredocNowDocDirectory);
 
         $noStrictTypesDeclaration = (bool) $input->getOption(self::NO_STRICT_TYPES_DECLARATION);
         $fix = (bool) $input->getOption(Option::FIX);
         $alreadyFollowCodingStandard = true;
 
         $countFixable = 0;
+        $outputFormatter = null;
         foreach ($finder as $file) {
             $absoluteFilePath = $file->getRealPath();
 
@@ -143,7 +136,7 @@ final class CheckHeredocNowdocCommand extends Command
             $alreadyFollowCodingStandard = false;
         }
 
-        if (isset($outputFormatter) && $countFixable > 0) {
+        if ($outputFormatter && $countFixable > 0) {
             return $outputFormatter->report($countFixable);
         }
 
@@ -156,6 +149,24 @@ final class CheckHeredocNowdocCommand extends Command
         $this->easyCodingStandardStyle->success($successMessage);
 
         return ShellCode::SUCCESS;
+    }
+
+    private function verifyDirectory(string $heredocNowDocDirectory): void
+    {
+        if (! is_dir($heredocNowDocDirectory)) {
+            $message = sprintf('Directory "%s" not found', $heredocNowDocDirectory);
+            throw new NoDirectoryException($message);
+        }
+    }
+
+    private function verifyHasFiles(Finder $finder, string $heredocNowDocDirectory): void
+    {
+        $finder->files()->in($heredocNowDocDirectory)->name('*.php');
+
+        if (! $finder->hasResults()) {
+            $message = sprintf('No file in "%s"', $heredocNowDocDirectory);
+            throw new NoPHPFileException($message);
+        }
     }
 
     private function resolveOutputFormat(InputInterface $input): string
