@@ -19,6 +19,11 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
     public const NAME = 'console';
 
     /**
+     * @var string
+     */
+    public static $customFileName;
+
+    /**
      * @var EasyCodingStandardStyle
      */
     private $easyCodingStandardStyle;
@@ -32,11 +37,6 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
      * @var ErrorAndDiffCollector
      */
     private $errorAndDiffCollector;
-
-    /**
-     * @var string
-     */
-    public static $customFileName;
 
     public function __construct(
         EasyCodingStandardStyle $easyCodingStandardStyle,

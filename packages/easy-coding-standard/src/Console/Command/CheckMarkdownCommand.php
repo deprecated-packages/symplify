@@ -34,6 +34,11 @@ final class CheckMarkdownCommand extends Command
     private const NO_STRICT_TYPES_DECLARATION = 'no-strict-types-declaration';
 
     /**
+     * @var Configuration
+     */
+    protected $configuration;
+
+    /**
      * @var SmartFileSystem
      */
     private $smartFileSystem;
@@ -52,11 +57,6 @@ final class CheckMarkdownCommand extends Command
      * @var OutputFormatterCollector
      */
     private $outputFormatterCollector;
-
-    /**
-     * @var Configuration
-     */
-    protected $configuration;
 
     public function __construct(
         SmartFileSystem $smartFileSystem,
