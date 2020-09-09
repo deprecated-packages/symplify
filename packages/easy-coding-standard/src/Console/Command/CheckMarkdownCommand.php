@@ -106,19 +106,17 @@ final class CheckMarkdownCommand extends Command
 
         if ($markdownFileInfo->getContents() === $fixedContent) {
             $successMessage = 'PHP code in Markdown already follow coding standard';
+        } elseif ($fix) {
+            $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
+            $successMessage = 'PHP code in Markdown has been fixed to follow coding standard';
         } else {
-            if ($fix) {
-                $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
-                $successMessage = 'PHP code in Markdown has been fixed to follow coding standard';
-            } else {
-                $this->configuration->resolveFromArray(['isFixer' => false]);
+            $this->configuration->resolveFromArray(['isFixer' => false]);
 
-                $outputFormat = $this->resolveOutputFormat($input);
-                $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
-                $outputFormatter->setCustomFileName($markdownFile);
+            $outputFormat = $this->resolveOutputFormat($input);
+            $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
+            $outputFormatter->setCustomFileName($markdownFile);
 
-                return $outputFormatter->report(1);
-            }
+            return $outputFormatter->report(1);
         }
 
         $this->easyCodingStandardStyle->success($successMessage);
