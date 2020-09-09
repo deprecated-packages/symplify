@@ -45,7 +45,6 @@ final class MarkdownPHPCodeFormatterTest extends AbstractKernelTestCase
 
         $changedContent = $this->markdownPHPFormatter->format(
             $inputAndExpectedFileInfos->getInputFileInfo(),
-            true,
             true
         );
         $expectedContent = $inputAndExpectedFileInfos->getExpectedFileInfo()->getContents();
