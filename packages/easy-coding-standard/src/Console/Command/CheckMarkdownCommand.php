@@ -71,6 +71,7 @@ final class CheckMarkdownCommand extends Command
         $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Format Markdown PHP code');
         $this->addArgument(self::SOURCE, InputArgument::REQUIRED, 'Path to the Markdown file');
+        $this->addOption(self::NO_STRICT_TYPES_DECLARATION, null, null, 'No strict types declaration');
         $this->addOption(Option::FIX, null, null, 'Fix found violations.');
         $this->addOption(
             Option::OUTPUT_FORMAT,
