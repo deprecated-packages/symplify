@@ -145,7 +145,7 @@ final class CheckHeredocNowdocCommand extends Command
             $alreadyFollowCodingStandard = false;
         }
 
-        if ($countFixable > 0) {
+        if (isset($outputFormatter) && $countFixable > 0) {
             return $outputFormatter->report($countFixable);
         }
 
