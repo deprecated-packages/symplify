@@ -121,6 +121,7 @@ final class CheckHeredocNowdocCommand extends Command
                 continue;
             }
 
+            $alreadyFollowCodingStandard = false;
             if ($fix) {
                 $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
                 continue;
@@ -133,7 +134,6 @@ final class CheckHeredocNowdocCommand extends Command
             $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
             $outputFormatter->addCustomFileName($absoluteFilePath);
             $countFixable++;
-            $alreadyFollowCodingStandard = false;
         }
 
         if ($outputFormatter && $countFixable > 0) {
