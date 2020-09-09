@@ -113,6 +113,7 @@ final class CheckMarkdownCommand extends Command
             $this->configuration->resolveFromArray(['isFixer' => false]);
 
             $outputFormat = $this->resolveOutputFormat($input);
+            /** @var ConsoleOutputFormatter $outputFormatter */
             $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
             $outputFormatter->setCustomFileName($markdownFile);
 
