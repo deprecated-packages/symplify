@@ -34,7 +34,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
     private $errorAndDiffCollector;
 
     /**
-     * @var array|null
+     * @var array
      */
     private static $customFileNames = [];
 
