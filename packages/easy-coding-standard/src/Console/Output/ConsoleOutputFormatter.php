@@ -93,7 +93,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         $i = 0;
         foreach ($fileDiffPerFile as $file => $fileDiffs) {
             $this->easyCodingStandardStyle->newLine(2);
-            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, self::$customFileNames[$i-1] ?? $file);
+            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, self::$customFileNames[$i - 1] ?? $file);
             $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
 
             foreach ($fileDiffs as $fileDiff) {
