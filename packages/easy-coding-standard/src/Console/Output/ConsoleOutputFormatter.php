@@ -33,6 +33,11 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
      */
     private $errorAndDiffCollector;
 
+    /**
+     * @var string
+     */
+    public static $customFileName;
+
     public function __construct(
         EasyCodingStandardStyle $easyCodingStandardStyle,
         Configuration $configuration,
@@ -83,7 +88,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         $i = 0;
         foreach ($fileDiffPerFile as $file => $fileDiffs) {
             $this->easyCodingStandardStyle->newLine(2);
-            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, $file);
+            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, self::$customFileName ?: $file);
             $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
 
             foreach ($fileDiffs as $fileDiff) {
