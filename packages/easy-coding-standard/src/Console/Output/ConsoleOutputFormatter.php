@@ -38,6 +38,11 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
      */
     private static $customFileNames = [];
 
+    /**
+     * @var bool
+     */
+    private $disableHeaderFileDiff = false;
+
     public function __construct(
         EasyCodingStandardStyle $easyCodingStandardStyle,
         Configuration $configuration,
@@ -74,6 +79,11 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         self::$customFileNames = array_merge(self::$customFileNames, [$customFileName]);
     }
 
+    public function disableHeaderFileDiff()
+    {
+        $this->disableHeaderFileDiff = true;
+    }
+
     public function getName(): string
     {
         return self::NAME;
@@ -94,8 +104,10 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         foreach ($fileDiffPerFile as $file => $fileDiffs) {
             $this->easyCodingStandardStyle->newLine(2);
             foreach ($fileDiffs as $fileDiff) {
-                $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, self::$customFileNames[$i - 1] ?? $file);
-                $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
+                if (! $this->disableHeaderFileDiff) {
+                    $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, self::$customFileNames[$i - 1] ?? $file);
+                    $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
+                }
 
                 $this->easyCodingStandardStyle->newLine();
                 $this->easyCodingStandardStyle->writeln($fileDiff->getDiffConsoleFormatted());
