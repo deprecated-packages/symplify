@@ -34,9 +34,9 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
     private $errorAndDiffCollector;
 
     /**
-     * @var string|null
+     * @var array|null
      */
-    private $customFileName;
+    private static $customFileNames = [];
 
     public function __construct(
         EasyCodingStandardStyle $easyCodingStandardStyle,
@@ -69,9 +69,9 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         return $this->configuration->isFixer() ? $this->printAfterFixerStatus() : $this->printNoFixerStatus();
     }
 
-    public function setCustomFileName(string $customFileName): void
+    public function addCustomFileName(string $customFileName): void
     {
-        $this->customFileName = $customFileName;
+        self::$customFileNames = array_merge(self::$customFileNames, [$customFileName]);
     }
 
     public function getName(): string
@@ -93,7 +93,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         $i = 0;
         foreach ($fileDiffPerFile as $file => $fileDiffs) {
             $this->easyCodingStandardStyle->newLine(2);
-            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, $this->customFileName ?? $file);
+            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, self::$customFileNames[$i-1] ?? $file);
             $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
 
             foreach ($fileDiffs as $fileDiff) {
