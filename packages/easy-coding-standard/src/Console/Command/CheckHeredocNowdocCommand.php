@@ -98,12 +98,14 @@ final class CheckHeredocNowdocCommand extends Command
             $phpFileInfo = new SmartFileInfo($absoluteFilePath);
             $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo, $noStrictTypesDeclaration);
 
-            if ($phpFileInfo->getContents() !== $fixedContent) {
-                if ($fix) {
-                    $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
-                }
-                $alreadyFollowCodingStandard = false;
+            if ($phpFileInfo->getContents() === $fixedContent) {
+                continue;
             }
+
+            if ($fix) {
+                $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
+            }
+            $alreadyFollowCodingStandard = false;
         }
 
         if ($alreadyFollowCodingStandard) {
