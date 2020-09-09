@@ -103,13 +103,14 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         $i = 0;
         foreach ($fileDiffPerFile as $file => $fileDiffs) {
             $this->easyCodingStandardStyle->newLine(2);
+            if (self::$customFileNames === []) {
+                $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, $file);
+                $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
+            }
+
             foreach ($fileDiffs as $fileDiff) {
-                if (! $this->disableHeaderFileDiff) {
-                    $boldNumberedMessage = sprintf(
-                        '<options=bold>%d) %s</>',
-                        ++$i,
-                        self::$customFileNames[$i - 1] ?? $file
-                    );
+                if (! $this->disableHeaderFileDiff && isset(self::$customFileNames[$i - 1])) {
+                    $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', ++$i, self::$customFileNames[$i - 1]);
                     $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
                 }
 
