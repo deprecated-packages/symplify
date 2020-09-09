@@ -135,9 +135,8 @@ final class CheckHeredocNowdocCommand extends Command
 
                 $outputFormat = $this->resolveOutputFormat($input);
 
-                $outputFormatCollector = clone $this->outputFormatterCollector;
                 /** @var ConsoleOutputFormatter $outputFormatter */
-                $outputFormatter = $outputFormatCollector->getByName($outputFormat);
+                $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
                 $outputFormatter->addCustomFileName($absoluteFilePath);
 
                 $countFixable++;
