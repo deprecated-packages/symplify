@@ -171,7 +171,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
             '%s%d %s fixable! Just add "--fix" to console command and rerun to apply.',
             $errorCount !== 0 ? 'Good news is that ' : '',
             $fileDiffsCount,
-            $fileDiffsCount === 1 ? 'file is' : 'files are'
+            $fileDiffsCount === 1 ? 'error is' : 'errors are'
         );
         $this->easyCodingStandardStyle->warning($fixableMessage);
     }
