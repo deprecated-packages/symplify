@@ -7,8 +7,11 @@ namespace Symplify\EasyCodingStandard\Console\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
+use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
+use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Markdown\MarkdownPHPCodeFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Option;
@@ -44,17 +47,23 @@ final class CheckMarkdownCommand extends Command
      */
     private $markdownPHPCodeFormatter;
 
+    /**
+     * @var OutputFormatterCollector
+     */
+    private $outputFormatterCollector;
+
     public function __construct(
         SmartFileSystem $smartFileSystem,
         EasyCodingStandardStyle $easyCodingStandardStyle,
-        MarkdownPHPCodeFormatter $markdownPHPCodeFormatter
+        MarkdownPHPCodeFormatter $markdownPHPCodeFormatter,
+        OutputFormatterCollector $outputFormatterCollector
     ) {
         $this->smartFileSystem = $smartFileSystem;
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
+        $this->markdownPHPCodeFormatter = $markdownPHPCodeFormatter;
+        $this->outputFormatterCollector = $outputFormatterCollector;
 
         parent::__construct();
-
-        $this->markdownPHPCodeFormatter = $markdownPHPCodeFormatter;
     }
 
     protected function configure(): void
@@ -63,6 +72,13 @@ final class CheckMarkdownCommand extends Command
         $this->setDescription('Format Markdown PHP code');
         $this->addArgument(self::SOURCE, InputArgument::REQUIRED, 'Path to the Markdown file');
         $this->addOption(Option::FIX, null, null, 'Fix found violations.');
+        $this->addOption(
+            Option::OUTPUT_FORMAT,
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Select output format',
+            ConsoleOutputFormatter::NAME
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -84,12 +100,29 @@ final class CheckMarkdownCommand extends Command
         } else {
             if ($fix) {
                 $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
+                $successMessage = 'PHP code in Markdown has been fixed to follow coding standard';
+            } else {
+                $outputFormat = $this->resolveOutputFormat($input);
+                $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
+
+                return $outputFormatter->report(1);
             }
-            $successMessage = 'PHP code in Markdown has been fixed to follow coding standard';
         }
 
         $this->easyCodingStandardStyle->success($successMessage);
 
         return ShellCode::SUCCESS;
+    }
+
+    private function resolveOutputFormat(InputInterface $input): string
+    {
+        $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
+
+        // Backwards compatibility with older version
+        if ($outputFormat === 'table') {
+            return ConsoleOutputFormatter::NAME;
+        }
+
+        return $outputFormat;
     }
 }
