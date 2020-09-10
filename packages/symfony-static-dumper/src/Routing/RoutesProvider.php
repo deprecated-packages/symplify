@@ -14,6 +14,11 @@ use Symfony\Component\Routing\RouterInterface;
 final class RoutesProvider
 {
     /**
+     * @var string
+     */
+    private const PARAMETERS_IN_ROUTE_PATTERN = '#\{(.*?)\}#sm';
+
+    /**
      * @var RouterInterface
      */
     private $router;
@@ -53,6 +58,6 @@ final class RoutesProvider
 
     private function hasRouteParameters(Route $route): bool
     {
-        return (bool) Strings::match($route->getPath(), '#\{(.*?)\}#sm');
+        return (bool) Strings::match($route->getPath(), self::PARAMETERS_IN_ROUTE_PATTERN);
     }
 }

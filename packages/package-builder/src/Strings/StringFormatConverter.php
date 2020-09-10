@@ -11,6 +11,11 @@ use Nette\Utils\Strings;
  */
 final class StringFormatConverter
 {
+    /**
+     * @var string
+     */
+    private const BIG_LETTER_PATTERN = '#([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]*)#';
+
     public function underscoreAndHyphenToCamelCase(string $value): string
     {
         $value = str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $value)));
@@ -48,7 +53,7 @@ final class StringFormatConverter
 
     private function camelCaseToGlue(string $input, string $glue): string
     {
-        $matches = Strings::matchAll($input, '#([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]*)#');
+        $matches = Strings::matchAll($input, self::BIG_LETTER_PATTERN);
 
         $parts = [];
         foreach ($matches as $match) {

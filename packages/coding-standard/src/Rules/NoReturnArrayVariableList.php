@@ -28,6 +28,16 @@ final class NoReturnArrayVariableList implements Rule
     public const ERROR_MESSAGE = 'Use value object over return of values';
 
     /**
+     * @var string
+     */
+    private const VALUE_OBJECT_PATTERN = '#\/ValueObject\/#i';
+
+    /**
+     * @var string
+     */
+    private const TESTS_DIRECTORY_PATTERN = '#\/Tests\/#i';
+
+    /**
      * @var ParentMethodAnalyser
      */
     private $parentMethodAnalyser;
@@ -71,12 +81,15 @@ final class NoReturnArrayVariableList implements Rule
     private function shouldSkip(Scope $scope, $node): bool
     {
         // skip tests
-        if (Strings::match($scope->getFile(), '#\/Tests\/#i') && ! StaticPHPUnitEnvironment::isPHPUnitRun()) {
+        if (Strings::match(
+            $scope->getFile(),
+            self::TESTS_DIRECTORY_PATTERN
+        ) && ! StaticPHPUnitEnvironment::isPHPUnitRun()) {
             return true;
         }
 
         // skip value objects
-        if (Strings::match($scope->getFile(), '#\/ValueObject\/#i')) {
+        if (Strings::match($scope->getFile(), self::VALUE_OBJECT_PATTERN)) {
             return true;
         }
 

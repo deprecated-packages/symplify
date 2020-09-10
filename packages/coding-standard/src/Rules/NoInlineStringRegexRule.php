@@ -35,7 +35,7 @@ final class NoInlineStringRegexRule extends AbstractManyNodeTypeRule
     /**
      * @var string[]
      */
-    private const NETTE_UTILS_CALLS_METHOD_NAMES_WITH_SECOND_ARG_REGEX = ['match', 'replace'];
+    private const NETTE_UTILS_CALLS_METHOD_NAMES_WITH_SECOND_ARG_REGEX = ['match', 'matchAll', 'replace', 'split'];
 
     /**
      * @var string

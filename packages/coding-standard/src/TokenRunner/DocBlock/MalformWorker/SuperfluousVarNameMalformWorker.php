@@ -14,6 +14,11 @@ final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
     /**
      * @var string
      */
+    private const THIS_VARIABLE_PATTERN = '#\$this$#';
+
+    /**
+     * @var string
+     */
     private const VAR_VARIABLE_NAME_PATTERN = '#(@var)(?<type>\s+[|\\\\\w]+)?(\s+)(?<propertyName>\$[\w]+)#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
@@ -39,8 +44,8 @@ final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
                         $replacement .= $match['type'];
                     }
 
-                    if (Strings::match($match[0], '#\$this$#')) {
-                        return Strings::replace($match[0], '#\$this$#', 'self');
+                    if (Strings::match($match[0], self::THIS_VARIABLE_PATTERN)) {
+                        return Strings::replace($match[0], self::THIS_VARIABLE_PATTERN, 'self');
                     }
 
                     return $replacement;

@@ -12,6 +12,11 @@ use Symplify\Autodiscovery\ValueObject\ServiceConfig;
 final class YamlServiceProcessor
 {
     /**
+     * @var string
+     */
+    private const VENDOR_DIRECTORY_PATTERN = '#/vendor/#';
+
+    /**
      * @var bool
      */
     private $removeService = false;
@@ -95,7 +100,7 @@ final class YamlServiceProcessor
         // is in vendor?
         if (class_exists($class)) {
             $reflectionClass = new ReflectionClass($class);
-            if (Strings::match($reflectionClass->getFileName(), '#/vendor/#')) {
+            if (Strings::match($reflectionClass->getFileName(), self::VENDOR_DIRECTORY_PATTERN)) {
                 return true;
             }
         }

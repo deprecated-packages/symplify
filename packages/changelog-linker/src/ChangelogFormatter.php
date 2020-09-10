@@ -17,6 +17,16 @@ final class ChangelogFormatter
      */
     private const HEADLINE_PATTERN = '#^(?<headline>[\#]{2,} [\w\d.\-/ ]+)$#m';
 
+    /**
+     * @var string
+     */
+    private const TWO_LINES_START_PATTERN = '#^(\n){2,}#';
+
+    /**
+     * @var string
+     */
+    private const THREE_LINES_PATTERN = '#(\n){3,}#';
+
     public function format(string $content): string
     {
         $content = $this->wrapHeadlinesWithEmptyLines($content);
@@ -45,9 +55,9 @@ final class ChangelogFormatter
     private function removeSuperfluousSpaces(string $content): string
     {
         // 2 lines from the start
-        $content = Strings::replace($content, '#^(\n){2,}#', PHP_EOL);
+        $content = Strings::replace($content, self::TWO_LINES_START_PATTERN, PHP_EOL);
 
         // 3 lines to 2
-        return Strings::replace($content, '#(\n){3,}#', PHP_EOL . PHP_EOL);
+        return Strings::replace($content, self::THREE_LINES_PATTERN, PHP_EOL . PHP_EOL);
     }
 }

@@ -16,6 +16,11 @@ use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 final class ChangeFactory
 {
     /**
+     * @var string
+     */
+    private const ASTERISK_PATTERN = '#(\*)#';
+
+    /**
      * @var string[]
      */
     private $authorsToIgnore = [];
@@ -78,7 +83,7 @@ final class ChangeFactory
     {
         $content = trim($content);
 
-        return Strings::replace($content, '#(\*)#', '\\\$1');
+        return Strings::replace($content, self::ASTERISK_PATTERN, '\\\$1');
     }
 
     private function resolveMessageWithoutPackage(string $message, ?string $package): string

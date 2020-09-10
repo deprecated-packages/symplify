@@ -34,6 +34,11 @@ use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\SwitchedTypeAndNa
 final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
 {
     /**
+     * @var string
+     */
+    private const TYPE_ANNOTATION_PATTERN = '#@(param|return|var)#';
+
+    /**
      * @var MalformWorkerInterface[]
      */
     private $malformWorkers = [];
@@ -75,7 +80,7 @@ function someFunction(type $name)
             }
 
             $docContent = $token->getContent();
-            if (! Strings::match($docContent, '#@(param|return|var)#')) {
+            if (! Strings::match($docContent, self::TYPE_ANNOTATION_PATTERN)) {
                 continue;
             }
 

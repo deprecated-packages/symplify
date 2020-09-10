@@ -25,6 +25,11 @@ final class ExcessivePublicCountRule implements Rule
     public const ERROR_MESSAGE = 'Too many public elements on class - %d. Try narrow it down under %d';
 
     /**
+     * @var string
+     */
+    private const VALUE_OBJECT_PATTERN = '#\bValueObject\b#';
+
+    /**
      * @var int
      */
     private $maxPublicClassElementCount;
@@ -81,7 +86,7 @@ final class ExcessivePublicCountRule implements Rule
             return true;
         }
 
-        if (Strings::match($className, '#\bValueObject\b#') && $classStmt instanceof ClassConst) {
+        if (Strings::match($className, self::VALUE_OBJECT_PATTERN) && $classStmt instanceof ClassConst) {
             return true;
         }
 

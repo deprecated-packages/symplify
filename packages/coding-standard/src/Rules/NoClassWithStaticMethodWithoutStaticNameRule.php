@@ -35,6 +35,11 @@ final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule
     ];
 
     /**
+     * @var string
+     */
+    private const STATIC_PATTERN = '#static#i';
+
+    /**
      * @var NodeFinder
      */
     private $nodeFinder;
@@ -95,7 +100,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule
             }
         }
 
-        return (bool) Strings::match($classShortName, '#static#i');
+        return (bool) Strings::match($classShortName, self::STATIC_PATTERN);
     }
 
     private function isStaticConstructorOfValueObject(ClassMethod $classMethod): bool

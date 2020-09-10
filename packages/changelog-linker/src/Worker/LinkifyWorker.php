@@ -10,6 +10,10 @@ use Symplify\ChangelogLinker\LinkAppender;
 
 final class LinkifyWorker implements WorkerInterface
 {
+    public const SPACE_START_PATTERN = '#^\s+$#';
+
+    public const LINKS_PATTERN = '#^\-(\s+)?\[\#\d+#';
+
     /**
      * @var array<string, string>
      */
@@ -52,12 +56,12 @@ final class LinkifyWorker implements WorkerInterface
     private function shouldSkipContentLine(string $contentLine): bool
     {
         // skip spaces only
-        if (Strings::match($contentLine, '#^\s+$#')) {
+        if (Strings::match($contentLine, self::SPACE_START_PATTERN)) {
             return true;
         }
 
         // skip links
-        return (bool) Strings::match($contentLine, '#^\-(\s+)?\[\#\d+#');
+        return (bool) Strings::match($contentLine, self::LINKS_PATTERN);
     }
 
     private function linkifyContentLine(string $contentLine): string

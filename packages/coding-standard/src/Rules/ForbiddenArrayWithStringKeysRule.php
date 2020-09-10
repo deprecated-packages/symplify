@@ -27,6 +27,11 @@ final class ForbiddenArrayWithStringKeysRule implements Rule
      */
     public const ERROR_MESSAGE = 'Array with keys is not allowed. Use value object to pass data instead';
 
+    /**
+     * @var string
+     */
+    private const TEXT_FILE_PATTERN = '#(Test|TestCase)\.php$#';
+
     public function getNodeType(): string
     {
         return Array_::class;
@@ -64,7 +69,7 @@ final class ForbiddenArrayWithStringKeysRule implements Rule
 
     private function shouldSkip(Array_ $array, Scope $scope): bool
     {
-        if (Strings::match($scope->getFile(), '#(Test|TestCase)\.php$#')) {
+        if (Strings::match($scope->getFile(), self::TEXT_FILE_PATTERN)) {
             return true;
         }
 

@@ -29,7 +29,7 @@ trait HelpfulApplicationTrait
         try {
             return parent::doRunCommand($command, $input, $output);
         } catch (RuntimeException $runtimeException) {
-            if (Strings::match($runtimeException->getMessage(), '#Not enough arguments#')) {
+            if (Strings::contains($runtimeException->getMessage(), 'Not enough arguments')) {
                 $this->cleanExtraCommandArgument($command);
                 (new TextDescriptor())->describe($output, $command);
 

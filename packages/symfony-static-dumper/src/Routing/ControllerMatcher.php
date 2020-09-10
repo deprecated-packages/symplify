@@ -10,12 +10,17 @@ use Symplify\SymfonyStaticDumper\ValueObject\ControllerCallable;
 
 final class ControllerMatcher
 {
+    /**
+     * @var string
+     */
+    private const DOUBLE_COLLON_PATTERN = '#::#';
+
     public function matchRouteToControllerAndMethod(Route $route): ControllerCallable
     {
         $controller = $route->getDefault('_controller');
 
         if (Strings::contains($controller, '::')) {
-            [$controllerClass, $method] = Strings::split($controller, '#::#');
+            [$controllerClass, $method] = Strings::split($controller, self::DOUBLE_COLLON_PATTERN);
         } else {
             $controllerClass = $controller;
             $method = '__invoke';

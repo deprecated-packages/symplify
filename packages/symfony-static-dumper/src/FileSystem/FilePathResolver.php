@@ -9,6 +9,16 @@ use Symfony\Component\Routing\Route;
 
 final class FilePathResolver
 {
+    /**
+     * @var string
+     */
+    private const FILE_PATH_PATTERN = '#{(.*?)}#m';
+
+    /**
+     * @var string
+     */
+    private const FILE_SUFFIX_PATTERN = '#\.[\w]+#';
+
     public function resolveFilePath(Route $route, string $outputDirectory): string
     {
         $routePath = $route->getPath();
@@ -33,7 +43,7 @@ final class FilePathResolver
             $arguments = [$arguments];
         }
         $i = 0;
-        return Strings::replace($filePath, '#{(.*?)}#m', function () use (&$i, $arguments) {
+        return Strings::replace($filePath, self::FILE_PATH_PATTERN, function () use (&$i, $arguments) {
             $value = $arguments[$i];
 
             ++$i;
@@ -47,6 +57,6 @@ final class FilePathResolver
      */
     private function isFileWithSuffix(string $routePath): bool
     {
-        return (bool) Strings::match($routePath, '#\.[\w]+#');
+        return (bool) Strings::match($routePath, self::FILE_SUFFIX_PATTERN);
     }
 }

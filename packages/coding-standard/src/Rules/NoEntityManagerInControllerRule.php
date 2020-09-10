@@ -22,6 +22,11 @@ final class NoEntityManagerInControllerRule implements Rule
      */
     public const ERROR_MESSAGE = 'Use specific repository over entity manager in Controller';
 
+    /**
+     * @var string
+     */
+    private const CONTROLLER_PRESENTER_PATTERN = '#(Controller|Presenter)$#';
+
     public function getNodeType(): string
     {
         return ClassMethod::class;
@@ -59,7 +64,7 @@ final class NoEntityManagerInControllerRule implements Rule
             return false;
         }
 
-        return (bool) Strings::match($classReflection->getName(), '#(Controller|Presenter)$#');
+        return (bool) Strings::match($classReflection->getName(), self::CONTROLLER_PRESENTER_PATTERN);
     }
 
     private function isEntityManagerParam(Param $param): bool

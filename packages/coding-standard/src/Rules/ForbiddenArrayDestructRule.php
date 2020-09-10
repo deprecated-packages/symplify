@@ -27,6 +27,8 @@ final class ForbiddenArrayDestructRule implements Rule
      */
     public const ERROR_MESSAGE = 'Array destruct is not allowed. Use value object to pass data instead';
 
+    public const VENDOR_DIRECTORY_PATTERN = '#/vendor/#';
+
     /**
      * @var NodeNameResolver
      */
@@ -91,6 +93,6 @@ final class ForbiddenArrayDestructRule implements Rule
         }
 
         $reflectoinClass = new ReflectionClass($callerType->getClassName());
-        return (bool) Strings::match($reflectoinClass->getFileName(), '#/vendor/#');
+        return (bool) Strings::match($reflectoinClass->getFileName(), self::VENDOR_DIRECTORY_PATTERN);
     }
 }

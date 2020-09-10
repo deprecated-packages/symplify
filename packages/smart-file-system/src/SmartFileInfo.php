@@ -15,6 +15,11 @@ use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 final class SmartFileInfo extends SplFileInfo
 {
     /**
+     * @var string
+     */
+    private const LAST_SUFFIX_PATTERN = '#\.[^.]+$#';
+
+    /**
      * @var SmartFileSystem
      */
     private $smartFileSystem;
@@ -62,7 +67,7 @@ final class SmartFileInfo extends SplFileInfo
 
     public function getRealPathWithoutSuffix(): string
     {
-        return Strings::replace($this->getRealPath(), '#\.[^.]+$#');
+        return Strings::replace($this->getRealPath(), self::LAST_SUFFIX_PATTERN);
     }
 
     public function getRelativeFilePath(): string
