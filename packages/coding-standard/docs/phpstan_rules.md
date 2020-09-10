@@ -1,5 +1,40 @@
 # 35+ PHPStan Rules
 
+## Use Constant Regex Patterns over Inlined Strings
+
+- class: [`NoInlineStringRegexRule`](../src/Rules/NoInlineStringRegexRule.php)
+
+```php
+class SomeClass
+{
+    public function run($value)
+    {
+        return preg_match('#some_pattern#', $value);
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    /**
+     * @var string
+     */
+    private const NAMED_REGEX_PATTERN = '#some_pattern#';
+
+    public function run($value)
+    {
+        return preg_match(self::SOME_PATTERN, $value);
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## Use +-pre instead of post+- to Prevent 2 Values on 1 line
 
 - class: [`NoPostIncPostDecRule`](../src/Rules/NoPostIncPostDecRule.php)

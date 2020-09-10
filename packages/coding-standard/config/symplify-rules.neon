@@ -77,6 +77,10 @@ services:
 
     # rules
     -
+        class: Symplify\CodingStandard\Rules\NoInlineStringRegexRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\CodingStandard\Rules\NoPostIncPostDecRule
         tags: [phpstan.rules.rule]
 
