@@ -13,6 +13,11 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
 {
     /**
+     * @var string
+     */
+    private const UNRELEASED_HEADLINE_PATTERN = '#\#\# Unreleased#';
+
+    /**
      * @var SmartFileSystem
      */
     private $smartFileSystem;
@@ -32,7 +37,11 @@ final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
         $newHeadline = $this->createNewHeadline($version);
 
         $changelogFileContent = $this->smartFileSystem->readFile($changelogFilePath);
-        $changelogFileContent = Strings::replace($changelogFileContent, '#\#\# Unreleased#', '## ' . $newHeadline);
+        $changelogFileContent = Strings::replace(
+            $changelogFileContent,
+            self::UNRELEASED_HEADLINE_PATTERN,
+            '## ' . $newHeadline
+        );
 
         $this->smartFileSystem->dumpFile($changelogFilePath, $changelogFileContent);
     }

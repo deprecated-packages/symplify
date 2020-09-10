@@ -20,6 +20,11 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
      */
     private const ALLOWED_VARIABLE_NAMES = ['$this'];
 
+    /**
+     * @var string
+     */
+    private const VARIABLE_NAME_PATTERN = '#\$\w+#';
+
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $docBlock = new DocBlock($docContent);
@@ -62,6 +67,6 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
             return true;
         }
         // has multiple return values? "@return array $one, $two"
-        return count(Strings::matchAll($content, '#\$\w+#')) >= 2;
+        return count(Strings::matchAll($content, self::VARIABLE_NAME_PATTERN)) >= 2;
     }
 }

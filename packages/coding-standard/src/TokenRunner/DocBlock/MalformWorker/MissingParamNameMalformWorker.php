@@ -17,6 +17,16 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
      */
     private const PARAM_WITHOUT_NAME_PATTERN = '#@param ([^$]*?)( ([^$]*?))?\n#';
 
+    /**
+     * @var string
+     */
+    private const PARAM_ANNOTATOIN_START_PATTERN = '@param ';
+
+    /**
+     * @var string
+     */
+    private const PARAM_WITH_NAME_PATTERN = '#@param(.*?)\$[\w]+(.*?)\n#';
+
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $argumentNames = $this->getDocRelatedArgumentNames($tokens, $position);
@@ -90,12 +100,12 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
 
     private function shouldSkipLine(Line $line): bool
     {
-        if (! Strings::contains($line->getContent(), '@param ')) {
+        if (! Strings::contains($line->getContent(), self::PARAM_ANNOTATOIN_START_PATTERN)) {
             return true;
         }
 
         // already has a param name
-        if (Strings::match($line->getContent(), '#@param(.*?)\$[\w]+(.*?)\n#')) {
+        if (Strings::match($line->getContent(), self::PARAM_WITH_NAME_PATTERN)) {
             return true;
         }
 

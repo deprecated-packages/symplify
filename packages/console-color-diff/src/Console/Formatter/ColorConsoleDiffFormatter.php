@@ -19,6 +19,26 @@ final class ColorConsoleDiffFormatter
     /**
      * @var string
      */
+    private const PLUS_START_PATTERN = '#^(\+.*)#';
+
+    /**
+     * @var string
+     */
+    private const MINUT_START_PATTERN = '#^(\-.*)#';
+
+    /**
+     * @var string
+     */
+    private const AT_START_PATTERN = '#^(@.*)#';
+
+    /**
+     * @var string
+     */
+    private const NEWLINES_PATTERN = "#\n\r|\n#";
+
+    /**
+     * @var string
+     */
     private $template;
 
     public function __construct()
@@ -39,7 +59,7 @@ final class ColorConsoleDiffFormatter
     {
         $escapedDiff = OutputFormatter::escape(rtrim($diff));
 
-        $escapedDiffLines = Strings::split($escapedDiff, "#\n\r|\n#");
+        $escapedDiffLines = Strings::split($escapedDiff, self::NEWLINES_PATTERN);
 
         $coloredLines = array_map(function (string $string): string {
             $string = $this->makePlusLinesGreen($string);
@@ -58,16 +78,16 @@ final class ColorConsoleDiffFormatter
 
     private function makePlusLinesGreen(string $string): string
     {
-        return Strings::replace($string, '#^(\+.*)#', '<fg=green>$1</fg=green>');
+        return Strings::replace($string, self::PLUS_START_PATTERN, '<fg=green>$1</fg=green>');
     }
 
     private function makeMinusLinesRed(string $string): string
     {
-        return Strings::replace($string, '#^(\-.*)#', '<fg=red>$1</fg=red>');
+        return Strings::replace($string, self::MINUT_START_PATTERN, '<fg=red>$1</fg=red>');
     }
 
     private function makeAtNoteCyan(string $string): string
     {
-        return Strings::replace($string, '#^(@.*)#', '<fg=cyan>$1</fg=cyan>');
+        return Strings::replace($string, self::AT_START_PATTERN, '<fg=cyan>$1</fg=cyan>');
     }
 }

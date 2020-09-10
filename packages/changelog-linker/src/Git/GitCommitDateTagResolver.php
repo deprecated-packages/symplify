@@ -13,6 +13,16 @@ use Symfony\Component\Process\Process;
 final class GitCommitDateTagResolver
 {
     /**
+     * @var string
+     */
+    private const DATE_PATTERN = '#(?<date>\d{4}-\d{2}-\d{2})#';
+
+    /**
+     * @var string
+     */
+    private const TAG_WITH_DATE_PATTERN = '#\(?tag: (?<tag>[v.\d]+)\)#';
+
+    /**
      * @var string[]
      */
     private $tagsToDates = [];
@@ -30,10 +40,10 @@ final class GitCommitDateTagResolver
         $datesWithTags = (array) explode(PHP_EOL, $this->getDatesWithTagsInString());
 
         foreach ($datesWithTags as $datesWithTag) {
-            $dateMatch = Strings::match($datesWithTag, '#(?<date>\d{4}-\d{2}-\d{2})#');
+            $dateMatch = Strings::match($datesWithTag, self::DATE_PATTERN);
             $date = $dateMatch['date'];
 
-            $tagMatch = Strings::match($datesWithTag, '#\(?tag: (?<tag>[v.\d]+)\)#');
+            $tagMatch = Strings::match($datesWithTag, self::TAG_WITH_DATE_PATTERN);
             if (! isset($tagMatch['tag'])) {
                 continue;
             }

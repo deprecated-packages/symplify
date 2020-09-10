@@ -13,6 +13,11 @@ use Symplify\ChangelogLinker\Regex\RegexPattern;
 final class LinksAnalyzer
 {
     /**
+     * @var string
+     */
+    private const REFERENCE_PATTERN = '#\[\#?(?<reference>[(-\/@\w\d\.]+)\](?!:)(?!\()#';
+
+    /**
      * @var string[]
      */
     private $linkedIds = [];
@@ -33,7 +38,7 @@ final class LinksAnalyzer
 
         // [content]
         $this->references = [];
-        foreach (Strings::matchAll($content, '#\[\#?(?<reference>[(-\/@\w\d\.]+)\](?!:)(?!\()#') as $match) {
+        foreach (Strings::matchAll($content, self::REFERENCE_PATTERN) as $match) {
             $this->references[] = $match['reference'];
         }
         $this->references = array_unique($this->references);

@@ -17,6 +17,11 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class JsonFileManager
 {
     /**
+     * @var string
+     */
+    private const SPACE_PATTERN = '#\s+#';
+
+    /**
      * @var string[]
      */
     private $inlineSections = [];
@@ -87,7 +92,7 @@ final class JsonFileManager
             $pattern = '#("' . preg_quote($inlineSection, '#') . '": )\[(.*?)\](,)#ms';
 
             $jsonContent = Strings::replace($jsonContent, $pattern, function (array $match): string {
-                $inlined = Strings::replace($match[2], '#\s+#', ' ');
+                $inlined = Strings::replace($match[2], self::SPACE_PATTERN, ' ');
                 $inlined = trim($inlined);
                 $inlined = '[' . $inlined . ']';
 
