@@ -21,10 +21,14 @@ final class NoInlineStringRegexRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        $errorMessage = NoInlineStringRegexRule::ERROR_MESSAGE;
-        yield [__DIR__ . '/Fixture/InlineMatchRegex.php', [[$errorMessage, 11]]];
+        yield [__DIR__ . '/Fixture/InlineMatchRegex.php', [[NoInlineStringRegexRule::ERROR_MESSAGE, 11]]];
+        yield [
+            __DIR__ . '/Fixture/NetteUtilsStringsInlineMatchRegex.php',
+            [[NoInlineStringRegexRule::ERROR_MESSAGE, 13]],
+        ];
 
         yield [__DIR__ . '/Fixture/SkipConstRegex.php', []];
+        yield [__DIR__ . '/Fixture/SkipNetteUtilsStringsConstRegex.php', []];
     }
 
     protected function getRule(): Rule

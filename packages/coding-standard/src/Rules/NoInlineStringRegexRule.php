@@ -33,6 +33,16 @@ final class NoInlineStringRegexRule extends AbstractManyNodeTypeRule
     ];
 
     /**
+     * @var string[]
+     */
+    private const NETTE_UTILS_CALLS_METHOD_NAMES_WITH_SECOND_ARG_REGEX = ['match', 'replace'];
+
+    /**
+     * @var string
+     */
+    private const NETTE_UTILS_STRINGS_CLASS = 'Nette\Utils\Strings';
+
+    /**
      * @return string[]
      */
     public function getNodeTypes(): array
@@ -47,25 +57,67 @@ final class NoInlineStringRegexRule extends AbstractManyNodeTypeRule
     public function process(Node $node, Scope $scope): array
     {
         if ($node instanceof FuncCall) {
-            if ($node->name instanceof Expr) {
-                return [];
-            }
-
-            $funcCallName = (string) $node->name;
-            if (! in_array($funcCallName, self::FUNC_CALLS_WITH_FIRST_ARG_REGEX, true)) {
-                return [];
-            }
-
-            $firstArgValue = $node->args[0]->value;
-
-            // it's not string → good
-            if (! $firstArgValue instanceof String_) {
-                return [];
-            }
-
-            return [self::ERROR_MESSAGE];
+            return $this->processFuncCall($node);
         }
 
-        return [];
+        return $this->processStaticCall($node);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processFuncCall(FuncCall $funcCall): array
+    {
+        if ($funcCall->name instanceof Expr) {
+            return [];
+        }
+
+        $funcCallName = (string) $funcCall->name;
+        if (! in_array($funcCallName, self::FUNC_CALLS_WITH_FIRST_ARG_REGEX, true)) {
+            return [];
+        }
+
+        $firstArgValue = $funcCall->args[0]->value;
+
+        // it's not string → good
+        if (! $firstArgValue instanceof String_) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processStaticCall(StaticCall $staticCall): array
+    {
+        if ($staticCall->class instanceof Expr) {
+            return [];
+        }
+
+        if ($staticCall->name instanceof Expr) {
+            return [];
+        }
+
+        $className = (string) $staticCall->class;
+
+        if ($className !== self::NETTE_UTILS_STRINGS_CLASS) {
+            return [];
+        }
+
+        $methodName = (string) $staticCall->name;
+        if (! in_array($methodName, self::NETTE_UTILS_CALLS_METHOD_NAMES_WITH_SECOND_ARG_REGEX, true)) {
+            return [];
+        }
+
+        $secondArgValue = $staticCall->args[1]->value;
+
+        // it's not string → good
+        if (! $secondArgValue instanceof String_) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
     }
 }
