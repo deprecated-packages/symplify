@@ -31,9 +31,11 @@ final class MergedAndDecoratedComposerJsonFactoryTest extends AbstractComposerJs
         }
 
         $mainComposerJson = $this->createComposerJson(__DIR__ . '/Source/root_composer.json');
-        $packagesFileInfos = [];
-        $packagesFileInfos[] = new SmartFileInfo(__DIR__ . '/Source/packages/one_package.json');
-        $packagesFileInfos[] = new SmartFileInfo(__DIR__ . '/Source/packages/two_package.json');
+
+        $packagesFileInfos = [
+            new SmartFileInfo(__DIR__ . '/Source/packages/one_package.json'),
+            new SmartFileInfo(__DIR__ . '/Source/packages/two_package.json'),
+        ];
 
         $this->mergedAndDecoratedComposerJsonFactory->createFromRootConfigAndPackageFileInfos(
             $mainComposerJson,

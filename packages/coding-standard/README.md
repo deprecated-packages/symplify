@@ -52,11 +52,9 @@ includes:
 - [1. PHP_CodeSniffer sniffs](/docs/php_code_sniffer_sniffs.md)
 - [2. PHP CS Fixer fixers](/docs/phpcs_fixer_fixers.md)
 - [3. PHPStan rules](/docs/phpstan_rules.md)
-
-Particular PHPStan sub-sets:
-
-- [Object Calisthenics rules](/docs/phpstan_rules_object_calisthenics.md)
-- [Cognitive Complexity rules](/docs/phpstan_rules.md#cognitive-complexity)
+    - [Object Calisthenics rules](/docs/phpstan_rules_object_calisthenics.md)
+    - [Cognitive Complexity rules](/docs/phpstan_rules_cognitive_complexity.md)
+    - ["No Arrays" rules](/docs/phpstan_rules_no_arrays.md)
 
 <br>
 
