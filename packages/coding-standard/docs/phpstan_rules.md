@@ -1,6 +1,26 @@
 # 35+ PHPStan Rules
 
-## Use Contract or Service over Abstratc Method
+## Use +-pre instead of post+- to Prevent 2 Values on 1 line
+
+- class: [`NoPostIncPostDecRule`](../src/Rules/NoPostIncPostDecRule.php)
+
+```php
+class SomeClass
+{
+    public function run($value = 1)
+    {
+        if ($value--) {
+            // 1 or 0?
+        }
+    }
+}
+```
+
+:x:
+
+<br>
+
+## Use Contract or Service over Abstract Method
 
 - class: [`NoAbstactMethodRule`](../src/Rules/NoAbstactMethodRule.php)
 

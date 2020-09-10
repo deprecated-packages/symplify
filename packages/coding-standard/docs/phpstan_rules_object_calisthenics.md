@@ -14,6 +14,8 @@ includes:
     - vendor/symplify/coding-standard/packages/object-calisthenics/config/object-calisthenics-rules.neon
 ```
 
+<br>
+
 ## Rule 1: Only X Level of Indentation per Method
 
 - class: [`SingleIndentationInMethodRule`](../packages/object-calisthenics/src/Rules/SingleIndentationInMethodRule.php)
@@ -299,6 +301,16 @@ final class SomeClass
 ## Rule 9: No Setter Methods
 
 - class: [`NoSetterClassMethodRule`](../packages/object-calisthenics/src/Rules/NoSetterClassMethodRule.php)
+- **configuration allowed**
+
+```yaml
+# phpsptan.neon
+parameters:
+    object_calisthenics:
+        # default: []
+        allowed_setter_classes:
+            - '*Configuration'
+```
 
 ```php
 <?php declare(strict_types=1);
