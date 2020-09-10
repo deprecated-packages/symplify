@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
@@ -40,7 +41,7 @@ final class NoInlineStringRegexRule extends AbstractManyNodeTypeRule
     /**
      * @var string
      */
-    private const NETTE_UTILS_STRINGS_CLASS = 'Nette\Utils\Strings';
+    private const NETTE_UTILS_STRINGS_CLASS = Strings::class;
 
     /**
      * @return string[]

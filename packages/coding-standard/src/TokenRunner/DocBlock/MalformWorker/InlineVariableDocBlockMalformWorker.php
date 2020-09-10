@@ -23,6 +23,7 @@ final class InlineVariableDocBlockMalformWorker extends AbstractMalformWorker
 
     /**
      * @see
+     * @var string
      */
     private const ASTERISK_LEFTOVERS_PATTERN = '#(\*\*)(\s+\*)#';
 

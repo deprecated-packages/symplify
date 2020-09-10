@@ -27,6 +27,9 @@ final class ForbiddenArrayDestructRule implements Rule
      */
     public const ERROR_MESSAGE = 'Array destruct is not allowed. Use value object to pass data instead';
 
+    /**
+     * @var string
+     */
     public const VENDOR_DIRECTORY_PATTERN = '#/vendor/#';
 
     /**

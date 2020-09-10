@@ -10,8 +10,14 @@ use Symplify\ChangelogLinker\LinkAppender;
 
 final class LinkifyWorker implements WorkerInterface
 {
+    /**
+     * @var string
+     */
     public const SPACE_START_PATTERN = '#^\s+$#';
 
+    /**
+     * @var string
+     */
     public const LINKS_PATTERN = '#^\-(\s+)?\[\#\d+#';
 
     /**
