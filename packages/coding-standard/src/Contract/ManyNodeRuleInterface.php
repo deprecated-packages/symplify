@@ -9,7 +9,13 @@ use PHPStan\Analyser\Scope;
 
 interface ManyNodeRuleInterface
 {
+    /**
+     * @return class-string[]
+     */
     public function getNodeTypes(): array;
 
+    /**
+     * @return string[]
+     */
     public function process(Node $node, Scope $scope): array;
 }

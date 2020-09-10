@@ -74,6 +74,12 @@ services:
     - Symplify\CodingStandard\PhpParser\NodeNameResolver
     - Symplify\CodingStandard\PHPStan\ParentMethodAnalyser
 
+
+    # rules
+    -
+        class: Symplify\CodingStandard\Rules\NoPostIncPostDecRule
+        tags: [phpstan.rules.rule]
+
     -
         class: Symplify\CodingStandard\Rules\NoAbstactMethodRule
         tags: [phpstan.rules.rule]
