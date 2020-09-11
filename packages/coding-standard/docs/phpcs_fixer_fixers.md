@@ -1,4 +1,25 @@
-# 9+ PHP CS Fixer Fixers
+# 10+ PHP CS Fixer Fixers
+
+## Add Space After here/now doc To make Compatible with PHP 7.2
+
+- class: [`SpaceAfterCommaHereNowDocFixer`](../src/Fixer/Naming/SpaceAfterCommaHereNowDocFixer.php)
+- see [Flexible Heredoc and Nowdoc Coming to PHP 7.3](https://laravel-news.com/flexible-heredoc-and-nowdoc-coming-to-php-7-3)
+
+```diff
+ class SomeClass
+ {
+     public function run()
+     {
+         $values = [<<<'RECTIFY'
+ Some code
+ Text
+-RECTIFY,
++RECTIFY
++,
+            1000];
+     }
+ }
+```
 
 ## Use Configured nowdoc and heredoc keyword
 
