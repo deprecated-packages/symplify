@@ -1,4 +1,29 @@
-# 35+ PHPStan Rules
+# 37+ PHPStan Rules
+
+## Add regex.com link to Pattern Constants
+
+- class: [`AnnotateRegexClassConstWithRegexLinkRule`](../src/Rules/AnnotateRegexClassConstWithRegexLinkRule.php)
+
+```php
+class SomeClass
+{
+    private const REGEX_PATTERN = '#some_complicated_pattern#';
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    /**
+     * @see https://regex101.com/r/SZr0X5/12
+     */
+    private const REGEX_PATTERN = '#some_complicated_pattern#';
+}
+```
+
+:+1:
 
 ## Use Constant Regex Patterns over Inlined Strings
 
@@ -246,43 +271,6 @@ final class SomeClass
 
 <br>
 
-## Use Value Object over Return of Values
-
-- class: [`NoReturnArrayVariableList`](../src/Rules/NoReturnArrayVariableList.php)
-
-```php
-<?php declare(strict_types=1);
-
-final class ReturnVariables
-{
-    /**
-     * @return mixed[a
-     */
-    public function run($value, $value2): array
-    {
-        return [$value, $value2];
-    }
-}
-```
-
-:x:
-
-```php
-<?php declare(strict_types=1);
-
-final class ReturnVariables
-{
-    public function run($value, $value2): ValueObject
-    {
-        return new ValueObject($value, $value2);
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## Use Explicit String over ::class Reference on Specific Method Call Position
 
 Useful for PHAR prefixing with [php-scoper](https://github.com/humbug/php-scoper) and [box](https://github.com/humbug/box). This allows you to keep configurable string-classes unprefixed. If `::class` is used, they would be prefixed with `Prefix30281...`, so the original class would never be found.
@@ -324,79 +312,6 @@ class SomeClass
     public function run(SomeObject $someObject): void
     {
         $this->someObject->someMethod('yes', 'Another');
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## Array Destruct is not Allowed, use Value Object instead
-
-- class: [`ForbiddenArrayDestructRule`](../src/Rules/ForbiddenArrayDestructRule.php)
-
-```php
-<?php declare(strict_types=1);
-
-final class SomeClass
-{
-    public function run(): void
-    {
-        [$firstValue, $secondValue] = $this->getRandomData();
-    }
-}
-```
-
-:x:
-
-```php
-<?php declare(strict_types=1);
-
-final class SomeClass
-{
-    public function run(): void
-    {
-        $resultValueObject = $this->getRandomData();
-        $firstValue = $resultValueObject->getFirstValue();
-        $secondValue = $resultValueObject->getSecondValue();
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## Array with String Keys is not allowed, Use Value Object instead
-
-- class: [`ForbiddenArrayWithStringKeysRule`](../src/Rules/ForbiddenArrayWithStringKeysRule.php)
-
-```php
-<?php declare(strict_types=1);
-
-final class SomeClass
-{
-    public function run()
-    {
-        return [
-            'name' => 'John',
-            'surname' => 'Dope',
-        ];
-    }
-}
-```
-
-:x:
-
-```php
-<?php declare(strict_types=1);
-
-final class SomeClass
-{
-    public function run()
-    {
-        return new Person('John', 'Dope');
     }
 }
 ```
@@ -1198,90 +1113,26 @@ class FormatConverter
 
 - class: [`NoDuplicatedShortClassNameRule`](../src/Rules/NoDuplicatedShortClassNameRule.php)
 
-:x:
-
 ```php
 <?php declare(strict_types=1);
 
 namespace App;
 
+// Same as "Nette\Utils\Finder" or "Symfony\Component\Finder\Finder"
 class Finder
 {
 }
 ```
+
+:x:
 
 ```php
 <?php declare(strict_types=1);
 
 namespace App\Entity;
 
-// should be e.g. "EntityFinder"
-class Finder
+class EntityFinder
 {
-}
-```
-
-<br>
-
-## Cognitive Complexity
-
-### Cognitive Complexity for Method and Class Must be Less than X
-
-- [Why it's the best rule in your coding standard?](https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/)
-
-- class: [`FunctionLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
-- class: [`ClassLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
-
-```yaml
-# phpstan.neon
-includes:
-    - vendor/symplify/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-rules.neon
-
-parameters:
-    symplify:
-        max_method_cognitive_complexity: 8 # default
-        max_class_cognitive_complexity: 50 # default
-```
-
-```php
-<?php declare(strict_types=1);
-
-class SomeClass
-{
-    public function simple($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                if ($value !== 3) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-}
-```
-
-:x:
-
-```php
-<?php declare(strict_types=1);
-
-class SomeClass
-{
-    public function simple($value)
-    {
-        if ($value === 1) {
-            return true;
-        }
-
-        if ($value === 2) {
-            return true;
-        }
-
-        return $value === 3;
-    }
 }
 ```
 

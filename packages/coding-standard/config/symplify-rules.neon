@@ -77,6 +77,10 @@ services:
 
     # rules
     -
+        class: Symplify\CodingStandard\Rules\AnnotateRegexClassConstWithRegexLinkRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\CodingStandard\Rules\NoInlineStringRegexRule
         tags: [phpstan.rules.rule]
 
@@ -93,6 +97,14 @@ services:
         tags: [phpstan.rules.rule]
 
     # arrays
+    -
+        class: Symplify\CodingStandard\Rules\NoArrayStringObjectReturnRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoMultiArrayAssignRule
+        tags: [phpstan.rules.rule]
+
     -
         class: Symplify\CodingStandard\Rules\NoReturnArrayVariableList
         tags: [phpstan.rules.rule]

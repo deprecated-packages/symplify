@@ -52,13 +52,16 @@ final class CodingStandardSyncChecker
         $existingCheckerClasses = $this->getExistingCheckerShortClasses();
         $missingCheckerClasses = array_diff($existingCheckerClasses, $readmeCheckerClasses);
 
+        $message = sprintf('Found %d checker classes', count($existingCheckerClasses));
+        $this->symfonyStyle->note($message);
+
         if ($missingCheckerClasses === []) {
             $this->symfonyStyle->success('README.md is up to date');
             die(ShellCode::SUCCESS);
         }
 
-        $message = sprintf('Complete %d checkers to CodingStandard README.md file in /docs', count($missingCheckerClasses));
-        $this->symfonyStyle->error($message);
+        $errorMessage = sprintf('Complete %d checkers to CodingStandard README.md file in /docs', count($missingCheckerClasses));
+        $this->symfonyStyle->error($errorMessage);
         $this->symfonyStyle->listing($missingCheckerClasses);
 
         die(ShellCode::ERROR);

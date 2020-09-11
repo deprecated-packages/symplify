@@ -174,18 +174,21 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $this->writeln("    message: '" . $this->regexMessage($message) . "'");
         $this->writeln('    paths:');
 
-        // uniquate errors per file
-        $errorsByFile = [];
         foreach ($errors as $error) {
-            $relativeFilePath = $this->getRelativePath($error->getFile());
-            $errorsByFile[$relativeFilePath] = $error;
-        }
-
-        foreach ($errorsByFile as $error) {
-            $relativeFilePath = $this->getRelativePath($error->getFile());
+            $relativeFilePath = $this->createFileMessage($error);
             $this->writeln('        - ' . $relativeFilePath);
         }
 
         $this->symfonyStyle->newLine();
+    }
+
+    private function createFileMessage(Error $error): string
+    {
+        $relativeFilePath = $this->getRelativePath($error->getFile());
+        if ($error->getLine() !== null) {
+            $relativeFilePath .= ' # ' . $error->getLine();
+        }
+
+        return $relativeFilePath;
     }
 }
