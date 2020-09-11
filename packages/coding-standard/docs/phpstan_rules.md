@@ -1,4 +1,29 @@
-# 36+ PHPStan Rules
+# 37+ PHPStan Rules
+
+## Add regex.com link to Pattern Constants
+
+- class: [`AnnotateRegexClassConstWithRegexLinkRule`](../src/Rules/AnnotateRegexClassConstWithRegexLinkRule.php)
+
+```php
+class SomeClass
+{
+    private const REGEX_PATTERN = '#some_complicated_pattern#';
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    /**
+     * @see https://regex101.com/r/SZr0X5/12
+     */
+    private const REGEX_PATTERN = '#some_complicated_pattern#';
+}
+```
+
+:+1:
 
 ## Use Constant Regex Patterns over Inlined Strings
 
