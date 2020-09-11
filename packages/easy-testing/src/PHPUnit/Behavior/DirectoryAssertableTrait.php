@@ -62,7 +62,7 @@ trait DirectoryAssertableTrait
     /**
      * @param SmartFileInfo[] $expectedFileInfos
      * @param SmartFileInfo[] $outputFileInfos
-     * @return ExpectedAndOutputFileInfoPair[]
+     * @return array<string, ExpectedAndOutputFileInfoPair>
      */
     private function groupFileInfosByRelativeFilePath(
         array $expectedFileInfos,
