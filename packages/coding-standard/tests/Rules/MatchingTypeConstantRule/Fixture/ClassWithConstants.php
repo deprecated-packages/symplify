@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\MatchingTypeConstantRule\Source;
+namespace Symplify\CodingStandard\Tests\Rules\MatchingTypeConstantRule\Fixture;
 
 final class ClassWithConstants
 {

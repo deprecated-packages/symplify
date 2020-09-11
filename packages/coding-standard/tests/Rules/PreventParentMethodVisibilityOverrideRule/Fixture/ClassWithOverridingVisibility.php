@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreventParentMethodVisibilityOverrideRule\Source;
+namespace Symplify\CodingStandard\Tests\Rules\PreventParentMethodVisibilityOverrideRule\Fixture;
 
 final class ClassWithOverridingVisibility extends GoodVisibility
 {

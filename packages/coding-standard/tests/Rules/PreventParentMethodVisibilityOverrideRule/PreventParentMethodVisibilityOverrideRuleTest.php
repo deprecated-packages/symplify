@@ -22,7 +22,7 @@ final class PreventParentMethodVisibilityOverrideRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(PreventParentMethodVisibilityOverrideRule::ERROR_MESSAGE, 'run', 'protected');
-        yield [__DIR__ . '/Source/ClassWithOverridingVisibility.php', [[$errorMessage, 9]]];
+        yield [__DIR__ . '/Fixture/ClassWithOverridingVisibility.php', [[$errorMessage, 9]]];
     }
 
     protected function getRule(): Rule
