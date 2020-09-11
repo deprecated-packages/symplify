@@ -24,7 +24,7 @@ final class MatchingTypeConstantRuleTest extends RuleTestCase
         $firstErrorMessage = sprintf(MatchingTypeConstantRule::ERROR_MESSAGE, 'bool', 'string');
         $secondErrorMessage = sprintf(MatchingTypeConstantRule::ERROR_MESSAGE, 'string', 'bool');
 
-        yield [__DIR__ . '/Source/ClassWithConstants.php', [[$firstErrorMessage, 12], [$secondErrorMessage, 17]]];
+        yield [__DIR__ . '/Fixture/ClassWithConstants.php', [[$firstErrorMessage, 12], [$secondErrorMessage, 17]]];
     }
 
     protected function getRule(): Rule

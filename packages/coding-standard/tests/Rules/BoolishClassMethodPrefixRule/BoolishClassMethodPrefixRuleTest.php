@@ -25,14 +25,14 @@ final class BoolishClassMethodPrefixRuleTest extends RuleTestCase
         $secondErrorMessage = sprintf(BoolishClassMethodPrefixRule::ERROR_MESSAGE, 'thatWasGreat');
 
         yield [
-            __DIR__ . '/Source/ClassWithBoolishMethods.php',
+            __DIR__ . '/Fixture/ClassWithBoolishMethods.php',
             [[$firstErrorMessage, 9], [$secondErrorMessage, 14]],
         ];
 
         // no erros
-        yield [__DIR__ . '/Source/ClassWithEmptyReturn.php', []];
-        yield [__DIR__ . '/Source/ClassThatImplementsInterface.php', []];
-        yield [__DIR__ . '/Source/SkipRequiredByInterface.php', []];
+        yield [__DIR__ . '/Fixture/ClassWithEmptyReturn.php', []];
+        yield [__DIR__ . '/Fixture/ClassThatImplementsInterface.php', []];
+        yield [__DIR__ . '/Fixture/SkipRequiredByInterface.php', []];
     }
 
     protected function getRule(): Rule

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\BoolishClassMethodPrefixRule\Source;
+namespace Symplify\CodingStandard\Tests\Rules\BoolishClassMethodPrefixRule\Fixture;
 
 final class ClassWithEmptyReturn
 {

@@ -21,8 +21,8 @@ final class ForbidReturnValueOfIncludeOnceRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Source/ReturnRequireOnce.php', [[ForbidReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]];
-        yield [__DIR__ . '/Source/AssignRequireOnce.php', [[ForbidReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/ReturnRequireOnce.php', [[ForbidReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/AssignRequireOnce.php', [[ForbidReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]];
     }
 
     protected function getRule(): Rule
