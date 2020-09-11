@@ -1,4 +1,37 @@
-# 8+ PHP CS Fixer Fixers
+# 9+ PHP CS Fixer Fixers
+
+## Use Configured nowdoc and heredoc keyword
+
+- class: [`StandardizeHereNowDocKeywordFixer`](../src/Fixer/Naming/StandardizeHereNowDocKeywordFixer.php)
+
+```php
+// ecs.php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->set(StandardizeHereNowDocKeywordFixer::class)
+        ->call('configure', [[
+            // default: CODE_SAMPLE
+            StandardizeHereNowDocKeywordFixer::KEYWORD => 'SAMPLE',
+        ]]);
+};
+```
+
+```diff
+ class SomeClass
+ {
+-    public const SOME_EXAMPLE = <<<'RECTIFY'
++    public const SOME_EXAMPLE = <<<'SAMPLE'
+ Some code
+ Text
+-RECTIFY;
++SAMPLE;
+}
+```
+
+<br>
 
 ## Remove Extra Spaces around Property and Constants Modifiers
 
@@ -53,12 +86,7 @@ The left side indent is handled by teaming up with `DoctrineAnnotationIndentatio
 - class: [`LineLengthFixer`](../src/Fixer/LineLength/LineLengthFixer.php)
 
 ```php
-<?php
-
 // ecs.php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 
@@ -71,7 +99,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             LineLengthFixer::INLINE_SHORT_LINES => true,
         ]]);
 };
-````
+```
 
 ```diff
  class SomeClass
