@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Spacing\RemoveSpacingAroundModifierAndConst;
+namespace Symplify\CodingStandard\Tests\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer;
 
 use Iterator;
 use Symplify\CodingStandard\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer;

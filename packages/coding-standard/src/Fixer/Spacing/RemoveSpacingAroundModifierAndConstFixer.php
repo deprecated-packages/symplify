@@ -11,7 +11,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Fixer\Spacing\RemoveSpacingAroundModifierAndConst\RemoveSpacingAroundModifierAndConstFixerTest
+ * @see \Symplify\CodingStandard\Tests\Fixer\Spacing\RemoveSpacingAroundModifierAndConstFixer\RemoveSpacingAroundModifierAndConstFixerTest
  */
 final class RemoveSpacingAroundModifierAndConstFixer implements FixerInterface
 {
