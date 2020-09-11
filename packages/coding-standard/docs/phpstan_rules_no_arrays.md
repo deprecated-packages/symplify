@@ -1,5 +1,45 @@
 # PHPStan Rules - No Arrays
 
+## Use value Object over String to Object Arrays
+
+- class: [`NoArrayStringObjectReturnRule`](../src/Rules/NoArrayStringObjectReturnRule.php)
+
+```php
+<?php
+
+final class SomeClass
+{
+    /**
+     * @return array<string, stdClass>
+     */
+    private function getValues()
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+```php
+<?php
+
+final class SomeClass
+{
+    /**
+     * @return WrappingValueObject[]
+     */
+    private function getValues()
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## Array with String Keys is not allowed, Use Value Object instead
 
 - class: [`ForbiddenArrayWithStringKeysRule`](../src/Rules/ForbiddenArrayWithStringKeysRule.php)
@@ -36,7 +76,6 @@ final class SomeClass
 :+1:
 
 <br>
-
 
 ## Array Destruct is not Allowed, use Value Object instead
 
