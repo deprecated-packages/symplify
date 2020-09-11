@@ -26,7 +26,14 @@ abstract class AbstractMalformWorker implements MalformWorkerInterface
      */
     protected function getDocRelatedArgumentNames(Tokens $tokens, int $docTokenPosition): ?array
     {
-        $functionTokenPosition = $tokens->getNextTokenOfKind($docTokenPosition, [new Token([T_FUNCTION, 'function'])]);
+        $functionTokens = [new Token([T_FUNCTION, 'function'])];
+
+        // only in PHP 7.4+
+        if (defined('T_FN') && PHP_VERSION_ID >= 70400) {
+            $functionTokens[] = new Token([T_FN, 'fn']);
+        }
+
+        $functionTokenPosition = $tokens->getNextTokenOfKind($docTokenPosition, $functionTokens);
         if ($functionTokenPosition === null) {
             return null;
         }
