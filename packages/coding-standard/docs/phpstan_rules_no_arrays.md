@@ -123,7 +123,7 @@ final class SomeClass
 final class ReturnVariables
 {
     /**
-     * @return mixed[a
+     * @return mixed[]
      */
     public function run($value, $value2): array
     {

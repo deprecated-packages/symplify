@@ -18,7 +18,7 @@ final class NoDuplicatedShortClassNameRuleTest extends RuleTestCase
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([$filePath], [$expectedErrorMessagesWithLines]);
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
     public function provideData(): Iterator
@@ -32,7 +32,7 @@ final class NoDuplicatedShortClassNameRuleTest extends RuleTestCase
             'AlreadyExistingShortName',
             implode('", "', [SecondAlreadyExistingShortName::class, AlreadyExistingShortName::class])
         );
-        yield [__DIR__ . '/Fixture/AlreadyExistingShortName.php', [$errorMessage, 7]];
+        yield [__DIR__ . '/Fixture/AlreadyExistingShortName.php', [[$errorMessage, 7]]];
     }
 
     protected function getRule(): Rule

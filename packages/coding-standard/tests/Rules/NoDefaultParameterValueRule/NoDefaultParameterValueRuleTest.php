@@ -16,13 +16,13 @@ final class NoDefaultParameterValueRuleTest extends RuleTestCase
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([$filePath], [$expectedErrorMessagesWithLines]);
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(NoDefaultParameterValueRule::ERROR_MESSAGE, 'value');
-        yield [__DIR__ . '/Fixture/MethodWithDefaultParamValue.php', [$errorMessage, 9]];
+        yield [__DIR__ . '/Fixture/MethodWithDefaultParamValue.php', [[$errorMessage, 9]]];
     }
 
     protected function getRule(): Rule

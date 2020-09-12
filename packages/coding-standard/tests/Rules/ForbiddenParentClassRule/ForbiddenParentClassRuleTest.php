@@ -20,7 +20,7 @@ final class ForbiddenParentClassRuleTest extends RuleTestCase
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([$filePath], [$expectedErrorMessagesWithLines]);
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
     /**
@@ -33,14 +33,14 @@ final class ForbiddenParentClassRuleTest extends RuleTestCase
             ClassForbiddenParent::class,
             ForbiddenParent::class
         );
-        yield [__DIR__ . '/Fixture/ClassForbiddenParent.php', [$errorMessage, 9]];
+        yield [__DIR__ . '/Fixture/ClassForbiddenParent.php', [[$errorMessage, 9]]];
 
         $errorMessage = sprintf(
             ForbiddenParentClassRule::ERROR_MESSAGE,
             AnotherForbiddenParent::class,
             SomeFnMatched::class
         );
-        yield [__DIR__ . '/Fixture/AnotherForbiddenParent.php', [$errorMessage, 9]];
+        yield [__DIR__ . '/Fixture/AnotherForbiddenParent.php', [[$errorMessage, 9]]];
     }
 
     protected function getRule(): Rule
