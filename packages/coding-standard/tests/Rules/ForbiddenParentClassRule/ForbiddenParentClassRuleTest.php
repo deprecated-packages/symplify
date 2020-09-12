@@ -12,6 +12,7 @@ use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\Another
 use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\ClassForbiddenParent;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\ForbiddenParent;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\SomeFnMatched;
+use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 final class ForbiddenParentClassRuleTest extends RuleTestCase
 {
@@ -41,10 +42,12 @@ final class ForbiddenParentClassRuleTest extends RuleTestCase
             SomeFnMatched::class
         );
         yield [__DIR__ . '/Fixture/AnotherForbiddenParent.php', [[$errorMessage, 9]]];
+
+        yield [__DIR__ . '/Fixture/SkipParentClass.php', []];
     }
 
     protected function getRule(): Rule
     {
-        return new ForbiddenParentClassRule([ForbiddenParent::class, '*FnMatched']);
+        return new ForbiddenParentClassRule(new ArrayStringAndFnMatcher(), [ForbiddenParent::class, '*FnMatched']);
     }
 }

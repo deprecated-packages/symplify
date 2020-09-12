@@ -301,6 +301,19 @@ parameters:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
 
+        # dx handy class
+        - '#Use decouled factory service to create "Symplify\\EasyTesting\\ValueObject\\InputAndExpected" object#'
+
+        # merging
+        - '#Use decouled factory service to create "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson" object#'
+
+        # normalizing version
+        - '#Use decouled factory service to create "PharIo\\Version\\Version" object#'
+
+        # making reflection method for local use
+        - '#Use decouled factory service to create "ReflectionMethod" object#'
+
+
         # @todo easy-pick, delegate
         -
             message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'

@@ -32,7 +32,7 @@ final class ChangeSorterTogetherTest extends TestCase
      */
     public function testTags(?string $priority): void
     {
-        $changes = $this->createChanges();
+        $changes = $this->dummyChangesFactory->create();
         $sortedChanges = $this->changeSorter->sort($changes, $priority);
 
         // unrelased are first
@@ -60,7 +60,7 @@ final class ChangeSorterTogetherTest extends TestCase
 
     public function testSortWithCategoryPriority(): void
     {
-        $changes = $this->createChanges();
+        $changes = $this->dummyChangesFactory->create();
 
         $sortedChanges = $this->changeSorter->sort($changes, ChangeSorter::PRIORITY_CATEGORIES);
 

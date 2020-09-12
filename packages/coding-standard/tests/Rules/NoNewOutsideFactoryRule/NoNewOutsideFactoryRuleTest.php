@@ -23,9 +23,14 @@ final class NoNewOutsideFactoryRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(NoNewOutsideFactoryRule::ERROR_MESSAGE, SomeValueObject::class);
-        yield [__DIR__ . '/Fixture/SomeNew.php', [[$errorMessage, 13]]];
+        yield [__DIR__ . '/Fixture/SomeNew.php', [[$errorMessage, 14]]];
+
+        yield [__DIR__ . '/Fixture/SkipNonReturned.php', []];
+        yield [__DIR__ . '/Fixture/SkipReturnedDifferentNode.php', []];
 
         yield [__DIR__ . '/Fixture/SkipException.php', []];
+        yield [__DIR__ . '/Fixture/SkipSuffixTest.php', []];
+        yield [__DIR__ . '/Fixture/SkipReturnVoid.php', []];
     }
 
     protected function getRule(): Rule

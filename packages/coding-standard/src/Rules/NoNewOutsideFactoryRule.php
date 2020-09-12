@@ -5,22 +5,18 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\FixerDefinition\FixerDefinition;
-use PhpCsFixer\Tokenizer\Token;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use PHPStan\Type\TypeWithClassName;
+use Symfony\Component\Process\Process;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule\NoNewOutsideFactoryRuleTest
  */
-final class NoNewOutsideFactoryRule implements Rule
+final class NoNewOutsideFactoryRule extends AbstractManyNodeTypeRule
 {
     /**
      * @var string
@@ -30,59 +26,92 @@ final class NoNewOutsideFactoryRule implements Rule
     /**
      * @var string[]
      */
-    private const ALLOWED_CLASSES = [
-        'DateTime', 'SplFileInfo', SmartFileInfo::class, Token::class,
-        'Reflection*',
-        '*Exception',
-
-        // symfony
-        FileLocator::class,
-        PhpFileLoader::class,
-        // php cs fixes
-        FixerDefinition::class,
-    ];
+    private const ALLOWED_CLASSES = ['*FileInfo'];
 
     /**
      * @var ArrayStringAndFnMatcher
      */
     private $arrayStringAndFnMatcher;
 
+    /**
+     * @var TypeWithClassName|null
+     */
+    private $recentNewClassType;
+
     public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher)
     {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return New_::class;
+        return [New_::class, Return_::class];
     }
 
     /**
-     * @param New_ $node
+     * @param New_|Return_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
-        if (! $node->class instanceof Name) {
+        // just collect new type node here, so we have context later
+        if ($node instanceof New_) {
+            $newClassType = $scope->getType($node);
+            if (! $newClassType instanceof TypeWithClassName) {
+                return [];
+            }
+
+            $this->recentNewClassType = $newClassType;
             return [];
         }
 
-        $newClassName = $node->class->toString();
-        if ($this->arrayStringAndFnMatcher->matches($newClassName, self::ALLOWED_CLASSES)) {
+        // working with return here
+        if ($this->recentNewClassType === null) {
             return [];
         }
 
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        // is new class allowed without factory or in right place?
+        $newClassName = $this->recentNewClassType->getClassName();
+        if ($this->arrayStringAndFnMatcher->isMatch($newClassName, self::ALLOWED_CLASSES)) {
             return [];
         }
 
-        $currentClassName = $classReflection->getName();
-        if (Strings::endsWith($currentClassName, 'Factory')) {
+        if ($this->isLocatedInCorrectlyNamedClass($scope)) {
+            return [];
+        }
+
+        if ($node->expr === null) {
+            $this->recentNewClassType = null;
+            return [];
+        }
+
+        $returnType = $scope->getType($node->expr);
+
+        // not a match, probably somewhere else
+        if (! $this->recentNewClassType->equals($returnType)) {
+            $this->recentNewClassType = null;
             return [];
         }
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $newClassName);
         return [$errorMessage];
+    }
+
+    private function isLocatedInCorrectlyNamedClass(Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return true;
+        }
+
+        $currentClassName = $classReflection->getName();
+        if (Strings::endsWith($currentClassName, 'Factory')) {
+            return true;
+        }
+
+        return Strings::endsWith($currentClassName, 'Test');
     }
 }

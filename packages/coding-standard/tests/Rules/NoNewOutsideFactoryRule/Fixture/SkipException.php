@@ -10,7 +10,6 @@ final class SkipException
 {
     public function run()
     {
-        $someValueObject = new ShouldNotHappenException();
-        return $someValueObject;
+        throw new ShouldNotHappenException();
     }
 }
