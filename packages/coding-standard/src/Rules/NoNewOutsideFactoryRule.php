@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule\NoNewOutsideFactoryRuleTest
@@ -22,9 +23,9 @@ final class NoNewOutsideFactoryRule implements Rule
     public const ERROR_MESSAGE = 'Use decouled factory service to create "%s" object';
 
     /**
-     * @var string
+     * @var string[]
      */
-    private const ALLOWED_CLASSES = [];
+    private const ALLOWED_CLASSES = ['DateTime', 'SplFileInfo', SmartFileInfo::class];
 
     public function getNodeType(): string
     {

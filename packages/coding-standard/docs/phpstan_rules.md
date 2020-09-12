@@ -1,5 +1,37 @@
 # 37+ PHPStan Rules
 
+## Create Objects only inside Factory
+
+- class: [`NoNewOutsideFactoryRule`](../src/Rules/NoNewOutsideFactoryRule.php)
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        $someObject = new SomeObject();
+        // ...
+        return $someObject;
+    }
+}
+```
+
+:x:
+
+```php
+class SomeObjectFactory
+{
+    public function create()
+    {
+        $someObject = new SomeObject();
+        // ...
+        return $someObject;
+    }
+}
+```
+
+:+1:
+
 ## Add regex.com link to Pattern Constants
 
 - class: [`AnnotateRegexClassConstWithRegexLinkRule`](../src/Rules/AnnotateRegexClassConstWithRegexLinkRule.php)
