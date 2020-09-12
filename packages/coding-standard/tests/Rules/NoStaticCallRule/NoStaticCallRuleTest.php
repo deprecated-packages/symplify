@@ -15,9 +15,9 @@ final class NoStaticCallRuleTest extends RuleTestCase
     /**
      * @dataProvider provideData()
      */
-    public function testRule(string $analysedFilePath, array $expectedErrorsWithLine): void
+    public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([$analysedFilePath], $expectedErrorsWithLine);
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
     public function provideData(): Iterator

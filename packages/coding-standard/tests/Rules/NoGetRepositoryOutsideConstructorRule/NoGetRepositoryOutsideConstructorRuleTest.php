@@ -14,9 +14,9 @@ final class NoGetRepositoryOutsideConstructorRuleTest extends RuleTestCase
     /**
      * @dataProvider provideData()
      */
-    public function testRule(string $filePath, array $expectedErrorsWithLines): void
+    public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([$filePath], $expectedErrorsWithLines);
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
     public function provideData(): Iterator
