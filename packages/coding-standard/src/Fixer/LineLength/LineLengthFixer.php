@@ -7,7 +7,6 @@ namespace Symplify\CodingStandard\Fixer\LineLength;
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
-use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
@@ -79,12 +78,7 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
     {
         return new FixerDefinition(
             'Array items, method parameters, method call arguments, new arguments should be on same/standalone line to fit line length.',
-            [
-                new CodeSample(
-                    '<?php
-$array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "looooooooooooooooooooooooooooooooongArraaaaaaaaaaay"];'
-                ),
-            ]
+            []
         );
     }
 

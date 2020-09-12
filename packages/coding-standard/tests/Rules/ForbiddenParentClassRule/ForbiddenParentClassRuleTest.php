@@ -12,6 +12,7 @@ use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\Another
 use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\ClassForbiddenParent;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\ForbiddenParent;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\SomeFnMatched;
+use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 final class ForbiddenParentClassRuleTest extends RuleTestCase
 {
@@ -20,7 +21,7 @@ final class ForbiddenParentClassRuleTest extends RuleTestCase
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([$filePath], [$expectedErrorMessagesWithLines]);
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
     /**
@@ -33,18 +34,20 @@ final class ForbiddenParentClassRuleTest extends RuleTestCase
             ClassForbiddenParent::class,
             ForbiddenParent::class
         );
-        yield [__DIR__ . '/Fixture/ClassForbiddenParent.php', [$errorMessage, 9]];
+        yield [__DIR__ . '/Fixture/ClassForbiddenParent.php', [[$errorMessage, 9]]];
 
         $errorMessage = sprintf(
             ForbiddenParentClassRule::ERROR_MESSAGE,
             AnotherForbiddenParent::class,
             SomeFnMatched::class
         );
-        yield [__DIR__ . '/Fixture/AnotherForbiddenParent.php', [$errorMessage, 9]];
+        yield [__DIR__ . '/Fixture/AnotherForbiddenParent.php', [[$errorMessage, 9]]];
+
+        yield [__DIR__ . '/Fixture/SkipParentClass.php', []];
     }
 
     protected function getRule(): Rule
     {
-        return new ForbiddenParentClassRule([ForbiddenParent::class, '*FnMatched']);
+        return new ForbiddenParentClassRule(new ArrayStringAndFnMatcher(), [ForbiddenParent::class, '*FnMatched']);
     }
 }

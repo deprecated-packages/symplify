@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Strict;
 
-use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -38,14 +37,7 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition(
-            'Strict type declaration has to be followed by empty line',
-            [new CodeSample('
-<?php
-
-declare(strict_types=1);
-namespace SomeNamespace;')]
-        );
+        return new FixerDefinition('Strict type declaration has to be followed by empty line', []);
     }
 
     public function isCandidate(Tokens $tokens): bool

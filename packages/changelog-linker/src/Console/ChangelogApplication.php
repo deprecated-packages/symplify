@@ -57,7 +57,7 @@ final class ChangelogApplication extends Application
         );
 
         // adds "--config" | "-c" option
-        $inputDefinition->addOption(new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Config file.'));
+        $inputDefinition->addOption(new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Config file'));
 
         return $inputDefinition;
     }
