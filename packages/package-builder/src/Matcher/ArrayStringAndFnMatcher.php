@@ -23,4 +23,22 @@ final class ArrayStringAndFnMatcher
 
         return false;
     }
+
+    /**
+     * @param string[] $matchingValues
+     */
+    public function isMatchOrSubType(string $currenctValue, array $matchingValues): bool
+    {
+        if ($this->isMatch($currenctValue, $matchingValues)) {
+            return true;
+        }
+
+        foreach ($matchingValues as $matchingValue) {
+            if (is_a($currenctValue, $matchingValue, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

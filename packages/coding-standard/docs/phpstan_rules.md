@@ -1,5 +1,51 @@
 # 37+ PHPStan Rules
 
+## Test methods by Type Must Use Data Provider
+
+- class: [`RequireDataProviderTestMethodRule`](../src/Rules/RequireDataProviderTestMethodRule.php)
+- **configuration required**
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\RequireDataProviderTestMethodRule
+        arguments:
+            classesRequiringDataProvider:
+                - '*RectorTestCase'
+```
+
+
+```php
+class SomeRectorTestCase extends RectorTestCase
+{
+    public function test()
+    {
+    }
+}
+```
+
+:x:
+
+```php
+class SomeRectorTestCase extends RectorTestCase
+{
+    /**
+     * @dataProvider provideData()
+     */
+    public function test($value)
+    {
+    }
+
+    public function provideData()
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
 ## Create Objects only inside Factory
 
 - class: [`NoNewOutsideFactoryRule`](../src/Rules/NoNewOutsideFactoryRule.php)
