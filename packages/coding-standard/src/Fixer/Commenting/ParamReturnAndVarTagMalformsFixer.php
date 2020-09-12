@@ -6,7 +6,6 @@ namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer;
-use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -55,14 +54,7 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
     {
         return new FixerDefinition(
             'The @param, @return, @var and inline @var annotations should keep standard format',
-            [new CodeSample('<?php
-/**
- * @param $name type
- */
-function someFunction(type $name)
-{
-}
-')]
+            []
         );
     }
 

@@ -77,6 +77,10 @@ services:
 
     # rules
     -
+        class: Symplify\CodingStandard\Rules\NoNewOutsideFactoryRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\CodingStandard\Rules\AnnotateRegexClassConstWithRegexLinkRule
         tags: [phpstan.rules.rule]
 
