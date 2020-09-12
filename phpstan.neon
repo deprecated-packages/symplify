@@ -24,6 +24,10 @@ parameters:
             'Nette\Utils\FileSystem': 'Symplify\SmartFileSystem\SmartFileSystem'
             'Symfony\Component\Filesystem\Filesystem': 'Symplify\SmartFileSystem\SmartFileSystem'
 
+        classes_requiring_data_provider:
+            - '*RuleTest'
+            - Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase
+
         max_parameter_count: 8
 
         required_see_types:

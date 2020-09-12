@@ -56,6 +56,10 @@ final class CodingStandardSyncChecker
         $this->symfonyStyle->note($message);
 
         if ($missingCheckerClasses === []) {
+            $this->reportCountBySuffix($existingCheckerClasses, 'Sniff');
+            $this->reportCountBySuffix($existingCheckerClasses, 'Fixer');
+            $this->reportCountBySuffix($existingCheckerClasses, 'Rule');
+
             $this->symfonyStyle->success('README.md is up to date');
             die(ShellCode::SUCCESS);
         }
@@ -134,5 +138,26 @@ final class CodingStandardSyncChecker
         }
 
         return $shortClasses;
+    }
+
+    /**
+     * @param string[] $items
+     */
+    private function countBySuffix(array $items, string $suffix): int
+    {
+        $filteredItems = array_filter($items, function (string $item) use ($suffix): bool {
+            return Strings::endsWith($item, $suffix);
+        });
+
+        return count($filteredItems);
+    }
+
+    /**
+     * @param string[] $items
+     */
+    private function reportCountBySuffix(array $items, string $suffix): void
+    {
+        $itemCount = $this->countBySuffix($items, $suffix);
+        $this->symfonyStyle->note($itemCount . ' ' . $suffix . 's');
     }
 }
