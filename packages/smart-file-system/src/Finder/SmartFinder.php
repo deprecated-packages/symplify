@@ -8,6 +8,9 @@ use Symfony\Component\Finder\Finder;
 use Symplify\SmartFileSystem\FileSystemFilter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\SmartFileSystem\Tests\Finder\SmartFinder\SmartFinderTest
+ */
 final class SmartFinder
 {
     /**
