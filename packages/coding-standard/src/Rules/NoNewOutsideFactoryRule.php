@@ -12,11 +12,9 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use ReflectionClass;
-use ReflectionFunction;
-use ReflectionMethod;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -34,9 +32,8 @@ final class NoNewOutsideFactoryRule implements Rule
      */
     private const ALLOWED_CLASSES = [
         'DateTime', 'SplFileInfo', SmartFileInfo::class, Token::class,
-        ReflectionClass::class,
-        ReflectionFunction::class,
-        ReflectionMethod::class,
+        'Reflection*',
+        '*Exception',
 
         // symfony
         FileLocator::class,
@@ -44,6 +41,16 @@ final class NoNewOutsideFactoryRule implements Rule
         // php cs fixes
         FixerDefinition::class,
     ];
+
+    /**
+     * @var ArrayStringAndFnMatcher
+     */
+    private $arrayStringAndFnMatcher;
+
+    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher)
+    {
+        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
+    }
 
     public function getNodeType(): string
     {
@@ -61,7 +68,7 @@ final class NoNewOutsideFactoryRule implements Rule
         }
 
         $newClassName = $node->class->toString();
-        if (in_array($newClassName, self::ALLOWED_CLASSES, true)) {
+        if ($this->arrayStringAndFnMatcher->matches($newClassName, self::ALLOWED_CLASSES)) {
             return [];
         }
 

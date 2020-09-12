@@ -6,11 +6,11 @@ namespace Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoNewOutsideFactoryRule;
 use Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule\Source\SomeValueObject;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoNewOutsideFactoryRuleTest extends RuleTestCase
+final class NoNewOutsideFactoryRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -24,10 +24,15 @@ final class NoNewOutsideFactoryRuleTest extends RuleTestCase
     {
         $errorMessage = sprintf(NoNewOutsideFactoryRule::ERROR_MESSAGE, SomeValueObject::class);
         yield [__DIR__ . '/Fixture/SomeNew.php', [[$errorMessage, 13]]];
+
+        yield [__DIR__ . '/Fixture/SkipException.php', []];
     }
 
     protected function getRule(): Rule
     {
-        return new NoNewOutsideFactoryRule();
+        return $this->getRuleFromConfig(
+            NoNewOutsideFactoryRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

@@ -73,7 +73,7 @@ parametersSchema:
 services:
     - Symplify\CodingStandard\PhpParser\NodeNameResolver
     - Symplify\CodingStandard\PHPStan\ParentMethodAnalyser
-
+    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
 
     # rules
     -
