@@ -1,0 +1,54 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Symplify\CodingStandard\PhpParser;
+
+use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Stmt\If_;
+
+final class FileExistFuncCallAnalyzer
+{
+    public function isBeingCheckedIfExists(Node $node): bool
+    {
+        $parent = $node->getAttribute('parent');
+        if (! $parent instanceof Arg) {
+            return false;
+        }
+
+        $parentParent = $parent->getAttribute('parent');
+        return $this->isFileCheckingFuncCall($parentParent);
+    }
+
+    public function isFileCheckingFuncCall(Node $node): bool
+    {
+        if (! $node instanceof FuncCall) {
+            return false;
+        }
+
+        if ($node->name instanceof Expr) {
+            return false;
+        }
+
+        $funcCallName = (string) $node->name;
+        return in_array($funcCallName, ['is_file', 'file_exists', 'is_dir'], true);
+    }
+
+    public function hasParentIfWithFileExistCheck(Concat $concat): bool
+    {
+        $parent = $concat->getAttribute('parent');
+        while ($parent !== null) {
+            if ($parent instanceof If_ && $this->isFileCheckingFuncCall($parent->cond)) {
+                return true;
+            }
+
+            $parent = $parent->getAttribute('parent');
+        }
+
+        return false;
+    }
+}

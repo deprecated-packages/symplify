@@ -6,15 +6,13 @@ namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
-use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
+use Symplify\CodingStandard\PhpParser\FileExistFuncCallAnalyzer;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoMissingDirPathRule\NoMissingDirPathRuleTest
@@ -31,6 +29,16 @@ final class NoMissingDirPathRule implements Rule
      * @var string
      */
     private const VENDOR_REGEX = '#(vendor|autoload\.php)#';
+
+    /**
+     * @var FileExistFuncCallAnalyzer
+     */
+    private $fileExistFuncCallAnalyzer;
+
+    public function __construct()
+    {
+        $this->fileExistFuncCallAnalyzer = new FileExistFuncCallAnalyzer();
+    }
 
     public function getNodeType(): string
     {
@@ -94,25 +102,10 @@ final class NoMissingDirPathRule implements Rule
             return true;
         }
 
-        return $this->isBeingCheckedIfExists($concat);
-    }
-
-    private function isBeingCheckedIfExists(Concat $concat): bool
-    {
-        $parent = $concat->getAttribute('parent');
-        if (! $parent instanceof Arg) {
-            return false;
-        }
-        $parentParent = $parent->getAttribute('parent');
-        if (! $parentParent instanceof FuncCall) {
-            return false;
+        if ($this->fileExistFuncCallAnalyzer->isBeingCheckedIfExists($concat)) {
+            return true;
         }
 
-        if ($parentParent->name instanceof Expr) {
-            return false;
-        }
-
-        $funcCallName = (string) $parentParent->name;
-        return in_array($funcCallName, ['is_file', 'file_exists', 'is_dir'], true);
+        return $this->fileExistFuncCallAnalyzer->hasParentIfWithFileExistCheck($concat);
     }
 }
