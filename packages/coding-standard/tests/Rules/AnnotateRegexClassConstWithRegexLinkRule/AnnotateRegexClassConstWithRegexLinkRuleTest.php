@@ -28,6 +28,7 @@ final class AnnotateRegexClassConstWithRegexLinkRuleTest extends RuleTestCase
 
         yield [__DIR__ . '/Fixture/SkipShort.php', []];
         yield [__DIR__ . '/Fixture/SkipWithLink.php', []];
+        yield [__DIR__ . '/Fixture/SkipAlphabet.php', []];
     }
 
     protected function getRule(): Rule

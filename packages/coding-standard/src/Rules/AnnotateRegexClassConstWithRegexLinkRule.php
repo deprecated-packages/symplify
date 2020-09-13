@@ -69,6 +69,10 @@ final class AnnotateRegexClassConstWithRegexLinkRule implements Rule
 
         $firstChar = $value[0];
 
+        if (ctype_alpha($firstChar)) {
+            return false;
+        }
+
         $patternWithoutModifiers = rtrim($value, self::ALL_MODIFIERS);
 
         if (Strings::length($patternWithoutModifiers) < 1) {
