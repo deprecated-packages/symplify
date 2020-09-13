@@ -3,7 +3,7 @@
     "description": "Auto bind parameters for your Symfony applications",
     "license": "MIT",
     "require": {
-        "php": "^7.2|^8.0",
+        "php": ">=7.2",
         "nette/utils": "^3.0",
         "symfony/http-kernel": "^4.4|^5.0",
         "symfony/dependency-injection": "^4.4|^5.0"
