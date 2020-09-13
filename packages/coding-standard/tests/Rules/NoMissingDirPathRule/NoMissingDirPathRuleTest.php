@@ -29,6 +29,7 @@ final class NoMissingDirPathRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SkipAssertMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipFnMatch.php', []];
         yield [__DIR__ . '/Fixture/SkipFileExistsFuncCall.php', []];
+        yield [__DIR__ . '/Fixture/SkipFileExistsFuncCallOneLayerAbove.php', []];
     }
 
     protected function getRule(): Rule
