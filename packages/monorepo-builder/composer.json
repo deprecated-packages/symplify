@@ -6,7 +6,7 @@
         "bin/monorepo-builder"
     ],
     "require": {
-        "php": "^7.2|^8.0",
+        "php": ">=7.2",
         "composer/composer": "^1.10|^2.0",
         "nette/utils": "^3.0",
         "jean85/pretty-package-versions": "^1.2",

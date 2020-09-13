@@ -3,7 +3,7 @@
     "description": "Repository for Symplify packages development.",
     "license": "MIT",
     "require": {
-        "php": "^7.2|^8.0",
+        "php": ">=7.2",
         "composer/composer": "^1.10|^2.0",
         "composer/xdebug-handler": "^1.4",
         "erusev/parsedown": "^1.7",
