@@ -25,7 +25,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire();
 
     $services->load('Symplify\MonorepoBuilder\Split\\', __DIR__ . '/../src')
-        ->exclude([__DIR__ . '/../src/Exception/*', __DIR__ . '/../src/ValueObject/*']);
+        ->exclude([__DIR__ . '/../src/Exception', __DIR__ . '/../src/ValueObject']);
 
     $services->set(FileSystemGuard::class);
 };

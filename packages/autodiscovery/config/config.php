@@ -19,8 +19,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Symplify\\Autodiscovery\\', __DIR__ . '/../src')
         ->exclude([
-            __DIR__ . '/../src/HttpKernel/*',
-            __DIR__ . '/../src/Finder/*',
+            __DIR__ . '/../src/HttpKernel',
+            __DIR__ . '/../src/Finder',
             __DIR__ . '/../src/*/*Autodiscoverer.php',
             __DIR__ . '/../src/Discovery.php',
         ])

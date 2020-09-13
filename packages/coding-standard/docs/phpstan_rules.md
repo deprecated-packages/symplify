@@ -1,4 +1,22 @@
-# 37+ PHPStan Rules
+# 38+ PHPStan Rules
+
+## __DIR__ . '/*' paths must Exist
+
+- class: [`NoMissingDirPathRule`](../src/Rules/NoMissingDirPathRule.php)
+
+```php
+class SomePath
+{
+    public function run()
+    {
+        $somePath = __DIR__ . '/missing_file.php';
+    }
+}
+```
+
+:x:
+
+<br>
 
 ## Test methods by Type Must Use Data Provider
 
@@ -45,6 +63,8 @@ class SomeRectorTestCase extends RectorTestCase
 ```
 
 :+1:
+
+<br>
 
 ## Create Objects only inside Factory
 

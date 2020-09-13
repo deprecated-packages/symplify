@@ -51,55 +51,16 @@ parameters:
         max_cognitive_complexity: "%symplify.max_method_cognitive_complexity%"
         max_class_cognitive_complexity: 50
 
-parametersSchema:
-    symplify: structure([
-        # for Symplify\CodingStandard\Rules\ExcessiveParameterListRule
-        max_parameter_count: int()
-
-        # for Symplify\CodingStandard\Rules\TooLongVariableRule
-        max_variable_length: int()
-
-        # for Symplify\CodingStandard\Rules\ExcessivePublicCountRule
-        max_public_class_element_count: int()
-
-        # for Symplify\CodingStandard\Rules\ForbiddenParentClassRule
-        forbidden_parent_classes: arrayOf(string())
-
-        # for Symplify\CodingStandard\Rules\RequireDataProviderTestMethodRule
-        classes_requiring_data_provider: arrayOf(string())
-
-        # for Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
-        func_call_to_preffered_static_calls: arrayOf(arrayOf(string()))
-
-        # for Symplify\CodingStandard\Rules\PreferredClassRule
-        old_to_preffered_classes: arrayOf(string())
-
-        max_cognitive_complexity: int()
-        max_method_cognitive_complexity: int()
-        max_class_cognitive_complexity: int()
-
-        # see Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
-        parent_classes: arrayOf(string())
-
-        # see Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
-        required_see_types: arrayOf(string())
-
-        # for Symplify\CodingStandard\Rules\NoStaticCallRule
-        allowed_static_call_classes: arrayOf(string())
-
-        # for Symplify\CodingStandard\Rules\ForceMethodCallArgumentConstantRule
-        constant_arg_by_method_by_type: arrayOf(arrayOf(arrayOf(int())))
-
-        # for Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule
-        string_arg_by_method_by_type: arrayOf(arrayOf(arrayOf(int())))
-    ])
-
 services:
     - Symplify\CodingStandard\PhpParser\NodeNameResolver
     - Symplify\CodingStandard\PHPStan\ParentMethodAnalyser
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
 
     # rules
+    -
+        class: Symplify\CodingStandard\Rules\NoMissingDirPathRule
+        tags: [phpstan.rules.rule]
+
     -
         class: Symplify\CodingStandard\Rules\NoNewOutsideFactoryRule
         tags: [phpstan.rules.rule]
@@ -290,3 +251,47 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             classesRequiringDataProvider: "%symplify.classes_requiring_data_provider%"
+
+
+parametersSchema:
+    symplify: structure([
+        # for Symplify\CodingStandard\Rules\ExcessiveParameterListRule
+        max_parameter_count: int()
+
+        # for Symplify\CodingStandard\Rules\TooLongVariableRule
+        max_variable_length: int()
+
+        # for Symplify\CodingStandard\Rules\ExcessivePublicCountRule
+        max_public_class_element_count: int()
+
+        # for Symplify\CodingStandard\Rules\ForbiddenParentClassRule
+        forbidden_parent_classes: arrayOf(string())
+
+        # for Symplify\CodingStandard\Rules\RequireDataProviderTestMethodRule
+        classes_requiring_data_provider: arrayOf(string())
+
+        # for Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
+        func_call_to_preffered_static_calls: arrayOf(arrayOf(string()))
+
+        # for Symplify\CodingStandard\Rules\PreferredClassRule
+        old_to_preffered_classes: arrayOf(string())
+
+        max_cognitive_complexity: int()
+        max_method_cognitive_complexity: int()
+        max_class_cognitive_complexity: int()
+
+        # see Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
+        parent_classes: arrayOf(string())
+
+        # see Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
+        required_see_types: arrayOf(string())
+
+        # for Symplify\CodingStandard\Rules\NoStaticCallRule
+        allowed_static_call_classes: arrayOf(string())
+
+        # for Symplify\CodingStandard\Rules\ForceMethodCallArgumentConstantRule
+        constant_arg_by_method_by_type: arrayOf(arrayOf(arrayOf(int())))
+
+        # for Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule
+        string_arg_by_method_by_type: arrayOf(arrayOf(arrayOf(int())))
+    ])
