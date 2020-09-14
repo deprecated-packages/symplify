@@ -81,6 +81,16 @@ final class Configuration
         $this->isFixer = (bool) $options['isFixer'];
     }
 
+    public function enableFixing(): void
+    {
+        $this->isFixer = true;
+    }
+
+    public function disableFixing(): void
+    {
+        $this->isFixer = false;
+    }
+
     /**
      * @return string[]
      */
