@@ -8,20 +8,15 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use ReflectionProperty;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
+use Symplify\EasyCodingStandard\Contract\RegexAwareFormatterInterface;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Throwable;
 
-abstract class AbstractPHPFormatter
+abstract class AbstractPHPFormatter implements RegexAwareFormatterInterface
 {
-    /**
-     * Regex to be overridden in derived classes
-     * @var string
-     */
-    protected const PHP_CODE_SNIPPET = '##';
-
     /**
      * @var SmartFileSystem
      */
@@ -61,7 +56,7 @@ abstract class AbstractPHPFormatter
 
         return (string) Strings::replace(
             $fileInfo->getContents(),
-            static::PHP_CODE_SNIPPET,
+            $this->provideRegex(),
             function ($match) use ($noStrictTypesDeclaration): string {
                 $fixedContent = $this->fixContent($match['content'], $noStrictTypesDeclaration);
                 return rtrim($match['opening'], PHP_EOL) . PHP_EOL

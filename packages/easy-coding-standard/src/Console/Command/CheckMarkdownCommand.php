@@ -24,16 +24,6 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class CheckMarkdownCommand extends Command
 {
     /**
-     * @var string
-     */
-    private const SOURCE = 'source';
-
-    /**
-     * @var string
-     */
-    private const NO_STRICT_TYPES_DECLARATION = 'no-strict-types-declaration';
-
-    /**
      * @var Configuration
      */
     protected $configuration;
@@ -78,8 +68,8 @@ final class CheckMarkdownCommand extends Command
     {
         $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Format Markdown PHP code');
-        $this->addArgument(self::SOURCE, InputArgument::REQUIRED, 'Path to the Markdown file');
-        $this->addOption(self::NO_STRICT_TYPES_DECLARATION, null, null, 'No strict types declaration');
+        $this->addArgument(Option::SOURCE, InputArgument::REQUIRED, 'Path to the Markdown file');
+        $this->addOption(Option::NO_STRICT_TYPES_DECLARATION, null, null, 'No strict types declaration');
         $this->addOption(Option::FIX, null, null, 'Fix found violations.');
         $this->addOption(
             Option::OUTPUT_FORMAT,
@@ -93,19 +83,23 @@ final class CheckMarkdownCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var string $markdownFile */
-        $markdownFile = $input->getArgument(self::SOURCE);
+        $markdownFile = $input->getArgument(Option::SOURCE);
         if (! $this->smartFileSystem->exists($markdownFile)) {
             $message = sprintf('Markdown file "%s" not found', $markdownFile);
             throw new NoMarkdownFileException($message);
         }
 
-        $noStrictTypesDeclaration = (bool) $input->getOption(self::NO_STRICT_TYPES_DECLARATION);
+        $noStrictTypesDeclaration = (bool) $input->getOption(Option::NO_STRICT_TYPES_DECLARATION);
         $fix = (bool) $input->getOption(Option::FIX);
+
         $markdownFileInfo = new SmartFileInfo($markdownFile);
         $fixedContent = $this->markdownPHPCodeFormatter->format($markdownFileInfo, $noStrictTypesDeclaration);
 
         if ($markdownFileInfo->getContents() === $fixedContent) {
-            $successMessage = 'PHP code in Markdown already follow coding standard';
+            $successMessage = sprintf(
+                'PHP code in "%s" already follows coding standard',
+                $markdownFileInfo->getRelativeFilePathFromCwd()
+            );
         } elseif ($fix) {
             $this->smartFileSystem->dumpFile($markdownFile, (string) $fixedContent);
             $successMessage = 'PHP code in Markdown has been fixed to follow coding standard';
