@@ -13,17 +13,17 @@
         "symfony/config": "^4.4|^5.0",
         "symfony/dependency-injection": "^4.4|^5.0",
         "symfony/routing": "^4.4|^5.0",
-        "symplify/autowire-array-parameter": "^8.4",
-        "symplify/package-builder": "^8.4",
-        "symplify/smart-file-system": "^8.4"
+        "symplify/autowire-array-parameter": "^8.3.1",
+        "symplify/package-builder": "^8.3.1",
+        "symplify/smart-file-system": "^8.3.1"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.40",
         "phpunit/phpunit": "^8.5|^9.0",
         "symfony/framework-bundle": "^4.4|^5.0",
         "symfony/twig-bundle": "^4.4|^5.0",
-        "symplify/autodiscovery": "^8.4",
-        "symplify/flex-loader": "^8.4"
+        "symplify/autodiscovery": "^8.3.1",
+        "symplify/flex-loader": "^8.3.1"
     },
     "autoload": {
         "psr-4": {
