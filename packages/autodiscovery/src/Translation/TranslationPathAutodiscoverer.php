@@ -21,19 +21,19 @@ final class TranslationPathAutodiscoverer implements AutodiscovererInterface
     /**
      * @var AutodiscoveryFinder
      */
-    private $fileSystem;
+    private $autodiscoveryFinder;
 
-    public function __construct(ContainerBuilder $containerBuilder, AutodiscoveryFinder $fileSystem)
+    public function __construct(ContainerBuilder $containerBuilder, AutodiscoveryFinder $autodiscoveryFinder)
     {
         $this->containerBuilder = $containerBuilder;
-        $this->fileSystem = $fileSystem;
+        $this->autodiscoveryFinder = $autodiscoveryFinder;
     }
 
     public function autodiscover(): void
     {
         $paths = [];
 
-        foreach ($this->fileSystem->getTranslationDirectories() as $templateDirectory) {
+        foreach ($this->autodiscoveryFinder->getTranslationDirectories() as $templateDirectory) {
             $paths[] = $templateDirectory->getRealPath();
         }
 

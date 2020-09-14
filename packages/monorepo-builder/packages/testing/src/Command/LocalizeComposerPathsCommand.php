@@ -83,10 +83,10 @@ final class LocalizeComposerPathsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $mainComposerJsonFileInfo = $this->composerJsonProvider->getRootFileInfo();
+        $rootFileInfo = $this->composerJsonProvider->getRootFileInfo();
 
         foreach ($this->composerJsonProvider->getPackagesFileInfos() as $packageFileInfo) {
-            $this->processPackage($packageFileInfo, $mainComposerJsonFileInfo);
+            $this->processPackage($packageFileInfo, $rootFileInfo);
         }
 
         $this->symfonyStyle->success('Package paths have been updated');

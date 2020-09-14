@@ -50,12 +50,12 @@ final class PackageToRepositorySplitter
         SymfonyStyle $symfonyStyle,
         FileSystemGuard $fileSystemGuard,
         ProcessFactory $processFactory,
-        GitManager $gitAnalyzer
+        GitManager $gitManager
     ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->fileSystemGuard = $fileSystemGuard;
         $this->processFactory = $processFactory;
-        $this->gitManager = $gitAnalyzer;
+        $this->gitManager = $gitManager;
     }
 
     /**

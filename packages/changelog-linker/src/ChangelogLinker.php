@@ -85,7 +85,7 @@ final class ChangelogLinker
         $linksToAppend = $this->linkAppender->getLinksToAppend();
         if ($linksToAppend !== []) {
             $content = rtrim($content) . PHP_EOL;
-            $content .= $this->linkAppender->hadExistingLinks() ? '' : PHP_EOL;
+            $content .= $this->linkAppender->isExistingLinks() ? '' : PHP_EOL;
             $content .= implode(PHP_EOL, $linksToAppend) . PHP_EOL;
         }
 

@@ -208,8 +208,8 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
         }
 
         // starts with small letter?
-        $methodOrFunctionName = $possibleMethodNameToken->getContent();
-        if (! ctype_lower($methodOrFunctionName[0])) {
+        $content = $possibleMethodNameToken->getContent();
+        if (! ctype_lower($content[0])) {
             return null;
         }
 

@@ -133,18 +133,18 @@ final class LineLengthTransformer
 
         // collect length of tokens on current line which precede token at $currentPosition
         $lineLenghtAndPosition = $this->getLengthToStartOfLine($tokens, $currentPosition);
-        $lineLength = $lineLenghtAndPosition->getLineLenght();
+        $lineLenght = $lineLenghtAndPosition->getLineLenght();
         $currentPosition = $lineLenghtAndPosition->getCurrentPosition();
 
         /** @var Token $currentToken */
         $currentToken = $tokens[$currentPosition];
 
         // includes indent in the beginning
-        $lineLength += strlen($currentToken->getContent());
+        $lineLenght += strlen($currentToken->getContent());
 
         // minus end of lines, do not count line feeds as characters
         $endOfLineCount = substr_count($currentToken->getContent(), StaticEolConfiguration::getEolChar());
-        $lineLength -= $endOfLineCount;
+        $lineLenght -= $endOfLineCount;
 
         // compute from here to end of line
         $currentPosition = $startPosition + 1;
@@ -157,7 +157,7 @@ final class LineLengthTransformer
             // in case of multiline string, we are interested in length of the part on current line only
             $explode = explode("\n", $currentToken->getContent(), 2);
             // string follows current token, so we are interested in beginning only
-            $lineLength += strlen($explode[0]);
+            $lineLenght += strlen($explode[0]);
 
             ++$currentPosition;
 
@@ -171,7 +171,7 @@ final class LineLengthTransformer
             }
         }
 
-        return $lineLength;
+        return $lineLenght;
     }
 
     /**

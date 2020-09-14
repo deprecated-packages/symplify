@@ -33,14 +33,14 @@ final class FinderSanitizerTest extends TestCase
 
     public function testSymfonyFinder(): void
     {
-        $finder = SymfonyFinder::create()
+        $symfonyFinder = SymfonyFinder::create()
             ->files()
             ->in(__DIR__ . '/Source');
 
-        $fileInfos = iterator_to_array($finder->getIterator());
+        $fileInfos = iterator_to_array($symfonyFinder->getIterator());
 
         $this->assertCount(2, $fileInfos);
-        $files = $this->finderSanitizer->sanitize($finder);
+        $files = $this->finderSanitizer->sanitize($symfonyFinder);
         $this->assertCount(2, $files);
 
         $this->assertFilesEqualFixtureFiles($files[0], $files[1]);
@@ -48,13 +48,13 @@ final class FinderSanitizerTest extends TestCase
 
     public function testNetteFinder(): void
     {
-        $finder = NetteFinder::findFiles('*')
+        $netteFinder = NetteFinder::findFiles('*')
             ->from(__DIR__ . '/Source');
 
-        $fileInfos = iterator_to_array($finder->getIterator());
+        $fileInfos = iterator_to_array($netteFinder->getIterator());
         $this->assertCount(2, $fileInfos);
 
-        $files = $this->finderSanitizer->sanitize($finder);
+        $files = $this->finderSanitizer->sanitize($netteFinder);
         $this->assertCount(2, $files);
 
         $this->assertFilesEqualFixtureFiles($files[0], $files[1]);

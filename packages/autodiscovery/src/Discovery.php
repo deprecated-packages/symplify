@@ -17,33 +17,33 @@ final class Discovery
     /**
      * @var AutodiscoveryFinder
      */
-    private $fileSystem;
+    private $autodiscoveryFinder;
 
     /**
      * @param string[] $packageDirectories
      */
     public function __construct(string $projectDirectory, array $packageDirectories = [])
     {
-        $this->fileSystem = new AutodiscoveryFinder($projectDirectory, $packageDirectories);
+        $this->autodiscoveryFinder = new AutodiscoveryFinder($projectDirectory, $packageDirectories);
     }
 
     public function discoverTemplates(ContainerBuilder $containerBuilder): void
     {
-        (new TwigPathAutodiscoverer($containerBuilder, $this->fileSystem))->autodiscover();
+        (new TwigPathAutodiscoverer($containerBuilder, $this->autodiscoveryFinder))->autodiscover();
     }
 
     public function discoverEntityMappings(ContainerBuilder $containerBuilder): void
     {
-        (new DoctrineEntityMappingAutodiscoverer($containerBuilder, $this->fileSystem))->autodiscover();
+        (new DoctrineEntityMappingAutodiscoverer($containerBuilder, $this->autodiscoveryFinder))->autodiscover();
     }
 
     public function discoverTranslations(ContainerBuilder $containerBuilder): void
     {
-        (new TranslationPathAutodiscoverer($containerBuilder, $this->fileSystem))->autodiscover();
+        (new TranslationPathAutodiscoverer($containerBuilder, $this->autodiscoveryFinder))->autodiscover();
     }
 
     public function discoverRoutes(RouteCollectionBuilder $routeCollectionBuilder): void
     {
-        (new AnnotationRoutesAutodiscoverer($routeCollectionBuilder, $this->fileSystem))->autodiscover();
+        (new AnnotationRoutesAutodiscoverer($routeCollectionBuilder, $this->autodiscoveryFinder))->autodiscover();
     }
 }

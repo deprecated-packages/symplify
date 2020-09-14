@@ -39,15 +39,15 @@ final class RequireStringArgumentInMethodCallRule implements Rule
     /**
      * @var NodeNameResolver
      */
-    private $nameResolver;
+    private $nodeNameResolver;
 
     /**
      * @param array<string, array<string, array<int>>> $stringArgByMethodByType
      */
-    public function __construct(NodeNameResolver $nameResolver, array $stringArgByMethodByType = [])
+    public function __construct(NodeNameResolver $nodeNameResolver, array $stringArgByMethodByType = [])
     {
         $this->stringArgByMethodByType = $stringArgByMethodByType;
-        $this->nameResolver = $nameResolver;
+        $this->nodeNameResolver = $nodeNameResolver;
     }
 
     public function getNodeType(): string
@@ -121,7 +121,7 @@ final class RequireStringArgumentInMethodCallRule implements Rule
         /** @var ClassConstFetch $classConstFetch */
         $classConstFetch = $arg->value;
 
-        return ! $this->nameResolver->isName($classConstFetch->name, 'class');
+        return ! $this->nodeNameResolver->isName($classConstFetch->name, 'class');
     }
 
     private function isNodeVarType(MethodCall $methodCall, Scope $scope, string $desiredType): bool

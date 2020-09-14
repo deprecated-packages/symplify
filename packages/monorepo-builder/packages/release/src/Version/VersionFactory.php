@@ -52,12 +52,12 @@ final class VersionFactory
 
         $mostRecentVersion = new Version($mostRecentVersion);
 
-        $currentMajorVersion = $mostRecentVersion->getMajor()->getValue();
+        $value = $mostRecentVersion->getMajor()->getValue();
         $currentMinorVersion = $mostRecentVersion->getMinor()->getValue();
         $currentPatchVersion = $mostRecentVersion->getPatch()->getValue();
 
         if ($versionKind === SemVersion::MAJOR) {
-            ++$currentMajorVersion;
+            ++$value;
             $currentMinorVersion = 0;
             $currentPatchVersion = 0;
         }
@@ -71,6 +71,6 @@ final class VersionFactory
             ++$currentPatchVersion;
         }
 
-        return new Version(sprintf('v%d.%d.%d', $currentMajorVersion, $currentMinorVersion, $currentPatchVersion));
+        return new Version(sprintf('v%d.%d.%d', $value, $currentMinorVersion, $currentPatchVersion));
     }
 }

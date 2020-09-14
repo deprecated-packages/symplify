@@ -14,9 +14,7 @@ final class SymplifyCodingStandardExtension extends Extension
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
         // needed for parameter shifting of sniff/fixer params
-        $checkerTolerantYamlFileLoader = new PhpFileLoader($containerBuilder, new FileLocator(
-            __DIR__ . '/../../../config'
-        ));
-        $checkerTolerantYamlFileLoader->load('config.php');
+        $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../config'));
+        $phpFileLoader->load('config.php');
     }
 }

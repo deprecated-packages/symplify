@@ -20,18 +20,18 @@ final class LineLengthResolver
         $lineLength = 0;
 
         // compute from function to start of line
-        $currentPosition = $blockInfo->getStart();
-        while (! $this->isNewLineOrOpenTag($tokens, $currentPosition)) {
-            $lineLength += strlen($tokens[$currentPosition]->getContent());
-            --$currentPosition;
+        $start = $blockInfo->getStart();
+        while (! $this->isNewLineOrOpenTag($tokens, $start)) {
+            $lineLength += strlen($tokens[$start]->getContent());
+            --$start;
 
-            if (! isset($tokens[$currentPosition])) {
+            if (! isset($tokens[$start])) {
                 break;
             }
         }
 
         // get spaces to first line
-        $lineLength += strlen($tokens[$currentPosition]->getContent());
+        $lineLength += strlen($tokens[$start]->getContent());
 
         // get length from start of function till end of arguments - with spaces as one
         $lineLength += $this->getLenthFromFunctionStartToEndOfArguments($blockInfo, $tokens);
@@ -64,22 +64,22 @@ final class LineLengthResolver
     {
         $length = 0;
 
-        $currentPosition = $blockInfo->getStart();
+        $start = $blockInfo->getStart();
 
-        while ($currentPosition < $blockInfo->getEnd()) {
+        while ($start < $blockInfo->getEnd()) {
             /** @var Token $currentToken */
-            $currentToken = $tokens[$currentPosition];
+            $currentToken = $tokens[$start];
 
             if ($currentToken->isGivenKind(T_WHITESPACE)) {
                 ++$length;
-                ++$currentPosition;
+                ++$start;
                 continue;
             }
 
             $length += strlen($currentToken->getContent());
-            ++$currentPosition;
+            ++$start;
 
-            if (! isset($tokens[$currentPosition])) {
+            if (! isset($tokens[$start])) {
                 break;
             }
         }
@@ -94,21 +94,21 @@ final class LineLengthResolver
     {
         $length = 0;
 
-        $currentPosition = $blockInfo->getEnd();
+        $end = $blockInfo->getEnd();
 
         /** @var Token $currentToken */
-        $currentToken = $tokens[$currentPosition];
+        $currentToken = $tokens[$end];
 
         while (! Strings::startsWith($currentToken->getContent(), StaticEolConfiguration::getEolChar())) {
             $length += strlen($currentToken->getContent());
-            ++$currentPosition;
+            ++$end;
 
-            if (! isset($tokens[$currentPosition])) {
+            if (! isset($tokens[$end])) {
                 break;
             }
 
             /** @var Token $currentToken */
-            $currentToken = $tokens[$currentPosition];
+            $currentToken = $tokens[$end];
         }
 
         return $length;

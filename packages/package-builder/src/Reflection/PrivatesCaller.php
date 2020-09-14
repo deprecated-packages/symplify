@@ -44,9 +44,9 @@ final class PrivatesCaller
 
     private function createAccessibleMethodReflection(object $object, string $methodName): ReflectionMethod
     {
-        $methodReflection = new ReflectionMethod(get_class($object), $methodName);
-        $methodReflection->setAccessible(true);
+        $reflectionMethod = new ReflectionMethod(get_class($object), $methodName);
+        $reflectionMethod->setAccessible(true);
 
-        return $methodReflection;
+        return $reflectionMethod;
     }
 }

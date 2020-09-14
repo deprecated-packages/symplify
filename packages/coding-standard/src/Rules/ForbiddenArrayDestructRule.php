@@ -95,7 +95,7 @@ final class ForbiddenArrayDestructRule implements Rule
             return false;
         }
 
-        $reflectoinClass = new ReflectionClass($callerType->getClassName());
-        return (bool) Strings::match($reflectoinClass->getFileName(), self::VENDOR_DIRECTORY_PATTERN);
+        $reflectionClass = new ReflectionClass($callerType->getClassName());
+        return (bool) Strings::match($reflectionClass->getFileName(), self::VENDOR_DIRECTORY_PATTERN);
     }
 }

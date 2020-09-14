@@ -21,17 +21,19 @@ final class AnnotationRoutesAutodiscoverer implements AutodiscovererInterface
     /**
      * @var AutodiscoveryFinder
      */
-    private $fileSystem;
+    private $autodiscoveryFinder;
 
-    public function __construct(RouteCollectionBuilder $routeCollectionBuilder, AutodiscoveryFinder $fileSystem)
-    {
+    public function __construct(
+        RouteCollectionBuilder $routeCollectionBuilder,
+        AutodiscoveryFinder $autodiscoveryFinder
+    ) {
         $this->routeCollectionBuilder = $routeCollectionBuilder;
-        $this->fileSystem = $fileSystem;
+        $this->autodiscoveryFinder = $autodiscoveryFinder;
     }
 
     public function autodiscover(): void
     {
-        foreach ($this->fileSystem->getControllerDirectories() as $controllerDirectoryFileInfo) {
+        foreach ($this->autodiscoveryFinder->getControllerDirectories() as $controllerDirectoryFileInfo) {
             $this->routeCollectionBuilder->import($controllerDirectoryFileInfo->getRealPath(), '/', 'annotation');
         }
     }

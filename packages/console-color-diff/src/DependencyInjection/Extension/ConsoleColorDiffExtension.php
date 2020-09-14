@@ -13,8 +13,8 @@ final class ConsoleColorDiffExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
-        $yamlFileLoader = new PhpFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../config'));
+        $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../config'));
 
-        $yamlFileLoader->load('config.php');
+        $phpFileLoader->load('config.php');
     }
 }

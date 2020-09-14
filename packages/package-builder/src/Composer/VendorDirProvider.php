@@ -31,8 +31,8 @@ final class VendorDirProvider
 
     private function reflectionFallback(): string
     {
-        $classLoaderReflection = new ReflectionClass(ClassLoader::class);
+        $reflectionClass = new ReflectionClass(ClassLoader::class);
 
-        return dirname($classLoaderReflection->getFileName(), 2);
+        return dirname($reflectionClass->getFileName(), 2);
     }
 }

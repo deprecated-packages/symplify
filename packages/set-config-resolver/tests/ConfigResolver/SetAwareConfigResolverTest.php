@@ -96,7 +96,7 @@ final class SetAwareConfigResolverTest extends TestCase
     {
         $this->expectException(FileNotFoundException::class);
 
-        $input = new ArrayInput(['--config' => 'someFile.yml']);
-        $this->setAwareConfigResolver->resolveFromInput($input);
+        $arrayInput = new ArrayInput(['--config' => 'someFile.yml']);
+        $this->setAwareConfigResolver->resolveFromInput($arrayInput);
     }
 }
