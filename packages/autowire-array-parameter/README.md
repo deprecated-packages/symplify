@@ -55,7 +55,7 @@ class Application
     public function __construct(array $commands)
     {
         $this->commands = $commands;
-        // instnace of Command collected from all services
+        // instance of Command collected from all services
         var_dump($commands);
     }
 }
