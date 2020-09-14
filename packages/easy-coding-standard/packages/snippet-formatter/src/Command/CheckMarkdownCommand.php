@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Console\Command;
+namespace Symplify\EasyCodingStandard\SnippetFormatter\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCodingStandard\Console\Command\AbstractCheckCommand;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\Markdown\MarkdownPHPCodeFormatter;
+use Symplify\EasyCodingStandard\SnippetFormatter\Markdown\MarkdownPHPCodeFormatter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\Finder\SmartFinder;

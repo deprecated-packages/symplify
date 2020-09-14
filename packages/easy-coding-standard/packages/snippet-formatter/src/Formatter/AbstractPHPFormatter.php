@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Formatter;
+namespace Symplify\EasyCodingStandard\SnippetFormatter\Formatter;
 
 use Nette\Utils\Strings;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Contract\RegexAwareFormatterInterface;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
-use Symplify\EasyCodingStandard\Provider\CurrentParentFileInfoProvider;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
+use Symplify\EasyCodingStandard\SnippetFormatter\Provider\CurrentParentFileInfoProvider;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Throwable;

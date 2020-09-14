@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Markdown;
+namespace Symplify\EasyCodingStandard\SnippetFormatter\Markdown;
 
-use Symplify\EasyCodingStandard\Formatter\AbstractPHPFormatter;
+use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\AbstractPHPFormatter;
 
 /**
- * @see \Symplify\EasyCodingStandard\Tests\Markdown\MarkdownPHPCodeFormatterTest
+ * @see \Symplify\EasyCodingStandard\SnippetFormatter\Tests\Markdown\MarkdownPHPCodeFormatterTest
  */
 final class MarkdownPHPCodeFormatter extends AbstractPHPFormatter
 {

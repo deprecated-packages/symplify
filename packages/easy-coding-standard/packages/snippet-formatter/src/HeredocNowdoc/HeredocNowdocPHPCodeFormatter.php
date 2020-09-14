@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\HeredocNowdoc;
+namespace Symplify\EasyCodingStandard\SnippetFormatter\HeredocNowdoc;
 
-use Symplify\EasyCodingStandard\Formatter\AbstractPHPFormatter;
+use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\AbstractPHPFormatter;
 
 /**
- * @see \Symplify\EasyCodingStandard\Tests\HeredocNowdoc\HeredocNowdocPHPCodeFormatterTest
+ * @see \Symplify\EasyCodingStandard\SnippetFormatter\Tests\HeredocNowdoc\HeredocNowdocPHPCodeFormatterTest
  */
 final class HeredocNowdocPHPCodeFormatter extends AbstractPHPFormatter
 {
