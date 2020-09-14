@@ -6,28 +6,19 @@ namespace Symplify\EasyCodingStandard\SnippetFormatter\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Finder\Finder;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
-use Symplify\EasyCodingStandard\Configuration\Exception\NoDirectoryException;
-use Symplify\EasyCodingStandard\Configuration\Exception\NoPHPFileException;
 use Symplify\EasyCodingStandard\Console\Command\AbstractCheckCommand;
-use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
-use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\SnippetFormatter\HeredocNowdoc\HeredocNowdocPHPCodeFormatter;
-use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\SnippetFormatter;
+use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class CheckHeredocNowdocCommand extends AbstractCheckCommand
 {
-    /**
-     * @var string
-     */
-    private const SOURCE = 'source';
-
     /**
      * @var Configuration
      */
@@ -44,27 +35,27 @@ final class CheckHeredocNowdocCommand extends AbstractCheckCommand
     private $easyCodingStandardStyle;
 
     /**
-     * @var HeredocNowdocPHPCodeFormatter
+     * @var SnippetFormatter
      */
-    private $heredocnowdocPHPCodeFormatter;
+    private $snippetFormatter;
 
     /**
-     * @var OutputFormatterCollector
+     * @var SmartFinder
      */
-    private $outputFormatterCollector;
+    private $smartFinder;
 
     public function __construct(
         SmartFileSystem $smartFileSystem,
         EasyCodingStandardStyle $easyCodingStandardStyle,
-        HeredocNowdocPHPCodeFormatter $heredocNowdocPHPCodeFormatter,
-        OutputFormatterCollector $outputFormatterCollector,
-        Configuration $configuration
+        SnippetFormatter $snippetFormatter,
+        Configuration $configuration,
+        SmartFinder $smartFinder
     ) {
         $this->smartFileSystem = $smartFileSystem;
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
-        $this->heredocnowdocPHPCodeFormatter = $heredocNowdocPHPCodeFormatter;
-        $this->outputFormatterCollector = $outputFormatterCollector;
         $this->configuration = $configuration;
+        $this->snippetFormatter = $snippetFormatter;
+        $this->smartFinder = $smartFinder;
 
         parent::__construct();
     }
@@ -72,92 +63,57 @@ final class CheckHeredocNowdocCommand extends AbstractCheckCommand
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Format Heredoc/Nowdoc PHP code');
+        $this->setDescription('Format Heredoc/Nowdoc PHP snippets in PHP files');
 
         parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var string $heredocNowDocDirectory */
-        $heredocNowDocDirectory = $input->getArgument(self::SOURCE);
-        $this->verifyDirectory($heredocNowDocDirectory);
+        $this->configuration->resolveFromInput($input);
 
-        $finder = new Finder();
-        $this->verifyHasFiles($finder, $heredocNowDocDirectory);
+        $sources = $this->configuration->getSources();
+        $phpFileInfos = $this->smartFinder->find($sources, '*.php');
 
-        $fix = (bool) $input->getOption(Option::FIX);
-        $alreadyFollowCodingStandard = true;
+        $fileCount = count($phpFileInfos);
 
-        $countFixable = 0;
-        $outputFormatter = null;
-        foreach ($finder as $file) {
-            $absoluteFilePath = $file->getRealPath();
+        if ($fileCount > 0) {
+            $this->easyCodingStandardStyle->progressStart($fileCount);
 
-            $phpFileInfo = new SmartFileInfo($absoluteFilePath);
-            $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo);
-
-            if ($phpFileInfo->getContents() === $fixedContent) {
-                continue;
+            foreach ($phpFileInfos as $phpFileInfo) {
+                $this->processPHPFileInfo($phpFileInfo);
             }
-
-            $alreadyFollowCodingStandard = false;
-            if ($fix) {
-                $this->smartFileSystem->dumpFile($absoluteFilePath, (string) $fixedContent);
-                continue;
-            }
-
-            $this->configuration->resolveFromArray(['isFixer' => false]);
-            $outputFormat = $this->resolveOutputFormat($input);
-
-            /** @var ConsoleOutputFormatter $outputFormatter */
-            $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
-            $outputFormatter->addCustomFileName($absoluteFilePath);
-            ++$countFixable;
-        }
-
-        if ($outputFormatter && $countFixable > 0) {
-            return $outputFormatter->report($countFixable);
-        }
-
-        if ($alreadyFollowCodingStandard) {
-            $successMessage = 'PHP code in Heredoc/Nowdoc already follow coding standard';
         } else {
-            $successMessage = 'PHP code in Heredoc/Nowdoc has been fixed to follow coding standard';
+            return $this->printFileWarningAndExitSuccess($sources);
         }
 
-        $this->easyCodingStandardStyle->success($successMessage);
+        return $this->reportProcessedFiles($fileCount);
+    }
+
+    private function printFileWarningAndExitSuccess(array $sources): int
+    {
+        $warningMessage = sprintf(
+            'No PHP files found in "%s" paths.%sCheck CLI arguments or "Option::PATHS" parameter in "ecs.php" config file',
+            implode('", ', $sources),
+            PHP_EOL
+        );
+        $this->easyCodingStandardStyle->warning($warningMessage);
 
         return ShellCode::SUCCESS;
     }
 
-    private function verifyDirectory(string $heredocNowDocDirectory): void
+    private function processPHPFileInfo(SmartFileInfo $phpFileInfo): void
     {
-        if (! is_dir($heredocNowDocDirectory)) {
-            $message = sprintf('Directory "%s" not found', $heredocNowDocDirectory);
-            throw new NoDirectoryException($message);
-        }
-    }
+        $fixedContent = $this->snippetFormatter->format($phpFileInfo, SnippetPattern::HERENOWDOC_SNIPPET_PATTERN);
+        $this->easyCodingStandardStyle->progressAdvance();
 
-    private function verifyHasFiles(Finder $finder, string $heredocNowDocDirectory): void
-    {
-        $finder->files()->in($heredocNowDocDirectory)->name('*.php');
-
-        if (! $finder->hasResults()) {
-            $message = sprintf('No file in "%s"', $heredocNowDocDirectory);
-            throw new NoPHPFileException($message);
-        }
-    }
-
-    private function resolveOutputFormat(InputInterface $input): string
-    {
-        $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
-
-        // Backwards compatibility with older version
-        if ($outputFormat === 'table') {
-            return ConsoleOutputFormatter::NAME;
+        if ($phpFileInfo->getContents() === $fixedContent) {
+            // nothing has changed
+            return;
         }
 
-        return $outputFormat;
+        if ($this->configuration->isFixer()) {
+            $this->smartFileSystem->dumpFile($phpFileInfo->getPathname(), (string) $fixedContent);
+        }
     }
 }

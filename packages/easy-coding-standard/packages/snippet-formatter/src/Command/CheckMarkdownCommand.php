@@ -8,13 +8,17 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Console\Command\AbstractCheckCommand;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\SnippetFormatter\Markdown\MarkdownPHPCodeFormatter;
+use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\SnippetFormatter;
+use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @todo refactor to generic parent AbstractSnippetFormatterCommand
+ */
 final class CheckMarkdownCommand extends AbstractCheckCommand
 {
     /**
@@ -28,9 +32,9 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
     private $easyCodingStandardStyle;
 
     /**
-     * @var MarkdownPHPCodeFormatter
+     * @var SnippetFormatter
      */
-    private $markdownPHPCodeFormatter;
+    private $snippetFormatter;
 
     /**
      * @var SmartFinder
@@ -40,12 +44,12 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
     public function __construct(
         SmartFileSystem $smartFileSystem,
         EasyCodingStandardStyle $easyCodingStandardStyle,
-        MarkdownPHPCodeFormatter $markdownPHPCodeFormatter,
+        SnippetFormatter $snippetFormatter,
         SmartFinder $smartFinder
     ) {
         $this->smartFileSystem = $smartFileSystem;
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
-        $this->markdownPHPCodeFormatter = $markdownPHPCodeFormatter;
+        $this->snippetFormatter = $snippetFormatter;
         $this->smartFinder = $smartFinder;
 
         parent::__construct();
@@ -66,8 +70,6 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
         $sources = $this->configuration->getSources();
         $markdownFileInfos = $this->smartFinder->find($sources, '*.md');
 
-        $this->configuration->resolveFromInput($input);
-
         $fileCount = count($markdownFileInfos);
         if ($fileCount > 0) {
             $this->easyCodingStandardStyle->progressStart($fileCount);
@@ -76,14 +78,7 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
                 $this->processMarkdownFileInfo($markdownFileInfo);
             }
         } else {
-            $warningMessage = sprintf(
-                'No Markdown files found in "%s" paths.%sCheck CLI arguments or "Option::PATHS" parameter in "ecs.php" config file',
-                implode('", ', $sources),
-                PHP_EOL
-            );
-            $this->easyCodingStandardStyle->warning($warningMessage);
-
-            return ShellCode::SUCCESS;
+            return $this->printNoFilesWarningAndExistSuccess($sources);
         }
 
         return $this->reportProcessedFiles($fileCount);
@@ -91,7 +86,10 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
 
     private function processMarkdownFileInfo(SmartFileInfo $markdownFileInfo): void
     {
-        $fixedContent = $this->markdownPHPCodeFormatter->format($markdownFileInfo);
+        $fixedContent = $this->snippetFormatter->format(
+            $markdownFileInfo,
+            SnippetPattern::MARKDOWN_PHP_SNIPPET_PATTERN
+        );
         $this->easyCodingStandardStyle->progressAdvance();
 
         if ($markdownFileInfo->getContents() === $fixedContent) {
@@ -102,5 +100,17 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
         if ($this->configuration->isFixer()) {
             $this->smartFileSystem->dumpFile($markdownFileInfo->getPathname(), (string) $fixedContent);
         }
+    }
+
+    private function printNoFilesWarningAndExistSuccess(array $sources): int
+    {
+        $warningMessage = sprintf(
+            'No Markdown files found in "%s" paths.%sCheck CLI arguments or "Option::PATHS" parameter in "ecs.php" config file',
+            implode('", ', $sources),
+            PHP_EOL
+        );
+        $this->easyCodingStandardStyle->warning($warningMessage);
+
+        return ShellCode::SUCCESS;
     }
 }
