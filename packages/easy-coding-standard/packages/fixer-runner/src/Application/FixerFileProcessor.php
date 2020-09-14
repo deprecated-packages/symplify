@@ -6,6 +6,7 @@ namespace Symplify\EasyCodingStandard\FixerRunner\Application;
 
 use PhpCsFixer\Differ\DifferInterface;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
@@ -13,6 +14,7 @@ use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Exception\Application\FixerFailedException;
 use Symplify\EasyCodingStandard\FixerRunner\Parser\FileToTokensParser;
+use Symplify\EasyCodingStandard\Provider\CurrentParentFileInfoProvider;
 use Symplify\EasyCodingStandard\Skipper;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -69,6 +71,11 @@ final class FixerFileProcessor implements FileProcessorInterface
     private $smartFileSystem;
 
     /**
+     * @var CurrentParentFileInfoProvider
+     */
+    private $currentParentFileInfoProvider;
+
+    /**
      * @param FixerInterface[] $fixers
      */
     public function __construct(
@@ -79,6 +86,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         DifferInterface $differ,
         EasyCodingStandardStyle $easyCodingStandardStyle,
         SmartFileSystem $smartFileSystem,
+        CurrentParentFileInfoProvider $currentParentFileInfoProvider,
         array $fixers = []
     ) {
         $this->errorAndDiffCollector = $errorAndDiffCollector;
@@ -89,6 +97,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         $this->fixers = $this->sortFixers($fixers);
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
         $this->smartFileSystem = $smartFileSystem;
+        $this->currentParentFileInfoProvider = $currentParentFileInfoProvider;
     }
 
     /**
@@ -105,6 +114,10 @@ final class FixerFileProcessor implements FileProcessorInterface
 
         $this->appliedFixers = [];
         foreach ($this->fixers as $fixer) {
+            if ($this->shouldSkipForMarkdownHeredocCheck($fixer)) {
+                continue;
+            }
+
             $this->processTokensByFixer($smartFileInfo, $tokens, $fixer);
         }
 
@@ -120,7 +133,8 @@ final class FixerFileProcessor implements FileProcessorInterface
         }
 
         // file has changed
-        $this->errorAndDiffCollector->addDiffForFileInfo($smartFileInfo, $diff, $this->appliedFixers);
+        $targetFileInfo = $this->resolveTargetFileInfo($smartFileInfo);
+        $this->errorAndDiffCollector->addDiffForFileInfo($targetFileInfo, $diff, $this->appliedFixers);
 
         $tokenGeneratedCode = $tokens->generateCode();
         if ($this->configuration->isFixer()) {
@@ -190,5 +204,31 @@ final class FixerFileProcessor implements FileProcessorInterface
         }
 
         return ! $fixer->isCandidate($tokens);
+    }
+
+    /**
+     * Useful for @see CheckMarkdownCommand
+     * Where the $smartFileInfo is only temporary snippet, so original markdown file should be used
+     */
+    private function resolveTargetFileInfo(SmartFileInfo $smartFileInfo): SmartFileInfo
+    {
+        $currentParentFileInfo = $this->currentParentFileInfoProvider->provide();
+        if ($currentParentFileInfo !== null) {
+            return $currentParentFileInfo;
+        }
+
+        return $smartFileInfo;
+    }
+
+    /**
+     * Is markdown/herenow doc checker → skip useless rules
+     */
+    private function shouldSkipForMarkdownHeredocCheck(FixerInterface $fixer): bool
+    {
+        if ($this->currentParentFileInfoProvider->provide() === null) {
+            return false;
+        }
+
+        return $fixer instanceof SingleBlankLineAtEofFixer;
     }
 }

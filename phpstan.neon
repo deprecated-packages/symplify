@@ -276,8 +276,10 @@ parameters:
         - '#Parameter \#1 \$functionLike of method Symplify\\CodingStandard\\CognitiveComplexity\\AstCognitiveComplexityAnalyzer\:\:analyzeFunctionLike\(\) expects PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_\|null given#'
 
         -
-            message: '#Method "__construct\(\)" is using too many parameters \- 9\. Make it under 8#'
-            path: 'packages/easy-coding-standard/packages/fixer-runner/src/Application/FixerFileProcessor.php'
+            message: '#Method "__construct\(\)" is using too many parameters \- \d\. Make it under 8#'
+            paths:
+                - packages/easy-coding-standard/packages/fixer-runner/src/Application/FixerFileProcessor.php # 81
+                - packages/easy-coding-standard/packages/sniff-runner/src/Application/SniffFileProcessor.php # 80
 
         -
             message: '#Too many public elements on class \- \d+\. Try narrow it down under \d+#'

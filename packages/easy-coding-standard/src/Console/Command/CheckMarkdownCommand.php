@@ -65,7 +65,6 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
         $markdownFileInfos = $this->smartFinder->find($sources, '*.md');
 
         $this->configuration->resolveFromInput($input);
-        $this->configureMarkdown();
 
         $fileCount = count($markdownFileInfos);
         $this->easyCodingStandardStyle->progressStart($fileCount);
@@ -80,6 +79,8 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
     private function processMarkdownFileInfo(SmartFileInfo $markdownFileInfo): void
     {
         $fixedContent = $this->markdownPHPCodeFormatter->format($markdownFileInfo);
+        $this->easyCodingStandardStyle->progressAdvance();
+
         if ($markdownFileInfo->getContents() === $fixedContent) {
             // nothing has changed
             return;
@@ -88,7 +89,5 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
         if ($this->configuration->isFixer()) {
             $this->smartFileSystem->dumpFile($markdownFileInfo->getPathname(), (string) $fixedContent);
         }
-
-        $this->easyCodingStandardStyle->progressAdvance();
     }
 }

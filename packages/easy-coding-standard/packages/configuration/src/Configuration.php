@@ -89,16 +89,6 @@ final class Configuration
         $this->isFixer = (bool) $options['isFixer'];
     }
 
-    public function enableFixing(): void
-    {
-        $this->isFixer = true;
-    }
-
-    public function disableFixing(): void
-    {
-        $this->isFixer = false;
-    }
-
     /**
      * @return string[]
      */
@@ -164,6 +154,15 @@ final class Configuration
     public function getOutputFormat(): string
     {
         return $this->outputFormat;
+    }
+
+    /**
+     * @api
+     * For tests
+     */
+    public function enableFixing(): void
+    {
+        $this->isFixer = true;
     }
 
     private function canShowProgressBar(InputInterface $input): bool
