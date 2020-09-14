@@ -16,6 +16,8 @@ composer require symplify/composer-json-manipulator
 Add to `config/bundles.php`:
 
 ```php
+declare(strict_types=1);
+
 return [
     Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle::class => ['all' => true],
 ];
@@ -44,7 +46,7 @@ class SomeClass
         $this->composerJsonFactory = $composerJsonFactory;
     }
 
-    public function run()
+    public function run(): void
     {
         // ↓ instance of \Symplify\ComposerJsonManipulator\ValueObject\ComposerJson
         $composerJson = $this->composerJsonFactory->createFromFilePath(getcwd() . '/composer.json');

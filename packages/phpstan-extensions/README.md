@@ -48,13 +48,15 @@ The config also loads few return type extensions.
 With Symfony container and type as an argument, you always know **the same type is returned**:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Container;
 
 /** @var Container $container */
-$container->get(Type::class); // PHPStan: object ❌
-$container->get(Type::class); // Reality: Type ✅
+// PHPStan: object ❌
+$container->get(Type::class);
+// Reality: Type ✅
+$container->get(Type::class);
 
 // same for in-controller/container-aware context
 $this->get(Type::class);
@@ -65,7 +67,7 @@ $this->get(Type::class);
 After Symfony Kernel boot, `getContainer()` always returns the container:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -77,8 +79,11 @@ final class AppKernel extends Kernel
 $kernel = new AppKernel('prod', false);
 $kernel->boot();
 
-$kernel->getContainer(); // PHPStan: null|ContainerInterface ❌
-$kernel->getContainer(); // Reality: ContainerInterface ✅
+// PHPStan: null|ContainerInterface ❌
+$kernel->getContainer();
+// Reality: ContainerInterface ✅
+$kernel->getContainer();
+ // Reality: ContainerInterface ✅
 ```
 
 #### `Symplify\PHPStanExtensions\Symfony\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension`
@@ -86,14 +91,16 @@ $kernel->getContainer(); // Reality: ContainerInterface ✅
 Symfony Finder finds only existing files (obviously), so the `getRealPath()` always return `string`:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 use Symfony\Component\Finder\Finder;
 
-$finder = new Finder;
+$finder = new Finder();
 
 foreach ($finder as $fileInfo) {
-    $fileInfo->getRealPath(); // PHPStan: false|string ❌
-    $fileInfo->getRealPath(); // Reality: string ✅
+    // PHPStan: false|string ❌
+    $fileInfo->getRealPath();
+    // Reality: string ✅
+    $fileInfo->getRealPath();
 }
 ```

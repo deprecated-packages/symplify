@@ -80,10 +80,10 @@ declare(strict_types=1);
 
 namespace App;
 
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Autodiscovery\Discovery;
 
 final class MyProjectKernel extends Kernel
@@ -98,6 +98,7 @@ final class MyProjectKernel extends Kernel
     public function __construct()
     {
         parent::__construct('dev', true);
+
         $this->discovery = new Discovery($this->getProjectDir());
     }
 
@@ -139,10 +140,10 @@ declare(strict_types=1);
 
 namespace App;
 
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 
 final class MyProjectKernel extends Kernel
 {
@@ -190,10 +191,10 @@ declare(strict_types=1);
 
 namespace App;
 
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 
 final class MyProjectKernel extends Kernel
 {
@@ -247,10 +248,9 @@ declare(strict_types=1);
 
 namespace App;
 
-use Symfony\Component\Routing\RouteCollectionBuilder;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symplify\Autodiscovery\Routing\AnnotationRoutesAutodiscoverer;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Routing\RouteCollectionBuilder;
 
 final class MyProjectKernel extends Kernel
 {

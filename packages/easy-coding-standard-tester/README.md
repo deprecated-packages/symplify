@@ -29,6 +29,7 @@ use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Your\CondingStandard\Fixer\YourFixer;
 
 final class YourFixerTest extends AbstractCheckerTestCase
 {
@@ -61,7 +62,7 @@ final class YourFixerTest extends AbstractCheckerTestCase
 
     protected function getCheckerClass(): string
     {
-        return \Your\CondingStandard\Fixer\YourFixer::class;
+        return YourFixer::class;
     }
 }
 ```
@@ -81,6 +82,8 @@ $array = [];
 
 ?>
 ```
+
+In pseudo-code:
 
 ```bash
 before

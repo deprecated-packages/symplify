@@ -7,7 +7,8 @@ namespace Symplify\EasyTesting\ValueObject;
 final class SplitLine
 {
     /**
+     * @see https://regex101.com/r/8fuULy/1
      * @var string
      */
-    public const SPLIT_LINE = "#-----\r?\n#";
+    public const SPLIT_LINE = "#\-\-\-\-\-\r?\n#";
 }

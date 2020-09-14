@@ -13,12 +13,12 @@ composer require symplify/auto-bind-parameter
 ### 1. Register Compiler Pass in kernel
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 namespace App;
 
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel;
 use Symplify\AutoBindParameter\DependencyInjection\CompilerPass\AutoBindParameterCompilerPass;
 
 class AppKernel extends Kernel
@@ -52,7 +52,7 @@ Keep your configs simple enough:
 And as any other bind:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 class SomeClass
 {
