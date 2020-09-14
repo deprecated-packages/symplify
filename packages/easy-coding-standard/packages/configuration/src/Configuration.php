@@ -12,6 +12,11 @@ use Symplify\EasyCodingStandard\Exception\Configuration\SourceNotFoundException;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @deprecated
+ * This noun name looks like value object, while it is actually a service.
+ * Should be rename to ConfigurationManager or something like this.
+ */
 final class Configuration
 {
     /**

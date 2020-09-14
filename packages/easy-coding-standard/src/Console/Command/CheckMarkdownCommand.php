@@ -67,10 +67,15 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
         $this->configuration->resolveFromInput($input);
 
         $fileCount = count($markdownFileInfos);
-        $this->easyCodingStandardStyle->progressStart($fileCount);
+        if ($fileCount > 0) {
+            $this->easyCodingStandardStyle->progressStart($fileCount);
 
-        foreach ($markdownFileInfos as $markdownFileInfo) {
-            $this->processMarkdownFileInfo($markdownFileInfo);
+            foreach ($markdownFileInfos as $markdownFileInfo) {
+                $this->processMarkdownFileInfo($markdownFileInfo);
+            }
+        } else {
+            $this->configuration->
+            {$this}->easyCodingStandardStyle->note('No markdownd files found in: %s');
         }
 
         return $this->reportProcessedFiles($fileCount);

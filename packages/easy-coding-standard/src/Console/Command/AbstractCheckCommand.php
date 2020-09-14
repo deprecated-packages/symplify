@@ -49,6 +49,7 @@ abstract class AbstractCheckCommand extends Command
     {
         $this->addArgument(
             Option::SOURCE,
+            // optional is on purpose here, since path from ecs.php can se ubsed
             InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
             'The path(s) to be checked.'
         );
