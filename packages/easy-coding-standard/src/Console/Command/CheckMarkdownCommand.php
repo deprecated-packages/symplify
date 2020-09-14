@@ -8,8 +8,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Markdown\MarkdownPHPCodeFormatter;
-use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -60,8 +60,9 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var string[] $sources */
-        $sources = (array) $input->getArgument(Option::SOURCE);
+        $this->configuration->resolveFromInput($input);
+
+        $sources = $this->configuration->getSources();
         $markdownFileInfos = $this->smartFinder->find($sources, '*.md');
 
         $this->configuration->resolveFromInput($input);
@@ -74,8 +75,14 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
                 $this->processMarkdownFileInfo($markdownFileInfo);
             }
         } else {
-            $this->configuration->
-            {$this}->easyCodingStandardStyle->note('No markdownd files found in: %s');
+            $warningMessage = sprintf(
+                'No Markdown files found in "%s" paths.%sCheck CLI arguments or "Option::PATHS" parameter in "ecs.php" config file',
+                implode('", ', $sources),
+                PHP_EOL
+            );
+            $this->easyCodingStandardStyle->warning($warningMessage);
+
+            return ShellCode::SUCCESS;
         }
 
         return $this->reportProcessedFiles($fileCount);

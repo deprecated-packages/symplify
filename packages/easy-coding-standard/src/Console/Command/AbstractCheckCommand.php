@@ -12,7 +12,6 @@ use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
 use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
-use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
 abstract class AbstractCheckCommand extends Command
@@ -48,26 +47,30 @@ abstract class AbstractCheckCommand extends Command
     protected function configure(): void
     {
         $this->addArgument(
-            Option::SOURCE,
+            Option::SOURCES,
             // optional is on purpose here, since path from ecs.php can se ubsed
             InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
             'The path(s) to be checked.'
         );
 
         $this->addOption(Option::FIX, null, null, 'Fix found violations.');
+
         $this->addOption(Option::CLEAR_CACHE, null, null, 'Clear cache for already checked files.');
+
         $this->addOption(
             Option::NO_PROGRESS_BAR,
             null,
             InputOption::VALUE_NONE,
             'Hide progress bar. Useful e.g. for nicer CI output.'
         );
+
         $this->addOption(
             Option::NO_ERROR_TABLE,
             null,
             InputOption::VALUE_NONE,
             'Hide error table. Useful e.g. for fast check of error count.'
         );
+
         $this->addOption(
             Option::OUTPUT_FORMAT,
             null,
@@ -79,7 +82,9 @@ abstract class AbstractCheckCommand extends Command
 
     protected function reportProcessedFiles(int $processedFileCount): int
     {
-        $outputFormatter = $this->getOutputFormatter();
+        $outputFormat = $this->configuration->getOutputFormat();
+        $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
+
         return $outputFormatter->report($processedFileCount);
     }
 
@@ -94,11 +99,5 @@ abstract class AbstractCheckCommand extends Command
             'No checkers were found. Register them in your config in "services:" '
             . 'section, load them via "--config <file>.yml" or "--set <set>" option.'
         );
-    }
-
-    private function getOutputFormatter(): OutputFormatterInterface
-    {
-        $outputFormat = $this->configuration->getOutputFormat();
-        return $this->outputFormatterCollector->getByName($outputFormat);
     }
 }

@@ -73,9 +73,12 @@ final class Configuration
     public function resolveFromInput(InputInterface $input): void
     {
         /** @var string[] $sources */
-        $sources = $input->getArgument(Option::SOURCE);
+        $sources = (array) $input->getArgument(Option::SOURCES);
         if ($sources !== []) {
             $this->setSources($sources);
+        } else {
+            // if not paths are provided from CLI, use the config ones
+            $this->setSources($this->getPaths());
         }
 
         $this->isFixer = (bool) $input->getOption(Option::FIX);
