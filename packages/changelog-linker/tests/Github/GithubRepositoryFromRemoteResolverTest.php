@@ -41,6 +41,7 @@ final class GithubRepositoryFromRemoteResolverTest extends TestCase
         yield ['https://www.my-company.com/symplify/symplify.git', 'https://www.my-company.com/symplify/symplify'];
         yield ['https://gitlab.com/my-group/my-user/my-repo.git', 'https://gitlab.com/my-group/my-user/my-repo'];
         yield ['https://git/user/project.git', 'https://git/user/project'];
+        yield ['git@github.com:space/low-orbit.git', 'https://github.com/space/low-orbit'];
     }
 
     public function testInvalid(): void
