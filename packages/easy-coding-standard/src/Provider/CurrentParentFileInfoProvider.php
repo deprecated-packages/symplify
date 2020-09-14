@@ -9,7 +9,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class CurrentParentFileInfoProvider
 {
     /**
-     * @var SmartFileInfo
+     * @var SmartFileInfo|null
      */
     private $smartFileInfo;
 
