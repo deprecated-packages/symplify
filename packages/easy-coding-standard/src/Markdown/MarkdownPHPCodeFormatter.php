@@ -12,10 +12,10 @@ use Symplify\EasyCodingStandard\Formatter\AbstractPHPFormatter;
 final class MarkdownPHPCodeFormatter extends AbstractPHPFormatter
 {
     /**
-     * @see https://regex101.com/r/4YUIu1/2
+     * @see https://regex101.com/r/4YUIu1/4
      * @var string
      */
-    private const PHP_CODE_SNIPPET = '#(?<opening>\`\`\`php\s+)(?<content>[^\`\`\`]+\n)(?<closing>(\s+)?\`\`\`)#ms';
+    private const PHP_CODE_SNIPPET = '#(?<opening>\`\`\`php\s+)(?<content>[^\`\`\`|^\-\-\-\-\-]+\n)(?<closing>(\s+)?\`\`\`)#ms';
 
     public function provideRegex(): string
     {

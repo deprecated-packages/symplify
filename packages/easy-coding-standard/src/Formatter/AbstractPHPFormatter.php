@@ -59,13 +59,9 @@ abstract class AbstractPHPFormatter implements RegexAwareFormatterInterface
     {
         $this->currentParentFileInfoProvider->setParentFileInfo($fileInfo);
 
-        return (string) Strings::replace(
-            $fileInfo->getContents(),
-            $this->provideRegex(),
-            function ($match): string {
-                return $this->fixContentAndPreserveFormatting($match);
-            }
-        );
+        return (string) Strings::replace($fileInfo->getContents(), $this->provideRegex(), function ($match): string {
+            return $this->fixContentAndPreserveFormatting($match);
+        });
     }
 
     /**

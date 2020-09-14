@@ -70,9 +70,9 @@ final class YourFixerTest extends AbstractCheckerTestCase
 Instead of `[__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc']` you can use single file: `__DIR__ . '/fixture/fixture.php.inc'` in this format:
 
 ```php
-<?php declare(strict_types=1);
+<?php
 
-$array = [];
+$array = array();
 
 ?>
 -----
@@ -82,6 +82,8 @@ $array = [];
 
 ?>
 ```
+
+In pseudo-code:
 
 ```bash
 before

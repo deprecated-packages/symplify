@@ -20,7 +20,10 @@ final class StaticFixtureSplitter
 
     public static function splitFileInfoToInputAndExpected(SmartFileInfo $smartFileInfo): InputAndExpected
     {
-        if (Strings::match($smartFileInfo->getContents(), SplitLine::SPLIT_LINE)) {
+        $splitLineCount = count(Strings::matchAll($smartFileInfo->getContents(), SplitLine::SPLIT_LINE));
+
+        // if more or less, it could be a test cases for split line in it
+        if ($splitLineCount === 1) {
             // input → expected
             [$input, $expected] = Strings::split($smartFileInfo->getContents(), SplitLine::SPLIT_LINE);
 
