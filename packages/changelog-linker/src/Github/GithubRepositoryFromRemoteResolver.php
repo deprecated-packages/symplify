@@ -8,7 +8,6 @@ use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Exception\Git\InvalidGitRemoteException;
 use function parse_url;
 use function pathinfo;
-use function rtrim;
 use function sprintf;
 use function str_replace;
 use const PATHINFO_DIRNAME;
@@ -47,7 +46,7 @@ final class GithubRepositoryFromRemoteResolver
 
         // turn SSH format to "https"
         if (Strings::startsWith($url, 'git@')) {
-            $url = rtrim($url, '.git');
+            $url = Strings::substring($url, 0, -4);
             $url = str_replace(':', '/', $url);
             $url = Strings::substring($url, Strings::length('git@'));
 
