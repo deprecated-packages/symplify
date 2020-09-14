@@ -6,6 +6,7 @@ namespace Symplify\EasyCodingStandard\Configuration;
 
 use Jean85\PrettyVersions;
 use Symfony\Component\Console\Input\InputInterface;
+use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
 use Symplify\EasyCodingStandard\Console\Output\JsonOutputFormatter;
 use Symplify\EasyCodingStandard\Exception\Configuration\SourceNotFoundException;
 use Symplify\EasyCodingStandard\ValueObject\Option;
@@ -49,6 +50,11 @@ final class Configuration
     private $paths = [];
 
     /**
+     * @var string
+     */
+    private $outputFormat = ConsoleOutputFormatter::NAME;
+
+    /**
      * @param string[] $paths
      */
     public function __construct(array $paths)
@@ -71,6 +77,8 @@ final class Configuration
         $this->shouldClearCache = (bool) $input->getOption(Option::CLEAR_CACHE);
         $this->showProgressBar = $this->canShowProgressBar($input);
         $this->showErrorTable = ! (bool) $input->getOption(Option::NO_ERROR_TABLE);
+
+        $this->setOutputFormat($input);
     }
 
     /**
@@ -153,6 +161,11 @@ final class Configuration
         return $this->paths;
     }
 
+    public function getOutputFormat(): string
+    {
+        return $this->outputFormat;
+    }
+
     private function canShowProgressBar(InputInterface $input): bool
     {
         $notJsonOutput = $input->getOption(Option::OUTPUT_FORMAT) !== JsonOutputFormatter::NAME;
@@ -186,5 +199,17 @@ final class Configuration
         }
 
         return $sources;
+    }
+
+    private function setOutputFormat(InputInterface $input): void
+    {
+        $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
+
+        // Backwards compatibility with older version
+        if ($outputFormat === 'table') {
+            $this->outputFormat = ConsoleOutputFormatter::NAME;
+        }
+
+        $this->outputFormat = $outputFormat;
     }
 }

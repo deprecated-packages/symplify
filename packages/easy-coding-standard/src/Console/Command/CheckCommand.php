@@ -81,7 +81,8 @@ final class CheckCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $outputFormat = $this->resolveOutputFormat($input);
+        $this->configuration->resolveFromInput($input);
+        $outputFormat = $this->configuration->getOutputFormat();
         $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
 
         $this->ensureSomeCheckersAreRegistered();
@@ -91,23 +92,9 @@ final class CheckCommand extends Command
             $this->configuration->setSources($this->configuration->getPaths());
         }
 
-        $this->configuration->resolveFromInput($input);
-
         $processedFilesCount = $this->easyCodingStandardApplication->run();
 
         return $outputFormatter->report($processedFilesCount);
-    }
-
-    private function resolveOutputFormat(InputInterface $input): string
-    {
-        $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
-
-        // Backwards compatibility with older version
-        if ($outputFormat === 'table') {
-            return ConsoleOutputFormatter::NAME;
-        }
-
-        return $outputFormat;
     }
 
     private function ensureSomeCheckersAreRegistered(): void

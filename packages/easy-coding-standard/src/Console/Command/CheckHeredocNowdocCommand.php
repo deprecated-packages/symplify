@@ -31,11 +31,6 @@ final class CheckHeredocNowdocCommand extends Command
     private const SOURCE = 'source';
 
     /**
-     * @var string
-     */
-    private const NO_STRICT_TYPES_DECLARATION = 'no-strict-types-declaration';
-
-    /**
      * @var Configuration
      */
     protected $configuration;
@@ -85,7 +80,7 @@ final class CheckHeredocNowdocCommand extends Command
             InputArgument::REQUIRED,
             'Path to the directory containing PHP Code with Heredoc/Nowdoc inside'
         );
-        $this->addOption(self::NO_STRICT_TYPES_DECLARATION, null, null, 'No strict types declaration');
+
         $this->addOption(Option::FIX, null, null, 'Fix found violations.');
         $this->addOption(
             Option::OUTPUT_FORMAT,
@@ -105,7 +100,6 @@ final class CheckHeredocNowdocCommand extends Command
         $finder = new Finder();
         $this->verifyHasFiles($finder, $heredocNowDocDirectory);
 
-        $noStrictTypesDeclaration = (bool) $input->getOption(self::NO_STRICT_TYPES_DECLARATION);
         $fix = (bool) $input->getOption(Option::FIX);
         $alreadyFollowCodingStandard = true;
 
@@ -115,7 +109,7 @@ final class CheckHeredocNowdocCommand extends Command
             $absoluteFilePath = $file->getRealPath();
 
             $phpFileInfo = new SmartFileInfo($absoluteFilePath);
-            $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo, $noStrictTypesDeclaration);
+            $fixedContent = $this->heredocnowdocPHPCodeFormatter->format($phpFileInfo);
 
             if ($phpFileInfo->getContents() === $fixedContent) {
                 continue;

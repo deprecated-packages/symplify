@@ -102,10 +102,4 @@ class Option
      * @var string
      */
     public const INDENTATION_TAB = 'tab';
-
-    /**
-     * @api
-     * @var string
-     */
-    public const NO_STRICT_TYPES_DECLARATION = 'no-strict-types-declaration';
 }

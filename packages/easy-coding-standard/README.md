@@ -89,12 +89,6 @@ vendor/bin/ecs check-markdown README.md
 vendor/bin/ecs check-markdown README.md --fix
 ```
 
-Do you want to avoid `declare(strict_types=1);` clutter in each snippet?
-
-```bash
-vendor/bin/ecs check-markdown README.md --fix --no-strict-types-declaration
-```
-
 ### Extended Configuration
 
 Configuration can be extended with many options. Here is list of them with example values and little description what are they for:

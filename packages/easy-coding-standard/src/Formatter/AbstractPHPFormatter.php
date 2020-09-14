@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Formatter;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
-use ReflectionProperty;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Contract\RegexAwareFormatterInterface;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
@@ -49,16 +47,15 @@ abstract class AbstractPHPFormatter implements RegexAwareFormatterInterface
         $this->configuration = $configuration;
     }
 
-    public function format(SmartFileInfo $fileInfo, bool $noStrictTypesDeclaration): string
+    public function format(SmartFileInfo $fileInfo): string
     {
-        // enable fixing
-        $this->configuration->resolveFromArray(['isFixer' => true]);
+        $this->configuration->enableFixing();
 
         return (string) Strings::replace(
             $fileInfo->getContents(),
             $this->provideRegex(),
-            function ($match) use ($noStrictTypesDeclaration): string {
-                $fixedContent = $this->fixContent($match['content'], $noStrictTypesDeclaration);
+            function ($match): string {
+                $fixedContent = $this->fixContent($match['content']);
                 return rtrim($match['opening'], PHP_EOL) . PHP_EOL
                     . $fixedContent
                     . ltrim($match['closing'], PHP_EOL);
@@ -66,7 +63,7 @@ abstract class AbstractPHPFormatter implements RegexAwareFormatterInterface
         );
     }
 
-    private function fixContent(string $content, bool $noStrictTypesDeclaration): string
+    private function fixContent(string $content): string
     {
         $content = trim($content);
         $key = md5($content);
@@ -86,7 +83,7 @@ abstract class AbstractPHPFormatter implements RegexAwareFormatterInterface
 
         $fileInfo = new SmartFileInfo($file);
         try {
-            $this->skipStrictTypesDeclaration($noStrictTypesDeclaration);
+//            $this->skipStrictTypesDeclaration();
             $this->fixerFileProcessor->processFile($fileInfo);
             $this->sniffFileProcessor->processFile($fileInfo);
 
@@ -97,38 +94,10 @@ abstract class AbstractPHPFormatter implements RegexAwareFormatterInterface
             $this->smartFileSystem->remove($file);
         }
 
-        // handle already has declare(strict_types=1);
-        // before apply fix
-        if ($noStrictTypesDeclaration && strpos($fileContent, 'declare(strict_types=1);') === 6) {
-            $fileContent = substr($fileContent, 32);
-            $fileContent = '<?php' . PHP_EOL . $fileContent;
-        }
-
         if (! $hasPreviouslyOpeningPHPTag) {
             $fileContent = substr($fileContent, 6);
         }
 
         return rtrim($fileContent, PHP_EOL) . PHP_EOL;
-    }
-
-    private function skipStrictTypesDeclaration(bool $noStrictTypesDeclaration): void
-    {
-        if (! $noStrictTypesDeclaration) {
-            return;
-        }
-
-        $checkers = $this->fixerFileProcessor->getCheckers();
-        $temps = [];
-        foreach ($checkers as $checker) {
-            if ($checker instanceof DeclareStrictTypesFixer) {
-                continue;
-            }
-
-            $temps[] = $checker;
-        }
-
-        $reflectionProperty = new ReflectionProperty($this->fixerFileProcessor, 'fixers');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($this->fixerFileProcessor, $temps);
     }
 }

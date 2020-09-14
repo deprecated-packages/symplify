@@ -43,7 +43,7 @@ final class MarkdownPHPCodeFormatterTest extends AbstractKernelTestCase
             $fixtureFileInfo
         );
 
-        $changedContent = $this->markdownPHPCodeFormatter->format($inputAndExpectedFileInfos->getInputFileInfo(), true);
+        $changedContent = $this->markdownPHPCodeFormatter->format($inputAndExpectedFileInfos->getInputFileInfo());
         $contents = $inputAndExpectedFileInfos->getExpectedFileInfo()->getContents();
         $this->assertSame($contents, $changedContent, $fixtureFileInfo->getRelativeFilePathFromCwd());
     }

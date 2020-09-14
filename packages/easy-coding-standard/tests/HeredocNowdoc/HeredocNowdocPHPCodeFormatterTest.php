@@ -44,8 +44,7 @@ final class HeredocNowdocPHPCodeFormatterTest extends AbstractKernelTestCase
         );
 
         $changedContent = $this->heredocNowdocPHPCodeFormatter->format(
-            $inputAndExpectedFileInfos->getInputFileInfo(),
-            true
+            $inputAndExpectedFileInfos->getInputFileInfo()
         );
         $contents = $inputAndExpectedFileInfos->getExpectedFileInfo()->getContents();
         $this->assertSame($contents, $changedContent, $fixtureFileInfo->getRelativeFilePathFromCwd());

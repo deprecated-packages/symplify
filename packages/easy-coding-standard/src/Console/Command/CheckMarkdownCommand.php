@@ -10,14 +10,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
-use Symplify\EasyCodingStandard\Configuration\Exception\NoMarkdownFileException;
 use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
 use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Markdown\MarkdownPHPCodeFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -48,6 +46,7 @@ final class CheckMarkdownCommand extends Command
      * @var OutputFormatterCollector
      */
     private $outputFormatterCollector;
+
     /**
      * @var SmartFinder
      */
@@ -75,8 +74,11 @@ final class CheckMarkdownCommand extends Command
     {
         $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Format Markdown PHP code');
-        $this->addArgument(Option::SOURCE, InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'Path to the Markdown file or directories to scan');
-        $this->addOption(Option::NO_STRICT_TYPES_DECLARATION, null, null, 'No strict types declaration');
+        $this->addArgument(
+            Option::SOURCE,
+            InputArgument::REQUIRED | InputArgument::IS_ARRAY,
+            'Path to the Markdown file or directories to scan'
+        );
         $this->addOption(Option::FIX, null, null, 'Fix found violations.');
 
         $this->addOption(
@@ -94,54 +96,49 @@ final class CheckMarkdownCommand extends Command
         $sources = (array) $input->getArgument(Option::SOURCE);
         $markdownFileInfos = $this->smartFinder->find($sources, '*.md');
 
-        $noStrictTypesDeclaration = (bool) $input->getOption(Option::NO_STRICT_TYPES_DECLARATION);
-        $fix = (bool) $input->getOption(Option::FIX);
+        $this->configuration->resolveFromInput($input);
+        $this->configureMarkdown();
+
+        $fileCount = count($markdownFileInfos);
+        $this->easyCodingStandardStyle->progressStart($fileCount);
 
         foreach ($markdownFileInfos as $markdownFileInfo) {
-            $this->processMarkdownFileInfo($markdownFileInfo, $noStrictTypesDeclaration, $fix);
+            // (()), $noStrictTypesDeclaration, $fix);
+            $this->processMarkdownFileInfo($markdownFileInfo);
         }
 
-        return ShellCode::SUCCESS;
+        $this->configuration->disableFixing();
+
+        $outputFormat = $this->configuration->getOutputFormat();
+        /** @var ConsoleOutputFormatter $outputFormatter */
+        $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
+        $outputFormatter->disableHeaderFileDiff();
+
+        return $outputFormatter->report($fileCount);
     }
 
-    private function resolveOutputFormat(InputInterface $input): string
+    private function processMarkdownFileInfo(SmartFileInfo $markdownFileInfo): void
     {
-        $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
-
-        // Backwards compatibility with older version
-        if ($outputFormat === 'table') {
-            return ConsoleOutputFormatter::NAME;
-        }
-
-        return $outputFormat;
-    }
-
-    private function processMarkdownFileInfo(SmartFileInfo $markdownFileInfo, bool $noStrictTypesDeclaration, bool $fix): void
-    {
-        $fixedContent = $this->markdownPHPCodeFormatter->format($markdownFileInfo, $noStrictTypesDeclaration);
-
+        $fixedContent = $this->markdownPHPCodeFormatter->format($markdownFileInfo);
         if ($markdownFileInfo->getContents() === $fixedContent) {
-            $successMessage = sprintf(
-                'PHP code in "%s" already follows coding standard',
-                $markdownFileInfo->getRelativeFilePathFromCwd()
-            );
-
-            $this->easyCodingStandardStyle->note($successMessage);
-
-        } elseif ($fix) {
-            $this->smartFileSystem->dumpFile($markdownFileInfo->getPathname(), (string) $fixedContent);
-            $successMessage = 'PHP code in Markdown has been fixed to follow coding standard';
-        } else {
-            $this->configuration->disableFixing();
-
-            $outputFormat = $this->resolveOutputFormat($input);
-            /** @var ConsoleOutputFormatter $outputFormatter */
-            $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
-            $outputFormatter->disableHeaderFileDiff();
-
-            return $outputFormatter->report(1);
+            // nothing has changed
+            return;
         }
 
-        $this->easyCodingStandardStyle->success($successMessage);
+        if ($this->configuration->isFixer()) {
+            $this->smartFileSystem->dumpFile($markdownFileInfo->getPathname(), (string) $fixedContent);
+        }
+
+        $this->easyCodingStandardStyle->progressAdvance();
+    }
+
+    private function configureMarkdown(): void
+    {
+        $outputFormat = $this->configuration->getOutputFormat();
+
+        // what is this for? Maybe use the corret file info
+        /** @var ConsoleOutputFormatter $outputFormatter */
+        $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
+        $outputFormatter->disableHeaderFileDiff();
     }
 }
