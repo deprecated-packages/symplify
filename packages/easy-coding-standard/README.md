@@ -91,6 +91,12 @@ vendor/bin/ecs check-markdown README.md docs/rules.md
 vendor/bin/ecs check-markdown README.md docs/rules.md --fix
 ```
 
+Do you have already paths defined in `ecs.php` config? Drop them from CLI and let ECS use those:
+
+```bash
+vendor/bin/ecs check-markdown --fix
+```
+
 ### Extended Configuration
 
 Configuration can be extended with many options. Here is list of them with example values and little description what are they for:

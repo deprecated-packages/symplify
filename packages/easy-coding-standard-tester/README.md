@@ -29,6 +29,7 @@ use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Your\CondingStandard\Fixer\YourFixer;
 
 final class YourFixerTest extends AbstractCheckerTestCase
 {
@@ -61,7 +62,7 @@ final class YourFixerTest extends AbstractCheckerTestCase
 
     protected function getCheckerClass(): string
     {
-        return \Your\CondingStandard\Fixer\YourFixer::class;
+        return YourFixer::class;
     }
 }
 ```
@@ -69,9 +70,9 @@ final class YourFixerTest extends AbstractCheckerTestCase
 Instead of `[__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc']` you can use single file: `__DIR__ . '/fixture/fixture.php.inc'` in this format:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
-$array = array();
+$array = [];
 
 ?>
 -----

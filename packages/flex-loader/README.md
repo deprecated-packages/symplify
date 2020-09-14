@@ -53,10 +53,10 @@ final class MyProjectKernel extends Kernel
         $container->addResource(new FileResource($this->getProjectDir() . '/config/bundles.php'));
         $container->setParameter('container.dumper.inline_class_loader', true);
         $confDir = $this->getProjectDir() . '/config';
-        $loader->load($confDir . '/{packages}/*' .self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir . '/{packages}/' .$this->environment . '/**/*' .self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir . '/{services}' .self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir . '/{services}_' .$this->environment.self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir . '/{packages}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir . '/{services}_' . $this->environment . self::CONFIG_EXTS, 'glob');
 
         $loader->load(__DIR__ . '/optional/custom/path' . self::CONFIG_EXTS, 'glob');
     }
@@ -64,9 +64,9 @@ final class MyProjectKernel extends Kernel
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
         $confDir = $this->getProjectDir() . '/config';
-        $routes->import($confDir . '/{routes}/*' .self::CONFIG_EXTS, '/', 'glob');
-        $routes->import($confDir . '/{routes}/' .$this->environment . '/**/*' .self::CONFIG_EXTS, '/', 'glob');
-        $routes->import($confDir . '/{routes}' .self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir . '/{routes}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
 
         $routes->import(__DIR__ . '/optional/custom/path' . self::CONFIG_EXTS, 'glob');
     }
@@ -83,12 +83,12 @@ declare(strict_types=1);
 namespace App;
 
 use Iterator;
-use Symplify\FlexLoader\Flex\FlexLoader;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symplify\FlexLoader\Flex\FlexLoader;
 
 final class MyProjectKernel extends Kernel
 {
@@ -102,6 +102,7 @@ final class MyProjectKernel extends Kernel
     public function __construct($environment, $debug)
     {
         parent::__construct($environment, $debug);
+
         $this->flexLoader = new FlexLoader($environment, $this->getProjectDir());
     }
 
@@ -112,16 +113,12 @@ final class MyProjectKernel extends Kernel
 
     protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
     {
-        $this->flexLoader->loadConfigs($containerBuilder, $loader, [
-            __DIR__ . '/optional/custom/path/'
-        ]);
+        $this->flexLoader->loadConfigs($containerBuilder, $loader, [__DIR__ . '/optional/custom/path/']);
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routeCollectionBuilder): void
     {
-        $this->flexLoader->loadRoutes($routeCollectionBuilder, [
-            __DIR__ . '/optional/custom/path/'
-        ]);
+        $this->flexLoader->loadRoutes($routeCollectionBuilder, [__DIR__ . '/optional/custom/path/']);
     }
 }
 ```

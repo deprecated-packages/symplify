@@ -11,6 +11,8 @@ composer require symplify/console-color-diff
 Add to `config/bundles.php`:
 
 ```php
+declare(strict_types=1);
+
 return [
     Symplify\ConsoleColorDiff\ConsoleColorDiffBundle::class => ['all' => true],
 ];
@@ -39,10 +41,10 @@ class SomeCommand
         $this->consoleDiffer = $consoleDiffer;
     }
 
-    public function run()
+    public function run(): void
     {
         // prints colored diff to the console output
-        $this->consoleDiffer->diff('oldContent','newContent');
+        $this->consoleDiffer->diff('oldContent', 'newContent');
     }
 }
 ```

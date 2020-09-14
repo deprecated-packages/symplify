@@ -51,7 +51,8 @@ final class ProjectConfiguration
 
     public function getSource(): string
     {
-        return $this->parameterProvider->provideParameter('source'); // returns "src"
+        // returns "src"
+        return $this->parameterProvider->provideParameter('source');
     }
 }
 ```
@@ -131,7 +132,7 @@ final class AppKernel extends Kernel
 
         $loaderResolver = new LoaderResolver([
             new GlobFileLoader($container, $kernelFileLocator),
-            new ParameterMergingYamlFileLoader($container, $kernelFileLocator)
+            new ParameterMergingYamlFileLoader($container, $kernelFileLocator),
         ]);
 
         return new DelegatingLoader($loaderResolver);
@@ -152,7 +153,7 @@ Instead of creating all the classes use this helper class:
 
 declare(strict_types=1);
 
-$parameterMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParameterMergingYamlLoader;
+$parameterMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParameterMergingYamlLoader();
 
 $parameterBag = $parameterMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yaml');
 
@@ -180,19 +181,15 @@ declare(strict_types=1);
 namespace App;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 
 final class AppKernel extends Kernel
 {
     protected function build(ContainerBuilder $containerBuilder): void
     {
-        $containerBuilder->addCompilerPass(
-            new AutowireInterfacesCompilerPass([
-                FixerInterface::class,
-            ])
-        );
+        $containerBuilder->addCompilerPass(new AutowireInterfacesCompilerPass([FixerInterface::class]));
     }
 }
 ```

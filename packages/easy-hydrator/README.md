@@ -18,6 +18,8 @@ composer require symplify/easy-hydrator
 Add to `config/bundles.php`:
 
 ```php
+declare(strict_types=1);
+
 return [
     Symplify\EasyHydrator\EasyHydratorBundle::class => ['all' => true],
 ];
@@ -94,7 +96,7 @@ final class HumanRepository
 
     public function getPerson(): Person
     {
-        $person = $this->arrayToValueObjectHydrator->hydrateArray([
+        return $this->arrayToValueObjectHydrator->hydrateArray([
             'name' => 'Tom',
             // will be retyped to int
             'age' => '30',
@@ -103,8 +105,6 @@ final class HumanRepository
         ], Person::class);
 
         // ...
-
-        return $person;
     }
 }
 ```
@@ -131,6 +131,8 @@ $person = $this->arrayToValueObjectHydrator->hydrateArray($singlePersonAsArray, 
 But how can we hydrate multiple items?
 
 ```php
+declare(strict_types=1);
+
 $manyPersonsAsArray = [];
 $manyPersonsAsArray[] = [
     'name' => 'Tom',

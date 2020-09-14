@@ -66,13 +66,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // default vaulue
         __DIR__ . '/packages',
         // custom
-        __DIR__ . '/projects'
+        __DIR__ . '/projects',
     ]);
 
     // how skip packages in loaded direectories?
-    $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, [
-        __DIR__ . '/packages/secret-package'
-    ]);
+    $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, [__DIR__ . '/packages/secret-package']);
 
     // "merge" command related
 
