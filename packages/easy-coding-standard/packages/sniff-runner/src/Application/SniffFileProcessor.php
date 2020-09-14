@@ -8,12 +8,10 @@ use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 use PhpCsFixer\Differ\DifferInterface;
+use Symplify\EasyCodingStandard\Application\AbstractFileProcessor;
 use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
-use Symplify\EasyCodingStandard\Console\Command\CheckMarkdownCommand;
-use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
-use Symplify\EasyCodingStandard\Provider\CurrentParentFileInfoProvider;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\File;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -22,7 +20,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 /**
  * @see \Symplify\EasyCodingStandard\Tests\Error\ErrorCollector\SniffFileProcessorTest
  */
-final class SniffFileProcessor implements FileProcessorInterface
+final class SniffFileProcessor extends AbstractFileProcessor
 {
     /**
      * @var Sniff[]
@@ -70,11 +68,6 @@ final class SniffFileProcessor implements FileProcessorInterface
     private $smartFileSystem;
 
     /**
-     * @var CurrentParentFileInfoProvider
-     */
-    private $currentParentFileInfoProvider;
-
-    /**
      * @param Sniff[] $sniffs
      */
     public function __construct(
@@ -85,7 +78,6 @@ final class SniffFileProcessor implements FileProcessorInterface
         DifferInterface $differ,
         AppliedCheckersCollector $appliedCheckersCollector,
         SmartFileSystem $smartFileSystem,
-        CurrentParentFileInfoProvider $currentParentFileInfoProvider,
         array $sniffs = []
     ) {
         $this->fixer = $fixer;
@@ -101,7 +93,6 @@ final class SniffFileProcessor implements FileProcessorInterface
             $this->addSniff($sniff);
         }
         $this->smartFileSystem = $smartFileSystem;
-        $this->currentParentFileInfoProvider = $currentParentFileInfoProvider;
     }
 
     public function addSniff(Sniff $sniff): void
@@ -177,19 +168,5 @@ final class SniffFileProcessor implements FileProcessorInterface
             $previousContent = $fixer->getContents();
             ++$this->fixer->loops;
         } while ($previousContent !== $content);
-    }
-
-    /**
-     * Useful for @see CheckMarkdownCommand
-     * Where the $smartFileInfo is only temporary snippet, so original markdown file should be used
-     */
-    private function resolveTargetFileInfo(SmartFileInfo $smartFileInfo): SmartFileInfo
-    {
-        $currentParentFileInfo = $this->currentParentFileInfoProvider->provide();
-        if ($currentParentFileInfo !== null) {
-            return $currentParentFileInfo;
-        }
-
-        return $smartFileInfo;
     }
 }

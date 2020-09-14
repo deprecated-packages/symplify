@@ -8,9 +8,9 @@ use PhpCsFixer\Differ\DifferInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\EasyCodingStandard\Application\AbstractFileProcessor;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Exception\Application\FixerFailedException;
 use Symplify\EasyCodingStandard\FixerRunner\Parser\FileToTokensParser;
@@ -23,7 +23,7 @@ use Throwable;
 /**
  * @see \Symplify\EasyCodingStandard\Tests\Error\ErrorCollector\FixerFileProcessorTest
  */
-final class FixerFileProcessor implements FileProcessorInterface
+final class FixerFileProcessor extends AbstractFileProcessor
 {
     /**
      * @var string[]
@@ -71,11 +71,6 @@ final class FixerFileProcessor implements FileProcessorInterface
     private $smartFileSystem;
 
     /**
-     * @var CurrentParentFileInfoProvider
-     */
-    private $currentParentFileInfoProvider;
-
-    /**
      * @param FixerInterface[] $fixers
      */
     public function __construct(
@@ -86,7 +81,6 @@ final class FixerFileProcessor implements FileProcessorInterface
         DifferInterface $differ,
         EasyCodingStandardStyle $easyCodingStandardStyle,
         SmartFileSystem $smartFileSystem,
-        CurrentParentFileInfoProvider $currentParentFileInfoProvider,
         array $fixers = []
     ) {
         $this->errorAndDiffCollector = $errorAndDiffCollector;
@@ -97,7 +91,6 @@ final class FixerFileProcessor implements FileProcessorInterface
         $this->fixers = $this->sortFixers($fixers);
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
         $this->smartFileSystem = $smartFileSystem;
-        $this->currentParentFileInfoProvider = $currentParentFileInfoProvider;
     }
 
     /**
@@ -204,20 +197,6 @@ final class FixerFileProcessor implements FileProcessorInterface
         }
 
         return ! $fixer->isCandidate($tokens);
-    }
-
-    /**
-     * Useful for @see CheckMarkdownCommand
-     * Where the $smartFileInfo is only temporary snippet, so original markdown file should be used
-     */
-    private function resolveTargetFileInfo(SmartFileInfo $smartFileInfo): SmartFileInfo
-    {
-        $currentParentFileInfo = $this->currentParentFileInfoProvider->provide();
-        if ($currentParentFileInfo !== null) {
-            return $currentParentFileInfo;
-        }
-
-        return $smartFileInfo;
     }
 
     /**
