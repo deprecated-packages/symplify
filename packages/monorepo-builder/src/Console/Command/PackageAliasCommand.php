@@ -65,11 +65,11 @@ final class PackageAliasCommand extends Command
             return ShellCode::ERROR;
         }
 
-        $alias = $this->getExpectedAlias();
+        $expectedAlias = $this->getExpectedAlias();
 
-        $this->devMasterAliasUpdater->updateFileInfosWithAlias($composerPackageFiles, $alias);
+        $this->devMasterAliasUpdater->updateFileInfosWithAlias($composerPackageFiles, $expectedAlias);
 
-        $message = sprintf('Alias "dev-master" was updated to "%s" in all packages.', $alias);
+        $message = sprintf('Alias "dev-master" was updated to "%s" in all packages.', $expectedAlias);
         $this->symfonyStyle->success($message);
 
         return ShellCode::SUCCESS;
@@ -80,8 +80,8 @@ final class PackageAliasCommand extends Command
         $process = new Process(['git', 'describe', '--abbrev=0', '--tags']);
         $process->run();
 
-        $lastTag = $process->getOutput();
+        $output = $process->getOutput();
 
-        return $this->versionUtils->getNextAliasFormat($lastTag);
+        return $this->versionUtils->getNextAliasFormat($output);
     }
 }

@@ -36,7 +36,7 @@ final class NoNewOutsideFactoryRule extends AbstractManyNodeTypeRule
     /**
      * @var TypeWithClassName|null
      */
-    private $recentNewClassType;
+    private $typeWithClassName;
 
     public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher)
     {
@@ -64,17 +64,17 @@ final class NoNewOutsideFactoryRule extends AbstractManyNodeTypeRule
                 return [];
             }
 
-            $this->recentNewClassType = $newClassType;
+            $this->typeWithClassName = $newClassType;
             return [];
         }
 
         // working with return here
-        if ($this->recentNewClassType === null) {
+        if ($this->typeWithClassName === null) {
             return [];
         }
 
         // is new class allowed without factory or in right place?
-        $newClassName = $this->recentNewClassType->getClassName();
+        $newClassName = $this->typeWithClassName->getClassName();
         if ($this->arrayStringAndFnMatcher->isMatch($newClassName, self::ALLOWED_CLASSES)) {
             return [];
         }
@@ -84,15 +84,15 @@ final class NoNewOutsideFactoryRule extends AbstractManyNodeTypeRule
         }
 
         if ($node->expr === null) {
-            $this->recentNewClassType = null;
+            $this->typeWithClassName = null;
             return [];
         }
 
         $returnType = $scope->getType($node->expr);
 
         // not a match, probably somewhere else
-        if (! $this->recentNewClassType->equals($returnType)) {
-            $this->recentNewClassType = null;
+        if (! $this->typeWithClassName->equals($returnType)) {
+            $this->typeWithClassName = null;
             return [];
         }
 

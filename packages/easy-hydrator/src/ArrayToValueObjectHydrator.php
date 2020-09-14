@@ -38,18 +38,18 @@ final class ArrayToValueObjectHydrator
     {
         $arrayHash = md5(serialize($data) . $class);
 
-        /** @var CacheItem $cachedItem */
-        $cachedItem = $this->filesystemAdapter->getItem($arrayHash);
-        if ($cachedItem->get() !== null) {
-            return $cachedItem->get();
+        /** @var CacheItem $cacheItem */
+        $cacheItem = $this->filesystemAdapter->getItem($arrayHash);
+        if ($cacheItem->get() !== null) {
+            return $cacheItem->get();
         }
 
         $arguments = $this->resolveClassConstructorValues($class, $data);
 
         $value = new $class(...$arguments);
 
-        $cachedItem->set($value);
-        $this->filesystemAdapter->save($cachedItem);
+        $cacheItem->set($value);
+        $this->filesystemAdapter->save($cacheItem);
 
         return $value;
     }
@@ -88,9 +88,9 @@ final class ArrayToValueObjectHydrator
      */
     private function getConstructorParameterReflections(string $class): array
     {
-        $classReflection = new ReflectionClass($class);
+        $reflectionClass = new ReflectionClass($class);
 
-        $constructorReflectionMethod = $classReflection->getConstructor();
+        $constructorReflectionMethod = $reflectionClass->getConstructor();
         if ($constructorReflectionMethod === null) {
             throw new MissingConstructorException(sprintf('Hydrated class "%s" is missing constructor.', $class));
         }

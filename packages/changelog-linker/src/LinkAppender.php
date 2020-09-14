@@ -58,7 +58,7 @@ final class LinkAppender
      * Implicitly this method is telling you that changelog file already
      * contains links at the end.
      */
-    public function hadExistingLinks(): bool
+    public function isExistingLinks(): bool
     {
         return $this->existingLinks;
     }

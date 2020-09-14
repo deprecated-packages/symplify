@@ -60,9 +60,11 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
     protected function doTestFileInfo(SmartFileInfo $fileInfo): void
     {
-        $fixtureSplitter = new StaticFixtureSplitter();
+        $staticFixtureSplitter = new StaticFixtureSplitter();
 
-        $inputFileInfoAndExpectedFileInfo = $fixtureSplitter->splitFileInfoToLocalInputAndExpectedFileInfos($fileInfo);
+        $inputFileInfoAndExpectedFileInfo = $staticFixtureSplitter->splitFileInfoToLocalInputAndExpectedFileInfos(
+            $fileInfo
+        );
 
         $this->doTestWrongToFixedFile(
             $inputFileInfoAndExpectedFileInfo->getInputFileInfo(),
@@ -230,8 +232,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         string $processedFileContent,
         SmartFileInfo $fixtureFileInfo
     ): void {
-        $message = $fixtureFileInfo->getRelativeFilePathFromCwd();
-        $this->assertStringEqualsFile($file, $processedFileContent, $message);
+        $relativeFilePathFromCwd = $fixtureFileInfo->getRelativeFilePathFromCwd();
+        $this->assertStringEqualsFile($file, $processedFileContent, $relativeFilePathFromCwd);
     }
 
     /**

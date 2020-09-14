@@ -40,6 +40,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::PHP_72,
         SetList::TYPE_DECLARATION,
         SetList::PHPUNIT_CODE_QUALITY,
+        SetList::NAMING,
     ]);
 
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);

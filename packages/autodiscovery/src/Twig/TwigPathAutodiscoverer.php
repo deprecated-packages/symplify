@@ -21,18 +21,18 @@ final class TwigPathAutodiscoverer implements AutodiscovererInterface
     /**
      * @var AutodiscoveryFinder
      */
-    private $filesystem;
+    private $autodiscoveryFinder;
 
-    public function __construct(ContainerBuilder $containerBuilder, AutodiscoveryFinder $fileSystem)
+    public function __construct(ContainerBuilder $containerBuilder, AutodiscoveryFinder $autodiscoveryFinder)
     {
-        $this->filesystem = $fileSystem;
+        $this->autodiscoveryFinder = $autodiscoveryFinder;
         $this->containerBuilder = $containerBuilder;
     }
 
     public function autodiscover(): void
     {
         $paths = [];
-        foreach ($this->filesystem->getTemplatesDirectories() as $templateDirectory) {
+        foreach ($this->autodiscoveryFinder->getTemplatesDirectories() as $templateDirectory) {
             $paths[] = $templateDirectory->getRealPath();
         }
 

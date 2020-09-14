@@ -48,9 +48,9 @@ final class NamespaceDetector
 
     public function detectFromXmlFileInfo(SmartFileInfo $entityXmlFileInfo): ?string
     {
-        $fileContent = $entityXmlFileInfo->getContents();
+        $contents = $entityXmlFileInfo->getContents();
 
-        $match = Strings::match($fileContent, self::ENTITY_CLASS_NAME_PATTERN);
+        $match = Strings::match($contents, self::ENTITY_CLASS_NAME_PATTERN);
         if (! isset($match['className'])) {
             return null;
         }

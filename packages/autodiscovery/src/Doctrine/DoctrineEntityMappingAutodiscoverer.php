@@ -27,13 +27,13 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
     /**
      * @var AutodiscoveryFinder
      */
-    private $fileSystem;
+    private $autodiscoveryFinder;
 
-    public function __construct(ContainerBuilder $containerBuilder, AutodiscoveryFinder $fileSystem)
+    public function __construct(ContainerBuilder $containerBuilder, AutodiscoveryFinder $autodiscoveryFinder)
     {
         $this->containerBuilder = $containerBuilder;
         $this->namespaceDetector = new NamespaceDetector(new SmartFileSystem());
-        $this->fileSystem = $fileSystem;
+        $this->autodiscoveryFinder = $autodiscoveryFinder;
     }
 
     /**
@@ -42,7 +42,7 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
     public function autodiscover(): void
     {
         $entityMappings = [];
-        foreach ($this->fileSystem->getEntityDirectories() as $entityDirectory) {
+        foreach ($this->autodiscoveryFinder->getEntityDirectories() as $entityDirectory) {
             $namespace = $this->namespaceDetector->detectFromDirectory($entityDirectory);
             if (! $namespace) {
                 continue;
@@ -61,7 +61,7 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
 
         $xmlNamespaces = [];
 
-        $directoryByNamespace = $this->resolveDirectoryByNamespace($this->fileSystem->getEntityXmlFiles());
+        $directoryByNamespace = $this->resolveDirectoryByNamespace($this->autodiscoveryFinder->getEntityXmlFiles());
         foreach ($directoryByNamespace as $namespace => $directory) {
             if (in_array($namespace, $xmlNamespaces, true)) {
                 continue;

@@ -53,7 +53,7 @@ class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
         /*
          * Validate composer.json schema using `composer validate`
          */
-        $input = new ArrayInput([
+        $arrayInput = new ArrayInput([
             'command' => 'validate',
             'file' => $targetJsonPath,
             // https://getcomposer.org/doc/03-cli.md#validate
@@ -66,7 +66,7 @@ class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
         $application->setAutoExit(false);
         $this->assertSame(
             0,
-            $application->run($input),
+            $application->run($arrayInput),
             'Dumped composer.json did not pass validation ("composer validate --no-check-publish" exited with non-zero status)'
         );
     }

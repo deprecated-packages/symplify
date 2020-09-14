@@ -14,8 +14,8 @@ final class AutowireArrayParameterCompilerPassTest extends AbstractKernelTestCas
     {
         $this->bootKernel(AutowireArrayParameterHttpKernel::class);
 
-        /** @var SomeCollector $collector */
-        $collector = self::$container->get(SomeCollector::class);
-        $this->assertCount(2, $collector->getCollected());
+        /** @var SomeCollector $someCollector */
+        $someCollector = self::$container->get(SomeCollector::class);
+        $this->assertCount(2, $someCollector->getCollected());
     }
 }

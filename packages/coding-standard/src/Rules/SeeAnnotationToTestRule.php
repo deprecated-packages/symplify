@@ -83,15 +83,15 @@ final class SeeAnnotationToTestRule implements Rule
             return [sprintf(self::ERROR_MESSAGE, $classReflection->getName())];
         }
 
-        $resolvedPhpDoc = $this->resolvePhpDoc($scope, $classReflection, $docComment);
+        $resolvedPhpDocBlock = $this->resolvePhpDoc($scope, $classReflection, $docComment);
 
         // skip deprectaed
-        $deprecatedTags = $resolvedPhpDoc->getDeprecatedTag();
+        $deprecatedTags = $resolvedPhpDocBlock->getDeprecatedTag();
         if ($deprecatedTags !== null) {
             return [];
         }
 
-        $seeTags = $this->getSeeTagNodes($resolvedPhpDoc);
+        $seeTags = $this->getSeeTagNodes($resolvedPhpDocBlock);
         if ($this->hasSeeTestCaseAnnotation($seeTags)) {
             return [];
         }
@@ -114,13 +114,13 @@ final class SeeAnnotationToTestRule implements Rule
         return true;
     }
 
-    private function matchClassReflection(Class_ $node): ?ClassReflection
+    private function matchClassReflection(Class_ $class): ?ClassReflection
     {
-        if ($node->name === null) {
+        if ($class->name === null) {
             return null;
         }
 
-        $className = (string) $node->namespacedName;
+        $className = (string) $class->namespacedName;
         if (! class_exists($className)) {
             return null;
         }
@@ -160,10 +160,10 @@ final class SeeAnnotationToTestRule implements Rule
     /**
      * @return PhpDocTagNode[]
      */
-    private function getSeeTagNodes(ResolvedPhpDocBlock $resolvedPhpDoc): array
+    private function getSeeTagNodes(ResolvedPhpDocBlock $resolvedPhpDocBlock): array
     {
         /** @var PhpDocNode $phpDocNode */
-        $phpDocNode = $this->privatesAccessor->getPrivateProperty($resolvedPhpDoc, 'phpDocNode');
+        $phpDocNode = $this->privatesAccessor->getPrivateProperty($resolvedPhpDocBlock, 'phpDocNode');
 
         return $phpDocNode->getTagsByName('@see');
     }
