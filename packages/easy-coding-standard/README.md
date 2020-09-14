@@ -85,8 +85,10 @@ How to correct PHP snippets in Markdown files?
 
 ```bash
 vendor/bin/ecs check-markdown README.md
-# to fix them
-vendor/bin/ecs check-markdown README.md --fix
+vendor/bin/ecs check-markdown README.md docs/rules.md
+
+# to fix them, add --fix
+vendor/bin/ecs check-markdown README.md docs/rules.md --fix
 ```
 
 ### Extended Configuration

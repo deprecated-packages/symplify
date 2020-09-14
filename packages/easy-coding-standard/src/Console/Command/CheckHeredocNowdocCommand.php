@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
@@ -23,7 +20,7 @@ use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class CheckHeredocNowdocCommand extends Command
+final class CheckHeredocNowdocCommand extends AbstractCheckCommand
 {
     /**
      * @var string
@@ -75,20 +72,8 @@ final class CheckHeredocNowdocCommand extends Command
     {
         $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Format Heredoc/Nowdoc PHP code');
-        $this->addArgument(
-            self::SOURCE,
-            InputArgument::REQUIRED,
-            'Path to the directory containing PHP Code with Heredoc/Nowdoc inside'
-        );
 
-        $this->addOption(Option::FIX, null, null, 'Fix found violations.');
-        $this->addOption(
-            Option::OUTPUT_FORMAT,
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Select output format',
-            ConsoleOutputFormatter::NAME
-        );
+        parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
