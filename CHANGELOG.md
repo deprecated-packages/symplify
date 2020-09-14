@@ -10,7 +10,183 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 <!-- changelog-linker -->
 
 <!-- dumped content start -->
-## v8.2.15 - 2020-08-28
+## [8.3.0]
+
+### Added
+
+#### CodingStandard
+
+- [#2151] Add NoInlineStringRegexRule
+- [#2164] Add CheckDirPathExistanceRule
+- [#2156] Add StandardizeHereNowDocKeywordFixer and SpaceAfterCommaHereNowDocFixer
+- [#2160] Add NoNewOutsideFactoryRule
+- [#2150] Add NoPostIncPostDecRule
+- [#2161] Add RequireDataProviderTestMethodRule
+- [#2165] Add parent if check to NoMissingDirPathRule
+
+#### EasyCodingStandard
+
+- [#2170] Add multiple files/directories support to check-markdown command
+
+#### PHPStanExtensions
+
+- [#2155] Add argument swap check
+
+#### SmartFileSystem
+
+- [#2162] Add SmartFinder
+
+#### rector
+
+- [#2171] Add naming set
+
+### Changed
+
+#### CodingStandard
+
+- [#2154] Make fixture dir always Fixture
+- [#2153] 3 new PHPStan rules
+
+#### EasyCodingStandard
+
+- [#2174] Decouple sub-package SnippetFormatter
+- [#2157] Report conflicting unary
+
+#### Unknown Package
+
+- [#2163] composer: be open about PHP 8 and beyond
+
+### Fixed
+
+#### ChangelogLinker
+
+- [#2175] Fix url resolving for repos in SSH format, Thanks to [@jawira]
+
+#### CodingStandard
+
+- [#2166] Fix AnnotateRegexClassConstWithRegexLinkRule for letter
+
+#### Unknown Package
+
+- [#2159] Typo fix: packakges to packages, Thanks to [@samsonasik]
+
+## [8.2.27] - 2020-09-09
+
+### Added
+
+- [#2143] Add --fix option to formatter markdown/heredoc-nowdoc command, Thanks to [@samsonasik]
+
+### Changed
+
+- [#2146] Failure test case for regex bug in heredoc-nowdoc formatter on multi snippet, Thanks to [@samsonasik]
+
+### Fixed
+
+- [#2147] Fix heredoc/nowdoc formatter regex for multiple code snippet in single php file, Thanks to [@samsonasik]
+
+## [8.2.26] - 2020-09-08
+
+### Added
+
+#### CodingStandard
+
+- [#2144] Add NoAbstractMethodRule
+
+#### Unknown Package
+
+- [#2141] Added --no-strict-types-declaration option to Formatter, Thanks to [@samsonasik]
+- [#2140] Formatter: don't add <?php open tag if not exists in code snippet, Thanks to [@samsonasik]
+
+## [8.2.25] - 2020-09-08
+
+#### CodingStandard
+
+- [#2138] Add various Object Calisthenics rules
+
+## [8.2.24] - 2020-09-07
+
+#### Unknown Package
+
+- [#2137] Add HeredocNowdocPHPCodeFormatter to format php code inside heredoc, Thanks to [@samsonasik]
+
+## [8.2.22] - 2020-09-07
+
+#### CodingStandard
+
+- [#2122] Add NoStaticCall rule
+- [#2136] Add UppercaseConstantRule
+- [#2135] Add TooLongVariableRule
+- [#2132] Add TooManyFieldsRule
+- [#2131] Add ExcessivePublicCountRule
+- [#2128] Add PrefferedStaticCallOverFuncCallRule
+- [#2127] Add ExcessiveParameterListRule
+
+#### Unknown Package
+
+- [#2118] Fixes [#2055] add MarkdownCodeFormatter to format markdown code, Thanks to [@samsonasik]
+
+### Changed
+
+#### CodingStandard
+
+- [#2124] Rename max_cognitive_complexity to max_method_cognitive_complexity
+
+#### EasyCodingStandard
+
+- [#2116] Simplify README
+- [#2125] Align rule-sets with PHP-CS-Fixer sets, Thanks to [@ckrack]
+
+### Deprecated
+
+- [#2129] Drop deprecated find command, move to ecs.php
+
+### Fixed
+
+#### CodingStandard
+
+- [#2123] Fix preffered class rule for static calls
+
+#### EasyCodingStandard
+
+- [#2133] Fix spacing in MarkdownPHPCodeFormatter
+
+#### EasyTesting
+
+- [#2117] Fix StaticFixtureUpdater
+
+## [8.2.20] - 2020-09-02
+
+#### SetConfigResolver
+
+- [#2112] Fix set loading in realpath phar
+
+## [8.2.18] - 2020-09-01
+
+### Changed
+
+#### PHPStanExtensions
+
+- [#2107] Show files if multiple per message
+
+## [8.2.17] - 2020-08-31
+
+### Added
+
+#### ChangelogLinker
+
+- [#2103] Add config constants REPOSITORY_URL, Thanks to [@zingimmick]
+
+### Changed
+
+#### Unknown Package
+
+- [#2106] Allow PHP 8.0
+- [#2104] Allow PHP 8.0
+
+<!-- dumped content end -->
+
+<!-- dumped content start -->
+## [v8.2.15] - 2020-08-28
 
 ### Added
 
@@ -599,3 +775,64 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [v8.2.14]: https://github.com/symplify/symplify/compare/v8.2.12...v8.2.14
 [v8.2.12]: https://github.com/symplify/symplify/compare/v8.2.10...v8.2.12
 [v8.2.10]: https://github.com/symplify/symplify/compare/v8.2.8...v8.2.10
+[#2175]: https://github.com/symplify/symplify/pull/2175
+[#2174]: https://github.com/symplify/symplify/pull/2174
+[#2171]: https://github.com/symplify/symplify/pull/2171
+[#2170]: https://github.com/symplify/symplify/pull/2170
+[#2166]: https://github.com/symplify/symplify/pull/2166
+[#2165]: https://github.com/symplify/symplify/pull/2165
+[#2164]: https://github.com/symplify/symplify/pull/2164
+[#2163]: https://github.com/symplify/symplify/pull/2163
+[#2162]: https://github.com/symplify/symplify/pull/2162
+[#2161]: https://github.com/symplify/symplify/pull/2161
+[#2160]: https://github.com/symplify/symplify/pull/2160
+[#2159]: https://github.com/symplify/symplify/pull/2159
+[#2157]: https://github.com/symplify/symplify/pull/2157
+[#2156]: https://github.com/symplify/symplify/pull/2156
+[#2155]: https://github.com/symplify/symplify/pull/2155
+[#2154]: https://github.com/symplify/symplify/pull/2154
+[#2153]: https://github.com/symplify/symplify/pull/2153
+[#2151]: https://github.com/symplify/symplify/pull/2151
+[#2150]: https://github.com/symplify/symplify/pull/2150
+[#2147]: https://github.com/symplify/symplify/pull/2147
+[#2146]: https://github.com/symplify/symplify/pull/2146
+[#2144]: https://github.com/symplify/symplify/pull/2144
+[#2143]: https://github.com/symplify/symplify/pull/2143
+[#2141]: https://github.com/symplify/symplify/pull/2141
+[#2140]: https://github.com/symplify/symplify/pull/2140
+[#2138]: https://github.com/symplify/symplify/pull/2138
+[#2137]: https://github.com/symplify/symplify/pull/2137
+[#2136]: https://github.com/symplify/symplify/pull/2136
+[#2135]: https://github.com/symplify/symplify/pull/2135
+[#2133]: https://github.com/symplify/symplify/pull/2133
+[#2132]: https://github.com/symplify/symplify/pull/2132
+[#2131]: https://github.com/symplify/symplify/pull/2131
+[#2129]: https://github.com/symplify/symplify/pull/2129
+[#2128]: https://github.com/symplify/symplify/pull/2128
+[#2127]: https://github.com/symplify/symplify/pull/2127
+[#2125]: https://github.com/symplify/symplify/pull/2125
+[#2124]: https://github.com/symplify/symplify/pull/2124
+[#2123]: https://github.com/symplify/symplify/pull/2123
+[#2122]: https://github.com/symplify/symplify/pull/2122
+[#2118]: https://github.com/symplify/symplify/pull/2118
+[#2117]: https://github.com/symplify/symplify/pull/2117
+[#2116]: https://github.com/symplify/symplify/pull/2116
+[#2112]: https://github.com/symplify/symplify/pull/2112
+[#2107]: https://github.com/symplify/symplify/pull/2107
+[#2106]: https://github.com/symplify/symplify/pull/2106
+[#2104]: https://github.com/symplify/symplify/pull/2104
+[#2103]: https://github.com/symplify/symplify/pull/2103
+[#2055]: https://github.com/symplify/symplify/pull/2055
+[v8.2.15]: https://github.com/symplify/symplify/compare/v8.2.14...v8.2.15
+[@samsonasik]: https://github.com/samsonasik
+[@jawira]: https://github.com/jawira
+[@ckrack]: https://github.com/ckrack
+[8.3.0]: https://github.com/symplify/symplify/compare/8.2.27...8.3.0
+[8.2.27]: https://github.com/symplify/symplify/compare/8.2.26...8.2.27
+[8.2.26]: https://github.com/symplify/symplify/compare/8.2.25...8.2.26
+[8.2.25]: https://github.com/symplify/symplify/compare/8.2.24...8.2.25
+[8.2.24]: https://github.com/symplify/symplify/compare/8.2.22...8.2.24
+[8.2.22]: https://github.com/symplify/symplify/compare/8.2.20...8.2.22
+[8.2.20]: https://github.com/symplify/symplify/compare/8.2.18...8.2.20
+[8.2.18]: https://github.com/symplify/symplify/compare/8.2.17...8.2.18
+[8.2.17]: https://github.com/symplify/symplify/compare/v8.2.15...8.2.17
