@@ -27,7 +27,7 @@ final class RemovePHPStormAnnotationFixer extends AbstractSymplifyFixer
         return new FixerDefinition('Remove "Created by PhpStorm" annotations', []);
     }
 
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound([T_DOC_COMMENT, T_COMMENT]);
     }
