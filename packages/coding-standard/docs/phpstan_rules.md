@@ -611,19 +611,28 @@ class Some extends Command
 
 <br>
 
-## Debug functions Cannot Be left in the Code
+## Forbid unwanted Functions
 
-- class: [`NoDebugFuncCallRule`](../src/Rules/NoDebugFuncCallRule.php)
+- **configuration allowed**
+- class: [`ForbiddenFuncCallRule`](../src/Rules/ForbiddenFuncCallRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            # default are: ['d', 'dd', 'dump', 'var_dump', 'extract']
+            forbiddenFunctions: ['dump', 'echo', 'print', 'exec']
+```
 
 :x:
 
 ```php
 <?php declare(strict_types=1);
 
-d($value);
-dd($value);
 dump($value);
-var_dump($value);
 ```
 
 <br>
