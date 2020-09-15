@@ -1,5 +1,24 @@
 # 10+ PHP CS Fixer Fixers
 
+## Remove "Created by PHPStor" Fixers
+
+- class: [`RemovePHPStormAnnotationFixer`](../src/Fixer/Naming/RemovePHPStormAnnotationFixer.php)
+
+```diff
+-/**
+- * Created by PhpStorm.
+- * User: ...
+- * Date: 17/10/17
+- * Time: 8:50 AM
+- */
+
+ final class SimpleAnnotation
+ {
+ }
+```
+
+<br>
+
 ## Add Space After here/now doc To make Compatible with PHP 7.2
 
 - class: [`SpaceAfterCommaHereNowDocFixer`](../src/Fixer/Naming/SpaceAfterCommaHereNowDocFixer.php)
@@ -20,6 +39,8 @@
      }
  }
 ```
+
+<br>
 
 ## Use Configured nowdoc and heredoc keyword
 
@@ -87,6 +108,7 @@ class SomeEntity
 
 The left side indent is handled by teaming up with `DoctrineAnnotationIndentationFixer`.
 
+<br>
 
 ## Strict Types Declaration has to be Followed by Empty Line
 
