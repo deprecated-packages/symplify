@@ -1,6 +1,6 @@
 # 10+ PHP CS Fixer Fixers
 
-## Remove "Created by PHPStor" Fixers
+## Remove "Created by PHPStorm" Fixers
 
 - class: [`RemovePHPStormAnnotationFixer`](../src/Fixer/Naming/RemovePHPStormAnnotationFixer.php)
 
