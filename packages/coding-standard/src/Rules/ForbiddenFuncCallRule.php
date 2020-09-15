@@ -11,19 +11,27 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoDebugFuncCallRule\NoDebugFuncCallRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenFuncCallRule\ForbiddenFuncCallRuleTest
  */
-final class NoDebugFuncCallRule implements Rule
+final class ForbiddenFuncCallRule implements Rule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Debug function "%s()" cannot be left in the code';
+    public const ERROR_MESSAGE = 'Function "%s()" cannot be used/left in the code';
 
     /**
      * @var string[]
      */
-    private const FORBIDDEN_DEBUG_FUNCTIONS = ['d', 'dd', 'dump', 'var_dump'];
+    private $forbiddenFunctions = [];
+
+    /**
+     * @param string[] $forbiddenFunctions
+     */
+    public function __construct(array $forbiddenFunctions)
+    {
+        $this->forbiddenFunctions = $forbiddenFunctions;
+    }
 
     public function getNodeType(): string
     {
@@ -42,7 +50,7 @@ final class NoDebugFuncCallRule implements Rule
 
         $funcName = $node->name->toString();
 
-        if (! in_array($funcName, self::FORBIDDEN_DEBUG_FUNCTIONS, true)) {
+        if (! in_array($funcName, $this->forbiddenFunctions, true)) {
             return [];
         }
 

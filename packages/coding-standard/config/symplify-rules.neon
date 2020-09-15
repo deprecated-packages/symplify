@@ -149,8 +149,10 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoDebugFuncCallRule
+        class: Symplify\CodingStandard\Rules\ForbiddenFuncCallRule
         tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenFunctions: ['d', 'dd', 'dump', 'var_dump', 'extract']
 
     -
         class: Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
