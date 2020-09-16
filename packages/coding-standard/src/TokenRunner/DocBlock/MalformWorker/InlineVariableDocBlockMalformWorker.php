@@ -14,18 +14,18 @@ final class InlineVariableDocBlockMalformWorker extends AbstractMalformWorker
     /**
      * @var string
      */
-    private const SINGLE_ASTERISK_START_PATTERN = '#^/\*\s+\*(\s+@var)#';
+    private const SINGLE_ASTERISK_START_REGEX = '#^/\*\s+\*(\s+@var)#';
 
     /**
      * @var string
      */
-    private const SPACE_PATTERN = '#\s+#m';
+    private const SPACE_REGEX = '#\s+#m';
 
     /**
      * @see
      * @var string
      */
-    private const ASTERISK_LEFTOVERS_PATTERN = '#(\*\*)(\s+\*)#';
+    private const ASTERISK_LEFTOVERS_REGEX = '#(\*\*)(\s+\*)#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
@@ -39,13 +39,13 @@ final class InlineVariableDocBlockMalformWorker extends AbstractMalformWorker
         }
 
         // asterisk start
-        $docContent = Strings::replace($docContent, self::SINGLE_ASTERISK_START_PATTERN, '/**$1');
+        $docContent = Strings::replace($docContent, self::SINGLE_ASTERISK_START_REGEX, '/**$1');
 
         // inline
-        $docContent = Strings::replace($docContent, self::SPACE_PATTERN, ' ');
+        $docContent = Strings::replace($docContent, self::SPACE_REGEX, ' ');
 
         // remove asterisk leftover
-        return Strings::replace($docContent, self::ASTERISK_LEFTOVERS_PATTERN, '$1');
+        return Strings::replace($docContent, self::ASTERISK_LEFTOVERS_REGEX, '$1');
     }
 
     private function isVariableComment(Tokens $tokens, int $position): bool

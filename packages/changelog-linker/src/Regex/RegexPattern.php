@@ -13,7 +13,7 @@ final class RegexPattern
      * @var string
      * @see https://regex101.com/r/1KTt8h/1
      */
-    public const TEST_TITLE = '#(add test|cover test|bug fix|bugfix|fix (.*?)?test|\bcover\b)#si';
+    public const TEST_TITLE_REGEX = '#(add test|cover test|bug fix|bugfix|fix (.*?)?test|\bcover\b)#si';
 
     /**
      * Use names, but not "@var" annotation etc.
@@ -42,5 +42,5 @@ final class RegexPattern
      * links: "[<...>]: http://"
      * @var string
      */
-    public const LINK_REFERENCE = '#\[\#?(?<reference>.*)\]:\s+#';
+    public const LINK_REFERENCE_REGEX = '#\[\#?(?<reference>.*)\]:\s+#';
 }

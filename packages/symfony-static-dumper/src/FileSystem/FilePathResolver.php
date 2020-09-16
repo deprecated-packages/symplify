@@ -12,12 +12,12 @@ final class FilePathResolver
     /**
      * @var string
      */
-    private const FILE_PATH_PATTERN = '#{(.*?)}#m';
+    private const FILE_PATH_REGEX = '#{(.*?)}#m';
 
     /**
      * @var string
      */
-    private const FILE_SUFFIX_PATTERN = '#\.[\w]+#';
+    private const FILE_SUFFIX_REGEX = '#\.[\w]+#';
 
     public function resolveFilePath(Route $route, string $outputDirectory): string
     {
@@ -43,7 +43,7 @@ final class FilePathResolver
             $arguments = [$arguments];
         }
         $i = 0;
-        return Strings::replace($filePath, self::FILE_PATH_PATTERN, function () use (&$i, $arguments) {
+        return Strings::replace($filePath, self::FILE_PATH_REGEX, function () use (&$i, $arguments) {
             $value = $arguments[$i];
 
             ++$i;
@@ -57,6 +57,6 @@ final class FilePathResolver
      */
     private function isFileWithSuffix(string $routePath): bool
     {
-        return (bool) Strings::match($routePath, self::FILE_SUFFIX_PATTERN);
+        return (bool) Strings::match($routePath, self::FILE_SUFFIX_REGEX);
     }
 }

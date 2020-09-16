@@ -7,6 +7,7 @@ use Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexi
 use Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
+use Symplify\CodingStandard\Rules\AbstractRegexRule;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -27,7 +28,7 @@ final class CodingStandardSyncChecker
      * @see https://regex101.com/r/Unygf7/5
      * @var string
      */
-    private const CHECKER_CLASS_PATTERN = '#\b(?<class_name>\w+(Fixer|Sniff|Rule))\b#m';
+    private const CHECKER_CLASS_REGEX = '#\b(?<class_name>\w+(Fixer|Sniff|Rule))\b#m';
 
     /**
      * @var SymfonyStyle
@@ -82,7 +83,7 @@ final class CodingStandardSyncChecker
 
         foreach ($filePaths as $filePath) {
             $docFileContent = $this->smartFileSystem->readFile($filePath);
-            $checkerClassMatches = Strings::matchAll($docFileContent, self::CHECKER_CLASS_PATTERN);
+            $checkerClassMatches = Strings::matchAll($docFileContent, self::CHECKER_CLASS_REGEX);
 
             foreach ($checkerClassMatches as $checkerClassMatch) {
                 $checkerClasses[] = $checkerClassMatch['class_name'];
@@ -120,6 +121,7 @@ final class CodingStandardSyncChecker
 
         $classesToExclude = [
             // abstract
+            AbstractRegexRule::class,
             AbstractSymplifyFixer::class,
             AbstractManyNodeTypeRule::class,
             // part of imported config

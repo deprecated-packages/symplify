@@ -34,7 +34,7 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
      * @see https://regex101.com/r/ED2b9V/1
      * @var string
      */
-    private const START_HEREDOC_NOWDOC_NAME_PATTERN = '#(<<<(\')?)(?<name>.*?)((\')?\s)#';
+    private const START_HEREDOC_NOWDOC_NAME_REGEX = '#(<<<(\')?)(?<name>.*?)((\')?\s)#';
 
     /**
      * @var string
@@ -78,14 +78,14 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
 
     private function fixStartToken(Tokens $tokens, Token $token, int $position): void
     {
-        $match = Strings::match($token->getContent(), self::START_HEREDOC_NOWDOC_NAME_PATTERN);
+        $match = Strings::match($token->getContent(), self::START_HEREDOC_NOWDOC_NAME_REGEX);
         if (! isset($match['name'])) {
             return;
         }
 
         $newContent = Strings::replace(
             $token->getContent(),
-            self::START_HEREDOC_NOWDOC_NAME_PATTERN,
+            self::START_HEREDOC_NOWDOC_NAME_REGEX,
             '$1' . $this->keyword . '$4'
         );
 

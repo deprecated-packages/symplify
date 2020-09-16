@@ -28,7 +28,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
     /**
      * @var string
      */
-    private const FILE_WITH_TRAIT_CONTEXT_PATTERN = '#(?<file>.*?)(\s+\(in context.*?)?$#';
+    private const FILE_WITH_TRAIT_CONTEXT_REGEX = '#(?<file>.*?)(\s+\(in context.*?)?$#';
 
     /**
      * @var SymfonyStyle
@@ -107,7 +107,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
     private function getRelativePath(string $filePath): string
     {
         // remove trait clutter
-        $clearFilePath = Strings::replace($filePath, self::FILE_WITH_TRAIT_CONTEXT_PATTERN, '$1');
+        $clearFilePath = Strings::replace($filePath, self::FILE_WITH_TRAIT_CONTEXT_REGEX, '$1');
         if (! file_exists($clearFilePath)) {
             return $clearFilePath;
         }

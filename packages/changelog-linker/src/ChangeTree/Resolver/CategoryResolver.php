@@ -15,38 +15,38 @@ final class CategoryResolver
     /**
      * @var string
      */
-    private const ADDED_PATTERN = '#\b(add(s|ed|ing)?)\b#i';
+    private const ADDED_REGEX = '#\b(add(s|ed|ing)?)\b#i';
 
     /**
      * @var string
      */
-    private const FIXED_PATTERN = '#\b(fix(es|ed|ing)?)\b#i';
+    private const FIXED_REGEX = '#\b(fix(es|ed|ing)?)\b#i';
 
     /**
      * @var string
      */
-    private const REMOVED_PATTERN = '#\b(remov(e|es|ed|ing)|delet(e|es|ed|ing|)|drop(s|ped|ping)?)\b#i';
+    private const REMOVED_REGEX = '#\b(remov(e|es|ed|ing)|delet(e|es|ed|ing|)|drop(s|ped|ping)?)\b#i';
 
     /**
      * @var string
      */
-    private const DEPRECATED_PATTERN = '#\b(deprecat(e|es|ed|ing))\b#i';
+    private const DEPRECATED_REGEX = '#\b(deprecat(e|es|ed|ing))\b#i';
 
     public function resolveCategory(string $message): string
     {
-        if (Strings::match($message, self::ADDED_PATTERN)) {
+        if (Strings::match($message, self::ADDED_REGEX)) {
             return Category::ADDED;
         }
 
-        if (Strings::match($message, self::FIXED_PATTERN)) {
+        if (Strings::match($message, self::FIXED_REGEX)) {
             return Category::FIXED;
         }
 
-        if (Strings::match($message, self::DEPRECATED_PATTERN)) {
+        if (Strings::match($message, self::DEPRECATED_REGEX)) {
             return Category::DEPRECATED;
         }
 
-        if (Strings::match($message, self::REMOVED_PATTERN)) {
+        if (Strings::match($message, self::REMOVED_REGEX)) {
             return Category::REMOVED;
         }
 

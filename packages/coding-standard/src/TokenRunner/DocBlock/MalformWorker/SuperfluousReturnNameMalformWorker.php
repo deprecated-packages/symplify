@@ -13,7 +13,7 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
     /**
      * @var string
      */
-    private const RETURN_VARIABLE_NAME_PATTERN = '#(@return)(?<type>\s+[|\\\\\w]+)?(\s+)(?<variableName>\$[\w]+)#';
+    private const RETURN_VARIABLE_NAME_REGEX = '#(@return)(?<type>\s+[|\\\\\w]+)?(\s+)(?<variableName>\$[\w]+)#';
 
     /**
      * @var string[]
@@ -23,21 +23,21 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
     /**
      * @var string
      */
-    private const VARIABLE_NAME_PATTERN = '#\$\w+#';
+    private const VARIABLE_NAME_REGEX = '#\$\w+#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $docBlock = new DocBlock($docContent);
 
         foreach ($docBlock->getLines() as $line) {
-            $match = Strings::match($line->getContent(), self::RETURN_VARIABLE_NAME_PATTERN);
+            $match = Strings::match($line->getContent(), self::RETURN_VARIABLE_NAME_REGEX);
             if ($this->shouldSkip($match, $line->getContent())) {
                 continue;
             }
 
             $newLineContent = Strings::replace(
                 $line->getContent(),
-                self::RETURN_VARIABLE_NAME_PATTERN,
+                self::RETURN_VARIABLE_NAME_REGEX,
                 function (array $match) {
                     $replacement = $match[1];
                     if ($match['type'] !== []) {
@@ -67,6 +67,6 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
             return true;
         }
         // has multiple return values? "@return array $one, $two"
-        return count(Strings::matchAll($content, self::VARIABLE_NAME_PATTERN)) >= 2;
+        return count(Strings::matchAll($content, self::VARIABLE_NAME_REGEX)) >= 2;
     }
 }

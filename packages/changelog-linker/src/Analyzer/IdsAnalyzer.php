@@ -18,7 +18,7 @@ final class IdsAnalyzer
      * - #5 Add this => 5
      * - [#10] Change that => 10
      */
-    private const PR_REFERENCE_IN_LIST = '#- \[?(\#(?<id>\d+))\]?#';
+    private const PR_REFERENCE_IN_LIST_REGEX = '#- \[?(\#(?<id>\d+))\]?#';
 
     public function getHighestIdInChangelog(string $content): int
     {
@@ -32,7 +32,7 @@ final class IdsAnalyzer
 
     public function getAllIdsInChangelog(string $content): ?array
     {
-        $matches = Strings::matchAll($content, self::PR_REFERENCE_IN_LIST);
+        $matches = Strings::matchAll($content, self::PR_REFERENCE_IN_LIST_REGEX);
         if ($matches === []) {
             return null;
         }

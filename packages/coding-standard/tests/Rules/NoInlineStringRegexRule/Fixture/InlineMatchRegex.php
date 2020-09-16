@@ -8,6 +8,6 @@ final class InlineMatchRegex
 {
     public function run()
     {
-        return preg_match('#some_pattern#', 'subject ');
+        return preg_match('#some_REGEX#', 'subject ');
     }
 }

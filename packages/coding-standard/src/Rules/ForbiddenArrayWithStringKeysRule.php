@@ -30,7 +30,7 @@ final class ForbiddenArrayWithStringKeysRule implements Rule
     /**
      * @var string
      */
-    private const TEXT_FILE_PATTERN = '#(Test|TestCase)\.php$#';
+    private const TEXT_FILE_REGEX = '#(Test|TestCase)\.php$#';
 
     public function getNodeType(): string
     {
@@ -69,7 +69,7 @@ final class ForbiddenArrayWithStringKeysRule implements Rule
 
     private function shouldSkip(Array_ $array, Scope $scope): bool
     {
-        if (Strings::match($scope->getFile(), self::TEXT_FILE_PATTERN)) {
+        if (Strings::match($scope->getFile(), self::TEXT_FILE_REGEX)) {
             return true;
         }
 

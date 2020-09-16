@@ -32,7 +32,7 @@ final class RegexPatternTest extends TestCase
 
     public function provideDataForLinkReference(): Iterator
     {
-        yield ['[@Tomas]: http://', RegexPattern::LINK_REFERENCE, 'reference', ['@Tomas']];
+        yield ['[@Tomas]: http://', RegexPattern::LINK_REFERENCE_REGEX, 'reference', ['@Tomas']];
         yield ['Thanks to @Tomas', '#' . RegexPattern::USER . '#', 'reference', ['@Tomas']];
     }
 }

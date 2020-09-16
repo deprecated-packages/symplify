@@ -17,7 +17,7 @@ final class RepositoryGuard
     /**
      * @var string
      */
-    private const GIT_REPOSITORY_PATTERN = '#((git|ssh|http(s)?|file)|(git@[\w\.]+)|[\w]+)(:(//)?)([\w\.@\:/\-~]+)(\.git)?(/)?#';
+    private const GIT_REPOSITORY_REGEX = '#((git|ssh|http(s)?|file)|(git@[\w\.]+)|[\w]+)(:(//)?)([\w\.@\:/\-~]+)(\.git)?(/)?#';
 
     /**
      * @var FileSystemGuard
@@ -36,7 +36,7 @@ final class RepositoryGuard
             return;
         }
 
-        if (Strings::match($possibleRepository, self::GIT_REPOSITORY_PATTERN)) {
+        if (Strings::match($possibleRepository, self::GIT_REPOSITORY_REGEX)) {
             return;
         }
 

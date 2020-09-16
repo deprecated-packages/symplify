@@ -65,12 +65,17 @@ services:
         class: Symplify\CodingStandard\Rules\NoNewOutsideFactoryRule
         tags: [phpstan.rules.rule]
 
+    # regex
     -
         class: Symplify\CodingStandard\Rules\AnnotateRegexClassConstWithRegexLinkRule
         tags: [phpstan.rules.rule]
 
     -
         class: Symplify\CodingStandard\Rules\NoInlineStringRegexRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\RegexSuffixInRegexConstantRule
         tags: [phpstan.rules.rule]
 
     -

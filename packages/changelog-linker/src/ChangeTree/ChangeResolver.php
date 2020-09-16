@@ -53,7 +53,7 @@ final class ChangeResolver
     {
         return array_filter($changes, function (Change $change): bool {
             // skip new/fixed tests
-            return ! Strings::match($change->getMessage(), RegexPattern::TEST_TITLE);
+            return ! Strings::match($change->getMessage(), RegexPattern::TEST_TITLE_REGEX);
         });
     }
 }

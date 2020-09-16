@@ -27,7 +27,7 @@ final class ExcessivePublicCountRule implements Rule
     /**
      * @var string
      */
-    private const VALUE_OBJECT_PATTERN = '#\bValueObject\b#';
+    private const VALUE_OBJECT_REGEX = '#\bValueObject\b#';
 
     /**
      * @var int
@@ -86,7 +86,7 @@ final class ExcessivePublicCountRule implements Rule
             return true;
         }
 
-        if (Strings::match($className, self::VALUE_OBJECT_PATTERN) && $classStmt instanceof ClassConst) {
+        if (Strings::match($className, self::VALUE_OBJECT_REGEX) && $classStmt instanceof ClassConst) {
             return true;
         }
 

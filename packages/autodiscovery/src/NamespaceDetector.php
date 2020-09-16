@@ -16,12 +16,12 @@ final class NamespaceDetector
     /**
      * @var string
      */
-    private const ENTITY_CLASS_NAME_PATTERN = '#entity\s+name="(?<className>.*?)"#';
+    private const ENTITY_CLASS_NAME_REGEX = '#entity\s+name="(?<className>.*?)"#';
 
     /**
      * @var string
      */
-    private const NAMESPACE_NAME_PATTERN = '#namespace(\s+)(?<namespace>[\w\\\\]*?);#';
+    private const NAMESPACE_NAME_REGEX = '#namespace(\s+)(?<namespace>[\w\\\\]*?);#';
 
     /**
      * @var SmartFileSystem
@@ -50,7 +50,7 @@ final class NamespaceDetector
     {
         $contents = $entityXmlFileInfo->getContents();
 
-        $match = Strings::match($contents, self::ENTITY_CLASS_NAME_PATTERN);
+        $match = Strings::match($contents, self::ENTITY_CLASS_NAME_REGEX);
         if (! isset($match['className'])) {
             return null;
         }
@@ -61,7 +61,7 @@ final class NamespaceDetector
     private function detectFromFile(string $filePath): ?string
     {
         $fileContent = $this->smartFileSystem->readFile($filePath);
-        $match = Strings::match($fileContent, self::NAMESPACE_NAME_PATTERN);
+        $match = Strings::match($fileContent, self::NAMESPACE_NAME_REGEX);
 
         if (! isset($match['namespace'])) {
             return null;

@@ -25,7 +25,7 @@ final class ConvertYamlCommand extends Command
     /**
      * @var string
      */
-    public const NULL_SERVICE_PATERN = '#^( {4}([A-Z].*?): )(null)$#m';
+    public const NULL_SERVICE_REGEX = '#^( {4}([A-Z].*?): )(null)$#m';
 
     /**
      * @var string
@@ -137,7 +137,7 @@ final class ConvertYamlCommand extends Command
             $convertedContent = Yaml::dump($convertedYaml, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
 
             // "SomeNamespace\SomeService: null" → "SomeNamespace\SomeService: ~"
-            $convertedContent = Strings::replace($convertedContent, self::NULL_SERVICE_PATERN, '$1~');
+            $convertedContent = Strings::replace($convertedContent, self::NULL_SERVICE_REGEX, '$1~');
 
             // save
             $this->smartFileSystem->dumpFile($yamlFileInfo->getRealPath(), $convertedContent);

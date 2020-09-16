@@ -6,7 +6,7 @@ namespace Symplify\CodingStandard\Tests\Rules\NoInlineStringRegexRule\Fixture;
 
 final class SkipConstRegex
 {
-    const EXPLICIT_NAME = '#some_pattern#';
+    const EXPLICIT_NAME = '#some_REGEX#';
 
     public function run()
     {

@@ -14,7 +14,7 @@ final class YamlServiceProcessor
     /**
      * @var string
      */
-    private const VENDOR_DIRECTORY_PATTERN = '#/vendor/#';
+    private const VENDOR_DIRECTORY_REGEX = '#/vendor/#';
 
     /**
      * @var bool
@@ -100,7 +100,7 @@ final class YamlServiceProcessor
         // is in vendor?
         if (class_exists($class)) {
             $reflectionClass = new ReflectionClass($class);
-            if (Strings::match($reflectionClass->getFileName(), self::VENDOR_DIRECTORY_PATTERN)) {
+            if (Strings::match($reflectionClass->getFileName(), self::VENDOR_DIRECTORY_REGEX)) {
                 return true;
             }
         }
