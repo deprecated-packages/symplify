@@ -33,10 +33,10 @@ final class NoStaticPropertyRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node->flags & Class_::MODIFIER_STATIC) {
-            return [self::ERROR_MESSAGE];
+        if (! ($node->flags & Class_::MODIFIER_STATIC)) {
+            return [];
         }
 
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 }
