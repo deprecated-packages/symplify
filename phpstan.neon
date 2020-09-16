@@ -395,3 +395,13 @@ parameters:
                 - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php # 20
                 - packages/symfony-static-dumper/src/Routing/ControllerMatcher.php # 16
                 - packages/symfony-static-dumper/src/Routing/RoutesProvider.php # 19
+
+        -
+            message: '#Do not use static property#'
+            paths:
+                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 31
+                - packages/coding-standard/src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php # 26
+                - packages/easy-coding-standard/src/Console/Output/ConsoleOutputFormatter.php # 39
+                - packages/easy-testing/src/StaticFixtureSplitter.php # 19
+                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 27
+                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 32
