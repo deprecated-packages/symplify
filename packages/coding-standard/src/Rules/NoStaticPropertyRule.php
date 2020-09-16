@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Expr;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
-use PhpParser\Node\Expr\StaticPropertyFetch;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoStaticPropertyRule\NoStaticPropertyRuleTest
@@ -35,15 +33,10 @@ final class NoStaticPropertyRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        dd($node
-            ->props[0]
-            ->getAttribute('parent')
-            ->props
-         );
-        if (! $node instanceof StaticPropertyFetch) {
-            return [];
+        if ($node->flags & Class_::MODIFIER_STATIC) {
+            return [self::ERROR_MESSAGE];
         }
 
-        return [self::ERROR_MESSAGE];
+        return [];
     }
 }
