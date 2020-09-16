@@ -65,6 +65,10 @@ services:
         class: Symplify\CodingStandard\Rules\NoNewOutsideFactoryRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\NoStaticPropertyRule
+        tags: [phpstan.rules.rule]
+
     # regex
     -
         class: Symplify\CodingStandard\Rules\AnnotateRegexClassConstWithRegexLinkRule
