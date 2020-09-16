@@ -21,11 +21,6 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
 {
     /**
-     * @var Token[]|null
-     */
-    private static $cachedDeclareStrictTypeTokens;
-
-    /**
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
@@ -72,11 +67,7 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
      */
     public function getDeclareStrictTypeSequence(): array
     {
-        if (self::$cachedDeclareStrictTypeTokens) {
-            return self::$cachedDeclareStrictTypeTokens;
-        }
-
-        $tokens = [
+        return [
             new Token([T_DECLARE, 'declare']),
             new Token('('),
             new Token([T_STRING, 'strict_types']),
@@ -85,7 +76,5 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
             new Token(')'),
             new Token(';'),
         ];
-
-        return self::$cachedDeclareStrictTypeTokens = $tokens;
     }
 }
