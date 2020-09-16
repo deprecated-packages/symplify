@@ -19,6 +19,10 @@ final class ArrayStringAndFnMatcher
             if (fnmatch($matchingValue, $currenctValue)) {
                 return true;
             }
+
+            if (fnmatch($matchingValue, $currenctValue, FNM_NOESCAPE)) {
+                return true;
+            }
         }
 
         return false;

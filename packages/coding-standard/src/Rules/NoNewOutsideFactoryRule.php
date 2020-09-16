@@ -26,7 +26,7 @@ final class NoNewOutsideFactoryRule extends AbstractManyNodeTypeRule
     /**
      * @var string[]
      */
-    private const ALLOWED_CLASSES = ['*FileInfo'];
+    private const ALLOWED_CLASSES = ['*FileInfo', '*\Node\*'];
 
     /**
      * @var ArrayStringAndFnMatcher

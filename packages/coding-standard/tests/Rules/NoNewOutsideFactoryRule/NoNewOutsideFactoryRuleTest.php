@@ -31,6 +31,7 @@ final class NoNewOutsideFactoryRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipException.php', []];
         yield [__DIR__ . '/Fixture/SkipSuffixTest.php', []];
         yield [__DIR__ . '/Fixture/SkipReturnVoid.php', []];
+        yield [__DIR__ . '/Fixture/SkipNode.php', []];
     }
 
     protected function getRule(): Rule
