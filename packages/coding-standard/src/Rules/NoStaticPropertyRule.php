@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 
@@ -33,7 +32,7 @@ final class NoStaticPropertyRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (($node->flags & Class_::MODIFIER_STATIC) === 0) {
+        if (! $node->isStatic()) {
             return [];
         }
 
