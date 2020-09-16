@@ -18,7 +18,7 @@ final class ChangeFactory
     /**
      * @var string
      */
-    private const ASTERISK_PATTERN = '#(\*)#';
+    private const ASTERISK_REGEX = '#(\*)#';
 
     /**
      * @var string[]
@@ -83,7 +83,7 @@ final class ChangeFactory
     {
         $content = trim($content);
 
-        return Strings::replace($content, self::ASTERISK_PATTERN, '\\\$1');
+        return Strings::replace($content, self::ASTERISK_REGEX, '\\\$1');
     }
 
     private function resolveMessageWithoutPackage(string $message, ?string $package): string
@@ -93,6 +93,6 @@ final class ChangeFactory
         }
 
         // can be aliased (not the $package variable), so we need to check any naming
-        return Strings::replace($message, PackageResolver::PACKAGE_NAME_PATTERN);
+        return Strings::replace($message, PackageResolver::PACKAGE_NAME_REGEX);
     }
 }

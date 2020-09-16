@@ -47,6 +47,11 @@ final class AnnotateRegexClassConstWithRegexLinkRule implements Rule
             return [];
         }
 
+        $constantName = (string) $onlyConst->name;
+        if (! $this->isRegexPatternConstantName($constantName)) {
+            return [];
+        }
+
         $stringValue = $onlyConst->value->value;
         if (! $this->isNonSingleCharRegexPattern($stringValue)) {
             return [];
@@ -96,5 +101,10 @@ final class AnnotateRegexClassConstWithRegexLinkRule implements Rule
 
         $docCommentText = $node->getDocComment()->getText();
         return Strings::contains($docCommentText, '@see https://regex101.com/r');
+    }
+
+    private function isRegexPatternConstantName(string $constantName): bool
+    {
+        return (bool) Strings::endsWith($constantName, '_REGEX');
     }
 }

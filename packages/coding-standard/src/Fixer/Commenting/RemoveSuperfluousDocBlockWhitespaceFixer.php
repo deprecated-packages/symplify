@@ -21,7 +21,7 @@ final class RemoveSuperfluousDocBlockWhitespaceFixer extends AbstractSymplifyFix
     /**
      * @var string
      */
-    private const EMPTY_LINE_PATTERN = '#(?<oneLine>[\t ]+\*\n){2,}#';
+    private const EMPTY_LINE_REGEX = '#(?<oneLine>[\t ]+\*\n){2,}#';
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -45,7 +45,7 @@ final class RemoveSuperfluousDocBlockWhitespaceFixer extends AbstractSymplifyFix
 
             $newContent = Strings::replace(
                 $token->getContent(),
-                self::EMPTY_LINE_PATTERN,
+                self::EMPTY_LINE_REGEX,
                 function (array $match): string {
                     return $match['oneLine'];
                 }

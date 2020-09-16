@@ -10,6 +10,6 @@ final class NetteUtilsStringsInlineMatchRegex
 {
     public function run()
     {
-        return Strings::match('subject', '#some_pattern#');
+        return Strings::match('subject', '#some_REGEX#');
     }
 }

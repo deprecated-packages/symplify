@@ -14,7 +14,7 @@ final class CommandNaming
     /**
      * @var string
      */
-    private const BIG_LETTER_PATTERN = '#[A-Z]#';
+    private const BIG_LETTER_REGEX = '#[A-Z]#';
 
     /**
      * Converts:
@@ -38,7 +38,7 @@ final class CommandNaming
 
         $rawCommandName = lcfirst($rawCommandName);
 
-        return Strings::replace($rawCommandName, self::BIG_LETTER_PATTERN, function (array $matches): string {
+        return Strings::replace($rawCommandName, self::BIG_LETTER_REGEX, function (array $matches): string {
             return '-' . strtolower($matches[0]);
         });
     }

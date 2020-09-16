@@ -35,7 +35,7 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
     /**
      * @var string
      */
-    private const TYPE_ANNOTATION_PATTERN = '#@(param|return|var)#';
+    private const TYPE_ANNOTATION_REGEX = '#@(param|return|var)#';
 
     /**
      * @var MalformWorkerInterface[]
@@ -72,7 +72,7 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
             }
 
             $docContent = $token->getContent();
-            if (! Strings::match($docContent, self::TYPE_ANNOTATION_PATTERN)) {
+            if (! Strings::match($docContent, self::TYPE_ANNOTATION_REGEX)) {
                 continue;
             }
 

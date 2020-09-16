@@ -20,7 +20,7 @@ final class SplitCommand extends Command
     /**
      * @var string
      */
-    private const ASTERISK_PATTERN = '#\*#';
+    private const ASTERISK_REGEX = '#\*#';
 
     /**
      * @var string
@@ -134,7 +134,7 @@ final class SplitCommand extends Command
             foreach ((array) glob($directory) as $foundDirectory) {
                 /** @var string $foundDirectory */
                 $exclusiveName = Strings::after($foundDirectory, $patternWithoutAsterisk);
-                $targetRepository = Strings::replace($repository, self::ASTERISK_PATTERN, $exclusiveName);
+                $targetRepository = Strings::replace($repository, self::ASTERISK_REGEX, $exclusiveName);
 
                 $resolvedDirectoriesToRepository[$foundDirectory] = $targetRepository;
             }

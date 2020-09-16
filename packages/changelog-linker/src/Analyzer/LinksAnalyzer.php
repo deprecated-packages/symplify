@@ -15,7 +15,7 @@ final class LinksAnalyzer
     /**
      * @var string
      */
-    private const REFERENCE_PATTERN = '#\[\#?(?<reference>[(-\/@\w\d\.]+)\](?!:)(?!\()#';
+    private const REFERENCE_REGEX = '#\[\#?(?<reference>[(-\/@\w\d\.]+)\](?!:)(?!\()#';
 
     /**
      * @var string[]
@@ -31,14 +31,14 @@ final class LinksAnalyzer
     {
         // [content]: url
         $this->linkedIds = [];
-        foreach (Strings::matchAll($content, RegexPattern::LINK_REFERENCE) as $match) {
+        foreach (Strings::matchAll($content, RegexPattern::LINK_REFERENCE_REGEX) as $match) {
             $this->linkedIds[] = $match['reference'];
         }
         $this->linkedIds = array_unique($this->linkedIds);
 
         // [content]
         $this->references = [];
-        foreach (Strings::matchAll($content, self::REFERENCE_PATTERN) as $match) {
+        foreach (Strings::matchAll($content, self::REFERENCE_REGEX) as $match) {
             $this->references[] = $match['reference'];
         }
         $this->references = array_unique($this->references);

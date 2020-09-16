@@ -30,12 +30,12 @@ final class NoReturnArrayVariableList implements Rule
     /**
      * @var string
      */
-    private const VALUE_OBJECT_PATTERN = '#\/ValueObject\/#i';
+    private const VALUE_OBJECT_REGEX = '#\/ValueObject\/#i';
 
     /**
      * @var string
      */
-    private const TESTS_DIRECTORY_PATTERN = '#\/Tests\/#i';
+    private const TESTS_DIRECTORY_REGEX = '#\/Tests\/#i';
 
     /**
      * @var ParentMethodAnalyser
@@ -83,13 +83,13 @@ final class NoReturnArrayVariableList implements Rule
         // skip tests
         if (Strings::match(
             $scope->getFile(),
-            self::TESTS_DIRECTORY_PATTERN
+            self::TESTS_DIRECTORY_REGEX
         ) && ! StaticPHPUnitEnvironment::isPHPUnitRun()) {
             return true;
         }
 
         // skip value objects
-        if (Strings::match($scope->getFile(), self::VALUE_OBJECT_PATTERN)) {
+        if (Strings::match($scope->getFile(), self::VALUE_OBJECT_REGEX)) {
             return true;
         }
 

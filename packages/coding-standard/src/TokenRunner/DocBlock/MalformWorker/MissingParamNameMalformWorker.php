@@ -15,17 +15,17 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
     /**
      * @var string
      */
-    private const PARAM_WITHOUT_NAME_PATTERN = '#@param ([^$]*?)( ([^$]*?))?\n#';
+    private const PARAM_WITHOUT_NAME_REGEX = '#@param ([^$]*?)( ([^$]*?))?\n#';
 
     /**
      * @var string
      */
-    private const PARAM_ANNOTATOIN_START_PATTERN = '@param ';
+    private const PARAM_ANNOTATOIN_START_REGEX = '@param ';
 
     /**
      * @var string
      */
-    private const PARAM_WITH_NAME_PATTERN = '#@param(.*?)\$[\w]+(.*?)\n#';
+    private const PARAM_WITH_NAME_REGEX = '#@param(.*?)\$[\w]+(.*?)\n#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
@@ -100,16 +100,16 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
 
     private function shouldSkipLine(Line $line): bool
     {
-        if (! Strings::contains($line->getContent(), self::PARAM_ANNOTATOIN_START_PATTERN)) {
+        if (! Strings::contains($line->getContent(), self::PARAM_ANNOTATOIN_START_REGEX)) {
             return true;
         }
 
         // already has a param name
-        if (Strings::match($line->getContent(), self::PARAM_WITH_NAME_PATTERN)) {
+        if (Strings::match($line->getContent(), self::PARAM_WITH_NAME_REGEX)) {
             return true;
         }
 
-        $match = Strings::match($line->getContent(), self::PARAM_WITHOUT_NAME_PATTERN);
+        $match = Strings::match($line->getContent(), self::PARAM_WITHOUT_NAME_REGEX);
         return $match === null;
     }
 
@@ -125,6 +125,6 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
 
         $replacement = '@param $1 ' . $newArgumentName . '$2' . StaticEolConfiguration::getEolChar();
 
-        return Strings::replace($line->getContent(), self::PARAM_WITHOUT_NAME_PATTERN, $replacement);
+        return Strings::replace($line->getContent(), self::PARAM_WITHOUT_NAME_REGEX, $replacement);
     }
 }

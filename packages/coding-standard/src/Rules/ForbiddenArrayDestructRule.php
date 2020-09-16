@@ -30,7 +30,7 @@ final class ForbiddenArrayDestructRule implements Rule
     /**
      * @var string
      */
-    public const VENDOR_DIRECTORY_PATTERN = '#/vendor/#';
+    public const VENDOR_DIRECTORY_REGEX = '#/vendor/#';
 
     /**
      * @var NodeNameResolver
@@ -96,6 +96,6 @@ final class ForbiddenArrayDestructRule implements Rule
         }
 
         $reflectionClass = new ReflectionClass($callerType->getClassName());
-        return (bool) Strings::match($reflectionClass->getFileName(), self::VENDOR_DIRECTORY_PATTERN);
+        return (bool) Strings::match($reflectionClass->getFileName(), self::VENDOR_DIRECTORY_REGEX);
     }
 }

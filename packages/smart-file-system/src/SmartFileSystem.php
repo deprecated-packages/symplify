@@ -14,7 +14,7 @@ final class SmartFileSystem extends Filesystem
     /**
      * @var string
      */
-    private const BEFORE_COLLON_PATTERN = '#^\w+\(.*?\): #';
+    private const BEFORE_COLLON_REGEX = '#^\w+\(.*?\): #';
 
     /**
      * @see https://github.com/symfony/filesystem/pull/4/files
@@ -53,6 +53,6 @@ final class SmartFileSystem extends Filesystem
         $message = error_get_last()['message'] ?? '';
         $message = ini_get('html_errors') ? $this->htmlToText($message) : $message;
 
-        return Strings::replace($message, self::BEFORE_COLLON_PATTERN);
+        return Strings::replace($message, self::BEFORE_COLLON_REGEX);
     }
 }

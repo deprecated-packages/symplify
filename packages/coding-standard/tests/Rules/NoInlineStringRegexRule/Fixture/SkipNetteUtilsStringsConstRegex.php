@@ -8,10 +8,10 @@ use Nette\Utils\Strings;
 
 final class SkipNetteUtilsStringsConstRegex
 {
-    const SOME_PATTERN = '#some_pattern#';
+    const SOME_REGEX = '#some_REGEX#';
 
     public function run()
     {
-        return Strings::match('subject', self::SOME_PATTERN);
+        return Strings::match('subject', self::SOME_REGEX);
     }
 }

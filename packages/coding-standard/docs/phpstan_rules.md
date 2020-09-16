@@ -1,5 +1,43 @@
 # 38+ PHPStan Rules
 
+## Regex Constants Must end With "_REGEX"
+
+- class: [`RegexSuffixInRegexConstantRule`](../src/Rules/RegexSuffixInRegexConstantRule.php)
+
+```php
+use Nette\Utils\Strings;
+
+class SomePath
+{
+    public const SOME_NAME = '#some\s+name#';
+
+    public function run($value)
+    {
+        $somePath = Strings::match($value, self::SOME_NAME);
+    }
+}
+```
+
+:x:
+
+```php
+use Nette\Utils\Strings;
+
+class SomePath
+{
+    public const SOME_NAME_REGEX = '#some\s+name#';
+
+    public function run($value)
+    {
+        $somePath = Strings::match($value, self::SOME_NAME_REGEX);
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## __DIR__ . '/*' paths must Exist
 
 - class: [`NoMissingDirPathRule`](../src/Rules/NoMissingDirPathRule.php)

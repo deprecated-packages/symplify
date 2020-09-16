@@ -14,7 +14,7 @@ final class StringFormatConverter
     /**
      * @var string
      */
-    private const BIG_LETTER_PATTERN = '#([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]*)#';
+    private const BIG_LETTER_REGEX = '#([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]*)#';
 
     public function underscoreAndHyphenToCamelCase(string $value): string
     {
@@ -53,7 +53,7 @@ final class StringFormatConverter
 
     private function camelCaseToGlue(string $input, string $glue): string
     {
-        $matches = Strings::matchAll($input, self::BIG_LETTER_PATTERN);
+        $matches = Strings::matchAll($input, self::BIG_LETTER_REGEX);
 
         $parts = [];
         foreach ($matches as $match) {

@@ -13,7 +13,7 @@ final class InlineVarMalformWorker extends AbstractMalformWorker
     /**
      * @var string
      */
-    private const SINGLE_ASTERISK_START_PATTERN = '#^/\*(\n?\s+@var)#';
+    private const SINGLE_ASTERISK_START_REGEX = '#^/\*(\n?\s+@var)#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
@@ -24,6 +24,6 @@ final class InlineVarMalformWorker extends AbstractMalformWorker
             return $docContent;
         }
 
-        return Strings::replace($docContent, self::SINGLE_ASTERISK_START_PATTERN, '/**$1');
+        return Strings::replace($docContent, self::SINGLE_ASTERISK_START_REGEX, '/**$1');
     }
 }

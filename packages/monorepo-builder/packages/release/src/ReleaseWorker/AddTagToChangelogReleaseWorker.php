@@ -15,7 +15,7 @@ final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
     /**
      * @var string
      */
-    private const UNRELEASED_HEADLINE_PATTERN = '#\#\# Unreleased#';
+    private const UNRELEASED_HEADLINE_REGEX = '#\#\# Unreleased#';
 
     /**
      * @var SmartFileSystem
@@ -39,7 +39,7 @@ final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
         $changelogFileContent = $this->smartFileSystem->readFile($changelogFilePath);
         $changelogFileContent = Strings::replace(
             $changelogFileContent,
-            self::UNRELEASED_HEADLINE_PATTERN,
+            self::UNRELEASED_HEADLINE_REGEX,
             '## ' . $newHeadline
         );
 

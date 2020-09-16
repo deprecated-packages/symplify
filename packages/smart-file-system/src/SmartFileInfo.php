@@ -17,7 +17,7 @@ final class SmartFileInfo extends SplFileInfo
     /**
      * @var string
      */
-    private const LAST_SUFFIX_PATTERN = '#\.[^.]+$#';
+    private const LAST_SUFFIX_REGEX = '#\.[^.]+$#';
 
     /**
      * @var SmartFileSystem
@@ -67,7 +67,7 @@ final class SmartFileInfo extends SplFileInfo
 
     public function getRealPathWithoutSuffix(): string
     {
-        return Strings::replace($this->getRealPath(), self::LAST_SUFFIX_PATTERN);
+        return Strings::replace($this->getRealPath(), self::LAST_SUFFIX_REGEX);
     }
 
     public function getRelativeFilePath(): string

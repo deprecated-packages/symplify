@@ -13,20 +13,20 @@ final class DuplicatedArrayMalformWorker extends AbstractMalformWorker
     /**
      * @var string
      */
-    private const IMPLICIT_ARRAY_WITH_ARRAY_PATTERN_LEFT = '#((\w+\(?\)?\[\])(\|(.*?))?)\|array#';
+    private const IMPLICIT_ARRAY_WITH_ARRAY_LEFT_REGEX = '#((\w+\(?\)?\[\])(\|(.*?))?)\|array#';
 
     /**
      * @var string
      */
-    private const IMPLICIT_ARRAY_WITH_ARRAY_PATTERN_RIGHT = '#array\|((.*?\|)?(\w+\(?\)?\[\]))#';
+    private const IMPLICIT_ARRAY_WITH_ARRAY_RIGHT_REGEX = '#array\|((.*?\|)?(\w+\(?\)?\[\]))#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $docBlock = new DocBlock($docContent);
 
         foreach ($docBlock->getLines() as $line) {
-            $newContent = Strings::replace($line->getContent(), self::IMPLICIT_ARRAY_WITH_ARRAY_PATTERN_LEFT, '$1');
-            $newContent = Strings::replace($newContent, self::IMPLICIT_ARRAY_WITH_ARRAY_PATTERN_RIGHT, '$1');
+            $newContent = Strings::replace($line->getContent(), self::IMPLICIT_ARRAY_WITH_ARRAY_LEFT_REGEX, '$1');
+            $newContent = Strings::replace($newContent, self::IMPLICIT_ARRAY_WITH_ARRAY_RIGHT_REGEX, '$1');
 
             $line->setContent($newContent);
         }

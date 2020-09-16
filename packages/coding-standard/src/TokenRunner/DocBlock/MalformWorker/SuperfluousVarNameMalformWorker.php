@@ -14,12 +14,12 @@ final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
     /**
      * @var string
      */
-    private const THIS_VARIABLE_PATTERN = '#\$this$#';
+    private const THIS_VARIABLE_REGEX = '#\$this$#';
 
     /**
      * @var string
      */
-    private const VAR_VARIABLE_NAME_PATTERN = '#(@var)(?<type>\s+[|\\\\\w]+)?(\s+)(?<propertyName>\$[\w]+)#';
+    private const VAR_VARIABLE_NAME_REGEX = '#(@var)(?<type>\s+[|\\\\\w]+)?(\s+)(?<propertyName>\$[\w]+)#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
@@ -30,22 +30,22 @@ final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
         $docBlock = new DocBlock($docContent);
 
         foreach ($docBlock->getLines() as $line) {
-            $match = Strings::match($line->getContent(), self::VAR_VARIABLE_NAME_PATTERN);
+            $match = Strings::match($line->getContent(), self::VAR_VARIABLE_NAME_REGEX);
             if ($match === null) {
                 continue;
             }
 
             $newLineContent = Strings::replace(
                 $line->getContent(),
-                self::VAR_VARIABLE_NAME_PATTERN,
+                self::VAR_VARIABLE_NAME_REGEX,
                 function (array $match): string {
                     $replacement = $match[1];
                     if ($match['type'] !== []) {
                         $replacement .= $match['type'];
                     }
 
-                    if (Strings::match($match[0], self::THIS_VARIABLE_PATTERN)) {
-                        return Strings::replace($match[0], self::THIS_VARIABLE_PATTERN, 'self');
+                    if (Strings::match($match[0], self::THIS_VARIABLE_REGEX)) {
+                        return Strings::replace($match[0], self::THIS_VARIABLE_REGEX, 'self');
                     }
 
                     return $replacement;

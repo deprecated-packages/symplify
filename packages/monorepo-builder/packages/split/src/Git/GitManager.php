@@ -17,12 +17,12 @@ final class GitManager
     /**
      * @var string
      */
-    private const COMMITER_DATE_START_PATTERN = '#^\s*$#';
+    private const COMMITER_DATE_START_REGEX = '#^\s*$#';
 
     /**
      * @var string
      */
-    private const SEMICOLON_PATTERN = '#:#';
+    private const SEMICOLON_REGEX = '#:#';
 
     /**
      * @var string
@@ -72,7 +72,7 @@ final class GitManager
     {
         $result = $this->processRunner->run(self::COMMITER_DATE_COMMAND);
 
-        return (bool) Strings::match($result, self::COMMITER_DATE_START_PATTERN);
+        return (bool) Strings::match($result, self::COMMITER_DATE_START_REGEX);
     }
 
     /**
@@ -119,7 +119,7 @@ final class GitManager
 
         [, $partAfterAt,
         ] = explode('@', $remoteRepository, 2);
-        $partAfterAt = Strings::replace($partAfterAt, self::SEMICOLON_PATTERN, '/');
+        $partAfterAt = Strings::replace($partAfterAt, self::SEMICOLON_REGEX, '/');
 
         return sprintf('https://%s@%s', $this->githubToken, $partAfterAt);
     }

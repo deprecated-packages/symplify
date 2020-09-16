@@ -14,7 +14,7 @@ final class ParamNameTypoMalformWorker extends AbstractMalformWorker
     /**
      * @var string
      */
-    private const PARAM_NAME_PATTERN = '#@param(.*?)(?<paramName>\$\w+)#';
+    private const PARAM_NAME_REGEX = '#@param(.*?)(?<paramName>\$\w+)#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
@@ -63,7 +63,7 @@ final class ParamNameTypoMalformWorker extends AbstractMalformWorker
 
         $paramNames = [];
         foreach ($paramAnnotations as $paramAnnotation) {
-            $match = Strings::match($paramAnnotation->getContent(), self::PARAM_NAME_PATTERN);
+            $match = Strings::match($paramAnnotation->getContent(), self::PARAM_NAME_REGEX);
             if (isset($match['paramName'])) {
                 $paramNames[] = $match['paramName'];
             }

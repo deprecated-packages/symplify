@@ -25,7 +25,7 @@ final class NoEntityManagerInControllerRule implements Rule
     /**
      * @var string
      */
-    private const CONTROLLER_PRESENTER_PATTERN = '#(Controller|Presenter)$#';
+    private const CONTROLLER_PRESENTER_REGEX = '#(Controller|Presenter)$#';
 
     public function getNodeType(): string
     {
@@ -64,7 +64,7 @@ final class NoEntityManagerInControllerRule implements Rule
             return false;
         }
 
-        return (bool) Strings::match($classReflection->getName(), self::CONTROLLER_PRESENTER_PATTERN);
+        return (bool) Strings::match($classReflection->getName(), self::CONTROLLER_PRESENTER_REGEX);
     }
 
     private function isEntityManagerParam(Param $param): bool

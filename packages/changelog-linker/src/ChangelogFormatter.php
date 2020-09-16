@@ -15,17 +15,17 @@ final class ChangelogFormatter
      * @see https://regex101.com/r/JmKFH1/1
      * @var string
      */
-    private const HEADLINE_PATTERN = '#^(?<headline>[\#]{2,} [\w\d.\-/ ]+)$#m';
+    private const HEADLINE_REGEX = '#^(?<headline>[\#]{2,} [\w\d.\-/ ]+)$#m';
 
     /**
      * @var string
      */
-    private const TWO_LINES_START_PATTERN = '#^(\n){2,}#';
+    private const TWO_LINES_START_REGEX = '#^(\n){2,}#';
 
     /**
      * @var string
      */
-    private const THREE_LINES_PATTERN = '#(\n){3,}#';
+    private const THREE_LINES_REGEX = '#(\n){3,}#';
 
     public function format(string $content): string
     {
@@ -47,7 +47,7 @@ final class ChangelogFormatter
      */
     private function wrapHeadlinesWithEmptyLines(string $content): string
     {
-        return Strings::replace($content, self::HEADLINE_PATTERN, function (array $match): string {
+        return Strings::replace($content, self::HEADLINE_REGEX, function (array $match): string {
             return PHP_EOL . $match['headline'] . PHP_EOL;
         });
     }
@@ -55,9 +55,9 @@ final class ChangelogFormatter
     private function removeSuperfluousSpaces(string $content): string
     {
         // 2 lines from the start
-        $content = Strings::replace($content, self::TWO_LINES_START_PATTERN, PHP_EOL);
+        $content = Strings::replace($content, self::TWO_LINES_START_REGEX, PHP_EOL);
 
         // 3 lines to 2
-        return Strings::replace($content, self::THREE_LINES_PATTERN, PHP_EOL . PHP_EOL);
+        return Strings::replace($content, self::THREE_LINES_REGEX, PHP_EOL . PHP_EOL);
     }
 }
