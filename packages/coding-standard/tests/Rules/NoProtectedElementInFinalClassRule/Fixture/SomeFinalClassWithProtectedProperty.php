@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule\Fixture;
 
-final class SomeFinalClassWithNoProtectedMethod
+final class SomeFinalClassWithProtectedProperty
 {
-    protected function run()
-    {
-    }
+    protected $x = [];
 }

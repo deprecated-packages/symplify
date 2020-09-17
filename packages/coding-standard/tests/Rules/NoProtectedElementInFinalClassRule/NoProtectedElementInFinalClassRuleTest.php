@@ -26,15 +26,15 @@ final class NoProtectedElementInFinalClassRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SomeFinalClassWithNoProtectedProperty.php', []];
         yield [__DIR__ . '/Fixture/SomeFinalClassWithNoProtectedMethod.php', []];
         yield [
-            __DIR__ . '/Fixture/SomeFinalClassWithWithProtectedProperty.php',
+            __DIR__ . '/Fixture/SomeFinalClassWithProtectedProperty.php',
             [[NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 9]],
         ];
         yield [
-            __DIR__ . '/Fixture/SomeFinalClassWithWithProtectedMethod.php',
+            __DIR__ . '/Fixture/SomeFinalClassWithProtectedMethod.php',
             [[NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 9]],
         ];
         yield [
-            __DIR__ . '/Fixture/SomeFinalClassWithWithProtectedPropertyAndProtectedMethod.php',
+            __DIR__ . '/Fixture/SomeFinalClassWithProtectedPropertyAndProtectedMethod.php',
             [[NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 9],
                 [NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 11], ],
         ];
