@@ -1,4 +1,4 @@
-# 38+ PHPStan Rules
+# 67 PHPStan Rules
 
 ## Regex Constants Must end With "_REGEX"
 
@@ -208,6 +208,32 @@ class SomeClass
         if ($value--) {
             // 1 or 0?
         }
+    }
+}
+```
+
+:x:
+
+<br>
+
+## No protected element in final class
+
+- class: [`NoProtectedElementInFinalClassRule`](../src/Rules/NoProtectedElementInFinalClassRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule
+```
+
+```php
+final class SomeFinalClassWithProtectedPropertyAndProtectedMethod
+{
+    protected $x = [];
+
+    protected function run()
+    {
     }
 }
 ```
