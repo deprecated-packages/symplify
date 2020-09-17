@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
@@ -63,7 +64,7 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
         if ($node instanceof ClassMethod) {
             $methodName = (string) $node->name;
 
-            if ($this->isExistInTraits($parent, $methodName)
+            if ($this->isMethodExistInTraits($parent, $methodName)
                 || $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
                 return [];
             }
@@ -71,14 +72,32 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
             return [self::ERROR_MESSAGE];
         }
 
-        if ($parent->extends !== null) {
+        $extends = $parent->extends;
+        $propertyName = $node->props[0]->name->toString();
+        if ($this->isPropertyExistInTraits($parent, $propertyName)
+            || ($extends && $this->isPropertyExistInParentClass($extends, $propertyName))) {
             return [];
         }
 
         return [self::ERROR_MESSAGE];
     }
 
-    private function isExistInTraits(Class_ $class, string $methodName): bool
+    private function isPropertyExistInTraits(Class_ $class, string $propertyName): bool
+    {
+        /** @var Identifier $name */
+        $name = $class->name;
+        $usedTraits = class_uses($name->toString());
+        foreach ($usedTraits as $trait) {
+            $r = new ReflectionClass($trait);
+            if ($r->hasProperty($propertyName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isMethodExistInTraits(Class_ $class, string $methodName): bool
     {
         /** @var Identifier $name */
         $name = $class->name;
@@ -91,5 +110,11 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
         }
 
         return false;
+    }
+
+    private function isPropertyExistInParentClass(Name $name, string $propertyName)
+    {
+        $r = new ReflectionClass((string) $name);
+        return $r->hasProperty($propertyName);
     }
 }
