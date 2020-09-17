@@ -85,7 +85,7 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
         foreach ($traitUses as $traitUse) {
             foreach ($traitUse->traits as $trait) {
                 $r = new ReflectionClass((string) $trait);
-                if (in_array($methodName, $r->getMethods())) {
+                if (in_array($methodName, $r->getMethods(), true)) {
                     return true;
                 }
             }
