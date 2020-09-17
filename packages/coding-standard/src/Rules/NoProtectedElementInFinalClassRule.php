@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use Rector\NodeTypeResolver\Node\AttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule\NoProtectedElementInFinalClassRuleTest
@@ -33,7 +34,7 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->getAttribute('parent')->isFinal()) {
+        if (! $node->getAttribute(AttributeKey::PARENT_NODE)->isFinal()) {
             return [];
         }
 
