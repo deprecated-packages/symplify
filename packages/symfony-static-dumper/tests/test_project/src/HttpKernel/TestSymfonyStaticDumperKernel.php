@@ -11,7 +11,6 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
-use Symplify\AutoBindParameter\DependencyInjection\CompilerPass\AutoBindParameterCompilerPass;
 use Symplify\Autodiscovery\Discovery;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\FlexLoader\Flex\FlexLoader;
@@ -76,7 +75,6 @@ final class TestSymfonyStaticDumperKernel extends Kernel
 
     protected function build(ContainerBuilder $containerBuilder): void
     {
-        $containerBuilder->addCompilerPass(new AutoBindParameterCompilerPass());
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
     }
 }
