@@ -60,20 +60,21 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
             return [];
         }
 
-        if ($parent->extends === null) {
+        if ($node instanceof ClassMethod) {
+            $methodName = (string) $node->name;
+
+            if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
+                return [];
+            }
+
+            if ($this->isExistInTraits($parent, $methodName)) {
+                return [];
+            }
+
             return [self::ERROR_MESSAGE];
         }
 
-        if ($node instanceof Property) {
-            return [];
-        }
-
-        $methodName = (string) $node->name;
-        if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
-            return [];
-        }
-
-        if ($this->isExistInTraits($parent, $methodName)) {
+        if ($parent->extends !== null) {
             return [];
         }
 
