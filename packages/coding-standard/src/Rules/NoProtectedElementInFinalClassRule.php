@@ -62,24 +62,10 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
         }
 
         if ($node instanceof ClassMethod) {
-            $methodName = (string) $node->name;
-
-            if ($this->isMethodExistInTraits($parent, $methodName)
-                || $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
-                return [];
-            }
-
-            return [self::ERROR_MESSAGE];
+            return $this->processClassMethod($node, $parent, $scope);
         }
 
-        $extends = $parent->extends;
-        $propertyName = $node->props[0]->name->toString();
-        if ($this->isPropertyExistInTraits($parent, $propertyName)
-            || ($extends && $this->isPropertyExistInParentClass($extends, $propertyName))) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
+        return $this->processProperty($parent, $node);
     }
 
     private function isPropertyExistInTraits(Class_ $class, string $propertyName): bool
@@ -100,11 +86,12 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
     private function isMethodExistInTraits(Class_ $class, string $methodName): bool
     {
         /** @var Identifier $name */
-        $name = $class->name;
+        $name = $class->namespacedName;
         $usedTraits = class_uses($name->toString());
+
         foreach ($usedTraits as $trait) {
-            $r = new ReflectionClass($trait);
-            if ($r->hasMethod($methodName)) {
+            $reflectionClass = new ReflectionClass($trait);
+            if ($reflectionClass->hasMethod($methodName)) {
                 return true;
             }
         }
@@ -116,5 +103,35 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
     {
         $reflectionClass = new ReflectionClass((string) $name);
         return $reflectionClass->hasProperty($propertyName);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processClassMethod(ClassMethod $classMethod, Class_ $class, Scope $scope): array
+    {
+        $methodName = (string) $classMethod->name;
+
+        if ($this->isMethodExistInTraits($class, $methodName)
+            || $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processProperty(Class_ $class, Property $property): array
+    {
+        $extends = $class->extends;
+        $propertyName = $property->props[0]->name->toString();
+        if ($this->isPropertyExistInTraits($class, $propertyName)
+            || ($extends && $this->isPropertyExistInParentClass($extends, $propertyName))) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
     }
 }
