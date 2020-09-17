@@ -35,11 +35,12 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->getAttribute(AttributeKey::PARENT_NODE) instanceof Class_) {
+        $parent = $node->getAttribute(AttributeKey::PARENT_NODE);
+        if (! $parent instanceof Class_) {
             return [];
         }
 
-        if (! $node->getAttribute(AttributeKey::PARENT_NODE)->isFinal()) {
+        if (! $parent->isFinal()) {
             return [];
         }
 
