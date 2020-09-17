@@ -64,6 +64,13 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
             if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
                 return [];
             }
+
+            $traits = $parent->getTraitUses();
+            foreach ($traits as $trait) {
+                if ($trait->getMethod($methodName)) {
+                    return [];
+                }
+            }
         }
 
         return [self::ERROR_MESSAGE];
