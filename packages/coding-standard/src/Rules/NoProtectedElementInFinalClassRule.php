@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use ReflectionClass;
 use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 
 /**
@@ -71,6 +72,25 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
             return [];
         }
 
+        if ($this->isExistInTraits($parent, $methodName)) {
+            return [];
+        }
+
         return [self::ERROR_MESSAGE];
+    }
+
+    private function isExistInTraits(Class_ $parent, string $methodName): bool
+    {
+        $traitUses = $parent->getTraitUses();
+        foreach ($traitUses as $traitUse) {
+            foreach ($traitUse->traits as $trait) {
+                $r = new ReflectionClass((string) $trait);
+                if (in_array($methodName, $r->getMethods())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
