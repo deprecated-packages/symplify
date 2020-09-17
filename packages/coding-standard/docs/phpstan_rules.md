@@ -1,4 +1,4 @@
-# 67 PHPStan Rules
+# 38+ PHPStan Rules
 
 ## Regex Constants Must end With "_REGEX"
 
