@@ -29,7 +29,7 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
     }
 
     /**
-     * @param Class_ $node
+     * @param Property|ClassMethod $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
