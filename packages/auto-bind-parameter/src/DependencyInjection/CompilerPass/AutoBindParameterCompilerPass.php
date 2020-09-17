@@ -19,6 +19,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  * - from "%value_name%"
  * - to "$valueName"
  * @see \Symplify\AutoBindParameter\Tests\DependencyInjection\CompilerPass\AutoBindParameterCompilerPassTest
+ * @deprecated Will be removed in Symplify 9.0, it's way too magical. Move to more advanced alternative of constant parameters and PHP configs
  */
 final class AutoBindParameterCompilerPass implements CompilerPassInterface
 {
