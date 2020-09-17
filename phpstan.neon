@@ -403,3 +403,9 @@ parameters:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
                 - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 27
                 - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 32
+
+        -
+            message: '#Do not use protected element in final class#'
+            paths:
+                - packages/symfony-static-dumper/tests/test_project/src/HttpKernel/TestSymfonyStaticDumperKernel.php # 65
+                - packages/symfony-static-dumper/tests/test_project/src/HttpKernel/TestSymfonyStaticDumperKernel.php # 71]

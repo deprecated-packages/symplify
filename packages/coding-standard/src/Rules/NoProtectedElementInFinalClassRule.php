@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
+use Rector\NodeNameResolver\NodeNameResolver;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule\NoProtectedElementInFinalClassRuleTest
@@ -58,47 +59,19 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
             return [];
         }
 
-        if ($node instanceof Property) {
+        if ($parent->extends === null) {
             return [self::ERROR_MESSAGE];
         }
 
-        $methodName = (string) $node->name;
-
-        if ($parent->extends === null) {
-            if ($this->isMethodExistsInTraits($parent, $methodName)) {
-                return [];
-            }
+        if ($node instanceof Property) {
+            return [];
         }
 
-        if ($this->isMethodExistsInParentClass($scope, $parent, $methodName)) {
+        $methodName = (string) $node->name;
+        if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
             return [];
         }
 
         return [self::ERROR_MESSAGE];
-    }
-
-    private function isMethodExistsInParentClass(Scope $scope, Class_ $parent, string $methodName)
-    {
-        if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
-            return true;
-        }
-
-        if ($this->isMethodExistsInTraits($parent, $methodName)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private function isMethodExistsInTraits(Class_ $parent, string $methodName)
-    {
-        $traits = $parent->getTraitUses();
-        foreach ($traits as $trait) {
-            if ($trait->getMethod($methodName)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
