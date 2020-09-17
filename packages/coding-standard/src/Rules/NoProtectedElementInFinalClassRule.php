@@ -58,21 +58,47 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
             return [];
         }
 
-        if ($parent->extends !== null && $node instanceof ClassMethod) {
-            $methodName = (string) $node->name;
+        if ($node instanceof Property) {
+            return [self::ERROR_MESSAGE];
+        }
 
-            if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
+        $methodName = (string) $node->name;
+
+        if ($parent->extends === null) {
+            if ($this->isMethodExistsInTraits($parent, $methodName)) {
                 return [];
-            }
-
-            $traits = $parent->getTraitUses();
-            foreach ($traits as $trait) {
-                if ($trait->getMethod($methodName)) {
-                    return [];
-                }
             }
         }
 
+        if ($this->isMethodExistsInParentClass($scope, $parent, $methodName)) {
+            return [];
+        }
+
         return [self::ERROR_MESSAGE];
+    }
+
+    private function isMethodExistsInParentClass(Scope $scope, Class_ $parent, string $methodName)
+    {
+        if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
+            return true;
+        }
+
+        if ($this->isMethodExistsInTraits($parent, $methodName)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isMethodExistsInTraits(Class_ $parent, string $methodName)
+    {
+        $traits = $parent->getTraitUses();
+        foreach ($traits as $trait) {
+            if ($trait->getMethod($methodName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
