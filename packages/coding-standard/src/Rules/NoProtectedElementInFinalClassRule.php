@@ -43,6 +43,10 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
             return [];
         }
 
+        if (! $node->isProtected()) {
+            return [];
+        }
+
         if ($parent->extends !== null) {
             $name = $this->getName($node);
 
@@ -53,10 +57,6 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
             if ($node instanceof ClassMethod && $parent->extends->getMethod($name) === null) {
                 return [];
             }
-        }
-
-        if (! $node->isProtected()) {
-            return [];
         }
 
         return [self::ERROR_MESSAGE];
