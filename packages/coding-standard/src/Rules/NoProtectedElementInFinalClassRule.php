@@ -81,13 +81,11 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
 
     private function isExistInTraits(Class_ $class, string $methodName): bool
     {
-        $traitUses = $class->getTraitUses();
-        foreach ($traitUses as $traitUse) {
-            foreach ($traitUse->traits as $trait) {
-                $r = new ReflectionClass((string) $trait);
-                if (in_array($methodName, $r->getMethods(), true)) {
-                    return true;
-                }
+        $usedTraits = class_uses((string) $class);
+        foreach ($usedTraits as $trait) {
+            $r = new ReflectionClass((string) $trait);
+            if (in_array($methodName, $r->getMethods(), true)) {
+                return true;
             }
         }
 
