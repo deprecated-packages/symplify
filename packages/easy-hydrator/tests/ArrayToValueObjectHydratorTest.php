@@ -8,7 +8,10 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 use Symplify\EasyHydrator\Tests\Fixture\ImmutableTimeEvent;
+use Symplify\EasyHydrator\Tests\Fixture\Arrays;
+use Symplify\EasyHydrator\Tests\Fixture\Marriage;
 use Symplify\EasyHydrator\Tests\Fixture\Person;
+use Symplify\EasyHydrator\Tests\Fixture\PersonsCollection;
 use Symplify\EasyHydrator\Tests\Fixture\PersonWithAge;
 use Symplify\EasyHydrator\Tests\Fixture\TimeEvent;
 use Symplify\EasyHydrator\Tests\HttpKernel\EasyHydratorTestKernel;
@@ -110,6 +113,92 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
         $this->assertCount(2, $timeEvents);
         foreach ($timeEvents as $timeEvent) {
             $this->assertInstanceOf(TimeEvent::class, $timeEvent);
+        }
+    }
+
+    public function testArrays(): void
+    {
+        $data = [
+            'integers' => [1, 2],
+            'floats' => [1.1, 2.2],
+            'booleans' => [true, false],
+            'strings' => ['a', 'b'],
+        ];
+
+        $arrays = $this->arrayToValueObjectHydrator->hydrateArray($data, Arrays::class);
+
+        $this->assertInstanceOf(Arrays::class, $arrays);
+        /** @var Arrays $arrays */
+        $this->assertArraysHasValidTypes($arrays);
+    }
+
+    public function testMultipleArrays(): void
+    {
+        $data = [
+            [
+                'integers' => [1, 2],
+                'floats' => [1.1, 2.2],
+                'booleans' => [true, false],
+                'strings' => ['a', 'b'],
+            ],
+            [
+                'integers' => [3, 4],
+                'floats' => [3.3, 4.24],
+                'booleans' => [false, true],
+                'strings' => ['c', 'd'],
+            ],
+        ];
+
+        $arrayOfArrays = $this->arrayToValueObjectHydrator->hydrateArrays($data, Arrays::class);
+
+        $this->assertCount(2, $arrayOfArrays);
+        $this->assertContainsOnlyInstancesOf(Arrays::class, $arrayOfArrays);
+        $this->assertArraysHasValidTypes(...$arrayOfArrays);
+    }
+
+    public function testRecursiveObjects(): void
+    {
+        $marriage = $this->arrayToValueObjectHydrator->hydrateArray([], Marriage::class);
+
+        $this->assertInstanceOf(Marriage::class, $marriage);
+    }
+
+    public function testMultipleRecursiveObjects(): void
+    {
+        $marriages = $this->arrayToValueObjectHydrator->hydrateArrays([], Marriage::class);
+
+        $this->assertCount(2, $marriages);
+        $this->assertContainsOnlyInstancesOf(Marriage::class, $marriages);
+    }
+
+    public function testRecursiveArrayOfObjects(): void
+    {
+        $this->arrayToValueObjectHydrator->hydrateArray([], PersonsCollection::class);
+    }
+
+    public function testMultipleRecursiveArrayOfObjects(): void
+    {
+        $this->arrayToValueObjectHydrator->hydrateArrays([], PersonsCollection::class);
+    }
+
+    private function assertArraysHasValidTypes(Arrays ...$arrayOfArrays): void
+    {
+        foreach ($arrayOfArrays as $arrays) {
+            foreach ($arrays->getIntegers() as $integer) {
+                $this->assertIsInt($integer);
+            }
+
+            foreach ($arrays->getFloats() as $float) {
+                $this->assertIsFloat($float);
+            }
+
+            foreach ($arrays->getStrings() as $string) {
+                $this->assertIsString($string);
+            }
+
+            foreach ($arrays->getBooleans() as $bool) {
+                $this->assertIsInt($bool);
+            }
         }
     }
 }
