@@ -216,6 +216,32 @@ class SomeClass
 
 <br>
 
+## No protected element in final class
+
+- class: [`NoProtectedElementInFinalClassRule`](../src/Rules/NoProtectedElementInFinalClassRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule
+```
+
+```php
+final class SomeFinalClassWithProtectedPropertyAndProtectedMethod
+{
+    protected $x = [];
+
+    protected function run()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Use Contract or Service over Abstract Method
 
 - class: [`NoAbstactMethodRule`](../src/Rules/NoAbstactMethodRule.php)
