@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
@@ -34,6 +35,10 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if (! $node->getAttribute(AttributeKey::PARENT_NODE) instanceof Class_) {
+            return [];
+        }
+
         if (! $node->getAttribute(AttributeKey::PARENT_NODE)->isFinal()) {
             return [];
         }
