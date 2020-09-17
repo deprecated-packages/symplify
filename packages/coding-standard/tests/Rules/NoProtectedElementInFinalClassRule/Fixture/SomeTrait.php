@@ -6,7 +6,6 @@ namespace Symplify\CodingStandard\Tests\Rules\NoStaticPropertyRule\Fixture;
 
 trait SomeTrait
 {
-    protected function run()
-    {
-    }
+    abstract protected function run();
+    protected $x;
 }
