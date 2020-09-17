@@ -19,8 +19,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::AUTHORS_TO_IGNORE, []);
     $parameters->set(Option::NAMES_TO_URLS, []);
     $parameters->set(Option::PACKAGE_ALIASES, []);
-    $parameters->set(Option::GITHUB_TOKEN, '%env(GITHUB_TOKEN)%');
     $parameters->set('env(GITHUB_TOKEN)', null);
+    $parameters->set(Option::GITHUB_TOKEN, '%env(GITHUB_TOKEN)%');
 
     $services = $containerConfigurator->services();
 
