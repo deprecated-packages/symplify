@@ -7,6 +7,8 @@ namespace Symplify\ChangelogLinker\Worker;
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
+use Symplify\ChangelogLinker\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class LinkifyWorker implements WorkerInterface
 {
@@ -30,13 +32,10 @@ final class LinkifyWorker implements WorkerInterface
      */
     private $linkAppender;
 
-    /**
-     * @param array<string, string> $namesToUrls
-     */
-    public function __construct(LinkAppender $linkAppender, array $namesToUrls)
+    public function __construct(LinkAppender $linkAppender, ParameterProvider $parameterProvider)
     {
         $this->linkAppender = $linkAppender;
-        $this->namesToUrls = $namesToUrls;
+        $this->namesToUrls = $parameterProvider->provideArrayParameter(Option::NAMES_TO_URLS);
     }
 
     public function processContent(string $content): string

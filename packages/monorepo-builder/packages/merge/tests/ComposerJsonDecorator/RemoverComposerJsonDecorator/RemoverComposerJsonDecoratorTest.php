@@ -9,6 +9,8 @@ use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator\RemoverComposerJsonDecorator;
 use Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecoratorTest
 {
@@ -46,7 +48,21 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
 
     protected function setUp(): void
     {
-        $this->bootKernelWithConfigs(MonorepoBuilderKernel::class, [__DIR__ . '/Source/removing-config.yaml']);
+        $this->bootKernel(MonorepoBuilderKernel::class);
+
+        /** @var ParameterProvider $parameterProvider */
+        $parameterProvider = self::$container->get(ParameterProvider::class);
+        $parameterProvider->changeParameter(Option::DATA_TO_REMOVE, [
+            'require' => [
+                'phpunit/phpunit' => '*',
+            ],
+            'autoload-dev' => [
+                'psr-4' => [
+                    'Symplify\\Tests\\' => 'tests',
+                ],
+                'files' => ['src/SomeFile.php'],
+            ],
+        ]);
 
         $this->removerComposerJsonDecorator = self::$container->get(RemoverComposerJsonDecorator::class);
 

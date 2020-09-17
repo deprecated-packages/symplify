@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemGuard;
@@ -30,18 +31,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(EventDispatcherInterface::class, EventDispatcher::class);
 
     $services->set(SmartFileSystem::class);
-
     $services->set(FileSystemGuard::class);
-
     $services->set(FinderSanitizer::class);
 
     $services->set(PrivatesCaller::class);
-
     $services->set(ParametersMerger::class);
 
     $services->set(SymfonyStyleFactory::class);
-
     $services->set(SymfonyStyle::class)
-        ->factory([ref(SymfonyStyleFactory::class), 'create'])
-    ;
+        ->factory([ref(SymfonyStyleFactory::class), 'create']);
+
+    $services->set(ParameterProvider::class);
 };

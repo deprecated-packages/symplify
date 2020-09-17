@@ -6,6 +6,8 @@ namespace Symplify\MonorepoBuilder\Split\Git;
 
 use Nette\Utils\Strings;
 use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class GitManager
 {
@@ -34,10 +36,10 @@ final class GitManager
      */
     private $processRunner;
 
-    public function __construct(ProcessRunner $processRunner, ?string $githubToken)
+    public function __construct(ProcessRunner $processRunner, ParameterProvider $parameterProvider)
     {
         $this->processRunner = $processRunner;
-        $this->githubToken = (string) $githubToken;
+        $this->githubToken = (string) $parameterProvider->provideStringParameter(Option::GITHUB_TOKEN);
     }
 
     public function doesBranchExistOnRemote(string $branch): bool

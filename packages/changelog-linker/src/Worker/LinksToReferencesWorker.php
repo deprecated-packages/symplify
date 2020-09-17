@@ -8,6 +8,8 @@ use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
+use Symplify\ChangelogLinker\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class LinksToReferencesWorker implements WorkerInterface
 {
@@ -21,10 +23,10 @@ final class LinksToReferencesWorker implements WorkerInterface
      */
     private $linkAppender;
 
-    public function __construct(string $repositoryUrl, LinkAppender $linkAppender)
+    public function __construct(ParameterProvider $parameterProvider, LinkAppender $linkAppender)
     {
         $this->linkAppender = $linkAppender;
-        $this->repositoryUrl = $repositoryUrl;
+        $this->repositoryUrl = $parameterProvider->provideStringParameter(Option::REPOSITORY_URL);
     }
 
     /**

@@ -11,6 +11,7 @@ use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Exception\ConfigurationException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class ReleaseGuard
 {
@@ -41,18 +42,18 @@ final class ReleaseGuard
 
     /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
-     * @param string[] $stagesToAllowExistingTag
      */
     public function __construct(
         GitManager $gitManager,
         array $releaseWorkers,
-        bool $isStageRequired,
-        array $stagesToAllowExistingTag
+        ParameterProvider $parameterProvider
     ) {
         $this->gitManager = $gitManager;
         $this->releaseWorkers = $releaseWorkers;
-        $this->isStageRequired = $isStageRequired;
-        $this->stagesToAllowExistingTag = $stagesToAllowExistingTag;
+        $this->isStageRequired = $parameterProvider->provideBoolParameter(Option::IS_STAGE_REQUIRED);
+        $this->stagesToAllowExistingTag = $parameterProvider->provideArrayParameter(
+            Option::STAGES_TO_ALLOW_EXISTING_TAG
+        );
     }
 
     public function guardRequiredStageOnEmptyStage(): void

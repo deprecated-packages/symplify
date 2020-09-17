@@ -34,6 +34,24 @@ final class ParameterProvider
         return $this->parameters[$name] ?? null;
     }
 
+    public function provideStringParameter(string $name): string
+    {
+        return $this->parameters[$name] ?? '';
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function provideArrayParameter(string $name): array
+    {
+        return $this->parameters[$name] ?? [];
+    }
+
+    public function provideBoolParameter(string $parameterName): bool
+    {
+        return $this->parameters[$parameterName] ?? false;
+    }
+
     public function changeParameter(string $name, $value): void
     {
         $this->parameters[$name] = $value;

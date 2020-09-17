@@ -6,6 +6,8 @@ namespace Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator;
 
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
  * @see \Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\SortComposerJsonDecorator\SortComposerJsonDecoratorTest
@@ -17,12 +19,9 @@ final class SortComposerJsonDecorator implements ComposerJsonDecoratorInterface
      */
     private $sectionOrder = [];
 
-    /**
-     * @param string[] $sectionOrder
-     */
-    public function __construct(array $sectionOrder)
+    public function __construct(ParameterProvider $parameterProvider)
     {
-        $this->sectionOrder = $sectionOrder;
+        $this->sectionOrder = $parameterProvider->provideArrayParameter(Option::SECTION_ORDER);
     }
 
     public function decorate(ComposerJson $composerJson): void
