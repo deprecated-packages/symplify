@@ -39,14 +39,14 @@ final class ParameterProvider
     {
         $this->ensureParameterIsSet($name);
 
-        return $this->parameters[$name];
+        return (string) $this->parameters[$name];
     }
 
     public function provideIntParameter(string $name): int
     {
         $this->ensureParameterIsSet($name);
 
-        return $this->parameters[$name];
+        return (int) $this->parameters[$name];
     }
 
     /**
@@ -79,7 +79,7 @@ final class ParameterProvider
 
     private function ensureParameterIsSet(string $name): void
     {
-        if (isset($this->parameters[$name])) {
+        if (array_key_exists($name, $this->parameters)) {
             return;
         }
 
