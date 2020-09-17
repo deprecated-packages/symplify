@@ -79,9 +79,9 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
         return [self::ERROR_MESSAGE];
     }
 
-    private function isExistInTraits(Class_ $parent, string $methodName): bool
+    private function isExistInTraits(Class_ $class, string $methodName): bool
     {
-        $traitUses = $parent->getTraitUses();
+        $traitUses = $class->getTraitUses();
         foreach ($traitUses as $traitUse) {
             foreach ($traitUse->traits as $trait) {
                 $r = new ReflectionClass((string) $trait);
