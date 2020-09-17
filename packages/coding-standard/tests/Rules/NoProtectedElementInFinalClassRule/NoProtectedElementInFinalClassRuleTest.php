@@ -44,7 +44,7 @@ final class NoProtectedElementInFinalClassRuleTest extends RuleTestCase
         yield [
             __DIR__ . '/Fixture/SomeFinalClassUsesTrait.php',
             [[NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 11],
-            [NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 13]],
+                [NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 13], ],
         ];
     }
 
