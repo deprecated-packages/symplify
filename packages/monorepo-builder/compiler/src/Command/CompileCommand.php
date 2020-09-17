@@ -10,6 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Compiler\Composer\ComposerJsonManipulator;
 use Symplify\MonorepoBuilder\Compiler\Process\SymfonyProcess;
+use Symplify\MonorepoBuilder\Compiler\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
  * Inspired by @see https://github.com/phpstan/phpstan-src/blob/f939d23155627b5c2ec6eef36d976dddea22c0c5/compiler/src/Console/CompileCommand.php
@@ -42,15 +44,14 @@ final class CompileCommand extends Command
     private $symfonyStyle;
 
     public function __construct(
-        string $dataDir,
-        string $buildDir,
+        ParameterProvider $parameterProvider,
         SymfonyStyle $symfonyStyle,
         ComposerJsonManipulator $composerJsonManipulator
     ) {
         parent::__construct();
 
-        $this->dataDir = $dataDir;
-        $this->buildDir = $buildDir;
+        $this->dataDir = $parameterProvider->provideStringParameter(Option::DATA_DIR);
+        $this->buildDir = $parameterProvider->provideStringParameter(Option::BUILD_DIR);
 
         $this->symfonyStyle = $symfonyStyle;
         $this->composerJsonManipulator = $composerJsonManipulator;
