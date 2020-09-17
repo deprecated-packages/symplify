@@ -25,9 +25,25 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
      */
     private $whitespacesFixerConfig;
 
+    /**
+     * Generates: "declare(strict_types=1);"
+     * @var Token[]
+     */
+    private $declareStrictTypeTokens = [];
+
     public function __construct(WhitespacesFixerConfig $whitespacesFixerConfig)
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+
+        $this->declareStrictTypeTokens = [
+            new Token([T_DECLARE, 'declare']),
+            new Token('('),
+            new Token([T_STRING, 'strict_types']),
+            new Token('='),
+            new Token([T_LNUMBER, '1']),
+            new Token(')'),
+            new Token(';'),
+        ];
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -42,7 +58,7 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $sequenceLocation = $tokens->findSequence($this->getDeclareStrictTypeSequence(), 1, 15);
+        $sequenceLocation = $tokens->findSequence($this->declareStrictTypeTokens, 1, 15);
         if ($sequenceLocation === null) {
             return;
         }
@@ -58,23 +74,5 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 
         $tokens->ensureWhitespaceAtIndex($semicolonPosition + 1, 0, $lineEnding . $lineEnding);
-    }
-
-    /**
-     * Generates: "declare(strict_types=1);"
-     *
-     * @return Token[]
-     */
-    public function getDeclareStrictTypeSequence(): array
-    {
-        return [
-            new Token([T_DECLARE, 'declare']),
-            new Token('('),
-            new Token([T_STRING, 'strict_types']),
-            new Token('='),
-            new Token([T_LNUMBER, '1']),
-            new Token(')'),
-            new Token(';'),
-        ];
     }
 }
