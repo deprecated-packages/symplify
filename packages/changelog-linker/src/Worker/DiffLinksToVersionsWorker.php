@@ -8,6 +8,8 @@ use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
+use Symplify\ChangelogLinker\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class DiffLinksToVersionsWorker implements WorkerInterface
 {
@@ -35,12 +37,12 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
         LinkAppender $linkAppender,
         VersionsAnalyzer $versionsAnalyzer,
         LinksAnalyzer $linksAnalyzer,
-        string $repositoryUrl
+        ParameterProvider $parameterProvider
     ) {
         $this->linkAppender = $linkAppender;
         $this->versionsAnalyzer = $versionsAnalyzer;
         $this->linksAnalyzer = $linksAnalyzer;
-        $this->repositoryUrl = $repositoryUrl;
+        $this->repositoryUrl = $parameterProvider->provideStringParameter(Option::REPOSITORY_URL);
     }
 
     public function processContent(string $content): string

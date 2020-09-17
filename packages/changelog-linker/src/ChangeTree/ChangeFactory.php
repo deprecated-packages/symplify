@@ -9,6 +9,8 @@ use Symplify\ChangelogLinker\ChangeTree\Resolver\CategoryResolver;
 use Symplify\ChangelogLinker\ChangeTree\Resolver\PackageResolver;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
+use Symplify\ChangelogLinker\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
  * @see \Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory\ChangeFactoryTest
@@ -40,18 +42,15 @@ final class ChangeFactory
      */
     private $packageResolver;
 
-    /**
-     * @param string[] $authorsToIgnore
-     */
     public function __construct(
         GitCommitDateTagResolver $gitCommitDateTagResolver,
         CategoryResolver $categoryResolver,
         PackageResolver $packageResolver,
-        array $authorsToIgnore
+        ParameterProvider $parameterProvider
     ) {
         $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
         $this->categoryResolver = $categoryResolver;
-        $this->authorsToIgnore = $authorsToIgnore;
+        $this->authorsToIgnore = $parameterProvider->provideArrayParameter(Option::AUTHORS_TO_IGNORE);
         $this->packageResolver = $packageResolver;
     }
 

@@ -77,4 +77,34 @@ final class Option
      * @api
      */
     public const SECTION_ORDER = 'section_order';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const SUBSPLIT_CACHE_DIRECTORY = 'subsplit_cache_directory';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const REPOSITORY = 'repository';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const IS_STAGE_REQUIRED = 'is_stage_required';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const STAGES_TO_ALLOW_EXISTING_TAG = 'stages_to_allow_existing_tag';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const GITHUB_TOKEN = 'github_token';
 }

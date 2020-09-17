@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Finder;
 
 use Symfony\Component\Finder\Finder;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -28,17 +30,12 @@ final class PackageComposerFinder
      */
     private $finderSanitizer;
 
-    /**
-     * @param string[] $packageDirectories
-     * @param string[] $packageDirectoriesExcludes
-     */
-    public function __construct(
-        array $packageDirectories,
-        array $packageDirectoriesExcludes,
-        FinderSanitizer $finderSanitizer
-    ) {
-        $this->packageDirectories = $packageDirectories;
-        $this->packageDirectoriesExcludes = $packageDirectoriesExcludes;
+    public function __construct(ParameterProvider $parameterProvider, FinderSanitizer $finderSanitizer)
+    {
+        $this->packageDirectories = $parameterProvider->provideArrayParameter(Option::PACKAGE_DIRECTORIES);
+        $this->packageDirectoriesExcludes = $parameterProvider->provideArrayParameter(
+            Option::PACKAGE_DIRECTORIES_EXCLUDES
+        );
         $this->finderSanitizer = $finderSanitizer;
     }
 

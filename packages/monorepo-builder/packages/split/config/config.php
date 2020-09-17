@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\SmartFileSystem\FileSystemGuard;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -10,13 +11,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set('directories_to_repositories', []);
 
-    $parameters->set('subsplit_cache_directory', '%kernel.cache_dir%/_subsplit');
+    $parameters->set(Option::SUBSPLIT_CACHE_DIRECTORY, '%kernel.cache_dir%/_subsplit');
 
     $parameters->set('env(GITHUB_TOKEN)', null);
 
-    $parameters->set('github_token', '%env(GITHUB_TOKEN)%');
-
-    $parameters->set('repository', '%root_directory%/.git');
+    $parameters->set(Option::GITHUB_TOKEN, '%env(GITHUB_TOKEN)%');
+    $parameters->set(Option::REPOSITORY, '%root_directory%/.git');
 
     $services = $containerConfigurator->services();
 

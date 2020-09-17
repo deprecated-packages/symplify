@@ -9,19 +9,10 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Process\Process;
 use Symplify\ChangelogLinker\Github\GithubRepositoryFromRemoteResolver;
+use Symplify\ChangelogLinker\ValueObject\Option;
 
 final class AddRepositoryUrlAndRepositoryNameParametersCompilerPass implements CompilerPassInterface
 {
-    /**
-     * @var string
-     */
-    private const OPTION_REPOSITORY_NAME = 'repository_name';
-
-    /**
-     * @var string
-     */
-    private const OPTION_REPOSITORY_URL = 'repository_url';
-
     /**
      * @var GithubRepositoryFromRemoteResolver
      */
@@ -34,13 +25,13 @@ final class AddRepositoryUrlAndRepositoryNameParametersCompilerPass implements C
 
     public function process(ContainerBuilder $containerBuilder): void
     {
-        if (! $containerBuilder->hasParameter(self::OPTION_REPOSITORY_URL)) {
-            $containerBuilder->setParameter(self::OPTION_REPOSITORY_URL, $this->detectRepositoryUrlFromGit());
+        if (! $containerBuilder->hasParameter(Option::REPOSITORY_URL)) {
+            $containerBuilder->setParameter(Option::REPOSITORY_URL, $this->detectRepositoryUrlFromGit());
         }
 
-        if (! $containerBuilder->hasParameter(self::OPTION_REPOSITORY_NAME)) {
+        if (! $containerBuilder->hasParameter(Option::REPOSITORY_NAME)) {
             $containerBuilder->setParameter(
-                self::OPTION_REPOSITORY_NAME,
+                Option::REPOSITORY_NAME,
                 $this->detectRepositoryName($containerBuilder)
             );
         }
@@ -57,7 +48,7 @@ final class AddRepositoryUrlAndRepositoryNameParametersCompilerPass implements C
 
     private function detectRepositoryName(ContainerBuilder $containerBuilder): string
     {
-        $repositoryUrl = $containerBuilder->getParameter(self::OPTION_REPOSITORY_URL);
+        $repositoryUrl = $containerBuilder->getParameter(Option::REPOSITORY_URL);
 
         return Strings::substring($repositoryUrl, Strings::length('https://github.com/'));
     }

@@ -12,6 +12,8 @@ use Nette\Utils\Strings;
 use Psr\Http\Message\ResponseInterface;
 use Symplify\ChangelogLinker\Exception\Github\GithubApiException;
 use Symplify\ChangelogLinker\Guzzle\ResponseFormatter;
+use Symplify\ChangelogLinker\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Throwable;
 
 /**
@@ -59,16 +61,17 @@ final class GithubApi
 
     public function __construct(
         ClientInterface $client,
-        string $repositoryName,
-        ResponseFormatter $responseFormatter,
-        ?string $githubToken
+        ParameterProvider $parameterProvider,
+        ResponseFormatter $responseFormatter
     ) {
         $this->client = $client;
-        $this->repositoryName = $repositoryName;
+        $this->repositoryName = $parameterProvider->provideStringParameter(Option::REPOSITORY_NAME);
         $this->responseFormatter = $responseFormatter;
 
+        $githubToken = $parameterProvider->provideStringParameter(Option::GITHUB_TOKEN);
+
         // Inspired by https://github.com/weierophinney/changelog_generator/blob/master/changelog_generator.php
-        if ($githubToken) {
+        if ($githubToken !== '') {
             $this->options['headers']['Authorization'] = 'token ' . $githubToken;
         }
     }

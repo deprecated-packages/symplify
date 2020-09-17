@@ -48,6 +48,7 @@ final class BoolishClassMethodPrefixRule implements Rule
         'ends',
         'exists',
         'supports',
+        'provide',
         # array access
         'offsetExists',
     ];

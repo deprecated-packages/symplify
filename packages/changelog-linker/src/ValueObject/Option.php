@@ -16,6 +16,12 @@ final class Option
      * @api
      * @var string
      */
+    public const REPOSITORY_NAME = 'repository_name';
+
+    /**
+     * @api
+     * @var string
+     */
     public const NAMES_TO_URLS = 'names_to_urls';
 
     /**

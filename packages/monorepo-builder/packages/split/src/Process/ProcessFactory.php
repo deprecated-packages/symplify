@@ -7,6 +7,8 @@ namespace Symplify\MonorepoBuilder\Split\Process;
 use Nette\Utils\Strings;
 use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
@@ -42,12 +44,11 @@ final class ProcessFactory
     public function __construct(
         RepositoryGuard $repositoryGuard,
         SmartFileSystem $smartFileSystem,
-        string $subsplitCacheDirectory,
-        string $repository
+        ParameterProvider $parameterProvider
     ) {
         $this->repositoryGuard = $repositoryGuard;
-        $this->subsplitCacheDirectory = $subsplitCacheDirectory;
-        $this->repository = $repository;
+        $this->subsplitCacheDirectory = $parameterProvider->provideStringParameter(Option::SUBSPLIT_CACHE_DIRECTORY);
+        $this->repository = $parameterProvider->provideStringParameter(Option::REPOSITORY);
         $this->smartFileSystem = $smartFileSystem;
     }
 
