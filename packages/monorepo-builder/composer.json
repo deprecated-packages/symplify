@@ -17,7 +17,6 @@
         "symplify/package-builder": "^8.4",
         "symplify/autowire-array-parameter": "^8.4",
         "symplify/composer-json-manipulator": "^8.4",
-        "symplify/auto-bind-parameter": "^8.4",
         "symplify/smart-file-system": "^8.4",
         "symplify/set-config-resolver": "^8.4"
     },

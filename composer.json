@@ -139,7 +139,6 @@
         }
     },
     "replace": {
-        "symplify/auto-bind-parameter": "8.2.20",
         "symplify/autodiscovery": "8.2.20",
         "symplify/autowire-array-parameter": "8.2.20",
         "symplify/changelog-linker": "8.2.20",
