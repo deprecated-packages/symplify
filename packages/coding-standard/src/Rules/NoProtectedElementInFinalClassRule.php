@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule\NoProtectedElementInFinalClassRuleTest
@@ -19,6 +20,16 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Do not use protected element in final class';
+
+    /**
+     * @var ParentMethodAnalyser
+     */
+    private $parentMethodAnalyser;
+
+    public function __construct(ParentMethodAnalyser $parentMethodAnalyser)
+    {
+        $this->parentMethodAnalyser = $parentMethodAnalyser;
+    }
 
     /**
      * @return string[]
@@ -47,8 +58,12 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
             return [];
         }
 
-        if ($parent->extends !== null) {
-            return [];
+        if ($parent->extends !== null && $node instanceof ClassMethod) {
+            $methodName = (string) $node->name;
+
+            if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
+                return [];
+            }
         }
 
         return [self::ERROR_MESSAGE];

@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 use Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule;
 
 final class NoProtectedElementInFinalClassRuleTest extends RuleTestCase
@@ -44,6 +45,6 @@ final class NoProtectedElementInFinalClassRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoProtectedElementInFinalClassRule();
+        return new NoProtectedElementInFinalClassRule(new ParentMethodAnalyser());
     }
 }
