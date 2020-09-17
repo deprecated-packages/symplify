@@ -14,7 +14,7 @@ jobs:
             name: "Split Monorepo"
             if: (branch = master OR tag IS present) && type = push
             script:
-                - composer update
+                - composer update --ansi
                 # travis_retry to prevent fails
                 - travis_retry packages/monorepo-builder/bin/monorepo-builder split --max-processes 6 --ansi
 
@@ -26,9 +26,9 @@ jobs:
 
                 # see https://gist.github.com/jeffersonmartin/d0d4a8dfec90d224d14f250b36c74d2f
                 # see https://www.previousnext.com.au/blog/managing-composer-github-access-personal-access-tokens
-                - composer config -g github-oauth.github.com $GITHUB_TOKEN
+                - composer config -g github-oauth.github.com $GITHUB_TOKEN --ansi
 
-                - composer install
+                - composer install --ansi
                 - travis_retry bin/compile --ansi
                 - ../tmp/ecs.phar --debug --ansi
 
@@ -58,11 +58,11 @@ jobs:
 
                 # see https://gist.github.com/jeffersonmartin/d0d4a8dfec90d224d14f250b36c74d2f
                 # see https://www.previousnext.com.au/blog/managing-composer-github-access-personal-access-tokens
-                - composer config -g github-oauth.github.com $GITHUB_TOKEN
+                - composer config -g github-oauth.github.com $GITHUB_TOKEN --ansi
 
-                - composer install
+                - composer install --ansi
                 - travis_retry bin/compile --ansi
-                - ../tmp/monorepo-builder.phar
+                - ../tmp/monorepo-builder.phar --ansi
 
                 - cd ..
 
