@@ -112,9 +112,9 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
         return false;
     }
 
-    private function isPropertyExistInParentClass(Name $name, string $propertyName)
+    private function isPropertyExistInParentClass(Name $name, string $propertyName): bool
     {
-        $r = new ReflectionClass((string) $name);
-        return $r->hasProperty($propertyName);
+        $reflectionClass = new ReflectionClass((string) $name);
+        return $reflectionClass->hasProperty($propertyName);
     }
 }
