@@ -63,11 +63,8 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
         if ($node instanceof ClassMethod) {
             $methodName = (string) $node->name;
 
-            if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
-                return [];
-            }
-
-            if ($this->isExistInTraits($parent, $methodName)) {
+            if ($this->isExistInTraits($parent, $methodName)
+                || $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
                 return [];
             }
 
