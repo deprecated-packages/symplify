@@ -5,10 +5,10 @@
     "require": {
         "php": ">=7.2",
         "nette/utils": "^3.0",
-        "symfony/console": "^4.4|^5.0",
+        "symfony/console": "^4.4|^5.1",
         "sebastian/diff": "^3.0|^4.0",
-        "symfony/dependency-injection": "^4.4|^5.0",
-        "symfony/http-kernel": "^4.4|^5.0",
+        "symfony/dependency-injection": "^4.4|^5.1",
+        "symfony/http-kernel": "^4.4|^5.1",
         "symplify/package-builder": "^8.4"
     },
     "require-dev": {

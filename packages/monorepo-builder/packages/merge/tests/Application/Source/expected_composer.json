@@ -8,9 +8,9 @@
         "nette/di": "^3.0",
         "nette/utils": "^3.0",
         "phpstan/phpstan": "^0.12.7",
-        "symfony/console": "^4.4|^5.0",
-        "symfony/filesystem": "^4.4|^5.0",
-        "symfony/finder": "^4.4|^5.0",
+        "symfony/console": "^4.4|^5.1",
+        "symfony/filesystem": "^4.4|^5.1",
+        "symfony/finder": "^4.4|^5.1",
         "symplify/package-builder": "^7.3",
         "symplify/smart-file-system": "^7.3"
     },

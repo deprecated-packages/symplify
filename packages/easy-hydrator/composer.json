@@ -5,10 +5,10 @@
     "type": "symfony-bundle",
     "require": {
         "php": ">=7.2",
-        "symfony/cache": "^4.4|^5.0",
-        "symfony/config": "^4.4|^5.0",
-        "symfony/dependency-injection": "^4.4|^5.0",
-        "symfony/http-kernel": "^4.4|^5.0",
+        "symfony/cache": "^4.4|^5.1",
+        "symfony/config": "^4.4|^5.1",
+        "symfony/dependency-injection": "^4.4|^5.1",
+        "symfony/http-kernel": "^4.4|^5.1",
         "symplify/autowire-array-parameter": "^8.4",
         "symplify/package-builder": "^8.4"
     },
