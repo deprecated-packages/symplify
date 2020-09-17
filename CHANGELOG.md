@@ -10,6 +10,91 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 <!-- changelog-linker -->
 
 <!-- dumped content start -->
+## [8.3.5] - 2020-09-17
+
+### Added
+
+#### CodingStandard
+
+- [#2188] Fix [#2173] : Add No static properties rule for PHPStan, Thanks to [@samsonasik]
+
+#### Unknown Package
+
+- [#2189] Add NoStaticPropertyRule to symplify.neon, Thanks to [@samsonasik]
+
+### Changed
+
+#### CodingStandard
+
+- [#2186] Make AnnotateRegexClassConstWithRegexLinkRule look only for _REGEX|_PATTERN suffix
+
+#### Unknown Package
+
+- [#2196] static removal
+
+### Removed
+
+- [#2190] remove static properties where possible
+
+## [8.3.3] - 2020-09-16
+
+### Changed
+
+#### CodingStandard
+
+- [#2182] Rename NoDebugFuncCallRule to ForbiddenFuncCallRule and make generic
+
+#### Unknown Package
+
+- [#2183] Correct when to pluralise word, Thanks to [@u01jmg3]
+
+### Removed
+
+#### EasyCodingStandard
+
+- [#2184] Remove unary/not-operator conflicts, false positive
+
+## [8.3.2] - 2020-09-15
+
+### Added
+
+#### CodingStandard
+
+- [#2180] Add RemovePHPStormAnnotationFixer
+
+#### EasyCodingStandard
+
+- [#2178] Add markdown command gif to README
+
+## [8.3.0] - 2020-09-14
+
+### Changed
+
+- [#2174] Decouple sub-package SnippetFormatter
+
+## Unreleased
+
+### Added
+
+#### SmartFileSystem
+
+- [#2198] Add JsonFileSystem
+
+### Deprecated
+
+#### AutoBindParameter
+
+- [#2201] Deprecated compiler pass
+
+### Removed
+
+#### EasyCodingStandard
+
+- [#2200] Drop autobind, use ParameterProvider with pre-defined constants instead
+
+<!-- dumped content end -->
+
+<!-- dumped content start -->
 ## [8.3.0]
 
 ### Added
@@ -836,3 +921,20 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [8.2.20]: https://github.com/symplify/symplify/compare/8.2.18...8.2.20
 [8.2.18]: https://github.com/symplify/symplify/compare/8.2.17...8.2.18
 [8.2.17]: https://github.com/symplify/symplify/compare/v8.2.15...8.2.17
+[#2201]: https://github.com/symplify/symplify/pull/2201
+[#2200]: https://github.com/symplify/symplify/pull/2200
+[#2198]: https://github.com/symplify/symplify/pull/2198
+[#2196]: https://github.com/symplify/symplify/pull/2196
+[#2190]: https://github.com/symplify/symplify/pull/2190
+[#2189]: https://github.com/symplify/symplify/pull/2189
+[#2188]: https://github.com/symplify/symplify/pull/2188
+[#2186]: https://github.com/symplify/symplify/pull/2186
+[#2184]: https://github.com/symplify/symplify/pull/2184
+[#2183]: https://github.com/symplify/symplify/pull/2183
+[#2182]: https://github.com/symplify/symplify/pull/2182
+[#2180]: https://github.com/symplify/symplify/pull/2180
+[#2178]: https://github.com/symplify/symplify/pull/2178
+[#2173]: https://github.com/symplify/symplify/pull/2173
+[8.3.5]: https://github.com/symplify/symplify/compare/8.3.3...8.3.5
+[8.3.3]: https://github.com/symplify/symplify/compare/8.3.2...8.3.3
+[8.3.2]: https://github.com/symplify/symplify/compare/8.3.0...8.3.2

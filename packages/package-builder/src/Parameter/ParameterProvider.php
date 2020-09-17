@@ -6,6 +6,7 @@ namespace Symplify\PackageBuilder\Parameter;
 
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 
 /**
  * @see \Symplify\PackageBuilder\Tests\Parameter\ParameterProviderTest
@@ -13,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 final class ParameterProvider
 {
     /**
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     private $parameters = [];
 
@@ -36,7 +37,16 @@ final class ParameterProvider
 
     public function provideStringParameter(string $name): string
     {
-        return $this->parameters[$name] ?? '';
+        $this->ensureParameterIsSet($name);
+
+        return (string) $this->parameters[$name];
+    }
+
+    public function provideIntParameter(string $name): int
+    {
+        $this->ensureParameterIsSet($name);
+
+        return (int) $this->parameters[$name];
     }
 
     /**
@@ -44,7 +54,9 @@ final class ParameterProvider
      */
     public function provideArrayParameter(string $name): array
     {
-        return $this->parameters[$name] ?? [];
+        $this->ensureParameterIsSet($name);
+
+        return $this->parameters[$name];
     }
 
     public function provideBoolParameter(string $parameterName): bool
@@ -63,5 +75,14 @@ final class ParameterProvider
     public function provide(): array
     {
         return $this->parameters;
+    }
+
+    private function ensureParameterIsSet(string $name): void
+    {
+        if (array_key_exists($name, $this->parameters)) {
+            return;
+        }
+
+        throw new ParameterNotFoundException($name);
     }
 }
