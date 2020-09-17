@@ -45,7 +45,7 @@ final class TestSymfonyStaticDumperKernel extends Kernel
     }
 
     /**
-     * @return BundleInterface[]
+     * @return FrameworkBundle[]|TwigBundle[]|SymfonyStaticDumperBundle[]
      */
     public function registerBundles(): array
     {
