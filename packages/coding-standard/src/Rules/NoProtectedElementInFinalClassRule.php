@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
@@ -81,10 +82,12 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
 
     private function isExistInTraits(Class_ $class, string $methodName): bool
     {
-        $usedTraits = class_uses((string) $class);
+        /** @var Identifier $name */
+        $name = $class->name;
+        $usedTraits = class_uses($name->toString());
         foreach ($usedTraits as $trait) {
             $r = new ReflectionClass((string) $trait);
-            if (in_array($methodName, $r->getMethods(), true)) {
+            if ($r->hasMethod($methodName)) {
                 return true;
             }
         }
