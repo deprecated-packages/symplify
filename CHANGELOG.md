@@ -72,7 +72,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#2174] Decouple sub-package SnippetFormatter
 
-## Unreleased
+## 8.3.6 - 2020-09-17
 
 ### Added
 
