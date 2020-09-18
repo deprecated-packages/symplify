@@ -31,7 +31,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     /**
      * @var VariableAsParamAnalyser
      */
-    private $variableAsParamTypeAnalyser;
+    private $variableAsParamAnalyser;
 
     /**
      * @var ScalarTypeAnalyser
@@ -39,10 +39,10 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     private $scalarTypeAnalyser;
 
     public function __construct(
-        VariableAsParamAnalyser $variableAsParamTypeAnalyser,
+        VariableAsParamAnalyser $variableAsParamAnalyser,
         ScalarTypeAnalyser $scalarTypeAnalyser
     ) {
-        $this->variableAsParamTypeAnalyser = $variableAsParamTypeAnalyser;
+        $this->variableAsParamAnalyser = $variableAsParamAnalyser;
         $this->scalarTypeAnalyser = $scalarTypeAnalyser;
     }
 
@@ -69,7 +69,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
             return [];
         }
 
-        if (! $this->variableAsParamTypeAnalyser->isVariableFromConstructorParam($functionReflection, $node)) {
+        if (! $this->variableAsParamAnalyser->isVariableFromConstructorParam($functionReflection, $node)) {
             return [];
         }
 

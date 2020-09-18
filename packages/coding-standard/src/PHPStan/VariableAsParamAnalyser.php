@@ -23,7 +23,7 @@ final class VariableAsParamAnalyser
         $this->privatesAccessor = $privatesAccessor;
     }
 
-    public function isVariableFromConstructorParam(MethodReflection $methodReflection, Variable $variable)
+    public function isVariableFromConstructorParam(MethodReflection $methodReflection, Variable $variable): bool
     {
         if ($methodReflection->getName() !== '__construct') {
             return false;

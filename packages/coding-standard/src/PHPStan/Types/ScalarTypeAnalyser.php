@@ -35,12 +35,7 @@ final class ScalarTypeAnalyser
         if ($type instanceof ArrayType) {
             return $this->isScalarOrArrayType($type->getItemType());
         }
-
-        if ($this->isNullableScalarType($type)) {
-            return true;
-        }
-
-        return false;
+        return $this->isNullableScalarType($type);
     }
 
     private function isNullableScalarType(Type $type): bool
