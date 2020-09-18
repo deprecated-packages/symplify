@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
@@ -77,14 +78,9 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
         $name = $class->name;
         /** @var string $className */
         $className = $name->toString();
-        $findValueObjectNamespace = '\\ValueObject\\' . $className;
-        $positionValueObjectNamespace = strpos($namespacedName, $findValueObjectNamespace);
+        $pattern = sprintf('#\\\\?ValueObject\\\\([A-Za-z]+\\\\)?(?=%s)#', $className);
 
-        if ($positionValueObjectNamespace === false) {
-            return false;
-        }
-
-        return $positionValueObjectNamespace === strlen($namespacedName) - strlen($findValueObjectNamespace);
+        return Strings::match($namespacedName, $pattern) !== null;
     }
 
     /**

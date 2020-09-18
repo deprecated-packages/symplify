@@ -319,6 +319,7 @@ parameters:
         # making reflection method for local use
         - '#Use decouled factory service to create "ReflectionMethod" object#'
 
+        - '#Use decouled factory service to create "Symfony\\Component\\Process\\Process" object#'
 
         # @todo easy-pick, delegate
         -
@@ -413,7 +414,6 @@ parameters:
                 - packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php # 55
                 - packages/changelog-linker/src/ChangelogLinker.php # 39
                 - packages/changelog-linker/src/Console/ChangelogApplication.php # 30
-                - packages/changelog-linker/src/ValueObject/ChangeTree/Change.php # 34
                 - packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php # 34
                 - packages/coding-standard/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php # 47
                 - packages/coding-standard/packages/object-calisthenics/src/Rules/NoSetterClassMethodRule.php # 40
@@ -438,15 +438,12 @@ parameters:
                 - packages/coding-standard/src/Rules/SeeAnnotationToTestRule.php # 52
                 - packages/coding-standard/src/Rules/TooLongVariableRule.php # 29
                 - packages/coding-standard/src/TokenRunner/Exception/TokenNotFoundException.php # 11
-                - packages/coding-standard/src/TokenRunner/ValueObject/Wrapper/FixerWrapper/ArrayWrapper.php # 50
                 - packages/composer-json-manipulator/src/FileSystem/JsonFileManager.php # 37
                 - packages/easy-coding-standard/compiler/src/Process/SymfonyProcess.php # 15
                 - packages/easy-coding-standard/packages/fixer-runner/src/Application/FixerFileProcessor.php # 75
                 - packages/easy-coding-standard/packages/sniff-runner/src/Application/SniffFileProcessor.php # 73
                 - packages/easy-coding-standard/src/Console/EasyCodingStandardConsoleApplication.php # 31
                 - packages/easy-coding-standard/src/Console/Output/OutputFormatterCollector.php # 20
-                - packages/easy-coding-standard/src/ValueObject/Error/CodingStandardError.php # 31
-                - packages/easy-coding-standard/src/ValueObject/Error/FileDiff.php # 27
                 - packages/flex-loader/src/Flex/FlexLoader.php # 36
                 - packages/monorepo-builder/compiler/src/Process/SymfonyProcess.php # 15
                 - packages/monorepo-builder/packages/merge/src/Application/MergedAndDecoratedComposerJsonFactory.php # 30
@@ -458,3 +455,15 @@ parameters:
                 - packages/set-config-resolver/src/Exception/SetNotFoundException.php # 24
                 - packages/symfony-static-dumper/src/ControllerWithDataProviderMatcher.php # 26
                 - packages/symfony-static-dumper/tests/test_project/src/HttpKernel/TestSymfonyStaticDumperKernel.php # 33
+                - packages/autodiscovery/src/ValueObject/ServiceConfig.php # 27
+                - packages/changelog-linker/src/ValueObject/ChangeTree/Change.php # 34
+                - packages/coding-standard/src/TokenRunner/ValueObject/BlockInfo.php # 19
+                - packages/coding-standard/src/TokenRunner/ValueObject/DocBlockEdgeDefinition.php # 24
+                - packages/coding-standard/src/TokenRunner/ValueObject/LineLenghtAndPosition.php # 19
+                - packages/coding-standard/src/TokenRunner/ValueObject/Wrapper/FixerWrapper/ArrayWrapper.php # 50
+                - packages/easy-coding-standard/src/ValueObject/Error/CodingStandardError.php # 31
+                - packages/easy-coding-standard/src/ValueObject/Error/FileDiff.php # 27
+                - packages/easy-testing/src/ValueObject/InputAndExpected.php # 22
+                - packages/monorepo-builder/packages/split/src/ValueObject/SplitProcessInfo.php # 26
+                - packages/set-config-resolver/src/ValueObject/Set.php # 21
+                - packages/symfony-static-dumper/src/ValueObject/ControllerCallable.php # 19
