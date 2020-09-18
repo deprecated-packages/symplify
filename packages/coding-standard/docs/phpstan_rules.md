@@ -992,6 +992,30 @@ function someFunction($var)
 
 <br>
 
+## No scalar and array in constructor parameter
+
+- class: [`NoScalarAndArrayConstructorParameterRule`](../src/Rules/NoScalarAndArrayConstructorParameterRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoScalarAndArrayConstructorParameterRule
+```
+
+```php
+final class SomeConstruct
+{
+    protected function __construct(string $string)
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Class "%s" inherits from forbidden parent class "%s". Use Composition over Inheritance instead
 
 - class: [`ForbiddenParentClassRule`](../src/Rules/ForbiddenParentClassRule.php)
