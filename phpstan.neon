@@ -404,7 +404,7 @@ parameters:
                 - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 32
 
         -
-            message: '#Do not use scalar and array in constructor parameter#'
+            message: '#Do not use scalar or array as constructor parameter\. Use ParameterProvider service instead#'
             paths:
                 - packages/autodiscovery/src/Console/AutodiscoveryApplication.php # 15
                 - packages/autodiscovery/src/Discovery.php # 25
