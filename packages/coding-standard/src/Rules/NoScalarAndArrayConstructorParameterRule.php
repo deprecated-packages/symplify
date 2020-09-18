@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -39,11 +43,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
             return [];
         }
 
-        $namespacedName = $parent->namespacedName->toString();
-        $name = $parent->name->toString();
-        $findValueObjectNamespace = '\\ValueObject\\' . $name;
-
-        if (strpos($namespacedName, $findValueObjectNamespace) === strlen($findValueObjectNamespace) - $find) {
+        if ($this->isValueObjectNamespace($parent)) {
             return [];
         }
 
@@ -57,17 +57,16 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
         }
 
         $parameters = $node->getParams();
-        if ($parameters === []) {
-            return [];
-        }
-
         foreach ($parameters as $parameter) {
+            /** @var Identifier|Name|UnionType|NullableType|null $type */
             $type = $parameter->type;
 
-            if ($type === null) {
+            // for null, UnionType and NullableType
+            if ($type === null || ! method_exists($type, 'toString')) {
                 continue;
             }
 
+            /** @var Identifier|Name $type */
             $typeName = $type->toString();
             if (in_array($typeName, ['string', 'int', 'float', 'bool', 'array'], true)) {
                 return [self::ERROR_MESSAGE];
@@ -75,5 +74,22 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
         }
 
         return [];
+    }
+
+    private function isValueObjectNamespace(Class_ $class): bool
+    {
+        $namespacedName = $class->namespacedName->toString();
+        /** @var Identifier $name */
+        $name = $class->name;
+        /** @var string $className */
+        $className = $name->toString();
+        $findValueObjectNamespace = '\\ValueObject\\' . $className;
+        $positionValueObjectNamespace = strpos($namespacedName, $findValueObjectNamespace);
+
+        if ($positionValueObjectNamespace === false) {
+            return false;
+        }
+
+        return $positionValueObjectNamespace === strlen($findValueObjectNamespace);
     }
 }
