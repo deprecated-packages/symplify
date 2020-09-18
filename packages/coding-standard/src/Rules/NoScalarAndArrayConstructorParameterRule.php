@@ -26,6 +26,11 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     public const ERROR_MESSAGE = 'Do not use scalar and array in constructor parameter';
 
     /**
+     * @var string
+     */
+    private const REGEX_VALUE_OBJECT_NAMESPACE_PLACEHOLDER = '#\\\\?ValueObject\\\\([A-Za-z]+\\\\){0,}?(?=SomeConstruct)#';
+
+    /**
      * @return string[]
      */
     public function getNodeTypes(): array
@@ -78,7 +83,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
         $name = $class->name;
         /** @var string $className */
         $className = $name->toString();
-        $pattern = sprintf('#\\\\?ValueObject\\\\([A-Za-z]+\\\\)+?(?=%s)#', $className);
+        $pattern = sprintf(self::REGEX_VALUE_OBJECT_NAMESPACE_PLACEHOLDER, $className);
 
         return Strings::match($namespacedName, $pattern) !== null;
     }
