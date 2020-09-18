@@ -23,7 +23,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Do not use scalar and array in constructor parameter';
+    public const ERROR_MESSAGE = 'Do not use scalar or array as constructor parameter. Use parameters provider instead';
 
     /**
      * @var string
@@ -45,33 +45,30 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
      */
     public function process(Node $node, Scope $scope): array
     {
-        $parent = $node->getAttribute('parent');
-        if (! $parent instanceof Class_) {
+        if ($this->isInValueObject($node)) {
             return [];
         }
 
-        if ($this->isValueObjectNamespace($parent)) {
+        if (! $this->isConstructorClassMethod($node)) {
             return [];
         }
 
-        $methodName = (string) $node->name;
-        if (! $node->isMagic() || $methodName !== '__construct') {
-            return [];
-        }
 
         $parameters = $node->getParams();
+
         foreach ($parameters as $parameter) {
             /** @var Identifier|Name|UnionType|NullableType|null $type */
             $type = $parameter->type;
-
             if ($type === null) {
                 continue;
             }
 
             $possibleTypes = $this->getPossibleTypes($type);
-            if ($this->isScalarOrArray($possibleTypes)) {
-                return [self::ERROR_MESSAGE];
+            if (!$this->isScalarOrArray($possibleTypes)) {
+                continue;
             }
+
+            return [self::ERROR_MESSAGE];
         }
 
         return [];
@@ -92,20 +89,23 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     /**
      * @return mixed[]
      */
-    private function getPossibleTypes($type): array
+    private function getPossibleTypes(Node $node): array
     {
-        if ($type instanceof NullableType) {
-            return [$type->type];
+        if ($node instanceof NullableType) {
+            return [$node->type];
         }
 
-        if ($type instanceof UnionType) {
-            return $type->types;
+        if ($node instanceof UnionType) {
+            return $node->types;
         }
 
-        /** @var Identifier|Name $type */
-        return [$type];
+        /** @var Identifier|Name $node */
+        return [$node];
     }
 
+    /**
+     * @param Identifier[]|Name[] $types
+     */
     private function isScalarOrArray(array $types): bool
     {
         foreach ($types as $type) {
@@ -117,5 +117,20 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
         }
 
         return false;
+    }
+
+    private function isInValueObject(ClassMethod $classMethod): bool
+    {
+        $parent = $classMethod->getAttribute('parent');
+        if (! $parent instanceof Class_) {
+            return false;
+        }
+
+        return $this->isValueObjectNamespace($parent);
+    }
+
+    private function isConstructorClassMethod(ClassMethod $classMethod): bool
+    {
+        return $classMethod->name->toString() === '__construct';
     }
 }
