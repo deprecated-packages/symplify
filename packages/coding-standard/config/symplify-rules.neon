@@ -73,6 +73,10 @@ services:
         class: Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\NoScalarAndArrayConstructorParameterRule
+        tags: [phpstan.rules.rule]
+
     # regex
     -
         class: Symplify\CodingStandard\Rules\AnnotateRegexClassConstWithRegexLinkRule
