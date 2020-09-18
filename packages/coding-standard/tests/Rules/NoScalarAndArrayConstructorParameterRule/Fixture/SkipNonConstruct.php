@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\NoScalarAndArrayConstructorParameterRule\Fixture;
 
-final class SomeWithConstructParameterNoType
+final class SkipNonConstruct
 {
-    private $foo;
-
-    public function __construct($foo)
+    public function run(string $name)
     {
-        $this->foo = $foo;
+        return $name;
     }
 }

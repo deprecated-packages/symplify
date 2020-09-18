@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\NoScalarAndArrayConstructorParameterRule\Fixture;
 
-final class SomeWithConstructParameterNoType
+final class IntScalarType
 {
-    private $foo;
+    /**
+     * @var int
+     */
+    private $int;
 
-    public function __construct($foo)
+    public function __construct(int $int)
     {
-        $this->foo = $foo;
+        $this->int = $int;
     }
 }

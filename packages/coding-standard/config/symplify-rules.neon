@@ -54,7 +54,10 @@ parameters:
 services:
     - Symplify\CodingStandard\PhpParser\NodeNameResolver
     - Symplify\CodingStandard\PHPStan\ParentMethodAnalyser
+    - Symplify\CodingStandard\PHPStan\Types\ScalarTypeAnalyser
+    - Symplify\CodingStandard\PHPStan\VariableAsParamAnalyser
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
+    - Symplify\PackageBuilder\Reflection\PrivatesAccessor
 
     # rules
     -
