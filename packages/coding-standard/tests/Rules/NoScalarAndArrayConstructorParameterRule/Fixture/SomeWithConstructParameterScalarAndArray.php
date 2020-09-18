@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoScalarConstructorParameterRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\NoScalarAndArrayConstructorParameterRule\Fixture;
 
 final class SomeWithConstructParameterScalar
 {
@@ -28,6 +28,13 @@ final class SomeWithConstructParameterScalar3
 final class SomeWithConstructParameterScalar4
 {
     public function __construct(bool $bool)
+    {
+    }
+}
+
+final class SomeWithConstructParameterArray
+{
+    public function __construct(array $array)
     {
     }
 }

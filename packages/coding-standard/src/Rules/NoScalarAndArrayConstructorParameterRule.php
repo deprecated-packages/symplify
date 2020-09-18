@@ -11,9 +11,9 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoScalarConstructorParameterRule\NoScalarConstructorParameterRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\NoScalarAndArrayConstructorParameterRule\NoScalarAndArrayConstructorParameterRule
  */
-final class NoScalarConstructorParameterRule extends AbstractManyNodeTypeRule
+final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTypeRule
 {
     /**
      * @var string
@@ -69,7 +69,7 @@ final class NoScalarConstructorParameterRule extends AbstractManyNodeTypeRule
             }
 
             $typeName = $type->toString();
-            if (in_array($typeName, ['string', 'int', 'float', 'bool'], true)) {
+            if (in_array($typeName, ['string', 'int', 'float', 'bool', 'array'], true)) {
                 return [self::ERROR_MESSAGE];
             }
         }

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoScalarConstructorParameterRule;
+namespace Symplify\CodingStandard\Tests\Rules\NoScalarAndArrayConstructorParameterRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\NoScalarConstructorParameterRule;
+use Symplify\CodingStandard\Rules\NoScalarAndArrayConstructorParameterRule;
 
-final class NoScalarConstructorParameterRuleTest extends RuleTestCase
+final class NoScalarAndArrayConstructorParameterRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -26,16 +26,17 @@ final class NoScalarConstructorParameterRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SomeWithoutConstruct.php', []];
         yield [__DIR__ . '/Fixture/SomeWithConstructParameterNonScalar.php', []];
         yield [__DIR__ . '/Fixture/SomeWithConstructParameterNotype.php', []];
-        yield [__DIR__ . '/Fixture/SomeWithConstructParameterScalar.php', [
-            [NoScalarConstructorParameterRule::ERROR_MESSAGE, 9],
-            [NoScalarConstructorParameterRule::ERROR_MESSAGE, 16],
-            [NoScalarConstructorParameterRule::ERROR_MESSAGE, 23],
-            [NoScalarConstructorParameterRule::ERROR_MESSAGE, 30],
+        yield [__DIR__ . '/Fixture/SomeWithConstructParameterScalarAndArray.php', [
+            [NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 9],
+            [NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 16],
+            [NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 23],
+            [NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 30],
+            [NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 37],
         ]];
     }
 
     protected function getRule(): Rule
     {
-        return new NoScalarConstructorParameterRule();
+        return new NoScalarAndArrayConstructorParameterRule();
     }
 }
