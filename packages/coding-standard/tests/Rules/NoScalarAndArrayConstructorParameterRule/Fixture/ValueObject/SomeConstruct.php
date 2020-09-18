@@ -6,7 +6,7 @@ namespace Symplify\CodingStandard\Tests\Rules\NoScalarAndArrayConstructorParamet
 
 final class SomeConstruct
 {
-    public function __construct()
+    public function __construct(string $string)
     {
     }
 }

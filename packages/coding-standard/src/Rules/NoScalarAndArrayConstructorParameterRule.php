@@ -90,6 +90,6 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
             return false;
         }
 
-        return $positionValueObjectNamespace === strlen($findValueObjectNamespace);
+        return $positionValueObjectNamespace === strlen($namespacedName) - strlen($findValueObjectNamespace);
     }
 }
