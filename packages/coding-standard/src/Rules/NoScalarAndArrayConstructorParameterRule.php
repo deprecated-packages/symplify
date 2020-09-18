@@ -24,7 +24,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
 
     /**
      * @var string
-     * @see https://regex101.com/r/HDOhtp/3
+     * @see https://regex101.com/r/HDOhtp/4
      */
     private const VALUE_OBJECT_REGEX = '#\bValueObject\b#';
 
