@@ -78,7 +78,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
         $name = $class->name;
         /** @var string $className */
         $className = $name->toString();
-        $pattern = sprintf('#\\\\?ValueObject\\\\([A-Za-z]+\\\\)?(?=%s)#', $className);
+        $pattern = sprintf('#\\\\?ValueObject\\\\([A-Za-z]+\\\\)+?(?=%s)#', $className);
 
         return Strings::match($namespacedName, $pattern) !== null;
     }

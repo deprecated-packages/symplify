@@ -455,15 +455,4 @@ parameters:
                 - packages/set-config-resolver/src/Exception/SetNotFoundException.php # 24
                 - packages/symfony-static-dumper/src/ControllerWithDataProviderMatcher.php # 26
                 - packages/symfony-static-dumper/tests/test_project/src/HttpKernel/TestSymfonyStaticDumperKernel.php # 33
-                - packages/autodiscovery/src/ValueObject/ServiceConfig.php # 27
-                - packages/changelog-linker/src/ValueObject/ChangeTree/Change.php # 34
-                - packages/coding-standard/src/TokenRunner/ValueObject/BlockInfo.php # 19
-                - packages/coding-standard/src/TokenRunner/ValueObject/DocBlockEdgeDefinition.php # 24
-                - packages/coding-standard/src/TokenRunner/ValueObject/LineLenghtAndPosition.php # 19
-                - packages/coding-standard/src/TokenRunner/ValueObject/Wrapper/FixerWrapper/ArrayWrapper.php # 50
-                - packages/easy-coding-standard/src/ValueObject/Error/CodingStandardError.php # 31
-                - packages/easy-coding-standard/src/ValueObject/Error/FileDiff.php # 27
-                - packages/easy-testing/src/ValueObject/InputAndExpected.php # 22
-                - packages/monorepo-builder/packages/split/src/ValueObject/SplitProcessInfo.php # 26
-                - packages/set-config-resolver/src/ValueObject/Set.php # 21
-                - packages/symfony-static-dumper/src/ValueObject/ControllerCallable.php # 19
+
