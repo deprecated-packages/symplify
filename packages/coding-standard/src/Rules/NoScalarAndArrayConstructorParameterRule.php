@@ -90,7 +90,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     }
 
     /**
-     * @return Identifier[]|Name[]
+     * @return \PhpParser\Node\Identifier[]|Name[]
      */
     private function getPossibleTypes($type): array
     {
