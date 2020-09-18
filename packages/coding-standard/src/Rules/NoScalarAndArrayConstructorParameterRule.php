@@ -87,6 +87,9 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
         return $positionValueObjectNamespace === strlen($namespacedName) - strlen($findValueObjectNamespace);
     }
 
+    /**
+     * @return mixed[]|Identifier[]|Name[]
+     */
     private function getPossibleTypes($type): array
     {
         if (! $type instanceof UnionType) {
