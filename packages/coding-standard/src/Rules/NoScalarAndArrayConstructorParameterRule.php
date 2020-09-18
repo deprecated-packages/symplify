@@ -90,15 +90,20 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     }
 
     /**
-     * @return mixed[]|Identifier[]|Name[]
+     * @return Identifier[]|Name[]
      */
     private function getPossibleTypes($type): array
     {
-        if (! $type instanceof UnionType) {
-            return [$type->type ?? $type];
+        if ($type instanceof NullableType) {
+            return [$type->type];
         }
 
-        return $type->types;
+        if ($type instanceof UnionType) {
+            return $type->types;
+        }
+
+        /** @var Identifier|Name $type */
+        return [$type];
     }
 
     private function isScalarOrArray(array $types): bool
