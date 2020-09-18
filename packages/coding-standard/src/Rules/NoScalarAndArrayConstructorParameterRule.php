@@ -28,7 +28,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     /**
      * @var string
      */
-    private const REGEX_VALUE_OBJECT_NAMESPACE_PLACEHOLDER = '#\\\\?ValueObject\\\\([A-Za-z]+\\\\){0,}?(?=SomeConstruct)#';
+    private const REGEX_VALUE_OBJECT_NAMESPACE_PLACEHOLDER = '#\\\\?ValueObject\\\\([A-Za-z]+\\\\){0,}?(?=%s)#';
 
     /**
      * @return string[]
