@@ -26,12 +26,16 @@ final class NoScalarAndArrayConstructorParameterRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SomeWithoutConstruct.php', []];
         yield [__DIR__ . '/Fixture/SomeWithConstructParameterNonScalar.php', []];
         yield [__DIR__ . '/Fixture/SomeWithConstructParameterNoType.php', []];
+        yield [__DIR__ . '/Fixture/SomeWithConstructParameterNullableNonScalar.php', []];
         yield [__DIR__ . '/Fixture/SomeWithConstructParameterScalarAndArray.php', [
             [NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 9],
             [NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 16],
             [NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 23],
             [NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 30],
             [NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 37],
+        ]];
+        yield [__DIR__ . '/Fixture/SomeWithConstructParameterNullableScalar.php', [
+            [NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 9],
         ]];
     }
 

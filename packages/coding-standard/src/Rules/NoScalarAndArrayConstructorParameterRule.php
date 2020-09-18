@@ -61,15 +61,20 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
             /** @var Identifier|Name|UnionType|NullableType|null $type */
             $type = $parameter->type;
 
-            // for null, UnionType and NullableType
-            if ($type === null || ! method_exists($type, 'toString')) {
+            if ($type === null) {
                 continue;
             }
 
-            /** @var Identifier|Name $type */
-            $typeName = $type->toString();
-            if (in_array($typeName, ['string', 'int', 'float', 'bool', 'array'], true)) {
-                return [self::ERROR_MESSAGE];
+            $types = $type instanceof NullableType || $type instanceof UnionType
+                ?  (! is_array($type->type) ? [$type->type] : $type->type)
+                : [$type];
+
+            foreach ($types as $type) {
+                /** @var Identifier|Name $type */
+                $typeName = $type->toString();
+                if (in_array($typeName, ['string', 'int', 'float', 'bool', 'array'], true)) {
+                    return [self::ERROR_MESSAGE];
+                }
             }
         }
 
