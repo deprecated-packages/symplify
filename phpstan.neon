@@ -319,8 +319,6 @@ parameters:
         # making reflection method for local use
         - '#Use decouled factory service to create "ReflectionMethod" object#'
 
-        - '#Use decouled factory service to create "Symfony\\Component\\Process\\Process" object#'
-
         # @todo easy-pick, delegate
         -
             message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
