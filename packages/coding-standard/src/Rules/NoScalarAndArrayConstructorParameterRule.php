@@ -27,6 +27,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
 
     /**
      * @var string
+     * @see https://regex101.com/r/HDOhtp/1
      */
     private const REGEX_VALUE_OBJECT_NAMESPACE_PLACEHOLDER = '#\\\\?ValueObject\\\\([A-Za-z]+\\\\){0,}?(?=%s)#';
 
