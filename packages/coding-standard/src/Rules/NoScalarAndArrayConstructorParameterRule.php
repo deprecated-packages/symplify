@@ -47,12 +47,8 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
             return [];
         }
 
-        if (! $node->isMagic()) {
-            return [];
-        }
-
         $methodName = (string) $node->name;
-        if ($methodName !== '__construct') {
+        if (! $node->isMagic() || $methodName !== '__construct') {
             return [];
         }
 
@@ -65,16 +61,9 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
                 continue;
             }
 
-            $types = $type instanceof NullableType || $type instanceof UnionType
-                ?  (! is_array($type->type) ? [$type->type] : $type->type)
-                : [$type];
-
-            foreach ($types as $type) {
-                /** @var Identifier|Name $type */
-                $typeName = $type->toString();
-                if (in_array($typeName, ['string', 'int', 'float', 'bool', 'array'], true)) {
-                    return [self::ERROR_MESSAGE];
-                }
+            $possibleTypes = $this->getPossibleTypes($type);
+            if ($this->isScalarOrArray($possibleTypes)) {
+                return [self::ERROR_MESSAGE];
             }
         }
 
@@ -96,5 +85,27 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
         }
 
         return $positionValueObjectNamespace === strlen($namespacedName) - strlen($findValueObjectNamespace);
+    }
+
+    private function getPossibleTypes($type): array
+    {
+        if (! $type instanceof UnionType) {
+            return [$type->type ?? $type];
+        }
+
+        return $type->types;
+    }
+
+    private function isScalarOrArray(array $types): bool
+    {
+        foreach ($types as $type) {
+            /** @var Identifier|Name $type */
+            $typeName = $type->toString();
+            if (in_array($typeName, ['string', 'int', 'float', 'bool', 'array'], true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
