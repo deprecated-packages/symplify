@@ -18,7 +18,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Do not use scalar in constructor parameter';
+    public const ERROR_MESSAGE = 'Do not use scalar and array in constructor parameter';
 
     /**
      * @return string[]
