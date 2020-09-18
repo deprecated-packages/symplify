@@ -95,10 +95,12 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     private function getPossibleTypes($type): array
     {
         if ($type instanceof NullableType) {
+            /** @var Identifier|Name $type->type */
             return [$type->type];
         }
 
         if ($type instanceof UnionType) {
+            /** @var Identifier[]|Name[] $type->types */
             return $type->types;
         }
 
