@@ -10,8 +10,14 @@ use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\HttpKernel\Kernel;
+use Symplify\Autodiscovery\Discovery;
+use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 use Symplify\CodingStandard\PHPStan\Types\ScalarTypeAnalyser;
 use Symplify\CodingStandard\PHPStan\VariableAsParamAnalyser;
+use Symplify\FlexLoader\Flex\FlexLoader;
+use Throwable;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoScalarAndArrayConstructorParameterRule\NoScalarAndArrayConstructorParameterRuleTest
@@ -32,7 +38,17 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     /**
      * @var string[]
      */
-    private const ALLOWED_TYPES = [Rule::class];
+    private const ALLOWED_TYPES = [
+        Rule::class,
+        Throwable::class,
+        // part of before construction of dependency injeciton
+        Kernel::class,
+        CompilerPassInterface::class,
+        FlexLoader::class,
+        AutodiscoveryFinder::class,
+        Discovery::class,
+        AutodiscoveryFinder::class,
+    ];
 
     /**
      * @var VariableAsParamAnalyser
