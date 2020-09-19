@@ -1,4 +1,4 @@
-name: Master Only
+name: Code Coverage
 
 on:
     push:
@@ -6,19 +6,13 @@ on:
             - master
 
 jobs:
-    master_only:
-        strategy:
-            matrix:
-                actions:
-                    -
-                        name: 'Twitter API Tests'
-                        run: vendor/bin/phpunit --group api
-
+    steps:
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest
 
         steps:
             -   uses: actions/checkout@v2
+
             # needed for tests
             -   run: git fetch --depth=100000 origin
 
@@ -26,10 +20,16 @@ jobs:
             -   uses: shivammathur/setup-php@v1
                 with:
                     php-version: 7.4
-                    coverage: none
+                    coverage: pcov
 
             -   run: composer install --no-progress --ansi
 
             -
-                name: ${{ matrix.actions.name }}
-                run: ${{ matrix.actions.run }}
+                name: Code Coverage
+                run: |
+                    vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+                    # coveralls.io
+                    wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
+                    php php-coveralls.phar --verbose
+                env:
+                    COVERALLS_REPO_TOKEN: 'nEEi7ayyJ4Ly6ZOuE4EdKS9uNue5JZCNL'
