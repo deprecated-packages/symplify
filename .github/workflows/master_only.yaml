@@ -6,18 +6,11 @@ on:
             - master
 
 jobs:
-    matrix:
+    master_only:
         strategy:
             fail-fast: false
             matrix:
                 actions:
-                    -
-                        name: Sonar Cube
-                        uses: sonarsource/sonarcloud-github-action@master
-                        env:
-                            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                            # get token here: https://sonarcloud.io/account/security/
-                            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
                     -
                         name: Code Coverage
                         run: |
@@ -27,6 +20,7 @@ jobs:
                             php php-coveralls.phar --verbose
                         env:
                             COVERALLS_REPO_TOKEN: 'RHw66pHYro4o5N7lH7ZAPmgypuAiJAPJw'
+
                     - { name: 'Twitter API Tests', run: vendor/bin/phpunit --group api }
 
         name: ${{ matrix.actions.name }}

@@ -47,9 +47,9 @@
         "doctrine/orm": "^2.7",
         "doctrine/persistence": "^1.3.3",
         "ergebnis/phpstan-rules": "^0.15.0",
-        "migrify/class-presence": "^0.3.6",
-        "migrify/config-transformer": "^0.3.6",
-        "migrify/easy-ci": "^0.3.25",
+        "migrify/class-presence": "^0.3.41",
+        "migrify/config-transformer": "^0.3.41",
+        "migrify/easy-ci": "^0.3.41",
         "nette/application": "^3.0",
         "nette/bootstrap": "^3.0",
         "nikic/php-parser": "^4.8",
@@ -179,6 +179,7 @@
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
         "rector": "vendor/bin/rector process --config rector-ci.php --dry-run --ansi",
+        "sonar": "vendor/bin/easy-ci generate-sonar --ansi",
         "validate-monorepo": "packages/monorepo-builder/bin/monorepo-builder validate --ansi"
     },
     "config": {
