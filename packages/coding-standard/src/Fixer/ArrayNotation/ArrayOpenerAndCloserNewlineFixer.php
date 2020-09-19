@@ -16,7 +16,6 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerNewlineFixer\ArrayOpenerNewlineFixerTest
  * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixerTest\ArrayOpenerAndCloserNewlineFixerTest
  */
 class ArrayOpenerAndCloserNewlineFixer extends AbstractSymplifyFixer
