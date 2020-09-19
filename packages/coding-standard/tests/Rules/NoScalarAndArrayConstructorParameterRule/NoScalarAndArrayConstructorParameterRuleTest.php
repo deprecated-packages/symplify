@@ -6,13 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoScalarAndArrayConstructorParamet
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\PHPStan\Types\ScalarTypeAnalyser;
-use Symplify\CodingStandard\PHPStan\VariableAsParamAnalyser;
 use Symplify\CodingStandard\Rules\NoScalarAndArrayConstructorParameterRule;
-use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoScalarAndArrayConstructorParameterRuleTest extends RuleTestCase
+final class NoScalarAndArrayConstructorParameterRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -24,6 +21,8 @@ final class NoScalarAndArrayConstructorParameterRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipPHPStanRuleWithConstructorConfiguration.php', []];
+
         yield [__DIR__ . '/Fixture/ValueObject/SkipValueObject.php', []];
         yield [__DIR__ . '/Fixture/ValueObject/Deep/SomeConstruct.php', []];
         yield [__DIR__ . '/Fixture/ValueObject/Deep/VeryDeep/SomeConstruct.php', []];
@@ -33,7 +32,9 @@ final class NoScalarAndArrayConstructorParameterRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SomeWithConstructParameterNoType.php', []];
         yield [__DIR__ . '/Fixture/SomeWithConstructParameterNullableNonScalar.php', []];
         yield [__DIR__ . '/Fixture/SkipNonConstruct.php', []];
+
         yield [__DIR__ . '/Fixture/SkipAutowireArrayTypes.php', []];
+        yield [__DIR__ . '/Fixture/SkipDummyArray.php', []];
 
         yield [
             __DIR__ . '/Fixture/StringScalarType.php',
@@ -46,9 +47,6 @@ final class NoScalarAndArrayConstructorParameterRuleTest extends RuleTestCase
         ];
 
         yield [__DIR__ . '/Fixture/StringArray.php', [[NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 19]]];
-
-        yield [__DIR__ . '/Fixture/SkipDummyArray.php', []];
-
         yield [__DIR__ . '/Fixture/IntScalarType.php', [[NoScalarAndArrayConstructorParameterRule::ERROR_MESSAGE, 16]]];
 
         yield [__DIR__ . '/Fixture/FloatScalarType.php', [
@@ -62,9 +60,9 @@ final class NoScalarAndArrayConstructorParameterRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoScalarAndArrayConstructorParameterRule(
-            new VariableAsParamAnalyser(new PrivatesAccessor()),
-            new ScalarTypeAnalyser()
+        return $this->getRuleFromConfig(
+            NoScalarAndArrayConstructorParameterRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }
 }

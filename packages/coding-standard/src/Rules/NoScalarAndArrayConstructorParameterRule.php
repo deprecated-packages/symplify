@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\PHPStan\Types\ScalarTypeAnalyser;
 use Symplify\CodingStandard\PHPStan\VariableAsParamAnalyser;
 
@@ -27,6 +28,11 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
      * @see https://regex101.com/r/HDOhtp/4
      */
     private const VALUE_OBJECT_REGEX = '#\bValueObject\b#';
+
+    /**
+     * @var string[]
+     */
+    private const ALLOWED_TYPES = [Rule::class];
 
     /**
      * @var VariableAsParamAnalyser
@@ -60,6 +66,10 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($this->isClassAllowed($scope)) {
+            return [];
+        }
+
         if ($this->isValueObjectNamespace($scope)) {
             return [];
         }
@@ -85,5 +95,23 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
     private function isValueObjectNamespace(Scope $scope): bool
     {
         return (bool) Strings::match($scope->getFile(), self::VALUE_OBJECT_REGEX);
+    }
+
+    private function isClassAllowed(Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return false;
+        }
+
+        foreach (self::ALLOWED_TYPES as $allowedType) {
+            if (! is_a($classReflection->getName(), $allowedType, true)) {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }
