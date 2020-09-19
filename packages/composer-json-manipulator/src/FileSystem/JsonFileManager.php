@@ -7,7 +7,9 @@ namespace Symplify\ComposerJsonManipulator\FileSystem;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\ComposerJsonManipulator\ValueObject\Option;
 use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -31,13 +33,10 @@ final class JsonFileManager
      */
     private $smartFileSystem;
 
-    /**
-     * @param string[] $inlineSections
-     */
-    public function __construct(SmartFileSystem $smartFileSystem, array $inlineSections = [])
+    public function __construct(SmartFileSystem $smartFileSystem, ParameterProvider $parameterProvider)
     {
         $this->smartFileSystem = $smartFileSystem;
-        $this->inlineSections = $inlineSections;
+        $this->inlineSections = $parameterProvider->provideArrayParameter(Option::INLINE_SECTIONS);
     }
 
     /**
