@@ -109,11 +109,6 @@ final class ArrayWrapper
         return false;
     }
 
-    public function isStartingAndEndingOnTheSameLine(): bool
-    {
-        return $this->array->getStartLine() === $this->array->getEndLine();
-    }
-
     private function parseStringToPhpParserNode(string $content): Node
     {
         $parserFactory = new ParserFactory();

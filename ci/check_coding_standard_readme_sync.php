@@ -6,6 +6,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
 use Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerNewlineFixer;
 use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
 use Symplify\CodingStandard\Rules\AbstractRegexRule;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -127,6 +128,8 @@ final class CodingStandardSyncChecker
             // part of imported config
             ClassLikeCognitiveComplexityRule::class,
             FunctionLikeCognitiveComplexityRule::class,
+            // deprecated
+            ArrayOpenerNewlineFixer::class,
         ];
 
         // filter out abstract class

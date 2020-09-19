@@ -12,12 +12,14 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 
 /**
- * @deprecated Use \Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer instead
+ * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerNewlineFixer\ArrayOpenerNewlineFixerTest
+ * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixerTest\ArrayOpenerAndCloserNewlineFixerTest
  */
-final class ArrayOpenerNewlineFixer extends ArrayOpenerAndCloserNewlineFixer
+class ArrayOpenerAndCloserNewlineFixer extends AbstractSymplifyFixer
 {
     /**
      * @var int[]

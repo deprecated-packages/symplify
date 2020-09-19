@@ -75,16 +75,17 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 <br>
 
-## Remove Extra Spaces around Property and Constants Modifiers
+## Add Newline Before and After array opener with Keys
 
-- class: [`ArrayOpenerNewlineFixer`](../src/Fixer/ArrayNotation/ArrayOpenerNewlineFixer.php)
+- class: [`ArrayOpenerAndCloserNewlineFixer`](../src/Fixer/ArrayNotation/ArrayOpenerAndCloserNewlineFixer.php)
 
 ```diff
--$items = [$item,
+-$items = [$item => 1,
+-    $item => 2];
 +$items = [
 +    $item,
-     $item2
- ];
++     $item2
++];
 ```
 
 <br>

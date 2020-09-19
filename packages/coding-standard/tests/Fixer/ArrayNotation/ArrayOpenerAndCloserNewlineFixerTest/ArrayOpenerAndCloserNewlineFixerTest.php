@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerNewlineFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixerTest;
 
 use Iterator;
 use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerNewlineFixer;
@@ -10,7 +10,7 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class ArrayOpenerNewlineFixerTest extends AbstractCheckerTestCase
+final class ArrayOpenerAndCloserNewlineFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideData()
