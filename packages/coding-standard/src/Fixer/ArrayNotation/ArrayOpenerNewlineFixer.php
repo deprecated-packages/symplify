@@ -14,7 +14,6 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
-use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerNewlineFixer\ArrayOpenerNewlineFixerTest
@@ -27,11 +26,6 @@ final class ArrayOpenerNewlineFixer extends AbstractSymplifyFixer
     private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
 
     /**
-     * @var ArrayWrapperFactory
-     */
-    private $arrayWrapperFactory;
-
-    /**
      * @var BlockFinder
      */
     private $blockFinder;
@@ -41,12 +35,8 @@ final class ArrayOpenerNewlineFixer extends AbstractSymplifyFixer
      */
     private $whitespacesFixerConfig;
 
-    public function __construct(
-        ArrayWrapperFactory $arrayWrapperFactory,
-        BlockFinder $blockFinder,
-        WhitespacesFixerConfig $whitespacesFixerConfig
-    ) {
-        $this->arrayWrapperFactory = $arrayWrapperFactory;
+    public function __construct(BlockFinder $blockFinder, WhitespacesFixerConfig $whitespacesFixerConfig)
+    {
         $this->blockFinder = $blockFinder;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
@@ -59,7 +49,7 @@ final class ArrayOpenerNewlineFixer extends AbstractSymplifyFixer
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS)
-            && $tokens->isAllTokenKindsFound([T_DOUBLE_ARROW]);
+            && $tokens->isTokenKindFound(T_DOUBLE_ARROW);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -69,18 +59,17 @@ final class ArrayOpenerNewlineFixer extends AbstractSymplifyFixer
                 continue;
             }
 
+            if ($this->isNextTokenAlsoArrayOpener($tokens, $index)) {
+                continue;
+            }
+
             $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $index);
             if ($blockInfo === null) {
                 continue;
             }
 
-            // is start + end on the same line
-            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockInfo($tokens, $blockInfo);
-            if ($arrayWrapper->getItemCount() < 2) {
-                continue;
-            }
-
-            if ($arrayWrapper->isStartingAndEndingOnTheSameLine()) {
+            // is single line? → skip
+            if (! $tokens->isPartialCodeMultiline($blockInfo->getStart(), $blockInfo->getEnd())) {
                 continue;
             }
 
@@ -103,5 +92,16 @@ final class ArrayOpenerNewlineFixer extends AbstractSymplifyFixer
     {
         // to handle the indent
         return $this->getPriorityBefore(ArrayIndentationFixer::class);
+    }
+
+    private function isNextTokenAlsoArrayOpener(Tokens $tokens, int $index): bool
+    {
+        $nextMeaningFullTokenPosition = $tokens->getNextMeaningfulToken($index);
+        if ($nextMeaningFullTokenPosition === null) {
+            return false;
+        }
+
+        $nextMeaningFullToken = $tokens[$nextMeaningFullTokenPosition];
+        return $nextMeaningFullToken->isGivenKind(self::ARRAY_OPEN_TOKENS);
     }
 }
