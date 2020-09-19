@@ -31,7 +31,6 @@ final class StaticFixtureFinder
             ->name($suffix);
 
         $fileInfos = iterator_to_array($finder);
-
         return array_values($fileInfos);
     }
 }

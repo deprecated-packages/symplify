@@ -68,7 +68,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
         $this->doTestWrongToFixedFile(
             $inputFileInfoAndExpectedFileInfo->getInputFileInfo(),
-            $inputFileInfoAndExpectedFileInfo->getExpectedFilenfoRealPath(),
+            $inputFileInfoAndExpectedFileInfo->getExpectedFileInfoRealPath(),
             $fileInfo
         );
     }
