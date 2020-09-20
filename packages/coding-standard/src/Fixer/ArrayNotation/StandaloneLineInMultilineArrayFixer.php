@@ -60,7 +60,7 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS)
-            && $tokens->isAllTokenKindsFound([T_DOUBLE_ARROW]);
+            && $tokens->isTokenKindFound(T_DOUBLE_ARROW);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
