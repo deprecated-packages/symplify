@@ -4,85 +4,36 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
-use PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
-use SplFileInfo;
-use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
+use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixerTest\ArrayOpenerAndCloserNewlineFixerTest
  */
-class ArrayOpenerAndCloserNewlineFixer extends AbstractSymplifyFixer
+class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
 {
-    /**
-     * @var int[]
-     */
-    private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
-
-    /**
-     * @var BlockFinder
-     */
-    private $blockFinder;
-
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    public function __construct(BlockFinder $blockFinder, WhitespacesFixerConfig $whitespacesFixerConfig)
-    {
-        $this->blockFinder = $blockFinder;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-    }
-
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Indexed PHP array opener and closer must be indented on newline', []);
     }
 
-    public function isCandidate(Tokens $tokens): bool
+    public function fixArrayOpener(Tokens $tokens, BlockInfo $blockInfo, int $index): void
     {
-        return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS)
-            && $tokens->isTokenKindFound(T_DOUBLE_ARROW);
-    }
-
-    public function fix(SplFileInfo $file, Tokens $tokens): void
-    {
-        foreach ($this->reverseTokens($tokens) as $index => $token) {
-            if (! $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
-                continue;
-            }
-
-            if ($this->isNextTokenAlsoArrayOpener($tokens, $index)) {
-                continue;
-            }
-
-            $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $index);
-            if ($blockInfo === null) {
-                continue;
-            }
-
-            // is single line? → skip
-            if (! $tokens->isPartialCodeMultiline($blockInfo->getStart(), $blockInfo->getEnd())) {
-                continue;
-            }
-
-            // closer must run before the opener, as tokens as added by traversing up
-            $this->handleArrayCloser($tokens, $blockInfo->getEnd());
-            $this->handleArrayOpener($tokens, $index);
+        if ($this->isNextTokenAlsoArrayOpener($tokens, $index)) {
+            return;
         }
-    }
 
-    public function getPriority(): int
-    {
-        // to handle the indent
-        return $this->getPriorityBefore(ArrayIndentationFixer::class);
+        // is single line? → skip
+        if (! $tokens->isPartialCodeMultiline($blockInfo->getStart(), $blockInfo->getEnd())) {
+            return;
+        }
+
+        // closer must run before the opener, as tokens as added by traversing up
+        $this->handleArrayCloser($tokens, $blockInfo->getEnd());
+        $this->handleArrayOpener($tokens, $index);
     }
 
     private function isNextTokenAlsoArrayOpener(Tokens $tokens, int $index): bool

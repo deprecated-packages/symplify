@@ -121,10 +121,6 @@ final class CodingStandardSyncChecker
         sort($existingCheckerRules);
 
         $classesToExclude = [
-            // abstract
-            AbstractRegexRule::class,
-            AbstractSymplifyFixer::class,
-            AbstractManyNodeTypeRule::class,
             // part of imported config
             ClassLikeCognitiveComplexityRule::class,
             FunctionLikeCognitiveComplexityRule::class,
@@ -132,9 +128,13 @@ final class CodingStandardSyncChecker
             ArrayOpenerNewlineFixer::class,
         ];
 
-        // filter out abstract class
         $shortClasses = [];
         foreach ($existingCheckerRules as $key => $existingCheckerRule) {
+            // filter out abstract class
+            if (Strings::contains($existingCheckerRule, '\Abstract')) {
+                continue;
+            }
+
             if (in_array($existingCheckerRule, $classesToExclude, true)) {
                 continue;
             }

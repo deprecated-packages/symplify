@@ -7,12 +7,8 @@ namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 use PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use SplFileInfo;
-use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
@@ -20,36 +16,22 @@ use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer\StandaloneLineInMultilineArrayFixerTest
  */
-final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
+final class StandaloneLineInMultilineArrayFixer extends AbstractArrayFixer
 {
-    /**
-     * @var int[]
-     */
-    private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
-
-    /**
-     * @var ArrayWrapperFactory
-     */
-    private $arrayWrapperFactory;
-
     /**
      * @var LineLengthTransformer
      */
     private $lineLengthTransformer;
 
     /**
-     * @var BlockFinder
+     * @var ArrayWrapperFactory
      */
-    private $blockFinder;
+    private $arrayWrapperFactory;
 
-    public function __construct(
-        ArrayWrapperFactory $arrayWrapperFactory,
-        LineLengthTransformer $lineLengthTransformer,
-        BlockFinder $blockFinder
-    ) {
-        $this->arrayWrapperFactory = $arrayWrapperFactory;
+    public function __construct(LineLengthTransformer $lineLengthTransformer, ArrayWrapperFactory $arrayWrapperFactory)
+    {
         $this->lineLengthTransformer = $lineLengthTransformer;
-        $this->blockFinder = $blockFinder;
+        $this->arrayWrapperFactory = $arrayWrapperFactory;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -57,30 +39,13 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer
         return new FixerDefinition('Indexed PHP arrays should have 1 item per line.', []);
     }
 
-    public function isCandidate(Tokens $tokens): bool
+    public function fixArrayOpener(Tokens $tokens, BlockInfo $blockInfo, int $index): void
     {
-        return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS)
-            && $tokens->isAllTokenKindsFound([T_DOUBLE_ARROW]);
-    }
-
-    public function fix(SplFileInfo $file, Tokens $tokens): void
-    {
-        foreach ($this->reverseTokens($tokens) as $index => $token) {
-            if (! $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
-                continue;
-            }
-
-            $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $index);
-            if ($blockInfo === null) {
-                continue;
-            }
-
-            if ($this->shouldSkip($tokens, $blockInfo)) {
-                continue;
-            }
-
-            $this->lineLengthTransformer->breakItems($blockInfo, $tokens);
+        if ($this->shouldSkip($tokens, $blockInfo)) {
+            return;
         }
+
+        $this->lineLengthTransformer->breakItems($blockInfo, $tokens);
     }
 
     public function getPriority(): int
