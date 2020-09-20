@@ -23,6 +23,6 @@ final class ArrayWrapperFactory
 
     public function createFromTokensAndBlockInfo(Tokens $tokens, BlockInfo $blockInfo): ArrayWrapper
     {
-        return new ArrayWrapper($tokens, $blockInfo->getStart(), $blockInfo->getEnd(), $this->tokenSkipper);
+        return new ArrayWrapper($tokens, $blockInfo, $this->tokenSkipper);
     }
 }

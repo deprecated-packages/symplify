@@ -7,13 +7,8 @@ namespace Symplify\CodingStandard\TokenRunner\ValueObject\Wrapper\FixerWrapper;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpParser\Node;
-use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\ArrayItem;
-use PhpParser\Node\Stmt\Expression;
-use PhpParser\ParserFactory;
-use Symplify\CodingStandard\Exception\ShouldNotHappenException;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
+use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 final class ArrayWrapper
 {
@@ -21,16 +16,6 @@ final class ArrayWrapper
      * @var int[]
      */
     private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
-
-    /**
-     * @var int
-     */
-    private $endIndex;
-
-    /**
-     * @var int
-     */
-    private $startIndex;
 
     /**
      * @var Tokens
@@ -43,37 +28,25 @@ final class ArrayWrapper
     private $tokenSkipper;
 
     /**
-     * @var Array_
+     * @var BlockInfo
      */
-    private $array;
+    private $blockInfo;
 
-    public function __construct(Tokens $tokens, int $startIndex, int $endIndex, TokenSkipper $tokenSkipper)
+    public function __construct(Tokens $tokens, BlockInfo $blockInfo, TokenSkipper $tokenSkipper)
     {
         $this->tokens = $tokens;
-        $this->startIndex = $startIndex;
-        $this->endIndex = $endIndex;
         $this->tokenSkipper = $tokenSkipper;
 
-        /** @var Token $startToken */
-        $startToken = $tokens[$this->startIndex];
-        // old array
-        if ($startToken->getContent() === '(') {
-            --$startIndex;
-        }
-
-        $arrayContent = $this->tokens->generatePartialCode($startIndex, $endIndex);
-
-        $this->array = $this->parseStringToPhpParserNode($arrayContent);
+        $this->blockInfo = $blockInfo;
     }
 
     public function isAssociativeArray(): bool
     {
-        foreach ((array) $this->array->items as $item) {
-            if (! $item instanceof ArrayItem) {
-                continue;
-            }
+        for ($i = $this->blockInfo->getStart() + 1; $i <= $this->blockInfo->getEnd() - 1; ++$i) {
+            $i = $this->tokenSkipper->skipBlocks($this->tokens, $i);
 
-            if ($item->key !== null) {
+            $token = $this->tokens[$i];
+            if ($token->isGivenKind(T_DOUBLE_ARROW)) {
                 return true;
             }
         }
@@ -83,12 +56,22 @@ final class ArrayWrapper
 
     public function getItemCount(): int
     {
-        return count((array) $this->array->items);
+        $itemCount = 0;
+        for ($i = $this->blockInfo->getEnd() - 1; $i >= $this->blockInfo->getStart(); --$i) {
+            $i = $this->tokenSkipper->skipBlocksReversed($this->tokens, $i);
+
+            $token = $this->tokens[$i];
+            if ($token->isGivenKind(T_DOUBLE_ARROW)) {
+                ++$itemCount;
+            }
+        }
+
+        return $itemCount;
     }
 
     public function isFirstItemArray(): bool
     {
-        for ($i = $this->endIndex - 1; $i >= $this->startIndex; --$i) {
+        for ($i = $this->blockInfo->getEnd() - 1; $i >= $this->blockInfo->getStart(); --$i) {
             $i = $this->tokenSkipper->skipBlocksReversed($this->tokens, $i);
 
             /** @var Token $token */
@@ -107,27 +90,5 @@ final class ArrayWrapper
         }
 
         return false;
-    }
-
-    private function parseStringToPhpParserNode(string $content): Node
-    {
-        $parserFactory = new ParserFactory();
-        $parser = $parserFactory->create(ParserFactory::PREFER_PHP7);
-
-        $nodes = $parser->parse('<?php ' . $content . ';');
-
-        if ($nodes === null) {
-            throw new ShouldNotHappenException();
-        }
-
-        if (count($nodes) === 0) {
-            throw new ShouldNotHappenException();
-        }
-
-        if ($nodes[0] instanceof Expression) {
-            return $nodes[0]->expr;
-        }
-
-        return $nodes[0];
     }
 }
