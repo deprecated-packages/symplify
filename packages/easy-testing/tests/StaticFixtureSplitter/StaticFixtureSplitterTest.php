@@ -19,4 +19,16 @@ final class StaticFixtureSplitterTest extends TestCase
         $this->assertSame('a' . PHP_EOL, $inputAndExpected->getInput());
         $this->assertSame('b' . PHP_EOL, $inputAndExpected->getExpected());
     }
+
+    public function testSplitFileInfoToLocalInputAndExpected(): void
+    {
+        $fileInfo = new SmartFileInfo(__DIR__ . '/Source/file_and_value.php.inc');
+
+        $inputFileInfoAndExpected = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpected($fileInfo);
+
+        $realPath = $inputFileInfoAndExpected->getInputFileInfo()->getRealPath();
+        $this->assertFileExists($realPath);
+
+        $this->assertSame(15025, $inputFileInfoAndExpected->getExpected());
+    }
 }
