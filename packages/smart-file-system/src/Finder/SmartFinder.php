@@ -42,7 +42,8 @@ final class SmartFinder
             $finder = new Finder();
             $finder->name($name)
                 ->in($directories)
-                ->files();
+                ->files()
+                ->sortByName();
 
             $fileInfos = $this->finderSanitizer->sanitize($finder);
         }
