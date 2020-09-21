@@ -22,7 +22,12 @@ final class StandardizeHereNowDocKeywordFixerTest extends AbstractCheckerTestCas
 
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
+        $yieldDirectory = StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
+        if (version_compare(PHP_VERSION, '7.2', '<=')) {
+            $yieldDirectory = array_merge($yieldDirectory, StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture73plus'));
+        }
+
+        return $yieldDirectory;
     }
 
     protected function getCheckerClass(): string
