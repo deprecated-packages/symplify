@@ -62,12 +62,12 @@ final class StaticFixtureSplitter
         return sys_get_temp_dir() . '/_temp_fixture_easy_testing';
     }
 
-    private static function createTemporaryFileInfo(
-        SmartFileInfo $smartFileInfo,
+    public static function createTemporaryFileInfo(
+        SmartFileInfo $fixtureSmartFileInfo,
         string $prefix,
         string $fileContent
     ): SmartFileInfo {
-        $temporaryFilePath = self::createTemporaryPathWithPrefix($smartFileInfo, $prefix);
+        $temporaryFilePath = self::createTemporaryPathWithPrefix($fixtureSmartFileInfo, $prefix);
 
         $smartFileSystem = new SmartFileSystem();
         $smartFileSystem->dumpFile($temporaryFilePath, $fileContent);
