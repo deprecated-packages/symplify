@@ -41,6 +41,11 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
      */
     private $keyword = self::DEFAULT_KEYWORD;
 
+    /**
+     * @var int
+     */
+    private $spaceEnd = 0;
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Use configured nowdoc and heredoc keyword', []);
@@ -86,7 +91,7 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
         $newContent = Strings::replace(
             $token->getContent(),
             self::START_HEREDOC_NOWDOC_NAME_REGEX,
-            '$1' . $this->keyword . '$4'
+            '$1' . trim($this->keyword) . '$4'
         );
 
         $tokens[$position] = new Token([$token->getId(), $newContent]);
@@ -94,8 +99,19 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
 
     private function fixEndToken(Tokens $tokens, Token $token, int $position): void
     {
+        $tokenContent = $token->getContent();
+        $trimmedTokenContent = trim($tokenContent);
+
+        if ($tokenContent !== $trimmedTokenContent) {
+            $this->spaceEnd = strlen($tokenContent) - strlen($trimmedTokenContent);
+        }
+
         if ($token->getContent() === $this->keyword) {
             return;
+        }
+
+        if ($this->spaceEnd > 0) {
+            $this->keyword = str_repeat(' ', $this->spaceEnd) . $this->keyword;
         }
 
         $tokens[$position] = new Token([$token->getId(), $this->keyword]);
