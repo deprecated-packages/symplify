@@ -66,7 +66,7 @@ final class SnippetFormatter
     {
         return rtrim($match['opening'], PHP_EOL) . PHP_EOL
             . $this->fixContent($match['content'])
-            . ltrim($match['closing'], PHP_EOL);
+            . str_replace(PHP_EOL, '', $match['closing']);
     }
 
     private function fixContent(string $content): string
