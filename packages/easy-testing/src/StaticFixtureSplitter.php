@@ -6,6 +6,7 @@ namespace Symplify\EasyTesting;
 
 use Nette\Utils\Strings;
 use Symplify\EasyTesting\ValueObject\InputAndExpected;
+use Symplify\EasyTesting\ValueObject\InputFileInfoAndExpected;
 use Symplify\EasyTesting\ValueObject\InputFileInfoAndExpectedFileInfo;
 use Symplify\EasyTesting\ValueObject\SplitLine;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -73,6 +74,22 @@ final class StaticFixtureSplitter
         $smartFileSystem->dumpFile($temporaryFilePath, $fileContent);
 
         return new SmartFileInfo($temporaryFilePath);
+    }
+
+    public static function splitFileInfoToLocalInputAndExpected(
+        SmartFileInfo $smartFileInfo,
+        bool $autoloadTestFixture = false
+    ): InputFileInfoAndExpected {
+        $inputAndExpected = self::splitFileInfoToInputAndExpected($smartFileInfo);
+
+        $inputFileInfo = self::createTemporaryFileInfo($smartFileInfo, 'input', $inputAndExpected->getInput());
+
+        // some files needs to be autoload to enable reflection
+        if ($autoloadTestFixture) {
+            require_once $inputFileInfo->getRealPath();
+        }
+
+        return new InputFileInfoAndExpected($inputFileInfo, $inputAndExpected->getExpected());
     }
 
     private static function createTemporaryPathWithPrefix(SmartFileInfo $smartFileInfo, string $prefix): string
