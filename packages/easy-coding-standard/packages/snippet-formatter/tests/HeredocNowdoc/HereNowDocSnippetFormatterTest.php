@@ -64,7 +64,7 @@ final class HereNowDocSnippetFormatterTest extends AbstractKernelTestCase
     {
         $appendIterator = new AppendIterator();
         $appendIterator->append(StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.php.inc'));
-        if (version_compare(PHP_VERSION, '7.3', '>=')) {;
+        if (version_compare(PHP_VERSION, '7.3', '>=')) {
             $appendIterator->append(StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture73plus', '*.php.inc'));
         }
 
