@@ -11,6 +11,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Autodiscovery\Discovery;
 use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
@@ -33,7 +34,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
      * @var string
      * @see https://regex101.com/r/HDOhtp/4
      */
-    private const VALUE_OBJECT_REGEX = '#\bValueObject\b#';
+    private const VALUE_OBJECT_REGEX = '#\bValueObject|Entity|Event\b#';
 
     /**
      * @var string[]
@@ -48,6 +49,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
         AutodiscoveryFinder::class,
         Discovery::class,
         AutodiscoveryFinder::class,
+        Extension::class,
     ];
 
     /**
