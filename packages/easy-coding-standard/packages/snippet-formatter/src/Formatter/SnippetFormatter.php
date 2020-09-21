@@ -71,19 +71,19 @@ final class SnippetFormatter
 
     private function fixContent(string $content): string
     {
-        $content = trim($content);
+        $content = $content;
         $key = md5($content);
 
         /** @var string $temporaryFilePath */
         $temporaryFilePath = sys_get_temp_dir() . '/ecs_temp/' . sprintf('php-code-%s.php', $key);
 
         $hasPreviouslyOpeningPHPTag = true;
-        if (! Strings::startsWith($content, '<?php')) {
+        if (! Strings::startsWith(trim($content), '<?php')) {
             $content = '<?php' . PHP_EOL . $content;
             $hasPreviouslyOpeningPHPTag = false;
         }
 
-        $fileContent = $content;
+        $fileContent = ltrim($content, PHP_EOL);
 
         $this->smartFileSystem->dumpFile($temporaryFilePath, $fileContent);
         $temporaryFileInfo = new SmartFileInfo($temporaryFilePath);
@@ -104,7 +104,6 @@ final class SnippetFormatter
             $fileContent = substr($fileContent, 6);
         }
 
-        return $fileContent . PHP_EOL;
         return rtrim($fileContent, PHP_EOL) . PHP_EOL;
     }
 }
