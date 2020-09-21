@@ -11,6 +11,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Autodiscovery\Discovery;
 use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
@@ -48,6 +49,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
         AutodiscoveryFinder::class,
         Discovery::class,
         AutodiscoveryFinder::class,
+        Extension::class,
     ];
 
     /**
