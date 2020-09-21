@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
 
+use AppendIterator;
 use Iterator;
 use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
@@ -22,12 +23,13 @@ final class StandardizeHereNowDocKeywordFixerTest extends AbstractCheckerTestCas
 
     public function provideData(): Iterator
     {
-        $yieldDirectory = StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
+        $appendIterator = new AppendIterator();
+        $appendIterator->append(StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture'));
         if (version_compare(PHP_VERSION, '7.2', '<=')) {
-            $yieldDirectory = array_merge($yieldDirectory, StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture73plus'));
+            $appendIterator->append(StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture73plus'));
         }
 
-        return $yieldDirectory;
+        return $appendIterator;
     }
 
     protected function getCheckerClass(): string
