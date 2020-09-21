@@ -34,7 +34,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTyp
      * @var string
      * @see https://regex101.com/r/HDOhtp/4
      */
-    private const VALUE_OBJECT_REGEX = '#\bValueObject\b#';
+    private const VALUE_OBJECT_REGEX = '#\bValueObject|Entity|Event\b#';
 
     /**
      * @var string[]
