@@ -102,7 +102,7 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
         $tokenContent = $token->getContent();
         $trimmedTokenContent = trim($tokenContent);
 
-        if (version_compare(PHP_VERSION, '7.2', '>=') && $tokenContent !== $trimmedTokenContent) {
+        if (version_compare(PHP_VERSION, '7.3', '>=') && $tokenContent !== $trimmedTokenContent) {
             $this->spaceEnd = strlen($tokenContent) - strlen($trimmedTokenContent);
         }
 
