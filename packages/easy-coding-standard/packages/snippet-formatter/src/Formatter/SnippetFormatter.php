@@ -64,7 +64,7 @@ final class SnippetFormatter
      */
     private function fixContentAndPreserveFormatting(array $match): string
     {
-        return rtrim($match['opening'], PHP_EOL) . PHP_EOL
+        return str_replace(PHP_EOL, '', $match['opening']) . PHP_EOL
             . $this->fixContent($match['content'])
             . str_replace(PHP_EOL, '', $match['closing']);
     }
@@ -104,6 +104,7 @@ final class SnippetFormatter
             $fileContent = substr($fileContent, 6);
         }
 
+        return $fileContent . PHP_EOL;
         return rtrim($fileContent, PHP_EOL) . PHP_EOL;
     }
 }
