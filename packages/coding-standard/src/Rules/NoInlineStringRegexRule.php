@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Scalar\String_;
@@ -42,6 +43,12 @@ final class NoInlineStringRegexRule extends AbstractRegexRule
 
         // it's not string → good
         if (! $secondArgValue instanceof String_) {
+            return [];
+        }
+
+        $regexValue = $secondArgValue->value;
+
+        if (Strings::length($regexValue) <= 7) {
             return [];
         }
 
