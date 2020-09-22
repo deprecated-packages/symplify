@@ -46,11 +46,11 @@ final class NoTraitExceptItsMethodsPublicAndRequired extends AbstractManyNodeTyp
 
         foreach ($methods as $method) {
             $docComment = $method->getDocComment();
-            if ($docComment === null) {
+            if ($docComment === null || ! $method->isPublic()) {
                 return [self::ERROR_MESSAGE];
             }
 
-            if ($method->isPublic() && ! Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
+            if (! Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
                 return [self::ERROR_MESSAGE];
             }
         }
