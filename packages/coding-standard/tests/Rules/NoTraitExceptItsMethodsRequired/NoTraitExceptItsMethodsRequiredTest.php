@@ -21,6 +21,7 @@ final class NoTraitExceptItsMethodsRequiredTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SomeTraitWithPublicMethod.php', []];
         yield [__DIR__ . '/Fixture/SomeTrait.php', [[NoTraitExceptItsMethodsRequired::ERROR_MESSAGE, 7]]];
     }
 
