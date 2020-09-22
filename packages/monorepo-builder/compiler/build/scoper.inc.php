@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 return [
     'prefix' => null,
     'finders' => [],
@@ -16,5 +18,7 @@ return [
     'whitelist' => [
         // needed for autoload, that is not prefixed, since it's in bin/* file
         'Symplify\*',
+        // for config.php
+        ContainerConfigurator::class,
     ],
 ];
