@@ -8,12 +8,12 @@ use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
-use ReflectionClass;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoTraitExceptForAbstractClassSymfonyRule\NoTraitExceptForAbstractClassSymfonyRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\NoTraitExceptForSymfonyClassRule\NoTraitExceptForSymfonyClassRuleTest
  */
-final class NoTraitExceptForAbstractClassSymfonyRule extends AbstractManyNodeTypeRule
+final class NoTraitExceptForSymfonyClassRule extends AbstractManyNodeTypeRule
 {
     /**
      * @var string
@@ -35,10 +35,14 @@ final class NoTraitExceptForAbstractClassSymfonyRule extends AbstractManyNodeTyp
     public function process(Node $node, Scope $scope): array
     {
         /** @var Identifier $name */
-        $name = $node->name;
-        $usedTraits = class_uses($name->toString());
-        dd($usedTraits);
+        $name = $node->namespacedName;
+        $className = $name->toString();
+        $usedTraits = class_uses($className);
         if ($usedTraits === []) {
+            return [];
+        }
+
+        if (is_subclass_of($className, Kernel::class)) {
             return [];
         }
 

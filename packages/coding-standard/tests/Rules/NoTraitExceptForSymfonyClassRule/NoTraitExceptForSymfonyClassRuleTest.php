@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoTraitExceptForAbstractClassSymfonyRule;
+namespace Symplify\CodingStandard\Tests\Rules\NoTraitExceptForSymfonyClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\NoTraitExceptForAbstractClassSymfonyRule;
+use Symplify\CodingStandard\Rules\NoTraitExceptForSymfonyClassRule;
 
-final class NoTraitExceptForAbstractClassSymfonyRuleTest extends RuleTestCase
+final class NoTraitExceptForSymfonyClassRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -22,10 +22,12 @@ final class NoTraitExceptForAbstractClassSymfonyRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SomeClassWithoutTrait.php', []];
+        yield [__DIR__ . '/Fixture/MicroKernelTraitKernel.php', []];
+        yield [__DIR__ . '/Fixture/SomeClassWithTrait.php', [[NoTraitExceptForSymfonyClassRule::ERROR_MESSAGE, 7]]];
     }
 
     protected function getRule(): Rule
     {
-        return new NoTraitExceptForAbstractClassSymfonyRule();
+        return new NoTraitExceptForSymfonyClassRule();
     }
 }
