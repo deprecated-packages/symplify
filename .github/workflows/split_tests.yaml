@@ -13,7 +13,6 @@ jobs:
             matrix:
                 package_name:
                     - autowire-array-parameter
-                    - auto-bind-parameter
                     - smart-file-system
                     - package-builder
                     - easy-coding-standard
