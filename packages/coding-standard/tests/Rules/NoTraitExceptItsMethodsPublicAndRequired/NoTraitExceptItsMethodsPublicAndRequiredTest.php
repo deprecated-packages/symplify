@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoTraitExceptItsMethodsRequired;
+namespace Symplify\CodingStandard\Tests\Rules\NoTraitExceptItsMethodsPublicAndRequired;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsRequired;
+use Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequired;
 
-final class NoTraitExceptItsMethodsRequiredTest extends RuleTestCase
+final class NoTraitExceptItsMethodsPublicAndRequiredTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -22,11 +22,11 @@ final class NoTraitExceptItsMethodsRequiredTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SomeTraitWithPublicMethod.php', []];
-        yield [__DIR__ . '/Fixture/SomeTrait.php', [[NoTraitExceptItsMethodsRequired::ERROR_MESSAGE, 7]]];
+        yield [__DIR__ . '/Fixture/SomeTrait.php', [[NoTraitExceptItsMethodsPublicAndRequired::ERROR_MESSAGE, 7]]];
     }
 
     protected function getRule(): Rule
     {
-        return new NoTraitExceptItsMethodsRequired();
+        return new NoTraitExceptItsMethodsPublicAndRequired();
     }
 }

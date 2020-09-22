@@ -10,9 +10,9 @@ use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoTraitExceptItsMethodsRequired\NoTraitExceptItsMethodsRequiredTest
+ * @see \Symplify\CodingStandard\Tests\Rules\NoTraitExceptItsMethodsPublicAndRequired\NoTraitExceptItsMethodsPublicAndRequiredTest
  */
-final class NoTraitExceptItsMethodsRequired extends AbstractManyNodeTypeRule
+final class NoTraitExceptItsMethodsPublicAndRequired extends AbstractManyNodeTypeRule
 {
     /**
      * @var string
