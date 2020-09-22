@@ -23,7 +23,10 @@ final class NoTraitExceptItsMethodsPublicAndRequiredTest extends RuleTestCase
     {
         yield [__DIR__ . '/Fixture/SomeTraitWithPublicMethodRequired.php', []];
         yield [__DIR__ . '/Fixture/SomeTrait.php', [[NoTraitExceptItsMethodsPublicAndRequired::ERROR_MESSAGE, 7]]];
-        yield [__DIR__ . '/Fixture/SomeTraitWithoutMethod.php', [[NoTraitExceptItsMethodsPublicAndRequired::ERROR_MESSAGE, 7]]];
+        yield [
+            __DIR__ . '/Fixture/SomeTraitWithoutMethod.php',
+            [[NoTraitExceptItsMethodsPublicAndRequired::ERROR_MESSAGE, 7]],
+        ];
         yield [
             __DIR__ . '/Fixture/SomeTraitWithPublicMethod.php',
             [[NoTraitExceptItsMethodsPublicAndRequired::ERROR_MESSAGE, 7]],
