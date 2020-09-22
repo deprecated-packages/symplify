@@ -64,7 +64,6 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\AutoBindParameter\\": "packages/auto-bind-parameter/src",
             "Symplify\\Autodiscovery\\": "packages/autodiscovery/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\ChangelogLinker\\": "packages/changelog-linker/src",
@@ -107,7 +106,6 @@
             "vendor/squizlabs/php_codesniffer/src/Sniffs/Sniff.php"
         ],
         "psr-4": {
-            "Symplify\\AutoBindParameter\\Tests\\": "packages/auto-bind-parameter/tests",
             "Symplify\\Autodiscovery\\Tests\\": "packages/autodiscovery/tests",
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/changelog-linker/tests",

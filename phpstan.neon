@@ -205,7 +205,6 @@ parameters:
         -
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'
             paths:
-                - packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php
                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
 
         -
@@ -269,9 +268,6 @@ parameters:
         -
             message: '#Use another value object over string with value object arrays#'
             paths:
-                # symfony contract
-                - packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php # 79
-                - packages/auto-bind-parameter/src/DependencyInjection/CompilerPass/AutoBindParameterCompilerPass.php # 82
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 25
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
