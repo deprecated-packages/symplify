@@ -53,7 +53,7 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule
             return [];
         }
 
-        if ($this->inTestsDirectory($scope)) {
+        if ($this->isInTestsDirectory($scope)) {
             return [];
         }
 
@@ -76,7 +76,7 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule
         return strstr($scope->getFileDescription(), 'Test.php') !== false;
     }
 
-    private function inTestsDirectory(Scope $scope): bool
+    private function isInTestsDirectory(Scope $scope): bool
     {
         return strstr($scope->getFileDescription(), '/tests/') !== false;
     }
