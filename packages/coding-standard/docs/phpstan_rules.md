@@ -457,6 +457,36 @@ final class SomeClass
 
 <br>
 
+## No Trait Except Its methods public and Required via @required Docblock
+
+- class: [`NoTraitExceptItsMethodsPublicAndRequired`](../src/Rules/NoTraitExceptItsMethodsPublicAndRequired.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequired
+```
+
+```php
+<?php declare(strict_types=1);
+
+trait SomeTrait
+{
+    /**
+     * @required
+     */
+    public function run()
+    {
+
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Use Explicit String over ::class Reference on Specific Method Call Position
 
 Useful for PHAR prefixing with [php-scoper](https://github.com/humbug/php-scoper) and [box](https://github.com/humbug/box). This allows you to keep configurable string-classes unprefixed. If `::class` is used, they would be prefixed with `Prefix30281...`, so the original class would never be found.
