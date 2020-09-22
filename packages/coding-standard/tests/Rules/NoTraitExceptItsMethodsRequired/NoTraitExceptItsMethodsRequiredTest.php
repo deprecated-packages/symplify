@@ -22,8 +22,7 @@ final class NoTraitExceptItsMethodsRequiredTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SomeClassWithoutTrait.php', []];
-        yield [__DIR__ . '/Fixture/MicroKernelTraitKernel.php', []];
-        yield [__DIR__ . '/Fixture/SomeClassWithTrait.php', [[NoTraitExceptForSymfonyClassRule::ERROR_MESSAGE, 7]]];
+        yield [__DIR__ . '/Fixture/SomeClassWithTrait.php', [[NoTraitExceptItsMethodsRequired::ERROR_MESSAGE, 7]]];
     }
 
     protected function getRule(): Rule

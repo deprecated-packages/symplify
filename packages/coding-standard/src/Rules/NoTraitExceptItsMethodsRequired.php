@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
-use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoTraitExceptItsMethodsRequired\NoTraitExceptItsMethodsRequiredTest
