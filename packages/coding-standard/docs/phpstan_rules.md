@@ -457,15 +457,15 @@ final class SomeClass
 
 <br>
 
-## No Trait Except Its methods Required via @required Docblock
+## No Trait Except Its methods public and Required via @required Docblock
 
-- class: [`NoTraitExceptItsMethodsRequired`](../src/Rules/NoTraitExceptItsMethodsRequired.php)
+- class: [`NoTraitExceptItsMethodsPublicAndRequired`](../src/Rules/NoTraitExceptItsMethodsPublicAndRequired.php)
 - **configuration allowed**
 
 ```yaml
 # phpstan.neon
 rules:
-    - Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsRequired
+    - Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequired
 ```
 
 ```php
