@@ -457,6 +457,30 @@ final class SomeClass
 
 <br>
 
+## No Trait Except For Symfony Class
+
+- class: [`NoTraitExceptForSymfonyClassRule`](../src/Rules/NoTraitExceptForSymfonyClassRule.php)
+- **configuration allowed**
+
+```yaml
+# phpstan.neon
+rules:
+    - Symplify\CodingStandard\Rules\NoTraitExceptForSymfonyClassRule
+```
+
+```php
+<?php declare(strict_types=1);
+
+final class SomeClassWithTrait
+{
+    use SomeTrait;
+}
+```
+
+:x:
+
+<br>
+
 ## Use Explicit String over ::class Reference on Specific Method Call Position
 
 Useful for PHAR prefixing with [php-scoper](https://github.com/humbug/php-scoper) and [box](https://github.com/humbug/box). This allows you to keep configurable string-classes unprefixed. If `::class` is used, they would be prefixed with `Prefix30281...`, so the original class would never be found.
