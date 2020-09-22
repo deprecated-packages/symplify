@@ -71,7 +71,7 @@ final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
     private function isPropertyExistInTraits(Class_ $class, string $propertyName): bool
     {
         /** @var Identifier $name */
-        $name = $class->name;
+        $name = $class->namespacedName;
         $usedTraits = class_uses($name->toString());
         foreach ($usedTraits as $trait) {
             $r = new ReflectionClass($trait);
