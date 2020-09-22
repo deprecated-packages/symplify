@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoTraitExceptForSymfonyClassRule;
+namespace Symplify\CodingStandard\Tests\Rules\NoTraitExceptItsMethodsRequired;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\NoTraitExceptForSymfonyClassRule;
+use Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsRequired;
 
-final class NoTraitExceptForSymfonyClassRuleTest extends RuleTestCase
+final class NoTraitExceptItsMethodsRequiredTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -28,6 +28,6 @@ final class NoTraitExceptForSymfonyClassRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoTraitExceptForSymfonyClassRule();
+        return new NoTraitExceptItsMethodsRequired();
     }
 }

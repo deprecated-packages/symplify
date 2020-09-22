@@ -457,19 +457,30 @@ final class SomeClass
 
 <br>
 
-## No Trait Except For Symfony Class
+## No Trait Except Its methods Required via @required Docblock
 
-- class: [`NoTraitExceptForSymfonyClassRule`](../src/Rules/NoTraitExceptForSymfonyClassRule.php)
+- class: [`NoTraitExceptItsMethodsRequired`](../src/Rules/NoTraitExceptItsMethodsRequired.php)
 - **configuration allowed**
 
 ```yaml
 # phpstan.neon
 rules:
-    - Symplify\CodingStandard\Rules\NoTraitExceptForSymfonyClassRule
+    - Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsRequired
 ```
 
 ```php
 <?php declare(strict_types=1);
+
+trait SomeTrait
+{
+    /**
+     * @required
+     */
+    public function run()
+    {
+
+    }
+}
 
 final class SomeClassWithTrait
 {

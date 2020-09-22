@@ -11,9 +11,9 @@ use PHPStan\Analyser\Scope;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoTraitExceptForSymfonyClassRule\NoTraitExceptForSymfonyClassRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\NoTraitExceptItsMethodsRequired\NoTraitExceptItsMethodsRequiredTest
  */
-final class NoTraitExceptForSymfonyClassRule extends AbstractManyNodeTypeRule
+final class NoTraitExceptItsMethodsRequired extends AbstractManyNodeTypeRule
 {
     /**
      * @var string
@@ -39,10 +39,6 @@ final class NoTraitExceptForSymfonyClassRule extends AbstractManyNodeTypeRule
         $className = $name->toString();
         $usedTraits = class_uses($className);
         if ($usedTraits === []) {
-            return [];
-        }
-
-        if (is_subclass_of($className, Kernel::class)) {
             return [];
         }
 
