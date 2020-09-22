@@ -21,8 +21,9 @@ final class NoTraitExceptItsMethodsPublicAndRequired extends AbstractManyNodeTyp
 
     /**
      * @var string
+     * @see https://regex101.com/r/gn2P0C/1
      */
-    private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@required\n?#i';
+    private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@required\n?#';
 
     /**
      * @return string[]
