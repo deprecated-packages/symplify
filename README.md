@@ -54,14 +54,6 @@ Keep your Symfony Kernel slim again and let flex-loader load all the configs
 
 <br>
 
-### [Auto Bind Parameter](https://github.com/symplify/auto-bind-parameter)
-
-[![Downloads](https://img.shields.io/packagist/dt/symplify/auto-bind-parameter.svg?style=flat-square)](https://packagist.org/packages/symplify/auto-bind-parameter/stats)
-
-Auto bind parameters for your Symfony applications
-
-<br>
-
 ### [Autowire Array Parameter](https://github.com/symplify/autowire-array-parameter)
 
 [![Downloads](https://img.shields.io/packagist/dt/symplify/autowire-array-parameter.svg?style=flat-square)](https://packagist.org/packages/symplify/autowire-array-parameter/stats)
