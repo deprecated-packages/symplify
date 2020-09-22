@@ -59,7 +59,6 @@ class SomePath
 ## Test methods by Type Must Use Data Provider
 
 - class: [`RequireDataProviderTestMethodRule`](../src/Rules/RequireDataProviderTestMethodRule.php)
-- **configuration required**
 
 ```yaml
 # phpstan.neon
@@ -219,12 +218,13 @@ class SomeClass
 ## No protected element in final class
 
 - class: [`NoProtectedElementInFinalClassRule`](../src/Rules/NoProtectedElementInFinalClassRule.php)
-- **configuration allowed**
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule
+        tags: [phpstan.rules.rule]
 ```
 
 ```php
@@ -273,17 +273,15 @@ final class SomeClass
 ## Keep Variable Not Too Long
 
 - class: [`TooLongVariableRule`](../src/Rules/TooLongVariableRule.php)
-- **configuration allowed**
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\TooLongVariableRule
-
-parameters:
-    symplify:
-        # [default: 20]
-        max_variable_length: 15
+services:
+    -
+        class: Symplify\CodingStandard\Rules\TooLongVariableRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxVariableLength: 40
 ```
 
 ```php
@@ -303,17 +301,15 @@ final class SomeClass
 ## Keep Low Public Elements in a Class
 
 - class: [`ExcessivePublicCountRule`](../src/Rules/ExcessivePublicCountRule.php)
-- **configuration allowed**
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\ExcessivePublicCountRule
-
-parameters:
-    symplify:
-        # [default: 45]
-        max_public_class_element_count: 30
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ExcessivePublicCountRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPublicClassElementCount: 10
 ```
 
 ```php
@@ -340,17 +336,16 @@ final class SomeClass
 ## Prefer Static Call over specific Function
 
 - class: [`PrefferedStaticCallOverFuncCallRule`](../src/Rules/PrefferedStaticCallOverFuncCallRule.php)
-- **configuration required**
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
-
-parameters:
-    symplify:
-        func_call_to_preffered_static_calls:
-            'preg_match': ['Nette\Utils\Strings', 'match']
+services:
+    -
+        class: Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPrefferedStaticCalls:
+                'preg_match': ['Nette\Utils\Strings', 'match']
 ```
 
 ```php
@@ -372,17 +367,15 @@ final class SomeClass
 ## Keep Low Parameter Count in Methods and Functions
 
 - class: [`ExcessiveParameterListRule`](../src/Rules/ExcessiveParameterListRule.php)
-- **configuration allowed**
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\ExcessiveParameterListRule
-
-parameters:
-    symplify:
-        # [default: 10]
-        max_parameter_count: 5
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ExcessiveParameterListRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxParameterCount: 8
 ```
 
 ```php
@@ -403,18 +396,16 @@ final class SomeClass
 ## No Static Calls
 
 - class: [`NoStaticCallRule`](../src/Rules/NoStaticCallRule.php)
-- **configuration allowed**
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoStaticCallRule
-
-parameters:
-    symplify:
-        # for \Symplify\CodingStandard\Rules\NoStaticCallRule
-        allowed_static_call_classes:
-            - 'Nette\Utils\DateTime'
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoStaticCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedStaticCallClasses:
+                - 'Symplify\PackageBuilder\Console\Command\CommandNaming'
 ```
 
 ```php
@@ -436,12 +427,13 @@ final class SomeClass
 ## No Static Property
 
 - class: [`NoStaticPropertyRule`](../src/Rules/NoStaticPropertyRule.php)
-- **configuration allowed**
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoStaticPropertyRule
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoStaticPropertyRule
+        tags: [phpstan.rules.rule]
 ```
 
 ```php
@@ -460,12 +452,12 @@ final class SomeClass
 ## No Trait Except Its methods public and Required via @required Docblock
 
 - class: [`NoTraitExceptItsMethodsPublicAndRequired`](../src/Rules/NoTraitExceptItsMethodsPublicAndRequired.php)
-- **configuration allowed**
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequired
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequired
 ```
 
 ```php
@@ -491,19 +483,18 @@ trait SomeTrait
 
 Useful for PHAR prefixing with [php-scoper](https://github.com/humbug/php-scoper) and [box](https://github.com/humbug/box). This allows you to keep configurable string-classes unprefixed. If `::class` is used, they would be prefixed with `Prefix30281...`, so the original class would never be found.
 
-- **configuration required**
 - class: [`RequireStringArgumentInMethodCallRule`](../src/Rules/RequireStringArgumentInMethodCallRule.php)
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule
-
-parameters:
-    symplify:
-        string_arg_by_method_by_type:
-            SomeObject:
-                someMethod: [1]
+services:
+    -
+        class: Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            stringArgByMethodByType:
+                SomeClass:
+                    run: [1]
 ```
 
 ```php
@@ -706,14 +697,14 @@ Covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscr
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
-
-parameters:
-    symplify:
-        parent_classes:
-            - Rector
-            - Rule
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            parentClasses:
+                - Rector
+                - Rule
 ```
 
 :x:
@@ -731,7 +722,6 @@ class Some extends Command
 
 ## Forbid unwanted Functions
 
-- **configuration allowed**
 - class: [`ForbiddenFuncCallRule`](../src/Rules/ForbiddenFuncCallRule.php)
 
 ```yaml
@@ -1025,12 +1015,13 @@ function someFunction($var)
 ## No scalar and array in constructor parameter
 
 - class: [`NoScalarAndArrayConstructorParameterRule`](../src/Rules/NoScalarAndArrayConstructorParameterRule.php)
-- **configuration allowed**
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\NoScalarAndArrayConstructorParameterRule
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoScalarAndArrayConstructorParameterRule
+        tags: [phpstan.rules.rule]
 ```
 
 ```php
@@ -1052,15 +1043,15 @@ final class SomeConstruct
 
 ```yaml
 # phpstan.neon
-rules:
-    - Symplify\CodingStandard\Rules\ForbiddenParentClassRule
-
-parameters:
-    symplify:
-        forbidden_parent_classes:
-            - 'Doctrine\ORM\EntityRepository'
-            # you can use fnmatch() pattern
-            - '*\AbstractController'
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenParentClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenParentClasses:
+                - 'Doctrine\ORM\EntityRepository'
+                # you can use fnmatch() pattern
+                - '*\AbstractController'
 ```
 
 ```php
@@ -1250,14 +1241,14 @@ class SomeClass
 
 ```yaml
 # phpstan.neon
-parameters:
-    symplify:
-        constant_arg_by_method_by_type:
-            AlwaysCallMeWithConstant:
-                some_type: [0] # positions
-
-rules:
-    - Symplify\CodingStandard\Rules\ForceMethodCallArgumentConstantRule
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForceMethodCallArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByMethodByType:
+                AlwaysCallMeWithConstant:
+                    some_type: [0] # positions
 ```
 
 :x:
@@ -1284,13 +1275,15 @@ class SomeClass
 
 ```yaml
 # phpstan.neon
-parameters:
-    symplify:
-        required_see_types:
-            - PHPStan\Rules\Rule
-
-rules:
-    - Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
+services:
+    -
+        class: Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredSeeTypes:
+                - PHPStan\Rules\Rule
+                - PHP_CodeSniffer\Sniffs\Sniff
+                - PHP_CodeSniffer\Fixer
 ```
 
 :x:
@@ -1330,13 +1323,14 @@ class SomeRule implements Rule
 
 ```yaml
 # phpstan.neon
-parameters:
-    symplify:
-        old_to_preffered_classes:
-            DateTime: 'Nette\Utils\DateTime'
-
-rules:
-    - Symplify\CodingStandard\Rules\PreferredClassRule
+services:
+    -
+        class: Symplify\CodingStandard\Rules\PreferredClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            oldToPrefferedClasses:
+                SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+                DateTime: 'Nette\Utils\DateTime'
 ```
 
 :x:

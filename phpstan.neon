@@ -1,11 +1,8 @@
 includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - packages/phpstan-extensions/config/config.neon
-    - packages/coding-standard/config/symplify-rules.neon
     - vendor/slam/phpstan-extensions/conf/slam-rules.neon
     - vendor/slam/phpstan-extensions/conf/symfony-rules.neon
-    # @todo resolve when in good mood :)
-    # - packages/coding-standard/config/symplify-strict-rules.neon
 
 services:
     -
@@ -14,33 +11,6 @@ services:
                  - phpstan.rules.rule
 
 parameters:
-    symplify:
-        old_to_preffered_classes:
-            SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
-            DateTime: 'Nette\Utils\DateTime'
-            'PhpCsFixer\Finder': 'Symfony\Component\Finder\Finder'
-            # smart file system
-            'Symfony\Component\Finder\SplFileInfo': 'Symplify\SmartFileSystem\SmartFileInfo'
-            'Nette\Utils\FileSystem': 'Symplify\SmartFileSystem\SmartFileSystem'
-            'Symfony\Component\Filesystem\Filesystem': 'Symplify\SmartFileSystem\SmartFileSystem'
-
-        classes_requiring_data_provider:
-            - '*RuleTest'
-            - Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase
-
-        max_parameter_count: 8
-
-        required_see_types:
-            - PHPStan\Rules\Rule
-            - PHP_CodeSniffer\Sniffs\Sniff
-            - PHP_CodeSniffer\Fixer
-
-        # for \Symplify\CodingStandard\Rules\NoStaticCallRule
-        allowed_static_call_classes:
-            - 'Symplify\PackageBuilder\Console\Command\CommandNaming'
-            - 'PHPStan\Reflection\ParametersAcceptorSelector'
-            - 'Symplify\PackageBuilder\Configuration\StaticEolConfiguration'
-
     level: max
     checkGenericClassInNonGenericObjectType: false
 
