@@ -6,4 +6,7 @@ namespace Symplify\CodingStandard\Tests\Rules\NoTraitExceptForSymfonyClassRule\F
 
 trait SomeTrait
 {
+    private function run()
+    {
+    }
 }

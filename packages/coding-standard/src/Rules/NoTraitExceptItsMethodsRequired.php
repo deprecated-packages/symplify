@@ -6,7 +6,7 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
-use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -24,21 +24,20 @@ final class NoTraitExceptItsMethodsRequired extends AbstractManyNodeTypeRule
      */
     public function getNodeTypes(): array
     {
-        return [Class_::class];
+        return [Trait_::class];
     }
 
     /**
-     * @param Class_ $node
+     * @param Trait_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Identifier $name */
-        $name = $node->namespacedName;
-        $className = $name->toString();
-        $usedTraits = class_uses($className);
-        if ($usedTraits === []) {
-            return [];
+        $methods = $node->getMethods();
+        foreach ($methods as $method) {
+            if ($method->isPublic()) {
+                return [];
+            }
         }
 
         return [self::ERROR_MESSAGE];
