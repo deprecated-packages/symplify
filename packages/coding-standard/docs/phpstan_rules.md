@@ -481,11 +481,6 @@ trait SomeTrait
 
     }
 }
-
-final class SomeClassWithTrait
-{
-    use SomeTrait;
-}
 ```
 
 :x:
