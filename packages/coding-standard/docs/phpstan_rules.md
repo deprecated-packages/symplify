@@ -1146,6 +1146,23 @@ class SomeClass
 
 :x:
 
+## Check Not Tests Namespace Outside Tests Directory
+
+- class: [`CheckNotTestsNamespaceOutsideTestsDirectoryRule`](../src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php)
+
+```php
+<?php declare(strict_types=1);
+
+namespace Symplify\CodingStandard\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule\Fixture\Tests;
+
+class TestsNamespaceInsideTestsDirectoryClass
+{
+
+}
+```
+
+:x:
+
 ```php
 <?php declare(strict_types=1);
 
