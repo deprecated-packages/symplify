@@ -24,7 +24,8 @@ final class StandardizeHereNowDocKeywordFixerTest extends AbstractCheckerTestCas
     {
         $appendIterator = new AppendIterator();
         $appendIterator->append(StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture'));
-        if (version_compare(PHP_VERSION, '7.3', '>=')) {
+
+        if (PHP_VERSION_ID >= 70300) {
             $appendIterator->append(StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture73plus'));
         }
 
