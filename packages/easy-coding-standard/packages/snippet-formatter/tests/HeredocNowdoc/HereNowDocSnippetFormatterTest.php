@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\SnippetFormatter\Tests\HeredocNowdoc;
 
 use AppendIterator;
-use Iterator;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
@@ -60,7 +59,7 @@ final class HereNowDocSnippetFormatterTest extends AbstractKernelTestCase
         $this->assertSame($contents, $changedContent, $fixtureFileInfo->getRelativeFilePathFromCwd());
     }
 
-    public function provideData(): Iterator
+    public function provideData(): AppendIterator
     {
         $appendIterator = new AppendIterator();
         $appendIterator->append(StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.php.inc'));
