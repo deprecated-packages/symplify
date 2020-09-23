@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
 
 use AppendIterator;
-use Iterator;
 use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
@@ -21,7 +20,7 @@ final class StandardizeHereNowDocKeywordFixerTest extends AbstractCheckerTestCas
         $this->doTestFileInfo($fileInfo);
     }
 
-    public function provideData(): Iterator
+    public function provideData(): AppendIterator
     {
         $appendIterator = new AppendIterator();
         $appendIterator->append(StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture'));
