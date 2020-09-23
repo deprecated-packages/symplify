@@ -142,7 +142,7 @@ class SomeObjectFactory
 ```php
 class SomeClass
 {
-    private const REGEX_PATTERN = '#some_complicated_pattern#';
+    private const COMPLICATED_REGEX = '#some_complicated_stu|ff#';
 }
 ```
 
@@ -154,7 +154,7 @@ class SomeClass
     /**
      * @see https://regex101.com/r/SZr0X5/12
      */
-    private const REGEX_PATTERN = '#some_complicated_pattern#';
+    private const COMPLICATED_REGEX = '#some_complicated_stu|ff#';
 }
 ```
 
@@ -169,7 +169,7 @@ class SomeClass
 {
     public function run($value)
     {
-        return preg_match('#some_pattern#', $value);
+        return preg_match('#some_stu|ff#', $value);
     }
 }
 ```
@@ -182,11 +182,11 @@ class SomeClass
     /**
      * @var string
      */
-    private const NAMED_REGEX_PATTERN = '#some_pattern#';
+    private const NAMED_REGEX = '#some_stu|ff#';
 
     public function run($value)
     {
-        return preg_match(self::SOME_PATTERN, $value);
+        return preg_match(self::NAMED_REGEX, $value);
     }
 }
 ```
