@@ -13,7 +13,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\CheckRequireMethodTobeAutowireWithClassName\CheckRequireMethodTobeAutowireWithClassNameTest
  * @see \Symplify\CodingStandard\Tests\Rules\CheckRequiredMethodTobeAutowireWithClassName\CheckRequiredMethodTobeAutowireWithClassNameTest
  */
 final class CheckRequiredMethodTobeAutowireWithClassName implements Rule
