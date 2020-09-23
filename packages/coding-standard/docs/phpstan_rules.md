@@ -1182,7 +1182,7 @@ class TestsNamespaceInsideTestsDirectoryClass
 }
 ```
 
-## Check Method with @required need to be public and named autowire+class name
+## Check Method with @required need to be named autowire+class name
 
 - class: [`CheckRequiredMethodTobeAutowireWithClassName`](../src/Rules/CheckRequiredMethodTobeAutowireWithClassName.php)
 
