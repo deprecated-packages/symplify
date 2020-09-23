@@ -10,7 +10,10 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class StandardizeHereNowDocKeywordFixerTest extends AbstractCheckerTestCase
+/**
+ * @requires PHP >= 7.3
+ */
+final class Php73Test extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideData()
@@ -22,7 +25,7 @@ final class StandardizeHereNowDocKeywordFixerTest extends AbstractCheckerTestCas
 
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/FixturePhp73');
     }
 
     protected function getCheckerClass(): string

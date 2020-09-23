@@ -17,9 +17,10 @@ use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
+ * @requires PHP >= 7.3
  * For testing approach @see https://github.com/symplify/easy-testing
  */
-final class HereNowDocSnippetFormatterTest extends AbstractKernelTestCase
+final class Php73Test extends AbstractKernelTestCase
 {
     /**
      * @var SnippetFormatter
@@ -61,6 +62,6 @@ final class HereNowDocSnippetFormatterTest extends AbstractKernelTestCase
 
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.php.inc');
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/FixturePhp73', '*.php.inc');
     }
 }
