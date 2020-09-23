@@ -21,10 +21,12 @@ final class CheckRequiredMethodTobeAutowireWithClassNameTest extends RuleTestCas
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/without_required.php', []];
-        yield [__DIR__ . '/Fixture/with_required_autowire.php', []];
+        yield [__DIR__ . '/Fixture/SomeTrait.php', []];
+        yield [__DIR__ . '/Fixture/EmptyDocblock.php', []];
+        yield [__DIR__ . '/Fixture/WithoutRequired.php', []];
+        yield [__DIR__ . '/Fixture/WithRequiredAutowire.php', []];
         yield [
-            __DIR__ . '/Fixture/with_required_not_autowire.php',
+            __DIR__ . '/Fixture/WithRequiredNotAutowire.php',
             [[CheckRequiredMethodTobeAutowireWithClassName::ERROR_MESSAGE, 12]],
         ];
     }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\CheckRequireMethodTobeAutowireWithClassName\Fixture;
 
-final class WithoutRequired
+final class EmptyDocblock
 {
-    public function run()
+    public function run(int $foo)
     {
     }
 }
