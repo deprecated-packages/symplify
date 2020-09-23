@@ -22,8 +22,6 @@ final class NoProtectedElementInFinalClassRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SomeInterface.php', []];
-        yield [__DIR__ . '/Fixture/SomeTrait.php', []];
         yield [__DIR__ . '/Fixture/SomeNotFinalClass.php', []];
         yield [__DIR__ . '/Fixture/SomeFinalClassWithNoPropertyAndNoMethod.php', []];
         yield [__DIR__ . '/Fixture/SomeFinalClassWithNoProtectedProperty.php', []];
