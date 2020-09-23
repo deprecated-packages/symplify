@@ -19,7 +19,7 @@ final class CheckRequiredMethodTobeAutowireWithClassName implements Rule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method with @required need to be public and named autowire+class name';
+    public const ERROR_MESSAGE = 'Method with @required need to be named autowire+class name';
 
     /**
      * @var string
@@ -52,7 +52,7 @@ final class CheckRequiredMethodTobeAutowireWithClassName implements Rule
         $name = $class->name;
         $className = $name->toString();
 
-        if ($node->isPublic() && (string) $node->name === 'autowire' . $className) {
+        if ((string) $node->name === 'autowire' . $className) {
             return [];
         }
 
