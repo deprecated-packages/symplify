@@ -29,6 +29,10 @@ final class CheckRequiredMethodTobeAutowireWithClassNameTest extends RuleTestCas
             __DIR__ . '/Fixture/WithRequiredNotAutowire.php',
             [[CheckRequiredMethodTobeAutowireWithClassName::ERROR_MESSAGE, 12]],
         ];
+        yield [
+            __DIR__ . '/Fixture/WithRequiredPrivateAutowire.php',
+            [[CheckRequiredMethodTobeAutowireWithClassName::ERROR_MESSAGE, 12]],
+        ];
     }
 
     protected function getRule(): Rule
