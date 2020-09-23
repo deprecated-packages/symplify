@@ -98,6 +98,14 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
             return;
         }
 
-        $tokens[$position] = new Token([$token->getId(), $this->keyword]);
+        $tokenContent = $token->getContent();
+        $trimmedTokenContent = trim($tokenContent);
+
+        $spaceEnd = '';
+        if (PHP_VERSION_ID >= 70300 && $tokenContent !== $trimmedTokenContent) {
+            $spaceEnd = substr($tokenContent, 0, strlen($tokenContent) - strlen($trimmedTokenContent));
+        }
+
+        $tokens[$position] = new Token([$token->getId(), $spaceEnd . $this->keyword]);
     }
 }
