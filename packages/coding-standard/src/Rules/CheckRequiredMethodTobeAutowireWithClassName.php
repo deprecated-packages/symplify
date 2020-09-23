@@ -7,7 +7,6 @@ namespace Symplify\CodingStandard\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
@@ -49,10 +48,6 @@ final class CheckRequiredMethodTobeAutowireWithClassName implements Rule
         }
 
         $class = $node->getAttribute('parent');
-        if (! $class instanceof Class_) {
-            return [];
-        }
-
         /** @var Identifier $name */
         $name = $class->name;
         $className = $name->toString();

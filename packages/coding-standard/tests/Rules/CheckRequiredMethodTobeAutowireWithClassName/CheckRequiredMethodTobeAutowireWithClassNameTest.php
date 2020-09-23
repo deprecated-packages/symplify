@@ -21,7 +21,6 @@ final class CheckRequiredMethodTobeAutowireWithClassNameTest extends RuleTestCas
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SomeTrait.php', []];
         yield [__DIR__ . '/Fixture/EmptyDocblock.php', []];
         yield [__DIR__ . '/Fixture/WithoutRequired.php', []];
         yield [__DIR__ . '/Fixture/WithRequiredAutowire.php', []];
