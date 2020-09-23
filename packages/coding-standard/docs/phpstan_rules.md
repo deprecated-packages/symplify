@@ -1182,6 +1182,34 @@ class TestsNamespaceInsideTestsDirectoryClass
 }
 ```
 
+## Check Method with @required need to be named autowire+class name
+
+- class: [`CheckRequiredMethodTobeAutowireWithClassName`](../src/Rules/CheckRequiredMethodTobeAutowireWithClassName.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\CheckRequiredMethodTobeAutowireWithClassName
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php declare(strict_types=1);
+
+namespace Symplify\CodingStandard\Tests\Rules\CheckRequiredMethodTobeAutowireWithClassName\Fixture\Tests;
+
+final class WithRequiredAutowire
+{
+    /**
+     * @required
+     */
+    public function autowireWithRequiredAutowire()
+    {
+    }
+}
+```
+
 :x:
 
 ```php
