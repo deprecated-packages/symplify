@@ -16,7 +16,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 };
 ```
 -----
-
 Move value object to ValueObject namespace/directory
 
 ```php
