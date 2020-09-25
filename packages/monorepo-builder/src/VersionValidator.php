@@ -84,14 +84,16 @@ final class VersionValidator
             return $packageVersionsPerFile;
         }
 
-        $isYamlConfig = file_exists(self::MONOREPO_BUILDER_YAML);
+        $monorepoBuilderConfig = file_exists(self::MONOREPO_BUILDER_YAML)
+            ? self::MONOREPO_BUILDER_YAML
+            : self::MONOREPO_BUILDER_PHP;
 
         foreach ($appendingComposerJson->getRequire() as $packageName => $packageVersion) {
-            $packageVersionsPerFile[$packageName][$isYamlConfig ? self::MONOREPO_BUILDER_YAML : self::MONOREPO_BUILDER_PHP] = $packageVersion;
+            $packageVersionsPerFile[$packageName][$monorepoBuilderConfig] = $packageVersion;
         }
 
         foreach ($appendingComposerJson->getRequireDev() as $packageName => $packageVersion) {
-            $packageVersionsPerFile[$packageName][$isYamlConfig ? self::MONOREPO_BUILDER_YAML : self::MONOREPO_BUILDER_PHP] = $packageVersion;
+            $packageVersionsPerFile[$packageName][$monorepoBuilderConfig] = $packageVersion;
         }
 
         return $packageVersionsPerFile;
