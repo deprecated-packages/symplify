@@ -91,7 +91,7 @@ final class VersionValidator
         }
 
         foreach ($appendingComposerJson->getRequireDev() as $packageName => $packageVersion) {
-            $packageVersionsPerFile[$packageName][ $isYamlConfig ? self::MONOREPO_BUILDER_YAML : self::MONOREPO_BUILDER_PHP] = $packageVersion;
+            $packageVersionsPerFile[$packageName][$isYamlConfig ? self::MONOREPO_BUILDER_YAML : self::MONOREPO_BUILDER_PHP] = $packageVersion;
         }
 
         return $packageVersionsPerFile;
