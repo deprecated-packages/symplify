@@ -24,11 +24,6 @@ final class JsonOutputFormatter implements OutputFormatterInterface
     public const NAME = 'json';
 
     /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
-
-    /**
      * @var Configuration
      */
     private $configuration;
@@ -38,22 +33,18 @@ final class JsonOutputFormatter implements OutputFormatterInterface
      */
     private $easyCodingStandardStyle;
 
-    public function __construct(
-        ErrorAndDiffCollector $errorAndDiffCollector,
-        Configuration $configuration,
-        EasyCodingStandardStyle $easyCodingStandardStyle
-    ) {
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
+    public function __construct(Configuration $configuration, EasyCodingStandardStyle $easyCodingStandardStyle)
+    {
         $this->configuration = $configuration;
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
     }
 
-    public function report(int $processedFilesCount): int
+    public function report(ErrorAndDiffCollector $errorAndDiffCollector, int $processedFilesCount): int
     {
-        $json = $this->createJsonContent();
+        $json = $this->createJsonContent($errorAndDiffCollector);
         $this->easyCodingStandardStyle->writeln($json);
 
-        $errorCount = $this->errorAndDiffCollector->getErrorCount();
+        $errorCount = $errorAndDiffCollector->getErrorCount();
         return $errorCount === 0 ? ShellCode::SUCCESS : ShellCode::ERROR;
     }
 
@@ -62,18 +53,9 @@ final class JsonOutputFormatter implements OutputFormatterInterface
         return self::NAME;
     }
 
-    public function createJsonContent(): string
+    public function createJsonContent(ErrorAndDiffCollector $errorAndDiffCollector): string
     {
-        $errorsArray = [
-            'meta' => [
-                'version' => $this->configuration->getPrettyVersion(),
-            ],
-            'totals' => [
-                'errors' => $this->errorAndDiffCollector->getErrorCount(),
-                'diffs' => $this->errorAndDiffCollector->getFileDiffsCount(),
-            ],
-            'files' => [],
-        ];
+        $errorsArray = $this->createBaseErrorsArray($errorAndDiffCollector);
 
         $firstResolvedConfigFileInfo = $this->configuration->getFirstResolvedConfigFileInfo();
         if ($firstResolvedConfigFileInfo !== null) {
@@ -81,7 +63,7 @@ final class JsonOutputFormatter implements OutputFormatterInterface
         }
 
         /** @var CodingStandardError[] $errors */
-        foreach ($this->errorAndDiffCollector->getErrors() as $file => $errors) {
+        foreach ($errorAndDiffCollector->getErrors() as $file => $errors) {
             foreach ($errors as $error) {
                 $errorsArray['files'][$file]['errors'][] = [
                     'line' => $error->getLine(),
@@ -92,7 +74,7 @@ final class JsonOutputFormatter implements OutputFormatterInterface
         }
 
         /** @var FileDiff[] $diffs */
-        foreach ($this->errorAndDiffCollector->getFileDiffs() as $file => $diffs) {
+        foreach ($errorAndDiffCollector->getFileDiffs() as $file => $diffs) {
             foreach ($diffs as $diff) {
                 $errorsArray['files'][$file]['diffs'][] = [
                     'diff' => $diff->getDiff(),
@@ -102,5 +84,22 @@ final class JsonOutputFormatter implements OutputFormatterInterface
         }
 
         return Json::encode($errorsArray, Json::PRETTY);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function createBaseErrorsArray(ErrorAndDiffCollector $errorAndDiffCollector): array
+    {
+        return [
+            'meta' => [
+                'version' => $this->configuration->getPrettyVersion(),
+            ],
+            'totals' => [
+                'errors' => $errorAndDiffCollector->getErrorCount(),
+                'diffs' => $errorAndDiffCollector->getFileDiffsCount(),
+            ],
+            'files' => [],
+        ];
     }
 }

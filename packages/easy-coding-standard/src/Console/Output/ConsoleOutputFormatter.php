@@ -28,27 +28,18 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
      */
     private $configuration;
 
-    /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
-
-    public function __construct(
-        EasyCodingStandardStyle $easyCodingStandardStyle,
-        Configuration $configuration,
-        ErrorAndDiffCollector $errorAndDiffCollector
-    ) {
+    public function __construct(EasyCodingStandardStyle $easyCodingStandardStyle, Configuration $configuration)
+    {
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
         $this->configuration = $configuration;
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
     }
 
-    public function report(int $processedFilesCount): int
+    public function report(ErrorAndDiffCollector $errorAndDiffCollector, int $processedFilesCount): int
     {
-        $this->reportFileDiffs($this->errorAndDiffCollector->getFileDiffs());
+        $this->reportFileDiffs($errorAndDiffCollector->getFileDiffs());
 
-        if ($this->errorAndDiffCollector->getErrorCount() === 0
-            && $this->errorAndDiffCollector->getFileDiffsCount() === 0
+        if ($errorAndDiffCollector->getErrorCount() === 0
+            && $errorAndDiffCollector->getFileDiffsCount() === 0
         ) {
             if ($processedFilesCount !== 0) {
                 $this->easyCodingStandardStyle->newLine();
@@ -61,7 +52,9 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
 
         $this->easyCodingStandardStyle->newLine();
 
-        return $this->configuration->isFixer() ? $this->printAfterFixerStatus() : $this->printNoFixerStatus();
+        return $this->configuration->isFixer()
+            ? $this->printAfterFixerStatus($errorAndDiffCollector)
+            : $this->printNoFixerStatus($errorAndDiffCollector);
     }
 
     public function getName(): string
@@ -104,17 +97,17 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
     }
 
-    private function printAfterFixerStatus(): int
+    private function printAfterFixerStatus(ErrorAndDiffCollector $errorAndDiffCollector): int
     {
         if ($this->configuration->shouldShowErrorTable()) {
-            $this->easyCodingStandardStyle->printErrors($this->errorAndDiffCollector->getErrors());
+            $this->easyCodingStandardStyle->printErrors($errorAndDiffCollector->getErrors());
         }
 
-        if ($this->errorAndDiffCollector->getErrorCount() === 0) {
+        if ($errorAndDiffCollector->getErrorCount() === 0) {
             $successMessage = sprintf(
                 '%d error%s successfully fixed and no other errors found!',
-                $this->errorAndDiffCollector->getFileDiffsCount(),
-                $this->errorAndDiffCollector->getFileDiffsCount() === 1 ? '' : 's'
+                $errorAndDiffCollector->getFileDiffsCount(),
+                $errorAndDiffCollector->getFileDiffsCount() === 1 ? '' : 's'
             );
             $this->easyCodingStandardStyle->success($successMessage);
 
@@ -122,17 +115,17 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         }
 
         $this->printErrorMessageFromErrorCounts(
-            $this->errorAndDiffCollector->getErrorCount(),
-            $this->errorAndDiffCollector->getFileDiffsCount()
+            $errorAndDiffCollector->getErrorCount(),
+            $errorAndDiffCollector->getFileDiffsCount()
         );
 
         return ShellCode::ERROR;
     }
 
-    private function printNoFixerStatus(): int
+    private function printNoFixerStatus(ErrorAndDiffCollector $errorAndDiffCollector): int
     {
         if ($this->configuration->shouldShowErrorTable()) {
-            $errors = $this->errorAndDiffCollector->getErrors();
+            $errors = $errorAndDiffCollector->getErrors();
             if (count($errors) > 0) {
                 $this->easyCodingStandardStyle->newLine();
                 $this->easyCodingStandardStyle->printErrors($errors);
@@ -140,8 +133,8 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         }
 
         $this->printErrorMessageFromErrorCounts(
-            $this->errorAndDiffCollector->getErrorCount(),
-            $this->errorAndDiffCollector->getFileDiffsCount()
+            $errorAndDiffCollector->getErrorCount(),
+            $errorAndDiffCollector->getFileDiffsCount()
         );
 
         return ShellCode::ERROR;

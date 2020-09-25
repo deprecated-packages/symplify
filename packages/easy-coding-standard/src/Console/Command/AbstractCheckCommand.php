@@ -13,6 +13,7 @@ use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedExceptio
 use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
 use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
+use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
 abstract class AbstractCheckCommand extends Command
@@ -38,18 +39,25 @@ abstract class AbstractCheckCommand extends Command
     private $outputFormatterCollector;
 
     /**
+     * @var ErrorAndDiffCollector
+     */
+    private $errorAndDiffCollector;
+
+    /**
      * @required
      */
     public function autowireAbstractCheckCommand(
         Configuration $configuration,
         EasyCodingStandardApplication $easyCodingStandardApplication,
         EasyCodingStandardStyle $easyCodingStandardStyle,
-        OutputFormatterCollector $outputFormatterCollector
+        OutputFormatterCollector $outputFormatterCollector,
+        ErrorAndDiffCollector $errorAndDiffCollector
     ): void {
         $this->configuration = $configuration;
         $this->easyCodingStandardApplication = $easyCodingStandardApplication;
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
         $this->outputFormatterCollector = $outputFormatterCollector;
+        $this->errorAndDiffCollector = $errorAndDiffCollector;
     }
 
     protected function configure(): void
@@ -93,7 +101,7 @@ abstract class AbstractCheckCommand extends Command
         $outputFormat = $this->configuration->getOutputFormat();
         $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
 
-        return $outputFormatter->report($processedFileCount);
+        return $outputFormatter->report($this->errorAndDiffCollector, $processedFileCount);
     }
 
     protected function ensureSomeCheckersAreRegistered(): void

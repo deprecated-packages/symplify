@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Error;
 
 use Nette\Utils\Arrays;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
+use Symplify\EasyCodingStandard\Compiler\Exception\ShouldNotHappenException;
 use Symplify\EasyCodingStandard\SnippetFormatter\Provider\CurrentParentFileInfoProvider;
 use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
@@ -14,12 +17,12 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class ErrorAndDiffCollector
 {
     /**
-     * @var CodingStandardError[][]
+     * @var array<string, CodingStandardError[]>
      */
-    private $errors = [];
+    private $codingStandardErrors = [];
 
     /**
-     * @var FileDiff[][]
+     * @var array<string, FileDiff[]>
      */
     private $fileDiffs = [];
 
@@ -62,6 +65,9 @@ final class ErrorAndDiffCollector
         $this->currentParentFileInfoProvider = $currentParentFileInfoProvider;
     }
 
+    /**
+     * @param class-string $sourceClass
+     */
     public function addErrorMessage(SmartFileInfo $fileInfo, int $line, string $message, string $sourceClass): void
     {
         if ($this->currentParentFileInfoProvider->provide() !== null) {
@@ -69,13 +75,13 @@ final class ErrorAndDiffCollector
             return;
         }
 
+        $this->ensureIsFixerOrChecker($sourceClass);
         $this->changedFilesDetector->invalidateFileInfo($fileInfo);
 
         $relativeFilePathFromCwd = $fileInfo->getRelativeFilePathFromCwd();
 
         $codingStandardError = $this->errorFactory->create($line, $message, $sourceClass, $fileInfo);
-
-        $this->errors[$relativeFilePathFromCwd][] = $codingStandardError;
+        $this->codingStandardErrors[$relativeFilePathFromCwd][] = $codingStandardError;
     }
 
     /**
@@ -83,20 +89,24 @@ final class ErrorAndDiffCollector
      */
     public function getErrors(): array
     {
-        return $this->errorSorter->sortByFileAndLine($this->errors);
+        return $this->errorSorter->sortByFileAndLine($this->codingStandardErrors);
     }
 
     public function getErrorCount(): int
     {
-        return count(Arrays::flatten($this->errors));
+        return count(Arrays::flatten($this->codingStandardErrors));
     }
 
     /**
-     * @param string[] $appliedCheckers
+     * @param class-string[] $appliedCheckers
      */
     public function addDiffForFileInfo(SmartFileInfo $smartFileInfo, string $diff, array $appliedCheckers): void
     {
         $this->changedFilesDetector->invalidateFileInfo($smartFileInfo);
+
+        foreach ($appliedCheckers as $appliedChecker) {
+            $this->ensureIsFixerOrChecker($appliedChecker);
+        }
 
         $this->fileDiffs[$smartFileInfo->getRelativeFilePath()][] = $this->fileDiffFactory->createFromDiffAndAppliedCheckers(
             $diff,
@@ -122,7 +132,21 @@ final class ErrorAndDiffCollector
      */
     public function resetCounters(): void
     {
-        $this->errors = [];
+        $this->codingStandardErrors = [];
         $this->fileDiffs = [];
+    }
+
+    private function ensureIsFixerOrChecker(string $sourceClass): void
+    {
+        if (is_a($sourceClass, FixerInterface::class, true)) {
+            return;
+        }
+
+        if (is_a($sourceClass, Sniff::class, true)) {
+            return;
+        }
+
+        $message = sprintf('Source class "%s" must be "%s" or "%s"', $sourceClass, FixerInterface::class, Sniff::class);
+        throw new ShouldNotHappenException($message);
     }
 }
