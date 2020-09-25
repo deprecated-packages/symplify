@@ -1,5 +1,25 @@
 # 38+ PHPStan Rules
 
+## Interface must be suffixed with "Interface"
+
+- class: [`SuffixInterfaceRule`](../src/Rules/SuffixInterfaceRule.php)
+
+```php
+interface SomeClass
+{
+}
+```
+
+:x:
+
+```php
+interface SomeInterface
+{
+}
+```
+
+:+1:
+
 ## Trait must be suffixed with "Trait"
 
 - class: [`SuffixTraitRule`](../src/Rules/SuffixTraitRule.php)

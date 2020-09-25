@@ -9,6 +9,10 @@ parameters:
 services:
     # naming
     -
+        class: Symplify\CodingStandard\Rules\SuffixInterfaceRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\CodingStandard\Rules\SuffixTraitRule
         tags: [phpstan.rules.rule]
 
