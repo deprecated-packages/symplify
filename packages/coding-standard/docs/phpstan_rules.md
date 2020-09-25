@@ -1,5 +1,27 @@
 # 38+ PHPStan Rules
 
+## Trait must be suffixed with "Trait"
+
+- class: [`SuffixTraitRule`](../src/Rules/SuffixTraitRule.php)
+
+```php
+trait SomeClass
+{
+}
+```
+
+:x:
+
+```php
+trait SomeTrait
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## `abstract` class name must be prefixed with "Abstract"
 
 - class: [`PrefixAbstractClassRule`](../src/Rules/PrefixAbstractClassRule.php)
@@ -763,21 +785,19 @@ services:
             forbiddenFunctions: ['dump', 'echo', 'print', 'exec']
 ```
 
-:x:
-
 ```php
 <?php declare(strict_types=1);
 
 dump($value);
 ```
 
+:x:
+
 <br>
 
 ## Use explicit comparison over `empty()`
 
 - class: [`NoEmptyRule`](../src/Rules/NoEmptyRule.php)
-
-:x:
 
 ```php
 <?php declare(strict_types=1);
@@ -791,7 +811,7 @@ final class SomeClass
 }
 ```
 
-:+1:
+:x:
 
 ```php
 <?php declare(strict_types=1);
@@ -804,6 +824,8 @@ final class SomeClass
     }
 }
 ```
+
+:+1:
 
 <br>
 
@@ -833,27 +855,7 @@ final class PublicOverride extends ProtectedVisibility
 
 <br>
 
-## Use explicit Property Fetch Names over Dynamic
-
-- class: [`NoDynamicPropertyFetchNameRule`](../src/Rules/NoDynamicPropertyFetchNameRule.php)
-
-```php
-<?php declare(strict_types=1);
-
-final class DynamicPropertyFetchName
-{
-    public function run($value): void
-    {
-        $this->{$value};
-    }
-}
-```
-
-:x:
-
-<br>
-
-## No Function Call on Method Call
+## No Function Call in Method Call
 
 - class: [`NoFunctionCallInMethodCallRule`](../src/Rules/NoFunctionCallInMethodCallRule.php)
 
@@ -989,6 +991,26 @@ final class IssetOnObject
 ```
 
 :+1:
+
+<br>
+
+## Use explicit Property Fetch Names over Dynamic
+
+- class: [`NoDynamicPropertyFetchNameRule`](../src/Rules/NoDynamicPropertyFetchNameRule.php)
+
+```php
+<?php declare(strict_types=1);
+
+final class DynamicPropertyFetchName
+{
+    public function run($value): void
+    {
+        $this->{$value};
+    }
+}
+```
+
+:x:
 
 <br>
 
