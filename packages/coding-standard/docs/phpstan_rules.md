@@ -363,7 +363,10 @@ services:
 ```
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -399,7 +402,10 @@ services:
 ```
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -429,7 +435,10 @@ services:
 ```
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -459,7 +468,10 @@ services:
 ```
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -487,7 +499,10 @@ services:
 ```
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -511,7 +526,10 @@ services:
 ```
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 trait SomeTrait
 {
@@ -548,7 +566,10 @@ services:
 ```
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 class SomeClass
 {
@@ -562,7 +583,10 @@ class SomeClass
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 class SomeClass
 {
@@ -582,7 +606,10 @@ class SomeClass
 - class: [`ForbiddenComplexArrayConfigInSetRule`](../src/Rules/ForbiddenComplexArrayConfigInSetRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -599,7 +626,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -624,7 +654,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 - class: [`NoEntityManagerInControllerRule`](../src/Rules/NoEntityManagerInControllerRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -640,7 +673,10 @@ final class SomeController
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class SomeController
 {
@@ -660,7 +696,10 @@ final class SomeController
 - class: [`NoGetRepositoryOutsideConstructorRule`](../src/Rules/NoGetRepositoryOutsideConstructorRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 use Doctrine\ORM\EntityManager;
 
@@ -676,7 +715,10 @@ final class SomeController
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -706,7 +748,10 @@ Inspired by [Null Hell](https://afilina.com/null-hell) by @afilina
 - class: [`NoNullableParameterRule`](../src/Rules/NoNullableParameterRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 class SomeClass
 {
@@ -725,7 +770,10 @@ class SomeClass
 - class: [`NoDefaultParameterValueRule`](../src/Rules/NoDefaultParameterValueRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 class SomeClass
 {
@@ -760,7 +808,10 @@ services:
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 // should be "SomeCommand"
 class Some extends Command
@@ -786,7 +837,10 @@ services:
 ```
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 dump($value);
 ```
@@ -800,7 +854,10 @@ dump($value);
 - class: [`NoEmptyRule`](../src/Rules/NoEmptyRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -814,7 +871,10 @@ final class SomeClass
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -834,7 +894,10 @@ final class SomeClass
 - class: [`PreventParentMethodVisibilityOverrideRule`](../src/Rules/PreventParentMethodVisibilityOverrideRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 class ProtectedVisibility
 {
@@ -860,7 +923,10 @@ final class PublicOverride extends ProtectedVisibility
 - class: [`NoFunctionCallInMethodCallRule`](../src/Rules/NoFunctionCallInMethodCallRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -879,7 +945,10 @@ final class SomeClass
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -905,7 +974,10 @@ final class SomeClass
 - class: [`NoArrayAccessOnObjectRule`](../src/Rules/NoArrayAccessOnObjectRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class MagicArrayObject implements ArrayAccess
 {
@@ -932,7 +1004,10 @@ final class MagicArrayObject implements ArrayAccess
 ```
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -952,7 +1027,10 @@ final class SomeClass
 - class: [`NoIssetOnObjectRule`](../src/Rules/NoIssetOnObjectRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class IssetOnObject
 {
@@ -972,7 +1050,10 @@ final class IssetOnObject
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class IssetOnObject
 {
@@ -999,7 +1080,10 @@ final class IssetOnObject
 - class: [`NoDynamicPropertyFetchNameRule`](../src/Rules/NoDynamicPropertyFetchNameRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class DynamicPropertyFetchName
 {
@@ -1019,7 +1103,10 @@ final class DynamicPropertyFetchName
 - class: [`NoDynamicMethodNameRule`](../src/Rules/NoDynamicMethodNameRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 final class DynamicMethodCallName
 {
@@ -1039,7 +1126,10 @@ final class DynamicMethodCallName
 - class: [`NoReferenceRule`](../src/Rules/NoReferenceRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 function someFunction(&$var): void
 {
@@ -1050,7 +1140,10 @@ function someFunction(&$var): void
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 function someFunction($var)
 {
@@ -1105,7 +1198,10 @@ services:
 ```
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 use Doctrine\ORM\EntityRepository;
 
@@ -1117,7 +1213,10 @@ final class ProductRepository extends EntityRepository
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 use Doctrine\ORM\EntityRepository;
 
@@ -1144,7 +1243,10 @@ final class ProductRepository
 - class: [`NoDefaultExceptionRule`](../src/Rules/NoDefaultExceptionRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 throw new RuntimeException('...');
 ```
@@ -1152,7 +1254,10 @@ throw new RuntimeException('...');
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 use App\Exception\FileNotFoundExceptoin;
 
@@ -1183,10 +1288,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 };
 ```
 
-:x:
-
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 class SomeClass
 {
@@ -1197,6 +1303,8 @@ class SomeClass
 }
 ```
 
+:x:
+
 <br>
 
 ## Boolish Methods has to have is/has/was Name
@@ -1204,7 +1312,10 @@ class SomeClass
 - class: [`BoolishClassMethodPrefixRule`](../src/Rules/BoolishClassMethodPrefixRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 class SomeClass
 {
@@ -1217,12 +1328,17 @@ class SomeClass
 
 :x:
 
+<br>
+
 ## Check Not Tests Namespace Outside Tests Directory
 
 - class: [`CheckNotTestsNamespaceOutsideTestsDirectoryRule`](../src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule\Fixture\Tests;
 
@@ -1231,6 +1347,10 @@ class TestsNamespaceInsideTestsDirectoryClass
 
 }
 ```
+
+:x:
+
+<br>
 
 ## Check Method with @required need to be named autowire+class name
 
@@ -1245,7 +1365,10 @@ services:
 ```
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\CheckRequiredMethodTobeAutowireWithClassName\Fixture\Tests;
 
@@ -1263,7 +1386,10 @@ final class WithRequiredAutowire
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 class SomeClass
 {
@@ -1283,7 +1409,10 @@ class SomeClass
 - class: [`MatchingTypeConstantRule`](../src/Rules/MatchingTypeConstantRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 class SomeClass
 {
@@ -1298,7 +1427,10 @@ class SomeClass
 
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 class SomeClass
 {
@@ -1329,10 +1461,11 @@ services:
                     some_type: [0] # positions
 ```
 
-:x:
-
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 class SomeClass
 {
@@ -1344,6 +1477,8 @@ class SomeClass
     }
 }
 ```
+
+:x:
 
 <br>
 
@@ -1364,10 +1499,11 @@ services:
                 - PHP_CodeSniffer\Fixer
 ```
 
-:x:
-
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 use PHPStan\Rules\Rule;
 
@@ -1377,10 +1513,13 @@ class SomeRule implements Rule
 }
 ```
 
-:+1:
+:x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 use PHPStan\Rules\Rule;
 
@@ -1392,6 +1531,8 @@ class SomeRule implements Rule
     // ...
 }
 ```
+
+:+1:
 
 <br>
 
@@ -1411,14 +1552,25 @@ services:
                 DateTime: 'Nette\Utils\DateTime'
 ```
 
+```php
+<?php
+
+declare(strict_types=1);
+
+$dateTime = new DateTime('now');
+```
+
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
 
-// should be "Nette\Utils\DateTime"
-$dateTime = new DateTime('now');
+declare(strict_types=1);
+
+$dateTime = new Nette\Utils\DateTime('now');
 ```
+
+:+1:
 
 <br>
 
@@ -1430,12 +1582,11 @@ Be honest about static. [Why is static bad?](https://tomasvotruba.com/blog/2019/
 
 Value object static constructors, EventSubscriber and Command classe are excluded.
 
-:x:
-
 ```php
-<?php declare(strict_types=1);
+<?php
 
-// should be: "StaticFormatConverter"
+declare(strict_types=1);
+
 class FormatConverter
 {
     public static function yamlToJson(array $yaml): array
@@ -1445,6 +1596,24 @@ class FormatConverter
 }
 ```
 
+:x:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+class StaticFormatConverter
+{
+    public static function yamlToJson(array $yaml): array
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
 <br>
 
 ## Use Unique Class Short Names
@@ -1452,7 +1621,10 @@ class FormatConverter
 - class: [`NoDuplicatedShortClassNameRule`](../src/Rules/NoDuplicatedShortClassNameRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 namespace App;
 
@@ -1465,7 +1637,10 @@ class Finder
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
