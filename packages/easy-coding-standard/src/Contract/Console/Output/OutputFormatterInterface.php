@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Contract\Console\Output;
 
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
+use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 
 interface OutputFormatterInterface
 {
-    public function report(ErrorAndDiffCollector $errorAndDiffCollector, int $processedFilesCount): int;
+    public function report(ErrorAndDiffResult $errorAndDiffResult, int $processedFilesCount): int;
 
     public function getName(): string;
 }

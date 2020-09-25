@@ -11,6 +11,7 @@ use Symfony\Component\Yaml\Yaml;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
+use Symplify\EasyCodingStandard\Error\ErrorAndDiffResultFactory;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
@@ -37,6 +38,11 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
      */
     private $errorAndDiffCollector;
 
+    /**
+     * @var ErrorAndDiffResultFactory
+     */
+    private $errorAndDiffResultFactory;
+
     protected function setUp(): void
     {
         $configs = $this->getValidatedConfigs();
@@ -49,6 +55,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $this->fixerFileProcessor = self::$container->get(FixerFileProcessor::class);
         $this->sniffFileProcessor = self::$container->get(SniffFileProcessor::class);
         $this->errorAndDiffCollector = self::$container->get(ErrorAndDiffCollector::class);
+        $this->errorAndDiffResultFactory = self::$container->get(ErrorAndDiffResultFactory::class);
 
         // silent output
         $easyCodingStandardStyle = self::$container->get(EasyCodingStandardStyle::class);
@@ -139,18 +146,20 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         if ($this->sniffFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->sniffFileProcessor->processFile($fileInfo);
 
+            $errorAndDiffResult = $this->errorAndDiffResultFactory->create($this->errorAndDiffCollector);
+
             $failedAssertMessage = sprintf(
                 'There should be no error in "%s" file, but %d errors found.',
-                $this->errorAndDiffCollector->getErrorCount(),
+                $errorAndDiffResult->getErrorCount(),
                 $fileInfo->getRealPath()
             );
-            $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount(), $failedAssertMessage);
+            $this->assertSame(0, $errorAndDiffResult->getErrorCount(), $failedAssertMessage);
 
             $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent, $fileInfo);
         }
     }
 
-    protected function doTestFileInfoWithErrorCountOf(SmartFileInfo $wrongFileInfo, int $errorCount): void
+    protected function doTestFileInfoWithErrorCountOf(SmartFileInfo $wrongFileInfo, int $expectedErrorCount): void
     {
         $this->ensureSomeCheckersAreRegistered();
         $this->errorAndDiffCollector->resetCounters();
@@ -159,11 +168,12 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
         $message = sprintf(
             'There should be %d error(s) in "%s" file, but none found.',
-            $errorCount,
+            $expectedErrorCount,
             $wrongFileInfo->getRealPath()
         );
 
-        $this->assertSame($errorCount, $this->errorAndDiffCollector->getErrorCount(), $message);
+        $errorAndDiffResult = $this->errorAndDiffResultFactory->create($this->errorAndDiffCollector);
+        $this->assertSame($expectedErrorCount, $errorAndDiffResult->getErrorCount(), $message);
     }
 
     private function doTestWrongToFixedFile(

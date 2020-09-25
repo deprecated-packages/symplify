@@ -7,24 +7,24 @@
         "diffs": 2
     },
     "files": {
-        "%stests/Console/Output/Source/RandomFile.php": {
+        "%s/Console/Output/Source/RandomFile.php": {
             "errors": [
                 {
                     "line": 100,
                     "message": "Error message",
-                    "sourceClass": "PhpCsFixer\\Fixer\\ArrayNotation\\ArraySyntaxFixer"
+                    "source_class": "PhpCsFixer\\Fixer\\ArrayNotation\\ArraySyntaxFixer"
                 }
             ],
             "diffs": [
                 {
                     "diff": "some diff",
-                    "appliedCheckers": [
+                    "applied_checkers": [
                         "Symplify\\CodingStandard\\Fixer\\LineLength\\LineLengthFixer"
                     ]
                 },
                 {
                     "diff": "some other diff",
-                    "appliedCheckers": [
+                    "applied_checkers": [
                         "Symplify\\CodingStandard\\Fixer\\LineLength\\LineLengthFixer"
                     ]
                 }

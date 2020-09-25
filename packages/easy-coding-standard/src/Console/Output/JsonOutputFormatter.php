@@ -8,9 +8,7 @@ use Nette\Utils\Json;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
-use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
-use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
+use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\PackageBuilder\Console\ShellCode;
 
 /**
@@ -39,12 +37,12 @@ final class JsonOutputFormatter implements OutputFormatterInterface
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
     }
 
-    public function report(ErrorAndDiffCollector $errorAndDiffCollector, int $processedFilesCount): int
+    public function report(ErrorAndDiffResult $errorAndDiffResult, int $processedFilesCount): int
     {
-        $json = $this->createJsonContent($errorAndDiffCollector);
+        $json = $this->createJsonContent($errorAndDiffResult);
         $this->easyCodingStandardStyle->writeln($json);
 
-        $errorCount = $errorAndDiffCollector->getErrorCount();
+        $errorCount = $errorAndDiffResult->getErrorCount();
         return $errorCount === 0 ? ShellCode::SUCCESS : ShellCode::ERROR;
     }
 
@@ -53,34 +51,28 @@ final class JsonOutputFormatter implements OutputFormatterInterface
         return self::NAME;
     }
 
-    public function createJsonContent(ErrorAndDiffCollector $errorAndDiffCollector): string
+    public function createJsonContent(ErrorAndDiffResult $errorAndDiffResult): string
     {
-        $errorsArray = $this->createBaseErrorsArray($errorAndDiffCollector);
+        $errorsArray = $this->createBaseErrorsArray($errorAndDiffResult);
 
         $firstResolvedConfigFileInfo = $this->configuration->getFirstResolvedConfigFileInfo();
         if ($firstResolvedConfigFileInfo !== null) {
             $errorsArray['meta']['config'] = $firstResolvedConfigFileInfo->getRealPath();
         }
 
-        /** @var CodingStandardError[] $errors */
-        foreach ($errorAndDiffCollector->getErrors() as $file => $errors) {
-            foreach ($errors as $error) {
-                $errorsArray['files'][$file]['errors'][] = [
-                    'line' => $error->getLine(),
-                    'message' => $error->getMessage(),
-                    'sourceClass' => $error->getSourceClass(),
-                ];
-            }
+        foreach ($errorAndDiffResult->getErrors() as $error) {
+            $errorsArray['files'][$error->getRelativeFilePathFromCwd()]['errors'][] = [
+                'line' => $error->getLine(),
+                'message' => $error->getMessage(),
+                'source_class' => $error->getCheckerClass(),
+            ];
         }
 
-        /** @var FileDiff[] $diffs */
-        foreach ($errorAndDiffCollector->getFileDiffs() as $file => $diffs) {
-            foreach ($diffs as $diff) {
-                $errorsArray['files'][$file]['diffs'][] = [
-                    'diff' => $diff->getDiff(),
-                    'appliedCheckers' => $diff->getAppliedCheckers(),
-                ];
-            }
+        foreach ($errorAndDiffResult->getFileDiffs() as $fileDiff) {
+            $errorsArray['files'][$fileDiff->getRelativeFilePathFromCwd()]['diffs'][] = [
+                'diff' => $fileDiff->getDiff(),
+                'applied_checkers' => $fileDiff->getAppliedCheckers(),
+            ];
         }
 
         return Json::encode($errorsArray, Json::PRETTY);
@@ -89,15 +81,15 @@ final class JsonOutputFormatter implements OutputFormatterInterface
     /**
      * @return mixed[]
      */
-    private function createBaseErrorsArray(ErrorAndDiffCollector $errorAndDiffCollector): array
+    private function createBaseErrorsArray(ErrorAndDiffResult $errorAndDiffResult): array
     {
         return [
             'meta' => [
                 'version' => $this->configuration->getPrettyVersion(),
             ],
             'totals' => [
-                'errors' => $errorAndDiffCollector->getErrorCount(),
-                'diffs' => $errorAndDiffCollector->getFileDiffsCount(),
+                'errors' => $errorAndDiffResult->getErrorCount(),
+                'diffs' => $errorAndDiffResult->getFileDiffsCount(),
             ],
             'files' => [],
         ];
