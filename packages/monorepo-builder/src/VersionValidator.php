@@ -25,6 +25,11 @@ final class VersionValidator
     private const MONOREPO_BUILDER_YAML = 'monorepo-builder.yaml';
 
     /**
+     * @var string
+     */
+    private const MONOREPO_BUILDER_PHP = 'monorepo-builder.php';
+
+    /**
      * @var JsonFileManager
      */
     private $jsonFileManager;
@@ -79,12 +84,16 @@ final class VersionValidator
             return $packageVersionsPerFile;
         }
 
+        $monorepoBuilderConfig = file_exists(self::MONOREPO_BUILDER_YAML)
+            ? self::MONOREPO_BUILDER_YAML
+            : self::MONOREPO_BUILDER_PHP;
+
         foreach ($appendingComposerJson->getRequire() as $packageName => $packageVersion) {
-            $packageVersionsPerFile[$packageName][self::MONOREPO_BUILDER_YAML] = $packageVersion;
+            $packageVersionsPerFile[$packageName][$monorepoBuilderConfig] = $packageVersion;
         }
 
         foreach ($appendingComposerJson->getRequireDev() as $packageName => $packageVersion) {
-            $packageVersionsPerFile[$packageName][self::MONOREPO_BUILDER_YAML] = $packageVersion;
+            $packageVersionsPerFile[$packageName][$monorepoBuilderConfig] = $packageVersion;
         }
 
         return $packageVersionsPerFile;
