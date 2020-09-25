@@ -157,6 +157,8 @@ class SomeObjectFactory
 
 :+1:
 
+<br>
+
 ## Add regex.com link to Pattern Constants
 
 - class: [`AnnotateRegexClassConstWithRegexLinkRule`](../src/Rules/AnnotateRegexClassConstWithRegexLinkRule.php)
@@ -181,6 +183,8 @@ class SomeClass
 ```
 
 :+1:
+
+<br>
 
 ## Use Constant Regex Patterns over Inlined Strings
 
@@ -291,6 +295,8 @@ final class SomeClass
 ```
 
 :x:
+
+<br>
 
 ## Keep Variable Not Too Long
 
