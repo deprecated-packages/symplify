@@ -86,7 +86,7 @@ final class VersionValidator
 
         $monorepoBuilderConfig = file_exists(self::MONOREPO_BUILDER_YAML)
             ? self::MONOREPO_BUILDER_YAML
-            : self::MONOREPO_BUILDER_YAML;
+            : self::MONOREPO_BUILDER_PHP;
 
         foreach ($appendingComposerJson->getRequire() as $packageName => $packageVersion) {
             $packageVersionsPerFile[$packageName][$monorepoBuilderConfig] = $packageVersion;
