@@ -7,7 +7,7 @@ on:
             - master
 
 jobs:
-    matrix:
+    code_analysis:
         strategy:
             fail-fast: false
             matrix:
