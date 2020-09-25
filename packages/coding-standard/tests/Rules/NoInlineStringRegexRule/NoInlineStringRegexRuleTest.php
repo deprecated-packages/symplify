@@ -27,6 +27,7 @@ final class NoInlineStringRegexRuleTest extends RuleTestCase
             [[NoInlineStringRegexRule::ERROR_MESSAGE, 13]],
         ];
 
+        yield [__DIR__ . '/Fixture/SkipVariable.php', []];
         yield [__DIR__ . '/Fixture/SkipSingleLetter.php', []];
         yield [__DIR__ . '/Fixture/SkipConstRegex.php', []];
         yield [__DIR__ . '/Fixture/SkipNetteUtilsStringsConstRegex.php', []];
