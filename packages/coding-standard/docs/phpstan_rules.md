@@ -1,5 +1,27 @@
 # 38+ PHPStan Rules
 
+## `abstract` class name must be prefixed with "Abstract"
+
+- class: [`PrefixAbstractClassRule`](../src/Rules/PrefixAbstractClassRule.php)
+
+```php
+abstract class SomeClass
+{
+}
+```
+
+:x:
+
+```php
+abstract class AbstractSomeClass
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## Regex Constants Must end With "_REGEX"
 
 - class: [`RegexSuffixInRegexConstantRule`](../src/Rules/RegexSuffixInRegexConstantRule.php)
@@ -493,8 +515,8 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             stringArgByMethodByType:
-                SomeClass:
-                    run: [1]
+                SomeObject:
+                    someMethod: [1]
 ```
 
 ```php

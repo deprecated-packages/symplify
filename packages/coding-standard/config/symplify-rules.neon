@@ -7,11 +7,17 @@ parameters:
         max_class_cognitive_complexity: 50
 
 services:
-    # rules
+    # naming
+    -
+        class: Symplify\CodingStandard\Rules\PrefixAbstractClassRule
+        tags: [phpstan.rules.rule]
+
+    # paths
     -
         class: Symplify\CodingStandard\Rules\NoMissingDirPathRule
         tags: [phpstan.rules.rule]
 
+    # service architeture
     -
         class: Symplify\CodingStandard\Rules\NoNewOutsideFactoryRule
         tags: [phpstan.rules.rule]
