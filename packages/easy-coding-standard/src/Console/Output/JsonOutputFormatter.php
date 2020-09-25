@@ -50,6 +50,20 @@ final class JsonOutputFormatter implements OutputFormatterInterface
 
     public function report(int $processedFilesCount): int
     {
+        $json = $this->createJsonContent();
+        $this->easyCodingStandardStyle->writeln($json);
+
+        $errorCount = $this->errorAndDiffCollector->getErrorCount();
+        return $errorCount === 0 ? ShellCode::SUCCESS : ShellCode::ERROR;
+    }
+
+    public function getName(): string
+    {
+        return self::NAME;
+    }
+
+    public function createJsonContent(): string
+    {
         $errorsArray = [
             'meta' => [
                 'version' => $this->configuration->getPrettyVersion(),
@@ -87,15 +101,6 @@ final class JsonOutputFormatter implements OutputFormatterInterface
             }
         }
 
-        $json = Json::encode($errorsArray, Json::PRETTY);
-
-        $this->easyCodingStandardStyle->writeln($json);
-
-        return $errorsArray['totals']['errors'] === 0 ? ShellCode::SUCCESS : ShellCode::ERROR;
-    }
-
-    public function getName(): string
-    {
-        return self::NAME;
+        return Json::encode($errorsArray, Json::PRETTY);
     }
 }
