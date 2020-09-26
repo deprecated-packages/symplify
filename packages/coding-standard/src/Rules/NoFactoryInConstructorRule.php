@@ -57,6 +57,7 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
         }
 
         $methodCalls = $this->nodeFinder->findInstanceOf($stmts, MethodCall::class);
+        /** @var MethodCall $methodCall */
         foreach ($methodCalls as $methodCall) {
             /** @var Variable $variable */
             $variable = $methodCall->var;
