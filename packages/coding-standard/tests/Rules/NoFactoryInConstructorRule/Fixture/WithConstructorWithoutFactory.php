@@ -12,6 +12,6 @@ final class WithConstructorWithoutFactory
 {
     public function __construct(NotFactory $notFactory)
     {
-        $notFactory;
+        $this->property = $notFactory;
     }
 }
