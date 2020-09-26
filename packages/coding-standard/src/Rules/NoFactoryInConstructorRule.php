@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 
@@ -36,6 +37,28 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
             return [];
         }
 
-        return [self::ERROR_MESSAGE];
+        $stmts = $node->getStmts();
+        if ($stmts === []) {
+            return [];
+        }
+
+        foreach ($stmts as $stmt) {
+            $expression = $stmt->expr;
+            while ($expression) {
+                if ($expression === null) {
+                    return [];
+                }
+
+                /** @var MethodCall $expression */
+                if ($expression instanceof MethodCall) {
+                    return [self::ERROR_MESSAGE];
+                }
+
+                /** @var MethodCall|null $expression */
+                $expression = $expression->expr;
+            }
+        }
+
+        return [];
     }
 }
