@@ -52,8 +52,12 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
 
             $expression = $stmt->expr;
             while ($expression) {
-                /** @phpstan-ignore-next-line */
-                if ($expression instanceof MethodCall && ! in_array($expression->var->name, ['this', 'self', 'static'], true)) {
+                if ($expression instanceof MethodCall && ! in_array(
+                    /** @phpstan-ignore-next-line */
+                    $expression->var->name,
+                    ['this', 'self', 'static'],
+                    true
+                )) {
                     return [self::ERROR_MESSAGE];
                 }
 
