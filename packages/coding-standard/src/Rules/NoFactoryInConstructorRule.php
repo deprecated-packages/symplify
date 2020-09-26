@@ -45,10 +45,6 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
         foreach ($stmts as $stmt) {
             $expression = $stmt->expr;
             while ($expression) {
-                if ($expression === null) {
-                    return [];
-                }
-
                 /** @var MethodCall $expression */
                 if ($expression instanceof MethodCall) {
                     return [self::ERROR_MESSAGE];
