@@ -711,6 +711,32 @@ final class SomeController
 
 <br>
 
+## No factory method call in constructor
+
+- class: [`NoFactoryInConstructorRule`](../src/Rules/NoFactoryInConstructorRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoFactoryInConstructorRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+final class WithConstructorWithFactory
+{
+    public function __construct(Factory $factory)
+    {
+        $factory->build();
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## `getRepository()` is allowed only in Repository constructor
 
 - class: [`NoGetRepositoryOutsideConstructorRule`](../src/Rules/NoGetRepositoryOutsideConstructorRule.php)
