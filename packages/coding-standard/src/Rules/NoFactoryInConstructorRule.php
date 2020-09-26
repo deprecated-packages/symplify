@@ -6,7 +6,9 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -37,12 +39,17 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
             return [];
         }
 
+        /** @var Stmt[] $stmts */
         $stmts = $node->getStmts();
         if ($stmts === []) {
             return [];
         }
 
         foreach ($stmts as $stmt) {
+            if (! $stmt instanceof Expression) {
+                continue;
+            }
+
             $expression = $stmt->expr;
             while ($expression) {
                 /** @var MethodCall $expression */
