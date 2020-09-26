@@ -6,9 +6,10 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Expression;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -20,6 +21,16 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Do not use factory in constructor';
+
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    public function __construct()
+    {
+        $this->nodeFinder = new NodeFinder();
+    }
 
     /**
      * @return string[]
@@ -45,24 +56,14 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
             return [];
         }
 
-        foreach ($stmts as $stmt) {
-            if (! $stmt instanceof Expression) {
-                continue;
-            }
+        $methodCalls = $this->nodeFinder->findInstanceOf($stmts, MethodCall::class);
+        foreach ($methodCalls as $methodCall) {
+            /** @var Variable $variable */
+            $variable = $methodCall->var;
+            $name = $variable->name;
 
-            $expression = $stmt->expr;
-            while ($expression) {
-                if ($expression instanceof MethodCall && ! in_array(
-                    /** @phpstan-ignore-next-line */
-                    $expression->var->name,
-                    ['this', 'self', 'static'],
-                    true
-                )) {
-                    return [self::ERROR_MESSAGE];
-                }
-
-                /** @phpstan-ignore-next-line */
-                $expression = $expression->expr;
+            if (! in_array($name, ['this', 'self', 'static', 'parent'], true)) {
+                return [self::ERROR_MESSAGE];
             }
         }
 
