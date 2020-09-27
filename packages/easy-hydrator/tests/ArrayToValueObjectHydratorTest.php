@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\EasyHydrator\Tests;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
+use Symplify\EasyHydrator\Tests\Fixture\ImmutableTimeEvent;
 use Symplify\EasyHydrator\Tests\Fixture\Person;
 use Symplify\EasyHydrator\Tests\Fixture\PersonWithAge;
 use Symplify\EasyHydrator\Tests\Fixture\TimeEvent;
@@ -60,6 +62,18 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
         $this->assertSame(50, $personWithAge->getAge());
     }
 
+    public function testDateTimeImmutable(): void
+    {
+        $timeEvent = $this->arrayToValueObjectHydrator->hydrateArray([
+            'when' => '2020-02-02',
+        ], ImmutableTimeEvent::class);
+
+        $this->assertInstanceOf(ImmutableTimeEvent::class, $timeEvent);
+
+        /** @var ImmutableTimeEvent $timeEvent */
+        $this->assertInstanceOf(DateTimeImmutable::class, $timeEvent->getWhen());
+    }
+
     public function testDateTime(): void
     {
         $timeEvent = $this->arrayToValueObjectHydrator->hydrateArray([
@@ -70,6 +84,20 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
 
         /** @var TimeEvent $timeEvent */
         $this->assertInstanceOf(DateTimeInterface::class, $timeEvent->getWhen());
+    }
+
+    public function testMultipleImmutable(): void
+    {
+        $timeEvents = $this->arrayToValueObjectHydrator->hydrateArrays(
+            self::TIME_EVENTS_DATA,
+            ImmutableTimeEvent::class
+        );
+
+        $this->assertCount(2, $timeEvents);
+
+        foreach ($timeEvents as $timeEvent) {
+            $this->assertInstanceOf(ImmutableTimeEvent::class, $timeEvent);
+        }
     }
 
     public function testMultiple(): void
