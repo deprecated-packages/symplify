@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyHydrator;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 use Nette\Utils\DateTime;
 use ReflectionParameter;
@@ -37,7 +38,11 @@ final class ValueResolver
      */
     private function retypeValue(ReflectionParameter $reflectionParameter, $value)
     {
-        if ($this->isDateTimeType($reflectionParameter)) {
+        if ($this->isDateTimeType($reflectionParameter, DateTimeImmutable::class)) {
+            return DateTimeImmutable::createFromMutable(DateTime::from($value));
+        }
+
+        if ($this->isDateTimeType($reflectionParameter, DateTimeInterface::class)) {
             return DateTime::from($value);
         }
 
@@ -57,7 +62,7 @@ final class ValueResolver
         return $value;
     }
 
-    private function isDateTimeType(ReflectionParameter $reflectionParameter): bool
+    private function isDateTimeType(ReflectionParameter $reflectionParameter, string $class): bool
     {
         $parameterType = $reflectionParameter->getType();
         if ($parameterType === null) {
@@ -70,6 +75,6 @@ final class ValueResolver
             'getName'
         ) ? $parameterType->getName() : (string) $parameterType;
 
-        return is_a($parameterTypeName, DateTimeInterface::class, true);
+        return is_a($parameterTypeName, $class, true);
     }
 }
