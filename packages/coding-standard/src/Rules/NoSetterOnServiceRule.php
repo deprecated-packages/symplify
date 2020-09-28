@@ -23,7 +23,7 @@ final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Do not use setter on service';
+    public const ERROR_MESSAGE = 'Do not use setter on a service';
 
     /**
      * @var string
