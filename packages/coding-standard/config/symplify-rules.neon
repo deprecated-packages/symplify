@@ -270,3 +270,7 @@ services:
     - Symplify\CodingStandard\PHPStan\VariableAsParamAnalyser
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
+
+    -
+        class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule
+        tags: [phpstan.rules.rule]
