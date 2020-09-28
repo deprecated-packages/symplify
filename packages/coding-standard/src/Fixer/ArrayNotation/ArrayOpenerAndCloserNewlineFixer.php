@@ -26,10 +26,6 @@ class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
             return;
         }
 
-        if ($tokens->isEmptyAt($index)) {
-            return;
-        }
-
         // closer must run before the opener, as tokens as added by traversing up
         $this->handleArrayCloser($tokens, $blockInfo->getEnd());
         $this->handleArrayOpener($tokens, $index);
