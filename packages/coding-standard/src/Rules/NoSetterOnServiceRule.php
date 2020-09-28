@@ -46,34 +46,32 @@ final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
      */
     public function getNodeTypes(): array
     {
-        return [Class_::class];
+        return [ClassMethod::class];
     }
 
     /**
-     * @param Class_ $node
+     * @param ClassMethod $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
+        $class = $node->getAttribute('parent');
         /** @var Identifier $name */
-        $namespacedName = $node->namespacedName;
+        $namespacedName = $class->namespacedName;
         if (Strings::match($namespacedName->toString(), self::NOT_A_SERVICE_NAMESPACE_REGEX)) {
             return [];
         }
 
-        $classMethods = $this->nodeFinder->findInstanceOf($node, ClassMethod::class);
-        foreach ($classMethods as $classMethod) {
-            $classMethodName = $classMethod->name->toString();
-            if (! Strings::startsWith($classMethodName, 'set')) {
-                continue;
-            }
+        $classMethodName = $node->name->toString();
+        if (! Strings::startsWith($classMethodName, 'set')) {
+            return [];
+        }
 
-            $assigns = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), Assign::class);
-            foreach ($assigns as $assign) {
-                $parentVariableAssign = $assign->var->name->getAttribute('parent');
-                if ($parentVariableAssign instanceof PropertyFetch || $parentVariableAssign instanceof StaticPropertyFetch) {
-                    return [self::ERROR_MESSAGE];
-                }
+        $assigns = $this->nodeFinder->findInstanceOf((array) $node->getStmts(), Assign::class);
+        foreach ($assigns as $assign) {
+            $parentVariableAssign = $assign->var->name->getAttribute('parent');
+            if ($parentVariableAssign instanceof PropertyFetch || $parentVariableAssign instanceof StaticPropertyFetch) {
+                return [self::ERROR_MESSAGE];
             }
         }
 
