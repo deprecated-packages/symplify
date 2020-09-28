@@ -52,6 +52,10 @@ class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
             return;
         }
 
+        if ($previousCloserToken->getContent() !== '') {
+            return;
+        }
+
         // already whitespace
         if ($previousCloserToken->isGivenKind(T_WHITESPACE)) {
             return;
@@ -68,11 +72,15 @@ class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
             return;
         }
 
+        if ($nextToken->getContent() !== '') {
+            return;
+        }
+
         // already is whitespace
         if ($nextToken->isGivenKind(T_WHITESPACE)) {
             return;
         }
 
-        $tokens->ensureWhitespaceAtIndex($arrayOpenerPosition + 1, 0, $this->whitespacesFixerConfig->getLineEnding());
+        $tokens->ensureWhitespaceAtIndex($arrayOpenerPosition, 0, $this->whitespacesFixerConfig->getLineEnding());
     }
 }

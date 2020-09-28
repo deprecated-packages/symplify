@@ -36,8 +36,6 @@ final class OneArgumentController extends AbstractController implements Controll
      */
     public function getArguments(): array
     {
-        return [
-            '1', '2'
-        ];
+        return ['1', '2'];
     }
 }

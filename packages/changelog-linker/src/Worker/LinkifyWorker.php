@@ -25,8 +25,7 @@ final class LinkifyWorker implements WorkerInterface
     /**
      * @var array<string, string>
      */
-    private $namesToUrls = [
-    ];
+    private $namesToUrls = [];
 
     /**
      * @var LinkAppender

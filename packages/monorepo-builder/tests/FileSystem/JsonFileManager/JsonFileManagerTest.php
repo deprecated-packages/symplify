@@ -61,15 +61,9 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
     public function testSaveWithInlinedSections(): void
     {
         $fileContent = $this->jsonFileManager->encodeJsonToFileContent([
-            'inline_section' => [
-                1, 2, 3
-            ],
-            'normal_section' => [
-                1, 2, 3
-            ],
-        ], [
-            'inline_section'
-        ]);
+            'inline_section' => [1, 2, 3],
+            'normal_section' => [1, 2, 3],
+        ], ['inline_section']);
 
         $this->assertStringEqualsFile(__DIR__ . '/Source/expected-inlined.json', $fileContent);
     }

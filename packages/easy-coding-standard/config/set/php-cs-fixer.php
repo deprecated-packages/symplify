@@ -158,9 +158,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(CastSpacesFixer::class);
     $services->set(ClassAttributesSeparationFixer::class)
         ->call('configure', [[
-            'elements' => [
-                'method'
-            ],
+            'elements' => ['method'],
         ]]);
     $services->set(ClassDefinitionFixer::class)
         ->call('configure', [[
@@ -271,9 +269,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PhpdocAddMissingParamAnnotationFixer::class);
     $services->set(PhpdocAlignFixer::class)
         ->call('configure', [[
-            'tags' => [
-                'method', 'param', 'property', 'return', 'throws', 'type', 'var'
-            ],
+            'tags' => ['method', 'param', 'property', 'return', 'throws', 'type', 'var'],
         ]]);
     $services->set(PhpdocAnnotationWithoutDotFixer::class);
     $services->set(PhpdocIndentFixer::class);

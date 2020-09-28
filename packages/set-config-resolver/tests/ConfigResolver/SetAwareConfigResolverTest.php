@@ -71,9 +71,7 @@ final class SetAwareConfigResolverTest extends TestCase
         $basicConfigFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/missing_set_config.yaml');
 
         $this->expectException(SetNotFoundException::class);
-        $this->setAwareConfigResolver->resolveFromParameterSetsFromConfigFiles([
-            $basicConfigFileInfo
-        ]);
+        $this->setAwareConfigResolver->resolveFromParameterSetsFromConfigFiles([$basicConfigFileInfo]);
     }
 
     public function testYamlSetsFileInfos(): void

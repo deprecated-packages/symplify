@@ -118,9 +118,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(BlankLineAfterOpeningTagFixer::class);
     $services->set(BlankLineBeforeStatementFixer::class)
         ->call('configure', [[
-            'statements' => [
-                'return'
-            ],
+            'statements' => ['return'],
         ]]);
     $services->set(BracesFixer::class)
         ->call('configure', [[
@@ -129,9 +127,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(CastSpacesFixer::class);
     $services->set(ClassAttributesSeparationFixer::class)
         ->call('configure', [[
-            'elements' => [
-                'method'
-            ],
+            'elements' => ['method'],
         ]]);
     $services->set(ClassDefinitionFixer::class)
         ->call('configure', [[
@@ -203,9 +199,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PhpUnitFqcnAnnotationFixer::class);
     $services->set(PhpdocAlignFixer::class)
         ->call('configure', [[
-            'tags' => [
-                'method', 'param', 'property', 'return', 'throws', 'type', 'var'
-            ],
+            'tags' => ['method', 'param', 'property', 'return', 'throws', 'type', 'var'],
         ]]);
     $services->set(PhpdocAnnotationWithoutDotFixer::class);
     $services->set(PhpdocIndentFixer::class);
@@ -239,9 +233,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SingleLineAfterImportsFixer::class);
     $services->set(SingleLineCommentStyleFixer::class)
         ->call('configure', [[
-            'comment_types' => [
-                'hash'
-            ],
+            'comment_types' => ['hash'],
         ]]);
     $services->set(SingleLineThrowFixer::class);
     $services->set(SingleQuoteFixer::class);

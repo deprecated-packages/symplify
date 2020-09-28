@@ -46,9 +46,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(SingleClassElementPerStatementFixer::class)
         ->call('configure', [[
-            'elements' => [
-                'const', 'property'
-            ],
+            'elements' => ['const', 'property'],
         ]]);
 
     $services->set(NewWithBracesFixer::class);
