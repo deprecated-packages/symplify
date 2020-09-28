@@ -2,11 +2,11 @@
 
 namespace Symplify\MonorepoBuilder\Testing\Tests\ComposerJson;
 
-use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Testing\ComposerJson\ComposerJsonSymlinker;
+use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
 {
@@ -27,7 +27,7 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $this->composerJsonSymlinker = self::$container->get(ComposerJsonSymlinker::class);
     }
 
-    public function testItCanAppendPathRepository()
+    public function testItCanAppendPathRepository(): void
     {
         $mainComposerJson = new SmartFileInfo(__DIR__ . '/composer.json');
         $packageFileInfo = new SmartFileInfo(__DIR__ . '/packages/package-one/composer.json');
@@ -45,14 +45,12 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
             'repositories' => [
                 ['type' => 'path', 'url' => '../../packages/package-two', 'options' => ['symlink' => false]],
                 ['type' => 'composer', 'url' => 'https://repo.packagist.com/acme-companies/'],
-                ['packagist.org' => false]
-            ]
+                ['packagist.org' => false],
+            ],
         ], $packageComposerJson);
     }
 
-
-
-    public function testItCanAddPathRepository()
+    public function testItCanAddPathRepository(): void
     {
         $mainComposerJson = new SmartFileInfo(__DIR__ . '/composer.json');
         $packageFileInfo = new SmartFileInfo(__DIR__ . '/packages/package-two/composer.json');
@@ -68,8 +66,8 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $this->assertSame([
             'name' => 'example/package-two',
             'repositories' => [
-                ['type' => 'path', 'url' => '../../packages/package-one', 'options' => ['symlink' => false]]
-            ]
+                ['type' => 'path', 'url' => '../../packages/package-one', 'options' => ['symlink' => false]],
+            ],
         ], $packageComposerJson);
     }
 }
