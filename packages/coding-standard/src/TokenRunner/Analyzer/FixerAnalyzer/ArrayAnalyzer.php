@@ -37,40 +37,44 @@ final class ArrayAnalyzer
         }
 
         $itemCount = 1;
-        for ($i = $blockInfo->getEnd() - 1; $i >= $blockInfo->getStart() + 1; --$i) {
-            $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
-
-            /** @var Token $token */
-            $token = $tokens[$i];
+        $this->traverseArrayWithoutNesting($tokens, $blockInfo, function (Token $token) use (&$itemCount): void {
             if ($token->getContent() === ',') {
                 ++$itemCount;
             }
-        }
+        });
 
         return $itemCount;
     }
 
     public function isIndexedList(Tokens $tokens, BlockInfo $blockInfo): bool
     {
+        $isIndexedList = false;
+        $this->traverseArrayWithoutNesting($tokens, $blockInfo, function (Token $token) use (&$isIndexedList): void {
+            if ($token->isGivenKind(T_DOUBLE_ARROW)) {
+                $isIndexedList = true;
+            }
+        });
+
+        return $isIndexedList;
+    }
+
+    private function isArrayCloser(Token $token): bool
+    {
+        if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
+            return true;
+        }
+
+        return $token->getContent() === ')';
+    }
+
+    private function traverseArrayWithoutNesting(Tokens $tokens, BlockInfo $blockInfo, callable $callable): void
+    {
         for ($i = $blockInfo->getEnd() - 1; $i >= $blockInfo->getStart() + 1; --$i) {
             $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
 
             /** @var Token $token */
             $token = $tokens[$i];
-            if ($token->isGivenKind(T_DOUBLE_ARROW)) {
-                return true;
-            }
+            $callable($token);
         }
-
-        return false;
-    }
-
-    private function isArrayCloser(Token $nextMeaningfulToken): bool
-    {
-        if ($nextMeaningfulToken->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
-            return true;
-        }
-
-        return $nextMeaningfulToken->getContent() === ')';
     }
 }
