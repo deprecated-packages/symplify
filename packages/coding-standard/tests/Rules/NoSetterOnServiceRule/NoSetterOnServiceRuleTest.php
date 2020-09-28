@@ -26,7 +26,10 @@ final class NoSetterOnServiceRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/ValueObject/SomeValueObject.php', []];
         yield [__DIR__ . '/Fixture/Service/SomeService.php', []];
         yield [__DIR__ . '/Fixture/Service/SomeServiceWithSetter.php', [[NoSetterOnServiceRule::ERROR_MESSAGE, 7]]];
-        yield [__DIR__ . '/Fixture/Service/SomeServiceWithSetterStaticProperty.php', [[NoSetterOnServiceRule::ERROR_MESSAGE, 7]]];
+        yield [
+            __DIR__ . '/Fixture/Service/SomeServiceWithSetterStaticProperty.php',
+            [[NoSetterOnServiceRule::ERROR_MESSAGE, 7]],
+        ];
     }
 
     protected function getRule(): Rule
