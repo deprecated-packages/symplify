@@ -45,7 +45,7 @@ final class ComposerJsonSymlinker
                 $usedPackageFileInfo
             );
 
-            $packageComposerJson['repositories'][] = [
+            $repositoriesContent = [
                 'type' => 'path',
                 'url' => $relativePathToLocalPackage,
                 // we need hard copy of files, as in normal composer install of standalone package
@@ -53,6 +53,12 @@ final class ComposerJsonSymlinker
                     'symlink' => false,
                 ],
             ];
+
+            if (array_key_exists('repositories', $packageComposerJson)) {
+                array_unshift($packageComposerJson['repositories'], $repositoriesContent);
+            } else {
+                $packageComposerJson['repositories'][] = $repositoriesContent;
+            }
         }
 
         return $packageComposerJson;
