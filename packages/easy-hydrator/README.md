@@ -21,7 +21,9 @@ Add to `config/bundles.php`:
 declare(strict_types=1);
 
 return [
-    Symplify\EasyHydrator\EasyHydratorBundle::class => ['all' => true],
+    Symplify\EasyHydrator\EasyHydratorBundle::class => [
+        'all' => true,
+    ],
 ];
 ```
 

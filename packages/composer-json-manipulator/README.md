@@ -19,7 +19,9 @@ Add to `config/bundles.php`:
 declare(strict_types=1);
 
 return [
-    Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle::class => ['all' => true],
+    Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle::class => [
+        'all' => true,
+    ],
 ];
 ```
 

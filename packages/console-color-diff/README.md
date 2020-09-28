@@ -14,7 +14,9 @@ Add to `config/bundles.php`:
 declare(strict_types=1);
 
 return [
-    Symplify\ConsoleColorDiff\ConsoleColorDiffBundle::class => ['all' => true],
+    Symplify\ConsoleColorDiff\ConsoleColorDiffBundle::class => [
+        'all' => true,
+    ],
 ];
 ```
 

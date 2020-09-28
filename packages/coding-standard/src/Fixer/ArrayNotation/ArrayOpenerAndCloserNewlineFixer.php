@@ -26,8 +26,8 @@ class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
             return;
         }
 
-        // is single line? → skip
-        if (! $tokens->isPartialCodeMultiline($blockInfo->getStart(), $blockInfo->getEnd())) {
+        // is just empty array []
+        if ($blockInfo->getStart() + 1 === $blockInfo->getEnd()) {
             return;
         }
 
