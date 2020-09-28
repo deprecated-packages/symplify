@@ -16,7 +16,9 @@ final class OneArgumentController extends AbstractController implements Controll
      */
     public function __invoke(string $param): Response
     {
-        return $this->render('one_param.twig', ['param' => $param]);
+        return $this->render('one_param.twig', [
+            'param' => $param,
+        ]);
     }
 
     public function getControllerClass(): string

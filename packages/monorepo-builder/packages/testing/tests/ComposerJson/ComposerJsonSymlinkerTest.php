@@ -43,9 +43,17 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $this->assertSame([
             'name' => 'example/package-one',
             'repositories' => [
-                ['type' => 'path', 'url' => '../../packages/package-two', 'options' => ['symlink' => false]],
-                ['type' => 'composer', 'url' => 'https://repo.packagist.com/acme-companies/'],
-                ['packagist.org' => false],
+                [
+                    'type' => 'path', 'url' => '../../packages/package-two', 'options' => [
+                        'symlink' => false,
+                    ],
+                ],
+                [
+                    'type' => 'composer', 'url' => 'https://repo.packagist.com/acme-companies/',
+                ],
+                [
+                    'packagist.org' => false,
+                ],
             ],
         ], $packageComposerJson);
     }
@@ -66,7 +74,11 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $this->assertSame([
             'name' => 'example/package-two',
             'repositories' => [
-                ['type' => 'path', 'url' => '../../packages/package-one', 'options' => ['symlink' => false]],
+                [
+                    'type' => 'path', 'url' => '../../packages/package-one', 'options' => [
+                        'symlink' => false,
+                    ],
+                ],
             ],
         ], $packageComposerJson);
     }

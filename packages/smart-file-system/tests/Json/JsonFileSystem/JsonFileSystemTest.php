@@ -35,12 +35,16 @@ final class JsonFileSystemTest extends TestCase
     public function testLoadFilePathToJson(): void
     {
         $loadedArray = $this->jsonFileSystem->loadFilePathToJson(__DIR__ . '/Fixture/some.json');
-        $this->assertSame(['key' => 'value'], $loadedArray);
+        $this->assertSame([
+            'key' => 'value',
+        ], $loadedArray);
     }
 
     public function testWriteJsonToFilePath(): void
     {
-        $this->jsonFileSystem->writeJsonToFilePath(['another' => 'time'], self::TEMPORARY_FILE_PATH);
+        $this->jsonFileSystem->writeJsonToFilePath([
+            'another' => 'time',
+        ], self::TEMPORARY_FILE_PATH);
         $this->assertFileEquals(__DIR__ . '/Fixture/expected_printed_json.json', self::TEMPORARY_FILE_PATH);
 
         $this->smartFileSystem->remove(self::TEMPORARY_FILE_PATH);
@@ -54,7 +58,9 @@ final class JsonFileSystemTest extends TestCase
         // backup of original file
         $this->smartFileSystem->copy($originalFile, $temporaryFile);
 
-        $this->jsonFileSystem->mergeArrayToJsonFile($originalFile, ['one' => 'more']);
+        $this->jsonFileSystem->mergeArrayToJsonFile($originalFile, [
+            'one' => 'more',
+        ]);
         $this->assertFileEquals(__DIR__ . '/Fixture/expected_merged_json.json', $originalFile);
 
         // restore original file

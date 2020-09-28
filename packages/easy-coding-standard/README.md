@@ -57,9 +57,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // B. full sets
     $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::SETS, [
-        SetList::CLEAN_CODE, SetList::PSR_12
-    ]);
+    $parameters->set(Option::SETS, [SetList::CLEAN_CODE, SetList::PSR_12]);
 };
 ```
 
@@ -100,20 +98,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
     // alternative to CLI arguments, easier to maintain and extend
-    $parameters->set(Option::PATHS, [
-        __DIR__ . '/src', __DIR__ . '/tests'
-    ]);
+    $parameters->set(Option::PATHS, [__DIR__ . '/src', __DIR__ . '/tests']);
 
     // exlude paths with really nasty code
-    $parameters->set(Option::EXCLUDE_PATHS, [
-        __DIR__ . '/packages/*/src/Legacy'
-    ]);
+    $parameters->set(Option::EXCLUDE_PATHS, [__DIR__ . '/packages/*/src/Legacy']);
 
     // run single rule only on specific path
     $parameters->set(Option::ONLY, [
-        ArraySyntaxFixer::class => [
-            __DIR__ . '/src/NewCode'
-        ],
+        ArraySyntaxFixer::class => [__DIR__ . '/src/NewCode'],
     ]);
 
     $parameters->set(Option::SKIP, [
@@ -136,9 +128,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     // scan other file extendsions; [default: [php]]
-    $parameters->set(Option::FILE_EXTENSIONS, [
-        'php', 'phpt'
-    ]);
+    $parameters->set(Option::FILE_EXTENSIONS, ['php', 'phpt']);
 
     // configure cache paths & namespace - useful for Gitlab CI caching, where getcwd() produces always different path
     // fdefault: sys_get_temp_dir() . '/_changed_files_detector_tests']

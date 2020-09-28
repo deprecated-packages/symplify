@@ -6,10 +6,7 @@ final class AlsoCloser
 {
     public function run()
     {
-        $value = [
-            SingleStaticServiceToDynamicRector::CLASS_TYPES => [
-                'SomeClass']
-        ];
+        $value = [SingleStaticServiceToDynamicRector::CLASS_TYPES => ['SomeClass']];
     }
 }
 
@@ -24,10 +21,8 @@ final class AlsoCloser
     public function run()
     {
         $value = [
-            SingleStaticServiceToDynamicRector::CLASS_TYPES => [
-                'SomeClass'
-]
-        ];
+SingleStaticServiceToDynamicRector::CLASS_TYPES => ['SomeClass']
+];
     }
 }
 

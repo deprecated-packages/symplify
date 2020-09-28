@@ -42,11 +42,19 @@ final class SetAwareConfigResolverTest extends TestCase
 
     public function provideOptionsAndExpectedConfig(): Iterator
     {
-        yield [['--config' => 'README.md'], getcwd() . '/README.md'];
-        yield [['-c' => 'README.md'], getcwd() . '/README.md'];
+        yield [[
+            '--config' => 'README.md',
+        ], getcwd() . '/README.md'];
+        yield [[
+            '-c' => 'README.md',
+        ], getcwd() . '/README.md'];
 
-        yield [['--config' => getcwd() . '/README.md'], getcwd() . '/README.md'];
-        yield [['-c' => getcwd() . '/README.md'], getcwd() . '/README.md'];
+        yield [[
+            '--config' => getcwd() . '/README.md',
+        ], getcwd() . '/README.md'];
+        yield [[
+            '-c' => getcwd() . '/README.md',
+        ], getcwd() . '/README.md'];
 
         yield [
             [
@@ -96,7 +104,9 @@ final class SetAwareConfigResolverTest extends TestCase
     {
         $this->expectException(FileNotFoundException::class);
 
-        $arrayInput = new ArrayInput(['--config' => 'someFile.yml']);
+        $arrayInput = new ArrayInput([
+            '--config' => 'someFile.yml',
+        ]);
         $this->setAwareConfigResolver->resolveFromInput($arrayInput);
     }
 }

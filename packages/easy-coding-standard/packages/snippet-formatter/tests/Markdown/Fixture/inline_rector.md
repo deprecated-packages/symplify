@@ -16,7 +16,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 };
 ```
 -----
-
 Move value object to ValueObject namespace/directory
 
 ```php
@@ -32,9 +31,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(MoveValueObjectsToValueObjectDirectoryRector::class)
         ->call('configure', [[
-MoveValueObjectsToValueObjectDirectoryRector::TYPES => ['ValueObjectInterfaceClassName'],
-MoveValueObjectsToValueObjectDirectoryRector::SUFFIXES => ['Search'],
-MoveValueObjectsToValueObjectDirectoryRector::ENABLE_VALUE_OBJECT_GUESSING => true
-    ]]);
+MoveValueObjectsToValueObjectDirectoryRector::TYPES => ['ValueObjectInterfaceClassName'], MoveValueObjectsToValueObjectDirectoryRector::SUFFIXES => ['Search'], MoveValueObjectsToValueObjectDirectoryRector::ENABLE_VALUE_OBJECT_GUESSING => true
+]]);
 };
 ```

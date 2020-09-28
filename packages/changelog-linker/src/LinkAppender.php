@@ -11,7 +11,7 @@ final class LinkAppender
     /**
      * @var bool
      */
-    private $existingLinks = false;
+    private $isExistingLinks = false;
 
     /**
      * @var string[]
@@ -60,16 +60,17 @@ final class LinkAppender
      */
     public function isExistingLinks(): bool
     {
-        return $this->existingLinks;
+        return $this->isExistingLinks;
     }
 
     private function removeAlreadyExistingLinks(): void
     {
-        $this->existingLinks = false;
+        $this->isExistingLinks = false;
+
         foreach (array_keys($this->linksToAppend) as $id) {
             if ($this->linksAnalyzer->hasLinkedId((string) $id)) {
                 unset($this->linksToAppend[$id]);
-                $this->existingLinks = true;
+                $this->isExistingLinks = true;
             }
         }
     }
