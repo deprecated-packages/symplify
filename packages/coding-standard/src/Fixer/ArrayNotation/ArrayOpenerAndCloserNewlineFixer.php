@@ -8,6 +8,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\ArrayAnalyzer;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 /**
@@ -15,6 +16,16 @@ use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
  */
 class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
 {
+    /**
+     * @var ArrayAnalyzer
+     */
+    private $arrayAnalyzer;
+
+    public function __construct(ArrayAnalyzer $arrayAnalyzer)
+    {
+        $this->arrayAnalyzer = $arrayAnalyzer;
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Indexed PHP array opener and closer must be indented on newline', []);
@@ -26,8 +37,13 @@ class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
             return;
         }
 
-        // is single line? → skip
-        if (! $tokens->isPartialCodeMultiline($blockInfo->getStart(), $blockInfo->getEnd())) {
+        // no items
+        $itemCount = $this->arrayAnalyzer->getItemCount($tokens, $blockInfo);
+        if ($itemCount === 0) {
+            return;
+        }
+
+        if (! $this->arrayAnalyzer->isIndexedList($tokens, $blockInfo)) {
             return;
         }
 

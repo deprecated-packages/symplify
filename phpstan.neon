@@ -1,8 +1,6 @@
 includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - packages/phpstan-extensions/config/config.neon
-    - vendor/slam/phpstan-extensions/conf/slam-rules.neon
-    - vendor/slam/phpstan-extensions/conf/symfony-rules.neon
 
 services:
     -

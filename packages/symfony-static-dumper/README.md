@@ -17,7 +17,9 @@ Add to `config/bundles.php` if you're not using Flex:
 declare(strict_types=1);
 
 return [
-    Symplify\SymfonyStaticDumper\SymfonyStaticDumperBundle::class => ['all' => true],
+    Symplify\SymfonyStaticDumper\SymfonyStaticDumperBundle::class => [
+        'all' => true,
+    ],
 ];
 ```
 

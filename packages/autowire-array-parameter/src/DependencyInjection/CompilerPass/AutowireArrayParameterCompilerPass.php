@@ -119,12 +119,12 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         ReflectionMethod $reflectionMethod,
         Definition $definition
     ): void {
-        foreach ($reflectionMethod->getParameters() as $parameterReflection) {
-            if ($this->shouldSkipParameter($reflectionMethod, $definition, $parameterReflection)) {
+        foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
+            if ($this->shouldSkipParameter($reflectionMethod, $definition, $reflectionParameter)) {
                 continue;
             }
 
-            $parameterType = $this->resolveParameterType($parameterReflection->getName(), $reflectionMethod);
+            $parameterType = $this->resolveParameterType($reflectionParameter->getName(), $reflectionMethod);
             if ($parameterType === null) {
                 continue;
             }
@@ -132,7 +132,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             $definitionsOfType = $this->definitionFinder->findAllByType($containerBuilder, $parameterType);
             $definitionsOfType = $this->filterOutAbstractDefinitions($definitionsOfType);
 
-            $argumentName = '$' . $parameterReflection->getName();
+            $argumentName = '$' . $reflectionParameter->getName();
             $definition->setArgument($argumentName, $this->createReferencesFromDefinitions($definitionsOfType));
         }
     }

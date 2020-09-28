@@ -20,8 +20,12 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
      * @var array<int, array<string, string>>
      */
     private const TIME_EVENTS_DATA = [
-        ['when' => '2020-02-02'],
-        ['when' => '2020-04-04'],
+        [
+            'when' => '2020-02-02',
+        ],
+        [
+            'when' => '2020-04-04',
+        ],
     ];
 
     /**

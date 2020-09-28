@@ -105,7 +105,9 @@ final class ExplicitToAutodiscoveryConverter
             }
 
             $relativeServicesLocation = $this->resolveCommonRelativePath($classes, $filePath);
-            $yaml[YamlKey::SERVICES][$namespaceKey] = [YamlKey::RESOURCE => $relativeServicesLocation];
+            $yaml[YamlKey::SERVICES][$namespaceKey] = [
+                YamlKey::RESOURCE => $relativeServicesLocation,
+            ];
 
             $excludedDirectories = $this->resolveExcludedDirectories($filePath, $relativeServicesLocation);
             if (count($excludedDirectories) > 0) {
@@ -133,7 +135,9 @@ final class ExplicitToAutodiscoveryConverter
         // yes "_defaults", but no "autowire" section
         if (isset($yaml[YamlKey::SERVICES][YamlKey::DEFAULTS])) {
             $yaml[YamlKey::SERVICES][YamlKey::DEFAULTS] = array_merge(
-                [$key => true],
+                [
+                    $key => true,
+                ],
                 $yaml[YamlKey::SERVICES][YamlKey::DEFAULTS]
             );
 

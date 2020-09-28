@@ -58,8 +58,8 @@ final class ComposerJsonProvider
 
     public function getPackageByName(string $packageName): SmartFileInfo
     {
-        foreach ($this->packageComposerFinder->getPackageComposerFiles() as $smartFileInfo) {
-            $json = $this->jsonFileManager->loadFromFileInfo($smartFileInfo);
+        foreach ($this->packageComposerFinder->getPackageComposerFiles() as $packageComposerFile) {
+            $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFile);
             if (! isset($json['name'])) {
                 continue;
             }
@@ -68,7 +68,7 @@ final class ComposerJsonProvider
                 continue;
             }
 
-            return $smartFileInfo;
+            return $packageComposerFile;
         }
 
         throw new ShouldNotHappenException();
