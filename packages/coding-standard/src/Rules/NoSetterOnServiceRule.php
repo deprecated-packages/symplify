@@ -55,8 +55,9 @@ final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        /** @var Class_ $class */
         $class = $node->getAttribute('parent');
-        /** @var Identifier $name */
+        /** @var Identifier $namespacedName */
         $namespacedName = $class->namespacedName;
         if (Strings::match($namespacedName->toString(), self::NOT_A_SERVICE_NAMESPACE_REGEX)) {
             return [];
@@ -67,10 +68,11 @@ final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
             return [];
         }
 
+        /** @var Assign[] $assigns */
         $assigns = $this->nodeFinder->findInstanceOf((array) $node->getStmts(), Assign::class);
         foreach ($assigns as $assign) {
-            $parentVariableAssign = $assign->var->name->getAttribute('parent');
-            if ($parentVariableAssign instanceof PropertyFetch || $parentVariableAssign instanceof StaticPropertyFetch) {
+            $assignVariable = $assign->var;
+            if ($assignVariable instanceof PropertyFetch || $assignVariable instanceof StaticPropertyFetch) {
                 return [self::ERROR_MESSAGE];
             }
         }
