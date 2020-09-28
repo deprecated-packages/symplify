@@ -26,11 +26,6 @@ class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
             return;
         }
 
-        // is single line? → skip
-        if (! $tokens->isPartialCodeMultiline($blockInfo->getStart(), $blockInfo->getEnd())) {
-            return;
-        }
-
         // closer must run before the opener, as tokens as added by traversing up
         $this->handleArrayCloser($tokens, $blockInfo->getEnd());
         $this->handleArrayOpener($tokens, $index);
