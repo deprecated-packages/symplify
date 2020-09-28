@@ -63,6 +63,10 @@ final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
             return [];
         }
 
+        if (! $node->isPublic()) {
+            return [];
+        }
+
         $classMethodName = $node->name->toString();
         if (! Strings::startsWith($classMethodName, 'set')) {
             return [];
