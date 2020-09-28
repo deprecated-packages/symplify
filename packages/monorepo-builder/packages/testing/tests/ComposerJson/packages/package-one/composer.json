@@ -1,0 +1,12 @@
+{
+    "name": "example/package-one",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.packagist.com/acme-companies/"
+        },
+        {
+            "packagist.org": false
+        }
+    ]
+}
