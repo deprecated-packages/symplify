@@ -8,9 +8,7 @@ use Symplify\ChangelogLinker\ValueObject\Option;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
-    $parameters->set(Option::AUTHORS_TO_IGNORE, [
-        'TomasVotruba'
-    ]);
+    $parameters->set(Option::AUTHORS_TO_IGNORE, ['TomasVotruba']);
 
     $parameters->set(Option::PACKAGE_ALIASES, [
         'CS' => 'CodingStandard',

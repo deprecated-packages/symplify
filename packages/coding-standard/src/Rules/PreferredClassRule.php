@@ -27,8 +27,7 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
     /**
      * @var string[]
      */
-    private $oldToPrefferedClasses = [
-    ];
+    private $oldToPrefferedClasses = [];
 
     /**
      * @param string[] $oldToPrefferedClasses
@@ -43,9 +42,7 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
      */
     public function getNodeTypes(): array
     {
-        return [
-            New_::class, Name::class, Class_::class, StaticCall::class
-        ];
+        return [New_::class, Name::class, Class_::class, StaticCall::class];
     }
 
     /**
@@ -76,15 +73,13 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
     {
         $newClass = $new->class;
         if ($newClass instanceof Expr) {
-            return [
-            ];
+            return [];
         }
 
         if ($newClass instanceof Class_) {
             $className = $newClass->name;
             if ($className === null) {
-                return [
-                ];
+                return [];
             }
             $className = $className->toString();
         } else {
@@ -100,8 +95,7 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
     private function processClass(Class_ $class): array
     {
         if ($class->extends === null) {
-            return [
-            ];
+            return [];
         }
 
         $parentClass = $class->extends->toString();
@@ -112,18 +106,14 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
 
             // check special case, when new class is actually the one we use
             if ($prefferedClass === (string) $class->namespacedName) {
-                return [
-                ];
+                return [];
             }
 
             $errorMessage = sprintf(self::ERROR_MESSAGE, $oldClass, $prefferedClass);
-            return [
-                $errorMessage
-            ];
+            return [$errorMessage];
         }
 
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -132,8 +122,7 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
     private function processClassName(string $className, Node $node, Scope $scope): array
     {
         if ($this->isTypeRequiredByParentClassOrContract($node, $scope)) {
-            return [
-            ];
+            return [];
         }
 
         foreach ($this->oldToPrefferedClasses as $oldClass => $prefferedClass) {
@@ -142,13 +131,10 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
             }
 
             $errorMessage = sprintf(self::ERROR_MESSAGE, $oldClass, $prefferedClass);
-            return [
-                $errorMessage
-            ];
+            return [$errorMessage];
         }
 
-        return [
-        ];
+        return [];
     }
 
     private function isTypeRequiredByParentClassOrContract(Node $node, Scope $scope): bool
@@ -189,8 +175,7 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
     private function processStaticCall(StaticCall $staticCall, Scope $scope): array
     {
         if ($staticCall->class instanceof Expr) {
-            return [
-            ];
+            return [];
         }
 
         $className = (string) $staticCall->class;

@@ -35,8 +35,7 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
         }
 
         $missingArgumentNames = $this->filterOutExistingParamNames($docContent, $argumentNames);
-        if ($missingArgumentNames === [
-        ]) {
+        if ($missingArgumentNames === []) {
             return $docContent;
         }
 

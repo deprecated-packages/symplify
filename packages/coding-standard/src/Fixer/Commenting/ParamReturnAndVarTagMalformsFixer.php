@@ -40,8 +40,7 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
     /**
      * @var MalformWorkerInterface[]
      */
-    private $malformWorkers = [
-    ];
+    private $malformWorkers = [];
 
     /**
      * @param MalformWorkerInterface[] $malformWorkers
@@ -55,27 +54,20 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
     {
         return new FixerDefinition(
             'The @param, @return, @var and inline @var annotations should keep standard format',
-            [
-            ]
+            []
         );
     }
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound([
-            T_DOC_COMMENT, T_COMMENT
-        ]) &&
-            $tokens->isAnyTokenKindsFound([
-                T_FUNCTION, T_VARIABLE
-            ]);
+        return $tokens->isAnyTokenKindsFound([T_DOC_COMMENT, T_COMMENT]) &&
+            $tokens->isAnyTokenKindsFound([T_FUNCTION, T_VARIABLE]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->reverseTokens($tokens) as $index => $token) {
-            if (! $token->isGivenKind([
-                T_DOC_COMMENT, T_COMMENT
-            ])) {
+            if (! $token->isGivenKind([T_DOC_COMMENT, T_COMMENT])) {
                 continue;
             }
 
@@ -93,9 +85,7 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
                 continue;
             }
 
-            $tokens[$index] = new Token([
-                T_DOC_COMMENT, $docContent
-            ]);
+            $tokens[$index] = new Token([T_DOC_COMMENT, $docContent]);
         }
     }
 

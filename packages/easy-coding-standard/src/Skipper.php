@@ -26,32 +26,27 @@ final class Skipper
     /**
      * @var string[][]
      */
-    private $skipped = [
-    ];
+    private $skipped = [];
 
     /**
      * @var string[]
      */
-    private $skippedCodes = [
-    ];
+    private $skippedCodes = [];
 
     /**
      * @var string[]
      */
-    private $skippedMessages = [
-    ];
+    private $skippedMessages = [];
 
     /**
      * @var string[]
      */
-    private $excludedPaths = [
-    ];
+    private $excludedPaths = [];
 
     /**
      * @var mixed[]
      */
-    private $only = [
-    ];
+    private $only = [];
 
     public function __construct(ParameterProvider $parameterProvider)
     {

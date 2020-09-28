@@ -23,43 +23,19 @@ final class PreferredClassRuleTest extends RuleTestCase
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([
-            $filePath
-        ], $expectedErrorMessagesWithLines);
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(PreferredClassRule::ERROR_MESSAGE, NativeDateTime::class, DateTime::class);
-        yield [
-            __DIR__ . '/Fixture/ClassUsingOld.php', [[
-                $errorMessage, 13
-            ]]
-        ];
-        yield [
-            __DIR__ . '/Fixture/ClassExtendingOld.php', [[
-                $errorMessage, 9
-            ]]
-        ];
-        yield [
-            __DIR__ . '/Fixture/ClassMethodParameterUsingOld.php', [[
-                $errorMessage, 11
-            ]]
-        ];
-        yield [
-            __DIR__ . '/Fixture/StaticCall.php', [[
-                $errorMessage, 13
-            ]]
-        ];
+        yield [__DIR__ . '/Fixture/ClassUsingOld.php', [[$errorMessage, 13]]];
+        yield [__DIR__ . '/Fixture/ClassExtendingOld.php', [[$errorMessage, 9]]];
+        yield [__DIR__ . '/Fixture/ClassMethodParameterUsingOld.php', [[$errorMessage, 11]]];
+        yield [__DIR__ . '/Fixture/StaticCall.php', [[$errorMessage, 13]]];
 
-        yield [
-            __DIR__ . '/Fixture/SkipPrefferedExtendingTheOldOne.php', [
-            ]
-        ];
-        yield [
-            __DIR__ . '/Fixture/SkipRequiredByContract.php', [
-            ]
-        ];
+        yield [__DIR__ . '/Fixture/SkipPrefferedExtendingTheOldOne.php', []];
+        yield [__DIR__ . '/Fixture/SkipRequiredByContract.php', []];
     }
 
     protected function getRule(): Rule

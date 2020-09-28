@@ -106,8 +106,7 @@ abstract class AbstractParameterMergingYamlFileLoader extends YamlFileLoader
             // $this->parseDefinitions($content, $path);
             $this->privatesCaller->callPrivateMethod($this, 'parseDefinitions', $content, $path);
         } finally {
-            $this->instanceof = [
-            ];
+            $this->instanceof = [];
         }
     }
 

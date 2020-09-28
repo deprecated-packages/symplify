@@ -18,14 +18,11 @@ final class RemoveSpacingAroundModifierAndConstFixer implements FixerInterface
     /**
      * @var int[]
      */
-    private const MODIFIER_TOKENS = [
-        T_PUBLIC, T_PROTECTED, T_PRIVATE, T_STATIC, T_CONST
-    ];
+    private const MODIFIER_TOKENS = [T_PUBLIC, T_PROTECTED, T_PRIVATE, T_STATIC, T_CONST];
 
     public function getDefinition(): FixerDefinition
     {
-        return new FixerDefinition('Remove extra around public/protected/private/static modifiers and const', [
-        ]);
+        return new FixerDefinition('Remove extra around public/protected/private/static modifiers and const', []);
     }
 
     public function isCandidate(Tokens $tokens): bool
@@ -58,9 +55,7 @@ final class RemoveSpacingAroundModifierAndConstFixer implements FixerInterface
             }
 
             // use just one space
-            $tokens[$nextTokenPosition] = new Token([
-                T_WHITESPACE, ' '
-            ]);
+            $tokens[$nextTokenPosition] = new Token([T_WHITESPACE, ' ']);
         }
     }
 

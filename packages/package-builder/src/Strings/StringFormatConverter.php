@@ -18,9 +18,7 @@ final class StringFormatConverter
 
     public function underscoreAndHyphenToCamelCase(string $value): string
     {
-        $value = str_replace(' ', '', ucwords(str_replace([
-            '_', '-'
-        ], ' ', $value)));
+        $value = str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $value)));
 
         return lcfirst($value);
     }
@@ -57,8 +55,7 @@ final class StringFormatConverter
     {
         $matches = Strings::matchAll($input, self::BIG_LETTER_REGEX);
 
-        $parts = [
-        ];
+        $parts = [];
         foreach ($matches as $match) {
             $parts[] = $match[0] === strtoupper($match[0]) ? strtolower($match[0]) : lcfirst($match[0]);
         }

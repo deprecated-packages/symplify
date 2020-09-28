@@ -28,9 +28,7 @@ final class BlockFinder
     /**
      * @var string[]
      */
-    private const START_EDGES = [
-        '(', '[', '{'
-    ];
+    private const START_EDGES = ['(', '[', '{'];
 
     /**
      * Accepts position to both start and end token, e.g. (, ), [, ], {, }
@@ -47,12 +45,8 @@ final class BlockFinder
             $token = $tokens[$position];
         }
 
-        if ($token->isGivenKind([
-            T_FUNCTION, CT::T_USE_LAMBDA, T_NEW
-        ])) {
-            $position = $tokens->getNextTokenOfKind($position, [
-                '(', ';'
-            ]);
+        if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
+            $position = $tokens->getNextTokenOfKind($position, ['(', ';']);
             /** @var Token $token */
             $token = $tokens[$position];
 
@@ -88,9 +82,7 @@ final class BlockFinder
 
     public function findInTokensByPositionAndContent(Tokens $tokens, int $position, string $content): ?BlockInfo
     {
-        $blockStart = $tokens->getNextTokenOfKind($position, [
-            $content
-        ]);
+        $blockStart = $tokens->getNextTokenOfKind($position, [$content]);
         if ($blockStart === null) {
             return null;
         }
@@ -103,9 +95,7 @@ final class BlockFinder
     private function getBlockTypeByToken(Token $token): int
     {
         if ($token->isArray()) {
-            if (in_array($token->getContent(), [
-                '[', ']'
-            ], true)) {
+            if (in_array($token->getContent(), ['[', ']'], true)) {
                 return Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE;
             }
             return Tokens::BLOCK_TYPE_ARRAY_INDEX_CURLY_BRACE;

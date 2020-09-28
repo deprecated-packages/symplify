@@ -35,9 +35,7 @@ final class SortComposerJsonDecoratorTest extends AbstractKernelTestCase
         $this->sortComposerJsonDecorator->decorate($this->composerJson);
 
         $this->assertSame(
-            [
-                'random-this', 'random-that', 'require', 'require-dev', 'autoload', 'autoload-dev'
-            ],
+            ['random-this', 'random-that', 'require', 'require-dev', 'autoload', 'autoload-dev'],
             $this->composerJson->getOrderedKeys()
         );
     }
@@ -48,18 +46,12 @@ final class SortComposerJsonDecoratorTest extends AbstractKernelTestCase
         $composerJsonFactory = self::$container->get(ComposerJsonFactory::class);
 
         return $composerJsonFactory->createFromArray([
-            'random-this' => [
-            ],
-            'autoload-dev' => [
-            ],
-            'autoload' => [
-            ],
-            'random-that' => [
-            ],
-            'require-dev' => [
-            ],
-            'require' => [
-            ],
+            'random-this' => [],
+            'autoload-dev' => [],
+            'autoload' => [],
+            'random-that' => [],
+            'require-dev' => [],
+            'require' => [],
         ]);
     }
 }

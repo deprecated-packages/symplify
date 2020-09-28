@@ -18,8 +18,7 @@ final class DefinitionFinder
      */
     public function findAllByType(ContainerBuilder $containerBuilder, string $type): array
     {
-        $definitions = [
-        ];
+        $definitions = [];
         foreach ($containerBuilder->getDefinitions() as $name => $definition) {
             $class = $definition->getClass() ?: $name;
             if (! is_string($class)) {

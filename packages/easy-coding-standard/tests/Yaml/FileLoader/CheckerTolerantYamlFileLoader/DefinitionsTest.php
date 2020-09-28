@@ -45,8 +45,7 @@ final class DefinitionsTest extends TestCase
                 ]],
             ],
             # expected set properties
-            [
-            ],
+            [],
         ];
         yield [
             __DIR__ . '/DefinitionsSource/config-with-imports.yaml',
@@ -56,15 +55,13 @@ final class DefinitionsTest extends TestCase
                     'syntax' => 'short',
                 ]],
             ],
-            [
-            ],
+            [],
         ];
         # "@" escaping
         yield [
             __DIR__ . '/DefinitionsSource/config-with-at.yaml',
             LineLengthSniff::class,
-            [
-            ],
+            [],
             [
                 'absoluteLineLimit' => '@author, @var',
             ],
@@ -73,8 +70,7 @@ final class DefinitionsTest extends TestCase
         yield [
             __DIR__ . '/DefinitionsSource/config-classic.yaml',
             LineLengthSniff::class,
-            [
-            ],
+            [],
             [
                 'absoluteLineLimit' => 150,
             ],
@@ -87,14 +83,12 @@ final class DefinitionsTest extends TestCase
                     'syntax' => 'short',
                 ]],
             ],
-            [
-            ],
+            [],
         ];
         yield [
             __DIR__ . '/DefinitionsSource/config-with-bool.yaml',
             ParameterTypeHintSniff::class,
-            [
-            ],
+            [],
             [
                 'enableObjectTypeHint' => false,
             ],
@@ -102,8 +96,7 @@ final class DefinitionsTest extends TestCase
         yield [
             __DIR__ . '/DefinitionsSource/checkers.yaml',
             ParameterTypeHintSniff::class,
-            [
-            ],
+            [],
             [
                 'enableObjectTypeHint' => false,
             ],
@@ -112,8 +105,7 @@ final class DefinitionsTest extends TestCase
         yield [
             __DIR__ . '/DefinitionsSource/config-with-bool.yaml',
             ParameterTypeHintSniff::class,
-            [
-            ],
+            [],
             [
                 'enableObjectTypeHint' => false,
             ],
@@ -121,8 +113,7 @@ final class DefinitionsTest extends TestCase
         yield [
             __DIR__ . '/DefinitionsSource/checkers.yaml',
             ParameterTypeHintSniff::class,
-            [
-            ],
+            [],
             [
                 'enableObjectTypeHint' => false,
             ],

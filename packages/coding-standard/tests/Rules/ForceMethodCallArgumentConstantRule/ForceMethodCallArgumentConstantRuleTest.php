@@ -17,33 +17,22 @@ final class ForceMethodCallArgumentConstantRuleTest extends RuleTestCase
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([
-            $filePath
-        ], $expectedErrorMessagesWithLines);
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(ForceMethodCallArgumentConstantRule::ERROR_MESSAGE, 0);
-        yield [
-            __DIR__ . '/Fixture/SomeMethodCallWithoutConstant.php', [[
-                $errorMessage, 14
-            ]]
-        ];
+        yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstant.php', [[$errorMessage, 14]]];
 
-        yield [
-            __DIR__ . '/Fixture/WithConstant.php', [
-            ]
-        ];
+        yield [__DIR__ . '/Fixture/WithConstant.php', []];
     }
 
     protected function getRule(): Rule
     {
         return new ForceMethodCallArgumentConstantRule([
             AlwaysCallMeWithConstant::class => [
-                'call' => [
-                    0
-                ],
+                'call' => [0],
             ],
         ]);
     }

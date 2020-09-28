@@ -37,14 +37,6 @@ final class TwoArgumentsController extends AbstractController implements Control
      */
     public function getArguments(): array
     {
-        return [[
-            'test', 1
-        ], [
-            'test', 2
-        ], [
-            'foo', 1
-        ], [
-            'foo', 2
-        ]];
+        return [['test', 1], ['test', 2], ['foo', 1], ['foo', 2]];
     }
 }

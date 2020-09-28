@@ -29,9 +29,7 @@ final class ConflictingPackageVersionsReporter
             $this->symfonyStyle->title($message);
 
             $tableRows = $this->createTableRows($filesToVersions);
-            $this->symfonyStyle->table([
-                'File', 'Version'
-            ], $tableRows);
+            $this->symfonyStyle->table(['File', 'Version'], $tableRows);
         }
 
         $this->symfonyStyle->error('Found conflicting package versions, fix them first.');
@@ -42,14 +40,11 @@ final class ConflictingPackageVersionsReporter
      */
     private function createTableRows($filesToVersions): array
     {
-        $tableRows = [
-        ];
+        $tableRows = [];
 
         foreach ($filesToVersions as $file => $version) {
             $fileInfo = new SmartFileInfo($file);
-            $tableRows[] = [
-                $fileInfo->getRelativeFilePathFromCwd(), $version
-            ];
+            $tableRows[] = [$fileInfo->getRelativeFilePathFromCwd(), $version];
         }
         return $tableRows;
     }

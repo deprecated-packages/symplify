@@ -18,9 +18,7 @@ abstract class AbstractArrayFixer extends AbstractSymplifyFixer implements Array
     /**
      * @var int[]
      */
-    protected const ARRAY_OPEN_TOKENS = [
-        T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN
-    ];
+    protected const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
 
     /**
      * @var WhitespacesFixerConfig

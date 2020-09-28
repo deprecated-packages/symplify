@@ -24,23 +24,18 @@ final class RemovePHPStormAnnotationFixer extends AbstractSymplifyFixer
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Remove "Created by PhpStorm" annotations', [
-        ]);
+        return new FixerDefinition('Remove "Created by PhpStorm" annotations', []);
     }
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound([
-            T_DOC_COMMENT, T_COMMENT
-        ]);
+        return $tokens->isAnyTokenKindsFound([T_DOC_COMMENT, T_COMMENT]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($this->reverseTokens($tokens) as $index => $token) {
-            if (! $token->isGivenKind([
-                T_DOC_COMMENT, T_COMMENT
-            ])) {
+            if (! $token->isGivenKind([T_DOC_COMMENT, T_COMMENT])) {
                 continue;
             }
 

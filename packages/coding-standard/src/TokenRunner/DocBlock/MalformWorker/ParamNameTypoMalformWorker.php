@@ -34,9 +34,7 @@ final class ParamNameTypoMalformWorker extends AbstractMalformWorker
         }
 
         // nothing to edit, all arguments are correct or there are no more @param annotations
-        if ($argumentNames === [
-        ] || $paramNames === [
-        ]) {
+        if ($argumentNames === [] || $paramNames === []) {
             return $docContent;
         }
 
@@ -63,8 +61,7 @@ final class ParamNameTypoMalformWorker extends AbstractMalformWorker
     {
         $paramAnnotations = $this->getAnnotationsOfType($docContent, 'param');
 
-        $paramNames = [
-        ];
+        $paramNames = [];
         foreach ($paramAnnotations as $paramAnnotation) {
             $match = Strings::match($paramAnnotation->getContent(), self::PARAM_NAME_REGEX);
             if (isset($match['paramName'])) {

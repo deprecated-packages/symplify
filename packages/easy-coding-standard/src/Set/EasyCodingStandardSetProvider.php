@@ -27,8 +27,7 @@ final class EasyCodingStandardSetProvider extends AbstractSetProvider
     /**
      * @var Set[]
      */
-    private $sets = [
-    ];
+    private $sets = [];
 
     public function __construct()
     {
@@ -61,8 +60,7 @@ final class EasyCodingStandardSetProvider extends AbstractSetProvider
      */
     public function provideSetNames(): array
     {
-        $setNames = [
-        ];
+        $setNames = [];
         foreach ($this->sets as $set) {
             $setNames[] = $set->getName();
         }

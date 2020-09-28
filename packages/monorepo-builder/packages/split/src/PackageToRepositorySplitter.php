@@ -19,14 +19,12 @@ final class PackageToRepositorySplitter
     /**
      * @var Process[]
      */
-    private $activeProcesses = [
-    ];
+    private $activeProcesses = [];
 
     /**
      * @var SplitProcessInfo[]
      */
-    private $splitProcessInfos = [
-    ];
+    private $splitProcessInfos = [];
 
     /**
      * @var SymfonyStyle

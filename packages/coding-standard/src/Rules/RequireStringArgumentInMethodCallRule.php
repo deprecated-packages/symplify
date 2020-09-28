@@ -34,8 +34,7 @@ final class RequireStringArgumentInMethodCallRule implements Rule
     /**
      * @var array<string, array<string, array<int>>>
      */
-    private $stringArgByMethodByType = [
-    ];
+    private $stringArgByMethodByType = [];
 
     /**
      * @var NodeNameResolver
@@ -45,8 +44,7 @@ final class RequireStringArgumentInMethodCallRule implements Rule
     /**
      * @param array<string, array<string, array<int>>> $stringArgByMethodByType
      */
-    public function __construct(NodeNameResolver $nodeNameResolver, array $stringArgByMethodByType = [
-    ])
+    public function __construct(NodeNameResolver $nodeNameResolver, array $stringArgByMethodByType = [])
     {
         $this->stringArgByMethodByType = $stringArgByMethodByType;
         $this->nodeNameResolver = $nodeNameResolver;
@@ -65,12 +63,10 @@ final class RequireStringArgumentInMethodCallRule implements Rule
     {
         // unknown method name
         if (! $node->name instanceof Identifier) {
-            return [
-            ];
+            return [];
         }
 
-        $errorMessages = [
-        ];
+        $errorMessages = [];
 
         $methodName = (string) $node->name;
 

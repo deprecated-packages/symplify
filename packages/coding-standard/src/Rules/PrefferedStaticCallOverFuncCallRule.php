@@ -23,14 +23,12 @@ final class PrefferedStaticCallOverFuncCallRule implements Rule
     /**
      * @var array<string, string[]>
      */
-    private $funcCallToPrefferedStaticCalls = [
-    ];
+    private $funcCallToPrefferedStaticCalls = [];
 
     /**
      * @param array<string, string[]> $funcCallToPrefferedStaticCalls
      */
-    public function __construct(array $funcCallToPrefferedStaticCalls = [
-    ])
+    public function __construct(array $funcCallToPrefferedStaticCalls = [])
     {
         $this->funcCallToPrefferedStaticCalls = $funcCallToPrefferedStaticCalls;
     }
@@ -47,8 +45,7 @@ final class PrefferedStaticCallOverFuncCallRule implements Rule
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Name) {
-            return [
-            ];
+            return [];
         }
 
         $currentFuncName = $node->name->toString();
@@ -59,12 +56,9 @@ final class PrefferedStaticCallOverFuncCallRule implements Rule
             }
 
             $errorMessage = sprintf(self::ERROR_MESSAGE, $staticCall[0], $staticCall[1], $currentFuncName);
-            return [
-                $errorMessage
-            ];
+            return [$errorMessage];
         }
 
-        return [
-        ];
+        return [];
     }
 }

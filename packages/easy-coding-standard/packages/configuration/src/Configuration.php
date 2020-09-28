@@ -48,14 +48,12 @@ final class Configuration
     /**
      * @var string[]
      */
-    private $sources = [
-    ];
+    private $sources = [];
 
     /**
      * @var string[]
      */
-    private $paths = [
-    ];
+    private $paths = [];
 
     /**
      * @var string
@@ -74,8 +72,7 @@ final class Configuration
     {
         /** @var string[] $sources */
         $sources = (array) $input->getArgument(Option::SOURCES);
-        if ($sources !== [
-        ]) {
+        if ($sources !== []) {
             $this->setSources($sources);
         } else {
             // if not paths are provided from CLI, use the config ones

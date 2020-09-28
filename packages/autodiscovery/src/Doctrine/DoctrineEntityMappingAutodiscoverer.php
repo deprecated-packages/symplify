@@ -41,8 +41,7 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
      */
     public function autodiscover(): void
     {
-        $entityMappings = [
-        ];
+        $entityMappings = [];
         foreach ($this->autodiscoveryFinder->getEntityDirectories() as $entityDirectory) {
             $namespace = $this->namespaceDetector->detectFromDirectory($entityDirectory);
             if (! $namespace) {
@@ -60,8 +59,7 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
             ];
         }
 
-        $xmlNamespaces = [
-        ];
+        $xmlNamespaces = [];
 
         $directoryByNamespace = $this->resolveDirectoryByNamespace($this->autodiscoveryFinder->getEntityXmlFiles());
         foreach ($directoryByNamespace as $namespace => $directory) {
@@ -101,8 +99,7 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
     {
         $filesByDirectory = $this->groupFileInfosByDirectory($entityXmlFiles);
 
-        $directoryByNamespace = [
-        ];
+        $directoryByNamespace = [];
         foreach ($filesByDirectory as $directory => $filesInDirectory) {
             $commonNamespace = $this->resolveCommonNamespaceForXmlFileInfos($filesInDirectory);
             /** @var string $directory */
@@ -118,8 +115,7 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
      */
     private function groupFileInfosByDirectory(array $smartFileInfos): array
     {
-        $filesByDirectory = [
-        ];
+        $filesByDirectory = [];
 
         foreach ($smartFileInfos as $entityXmlFile) {
             $filesByDirectory[$entityXmlFile->getPath()][] = $entityXmlFile;
@@ -133,8 +129,7 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
      */
     private function resolveCommonNamespaceForXmlFileInfos(array $xmlFileInfos): string
     {
-        $namespaces = [
-        ];
+        $namespaces = [];
         foreach ($xmlFileInfos as $xmlFileInfo) {
             $namespace = $this->namespaceDetector->detectFromXmlFileInfo($xmlFileInfo);
             if ($namespace) {

@@ -26,14 +26,12 @@ final class ForceMethodCallArgumentConstantRule implements Rule
     /**
      * @var mixed[]
      */
-    private $constantArgByMethodByType = [
-    ];
+    private $constantArgByMethodByType = [];
 
     /**
      * @param mixed[] $constantArgByMethodByType
      */
-    public function __construct(array $constantArgByMethodByType = [
-    ])
+    public function __construct(array $constantArgByMethodByType = [])
     {
         $this->constantArgByMethodByType = $constantArgByMethodByType;
     }
@@ -50,12 +48,10 @@ final class ForceMethodCallArgumentConstantRule implements Rule
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Identifier) {
-            return [
-            ];
+            return [];
         }
 
-        $errorMessages = [
-        ];
+        $errorMessages = [];
 
         $methodName = (string) $node->name;
 

@@ -11,9 +11,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::SONAR_ORGANIZATION, 'symplify');
     $parameters->set(Option::SONAR_PROJECT_KEY, 'symplify_symplify');
     // paths to your source, packages and tests
-    $parameters->set(Option::SONAR_DIRECTORIES, [
-        __DIR__ . '/packages'
-    ]);
+    $parameters->set(Option::SONAR_DIRECTORIES, [__DIR__ . '/packages']);
 
     $parameters->set(Option::SONAR_OTHER_PARAMETERS, [
         // see https://stackoverflow.com/a/39198800/1348344

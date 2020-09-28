@@ -160,8 +160,7 @@ final class ExplicitToAutodiscoveryConverter
      */
     private function groupServicesByNamespaces(ServiceConfig $serviceConfig, array $commonNamespaces): array
     {
-        $groupedServicesByNamespace = [
-        ];
+        $groupedServicesByNamespace = [];
         foreach ($commonNamespaces as $commonNamespace) {
             foreach ($serviceConfig->getClasses() as $class) {
                 if (Strings::startsWith($class, $commonNamespace . '\\')) {
@@ -179,8 +178,7 @@ final class ExplicitToAutodiscoveryConverter
      */
     private function resolveCommonRelativePath(array $classes, string $filePath): string
     {
-        $relativeClassLocations = [
-        ];
+        $relativeClassLocations = [];
         foreach ($classes as $class) {
             $relativeClassLocations[] = $this->getRelativeClassLocation($class, $filePath);
         }
@@ -195,12 +193,10 @@ final class ExplicitToAutodiscoveryConverter
     {
         $absoluteServicesLocation = realpath(dirname($configFilePath) . '/' . $absoluteServicesLocation);
         if (! $absoluteServicesLocation) {
-            return [
-            ];
+            return [];
         }
 
-        $excludedDirectories = [
-        ];
+        $excludedDirectories = [];
         foreach (self::POSSIBLE_EXCLUDED_DIRECTORIES as $possibleExcludedDirectory) {
             $possibleDirectoryPath = $absoluteServicesLocation . '/' . $possibleExcludedDirectory;
             if (is_dir($possibleDirectoryPath)) {

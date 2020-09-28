@@ -18,9 +18,7 @@ final class PrefferedStaticCallOverFuncCallRuleTest extends RuleTestCase
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([
-            $filePath
-        ], $expectedErrorMessagesWithLines);
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
     public function provideData(): Iterator
@@ -31,28 +29,16 @@ final class PrefferedStaticCallOverFuncCallRuleTest extends RuleTestCase
             'match',
             'preg_match'
         );
-        yield [
-            __DIR__ . '/Fixture/PregMatchCalled.php', [[
-                $errorMessage, 11
-            ]]
-        ];
+        yield [__DIR__ . '/Fixture/PregMatchCalled.php', [[$errorMessage, 11]]];
     }
 
     protected function getRule(): Rule
     {
         return new PrefferedStaticCallOverFuncCallRule([
-            'preg_match' => [
-                Strings::class, 'match'
-            ],
-            'preg_matchAll' => [
-                Strings::class, 'match'
-            ],
-            'preg_replace' => [
-                Strings::class, 'replace'
-            ],
-            'preg_split' => [
-                Strings::class, 'split'
-            ],
+            'preg_match' => [Strings::class, 'match'],
+            'preg_matchAll' => [Strings::class, 'match'],
+            'preg_replace' => [Strings::class, 'replace'],
+            'preg_split' => [Strings::class, 'split'],
         ]);
     }
 }

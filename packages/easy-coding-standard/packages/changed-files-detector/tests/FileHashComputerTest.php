@@ -41,8 +41,7 @@ final class FileHashComputerTest extends AbstractKernelTestCase
         // A. create on another one with fixer
         $this->smartFileSystem->dumpFile(self::INCLUDED_CONFIG_FILE, Yaml::dump([
             'services' => [
-                DeclareStrictTypesFixer::class => [
-                ],
+                DeclareStrictTypesFixer::class => [],
             ],
         ]));
 
@@ -52,8 +51,7 @@ final class FileHashComputerTest extends AbstractKernelTestCase
 
         // B. create on another one with no fixer
         $this->smartFileSystem->dumpFile(self::INCLUDED_CONFIG_FILE, Yaml::dump([
-            'services' => [
-            ],
+            'services' => [],
         ]));
 
         $fileTwoHash = $this->fileHashComputer->compute(

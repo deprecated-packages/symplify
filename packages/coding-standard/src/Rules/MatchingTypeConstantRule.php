@@ -31,18 +31,10 @@ final class MatchingTypeConstantRule implements Rule
      * @var array<string, array<string>>
      */
     private const TYPE_NODES_TO_ACCEPTED_TYPES = [
-        LNumber::class => [
-            'int'
-        ],
-        DNumber::class => [
-            'float', 'double'
-        ],
-        String_::class => [
-            'string'
-        ],
-        ConstFetch::class => [
-            'bool'
-        ],
+        LNumber::class => ['int'],
+        DNumber::class => ['float', 'double'],
+        String_::class => ['string'],
+        ConstFetch::class => ['bool'],
     ];
 
     /**
@@ -67,20 +59,17 @@ final class MatchingTypeConstantRule implements Rule
     public function processNode(Node $node, Scope $scope): array
     {
         if ($this->shouldSkip($node)) {
-            return [
-            ];
+            return [];
         }
 
         $type = $this->resolveOnlyVarAnnotationType($node);
         if ($type === null) {
-            return [
-            ];
+            return [];
         }
 
         // array, unable to resolve?
         if (Strings::endsWith($type, '[]')) {
-            return [
-            ];
+            return [];
         }
 
         $constantValue = $node->consts[0]->value;
@@ -124,15 +113,13 @@ final class MatchingTypeConstantRule implements Rule
             }
 
             if ($this->isValidConstantValue($expr, $type, $acceptedTypes)) {
-                return [
-                ];
+                return [];
             }
 
             return $this->reportMissmatch($type, $typeNode);
         }
 
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -141,8 +128,7 @@ final class MatchingTypeConstantRule implements Rule
     private function getVarAnnotationsForNode(Node $node): array
     {
         if ($node->getDocComment() === null) {
-            return [
-            ];
+            return [];
         }
 
         $docBlock = new DocBlock($node->getDocComment()->getText());
@@ -168,9 +154,7 @@ final class MatchingTypeConstantRule implements Rule
             return false;
         }
 
-        return in_array($expr->name->toLowerString(), [
-            'false', 'true'
-        ], true);
+        return in_array($expr->name->toLowerString(), ['false', 'true'], true);
     }
 
     /**
@@ -180,9 +164,7 @@ final class MatchingTypeConstantRule implements Rule
     {
         $message = sprintf(self::ERROR_MESSAGE, $expectedType, $this->getStringFromNodeClass($typeNodeClass));
 
-        return [
-            $message
-        ];
+        return [$message];
     }
 
     private function getStringFromNodeClass(string $nodeClass): string

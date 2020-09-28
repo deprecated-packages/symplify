@@ -54,8 +54,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
     /**
      * @param string[] $excludedFatalClasses
      */
-    public function __construct(array $excludedFatalClasses = [
-    ])
+    public function __construct(array $excludedFatalClasses = [])
     {
         $this->definitionFinder = new DefinitionFinder();
         $this->excludedFatalClasses = array_merge($this->excludedFatalClasses, $excludedFatalClasses);
@@ -216,8 +215,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
      */
     private function createReferencesFromDefinitions(array $definitions): array
     {
-        $references = [
-        ];
+        $references = [];
         foreach (array_keys($definitions) as $definitionOfTypeName) {
             $references[] = new Reference($definitionOfTypeName);
         }
