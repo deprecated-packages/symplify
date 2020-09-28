@@ -1226,6 +1226,34 @@ final class SomeConstruct
 
 <br>
 
+## No setter on a service
+
+- class: [`NoSetterOnServiceRule`](../src/Rules/NoSetterOnServiceRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+final class SomeServiceWithSetter
+{
+    private $x;
+
+    public function setX(stdClass $x)
+    {
+        $this->x = $x;
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Class "%s" inherits from forbidden parent class "%s". Use Composition over Inheritance instead
 
 - class: [`ForbiddenParentClassRule`](../src/Rules/ForbiddenParentClassRule.php)
