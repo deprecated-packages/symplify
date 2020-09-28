@@ -8,6 +8,9 @@ use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Testing\PathResolver\PackagePathResolver;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Testing\Tests\ComposerJson\ComposerJsonSymlinkerTest
+ */
 final class ComposerJsonSymlinker
 {
     /**
