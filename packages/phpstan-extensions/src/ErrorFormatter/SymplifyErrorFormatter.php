@@ -57,7 +57,8 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $this->output = $output;
         $this->symfonyStyle = $consoleStyle;
 
-        if ($analysisResult->getTotalErrorsCount() === 0 && $analysisResult->getWarnings() === []) {
+        if ($analysisResult->getTotalErrorsCount() === 0 && $analysisResult->getWarnings() === [
+        ]) {
             $this->symfonyStyle->success('No errors');
             return ShellCode::SUCCESS;
         }
@@ -77,7 +78,8 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
     private function reportErrors(AnalysisResult $analysisResult): void
     {
-        if ($analysisResult->getFileSpecificErrors() === []) {
+        if ($analysisResult->getFileSpecificErrors() === [
+        ]) {
             return;
         }
 
@@ -133,7 +135,8 @@ final class SymplifyErrorFormatter implements ErrorFormatter
      */
     private function groupFileSpecificErrorsByMessage(AnalysisResult $analysisResult): array
     {
-        $errorsByFile = [];
+        $errorsByFile = [
+        ];
 
         foreach ($analysisResult->getFileSpecificErrors() as $fileSpecificError) {
             $errorsByFile[$fileSpecificError->getMessage()][] = $fileSpecificError;

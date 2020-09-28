@@ -26,7 +26,8 @@ final class JsonFileManager
     /**
      * @var string[]
      */
-    private $inlineSections = [];
+    private $inlineSections = [
+    ];
 
     /**
      * @var SmartFileSystem
@@ -81,7 +82,8 @@ final class JsonFileManager
      * @param mixed[] $json
      * @param string[] $inlineSections
      */
-    public function encodeJsonToFileContent(array $json, array $inlineSections = []): string
+    public function encodeJsonToFileContent(array $json, array $inlineSections = [
+    ]): string
     {
         // Empty arrays may lead to bad encoding since we can't be sure whether they need to be arrays or objects.
         $json = $this->removeEmptyKeysFromJsonArray($json);

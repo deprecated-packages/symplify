@@ -36,12 +36,15 @@ final class DoctrineBlockFinder
     /**
      * @var string[]
      */
-    private const START_EDGES = ['(', '{'];
+    private const START_EDGES = [
+        '(', '{'
+    ];
 
     /**
      * @var DocBlockEdgeDefinition[]
      */
-    private $docBlockEdgeDefinitions = [];
+    private $docBlockEdgeDefinitions = [
+    ];
 
     public function __construct()
     {
@@ -174,7 +177,9 @@ final class DoctrineBlockFinder
         $indexOffset = 1;
 
         if (! $findEnd) {
-            [$startChart, $endChar] = [$endChar, $startChart];
+            [$startChart, $endChar] = [
+                $endChar, $startChart
+            ];
             $indexOffset = -1;
             $endIndex = 0;
         }

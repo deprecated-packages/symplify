@@ -91,7 +91,8 @@ final class JsonOutputFormatter implements OutputFormatterInterface
                 'errors' => $errorAndDiffResult->getErrorCount(),
                 'diffs' => $errorAndDiffResult->getFileDiffsCount(),
             ],
-            'files' => [],
+            'files' => [
+            ],
         ];
     }
 }

@@ -49,7 +49,8 @@ final class FlexLoader
     public function loadConfigs(
         ContainerBuilder $containerBuilder,
         LoaderInterface $loader,
-        array $extraServicePaths = []
+        array $extraServicePaths = [
+        ]
     ): void {
         if (file_exists($this->getBundlesFilePath())) {
             $containerBuilder->addResource(new FileResource($this->getBundlesFilePath()));
@@ -70,7 +71,8 @@ final class FlexLoader
     /**
      * @param string[] $extraRoutingPaths
      */
-    public function loadRoutes(RouteCollectionBuilder $routeCollectionBuilder, array $extraRoutingPaths = []): void
+    public function loadRoutes(RouteCollectionBuilder $routeCollectionBuilder, array $extraRoutingPaths = [
+    ]): void
     {
         $routingPaths = $this->flexPathsFactory->createRoutingPaths($this->projectDir, $this->environment);
         $routingPaths = array_merge($extraRoutingPaths, $routingPaths);

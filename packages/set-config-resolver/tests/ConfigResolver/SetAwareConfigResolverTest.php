@@ -42,11 +42,19 @@ final class SetAwareConfigResolverTest extends TestCase
 
     public function provideOptionsAndExpectedConfig(): Iterator
     {
-        yield [['--config' => 'README.md'], getcwd() . '/README.md'];
-        yield [['-c' => 'README.md'], getcwd() . '/README.md'];
+        yield [[
+            '--config' => 'README.md'
+        ], getcwd() . '/README.md'];
+        yield [[
+            '-c' => 'README.md'
+        ], getcwd() . '/README.md'];
 
-        yield [['--config' => getcwd() . '/README.md'], getcwd() . '/README.md'];
-        yield [['-c' => getcwd() . '/README.md'], getcwd() . '/README.md'];
+        yield [[
+            '--config' => getcwd() . '/README.md'
+        ], getcwd() . '/README.md'];
+        yield [[
+            '-c' => getcwd() . '/README.md'
+        ], getcwd() . '/README.md'];
 
         yield [
             [
@@ -63,13 +71,17 @@ final class SetAwareConfigResolverTest extends TestCase
         $basicConfigFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/missing_set_config.yaml');
 
         $this->expectException(SetNotFoundException::class);
-        $this->setAwareConfigResolver->resolveFromParameterSetsFromConfigFiles([$basicConfigFileInfo]);
+        $this->setAwareConfigResolver->resolveFromParameterSetsFromConfigFiles([
+            $basicConfigFileInfo
+        ]);
     }
 
     public function testYamlSetsFileInfos(): void
     {
         $basicConfigFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/yaml_config_with_sets.yaml');
-        $setFileInfos = $this->setAwareConfigResolver->resolveFromParameterSetsFromConfigFiles([$basicConfigFileInfo]);
+        $setFileInfos = $this->setAwareConfigResolver->resolveFromParameterSetsFromConfigFiles([
+            $basicConfigFileInfo
+        ]);
 
         $this->assertCount(1, $setFileInfos);
 
@@ -82,7 +94,9 @@ final class SetAwareConfigResolverTest extends TestCase
     public function testPhpSetsFileInfos(): void
     {
         $basicConfigFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/php_config_with_sets.php');
-        $setFileInfos = $this->setAwareConfigResolver->resolveFromParameterSetsFromConfigFiles([$basicConfigFileInfo]);
+        $setFileInfos = $this->setAwareConfigResolver->resolveFromParameterSetsFromConfigFiles([
+            $basicConfigFileInfo
+        ]);
 
         $this->assertCount(1, $setFileInfos);
 
@@ -96,7 +110,9 @@ final class SetAwareConfigResolverTest extends TestCase
     {
         $this->expectException(FileNotFoundException::class);
 
-        $arrayInput = new ArrayInput(['--config' => 'someFile.yml']);
+        $arrayInput = new ArrayInput([
+            '--config' => 'someFile.yml'
+        ]);
         $this->setAwareConfigResolver->resolveFromInput($arrayInput);
     }
 }

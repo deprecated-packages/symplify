@@ -70,7 +70,8 @@ trait DirectoryAssertableTrait
         array $outputFileInfos,
         string $outputDirectory
     ): array {
-        $fileInfosByRelativeFilePath = [];
+        $fileInfosByRelativeFilePath = [
+        ];
 
         foreach ($expectedFileInfos as $expectedFileInfo) {
             $relativeFilePath = $expectedFileInfo->getRelativeFilePathFromDirectory($expectedDirectory);

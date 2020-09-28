@@ -138,12 +138,14 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $this->errorAndDiffCollector->resetCounters();
         $this->ensureSomeCheckersAreRegistered();
 
-        if ($this->fixerFileProcessor->getCheckers() !== []) {
+        if ($this->fixerFileProcessor->getCheckers() !== [
+        ]) {
             $processedFileContent = $this->fixerFileProcessor->processFile($fileInfo);
             $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent, $fileInfo);
         }
 
-        if ($this->sniffFileProcessor->getCheckers() !== []) {
+        if ($this->sniffFileProcessor->getCheckers() !== [
+        ]) {
             $processedFileContent = $this->sniffFileProcessor->processFile($fileInfo);
 
             $errorAndDiffResult = $this->errorAndDiffResultFactory->create($this->errorAndDiffCollector);
@@ -183,13 +185,15 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     ): void {
         $this->ensureSomeCheckersAreRegistered();
 
-        if ($this->fixerFileProcessor->getCheckers() !== []) {
+        if ($this->fixerFileProcessor->getCheckers() !== [
+        ]) {
             $processedFileContent = $this->fixerFileProcessor->processFile($wrongFileInfo);
 
             $this->assertStringEqualsWithFileLocation($fixedFile, $processedFileContent, $fixtureFileInfo);
         }
 
-        if ($this->sniffFileProcessor->getCheckers() !== []) {
+        if ($this->sniffFileProcessor->getCheckers() !== [
+        ]) {
             $processedFileContent = $this->sniffFileProcessor->processFile($wrongFileInfo);
         }
 
@@ -254,6 +258,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $config = $this->provideConfig();
         (new FileSystemGuard())->ensureFileExists($config, static::class);
 
-        return [$config];
+        return [
+            $config
+        ];
     }
 }

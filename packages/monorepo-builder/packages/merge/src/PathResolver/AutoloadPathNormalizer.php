@@ -15,7 +15,9 @@ final class AutoloadPathNormalizer
     /**
      * @var string[]
      */
-    private const SECTIONS_WITH_PATH = ['classmap', 'files', 'exclude-from-classmap', 'psr-4', 'psr-0'];
+    private const SECTIONS_WITH_PATH = [
+        'classmap', 'files', 'exclude-from-classmap', 'psr-4', 'psr-0'
+    ];
 
     /**
      * Class map path needs to be prefixed before merge, otherwise will override one another

@@ -75,7 +75,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(SingleClassElementPerStatementFixer::class)
         ->call('configure', [[
-            'elements' => ['property'],
+            'elements' => [
+                'property'
+            ],
         ]]);
 
     $services->set(SingleImportPerStatementFixer::class);

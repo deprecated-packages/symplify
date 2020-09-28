@@ -44,10 +44,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(FinalInternalClassFixer::class);
     $services->set(FopenFlagOrderFixer::class);
     $services->set(FopenFlagsFixer::class)
-        ->call('configure', [['b_mode' => false]]);
+        ->call('configure', [[
+            'b_mode' => false
+        ]]);
     $services->set(FunctionToConstantFixer::class)
         ->call('configure', [[
-            'functions' => ['get_called_class', 'get_class', 'get_class_this', 'php_sapi_name', 'phpversion', 'pi'],
+            'functions' => [
+                'get_called_class', 'get_class', 'get_class_this', 'php_sapi_name', 'phpversion', 'pi'
+            ],
         ]]);
     $services->set(ImplodeCallFixer::class);
     $services->set(IsNullFixer::class);
@@ -56,12 +60,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NativeConstantInvocationFixer::class)
         ->call('configure', [[
             'fix_built_in' => false,
-            'include' => ['DIRECTORY_SEPARATOR', 'PHP_SAPI', 'PHP_VERSION_ID'],
+            'include' => [
+                'DIRECTORY_SEPARATOR', 'PHP_SAPI', 'PHP_VERSION_ID'
+            ],
             'scope' => 'namespaced',
         ]]);
     $services->set(NativeFunctionInvocationFixer::class)
         ->call('configure', [[
-            'include' => ['@compiler_optimized'],
+            'include' => [
+                '@compiler_optimized'
+            ],
             'scope' => 'namespaced',
             'strict' => true,
         ]]);

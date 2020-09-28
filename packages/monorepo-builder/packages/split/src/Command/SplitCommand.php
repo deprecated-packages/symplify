@@ -32,7 +32,8 @@ final class SplitCommand extends Command
     /**
      * @var string[]
      */
-    private $directoriesToRepositories = [];
+    private $directoriesToRepositories = [
+    ];
 
     /**
      * @var RepositoryGuard
@@ -123,7 +124,8 @@ final class SplitCommand extends Command
      */
     private function getDirectoriesToRepositories(): array
     {
-        $resolvedDirectoriesToRepository = [];
+        $resolvedDirectoriesToRepository = [
+        ];
 
         foreach ($this->directoriesToRepositories as $directory => $repository) {
             if (! Strings::contains($directory, '*')) {

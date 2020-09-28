@@ -83,8 +83,12 @@ final class PropagateCommand extends Command
 
             foreach (array_keys($filesToVersion) as $filePath) {
                 $this->dependencyUpdater->updateFileInfosWithPackagesAndVersion(
-                    [new SmartFileInfo($filePath)],
-                    [$packageName],
+                    [
+                        new SmartFileInfo($filePath)
+                    ],
+                    [
+                        $packageName
+                    ],
                     $newVersion
                 );
             }

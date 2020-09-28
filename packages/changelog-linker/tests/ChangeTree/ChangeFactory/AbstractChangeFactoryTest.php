@@ -36,7 +36,9 @@ abstract class AbstractChangeFactoryTest extends AbstractKernelTestCase
         if (self::$cachedChangeFactory !== null) {
             $this->changeFactory = self::$cachedChangeFactory;
         } else {
-            $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/config.yml']);
+            $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [
+                __DIR__ . '/config/config.yml'
+            ]);
             $this->changeFactory = self::$container->get(ChangeFactory::class);
             self::$cachedChangeFactory = $this->changeFactory;
         }

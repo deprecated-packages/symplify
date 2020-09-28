@@ -17,7 +17,9 @@ final class VersionValidator
     /**
      * @var string[]
      */
-    private const SECTIONS = [Section::REQUIRE, Section::REQUIRE_DEV];
+    private const SECTIONS = [
+        Section::REQUIRE, Section::REQUIRE_DEV
+    ];
 
     /**
      * @var string
@@ -53,7 +55,8 @@ final class VersionValidator
      */
     public function findConflictingPackageVersionsInFileInfos(array $smartFileInfos): array
     {
-        $packageVersionsPerFile = [];
+        $packageVersionsPerFile = [
+        ];
         $packageVersionsPerFile = $this->appendAppendingComposerJson($packageVersionsPerFile);
 
         foreach ($smartFileInfos as $smartFileInfo) {
@@ -105,7 +108,8 @@ final class VersionValidator
      */
     private function filterConflictingPackageVersionsPerFile(array $packageVersionsPerFile): array
     {
-        $conflictingPackageVersionsPerFile = [];
+        $conflictingPackageVersionsPerFile = [
+        ];
         foreach ($packageVersionsPerFile as $packageName => $filesToVersions) {
             $uniqueVersions = array_unique($filesToVersions);
             if (count($uniqueVersions) <= 1) {

@@ -31,11 +31,14 @@ final class TwigPathAutodiscoverer implements AutodiscovererInterface
 
     public function autodiscover(): void
     {
-        $paths = [];
+        $paths = [
+        ];
         foreach ($this->autodiscoveryFinder->getTemplatesDirectories() as $templateDirectory) {
             $paths[] = $templateDirectory->getRealPath();
         }
 
-        $this->containerBuilder->prependExtensionConfig('twig', ['paths' => $paths]);
+        $this->containerBuilder->prependExtensionConfig('twig', [
+            'paths' => $paths
+        ]);
     }
 }

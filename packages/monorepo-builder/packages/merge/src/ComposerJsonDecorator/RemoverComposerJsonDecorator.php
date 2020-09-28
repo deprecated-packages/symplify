@@ -42,7 +42,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
 
     private function processRequire(ComposerJson $composerJson, ComposerJson $composerJsonToRemove): void
     {
-        if ($composerJsonToRemove->getRequire() === []) {
+        if ($composerJsonToRemove->getRequire() === [
+        ]) {
             return;
         }
         $currentRequire = $composerJson->getRequire();
@@ -55,7 +56,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
 
     private function processRequireDev(ComposerJson $composerJson, ComposerJson $composerJsonToRemove): void
     {
-        if ($composerJsonToRemove->getRequireDev() === []) {
+        if ($composerJsonToRemove->getRequireDev() === [
+        ]) {
             return;
         }
 
@@ -69,7 +71,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
 
     private function processAutoload(ComposerJson $composerJson, ComposerJson $composerJsonToRemove): void
     {
-        if ($composerJsonToRemove->getAutoload() === []) {
+        if ($composerJsonToRemove->getAutoload() === [
+        ]) {
             return;
         }
 
@@ -89,7 +92,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
 
     private function processAutoloadDev(ComposerJson $composerJson, ComposerJson $composerJsonToRemove): void
     {
-        if ($composerJsonToRemove->getAutoloadDev() === []) {
+        if ($composerJsonToRemove->getAutoloadDev() === [
+        ]) {
             return;
         }
 

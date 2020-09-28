@@ -40,11 +40,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(OrderedImportsFixer::class)
         ->call('configure', [[
-            'importsOrder' => ['class', 'function', 'const'],
+            'importsOrder' => [
+                'class', 'function', 'const'
+            ],
         ]]);
 
     $services->set(DeclareEqualNormalizeFixer::class)
-        ->call('configure', [['space' => 'none']]);
+        ->call('configure', [[
+            'space' => 'none'
+        ]]);
 
     $services->set(NewWithBracesFixer::class);
 
@@ -60,7 +64,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(VisibilityRequiredFixer::class)
         ->call('configure', [[
-            'elements' => ['const', 'method', 'property'],
+            'elements' => [
+                'const', 'method', 'property'
+            ],
         ]]);
 
     $services->set(BinaryOperatorSpacesFixer::class);
@@ -74,7 +80,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NoTrailingWhitespaceFixer::class);
 
     $services->set(ConcatSpaceFixer::class)
-        ->call('configure', [['spacing' => 'one']]);
+        ->call('configure', [[
+            'spacing' => 'one'
+        ]]);
 
     $services->set(NoSinglelineWhitespaceBeforeSemicolonsFixer::class);
 
@@ -84,5 +92,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters = $containerConfigurator->parameters();
 
-    $parameters->set(Option::SKIP, [SingleImportPerStatementFixer::class => null]);
+    $parameters->set(Option::SKIP, [
+        SingleImportPerStatementFixer::class => null
+    ]);
 };

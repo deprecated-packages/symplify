@@ -29,7 +29,9 @@ final class FixerServiceRegistrationTest extends AbstractKernelTestCase
     {
         $this->bootKernelWithConfigs(
             EasyCodingStandardKernel::class,
-            [__DIR__ . '/FixerServiceRegistrationSource/easy-coding-standard.yml']
+            [
+                __DIR__ . '/FixerServiceRegistrationSource/easy-coding-standard.yml'
+            ]
         );
 
         $fixerFileProcessor = self::$container->get(FixerFileProcessor::class);
@@ -42,7 +44,9 @@ final class FixerServiceRegistrationTest extends AbstractKernelTestCase
         $this->assertInstanceOf(ArraySyntaxFixer::class, $arraySyntaxFixer);
 
         $configuration = $this->privatesAccessor->getPrivateProperty($arraySyntaxFixer, 'configuration');
-        $this->assertSame(['syntax' => 'short'], $configuration);
+        $this->assertSame([
+            'syntax' => 'short'
+        ], $configuration);
 
         /** @var VisibilityRequiredFixer $visibilityRequiredFixer */
         $visibilityRequiredFixer = $checkers[1];
@@ -50,7 +54,9 @@ final class FixerServiceRegistrationTest extends AbstractKernelTestCase
 
         $configuration = $this->privatesAccessor->getPrivateProperty($visibilityRequiredFixer, 'configuration');
         $this->assertSame([
-            'elements' => ['property'],
+            'elements' => [
+                'property'
+            ],
         ], $configuration);
     }
 
@@ -65,7 +71,9 @@ final class FixerServiceRegistrationTest extends AbstractKernelTestCase
 
         $this->bootKernelWithConfigs(
             EasyCodingStandardKernel::class,
-            [__DIR__ . '/FixerServiceRegistrationSource/non-configurable-fixer.yml']
+            [
+                __DIR__ . '/FixerServiceRegistrationSource/non-configurable-fixer.yml'
+            ]
         );
     }
 }

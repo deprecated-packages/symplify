@@ -49,7 +49,8 @@ final class CheckerServiceParametersShifter
     /**
      * @var string[]
      */
-    private $serviceKeywords = [];
+    private $serviceKeywords = [
+    ];
 
     /**
      * @var CheckerConfigurationGuardian
@@ -95,7 +96,8 @@ final class CheckerServiceParametersShifter
     private function processServices(array $services): array
     {
         foreach ($services as $serviceName => $serviceDefinition) {
-            if (! $this->isCheckerClass($serviceName) || $serviceDefinition === null || $serviceDefinition === []) {
+            if (! $this->isCheckerClass($serviceName) || $serviceDefinition === null || $serviceDefinition === [
+            ]) {
                 continue;
             }
 
@@ -136,7 +138,11 @@ final class CheckerServiceParametersShifter
             $serviceDefinition = $this->correctHeader($checker, $serviceDefinition);
             $serviceDefinition = $this->stringFormatConverter->camelCaseToUnderscoreInArrayKeys($serviceDefinition);
 
-            $services[$checker]['calls'] = [['configure', [$serviceDefinition]]];
+            $services[$checker]['calls'] = [[
+                'configure', [
+                    $serviceDefinition
+                ]
+            ]];
         }
 
         return $services;

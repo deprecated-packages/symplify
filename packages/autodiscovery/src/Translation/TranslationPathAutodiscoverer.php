@@ -31,7 +31,8 @@ final class TranslationPathAutodiscoverer implements AutodiscovererInterface
 
     public function autodiscover(): void
     {
-        $paths = [];
+        $paths = [
+        ];
 
         foreach ($this->autodiscoveryFinder->getTranslationDirectories() as $templateDirectory) {
             $paths[] = $templateDirectory->getRealPath();

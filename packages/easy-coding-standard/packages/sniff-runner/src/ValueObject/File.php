@@ -60,7 +60,8 @@ final class File extends BaseFile
     /**
      * @var Sniff[][]
      */
-    private $tokenListeners = [];
+    private $tokenListeners = [
+    ];
 
     /**
      * @var ErrorAndDiffCollector
@@ -111,7 +112,8 @@ final class File extends BaseFile
         }
 
         // parent required
-        $this->config = new Config([], false);
+        $this->config = new Config([
+        ], false);
         $this->config->tabWidth = 4;
         $this->config->annotations = false;
         $this->config->encoding = 'UTF-8';
@@ -171,7 +173,8 @@ final class File extends BaseFile
      *
      * {@inheritdoc}
      */
-    public function addFixableError($error, $stackPtr, $code, $data = [], $severity = 0): bool
+    public function addFixableError($error, $stackPtr, $code, $data = [
+    ], $severity = 0): bool
     {
         $this->appliedCheckersCollector->addFileInfoAndChecker(
             $this->fileInfo,
@@ -181,7 +184,8 @@ final class File extends BaseFile
         return ! $this->shouldSkipError($error, $code, $data);
     }
 
-    public function addError($error, $stackPtr, $code, $data = [], $severity = 0, $fixable = false): bool
+    public function addError($error, $stackPtr, $code, $data = [
+    ], $severity = 0, $fixable = false): bool
     {
         if ($this->shouldSkipError($error, $code, $data)) {
             return false;
@@ -195,7 +199,8 @@ final class File extends BaseFile
      *
      * {@inheritdoc}
      */
-    public function addWarning($warning, $stackPtr, $code, $data = [], $severity = 0, $fixable = false): bool
+    public function addWarning($warning, $stackPtr, $code, $data = [
+    ], $severity = 0, $fixable = false): bool
     {
         if (! $this->isSniffClassWarningAllowed($this->activeSniffClass)) {
             return false;

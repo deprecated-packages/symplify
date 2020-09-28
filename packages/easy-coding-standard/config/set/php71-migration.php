@@ -11,7 +11,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(TernaryToNullCoalescingFixer::class);
     $services->set(VisibilityRequiredFixer::class)
         ->call('configure', [[
-            'elements' => ['const', 'method', 'property'],
+            'elements' => [
+                'const', 'method', 'property'
+            ],
         ]]);
     $services->set(BacktickToShellExecFixer::class);
 };

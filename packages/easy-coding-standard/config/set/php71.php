@@ -14,11 +14,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(VisibilityRequiredFixer::class)
         ->call('configure', [[
-            'elements' => ['const', 'property', 'method'],
+            'elements' => [
+                'const', 'property', 'method'
+            ],
         ]]);
 
     $services->set(ListSyntaxFixer::class)
-        ->call('configure', [['syntax' => 'short']]);
+        ->call('configure', [[
+            'syntax' => 'short'
+        ]]);
 
     $services->set(NullableTypeForNullDefaultValueSniff::class);
 

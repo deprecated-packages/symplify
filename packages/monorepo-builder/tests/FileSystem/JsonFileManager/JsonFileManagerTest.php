@@ -52,16 +52,24 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
 
     public function testEncodeArrayToString(): void
     {
-        $jsonContent = $this->jsonFileManager->encodeJsonToFileContent(['another_key' => 'another_value']);
+        $jsonContent = $this->jsonFileManager->encodeJsonToFileContent([
+            'another_key' => 'another_value'
+        ]);
         $this->assertStringEqualsFile(__DIR__ . '/Source/expected-second.json', $jsonContent);
     }
 
     public function testSaveWithInlinedSections(): void
     {
         $fileContent = $this->jsonFileManager->encodeJsonToFileContent([
-            'inline_section' => [1, 2, 3],
-            'normal_section' => [1, 2, 3],
-        ], ['inline_section']);
+            'inline_section' => [
+                1, 2, 3
+            ],
+            'normal_section' => [
+                1, 2, 3
+            ],
+        ], [
+            'inline_section'
+        ]);
 
         $this->assertStringEqualsFile(__DIR__ . '/Source/expected-inlined.json', $fileContent);
     }

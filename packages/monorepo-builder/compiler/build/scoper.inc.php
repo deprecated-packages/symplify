@@ -6,7 +6,8 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return [
     'prefix' => null,
-    'finders' => [],
+    'finders' => [
+    ],
     'patchers' => [
         function (string $filePath, string $prefix, string $content): string {
             if ($filePath !== 'bin/monorepo-builder') {

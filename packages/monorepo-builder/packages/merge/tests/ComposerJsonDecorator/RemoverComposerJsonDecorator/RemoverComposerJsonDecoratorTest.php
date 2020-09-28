@@ -27,7 +27,9 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
                 'Symplify\Tests\\' => 'tests',
                 'Symplify\SuperTests\\' => 'super-tests',
             ],
-            'files' => ['src/SomeFile.php', 'src/KeepFile.php'],
+            'files' => [
+                'src/SomeFile.php', 'src/KeepFile.php'
+            ],
         ],
     ];
 
@@ -60,7 +62,9 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
                 'psr-4' => [
                     'Symplify\\Tests\\' => 'tests',
                 ],
-                'files' => ['src/SomeFile.php'],
+                'files' => [
+                    'src/SomeFile.php'
+                ],
             ],
         ]);
 
