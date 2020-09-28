@@ -103,7 +103,7 @@ final class ComposerJsonManipulator
     private function changeReplace(array $json): array
     {
         $json['replace'] = [
-            'symfony/polyfill-php70' => '*'
+            'symfony/polyfill-php70' => '*',
         ];
 
         return $json;

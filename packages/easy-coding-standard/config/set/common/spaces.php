@@ -44,7 +44,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ConcatSpaceFixer::class)
         ->call('configure', [[
-            'spacing' => 'one'
+            'spacing' => 'one',
         ]]);
 
     $services->set(NotOperatorWithSuccessorSpaceFixer::class);

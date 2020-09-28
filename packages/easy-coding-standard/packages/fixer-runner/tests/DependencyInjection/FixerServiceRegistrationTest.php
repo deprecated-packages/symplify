@@ -45,7 +45,7 @@ final class FixerServiceRegistrationTest extends AbstractKernelTestCase
 
         $configuration = $this->privatesAccessor->getPrivateProperty($arraySyntaxFixer, 'configuration');
         $this->assertSame([
-            'syntax' => 'short'
+            'syntax' => 'short',
         ], $configuration);
 
         /** @var VisibilityRequiredFixer $visibilityRequiredFixer */

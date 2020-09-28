@@ -145,7 +145,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ArrayIndentationFixer::class);
     $services->set(ArraySyntaxFixer::class)
         ->call('configure', [[
-            'syntax' => 'short'
+            'syntax' => 'short',
         ]]);
     $services->set(BinaryOperatorSpacesFixer::class);
     $services->set(BlankLineAfterNamespaceFixer::class);
@@ -153,7 +153,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(BlankLineBeforeStatementFixer::class);
     $services->set(BracesFixer::class)
         ->call('configure', [[
-            'allow_single_line_closure' => true
+            'allow_single_line_closure' => true,
         ]]);
     $services->set(CastSpacesFixer::class);
     $services->set(ClassAttributesSeparationFixer::class)
@@ -164,7 +164,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]]);
     $services->set(ClassDefinitionFixer::class)
         ->call('configure', [[
-            'single_line' => true
+            'single_line' => true,
         ]]);
     $services->set(CombineConsecutiveIssetsFixer::class);
     $services->set(CombineConsecutiveUnsetsFixer::class);
@@ -193,13 +193,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(MagicMethodCasingFixer::class);
     $services->set(MethodArgumentSpaceFixer::class)
         ->call('configure', [[
-            'on_multiline' => 'ensure_fully_multiline'
+            'on_multiline' => 'ensure_fully_multiline',
         ]]);
     $services->set(MethodChainingIndentationFixer::class);
     $services->set(MultilineCommentOpeningClosingFixer::class);
     $services->set(MultilineWhitespaceBeforeSemicolonsFixer::class)
         ->call('configure', [[
-            'strategy' => 'new_line_for_chained_calls'
+            'strategy' => 'new_line_for_chained_calls',
         ]]);
     $services->set(NativeFunctionCasingFixer::class);
     $services->set(NativeFunctionTypeDeclarationCasingFixer::class);
@@ -251,7 +251,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NoUnneededControlParenthesesFixer::class);
     $services->set(NoUnneededCurlyBracesFixer::class)
         ->call('configure', [[
-            'namespaces' => true
+            'namespaces' => true,
         ]]);
     $services->set(NoUnsetCastFixer::class);
     $services->set(NoUnusedImportsFixer::class);
@@ -312,7 +312,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SingleTraitInsertPerStatementFixer::class);
     $services->set(SpaceAfterSemicolonFixer::class)
         ->call('configure', [[
-            'remove_in_empty_for_expressions' => true
+            'remove_in_empty_for_expressions' => true,
         ]]);
     $services->set(StandardizeIncrementFixer::class);
     $services->set(StandardizeNotEqualsFixer::class);

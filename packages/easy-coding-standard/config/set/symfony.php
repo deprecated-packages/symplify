@@ -111,7 +111,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
     $services->set(ArraySyntaxFixer::class)
         ->call('configure', [[
-            'syntax' => 'short'
+            'syntax' => 'short',
         ]]);
     $services->set(BinaryOperatorSpacesFixer::class);
     $services->set(BlankLineAfterNamespaceFixer::class);
@@ -124,7 +124,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]]);
     $services->set(BracesFixer::class)
         ->call('configure', [[
-            'allow_single_line_closure' => true
+            'allow_single_line_closure' => true,
         ]]);
     $services->set(CastSpacesFixer::class);
     $services->set(ClassAttributesSeparationFixer::class)
@@ -135,7 +135,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]]);
     $services->set(ClassDefinitionFixer::class)
         ->call('configure', [[
-            'single_line' => true
+            'single_line' => true,
         ]]);
     $services->set(ConcatSpaceFixer::class);
     $services->set(ConstantCaseFixer::class);
@@ -168,7 +168,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NoExtraBlankLinesFixer::class)
         ->call('configure', [[
             'tokens' => [
-                'curly_brace_block', 'extra', 'parenthesis_brace_block', 'square_brace_block', 'throw', 'use'
+                'curly_brace_block', 'extra', 'parenthesis_brace_block', 'square_brace_block', 'throw', 'use',
             ],
         ]]);
     $services->set(NoLeadingImportSlashFixer::class);
@@ -192,7 +192,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NoUnneededControlParenthesesFixer::class);
     $services->set(NoUnneededCurlyBracesFixer::class)
         ->call('configure', [[
-            'namespaces' => true
+            'namespaces' => true,
         ]]);
     $services->set(NoUnusedImportsFixer::class);
     $services->set(NoWhitespaceBeforeCommaInArrayFixer::class);
@@ -248,7 +248,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SingleTraitInsertPerStatementFixer::class);
     $services->set(SpaceAfterSemicolonFixer::class)
         ->call('configure', [[
-            'remove_in_empty_for_expressions' => true
+            'remove_in_empty_for_expressions' => true,
         ]]);
     $services->set(StandardizeIncrementFixer::class);
     $services->set(StandardizeNotEqualsFixer::class);

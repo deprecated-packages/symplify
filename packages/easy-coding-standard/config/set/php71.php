@@ -21,7 +21,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ListSyntaxFixer::class)
         ->call('configure', [[
-            'syntax' => 'short'
+            'syntax' => 'short',
         ]]);
 
     $services->set(NullableTypeForNullDefaultValueSniff::class);

@@ -29,7 +29,7 @@ final class MissingConstructorTest extends AbstractKernelTestCase
         $this->expectException(MissingConstructorException::class);
 
         $this->arrayToValueObjectHydrator->hydrateArray([
-            'key' => 'whatever'
+            'key' => 'whatever',
         ], NoConstructor::class);
     }
 }

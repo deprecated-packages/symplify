@@ -13,26 +13,26 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
     $services->set(PhpUnitDedicateAssertFixer::class)
         ->call('configure', [[
-            'target' => '5.6'
+            'target' => '5.6',
         ]]);
     $services->set(PhpUnitDedicateAssertInternalTypeFixer::class)
         ->call('configure', [[
-            'target' => '7.5'
+            'target' => '7.5',
         ]]);
     $services->set(PhpUnitExpectationFixer::class)
         ->call('configure', [[
-            'target' => '5.6'
+            'target' => '5.6',
         ]]);
     $services->set(PhpUnitMockFixer::class)
         ->call('configure', [[
-            'target' => '5.5'
+            'target' => '5.5',
         ]]);
     $services->set(PhpUnitNamespacedFixer::class)
         ->call('configure', [[
-            'target' => '6.0'
+            'target' => '6.0',
         ]]);
     $services->set(PhpUnitNoExpectationAnnotationFixer::class)
         ->call('configure', [[
-            'target' => '4.3'
+            'target' => '4.3',
         ]]);
 };

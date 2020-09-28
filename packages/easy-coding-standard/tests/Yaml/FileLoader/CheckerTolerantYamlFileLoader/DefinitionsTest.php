@@ -41,8 +41,8 @@ final class DefinitionsTest extends TestCase
             # expected method call
             [
                 'configure', [[
-                    'syntax' => 'short'
-                ]]
+                    'syntax' => 'short',
+                ]],
             ],
             # expected set properties
             [
@@ -53,8 +53,8 @@ final class DefinitionsTest extends TestCase
             ArraySyntaxFixer::class,
             [
                 'configure', [[
-                    'syntax' => 'short'
-                ]]
+                    'syntax' => 'short',
+                ]],
             ],
             [
             ],
@@ -66,7 +66,7 @@ final class DefinitionsTest extends TestCase
             [
             ],
             [
-                'absoluteLineLimit' => '@author, @var'
+                'absoluteLineLimit' => '@author, @var',
             ],
         ];
         # keep original keywords
@@ -76,7 +76,7 @@ final class DefinitionsTest extends TestCase
             [
             ],
             [
-                'absoluteLineLimit' => 150
+                'absoluteLineLimit' => 150,
             ],
         ];
         yield [
@@ -84,8 +84,8 @@ final class DefinitionsTest extends TestCase
             ArraySyntaxFixer::class,
             [
                 'configure', [[
-                    'syntax' => 'short'
-                ]]
+                    'syntax' => 'short',
+                ]],
             ],
             [
             ],
@@ -96,7 +96,7 @@ final class DefinitionsTest extends TestCase
             [
             ],
             [
-                'enableObjectTypeHint' => false
+                'enableObjectTypeHint' => false,
             ],
         ];
         yield [
@@ -115,7 +115,7 @@ final class DefinitionsTest extends TestCase
             [
             ],
             [
-                'enableObjectTypeHint' => false
+                'enableObjectTypeHint' => false,
             ],
         ];
         yield [

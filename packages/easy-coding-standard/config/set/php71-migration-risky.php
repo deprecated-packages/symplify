@@ -16,7 +16,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(DeclareStrictTypesFixer::class);
     $services->set(NonPrintableCharacterFixer::class)
         ->call('configure', [[
-            'use_escape_sequences_in_strings' => true
+            'use_escape_sequences_in_strings' => true,
         ]]);
     $services->set(PowToExponentiationFixer::class);
     $services->set(RandomApiMigrationFixer::class)

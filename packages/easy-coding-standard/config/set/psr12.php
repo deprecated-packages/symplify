@@ -47,7 +47,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DeclareEqualNormalizeFixer::class)
         ->call('configure', [[
-            'space' => 'none'
+            'space' => 'none',
         ]]);
 
     $services->set(NewWithBracesFixer::class);
@@ -81,7 +81,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ConcatSpaceFixer::class)
         ->call('configure', [[
-            'spacing' => 'one'
+            'spacing' => 'one',
         ]]);
 
     $services->set(NoSinglelineWhitespaceBeforeSemicolonsFixer::class);
@@ -93,6 +93,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
     $parameters->set(Option::SKIP, [
-        SingleImportPerStatementFixer::class => null
+        SingleImportPerStatementFixer::class => null,
     ]);
 };

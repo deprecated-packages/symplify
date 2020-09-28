@@ -31,7 +31,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(FopenFlagOrderFixer::class);
     $services->set(FopenFlagsFixer::class)
         ->call('configure', [[
-            'b_mode' => false
+            'b_mode' => false,
         ]]);
     $services->set(FunctionToConstantFixer::class)
         ->call('configure', [[

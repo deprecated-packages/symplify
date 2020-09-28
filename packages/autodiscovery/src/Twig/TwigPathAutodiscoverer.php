@@ -38,7 +38,7 @@ final class TwigPathAutodiscoverer implements AutodiscovererInterface
         }
 
         $this->containerBuilder->prependExtensionConfig('twig', [
-            'paths' => $paths
+            'paths' => $paths,
         ]);
     }
 }

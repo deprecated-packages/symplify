@@ -55,7 +55,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ClassDefinitionFixer::class)
         ->call('configure', [[
-            'singleLine' => true
+            'singleLine' => true,
         ]]);
 
     $services->set(StandardizeIncrementFixer::class);
@@ -84,6 +84,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
     $parameters->set(Option::SKIP, [
-        AssignmentInConditionSniff::class . '.FoundInWhileCondition' => null
+        AssignmentInConditionSniff::class . '.FoundInWhileCondition' => null,
     ]);
 };

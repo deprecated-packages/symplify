@@ -53,7 +53,7 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
     public function testEncodeArrayToString(): void
     {
         $jsonContent = $this->jsonFileManager->encodeJsonToFileContent([
-            'another_key' => 'another_value'
+            'another_key' => 'another_value',
         ]);
         $this->assertStringEqualsFile(__DIR__ . '/Source/expected-second.json', $jsonContent);
     }
