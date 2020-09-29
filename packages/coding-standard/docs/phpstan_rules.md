@@ -1426,7 +1426,7 @@ class TestsNamespaceInsideTestsDirectoryClass
 
 <br>
 
-## Check Required `abstract` Keyword for Class Name Start wih Abstract
+## Check Required `abstract` Keyword for Class Name Start with Abstract
 
 - class: [`CheckRequiredAbstractKeywordForClassNameStartWithAbstract`](../src/Rules/CheckRequiredAbstractKeywordForClassNameStartWithAbstract.php)
 
