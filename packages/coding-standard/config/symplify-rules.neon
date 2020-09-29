@@ -274,3 +274,7 @@ services:
     -
         class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
+        tags: [phpstan.rules.rule]
