@@ -69,10 +69,6 @@ final class NoParentMethodCallOnNoOverrideProcessRule implements Rule
 
         /** @var Stmt[] $stmts */
         $stmts = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), Stmt::class);
-        if (count($stmts) === 1) {
-            return [self::ERROR_MESSAGE];
-        }
-
         $countStmts = 0;
         foreach ($stmts as $stmt) {
             // ensure empty statement not counted
