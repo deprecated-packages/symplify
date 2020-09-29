@@ -1426,6 +1426,36 @@ class TestsNamespaceInsideTestsDirectoryClass
 
 <br>
 
+## Check Required `abstract` Keyword for Class Name Start with Abstract
+
+- class: [`CheckRequiredAbstractKeywordForClassNameStartWithAbstract`](../src/Rules/CheckRequiredAbstractKeywordForClassNameStartWithAbstract.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstract
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+namespace Symplify\CodingStandard\Tests\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstract\Fixture\Tests;
+
+class AbstractFoo
+{
+
+}
+```
+
+:x:
+
+<br>
+
 ## Check Method with @required need to be named autowire+class name
 
 - class: [`CheckRequiredMethodTobeAutowireWithClassName`](../src/Rules/CheckRequiredMethodTobeAutowireWithClassName.php)
