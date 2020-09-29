@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantR
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ParametersConfigurator;
 use Symplify\CodingStandard\Rules\RequireMethodCallArgumentConstantRule;
 use Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstant;
 
@@ -24,6 +25,7 @@ final class RequireMethodCallArgumentConstantRuleTest extends RuleTestCase
     {
         $errorMessage = sprintf(RequireMethodCallArgumentConstantRule::ERROR_MESSAGE, 0);
         yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstant.php', [[$errorMessage, 14]]];
+        yield [__DIR__ . '/Fixture/SymfonyPHPConfigParameterSetter.php', [[$errorMessage, 14]]];
 
         yield [__DIR__ . '/Fixture/WithConstant.php', []];
     }
@@ -34,6 +36,9 @@ final class RequireMethodCallArgumentConstantRuleTest extends RuleTestCase
             AlwaysCallMeWithConstant::class => [
                 'call' => [0],
             ],
+            ParametersConfigurator::class => [
+                'set' => [0]
+            ]
         ]);
     }
 }

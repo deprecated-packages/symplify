@@ -76,7 +76,6 @@ final class RequireMethodCallArgumentConstantRule implements Rule
     private function isNodeVarType(MethodCall $methodCall, Scope $scope, string $desiredType): bool
     {
         $methodVarType = $scope->getType($methodCall->var);
-
         $desiredObjectType = new ObjectType($desiredType);
         return $methodVarType->equals($desiredObjectType);
     }
