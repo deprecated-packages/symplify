@@ -14,7 +14,6 @@ use PhpParser\Node\Stmt\Nop;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Rector\NodeTypeResolver\Node\AttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnNoOverrideProcessRule\NoParentMethodCallOnNoOverrideProcessRuleTest
@@ -57,8 +56,8 @@ final class NoParentMethodCallOnNoOverrideProcessRule implements Rule
 
         /** @var ClassMethod $classMethod */
         $classMethod = $node
-            ->getAttribute(AttributeKey::PARENT_NODE)
-            ->getAttribute(AttributeKey::PARENT_NODE);
+            ->getAttribute('parent')
+            ->getAttribute('parent');
 
         if (! $classMethod instanceof ClassMethod) {
             return [];
