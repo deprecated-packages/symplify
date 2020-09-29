@@ -813,13 +813,13 @@ class SomeClass
 
 ## No parent method call on No override process
 
-- class: [`NoParentMethodCallOnNoOverrideProcessRuleTest`](../src/Rules/NoParentMethodCallOnNoOverrideProcessRuleTest.php)
+- class: [`NoParentMethodCallOnNoOverrideProcessRule`](../src/Rules/NoParentMethodCallOnNoOverrideProcessRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRuleTest
+        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule
         tags: [phpstan.rules.rule]
 ```
 
