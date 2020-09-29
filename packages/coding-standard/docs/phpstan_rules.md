@@ -1508,6 +1508,48 @@ class SomeClass
 
 <br>
 
+## Check Unneeded SymfonyStyle usage for only newline, write, and/or writeln
+
+- class: [`CheckUnneededSymfonyStyleUsageRule`](../src/Rules/CheckUnneededSymfonyStyleUsageRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+namespace Symplify\CodingStandard\Tests\Rules\CheckRequireMethodTobeAutowireWithClassName\Fixture;
+
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+class UseMethodCallFromSymfonyStyle
+{
+    private $symfonyStyle;
+
+    public function __construct(SymfonyStyle $symfonyStyle)
+    {
+        $this->symfonyStyle = $symfonyStyle;
+    }
+
+    public function run()
+    {
+        $this->symfonyStyle->newline();
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Constant type Must Match its Value
 
 - class: [`MatchingTypeConstantRule`](../src/Rules/MatchingTypeConstantRule.php)
