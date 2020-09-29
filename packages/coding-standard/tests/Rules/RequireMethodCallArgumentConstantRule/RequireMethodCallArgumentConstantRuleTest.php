@@ -37,8 +37,8 @@ final class RequireMethodCallArgumentConstantRuleTest extends RuleTestCase
                 'call' => [0],
             ],
             ParametersConfigurator::class => [
-                'set' => [0]
-            ]
+                'set' => [0],
+            ],
         ]);
     }
 }
