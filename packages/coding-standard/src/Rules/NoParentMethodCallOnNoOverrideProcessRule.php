@@ -79,10 +79,10 @@ final class NoParentMethodCallOnNoOverrideProcessRule implements Rule
             ++$countStmts;
         }
 
-        if ($countStmts === 1) {
-            return [self::ERROR_MESSAGE];
+        if ($countStmts > 1) {
+            return [];
         }
 
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 }
