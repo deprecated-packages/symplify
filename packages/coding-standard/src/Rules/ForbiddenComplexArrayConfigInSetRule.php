@@ -80,6 +80,7 @@ final class ForbiddenComplexArrayConfigInSetRule implements Rule
         $onlyParameterType = $onlyParameter->getType();
 
         $containerConfiguratorObjectType = new ObjectType(ContainerConfigurator::class);
-        return $onlyParameterType->isSuperTypeOf($containerConfiguratorObjectType)->yes();
+        return $onlyParameterType->isSuperTypeOf($containerConfiguratorObjectType)
+            ->yes();
     }
 }

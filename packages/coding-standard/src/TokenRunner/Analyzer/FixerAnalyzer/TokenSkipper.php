@@ -58,6 +58,7 @@ final class TokenSkipper
             return $position;
         }
 
-        return $this->blockFinder->findInTokensByEdge($tokens, $position)->getStart();
+        return $this->blockFinder->findInTokensByEdge($tokens, $position)
+            ->getStart();
     }
 }

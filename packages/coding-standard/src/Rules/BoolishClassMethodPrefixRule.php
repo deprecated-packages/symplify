@@ -97,7 +97,8 @@ final class BoolishClassMethodPrefixRule implements Rule
         }
 
         $methodReflection = $classReflection->getNativeMethod($methodName);
-        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())
+            ->getReturnType();
         if (! $returnType instanceof BooleanType && ! $this->areOnlyBoolReturnNodes($returns, $scope)) {
             return true;
         }
