@@ -6,8 +6,10 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Type\ObjectType;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -31,12 +33,16 @@ final class CheckUnneededSymfonyStyleUsageRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! is_a($scope->getType($node->var)->getClassName(), SymfonyStyle::class, true)) {
+        /** @var ObjectType $objectType */
+        $objectType = $scope->getType($node->var);
+        if (! is_a($objectType->getClassName(), SymfonyStyle::class, true)) {
             return [];
         }
 
-        $name = strtolower($node->name->name);
-        if (! in_array($node->name->name, ['newline', 'write', 'writeln'], true)) {
+        /** @var Identifier $name */
+        $name = $node->name;
+        $methodName = strtolower((string) $name);
+        if (! in_array($methodName, ['newline', 'write', 'writeln'], true)) {
             return [];
         }
 
