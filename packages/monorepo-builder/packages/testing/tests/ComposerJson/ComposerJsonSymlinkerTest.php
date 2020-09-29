@@ -44,12 +44,15 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
             'name' => 'example/package-one',
             'repositories' => [
                 [
-                    'type' => 'path', 'url' => '../../packages/package-two', 'options' => [
+                    'type' => 'path',
+                    'url' => '../../packages/package-two',
+                    'options' => [
                         'symlink' => false,
                     ],
                 ],
                 [
-                    'type' => 'composer', 'url' => 'https://repo.packagist.com/acme-companies/',
+                    'type' => 'composer',
+                    'url' => 'https://repo.packagist.com/acme-companies/',
                 ],
                 [
                     'packagist.org' => false,
@@ -75,7 +78,9 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
             'name' => 'example/package-two',
             'repositories' => [
                 [
-                    'type' => 'path', 'url' => '../../packages/package-one', 'options' => [
+                    'type' => 'path',
+                    'url' => '../../packages/package-one',
+                    'options' => [
                         'symlink' => false,
                     ],
                 ],
