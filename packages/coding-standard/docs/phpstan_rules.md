@@ -1593,13 +1593,13 @@ class SomeClass
 
 ## Defined Method Argument should be Always Constant Value
 
-- class: [`ForceMethodCallArgumentConstantRule`](../src/Rules/ForceMethodCallArgumentConstantRule.php)
+- class: [`RequireMethodCallArgumentConstantRule`](../src/Rules/RequireMethodCallArgumentConstantRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForceMethodCallArgumentConstantRule
+        class: Symplify\CodingStandard\Rules\RequireMethodCallArgumentConstantRule
         tags: [phpstan.rules.rule]
         arguments:
             constantArgByMethodByType:

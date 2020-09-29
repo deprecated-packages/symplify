@@ -14,9 +14,9 @@ use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForceMethodCallArgumentConstantRule\ForceMethodCallArgumentConstantRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\RequireMethodCallArgumentConstantRuleTest
  */
-final class ForceMethodCallArgumentConstantRule implements Rule
+final class RequireMethodCallArgumentConstantRule implements Rule
 {
     /**
      * @var string
@@ -76,7 +76,6 @@ final class ForceMethodCallArgumentConstantRule implements Rule
     private function isNodeVarType(MethodCall $methodCall, Scope $scope, string $desiredType): bool
     {
         $methodVarType = $scope->getType($methodCall->var);
-
         $desiredObjectType = new ObjectType($desiredType);
         return $methodVarType->equals($desiredObjectType);
     }

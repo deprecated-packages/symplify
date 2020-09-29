@@ -206,12 +206,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForceMethodCallArgumentConstantRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            constantArgByMethodByType: []
-
-    -
         class: Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule
         tags: [phpstan.rules.rule]
         arguments:
