@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -63,7 +64,9 @@ final class NoParentMethodCallOnNoOverrideProcessRule implements Rule
             return [];
         }
 
-        if ((string) $classMethod->name !== $node->name->toString()) {
+        /** @var Identifier $name */
+        $name = $node->name;
+        if ((string) $classMethod->name !== $name->toString()) {
             return [];
         }
 
