@@ -32,7 +32,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### CodingStandard
 
 - [#1933] Add NoDefaultParameterValueRule + NoNullableParameterValueRule
-- [#1932] Add ForceMethodCallArgumentConstantRule
+- [#1932] Add RequireMethodCallArgumentConstantRule
 - [#1931] Add NoDynamicMethodNameRule + NoDynamicPropertyFetchNameRule
 - [#1930] Add [@see] rule to refer test case
 

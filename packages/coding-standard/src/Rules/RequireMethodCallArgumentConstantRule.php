@@ -14,9 +14,9 @@ use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForceMethodCallArgumentConstantRule\ForceMethodCallArgumentConstantRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\RequireMethodCallArgumentConstantRuleTest
  */
-final class ForceMethodCallArgumentConstantRule implements Rule
+final class RequireMethodCallArgumentConstantRule implements Rule
 {
     /**
      * @var string

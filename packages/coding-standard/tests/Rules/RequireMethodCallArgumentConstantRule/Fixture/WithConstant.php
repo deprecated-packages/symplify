@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForceMethodCallArgumentConstantRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\Fixture;
 
-use Symplify\CodingStandard\Tests\Rules\ForceMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstant;
+use Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstant;
 
 final class WithConstant
 {

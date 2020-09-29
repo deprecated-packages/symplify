@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForceMethodCallArgumentConstantRule;
+namespace Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\ForceMethodCallArgumentConstantRule;
-use Symplify\CodingStandard\Tests\Rules\ForceMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstant;
+use Symplify\CodingStandard\Rules\RequireMethodCallArgumentConstantRule;
+use Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstant;
 
-final class ForceMethodCallArgumentConstantRuleTest extends RuleTestCase
+final class RequireMethodCallArgumentConstantRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -22,7 +22,7 @@ final class ForceMethodCallArgumentConstantRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        $errorMessage = sprintf(ForceMethodCallArgumentConstantRule::ERROR_MESSAGE, 0);
+        $errorMessage = sprintf(RequireMethodCallArgumentConstantRule::ERROR_MESSAGE, 0);
         yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstant.php', [[$errorMessage, 14]]];
 
         yield [__DIR__ . '/Fixture/WithConstant.php', []];
@@ -30,7 +30,7 @@ final class ForceMethodCallArgumentConstantRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new ForceMethodCallArgumentConstantRule([
+        return new RequireMethodCallArgumentConstantRule([
             AlwaysCallMeWithConstant::class => [
                 'call' => [0],
             ],
