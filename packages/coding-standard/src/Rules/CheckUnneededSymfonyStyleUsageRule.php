@@ -35,6 +35,7 @@ final class CheckUnneededSymfonyStyleUsageRule implements Rule
             return [];
         }
 
+        $name = strtolower($node->name->name);
         if (! in_array($node->name->name, ['newline', 'write', 'writeln'], true)) {
             return [];
         }
