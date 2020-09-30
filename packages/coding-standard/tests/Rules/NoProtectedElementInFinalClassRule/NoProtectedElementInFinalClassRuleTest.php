@@ -6,9 +6,6 @@ namespace Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
-use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 use Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
@@ -46,7 +43,7 @@ final class NoProtectedElementInFinalClassRuleTest extends AbstractServiceAwareR
             __DIR__ . '/Fixture/SomeFinalClassWithProtectedPropertyAndProtectedMethod.php',
             [
                 [NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 9],
-                [NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 11]
+                [NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 11],
             ],
         ];
     }
