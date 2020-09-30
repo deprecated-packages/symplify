@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckRequireMethodTobeAutowireWithClassName\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\CheckUnneededSymfonyStyleUsageRule\Fixture;
 
 use DateTime;
 
