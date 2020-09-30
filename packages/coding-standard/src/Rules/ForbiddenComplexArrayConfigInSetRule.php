@@ -76,7 +76,8 @@ final class ForbiddenComplexArrayConfigInSetRule implements Rule
         }
 
         /** @var NativeParameterReflection $onlyParameter */
-        $onlyParameter = $scope->getAnonymousFunctionReflection()->getParameters()[0];
+        $onlyParameter = $scope->getAnonymousFunctionReflection()
+            ->getParameters()[0];
         $onlyParameterType = $onlyParameter->getType();
 
         $containerConfiguratorObjectType = new ObjectType(ContainerConfigurator::class);

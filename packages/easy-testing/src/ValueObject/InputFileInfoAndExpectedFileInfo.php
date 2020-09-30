@@ -34,6 +34,11 @@ final class InputFileInfoAndExpectedFileInfo
         return $this->expectedFileInfo;
     }
 
+    public function getExpectedFileContent(): string
+    {
+        return $this->expectedFileInfo->getContents();
+    }
+
     public function getExpectedFileInfoRealPath(): string
     {
         return $this->expectedFileInfo->getRealPath();

@@ -55,8 +55,8 @@ final class HereNowDocSnippetFormatterTest extends AbstractKernelTestCase
             SnippetPattern::HERENOWDOC_SNIPPET_REGEX
         );
 
-        $contents = $inputAndExpectedFileInfos->getExpectedFileInfo()->getContents();
-        $this->assertSame($contents, $changedContent, $fixtureFileInfo->getRelativeFilePathFromCwd());
+        $expectedContent = $inputAndExpectedFileInfos->getExpectedFileContent();
+        $this->assertSame($expectedContent, $changedContent, $fixtureFileInfo->getRelativeFilePathFromCwd());
     }
 
     public function provideData(): Iterator

@@ -59,7 +59,6 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
             }
 
             $tokens->ensureWhitespaceAtIndex($index, 0, $this->whitespacesFixerConfig->getLineEnding());
-            break;
         }
     }
 
@@ -82,7 +81,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
                 return ! $tokens->isPartialCodeMultiline($i, $objectOperatorIndex);
             }
 
-            if ($currentToken->isGivenKind([T_NEW, T_VARIABLE, T_OPEN_CURLY_BRACKET])) {
+            if ($currentToken->isGivenKind([T_NEW, T_VARIABLE])) {
                 return false;
             }
 
@@ -96,7 +95,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
 
     private function isDoubleBracket(Tokens $tokens, int $position): bool
     {
-        /** @var int $previousTokenPosition */
+        /** @var int $nextTokenPosition */
         $nextTokenPosition = $tokens->getNextNonWhitespace($position);
 
         /** @var Token $nextToken */
@@ -108,7 +107,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
      * Matches e.g.:
      * - someMethod($this->some()->method())
      * - [$this->some()->method()]
-     * - '  ' . $this->some()->method()
+     * - ' ' . $this->some()->method()
      */
     private function isPartOfMethodCallOrArray(Tokens $tokens, int $position): bool
     {

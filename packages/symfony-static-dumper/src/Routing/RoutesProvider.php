@@ -33,7 +33,8 @@ final class RoutesProvider
      */
     public function provide(): array
     {
-        return $this->router->getRouteCollection()->all();
+        return $this->router->getRouteCollection()
+            ->all();
     }
 
     /**

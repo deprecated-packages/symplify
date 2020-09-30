@@ -4,11 +4,11 @@ namespace Symplify\CodingStandard\Tests\Fixer\Spacing\MethodChainingNewlineFixer
 
 use Symplify\CodingStandard\Tests\Fixer\Spacing\MethodChainingNewlineFixer\Source\SomeClassWithChains;
 
-class MultiLineChain
+class ManyMultiLineChain
 {
     public function run(SomeClassWithChains $someClassWithChains)
     {
-        return $someClassWithChains->one()->two();
+        return $someClassWithChains->one()->two()->three();
     }
 }
 
@@ -20,12 +20,13 @@ namespace Symplify\CodingStandard\Tests\Fixer\Spacing\MethodChainingNewlineFixer
 
 use Symplify\CodingStandard\Tests\Fixer\Spacing\MethodChainingNewlineFixer\Source\SomeClassWithChains;
 
-class MultiLineChain
+class ManyMultiLineChain
 {
     public function run(SomeClassWithChains $someClassWithChains)
     {
         return $someClassWithChains->one()
-->two();
+->two()
+->three();
     }
 }
 

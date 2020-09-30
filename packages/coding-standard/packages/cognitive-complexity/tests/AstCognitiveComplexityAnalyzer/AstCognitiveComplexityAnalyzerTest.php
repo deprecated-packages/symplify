@@ -64,13 +64,12 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
      */
     private function parseFileToFistFunctionLike(string $fileContent): ?Node
     {
-        $parser = (new ParserFactory())
-            ->create(ParserFactory::ONLY_PHP7);
+        $parser = (new ParserFactory())->create(ParserFactory::ONLY_PHP7);
         $nodes = $parser->parse($fileContent);
 
-        return (new NodeFinder())
-            ->findFirst((array) $nodes, function (Node $node): bool {
-                return $node instanceof ClassMethod || $node instanceof Function_;
-            });
+        $nodeFinder = new NodeFinder();
+        return $nodeFinder->findFirst((array) $nodes, function (Node $node): bool {
+            return $node instanceof ClassMethod || $node instanceof Function_;
+        });
     }
 }

@@ -52,9 +52,12 @@ final class VersionFactory
 
         $mostRecentVersion = new Version($mostRecentVersion);
 
-        $value = $mostRecentVersion->getMajor()->getValue();
-        $currentMinorVersion = $mostRecentVersion->getMinor()->getValue();
-        $currentPatchVersion = $mostRecentVersion->getPatch()->getValue();
+        $value = $mostRecentVersion->getMajor()
+            ->getValue();
+        $currentMinorVersion = $mostRecentVersion->getMinor()
+            ->getValue();
+        $currentPatchVersion = $mostRecentVersion->getPatch()
+            ->getValue();
 
         if ($versionKind === SemVersion::MAJOR) {
             ++$value;

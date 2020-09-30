@@ -46,7 +46,8 @@ abstract class AbstractMergeTestCase extends AbstractComposerJsonDecoratorTest
      */
     private function getFileInfosFromDirectory(string $directory): array
     {
-        $finder = Finder::create()->files()
+        $finder = Finder::create()
+            ->files()
             ->in($directory)
             ->name('*.json')
             ->sortByName();

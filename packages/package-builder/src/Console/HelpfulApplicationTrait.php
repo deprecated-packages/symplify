@@ -46,12 +46,14 @@ trait HelpfulApplicationTrait
      */
     private function cleanExtraCommandArgument(Command $command): void
     {
-        $arguments = $command->getDefinition()->getArguments();
+        $arguments = $command->getDefinition()
+            ->getArguments();
         if (! isset($arguments['command'])) {
             return;
         }
 
         unset($arguments['command']);
-        $command->getDefinition()->setArguments($arguments);
+        $command->getDefinition()
+            ->setArguments($arguments);
     }
 }
