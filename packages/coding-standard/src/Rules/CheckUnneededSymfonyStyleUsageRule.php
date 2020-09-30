@@ -6,7 +6,10 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
@@ -20,11 +23,21 @@ final class CheckUnneededSymfonyStyleUsageRule implements Rule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'SymfonyStyle is unneeded for only newline, write, and/or writeln, use PHP_EOL and concatenation instead';
+    public const ERROR_MESSAGE = 'SymfonyStyle usage is unneeded for only newline, write, and/or writeln, use PHP_EOL and concatenation instead';
+
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    public function __construct()
+    {
+        $this->nodeFinder = new NodeFinder();
+    }
 
     public function getNodeType(): string
     {
-        return MethodCall::class;
+        return Class_::class;
     }
 
     /**
@@ -33,16 +46,27 @@ final class CheckUnneededSymfonyStyleUsageRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        /** @var ObjectType $objectType */
-        $objectType = $scope->getType($node->var);
-        if (! is_a($objectType->getClassName(), SymfonyStyle::class, true)) {
-            return [];
+        /** @var MethodCall[] $methodCalls */
+        $methodCalls = $this->nodeFinder->findInstanceOf($node, MethodCall::class);
+        $foundAllowedMethod = [];
+        foreach ($methodCalls as $methodCall) {
+            /** @var Variable $variable */
+            $variable = $methodCall->var;
+            $objectType = $scope->getType($variable);
+            if ($objectType instanceof ObjectType && ! is_a($objectType->getClassName(), SymfonyStyle::class, true)) {
+                continue;
+            }
+
+            /** @var Identifier $name */
+            $name = $methodCall->name;
+            $methodName = strtolower((string) $name);
+            if (! in_array($methodName, ['newline', 'write', 'writeln'], true)) {
+                $foundAllowedMethod = true;
+                break;
+            }
         }
 
-        /** @var Identifier $name */
-        $name = $node->name;
-        $methodName = strtolower((string) $name);
-        if (! in_array($methodName, ['newline', 'write', 'writeln'], true)) {
+        if ($foundAllowedMethod) {
             return [];
         }
 

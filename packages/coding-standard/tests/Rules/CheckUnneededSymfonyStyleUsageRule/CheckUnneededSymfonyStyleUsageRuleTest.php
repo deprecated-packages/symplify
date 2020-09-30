@@ -21,11 +21,12 @@ final class CheckUnneededSymfonyStyleUsageRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipTitleUsedSymfonyStyle.php', []];
         yield [__DIR__ . '/Fixture/UseMethodCallNotFromSymfonyStyle.php', []];
         yield [__DIR__ . '/Fixture/UseMethodCallFromSymfonyStyleAllowedMethodCall.php', []];
         yield [
             __DIR__ . '/Fixture/UseMethodCallFromSymfonyStyle.php',
-            [[CheckUnneededSymfonyStyleUsageRule::ERROR_MESSAGE, 20]],
+            [[CheckUnneededSymfonyStyleUsageRule::ERROR_MESSAGE, 9]],
         ];
     }
 
