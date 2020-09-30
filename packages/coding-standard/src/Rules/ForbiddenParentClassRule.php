@@ -21,22 +21,29 @@ final class ForbiddenParentClassRule implements Rule
     public const ERROR_MESSAGE = 'Class "%s" inherits from forbidden parent class "%s". Use composition over inheritance instead';
 
     /**
-     * @var string[]
-     */
-    private $forbiddenParentClasses = [];
-
-    /**
      * @var ArrayStringAndFnMatcher
      */
     private $arrayStringAndFnMatcher;
 
     /**
-     * @param string[] $forbiddenParentClasses
+     * @var string[]
      */
-    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher, array $forbiddenParentClasses = [])
+    private $forbiddenParentClasses = [];
+
+    /**
+     * @var array<string, string>
+     */
+    private $forbiddenParentClassesWithPreferences = [];
+
+    /**
+     * @param string[] $forbiddenParentClasses
+     * @param string[] $forbiddenParentClassesWithPreferences
+     */
+    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher, array $forbiddenParentClasses = [], $forbiddenParentClassesWithPreferences)
     {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
         $this->forbiddenParentClasses = $forbiddenParentClasses;
+        $this->forbiddenParentClassesWithPreferences = $forbiddenParentClassesWithPreferences;
     }
 
     public function getNodeType(): string
