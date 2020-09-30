@@ -13,6 +13,8 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\TypeWithClassName;
+use Rector\PHPStanStaticTypeMapper\TypeMapper\TypeWithClassNameTypeMapper;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -34,6 +36,11 @@ final class CheckUnneededSymfonyStyleUsageRule implements Rule
     {
         $this->nodeFinder = new NodeFinder();
     }
+
+    /**
+     * @var string[]
+     */
+    private const SIMPLE_CONSOLE_OUTPUT_METHODS = ['newline', 'write', 'writeln'];
 
     public function getNodeType(): string
     {

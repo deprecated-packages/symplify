@@ -22,6 +22,8 @@ final class CheckUnneededSymfonyStyleUsageRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipTitleUsedSymfonyStyle.php', []];
+
+        yield [__DIR__ . '/Fixture/InvalidType.php', []];
         yield [__DIR__ . '/Fixture/UseMethodCallNotFromSymfonyStyle.php', []];
         yield [__DIR__ . '/Fixture/UseMethodCallFromSymfonyStyleAllowedMethodCall.php', []];
         yield [
