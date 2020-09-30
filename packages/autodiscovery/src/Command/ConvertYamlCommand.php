@@ -155,7 +155,8 @@ final class ConvertYamlCommand extends Command
      */
     private function findServiceYamlFilesInDirectory(string $directory): array
     {
-        $finder = Finder::create()->files()
+        $finder = Finder::create()
+            ->files()
             ->name('#(config|services)\.(\w+\.)?(yml|yaml)$#')
             ->in($directory);
 

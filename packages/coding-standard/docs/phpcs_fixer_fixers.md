@@ -1,5 +1,33 @@
 # 10+ PHP CS Fixer Fixers
 
+## Make Newline on Chain Method Call
+
+- class: [`MethodChainingNewlineFixer`](../src/Fixer/Spacing/MethodChainingNewlineFixer.php)
+
+```diff
+ class SkipMultiLineChain
+ {
+     public function run()
+     {
+-        return $this->one()->two();
++        return $this->one()
++->two();
+     }
+
+     public function one()
+     {
+         return $this;
+     }
+
+     public function two()
+     {
+         return $this;
+     }
+ }
+```
+
+<br>
+
 ## Remove "Created by PHPStorm" Fixers
 
 - class: [`RemovePHPStormAnnotationFixer`](../src/Fixer/Naming/RemovePHPStormAnnotationFixer.php)

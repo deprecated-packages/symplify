@@ -85,7 +85,8 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         // here class name can be "%parameter.class%"
-        $resolvedClassName = $containerBuilder->getParameterBag()->resolveValue($definition->getClass());
+        $resolvedClassName = $containerBuilder->getParameterBag()
+            ->resolveValue($definition->getClass());
 
         // skip 3rd party classes, they're autowired by own config
         if (Strings::match($resolvedClassName, '#^(' . implode('|', self::EXCLUDED_NAMESPACES) . ')\\\\#')) {

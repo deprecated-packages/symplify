@@ -67,7 +67,8 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
         $parser = (new ParserFactory())->create(ParserFactory::ONLY_PHP7);
         $nodes = $parser->parse($fileContent);
 
-        return (new NodeFinder())->findFirst((array) $nodes, function (Node $node): bool {
+        $nodeFinder = new NodeFinder();
+        return $nodeFinder->findFirst((array) $nodes, function (Node $node): bool {
             return $node instanceof ClassMethod || $node instanceof Function_;
         });
     }

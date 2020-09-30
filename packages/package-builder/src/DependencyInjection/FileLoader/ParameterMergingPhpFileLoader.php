@@ -38,7 +38,8 @@ final class ParameterMergingPhpFileLoader extends PhpFileLoader
     public function load($resource, $type = null): void
     {
         // get old parameters
-        $oldParameters = $this->container->getParameterBag()->all();
+        $oldParameters = $this->container->getParameterBag()
+            ->all();
 
         parent::load($resource);
 

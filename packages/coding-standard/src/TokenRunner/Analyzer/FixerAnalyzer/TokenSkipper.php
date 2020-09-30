@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\Exception\ShouldNotHappenException;
 use Symplify\CodingStandard\TokenRunner\Exception\TokenNotFoundException;
 
 final class TokenSkipper
@@ -58,6 +59,11 @@ final class TokenSkipper
             return $position;
         }
 
-        return $this->blockFinder->findInTokensByEdge($tokens, $position)->getStart();
+        $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
+        if ($blockInfo === null) {
+            throw new ShouldNotHappenException();
+        }
+
+        return $blockInfo->getStart();
     }
 }

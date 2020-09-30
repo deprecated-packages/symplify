@@ -20,7 +20,8 @@ final class StaticFixtureUpdater
 
         $newOriginalContent = self::resolveNewFixtureContent($originalFileInfo, $changedContent);
 
-        self::getSmartFileSystem()->dumpFile($fixtureFileInfo->getRealPath(), $newOriginalContent);
+        self::getSmartFileSystem()
+            ->dumpFile($fixtureFileInfo->getRealPath(), $newOriginalContent);
     }
 
     private static function getSmartFileSystem(): SmartFileSystem

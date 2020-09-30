@@ -59,7 +59,8 @@ final class VersionUtils
 
         $requireVersion = '^' . $version->getMajor()->getValue() . '.' . $version->getMinor()->getValue();
 
-        $value = $version->getPatch()->getValue();
+        $value = $version->getPatch()
+            ->getValue();
         if ($value > 0) {
             $requireVersion .= '.' . $value;
         }
