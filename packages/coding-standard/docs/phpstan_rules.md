@@ -811,6 +811,42 @@ class SomeClass
 
 <br>
 
+## No protected element in final class
+
+- class: [`NoParentMethodCallOnEmptyStatementInParentMethod`](../src/Rules/NoParentMethodCallOnEmptyStatementInParentMethod.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnEmptyStatementInParentMethod
+        tags: [phpstan.rules.rule]
+```
+
+```php
+abstract class ParentClass
+{
+    protected function setUp()
+    {
+        // empty statement
+    }
+}
+
+final class SomeClass extends ParentClass
+{
+    protected $x = [];
+
+    protected function setUp()
+    {
+        parent::setUp();
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## No parent method call on No override process
 
 - class: [`NoParentMethodCallOnNoOverrideProcessRule`](../src/Rules/NoParentMethodCallOnNoOverrideProcessRule.php)
