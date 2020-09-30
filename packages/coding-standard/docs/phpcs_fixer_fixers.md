@@ -28,6 +28,24 @@
 
 <br>
 
+## Keep Array List Items on separated lines
+
+- class: [`ArrayListItemNewlineFixer`](../src/Fixer/ArrayNotation/ArrayListItemNewlineFixer.php)
+
+```diff
+ final class SimpleTwoItems
+ {
+     public function run()
+     {
+-        $value = ['simple' => 1, 'easy' => 2];
++        $value = ['simple' => 1,
++'easy' => 2];
+     }
+}
+```
+
+<br>
+
 ## Remove "Created by PHPStorm" Fixers
 
 - class: [`RemovePHPStormAnnotationFixer`](../src/Fixer/Naming/RemovePHPStormAnnotationFixer.php)

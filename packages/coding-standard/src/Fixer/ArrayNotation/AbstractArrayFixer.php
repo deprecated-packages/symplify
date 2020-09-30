@@ -11,6 +11,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Contract\ArrayFixerInterface;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\ArrayAnalyzer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 
 abstract class AbstractArrayFixer extends AbstractSymplifyFixer implements ArrayFixerInterface
@@ -26,6 +27,11 @@ abstract class AbstractArrayFixer extends AbstractSymplifyFixer implements Array
     protected $whitespacesFixerConfig;
 
     /**
+     * @var ArrayAnalyzer
+     */
+    protected $arrayAnalyzer;
+
+    /**
      * @var BlockFinder
      */
     private $blockFinder;
@@ -35,10 +41,12 @@ abstract class AbstractArrayFixer extends AbstractSymplifyFixer implements Array
      */
     public function autowireAbstractArrayFixer(
         BlockFinder $blockFinder,
-        WhitespacesFixerConfig $whitespacesFixerConfig
+        WhitespacesFixerConfig $whitespacesFixerConfig,
+        ArrayAnalyzer $arrayAnalyzer
     ): void {
         $this->blockFinder = $blockFinder;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->arrayAnalyzer = $arrayAnalyzer;
     }
 
     public function isCandidate(Tokens $tokens): bool

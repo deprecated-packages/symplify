@@ -58,6 +58,17 @@ final class ArrayAnalyzer
         return $isIndexedList;
     }
 
+    public function traverseArrayWithoutNesting(Tokens $tokens, BlockInfo $blockInfo, callable $callable): void
+    {
+        for ($i = $blockInfo->getEnd() - 1; $i >= $blockInfo->getStart() + 1; --$i) {
+            $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
+
+            /** @var Token $token */
+            $token = $tokens[$i];
+            $callable($token, $i, $tokens);
+        }
+    }
+
     private function isArrayCloser(Token $token): bool
     {
         if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
@@ -65,16 +76,5 @@ final class ArrayAnalyzer
         }
 
         return $token->getContent() === ')';
-    }
-
-    private function traverseArrayWithoutNesting(Tokens $tokens, BlockInfo $blockInfo, callable $callable): void
-    {
-        for ($i = $blockInfo->getEnd() - 1; $i >= $blockInfo->getStart() + 1; --$i) {
-            $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
-
-            /** @var Token $token */
-            $token = $tokens[$i];
-            $callable($token);
-        }
     }
 }
