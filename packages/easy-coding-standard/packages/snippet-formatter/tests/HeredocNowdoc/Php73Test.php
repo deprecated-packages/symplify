@@ -56,8 +56,8 @@ final class Php73Test extends AbstractKernelTestCase
             SnippetPattern::HERENOWDOC_SNIPPET_REGEX
         );
 
-        $expectedContents = $inputAndExpectedFileInfos->getExpectedFileContent();
-        $this->assertSame($changedContent, $expectedContents, $fixtureFileInfo->getRelativeFilePathFromCwd());
+        $expectedFileContent = $inputAndExpectedFileInfos->getExpectedFileContent();
+        $this->assertSame($changedContent, $expectedFileContent, $fixtureFileInfo->getRelativeFilePathFromCwd());
     }
 
     public function provideData(): Iterator
