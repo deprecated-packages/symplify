@@ -12,7 +12,7 @@ use PHPStan\Rules\Rule;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoAbstractMethodRule\NoAbstractMethodRuleTest
  */
-final class NoAbstactMethodRule implements Rule
+final class NoAbstractMethodRule implements Rule
 {
     /**
      * @var string
