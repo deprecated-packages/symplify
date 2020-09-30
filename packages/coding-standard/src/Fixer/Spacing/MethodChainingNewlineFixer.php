@@ -14,6 +14,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\Spacing\MethodChainingNewlineFixer\MethodChainingNewlineFixerTest
@@ -25,9 +26,15 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
      */
     private $whitespacesFixerConfig;
 
-    public function __construct(WhitespacesFixerConfig $whitespacesFixerConfig)
+    /**
+     * @var BlockFinder
+     */
+    private $blockFinder;
+
+    public function __construct(WhitespacesFixerConfig $whitespacesFixerConfig, BlockFinder $blockFinder)
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->blockFinder = $blockFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -59,6 +66,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
             }
 
             $tokens->ensureWhitespaceAtIndex($index, 0, $this->whitespacesFixerConfig->getLineEnding());
+            ++$index;
         }
     }
 
@@ -78,6 +86,10 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
                 }
 
                 if ($this->isPreceededByFuncCall($tokens, $i)) {
+                    return false;
+                }
+
+                if ($this->isPreceededByOpenedCallInAnotherBracket($tokens, $i)) {
                     return false;
                 }
 
@@ -188,5 +200,20 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
         }
 
         return $tokens[$previousMeaningfulTokenPosition];
+    }
+
+    /**
+     * Matches e.g.:
+     * - app([
+     *   ])->some()
+     */
+    private function isPreceededByOpenedCallInAnotherBracket(Tokens $tokens, int $position): bool
+    {
+        $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
+        if ($blockInfo === null) {
+            return false;
+        }
+
+        return $tokens->isPartialCodeMultiline($blockInfo->getStart(), $blockInfo->getEnd());
     }
 }
