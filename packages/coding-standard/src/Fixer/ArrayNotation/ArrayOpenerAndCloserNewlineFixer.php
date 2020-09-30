@@ -8,24 +8,13 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\ArrayAnalyzer;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixerTest\ArrayOpenerAndCloserNewlineFixerTest
+ * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer\ArrayOpenerAndCloserNewlineFixerTest
  */
 class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
 {
-    /**
-     * @var ArrayAnalyzer
-     */
-    private $arrayAnalyzer;
-
-    public function __construct(ArrayAnalyzer $arrayAnalyzer)
-    {
-        $this->arrayAnalyzer = $arrayAnalyzer;
-    }
-
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Indexed PHP array opener and closer must be indented on newline', []);
@@ -83,8 +72,10 @@ class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
 
     private function handleArrayOpener(Tokens $tokens, int $arrayOpenerPosition): void
     {
+        $postArrayOpenerPosition = $arrayOpenerPosition + 1;
+
         /** @var Token|null $nextToken */
-        $nextToken = $tokens[$arrayOpenerPosition + 1] ?? null;
+        $nextToken = $tokens[$postArrayOpenerPosition] ?? null;
         if ($nextToken === null) {
             return;
         }
@@ -94,6 +85,6 @@ class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
             return;
         }
 
-        $tokens->ensureWhitespaceAtIndex($arrayOpenerPosition + 1, 0, $this->whitespacesFixerConfig->getLineEnding());
+        $tokens->ensureWhitespaceAtIndex($postArrayOpenerPosition, 0, $this->whitespacesFixerConfig->getLineEnding());
     }
 }
