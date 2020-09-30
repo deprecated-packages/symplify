@@ -834,8 +834,6 @@ abstract class ParentClass
 
 final class SomeClass extends ParentClass
 {
-    protected $x = [];
-
     protected function setUp()
     {
         parent::setUp();
