@@ -155,6 +155,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
 
     /**
      * Matches e..g:
+     * - return app()->some()
      * - app()->some()
      */
     private function isPreceededByFuncCall(Tokens $tokens, int $position): bool
@@ -170,9 +171,12 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
                 }
 
                 $previousPreviousToken = $this->getPreviousToken($tokens, $position - 1);
+                if ($previousPreviousToken->getContent() === '{') {
+                    return true;
+                }
 
                 // is a function
-                return $previousPreviousToken->isGivenKind([T_RETURN, T_DOUBLE_COLON]);
+                return $previousPreviousToken->isGivenKind([T_RETURN, T_DOUBLE_COLON, T_OPEN_CURLY_BRACKET]);
             }
 
             if ($this->isNewlineToken($currentToken)) {

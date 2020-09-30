@@ -6,11 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 use Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoProtectedElementInFinalClassRuleTest extends RuleTestCase
+final class NoProtectedElementInFinalClassRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -39,15 +38,21 @@ final class NoProtectedElementInFinalClassRuleTest extends RuleTestCase
             __DIR__ . '/Fixture/SomeFinalClassWithProtectedMethod.php',
             [[NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 9]],
         ];
+
         yield [
             __DIR__ . '/Fixture/SomeFinalClassWithProtectedPropertyAndProtectedMethod.php',
-            [[NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 9],
-                [NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 11], ],
+            [
+                [NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 9],
+                [NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 11],
+            ],
         ];
     }
 
     protected function getRule(): Rule
     {
-        return new NoProtectedElementInFinalClassRule(new ParentMethodAnalyser());
+        return $this->getRuleFromConfig(
+            NoProtectedElementInFinalClassRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }
