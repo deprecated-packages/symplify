@@ -811,6 +811,32 @@ class SomeClass
 
 <br>
 
+## No parent method call on No override process
+
+- class: [`NoParentMethodCallOnNoOverrideProcessRule`](../src/Rules/NoParentMethodCallOnNoOverrideProcessRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+final class SomeTest exteds TestCase
+{
+     protected function setUp()
+     {
+          parent::setUp();
+     }
+}
+```
+
+:x:
+
+<br>
+
 ## No Parameter can Have Default Value
 
 - class: [`NoDefaultParameterValueRule`](../src/Rules/NoDefaultParameterValueRule.php)
