@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoDefaultParameterValueRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoDefaultParameterValueRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoDefaultParameterValueRuleTest extends RuleTestCase
+final class NoDefaultParameterValueRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

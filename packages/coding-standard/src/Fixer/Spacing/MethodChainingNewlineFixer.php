@@ -77,24 +77,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
             $currentToken = $tokens[$i];
 
             if ($currentToken->equals(')')) {
-                if ($this->isDoubleBracket($tokens, $i)) {
-                    return false;
-                }
-
-                if ($this->isPartOfMethodCallOrArray($tokens, $i)) {
-                    return false;
-                }
-
-                if ($this->isPreceededByFuncCall($tokens, $i)) {
-                    return false;
-                }
-
-                if ($this->isPreceededByOpenedCallInAnotherBracket($tokens, $i)) {
-                    return false;
-                }
-
-                // all good, there is a newline
-                return ! $tokens->isPartialCodeMultiline($i, $objectOperatorIndex);
+                return $this->shouldBracketPrefix($tokens, $i, $objectOperatorIndex);
             }
 
             if ($currentToken->isGivenKind([T_NEW, T_VARIABLE])) {
@@ -219,5 +202,27 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
         }
 
         return $tokens->isPartialCodeMultiline($blockInfo->getStart(), $blockInfo->getEnd());
+    }
+
+    private function shouldBracketPrefix(Tokens $tokens, int $position, int $objectOperatorIndex): bool
+    {
+        if ($this->isDoubleBracket($tokens, $position)) {
+            return false;
+        }
+
+        if ($this->isPartOfMethodCallOrArray($tokens, $position)) {
+            return false;
+        }
+
+        if ($this->isPreceededByFuncCall($tokens, $position)) {
+            return false;
+        }
+
+        if ($this->isPreceededByOpenedCallInAnotherBracket($tokens, $position)) {
+            return false;
+        }
+
+        // all good, there is a newline
+        return ! $tokens->isPartialCodeMultiline($position, $objectOperatorIndex);
     }
 }

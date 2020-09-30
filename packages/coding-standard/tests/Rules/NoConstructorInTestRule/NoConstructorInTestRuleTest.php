@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoConstructorInTestRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoConstructorInTestRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoConstructorInTestRuleTest extends RuleTestCase
+final class NoConstructorInTestRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

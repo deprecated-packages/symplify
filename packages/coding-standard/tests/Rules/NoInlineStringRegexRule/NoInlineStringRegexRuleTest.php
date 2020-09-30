@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoInlineStringRegexRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoInlineStringRegexRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoInlineStringRegexRuleTest extends RuleTestCase
+final class NoInlineStringRegexRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -44,9 +44,9 @@ final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule
      */
     private $nodeFinder;
 
-    public function __construct()
+    public function __construct(NodeFinder $nodeFinder)
     {
-        $this->nodeFinder = new NodeFinder();
+        $this->nodeFinder = $nodeFinder;
     }
 
     public function getNodeType(): string
@@ -74,7 +74,9 @@ final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $classShortName)];
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $classShortName);
+
+        return [$errorMessage];
     }
 
     private function isClassWithStaticMethod($node): bool

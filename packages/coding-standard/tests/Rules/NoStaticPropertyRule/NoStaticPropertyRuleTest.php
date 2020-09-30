@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoStaticPropertyRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoStaticPropertyRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoStaticPropertyRuleTest extends RuleTestCase
+final class NoStaticPropertyRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -21,16 +21,27 @@ final class NoStaticPropertyRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SomeProperty.php', []];
+        yield [__DIR__ . '/Fixture/SkipStaticContainerPHPStan.php', []];
+        yield [__DIR__ . '/Fixture/SkipStaticContainerArrayPHPStan.php', []];
+
+        yield [__DIR__ . '/Fixture/SkipNonStaticProperty.php', []];
+        yield [__DIR__ . '/Fixture/SkipContainerArrayCache.php', []];
+        yield [__DIR__ . '/Fixture/SkipContainerCache.php', []];
+        yield [__DIR__ . '/Fixture/SkipNullableContainerCache.php', []];
+        yield [__DIR__ . '/Fixture/SkipContainerArrayCache.php', []];
+
         yield [
             __DIR__ . '/Fixture/SomeStaticProperty.php',
-            [[NoStaticPropertyRule::ERROR_MESSAGE, 9], [NoStaticPropertyRule::ERROR_MESSAGE, 10]],
+            [[NoStaticPropertyRule::ERROR_MESSAGE, 14], [NoStaticPropertyRule::ERROR_MESSAGE, 19]],
         ];
-        yield [__DIR__ . '/Fixture/SomeStaticPropertyWithoutModifier.php', [[NoStaticPropertyRule::ERROR_MESSAGE, 10]]];
+        yield [__DIR__ . '/Fixture/SomeStaticPropertyWithoutModifier.php', [[NoStaticPropertyRule::ERROR_MESSAGE, 19]]];
     }
 
     protected function getRule(): Rule
     {
-        return new NoStaticPropertyRule();
+        return $this->getRuleFromConfig(
+            NoStaticPropertyRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

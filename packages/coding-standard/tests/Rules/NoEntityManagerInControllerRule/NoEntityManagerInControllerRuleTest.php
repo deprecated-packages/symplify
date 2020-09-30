@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoEntityManagerInControllerRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoEntityManagerInControllerRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoEntityManagerInControllerRuleTest extends RuleTestCase
+final class NoEntityManagerInControllerRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -29,6 +29,9 @@ final class NoEntityManagerInControllerRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoEntityManagerInControllerRule();
+        return $this->getRuleFromConfig(
+            NoEntityManagerInControllerRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

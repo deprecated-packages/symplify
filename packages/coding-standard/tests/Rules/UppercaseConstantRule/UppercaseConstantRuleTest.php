@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\UppercaseConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\UppercaseConstantRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class UppercaseConstantRuleTest extends RuleTestCase
+final class UppercaseConstantRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

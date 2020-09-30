@@ -6,11 +6,11 @@ namespace Symplify\CodingStandard\Tests\Rules\NoDefaultExceptionRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use RuntimeException;
 use Symplify\CodingStandard\Rules\NoDefaultExceptionRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoDefaultExceptionRuleTest extends RuleTestCase
+final class NoDefaultExceptionRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoElseAndElseIf
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoElseAndElseIfRuleTest extends RuleTestCase
+final class NoElseAndElseIfRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

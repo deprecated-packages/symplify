@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoMultiArrayAssignRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoMultiArrayAssignRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoMultiArrayAssignRuleTest extends RuleTestCase
+final class NoMultiArrayAssignRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

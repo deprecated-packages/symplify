@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\MatchingTypeConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\MatchingTypeConstantRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class MatchingTypeConstantRuleTest extends RuleTestCase
+final class MatchingTypeConstantRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

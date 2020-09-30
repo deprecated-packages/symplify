@@ -46,7 +46,6 @@ final class ForbiddenParentClassRule implements Rule
         array $forbiddenParentClassesWithPreferences = []
     ) {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
-
         $this->forbiddenParentClassesWithPreferences = $forbiddenParentClassesWithPreferences;
 
         foreach ($forbiddenParentClasses as $forbiddenParentClass) {
@@ -81,6 +80,11 @@ final class ForbiddenParentClassRule implements Rule
                 continue;
             }
 
+            // allow inheritance
+            if ($preference !== null && $node->isAbstract()) {
+                continue;
+            }
+
             $class = $node->namespacedName->toString();
 
             $errorMessage = $this->createErrorMessage($preference, $class, $currentParentClass);
@@ -92,11 +96,7 @@ final class ForbiddenParentClassRule implements Rule
 
     private function createErrorMessage(?string $preference, string $class, string $currentParentClass): string
     {
-        if ($preference === null) {
-            $preferenceMessage = self::COMPOSITION_OVER_INHERITANCE;
-        } else {
-            $preferenceMessage = $preference;
-        }
+        $preferenceMessage = $preference ?? self::COMPOSITION_OVER_INHERITANCE;
 
         return sprintf(self::ERROR_MESSAGE, $class, $currentParentClass, $preferenceMessage);
     }

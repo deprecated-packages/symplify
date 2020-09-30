@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\RegexSuffixInRegexConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\RegexSuffixInRegexConstantRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class RegexSuffixInRegexConstantRuleTest extends RuleTestCase
+final class RegexSuffixInRegexConstantRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

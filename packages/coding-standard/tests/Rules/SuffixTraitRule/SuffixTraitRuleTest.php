@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\SuffixTraitRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\SuffixTraitRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class SuffixTraitRuleTest extends RuleTestCase
+final class SuffixTraitRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

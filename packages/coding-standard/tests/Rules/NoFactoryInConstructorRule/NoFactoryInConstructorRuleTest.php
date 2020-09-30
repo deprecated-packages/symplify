@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoFactoryInConstructorRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoFactoryInConstructorRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoFactoryInConstructorRuleTest extends RuleTestCase
+final class NoFactoryInConstructorRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -38,6 +38,9 @@ final class NoFactoryInConstructorRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoFactoryInConstructorRule();
+        return $this->getRuleFromConfig(
+            NoFactoryInConstructorRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\ExcessivePublicCountRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\ExcessivePublicCountRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ExcessivePublicCountRuleTest extends RuleTestCase
+final class ExcessivePublicCountRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

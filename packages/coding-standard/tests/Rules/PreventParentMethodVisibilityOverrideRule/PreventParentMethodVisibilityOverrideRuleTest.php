@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\PreventParentMethodVisibilityOverr
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\PreventParentMethodVisibilityOverrideRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class PreventParentMethodVisibilityOverrideRuleTest extends RuleTestCase
+final class PreventParentMethodVisibilityOverrideRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

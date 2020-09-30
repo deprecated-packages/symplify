@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\SuffixInterfaceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\SuffixInterfaceRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class SuffixInterfaceRuleTest extends RuleTestCase
+final class SuffixInterfaceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

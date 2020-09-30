@@ -48,6 +48,7 @@ final class ForbiddenParentClassRuleTest extends AbstractServiceAwareRuleTestCas
         yield [__DIR__ . '/Fixture/AnotherForbiddenParent.php', [[$errorMessage, 9]]];
 
         yield [__DIR__ . '/Fixture/SkipParentClass.php', []];
+        yield [__DIR__ . '/Fixture/SomeAbstractClassInheritingFromUnwantedClass.php', []];
 
         // test preference
         $errorMessage = sprintf(

@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoDynamicMethodNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoDynamicMethodNameRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoDynamicMethodNameRuleTest extends RuleTestCase
+final class NoDynamicMethodNameRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -32,6 +32,9 @@ final class NoDynamicMethodNameRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoDynamicMethodNameRule();
+        return $this->getRuleFromConfig(
+            NoDynamicMethodNameRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

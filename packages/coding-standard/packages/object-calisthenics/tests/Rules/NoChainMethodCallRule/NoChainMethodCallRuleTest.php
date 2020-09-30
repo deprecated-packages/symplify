@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoChainMethodCa
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoChainMethodCallRuleTest extends RuleTestCase
+final class NoChainMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -26,6 +26,6 @@ final class NoChainMethodCallRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoChainMethodCallRule();
+        return $this->getRuleFromConfig(NoChainMethodCallRule::class, __DIR__ . '/config/standalone_rule.neon');
     }
 }

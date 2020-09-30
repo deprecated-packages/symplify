@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoAbstractMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoAbstractMethodRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoAbstractMethodRuleTest extends RuleTestCase
+final class NoAbstractMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

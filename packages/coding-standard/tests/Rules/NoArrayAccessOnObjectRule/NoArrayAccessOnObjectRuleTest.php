@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoArrayAccessOnObjectRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoArrayAccessOnObjectRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoArrayAccessOnObjectRuleTest extends RuleTestCase
+final class NoArrayAccessOnObjectRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

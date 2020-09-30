@@ -36,9 +36,9 @@ final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
      */
     private $nodeFinder;
 
-    public function __construct()
+    public function __construct(NodeFinder $nodeFinder)
     {
-        $this->nodeFinder = new NodeFinder();
+        $this->nodeFinder = $nodeFinder;
     }
 
     /**

@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\ClassNameRespectsParentSuffixRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ClassNameRespectsParentSuffixRuleTest extends RuleTestCase
+final class ClassNameRespectsParentSuffixRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoSetterClassMe
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoSetterClassMethodRuleTest extends RuleTestCase
+final class NoSetterClassMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

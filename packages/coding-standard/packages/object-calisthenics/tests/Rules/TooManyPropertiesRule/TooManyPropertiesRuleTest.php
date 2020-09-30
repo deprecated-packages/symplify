@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooManyProperti
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyPropertiesRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class TooManyPropertiesRuleTest extends RuleTestCase
+final class TooManyPropertiesRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

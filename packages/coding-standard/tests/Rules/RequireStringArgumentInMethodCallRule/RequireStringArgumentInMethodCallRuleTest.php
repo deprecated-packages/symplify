@@ -6,12 +6,12 @@ namespace Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 use Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule;
 use Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class RequireStringArgumentInMethodCallRuleTest extends RuleTestCase
+final class RequireStringArgumentInMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

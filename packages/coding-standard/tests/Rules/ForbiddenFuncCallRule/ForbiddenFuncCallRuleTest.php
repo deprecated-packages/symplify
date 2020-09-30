@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenFuncCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\ForbiddenFuncCallRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ForbiddenFuncCallRuleTest extends RuleTestCase
+final class ForbiddenFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

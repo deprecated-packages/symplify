@@ -7,10 +7,10 @@ namespace Symplify\CodingStandard\Tests\Rules\PrefferedStaticCallOverFuncCallRul
 use Iterator;
 use Nette\Utils\Strings;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class PrefferedStaticCallOverFuncCallRuleTest extends RuleTestCase
+final class PrefferedStaticCallOverFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

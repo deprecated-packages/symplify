@@ -7,6 +7,7 @@ parameters:
         max_class_cognitive_complexity: 50
 
 services:
+    # todo split to smaller configs
     # naming
     -
         class: Symplify\CodingStandard\Rules\SuffixInterfaceRule
@@ -14,6 +15,10 @@ services:
 
     -
         class: Symplify\CodingStandard\Rules\SuffixTraitRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoFactoryInConstructorRule
         tags: [phpstan.rules.rule]
 
     -
@@ -32,7 +37,15 @@ services:
 
     # symfony
     -
-        class: Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequired
+        class: Symplify\CodingStandard\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule
         tags: [phpstan.rules.rule]
 
     # static
@@ -83,7 +96,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoReturnArrayVariableList
+        class: Symplify\CodingStandard\Rules\NoReturnArrayVariableListRule
         tags: [phpstan.rules.rule]
 
     -
@@ -180,6 +193,11 @@ services:
                 - PHP_CodeSniffer\Sniffs\Sniff
                 - PHP_CodeSniffer\Fixer
 
+    # dead-code
+    -
+        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
+        tags: [phpstan.rules.rule]
+
     -
         class: Symplify\CodingStandard\Rules\NoDynamicMethodNameRule
         tags: [phpstan.rules.rule]
@@ -260,6 +278,25 @@ services:
                 - '*RuleTest'
                 - Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase
 
+    -
+        class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule
+        tags: [phpstan.rules.rule]
+
+#    -
+#        class: 'PhpParser\ParserFactory'
+#    -
+#        class: PhpParser\Parser
+#        factory: ['@PhpParser\ParserFactory', 'create']
+
+# broken now
+#    -
+#        class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
+#        tags: [phpstan.rules.rule]
+
     # services
     - Symplify\CodingStandard\PhpParser\NodeNameResolver
     - Symplify\CodingStandard\PHPStan\ParentMethodAnalyser
@@ -267,11 +304,7 @@ services:
     - Symplify\CodingStandard\PHPStan\VariableAsParamAnalyser
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
-
-    -
-        class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
-        tags: [phpstan.rules.rule]
+    - PhpParser\NodeFinder
+    - Symplify\SmartFileSystem\SmartFileSystem
+    - Symplify\CodingStandard\PHPStan\NodeResolver\ParentClassMethodNodeResolver
+    - Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser
