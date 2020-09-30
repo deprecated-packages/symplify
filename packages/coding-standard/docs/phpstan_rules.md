@@ -312,7 +312,7 @@ final class SomeFinalClassWithProtectedPropertyAndProtectedMethod
 
 ## Use Contract or Service over Abstract Method
 
-- class: [`NoAbstactMethodRule`](../src/Rules/NoAbstactMethodRule.php)
+- class: [`NoAbstractMethodRule`](../src/Rules/NoAbstractMethodRule.php)
 
 ```php
 abstract class SomeClass
@@ -804,6 +804,32 @@ class SomeClass
     public function run(?string $vaulue = true): void
     {
     }
+}
+```
+
+:x:
+
+<br>
+
+## No parent method call on No override process
+
+- class: [`NoParentMethodCallOnNoOverrideProcessRule`](../src/Rules/NoParentMethodCallOnNoOverrideProcessRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+final class SomeTest exteds TestCase
+{
+     protected function setUp()
+     {
+          parent::setUp();
+     }
 }
 ```
 
