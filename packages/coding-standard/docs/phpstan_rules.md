@@ -811,7 +811,7 @@ class SomeClass
 
 <br>
 
-## No protected element in final class
+## No Parent Method Call on Empty Statement in Parent Method
 
 - class: [`NoParentMethodCallOnEmptyStatementInParentMethod`](../src/Rules/NoParentMethodCallOnEmptyStatementInParentMethod.php)
 
@@ -837,6 +837,8 @@ final class SomeClass extends ParentClass
     protected function setUp()
     {
         parent::setUp();
+
+        echo 'some code';
     }
 }
 ```
