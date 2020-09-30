@@ -312,7 +312,7 @@ final class SomeFinalClassWithProtectedPropertyAndProtectedMethod
 
 ## Use Contract or Service over Abstract Method
 
-- class: [`NoAbstactMethodRule`](../src/Rules/NoAbstactMethodRule.php)
+- class: [`NoAbstractMethodRule`](../src/Rules/NoAbstractMethodRule.php)
 
 ```php
 abstract class SomeClass
