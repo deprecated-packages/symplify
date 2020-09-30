@@ -1788,6 +1788,31 @@ class StaticFormatConverter
 
 <br>
 
+## No constructor in Test
+
+- class: [`NoConstructorInTestRule`](../src/Rules/NoConstructorInTestRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoConstructorInTestRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+final class SomeTest
+{
+    public function __construct()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Use Unique Class Short Names
 
 - class: [`NoDuplicatedShortClassNameRule`](../src/Rules/NoDuplicatedShortClassNameRule.php)
