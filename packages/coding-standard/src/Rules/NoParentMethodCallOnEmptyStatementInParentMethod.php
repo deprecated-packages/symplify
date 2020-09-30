@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Class_;
@@ -14,6 +15,7 @@ use PhpParser\Node\Stmt\Nop;
 use PhpParser\NodeFinder;
 use PhpParser\ParserFactory;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 
 /**
@@ -64,15 +66,20 @@ final class NoParentMethodCallOnEmptyStatementInParentMethod implements Rule
             $class = $class->getAttribute('parent');
         }
 
-        $methodName = (string) $node->name;
+        /** @var Identifier $method */
+        $method = $node->name;
+        $methodName = (string) $method->name;
 
+        /** @var ClassReflection $classReflection */
         $classReflection = $scope->getClassReflection();
-        $parentClassFileName = $classReflection->getParentClass()
-            ->getFileName();
-
+        /** @var ClassReflection $parentClass */
+        $parentClass = $classReflection->getParentClass();
+        $parentClassFileName = (string) $parentClass->getFileName();
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
-        $ast = $parser->parse(file_get_contents($parentClassFileName));
+        /** @var Node $ast */
+        $ast = $parser->parse((string) file_get_contents($parentClassFileName));
 
+        /** @var ClassMethod[] $classMethods */
         $classMethods = $this->nodeFinder->findInstanceOf($ast, ClassMethod::class);
         foreach ($classMethods as $classMethod) {
             if ((string) $classMethod->name !== $methodName) {
