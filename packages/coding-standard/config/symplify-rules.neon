@@ -114,7 +114,9 @@ services:
         arguments:
             forbiddenParentClasses:
                 - Doctrine\ORM\EntityRepository
-                - PHPStan\Testing\RuleTestCase
+
+            forbiddenParentClassesWithPreferences:
+                PHPStan\Testing\RuleTestCase: 'Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase'
 
     -
         class: Symplify\CodingStandard\Rules\PreferredClassRule

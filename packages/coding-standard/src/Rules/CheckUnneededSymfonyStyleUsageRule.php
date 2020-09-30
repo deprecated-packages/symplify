@@ -12,9 +12,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeWithClassName;
-use Rector\PHPStanStaticTypeMapper\TypeMapper\TypeWithClassNameTypeMapper;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**

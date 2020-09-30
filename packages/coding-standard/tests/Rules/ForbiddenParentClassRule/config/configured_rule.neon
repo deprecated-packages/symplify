@@ -1,0 +1,12 @@
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenParentClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenParentClasses:
+                - Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\ForbiddenParent
+                - '*FnMatched'
+            forbiddenParentClassesWithPreferences:
+                Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\UnwantedClass: Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\PreferredClass
+
+    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
