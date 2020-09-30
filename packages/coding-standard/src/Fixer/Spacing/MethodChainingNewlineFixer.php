@@ -77,6 +77,10 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
                     return false;
                 }
 
+                if ($this->isPreceededByFuncCall($tokens, $i)) {
+                    return false;
+                }
+
                 // all good, there is a newline
                 return ! $tokens->isPartialCodeMultiline($i, $objectOperatorIndex);
             }
@@ -116,7 +120,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
             $currentToken = $tokens[$i];
 
             // break
-            if ($currentToken->isWhitespace() && Strings::contains($currentToken->getContent(), "\n")) {
+            if ($this->isNewlineToken($currentToken)) {
                 return false;
             }
 
@@ -135,5 +139,54 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
         }
 
         return false;
+    }
+
+    /**
+     * Matches e..g:
+     * - app()->some()
+     */
+    private function isPreceededByFuncCall(Tokens $tokens, int $position): bool
+    {
+        for ($i = $position; $i >= 0; --$i) {
+            /** @var Token $currentToken */
+            $currentToken = $tokens[$i];
+
+            if ($currentToken->getContent() === '(') {
+                $previousToken = $this->getPreviousToken($tokens, $position);
+                if (! $previousToken->isGivenKind(T_STRING)) {
+                    return false;
+                }
+
+                $previousPreviousToken = $this->getPreviousToken($tokens, $position - 1);
+
+                // is a function
+                return $previousPreviousToken->isGivenKind([T_RETURN, T_DOUBLE_COLON]);
+            }
+
+            if ($this->isNewlineToken($currentToken)) {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    private function isNewlineToken(Token $currentToken): bool
+    {
+        if (! $currentToken->isWhitespace()) {
+            return false;
+        }
+
+        return Strings::contains($currentToken->getContent(), "\n");
+    }
+
+    private function getPreviousToken(Tokens $tokens, int $position): ?Token
+    {
+        $previousMeaningfulTokenPosition = $tokens->getPrevMeaningfulToken($position - 1);
+        if ($previousMeaningfulTokenPosition === null) {
+            return null;
+        }
+
+        return $tokens[$previousMeaningfulTokenPosition];
     }
 }
