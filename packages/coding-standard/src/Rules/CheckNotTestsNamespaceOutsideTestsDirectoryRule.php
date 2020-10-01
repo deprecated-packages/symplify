@@ -9,6 +9,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule\CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest
@@ -40,11 +41,13 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule
             return [];
         }
 
+        $fileInfo = new SmartFileInfo($scope->getFile());
+
         if (! $this->hasTestsNamespace($node->name)) {
             if ($this->hasTestSuffix($scope)) {
                 $errorMessage = sprintf(
                     self::ERROR_TEST_FILE_OUTSIDE_NAMESPACE,
-                    $scope->getFileDescription(),
+                    $fileInfo->getRelativeFilePathFromCwd(),
                     $node->name->toString()
                 );
                 return [$errorMessage];
@@ -60,7 +63,7 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule
         $errorMessage = sprintf(
             self::ERROR_NAMESPACE_OUTSIDE_TEST_DIR,
             $node->name->toString(),
-            $scope->getFileDescription()
+            $fileInfo->getRelativeFilePathFromCwd()
         );
 
         return [$errorMessage];

@@ -170,13 +170,13 @@ final class SymplifyErrorFormatter implements ErrorFormatter
      */
     private function printMultiFileErrors(string $message, array $errors): void
     {
-        $this->writeln('-');
-        $this->writeln("    message: '" . $this->regexMessage($message) . "'");
-        $this->writeln('    paths:');
+        $this->writeln('    -');
+        $this->writeln("        message: '" . $this->regexMessage($message) . "'");
+        $this->writeln('        paths:');
 
         foreach ($errors as $error) {
             $relativeFilePath = $this->createFileMessage($error);
-            $this->writeln('        - ' . $relativeFilePath);
+            $this->writeln('            - ' . $relativeFilePath);
         }
 
         $this->symfonyStyle->newLine();

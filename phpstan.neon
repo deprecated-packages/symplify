@@ -12,7 +12,7 @@ services:
 parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
-#    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     paths:
         - packages
@@ -426,7 +426,7 @@ parameters:
                 - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
 
         -
-            message: '#"Tests" namespace \(Symplify\\PackageBuilder\\Tests\) used outside of "tests" directory \(/var/www/symplify/packages/package\-builder/src/Tests/AbstractKernelTestCase\.php\)#'
+            message: '#"Tests" namespace \(Symplify\\PackageBuilder\\Tests\) used outside of "tests" directory \(packages/package\-builder/src/Tests/AbstractKernelTestCase\.php\)#'
             paths:
                 - packages/package-builder/src/Tests/AbstractKernelTestCase.php
 
