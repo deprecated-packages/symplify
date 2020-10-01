@@ -339,3 +339,4 @@ parameters:
                 - packages/monorepo-builder/packages/merge/src/Configuration/ModifyingComposerJsonProvider.php # 28
                 - packages/monorepo-builder/packages/merge/src/Configuration/ModifyingComposerJsonProvider.php # 33
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
+
