@@ -7,9 +7,12 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\MethodReflection;
+use PHPStan\Type\ThisType;
+use PHPStan\Type\TypeWithClassName;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoFactoryInConstructorRule\NoFactoryInConstructorRuleTest
@@ -22,45 +25,52 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
     public const ERROR_MESSAGE = 'Do not use factory in constructor';
 
     /**
-     * @var NodeFinder
+     * @var string[]
      */
-    private $nodeFinder;
-
-    public function __construct(NodeFinder $nodeFinder)
-    {
-        $this->nodeFinder = $nodeFinder;
-    }
+    private const ALLOWED_TYPES = [ParameterProvider::class, ParameterBagInterface::class];
 
     /**
      * @return string[]
      */
     public function getNodeTypes(): array
     {
-        return [ClassMethod::class];
+        return [MethodCall::class];
     }
 
     /**
-     * @param ClassMethod $node
+     * @param MethodCall $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ((string) $node->name !== '__construct') {
+        $reflectionFunction = $scope->getFunction();
+        if (! $reflectionFunction instanceof MethodReflection) {
             return [];
         }
 
-        $methodCalls = $this->nodeFinder->findInstanceOf((array) $node->getStmts(), MethodCall::class);
-        /** @var MethodCall $methodCall */
-        foreach ($methodCalls as $methodCall) {
-            /** @var Variable $variable */
-            $variable = $methodCall->var;
-            $name = $variable->name;
+        if ($reflectionFunction->getName() !== '__construct') {
+            return [];
+        }
 
-            if (! in_array($name, ['this', 'self', 'static', 'parent'], true)) {
-                return [self::ERROR_MESSAGE];
+        if (! $node->var instanceof Variable) {
+            return [];
+        }
+
+        $callerType = $scope->getType($node->var);
+        if ($callerType instanceof ThisType) {
+            return [];
+        }
+
+        if (! $callerType instanceof TypeWithClassName) {
+            return [];
+        }
+
+        foreach (self::ALLOWED_TYPES as $allowedType) {
+            if (is_a($callerType->getClassName(), $allowedType, true)) {
+                return [];
             }
         }
 
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 }
