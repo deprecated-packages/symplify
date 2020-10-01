@@ -1,0 +1,5 @@
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoStaticPropertyRule
+        tags: [phpstan.rules.rule]
+
