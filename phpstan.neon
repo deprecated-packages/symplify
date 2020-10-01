@@ -217,7 +217,6 @@ parameters:
             message: '#Do not use trait#'
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
-                - packages/package-builder/src/Console/HelpfulApplicationTrait.php # 17
 
         -
             message: '#Do not use setter on a service#'

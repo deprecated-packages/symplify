@@ -5,23 +5,26 @@ declare(strict_types=1);
 namespace Symplify\PackageBuilder\Console;
 
 use Nette\Utils\Strings;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Descriptor\TextDescriptor;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * must be part of child @see \Symfony\Component\Console\Application
- */
-trait HelpfulApplicationTrait
+abstract class AbstractSymplifyConsoleApplication extends Application
 {
+    /**
+     * @var string
+     */
+    private const COMMAND = 'command';
+
     protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
     {
         return $this->doRunCommandAndShowHelpOnArgumentError($command, $input, $output);
     }
 
-    private function doRunCommandAndShowHelpOnArgumentError(
+    protected function doRunCommandAndShowHelpOnArgumentError(
         Command $command,
         InputInterface $input,
         OutputInterface $output
@@ -48,11 +51,12 @@ trait HelpfulApplicationTrait
     {
         $arguments = $command->getDefinition()
             ->getArguments();
-        if (! isset($arguments['command'])) {
+
+        if (! isset($arguments[self::COMMAND])) {
             return;
         }
 
-        unset($arguments['command']);
+        unset($arguments[self::COMMAND]);
         $command->getDefinition()
             ->setArguments($arguments);
     }

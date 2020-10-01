@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Console;
 
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,12 +14,10 @@ use Symplify\MonorepoBuilder\Console\Command\ValidateCommand;
 use Symplify\MonorepoBuilder\Merge\Command\MergeCommand;
 use Symplify\MonorepoBuilder\Release\Command\ReleaseCommand;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
-use Symplify\PackageBuilder\Console\HelpfulApplicationTrait;
+use Symplify\PackageBuilder\Console\AbstractSymplifyConsoleApplication;
 
-final class MonorepoBuilderApplication extends Application
+final class MonorepoBuilderApplication extends AbstractSymplifyConsoleApplication
 {
-    use HelpfulApplicationTrait;
-
     /**
      * @var SourcesPresenceValidator
      */
@@ -46,7 +43,7 @@ final class MonorepoBuilderApplication extends Application
             'c',
             InputOption::VALUE_REQUIRED,
             'Path to config file.',
-            'monorepo-builder.(yml|yaml)'
+            'monorepo-builder.php'
         ));
 
         return $inputDefinition;
