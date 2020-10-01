@@ -233,12 +233,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
         if ($currentToken->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_OPEN, T_ARRAY, T_DOUBLE_COLON])) {
             return true;
         }
-
-        if ($currentToken->getContent() === '.') {
-            return true;
-        }
-
-        return false;
+        return $currentToken->getContent() === '.';
     }
 
     private function shouldBreakOnBracket(Token $token): bool
