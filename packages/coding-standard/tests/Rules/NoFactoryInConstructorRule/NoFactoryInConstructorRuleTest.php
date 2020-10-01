@@ -21,19 +21,19 @@ final class NoFactoryInConstructorRuleTest extends AbstractServiceAwareRuleTestC
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/WithoutConstructor.php', []];
-        yield [__DIR__ . '/Fixture/WithConstructor.php', []];
         yield [__DIR__ . '/Fixture/WithConstructorWithoutFactory.php', []];
         yield [__DIR__ . '/Fixture/WithConstructorUseMethodCallFromCurrentObject.php', []];
-        yield [__DIR__ . '/Fixture/WithConstructorWithFactory.php', [[NoFactoryInConstructorRule::ERROR_MESSAGE, 16]]];
+
         yield [
             __DIR__ . '/Fixture/WithConstructorWithFactoryWithAssignment.php',
-            [[NoFactoryInConstructorRule::ERROR_MESSAGE, 16]],
+            [[NoFactoryInConstructorRule::ERROR_MESSAGE, 18]],
         ];
         yield [
             __DIR__ . '/Fixture/WithConstructorWithFactoryWithMutliAssignment.php',
-            [[NoFactoryInConstructorRule::ERROR_MESSAGE, 16]],
+            [[NoFactoryInConstructorRule::ERROR_MESSAGE, 18]],
         ];
+
+        yield [__DIR__ . '/Fixture/SkipParameterProvider.php', []];
     }
 
     protected function getRule(): Rule

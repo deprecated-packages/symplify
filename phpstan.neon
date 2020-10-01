@@ -217,7 +217,6 @@ parameters:
             message: '#Do not use trait#'
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
-                - packages/package-builder/src/Console/HelpfulApplicationTrait.php # 17
 
         -
             message: '#Do not use setter on a service#'
@@ -233,41 +232,6 @@ parameters:
                 - packages/set-config-resolver/src/Exception/SetNotFoundException.php # 29
                 - packages/smart-file-system/src/SmartFileInfo.php # 122
                 - packages/symfony-static-dumper/tests/Routing/RoutesProviderTest.php # 21
-
-        -
-            message: '#Do not use factory in constructor#'
-            paths:
-                - packages/changelog-linker/src/ChangeTree/ChangeFactory.php # 45
-                - packages/changelog-linker/src/ChangeTree/Resolver/PackageResolver.php # 35
-                - packages/changelog-linker/src/Github/GithubApi.php # 62
-                - packages/changelog-linker/src/Worker/DiffLinksToVersionsWorker.php # 36
-                - packages/changelog-linker/src/Worker/LinkifyWorker.php # 35
-                - packages/changelog-linker/src/Worker/LinksToReferencesWorker.php # 26
-                - packages/coding-standard/packages/object-calisthenics/src/Rules/SingleIndentationInMethodRule.php # 48
-                - packages/composer-json-manipulator/src/FileSystem/JsonFileManager.php # 36
-                - packages/easy-coding-standard/compiler/src/Command/CompileCommand.php # 58
-                - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 63
-                - packages/easy-coding-standard/src/Bootstrap/YamlConfigReporter.php # 18
-                - packages/easy-coding-standard/src/Console/EasyCodingStandardConsoleApplication.php # 31
-                - packages/easy-coding-standard/src/Console/Output/OutputFormatterCollector.php # 20
-                - packages/easy-coding-standard/src/Finder/SourceFinder.php # 28
-                - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 32
-                - packages/easy-coding-standard/src/Skipper.php # 51
-                - packages/easy-coding-standard/src/Yaml/CheckerServiceParametersShifter.php # 64
-                - packages/monorepo-builder/compiler/src/Command/CompileCommand.php # 51
-                - packages/monorepo-builder/packages/merge/src/ComposerJsonDecorator/SortComposerJsonDecorator.php # 22
-                - packages/monorepo-builder/packages/merge/src/Configuration/ModifyingComposerJsonProvider.php # 24
-                - packages/monorepo-builder/packages/release/src/Guard/ReleaseGuard.php # 46
-                - packages/monorepo-builder/packages/split/src/Command/SplitCommand.php # 47
-                - packages/monorepo-builder/packages/split/src/Git/GitManager.php # 39
-                - packages/monorepo-builder/packages/split/src/Process/ProcessFactory.php # 44
-                - packages/monorepo-builder/src/Finder/PackageComposerFinder.php # 33
-                - packages/monorepo-builder/src/Utils/VersionUtils.php # 21
-                - packages/monorepo-builder/src/Validator/SourcesPresenceValidator.php # 24
-                - packages/package-builder/src/Parameter/ParameterProvider.php # 24
-                - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 19
-                - packages/smart-file-system/src/SmartFileInfo.php # 27
-                - packages/symfony-static-dumper/src/Command/DumpStaticSiteCommand.php # 38
 
         -
             message: '#Do not use static property#'
@@ -296,15 +260,6 @@ parameters:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
-
-        -
-            message: '#Do not use static property#'
-            paths:
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 46
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 47
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 57
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 118
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 119
 
         -
             message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
@@ -373,3 +328,14 @@ parameters:
                 - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php # 20
                 - packages/symfony-static-dumper/src/Routing/ControllerMatcher.php # 16
                 - packages/symfony-static-dumper/src/Routing/RoutesProvider.php # 19
+
+        -
+            message: '#Do not use factory in constructor#'
+            paths:
+                - packages/coding-standard/packages/object-calisthenics/src/Rules/SingleIndentationInMethodRule.php # 54
+                - packages/easy-coding-standard/src/Console/EasyCodingStandardConsoleApplication.php # 30
+                - packages/easy-coding-standard/src/Console/Output/OutputFormatterCollector.php # 23
+                - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 37
+                - packages/monorepo-builder/packages/merge/src/Configuration/ModifyingComposerJsonProvider.php # 28
+                - packages/monorepo-builder/packages/merge/src/Configuration/ModifyingComposerJsonProvider.php # 33
+                - packages/package-builder/src/Parameter/ParameterProvider.php # 26

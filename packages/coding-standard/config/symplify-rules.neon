@@ -8,6 +8,7 @@ includes:
     - symplify-rules/regex-rules.neon
     - symplify-rules/symfony-rules.neon
     - symplify-rules/test-rules.neon
+    - symplify-rules/services-rules.neon
 
 parameters:
     symplify:
@@ -26,15 +27,6 @@ services:
     # paths
     -
         class: Symplify\CodingStandard\Rules\NoMissingDirPathRule
-        tags: [phpstan.rules.rule]
-
-    # service architeture
-    -
-        class: Symplify\CodingStandard\Rules\NoNewOutsideFactoryRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule
         tags: [phpstan.rules.rule]
 
     -
@@ -90,12 +82,6 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenFunctions: ['d', 'dd', 'dump', 'var_dump', 'extract']
-
-    -
-        class: Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            parentClasses: []
 
     -
         class: Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule
@@ -177,10 +163,6 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxVariableLength: 40
-
-    -
-        class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule
-        tags: [phpstan.rules.rule]
 
     -
         class: Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule

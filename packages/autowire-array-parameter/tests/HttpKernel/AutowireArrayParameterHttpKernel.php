@@ -14,7 +14,7 @@ final class AutowireArrayParameterHttpKernel extends Kernel
 {
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
-        $loader->load(__DIR__ . '/../config/autowire_array_parameter.yaml');
+        $loader->load(__DIR__ . '/../config/autowire_array_parameter.php');
     }
 
     public function getCacheDir(): string

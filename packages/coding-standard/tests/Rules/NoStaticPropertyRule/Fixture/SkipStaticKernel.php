@@ -11,10 +11,10 @@ final class SkipStaticKernel
     /**
      * @var KernelInterface
      */
-    public static $conkernelainer = [];
+    public static $kernel = [];
 
     public static function getKernel(): KernelInterface
     {
-        return self::$conkernelainer;
+        return self::$kernel;
     }
 }
