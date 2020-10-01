@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Service\ResetInterface;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PackageBuilder\Exception\HttpKernel\MissingInterfaceException;
+use Symplify\PackageBuilder\Exception\ShouldNotHappenException;
 
 /**
  * Inspiration
@@ -39,24 +40,32 @@ abstract class AbstractKernelTestCase extends TestCase
         $configsHash = $this->resolveConfigsHash($configs);
 
         $this->ensureKernelShutdown();
-        static::$kernel = new $kernelClass('test_' . $configsHash, true);
 
-        $this->ensureIsConfigAwareKernel();
+        $kernel = new $kernelClass('test_' . $configsHash, true);
+        if (! $kernel instanceof KernelInterface) {
+            throw new ShouldNotHappenException();
+        }
 
-        static::$kernel->setConfigs($configs);
-        static::$kernel = $this->bootAndReturnKernel();
+        $this->ensureIsConfigAwareKernel($kernel);
+
+        /** @var ExtraConfigAwareKernelInterface $kernel */
+        $kernel->setConfigs($configs);
+
+        static::$kernel = $this->bootAndReturnKernel($kernel);
 
         return static::$kernel;
     }
 
-    protected function bootKernel(string $kernelClass): KernelInterface
+    protected function bootKernel(string $kernelClass): void
     {
         $this->ensureKernelShutdown();
 
-        static::$kernel = new $kernelClass('test', true);
-        static::$kernel = $this->bootAndReturnKernel();
+        $kernel = new $kernelClass('test', true);
+        if (! $kernel instanceof KernelInterface) {
+            throw new ShouldNotHappenException();
+        }
 
-        return static::$kernel;
+        static::$kernel = $this->bootAndReturnKernel($kernel);
     }
 
     /**
@@ -91,35 +100,42 @@ abstract class AbstractKernelTestCase extends TestCase
         return md5($configsHash);
     }
 
-    private function ensureIsConfigAwareKernel(): void
+    private function ensureIsConfigAwareKernel(KernelInterface $kernel): void
     {
-        if (static::$kernel instanceof ExtraConfigAwareKernelInterface) {
+        if ($kernel instanceof ExtraConfigAwareKernelInterface) {
             return;
         }
 
         throw new MissingInterfaceException(sprintf(
             '"%s" is missing an "%s" interface',
-            get_class(static::$kernel),
+            get_class($kernel),
             ExtraConfigAwareKernelInterface::class
         ));
     }
 
-    private function bootAndReturnKernel(): KernelInterface
+    private function bootAndReturnKernel(KernelInterface $kernel): KernelInterface
     {
-        static::$kernel->boot();
+        $kernel->boot();
 
-        $container = static::$kernel->getContainer();
+        $container = $kernel->getContainer();
 
         // private → public service hack?
-        static::$container = $container->has('test.service_container') ?
-            $container->get('test.service_container') : $container;
+        if ($container->has('test.service_container')) {
+            $container = $container->get('test.service_container');
+        }
+
+        if (! $container instanceof ContainerInterface) {
+            throw new ShouldNotHappenException();
+        }
 
         // has output? keep it silent out of tests
-        if (static::$container->has(SymfonyStyle::class)) {
-            $symfonyStyle = static::$container->get(SymfonyStyle::class);
+        if ($container->has(SymfonyStyle::class)) {
+            $symfonyStyle = $container->get(SymfonyStyle::class);
             $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
         }
 
-        return static::$kernel;
+        static::$container = $container;
+
+        return $kernel;
     }
 }

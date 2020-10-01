@@ -13,12 +13,17 @@ use PHPStan\Type\UnionType;
 
 final class ContainsTypeAnalyser
 {
+    /**
+     * @param class-string[] $types
+     */
     public function containsExprTypes(Expr $expr, Scope $scope, array $types): bool
     {
         foreach ($types as $type) {
-            if ($this->containsExprType($expr, $scope, $type)) {
-                return true;
+            if (! $this->containsExprType($expr, $scope, $type)) {
+                continue;
             }
+
+            return true;
         }
 
         return false;
@@ -27,7 +32,6 @@ final class ContainsTypeAnalyser
     public function containsExprType(Expr $expr, Scope $scope, string $type): bool
     {
         $propertyType = $scope->getType($expr);
-
         if ($propertyType instanceof TypeWithClassName) {
             return is_a($propertyType->getClassName(), $type, true);
         }
@@ -64,12 +68,10 @@ final class ContainsTypeAnalyser
             return false;
         }
 
-        if (! $propertyType->getItemType() instanceof TypeWithClassName) {
+        $arrayItemType = $propertyType->getItemType();
+        if (! $arrayItemType instanceof TypeWithClassName) {
             return false;
         }
-
-        /** @var TypeWithClassName $arrayItemType */
-        $arrayItemType = $propertyType->getItemType();
 
         return is_a($arrayItemType->getClassName(), $type, true);
     }

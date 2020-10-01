@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PackageBuilder\Contract\HttpKernel;
 
-interface ExtraConfigAwareKernelInterface
+use Symfony\Component\HttpKernel\KernelInterface;
+
+interface ExtraConfigAwareKernelInterface extends KernelInterface
 {
     /**
      * @param string[] $configs

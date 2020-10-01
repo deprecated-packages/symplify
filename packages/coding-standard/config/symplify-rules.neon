@@ -29,15 +29,6 @@ services:
         class: Symplify\CodingStandard\Rules\NoMissingDirPathRule
         tags: [phpstan.rules.rule]
 
-    # service architeture
-    -
-        class: Symplify\CodingStandard\Rules\NoNewOutsideFactoryRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule
-        tags: [phpstan.rules.rule]
-
     -
         class: Symplify\CodingStandard\Rules\NoScalarAndArrayConstructorParameterRule
         tags: [phpstan.rules.rule]
