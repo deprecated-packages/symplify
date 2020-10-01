@@ -93,12 +93,6 @@ services:
             forbiddenFunctions: ['d', 'dd', 'dump', 'var_dump', 'extract']
 
     -
-        class: Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            parentClasses: []
-
-    -
         class: Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule
         tags: [phpstan.rules.rule]
 

@@ -14,3 +14,7 @@ services:
     -
         class: Symplify\CodingStandard\Rules\UppercaseConstantRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
+        tags: [phpstan.rules.rule]
