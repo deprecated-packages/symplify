@@ -21,7 +21,7 @@ class ManyMultiLineChain
     public function run($treeNodeEntity)
     {
         $childChildItem = $treeNodeEntity->getChildNodes()
-->get()
+->get(0)
 ->getChildNodes();
     }
 }
