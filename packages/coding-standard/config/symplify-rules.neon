@@ -8,6 +8,7 @@ includes:
     - symplify-rules/regex-rules.neon
     - symplify-rules/symfony-rules.neon
     - symplify-rules/test-rules.neon
+    - symplify-rules/services-rules.neon
 
 parameters:
     symplify:
@@ -177,10 +178,6 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxVariableLength: 40
-
-    -
-        class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule
-        tags: [phpstan.rules.rule]
 
     -
         class: Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule
