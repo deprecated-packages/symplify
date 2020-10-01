@@ -31,6 +31,11 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
      */
     private $blockFinder;
 
+    /**
+     * @var int
+     */
+    private $bracketNesting = 0;
+
     public function __construct(WhitespacesFixerConfig $whitespacesFixerConfig, BlockFinder $blockFinder)
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
@@ -110,6 +115,8 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
      */
     private function isPartOfMethodCallOrArray(Tokens $tokens, int $position): bool
     {
+        $this->bracketNesting = 0;
+
         for ($i = $position; $i >= 0; --$i) {
             /** @var Token $currentToken */
             $currentToken = $tokens[$i];
@@ -119,16 +126,11 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
                 return false;
             }
 
-            if ($currentToken->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_OPEN, T_ARRAY])) {
+            if ($this->isBreakingChar($currentToken)) {
                 return true;
             }
 
-            if ($currentToken->getContent() === '(' || $currentToken->getContent() === '.') {
-                if ($position === $i + 1) {
-                    // skip ()
-                    continue;
-                }
-
+            if ($this->shouldBreakOnBracket($currentToken)) {
                 return true;
             }
         }
@@ -224,5 +226,32 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
 
         // all good, there is a newline
         return ! $tokens->isPartialCodeMultiline($position, $objectOperatorIndex);
+    }
+
+    private function isBreakingChar(Token $currentToken): bool
+    {
+        if ($currentToken->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_OPEN, T_ARRAY, T_DOUBLE_COLON])) {
+            return true;
+        }
+        return $currentToken->getContent() === '.';
+    }
+
+    private function shouldBreakOnBracket(Token $token): bool
+    {
+        if ($token->getContent() === ')') {
+            --$this->bracketNesting;
+            return false;
+        }
+
+        if ($token->getContent() === '(') {
+            if ($this->bracketNesting !== 0) {
+                ++$this->bracketNesting;
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

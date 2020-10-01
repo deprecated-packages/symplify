@@ -82,6 +82,12 @@ final class VersionUtils
 
     private function getNextMinorNumber(Version $version): int
     {
-        return $version->hasPreReleaseSuffix() ? (int) $version->getMinor()->getValue() : $version->getMinor()->getValue() + 1;
+        if ($version->hasPreReleaseSuffix()) {
+            return (int) $version->getMinor()
+                ->getValue();
+        }
+
+        return $version->getMinor()
+            ->getValue() + 1;
     }
 }
