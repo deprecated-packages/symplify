@@ -34,6 +34,9 @@ final class NoMissingDirPathRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoMissingDirPathRule();
+        return $this->getRuleFromConfig(
+            NoMissingDirPathRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

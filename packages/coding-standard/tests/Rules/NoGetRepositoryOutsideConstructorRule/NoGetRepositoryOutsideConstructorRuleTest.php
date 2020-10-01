@@ -32,6 +32,9 @@ final class NoGetRepositoryOutsideConstructorRuleTest extends AbstractServiceAwa
 
     protected function getRule(): Rule
     {
-        return new NoGetRepositoryOutsideConstructorRule();
+        return $this->getRuleFromConfig(
+            NoGetRepositoryOutsideConstructorRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

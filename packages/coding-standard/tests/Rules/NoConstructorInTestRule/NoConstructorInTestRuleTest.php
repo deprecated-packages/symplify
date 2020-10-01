@@ -28,6 +28,9 @@ final class NoConstructorInTestRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoConstructorInTestRule();
+        return $this->getRuleFromConfig(
+            NoConstructorInTestRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

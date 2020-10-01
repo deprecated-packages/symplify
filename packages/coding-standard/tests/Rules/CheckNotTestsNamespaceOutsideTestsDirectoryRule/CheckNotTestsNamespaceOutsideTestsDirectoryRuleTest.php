@@ -26,6 +26,9 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest extends Abstract
 
     protected function getRule(): Rule
     {
-        return new CheckNotTestsNamespaceOutsideTestsDirectoryRule();
+        return $this->getRuleFromConfig(
+            CheckNotTestsNamespaceOutsideTestsDirectoryRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

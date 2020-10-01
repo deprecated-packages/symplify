@@ -436,3 +436,13 @@ parameters:
             message: '#Do not use static property#'
             paths:
                 - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
+
+        -
+            message: '#"Tests" namespace \(Symplify\\PackageBuilder\\Tests\) used outside of "tests" directory \(/var/www/symplify/packages/package\-builder/src/Tests/AbstractKernelTestCase\.php\)#'
+            paths:
+                - packages/package-builder/src/Tests/AbstractKernelTestCase.php
+
+        -
+            message: '#Use "Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\)" static call over "file_get_contents\(\)" func call#'
+            paths:
+                - packages/smart-file-system/src/SmartFileSystem.php

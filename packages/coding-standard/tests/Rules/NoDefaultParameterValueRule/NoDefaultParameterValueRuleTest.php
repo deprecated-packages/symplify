@@ -27,6 +27,9 @@ final class NoDefaultParameterValueRuleTest extends AbstractServiceAwareRuleTest
 
     protected function getRule(): Rule
     {
-        return new NoDefaultParameterValueRule();
+        return $this->getRuleFromConfig(
+            NoDefaultParameterValueRule::class,
+            __DIR__ . '/../../../config/symplify-strict-rules.neon'
+        );
     }
 }

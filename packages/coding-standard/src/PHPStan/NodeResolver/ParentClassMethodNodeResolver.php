@@ -41,8 +41,11 @@ final class ParentClassMethodNodeResolver
      */
     public function resolveParentClassMethodNodes(Scope $scope, string $methodName): array
     {
-        /** @var ClassReflection $classReflection */
+        /** @var ClassReflection|null $classReflection */
         $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return [];
+        }
 
         $parentClassReflection = $classReflection->getParentClass();
         if ($parentClassReflection === false) {

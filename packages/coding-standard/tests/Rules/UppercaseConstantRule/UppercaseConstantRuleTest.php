@@ -27,6 +27,9 @@ final class UppercaseConstantRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new UppercaseConstantRule();
+        return $this->getRuleFromConfig(
+            UppercaseConstantRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

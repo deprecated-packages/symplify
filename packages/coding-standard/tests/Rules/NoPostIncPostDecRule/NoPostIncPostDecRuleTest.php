@@ -27,6 +27,9 @@ final class NoPostIncPostDecRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoPostIncPostDecRule();
+        return $this->getRuleFromConfig(
+            NoPostIncPostDecRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

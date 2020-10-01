@@ -28,6 +28,9 @@ final class NoDefaultExceptionRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoDefaultExceptionRule();
+        return $this->getRuleFromConfig(
+            NoDefaultExceptionRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

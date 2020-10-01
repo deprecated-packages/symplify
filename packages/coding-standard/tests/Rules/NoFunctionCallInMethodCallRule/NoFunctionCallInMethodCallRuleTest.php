@@ -30,6 +30,9 @@ final class NoFunctionCallInMethodCallRuleTest extends AbstractServiceAwareRuleT
 
     protected function getRule(): Rule
     {
-        return new NoFunctionCallInMethodCallRule();
+        return $this->getRuleFromConfig(
+            NoFunctionCallInMethodCallRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

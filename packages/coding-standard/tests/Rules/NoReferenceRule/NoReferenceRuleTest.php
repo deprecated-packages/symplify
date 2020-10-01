@@ -6,7 +6,6 @@ namespace Symplify\CodingStandard\Tests\Rules\NoReferenceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 use Symplify\CodingStandard\Rules\NoReferenceRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
@@ -34,6 +33,6 @@ final class NoReferenceRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoReferenceRule(new ParentMethodAnalyser());
+        return $this->getRuleFromConfig(NoReferenceRule::class, __DIR__ . '/../../../config/symplify-rules.neon');
     }
 }

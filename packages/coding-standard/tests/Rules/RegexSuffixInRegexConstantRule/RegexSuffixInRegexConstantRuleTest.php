@@ -28,6 +28,9 @@ final class RegexSuffixInRegexConstantRuleTest extends AbstractServiceAwareRuleT
 
     protected function getRule(): Rule
     {
-        return new RegexSuffixInRegexConstantRule();
+        return $this->getRuleFromConfig(
+            RegexSuffixInRegexConstantRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }
