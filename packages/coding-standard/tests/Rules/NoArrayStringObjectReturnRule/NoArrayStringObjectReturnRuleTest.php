@@ -41,6 +41,9 @@ final class NoArrayStringObjectReturnRuleTest extends AbstractServiceAwareRuleTe
 
     protected function getRule(): Rule
     {
-        return new NoArrayStringObjectReturnRule();
+        return $this->getRuleFromConfig(
+            NoArrayStringObjectReturnRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

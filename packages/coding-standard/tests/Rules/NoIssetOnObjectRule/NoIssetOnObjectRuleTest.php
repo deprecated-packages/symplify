@@ -29,6 +29,9 @@ final class NoIssetOnObjectRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoIssetOnObjectRule();
+        return $this->getRuleFromConfig(
+            NoIssetOnObjectRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

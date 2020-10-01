@@ -40,6 +40,9 @@ final class ClassNameRespectsParentSuffixRuleTest extends AbstractServiceAwareRu
 
     protected function getRule(): Rule
     {
-        return new ClassNameRespectsParentSuffixRule();
+        return $this->getRuleFromConfig(
+            ClassNameRespectsParentSuffixRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

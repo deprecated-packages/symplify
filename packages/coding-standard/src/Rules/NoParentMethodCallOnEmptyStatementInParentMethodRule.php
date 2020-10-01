@@ -55,11 +55,6 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule implements Rule
             return [];
         }
 
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
-            return [];
-        }
-
         $methodName = $this->nodeNameResolver->getName($node->name);
         if ($methodName === null) {
             return [];

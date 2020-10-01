@@ -29,6 +29,9 @@ final class MatchingTypeConstantRuleTest extends AbstractServiceAwareRuleTestCas
 
     protected function getRule(): Rule
     {
-        return new MatchingTypeConstantRule();
+        return $this->getRuleFromConfig(
+            MatchingTypeConstantRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

@@ -34,6 +34,9 @@ final class AnnotateRegexClassConstWithRegexLinkRuleTest extends AbstractService
 
     protected function getRule(): Rule
     {
-        return new AnnotateRegexClassConstWithRegexLinkRule();
+        return $this->getRuleFromConfig(
+            AnnotateRegexClassConstWithRegexLinkRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

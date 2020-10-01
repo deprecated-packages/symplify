@@ -31,6 +31,9 @@ final class NoArrayAccessOnObjectRuleTest extends AbstractServiceAwareRuleTestCa
 
     protected function getRule(): Rule
     {
-        return new NoArrayAccessOnObjectRule();
+        return $this->getRuleFromConfig(
+            NoArrayAccessOnObjectRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

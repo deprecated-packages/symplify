@@ -35,6 +35,9 @@ final class ForbiddenArrayWithStringKeysRuleTest extends AbstractServiceAwareRul
 
     protected function getRule(): Rule
     {
-        return new ForbiddenArrayWithStringKeysRule();
+        return $this->getRuleFromConfig(
+            ForbiddenArrayWithStringKeysRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

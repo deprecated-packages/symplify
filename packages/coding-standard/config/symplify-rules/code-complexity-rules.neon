@@ -1,0 +1,12 @@
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoPostIncPostDecRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoFunctionCallInMethodCallRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule
+        tags: [phpstan.rules.rule]

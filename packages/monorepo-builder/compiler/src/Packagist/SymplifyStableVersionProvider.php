@@ -7,6 +7,7 @@ namespace Symplify\MonorepoBuilder\Compiler\Packagist;
 use Nette\Utils\Json;
 use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Compiler\Exception\ShouldNotHappenException;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class SymplifyStableVersionProvider
 {
@@ -15,14 +16,27 @@ final class SymplifyStableVersionProvider
      */
     private $symplifyVersionToRequire;
 
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
+    public function __construct(SmartFileSystem $smartFileSystem)
+    {
+        $this->smartFileSystem = $smartFileSystem;
+    }
+
     public function provide(): string
     {
         if ($this->symplifyVersionToRequire !== null) {
             return $this->symplifyVersionToRequire;
         }
 
-        $symplifyPackageContent = file_get_contents('https://repo.packagist.org/p/symplify/symplify.json');
-        if (! $symplifyPackageContent) {
+        $symplifyPackageContent = $this->smartFileSystem->readFile(
+            'https://repo.packagist.org/p/symplify/symplify.json'
+        );
+
+        if ($symplifyPackageContent === '') {
             throw new ShouldNotHappenException();
         }
 

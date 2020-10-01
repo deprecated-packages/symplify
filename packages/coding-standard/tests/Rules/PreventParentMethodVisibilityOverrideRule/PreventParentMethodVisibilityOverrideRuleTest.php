@@ -27,6 +27,9 @@ final class PreventParentMethodVisibilityOverrideRuleTest extends AbstractServic
 
     protected function getRule(): Rule
     {
-        return new PreventParentMethodVisibilityOverrideRule();
+        return $this->getRuleFromConfig(
+            PreventParentMethodVisibilityOverrideRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

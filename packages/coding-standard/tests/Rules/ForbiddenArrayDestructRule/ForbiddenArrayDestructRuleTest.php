@@ -6,7 +6,6 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenArrayDestructRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 use Symplify\CodingStandard\Rules\ForbiddenArrayDestructRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
@@ -31,6 +30,9 @@ final class ForbiddenArrayDestructRuleTest extends AbstractServiceAwareRuleTestC
 
     protected function getRule(): Rule
     {
-        return new ForbiddenArrayDestructRule(new NodeNameResolver());
+        return $this->getRuleFromConfig(
+            ForbiddenArrayDestructRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

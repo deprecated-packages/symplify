@@ -30,6 +30,9 @@ final class SuffixInterfaceRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new SuffixInterfaceRule();
+        return $this->getRuleFromConfig(
+            SuffixInterfaceRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

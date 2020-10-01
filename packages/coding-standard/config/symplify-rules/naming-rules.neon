@@ -10,3 +10,7 @@ services:
     -
         class: Symplify\CodingStandard\Rules\PrefixAbstractClassRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\UppercaseConstantRule
+        tags: [phpstan.rules.rule]

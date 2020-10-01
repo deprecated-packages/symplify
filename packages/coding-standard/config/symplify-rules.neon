@@ -1,10 +1,13 @@
 includes:
     - ../packages/cognitive-complexity/config/cognitive-complexity-rules.neon
     - symplify-rules/array-rules.neon
-    - symplify-rules/symfony-rules.neon
+    - symplify-rules/code-complexity-rules.neon
     - symplify-rules/static-rules.neon
+    - symplify-rules/doctrine-rules.neon
     - symplify-rules/naming-rules.neon
     - symplify-rules/regex-rules.neon
+    - symplify-rules/symfony-rules.neon
+    - symplify-rules/test-rules.neon
 
 parameters:
     symplify:
@@ -14,6 +17,10 @@ parameters:
 services:
     -
         class: Symplify\CodingStandard\Rules\NoFactoryInConstructorRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\PreventParentMethodVisibilityOverrideRule
         tags: [phpstan.rules.rule]
 
     # paths
@@ -35,26 +42,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoPostIncPostDecRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\CodingStandard\Rules\NoAbstractMethodRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\UppercaseConstantRule
-        tags: [phpstan.rules.rule]
-
-
-
-    # doctrine-related
-    -
-        class: Symplify\CodingStandard\Rules\NoEntityManagerInControllerRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\NoGetRepositoryOutsideConstructorRule
         tags: [phpstan.rules.rule]
 
     # parenting
@@ -114,10 +102,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\MatchingTypeConstantRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule
         tags: [phpstan.rules.rule]
 
@@ -147,14 +131,7 @@ services:
         class: Symplify\CodingStandard\Rules\NoEmptyRule
         tags: [phpstan.rules.rule]
 
-    -
-        class: Symplify\CodingStandard\Rules\NoFunctionCallInMethodCallRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule
-        tags: [phpstan.rules.rule]
-
+    # explicit naming
     -
         class: Symplify\CodingStandard\Rules\NoDefaultExceptionRule
         tags: [phpstan.rules.rule]
@@ -168,15 +145,6 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             stringArgByMethodByType: []
-
-    -
-        class: Symplify\CodingStandard\Rules\NoStaticCallRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedStaticCallClasses:
-                - 'Symplify\PackageBuilder\Console\Command\CommandNaming'
-                - 'PHPStan\Reflection\ParametersAcceptorSelector'
-                - 'Symplify\PackageBuilder\Configuration\StaticEolConfiguration'
 
     -
         class: Symplify\CodingStandard\Rules\ExcessiveParameterListRule
@@ -194,6 +162,8 @@ services:
                 'preg_replace': ['Nette\Utils\Strings', 'replace']
                 'preg_replace_callback': ['Nette\Utils\Strings', 'replace']
                 'preg_split': ['Nette\Utils\Strings', 'split']
+                'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
+                'file_put_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'dumpFile']
 
     -
         class: Symplify\CodingStandard\Rules\ExcessivePublicCountRule
@@ -206,14 +176,6 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxVariableLength: 40
-
-    -
-        class: Symplify\CodingStandard\Rules\RequireDataProviderTestMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            classesRequiringDataProvider:
-                - '*RuleTest'
-                - Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase
 
     -
         class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule

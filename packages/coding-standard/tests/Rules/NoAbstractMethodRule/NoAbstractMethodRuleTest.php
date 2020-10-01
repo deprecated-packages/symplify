@@ -27,6 +27,9 @@ final class NoAbstractMethodRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoAbstractMethodRule();
+        return $this->getRuleFromConfig(
+            NoAbstractMethodRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

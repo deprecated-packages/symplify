@@ -35,6 +35,9 @@ final class NoInlineStringRegexRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoInlineStringRegexRule();
+        return $this->getRuleFromConfig(
+            NoInlineStringRegexRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

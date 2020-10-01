@@ -31,6 +31,9 @@ final class NoMultiArrayAssignRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoMultiArrayAssignRule();
+        return $this->getRuleFromConfig(
+            NoMultiArrayAssignRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

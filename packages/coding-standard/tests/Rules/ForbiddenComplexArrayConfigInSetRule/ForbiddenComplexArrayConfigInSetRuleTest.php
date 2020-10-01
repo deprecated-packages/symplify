@@ -28,6 +28,9 @@ final class ForbiddenComplexArrayConfigInSetRuleTest extends AbstractServiceAwar
 
     protected function getRule(): Rule
     {
-        return new ForbiddenComplexArrayConfigInSetRule();
+        return $this->getRuleFromConfig(
+            ForbiddenComplexArrayConfigInSetRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

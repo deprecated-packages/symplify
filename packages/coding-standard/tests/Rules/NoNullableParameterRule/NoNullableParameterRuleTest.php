@@ -27,6 +27,9 @@ final class NoNullableParameterRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoNullableParameterRule();
+        return $this->getRuleFromConfig(
+            NoNullableParameterRule::class,
+            __DIR__ . '/../../../config/symplify-strict-rules.neon'
+        );
     }
 }
