@@ -6,11 +6,11 @@ namespace Symplify\CodingStandard\Tests\Rules\NoStaticCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoStaticCallRule;
 use Symplify\CodingStandard\Tests\Rules\NoStaticCallRule\Source\AllowedStaticMethods;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoStaticCallRuleTest extends RuleTestCase
+final class NoStaticCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

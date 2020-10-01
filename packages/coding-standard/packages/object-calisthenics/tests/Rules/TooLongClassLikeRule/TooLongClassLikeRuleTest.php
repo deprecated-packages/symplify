@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooLongClassLik
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassLikeRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class TooLongClassLikeRuleTest extends RuleTestCase
+final class TooLongClassLikeRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

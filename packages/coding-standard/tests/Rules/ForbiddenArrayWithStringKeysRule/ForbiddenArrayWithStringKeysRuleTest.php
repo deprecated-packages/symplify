@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenArrayWithStringKeysRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\ForbiddenArrayWithStringKeysRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ForbiddenArrayWithStringKeysRuleTest extends RuleTestCase
+final class ForbiddenArrayWithStringKeysRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

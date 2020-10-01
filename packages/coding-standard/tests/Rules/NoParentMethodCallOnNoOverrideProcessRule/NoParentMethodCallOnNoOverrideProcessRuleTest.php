@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnNoOverrideProc
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoParentMethodCallOnNoOverrideProcessRuleTest extends RuleTestCase
+final class NoParentMethodCallOnNoOverrideProcessRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -33,6 +33,9 @@ final class NoParentMethodCallOnNoOverrideProcessRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoParentMethodCallOnNoOverrideProcessRule();
+        return $this->getRuleFromConfig(
+            NoParentMethodCallOnNoOverrideProcessRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

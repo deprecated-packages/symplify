@@ -6,12 +6,12 @@ namespace Symplify\CodingStandard\Tests\Rules\NoDuplicatedShortClassNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule;
 use Symplify\CodingStandard\Tests\Rules\NoDuplicatedShortClassNameRule\Fixture\AlreadyExistingShortName as SecondAlreadyExistingShortName;
 use Symplify\CodingStandard\Tests\Rules\NoDuplicatedShortClassNameRule\Source\AlreadyExistingShortName;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoDuplicatedShortClassNameRuleTest extends RuleTestCase
+final class NoDuplicatedShortClassNameRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -32,11 +32,15 @@ final class NoDuplicatedShortClassNameRuleTest extends RuleTestCase
             'AlreadyExistingShortName',
             implode('", "', [SecondAlreadyExistingShortName::class, AlreadyExistingShortName::class])
         );
+
         yield [__DIR__ . '/Fixture/AlreadyExistingShortName.php', [[$errorMessage, 7]]];
     }
 
     protected function getRule(): Rule
     {
-        return new NoDuplicatedShortClassNameRule();
+        return $this->getRuleFromConfig(
+            NoDuplicatedShortClassNameRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

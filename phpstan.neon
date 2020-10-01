@@ -1,6 +1,7 @@
 includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - packages/phpstan-extensions/config/config.neon
+    - packages/coding-standard/config/symplify-rules.neon
 
 services:
     -
@@ -213,7 +214,7 @@ parameters:
 
                 # Symfony API
                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
-
+                - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
 
         - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
         # symfony console
@@ -313,8 +314,8 @@ parameters:
                 - packages/coding-standard/src/Rules/ForbiddenArrayWithStringKeysRule.php # 33
                 - packages/coding-standard/src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php # 40
                 - packages/coding-standard/src/Rules/NoEntityManagerInControllerRule.php # 28
-                - packages/coding-standard/src/Rules/NoReturnArrayVariableList.php # 33
-                - packages/coding-standard/src/Rules/NoReturnArrayVariableList.php # 38
+                - packages/coding-standard/src/Rules/NoReturnArrayVariableListRule.php # 33
+                - packages/coding-standard/src/Rules/NoReturnArrayVariableListRule.php # 38
                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/DuplicatedArrayMalformWorker.php # 16
                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/DuplicatedArrayMalformWorker.php # 21
                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/InlineVarMalformWorker.php # 16
@@ -366,3 +367,72 @@ parameters:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
                 - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 27
                 - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 32
+
+        # todo resolve later
+        -
+            message: '#Do not use trait#'
+            paths:
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
+                - packages/package-builder/src/Console/HelpfulApplicationTrait.php # 17
+
+        -
+            message: '#Do not use setter on a service#'
+            paths:
+                - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 126
+                - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 146
+                - packages/easy-coding-standard/packages/snippet-formatter/src/Provider/CurrentParentFileInfoProvider.php # 16
+                - packages/package-builder/tests/HttpKernel/PackageBuilderTestKernel.php # 31
+
+        -
+            message: '#Do not call parent method if parent method is empty#'
+            paths:
+                - packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNewlineInNestedAnnotationFixer.php # 36
+                - packages/coding-standard/src/TokenRunner/Exception/TokenNotFoundException.php # 15
+                - packages/easy-coding-standard/packages/snippet-formatter/src/Command/CheckHeredocNowdocCommand.php # 19
+                - packages/easy-coding-standard/packages/snippet-formatter/src/Command/CheckMarkdownCommand.php # 19
+                - packages/easy-coding-standard/src/Yaml/FileLoader/CheckerTolerantYamlFileLoader.php # 33
+                - packages/package-builder/src/DependencyInjection/FileLoader/ParameterMergingPhpFileLoader.php # 28
+                - packages/package-builder/src/Yaml/FileLoader/AbstractParameterMergingYamlFileLoader.php # 41
+                - packages/set-config-resolver/src/Exception/SetNotFoundException.php # 29
+                - packages/smart-file-system/src/SmartFileInfo.php # 122
+                - packages/symfony-static-dumper/tests/Routing/RoutesProviderTest.php # 21
+
+        -
+            message: '#Do not use factory in constructor#'
+            paths:
+                - packages/changelog-linker/src/ChangeTree/ChangeFactory.php # 45
+                - packages/changelog-linker/src/ChangeTree/Resolver/PackageResolver.php # 35
+                - packages/changelog-linker/src/Github/GithubApi.php # 62
+                - packages/changelog-linker/src/Worker/DiffLinksToVersionsWorker.php # 36
+                - packages/changelog-linker/src/Worker/LinkifyWorker.php # 35
+                - packages/changelog-linker/src/Worker/LinksToReferencesWorker.php # 26
+                - packages/coding-standard/packages/object-calisthenics/src/Rules/SingleIndentationInMethodRule.php # 48
+                - packages/composer-json-manipulator/src/FileSystem/JsonFileManager.php # 36
+                - packages/easy-coding-standard/compiler/src/Command/CompileCommand.php # 58
+                - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 63
+                - packages/easy-coding-standard/src/Bootstrap/YamlConfigReporter.php # 18
+                - packages/easy-coding-standard/src/Console/EasyCodingStandardConsoleApplication.php # 31
+                - packages/easy-coding-standard/src/Console/Output/OutputFormatterCollector.php # 20
+                - packages/easy-coding-standard/src/Finder/SourceFinder.php # 28
+                - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 32
+                - packages/easy-coding-standard/src/Skipper.php # 51
+                - packages/easy-coding-standard/src/Yaml/CheckerServiceParametersShifter.php # 64
+                - packages/monorepo-builder/compiler/src/Command/CompileCommand.php # 51
+                - packages/monorepo-builder/packages/merge/src/ComposerJsonDecorator/SortComposerJsonDecorator.php # 22
+                - packages/monorepo-builder/packages/merge/src/Configuration/ModifyingComposerJsonProvider.php # 24
+                - packages/monorepo-builder/packages/release/src/Guard/ReleaseGuard.php # 46
+                - packages/monorepo-builder/packages/split/src/Command/SplitCommand.php # 47
+                - packages/monorepo-builder/packages/split/src/Git/GitManager.php # 39
+                - packages/monorepo-builder/packages/split/src/Process/ProcessFactory.php # 44
+                - packages/monorepo-builder/src/Finder/PackageComposerFinder.php # 33
+                - packages/monorepo-builder/src/Utils/VersionUtils.php # 21
+                - packages/monorepo-builder/src/Validator/SourcesPresenceValidator.php # 24
+                - packages/package-builder/src/Parameter/ParameterProvider.php # 24
+                - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 19
+                - packages/smart-file-system/src/SmartFileInfo.php # 27
+                - packages/symfony-static-dumper/src/Command/DumpStaticSiteCommand.php # 38
+
+        -
+            message: '#Do not use static property#'
+            paths:
+                - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php

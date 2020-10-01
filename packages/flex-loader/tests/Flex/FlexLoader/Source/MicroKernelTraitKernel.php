@@ -11,11 +11,9 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symplify\FlexLoader\Flex\FlexLoader;
-use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 
 final class MicroKernelTraitKernel extends Kernel
 {
-    use SimpleKernelTrait; // so temp dirs are in /tmp, not here
     use MicroKernelTrait;
 
     /**
@@ -59,5 +57,15 @@ final class MicroKernelTraitKernel extends Kernel
             $loader,
             [__DIR__ . '/extra-dir/*', __DIR__ . '/extra-non-existing-dir/*']
         );
+    }
+
+    public function getCacheDir(): string
+    {
+        return sys_get_temp_dir() . '/_micro_kernel_trait_kernel';
+    }
+
+    public function getLogDir(): string
+    {
+        return sys_get_temp_dir() . '/_micro_kernel_trait_kernel_log';
     }
 }

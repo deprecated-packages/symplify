@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoMissingDirPathRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoMissingDirPathRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoMissingDirPathRuleTest extends RuleTestCase
+final class NoMissingDirPathRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

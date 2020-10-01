@@ -37,6 +37,7 @@ final class ClassNameRespectsParentSuffixRule implements Rule
         'Sniff',
         'FixerInterface',
         'Handler',
+        'Rule',
     ];
 
     /**

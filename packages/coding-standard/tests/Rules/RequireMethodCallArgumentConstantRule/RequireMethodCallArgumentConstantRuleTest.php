@@ -6,12 +6,12 @@ namespace Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ParametersConfigurator;
 use Symplify\CodingStandard\Rules\RequireMethodCallArgumentConstantRule;
 use Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstant;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class RequireMethodCallArgumentConstantRuleTest extends RuleTestCase
+final class RequireMethodCallArgumentConstantRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

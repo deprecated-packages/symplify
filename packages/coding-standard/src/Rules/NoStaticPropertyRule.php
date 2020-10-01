@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Expr\StaticPropertyFetch;
 use PHPStan\Analyser\Scope;
+use PHPStan\DependencyInjection\Container;
+use Psr\Container\ContainerInterface;
+use Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoStaticPropertyRule\NoStaticPropertyRuleTest
@@ -19,20 +22,35 @@ final class NoStaticPropertyRule extends AbstractManyNodeTypeRule
     public const ERROR_MESSAGE = 'Do not use static property';
 
     /**
+     * @var string[]
+     */
+    private const CONTAINER_TYPES = [ContainerInterface::class, Container::class];
+
+    /**
+     * @var ContainsTypeAnalyser
+     */
+    private $containsTypeAnalyser;
+
+    public function __construct(ContainsTypeAnalyser $containsTypeAnalyser)
+    {
+        $this->containsTypeAnalyser = $containsTypeAnalyser;
+    }
+
+    /**
      * @return string[]
      */
     public function getNodeTypes(): array
     {
-        return [Property::class];
+        return [StaticPropertyFetch::class];
     }
 
     /**
-     * @param Property $node
+     * @param StaticPropertyFetch $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->isStatic()) {
+        if ($this->containsTypeAnalyser->containsExprTypes($node, $scope, self::CONTAINER_TYPES)) {
             return [];
         }
 

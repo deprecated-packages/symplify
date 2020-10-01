@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\AnnotateRegexClassConstWithRegexLi
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\AnnotateRegexClassConstWithRegexLinkRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class AnnotateRegexClassConstWithRegexLinkRuleTest extends RuleTestCase
+final class AnnotateRegexClassConstWithRegexLinkRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

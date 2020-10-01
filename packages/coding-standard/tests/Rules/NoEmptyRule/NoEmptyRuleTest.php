@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoEmptyRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoEmptyRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoEmptyRuleTest extends RuleTestCase
+final class NoEmptyRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -26,6 +26,6 @@ final class NoEmptyRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoEmptyRule();
+        return $this->getRuleFromConfig(NoEmptyRule::class, __DIR__ . '/../../../config/symplify-rules.neon');
     }
 }

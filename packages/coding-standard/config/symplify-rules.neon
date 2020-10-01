@@ -1,5 +1,10 @@
 includes:
     - ../packages/cognitive-complexity/config/cognitive-complexity-rules.neon
+    - symplify-rules/array-rules.neon
+    - symplify-rules/symfony-rules.neon
+    - symplify-rules/static-rules.neon
+    - symplify-rules/naming-rules.neon
+    - symplify-rules/regex-rules.neon
 
 parameters:
     symplify:
@@ -7,17 +12,8 @@ parameters:
         max_class_cognitive_complexity: 50
 
 services:
-    # naming
     -
-        class: Symplify\CodingStandard\Rules\SuffixInterfaceRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\SuffixTraitRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\PrefixAbstractClassRule
+        class: Symplify\CodingStandard\Rules\NoFactoryInConstructorRule
         tags: [phpstan.rules.rule]
 
     # paths
@@ -30,35 +26,12 @@ services:
         class: Symplify\CodingStandard\Rules\NoNewOutsideFactoryRule
         tags: [phpstan.rules.rule]
 
-    # symfony
-    -
-        class: Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequired
-        tags: [phpstan.rules.rule]
-
-    # static
-    -
-        class: Symplify\CodingStandard\Rules\NoStaticPropertyRule
-        tags: [phpstan.rules.rule]
-
     -
         class: Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule
         tags: [phpstan.rules.rule]
 
     -
         class: Symplify\CodingStandard\Rules\NoScalarAndArrayConstructorParameterRule
-        tags: [phpstan.rules.rule]
-
-    # regex
-    -
-        class: Symplify\CodingStandard\Rules\AnnotateRegexClassConstWithRegexLinkRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\NoInlineStringRegexRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\RegexSuffixInRegexConstantRule
         tags: [phpstan.rules.rule]
 
     -
@@ -73,30 +46,7 @@ services:
         class: Symplify\CodingStandard\Rules\UppercaseConstantRule
         tags: [phpstan.rules.rule]
 
-    # arrays
-    -
-        class: Symplify\CodingStandard\Rules\NoArrayStringObjectReturnRule
-        tags: [phpstan.rules.rule]
 
-    -
-        class: Symplify\CodingStandard\Rules\NoMultiArrayAssignRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\NoReturnArrayVariableList
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\ForbiddenArrayDestructRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\ForbiddenArrayWithStringKeysRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\ForbiddenComplexArrayConfigInSetRule
-        tags: [phpstan.rules.rule]
 
     # doctrine-related
     -
@@ -114,6 +64,9 @@ services:
         arguments:
             forbiddenParentClasses:
                 - Doctrine\ORM\EntityRepository
+
+            forbiddenParentClassesWithPreferences:
+                PHPStan\Testing\RuleTestCase: 'Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase'
 
     -
         class: Symplify\CodingStandard\Rules\PreferredClassRule
@@ -176,6 +129,11 @@ services:
                 - PHPStan\Rules\Rule
                 - PHP_CodeSniffer\Sniffs\Sniff
                 - PHP_CodeSniffer\Fixer
+
+    # dead-code
+    -
+        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
+        tags: [phpstan.rules.rule]
 
     -
         class: Symplify\CodingStandard\Rules\NoDynamicMethodNameRule
@@ -257,6 +215,25 @@ services:
                 - '*RuleTest'
                 - Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase
 
+    -
+        class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule
+        tags: [phpstan.rules.rule]
+
+#    -
+#        class: 'PhpParser\ParserFactory'
+#    -
+#        class: PhpParser\Parser
+#        factory: ['@PhpParser\ParserFactory', 'create']
+
+# broken now
+#    -
+#        class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
+#        tags: [phpstan.rules.rule]
+
     # services
     - Symplify\CodingStandard\PhpParser\NodeNameResolver
     - Symplify\CodingStandard\PHPStan\ParentMethodAnalyser
@@ -264,11 +241,7 @@ services:
     - Symplify\CodingStandard\PHPStan\VariableAsParamAnalyser
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
-
-    -
-        class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
-        tags: [phpstan.rules.rule]
+    - PhpParser\NodeFinder
+    - Symplify\SmartFileSystem\SmartFileSystem
+    - Symplify\CodingStandard\PHPStan\NodeResolver\ParentClassMethodNodeResolver
+    - Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser

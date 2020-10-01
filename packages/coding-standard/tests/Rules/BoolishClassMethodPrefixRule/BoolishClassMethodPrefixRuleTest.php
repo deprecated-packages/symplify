@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\BoolishClassMethodPrefixRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class BoolishClassMethodPrefixRuleTest extends RuleTestCase
+final class BoolishClassMethodPrefixRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -37,6 +37,9 @@ final class BoolishClassMethodPrefixRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new BoolishClassMethodPrefixRule();
+        return $this->getRuleFromConfig(
+            BoolishClassMethodPrefixRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

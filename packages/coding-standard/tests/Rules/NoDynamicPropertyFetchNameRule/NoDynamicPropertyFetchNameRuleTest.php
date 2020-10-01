@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoDynamicPropertyFetchNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoDynamicPropertyFetchNameRuleTest extends RuleTestCase
+final class NoDynamicPropertyFetchNameRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -29,6 +29,9 @@ final class NoDynamicPropertyFetchNameRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoDynamicPropertyFetchNameRule();
+        return $this->getRuleFromConfig(
+            NoDynamicPropertyFetchNameRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

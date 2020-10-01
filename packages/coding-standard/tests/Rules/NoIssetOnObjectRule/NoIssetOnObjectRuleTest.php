@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoIssetOnObjectRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoIssetOnObjectRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoIssetOnObjectRuleTest extends RuleTestCase
+final class NoIssetOnObjectRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

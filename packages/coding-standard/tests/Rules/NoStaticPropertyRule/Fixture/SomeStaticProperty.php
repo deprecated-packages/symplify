@@ -8,4 +8,14 @@ final class SomeStaticProperty
 {
     protected static $customFileNames = [];
     protected static $customFileNames2 = [];
+
+    public function run()
+    {
+        return self::$customFileNames;
+    }
+
+    public function again()
+    {
+        return self::$customFileNames2;
+    }
 }

@@ -25,4 +25,20 @@ final class NodeNameResolver
 
         return false;
     }
+
+    /**
+     * @param string|Node $node
+     */
+    public function getName($node): ?string
+    {
+        if (is_string($node)) {
+            return $node;
+        }
+
+        if ($node instanceof Name || $node instanceof Identifier) {
+            return (string) $node;
+        }
+
+        return null;
+    }
 }

@@ -8,14 +8,14 @@ use DateTime as NativeDateTime;
 use Iterator;
 use Nette\Utils\DateTime;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use SplFileInfo;
 use Symplify\CodingStandard\Rules\PreferredClassRule;
 use Symplify\CodingStandard\Tests\Rules\PreferredClassRule\Fixture\SkipPrefferedExtendingTheOldOne;
 use Symplify\CodingStandard\Tests\Rules\PreferredClassRule\Source\AbstractNotWhatYouWant;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class PreferredClassRuleTest extends RuleTestCase
+final class PreferredClassRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

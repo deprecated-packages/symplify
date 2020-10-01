@@ -536,13 +536,13 @@ final class SomeClass
 
 ## No Trait Except Its methods public and Required via @required Docblock
 
-- class: [`NoTraitExceptItsMethodsPublicAndRequired`](../src/Rules/NoTraitExceptItsMethodsPublicAndRequired.php)
+- class: [`NoTraitExceptItsMethodsPublicAndRequiredRule`](../src/Rules/NoTraitExceptItsMethodsPublicAndRequiredRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequired
+        class: Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule
 ```
 
 ```php
@@ -813,13 +813,13 @@ class SomeClass
 
 ## No Parent Method Call on Empty Statement in Parent Method
 
-- class: [`NoParentMethodCallOnEmptyStatementInParentMethod`](../src/Rules/NoParentMethodCallOnEmptyStatementInParentMethod.php)
+- class: [`NoParentMethodCallOnEmptyStatementInParentMethodRule`](../src/Rules/NoParentMethodCallOnEmptyStatementInParentMethodRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnEmptyStatementInParentMethod
+        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1490,13 +1490,13 @@ class TestsNamespaceInsideTestsDirectoryClass
 
 ## Check Required `abstract` Keyword for Class Name Start with Abstract
 
-- class: [`CheckRequiredAbstractKeywordForClassNameStartWithAbstract`](../src/Rules/CheckRequiredAbstractKeywordForClassNameStartWithAbstract.php)
+- class: [`CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule`](../src/Rules/CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstract
+        class: Symplify\CodingStandard\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1520,13 +1520,13 @@ class AbstractFoo
 
 ## Check Method with @required need to be named autowire+class name
 
-- class: [`CheckRequiredMethodTobeAutowireWithClassName`](../src/Rules/CheckRequiredMethodTobeAutowireWithClassName.php)
+- class: [`CheckRequiredMethodTobeAutowireWithClassNameRule`](../src/Rules/CheckRequiredMethodTobeAutowireWithClassNameRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckRequiredMethodTobeAutowireWithClassName
+        class: Symplify\CodingStandard\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule
         tags: [phpstan.rules.rule]
 ```
 

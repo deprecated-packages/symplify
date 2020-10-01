@@ -6,11 +6,11 @@ namespace Symplify\CodingStandard\Tests\Rules\NoReferenceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 use Symplify\CodingStandard\Rules\NoReferenceRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoReferenceRuleTest extends RuleTestCase
+final class NoReferenceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

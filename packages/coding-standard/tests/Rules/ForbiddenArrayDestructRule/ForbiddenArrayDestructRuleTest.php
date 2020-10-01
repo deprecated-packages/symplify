@@ -6,11 +6,11 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenArrayDestructRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 use Symplify\CodingStandard\Rules\ForbiddenArrayDestructRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ForbiddenArrayDestructRuleTest extends RuleTestCase
+final class ForbiddenArrayDestructRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

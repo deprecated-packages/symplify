@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\TooLongVariableRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\TooLongVariableRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class TooLongVariableRuleTest extends RuleTestCase
+final class TooLongVariableRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

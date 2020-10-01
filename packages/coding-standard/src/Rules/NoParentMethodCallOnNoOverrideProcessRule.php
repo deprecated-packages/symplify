@@ -30,9 +30,9 @@ final class NoParentMethodCallOnNoOverrideProcessRule implements Rule
      */
     private $nodeFinder;
 
-    public function __construct()
+    public function __construct(NodeFinder $nodeFinder)
     {
-        $this->nodeFinder = new NodeFinder();
+        $this->nodeFinder = $nodeFinder;
     }
 
     public function getNodeType(): string

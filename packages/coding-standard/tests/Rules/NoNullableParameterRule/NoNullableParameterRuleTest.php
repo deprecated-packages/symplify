@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoNullableParameterRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoNullableParameterRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoNullableParameterRuleTest extends RuleTestCase
+final class NoNullableParameterRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

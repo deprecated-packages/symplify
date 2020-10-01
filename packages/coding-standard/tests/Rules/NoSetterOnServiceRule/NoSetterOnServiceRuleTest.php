@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoSetterOnServiceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoSetterOnServiceRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoSetterOnServiceRuleTest extends RuleTestCase
+final class NoSetterOnServiceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -35,6 +35,9 @@ final class NoSetterOnServiceRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoSetterOnServiceRule();
+        return $this->getRuleFromConfig(
+            NoSetterOnServiceRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

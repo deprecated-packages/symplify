@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\ExcessiveParameterListRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\ExcessiveParameterListRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ExcessiveParameterListRuleTest extends RuleTestCase
+final class ExcessiveParameterListRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

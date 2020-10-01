@@ -45,7 +45,9 @@ final class SomeClass
 - class: [`ForbiddenArrayWithStringKeysRule`](../src/Rules/ForbiddenArrayWithStringKeysRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -62,7 +64,9 @@ final class SomeClass
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -82,7 +86,9 @@ final class SomeClass
 - class: [`ForbiddenArrayDestructRule`](../src/Rules/ForbiddenArrayDestructRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -96,7 +102,9 @@ final class SomeClass
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 final class SomeClass
 {
@@ -115,10 +123,12 @@ final class SomeClass
 
 ## Use Value Object over Return of Values
 
-- class: [`NoReturnArrayVariableList`](../src/Rules/NoReturnArrayVariableList.php)
+- class: [`NoReturnArrayVariableListRule`](../src/Rules/NoReturnArrayVariableListRule.php)
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 final class ReturnVariables
 {
@@ -135,7 +145,9 @@ final class ReturnVariables
 :x:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 final class ReturnVariables
 {

@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoClassWithStaticMethodWithoutStat
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Testing\RuleTestCase;
 use Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class NoClassWithStaticMethodWithoutStaticNameRuleTest extends RuleTestCase
+final class NoClassWithStaticMethodWithoutStaticNameRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -30,6 +30,9 @@ final class NoClassWithStaticMethodWithoutStaticNameRuleTest extends RuleTestCas
 
     protected function getRule(): Rule
     {
-        return new NoClassWithStaticMethodWithoutStaticNameRule();
+        return $this->getRuleFromConfig(
+            NoClassWithStaticMethodWithoutStaticNameRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }
