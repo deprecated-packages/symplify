@@ -28,6 +28,7 @@ final class RequireMethodCallArgumentConstantRuleTest extends AbstractServiceAwa
         yield [__DIR__ . '/Fixture/SymfonyPHPConfigParameterSetter.php', [[$errorMessage, 14]]];
 
         yield [__DIR__ . '/Fixture/WithConstant.php', []];
+        yield [__DIR__ . '/Fixture/SkipWithVariable.php', []];
     }
 
     protected function getRule(): Rule

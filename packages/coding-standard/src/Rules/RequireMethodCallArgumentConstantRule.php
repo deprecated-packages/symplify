@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
@@ -103,6 +104,10 @@ final class RequireMethodCallArgumentConstantRule implements Rule
     private function shouldSkipArg(int $key, array $positions, Arg $arg): bool
     {
         if (! in_array($key, $positions, true)) {
+            return true;
+        }
+
+        if ($arg->value instanceof Variable) {
             return true;
         }
 
