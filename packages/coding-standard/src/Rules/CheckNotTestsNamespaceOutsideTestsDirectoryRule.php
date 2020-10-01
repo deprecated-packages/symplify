@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Namespace_;
@@ -76,11 +77,11 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule
 
     private function hasTestSuffix(Scope $scope): bool
     {
-        return strstr($scope->getFileDescription(), 'Test.php') !== false;
+        return Strings::endsWith($scope->getFile(), 'Test.php');
     }
 
     private function isInTestsDirectory(Scope $scope): bool
     {
-        return strstr($scope->getFileDescription(), '/tests/') !== false;
+        return Strings::contains($scope->getFile(), '/tests/');
     }
 }
