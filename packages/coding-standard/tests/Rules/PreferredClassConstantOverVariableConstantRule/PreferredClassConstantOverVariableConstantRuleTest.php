@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreferClassConstantOverVariableConstantRule;
+namespace Symplify\CodingStandard\Tests\Rules\PreferredClassConstantOverVariableConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\CodingStandard\Rules\PreferClassConstantOverVariableConstantRule;
+use Symplify\CodingStandard\Rules\PreferredClassConstantOverVariableConstantRule;
 
-final class PreferClassConstantOverVariableConstantRuleTest extends RuleTestCase
+final class PreferredClassConstantOverVariableConstantRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -24,12 +24,12 @@ final class PreferClassConstantOverVariableConstantRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/ClassContant.php', []];
         yield [
             __DIR__ . '/Fixture/VariableConstant.php',
-            [[PreferClassConstantOverVariableConstantRule::ERROR_MESSAGE, 14]],
+            [[PreferredClassConstantOverVariableConstantRule::ERROR_MESSAGE, 14]],
         ];
     }
 
     protected function getRule(): Rule
     {
-        return new PreferClassConstantOverVariableConstantRule();
+        return new PreferredClassConstantOverVariableConstantRule();
     }
 }
