@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule\CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest
@@ -40,11 +42,13 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule
             return [];
         }
 
+        $fileInfo = new SmartFileInfo($scope->getFile());
+
         if (! $this->hasTestsNamespace($node->name)) {
             if ($this->hasTestSuffix($scope)) {
                 $errorMessage = sprintf(
                     self::ERROR_TEST_FILE_OUTSIDE_NAMESPACE,
-                    $scope->getFileDescription(),
+                    $fileInfo->getRelativeFilePathFromCwd(),
                     $node->name->toString()
                 );
                 return [$errorMessage];
@@ -60,7 +64,7 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule
         $errorMessage = sprintf(
             self::ERROR_NAMESPACE_OUTSIDE_TEST_DIR,
             $node->name->toString(),
-            $scope->getFileDescription()
+            $fileInfo->getRelativeFilePathFromCwd()
         );
 
         return [$errorMessage];
@@ -73,11 +77,11 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule
 
     private function hasTestSuffix(Scope $scope): bool
     {
-        return strstr($scope->getFileDescription(), 'Test.php') !== false;
+        return Strings::endsWith($scope->getFile(), 'Test.php');
     }
 
     private function isInTestsDirectory(Scope $scope): bool
     {
-        return strstr($scope->getFileDescription(), '/tests/') !== false;
+        return Strings::contains($scope->getFile(), '/tests/');
     }
 }

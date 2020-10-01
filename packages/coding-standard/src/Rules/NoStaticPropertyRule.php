@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\StaticPropertyFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\Container;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser;
 
 /**
@@ -24,7 +25,7 @@ final class NoStaticPropertyRule extends AbstractManyNodeTypeRule
     /**
      * @var string[]
      */
-    private const CONTAINER_TYPES = [ContainerInterface::class, Container::class];
+    private const CACHEABLE_TYPES = [ContainerInterface::class, Container::class, KernelInterface::class];
 
     /**
      * @var ContainsTypeAnalyser
@@ -50,7 +51,7 @@ final class NoStaticPropertyRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->containsTypeAnalyser->containsExprTypes($node, $scope, self::CONTAINER_TYPES)) {
+        if ($this->containsTypeAnalyser->containsExprTypes($node, $scope, self::CACHEABLE_TYPES)) {
             return [];
         }
 

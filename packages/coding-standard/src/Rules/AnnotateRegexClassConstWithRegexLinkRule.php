@@ -101,6 +101,7 @@ final class AnnotateRegexClassConstWithRegexLinkRule implements Rule
 
         $docCommentText = $node->getDocComment()
             ->getText();
+
         return Strings::contains($docCommentText, '@see https://regex101.com/r');
     }
 

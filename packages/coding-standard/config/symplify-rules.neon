@@ -164,6 +164,7 @@ services:
                 'preg_split': ['Nette\Utils\Strings', 'split']
                 'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
                 'file_put_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'dumpFile']
+                'strstr': ['Nette\Utils\Strings', 'contains']
 
     -
         class: Symplify\CodingStandard\Rules\ExcessivePublicCountRule

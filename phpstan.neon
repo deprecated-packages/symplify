@@ -12,11 +12,11 @@ services:
 parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
+    reportUnmatchedIgnoredErrors: false
 
     paths:
         - packages
 
-    reportUnmatchedIgnoredErrors: false
 
     excludes_analyse:
         - *packages/monorepo-builder/packages/init/templates/*
@@ -46,9 +46,6 @@ parameters:
         - packages/easy-coding-standard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
-        # whole skipped rules
-        - '#Function file_exists is unsafe to use, rely on Symfony component Filesystem\:\:exists instead#'
-
         # command argument value type conversion - known string
         -
             message: '#Cannot cast array<string>\|string\|null to string#'
@@ -59,19 +56,6 @@ parameters:
             message: '#Use strict comparison instead of empty#'
             paths:
                 - 'packages/package-builder/src/Yaml/ParametersMerger.php'
-
-        -
-            message: '#Instead of "SplFileInfo" use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
-            paths:
-                - 'packages/smart-file-system/src/Finder/FinderSanitizer.php'
-                - 'packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php'
-                - '*Fixer.php'
-
-        -
-            message: "#^Use explicit return value over magic &reference$#"
-            paths:
-                - packages/package-builder/src/Reflection/PrivatesCaller.php
-                - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php
 
         # invalid 3rd party-code
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\|null given#'
@@ -85,8 +69,6 @@ parameters:
 
         # phpstan 0.10 news
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
-        - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
-        - '#Cannot call method getStart\(\) on Symplify\\CodingStandard\\TokenRunner\\ValueObject\\BlockInfo\|null#'
 
         # mixed up iterables
         - '#PHPDoc tag @return with type array<string\> is incompatible with native type Iterator#'
@@ -104,7 +86,6 @@ parameters:
         # known values
         - '#Cannot call method (get|has)\(\) on (.*?)\|null#'
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept object\|null#'
-        - '#Call to an undefined method Psr\\Container\\ContainerInterface\:\:set\(\)#'
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
 
         # false positive
@@ -118,28 +99,17 @@ parameters:
         # yield iterator
         - '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
-        - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
         # mixed by default, handled by coding standards
         - '#(has|with) no (return )?typehint specified#'
         - '#Offset (.*?) does not exist on array\|null#'
         - '#in iterable type#'
 
-        - '#Strict comparison using \=\=\= between string\|false and null will always evaluate to false#'
-        - '#Parameter \#1 \$jsonContent of method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:loadContentJsonStringToArray\(\) expects string, string\|false given#'
         - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'
 
-        - '#Parameter \#1 \$array of method (.*?)\\ArraySorter\:\:recursiveSort\(\) expects array, array\|string given#'
-
-        - '#Cannot assign offset (.*?) to array\|string#'
         - '#call_user_func#'
 
-        - '#(.*?) of anonymous function has no typehint#'
-        # false positive due to monorepo
-        - '#Class (.*?) should be written with \:\:class notation, string found#'
-
         # the Filesystem method is only iterable way
-        - '#Function file_exists is unsafe to use, rely on Symfony component Filesystem\:\:exists instead#'
         - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
         # cognitive complexity
@@ -155,13 +125,10 @@ parameters:
         - '#Class "CommandNaming" with static method must have "static" in its name#'
         - '#Class "InputDetector" with static method must have "static" in its name#'
 
-        - '#Class with base "Error" name is already used in "PhpParser\\Node\\Expr\\Error", "PhpParser\\Error"\. Use unique name to make classes easy to recognize#'
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
-        - '#Method Symplify\\MonorepoBuilder\\Release\\Tests\\ReleaseWorkerProvider\\ReleaseWorkerProviderTest\:\:loadConfigReleaseWorkerOrder\(\) should return array<string\> but returns array<int, int\|string\>#'
 
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
-        - '#Parameter \#1 \$arr1 of function array_replace expects array, PhpCsFixer\\Tokenizer\\Token given#'
 
         - '#Cannot call method getSetFileInfo\(\) on Symplify\\SetConfigResolver\\ValueObject\\Set\|null#'
         - '#Cannot call method getRealPath\(\) on Symplify\\SmartFileSystem\\SmartFileInfo\|null#'
@@ -171,23 +138,8 @@ parameters:
             message: '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings\:\:after\(\) expects string, string\|false given#'
             path: 'packages/monorepo-builder/packages/split/src/Command/SplitCommand.php'
 
-        # optional CLI parameter
-        -
-            message: '#Parameter "stage" cannot be nullable#'
-            paths:
-                - 'packages/monorepo-builder/packages/release/src/Command/*'
-
-        # inherited from Symfony class
-        -
-            message: '#Parameter "type" cannot have default value#'
-            paths:
-                 - 'packages/package-builder/src/DependencyInjection/FileLoader/ParameterMergingPhpFileLoader.php'
-                 - 'packages/package-builder/src/Yaml/FileLoader/AbstractParameterMergingYamlFileLoader.php'
-
         # false positive
         - '#Property Symplify\\ChangelogLinker\\ChangelogDumper\:\:\$content is never written, only read#'
-        - '#Property Symplify\\CodingStandard\\TokenRunner\\ValueObject\\Wrapper\\FixerWrapper\\ArrayWrapper\:\:\$array \(PhpParser\\Node\\Expr\\Array_\) does not accept PhpParser\\Node#'
-        - '#Call to an undefined method PhpParser\\Node\\Expr\\Error\|PhpParser\\Node\\Identifier\:\:toString\(\)#'
 
         -
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
@@ -217,22 +169,12 @@ parameters:
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
 
         - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
-        # symfony console
-        - '#Cannot cast array<string\>\|bool\|string\|null to string#'
 
         -
              message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
              paths:
                  - packages/smart-file-system/src/Finder/FinderSanitizer.php
                  - packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
-
-        -
-             message: '#Use value object over return of values#'
-             paths:
-                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
-                 - packages/easy-coding-standard/compiler/build/scoper.inc.php
-                 - packages/monorepo-builder/compiler/build/scoper.inc.php
-
 
         # 3rd party code
         -
@@ -244,12 +186,6 @@ parameters:
         - '#Parameter \#1 \$functionLike of method Symplify\\CodingStandard\\CognitiveComplexity\\AstCognitiveComplexityAnalyzer\:\:analyzeFunctionLike\(\) expects PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_\|null given#'
 
         -
-            message: '#Method "__construct\(\)" is using too many parameters \- \d\. Make it under 8#'
-            paths:
-                - packages/easy-coding-standard/packages/fixer-runner/src/Application/FixerFileProcessor.php # 81
-                - packages/easy-coding-standard/packages/sniff-runner/src/Application/SniffFileProcessor.php # 80
-
-        -
             message: '#Too many public elements on class \- \d+\. Try narrow it down under \d+#'
             paths:
                 # native PHP code
@@ -257,20 +193,6 @@ parameters:
                 # complex stuff json
                 - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
                 - packages/easy-coding-standard/packages/configuration/src/Configuration.php
-
-        -
-            message: '#Class has too many properties \d+\. Try narrowing it down under \d+#'
-            paths:
-                # composer complex json
-                - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
-
-        -
-            message: '#Use another value object over string with value object arrays#'
-            paths:
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 25
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
 
         # dx handy class
         - '#Use decouled factory service to create "Symplify\\EasyTesting\\ValueObject\\InputAndExpected" object#'
@@ -284,89 +206,11 @@ parameters:
         # making reflection method for local use
         - '#Use decouled factory service to create "ReflectionMethod" object#'
 
-        # @todo easy-pick, delegate
-        -
-            message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
-            paths:
-                - packages/autodiscovery/src/Command/ConvertYamlCommand.php # 28
-                - packages/autodiscovery/src/NamespaceDetector.php # 19
-                - packages/autodiscovery/src/NamespaceDetector.php # 24
-                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php # 17
-                - packages/changelog-linker/src/Analyzer/IdsAnalyzer.php # 21
-                - packages/changelog-linker/src/Analyzer/LinksAnalyzer.php # 18
-                - packages/changelog-linker/src/ChangeTree/ChangeFactory.php # 21
-                - packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php # 18
-                - packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php # 23
-                - packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php # 28
-                - packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php # 33
-                - packages/changelog-linker/src/ChangeTree/Resolver/PackageResolver.php # 26
-                - packages/changelog-linker/src/ChangelogFormatter.php # 23
-                - packages/changelog-linker/src/ChangelogFormatter.php # 28
-                - packages/changelog-linker/src/Git/GitCommitDateTagResolver.php # 18
-                - packages/changelog-linker/src/Git/GitCommitDateTagResolver.php # 23
-                - packages/changelog-linker/src/Regex/RegexPattern.php # 45
-                - packages/changelog-linker/src/Worker/LinkifyWorker.php # 16
-                - packages/changelog-linker/src/Worker/LinkifyWorker.php # 21
-                - packages/coding-standard/src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php # 39
-                - packages/coding-standard/src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php # 24
-                - packages/coding-standard/src/Rules/ExcessivePublicCountRule.php # 30
-                - packages/coding-standard/src/Rules/ForbiddenArrayDestructRule.php # 33
-                - packages/coding-standard/src/Rules/ForbiddenArrayWithStringKeysRule.php # 33
-                - packages/coding-standard/src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php # 40
-                - packages/coding-standard/src/Rules/NoEntityManagerInControllerRule.php # 28
-                - packages/coding-standard/src/Rules/NoReturnArrayVariableListRule.php # 33
-                - packages/coding-standard/src/Rules/NoReturnArrayVariableListRule.php # 38
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/DuplicatedArrayMalformWorker.php # 16
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/DuplicatedArrayMalformWorker.php # 21
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/InlineVarMalformWorker.php # 16
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/InlineVariableDocBlockMalformWorker.php # 17
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/InlineVariableDocBlockMalformWorker.php # 22
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/InlineVariableDocBlockMalformWorker.php # 28
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/MissingParamNameMalformWorker.php # 18
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/MissingParamNameMalformWorker.php # 28
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/ParamNameTypoMalformWorker.php # 17
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousReturnNameMalformWorker.php # 16
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousReturnNameMalformWorker.php # 26
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php # 17
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php # 22
-                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SwitchedTypeAndNameMalformWorker.php # 17
-                - packages/composer-json-manipulator/src/FileSystem/JsonFileManager.php # 22
-                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 22
-                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 27
-                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 32
-                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 37
-                - packages/easy-coding-standard/packages/changed-files-detector/src/FileHashComputer.php # 26
-                - packages/easy-coding-standard/packages/fixer-runner/src/WhitespacesFixerConfigFactory.php # 21
-                - packages/easy-coding-standard/src/Console/Command/CheckHeredocNowdocCommand.php # 36
-                - packages/easy-coding-standard/src/Console/Command/CheckMarkdownCommand.php # 34
-                - packages/easy-coding-standard/src/Skipper.php # 17
-                - packages/easy-coding-standard/src/Skipper.php # 22
-                - packages/easy-coding-standard/src/ValueObject/Option.php # 88
-                - packages/easy-coding-standard/src/Yaml/CheckerServiceParametersShifter.php # 47
-                - packages/easy-testing/src/ValueObject/SplitLine.php # 12
-                - packages/monorepo-builder/packages/release/src/ReleaseWorker/AddTagToChangelogReleaseWorker.php # 18
-                - packages/monorepo-builder/packages/split/src/Command/SplitCommand.php # 23
-                - packages/monorepo-builder/packages/split/src/Configuration/RepositoryGuard.php # 20
-                - packages/monorepo-builder/packages/split/src/Git/GitManager.php # 20
-                - packages/monorepo-builder/src/ValueObject/Option.php # 61
-                - packages/monorepo-builder/src/ValueObject/Section.php # 12
-                - packages/package-builder/src/Console/Command/CommandNaming.php # 17
-                - packages/package-builder/src/Strings/StringFormatConverter.php # 17
-                - packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php # 31
-                - packages/smart-file-system/src/SmartFileInfo.php # 20
-                - packages/smart-file-system/src/SmartFileSystem.php # 17
-                - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php # 15
-                - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php # 20
-                - packages/symfony-static-dumper/src/Routing/ControllerMatcher.php # 16
-                - packages/symfony-static-dumper/src/Routing/RoutesProvider.php # 19
-
         -
             message: '#Do not use static property#'
             paths:
                 - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 31
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 27
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 32
 
         # todo resolve later
         -
@@ -378,7 +222,6 @@ parameters:
         -
             message: '#Do not use setter on a service#'
             paths:
-                - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 126
                 - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 146
                 - packages/easy-coding-standard/packages/snippet-formatter/src/Provider/CurrentParentFileInfoProvider.php # 16
                 - packages/package-builder/tests/HttpKernel/PackageBuilderTestKernel.php # 31
@@ -386,13 +229,7 @@ parameters:
         -
             message: '#Do not call parent method if parent method is empty#'
             paths:
-                - packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNewlineInNestedAnnotationFixer.php # 36
                 - packages/coding-standard/src/TokenRunner/Exception/TokenNotFoundException.php # 15
-                - packages/easy-coding-standard/packages/snippet-formatter/src/Command/CheckHeredocNowdocCommand.php # 19
-                - packages/easy-coding-standard/packages/snippet-formatter/src/Command/CheckMarkdownCommand.php # 19
-                - packages/easy-coding-standard/src/Yaml/FileLoader/CheckerTolerantYamlFileLoader.php # 33
-                - packages/package-builder/src/DependencyInjection/FileLoader/ParameterMergingPhpFileLoader.php # 28
-                - packages/package-builder/src/Yaml/FileLoader/AbstractParameterMergingYamlFileLoader.php # 41
                 - packages/set-config-resolver/src/Exception/SetNotFoundException.php # 29
                 - packages/smart-file-system/src/SmartFileInfo.php # 122
                 - packages/symfony-static-dumper/tests/Routing/RoutesProviderTest.php # 21
@@ -438,7 +275,7 @@ parameters:
                 - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
 
         -
-            message: '#"Tests" namespace \(Symplify\\PackageBuilder\\Tests\) used outside of "tests" directory \(/var/www/symplify/packages/package\-builder/src/Tests/AbstractKernelTestCase\.php\)#'
+            message: '#"Tests" namespace \(Symplify\\PackageBuilder\\Tests\) used outside of "tests" directory \(packages/package\-builder/src/Tests/AbstractKernelTestCase\.php\)#'
             paths:
                 - packages/package-builder/src/Tests/AbstractKernelTestCase.php
 
@@ -446,3 +283,93 @@ parameters:
             message: '#Use "Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\)" static call over "file_get_contents\(\)" func call#'
             paths:
                 - packages/smart-file-system/src/SmartFileSystem.php
+
+        -
+           message: '#Use explicit return value over magic &reference#'
+           paths:
+               - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
+
+        -
+            message: '#Use another value object over string with value object arrays#'
+            paths:
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 25
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
+
+        -
+            message: '#Do not use static property#'
+            paths:
+                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 46
+                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 47
+                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 57
+                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 118
+                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 119
+
+        -
+            message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
+            paths:
+                - packages/autodiscovery/src/Command/ConvertYamlCommand.php # 28
+                - packages/autodiscovery/src/NamespaceDetector.php # 19
+                - packages/autodiscovery/src/NamespaceDetector.php # 24
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php # 17
+                - packages/changelog-linker/src/Analyzer/IdsAnalyzer.php # 21
+                - packages/changelog-linker/src/Analyzer/LinksAnalyzer.php # 18
+                - packages/changelog-linker/src/ChangeTree/ChangeFactory.php # 23
+                - packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php # 18
+                - packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php # 23
+                - packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php # 28
+                - packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php # 33
+                - packages/changelog-linker/src/ChangeTree/Resolver/PackageResolver.php # 28
+                - packages/changelog-linker/src/ChangelogFormatter.php # 23
+                - packages/changelog-linker/src/ChangelogFormatter.php # 28
+                - packages/changelog-linker/src/Git/GitCommitDateTagResolver.php # 18
+                - packages/changelog-linker/src/Git/GitCommitDateTagResolver.php # 23
+                - packages/changelog-linker/src/Regex/RegexPattern.php # 45
+                - packages/changelog-linker/src/Worker/LinkifyWorker.php # 18
+                - packages/changelog-linker/src/Worker/LinkifyWorker.php # 23
+                - packages/coding-standard/src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php # 38
+                - packages/coding-standard/src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php # 24
+                - packages/coding-standard/src/Rules/ExcessivePublicCountRule.php # 30
+                - packages/coding-standard/src/Rules/ForbiddenArrayDestructRule.php # 33
+                - packages/coding-standard/src/Rules/ForbiddenArrayWithStringKeysRule.php # 33
+                - packages/coding-standard/src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php # 40
+                - packages/coding-standard/src/Rules/NoEntityManagerInControllerRule.php # 28
+                - packages/coding-standard/src/Rules/NoReturnArrayVariableListRule.php # 33
+                - packages/coding-standard/src/Rules/NoReturnArrayVariableListRule.php # 38
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/DuplicatedArrayMalformWorker.php # 16
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/DuplicatedArrayMalformWorker.php # 21
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/InlineVarMalformWorker.php # 16
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/InlineVariableDocBlockMalformWorker.php # 17
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/InlineVariableDocBlockMalformWorker.php # 22
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/InlineVariableDocBlockMalformWorker.php # 28
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/MissingParamNameMalformWorker.php # 18
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/MissingParamNameMalformWorker.php # 28
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/ParamNameTypoMalformWorker.php # 17
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousReturnNameMalformWorker.php # 16
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousReturnNameMalformWorker.php # 26
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php # 17
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php # 22
+                - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SwitchedTypeAndNameMalformWorker.php # 17
+                - packages/composer-json-manipulator/src/FileSystem/JsonFileManager.php # 24
+                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 22
+                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 27
+                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 32
+                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 37
+                - packages/easy-coding-standard/packages/changed-files-detector/src/FileHashComputer.php # 26
+                - packages/easy-coding-standard/src/Skipper.php # 19
+                - packages/easy-coding-standard/src/Skipper.php # 24
+                - packages/easy-coding-standard/src/Yaml/CheckerServiceParametersShifter.php # 47
+                - packages/monorepo-builder/packages/release/src/ReleaseWorker/AddTagToChangelogReleaseWorker.php # 18
+                - packages/monorepo-builder/packages/split/src/Command/SplitCommand.php # 25
+                - packages/monorepo-builder/packages/split/src/Configuration/RepositoryGuard.php # 20
+                - packages/monorepo-builder/packages/split/src/Git/GitManager.php # 22
+                - packages/package-builder/src/Console/Command/CommandNaming.php # 17
+                - packages/package-builder/src/Strings/StringFormatConverter.php # 17
+                - packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php # 31
+                - packages/smart-file-system/src/SmartFileInfo.php # 20
+                - packages/smart-file-system/src/SmartFileSystem.php # 17
+                - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php # 15
+                - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php # 20
+                - packages/symfony-static-dumper/src/Routing/ControllerMatcher.php # 16
+                - packages/symfony-static-dumper/src/Routing/RoutesProvider.php # 19

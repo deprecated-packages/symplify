@@ -47,25 +47,24 @@ final class ParentClassMethodNodeResolver
             return [];
         }
 
-        $parentClassReflection = $classReflection->getParentClass();
-        if ($parentClassReflection === false) {
-            return [];
+        foreach ($classReflection->getParents() as $parentClassReflection) {
+            $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
+
+            /** @var Class_|null $class */
+            $class = $this->nodeFinder->findFirstInstanceOf($parentClassNodes, Class_::class);
+            if ($class === null) {
+                return [];
+            }
+
+            $classMethod = $class->getMethod($methodName);
+            if ($classMethod === null) {
+                continue;
+            }
+
+            return (array) $classMethod->getStmts();
         }
 
-        $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
-
-        /** @var Class_|null $class */
-        $class = $this->nodeFinder->findFirstInstanceOf($parentClassNodes, Class_::class);
-        if ($class === null) {
-            return [];
-        }
-
-        $classMethod = $class->getMethod($methodName);
-        if ($classMethod === null) {
-            return [];
-        }
-
-        return (array) $classMethod->getStmts();
+        return [];
     }
 
     /**
