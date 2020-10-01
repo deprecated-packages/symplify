@@ -57,8 +57,13 @@ final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
     {
         /** @var Class_ $class */
         $class = $node->getAttribute('parent');
-        /** @var Identifier $namespacedName */
+
+        /** @var Identifier|null $namespacedName */
         $namespacedName = $class->namespacedName;
+        if ($namespacedName === null) {
+            return [];
+        }
+
         if (Strings::match($namespacedName->toString(), self::NOT_A_SERVICE_NAMESPACE_REGEX)) {
             return [];
         }
