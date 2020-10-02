@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\PHPStan\Types;
 use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
+use PHPStan\Type\IntersectionType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use PHPStan\Type\UnionType;
@@ -29,18 +30,19 @@ final class ContainsTypeAnalyser
         return false;
     }
 
-    public function containsExprType(Expr $expr, Scope $scope, string $type): bool
+    private function containsExprType(Expr $expr, Scope $scope, string $type): bool
     {
-        $propertyType = $scope->getType($expr);
-        if ($propertyType instanceof TypeWithClassName) {
-            return is_a($propertyType->getClassName(), $type, true);
+        $exprType = $scope->getType($expr);
+
+        if ($exprType instanceof IntersectionType) {
+            foreach ($exprType->getTypes() as $intersectionedType) {
+                if ($this->isExprTypeOfType($intersectionedType, $type)) {
+                    return true;
+                }
+            }
         }
 
-        if ($this->isUnionTypeWithClass($propertyType, $type)) {
-            return true;
-        }
-
-        return $this->isArrayWithItemType($propertyType, $type);
+        return $this->isExprTypeOfType($exprType, $type);
     }
 
     private function isUnionTypeWithClass(Type $type, string $class): bool
@@ -74,5 +76,18 @@ final class ContainsTypeAnalyser
         }
 
         return is_a($arrayItemType->getClassName(), $type, true);
+    }
+
+    private function isExprTypeOfType($exprType, string $type): bool
+    {
+        if ($exprType instanceof TypeWithClassName) {
+            return is_a($exprType->getClassName(), $type, true);
+        }
+
+        if ($this->isUnionTypeWithClass($exprType, $type)) {
+            return true;
+        }
+
+        return $this->isArrayWithItemType($exprType, $type);
     }
 }

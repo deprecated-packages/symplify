@@ -243,10 +243,10 @@ parameters:
             paths:
                 - packages/smart-file-system/src/SmartFileInfo.php # 122
 
-        -
-            message: '#Do not use static property#'
-            paths:
-                - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
+#        -
+#            message: '#Do not use static property#'
+#            paths:
+#                - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
 
         -
             message: '#"Tests" namespace \(Symplify\\PackageBuilder\\Tests\) used outside of "tests" directory \(packages/package\-builder/src/Tests/AbstractKernelTestCase\.php\)#'
