@@ -177,6 +177,10 @@ services:
         class: Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\PreferredClassConstantOverVariableConstantRule
+        tags: [phpstan.rules.rule]
+
 #    -
 #        class: 'PhpParser\ParserFactory'
 #    -

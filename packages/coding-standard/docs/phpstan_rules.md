@@ -1810,6 +1810,36 @@ $dateTime = new Nette\Utils\DateTime('now');
 
 <br>
 
+## Prefer Class constant over Variable constant
+
+- class: [`PreferredClassConstantOverVariableConstantRule`](../src/Rules/PreferredClassConstantOverVariableConstantRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\PreferredClassConstantOverVariableConstantRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+$album::PER_PAGE;
+```
+
+:x:
+
+```php
+<?php
+
+Album::PER_PAGE;
+```
+
+:+1:
+
+<br>
+
 ## Classes with Static Methods must have "Static" in the Name
 
 - class: [`NoClassWithStaticMethodWithoutStaticNameRule`](../src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
