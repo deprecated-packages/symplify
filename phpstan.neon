@@ -351,3 +351,8 @@ parameters:
             message:  '#Node "errorsuppress" is fobidden to use#'
             paths:
                 - packages/smart-file-system/src/SmartFileSystem.php
+
+        -
+            message: '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings\:\:after\(\) expects string, string\|false given#'
+            paths:
+                 - packages/monorepo-builder/packages/split/src/FileSystem/DirectoryToRepositoryProvider.php
