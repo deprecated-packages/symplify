@@ -71,16 +71,16 @@ final class PrefferedStaticCallOverFuncCallRule implements Rule
      */
     private function isInDesiredMethod(Scope $scope, array $staticCall): bool
     {
-        $methodReflection = $scope->getFunction();
-        if (! $methodReflection instanceof MethodReflection) {
+        $function = $scope->getFunction();
+        if (! $function instanceof MethodReflection) {
             return false;
         }
 
-        if ($methodReflection->getName() !== $staticCall[1]) {
+        if ($function->getName() !== $staticCall[1]) {
             return false;
         }
 
-        $declaringClass = $methodReflection->getDeclaringClass();
+        $declaringClass = $function->getDeclaringClass();
         return $declaringClass->getName() === $staticCall[0];
     }
 }
