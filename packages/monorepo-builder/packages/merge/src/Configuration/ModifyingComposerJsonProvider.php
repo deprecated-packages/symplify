@@ -12,35 +12,38 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 final class ModifyingComposerJsonProvider
 {
     /**
-     * @var ComposerJson|null
+     * @var ParameterProvider
      */
-    private $appendingComposerJson;
+    private $parameterProvider;
 
     /**
-     * @var ComposerJson|null
+     * @var ComposerJsonFactory
      */
-    private $removingComposerJson;
+    private $composerJsonFactory;
 
     public function __construct(ComposerJsonFactory $composerJsonFactory, ParameterProvider $parameterProvider)
     {
-        $dataToAppend = $parameterProvider->provideArrayParameter(Option::DATA_TO_APPEND);
-        if ($dataToAppend !== []) {
-            $this->appendingComposerJson = $composerJsonFactory->createFromArray($dataToAppend);
-        }
-
-        $dataToRemove = $parameterProvider->provideArrayParameter(Option::DATA_TO_REMOVE);
-        if ($dataToRemove !== []) {
-            $this->removingComposerJson = $composerJsonFactory->createFromArray($dataToRemove);
-        }
+        $this->parameterProvider = $parameterProvider;
+        $this->composerJsonFactory = $composerJsonFactory;
     }
 
     public function getRemovingComposerJson(): ?ComposerJson
     {
-        return $this->removingComposerJson;
+        $dataToRemove = $this->parameterProvider->provideArrayParameter(Option::DATA_TO_REMOVE);
+        if ($dataToRemove === []) {
+            return null;
+        }
+
+        return $this->composerJsonFactory->createFromArray($dataToRemove);
     }
 
     public function getAppendingComposerJson(): ?ComposerJson
     {
-        return $this->appendingComposerJson;
+        $dataToAppend = $this->parameterProvider->provideArrayParameter(Option::DATA_TO_APPEND);
+        if ($dataToAppend === []) {
+            return null;
+        }
+
+        return $this->composerJsonFactory->createFromArray($dataToAppend);
     }
 }

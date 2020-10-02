@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 
 /**
@@ -48,11 +49,14 @@ final class PrefferedStaticCallOverFuncCallRule implements Rule
             return [];
         }
 
-        $currentFuncName = $node->name->toString();
-
+        $currentFuncName = $scope->resolveName($node->name);
         foreach ($this->funcCallToPrefferedStaticCalls as $funcCall => $staticCall) {
             if ($funcCall !== $currentFuncName) {
                 continue;
+            }
+
+            if ($this->isInDesiredMethod($scope, $staticCall)) {
+                return [];
             }
 
             $errorMessage = sprintf(self::ERROR_MESSAGE, $staticCall[0], $staticCall[1], $currentFuncName);
@@ -60,5 +64,23 @@ final class PrefferedStaticCallOverFuncCallRule implements Rule
         }
 
         return [];
+    }
+
+    /**
+     * @param string[] $staticCall
+     */
+    private function isInDesiredMethod(Scope $scope, array $staticCall): bool
+    {
+        $function = $scope->getFunction();
+        if (! $function instanceof MethodReflection) {
+            return false;
+        }
+
+        if ($function->getName() !== $staticCall[1]) {
+            return false;
+        }
+
+        $classReflection = $function->getDeclaringClass();
+        return $classReflection->getName() === $staticCall[0];
     }
 }

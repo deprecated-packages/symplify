@@ -29,16 +29,17 @@ final class PrefferedStaticCallOverFuncCallRuleTest extends AbstractServiceAware
             'match',
             'preg_match'
         );
+
         yield [__DIR__ . '/Fixture/PregMatchCalled.php', [[$errorMessage, 11]]];
+
+        yield [__DIR__ . '/Fixture/SkipSelfCall.php', []];
     }
 
     protected function getRule(): Rule
     {
-        return new PrefferedStaticCallOverFuncCallRule([
-            'preg_match' => [Strings::class, 'match'],
-            'preg_matchAll' => [Strings::class, 'match'],
-            'preg_replace' => [Strings::class, 'replace'],
-            'preg_split' => [Strings::class, 'split'],
-        ]);
+        return $this->getRuleFromConfig(
+            PrefferedStaticCallOverFuncCallRule::class,
+            __DIR__ . '/config/configured_rule.neon'
+        );
     }
 }
