@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\FileSystem;
 
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
-use Symplify\MonorepoBuilder\Exception\ShouldNotHappenException;
 use Symplify\MonorepoBuilder\Finder\PackageComposerFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ComposerJsonProvider
 {

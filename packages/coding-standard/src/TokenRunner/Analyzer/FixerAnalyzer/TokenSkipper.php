@@ -7,8 +7,8 @@ namespace Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\Exception\ShouldNotHappenException;
 use Symplify\CodingStandard\TokenRunner\Exception\TokenNotFoundException;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class TokenSkipper
 {

@@ -11,12 +11,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
-use Symplify\MonorepoBuilder\Exception\ShouldNotHappenException;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Merge\Application\MergedAndDecoratedComposerJsonFactory;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class MergeCommand extends Command
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Exception;
+namespace Symplify\SymplifyKernel\Exception;
 
 use Exception;
 
