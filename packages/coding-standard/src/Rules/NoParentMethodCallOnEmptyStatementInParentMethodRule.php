@@ -11,6 +11,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 use Symplify\CodingStandard\PHPStan\NodeResolver\ParentClassMethodNodeResolver;
+use Throwable;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule\NoParentMethodCallOnEmptyStatementInParentMethodRuleTest
@@ -57,6 +58,11 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule implements Rule
 
         $classReflection = $scope->getClassReflection();
         if ($classReflection === null) {
+            return [];
+        }
+
+        // skip exceptions
+        if (is_a($classReflection->getName(), Throwable::class, true)) {
             return [];
         }
 

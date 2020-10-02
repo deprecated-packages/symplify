@@ -21,6 +21,7 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRuleTest extends Abs
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipException.php', []];
         yield [__DIR__ . '/Fixture/NotCallParentMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipParentInFixer.php', []];
         yield [__DIR__ . '/Fixture/CallParentMethodWithStatement.php', []];
