@@ -80,7 +80,7 @@ final class PrefferedStaticCallOverFuncCallRule implements Rule
             return false;
         }
 
-        $declaringClass = $function->getDeclaringClass();
-        return $declaringClass->getName() === $staticCall[0];
+        $classReflection = $function->getDeclaringClass();
+        return $classReflection->getName() === $staticCall[0];
     }
 }
