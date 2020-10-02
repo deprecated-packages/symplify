@@ -97,7 +97,7 @@ final class SplitCommand extends Command
 
         $branch = $input->getOption(Option::BRANCH) ? (string) $input->getOption(Option::BRANCH) : null;
 
-        $resolvedDirectoriesToRepository = $this->directoryToRepositoryProvider->getDirectoriesToRepositories();
+        $resolvedDirectoriesToRepository = $this->directoryToRepositoryProvider->provide();
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $resolvedDirectoriesToRepository,

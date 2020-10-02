@@ -9,6 +9,9 @@ use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\FileSystemGuard;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Split\Tests\FileSystem\DirectoryToRepositoryProvider\DirectoryToRepositoryProviderTest
+ */
 final class DirectoryToRepositoryProvider
 {
     /**
@@ -18,49 +21,45 @@ final class DirectoryToRepositoryProvider
     private const ASTERISK_REGEX = '#\*#';
 
     /**
-     * @var array<string, string>
-     */
-    private $directoriesToRepositories = [];
-
-    /**
      * @var FileSystemGuard
      */
     private $fileSystemGuard;
 
+    /**
+     * @var ParameterProvider
+     */
+    private $parameterProvider;
+
     public function __construct(ParameterProvider $parameterProvider, FileSystemGuard $fileSystemGuard)
     {
-        $this->directoriesToRepositories = $parameterProvider->provideArrayParameter(
-            Option::DIRECTORIES_TO_REPOSITORIES
-        );
-
         $this->fileSystemGuard = $fileSystemGuard;
+        $this->parameterProvider = $parameterProvider;
     }
 
     /**
      * @return array<string, string>
      */
-    public function getDirectoriesToRepositories(): array
+    public function provide(): array
     {
         $resolvedDirectoriesToRepository = [];
 
-        foreach ($this->directoriesToRepositories as $directory => $repository) {
+        $directoriesToRepositories = $this->parameterProvider->provideArrayParameter(
+            Option::DIRECTORIES_TO_REPOSITORIES
+        );
+
+        foreach ($directoriesToRepositories as $directory => $repository) {
             if (! Strings::contains($directory, '*')) {
                 $this->ensureDirectoryExists($directory);
-
                 $resolvedDirectoriesToRepository[$directory] = $repository;
                 continue;
             }
 
-            // fnmatch
-            $patternWithoutAsterisk = (string) trim($directory, '*');
+            $fnmatchResolvedDirectoriesToRepository = $this->resolveAsteriskDirectory($directory, $repository);
 
-            foreach ((array) glob($directory) as $foundDirectory) {
-                /** @var string $foundDirectory */
-                $exclusiveName = (string) Strings::after($foundDirectory, $patternWithoutAsterisk);
-                $targetRepository = Strings::replace($repository, self::ASTERISK_REGEX, $exclusiveName);
-
-                $resolvedDirectoriesToRepository[$foundDirectory] = $targetRepository;
-            }
+            $resolvedDirectoriesToRepository = array_merge(
+                $resolvedDirectoriesToRepository,
+                $fnmatchResolvedDirectoriesToRepository
+            );
         }
 
         return $resolvedDirectoriesToRepository;
@@ -72,6 +71,28 @@ final class DirectoryToRepositoryProvider
             'Check "%s" parameter in your config.',
             Option::class . '::DIRECTORIES_TO_REPOSITORIES'
         );
+
         $this->fileSystemGuard->ensureDirectoryExists($directory, $extractMessage);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function resolveAsteriskDirectory(string $directory, string $repository): array
+    {
+        $resolvedDirectoriesToRepository = [];
+
+        // fnmatch
+        $patternWithoutAsterisk = (string) trim($directory, '*');
+
+        foreach ((array) glob($directory) as $foundDirectory) {
+            /** @var string $foundDirectory */
+            $exclusiveName = (string) Strings::after($foundDirectory, $patternWithoutAsterisk);
+            $targetRepository = Strings::replace($repository, self::ASTERISK_REGEX, $exclusiveName);
+
+            $resolvedDirectoriesToRepository[$foundDirectory] = $targetRepository;
+        }
+
+        return $resolvedDirectoriesToRepository;
     }
 }
