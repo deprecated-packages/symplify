@@ -261,9 +261,6 @@ parameters:
             message: '#Use another value object over string with value object arrays#'
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 25
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
 
         -
             message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
@@ -336,9 +333,7 @@ parameters:
         -
             message: '#Do not use factory in constructor#'
             paths:
-                - packages/coding-standard/packages/object-calisthenics/src/Rules/SingleIndentationInMethodRule.php # 54
                 - packages/easy-coding-standard/src/Console/EasyCodingStandardConsoleApplication.php # 30
-                - packages/easy-coding-standard/src/Console/Output/OutputFormatterCollector.php # 23
                 - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 37
                 - packages/monorepo-builder/packages/merge/src/Configuration/ModifyingComposerJsonProvider.php # 28
                 - packages/monorepo-builder/packages/merge/src/Configuration/ModifyingComposerJsonProvider.php # 33
