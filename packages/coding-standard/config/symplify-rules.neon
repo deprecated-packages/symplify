@@ -10,11 +10,6 @@ includes:
     - symplify-rules/test-rules.neon
     - symplify-rules/services-rules.neon
 
-parameters:
-    symplify:
-        max_method_cognitive_complexity: 8
-        max_class_cognitive_complexity: 50
-
 services:
     -
         class: Symplify\CodingStandard\Rules\NoFactoryInConstructorRule
@@ -32,6 +27,14 @@ services:
     -
         class: Symplify\CodingStandard\Rules\NoScalarAndArrayConstructorParameterRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\NoParticularNodeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenNodes:
+                - PhpParser\Node\Expr\Empty_
+                - PhpParser\Node\Stmt\Switch_
 
     -
         class: Symplify\CodingStandard\Rules\NoAbstractMethodRule
@@ -81,7 +84,12 @@ services:
         class: Symplify\CodingStandard\Rules\ForbiddenFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
-            forbiddenFunctions: ['d', 'dd', 'dump', 'var_dump', 'extract']
+            forbiddenFunctions:
+                - 'd'
+                - 'dd'
+                - 'dump'
+                - 'var_dump'
+                - 'extract'
 
     -
         class: Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule

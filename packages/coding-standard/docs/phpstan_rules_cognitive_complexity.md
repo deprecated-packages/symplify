@@ -10,12 +10,20 @@
 ```yaml
 # phpstan.neon
 includes:
-    - vendor/symplify/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-rules.neon
+    - vendor/symplify/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-services.neon
 
-parameters:
-    symplify:
-        max_method_cognitive_complexity: 8 # default
-        max_class_cognitive_complexity: 50 # default
+services:
+    -
+        class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxMethodCognitiveComplexity: 8
+
+    -
+        class: Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassCognitiveComplexity: 50
 ```
 
 ```php

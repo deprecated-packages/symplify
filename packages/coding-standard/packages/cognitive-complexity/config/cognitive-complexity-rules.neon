@@ -1,31 +1,15 @@
-parameters:
-    symplify:
-        max_method_cognitive_complexity: 8
-        # deprecated, use the one above
-        max_cognitive_complexity: "%symplify.max_method_cognitive_complexity%"
-        max_class_cognitive_complexity: 50
-
-parametersSchema:
-    symplify: structure([
-        max_method_cognitive_complexity: int()
-        max_cognitive_complexity: int()
-        max_class_cognitive_complexity: int()
-    ])
+includes:
+    - cognitive-complexity-services.neon
 
 services:
     -
         class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
-            maxMethodCognitiveComplexity: "%symplify.max_method_cognitive_complexity%"
+            maxMethodCognitiveComplexity: 8
 
     -
         class: Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
-            maxClassCognitiveComplexity: "%symplify.max_class_cognitive_complexity%"
-
-    - Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer
-    - Symplify\CodingStandard\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector
-    - Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\NestingNodeVisitor
-    - Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor
+            maxClassCognitiveComplexity: 50

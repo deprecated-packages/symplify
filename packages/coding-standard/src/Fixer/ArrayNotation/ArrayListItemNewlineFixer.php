@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -35,8 +36,12 @@ class ArrayListItemNewlineFixer extends AbstractArrayFixer
                 }
 
                 $nextTokenPosition = $position + 1;
-                $nextMeaningfulToken = $tokens[$nextTokenPosition] ?? null;
-                if (! $nextMeaningfulToken instanceof Token) {
+                $nextToken = $tokens[$nextTokenPosition] ?? null;
+                if (! $nextToken instanceof Token) {
+                    return;
+                }
+
+                if (Strings::contains($nextToken->getContent(), "\n")) {
                     return;
                 }
 

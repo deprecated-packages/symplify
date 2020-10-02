@@ -30,7 +30,7 @@ final class SeeAnnotationToTestRuleTest extends AbstractServiceAwareRuleTestCase
         $errorMessage = sprintf(SeeAnnotationToTestRule::ERROR_MESSAGE, RuleWithSeeRandom::class);
         yield [__DIR__ . '/Fixture/RuleWithSeeRandom.php', [[$errorMessage, 15]]];
 
-        yield [__DIR__ . '/Fixture/DeprecatedRuleWithoutSee.php', []];
+        yield [__DIR__ . '/Fixture/SkipDeprecatedRuleWithoutSee.php', []];
     }
 
     protected function getRule(): Rule
