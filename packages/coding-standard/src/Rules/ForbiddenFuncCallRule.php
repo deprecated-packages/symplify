@@ -54,6 +54,7 @@ final class ForbiddenFuncCallRule implements Rule
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $funcName)];
+        $errorMessaeg = sprintf(self::ERROR_MESSAGE, $funcName);
+        return [$errorMessaeg];
     }
 }

@@ -1,4 +1,32 @@
-# 38+ PHPStan Rules
+# 40+ PHPStan Rules
+
+## Forbid Nodes of your Choice
+
+- class: [`NoParticularNodeRule`](../src/Rules/NoParticularNodeRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoParticularNodeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenNodes:
+                - PhpParser\Node\Expr\Empty_
+                - PhpParser\Node\Stmt\Switch_
+```
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return empty('...');
+    }
+}
+```
+
+:x:
 
 ## Interface must be suffixed with "Interface"
 
