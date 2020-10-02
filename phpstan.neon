@@ -222,7 +222,6 @@ parameters:
         -
             message: '#Do not use static property#'
             paths:
-                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 31
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
 
         # todo resolve later
@@ -241,15 +240,7 @@ parameters:
         -
             message: '#Do not call parent method if parent method is empty#'
             paths:
-                - packages/coding-standard/src/TokenRunner/Exception/TokenNotFoundException.php # 15
-                - packages/set-config-resolver/src/Exception/SetNotFoundException.php # 29
                 - packages/smart-file-system/src/SmartFileInfo.php # 122
-                - packages/symfony-static-dumper/tests/Routing/RoutesProviderTest.php # 21
-
-        -
-            message: '#Do not use static property#'
-            paths:
-                - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
 
         -
             message: '#"Tests" namespace \(Symplify\\PackageBuilder\\Tests\) used outside of "tests" directory \(packages/package\-builder/src/Tests/AbstractKernelTestCase\.php\)#'
@@ -270,9 +261,6 @@ parameters:
             message: '#Use another value object over string with value object arrays#'
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 25
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
 
         -
             message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
@@ -343,11 +331,9 @@ parameters:
                 - packages/symfony-static-dumper/src/Routing/RoutesProvider.php # 19
 
         -
-            message: '#Do not use factory in constructor#'
+            message: '#Do not use factory/method call in constructor, put factory in config and get service with dependency injection#'
             paths:
-                - packages/coding-standard/packages/object-calisthenics/src/Rules/SingleIndentationInMethodRule.php # 54
                 - packages/easy-coding-standard/src/Console/EasyCodingStandardConsoleApplication.php # 30
-                - packages/easy-coding-standard/src/Console/Output/OutputFormatterCollector.php # 23
                 - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 37
                 - packages/monorepo-builder/packages/merge/src/Configuration/ModifyingComposerJsonProvider.php # 28
                 - packages/monorepo-builder/packages/merge/src/Configuration/ModifyingComposerJsonProvider.php # 33

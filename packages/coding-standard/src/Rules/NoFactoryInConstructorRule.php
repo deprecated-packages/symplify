@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
@@ -22,7 +23,7 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Do not use factory in constructor';
+    public const ERROR_MESSAGE = 'Do not use factory/method call in constructor, put factory in config and get service with dependency injection';
 
     /**
      * @var string[]
@@ -43,16 +44,17 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $reflectionFunction = $scope->getFunction();
-        if (! $reflectionFunction instanceof MethodReflection) {
-            return [];
-        }
-
-        if ($reflectionFunction->getName() !== '__construct') {
+        if (! $this->isInConstructMethod($scope)) {
             return [];
         }
 
         if (! $node->var instanceof Variable) {
+            return [];
+        }
+
+        // just assign
+        $parent = $node->getAttribute('parent');
+        if ($parent instanceof ArrayDimFetch) {
             return [];
         }
 
@@ -72,5 +74,15 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    private function isInConstructMethod(Scope $scope): bool
+    {
+        $reflectionFunction = $scope->getFunction();
+        if (! $reflectionFunction instanceof MethodReflection) {
+            return false;
+        }
+
+        return $reflectionFunction->getName() === '__construct';
     }
 }
