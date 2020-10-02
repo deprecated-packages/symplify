@@ -3,11 +3,10 @@
 
 declare(strict_types=1);
 
-use Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symplify\MonorepoBuilder\HttpKernel\GenudocBuilderKernel;
+use Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\SetConfigResolver\ConfigResolver;
-use Symplify\SetConfigResolver\SetAwareConfigResolver;
 use Symplify\PackageBuilder\Console\Input\InputDetector;
 
 # 1. autoload
@@ -35,7 +34,7 @@ $configFileInfos = [];
 
 $configResolver = new ConfigResolver();
 $inputConfigFileInfo = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [
-    'monorepo-builder.yml', 'monorepo-builder.yaml', 'monorepo-builder.php'
+    'monorepo-builder.php', 'monorepo-builder.yml', 'monorepo-builder.yaml',
 ]);
 
 if ($inputConfigFileInfo !== null) {
@@ -44,7 +43,7 @@ if ($inputConfigFileInfo !== null) {
 
 // the environment name must be "random", so configs are invalidated without clearing the cache
 $environment = 'prod' . random_int(0, 100000);
-$monorepoBuilderKernel = new GenudocBuilderKernel($environment, InputDetector::isDebug());
+$monorepoBuilderKernel = new MonorepoBuilderKernel($environment, InputDetector::isDebug());
 if ($configFileInfos !== []) {
     $monorepoBuilderKernel->setConfigs($configFileInfos);
 }
