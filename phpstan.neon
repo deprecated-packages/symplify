@@ -241,10 +241,7 @@ parameters:
         -
             message: '#Do not call parent method if parent method is empty#'
             paths:
-                - packages/coding-standard/src/TokenRunner/Exception/TokenNotFoundException.php # 15
-                - packages/set-config-resolver/src/Exception/SetNotFoundException.php # 29
                 - packages/smart-file-system/src/SmartFileInfo.php # 122
-                - packages/symfony-static-dumper/tests/Routing/RoutesProviderTest.php # 21
 
         -
             message: '#Do not use static property#'
