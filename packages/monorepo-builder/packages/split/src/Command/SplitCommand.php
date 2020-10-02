@@ -8,11 +8,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\MonorepoBuilder\Split\Configuration\Option;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\FileSystem\DirectoryToRepositoryProvider;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
-use Symplify\MonorepoBuilder\ValueObject\Option as BaseOption;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
@@ -51,7 +50,7 @@ final class SplitCommand extends Command
         $this->packageToRepositorySplitter = $packageToRepositorySplitter;
         $this->directoryToRepositoryProvider = $directoryToRepositoryProvider;
 
-        $this->rootDirectory = $parameterProvider->provideStringParameter(BaseOption::ROOT_DIRECTORY);
+        $this->rootDirectory = $parameterProvider->provideStringParameter(Option::ROOT_DIRECTORY);
     }
 
     protected function configure(): void

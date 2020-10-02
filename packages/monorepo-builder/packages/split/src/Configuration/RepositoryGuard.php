@@ -47,11 +47,13 @@ final class RepositoryGuard
     {
         $this->fileSystemGuard->ensureDirectoryExists($repositoryDirectory);
 
-        if (! file_exists($repositoryDirectory . '/.git')) {
-            throw new InvalidGitRepositoryException(sprintf(
-                '.git was not found in "%s" directory',
-                $repositoryDirectory
-            ));
+        if (file_exists($repositoryDirectory . '/.git')) {
+            return;
         }
+
+        throw new InvalidGitRepositoryException(sprintf(
+            '.git was not found in "%s" directory',
+            $repositoryDirectory
+        ));
     }
 }
