@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreferredRawDataInTestDataProvider;
+namespace Symplify\CodingStandard\Tests\Rules\PreferredRawDataInTestDataProviderRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
