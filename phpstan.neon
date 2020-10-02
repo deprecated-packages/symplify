@@ -7,11 +7,6 @@ includes:
 
 services:
     -
-         class: Ergebnis\PHPStan\Rules\Classes\PHPUnit\Framework\TestCaseWithSuffixRule
-         tags:
-                 - phpstan.rules.rule
-
-    -
         class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
