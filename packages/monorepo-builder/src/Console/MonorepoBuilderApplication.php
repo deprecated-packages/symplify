@@ -14,7 +14,7 @@ use Symplify\MonorepoBuilder\Console\Command\ValidateCommand;
 use Symplify\MonorepoBuilder\Merge\Command\MergeCommand;
 use Symplify\MonorepoBuilder\Release\Command\ReleaseCommand;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
-use Symplify\PackageBuilder\Console\AbstractSymplifyConsoleApplication;
+use Symplify\SymplifyKernel\Console\AbstractSymplifyConsoleApplication;
 
 final class MonorepoBuilderApplication extends AbstractSymplifyConsoleApplication
 {

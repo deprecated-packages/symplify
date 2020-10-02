@@ -26,10 +26,12 @@ final class AutowireInterfacesCompilerPass implements CompilerPassInterface
     {
         foreach ($containerBuilder->getDefinitions() as $definition) {
             foreach ($this->typesToAutowire as $typeToAutowire) {
-                if (is_a((string) $definition->getClass(), $typeToAutowire, true)) {
-                    $definition->setAutowired(true);
-                    continue 2;
+                if (! is_a((string) $definition->getClass(), $typeToAutowire, true)) {
+                    continue;
                 }
+
+                $definition->setAutowired(true);
+                continue 2;
             }
         }
     }

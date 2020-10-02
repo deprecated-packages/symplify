@@ -1,6 +1,9 @@
 {
     "autoload": {
-        "classmap": ["src"]
+        "classmap": ["src"],
+        "psr-4": {
+            "App\\": "directory"
+        }
     },
     "autoload-dev": {
         "classmap": ["tests"]

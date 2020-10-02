@@ -7,8 +7,8 @@ namespace Symplify\SetConfigResolver\Provider;
 use Nette\Utils\Strings;
 use Symplify\SetConfigResolver\Contract\SetProviderInterface;
 use Symplify\SetConfigResolver\Exception\SetNotFoundException;
-use Symplify\SetConfigResolver\Exception\ShouldNotHappenException;
 use Symplify\SetConfigResolver\ValueObject\Set;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 abstract class AbstractSetProvider implements SetProviderInterface
 {

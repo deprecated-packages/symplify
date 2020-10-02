@@ -1,0 +1,33 @@
+{
+    "name": "symplify/symplify-kernel",
+    "description": "Internal Kernel for Symplify packages",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2",
+        "symfony/console": "^4.4|^5.1",
+        "symfony/http-kernel": "^4.4|^5.1",
+        "symfony/dependency-injection": "^4.4|^5.1",
+        "symplify/smart-file-system": "^8.4",
+        "symplify/package-builder": "^8.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5|^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\SymplifyKernel\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\SymplifyKernel\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "8.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

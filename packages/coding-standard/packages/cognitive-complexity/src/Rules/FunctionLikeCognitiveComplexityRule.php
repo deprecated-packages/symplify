@@ -12,8 +12,8 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
-use Symplify\CodingStandard\Exception\ShouldNotHappenException;
 use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
  * Based on https://www.sonarsource.com/docs/CognitiveComplexity.pdf

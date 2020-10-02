@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\EasyTesting\ValueObject;
 
-use Symplify\EasyTesting\Exception\ShouldNotHappenException;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ExpectedAndOutputFileInfoPair
 {
