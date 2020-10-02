@@ -12,7 +12,7 @@ use PHPStan\Rules\Rule;
 /**
  * @deprecated
  */
-final class DeprecatedRuleWithoutSee implements Rule
+final class SkipDeprecatedRuleWithoutSee implements Rule
 {
     public function getNodeType(): string
     {

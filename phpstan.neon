@@ -340,3 +340,17 @@ parameters:
                 - packages/monorepo-builder/packages/merge/src/Configuration/ModifyingComposerJsonProvider.php # 33
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
 
+        -
+             message: '#Node "empty" is fobidden to use#'
+             paths:
+                - packages/package-builder/src/Yaml/ParametersMerger.php
+
+        -
+            message: '#Node "switch" is fobidden to use#'
+            paths:
+                 - packages/easy-hydrator/src/ValueResolver.php
+
+        -
+            message:  '#Node "errorsuppress" is fobidden to use#'
+            paths:
+                - packages/smart-file-system/src/SmartFileSystem.php
