@@ -70,7 +70,7 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
                 continue;
             }
 
-            if ($this->isSkipped($classMethod, $scope)) {
+            if (! $this->isSkipped($classMethod, $scope)) {
                 continue;
             }
 
@@ -84,21 +84,18 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
     {
         /** @var MethodCall[] $methodCalls */
         $methodCalls = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), MethodCall::class);
+        $skipped = false;
         foreach ($methodCalls as $methodCall) {
             $callerType = $scope->getType($methodCall->var);
-            if (! $callerType instanceof ThisType) {
-                continue;
-            }
-
             /** @var Identifier $name */
             $name = $methodCall->name;
-            if (strtolower((string) $name) !== 'setup') {
-                continue;
-            }
 
-            return false;
+            if ($callerType instanceof ThisType || strtolower((string) $name) === 'setup') {
+                $skipped = true;
+                break;
+            }
         }
 
-        return true;
+        return $skipped;
     }
 }
