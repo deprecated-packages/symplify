@@ -2,12 +2,26 @@ includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - packages/phpstan-extensions/config/config.neon
     - packages/coding-standard/config/symplify-rules.neon
+    # for cognitive rules
+    - packages/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-services.neon
 
 services:
     -
          class: Ergebnis\PHPStan\Rules\Classes\PHPUnit\Framework\TestCaseWithSuffixRule
          tags:
                  - phpstan.rules.rule
+
+    -
+        class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxMethodCognitiveComplexity: 8
+
+    -
+        class: Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassCognitiveComplexity: 50
 
 parameters:
     level: max
@@ -16,7 +30,6 @@ parameters:
 
     paths:
         - packages
-
 
     excludes_analyse:
         - *packages/monorepo-builder/packages/init/templates/*
