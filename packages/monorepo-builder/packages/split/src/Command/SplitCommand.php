@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Split\Command;
 
-use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\MonorepoBuilder\Split\Configuration\Option;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
+use Symplify\MonorepoBuilder\Split\FileSystem\DirectoryToRepositoryProvider;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
-use Symplify\MonorepoBuilder\ValueObject\Option as BaseOption;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
@@ -22,17 +21,7 @@ final class SplitCommand extends Command
     /**
      * @var string
      */
-    private const ASTERISK_REGEX = '#\*#';
-
-    /**
-     * @var string
-     */
     private $rootDirectory;
-
-    /**
-     * @var string[]
-     */
-    private $directoriesToRepositories = [];
 
     /**
      * @var RepositoryGuard
@@ -44,21 +33,24 @@ final class SplitCommand extends Command
      */
     private $packageToRepositorySplitter;
 
+    /**
+     * @var DirectoryToRepositoryProvider
+     */
+    private $directoryToRepositoryProvider;
+
     public function __construct(
         RepositoryGuard $repositoryGuard,
         ParameterProvider $parameterProvider,
-        PackageToRepositorySplitter $packageToRepositorySplitter
+        PackageToRepositorySplitter $packageToRepositorySplitter,
+        DirectoryToRepositoryProvider $directoryToRepositoryProvider
     ) {
         parent::__construct();
 
         $this->repositoryGuard = $repositoryGuard;
-
-        $this->directoriesToRepositories = $parameterProvider->provideArrayParameter(
-            BaseOption::DIRECTORIES_TO_REPOSITORIES
-        );
-        $this->rootDirectory = $parameterProvider->provideStringParameter(BaseOption::ROOT_DIRECTORY);
-
         $this->packageToRepositorySplitter = $packageToRepositorySplitter;
+        $this->directoryToRepositoryProvider = $directoryToRepositoryProvider;
+
+        $this->rootDirectory = $parameterProvider->provideStringParameter(Option::ROOT_DIRECTORY);
     }
 
     protected function configure(): void
@@ -105,7 +97,7 @@ final class SplitCommand extends Command
 
         $branch = $input->getOption(Option::BRANCH) ? (string) $input->getOption(Option::BRANCH) : null;
 
-        $resolvedDirectoriesToRepository = $this->getDirectoriesToRepositories();
+        $resolvedDirectoriesToRepository = $this->directoryToRepositoryProvider->provide();
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $resolvedDirectoriesToRepository,
@@ -116,32 +108,5 @@ final class SplitCommand extends Command
         );
 
         return ShellCode::SUCCESS;
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    private function getDirectoriesToRepositories(): array
-    {
-        $resolvedDirectoriesToRepository = [];
-
-        foreach ($this->directoriesToRepositories as $directory => $repository) {
-            if (! Strings::contains($directory, '*')) {
-                $resolvedDirectoriesToRepository[$directory] = $repository;
-                continue;
-            }
-
-            // fnmatch
-            $patternWithoutAsterisk = (string) trim($directory, '*');
-            foreach ((array) glob($directory) as $foundDirectory) {
-                /** @var string $foundDirectory */
-                $exclusiveName = Strings::after($foundDirectory, $patternWithoutAsterisk);
-                $targetRepository = Strings::replace($repository, self::ASTERISK_REGEX, $exclusiveName);
-
-                $resolvedDirectoriesToRepository[$foundDirectory] = $targetRepository;
-            }
-        }
-
-        return $resolvedDirectoriesToRepository;
     }
 }

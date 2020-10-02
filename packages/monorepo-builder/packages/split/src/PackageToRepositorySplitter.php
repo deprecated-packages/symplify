@@ -6,11 +6,11 @@ namespace Symplify\MonorepoBuilder\Split;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
-use Symplify\MonorepoBuilder\Split\Configuration\Option;
 use Symplify\MonorepoBuilder\Split\Exception\PackageToRepositorySplitException;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
 use Symplify\MonorepoBuilder\Split\ValueObject\SplitProcessInfo;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
 use Symplify\SmartFileSystem\FileSystemGuard;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\ValueObject;
+namespace Symplify\Gerudoc\ValueObject;
 
 final class Option
 {
