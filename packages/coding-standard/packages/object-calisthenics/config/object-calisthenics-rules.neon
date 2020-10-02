@@ -1,3 +1,6 @@
+includes:
+    - object-calisthenics-services.neon
+
 services:
     -
         class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule

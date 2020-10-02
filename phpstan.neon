@@ -331,7 +331,7 @@ parameters:
                 - packages/symfony-static-dumper/src/Routing/RoutesProvider.php # 19
 
         -
-            message: '#Do not use factory in constructor#'
+            message: '#Do not use factory/method call in constructor, put factory in config and get service with dependency injection#'
             paths:
                 - packages/easy-coding-standard/src/Console/EasyCodingStandardConsoleApplication.php # 30
                 - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 37

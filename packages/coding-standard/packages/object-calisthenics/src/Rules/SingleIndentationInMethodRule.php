@@ -6,11 +6,10 @@ namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\ObjectCalisthenics\Marker\IndentationMarker;
-use Symplify\CodingStandard\ObjectCalisthenics\NodeVisitor\IndentationNodeVisitor;
+use Symplify\CodingStandard\ObjectCalisthenics\NodeTraverserFactory\IndentationNodeTraverserFactory;
 
 /**
  * @see https://williamdurand.fr/2013/06/03/object-calisthenics/#1-only-one-level-of-indentation-per-method
@@ -36,26 +35,23 @@ final class SingleIndentationInMethodRule implements Rule
     private $indentationMarker;
 
     /**
-     * @var NodeTraverser
-     */
-    private $indentationNodeTraverser;
-
-    /**
      * @var int
      */
     private $maxNestingLevel;
 
-    public function __construct(int $maxNestingLevel = 1)
-    {
-        $this->indentationMarker = new IndentationMarker();
-        $indentationNodeVisitor = new IndentationNodeVisitor($this->indentationMarker);
+    /**
+     * @var IndentationNodeTraverserFactory
+     */
+    private $indentationNodeTraverserFactory;
 
-        $nodeTraverser = new NodeTraverser();
-        $nodeTraverser->addVisitor($indentationNodeVisitor);
-
-        $this->indentationNodeTraverser = $nodeTraverser;
-
+    public function __construct(
+        IndentationMarker $indentationMarker,
+        IndentationNodeTraverserFactory $indentationNodeTraverserFactory,
+        int $maxNestingLevel = 1
+    ) {
+        $this->indentationMarker = $indentationMarker;
         $this->maxNestingLevel = $maxNestingLevel;
+        $this->indentationNodeTraverserFactory = $indentationNodeTraverserFactory;
     }
 
     public function getNodeType(): string
@@ -70,7 +66,9 @@ final class SingleIndentationInMethodRule implements Rule
     public function processNode(Node $node, Scope $scope): array
     {
         $this->indentationMarker->reset();
-        $this->indentationNodeTraverser->traverse([$node]);
+
+        $nodeTraverser = $this->indentationNodeTraverserFactory->create();
+        $nodeTraverser->traverse([$node]);
 
         $limitIndentation = $this->maxNestingLevel + self::DEFAULT_DEPTH;
 
