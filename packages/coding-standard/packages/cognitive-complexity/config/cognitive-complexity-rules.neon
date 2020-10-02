@@ -1,4 +1,4 @@
-imports:
+includes:
     - cognitive-complexity-services.neon
 
 services:
