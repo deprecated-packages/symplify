@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
@@ -12,7 +13,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckUnneededSymfonyStyleUsageRule\CheckUnneededSymfonyStyleUsageRuleTest
@@ -34,15 +34,9 @@ final class CheckUnneededSymfonyStyleUsageRule implements Rule
      */
     private $nodeFinder;
 
-    /**
-     * @var NodeNameResolver
-     */
-    private $nodeNameResolver;
-
-    public function __construct(NodeFinder $nodeFinder, NodeNameResolver $nodeNameResolver)
+    public function __construct(NodeFinder $nodeFinder)
     {
         $this->nodeFinder = $nodeFinder;
-        $this->nodeNameResolver = $nodeNameResolver;
     }
 
     public function getNodeType(): string
@@ -74,11 +68,11 @@ final class CheckUnneededSymfonyStyleUsageRule implements Rule
                 continue;
             }
 
-            $methodName = $this->nodeNameResolver->getName($methodCall->name);
-            if ($methodName === null) {
+            if ($methodCall->name instanceof Expr) {
                 continue;
             }
 
+            $methodName = (string) $methodCall->name;
             if (! in_array($methodName, self::SIMPLE_CONSOLE_OUTPUT_METHODS, true)) {
                 $foundAllowedMethod = true;
                 break;
