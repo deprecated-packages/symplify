@@ -90,7 +90,7 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
             /** @var Identifier $name */
             $name = $methodCall->name;
 
-            if ($callerType instanceof ThisType || strtolower((string) $name) === 'setup') {
+            if ($callerType instanceof ThisType && strtolower((string) $name) === 'setup') {
                 $skipped = true;
                 break;
             }
