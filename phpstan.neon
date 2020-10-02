@@ -349,3 +349,8 @@ parameters:
             message: '#Node "switch" is fobidden to use#'
             paths:
                  - packages/easy-hydrator/src/ValueResolver.php
+
+        -
+            message:  '#Node "errorsuppress" is fobidden to use#'
+            paths:
+                - packages/smart-file-system/src/SmartFileSystem.php
