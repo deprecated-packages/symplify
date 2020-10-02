@@ -1,5 +1,4 @@
 includes:
-    - ../packages/cognitive-complexity/config/cognitive-complexity-rules.neon
     - symplify-rules/array-rules.neon
     - symplify-rules/code-complexity-rules.neon
     - symplify-rules/static-rules.neon
