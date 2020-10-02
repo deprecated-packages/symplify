@@ -83,7 +83,7 @@
             "Symplify\\EasyHydrator\\": "packages/easy-hydrator/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\FlexLoader\\": "packages/flex-loader/src",
-            "Symplify\\Genedoc\\": "packages/gerudoc/src",
+            "Symplify\\Gerudoc\\": "packages/gerudoc/src",
             "Symplify\\MonorepoBuilder\\": "packages/monorepo-builder/src",
             "Symplify\\MonorepoBuilder\\Compiler\\": "packages/monorepo-builder/compiler/src",
             "Symplify\\MonorepoBuilder\\Init\\": "packages/monorepo-builder/packages/init/src",
@@ -124,7 +124,7 @@
             "Symplify\\EasyHydrator\\Tests\\": "packages/easy-hydrator/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\FlexLoader\\Tests\\": "packages/flex-loader/tests",
-            "Symplify\\Genedoc\\Tests\\": "packages/gerudoc/tests",
+            "Symplify\\Gerudoc\\Tests\\": "packages/gerudoc/tests",
             "Symplify\\MonorepoBuilder\\Merge\\Tests\\": "packages/monorepo-builder/packages/merge/tests",
             "Symplify\\MonorepoBuilder\\Release\\Tests\\": "packages/monorepo-builder/packages/release/tests",
             "Symplify\\MonorepoBuilder\\Split\\Tests\\": "packages/monorepo-builder/packages/split/tests",
@@ -135,8 +135,7 @@
             "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
-            "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
-            "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests"
+            "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src"
         }
     },
     "replace": {
@@ -152,7 +151,7 @@
         "symplify/easy-hydrator": "8.3.17",
         "symplify/easy-testing": "8.3.17",
         "symplify/flex-loader": "8.3.17",
-        "symplify/genedoc": "self.version",
+        "symplify/gerudoc": "self.version",
         "symplify/monorepo-builder": "8.3.17",
         "symplify/package-builder": "8.3.17",
         "symplify/phpstan-extensions": "8.3.17",

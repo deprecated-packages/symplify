@@ -23,6 +23,7 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
+
         $this->jsonFileManager = self::$container->get(JsonFileManager::class);
         $this->composerJsonSymlinker = self::$container->get(ComposerJsonSymlinker::class);
     }

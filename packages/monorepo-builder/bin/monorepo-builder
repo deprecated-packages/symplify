@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 use Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\MonorepoBuilder\HttpKernel\GenudocBuilderKernel;
 use Symplify\SetConfigResolver\ConfigResolver;
 use Symplify\SetConfigResolver\SetAwareConfigResolver;
 use Symplify\PackageBuilder\Console\Input\InputDetector;
@@ -44,7 +44,7 @@ if ($inputConfigFileInfo !== null) {
 
 // the environment name must be "random", so configs are invalidated without clearing the cache
 $environment = 'prod' . random_int(0, 100000);
-$monorepoBuilderKernel = new MonorepoBuilderKernel($environment, InputDetector::isDebug());
+$monorepoBuilderKernel = new GenudocBuilderKernel($environment, InputDetector::isDebug());
 if ($configFileInfos !== []) {
     $monorepoBuilderKernel->setConfigs($configFileInfos);
 }

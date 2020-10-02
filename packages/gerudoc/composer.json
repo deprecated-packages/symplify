@@ -1,9 +1,9 @@
 {
-    "name": "symplify/genedoc",
+    "name": "symplify/gerudoc",
     "description": "Documentation generator for coding standard or static analysis rules",
     "license": "MIT",
     "bin": [
-        "bin/genedoc"
+        "bin/gerudoc"
     ],
     "require": {
         "php": ">=7.2",
@@ -16,12 +16,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\Genedoc\\": "src"
+            "Symplify\\Gerudoc\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\Genedoc\\Tests\\": "tests"
+            "Symplify\\Gerudoc\\Tests\\": "tests"
         }
     },
     "extra": {
