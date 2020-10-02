@@ -1,3 +1,6 @@
+imports:
+    - cognitive-complexity-services.neon
+
 services:
     -
         class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
@@ -10,8 +13,3 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxClassCognitiveComplexity: 50
-
-    - Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer
-    - Symplify\CodingStandard\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector
-    - Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\NestingNodeVisitor
-    - Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor
