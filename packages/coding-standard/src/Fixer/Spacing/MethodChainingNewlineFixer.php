@@ -150,30 +150,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
             $currentToken = $tokens[$i];
 
             if ($currentToken->getContent() === '(') {
-                $previousMeaningfulTokenPosition = $tokens->getPrevNonWhitespace($i);
-                if ($previousMeaningfulTokenPosition === null) {
-                    return false;
-                }
-
-                $previousToken = $tokens[$previousMeaningfulTokenPosition];
-                if (! $previousToken->isGivenKind(T_STRING)) {
-                    return false;
-                }
-
-                $previousPreviousMeaningfulTokenPosition = $tokens->getPrevNonWhitespace(
-                    $previousMeaningfulTokenPosition
-                );
-                if ($previousPreviousMeaningfulTokenPosition === null) {
-                    return false;
-                }
-
-                $previousPreviousToken = $tokens[$previousPreviousMeaningfulTokenPosition];
-                if ($previousPreviousToken->getContent() === '{') {
-                    return true;
-                }
-
-                // is a function
-                return $previousPreviousToken->isGivenKind([T_RETURN, T_DOUBLE_COLON, T_OPEN_CURLY_BRACKET]);
+                return $this->doesContentBeforeBracketRequireNewline($tokens, $i);
             }
 
             if ($this->isNewlineToken($currentToken)) {
@@ -255,5 +232,31 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
         }
 
         return false;
+    }
+
+    private function doesContentBeforeBracketRequireNewline(Tokens $tokens, int $i): bool
+    {
+        $previousMeaningfulTokenPosition = $tokens->getPrevNonWhitespace($i);
+        if ($previousMeaningfulTokenPosition === null) {
+            return false;
+        }
+
+        $previousToken = $tokens[$previousMeaningfulTokenPosition];
+        if (! $previousToken->isGivenKind(T_STRING)) {
+            return false;
+        }
+
+        $previousPreviousMeaningfulTokenPosition = $tokens->getPrevNonWhitespace($previousMeaningfulTokenPosition);
+        if ($previousPreviousMeaningfulTokenPosition === null) {
+            return false;
+        }
+
+        $previousPreviousToken = $tokens[$previousPreviousMeaningfulTokenPosition];
+        if ($previousPreviousToken->getContent() === '{') {
+            return true;
+        }
+
+        // is a function
+        return $previousPreviousToken->isGivenKind([T_RETURN, T_DOUBLE_COLON, T_OPEN_CURLY_BRACKET]);
     }
 }
