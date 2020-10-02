@@ -222,7 +222,6 @@ parameters:
         -
             message: '#Do not use static property#'
             paths:
-                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 31
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
 
         # todo resolve later
@@ -242,11 +241,6 @@ parameters:
             message: '#Do not call parent method if parent method is empty#'
             paths:
                 - packages/smart-file-system/src/SmartFileInfo.php # 122
-
-#        -
-#            message: '#Do not use static property#'
-#            paths:
-#                - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
 
         -
             message: '#"Tests" namespace \(Symplify\\PackageBuilder\\Tests\) used outside of "tests" directory \(packages/package\-builder/src/Tests/AbstractKernelTestCase\.php\)#'

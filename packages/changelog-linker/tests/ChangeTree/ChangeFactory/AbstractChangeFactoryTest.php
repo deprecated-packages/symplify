@@ -25,21 +25,10 @@ abstract class AbstractChangeFactoryTest extends AbstractKernelTestCase
      */
     protected $changeFactory;
 
-    /**
-     * @var ChangeFactory|null
-     */
-    private static $cachedChangeFactory;
-
     protected function setUp(): void
     {
-        // this is needed, because every item in dataProviders resets $changeFactory property to null, dunno why
-        if (self::$cachedChangeFactory !== null) {
-            $this->changeFactory = self::$cachedChangeFactory;
-        } else {
-            $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/config.yml']);
-            $this->changeFactory = self::$container->get(ChangeFactory::class);
-            self::$cachedChangeFactory = $this->changeFactory;
-        }
+        $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/config.php']);
+        $this->changeFactory = self::$container->get(ChangeFactory::class);
     }
 
     protected function createChangeForTitle(string $title): Change
