@@ -150,12 +150,24 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
             $currentToken = $tokens[$i];
 
             if ($currentToken->getContent() === '(') {
-                $previousToken = $this->getPreviousToken($tokens, $position);
+                $previousMeaningfulTokenPosition = $tokens->getPrevNonWhitespace($i);
+                if ($previousMeaningfulTokenPosition === null) {
+                    return false;
+                }
+
+                $previousToken = $tokens[$previousMeaningfulTokenPosition];
                 if (! $previousToken->isGivenKind(T_STRING)) {
                     return false;
                 }
 
-                $previousPreviousToken = $this->getPreviousToken($tokens, $position - 1);
+                $previousPreviousMeaningfulTokenPosition = $tokens->getPrevNonWhitespace(
+                    $previousMeaningfulTokenPosition
+                );
+                if ($previousPreviousMeaningfulTokenPosition === null) {
+                    return false;
+                }
+
+                $previousPreviousToken = $tokens[$previousPreviousMeaningfulTokenPosition];
                 if ($previousPreviousToken->getContent() === '{') {
                     return true;
                 }
@@ -179,16 +191,6 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
         }
 
         return Strings::contains($currentToken->getContent(), "\n");
-    }
-
-    private function getPreviousToken(Tokens $tokens, int $position): ?Token
-    {
-        $previousMeaningfulTokenPosition = $tokens->getPrevMeaningfulToken($position - 1);
-        if ($previousMeaningfulTokenPosition === null) {
-            return null;
-        }
-
-        return $tokens[$previousMeaningfulTokenPosition];
     }
 
     /**
