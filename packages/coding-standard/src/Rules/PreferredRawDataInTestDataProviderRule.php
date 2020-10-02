@@ -7,7 +7,7 @@ namespace Symplify\CodingStandard\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Stmt;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
@@ -70,26 +70,37 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
                 continue;
             }
 
-            /** @var Stmt[] $stmts */
-            $stmts = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), Stmt::class);
-            foreach ($stmts as $stmt) {
-                if (! $stmt->expr instanceof MethodCall) {
-                    continue;
-                }
-
-                $callerType = $scope->getType($stmt->expr->var);
-                if (! $callerType instanceof ThisType) {
-                    continue;
-                }
-
-                if (strtolower((string) $stmt->expr->name) !== 'setup') {
-                    continue;
-                }
-
-                return [self::ERROR_MESSAGE];
+            if ($this->isSkipped($classMethod, $scope)) {
+                continue;
             }
+
+            return [self::ERROR_MESSAGE];
         }
 
         return [];
+    }
+
+    private function isSkipped(ClassMethod $classMethod, Scope $scope): bool
+    {
+        /** @var MethodCall[] $methodCalls */
+        $methodCalls = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), MethodCall::class);
+        $isSkipped = true;
+        foreach ($methodCalls as $methodCall) {
+            $callerType = $scope->getType($methodCall->var);
+            if (! $callerType instanceof ThisType) {
+                continue;
+            }
+
+            /** @var Identifier $name */
+            $name = $methodCall->name;
+            if (strtolower((string) $name) !== 'setup') {
+                continue;
+            }
+
+            $isSkipped = false;
+            break;
+        }
+
+        return $isSkipped;
     }
 }
