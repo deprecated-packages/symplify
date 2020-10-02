@@ -84,18 +84,16 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
     {
         /** @var MethodCall[] $methodCalls */
         $methodCalls = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), MethodCall::class);
-        $foundSetup = false;
         foreach ($methodCalls as $methodCall) {
             $callerType = $scope->getType($methodCall->var);
             /** @var Identifier $name */
             $name = $methodCall->name;
 
             if ($callerType instanceof ThisType && strtolower((string) $name) === 'setup') {
-                $foundSetup = true;
-                break;
+                return false;
             }
         }
 
-        return ! $foundSetup;
+        return true;
     }
 }
