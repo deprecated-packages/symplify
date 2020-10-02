@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
-use Psr\Container\ContainerInterface;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser;
 
