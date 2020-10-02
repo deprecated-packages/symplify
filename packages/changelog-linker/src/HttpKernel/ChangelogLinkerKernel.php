@@ -6,67 +6,20 @@ namespace Symplify\ChangelogLinker\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\AddRepositoryUrlAndRepositoryNameParametersCompilerPass;
-use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class ChangelogLinkerKernel extends Kernel implements ExtraConfigAwareKernelInterface
+final class ChangelogLinkerKernel extends AbstractSymplifyKernel
 {
-    /**
-     * @var string[]
-     */
-    private $configs = [];
-
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../../config/config.php');
 
-        foreach ($this->configs as $config) {
-            $loader->load($config);
-        }
+        parent::registerContainerConfiguration($loader);
     }
 
-    /**
-     * @param string[]|SmartFileInfo[] $configs
-     */
-    public function setConfigs(array $configs): void
-    {
-        foreach ($configs as $config) {
-            if ($config instanceof SmartFileInfo) {
-                $config = $config->getRealPath();
-            }
-
-            $this->configs[] = $config;
-        }
-    }
-
-    public function getCacheDir(): string
-    {
-        return sys_get_temp_dir() . '/changelog_linker';
-    }
-
-    public function getLogDir(): string
-    {
-        return sys_get_temp_dir() . '/changelog_linker_log';
-    }
-
-    /**
-     * @return BundleInterface[]
-     */
-    public function registerBundles(): iterable
-    {
-        return [];
-    }
-
-    /**
-     * Order matters!
-     */
     protected function build(ContainerBuilder $containerBuilder): void
     {
-        $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
         $containerBuilder->addCompilerPass(new AddRepositoryUrlAndRepositoryNameParametersCompilerPass());
     }
 }

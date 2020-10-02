@@ -52,7 +52,6 @@
         "migrify/easy-ci": "^0.3.41",
         "nette/application": "^3.0",
         "nette/bootstrap": "^3.0",
-        "nikic/php-parser": "^4.8",
         "phpunit/phpunit": "^8.5|^9.0",
         "rector/rector": "^0.8.12",
         "symfony/framework-bundle": "^4.4|^5.1",
@@ -83,6 +82,7 @@
             "Symplify\\EasyHydrator\\": "packages/easy-hydrator/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\FlexLoader\\": "packages/flex-loader/src",
+            "Symplify\\Gerudoc\\": "packages/gerudoc/src",
             "Symplify\\MonorepoBuilder\\": "packages/monorepo-builder/src",
             "Symplify\\MonorepoBuilder\\Compiler\\": "packages/monorepo-builder/compiler/src",
             "Symplify\\MonorepoBuilder\\Init\\": "packages/monorepo-builder/packages/init/src",
@@ -94,7 +94,8 @@
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\SetConfigResolver\\": "packages/set-config-resolver/src",
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
-            "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src"
+            "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
+            "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src"
         }
     },
     "autoload-dev": {
@@ -148,12 +149,14 @@
         "symplify/easy-hydrator": "8.3.17",
         "symplify/easy-testing": "8.3.17",
         "symplify/flex-loader": "8.3.17",
+        "symplify/gerudoc": "self.version",
         "symplify/monorepo-builder": "8.3.17",
         "symplify/package-builder": "8.3.17",
         "symplify/phpstan-extensions": "8.3.17",
         "symplify/set-config-resolver": "8.3.17",
         "symplify/smart-file-system": "8.3.17",
-        "symplify/symfony-static-dumper": "8.3.17"
+        "symplify/symfony-static-dumper": "8.3.17",
+        "symplify/symplify-kernel": "self.version"
     },
     "scripts": {
         "complete-check": [

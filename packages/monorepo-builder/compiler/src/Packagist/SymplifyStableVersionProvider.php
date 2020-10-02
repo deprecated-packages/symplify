@@ -6,8 +6,8 @@ namespace Symplify\MonorepoBuilder\Compiler\Packagist;
 
 use Nette\Utils\Json;
 use PharIo\Version\Version;
-use Symplify\MonorepoBuilder\Compiler\Exception\ShouldNotHappenException;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class SymplifyStableVersionProvider
 {

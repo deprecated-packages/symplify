@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Console;
+namespace Symplify\SymplifyKernel\Console;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Application;
@@ -11,6 +11,7 @@ use Symfony\Component\Console\Descriptor\TextDescriptor;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\PackageBuilder\Console\ShellCode;
 
 abstract class AbstractSymplifyConsoleApplication extends Application
 {
@@ -32,7 +33,7 @@ abstract class AbstractSymplifyConsoleApplication extends Application
         try {
             return parent::doRunCommand($command, $input, $output);
         } catch (RuntimeException $runtimeException) {
-            if (Strings::contains($runtimeException->getMessage(), 'Not enough arguments')) {
+            if (Strings::contains($runtimeException->getMessage(), 'Provide required arguments')) {
                 $this->cleanExtraCommandArgument($command);
                 (new TextDescriptor())->describe($output, $command);
 

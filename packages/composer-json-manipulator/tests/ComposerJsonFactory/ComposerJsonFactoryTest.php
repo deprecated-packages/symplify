@@ -35,5 +35,7 @@ final class ComposerJsonFactoryTest extends AbstractKernelTestCase
         $this->assertSame($composerJsonFilePath, $fileInfo->getRealPath());
 
         $this->assertCount(2, $composerJson->getAllClassmaps());
+
+        $this->assertSame(['directory', 'src'], $composerJson->getPsr4AndClassmapDirectories());
     }
 }

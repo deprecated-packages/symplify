@@ -18,7 +18,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->public();
 
     $services->load('Symplify\SymfonyStaticDumper\\', __DIR__ . '/../src')
-        ->exclude([__DIR__ . '/../src/Exception', __DIR__ . '/../src/ValueObject']);
+        ->exclude([__DIR__ . '/../src/ValueObject']);
 
     $services->set(FinderSanitizer::class);
 

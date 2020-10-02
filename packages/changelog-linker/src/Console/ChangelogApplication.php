@@ -12,8 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\ChangelogLinker\Configuration\Option;
-use Symplify\PackageBuilder\Console\AbstractSymplifyConsoleApplication;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\SymplifyKernel\Console\AbstractSymplifyConsoleApplication;
 
 final class ChangelogApplication extends AbstractSymplifyConsoleApplication
 {

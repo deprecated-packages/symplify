@@ -161,6 +161,17 @@ final class ComposerJson
     }
 
     /**
+     * @return string[]
+     */
+    public function getPsr4AndClassmapDirectories(): array
+    {
+        $psr4Directories = array_values($this->autoload['psr-4'] ?? []);
+        $classmapDirectories = $this->autoload['classmap'] ?? [];
+
+        return array_merge($psr4Directories, $classmapDirectories);
+    }
+
+    /**
      * @param mixed[] $autoload
      */
     public function setAutoload(array $autoload): void

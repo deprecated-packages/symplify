@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Service\ResetInterface;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PackageBuilder\Exception\HttpKernel\MissingInterfaceException;
-use Symplify\PackageBuilder\Exception\ShouldNotHappenException;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
  * Inspiration
