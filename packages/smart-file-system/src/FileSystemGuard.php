@@ -24,7 +24,7 @@ final class FileSystemGuard
         }
 
         $message = sprintf('Directory "%s" was not found.', $directory);
-        if ($extraMessage) {
+        if ($extraMessage !== '') {
             $message .= ' ' . $extraMessage;
         }
 
