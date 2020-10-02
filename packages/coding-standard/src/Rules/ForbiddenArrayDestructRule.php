@@ -78,12 +78,10 @@ final class ForbiddenArrayDestructRule implements Rule
     private function isAllowedCall(Assign $assign, Scope $scope): bool
     {
         // "explode()" is allowed
-        if ($assign->expr instanceof FuncCall) {
-            if ($assign->expr->name instanceof Name) {
-                $funcCallName = $scope->resolveName($assign->expr->name);
-                if ($funcCallName === 'explode') {
-                    return true;
-                }
+        if ($assign->expr instanceof FuncCall && $assign->expr->name instanceof Name) {
+            $funcCallName = $scope->resolveName($assign->expr->name);
+            if ($funcCallName === 'explode') {
+                return true;
             }
         }
 

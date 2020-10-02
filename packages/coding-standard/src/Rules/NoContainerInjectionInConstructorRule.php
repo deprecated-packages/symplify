@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Psr\Container\ContainerInterface;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
@@ -47,7 +48,7 @@ final class NoContainerInjectionInConstructorRule implements Rule
             return [];
         }
 
-        if (! $this->containsTypeAnalyser->containsExprTypes($node, $scope, ['Psr\Container\ContainerInterface'])) {
+        if (! $this->containsTypeAnalyser->containsExprTypes($node, $scope, [ContainerInterface::class])) {
             return [];
         }
 
