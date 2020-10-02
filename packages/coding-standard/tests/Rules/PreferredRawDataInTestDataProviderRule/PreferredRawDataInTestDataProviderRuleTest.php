@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\PreferredRawDataInTestDataProvider
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\PreferredRawDataInTestDataProvider;
+use Symplify\CodingStandard\Rules\PreferredRawDataInTestDataProviderRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class PreferredRawDataInTestDataProviderTest extends AbstractServiceAwareRuleTestCase
+final class PreferredRawDataInTestDataProviderRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -22,13 +22,18 @@ final class PreferredRawDataInTestDataProviderTest extends AbstractServiceAwareR
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/UseRawDataInTestDataProviderTest.php', []];
+        yield [__DIR__ . '/Fixture/NoDataProviderTest.php', []];
+        yield [__DIR__ . '/Fixture/UseRawDataForTestDataProviderTest.php', []];
+        yield [
+            __DIR__ . '/Fixture/UseDataFromSetupInTestDataProviderTest.php',
+            [[PreferredRawDataInTestDataProviderRule::ERROR_MESSAGE, 30]],
+        ];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            PreferredRawDataInTestDataProvider::class,
+            PreferredRawDataInTestDataProviderRule::class,
             __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }
