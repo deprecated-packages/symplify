@@ -84,7 +84,6 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
     {
         /** @var MethodCall[] $methodCalls */
         $methodCalls = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), MethodCall::class);
-        $skipped = true;
         foreach ($methodCalls as $methodCall) {
             $callerType = $scope->getType($methodCall->var);
             if (! $callerType instanceof ThisType) {
@@ -97,10 +96,9 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
                 continue;
             }
 
-            $skipped = false;
-            break;
+            return false;
         }
 
-        return $skipped;
+        return true;
     }
 }
