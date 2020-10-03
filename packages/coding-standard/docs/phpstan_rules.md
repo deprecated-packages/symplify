@@ -1,5 +1,31 @@
 # 40+ PHPStan Rules
 
+## No Container used in `__construct`
+
+- class: [`NoContainerInjectionInConstructorRule`](../src/Rules/NoContainerInjectionInConstructorRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoContainerInjectionInConstructorRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+class SomeClass
+{
+    public function __(ContainerInterface $container)
+    {
+        $container->get('...');
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Forbid Nodes of your Choice
 
 - class: [`NoParticularNodeRule`](../src/Rules/NoParticularNodeRule.php)
@@ -27,6 +53,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ## Interface must be suffixed with "Interface"
 

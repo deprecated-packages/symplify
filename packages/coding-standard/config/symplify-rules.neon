@@ -11,6 +11,10 @@ includes:
 
 services:
     -
+        class: Symplify\CodingStandard\Rules\NoContainerInjectionInConstructorRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\CodingStandard\Rules\NoFactoryInConstructorRule
         tags: [phpstan.rules.rule]
 

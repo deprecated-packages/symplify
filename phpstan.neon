@@ -7,11 +7,6 @@ includes:
 
 services:
     -
-         class: Ergebnis\PHPStan\Rules\Classes\PHPUnit\Framework\TestCaseWithSuffixRule
-         tags:
-                 - phpstan.rules.rule
-
-    -
         class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
@@ -356,3 +351,10 @@ parameters:
             message: '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings\:\:after\(\) expects string, string\|false given#'
             paths:
                  - packages/monorepo-builder/packages/split/src/FileSystem/DirectoryToRepositoryProvider.php
+
+
+        -
+            message: '#Instead of container injection, use specific service#'
+            paths:
+                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
+                 - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 37

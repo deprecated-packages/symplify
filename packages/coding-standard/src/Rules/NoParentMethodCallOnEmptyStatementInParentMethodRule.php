@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Nop;
 use PHPStan\Analyser\Scope;
@@ -52,7 +53,12 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->nodeNameResolver->isName($node->class, 'parent')) {
+        if ($node->class instanceof Expr) {
+            return [];
+        }
+
+        $className = $node->class->toString();
+        if ($className !== 'parent') {
             return [];
         }
 
@@ -67,10 +73,21 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule implements Rule
         }
 
         $methodName = $this->nodeNameResolver->getName($node->name);
+
         if ($methodName === null) {
             return [];
         }
 
+        $parentClassMethodStmtCount = $this->resolveParentClassMethodStmtCount($scope, $methodName);
+        if ($parentClassMethodStmtCount === 0) {
+            return [self::ERROR_MESSAGE];
+        }
+
+        return [];
+    }
+
+    private function resolveParentClassMethodStmtCount(Scope $scope, string $methodName): int
+    {
         $parentClassMethodNodes = $this->parentClassMethodNodeResolver->resolveParentClassMethodNodes(
             $scope,
             $methodName
@@ -85,10 +102,6 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule implements Rule
             ++$countStmts;
         }
 
-        if ($countStmts === 0) {
-            return [self::ERROR_MESSAGE];
-        }
-
-        return [];
+        return $countStmts;
     }
 }

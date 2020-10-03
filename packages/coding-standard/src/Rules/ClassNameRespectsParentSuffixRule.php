@@ -38,6 +38,7 @@ final class ClassNameRespectsParentSuffixRule implements Rule
         'FixerInterface',
         'Handler',
         'Rule',
+        'TestCase' => 'Test',
     ];
 
     /**
@@ -65,6 +66,10 @@ final class ClassNameRespectsParentSuffixRule implements Rule
     public function processNode(Node $node, Scope $scope): array
     {
         if ($node->name === null) {
+            return [];
+        }
+
+        if ($node->isAbstract()) {
             return [];
         }
 
@@ -121,21 +126,24 @@ final class ClassNameRespectsParentSuffixRule implements Rule
     /**
      * @return array<int, string>
      */
-    private function processClassNameAndShort(string $className, string $determiningShortClassName): array
+    private function processClassNameAndShort(string $class, string $currentShortClass): array
     {
-        $determiningShortClassName = $this->resolveExpectedSuffix($determiningShortClassName);
+        $currentShortClass = $this->resolveExpectedSuffix($currentShortClass);
 
-        foreach ($this->getParentClassesToCheck() as $parentClass) {
-            if (! Strings::endsWith($parentClass, $determiningShortClassName)) {
+        foreach ($this->getParentClassesToCheck() as $parentSuffix => $expectedSuffix) {
+            if (is_int($parentSuffix)) {
+                $parentSuffix = $expectedSuffix;
+            }
+
+            if (! Strings::endsWith($currentShortClass, $parentSuffix)) {
                 continue;
             }
 
-            if (Strings::endsWith($className, $determiningShortClassName)) {
+            if (Strings::endsWith($class, $expectedSuffix)) {
                 return [];
             }
 
-            $errorMessage = sprintf(self::ERROR_MESSAGE, $className, $determiningShortClassName);
-
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $class, $currentShortClass);
             return [$errorMessage];
         }
 

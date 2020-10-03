@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
@@ -62,7 +63,7 @@ final class ForbiddenArrayDestructRule implements Rule
             return [];
         }
 
-        if ($this->isAllowedCall($node)) {
+        if ($this->isAllowedCall($node, $scope)) {
             return [];
         }
 
@@ -74,12 +75,16 @@ final class ForbiddenArrayDestructRule implements Rule
         return [self::ERROR_MESSAGE];
     }
 
-    private function isAllowedCall(Assign $assign): bool
+    private function isAllowedCall(Assign $assign, Scope $scope): bool
     {
         // "explode()" is allowed
-        if ($assign->expr instanceof FuncCall && $this->nodeNameResolver->isName($assign->expr->name, 'explode')) {
-            return true;
+        if ($assign->expr instanceof FuncCall && $assign->expr->name instanceof Name) {
+            $funcCallName = $scope->resolveName($assign->expr->name);
+            if ($funcCallName === 'explode') {
+                return true;
+            }
         }
+
         // Strings::split() is allowed
         return $assign->expr instanceof StaticCall && $this->nodeNameResolver->isName($assign->expr->name, 'split');
     }
