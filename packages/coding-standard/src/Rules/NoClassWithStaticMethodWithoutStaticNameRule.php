@@ -13,12 +13,11 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule\NoClassWithStaticMethodWithoutStaticNameRuleTest
  */
-final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule
+final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -49,16 +48,19 @@ final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule
         $this->nodeFinder = $nodeFinder;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Class_::class;
+        return [Class_::class];
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         // skip anonymous class
         if ($node->name === null) {

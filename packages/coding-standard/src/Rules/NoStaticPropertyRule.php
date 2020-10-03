@@ -15,7 +15,7 @@ use Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoStaticPropertyRule\NoStaticPropertyRuleTest
  */
-final class NoStaticPropertyRule extends AbstractManyNodeTypeRule
+final class NoStaticPropertyRule extends AbstractSymplifyRule
 {
     /**
      * @var string

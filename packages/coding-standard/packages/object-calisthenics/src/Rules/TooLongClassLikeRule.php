@@ -9,12 +9,12 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
+use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
 
 /**
  * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooLongClassLikeRule\TooLongClassLikeRuleTest
  */
-final class TooLongClassLikeRule implements Rule
+final class TooLongClassLikeRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -31,16 +31,19 @@ final class TooLongClassLikeRule implements Rule
         $this->maxClassLikeLength = $maxClassLikeLength;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassLike::class;
+        return [ClassLike::class];
     }
 
     /**
      * @param ClassLike $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $currentClassLenght = $this->getNodeLength($node);
         if ($currentClassLenght <= $this->maxClassLikeLength) {

@@ -14,7 +14,7 @@ use PHPStan\Analyser\Scope;
  *
  * @see \Symplify\CodingStandard\Tests\Rules\NoEmptyRule\NoEmptyRuleTest
  */
-final class NoEmptyRule extends AbstractManyNodeTypeRule
+final class NoEmptyRule extends AbstractSymplifyRule
 {
     /**
      * @var string

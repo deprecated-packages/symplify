@@ -8,28 +8,30 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\SuffixInterfaceRule\SuffixInterfaceRuleTest
  */
-final class SuffixInterfaceRule implements Rule
+final class SuffixInterfaceRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Interface name "%s" must be suffixed with "Interface"';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Interface_::class;
+        return [Interface_::class];
     }
 
     /**
      * @param Interface_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $interfaceName = (string) $node->name;
         if (Strings::endsWith($interfaceName, 'Interface')) {

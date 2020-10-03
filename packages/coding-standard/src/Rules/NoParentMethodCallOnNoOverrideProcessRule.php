@@ -13,13 +13,12 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Nop;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnNoOverrideProcessRule\NoParentMethodCallOnNoOverrideProcessRuleTest
  */
-final class NoParentMethodCallOnNoOverrideProcessRule implements Rule
+final class NoParentMethodCallOnNoOverrideProcessRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -36,16 +35,19 @@ final class NoParentMethodCallOnNoOverrideProcessRule implements Rule
         $this->nodeFinder = $nodeFinder;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return StaticCall::class;
+        return [StaticCall::class];
     }
 
     /**
      * @param StaticCall $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         /** @var Name $name */
         $name = $node->class;

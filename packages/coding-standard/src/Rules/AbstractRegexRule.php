@@ -12,7 +12,7 @@ use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\Contract\RegexRuleInterface;
 
-abstract class AbstractRegexRule extends AbstractManyNodeTypeRule implements RegexRuleInterface
+abstract class AbstractRegexRule extends AbstractSymplifyRule implements RegexRuleInterface
 {
     /**
      * @var string[]

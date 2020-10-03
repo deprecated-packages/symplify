@@ -12,7 +12,7 @@ use PHPStan\Analyser\Scope;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoPostIncPostDecRule\NoPostIncPostDecRuleTest
  */
-final class NoPostIncPostDecRule extends AbstractManyNodeTypeRule
+final class NoPostIncPostDecRule extends AbstractSymplifyRule
 {
     /**
      * @var string

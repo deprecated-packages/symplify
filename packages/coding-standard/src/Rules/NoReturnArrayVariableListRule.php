@@ -13,14 +13,13 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoReturnArrayVariableListRule\NoReturnArrayVariableListRuleTest
  */
-final class NoReturnArrayVariableListRule implements Rule
+final class NoReturnArrayVariableListRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -47,16 +46,19 @@ final class NoReturnArrayVariableListRule implements Rule
         $this->parentMethodAnalyser = $parentMethodAnalyser;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Return_::class;
+        return [Return_::class];
     }
 
     /**
      * @param Return_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if ($this->shouldSkip($scope, $node)) {
             return [];

@@ -11,13 +11,12 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\RequireMethodCallArgumentConstantRuleTest
  */
-final class RequireMethodCallArgumentConstantRule implements Rule
+final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -37,16 +36,19 @@ final class RequireMethodCallArgumentConstantRule implements Rule
         $this->constantArgByMethodByType = $constantArgByMethodByType;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return MethodCall::class;
+        return [MethodCall::class];
     }
 
     /**
      * @param MethodCall $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Identifier) {
             return [];

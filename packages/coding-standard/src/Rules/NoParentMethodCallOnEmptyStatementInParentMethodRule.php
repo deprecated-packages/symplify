@@ -9,7 +9,6 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Nop;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 use Symplify\CodingStandard\PHPStan\NodeResolver\ParentClassMethodNodeResolver;
 use Throwable;
@@ -17,7 +16,7 @@ use Throwable;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule\NoParentMethodCallOnEmptyStatementInParentMethodRuleTest
  */
-final class NoParentMethodCallOnEmptyStatementInParentMethodRule implements Rule
+final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -42,16 +41,19 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule implements Rule
         $this->parentClassMethodNodeResolver = $parentClassMethodNodeResolver;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return StaticCall::class;
+        return [StaticCall::class];
     }
 
     /**
      * @param StaticCall $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if ($node->class instanceof Expr) {
             return [];

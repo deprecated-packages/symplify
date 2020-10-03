@@ -7,28 +7,30 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoDefaultParameterValueRule\NoDefaultParameterValueRuleTest
  */
-final class NoDefaultParameterValueRule implements Rule
+final class NoDefaultParameterValueRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Parameter "%s" cannot have default value';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassMethod::class;
+        return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $errorMessages = [];
         foreach ($node->params as $param) {

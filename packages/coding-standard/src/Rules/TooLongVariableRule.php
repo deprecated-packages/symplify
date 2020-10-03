@@ -9,12 +9,11 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\TooLongVariableRule\TooLongVariableRuleTest
  */
-final class TooLongVariableRule implements Rule
+final class TooLongVariableRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -31,16 +30,19 @@ final class TooLongVariableRule implements Rule
         $this->maxVariableLength = $maxVariableLength;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Variable::class;
+        return [Variable::class];
     }
 
     /**
      * @param Variable $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if ($node->name instanceof Expr) {
             return [];

@@ -10,13 +10,12 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoMultiArrayAssignRule\NoMultiArrayAssignRuleTest
  */
-final class NoMultiArrayAssignRule implements Rule
+final class NoMultiArrayAssignRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -28,21 +27,24 @@ final class NoMultiArrayAssignRule implements Rule
      */
     private $printerStandard;
 
-    public function __construct()
+    public function __construct(Standard $printerStandard)
     {
-        $this->printerStandard = new Standard();
+        $this->printerStandard = $printerStandard;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Assign::class;
+        return [Assign::class];
     }
 
     /**
      * @param Assign $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if (! $node->var instanceof ArrayDimFetch) {
             return [];
@@ -104,10 +106,12 @@ final class NoMultiArrayAssignRule implements Rule
         if (! $previous->expr instanceof Assign) {
             return null;
         }
-        if (! $previous->expr->var instanceof ArrayDimFetch) {
+
+        $assign = $previous->expr;
+        if (! $assign->var instanceof ArrayDimFetch) {
             return null;
         }
 
-        return $previous->expr->var;
+        return $assign->var;
     }
 }

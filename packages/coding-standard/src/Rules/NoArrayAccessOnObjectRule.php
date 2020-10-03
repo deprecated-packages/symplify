@@ -7,30 +7,32 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
 use SplFixedArray;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoArrayAccessOnObjectRule\NoArrayAccessOnObjectRuleTest
  */
-final class NoArrayAccessOnObjectRule implements Rule
+final class NoArrayAccessOnObjectRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Use explicit methods, over array acccess on object';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ArrayDimFetch::class;
+        return [ArrayDimFetch::class];
     }
 
     /**
      * @param ArrayDimFetch $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $varStaticType = $scope->getType($node->var);
         if (! $varStaticType instanceof TypeWithClassName) {

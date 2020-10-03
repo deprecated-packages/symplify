@@ -7,16 +7,16 @@ namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\ObjectCalisthenics\Marker\IndentationMarker;
 use Symplify\CodingStandard\ObjectCalisthenics\NodeTraverserFactory\IndentationNodeTraverserFactory;
+use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
 
 /**
  * @see https://williamdurand.fr/2013/06/03/object-calisthenics/#1-only-one-level-of-indentation-per-method
  *
  * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\SingleIndentationInMethodRule\SingleIndentationInMethodRuleTest
  */
-final class SingleIndentationInMethodRule implements Rule
+final class SingleIndentationInMethodRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -54,16 +54,19 @@ final class SingleIndentationInMethodRule implements Rule
         $this->indentationNodeTraverserFactory = $indentationNodeTraverserFactory;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassMethod::class;
+        return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $this->indentationMarker->reset();
 

@@ -19,16 +19,19 @@ final class NoConstructorInTestRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Do not use constructor in test, only setUp()';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassMethod::class;
+        return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if ((string) $node->name !== '__construct') {
             return [];

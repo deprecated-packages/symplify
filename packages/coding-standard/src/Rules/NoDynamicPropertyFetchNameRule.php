@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoDynamicPropertyFetchNameRule\NoDynamicPropertyFetchNameRuleTest
  */
-final class NoDynamicPropertyFetchNameRule extends AbstractManyNodeTypeRule
+final class NoDynamicPropertyFetchNameRule extends AbstractSymplifyRule
 {
     /**
      * @var string

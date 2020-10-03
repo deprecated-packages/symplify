@@ -10,30 +10,32 @@ use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\Native\NativeParameterReflection;
-use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenComplexArrayConfigInSetRule\ForbiddenComplexArrayConfigInSetRuleTest
  */
-final class ForbiddenComplexArrayConfigInSetRule implements Rule
+final class ForbiddenComplexArrayConfigInSetRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'For complex configuration use value object over array';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ArrayItem::class;
+        return [ArrayItem::class];
     }
 
     /**
      * @param ArrayItem $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         // typical for configuration
         if (! $node->key instanceof ClassConstFetch) {

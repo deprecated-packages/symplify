@@ -20,7 +20,7 @@ use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoReferenceRule\NoReferenceRuleTest
  */
-final class NoReferenceRule extends AbstractManyNodeTypeRule
+final class NoReferenceRule extends AbstractSymplifyRule
 {
     /**
      * @var string

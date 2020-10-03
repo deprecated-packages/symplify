@@ -23,7 +23,7 @@ use Throwable;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoScalarAndArrayConstructorParameterRule\NoScalarAndArrayConstructorParameterRuleTest
  */
-final class NoScalarAndArrayConstructorParameterRule extends AbstractManyNodeTypeRule
+final class NoScalarAndArrayConstructorParameterRule extends AbstractSymplifyRule
 {
     /**
      * @var string

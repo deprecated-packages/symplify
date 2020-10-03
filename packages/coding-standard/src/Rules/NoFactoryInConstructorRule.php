@@ -19,7 +19,7 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoFactoryInConstructorRule\NoFactoryInConstructorRuleTest
  */
-final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
+final class NoFactoryInConstructorRule extends AbstractSymplifyRule
 {
     /**
      * @var string

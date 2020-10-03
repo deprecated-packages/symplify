@@ -12,7 +12,7 @@ use PHPStan\Analyser\Scope;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule\NoTraitExceptItsMethodsPublicAndRequiredRuleTest
  */
-final class NoTraitExceptItsMethodsPublicAndRequiredRule extends AbstractManyNodeTypeRule
+final class NoTraitExceptItsMethodsPublicAndRequiredRule extends AbstractSymplifyRule
 {
     /**
      * @var string

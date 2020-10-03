@@ -7,30 +7,32 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use Rector\Core\Exception\NotImplementedException;
 use ReflectionMethod;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\PreventParentMethodVisibilityOverrideRule\PreventParentMethodVisibilityOverrideRuleTest
  */
-final class PreventParentMethodVisibilityOverrideRule implements Rule
+final class PreventParentMethodVisibilityOverrideRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Change "%s()" method visibility to "%s" to respect parent method visibility.';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassMethod::class;
+        return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if ($scope->getClassReflection() === null) {
             return [];

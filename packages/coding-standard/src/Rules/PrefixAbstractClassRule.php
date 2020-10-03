@@ -9,12 +9,11 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\Broker;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\PrefixAbstractClassRule\PrefixAbstractClassRuleTest
  */
-final class PrefixAbstractClassRule implements Rule
+final class PrefixAbstractClassRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -31,16 +30,19 @@ final class PrefixAbstractClassRule implements Rule
         $this->broker = $broker;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Class_::class;
+        return [Class_::class];
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $className = (string) $node->namespacedName;
         if (! class_exists($className)) {

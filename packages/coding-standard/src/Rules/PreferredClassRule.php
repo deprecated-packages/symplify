@@ -18,7 +18,7 @@ use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\PreferredClassRule\PreferredClassRuleTest
  */
-final class PreferredClassRule extends AbstractManyNodeTypeRule
+final class PreferredClassRule extends AbstractSymplifyRule
 {
     /**
      * @var string

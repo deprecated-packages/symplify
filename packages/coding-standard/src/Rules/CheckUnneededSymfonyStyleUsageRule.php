@@ -10,14 +10,13 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckUnneededSymfonyStyleUsageRule\CheckUnneededSymfonyStyleUsageRuleTest
  */
-final class CheckUnneededSymfonyStyleUsageRule implements Rule
+final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -39,16 +38,19 @@ final class CheckUnneededSymfonyStyleUsageRule implements Rule
         $this->nodeFinder = $nodeFinder;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Class_::class;
+        return [Class_::class];
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if ($this->hasParentClassSymfonyStyle($node)) {
             return [];

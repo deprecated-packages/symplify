@@ -211,3 +211,4 @@ services:
     - Symplify\SmartFileSystem\SmartFileSystem
     - Symplify\CodingStandard\PHPStan\NodeResolver\ParentClassMethodNodeResolver
     - Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser
+    - Symplify\CodingStandard\PhpParser\FileExistFuncCallAnalyzer

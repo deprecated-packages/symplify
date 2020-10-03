@@ -9,14 +9,14 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules;
-use PHPStan\Rules\Rule;
+use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#9-do-not-use-getters-and-setters
  *
  * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoSetterClassMethodRule\NoSetterClassMethodRuleTest
  */
-final class NoSetterClassMethodRule implements Rule
+final class NoSetterClassMethodRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -42,16 +42,19 @@ final class NoSetterClassMethodRule implements Rule
         $this->allowedSetterClasses = $allowedSetterClasses;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassMethod::class;
+        return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $methodName = (string) $node->name;
         if (! Strings::match($methodName, self::SETTER_REGEX)) {

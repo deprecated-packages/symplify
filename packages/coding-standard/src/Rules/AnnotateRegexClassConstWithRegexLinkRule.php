@@ -9,12 +9,11 @@ use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\AnnotateRegexClassConstWithRegexLinkRule\AnnotateRegexClassConstWithRegexLinkRuleTest
  */
-final class AnnotateRegexClassConstWithRegexLinkRule implements Rule
+final class AnnotateRegexClassConstWithRegexLinkRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -27,16 +26,19 @@ final class AnnotateRegexClassConstWithRegexLinkRule implements Rule
      */
     private const ALL_MODIFIERS = 'imsxeADSUXJu';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassConst::class;
+        return [ClassConst::class];
     }
 
     /**
      * @param ClassConst $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if (count((array) $node->consts) !== 1) {
             return [];

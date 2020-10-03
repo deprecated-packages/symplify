@@ -25,16 +25,19 @@ final class CheckRequiredMethodTobeAutowireWithClassNameRule extends AbstractSym
      */
     private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@required\n?#';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassMethod::class;
+        return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $docComment = $node->getDocComment();
         if ($docComment === null) {

@@ -15,12 +15,11 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenArrayWithStringKeysRule\ForbiddenArrayWithStringKeysRuleTest
  */
-final class ForbiddenArrayWithStringKeysRule implements Rule
+final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -32,16 +31,19 @@ final class ForbiddenArrayWithStringKeysRule implements Rule
      */
     private const TEXT_FILE_REGEX = '#(Test|TestCase)\.php$#';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Array_::class;
+        return [Array_::class];
     }
 
     /**
      * @param Array_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if ($this->shouldSkip($node, $scope)) {
             return [];

@@ -39,16 +39,19 @@ final class NoSetterOnServiceRule extends AbstractSymplifyRule
         $this->nodeFinder = $nodeFinder;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassMethod::class;
+        return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $fullyQualifiedClassName = $this->getClassName($scope);
         if ($fullyQualifiedClassName === null) {

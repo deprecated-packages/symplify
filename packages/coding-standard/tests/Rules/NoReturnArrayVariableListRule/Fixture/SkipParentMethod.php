@@ -8,9 +8,10 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\New_;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
+use PHPStan\Rules\Rule;
+use Symplify\CodingStandard\Contract\ManyNodeRuleInterface;
 
-final class SkipParentMethod extends AbstractManyNodeTypeRule
+final class SkipParentMethod implements ManyNodeRuleInterface
 {
     public function getNodeTypes(): array
     {
@@ -19,7 +20,6 @@ final class SkipParentMethod extends AbstractManyNodeTypeRule
 
     public function process(Node $node, Scope $scope): array
     {
-
     }
 }
 

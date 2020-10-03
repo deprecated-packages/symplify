@@ -9,28 +9,30 @@ use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRuleTest
  */
-final class CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule implements Rule
+final class CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Class name start with Abstract must have abstract keyword';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Class_::class;
+        return [Class_::class];
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         /** @var Identifier $name */
         $name = $node->name;

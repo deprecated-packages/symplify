@@ -17,7 +17,7 @@ use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule\NoProtectedElementInFinalClassRuleTest
  */
-final class NoProtectedElementInFinalClassRule extends AbstractManyNodeTypeRule
+final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
 {
     /**
      * @var string

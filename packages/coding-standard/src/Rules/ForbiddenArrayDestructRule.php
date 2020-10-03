@@ -12,7 +12,6 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 use ReflectionClass;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
@@ -20,7 +19,7 @@ use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenArrayDestructRule\ForbiddenArrayDestructRuleTest
  */
-final class ForbiddenArrayDestructRule implements Rule
+final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -42,16 +41,19 @@ final class ForbiddenArrayDestructRule implements Rule
         $this->nodeNameResolver = $nodeNameResolver;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Assign::class;
+        return [Assign::class];
     }
 
     /**
      * @param Assign $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if (! $node->var instanceof Array_) {
             return [];

@@ -10,29 +10,31 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Throw_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use ReflectionClass;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoDefaultExceptionRule\NoDefaultExceptionRuleTest
  */
-final class NoDefaultExceptionRule implements Rule
+final class NoDefaultExceptionRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Use custom exceptions instead of native "%s"';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Throw_::class;
+        return [Throw_::class];
     }
 
     /**
      * @param Throw_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if (! $node->expr instanceof New_) {
             return [];

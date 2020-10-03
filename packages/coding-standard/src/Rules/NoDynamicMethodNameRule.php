@@ -20,7 +20,7 @@ use PHPStan\Type\UnionType;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoDynamicMethodNameRule\NoDynamicMethodNameRuleTest
  */
-final class NoDynamicMethodNameRule extends AbstractManyNodeTypeRule
+final class NoDynamicMethodNameRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -55,7 +55,6 @@ final class NoDynamicMethodNameRule extends AbstractManyNodeTypeRule
     private function isClosureOrCallableType(Scope $scope, Expr $expr): bool
     {
         $nameStaticType = $scope->getType($expr);
-
         $nameStaticType = $this->unwrapNullableType($nameStaticType);
 
         if ($nameStaticType instanceof CallableType) {

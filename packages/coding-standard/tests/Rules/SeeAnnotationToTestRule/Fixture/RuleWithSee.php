@@ -18,7 +18,7 @@ final class RuleWithSee implements Rule
     {
     }
 
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
     }
 }
