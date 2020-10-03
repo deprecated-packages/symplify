@@ -34,6 +34,7 @@ final class NoStaticCallRule extends AbstractManyNodeTypeRule
         'Nette\Utils\Json',
         'Nette\Utils\Arrays',
         'Nette\Utils\Reflection',
+        'Ramsey\Uuid\Uuid',
         // symfony
         'Symfony\Component\Finder\Finder',
         'Symfony\Component\Yaml\Yaml',
