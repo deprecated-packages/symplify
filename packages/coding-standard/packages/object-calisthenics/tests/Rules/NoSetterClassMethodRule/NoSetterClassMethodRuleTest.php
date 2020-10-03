@@ -29,6 +29,6 @@ final class NoSetterClassMethodRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoSetterClassMethodRule(['*\AllowedClass']);
+        return $this->getRuleFromConfig(NoSetterClassMethodRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

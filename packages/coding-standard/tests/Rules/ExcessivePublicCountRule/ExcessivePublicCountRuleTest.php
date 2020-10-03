@@ -31,6 +31,6 @@ final class ExcessivePublicCountRuleTest extends AbstractServiceAwareRuleTestCas
 
     protected function getRule(): Rule
     {
-        return new ExcessivePublicCountRule(5);
+        return $this->getRuleFromConfig(ExcessivePublicCountRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

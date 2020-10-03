@@ -27,6 +27,6 @@ final class TooManyPropertiesRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new TooManyPropertiesRule(3);
+        return $this->getRuleFromConfig(TooManyPropertiesRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

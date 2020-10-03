@@ -27,6 +27,6 @@ final class ExcessiveParameterListRuleTest extends AbstractServiceAwareRuleTestC
 
     protected function getRule(): Rule
     {
-        return new ExcessiveParameterListRule(5);
+        return $this->getRuleFromConfig(ExcessiveParameterListRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

@@ -1,0 +1,8 @@
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenFunctions:
+                - 'extract'
+                - 'dump'

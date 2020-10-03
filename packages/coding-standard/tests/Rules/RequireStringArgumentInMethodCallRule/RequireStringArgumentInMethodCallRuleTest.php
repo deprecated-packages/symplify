@@ -6,9 +6,7 @@ namespace Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 use Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule;
-use Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 final class RequireStringArgumentInMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
@@ -36,13 +34,9 @@ final class RequireStringArgumentInMethodCallRuleTest extends AbstractServiceAwa
 
     protected function getRule(): Rule
     {
-        return new RequireStringArgumentInMethodCallRule(
-            new NodeNameResolver(),
-            [
-                AlwaysCallMeWithString::class => [
-                    'callMe' => [1],
-                ],
-            ]
+        return $this->getRuleFromConfig(
+            RequireStringArgumentInMethodCallRule::class,
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

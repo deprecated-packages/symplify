@@ -27,6 +27,6 @@ final class TooManyMethodsRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new TooManyMethodsRule(3);
+        return $this->getRuleFromConfig(TooManyMethodsRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

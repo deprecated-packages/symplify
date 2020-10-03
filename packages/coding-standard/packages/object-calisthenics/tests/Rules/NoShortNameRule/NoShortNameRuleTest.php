@@ -31,6 +31,6 @@ final class NoShortNameRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoShortNameRule(3, ['id']);
+        return $this->getRuleFromConfig(NoShortNameRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

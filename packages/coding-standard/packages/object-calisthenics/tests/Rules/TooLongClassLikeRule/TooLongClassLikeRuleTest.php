@@ -27,6 +27,6 @@ final class TooLongClassLikeRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new TooLongClassLikeRule(10);
+        return $this->getRuleFromConfig(TooLongClassLikeRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }
