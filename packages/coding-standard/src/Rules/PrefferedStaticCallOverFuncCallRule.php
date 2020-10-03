@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
+use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\PrefferedStaticCallOverFuncCallRule\PrefferedStaticCallOverFuncCallRuleTest
@@ -27,11 +27,17 @@ final class PrefferedStaticCallOverFuncCallRule implements Rule
     private $funcCallToPrefferedStaticCalls = [];
 
     /**
+     * @var NodeNameResolver
+     */
+    private $nodeNameResolver;
+
+    /**
      * @param array<string, string[]> $funcCallToPrefferedStaticCalls
      */
-    public function __construct(array $funcCallToPrefferedStaticCalls = [])
+    public function __construct(NodeNameResolver $nodeNameResolver, array $funcCallToPrefferedStaticCalls = [])
     {
         $this->funcCallToPrefferedStaticCalls = $funcCallToPrefferedStaticCalls;
+        $this->nodeNameResolver = $nodeNameResolver;
     }
 
     public function getNodeType(): string
@@ -45,13 +51,8 @@ final class PrefferedStaticCallOverFuncCallRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $node->name instanceof Name) {
-            return [];
-        }
-
-        $currentFuncName = $scope->resolveName($node->name);
         foreach ($this->funcCallToPrefferedStaticCalls as $funcCall => $staticCall) {
-            if ($funcCall !== $currentFuncName) {
+            if (! $this->nodeNameResolver->isName($node->name, $funcCall)) {
                 continue;
             }
 
@@ -59,7 +60,7 @@ final class PrefferedStaticCallOverFuncCallRule implements Rule
                 return [];
             }
 
-            $errorMessage = sprintf(self::ERROR_MESSAGE, $staticCall[0], $staticCall[1], $currentFuncName);
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $staticCall[0], $staticCall[1], $funcCall);
             return [$errorMessage];
         }
 
