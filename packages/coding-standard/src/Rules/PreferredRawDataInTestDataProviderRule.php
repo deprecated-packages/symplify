@@ -7,7 +7,6 @@ namespace Symplify\CodingStandard\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
@@ -86,9 +85,6 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
         $variables = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), Variable::class);
         foreach ($variables as $variable) {
             $callerType = $scope->getType($variable);
-            /** @var Identifier $name */
-            $name = $variable->name;
-
             if ($callerType instanceof ThisType) {
                 return false;
             }
