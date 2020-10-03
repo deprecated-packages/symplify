@@ -7,7 +7,6 @@ namespace Symplify\CodingStandard\Tests\Rules\NoStaticCallRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\Rules\NoStaticCallRule;
-use Symplify\CodingStandard\Tests\Rules\NoStaticCallRule\Source\AllowedStaticMethods;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 final class NoStaticCallRuleTest extends AbstractServiceAwareRuleTestCase
@@ -32,6 +31,6 @@ final class NoStaticCallRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new NoStaticCallRule([AllowedStaticMethods::class]);
+        return $this->getRuleFromConfig(NoStaticCallRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

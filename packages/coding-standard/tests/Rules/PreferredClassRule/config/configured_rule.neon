@@ -1,0 +1,9 @@
+services:
+    -
+        class: Symplify\CodingStandard\Rules\PreferredClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            oldToPrefferedClasses:
+                SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+                DateTime: 'Nette\Utils\DateTime'
+                Symplify\CodingStandard\Tests\Rules\PreferredClassRule\Source\AbstractNotWhatYouWant: 'Symplify\CodingStandard\Tests\Rules\PreferredClassRule\Fixture\SkipPrefferedExtendingTheOldOne'

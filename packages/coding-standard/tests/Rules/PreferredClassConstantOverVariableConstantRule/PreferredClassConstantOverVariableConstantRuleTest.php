@@ -30,6 +30,9 @@ final class PreferredClassConstantOverVariableConstantRuleTest extends AbstractS
 
     protected function getRule(): Rule
     {
-        return new PreferredClassConstantOverVariableConstantRule();
+        return $this->getRuleFromConfig(
+            PreferredClassConstantOverVariableConstantRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

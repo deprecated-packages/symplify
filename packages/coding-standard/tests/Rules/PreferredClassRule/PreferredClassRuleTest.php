@@ -8,12 +8,8 @@ use DateTime as NativeDateTime;
 use Iterator;
 use Nette\Utils\DateTime;
 use PHPStan\Rules\Rule;
-use SplFileInfo;
 use Symplify\CodingStandard\Rules\PreferredClassRule;
-use Symplify\CodingStandard\Tests\Rules\PreferredClassRule\Fixture\SkipPrefferedExtendingTheOldOne;
-use Symplify\CodingStandard\Tests\Rules\PreferredClassRule\Source\AbstractNotWhatYouWant;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PreferredClassRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -40,10 +36,6 @@ final class PreferredClassRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new PreferredClassRule([
-            SplFileInfo::class => SmartFileInfo::class,
-            NativeDateTime::class => DateTime::class,
-            AbstractNotWhatYouWant::class => SkipPrefferedExtendingTheOldOne::class,
-        ]);
+        return $this->getRuleFromConfig(PreferredClassRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

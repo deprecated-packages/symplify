@@ -27,6 +27,9 @@ final class ForbidReturnValueOfIncludeOnceRuleTest extends AbstractServiceAwareR
 
     protected function getRule(): Rule
     {
-        return new ForbidReturnValueOfIncludeOnceRule();
+        return $this->getRuleFromConfig(
+            ForbidReturnValueOfIncludeOnceRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }

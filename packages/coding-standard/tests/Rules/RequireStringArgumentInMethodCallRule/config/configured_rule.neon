@@ -1,0 +1,10 @@
+services:
+    -
+        class: Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            stringArgByMethodByType:
+                Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString:
+                    callMe: [1]
+
+    - Symplify\CodingStandard\PhpParser\NodeNameResolver

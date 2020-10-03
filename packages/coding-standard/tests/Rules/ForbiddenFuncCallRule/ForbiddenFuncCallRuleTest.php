@@ -30,6 +30,6 @@ final class ForbiddenFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new ForbiddenFuncCallRule(['extract', 'dump']);
+        return $this->getRuleFromConfig(ForbiddenFuncCallRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

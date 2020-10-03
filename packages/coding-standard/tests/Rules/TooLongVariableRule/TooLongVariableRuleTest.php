@@ -32,6 +32,6 @@ final class TooLongVariableRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return new TooLongVariableRule(10);
+        return $this->getRuleFromConfig(TooLongVariableRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

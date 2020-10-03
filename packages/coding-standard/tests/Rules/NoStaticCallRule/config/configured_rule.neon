@@ -1,0 +1,7 @@
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoStaticCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedStaticCallClasses:
+                - Symplify\CodingStandard\Tests\Rules\NoStaticCallRule\Source\AllowedStaticMethods
