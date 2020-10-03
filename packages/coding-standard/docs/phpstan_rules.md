@@ -1859,18 +1859,12 @@ final class UseDataFromSetupInTestDataProviderTest extends TestCase
 
     protected function setUp()
     {
-        $this->data = [[true]];
+        $this->data = true;
     }
 
     public function provideFoo()
     {
-        //other statement here
-
-        $this->setUp();
-
-        return [
-            $this->data
-        ];
+        yield [$this->data];
     }
 
     /**
