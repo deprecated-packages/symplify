@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoStaticCallRule\NoStaticCallRuleTest
  */
-final class NoStaticCallRule extends AbstractManyNodeTypeRule
+final class NoStaticCallRule extends AbstractSymplifyRule
 {
     /**
      * @var string

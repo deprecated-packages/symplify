@@ -7,13 +7,12 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\ForbiddenParentClassRuleTest
  */
-final class ForbiddenParentClassRule implements Rule
+final class ForbiddenParentClassRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -53,16 +52,19 @@ final class ForbiddenParentClassRule implements Rule
         }
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Class_::class;
+        return [Class_::class];
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if ($node->name === null) {
             return [];

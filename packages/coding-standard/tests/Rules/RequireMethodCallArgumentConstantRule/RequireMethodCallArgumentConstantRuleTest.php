@@ -6,9 +6,7 @@ namespace Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ParametersConfigurator;
 use Symplify\CodingStandard\Rules\RequireMethodCallArgumentConstantRule;
-use Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstant;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 final class RequireMethodCallArgumentConstantRuleTest extends AbstractServiceAwareRuleTestCase
@@ -27,19 +25,17 @@ final class RequireMethodCallArgumentConstantRuleTest extends AbstractServiceAwa
         yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstant.php', [[$errorMessage, 14]]];
         yield [__DIR__ . '/Fixture/SymfonyPHPConfigParameterSetter.php', [[$errorMessage, 14]]];
 
+        yield [__DIR__ . '/Fixture/NestedNode.php', [[$errorMessage, 14], [$errorMessage, 19]]];
+
         yield [__DIR__ . '/Fixture/WithConstant.php', []];
         yield [__DIR__ . '/Fixture/SkipWithVariable.php', []];
     }
 
     protected function getRule(): Rule
     {
-        return new RequireMethodCallArgumentConstantRule([
-            AlwaysCallMeWithConstant::class => [
-                'call' => [0],
-            ],
-            ParametersConfigurator::class => [
-                'set' => [0],
-            ],
-        ]);
+        return $this->getRuleFromConfig(
+            RequireMethodCallArgumentConstantRule::class,
+            __DIR__ . '/config/configured_rule.neon'
+        );
     }
 }

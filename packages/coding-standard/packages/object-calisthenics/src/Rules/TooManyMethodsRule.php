@@ -7,12 +7,12 @@ namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
+use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
 
 /**
  * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooManyMethodsRule\TooManyMethodsRuleTest
  */
-final class TooManyMethodsRule implements Rule
+final class TooManyMethodsRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -29,16 +29,19 @@ final class TooManyMethodsRule implements Rule
         $this->maxMethodCount = $maxMethodCount;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Class_::class;
+        return [Class_::class];
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $currentMethodCount = count($node->getMethods());
         if ($currentMethodCount < $this->maxMethodCount) {

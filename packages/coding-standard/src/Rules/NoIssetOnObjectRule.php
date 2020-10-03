@@ -15,7 +15,7 @@ use PHPStan\Type\TypeWithClassName;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoIssetOnObjectRule\NoIssetOnObjectRuleTest
  */
-final class NoIssetOnObjectRule extends AbstractManyNodeTypeRule
+final class NoIssetOnObjectRule extends AbstractSymplifyRule
 {
     /**
      * @var string

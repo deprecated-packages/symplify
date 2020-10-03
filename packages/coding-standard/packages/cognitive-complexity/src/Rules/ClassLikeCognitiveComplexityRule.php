@@ -9,12 +9,12 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
-use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
+use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
 
 /**
  * @see \Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule\ClassLikeCognitiveComplexityRuleTest
  */
-final class ClassLikeCognitiveComplexityRule extends AbstractManyNodeTypeRule
+final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule
 {
     /**
      * @var string

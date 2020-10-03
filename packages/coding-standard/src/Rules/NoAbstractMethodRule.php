@@ -7,12 +7,11 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoAbstractMethodRule\NoAbstractMethodRuleTest
  */
-final class NoAbstractMethodRule implements Rule
+final class NoAbstractMethodRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -20,20 +19,23 @@ final class NoAbstractMethodRule implements Rule
     public const ERROR_MESSAGE = 'Use explicit interface contract or a service over unclear abstract methods';
 
     /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
+    {
+        return [ClassMethod::class];
+    }
+
+    /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if (! $node->isAbstract()) {
             return [];
         }
 
         return [self::ERROR_MESSAGE];
-    }
-
-    public function getNodeType(): string
-    {
-        return ClassMethod::class;
     }
 }

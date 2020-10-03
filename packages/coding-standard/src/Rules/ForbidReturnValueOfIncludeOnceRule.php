@@ -9,27 +9,29 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Include_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbidReturnValueOfIncludeOnceRule\ForbidReturnValueOfIncludeOnceRuleTest
  */
-final class ForbidReturnValueOfIncludeOnceRule implements Rule
+final class ForbidReturnValueOfIncludeOnceRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Cannot return include_once/require_once';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Node::class;
+        return [Node::class];
     }
 
     /**
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if (! $node instanceof Assign && ! $node instanceof Return_) {
             return [];

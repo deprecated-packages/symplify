@@ -16,7 +16,7 @@ use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule\NoNewOutsideFactoryRuleTest
  */
-final class NoNewOutsideFactoryRule extends AbstractManyNodeTypeRule
+final class NoNewOutsideFactoryRule extends AbstractSymplifyRule
 {
     /**
      * @var string

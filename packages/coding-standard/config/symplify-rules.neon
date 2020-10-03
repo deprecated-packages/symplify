@@ -8,6 +8,7 @@ includes:
     - symplify-rules/symfony-rules.neon
     - symplify-rules/test-rules.neon
     - symplify-rules/services-rules.neon
+    - symplify-rules/string-to-constant-rules.neon
 
 services:
     -
@@ -210,3 +211,4 @@ services:
     - Symplify\SmartFileSystem\SmartFileSystem
     - Symplify\CodingStandard\PHPStan\NodeResolver\ParentClassMethodNodeResolver
     - Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser
+    - Symplify\CodingStandard\PhpParser\FileExistFuncCallAnalyzer

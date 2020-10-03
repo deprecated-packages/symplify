@@ -11,12 +11,11 @@ use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ExcessiveParameterListRule\ExcessiveParameterListRuleTest
  */
-final class ExcessiveParameterListRule implements Rule
+final class ExcessiveParameterListRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -33,16 +32,19 @@ final class ExcessiveParameterListRule implements Rule
         $this->maxParameterCount = $maxParameterCount;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return FunctionLike::class;
+        return [FunctionLike::class];
     }
 
     /**
      * @param FunctionLike $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $currentParameterCount = count((array) $node->getParams());
         if ($currentParameterCount <= $this->maxParameterCount) {

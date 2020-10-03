@@ -9,13 +9,12 @@ use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule\CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest
  */
-final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule
+final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -27,16 +26,19 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule
      */
     private const ERROR_TEST_FILE_OUTSIDE_NAMESPACE = 'Test file (%s) is outside of "Tests" namespace (%s)';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Namespace_::class;
+        return [Namespace_::class];
     }
 
     /**
      * @param Namespace_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if ($node->name === null) {
             return [];

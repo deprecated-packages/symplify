@@ -17,7 +17,7 @@ use PHPStan\Type\Type;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoArrayStringObjectReturnRule\NoArrayStringObjectReturnRuleTest
  */
-final class NoArrayStringObjectReturnRule extends AbstractManyNodeTypeRule
+final class NoArrayStringObjectReturnRule extends AbstractSymplifyRule
 {
     /**
      * @var string

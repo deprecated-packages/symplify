@@ -8,12 +8,11 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenFuncCallRule\ForbiddenFuncCallRuleTest
  */
-final class ForbiddenFuncCallRule implements Rule
+final class ForbiddenFuncCallRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -33,16 +32,19 @@ final class ForbiddenFuncCallRule implements Rule
         $this->forbiddenFunctions = $forbiddenFunctions;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return FuncCall::class;
+        return [FuncCall::class];
     }
 
     /**
      * @param FuncCall $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Name) {
             return [];

@@ -8,13 +8,12 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\RequireDataProviderTestMethodRule\RequireDataProviderTestMethodRuleTest
  */
-final class RequireDataProviderTestMethodRule implements Rule
+final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -42,16 +41,19 @@ final class RequireDataProviderTestMethodRule implements Rule
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassMethod::class;
+        return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $methodName = (string) $node->name;
         if (! Strings::startsWith($methodName, 'test')) {

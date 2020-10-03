@@ -12,12 +12,11 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ExcessivePublicCountRule\ExcessivePublicCountRuleTest
  */
-final class ExcessivePublicCountRule implements Rule
+final class ExcessivePublicCountRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -39,16 +38,19 @@ final class ExcessivePublicCountRule implements Rule
         $this->maxPublicClassElementCount = $maxPublicClassElementCount;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Class_::class;
+        return [Class_::class];
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $classPublicElementCount = $this->resolveClassPublicElementCount($node);
         if ($classPublicElementCount < $this->maxPublicClassElementCount) {

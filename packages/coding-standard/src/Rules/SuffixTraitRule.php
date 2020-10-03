@@ -8,28 +8,30 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\SuffixTraitRule\SuffixTraitRuleTest
  */
-final class SuffixTraitRule implements Rule
+final class SuffixTraitRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Trait name "%s" must be suffixed with "Trait"';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Trait_::class;
+        return [Trait_::class];
     }
 
     /**
      * @param Trait_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $traitName = (string) $node->name;
         if (Strings::endsWith($traitName, 'Trait')) {

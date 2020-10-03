@@ -12,14 +12,13 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
-use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\BooleanType;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\BoolishClassMethodPrefixRule\BoolishClassMethodPrefixRuleTest
  */
-final class BoolishClassMethodPrefixRule implements Rule
+final class BoolishClassMethodPrefixRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -63,16 +62,19 @@ final class BoolishClassMethodPrefixRule implements Rule
         $this->nodeFinder = $nodeFinder;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassMethod::class;
+        return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $classReflection = $scope->getClassReflection();
         if ($classReflection === null) {

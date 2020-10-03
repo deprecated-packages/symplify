@@ -14,7 +14,6 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Rules\Rule;
 use PHPStan\Type\FileTypeMapper;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
@@ -22,7 +21,7 @@ use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\SeeAnnotationToTestRule\SeeAnnotationToTestRuleTest
  */
-final class SeeAnnotationToTestRule implements Rule
+final class SeeAnnotationToTestRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -58,16 +57,19 @@ final class SeeAnnotationToTestRule implements Rule
         $this->privatesAccessor = new PrivatesAccessor();
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Class_::class;
+        return [Class_::class];
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $classReflection = $this->matchClassReflection($node);
         if ($classReflection === null) {

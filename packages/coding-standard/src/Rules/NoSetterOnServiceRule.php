@@ -9,8 +9,6 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticPropertyFetch;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
@@ -18,7 +16,7 @@ use PHPStan\Analyser\Scope;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoSetterOnServiceRule\NoSetterOnServiceRuleTest
  */
-final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
+final class NoSetterOnServiceRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -55,16 +53,12 @@ final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Class_ $class */
-        $class = $node->getAttribute('parent');
-
-        /** @var Identifier|null $namespacedName */
-        $namespacedName = $class->namespacedName;
-        if ($namespacedName === null) {
+        $fullyQualifiedClassName = $this->getClassName($scope);
+        if ($fullyQualifiedClassName === null) {
             return [];
         }
 
-        if (Strings::match($namespacedName->toString(), self::NOT_A_SERVICE_NAMESPACE_REGEX)) {
+        if (Strings::match($fullyQualifiedClassName, self::NOT_A_SERVICE_NAMESPACE_REGEX)) {
             return [];
         }
 

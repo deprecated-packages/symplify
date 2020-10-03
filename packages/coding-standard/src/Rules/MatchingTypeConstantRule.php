@@ -15,12 +15,11 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\MatchingTypeConstantRule\MatchingTypeConstantRuleTest
  */
-final class MatchingTypeConstantRule implements Rule
+final class MatchingTypeConstantRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -47,16 +46,19 @@ final class MatchingTypeConstantRule implements Rule
         ConstFetch::class => 'bool',
     ];
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassConst::class;
+        return [ClassConst::class];
     }
 
     /**
      * @param ClassConst $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if ($this->shouldSkip($node)) {
             return [];

@@ -8,14 +8,14 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Else_;
 use PhpParser\Node\Stmt\ElseIf_;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
+use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#2-do-not-use-else-keyword
  *
  * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoElseAndElseIfRule\NoElseAndElseIfRuleTest
  */
-final class NoElseAndElseIfRule extends AbstractManyNodeTypeRule
+final class NoElseAndElseIfRule extends AbstractSymplifyRule
 {
     /**
      * @var string

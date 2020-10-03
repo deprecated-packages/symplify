@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoConstructorInTestRule\NoConstructorInTestRuleTest
  */
-final class NoConstructorInTestRule extends AbstractManyNodeTypeRule
+final class NoConstructorInTestRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -38,13 +37,12 @@ final class NoConstructorInTestRule extends AbstractManyNodeTypeRule
             return [];
         }
 
-        /** @var Class_ */
-        $class = $node->getAttribute('parent');
-        /** @var Identifier */
-        $name = $class->name;
-        $className = $name->toString();
+        $className = $this->getClassName($scope);
+        if ($className === null) {
+            return [];
+        }
 
-        if (substr($className, -4) !== 'Test') {
+        if (! Strings::endsWith($className, 'Test')) {
             return [];
         }
 

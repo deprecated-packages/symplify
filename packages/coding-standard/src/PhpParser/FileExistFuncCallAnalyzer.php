@@ -10,17 +10,22 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Stmt\If_;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 final class FileExistFuncCallAnalyzer
 {
     public function isBeingCheckedIfExists(Node $node): bool
     {
-        $parent = $node->getAttribute('parent');
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof Arg) {
             return false;
         }
 
-        $parentParent = $parent->getAttribute('parent');
+        $parentParent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $parentParent instanceof Node) {
+            return false;
+        }
+
         return $this->isFileCheckingFuncCall($parentParent);
     }
 
@@ -40,13 +45,13 @@ final class FileExistFuncCallAnalyzer
 
     public function hasParentIfWithFileExistCheck(Concat $concat): bool
     {
-        $parent = $concat->getAttribute('parent');
+        $parent = $concat->getAttribute(PHPStanAttributeKey::PARENT);
         while ($parent !== null) {
             if ($parent instanceof If_ && $this->isFileCheckingFuncCall($parent->cond)) {
                 return true;
             }
 
-            $parent = $parent->getAttribute('parent');
+            $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
         }
 
         return false;

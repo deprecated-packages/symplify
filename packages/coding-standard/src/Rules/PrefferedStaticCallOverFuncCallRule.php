@@ -8,13 +8,12 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\PrefferedStaticCallOverFuncCallRule\PrefferedStaticCallOverFuncCallRuleTest
  */
-final class PrefferedStaticCallOverFuncCallRule implements Rule
+final class PrefferedStaticCallOverFuncCallRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -40,16 +39,19 @@ final class PrefferedStaticCallOverFuncCallRule implements Rule
         $this->nodeNameResolver = $nodeNameResolver;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return FuncCall::class;
+        return [FuncCall::class];
     }
 
     /**
      * @param FuncCall $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         foreach ($this->funcCallToPrefferedStaticCalls as $funcCall => $staticCall) {
             if (! $this->nodeNameResolver->isName($node->name, $funcCall)) {

@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Rules\Rule;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser;
@@ -16,7 +15,7 @@ use Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoContainerInjectionInConstructorRule\NoContainerInjectionInConstructorRuleTest
  */
-final class NoContainerInjectionInConstructorRule implements Rule
+final class NoContainerInjectionInConstructorRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -33,16 +32,19 @@ final class NoContainerInjectionInConstructorRule implements Rule
         $this->containsTypeAnalyser = $containsTypeAnalyser;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return Variable::class;
+        return [Variable::class];
     }
 
     /**
      * @param Variable $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if (! $this->isInConstructMethod($scope)) {
             return [];

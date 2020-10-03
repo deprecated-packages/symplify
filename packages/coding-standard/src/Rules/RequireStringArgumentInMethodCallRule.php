@@ -24,7 +24,7 @@ use Symplify\CodingStandard\PhpParser\NodeNameResolver;
  *
  * @see \Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallRule\RequireStringArgumentInMethodCallRuleTest
  */
-final class RequireStringArgumentInMethodCallRule implements Rule
+final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -50,16 +50,19 @@ final class RequireStringArgumentInMethodCallRule implements Rule
         $this->nodeNameResolver = $nodeNameResolver;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return MethodCall::class;
+        return [MethodCall::class];
     }
 
     /**
      * @param MethodCall $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         // unknown method name
         if (! $node->name instanceof Identifier) {

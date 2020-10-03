@@ -10,12 +10,11 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoEntityManagerInControllerRule\NoEntityManagerInControllerRuleTest
  */
-final class NoEntityManagerInControllerRule implements Rule
+final class NoEntityManagerInControllerRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -27,16 +26,19 @@ final class NoEntityManagerInControllerRule implements Rule
      */
     private const CONTROLLER_PRESENTER_REGEX = '#(Controller|Presenter)$#';
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassMethod::class;
+        return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         if ((string) $node->name !== '__construct') {
             return [];

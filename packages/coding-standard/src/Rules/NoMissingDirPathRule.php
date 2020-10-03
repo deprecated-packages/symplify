@@ -10,14 +10,14 @@ use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
 use Symplify\CodingStandard\PhpParser\FileExistFuncCallAnalyzer;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoMissingDirPathRule\NoMissingDirPathRuleTest
  */
-final class NoMissingDirPathRule implements Rule
+final class NoMissingDirPathRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -35,22 +35,25 @@ final class NoMissingDirPathRule implements Rule
      */
     private $fileExistFuncCallAnalyzer;
 
-    public function __construct()
+    public function __construct(FileExistFuncCallAnalyzer $fileExistFuncCallAnalyzer)
     {
-        $this->fileExistFuncCallAnalyzer = new FileExistFuncCallAnalyzer();
-    }
-
-    public function getNodeType(): string
-    {
-        return Dir::class;
+        $this->fileExistFuncCallAnalyzer = $fileExistFuncCallAnalyzer;
     }
 
     /**
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function getNodeTypes(): array
     {
-        $parent = $node->getAttribute('parent');
+        return [Dir::class];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function process(Node $node, Scope $scope): array
+    {
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof Concat) {
             return [];
         }

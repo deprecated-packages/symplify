@@ -8,12 +8,11 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoDuplicatedShortClassNameRule\NoDuplicatedShortClassNameRuleTest
  */
-final class NoDuplicatedShortClassNameRule implements Rule
+final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -41,16 +40,19 @@ final class NoDuplicatedShortClassNameRule implements Rule
      */
     private $declaredClassesByShortName = [];
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassLike::class;
+        return [ClassLike::class];
     }
 
     /**
      * @param ClassLike $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $fullyQualifiedClassName = (string) $node->namespacedName;
         if ($fullyQualifiedClassName === '') {
