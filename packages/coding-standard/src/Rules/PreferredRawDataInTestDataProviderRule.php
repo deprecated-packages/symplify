@@ -7,16 +7,17 @@ namespace Symplify\CodingStandard\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use PHPStan\Type\ThisType;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\PreferredRawDataInTestDataProviderRule\PreferredRawDataInTestDataProviderRuleTest
  */
-final class PreferredRawDataInTestDataProviderRule implements Rule
+final class PreferredRawDataInTestDataProviderRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -39,16 +40,19 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
         $this->nodeFinder = $nodeFinder;
     }
 
-    public function getNodeType(): string
+    /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
     {
-        return ClassMethod::class;
+        return [ClassMethod::class];
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $dataProviderMethodName = $this->matchDataProviderMethodName($node);
         if ($dataProviderMethodName === null) {
@@ -67,21 +71,14 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
         return [self::ERROR_MESSAGE];
     }
 
-    private function findDataProviderClassMethod(ClassMethod $classMethod, string $dataProviderMethod): ?ClassMethod
+    private function findDataProviderClassMethod(ClassMethod $classMethod, string $methodName): ?ClassMethod
     {
-        $class = $classMethod->getAttribute('parent');
-
-        /** @var ClassMethod[] $classMethods */
-        $classMethods = $this->nodeFinder->findInstanceOf($class, ClassMethod::class);
-        foreach ($classMethods as $classMethod) {
-            if ((string) $classMethod->name !== $dataProviderMethod) {
-                continue;
-            }
-
-            return $classMethod;
+        $class = $classMethod->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $class instanceof Class_) {
+            return null;
         }
 
-        return null;
+        return $class->getMethod($methodName);
     }
 
     private function matchDataProviderMethodName(ClassMethod $classMethod): ?string
