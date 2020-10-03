@@ -15,7 +15,7 @@ services:
 ```php
 class SomeClass
 {
-    public function __(ContainerInterface $container)
+    public function __construct(ContainerInterface $container)
     {
         $container->get('...');
     }
