@@ -50,16 +50,11 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $docComment = $node->getDocComment();
-        if ($docComment === null) {
+        $dataProviderMethod = $this->matchDataProviderMethodName($node);
+        if ($dataProviderMethod === null) {
             return [];
         }
 
-        if (! $match = Strings::match($docComment->getText(), self::DATAPROVIDER_REGEX)) {
-            return [];
-        }
-
-        $dataProviderMethod = $match['dataProviderMethod'];
         $class = $node->getAttribute('parent');
 
         /** @var ClassMethod[] $classMethods */
@@ -77,6 +72,20 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
         }
 
         return [];
+    }
+
+    private function matchDataProviderMethodName(ClassMethod $node): ?string
+    {
+        $docComment = $node->getDocComment();
+        if ($docComment === null) {
+            return null;
+        }
+
+        if (! $match = Strings::match($docComment->getText(), self::DATAPROVIDER_REGEX)) {
+            return null;
+        }
+
+        return $match['dataProviderMethod'];
     }
 
     private function isSkipped(ClassMethod $classMethod, Scope $scope): bool
