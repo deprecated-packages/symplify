@@ -1,4 +1,6 @@
 services:
+    - Symplify\CodingStandard\PhpParser\NodeNameResolver
+
     -
         class: Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
         tags: [phpstan.rules.rule]
