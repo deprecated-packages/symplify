@@ -55,12 +55,12 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
             return [];
         }
 
-        $dataProviderMethod = $this->findDataProviderClassMethod($node, $dataProviderMethodName);
-        if ($dataProviderMethod === null) {
+        $classMethod = $this->findDataProviderClassMethod($node, $dataProviderMethodName);
+        if ($classMethod === null) {
             return [];
         }
 
-        if ($this->isSkipped($dataProviderMethod, $scope)) {
+        if ($this->isSkipped($classMethod, $scope)) {
             return [];
         }
 
