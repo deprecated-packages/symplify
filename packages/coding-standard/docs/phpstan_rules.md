@@ -1895,9 +1895,7 @@ final class UseRawDataForTestDataProviderTest
 
     public function provideFoo()
     {
-        return [
-            [[true]]
-        ];
+        yield [true];
     }
 
     /**
