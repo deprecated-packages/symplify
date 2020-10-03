@@ -21,7 +21,7 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = "Code configured at setUp() cannot be used in data provider. Move it to test() method";
+    public const ERROR_MESSAGE = 'Code configured at setUp() cannot be used in data provider. Move it to test() method';
 
     /**
      * @var string
@@ -67,9 +67,9 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
         return [self::ERROR_MESSAGE];
     }
 
-    private function findDataProviderClassMethod(ClassMethod $node, string $dataProviderMethod): ?ClassMethod
+    private function findDataProviderClassMethod(ClassMethod $classMethod, string $dataProviderMethod): ?ClassMethod
     {
-        $class = $node->getAttribute('parent');
+        $class = $classMethod->getAttribute('parent');
 
         /** @var ClassMethod[] $classMethods */
         $classMethods = $this->nodeFinder->findInstanceOf($class, ClassMethod::class);
@@ -84,9 +84,9 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
         return null;
     }
 
-    private function matchDataProviderMethodName(ClassMethod $node): ?string
+    private function matchDataProviderMethodName(ClassMethod $classMethod): ?string
     {
-        $docComment = $node->getDocComment();
+        $docComment = $classMethod->getDocComment();
         if ($docComment === null) {
             return null;
         }
