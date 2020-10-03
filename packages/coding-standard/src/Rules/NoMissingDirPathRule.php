@@ -13,6 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
 use Symplify\CodingStandard\PhpParser\FileExistFuncCallAnalyzer;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoMissingDirPathRule\NoMissingDirPathRuleTest
@@ -50,7 +51,7 @@ final class NoMissingDirPathRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $parent = $node->getAttribute('parent');
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof Concat) {
             return [];
         }

@@ -7,9 +7,11 @@ namespace Symplify\CodingStandard\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule\CheckRequiredMethodTobeAutowireWithClassNameRuleTest
@@ -47,7 +49,11 @@ final class CheckRequiredMethodTobeAutowireWithClassNameRule implements Rule
             return [];
         }
 
-        $class = $node->getAttribute('parent');
+        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $class instanceof Class_) {
+            return [];
+        }
+
         /** @var Identifier $name */
         $name = $class->name;
         $className = $name->toString();

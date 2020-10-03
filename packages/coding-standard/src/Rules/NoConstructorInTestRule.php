@@ -9,6 +9,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoConstructorInTestRule\NoConstructorInTestRuleTest
@@ -38,8 +39,11 @@ final class NoConstructorInTestRule extends AbstractManyNodeTypeRule
             return [];
         }
 
-        /** @var Class_ */
-        $class = $node->getAttribute('parent');
+        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $class instanceof Class_) {
+            return [];
+        }
+
         /** @var Identifier */
         $name = $class->name;
         $className = $name->toString();

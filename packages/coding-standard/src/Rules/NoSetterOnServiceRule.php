@@ -14,6 +14,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoSetterOnServiceRule\NoSetterOnServiceRuleTest
@@ -55,8 +56,10 @@ final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Class_ $class */
-        $class = $node->getAttribute('parent');
+        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $class instanceof Class_) {
+            return [];
+        }
 
         /** @var Identifier|null $namespacedName */
         $namespacedName = $class->namespacedName;

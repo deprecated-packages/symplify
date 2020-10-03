@@ -97,7 +97,7 @@ final class NoMultiArrayAssignRule implements Rule
             return null;
         }
 
-        $previous = $parent->getAttribute('previous');
+        $previous = $parent->getAttribute(PHPStanAttributeKey::PREVIOUS);
         if (! $previous instanceof Expression) {
             return null;
         }

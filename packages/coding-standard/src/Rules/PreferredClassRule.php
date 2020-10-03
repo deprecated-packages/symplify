@@ -146,7 +146,7 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
         }
 
         // possibly protected by parent class
-        $parentParent = $parent->getAttribute('parent');
+        $parentParent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parentParent instanceof ClassMethod) {
             return false;
         }

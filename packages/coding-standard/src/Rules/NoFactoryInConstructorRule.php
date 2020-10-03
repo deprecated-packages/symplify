@@ -13,6 +13,7 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\TypeWithClassName;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
@@ -53,7 +54,7 @@ final class NoFactoryInConstructorRule extends AbstractManyNodeTypeRule
         }
 
         // just assign
-        $parent = $node->getAttribute('parent');
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
         if ($parent instanceof ArrayDimFetch) {
             return [];
         }
