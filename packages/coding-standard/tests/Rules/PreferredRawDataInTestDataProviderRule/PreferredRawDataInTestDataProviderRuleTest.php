@@ -26,7 +26,7 @@ final class PreferredRawDataInTestDataProviderRuleTest extends AbstractServiceAw
         yield [__DIR__ . '/Fixture/UseRawDataForTestDataProviderTest.php', []];
         yield [
             __DIR__ . '/Fixture/UseDataFromSetupInTestDataProviderTest.php',
-            [[PreferredRawDataInTestDataProviderRule::ERROR_MESSAGE, 30]],
+            [[PreferredRawDataInTestDataProviderRule::ERROR_MESSAGE, 24]],
         ];
     }
 

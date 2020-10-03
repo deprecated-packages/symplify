@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
@@ -22,7 +23,7 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = "Use raw data in test's dataProvider method instead from setUp()";
+    public const ERROR_MESSAGE = "Use raw data in test's \"dataProvider\" method";
 
     /**
      * @var string
@@ -82,14 +83,14 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
 
     private function isSkipped(ClassMethod $classMethod, Scope $scope): bool
     {
-        /** @var MethodCall[] $methodCalls */
-        $methodCalls = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), MethodCall::class);
-        foreach ($methodCalls as $methodCall) {
-            $callerType = $scope->getType($methodCall->var);
+        /** @var Variable[] $variables */
+        $variables = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), Variable::class);
+        foreach ($variables as $variable) {
+            $callerType = $scope->getType($variable);
             /** @var Identifier $name */
-            $name = $methodCall->name;
+            $name = $variable->name;
 
-            if ($callerType instanceof ThisType && strtolower((string) $name) === 'setup') {
+            if ($callerType instanceof ThisType) {
                 return false;
             }
         }
