@@ -184,6 +184,10 @@ services:
         class: Symplify\CodingStandard\Rules\PreferredClassConstantOverVariableConstantRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\PreferredRawDataInTestDataProviderRule
+        tags: [phpstan.rules.rule]
+
 #    -
 #        class: 'PhpParser\ParserFactory'
 #    -

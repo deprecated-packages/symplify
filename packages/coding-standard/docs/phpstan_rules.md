@@ -1838,6 +1838,81 @@ $dateTime = new Nette\Utils\DateTime('now');
 
 <br>
 
+## Prefer raw data in test\'s dataProvider method instead from setUp()
+
+- class: [`PreferredRawDataInTestDataProviderRule`](../src/Rules/PreferredRawDataInTestDataProviderRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\PreferredRawDataInTestDataProviderRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+final class UseDataFromSetupInTestDataProviderTest extends TestCase
+{
+    private $data;
+
+    protected function setUp()
+    {
+        $this->data = true;
+    }
+
+    public function provideFoo()
+    {
+        yield [$this->data];
+    }
+
+    /**
+     * @dataProvider provideFoo
+     */
+    public function testFoo($value)
+    {
+        $this->assertTrue($value);
+    }
+}
+```
+
+:x:
+
+```php
+<?php
+
+use stdClass;
+
+final class UseRawDataForTestDataProviderTest
+{
+    private $obj;
+
+    protected function setUp()
+    {
+        $this->obj = new stdClass;
+    }
+
+    public function provideFoo()
+    {
+        yield [true];
+    }
+
+    /**
+     * @dataProvider provideFoo
+     */
+    public function testFoo($value)
+    {
+        $this->obj->x = $value;
+        $this->assertTrue($this->obj->x);
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## Prefer Class constant over Variable constant
 
 - class: [`PreferredClassConstantOverVariableConstantRule`](../src/Rules/PreferredClassConstantOverVariableConstantRule.php)
