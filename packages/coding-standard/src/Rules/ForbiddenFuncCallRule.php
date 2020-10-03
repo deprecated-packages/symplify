@@ -56,7 +56,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        $errorMessaeg = sprintf(self::ERROR_MESSAGE, $funcName);
-        return [$errorMessaeg];
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $funcName);
+        return [$errorMessage];
     }
 }
