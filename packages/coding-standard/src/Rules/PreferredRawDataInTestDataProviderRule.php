@@ -50,11 +50,25 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $dataProviderMethod = $this->matchDataProviderMethodName($node);
+        $dataProviderMethodName = $this->matchDataProviderMethodName($node);
+        if ($dataProviderMethodName === null) {
+            return [];
+        }
+
+        $dataProviderMethod = $this->findDataProviderClassMethod($node, $dataProviderMethodName);
         if ($dataProviderMethod === null) {
             return [];
         }
 
+        if ($this->isSkipped($dataProviderMethod, $scope)) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
+    }
+
+    private function findDataProviderClassMethod(ClassMethod $node, string $dataProviderMethod): ?ClassMethod
+    {
         $class = $node->getAttribute('parent');
 
         /** @var ClassMethod[] $classMethods */
@@ -64,14 +78,10 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
                 continue;
             }
 
-            if ($this->isSkipped($classMethod, $scope)) {
-                continue;
-            }
-
-            return [self::ERROR_MESSAGE];
+            return $classMethod;
         }
 
-        return [];
+        return null;
     }
 
     private function matchDataProviderMethodName(ClassMethod $node): ?string
