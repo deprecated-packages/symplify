@@ -9,17 +9,14 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticPropertyFetch;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoSetterOnServiceRule\NoSetterOnServiceRuleTest
  */
-final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
+final class NoSetterOnServiceRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -42,32 +39,23 @@ final class NoSetterOnServiceRule extends AbstractManyNodeTypeRule
         $this->nodeFinder = $nodeFinder;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class];
+        return ClassMethod::class;
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
-        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $class instanceof Class_) {
+        $fullyQualifiedClassName = $this->getClassName($scope);
+        if ($fullyQualifiedClassName === null) {
             return [];
         }
 
-        /** @var Identifier|null $namespacedName */
-        $namespacedName = $class->namespacedName;
-        if ($namespacedName === null) {
-            return [];
-        }
-
-        if (Strings::match($namespacedName->toString(), self::NOT_A_SERVICE_NAMESPACE_REGEX)) {
+        if (Strings::match($fullyQualifiedClassName, self::NOT_A_SERVICE_NAMESPACE_REGEX)) {
             return [];
         }
 

@@ -6,17 +6,13 @@ namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule\CheckRequiredMethodTobeAutowireWithClassNameRuleTest
  */
-final class CheckRequiredMethodTobeAutowireWithClassNameRule implements Rule
+final class CheckRequiredMethodTobeAutowireWithClassNameRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -49,16 +45,12 @@ final class CheckRequiredMethodTobeAutowireWithClassNameRule implements Rule
             return [];
         }
 
-        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $class instanceof Class_) {
+        $shortClassName = $this->getShortClassName($scope);
+        if ($shortClassName === null) {
             return [];
         }
 
-        /** @var Identifier $name */
-        $name = $class->name;
-        $className = $name->toString();
-
-        if ((string) $node->name === 'autowire' . $className) {
+        if ((string) $node->name === 'autowire' . $shortClassName) {
             return [];
         }
 

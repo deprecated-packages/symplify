@@ -4,51 +4,42 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoConstructorInTestRule\NoConstructorInTestRuleTest
  */
-final class NoConstructorInTestRule extends AbstractManyNodeTypeRule
+final class NoConstructorInTestRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Do not use constructor in test, only setUp()';
 
-    /**
-     * @return string[]
-     */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class];
+        return ClassMethod::class;
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ((string) $node->name !== '__construct') {
             return [];
         }
 
-        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $class instanceof Class_) {
+        $className = $this->getClassName($scope);
+        if ($className === null) {
             return [];
         }
 
-        /** @var Identifier */
-        $name = $class->name;
-        $className = $name->toString();
-
-        if (substr($className, -4) !== 'Test') {
+        if (! Strings::endsWith($className, 'Test')) {
             return [];
         }
 
