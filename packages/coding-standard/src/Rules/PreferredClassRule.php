@@ -13,6 +13,7 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\PreferredClassRule\PreferredClassRuleTest
@@ -139,7 +140,7 @@ final class PreferredClassRule extends AbstractManyNodeTypeRule
 
     private function isTypeRequiredByParentClassOrContract(Node $node, Scope $scope): bool
     {
-        $parent = $node->getAttribute('parent');
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof Param) {
             return false;
         }

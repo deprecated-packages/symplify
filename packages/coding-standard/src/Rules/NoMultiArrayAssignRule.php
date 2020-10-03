@@ -11,6 +11,7 @@ use PhpParser\Node\Stmt\Expression;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoMultiArrayAssignRule\NoMultiArrayAssignRuleTest
@@ -91,7 +92,7 @@ final class NoMultiArrayAssignRule implements Rule
 
     private function matchParentArrayDimFetch(Node $node): ?ArrayDimFetch
     {
-        $parent = $node->getAttribute('parent');
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof Expression) {
             return null;
         }
