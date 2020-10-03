@@ -22,7 +22,8 @@
         "symplify/package-builder": "^8.4",
         "symplify/phpstan-extensions": "^8.4",
         "symplify/smart-file-system": "^8.4",
-        "phpunit/phpunit": "^8.5|^9.0"
+        "phpunit/phpunit": "^8.5|^9.0",
+        "symfony/framework-bundle": "^4.4|^5.1"
     },
     "autoload": {
         "psr-4": {
