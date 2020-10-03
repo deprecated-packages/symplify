@@ -12,7 +12,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use PHPStan\Type\ObjectType;
+use PHPStan\Type\TypeWithClassName;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\RequireMethodCallArgumentConstantRuleTest
@@ -77,8 +77,11 @@ final class RequireMethodCallArgumentConstantRule implements Rule
     private function isNodeVarType(MethodCall $methodCall, Scope $scope, string $desiredType): bool
     {
         $methodVarType = $scope->getType($methodCall->var);
-        $desiredObjectType = new ObjectType($desiredType);
-        return $methodVarType->equals($desiredObjectType);
+        if (! $methodVarType instanceof TypeWithClassName) {
+            return false;
+        }
+
+        return is_a($methodVarType->getClassName(), $desiredType, true);
     }
 
     /**
