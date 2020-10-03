@@ -21,7 +21,7 @@ final class PreferredRawDataInTestDataProviderRule implements Rule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = "Use raw data in test's \"dataProvider\" method";
+    public const ERROR_MESSAGE = "Code configured at setUp() cannot be used in data provider. Move it to test() method";
 
     /**
      * @var string
