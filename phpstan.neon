@@ -260,7 +260,6 @@ parameters:
         -
             message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
             paths:
-                - packages/autodiscovery/src/Command/ConvertYamlCommand.php # 28
                 - packages/autodiscovery/src/NamespaceDetector.php # 19
                 - packages/autodiscovery/src/NamespaceDetector.php # 24
                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php # 17
