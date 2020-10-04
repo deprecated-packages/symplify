@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnNoOverrideProcessRule\Fixture;
 
-final class ParentMethodCallOverride extends ParentClass
+use Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnNoOverrideProcessRule\Source\ParentClass;
+
+final class SkipParentMethodCallOverride extends ParentClass
 {
     protected function setUp(): void
     {

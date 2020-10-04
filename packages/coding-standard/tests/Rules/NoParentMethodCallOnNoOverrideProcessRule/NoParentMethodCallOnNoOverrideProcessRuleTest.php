@@ -21,12 +21,19 @@ final class NoParentMethodCallOnNoOverrideProcessRuleTest extends AbstractServic
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/NotCallParentMethod.php', []];
-        yield [__DIR__ . '/Fixture/ParentMethodCallOverride.php', []];
-        yield [__DIR__ . '/Fixture/ParentMethodCallInsideExpression.php', []];
-        yield [__DIR__ . '/Fixture/ParentMethodCallFromDifferentMethodName.php', []];
+        yield [__DIR__ . '/Fixture/SkipParentWithArgs.php', []];
+        yield [__DIR__ . '/Fixture/SkipNotCallParentMethod.php', []];
+        yield [__DIR__ . '/Fixture/SkipParentMethodCallOverride.php', []];
+        yield [__DIR__ . '/Fixture/SkipParentMethodCallInsideExpression.php', []];
+        yield [__DIR__ . '/Fixture/SkipParentMethodCallFromDifferentMethodName.php', []];
+
         yield [
             __DIR__ . '/Fixture/ParentMethodCallNoOverride.php',
+            [[NoParentMethodCallOnNoOverrideProcessRule::ERROR_MESSAGE, 11]],
+        ];
+
+        yield [
+            __DIR__ . '/Fixture/OverrideWithSameParamsAndArgs.php',
             [[NoParentMethodCallOnNoOverrideProcessRule::ERROR_MESSAGE, 11]],
         ];
     }

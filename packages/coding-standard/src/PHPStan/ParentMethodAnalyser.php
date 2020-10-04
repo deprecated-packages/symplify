@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\PHPStan;
 
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 
 final class ParentMethodAnalyser
 {
@@ -15,14 +16,11 @@ final class ParentMethodAnalyser
             return false;
         }
 
-        foreach ($classReflection->getParents() as $parentClass) {
-            if ($parentClass->hasMethod($methodName)) {
-                return true;
-            }
-        }
+        /** @var ClassReflection[] $parentClassLikeReflections */
+        $parentClassLikeReflections = array_merge($classReflection->getParents(), $classReflection->getInterfaces());
 
-        foreach ($classReflection->getInterfaces() as $interface) {
-            if ($interface->hasMethod($methodName)) {
+        foreach ($parentClassLikeReflections as $classLikeReflection) {
+            if ($classLikeReflection->hasMethod($methodName)) {
                 return true;
             }
         }
