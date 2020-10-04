@@ -11,6 +11,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Contract\ArrayFixerInterface;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\ArrayAnalyzer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 
@@ -74,6 +75,6 @@ abstract class AbstractArrayFixer extends AbstractSymplifyFixer implements Array
     public function getPriority(): int
     {
         // to handle the indent
-        return $this->getPriorityBefore(ArrayIndentationFixer::class);
+        return $this->getPriorityBefore(LineLengthFixer::class);
     }
 }
