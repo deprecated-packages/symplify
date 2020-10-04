@@ -209,6 +209,7 @@ services:
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
-    - Symplify\CodingStandard\PHPStan\NodeResolver\ParentClassMethodNodeResolver
+    - Symplify\CodingStandard\PHPStan\ParentClassMethodNodeResolver
     - Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser
     - Symplify\CodingStandard\PhpParser\FileExistFuncCallAnalyzer
+    - Symplify\CodingStandard\PHPStan\ParentGuard\ParentMethodReturnTypeResolver

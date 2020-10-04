@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\PHPStan\NodeResolver;
+namespace Symplify\CodingStandard\PHPStan;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
