@@ -14,20 +14,43 @@ final class CheckRequiredMethodTobeAutowireWithClassNameRuleTest extends Abstrac
     /**
      * @dataProvider provideData()
      */
-    public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
+    public function testRule(array $filePaths, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
+        $this->analyse($filePaths, $expectedErrorMessagesWithLines);
     }
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/EmptyDocblock.php', []];
-        yield [__DIR__ . '/Fixture/WithoutRequired.php', []];
-        yield [__DIR__ . '/Fixture/WithRequiredAutowire.php', []];
+        $errorMessage = sprintf(
+            CheckRequiredMethodTobeAutowireWithClassNameRule::ERROR_MESSAGE,
+            'autowireRequiredByTrait'
+        );
         yield [
-            __DIR__ . '/Fixture/WithRequiredNotAutowire.php',
-            [[CheckRequiredMethodTobeAutowireWithClassNameRule::ERROR_MESSAGE, 12]],
+            [__DIR__ . '/Fixture/ClassUsingRequiredByTrait.php', __DIR__ . '/Fixture/RequiredByTrait.php'],
+            [[$errorMessage, 12]],
         ];
+
+        $errorMessage = sprintf(
+            CheckRequiredMethodTobeAutowireWithClassNameRule::ERROR_MESSAGE,
+            'autowireRequiredByTraitCorrect'
+        );
+        yield [
+            [
+                __DIR__ . '/Fixture/ClassUsingRequiredByTraitCorrect.php',
+                __DIR__ . '/Fixture/RequiredByTraitCorrect.php',
+            ],
+            [[$errorMessage, 12]],
+        ];
+
+        yield [[__DIR__ . '/Fixture/EmptyDocblock.php'], []];
+        yield [[__DIR__ . '/Fixture/WithoutRequired.php'], []];
+        yield [[__DIR__ . '/Fixture/WithRequiredAutowire.php'], []];
+
+        $errorMessage = sprintf(
+            CheckRequiredMethodTobeAutowireWithClassNameRule::ERROR_MESSAGE,
+            'autowireWithRequiredNotAutowire'
+        );
+        yield [[__DIR__ . '/Fixture/WithRequiredNotAutowire.php'], [[$errorMessage, 12]]];
     }
 
     protected function getRule(): Rule

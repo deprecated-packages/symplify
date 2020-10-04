@@ -14,21 +14,25 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface
 {
     public function getShortClassName(Scope $scope): ?string
     {
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        $className = $this->getClassName($scope);
+        if ($className === null) {
             return null;
         }
 
-        $className = $classReflection->getName();
-        if (! Strings::contains($className, '\\')) {
-            return $className;
-        }
-
-        return (string) Strings::after($className, '\\', - 1);
+        return $this->resolveShortName($className);
     }
 
     public function getClassName(Scope $scope): ?string
     {
+        if ($scope->isInTrait()) {
+            $traitReflection = $scope->getTraitReflection();
+            if ($traitReflection === null) {
+                return null;
+            }
+
+            return $traitReflection->getName();
+        }
+
         $classReflection = $scope->getClassReflection();
         if ($classReflection === null) {
             return null;
@@ -63,5 +67,14 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface
         }
 
         return true;
+    }
+
+    private function resolveShortName(string $className): string
+    {
+        if (! Strings::contains($className, '\\')) {
+            return $className;
+        }
+
+        return (string) Strings::after($className, '\\', -1);
     }
 }
