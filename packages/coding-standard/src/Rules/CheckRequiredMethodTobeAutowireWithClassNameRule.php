@@ -17,7 +17,7 @@ final class CheckRequiredMethodTobeAutowireWithClassNameRule extends AbstractSym
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method with @required need to be named autowire+class name';
+    public const ERROR_MESSAGE = 'Method with @required need to be named "%s()"';
 
     /**
      * @var string
@@ -53,10 +53,15 @@ final class CheckRequiredMethodTobeAutowireWithClassNameRule extends AbstractSym
             return [];
         }
 
-        if ((string) $node->name === 'autowire' . $shortClassName) {
+        $requriedMethodName = 'autowire' . $shortClassName;
+        $currentMethodName = (string) $node->name;
+
+        if ($currentMethodName === $requriedMethodName) {
             return [];
         }
 
-        return [self::ERROR_MESSAGE];
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $requriedMethodName);
+
+        return [$errorMessage];
     }
 }
