@@ -13,6 +13,7 @@ final class IdsAnalyzer
 {
     /**
      * @var string
+     * @see https://regex101.com/r/HjmbHg/1
      *
      * Covers cases like:
      * - #5 Add this => 5
