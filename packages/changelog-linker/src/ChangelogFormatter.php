@@ -19,11 +19,13 @@ final class ChangelogFormatter
 
     /**
      * @var string
+     * @see https://regex101.com/r/GSqRiD/1
      */
     private const TWO_LINES_START_REGEX = '#^(\n){2,}#';
 
     /**
      * @var string
+     * @see https://regex101.com/r/SEAAh7/1
      */
     private const THREE_LINES_REGEX = '#(\n){3,}#';
 
