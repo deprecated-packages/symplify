@@ -260,7 +260,6 @@ parameters:
         -
             message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
             paths:
-                - packages/coding-standard/src/Rules/ForbiddenArrayDestructRule.php # 33
                 - packages/coding-standard/src/Rules/ForbiddenArrayWithStringKeysRule.php # 33
                 - packages/coding-standard/src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php # 40
                 - packages/coding-standard/src/Rules/NoEntityManagerInControllerRule.php # 28
