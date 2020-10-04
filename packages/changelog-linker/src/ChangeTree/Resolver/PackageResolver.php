@@ -16,13 +16,13 @@ final class PackageResolver
 {
     /**
      * @var string
+     * @see https://regex101.com/r/3oKiXw/1
      *
      * It assumes that there is at least one space after the package name.
      *
      * It covers:
      * - "[package-name] "Message => package-name
      * - "[aliased-package-name] "Message => aliased-package-name
-     * - "[Aliased\PackageName] "Message => Aliased\PackageName
      * - "[Aliased\PackageName] "Message => Aliased\PackageName
      */
     public const PACKAGE_NAME_REGEX = '#\[(?<package>[-\w\\\\]+)\]( ){1,}#';
