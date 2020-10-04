@@ -28,11 +28,13 @@ final class NoReturnArrayVariableListRule extends AbstractSymplifyRule
 
     /**
      * @var string
+     * @see https://regex101.com/r/Ynmm3J/1
      */
     private const VALUE_OBJECT_REGEX = '#\/ValueObject\/#i';
 
     /**
      * @var string
+     * @see https://regex101.com/r/C5d1zH/1
      */
     private const TESTS_DIRECTORY_REGEX = '#\/Tests\/#i';
 
