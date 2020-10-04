@@ -11,3 +11,5 @@ services:
                 PhpParser\Node:
                     getAttribute: [0]
                     setAttribute: [0]
+
+    - Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser

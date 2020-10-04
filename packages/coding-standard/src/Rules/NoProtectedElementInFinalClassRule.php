@@ -13,6 +13,7 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use ReflectionClass;
 use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule\NoProtectedElementInFinalClassRuleTest
@@ -48,7 +49,7 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $parent = $node->getAttribute('parent');
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof Class_) {
             return [];
         }

@@ -15,6 +15,7 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenArrayWithStringKeysRule\ForbiddenArrayWithStringKeysRuleTest
@@ -89,7 +90,7 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
 
     private function isPartOfClassConstOrNew(Node $currentNode): bool
     {
-        while ($currentNode = $currentNode->getAttribute('parent')) {
+        while ($currentNode = $currentNode->getAttribute(PHPStanAttributeKey::PARENT)) {
             // constants can have default values
             if ($currentNode instanceof ClassConst) {
                 return true;

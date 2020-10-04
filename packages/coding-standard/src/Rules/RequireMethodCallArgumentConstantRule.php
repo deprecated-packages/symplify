@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\TypeWithClassName;
+use Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\RequireMethodCallArgumentConstantRuleTest
@@ -24,16 +24,22 @@ final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Method call argument on position %d must use constant over value';
 
     /**
-     * @var mixed[]
+     * @var array<class-string, mixed[]>
      */
     private $constantArgByMethodByType = [];
 
     /**
-     * @param mixed[] $constantArgByMethodByType
+     * @var ContainsTypeAnalyser
      */
-    public function __construct(array $constantArgByMethodByType = [])
+    private $containsTypeAnalyser;
+
+    /**
+     * @param array<class-string, mixed[]> $constantArgByMethodByType
+     */
+    public function __construct(ContainsTypeAnalyser $containsTypeAnalyser, array $constantArgByMethodByType = [])
     {
         $this->constantArgByMethodByType = $constantArgByMethodByType;
+        $this->containsTypeAnalyser = $containsTypeAnalyser;
     }
 
     /**
@@ -76,27 +82,18 @@ final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule
         return $errorMessages;
     }
 
-    private function isNodeVarType(MethodCall $methodCall, Scope $scope, string $desiredType): bool
-    {
-        $methodVarType = $scope->getType($methodCall->var);
-        if (! $methodVarType instanceof TypeWithClassName) {
-            return false;
-        }
-
-        return is_a($methodVarType->getClassName(), $desiredType, true);
-    }
-
     /**
+     * @param class-string $desiredType
      * @return mixed|null
      */
     private function matchPositions(
-        $node,
+        MethodCall $methodCall,
         Scope $scope,
         string $desiredType,
         array $positionsByMethods,
         string $methodName
     ) {
-        if (! $this->isNodeVarType($node, $scope, $desiredType)) {
+        if (! $this->containsTypeAnalyser->containsExprTypes($methodCall->var, $scope, [$desiredType])) {
             return null;
         }
 
