@@ -18,16 +18,19 @@ final class RegexPattern
     /**
      * Use names, but not "@var" annotation etc.
      * @var string
+     * @see https://regex101.com/r/n28u2E/1
      */
     public const USER = '(?<reference>@(?!(var))[\w\d-]+)';
 
     /**
      * @var string
+     * @see https://regex101.com/r/c9P7PS/1
      */
     public const VERSION = '(?<version>(v|[\d])[\w\d\.-]+)';
 
     /**
      * @var string
+     * @see https://regex101.com/r/0I2XoB/1
      */
     public const PR_OR_ISSUE = '(?<reference>\#(?<id>\d+))';
 
@@ -41,6 +44,7 @@ final class RegexPattern
     /**
      * links: "[<...>]: http://"
      * @var string
+     * @see https://regex101.com/r/t8GV67/1
      */
     public const LINK_REFERENCE_REGEX = '#\[\#?(?<reference>.*)\]:\s+#';
 }
