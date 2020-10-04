@@ -30,8 +30,8 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Array with keys is not allowed. Use value object to pass data instead';
 
     /**
-     * @see https://regex101.com/r/ddj4mB/2
      * @var string
+     * @see https://regex101.com/r/ddj4mB/2
      */
     private const TEST_FILE_REGEX = '#(Test|TestCase)\.php$#';
 
