@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule
 
 use Iterator;
 use PHPStan\Rules\Rule;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
