@@ -25,6 +25,7 @@ final class ExcessivePublicCountRule extends AbstractSymplifyRule
 
     /**
      * @var string
+     * @see https://regex101.com/r/YnDoFR/1
      */
     private const VALUE_OBJECT_REGEX = '#\bValueObject\b#';
 
