@@ -41,4 +41,15 @@ final class NodeNameResolver
 
         return null;
     }
+
+    public function areNamesEquals(Node $firstNode, Node $secondNode): bool
+    {
+        $firstName = $this->getName($firstNode);
+        if ($firstName === null) {
+            return false;
+        }
+
+        $secondName = $this->getName($secondNode);
+        return $firstName === $secondName;
+    }
 }

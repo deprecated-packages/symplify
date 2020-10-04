@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnNoOverrideProcessRule\Fixture;
 
-final class NotCallParentMethod
+final class SkipNotCallParentMethod
 {
     public function foo()
     {

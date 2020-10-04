@@ -6,14 +6,11 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
-use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Nop;
-use PhpParser\NodeFinder;
+use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use Symplify\CodingStandard\PhpParser\NodeNameResolver;
+use Symplify\CodingStandard\PHPStan\NodeComparator;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnNoOverrideProcessRule\NoParentMethodCallOnNoOverrideProcessRuleTest
@@ -26,13 +23,19 @@ final class NoParentMethodCallOnNoOverrideProcessRule extends AbstractSymplifyRu
     public const ERROR_MESSAGE = 'Do not call parent method if no override process';
 
     /**
-     * @var NodeFinder
+     * @var NodeNameResolver
      */
-    private $nodeFinder;
+    private $nodeNameResolver;
 
-    public function __construct(NodeFinder $nodeFinder)
+    /**
+     * @var NodeComparator
+     */
+    private $nodeComparator;
+
+    public function __construct(NodeNameResolver $nodeNameResolver, NodeComparator $nodeComparator)
     {
-        $this->nodeFinder = $nodeFinder;
+        $this->nodeNameResolver = $nodeNameResolver;
+        $this->nodeComparator = $nodeComparator;
     }
 
     /**
@@ -40,53 +43,58 @@ final class NoParentMethodCallOnNoOverrideProcessRule extends AbstractSymplifyRu
      */
     public function getNodeTypes(): array
     {
-        return [StaticCall::class];
+        return [ClassMethod::class];
     }
 
     /**
-     * @param StaticCall $node
+     * @param ClassMethod $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Name $name */
-        $name = $node->class;
-        $classCaller = $name->parts[0];
-
-        if ($classCaller !== 'parent') {
+        $onlyNode = $this->resolveOnlyNode($node);
+        if (! $onlyNode instanceof StaticCall) {
             return [];
         }
 
-        /** @var ClassMethod $classMethod */
-        $classMethod = $node->getAttribute(PHPStanAttributeKey::PARENT)
-            ->getAttribute(PHPStanAttributeKey::PARENT);
-
-        if (! $classMethod instanceof ClassMethod) {
+        if (! $this->isParentSelfMethodStaticCall($onlyNode, $node)) {
             return [];
         }
 
-        /** @var Identifier $name */
-        $name = $node->name;
-        if ((string) $classMethod->name !== $name->toString()) {
+        $methodCallArgs = (array) $onlyNode->args;
+        $classMethodParams = (array) $node->params;
+
+        if (! $this->nodeComparator->areArgsAndParamsSame($methodCallArgs, $classMethodParams)) {
             return [];
         }
-
-        /** @var Stmt[] $stmts */
-        $stmts = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), Stmt::class);
-        $countStmts = 0;
-        foreach ($stmts as $stmt) {
-            // ensure empty statement not counted
-            if ($stmt instanceof Nop) {
-                continue;
-            }
-
-            ++$countStmts;
-        }
-
-        if ($countStmts > 1) {
-            return [];
-        }
-
         return [self::ERROR_MESSAGE];
+    }
+
+    private function isParentSelfMethodStaticCall(Node $node, ClassMethod $classMethod): bool
+    {
+        if (! $node instanceof StaticCall) {
+            return false;
+        }
+
+        if (! $this->nodeNameResolver->isName($node->class, 'parent')) {
+            return false;
+        }
+
+        return $this->nodeNameResolver->areNamesEquals($node->name, $classMethod->name);
+    }
+
+    private function resolveOnlyNode(ClassMethod $classMethod): ?Node
+    {
+        $stmts = (array) $classMethod->stmts;
+        if (count($stmts) !== 1) {
+            return null;
+        }
+
+        $onlyStmt = $stmts[0];
+        if (! $onlyStmt instanceof Expression) {
+            return null;
+        }
+
+        return $onlyStmt->expr;
     }
 }
