@@ -260,7 +260,6 @@ parameters:
         -
             message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
             paths:
-                - packages/changelog-linker/src/Analyzer/LinksAnalyzer.php # 18
                 - packages/changelog-linker/src/ChangeTree/ChangeFactory.php # 23
                 - packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php # 18
                 - packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php # 23

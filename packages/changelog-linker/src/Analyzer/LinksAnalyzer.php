@@ -14,6 +14,7 @@ final class LinksAnalyzer
 {
     /**
      * @var string
+     * @see https://regex101.com/r/8L3ZvQ/1
      */
     private const REFERENCE_REGEX = '#\[\#?(?<reference>[(-\/@\w\d\.]+)\](?!:)(?!\()#';
 
