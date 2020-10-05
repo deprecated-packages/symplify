@@ -35,6 +35,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
 
     /**
      * @var string
+     * @see https://regex101.com/r/O2LN6F/1
      */
     private const STATIC_REGEX = '#static#i';
 

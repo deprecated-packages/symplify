@@ -18,7 +18,7 @@ final class AnnotateRegexClassConstWithRegexLinkRule extends AbstractSymplifyRul
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Add regex101.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future';
+    public const ERROR_MESSAGE = 'Add regex101.com link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future';
 
     /**
      * @var string

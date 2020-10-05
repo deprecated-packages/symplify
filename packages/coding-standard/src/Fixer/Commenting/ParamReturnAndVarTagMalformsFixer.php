@@ -34,6 +34,7 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
 {
     /**
      * @var string
+     * @see https://regex101.com/r/8iqNuR/1
      */
     private const TYPE_ANNOTATION_REGEX = '#@(param|return|var)#';
 

@@ -19,6 +19,7 @@ final class ChangeFactory
 {
     /**
      * @var string
+     * @see https://regex101.com/r/QPRx0q/1
      */
     private const ASTERISK_REGEX = '#(\*)#';
 

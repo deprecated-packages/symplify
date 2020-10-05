@@ -11,11 +11,13 @@ final class FilePathResolver
 {
     /**
      * @var string
+     * @see https://regex101.com/r/IdrzII/1
      */
     private const FILE_PATH_REGEX = '#{(.*?)}#m';
 
     /**
      * @var string
+     * @see https://regex101.com/r/qrq6DT/1
      */
     private const FILE_SUFFIX_REGEX = '#\.[\w]+#';
 

@@ -20,6 +20,7 @@ final class JsonFileManager
 {
     /**
      * @var string
+     * @see https://regex101.com/r/jhWo9g/1
      */
     private const SPACE_REGEX = '#\s+#';
 

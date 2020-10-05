@@ -24,6 +24,7 @@ final class ConvertYamlCommand extends Command
 {
     /**
      * @var string
+     * @see https://regex101.com/r/4jHDnE/1
      */
     public const NULL_SERVICE_REGEX = '#^( {4}([A-Z].*?): )(null)$#m';
 

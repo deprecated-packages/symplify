@@ -15,11 +15,13 @@ final class NamespaceDetector
 {
     /**
      * @var string
+     * @see https://regex101.com/r/CrvWwT/1
      */
     private const ENTITY_CLASS_NAME_REGEX = '#entity\s+name="(?<className>.*?)"#';
 
     /**
      * @var string
+     * @see https://regex101.com/r/MG9Jt2/1
      */
     private const NAMESPACE_NAME_REGEX = '#namespace(\s+)(?<namespace>[\w\\\\]*?);#';
 

@@ -16,6 +16,7 @@ final class SmartFileInfo extends SplFileInfo
 {
     /**
      * @var string
+     * @see https://regex101.com/r/SYP00O/1
      */
     private const LAST_SUFFIX_REGEX = '#\.[^.]+$#';
 

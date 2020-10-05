@@ -20,6 +20,7 @@ final class RemoveSuperfluousDocBlockWhitespaceFixer extends AbstractSymplifyFix
 {
     /**
      * @var string
+     * @see https://regex101.com/r/qddAxd/2
      */
     private const EMPTY_LINE_REGEX = '#(?<oneLine>[\t ]+\*\n){2,}#';
 

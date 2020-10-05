@@ -14,6 +14,7 @@ final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
 {
     /**
      * @var string
+     * @see https://regex101.com/r/5KOvEb/1
      */
     private const UNRELEASED_HEADLINE_REGEX = '#\#\# Unreleased#';
 

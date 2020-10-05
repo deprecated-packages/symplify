@@ -13,6 +13,7 @@ final class SmartFileSystem extends Filesystem
 {
     /**
      * @var string
+     * @see https://regex101.com/r/tx6eyw/1
      */
     private const BEFORE_COLLON_REGEX = '#^\w+\(.*?\): #';
 

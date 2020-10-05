@@ -12,11 +12,13 @@ final class DuplicatedArrayMalformWorker extends AbstractMalformWorker
 {
     /**
      * @var string
+     * @see https://regex101.com/r/wKRh0x/2
      */
     private const IMPLICIT_ARRAY_WITH_ARRAY_LEFT_REGEX = '#((\w+\(?\)?\[\])(\|(.*?))?)\|array#';
 
     /**
      * @var string
+     * @see https://regex101.com/r/Op8pAz/1
      */
     private const IMPLICIT_ARRAY_WITH_ARRAY_RIGHT_REGEX = '#array\|((.*?\|)?(\w+\(?\)?\[\]))#';
 

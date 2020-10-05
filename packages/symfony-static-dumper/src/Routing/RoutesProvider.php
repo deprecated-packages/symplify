@@ -15,6 +15,7 @@ final class RoutesProvider
 {
     /**
      * @var string
+     * @see https://regex101.com/r/VxkiVa/1
      */
     private const PARAMETERS_IN_ROUTE_REGEX = '#\{(.*?)\}#sm';
 

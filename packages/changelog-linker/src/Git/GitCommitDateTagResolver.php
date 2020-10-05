@@ -14,11 +14,13 @@ final class GitCommitDateTagResolver
 {
     /**
      * @var string
+     * @see https://regex101.com/r/Aggust/1
      */
     private const DATE_REGEX = '#(?<date>\d{4}-\d{2}-\d{2})#';
 
     /**
      * @var string
+     * @see https://regex101.com/r/50201m/2
      */
     private const TAG_WITH_DATE_REGEX = '#\(?tag: (?<tag>[v.\d]+)\)#';
 

@@ -18,11 +18,13 @@ final class GitManager
 
     /**
      * @var string
+     * @see https://regex101.com/r/GQv9tA/1
      */
     private const COMMITER_DATE_START_REGEX = '#^\s*$#';
 
     /**
      * @var string
+     * @see https://regex101.com/r/gfpBgt/1
      */
     private const SEMICOLON_REGEX = '#:#';
 

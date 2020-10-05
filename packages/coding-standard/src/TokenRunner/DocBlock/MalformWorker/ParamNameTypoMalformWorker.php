@@ -13,6 +13,7 @@ final class ParamNameTypoMalformWorker extends AbstractMalformWorker
 {
     /**
      * @var string
+     * @see https://regex101.com/r/5szHlw/1
      */
     private const PARAM_NAME_REGEX = '#@param(.*?)(?<paramName>\$\w+)#';
 

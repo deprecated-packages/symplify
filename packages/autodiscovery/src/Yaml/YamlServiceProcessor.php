@@ -13,6 +13,7 @@ final class YamlServiceProcessor
 {
     /**
      * @var string
+     * @see https://regex101.com/r/nR1pcK/1
      */
     private const VENDOR_DIRECTORY_REGEX = '#/vendor/#';
 

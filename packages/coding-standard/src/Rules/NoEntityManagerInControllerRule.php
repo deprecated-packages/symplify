@@ -23,6 +23,7 @@ final class NoEntityManagerInControllerRule extends AbstractSymplifyRule
 
     /**
      * @var string
+     * @see https://regex101.com/r/hJt00N/1
      */
     private const CONTROLLER_PRESENTER_REGEX = '#(Controller|Presenter)$#';
 
