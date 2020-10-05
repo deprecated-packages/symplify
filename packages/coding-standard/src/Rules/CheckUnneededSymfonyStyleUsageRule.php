@@ -41,9 +41,9 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Class_ $class */
-        $class = $node->getClass();
-        if ($this->hasParentClassSymfonyStyle($class)) {
+        /** @var Class_ $classLike */
+        $classLike = $node->getClass();
+        if ($this->hasParentClassSymfonyStyle($classLike)) {
             return [];
         }
 
