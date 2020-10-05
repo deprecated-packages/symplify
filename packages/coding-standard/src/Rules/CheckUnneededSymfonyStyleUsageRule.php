@@ -81,13 +81,13 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
         return [self::ERROR_MESSAGE];
     }
 
-    private function hasParentClassSymfonyStyle(ClassLike $class): bool
+    private function hasParentClassSymfonyStyle(ClassLike $classLike): bool
     {
-        if ($class->extends === null) {
+        if ($classLike->extends === null) {
             return false;
         }
 
-        $parentClass = $class->extends->toString();
+        $parentClass = $classLike->extends->toString();
 
         return is_a($parentClass, SymfonyStyle::class, true);
     }
