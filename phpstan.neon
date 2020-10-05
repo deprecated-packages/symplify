@@ -260,8 +260,6 @@ parameters:
         -
             message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
             paths:
-                - packages/easy-coding-standard/src/Skipper.php # 19
-                - packages/easy-coding-standard/src/Skipper.php # 24
                 - packages/easy-coding-standard/src/Yaml/CheckerServiceParametersShifter.php # 47
                 - packages/monorepo-builder/packages/release/src/ReleaseWorker/AddTagToChangelogReleaseWorker.php # 18
                 - packages/monorepo-builder/packages/split/src/Command/SplitCommand.php # 25
