@@ -260,7 +260,6 @@ parameters:
         -
             message: '#Add regex101\.com link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
             paths:
-                - packages/package-builder/src/Strings/StringFormatConverter.php # 17
                 - packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php # 31
                 - packages/smart-file-system/src/SmartFileInfo.php # 20
                 - packages/smart-file-system/src/SmartFileSystem.php # 17
