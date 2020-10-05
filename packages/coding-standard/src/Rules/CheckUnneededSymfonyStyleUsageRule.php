@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\ClassMethodsNode;
@@ -34,18 +36,21 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
     }
 
     /**
-     * @param Class_|ClassMethodsNode $node
+     * @param ClassMethodsNode $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->hasParentClassSymfonyStyle($node->getClass())) {
+        /** @var Class_ $class */
+        $class = $node->getClass();
+        if ($this->hasParentClassSymfonyStyle($class)) {
             return [];
         }
 
         $foundAllowedMethod = false;
         $methodCalls = $node->getMethodCalls();
         foreach ($methodCalls as $methodCall) {
+            /** @var MethodCall $methodCallNode */
             $methodCallNode = $methodCall->getNode();
             $callerType = $methodCall->getScope()
                 ->getType($methodCallNode->var);
@@ -60,7 +65,9 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
                 break;
             }
 
-            $methodName = (string) $methodCallNode->name;
+            /** @var Identifier $methodCallIdentifier */
+            $methodCallIdentifier = $methodCallNode->name;
+            $methodName = (string) $methodCallIdentifier->name;
             if (! in_array($methodName, self::SIMPLE_CONSOLE_OUTPUT_METHODS, true)) {
                 $foundAllowedMethod = true;
                 break;
