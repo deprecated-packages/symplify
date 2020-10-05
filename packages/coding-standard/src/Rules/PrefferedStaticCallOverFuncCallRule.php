@@ -13,7 +13,7 @@ use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\PrefferedStaticCallOverFuncCallRule\PrefferedStaticCallOverFuncCallRuleTest
  */
-final class PrefferedStaticCallOverFuncCallRule extends AbstractCheckFunctionCallRule
+final class PrefferedStaticCallOverFuncCallRule extends AbstractPrefferedCallOverFuncRule
 {
     /**
      * @var string

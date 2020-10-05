@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 
-abstract class AbstractCheckFunctionCallRule extends AbstractSymplifyRule
+abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
 {
     /**
      * @var array<string, string[]>

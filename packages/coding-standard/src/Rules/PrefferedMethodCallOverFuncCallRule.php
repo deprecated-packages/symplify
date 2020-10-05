@@ -11,9 +11,9 @@ use PHPStan\Reflection\MethodReflection;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule\PreferredSmartFileSystemOverNativeFileSystemFunctionCallRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\PrefferedMethodCallOverFuncCallRule\PrefferedMethodCallOverFuncCallRuleTest
  */
-final class PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule extends AbstractCheckFunctionCallRule
+final class PrefferedMethodCallOverFuncCallRule extends AbstractPrefferedCallOverFuncRule
 {
     /**
      * @var string

@@ -2,9 +2,9 @@ services:
     - Symplify\CodingStandard\PhpParser\NodeNameResolver
 
     -
-        class: Symplify\CodingStandard\Rules\PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule
+        class: Symplify\CodingStandard\Rules\PrefferedMethodCallOverFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
             funcCallToPrefferedStaticCalls:
                 file_get_contents: ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
-                substr: ['Symplify\CodingStandard\Tests\Rules\PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule\Fixture\SkipSelfCall', 'run']
+                substr: ['Symplify\CodingStandard\Tests\Rules\PrefferedMethodCallOverFuncCallRule\Fixture\SkipSelfCall', 'run']

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule;
+namespace Symplify\CodingStandard\Tests\Rules\PrefferedMethodCallOverFuncCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule;
+use Symplify\CodingStandard\Rules\PrefferedMethodCallOverFuncCallRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class PreferredSmartFileSystemOverNativeFileSystemFunctionCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class PrefferedMethodCallOverFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -24,7 +24,7 @@ final class PreferredSmartFileSystemOverNativeFileSystemFunctionCallRuleTest ext
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(
-            PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule::ERROR_MESSAGE,
+            PrefferedMethodCallOverFuncCallRule::ERROR_MESSAGE,
             SmartFileSystem::class,
             'readFile',
             'file_get_contents'
@@ -38,7 +38,7 @@ final class PreferredSmartFileSystemOverNativeFileSystemFunctionCallRuleTest ext
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule::class,
+            PrefferedMethodCallOverFuncCallRule::class,
             __DIR__ . '/config/configured_rule.neon'
         );
     }
