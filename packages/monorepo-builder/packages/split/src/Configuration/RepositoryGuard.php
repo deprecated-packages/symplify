@@ -16,6 +16,7 @@ final class RepositoryGuard
 {
     /**
      * @var string
+     * @see https://regex101.com/r/CJQF3W/1
      */
     private const GIT_REPOSITORY_REGEX = '#((git|ssh|http(s)?|file)|(git@[\w\.]+)|[\w]+)(:(//)?)([\w\.@\:/\-~]+)(\.git)?(/)?#';
 
