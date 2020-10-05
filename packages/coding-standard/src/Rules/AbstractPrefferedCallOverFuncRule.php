@@ -8,7 +8,10 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use ReflectionClassConstant;
+use ReflectionException;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
 {
@@ -54,7 +57,14 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
                 return [];
             }
 
-            $errorMessage = sprintf(static::ERROR_MESSAGE, $staticCall[0], $staticCall[1], $funcCall);
+            try {
+                $constantReflex = new ReflectionClassConstant(static::class, 'ERROR_MESSAGE');
+                $errorMessage = $constantReflex->getValue();
+            } catch (ReflectionException $e) {
+                throw new ShouldNotHappenException('const ERROR_MESSAGE must be defined with public modifier');
+            }
+
+            $errorMessage = sprintf($errorMessage, $staticCall[0], $staticCall[1], $funcCall);
             return [$errorMessage];
         }
 
