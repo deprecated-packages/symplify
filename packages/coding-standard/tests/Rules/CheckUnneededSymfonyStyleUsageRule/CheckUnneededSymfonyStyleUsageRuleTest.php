@@ -16,8 +16,6 @@ final class CheckUnneededSymfonyStyleUsageRuleTest extends AbstractServiceAwareR
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
-        $this->markTestSkipped('Broken');
-
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
@@ -27,7 +25,6 @@ final class CheckUnneededSymfonyStyleUsageRuleTest extends AbstractServiceAwareR
         yield [__DIR__ . '/Fixture/SkipChildOfSymfonyStyle.php', []];
         yield [__DIR__ . '/Fixture/InvalidType.php', []];
         yield [__DIR__ . '/Fixture/UseMethodCallNotFromSymfonyStyle.php', []];
-
         yield [__DIR__ . '/Fixture/UseMethodCallFromSymfonyStyleAllowedMethodCall.php', []];
         yield [
             __DIR__ . '/Fixture/UseMethodCallFromSymfonyStyle.php',
