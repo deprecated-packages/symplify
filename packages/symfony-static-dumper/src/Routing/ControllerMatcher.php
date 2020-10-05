@@ -12,6 +12,7 @@ final class ControllerMatcher
 {
     /**
      * @var string
+     * @see https://regex101.com/r/TiQ1x8/1
      */
     private const DOUBLE_COLLON_REGEX = '#::#';
 
