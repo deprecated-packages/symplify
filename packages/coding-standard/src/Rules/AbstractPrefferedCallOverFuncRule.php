@@ -60,7 +60,7 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
             try {
                 $constantReflex = new ReflectionClassConstant(static::class, 'ERROR_MESSAGE');
                 $errorMessage = $constantReflex->getValue();
-            } catch (ReflectionException $e) {
+            } catch (ReflectionException $reflectionException) {
                 throw new ShouldNotHappenException('const ERROR_MESSAGE must be defined with public modifier');
             }
 
