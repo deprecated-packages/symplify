@@ -13,6 +13,7 @@ final class CommandNaming
 {
     /**
      * @var string
+     * @see https://regex101.com/r/DfCWPx/1
      */
     private const BIG_LETTER_REGEX = '#[A-Z]#';
 
