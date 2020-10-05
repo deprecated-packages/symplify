@@ -12,6 +12,9 @@ jobs:
             fail-fast: false
             matrix:
                 actions:
+                    -   name: .idea dir
+                        run: 'php ci/forbidden_idea_committing.php'
+
                     -
                         name: Coding Standard
                         run: 'composer check-cs'
