@@ -54,7 +54,7 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
                 return [];
             }
 
-            $errorMessage = sprintf(self::ERROR_MESSAGE, $staticCall[0], $staticCall[1], $funcCall);
+            $errorMessage = sprintf(static::ERROR_MESSAGE, $staticCall[0], $staticCall[1], $funcCall);
             return [$errorMessage];
         }
 
