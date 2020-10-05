@@ -268,6 +268,7 @@ parameters:
         -
             message: '#Do not use factory/method call in constructor, put factory in config and get service with dependency injection#'
             paths:
+                - packages/easy-coding-standard/src/Console/EasyCodingStandardConsoleApplication.php # 30
                 - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 37
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
 
