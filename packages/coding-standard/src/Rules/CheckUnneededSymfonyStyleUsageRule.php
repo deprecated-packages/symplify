@@ -7,7 +7,7 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
-use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\ClassMethodsNode;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -41,7 +41,7 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Class_ $classLike */
+        /** @var ClassLike $classLike */
         $classLike = $node->getClass();
         if ($this->hasParentClassSymfonyStyle($classLike)) {
             return [];
@@ -81,7 +81,7 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
         return [self::ERROR_MESSAGE];
     }
 
-    private function hasParentClassSymfonyStyle(Class_ $class): bool
+    private function hasParentClassSymfonyStyle(ClassLike $class): bool
     {
         if ($class->extends === null) {
             return false;
