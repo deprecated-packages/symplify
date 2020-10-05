@@ -8,6 +8,6 @@ final class SkipSelfCall
 {
     public function run()
     {
-        return substr('...', '.');
+        return copy('a.txt', 'b.txt');
     }
 }

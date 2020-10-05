@@ -8,6 +8,6 @@ final class PregMatchCalled
 {
     public function run()
     {
-        return preg_match('pattern', 'value');
+        return file_get_contents('foo.txt');
     }
 }

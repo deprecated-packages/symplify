@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Rules\PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule;
 
 use Iterator;
-use Nette\Utils\Strings;
 use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\Rules\PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class PreferredSmartFileSystemOverNativeFileSystemFunctionCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -25,12 +25,12 @@ final class PreferredSmartFileSystemOverNativeFileSystemFunctionCallRuleTest ext
     {
         $errorMessage = sprintf(
             PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule::ERROR_MESSAGE,
-            Strings::class,
-            'match',
-            'preg_match'
+            SmartFileSystem::class,
+            'readFile',
+            'file_get_contents'
         );
 
-        yield [__DIR__ . '/Fixture/PregMatchCalled.php', [[$errorMessage, 11]]];
+        yield [__DIR__ . '/Fixture/FileGetContentsCalled.php', [[$errorMessage, 11]]];
 
         yield [__DIR__ . '/Fixture/SkipSelfCall.php', []];
     }

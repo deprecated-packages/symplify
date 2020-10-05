@@ -6,8 +6,5 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             funcCallToPrefferedStaticCalls:
-                preg_match: ['Nette\Utils\Strings', 'match']
-                preg_matchAll: ['Nette\Utils\Strings', 'match']
-                preg_replace: ['Nette\Utils\Strings', 'replace']
-                preg_split: ['Nette\Utils\Strings', 'split']
+                file_get_contents: ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
                 substr: ['Symplify\CodingStandard\Tests\Rules\PreferredSmartFileSystemOverNativeFileSystemFunctionCallRule\Fixture\SkipSelfCall', 'run']
