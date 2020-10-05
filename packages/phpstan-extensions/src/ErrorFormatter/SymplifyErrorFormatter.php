@@ -27,6 +27,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
     /**
      * @var string
+     * @see https://regex101.com/r/1ghDuM/1
      */
     private const FILE_WITH_TRAIT_CONTEXT_REGEX = '#(?<file>.*?)(\s+\(in context.*?)?$#';
 
