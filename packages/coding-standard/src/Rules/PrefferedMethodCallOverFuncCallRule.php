@@ -9,4 +9,8 @@ namespace Symplify\CodingStandard\Rules;
  */
 final class PrefferedMethodCallOverFuncCallRule extends AbstractPrefferedCallOverFuncRule
 {
+    /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = 'Use "%s::%s()" method call over "%s()" func call';
 }

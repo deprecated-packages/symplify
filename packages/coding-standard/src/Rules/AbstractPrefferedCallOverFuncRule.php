@@ -13,16 +13,6 @@ use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
 {
     /**
-     * @var string
-     */
-    public const PREFER_STATIC_CALL_ERROR_MESSAGE = 'Use "%s::%s()" static call over "%s()" func call';
-
-    /**
-     * @var string
-     */
-    public const PREFER_METHOD_CALL_ERROR_MESSAGE = 'Use "%s::%s()" method call over "%s()" func call';
-
-    /**
      * @var array<string, string[]>
      */
     private $funcCallToPrefferedStaticCalls = [];
@@ -64,11 +54,7 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
                 return [];
             }
 
-            $errorMessage = strpos(static::class, 'PrefferedStaticCallOverFuncCallRule') !== false
-                ?  self::PREFER_STATIC_CALL_ERROR_MESSAGE
-                : self:: PREFER_METHOD_CALL_ERROR_MESSAGE;
-
-            $errorMessage = sprintf($errorMessage, $staticCall[0], $staticCall[1], $funcCall);
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $staticCall[0], $staticCall[1], $funcCall);
             return [$errorMessage];
         }
 
