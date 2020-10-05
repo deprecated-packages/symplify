@@ -13,11 +13,13 @@ final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
 {
     /**
      * @var string
+     * @see https://regex101.com/r/euhrn8/1
      */
     private const THIS_VARIABLE_REGEX = '#\$this$#';
 
     /**
      * @var string
+     * @see https://regex101.com/r/8LCnOl/1
      */
     private const VAR_VARIABLE_NAME_REGEX = '#(@var)(?<type>\s+[|\\\\\w]+)?(\s+)(?<propertyName>\$[\w]+)#';
 
