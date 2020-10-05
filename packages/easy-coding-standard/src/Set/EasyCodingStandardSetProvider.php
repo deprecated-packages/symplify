@@ -14,8 +14,8 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class EasyCodingStandardSetProvider extends AbstractSetProvider
 {
     /**
-     * @see https://regex101.com/r/mkleqU/1
      * @var string
+     * @see https://regex101.com/r/mkleqU/1
      */
     private const REMOVE_DASH_BEFORE_NUMBER_REGEX = '#([a-z])-(\d+)$$#';
 
