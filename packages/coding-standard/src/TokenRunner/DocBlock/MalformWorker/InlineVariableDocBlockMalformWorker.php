@@ -13,17 +13,19 @@ final class InlineVariableDocBlockMalformWorker extends AbstractMalformWorker
 {
     /**
      * @var string
+     * @see https://regex101.com/r/GkyV1C/1
      */
     private const SINGLE_ASTERISK_START_REGEX = '#^/\*\s+\*(\s+@var)#';
 
     /**
      * @var string
+     * @see https://regex101.com/r/9cfhFI/1
      */
     private const SPACE_REGEX = '#\s+#m';
 
     /**
-     * @see
      * @var string
+     * @see https://regex101.com/r/VpTDCd/1
      */
     private const ASTERISK_LEFTOVERS_REGEX = '#(\*\*)(\s+\*)#';
 
