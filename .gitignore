@@ -1,3 +1,5 @@
+.idea
+
 # composer
 /vendor
 composer.lock
@@ -11,4 +13,3 @@ package-lock.json
 
 packages/easy-coding-standard/vendor/
 packages/easy-coding-standard/tmp/
-/.idea
