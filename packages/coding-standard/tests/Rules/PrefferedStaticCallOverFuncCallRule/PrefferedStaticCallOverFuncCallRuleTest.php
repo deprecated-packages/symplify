@@ -24,7 +24,7 @@ final class PrefferedStaticCallOverFuncCallRuleTest extends AbstractServiceAware
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(
-            PrefferedStaticCallOverFuncCallRule::ERROR_MESSAGE,
+            PrefferedStaticCallOverFuncCallRule::PREFER_STATIC_CALL_ERROR_MESSAGE,
             Strings::class,
             'match',
             'preg_match'

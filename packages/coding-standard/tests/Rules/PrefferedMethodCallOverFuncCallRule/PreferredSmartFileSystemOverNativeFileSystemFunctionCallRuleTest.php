@@ -24,7 +24,7 @@ final class PreferredSmartFileSystemOverNativeFileSystemFunctionCallRuleTest ext
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(
-            PrefferedMethodCallOverFuncCallRule::ERROR_MESSAGE,
+            PrefferedMethodCallOverFuncCallRule::PREFER_METHOD_CALL_ERROR_MESSAGE,
             SmartFileSystem::class,
             'readFile',
             'file_get_contents'
