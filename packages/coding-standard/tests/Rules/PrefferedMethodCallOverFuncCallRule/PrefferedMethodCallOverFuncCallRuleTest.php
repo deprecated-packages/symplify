@@ -10,7 +10,7 @@ use Symplify\CodingStandard\Rules\PrefferedMethodCallOverFuncCallRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class PreferredSmartFileSystemOverNativeFileSystemFunctionCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class PrefferedMethodCallOverFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
