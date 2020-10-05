@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassLike;
+use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\ClassMethodsNode;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -83,6 +84,10 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
 
     private function hasParentClassSymfonyStyle(ClassLike $classLike): bool
     {
+        if (! $classLike instanceof Class_) {
+            return false;
+        }
+
         if ($classLike->extends === null) {
             return false;
         }
