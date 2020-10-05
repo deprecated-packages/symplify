@@ -260,10 +260,6 @@ parameters:
         -
             message: '#Add regex101\.org link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future#'
             paths:
-                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 22
-                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 27
-                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 32
-                - packages/console-color-diff/src/Console/Formatter/ColorConsoleDiffFormatter.php # 37
                 - packages/easy-coding-standard/packages/changed-files-detector/src/FileHashComputer.php # 26
                 - packages/easy-coding-standard/src/Skipper.php # 19
                 - packages/easy-coding-standard/src/Skipper.php # 24
