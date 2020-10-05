@@ -496,7 +496,7 @@ final class SomeClass
 
 <br>
 
-## Prefer Static Call over specific Function
+## Prefer Method Call over specific Function
 
 - class: [`PrefferedMethodCallOverFuncCallRule`](../src/Rules/PrefferedMethodCallOverFuncCallRule.php)
 
