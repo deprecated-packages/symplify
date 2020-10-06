@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\Tests\FileSystem\ChangelogFileSystem;
 
-use Iterator;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;

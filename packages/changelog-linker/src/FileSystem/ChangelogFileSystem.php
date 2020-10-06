@@ -88,14 +88,16 @@ final class ChangelogFileSystem
         );
 
         $updatedChangelogContent = str_replace($placeholder, $contentToWrite, $changelogContent);
-        $updatedChangelogContent = str_replace(<<<CONTENT
+        $updatedChangelogContent = str_replace(
+            <<<CODE_SAMPLE
 <!-- dumped content end -->
 
 <!-- dumped content start -->
-CONTENT,
-        '',
-        $updatedChangelogContent
-    );
+CODE_SAMPLE
+,
+            '',
+            $updatedChangelogContent
+        );
 
         $updatedChangelogContent = $this->changelogLinker->processContentWithLinkAppends($updatedChangelogContent);
 
