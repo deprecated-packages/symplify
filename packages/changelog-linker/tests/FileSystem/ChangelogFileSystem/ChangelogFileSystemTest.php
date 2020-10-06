@@ -36,7 +36,11 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
             'packages/changelog-linker/tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md'
         );
 
-        $this->assertMatchesRegularExpression(
+        $regexFunction = method_exists($this, 'assertMatchesRegularExpression')
+            ? 'assertMatchesRegularExpression'
+            : 'assertRegExp';
+
+        $this->$regexFunction(
             <<<REGEX
 #\#\# Unreleased
 
