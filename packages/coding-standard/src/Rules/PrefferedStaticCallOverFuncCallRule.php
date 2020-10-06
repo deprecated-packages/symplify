@@ -25,6 +25,7 @@ final class PrefferedStaticCallOverFuncCallRule extends AbstractPrefferedCallOve
     public function __construct(NodeNameResolver $nodeNameResolver, array $funcCallToPrefferedStaticCalls = [])
     {
         parent::__construct($nodeNameResolver);
+
         $this->funcCallToPrefferedCalls = $funcCallToPrefferedStaticCalls;
     }
 
