@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\Tests\FileSystem\ChangelogFileSystem;
 
+use Iterator;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
@@ -37,25 +38,8 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
         $this->changelogFileSystem->addToChangelogOnPlaceholder('## Unreleased - [#2] Added bar', '## Unreleased');
 
         $content = $smartFileSystem->readFile($changelogFile);
-
-        $regexFunction = method_exists($this, 'assertMatchesRegularExpression')
-            ? 'assertMatchesRegularExpression'
-            : 'assertRegExp';
-
-        $this->{$regexFunction}(
-            <<<CODE_SAMPLE
-#\#\# Unreleased
-
-\<\!-- dumped content start --\>
- - \[\#2\] Added bar\<\!-- dumped content end --\>
-
-\<!-- dumped content start --\>
- - \[\#1\] Added foo\<\!-- dumped content end --\>
-
-\[\#1\]: https:\/\/github\.com\/.*\/symplify\/pull\/1
-\[\#2\]: https:\/\/github\.com\/.*\/symplify\/pull\/2#
-CODE_SAMPLE
-            ,
+        $this->assertStringContainsString(
+            $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md'),
             $content
         );
 
