@@ -40,6 +40,7 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
     }
 
     /**
+     * @param FuncCall $node
      * @return string[]
      */
     protected function getErrorMessageParameters(Node $node, Scope $scope): array
