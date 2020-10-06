@@ -40,8 +40,8 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
             ? 'assertMatchesRegularExpression'
             : 'assertRegExp';
 
-        $this->$regexFunction(
-            <<<REGEX
+        $this->{$regexFunction}(
+            <<<CODE_SAMPLE
 #\#\# Unreleased
 
 \<\!-- dumped content start --\>
@@ -52,7 +52,7 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
 
 \[\#1\]: https:\/\/github\.com\/.*\/symplify\/pull\/1
 \[\#2\]: https:\/\/github\.com\/.*\/symplify\/pull\/2#
-REGEX
+CODE_SAMPLE
             ,
             $content
         );
