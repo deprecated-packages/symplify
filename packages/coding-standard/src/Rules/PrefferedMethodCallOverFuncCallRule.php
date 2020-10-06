@@ -10,23 +10,23 @@ use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\PrefferedStaticCallOverFuncCallRule\PrefferedStaticCallOverFuncCallRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\PrefferedMethodCallOverFuncCallRule\PrefferedMethodCallOverFuncCallRuleTest
  */
-final class PrefferedStaticCallOverFuncCallRule extends AbstractPrefferedCallOverFuncRule
+final class PrefferedMethodCallOverFuncCallRule extends AbstractPrefferedCallOverFuncRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use "%s::%s()" static call over "%s()" func call';
+    public const ERROR_MESSAGE = 'Use "%s->%s()" method call over "%s()" func call';
 
     /**
-     * @param array<string, string[]> $funcCallToPrefferedStaticCalls
+     * @param array<string, string[]> $funcCallToPrefferedMethodCalls
      */
-    public function __construct(NodeNameResolver $nodeNameResolver, array $funcCallToPrefferedStaticCalls = [])
+    public function __construct(NodeNameResolver $nodeNameResolver, array $funcCallToPrefferedMethodCalls = [])
     {
         parent::__construct($nodeNameResolver);
 
-        $this->funcCallToPrefferedCalls = $funcCallToPrefferedStaticCalls;
+        $this->funcCallToPrefferedCalls = $funcCallToPrefferedMethodCalls;
     }
 
     /**
