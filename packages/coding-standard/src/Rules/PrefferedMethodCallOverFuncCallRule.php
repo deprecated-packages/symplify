@@ -12,5 +12,5 @@ final class PrefferedMethodCallOverFuncCallRule extends AbstractPrefferedCallOve
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use "%s::%s()" method call over "%s()" func call';
+    public const ERROR_MESSAGE = 'Use "%s->%s()" method call over "%s()" func call';
 }
