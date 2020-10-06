@@ -8,10 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use ReflectionClassConstant;
-use ReflectionException;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
-use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
 {
@@ -42,11 +39,7 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
         return [FuncCall::class];
     }
 
-    /**
-     * @param FuncCall $node
-     * @return string[]
-     */
-    public function process(Node $node, Scope $scope): array
+    protected function getErrorMessageParameters(Node $node, Scope $scope): array
     {
         foreach ($this->funcCallToPrefferedCalls as $funcCall => $call) {
             if (! $this->nodeNameResolver->isName($node->name, $funcCall)) {
@@ -54,18 +47,10 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
             }
 
             if ($this->isInDesiredMethod($scope, $call)) {
-                return [];
+                continue;
             }
 
-            try {
-                $constantReflex = new ReflectionClassConstant(static::class, 'ERROR_MESSAGE');
-                $errorMessage = $constantReflex->getValue();
-            } catch (ReflectionException $reflectionException) {
-                throw new ShouldNotHappenException('const ERROR_MESSAGE must be defined with public modifier');
-            }
-
-            $errorMessage = sprintf($errorMessage, $call[0], $call[1], $funcCall);
-            return [$errorMessage];
+            return [$call[0], $call[1], $funcCall];
         }
 
         return [];
