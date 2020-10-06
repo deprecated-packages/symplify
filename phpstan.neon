@@ -176,6 +176,9 @@ parameters:
                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
 
+                # Abstract Rule
+                - packages/coding-standard/src/Rules/AbstractPrefferedCallOverFuncRule.php #57
+
         - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
         -

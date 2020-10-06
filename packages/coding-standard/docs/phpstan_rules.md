@@ -496,6 +496,40 @@ final class SomeClass
 
 <br>
 
+## Prefer Method Call over specific Function
+
+- class: [`PrefferedMethodCallOverFuncCallRule`](../src/Rules/PrefferedMethodCallOverFuncCallRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\PrefferedMethodCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPrefferedMethodCalls:
+                'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+final class SomeClass
+{
+    public function run()
+    {
+        return file_get_contents('foo.txt');
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Keep Low Parameter Count in Methods and Functions
 
 - class: [`ExcessiveParameterListRule`](../src/Rules/ExcessiveParameterListRule.php)

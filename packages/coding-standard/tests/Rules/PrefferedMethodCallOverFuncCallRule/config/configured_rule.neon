@@ -1,0 +1,10 @@
+services:
+    - Symplify\CodingStandard\PhpParser\NodeNameResolver
+
+    -
+        class: Symplify\CodingStandard\Rules\PrefferedMethodCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPrefferedMethodCalls:
+                file_get_contents: ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
+                substr: ['Symplify\CodingStandard\Tests\Rules\PrefferedMethodCallOverFuncCallRule\Fixture\SkipSelfCall', 'run']
