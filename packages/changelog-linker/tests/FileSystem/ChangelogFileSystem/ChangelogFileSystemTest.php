@@ -24,18 +24,17 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
 
     public function testAddToChangelogOnPlaceholder(): void
     {
-        $changelogFile = file_exists(
-            'packages/changelog-linker/tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md'
-        )
-            ? 'packages/changelog-linker/tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md'
-            : 'tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md';
-
-        $smartFileSystem = new SmartFileSystem();
-        $originalContent = $smartFileSystem->readFile($changelogFile);
+        $originalContent = $this->changelogFileSystem->readChangelog();
 
         $this->changelogFileSystem->addToChangelogOnPlaceholder('## Unreleased - [#1] Added foo', '## Unreleased');
         $this->changelogFileSystem->addToChangelogOnPlaceholder('## Unreleased - [#2] Added bar', '## Unreleased');
 
+        $fileChangelog = 'tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md';
+        $changelogFile = file_exists($fileChangelog)
+            ? $fileChangelog
+            : 'packages/changelog-linker/' . $fileChangelog;
+
+        $smartFileSystem = new SmartFileSystem();
         $content = $smartFileSystem->readFile($changelogFile);
         $this->assertStringContainsString(
             $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md'),
