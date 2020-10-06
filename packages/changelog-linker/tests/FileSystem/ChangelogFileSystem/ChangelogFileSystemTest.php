@@ -32,25 +32,25 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
         $this->changelogFileSystem->addToChangelogOnPlaceholder('## Unreleased - [#1] Added foo', '## Unreleased');
         $this->changelogFileSystem->addToChangelogOnPlaceholder('## Unreleased - [#2] Added bar', '## Unreleased');
 
-        $expected = $smartFileSystem->readFile(
+        $content = $smartFileSystem->readFile(
             'packages/changelog-linker/tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md'
         );
 
-        $this->assertSame(
-            $expected,
-            <<<CODE_SAMPLE
-## Unreleased
+        $this->assertMatchesRegularExpression(
+            <<<REGEX
+#\#\# Unreleased
 
-<!-- dumped content start -->
-- [#2] Added bar<!-- dumped content end -->
+\<\!-- dumped content start --\>
+- \[\#2\] Added bar\<\!-- dumped content end --\>
 
-<!-- dumped content start -->
-- [#1] Added foo<!-- dumped content end -->
+\<!-- dumped content start --\>
+- \[\#1\] Added foo\<\!-- dumped content end --\>
 
-[#1]: https://github.com/samsonasik/symplify/pull/1
-[#2]: https://github.com/samsonasik/symplify/pull/2
-
-CODE_SAMPLE
+\[\#1\]: https:\/\/github\.com\/.*\/symplify\/pull\/1
+\[\#2\]: https:\/\/github\.com\/.*\/symplify\/pull\/2#
+REGEX
+            ,
+            $content
         );
 
         $smartFileSystem->dumpFile(
