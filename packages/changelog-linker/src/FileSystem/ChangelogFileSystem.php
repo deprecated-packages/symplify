@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\FileSystem;
 
+use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
@@ -69,6 +70,10 @@ final class ChangelogFileSystem
         $changelogContent = $this->readChangelog();
 
         $this->changelogPlaceholderGuard->ensurePlaceholderIsPresent($changelogContent, $placeholder);
+
+        if (Strings::startsWith($newContent, $placeholder)) {
+            $newContent = substr($newContent, strlen($placeholder) + 1);
+        }
 
         $contentToWrite = sprintf(
             '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->',
