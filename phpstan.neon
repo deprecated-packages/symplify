@@ -293,8 +293,3 @@ parameters:
             paths:
                  - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                  - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 37
-
-        -
-            message: '#Use explicit method names over dynamic#'
-            paths:
-                 - packages/changelog-linker/tests/FileSystem/ChangelogFileSystem/ChangelogFileSystemTest.php # 43
