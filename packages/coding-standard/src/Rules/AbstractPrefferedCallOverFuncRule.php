@@ -15,19 +15,15 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
     /**
      * @var array<string, string[]>
      */
-    private $funcCallToPrefferedCalls = [];
+    protected $funcCallToPrefferedCalls = [];
 
     /**
      * @var NodeNameResolver
      */
     private $nodeNameResolver;
 
-    /**
-     * @param array<string, string[]> $funcCallToPrefferedCalls
-     */
-    public function __construct(NodeNameResolver $nodeNameResolver, array $funcCallToPrefferedCalls = [])
+    public function __construct(NodeNameResolver $nodeNameResolver)
     {
-        $this->funcCallToPrefferedCalls = $funcCallToPrefferedCalls;
         $this->nodeNameResolver = $nodeNameResolver;
     }
 
