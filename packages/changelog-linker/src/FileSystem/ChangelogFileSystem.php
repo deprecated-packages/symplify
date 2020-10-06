@@ -74,8 +74,8 @@ final class ChangelogFileSystem
 
         $this->changelogPlaceholderGuard->ensurePlaceholderIsPresent($changelogContent, $placeholder);
 
-        if (Strings::startsWith($newContent, $placeholder)) {
-            $newContent = substr($newContent, strlen($placeholder) + 1);
+        if (Strings::contains($changelogContent, $placeholder)) {
+            $newContent = str_replace($placeholder, '', $newContent);
         }
 
         $contentToWrite = sprintf(

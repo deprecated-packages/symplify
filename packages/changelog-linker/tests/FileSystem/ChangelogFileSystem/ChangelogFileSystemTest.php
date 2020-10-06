@@ -47,10 +47,10 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
 #\#\# Unreleased
 
 \<\!-- dumped content start --\>
-- \[\#2\] Added bar\<\!-- dumped content end --\>
+ - \[\#2\] Added bar\<\!-- dumped content end --\>
 
 \<!-- dumped content start --\>
-- \[\#1\] Added foo\<\!-- dumped content end --\>
+ - \[\#1\] Added foo\<\!-- dumped content end --\>
 
 \[\#1\]: https:\/\/github\.com\/.*\/symplify\/pull\/1
 \[\#2\]: https:\/\/github\.com\/.*\/symplify\/pull\/2#
