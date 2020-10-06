@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\NodeFinder;
+use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\TypeWithClassName;
+use PHPStan\Node\ClassMethodsNode;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -29,52 +29,46 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
     private const SIMPLE_CONSOLE_OUTPUT_METHODS = ['newline', 'write', 'writeln'];
 
     /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    public function __construct(NodeFinder $nodeFinder)
-    {
-        $this->nodeFinder = $nodeFinder;
-    }
-
-    /**
      * @return string[]
      */
     public function getNodeTypes(): array
     {
-        return [Class_::class];
+        return [ClassMethodsNode::class];
     }
 
     /**
-     * @param Class_ $node
+     * @param ClassMethodsNode $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->hasParentClassSymfonyStyle($node)) {
+        /** @var ClassLike $classLike */
+        $classLike = $node->getClass();
+        if ($this->hasParentClassSymfonyStyle($classLike)) {
             return [];
         }
 
-        /** @var MethodCall[] $methodCalls */
-        $methodCalls = $this->nodeFinder->findInstanceOf($node, MethodCall::class);
-
         $foundAllowedMethod = false;
+        $methodCalls = $node->getMethodCalls();
         foreach ($methodCalls as $methodCall) {
-            $callerType = $scope->getType($methodCall->var);
-            if (! $callerType instanceof TypeWithClassName) {
-                continue;
+            /** @var MethodCall $methodCallNode */
+            $methodCallNode = $methodCall->getNode();
+            $callerType = $methodCall->getScope()
+                ->getType($methodCallNode->var);
+
+            if (! method_exists($callerType, 'getClassName')) {
+                $foundAllowedMethod = true;
+                break;
             }
 
             if (! is_a($callerType->getClassName(), SymfonyStyle::class, true)) {
-                continue;
+                $foundAllowedMethod = true;
+                break;
             }
 
-            if ($methodCall->name instanceof Expr) {
-                continue;
-            }
-
-            $methodName = (string) $methodCall->name;
+            /** @var Identifier $methodCallIdentifier */
+            $methodCallIdentifier = $methodCallNode->name;
+            $methodName = (string) $methodCallIdentifier->name;
             if (! in_array($methodName, self::SIMPLE_CONSOLE_OUTPUT_METHODS, true)) {
                 $foundAllowedMethod = true;
                 break;
@@ -88,13 +82,17 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
         return [self::ERROR_MESSAGE];
     }
 
-    private function hasParentClassSymfonyStyle(Class_ $class): bool
+    private function hasParentClassSymfonyStyle(ClassLike $classLike): bool
     {
-        if ($class->extends === null) {
+        if (! $classLike instanceof Class_) {
             return false;
         }
 
-        $parentClass = $class->extends->toString();
+        if ($classLike->extends === null) {
+            return false;
+        }
+
+        $parentClass = $classLike->extends->toString();
 
         return is_a($parentClass, SymfonyStyle::class, true);
     }
