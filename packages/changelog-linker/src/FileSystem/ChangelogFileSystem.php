@@ -111,8 +111,8 @@ CODE_SAMPLE
             return $fileParameter;
         }
 
-        if (basename(__DIR__) === 'changelog-linker' && file_exists(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . $fileParameter)) {
-            return dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . $fileParameter;
+        if (basename(__DIR__) === 'changelog-linker' && file_exists(dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . $fileParameter)) {
+            return dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . $fileParameter;
         }
 
         return getcwd() . '/CHANGELOG.md';
