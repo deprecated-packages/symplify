@@ -18,7 +18,7 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
     /**
      * @var array<string, string[]>
      */
-    private $funcCallToPrefferedStaticCalls = [];
+    private $funcCallToPrefferedCalls = [];
 
     /**
      * @var NodeNameResolver
@@ -26,11 +26,11 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
     private $nodeNameResolver;
 
     /**
-     * @param array<string, string[]> $funcCallToPrefferedStaticCalls
+     * @param array<string, string[]> $funcCallToPrefferedCalls
      */
-    public function __construct(NodeNameResolver $nodeNameResolver, array $funcCallToPrefferedStaticCalls = [])
+    public function __construct(NodeNameResolver $nodeNameResolver, array $funcCallToPrefferedCalls = [])
     {
-        $this->funcCallToPrefferedStaticCalls = $funcCallToPrefferedStaticCalls;
+        $this->funcCallToPrefferedCalls = $funcCallToPrefferedCalls;
         $this->nodeNameResolver = $nodeNameResolver;
     }
 
@@ -48,7 +48,7 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        foreach ($this->funcCallToPrefferedStaticCalls as $funcCall => $staticCall) {
+        foreach ($this->funcCallToPrefferedCalls as $funcCall => $staticCall) {
             if (! $this->nodeNameResolver->isName($node->name, $funcCall)) {
                 continue;
             }

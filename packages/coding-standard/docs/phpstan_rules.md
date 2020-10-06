@@ -473,7 +473,7 @@ services:
         class: Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
-            funcCallToPrefferedStaticCalls:
+            funcCallToPrefferedCalls:
                 'preg_match': ['Nette\Utils\Strings', 'match']
 ```
 
@@ -507,7 +507,7 @@ services:
         class: Symplify\CodingStandard\Rules\PrefferedMethodCallOverFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
-            funcCallToPrefferedStaticCalls:
+            funcCallToPrefferedCalls:
                 'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
 ```
 
