@@ -46,11 +46,11 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
     {
         foreach ($this->funcCallToPrefferedCalls as $funcCall => $call) {
             if (! $this->nodeNameResolver->isName($node->name, $funcCall)) {
-                continue;
+                return [];
             }
 
             if ($this->isInDesiredMethod($scope, $call)) {
-                continue;
+                return [];
             }
 
             return [$call[0], $call[1], $funcCall];
