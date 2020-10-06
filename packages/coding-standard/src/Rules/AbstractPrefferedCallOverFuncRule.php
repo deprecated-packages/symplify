@@ -48,12 +48,12 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        foreach ($this->funcCallToPrefferedCalls as $funcCall => $staticCall) {
+        foreach ($this->funcCallToPrefferedCalls as $funcCall => $call) {
             if (! $this->nodeNameResolver->isName($node->name, $funcCall)) {
                 continue;
             }
 
-            if ($this->isInDesiredMethod($scope, $staticCall)) {
+            if ($this->isInDesiredMethod($scope, $call)) {
                 return [];
             }
 
@@ -64,7 +64,7 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
                 throw new ShouldNotHappenException('const ERROR_MESSAGE must be defined with public modifier');
             }
 
-            $errorMessage = sprintf($errorMessage, $staticCall[0], $staticCall[1], $funcCall);
+            $errorMessage = sprintf($errorMessage, $call[0], $call[1], $funcCall);
             return [$errorMessage];
         }
 
