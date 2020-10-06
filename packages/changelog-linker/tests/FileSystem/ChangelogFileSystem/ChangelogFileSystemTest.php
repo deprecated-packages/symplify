@@ -16,7 +16,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class ChangelogFileSystemTest extends AbstractKernelTestCase
 {
     /**
-     * @var changelogFileSystem
+     * @var ChangelogFileSystem|null
      */
     private $changelogFileSystem;
 

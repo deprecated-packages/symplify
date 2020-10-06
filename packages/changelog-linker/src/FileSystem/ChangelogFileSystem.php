@@ -11,6 +11,9 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\FileSystem\ChangelogFileSystem\ChangelogFileSystemTest
+ */
 final class ChangelogFileSystem
 {
     /**
