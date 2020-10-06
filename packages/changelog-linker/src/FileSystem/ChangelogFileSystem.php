@@ -111,7 +111,7 @@ CODE_SAMPLE
             return $fileParameter;
         }
 
-        if (file_exists(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . $fileParameter)) {
+        if (basename(__DIR__) === 'changelog-linker' && file_exists(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . $fileParameter)) {
             return dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . $fileParameter;
         }
 
