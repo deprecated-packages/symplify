@@ -39,6 +39,9 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
         return [FuncCall::class];
     }
 
+    /**
+     * @return string[]
+     */
     protected function getErrorMessageParameters(Node $node, Scope $scope): array
     {
         foreach ($this->funcCallToPrefferedCalls as $funcCall => $call) {
