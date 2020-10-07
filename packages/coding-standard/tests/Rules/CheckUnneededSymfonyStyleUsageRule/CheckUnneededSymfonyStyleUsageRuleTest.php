@@ -26,6 +26,7 @@ final class CheckUnneededSymfonyStyleUsageRuleTest extends AbstractServiceAwareR
         yield [__DIR__ . '/Fixture/InvalidType.php', []];
         yield [__DIR__ . '/Fixture/UseMethodCallNotFromSymfonyStyle.php', []];
         yield [__DIR__ . '/Fixture/UseMethodCallFromSymfonyStyleAllowedMethodCall.php', []];
+        yield [__DIR__ . '/Fixture/AnException.php', []];
         yield [
             __DIR__ . '/Fixture/UseMethodCallFromSymfonyStyle.php',
             [[CheckUnneededSymfonyStyleUsageRule::ERROR_MESSAGE, 9]],

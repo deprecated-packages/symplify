@@ -55,32 +55,28 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
             /** @var MethodCall $methodCallNode */
             $methodCallNode = $methodCall->getNode();
             if (! $methodCallNode->var instanceof Expr) {
-                $foundAllowedMethod = true;
-                break;
+                return [];
             }
 
             $callerType = $methodCall->getScope()
                 ->getType($methodCallNode->var);
             if (! method_exists($callerType, 'getClassName')) {
-                $foundAllowedMethod = true;
-                break;
+                return [];
             }
 
             if (! is_a($callerType->getClassName(), SymfonyStyle::class, true)) {
-                $foundAllowedMethod = true;
-                break;
+                return [];
             }
 
             /** @var Identifier $methodCallIdentifier */
             $methodCallIdentifier = $methodCallNode->name;
             $methodName = (string) $methodCallIdentifier->name;
             if (! in_array($methodName, self::SIMPLE_CONSOLE_OUTPUT_METHODS, true)) {
-                $foundAllowedMethod = true;
-                break;
+                return [];
             }
         }
 
-        if ($foundAllowedMethod) {
+        if ($methodCalls === []) {
             return [];
         }
 
