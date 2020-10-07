@@ -18,6 +18,15 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class PropagateCommand extends Command
 {
     /**
+     * @var string[]
+     */
+    private const POSSIBLE_CONFIG_FILE_PATHS = [
+        'monorepo-builder.yaml',
+        'monorepo-builder.yml',
+        'monorepo-builder.php',
+    ];
+
+    /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
@@ -75,11 +84,7 @@ final class PropagateCommand extends Command
             $newVersion = $filesToVersion['composer.json'];
             unset($filesToVersion['composer.json']);
 
-            if (isset($filesToVersion['monorepo-builder.yaml'])) {
-                unset($filesToVersion['monorepo-builder.yaml']);
-                $message = sprintf('Update "%s" manually', 'monorepo-builder.yaml');
-                $this->symfonyStyle->note($message);
-            }
+            $filesToVersion = $this->processManualConfigFiles($filesToVersion, $packageName, $newVersion);
 
             foreach (array_keys($filesToVersion) as $filePath) {
                 $this->dependencyUpdater->updateFileInfosWithPackagesAndVersion(
@@ -95,5 +100,30 @@ final class PropagateCommand extends Command
         );
 
         return ShellCode::SUCCESS;
+    }
+
+    /**
+     * @param array<string, string> $filesToVersion
+     * @return array<string, string>
+     */
+    private function processManualConfigFiles(array $filesToVersion, string $packageName, string $newVersion): array
+    {
+        foreach (self::POSSIBLE_CONFIG_FILE_PATHS as $possibleConfigFilepath) {
+            if (! isset($filesToVersion[$possibleConfigFilepath])) {
+                continue;
+            }
+
+            $message = sprintf(
+                'Update "%s" to "%s" version in "%s" file manually',
+                $packageName,
+                $newVersion,
+                $possibleConfigFilepath
+            );
+            $this->symfonyStyle->warning($message);
+
+            unset($filesToVersion[$possibleConfigFilepath]);
+        }
+
+        return $filesToVersion;
     }
 }
