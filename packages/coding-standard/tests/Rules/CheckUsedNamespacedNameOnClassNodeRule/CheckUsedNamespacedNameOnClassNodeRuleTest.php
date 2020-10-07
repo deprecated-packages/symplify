@@ -30,6 +30,9 @@ final class CheckUsedNamespacedNameOnClassNodeRuleTest extends AbstractServiceAw
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(CheckUsedNamespacedNameOnClassNodeRule::class, __DIR__ . '/config/configured_rule.neon');
+        return $this->getRuleFromConfig(
+            CheckUsedNamespacedNameOnClassNodeRule::class,
+            __DIR__ . '/config/configured_rule.neon'
+        );
     }
 }
