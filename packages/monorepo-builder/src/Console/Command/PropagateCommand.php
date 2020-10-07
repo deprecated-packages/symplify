@@ -104,6 +104,7 @@ final class PropagateCommand extends Command
 
     /**
      * @param array<string, string> $filesToVersion
+     * @return array<string, string>
      */
     private function processManualConfigFiles(array $filesToVersion, string $packageName, string $newVersion): array
     {
