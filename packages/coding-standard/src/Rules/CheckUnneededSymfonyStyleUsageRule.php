@@ -53,9 +53,13 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
         foreach ($methodCalls as $methodCall) {
             /** @var MethodCall $methodCallNode */
             $methodCallNode = $methodCall->getNode();
+            if ($methodCall->var === null) {
+                $foundAllowedMethod = true;
+                break;
+            }
+
             $callerType = $methodCall->getScope()
                 ->getType($methodCallNode->var);
-
             if (! method_exists($callerType, 'getClassName')) {
                 $foundAllowedMethod = true;
                 break;
