@@ -1702,6 +1702,40 @@ class UseMethodCallFromSymfonyStyle
 
 <br>
 
+## Check Used Namespaced Name on Class_ node
+
+- class: [`CheckUsedNamespacedNameOnClassNodeRule`](../src/Rules/CheckUsedNamespacedNameOnClassNodeRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\CheckUsedNamespacedNameOnClassNodeRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Stmt\Class_;
+use PHPStan\Analyser\Scope;
+
+final class UsedNameOfClass
+{
+    public function process(Class_ $class, Scope $scope): array
+    {
+        $class->name;
+        return [];
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Constant type Must Match its Value
 
 - class: [`MatchingTypeConstantRule`](../src/Rules/MatchingTypeConstantRule.php)
