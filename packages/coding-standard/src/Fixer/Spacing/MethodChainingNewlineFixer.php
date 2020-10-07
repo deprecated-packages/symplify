@@ -142,12 +142,17 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
      * Matches e..g:
      * - return app()->some()
      * - app()->some()
+     * - (clone app)->some()
      */
     private function isPreceededByFuncCall(Tokens $tokens, int $position): bool
     {
         for ($i = $position; $i >= 0; --$i) {
             /** @var Token $currentToken */
             $currentToken = $tokens[$i];
+
+            if ($currentToken->getContent() === 'clone') {
+                return true;
+            }
 
             if ($currentToken->getContent() === '(') {
                 return $this->doesContentBeforeBracketRequireNewline($tokens, $i);
@@ -212,6 +217,11 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
         if ($currentToken->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_OPEN, T_ARRAY, T_DOUBLE_COLON])) {
             return true;
         }
+
+        if ($currentToken->getContent() === '[') {
+            return true;
+        }
+
         return $currentToken->getContent() === '.';
     }
 
