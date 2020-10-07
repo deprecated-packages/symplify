@@ -79,27 +79,17 @@ final class ChangelogFileSystem
         }
 
         $contentToWrite = sprintf(
-            '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->',
+            '%s%s%s%s',
             $placeholder,
-            PHP_EOL,
             PHP_EOL,
             PHP_EOL,
             $newContent
         );
 
         $updatedChangelogContent = str_replace($placeholder, $contentToWrite, $changelogContent);
-        $updatedChangelogContent = str_replace(
-            <<<CODE_SAMPLE
-<!-- dumped content end -->
-
-<!-- dumped content start -->
-CODE_SAMPLE
-,
-            '',
-            $updatedChangelogContent
-        );
-
         $updatedChangelogContent = $this->changelogLinker->processContentWithLinkAppends($updatedChangelogContent);
+        $updatedChangelogContent = str_replace(PHP_EOL . PHP_EOL . ' -', PHP_EOL . ' -', $updatedChangelogContent);
+        $updatedChangelogContent = str_replace($placeholder . PHP_EOL . ' -', $placeholder . PHP_EOL . PHP_EOL. ' -', $updatedChangelogContent);
 
         $this->storeChangelog($updatedChangelogContent);
     }
