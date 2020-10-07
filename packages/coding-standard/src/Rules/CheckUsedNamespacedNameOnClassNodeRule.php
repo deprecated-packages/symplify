@@ -48,10 +48,10 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($next->name === 'namespacedName') {
-            return [];
+        if ($next->name === 'name') {
+            return [self::ERROR_MESSAGE];
         }
 
-        return [self::ERROR_MESSAGE];
+        return [];
     }
 }
