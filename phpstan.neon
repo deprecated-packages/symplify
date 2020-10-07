@@ -293,17 +293,3 @@ parameters:
             paths:
                  - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                  - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 37
-
-        -
-            message: '#Use namespaceName on Class_ node#'
-            paths:
-                - packages/coding-standard/src/Rules/CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule.php # 38
-                - packages/coding-standard/src/Rules/ClassNameRespectsParentSuffixRule.php # 70
-                - packages/coding-standard/src/Rules/ClassNameRespectsParentSuffixRule.php # 82
-                - packages/coding-standard/src/Rules/ClassNameRespectsParentSuffixRule.php # 120
-                - packages/coding-standard/src/Rules/ForbiddenParentClassRule.php # 69
-                - packages/coding-standard/src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php # 67
-                - packages/coding-standard/src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php # 75
-                - packages/coding-standard/src/Rules/PreferredClassRule.php # 81
-                - packages/coding-standard/src/Rules/PrefixAbstractClassRule.php # 57
-                - packages/coding-standard/src/Rules/SeeAnnotationToTestRule.php # 121

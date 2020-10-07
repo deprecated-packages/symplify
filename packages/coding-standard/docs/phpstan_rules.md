@@ -1712,6 +1712,9 @@ services:
     -
         class: Symplify\CodingStandard\Rules\CheckUsedNamespacedNameOnClassNodeRule
         tags: [phpstan.rules.rule]
+        arguments:
+            excludedClasses:
+                - 'Symplify\CodingStandard\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\Fixture\SkippedClass'
 ```
 
 ```php
