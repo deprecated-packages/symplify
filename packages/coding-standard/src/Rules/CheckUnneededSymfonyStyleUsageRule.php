@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
@@ -48,34 +49,33 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
             return [];
         }
 
-        $foundAllowedMethod = false;
         $methodCalls = $node->getMethodCalls();
         foreach ($methodCalls as $methodCall) {
             /** @var MethodCall $methodCallNode */
             $methodCallNode = $methodCall->getNode();
+            if (! $methodCallNode->var instanceof Expr) {
+                return [];
+            }
+
             $callerType = $methodCall->getScope()
                 ->getType($methodCallNode->var);
-
             if (! method_exists($callerType, 'getClassName')) {
-                $foundAllowedMethod = true;
-                break;
+                return [];
             }
 
             if (! is_a($callerType->getClassName(), SymfonyStyle::class, true)) {
-                $foundAllowedMethod = true;
-                break;
+                return [];
             }
 
             /** @var Identifier $methodCallIdentifier */
             $methodCallIdentifier = $methodCallNode->name;
             $methodName = (string) $methodCallIdentifier->name;
             if (! in_array($methodName, self::SIMPLE_CONSOLE_OUTPUT_METHODS, true)) {
-                $foundAllowedMethod = true;
-                break;
+                return [];
             }
         }
 
-        if ($foundAllowedMethod) {
+        if ($methodCalls === []) {
             return [];
         }
 

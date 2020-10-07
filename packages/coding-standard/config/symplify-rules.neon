@@ -202,10 +202,9 @@ services:
 #        class: PhpParser\Parser
 #        factory: ['@PhpParser\ParserFactory', 'create']
 
-# broken now
-#    -
-#        class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
-#        tags: [phpstan.rules.rule]
+    -
+        class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
+        tags: [phpstan.rules.rule]
 
     # services
     - PhpParser\NodeFinder
