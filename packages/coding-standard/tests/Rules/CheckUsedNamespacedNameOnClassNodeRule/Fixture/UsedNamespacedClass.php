@@ -7,13 +7,8 @@ namespace Symplify\CodingStandard\Tests\Rules\CheckUsedNamespacedNameOnClassNode
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 
-final class UsedNamespacedClassRule
+final class UsedNamespacedClass
 {
-    public function getNodeTypes(): array
-    {
-        return [Class_::class];
-    }
-
     public function process(Class_ $class, Scope $scope): array
     {
         $class->namespacedName;

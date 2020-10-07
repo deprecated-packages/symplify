@@ -206,6 +206,10 @@ services:
         class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\CheckUsedNamespacedNameOnClassNodeRule
+        tags: [phpstan.rules.rule]
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem

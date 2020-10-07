@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -33,6 +34,24 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        dd($scope->getType($node));
+        $type = $scope->getType($node);
+        if (! method_exists($type, 'getClassName')) {
+            return [];
+        }
+
+        if ($type->getClassName() !== Class_::class) {
+            return [];
+        }
+
+        $next = $node->getAttribute('next');
+        if ($next === null) {
+            return [];
+        }
+
+        if ($next->name === 'namespacedName') {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
     }
 }
