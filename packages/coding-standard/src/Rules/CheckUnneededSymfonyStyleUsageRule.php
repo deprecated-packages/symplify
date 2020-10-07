@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
@@ -53,7 +54,7 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
         foreach ($methodCalls as $methodCall) {
             /** @var MethodCall $methodCallNode */
             $methodCallNode = $methodCall->getNode();
-            if ($methodCall->var === null) {
+            if (! $methodCallNode->var instanceof Expr) {
                 $foundAllowedMethod = true;
                 break;
             }
