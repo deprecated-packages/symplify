@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\FileSystem;
 
+use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @see \Symplify\ChangelogLinker\Tests\FileSystem\ChangelogFileSystem\ChangelogFileSystemTest
+ */
 final class ChangelogFileSystem
 {
     /**
@@ -70,18 +74,20 @@ final class ChangelogFileSystem
 
         $this->changelogPlaceholderGuard->ensurePlaceholderIsPresent($changelogContent, $placeholder);
 
-        $contentToWrite = sprintf(
-            '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->',
-            $placeholder,
-            PHP_EOL,
-            PHP_EOL,
-            PHP_EOL,
-            $newContent
-        );
+        if (Strings::contains($changelogContent, $placeholder)) {
+            $newContent = str_replace($placeholder, '', $newContent);
+        }
+
+        $contentToWrite = sprintf('%s%s%s%s', $placeholder, PHP_EOL, PHP_EOL, $newContent);
 
         $updatedChangelogContent = str_replace($placeholder, $contentToWrite, $changelogContent);
-
         $updatedChangelogContent = $this->changelogLinker->processContentWithLinkAppends($updatedChangelogContent);
+        $updatedChangelogContent = str_replace(PHP_EOL . PHP_EOL . ' -', PHP_EOL . ' -', $updatedChangelogContent);
+        $updatedChangelogContent = str_replace(
+            $placeholder . PHP_EOL . ' -',
+            $placeholder . PHP_EOL . PHP_EOL . ' -',
+            $updatedChangelogContent
+        );
 
         $this->storeChangelog($updatedChangelogContent);
     }
