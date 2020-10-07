@@ -19,5 +19,10 @@ final class PHPStanAttributeKey
     /**
      * @var string
      */
+    public const NEXT = 'next';
+
+    /**
+     * @var string
+     */
     public const STATEMENT_DEPTH = 'statementDepth';
 }
