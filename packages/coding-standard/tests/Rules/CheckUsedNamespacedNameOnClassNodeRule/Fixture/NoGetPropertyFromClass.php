@@ -7,7 +7,7 @@ namespace Symplify\CodingStandard\Tests\Rules\CheckUsedNamespacedNameOnClassNode
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 
-final class UsedNamespacedClass
+final class NoGetPropertyFromClass
 {
     public function process(Class_ $class, Scope $scope): array
     {

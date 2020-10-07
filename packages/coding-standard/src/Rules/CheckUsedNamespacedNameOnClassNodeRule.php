@@ -21,6 +21,19 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use namespaceName on Class_ node';
 
     /**
+     * @var string[]
+     */
+    private $excludedClasses = [];
+
+    /**
+     * @param string[] $excludedClasses
+     */
+    public function __construct(array $excludedClasses = [])
+    {
+        $this->excludedClasses = $excludedClasses;
+    }
+
+    /**
      * @return string[]
      */
     public function getNodeTypes(): array
@@ -48,10 +61,33 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($next->name === 'name') {
-            return [self::ERROR_MESSAGE];
+        if ($next->name !== 'name') {
+            return [];
         }
 
-        return [];
+        $class = $this->getClassNameOfNode($node);
+        if ($class === null) {
+            return [];
+        }
+
+        if (in_array($class->namespacedName->toString(), $this->excludedClasses, true)) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
+    }
+
+    private function getClassNameOfNode(Variable $variable): ?Class_
+    {
+        $class = $variable->getAttribute(PHPStanAttributeKey::PARENT);
+        while ($class) {
+            if ($class instanceof Class_) {
+                return $class;
+            }
+
+            $class = $class->getAttribute(PHPStanAttributeKey::PARENT);
+        }
+
+        return null;
     }
 }
