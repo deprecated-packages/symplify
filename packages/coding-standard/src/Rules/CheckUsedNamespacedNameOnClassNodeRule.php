@@ -65,7 +65,7 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
             return [];
         }
 
-        $class = $this->getClassNameOfNode($node);
+        $class = $this->getClassOfVariable($node);
         if ($class === null) {
             return [];
         }
@@ -77,7 +77,7 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
         return [self::ERROR_MESSAGE];
     }
 
-    private function getClassNameOfNode(Variable $variable): ?Class_
+    private function getClassOfVariable(Variable $variable): ?Class_
     {
         $class = $variable->getAttribute(PHPStanAttributeKey::PARENT);
         while ($class) {
