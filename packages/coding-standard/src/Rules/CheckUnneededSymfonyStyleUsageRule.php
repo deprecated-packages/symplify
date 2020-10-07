@@ -49,7 +49,6 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
             return [];
         }
 
-        $foundAllowedMethod = false;
         $methodCalls = $node->getMethodCalls();
         foreach ($methodCalls as $methodCall) {
             /** @var MethodCall $methodCallNode */
