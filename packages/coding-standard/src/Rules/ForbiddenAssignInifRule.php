@@ -53,7 +53,7 @@ final class ForbiddenAssignInifRule extends AbstractSymplifyRule
 
     private function isHaveAssignmentInside(If_ $if): bool
     {
-        return (bool) $this->nodeFinder->findFirst($if, function (Node $node): bool {
+        return (bool) $this->nodeFinder->findFirst($if->cond, function (Node $node): bool {
             return $node instanceof Assign;
         });
     }
