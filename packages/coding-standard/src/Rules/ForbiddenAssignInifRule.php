@@ -18,7 +18,7 @@ final class ForbiddenAssignInifRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'If in assignment is not allowed. Use before if instead.';
+    public const ERROR_MESSAGE = 'Assignment inside if is not allowed. Use before if instead.';
 
     /**
      * @return string[]
