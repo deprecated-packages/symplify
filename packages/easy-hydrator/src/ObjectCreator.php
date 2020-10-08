@@ -12,10 +12,8 @@ use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
-use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
-use PHPStan\PhpDocParser\Parser\TypeParser;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
@@ -23,22 +21,45 @@ use ReflectionType;
 use Symplify\EasyHydrator\Exception\MissingConstructorException;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
-final class ValueResolver
+final class ObjectCreator
 {
     /**
      * @var StringFormatConverter
      */
     private $stringFormatConverter;
 
-    public function __construct(StringFormatConverter $stringFormatConverter)
+    /**
+     * @var PhpDocParser
+     */
+    private $phpDocParser;
+
+    /**
+     * @var Lexer
+     */
+    private $lexer;
+
+    public function __construct(StringFormatConverter $stringFormatConverter, PhpDocParser $phpDocParser, Lexer $lexer)
     {
         $this->stringFormatConverter = $stringFormatConverter;
+        $this->phpDocParser = $phpDocParser;
+        $this->lexer = $lexer;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function create(string $className, array $data)
+    {
+        $resolveClassConstructorValues = $this->resolveClassConstructorValues($className, $data);
+
+        return new $className(...$resolveClassConstructorValues);
     }
 
     /**
      * @return array<int, mixed>
      */
-    public function resolveClassConstructorValues(string $class, array $data): array
+    private function resolveClassConstructorValues(string $class, array $data): array
     {
         $arguments = [];
 
@@ -46,33 +67,27 @@ final class ValueResolver
         $parameterReflections = $constructorMethodReflection->getParameters();
 
         foreach ($parameterReflections as $parameterReflection) {
-            $arguments[] = $this->resolveValue($data, $parameterReflection, $constructorMethodReflection);
+            $arguments[] = $this->resolveValue($data, $parameterReflection);
         }
 
         return $arguments;
     }
 
-    private function resolveValue(
-        array $data,
-        ReflectionParameter $reflectionParameter,
-        ReflectionMethod $reflectionMethod
-    ) {
+    private function resolveValue(array $data, ReflectionParameter $reflectionParameter)
+    {
         $propertyKey = $reflectionParameter->name;
         $underscoreKey = $this->stringFormatConverter->camelCaseToUnderscore($reflectionParameter->name);
 
         $value = $data[$propertyKey] ?? $data[$underscoreKey] ?? '';
 
-        return $this->retypeValue($reflectionParameter, $value, $reflectionMethod);
+        return $this->retypeValue($reflectionParameter, $value);
     }
 
     /**
      * @return bool|int|string|mixed
      */
-    private function retypeValue(
-        ReflectionParameter $reflectionParameter,
-        $value,
-        ReflectionMethod $reflectionMethod
-    ) {
+    private function retypeValue(ReflectionParameter $reflectionParameter, $value)
+    {
         if ($this->isReflectionParameterOfType($reflectionParameter, DateTimeImmutable::class)) {
             return DateTimeImmutable::createFromMutable(DateTime::from($value));
         }
@@ -93,59 +108,21 @@ final class ValueResolver
                     return (bool) $value;
                 case 'int':
                     return (int) $value;
-                // TODO: add test with generics to make sure reflection returns array
                 case 'array':
-                    $docBlock = $reflectionMethod->getDocComment();
+                    $className = $this->getArrayParameterClass($reflectionParameter);
 
-                    $lexer = new Lexer();
-                    $constExprParser = new ConstExprParser();
-                    $phpDocParser = new PhpDocParser(new TypeParser($constExprParser), $constExprParser);
-
-                    $tokens = new TokenIterator($lexer->tokenize($docBlock));
-
-                    $docNode = $phpDocParser->parse($tokens);
-
-                    $newClassName = null;
-
-                    foreach ($docNode->getParamTagValues() as $paramTagValueNode) {
-                        $parameterName = Strings::after($paramTagValueNode->parameterName, '$');
-
-                        if ($parameterName !== $reflectionParameter->getName()) {
-                            continue;
-                        }
-
-                        $typeNode = $paramTagValueNode->type;
-
-                        if ($typeNode instanceof ArrayTypeNode) {
-                            /** @var IdentifierTypeNode $identifierTypeNode */
-                            $identifierTypeNode = $typeNode->type;
-
-                            $newClassName = Reflection::expandClassName(
-                                $identifierTypeNode->name,
-                                $reflectionMethod->getDeclaringClass()
-                            );
-                        }
-                    }
-
-                    if ($newClassName === null || !class_exists($newClassName)) {
+                    if ($className === null || ! class_exists($className)) {
                         break;
                     }
 
-                    $values = [];
-                    foreach ($value as $sub) {
-                        $resolveClassConstructorValues = $this->resolveClassConstructorValues($newClassName, $sub);
-
-                        $values[] = new $newClassName(...$resolveClassConstructorValues);
+                    $objects = [];
+                    foreach ($value as $itemValue) {
+                        $objects[] = $this->create($className, $itemValue);
                     }
-                    return $values;
+                    return $objects;
                 default:
                     if (class_exists($parameterTypeName)) {
-                        $resolveClassConstructorValues = $this->resolveClassConstructorValues(
-                            $parameterTypeName,
-                            $value
-                        );
-
-                        return new $parameterTypeName(...$resolveClassConstructorValues);
+                        return $this->create($parameterTypeName, $value);
                     }
             }
         }
@@ -179,5 +156,36 @@ final class ValueResolver
         }
 
         return $constructorReflectionMethod;
+    }
+
+    private function getArrayParameterClass(ReflectionParameter $reflectionParameter): ?string
+    {
+        $docComment = $reflectionParameter->getDeclaringFunction()
+            ->getDocComment();
+        $tokens = new TokenIterator($this->lexer->tokenize($docComment));
+
+        $docNode = $this->phpDocParser->parse($tokens);
+
+        foreach ($docNode->getParamTagValues() as $paramTagValueNode) {
+            $parameterName = Strings::after($paramTagValueNode->parameterName, '$');
+
+            if ($parameterName !== $reflectionParameter->getName()) {
+                continue;
+            }
+
+            $typeNode = $paramTagValueNode->type;
+
+            if ($typeNode instanceof ArrayTypeNode) {
+                /** @var IdentifierTypeNode $identifierTypeNode */
+                $identifierTypeNode = $typeNode->type;
+
+                return Reflection::expandClassName(
+                    $identifierTypeNode->name,
+                    $reflectionParameter->getDeclaringClass()
+                );
+            }
+        }
+
+        return null;
     }
 }

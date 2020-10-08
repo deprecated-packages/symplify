@@ -18,14 +18,14 @@ final class ArrayToValueObjectHydrator
     private $filesystemAdapter;
 
     /**
-     * @var ValueResolver
+     * @var ObjectCreator
      */
-    private $valueResolver;
+    private $objectCreator;
 
-    public function __construct(FilesystemAdapter $filesystemAdapter, ValueResolver $valueResolver)
+    public function __construct(FilesystemAdapter $filesystemAdapter, ObjectCreator $objectCreator)
     {
         $this->filesystemAdapter = $filesystemAdapter;
-        $this->valueResolver = $valueResolver;
+        $this->objectCreator = $objectCreator;
     }
 
     /**
@@ -41,9 +41,7 @@ final class ArrayToValueObjectHydrator
             // return $cacheItem->get();
         }
 
-        $arguments = $this->valueResolver->resolveClassConstructorValues($class, $data);
-
-        $value = new $class(...$arguments);
+        $value = $this->objectCreator->create($class, $data);
 
         $cacheItem->set($value);
         $this->filesystemAdapter->save($cacheItem);
