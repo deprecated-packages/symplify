@@ -162,6 +162,17 @@ final class ObjectCreator
     {
         $docComment = $reflectionParameter->getDeclaringFunction()
             ->getDocComment();
+
+        if ($docComment === null) {
+            return null;
+        }
+
+        $declaringClass = $reflectionParameter->getDeclaringClass();
+
+        if ($declaringClass === null) {
+            return null;
+        }
+
         $tokens = new TokenIterator($this->lexer->tokenize($docComment));
 
         $docNode = $this->phpDocParser->parse($tokens);
@@ -181,7 +192,7 @@ final class ObjectCreator
 
                 return Reflection::expandClassName(
                     $identifierTypeNode->name,
-                    $reflectionParameter->getDeclaringClass()
+                    $declaringClass
                 );
             }
         }
