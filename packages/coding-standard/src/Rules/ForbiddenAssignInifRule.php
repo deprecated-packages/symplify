@@ -7,8 +7,8 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt\If_;
-use PHPStan\Analyser\Scope;
 use PhpParser\NodeFinder;
+use PHPStan\Analyser\Scope;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenAssignInifRule\ForbiddenAssignInifRuleTest
