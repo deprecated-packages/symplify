@@ -223,6 +223,10 @@ services:
         class: Symplify\CodingStandard\Rules\ForbiddenAssignInifRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\RequireThisOnParentMethodCallRule
+        tags: [phpstan.rules.rule]
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
