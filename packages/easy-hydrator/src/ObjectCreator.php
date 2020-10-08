@@ -45,7 +45,6 @@ final class ObjectCreator
         $this->lexer = $lexer;
     }
 
-
     /**
      * @return mixed
      */
@@ -190,10 +189,7 @@ final class ObjectCreator
                 /** @var IdentifierTypeNode $identifierTypeNode */
                 $identifierTypeNode = $typeNode->type;
 
-                return Reflection::expandClassName(
-                    $identifierTypeNode->name,
-                    $declaringClass
-                );
+                return Reflection::expandClassName($identifierTypeNode->name, $declaringClass);
             }
         }
 
