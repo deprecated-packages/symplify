@@ -162,7 +162,7 @@ final class ObjectCreator
         $docComment = $reflectionParameter->getDeclaringFunction()
             ->getDocComment();
 
-        if ($docComment === null) {
+        if ($docComment === false) {
             return null;
         }
 
