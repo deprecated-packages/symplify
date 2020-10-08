@@ -31,7 +31,7 @@ abstract class AbstractSymplifyConsoleApplication extends Application
         OutputInterface $output
     ): int {
         try {
-            return parent::doRunCommand($command, $input, $output);
+            return $this->doRunCommand($command, $input, $output);
         } catch (RuntimeException $runtimeException) {
             if (Strings::contains($runtimeException->getMessage(), 'Provide required arguments')) {
                 $this->cleanExtraCommandArgument($command);
