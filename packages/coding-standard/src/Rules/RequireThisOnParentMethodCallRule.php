@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
@@ -59,7 +60,25 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
+        if ($this->isMethodNameExistsInCurrentClass($classMethod, (string) $staticCallIdentifier)) {
+            return [];
+        }
+
         return [self::ERROR_MESSAGE];
+    }
+
+    public function isMethodNameExistsInCurrentClass(ClassMethod $classMethod, string $methodName): bool
+    {
+        $class = $classMethod->getAttribute(PHPStanAttributeKey::PARENT);
+        while ($class) {
+            if ($class instanceof Class_) {
+                break;
+            }
+
+            $class = $classMethod->getAttribute(PHPStanAttributeKey::PARENT);
+        }
+
+        return $class instanceof Class_ && $class->getMethod($methodName) instanceof ClassMethod;
     }
 
     private function getClassMethod(StaticCall $staticCall): ?ClassMethod

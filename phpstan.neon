@@ -294,7 +294,3 @@ parameters:
                  - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                  - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 37
 
-        -
-            message: '#Use \$this\-\> on parent method call unless in the same named method#'
-            paths:
-                 - packages/symplify-kernel/src/Console/AbstractSymplifyConsoleApplication.php # 34
