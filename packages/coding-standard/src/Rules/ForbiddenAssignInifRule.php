@@ -51,9 +51,9 @@ final class ForbiddenAssignInifRule extends AbstractSymplifyRule
         return [self::ERROR_MESSAGE];
     }
 
-    private function isHaveAssignmentInside(If_ $assign): bool
+    private function isHaveAssignmentInside(If_ $if): bool
     {
-        return (bool) $this->nodeFinder->findFirst($assign, function (Node $node): bool {
+        return (bool) $this->nodeFinder->findFirst($if, function (Node $node): bool {
             return $node instanceof Assign;
         });
     }
