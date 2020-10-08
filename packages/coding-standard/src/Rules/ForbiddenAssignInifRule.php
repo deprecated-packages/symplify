@@ -8,7 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt\If_;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use PhpParser\NodeFinder;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenAssignInifRule\ForbiddenAssignInifRuleTest
@@ -21,37 +21,40 @@ final class ForbiddenAssignInifRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Assignment inside if is not allowed. Use before if instead.';
 
     /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    public function __construct(NodeFinder $nodeFinder)
+    {
+        $this->nodeFinder = $nodeFinder;
+    }
+
+    /**
      * @return string[]
      */
     public function getNodeTypes(): array
     {
-        return [Assign::class];
+        return [If_::class];
     }
 
     /**
-     * @param Assign $node
+     * @param If_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->isInsideIf($node)) {
+        if (! $this->isHaveAssignmentInside($node)) {
             return [];
         }
 
         return [self::ERROR_MESSAGE];
     }
 
-    private function isInsideIf(Assign $assign): bool
+    private function isHaveAssignmentInside(If_ $assign): bool
     {
-        $if = $assign->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($if) {
-            if ($if instanceof If_) {
-                break;
-            }
-
-            $if = $if->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
-        return $if instanceof If_;
+        return (bool) $this->nodeFinder->findFirst($assign, function (Node $node): bool {
+            return $node instanceof Assign;
+        });
     }
 }
