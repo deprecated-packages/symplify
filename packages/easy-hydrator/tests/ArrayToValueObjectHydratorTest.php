@@ -158,14 +158,44 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
 
     public function testRecursiveObjects(): void
     {
-        $marriage = $this->arrayToValueObjectHydrator->hydrateArray([], Marriage::class);
+        $data = [
+            'date' => '2019-06-21',
+            'personA' => [
+                'name' => 'John Doe',
+            ],
+            'personB' => [
+                'name' => 'Jane Doe',
+            ],
+        ];
+
+        $marriage = $this->arrayToValueObjectHydrator->hydrateArray($data, Marriage::class);
 
         $this->assertInstanceOf(Marriage::class, $marriage);
     }
 
     public function testMultipleRecursiveObjects(): void
     {
-        $marriages = $this->arrayToValueObjectHydrator->hydrateArrays([], Marriage::class);
+        $data = [
+            [
+                'date' => '2019-06-21',
+                'personA' => [
+                    'name' => 'John Doe 1',
+                ],
+                'personB' => [
+                    'name' => 'Jane Doe 1',
+                ],
+            ],[
+                'date' => '2019-06-22',
+                'personA' => [
+                    'name' => 'John Doe 2',
+                ],
+                'personB' => [
+                    'name' => 'Jane Doe 2',
+                ],
+            ]
+        ];
+
+        $marriages = $this->arrayToValueObjectHydrator->hydrateArrays($data, Marriage::class);
 
         $this->assertCount(2, $marriages);
         $this->assertContainsOnlyInstancesOf(Marriage::class, $marriages);
@@ -173,12 +203,50 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
 
     public function testRecursiveArrayOfObjects(): void
     {
-        $this->arrayToValueObjectHydrator->hydrateArray([], PersonsCollection::class);
+        $data = [
+            'persons' => [
+                ['name' => 'John Doe'],
+                ['name' => 'Jane Doe'],
+            ],
+        ];
+
+        /** @var PersonsCollection $personsCollection */
+        $personsCollection = $this->arrayToValueObjectHydrator->hydrateArray($data, PersonsCollection::class);
+
+        $persons = $personsCollection->getPersons();
+
+        $this->assertCount(2, $persons);
+        $this->assertContainsOnlyInstancesOf(Person::class, $persons);
     }
 
     public function testMultipleRecursiveArrayOfObjects(): void
     {
-        $this->arrayToValueObjectHydrator->hydrateArrays([], PersonsCollection::class);
+        $data = [
+            [
+                'persons' => [
+                    ['name' => 'John Doe 1'],
+                    ['name' => 'Jane Doe 1'],
+                ],
+            ],
+            [
+                'persons' => [
+                    ['name' => 'John Doe 2'],
+                    ['name' => 'Jane Doe 2'],
+                ],
+            ],
+        ];
+
+        /** @var PersonsCollection[] $personsCollections */
+        $personsCollections = $this->arrayToValueObjectHydrator->hydrateArrays($data, PersonsCollection::class);
+
+        $this->assertCount(2, $personsCollections);
+
+        foreach ($personsCollections as $personsCollection) {
+            $persons = $personsCollection->getPersons();
+
+            $this->assertCount(2, $persons);
+            $this->assertContainsOnlyInstancesOf(Person::class, $persons);
+        }
     }
 
     private function assertArraysHasValidTypes(Arrays ...$arrayOfArrays): void
@@ -197,7 +265,7 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
             }
 
             foreach ($arrays->getBooleans() as $bool) {
-                $this->assertIsInt($bool);
+                $this->assertIsBool($bool);
             }
         }
     }
