@@ -7,8 +7,8 @@ namespace Symplify\EasyHydrator\Tests;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
-use Symplify\EasyHydrator\Tests\Fixture\ImmutableTimeEvent;
 use Symplify\EasyHydrator\Tests\Fixture\Arrays;
+use Symplify\EasyHydrator\Tests\Fixture\ImmutableTimeEvent;
 use Symplify\EasyHydrator\Tests\Fixture\Marriage;
 use Symplify\EasyHydrator\Tests\Fixture\Person;
 use Symplify\EasyHydrator\Tests\Fixture\PersonsCollection;
@@ -168,6 +168,7 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
             ],
         ];
 
+        /** @var Marriage $marriage */
         $marriage = $this->arrayToValueObjectHydrator->hydrateArray($data, Marriage::class);
 
         $this->assertInstanceOf(Marriage::class, $marriage);
@@ -184,7 +185,7 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
                 'personB' => [
                     'name' => 'Jane Doe 1',
                 ],
-            ],[
+            ], [
                 'date' => '2019-06-22',
                 'personA' => [
                     'name' => 'John Doe 2',
@@ -192,7 +193,7 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
                 'personB' => [
                     'name' => 'Jane Doe 2',
                 ],
-            ]
+            ],
         ];
 
         $marriages = $this->arrayToValueObjectHydrator->hydrateArrays($data, Marriage::class);
@@ -205,8 +206,12 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
     {
         $data = [
             'persons' => [
-                ['name' => 'John Doe'],
-                ['name' => 'Jane Doe'],
+                [
+                    'name' => 'John Doe',
+                ],
+                [
+                    'name' => 'Jane Doe',
+                ],
             ],
         ];
 
@@ -224,14 +229,22 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
         $data = [
             [
                 'persons' => [
-                    ['name' => 'John Doe 1'],
-                    ['name' => 'Jane Doe 1'],
+                    [
+                        'name' => 'John Doe 1',
+                    ],
+                    [
+                        'name' => 'Jane Doe 1',
+                    ],
                 ],
             ],
             [
                 'persons' => [
-                    ['name' => 'John Doe 2'],
-                    ['name' => 'Jane Doe 2'],
+                    [
+                        'name' => 'John Doe 2',
+                    ],
+                    [
+                        'name' => 'Jane Doe 2',
+                    ],
                 ],
             ],
         ];

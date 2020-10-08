@@ -16,12 +16,12 @@ use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
+use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionType;
 use Symplify\EasyHydrator\Exception\MissingConstructorException;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
-use ReflectionClass;
 
 final class ValueResolver
 {
@@ -52,21 +52,27 @@ final class ValueResolver
         return $arguments;
     }
 
-    private function resolveValue(array $data, ReflectionParameter $reflectionParameter, ReflectionMethod $constructorMethodReflection)
-    {
+    private function resolveValue(
+        array $data,
+        ReflectionParameter $reflectionParameter,
+        ReflectionMethod $reflectionMethod
+    ) {
         $propertyKey = $reflectionParameter->name;
         $underscoreKey = $this->stringFormatConverter->camelCaseToUnderscore($reflectionParameter->name);
 
         $value = $data[$propertyKey] ?? $data[$underscoreKey] ?? '';
 
-        return $this->retypeValue($reflectionParameter, $value, $constructorMethodReflection);
+        return $this->retypeValue($reflectionParameter, $value, $reflectionMethod);
     }
 
     /**
      * @return bool|int|string|mixed
      */
-    private function retypeValue(ReflectionParameter $reflectionParameter, $value, ReflectionMethod $constructorMethodReflection)
-    {
+    private function retypeValue(
+        ReflectionParameter $reflectionParameter,
+        $value,
+        ReflectionMethod $reflectionMethod
+    ) {
         if ($this->isReflectionParameterOfType($reflectionParameter, DateTimeImmutable::class)) {
             return DateTimeImmutable::createFromMutable(DateTime::from($value));
         }
@@ -80,7 +86,6 @@ final class ValueResolver
         if ($parameterType !== null) {
             $parameterTypeName = $parameterType->getName();
 
-
             switch ($parameterTypeName) {
                 case 'string':
                     return (string) $value;
@@ -88,8 +93,9 @@ final class ValueResolver
                     return (bool) $value;
                 case 'int':
                     return (int) $value;
-                case 'array': // TODO: add test with generics to make sure reflection returns array
-                    $docBlock = $constructorMethodReflection->getDocComment();
+                // TODO: add test with generics to make sure reflection returns array
+                case 'array':
+                    $docBlock = $reflectionMethod->getDocComment();
 
                     $lexer = new Lexer();
                     $constExprParser = new ConstExprParser();
@@ -97,7 +103,7 @@ final class ValueResolver
 
                     $tokens = new TokenIterator($lexer->tokenize($docBlock));
 
-                    $docNode =  $phpDocParser->parse($tokens);
+                    $docNode = $phpDocParser->parse($tokens);
 
                     $newClassName = null;
 
@@ -114,11 +120,14 @@ final class ValueResolver
                             /** @var IdentifierTypeNode $identifierTypeNode */
                             $identifierTypeNode = $typeNode->type;
 
-                            $newClassName = Reflection::expandClassName($identifierTypeNode->name, $constructorMethodReflection->getDeclaringClass());
+                            $newClassName = Reflection::expandClassName(
+                                $identifierTypeNode->name,
+                                $reflectionMethod->getDeclaringClass()
+                            );
                         }
                     }
 
-                    if ($newClassName === null || class_exists($newClassName) === false) {
+                    if ($newClassName === null || !class_exists($newClassName)) {
                         break;
                     }
 
@@ -131,7 +140,10 @@ final class ValueResolver
                     return $values;
                 default:
                     if (class_exists($parameterTypeName)) {
-                        $resolveClassConstructorValues = $this->resolveClassConstructorValues($parameterTypeName, $value);
+                        $resolveClassConstructorValues = $this->resolveClassConstructorValues(
+                            $parameterTypeName,
+                            $value
+                        );
 
                         return new $parameterTypeName(...$resolveClassConstructorValues);
                     }
@@ -156,7 +168,6 @@ final class ValueResolver
 
         return is_a($parameterTypeName, $class, true);
     }
-
 
     private function getConstructorMethodReflection(string $class): ReflectionMethod
     {
