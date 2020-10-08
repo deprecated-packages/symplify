@@ -11,7 +11,6 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\RequireThisOnParentMethodCallRule\RequireThisOnParentMethodCallRuleTest
@@ -46,7 +45,7 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        $classMethod = $this->getClassMethod($node);
+        $classMethod = $this->resolveCurrentClassMethod($node);
         if ($classMethod === null) {
             return [];
         }
@@ -67,31 +66,9 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
         return [self::ERROR_MESSAGE];
     }
 
-    private function getClassMethod(StaticCall $staticCall): ?ClassMethod
-    {
-        $classMethod = $staticCall->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($classMethod) {
-            if ($classMethod instanceof ClassMethod) {
-                break;
-            }
-
-            $classMethod = $classMethod->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
-        return $classMethod;
-    }
-
     private function isMethodNameExistsInCurrentClass(ClassMethod $classMethod, string $methodName): bool
     {
-        $class = $classMethod->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($class) {
-            if ($class instanceof Class_) {
-                break;
-            }
-
-            $class = $classMethod->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
+        $class = $this->resolveCurrentClass($classMethod);
         return $class instanceof Class_ && $class->getMethod($methodName) instanceof ClassMethod;
     }
 }
