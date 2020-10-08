@@ -50,9 +50,9 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var Identifier $name */
+        /** @var Identifier $classMethodIdentifier */
         $classMethodIdentifier = $classMethod->name;
-        /** @var Identifier $name */
+        /** @var Identifier $staticCallIdentifier */
         $staticCallIdentifier = $node->name;
 
         if ((string) $classMethodIdentifier === (string) $staticCallIdentifier) {
