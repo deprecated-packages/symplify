@@ -22,6 +22,7 @@ final class ForbiddenAssignInifRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/AssignBeforeIf.php', []];
+        yield [__DIR__ . '/Fixture/AssignAfterIf.php', []];
         yield [__DIR__ . '/Fixture/AssignInsideIf.php', [[ForbiddenAssignInifRule::ERROR_MESSAGE, 12]]];
     }
 
