@@ -7,6 +7,16 @@ namespace Symplify\EasyHydrator;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Nette\Utils\DateTime;
+use Nette\Utils\Reflection;
+use Nette\Utils\Strings;
+use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Lexer\Lexer;
+use PHPStan\PhpDocParser\Parser\ConstExprParser;
+use PHPStan\PhpDocParser\Parser\PhpDocParser;
+use PHPStan\PhpDocParser\Parser\TokenIterator;
+use PHPStan\PhpDocParser\Parser\TypeParser;
+use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionType;
 use Symplify\EasyHydrator\Exception\MissingConstructorException;
@@ -32,28 +42,30 @@ final class ValueResolver
     {
         $arguments = [];
 
-        $parameterReflections = $this->getConstructorParameterReflections($class);
+        $constructorMethodReflection = $this->getConstructorMethodReflection($class);
+        $parameterReflections = $constructorMethodReflection->getParameters();
+
         foreach ($parameterReflections as $parameterReflection) {
-            $arguments[] = $this->resolveValue($data, $parameterReflection);
+            $arguments[] = $this->resolveValue($data, $parameterReflection, $constructorMethodReflection);
         }
 
         return $arguments;
     }
 
-    private function resolveValue(array $data, ReflectionParameter $reflectionParameter)
+    private function resolveValue(array $data, ReflectionParameter $reflectionParameter, ReflectionMethod $constructorMethodReflection)
     {
         $propertyKey = $reflectionParameter->name;
         $underscoreKey = $this->stringFormatConverter->camelCaseToUnderscore($reflectionParameter->name);
 
         $value = $data[$propertyKey] ?? $data[$underscoreKey] ?? '';
 
-        return $this->retypeValue($reflectionParameter, $value);
+        return $this->retypeValue($reflectionParameter, $value, $constructorMethodReflection);
     }
 
     /**
      * @return bool|int|string|mixed
      */
-    private function retypeValue(ReflectionParameter $reflectionParameter, $value)
+    private function retypeValue(ReflectionParameter $reflectionParameter, $value, ReflectionMethod $constructorMethodReflection)
     {
         if ($this->isReflectionParameterOfType($reflectionParameter, DateTimeImmutable::class)) {
             return DateTimeImmutable::createFromMutable(DateTime::from($value));
@@ -68,6 +80,7 @@ final class ValueResolver
         if ($parameterType !== null) {
             $parameterTypeName = $parameterType->getName();
 
+
             switch ($parameterTypeName) {
                 case 'string':
                     return (string) $value;
@@ -76,9 +89,36 @@ final class ValueResolver
                 case 'int':
                     return (int) $value;
                 case 'array': // TODO: add test with generics to make sure reflection returns array
-                    $newClassName = null; // @TODO: get class name (regex? phpstan?) from docbloc and then expand it by nette reflection
+                    $docBlock = $constructorMethodReflection->getDocComment();
 
-                    if ($newClassName === null) {
+                    $lexer = new Lexer();
+                    $constExprParser = new ConstExprParser();
+                    $phpDocParser = new PhpDocParser(new TypeParser($constExprParser), $constExprParser);
+
+                    $tokens = new TokenIterator($lexer->tokenize($docBlock));
+
+                    $docNode =  $phpDocParser->parse($tokens);
+
+                    $newClassName = null;
+
+                    foreach ($docNode->getParamTagValues() as $paramTagValueNode) {
+                        $parameterName = Strings::after($paramTagValueNode->parameterName, '$');
+
+                        if ($parameterName !== $reflectionParameter->getName()) {
+                            continue;
+                        }
+
+                        $typeNode = $paramTagValueNode->type;
+
+                        if ($typeNode instanceof ArrayTypeNode) {
+                            /** @var IdentifierTypeNode $identifierTypeNode */
+                            $identifierTypeNode = $typeNode->type;
+
+                            $newClassName = Reflection::expandClassName($identifierTypeNode->name, $constructorMethodReflection->getDeclaringClass());
+                        }
+                    }
+
+                    if ($newClassName === null || class_exists($newClassName) === false) {
                         break;
                     }
 
@@ -86,7 +126,7 @@ final class ValueResolver
                     foreach ($value as $sub) {
                         $resolveClassConstructorValues = $this->resolveClassConstructorValues($newClassName, $sub);
 
-                        $values[] = $newClassName(...$resolveClassConstructorValues);
+                        $values[] = new $newClassName(...$resolveClassConstructorValues);
                     }
                     return $values;
                 default:
@@ -117,10 +157,8 @@ final class ValueResolver
         return is_a($parameterTypeName, $class, true);
     }
 
-    /**
-     * @return ReflectionParameter[]
-     */
-    private function getConstructorParameterReflections(string $class): array
+
+    private function getConstructorMethodReflection(string $class): ReflectionMethod
     {
         $reflectionClass = new ReflectionClass($class);
 
@@ -129,6 +167,6 @@ final class ValueResolver
             throw new MissingConstructorException(sprintf('Hydrated class "%s" is missing constructor.', $class));
         }
 
-        return $constructorReflectionMethod->getParameters();
+        return $constructorReflectionMethod;
     }
 }
