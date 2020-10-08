@@ -1464,6 +1464,57 @@ final class ProductRepository
 
 <br>
 
+## Assignment inside if statement is forbidden. Use before if instead
+
+- class: [`ForbiddenAssignInifRule`](../src/Rules/ForbiddenAssignInifRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenAssignInifRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+function data()
+{
+    return rand(1, 2);
+}
+
+if (($a = data()) === 1) {
+
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+function data()
+{
+    return rand(1, 2);
+}
+
+$a = data();
+if ($a === 1) {
+
+}
+```
+
+:+1:
+
+<br>
+
 ## Use custom exceptions instead of Native Ones
 
 - class: [`NoDefaultExceptionRule`](../src/Rules/NoDefaultExceptionRule.php)

@@ -88,7 +88,8 @@ final class PreferredRawDataInTestDataProviderRule extends AbstractSymplifyRule
             return null;
         }
 
-        if (! $match = Strings::match($docComment->getText(), self::DATAPROVIDER_REGEX)) {
+        $match = Strings::match($docComment->getText(), self::DATAPROVIDER_REGEX);
+        if (! $match) {
             return null;
         }
 

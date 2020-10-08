@@ -219,6 +219,10 @@ services:
                 - 'Symplify\CodingStandard\Rules\PrefixAbstractClassRule'
                 - 'Symplify\CodingStandard\Rules\SeeAnnotationToTestRule'
 
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenAssignInifRule
+        tags: [phpstan.rules.rule]
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
