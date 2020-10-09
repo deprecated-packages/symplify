@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenNestedForeachWithEmptyStatementRule\ForbiddenNestedForeachWithEmptyStatementRuleTest
@@ -58,6 +59,6 @@ final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplif
             return false;
         }
 
-        return true;
+        return $foreach->expr->getAttribute(PHPStanAttributeKey::NEXT)->name === $stmts[1]->expr->name;
     }
 }

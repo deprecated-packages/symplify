@@ -23,6 +23,7 @@ final class ForbiddenNestedForeachWithEmptyStatementRuleTest extends AbstractSer
     {
         yield [__DIR__ . '/Fixture/NotNestedForeach.php', []];
         yield [__DIR__ . '/Fixture/NestedForeachWithNonEmptyStatement.php', []];
+        yield [__DIR__ . '/Fixture/NestedForeachWithEmptyStatementWithDifferentVariableLoop.php', []];
         yield [
             __DIR__ . '/Fixture/NestedForeachWithEmptyStatement.php',
             [[ForbiddenNestedForeachWithEmptyStatementRule::ERROR_MESSAGE, 7]],
