@@ -57,11 +57,6 @@ final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplif
         if ($stmts[1] === null) {
             return false;
         }
-
-        if (! $stmts[1] instanceof Foreach_) {
-            return false;
-        }
-
-        return true;
+        return $stmts[1] instanceof Foreach_;
     }
 }
