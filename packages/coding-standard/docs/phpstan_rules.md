@@ -711,6 +711,46 @@ class SomeClass
 
 <br>
 
+## Require $this on Parent Method Call
+
+- class: [`RequireThisOnParentMethodCallRule`](../src/Rules/RequireThisOnParentMethodCallRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\RequireThisOnParentMethodCallRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+class ParentClass
+{
+    protected function foo()
+    {
+        echo 'foo';
+    }
+
+    protected function bar()
+    {
+        echo 'bar';
+    }
+}
+
+class CallParentMethodStatically extends ParentClass
+{
+    public function run()
+    {
+        parent::foo();
+        parent::bar();
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Use Value Objects over Array in Complex PHP Configs
 
 - class: [`ForbiddenComplexArrayConfigInSetRule`](../src/Rules/ForbiddenComplexArrayConfigInSetRule.php)
