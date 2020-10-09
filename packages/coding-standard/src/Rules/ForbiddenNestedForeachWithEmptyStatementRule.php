@@ -56,6 +56,10 @@ final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplif
     public function isNextForeachWithEmptyStatement(Foreach_ $foreach): bool
     {
         $stmts = $this->nodeFinder->findInstanceOf($foreach, Stmt::class);
+        if (! isset($stmts[1])) {
+            return false;
+        }
+
         if (! $stmts[1] instanceof Foreach_) {
             return false;
         }
