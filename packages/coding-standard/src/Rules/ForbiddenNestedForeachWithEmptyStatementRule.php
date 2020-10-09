@@ -60,7 +60,7 @@ final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplif
             return false;
         }
 
-        /** @var Variable  $foreachVariable*/
+        /** @var Variable $foreachVariable */
         $foreachVariable = $foreach->expr->getAttribute(PHPStanAttributeKey::NEXT);
         /** @var Variable $nextForeachVariable */
         $nextForeachVariable = $stmts[1]->expr;
