@@ -1087,6 +1087,52 @@ dump($value);
 
 <br>
 
+## Forbid Nested Foreach with Empty Statement
+
+- class: [`ForbiddenNestedForeachWithEmptyStatementRule`](../src/Rules/ForbiddenNestedForeachWithEmptyStatementRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenNestedForeachWithEmptyStatementRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+foreach ($errors as $fileErrors) {
+    // empty
+    foreach ($fileErrors as $fileError) {
+
+    }
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+foreach ($errors as $fileErrors) {
+    $errorCount = count($fileErrors);
+    foreach ($fileErrors as $fileError) {
+
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## Use explicit comparison over `empty()`
 
 - class: [`NoEmptyRule`](../src/Rules/NoEmptyRule.php)
