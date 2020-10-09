@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
@@ -59,6 +60,11 @@ final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplif
             return false;
         }
 
-        return $foreach->expr->getAttribute(PHPStanAttributeKey::NEXT)->name === $stmts[1]->expr->name;
+        /** @var Variable  $foreachVariable*/
+        $foreachVariable = $foreach->expr->getAttribute(PHPStanAttributeKey::NEXT);
+        /** @var Variable $nextForeachVariable */
+        $nextForeachVariable = $stmts[1]->expr;
+
+        return $foreachVariable->name === $nextForeachVariable->name;
     }
 }
