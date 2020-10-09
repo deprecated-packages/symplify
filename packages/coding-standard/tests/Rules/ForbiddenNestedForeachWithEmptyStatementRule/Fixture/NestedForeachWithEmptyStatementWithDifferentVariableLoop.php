@@ -7,6 +7,6 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenNestedForeachWithEmptySta
 foreach ($errors as $fileErrors) {
     // empty
     foreach ($foos as $foo) {
-
+        echo $foo;
     }
 }

@@ -7,6 +7,6 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenNestedForeachWithEmptySta
 foreach ($errors as $fileErrors) {
     $errorCount = count($fileErrors);
     foreach ($fileErrors as $fileError) {
-
+        echo $fileError;
     }
 }
