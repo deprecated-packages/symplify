@@ -55,19 +55,19 @@ final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplif
 
     public function isNextForeachWithEmptyStatement(Foreach_ $foreach): bool
     {
-        $stmts = $this->nodeFinder->findInstanceOf($foreach, Stmt::class);
-        if (! isset($stmts[1])) {
+        $stmts = $this->nodeFinder->findInstanceOf($foreach->stmts, Stmt::class);
+        if (! isset($stmts[0])) {
             return false;
         }
 
-        if (! $stmts[1] instanceof Foreach_) {
+        if (! $stmts[0] instanceof Foreach_) {
             return false;
         }
 
         /** @var Variable $foreachVariable */
         $foreachVariable = $foreach->expr->getAttribute(PHPStanAttributeKey::NEXT);
         /** @var Variable $nextForeachVariable */
-        $nextForeachVariable = $stmts[1]->expr;
+        $nextForeachVariable = $stmts[0]->expr;
 
         return $foreachVariable->name === $nextForeachVariable->name;
     }
