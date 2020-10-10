@@ -35,7 +35,7 @@ final class PrefferedMethodCallOverFuncCallRule extends AbstractPrefferedCallOve
      */
     public function process(Node $node, Scope $scope): array
     {
-        $errorMessageParameters = parent::getErrorMessageParameters($node, $scope);
+        $errorMessageParameters = $this->getErrorMessageParameters($node, $scope);
         if ($errorMessageParameters === []) {
             return [];
         }

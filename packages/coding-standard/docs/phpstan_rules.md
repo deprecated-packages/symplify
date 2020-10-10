@@ -176,6 +176,51 @@ class SomePath
 
 <br>
 
+## Require Cnstant Used in Specific Method Call Position
+
+- class: [`RequireConstantInMethodCallPositionRule`](../src/Rules/RequireConstantInMethodCallPositionRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\RequireConstantInMethodCallPositionRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredLocalConstantInMethodCall:
+                AlwaysCallMeWithConstantLocal:
+                    some_type: [0] # positions
+            requiredExternalConstantInMethodCall:
+                AlwaysCallMeWithConstantExternal:
+                    some_type: [0] # positions
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+class SomeClass
+{
+    private const SOME = 'SOME';
+    public function run(): void
+    {
+        $alwaysCallMeWithConstantLocal = new AlwaysCallMeWithConstantLocal();
+        $alwaysCallMeWithConstantLocal->call('someValue');
+        // should be: $alwaysCallMeWithConstant->call(self::SOME);
+
+        $alwaysCallMeWithConstantExternal = new AlwaysCallMeWithConstantExternal();
+        $alwaysCallMeWithConstantExternal->call(self::SOME);
+        // should be: $alwaysCallMeWithConstantExternal->call(SomeClass::SOME);
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Test methods by Type Must Use Data Provider
 
 - class: [`RequireDataProviderTestMethodRule`](../src/Rules/RequireDataProviderTestMethodRule.php)
@@ -711,6 +756,46 @@ class SomeClass
 
 <br>
 
+## Require $this on Parent Method Call
+
+- class: [`RequireThisOnParentMethodCallRule`](../src/Rules/RequireThisOnParentMethodCallRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\RequireThisOnParentMethodCallRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+class ParentClass
+{
+    protected function foo()
+    {
+        echo 'foo';
+    }
+
+    protected function bar()
+    {
+        echo 'bar';
+    }
+}
+
+class CallParentMethodStatically extends ParentClass
+{
+    public function run()
+    {
+        parent::foo();
+        parent::bar();
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Use Value Objects over Array in Complex PHP Configs
 
 - class: [`ForbiddenComplexArrayConfigInSetRule`](../src/Rules/ForbiddenComplexArrayConfigInSetRule.php)
@@ -1044,6 +1129,83 @@ dump($value);
 ```
 
 :x:
+
+<br>
+
+## Forbid Multiple Class Like (Interface, Class, Trait) in One File
+
+- class: [`ForbiddenMultipleClassLikeInOneFileRule`](../src/Rules/ForbiddenMultipleClassLikeInOneFileRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenMultipleClassLikeInOneFileRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+interface Foo
+{
+}
+
+class Bar implements Foo
+{
+}
+```
+
+:x:
+
+<br>
+
+## Forbid Nested Foreach with Empty Statement
+
+- class: [`ForbiddenNestedForeachWithEmptyStatementRule`](../src/Rules/ForbiddenNestedForeachWithEmptyStatementRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenNestedForeachWithEmptyStatementRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+foreach ($errors as $fileErrors) {
+    // empty
+    foreach ($fileErrors as $fileError) {
+
+    }
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+foreach ($errors as $fileErrors) {
+    $errorCount = count($fileErrors);
+    foreach ($fileErrors as $fileError) {
+
+    }
+}
+```
+
+:+1:
 
 <br>
 
