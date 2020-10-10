@@ -76,6 +76,9 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
         return array_merge($errorMessagesLocal, $errorMessagesExternal);
     }
 
+    /**
+     * @return string[]
+     */
     private function getErrorMessagesLocal(MethodCall $methodCall, Scope $scope): array
     {
         $methodName = (string) $methodCall->name;
@@ -99,6 +102,9 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
         return $errorMessages;
     }
 
+    /**
+     * @return string[]
+     */
     private function getErrorMessagesExternal(MethodCall $methodCall, Scope $scope): array
     {
         $methodName = (string) $methodCall->name;
