@@ -70,17 +70,24 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
             return [];
         }
 
+        $errorMessagesLocal = $this->getErrorMessagesLocal($node, $scope);
+        $errorMessagesExternal = $this->getErrorMessagesExternal($node, $scope);
+
+        return array_merge($errorMessagesLocal, $errorMessagesExternal);
+    }
+
+    private function getErrorMessagesLocal(MethodCall $methodCall, Scope $scope): array
+    {
+        $methodName = (string) $methodCall->name;
         $errorMessages = [];
 
-        $methodName = (string) $node->name;
-
         foreach ($this->requiredLocalConstantInMethodCall as $type => $positionsByMethods) {
-            $positions = $this->matchPositions($node, $scope, $type, $positionsByMethods, $methodName);
+            $positions = $this->matchPositions($methodCall, $scope, $type, $positionsByMethods, $methodName);
             if ($positions === null) {
                 continue;
             }
 
-            foreach ($node->args as $key => $arg) {
+            foreach ($methodCall->args as $key => $arg) {
                 if ($this->shouldSkipArg($key, $positions, $arg, true)) {
                     continue;
                 }
@@ -89,13 +96,21 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
             }
         }
 
+        return $errorMessages;
+    }
+
+    private function getErrorMessagesExternal(MethodCall $methodCall, Scope $scope): array
+    {
+        $methodName = (string) $methodCall->name;
+        $errorMessages = [];
+
         foreach ($this->requiredExternalConstantInMethodCall as $type => $positionsByMethods) {
-            $positions = $this->matchPositions($node, $scope, $type, $positionsByMethods, $methodName);
+            $positions = $this->matchPositions($methodCall, $scope, $type, $positionsByMethods, $methodName);
             if ($positions === null) {
                 continue;
             }
 
-            foreach ($node->args as $key => $arg) {
+            foreach ($methodCall->args as $key => $arg) {
                 if ($this->shouldSkipArg($key, $positions, $arg, false)) {
                     continue;
                 }
