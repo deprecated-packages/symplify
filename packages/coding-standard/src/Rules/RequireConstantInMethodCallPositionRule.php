@@ -43,13 +43,13 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
      * @param array<class-string, mixed[]> $requiredExternalConstantInMethodCall
      */
     public function __construct(
-        ContainsTypeAnalyser $containsTypeAnalyser,
         array $requiredLocalConstantInMethodCall = [],
-        array $requiredExternalConstantInMethodCall = []
+        array $requiredExternalConstantInMethodCall = [],
+        ContainsTypeAnalyser $containsTypeAnalyser
     ) {
-        $this->containsTypeAnalyser = $containsTypeAnalyser;
         $this->requiredLocalConstantInMethodCall = $requiredLocalConstantInMethodCall;
         $this->requiredExternalConstantInMethodCall = $requiredExternalConstantInMethodCall;
+        $this->containsTypeAnalyser = $containsTypeAnalyser;
     }
 
     /**
