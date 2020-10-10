@@ -53,6 +53,14 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
     }
 
     /**
+     * @return string[]
+     */
+    public function getNodeTypes(): array
+    {
+        return [MethodCall::class];
+    }
+
+    /**
      * @param MethodCall $node
      * @return string[]
      */
