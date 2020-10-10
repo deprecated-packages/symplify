@@ -6,16 +6,16 @@ namespace Symplify\CodingStandard\Tests\Rules\RequireConstantInMethodCallPositio
 
 use Symplify\CodingStandard\Tests\Rules\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstantExternal;
 
+final class VO
+{
+    public const TYPE = 'correct';
+}
+
 final class WithConstantExternal
 {
-    /**
-     * @var string
-     */
-    private const TYPE = 'correct';
-
     public function run(): void
     {
         $alwaysCallMeWithConstant = new AlwaysCallMeWithConstantExternal();
-        $alwaysCallMeWithConstant->call(self::TYPE);
+        $alwaysCallMeWithConstant->call(VO::TYPE);
     }
 }
