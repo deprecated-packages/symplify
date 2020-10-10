@@ -10,6 +10,7 @@ use Symplify\MonorepoBuilder\Split\FileSystem\DirectoryToRepositoryProvider;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DirectoryToRepositoryProviderTest extends AbstractKernelTestCase
 {
@@ -47,15 +48,20 @@ final class DirectoryToRepositoryProviderTest extends AbstractKernelTestCase
     public function provideData(): Iterator
     {
         yield [[], []];
+
+        $smartFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/existing-package');
+        $relativeFilePathFromCwd = $smartFileInfo->getRelativeFilePathFromCwd();
+
         yield [[
             __DIR__ . '/Fixture/existing-package' => 'some.git',
         ], [
-            __DIR__ . '/Fixture/existing-package' => 'some.git',
+            $relativeFilePathFromCwd => 'some.git',
         ]];
+
         yield [[
             __DIR__ . '/Fixture/existing-*' => 'some/*.git',
         ], [
-            __DIR__ . '/Fixture/existing-package' => 'some/package.git',
+            $relativeFilePathFromCwd => 'some/package.git',
         ]];
     }
 }
