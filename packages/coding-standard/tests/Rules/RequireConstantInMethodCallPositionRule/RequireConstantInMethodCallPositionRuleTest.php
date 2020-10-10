@@ -21,13 +21,14 @@ final class RequireConstantInMethodCallPositionRuleTest extends AbstractServiceA
 
     public function provideData(): Iterator
     {
-        $errorMessage = sprintf(RequireConstantInMethodCallPositionRule::ERROR_MESSAGE, 0);
-        yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstantLocal.php', [[$errorMessage, 14]]];
-        yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstantExternal.php', [[$errorMessage, 14]]];
-        yield [__DIR__ . '/Fixture/SymfonyPHPConfigParameterSetter.php', [[$errorMessage, 14]]];
+        $errorMessageLocal = sprintf(RequireConstantInMethodCallPositionRule::ERROR_MESSAGE, 0, 'local');
+        $errorMessageExternal = sprintf(RequireConstantInMethodCallPositionRule::ERROR_MESSAGE, 0, 'external');
+        yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstantLocal.php', [[$errorMessageLocal, 14]]];
+        yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstantExternal.php', [[$errorMessageExternal, 14]]];
+        yield [__DIR__ . '/Fixture/SymfonyPHPConfigParameterSetter.php', [[$errorMessageLocal, 14]]];
 
-        yield [__DIR__ . '/Fixture/NestedNode.php', [[$errorMessage, 14], [$errorMessage, 19]]];
-        yield [__DIR__ . '/Fixture/IntersetionNode.php', [[$errorMessage, 17]]];
+        yield [__DIR__ . '/Fixture/NestedNode.php', [[$errorMessageLocal, 14], [$errorMessageLocal, 19]]];
+        yield [__DIR__ . '/Fixture/IntersetionNode.php', [[$errorMessageLocal, 17]]];
 
         yield [__DIR__ . '/Fixture/SkipWithVariable.php', []];
         yield [__DIR__ . '/Fixture/WithConstantLocal.php', []];

@@ -85,7 +85,7 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
                     continue;
                 }
 
-                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $key);
+                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $key, 'local');
             }
         }
 
@@ -100,7 +100,7 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
                     continue;
                 }
 
-                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $key);
+                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $key, 'external');
             }
         }
 
