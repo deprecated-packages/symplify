@@ -21,7 +21,7 @@ use ReflectionType;
 use Symplify\EasyHydrator\Exception\MissingConstructorException;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
-final class ObjectCreator
+final class HydratedObjectFactory
 {
     /**
      * @var StringFormatConverter

@@ -275,7 +275,7 @@ parameters:
         -
             message: '#Node "switch" is fobidden to use#'
             paths:
-                 - packages/easy-hydrator/src/ObjectCreator.php
+                 - packages/easy-hydrator/src/HydratedObjectFactory.php
 
         -
             message:  '#Node "errorsuppress" is fobidden to use#'
