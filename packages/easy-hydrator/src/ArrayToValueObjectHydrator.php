@@ -38,7 +38,7 @@ final class ArrayToValueObjectHydrator
         /** @var CacheItem $cacheItem */
         $cacheItem = $this->filesystemAdapter->getItem($arrayHash);
         if ($cacheItem->get() !== null) {
-            // return $cacheItem->get();
+            return $cacheItem->get();
         }
 
         $value = $this->objectCreator->create($class, $data);
