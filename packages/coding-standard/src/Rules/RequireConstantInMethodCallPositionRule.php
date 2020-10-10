@@ -72,8 +72,20 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
             return [];
         }
 
-        $errorMessagesLocal = $this->getErrorMessagesLocal($node, $scope);
-        $errorMessagesExternal = $this->getErrorMessagesExternal($node, $scope);
+        $errorMessagesLocal = $this->getErrorMessages(
+            $node,
+            $scope,
+            true,
+            $this->requiredLocalConstantInMethodCall,
+            'local'
+        );
+        $errorMessagesExternal = $this->getErrorMessages(
+            $node,
+            $scope,
+            false,
+            $this->requiredExternalConstantInMethodCall,
+            'external'
+        );
 
         return array_merge($errorMessagesLocal, $errorMessagesExternal);
     }
@@ -81,53 +93,31 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
     /**
      * @return string[]
      */
-    private function getErrorMessagesLocal(MethodCall $methodCall, Scope $scope): array
-    {
+    private function getErrorMessages(
+        MethodCall $methodCall,
+        Scope $scope,
+        bool $isLocalConstant,
+        array $config,
+        string $messageVar
+    ): array {
         /** @var Identifier $name */
         $name = $methodCall->name;
         $methodName = (string) $name;
         $errorMessages = [];
 
-        foreach ($this->requiredLocalConstantInMethodCall as $type => $positionsByMethods) {
+        /** @var class-string $type */
+        foreach ($config as $type => $positionsByMethods) {
             $positions = $this->matchPositions($methodCall, $scope, $type, $positionsByMethods, $methodName);
             if ($positions === null) {
                 continue;
             }
 
             foreach ($methodCall->args as $key => $arg) {
-                if ($this->shouldSkipArg($key, $positions, $arg, true)) {
+                if ($this->shouldSkipArg($key, $positions, $arg, $isLocalConstant)) {
                     continue;
                 }
 
-                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $key, 'local');
-            }
-        }
-
-        return $errorMessages;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getErrorMessagesExternal(MethodCall $methodCall, Scope $scope): array
-    {
-        /** @var Identifier $name */
-        $name = $methodCall->name;
-        $methodName = (string) $name;
-        $errorMessages = [];
-
-        foreach ($this->requiredExternalConstantInMethodCall as $type => $positionsByMethods) {
-            $positions = $this->matchPositions($methodCall, $scope, $type, $positionsByMethods, $methodName);
-            if ($positions === null) {
-                continue;
-            }
-
-            foreach ($methodCall->args as $key => $arg) {
-                if ($this->shouldSkipArg($key, $positions, $arg, false)) {
-                    continue;
-                }
-
-                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $key, 'external');
+                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $key, $messageVar);
             }
         }
 
