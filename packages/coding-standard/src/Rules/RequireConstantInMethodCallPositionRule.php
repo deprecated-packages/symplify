@@ -81,7 +81,7 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
             }
 
             foreach ($node->args as $key => $arg) {
-                if ($this->shouldSkipArg($key, $positions, $arg)) {
+                if ($this->shouldSkipArg($key, $positions, $arg, true)) {
                     continue;
                 }
 
@@ -129,7 +129,7 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
     /**
      * @param int[] $positions
      */
-    private function shouldSkipArg(int $key, array $positions, Arg $arg): bool
+    private function shouldSkipArg(int $key, array $positions, Arg $arg, bool $isLocalConstant): bool
     {
         if (! in_array($key, $positions, true)) {
             return true;
@@ -139,6 +139,14 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
             return true;
         }
 
-        return $arg->value instanceof ClassConstFetch;
+        if ($isLocalConstant) {
+
+        }
+
+        $constantScope = $isLocalConstant
+            ? $arg->value->class->parts[0] === 'self'
+            : $arg->value->class->parts[0] !== 'self';
+
+        return $constantScope && $arg->value instanceof ClassConstFetch;
     }
 }
