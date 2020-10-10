@@ -6,6 +6,8 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Name;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
@@ -81,7 +83,9 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
      */
     private function getErrorMessagesLocal(MethodCall $methodCall, Scope $scope): array
     {
-        $methodName = (string) $methodCall->name;
+        /** @var Identifier $name */
+        $name = $methodCall->name;
+        $methodName = (string) $name;
         $errorMessages = [];
 
         foreach ($this->requiredLocalConstantInMethodCall as $type => $positionsByMethods) {
@@ -107,7 +111,9 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
      */
     private function getErrorMessagesExternal(MethodCall $methodCall, Scope $scope): array
     {
-        $methodName = (string) $methodCall->name;
+        /** @var Identifier $name */
+        $name = $methodCall->name;
+        $methodName = (string) $name;
         $errorMessages = [];
 
         foreach ($this->requiredExternalConstantInMethodCall as $type => $positionsByMethods) {
@@ -159,10 +165,12 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
             return true;
         }
 
-        $constantScope = $isLocalConstant
-            ? $arg->value->class->parts[0] === 'self'
-            : $arg->value->class->parts[0] !== 'self';
+        if (! $arg->value instanceof ClassConstFetch) {
+            return false;
+        }
 
-        return $constantScope && $arg->value instanceof ClassConstFetch;
+        return $isLocalConstant
+            ? $arg->value->class instanceof Name
+            : $arg->value->class instanceof FullyQualified;
     }
 }
