@@ -56,6 +56,18 @@ final class HydratedObjectFactory
     }
 
     /**
+     * @return mixed[]
+     */
+    private function createMultiple(string $className, array $data): array
+    {
+        $objects = [];
+        foreach ($data as $singleObjectData) {
+            $objects[] = $this->create($className, $singleObjectData);
+        }
+        return $objects;
+    }
+
+    /**
      * @return array<int, mixed>
      */
     private function resolveClassConstructorValues(string $class, array $data): array
@@ -114,11 +126,7 @@ final class HydratedObjectFactory
                         break;
                     }
 
-                    $objects = [];
-                    foreach ($value as $itemValue) {
-                        $objects[] = $this->create($className, $itemValue);
-                    }
-                    return $objects;
+                    return $this->createMultiple($className, $value);
                 default:
                     if (class_exists($parameterTypeName)) {
                         return $this->create($parameterTypeName, $value);
