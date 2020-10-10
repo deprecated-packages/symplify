@@ -176,6 +176,51 @@ class SomePath
 
 <br>
 
+## Require Cnstant Used in Specific Method Call Position
+
+- class: [`RequireConstantInMethodCallPositionRule`](../src/Rules/RequireConstantInMethodCallPositionRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\RequireConstantInMethodCallPositionRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredLocalConstantInMethodCall:
+                AlwaysCallMeWithConstantLocal:
+                    some_type: [0] # positions
+            requiredExternalConstantInMethodCall:
+                AlwaysCallMeWithConstantExternal:
+                    some_type: [0] # positions
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+class SomeClass
+{
+    private const SOME = 'SOME';
+    public function run(): void
+    {
+        $alwaysCallMeWithConstantLocal = new AlwaysCallMeWithConstantLocal();
+        $alwaysCallMeWithConstantLocal->call('someValue');
+        // should be: $alwaysCallMeWithConstant->call(self::SOME);
+
+        $alwaysCallMeWithConstantExternal = new AlwaysCallMeWithConstantExternal();
+        $alwaysCallMeWithConstantExternal->call(self::SOME);
+        // should be: $alwaysCallMeWithConstantExternal->call(SomeClass::SOME);
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Test methods by Type Must Use Data Provider
 
 - class: [`RequireDataProviderTestMethodRule`](../src/Rules/RequireDataProviderTestMethodRule.php)
