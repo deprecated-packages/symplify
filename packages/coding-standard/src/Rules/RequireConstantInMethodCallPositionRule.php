@@ -90,6 +90,7 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
         }
 
         foreach ($this->requiredExternalConstantInMethodCall as $type => $positionsByMethods) {
+            /*
             $positions = $this->matchPositions($node, $scope, $type, $positionsByMethods, $methodName);
             if ($positions === null) {
                 continue;
@@ -101,7 +102,7 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
                 }
 
                 $errorMessages[] = sprintf(self::ERROR_MESSAGE, $key, 'external');
-            }
+            }*/
         }
 
         return $errorMessages;

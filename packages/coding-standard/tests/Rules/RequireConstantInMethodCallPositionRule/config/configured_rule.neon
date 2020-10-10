@@ -3,10 +3,11 @@ services:
         class: Symplify\CodingStandard\Rules\RequireConstantInMethodCallPositionRule
         tags: [phpstan.rules.rule]
         arguments:
-            - requiredLocalConstantInMethodCall:
-                Symplify\CodingStandard\Tests\Rules\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstantLocal:
+            requiredLocalConstantInMethodCall:
+                Symplify\CodingStandard\Tests\Rules\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstant:
                     call: [0]
-            - requiredExternalConstantInMethodCall:
-                Symplify\CodingStandard\Tests\Rules\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstantExternal:
+            requiredExternalConstantInMethodCall:
+                Symplify\CodingStandard\Tests\Rules\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstant:
                     call: [0]
+
     - Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser

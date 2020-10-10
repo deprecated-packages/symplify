@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\RequireConstantInMethodCallPositionRule\Fixture;
 
-use Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstantExternal;
+use Symplify\CodingStandard\Tests\Rules\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstant;
 
-final class WithConstantExternal
+final class WithConstant
 {
     /**
      * @var string
@@ -15,7 +15,7 @@ final class WithConstantExternal
 
     public function run(): void
     {
-        $alwaysCallMeWithConstant = new AlwaysCallMeWithConstantExternal();
+        $alwaysCallMeWithConstant = new AlwaysCallMeWithConstant();
         $alwaysCallMeWithConstant->call(self::TYPE);
     }
 }
