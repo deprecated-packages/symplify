@@ -21,9 +21,13 @@ final class RequireConstantInMethodCallPositionRuleTest extends AbstractServiceA
 
     public function provideData(): Iterator
     {
-        $errorMessage = sprintf(RequireConstantInMethodCallPositionRule::ERROR_MESSAGE, 0, 'local');
-        yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstant.php', [[$errorMessage, 14]]];
-        yield [__DIR__ . '/Fixture/WithConstant.php', []];
+        $errorMessageLocal = sprintf(RequireConstantInMethodCallPositionRule::ERROR_MESSAGE, 0, 'local');
+        $errorMessageExternal = sprintf(RequireConstantInMethodCallPositionRule::ERROR_MESSAGE, 0, 'external');
+
+        yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstantLocal.php', [[$errorMessageLocal, 14]]];
+        yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstantExternal.php', [[$errorMessageExternal, 14]]];
+        yield [__DIR__ . '/Fixture/WithConstantLocal.php', []];
+        yield [__DIR__ . '/Fixture/WithConstantExternal.php', []];
         yield [__DIR__ . '/Fixture/SkipWithVariable.php', []];
     }
 

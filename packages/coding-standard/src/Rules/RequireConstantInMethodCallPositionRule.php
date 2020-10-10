@@ -90,19 +90,18 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
         }
 
         foreach ($this->requiredExternalConstantInMethodCall as $type => $positionsByMethods) {
-            /*
             $positions = $this->matchPositions($node, $scope, $type, $positionsByMethods, $methodName);
             if ($positions === null) {
                 continue;
             }
 
             foreach ($node->args as $key => $arg) {
-                if ($this->shouldSkipArg($key, $positions, $arg)) {
+                if ($this->shouldSkipArg($key, $positions, $arg, false)) {
                     continue;
                 }
 
                 $errorMessages[] = sprintf(self::ERROR_MESSAGE, $key, 'external');
-            }*/
+            }
         }
 
         return $errorMessages;
@@ -137,10 +136,6 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
 
         if ($arg->value instanceof Variable) {
             return true;
-        }
-
-        if ($isLocalConstant) {
-
         }
 
         $constantScope = $isLocalConstant
