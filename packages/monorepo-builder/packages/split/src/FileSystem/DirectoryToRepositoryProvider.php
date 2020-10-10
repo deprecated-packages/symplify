@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\FileSystemGuard;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\MonorepoBuilder\Split\Tests\FileSystem\DirectoryToRepositoryProvider\DirectoryToRepositoryProviderTest
@@ -62,7 +63,7 @@ final class DirectoryToRepositoryProvider
             );
         }
 
-        return $resolvedDirectoriesToRepository;
+        return $this->relativizeDirectories($resolvedDirectoriesToRepository);
     }
 
     private function ensureDirectoryExists(string $directory): void
@@ -94,5 +95,23 @@ final class DirectoryToRepositoryProvider
         }
 
         return $resolvedDirectoriesToRepository;
+    }
+
+    /**
+     * @param array<string, string> $directoriesToRepositories
+     * @return array<string, string>
+     */
+    private function relativizeDirectories(array $directoriesToRepositories): array
+    {
+        $relativeDirectoriesToRepositories = [];
+
+        foreach ($directoriesToRepositories as $directory => $repository) {
+            $directoryFileInfo = new SmartFileInfo($directory);
+            $relativeDirectory = $directoryFileInfo->getRelativeFilePathFromCwd();
+
+            $relativeDirectoriesToRepositories[$relativeDirectory] = $repository;
+        }
+
+        return $relativeDirectoriesToRepositories;
     }
 }
