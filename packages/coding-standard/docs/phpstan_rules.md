@@ -1087,6 +1087,37 @@ dump($value);
 
 <br>
 
+## Forbid Multiple Class Like (Interface, Class, Trait) in One File
+
+- class: [`ForbiddenMultipleClassLikeInOneFileRule`](../src/Rules/ForbiddenMultipleClassLikeInOneFileRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenMultipleClassLikeInOneFileRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+interface Foo
+{
+}
+
+class Bar implements Foo
+{
+}
+```
+
+:x:
+
+<br>
+
 ## Forbid Nested Foreach with Empty Statement
 
 - class: [`ForbiddenNestedForeachWithEmptyStatementRule`](../src/Rules/ForbiddenNestedForeachWithEmptyStatementRule.php)
