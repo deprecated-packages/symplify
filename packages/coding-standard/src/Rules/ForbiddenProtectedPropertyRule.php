@@ -6,7 +6,6 @@ namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
@@ -39,10 +38,7 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var Class_ $class */
-        $class = $this->resolveCurrentClass($node);
-        $className = $class->name->toString();
-
+        $className = (string) $this->getShortClassName($scope);
         if (Strings::endsWith($className, 'Test') || Strings::endsWith($className, 'TestCase')) {
             return [];
         }
