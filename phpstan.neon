@@ -293,3 +293,8 @@ parameters:
             paths:
                  - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                  - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 37
+
+        -
+            message: '#Use namespaceName on Class_ node#'
+            paths:
+                 - packages/coding-standard/src/Rules/NoSuffixValueObjectClassRule.php

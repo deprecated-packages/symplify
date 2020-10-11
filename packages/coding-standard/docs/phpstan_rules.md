@@ -1,5 +1,38 @@
 # 40+ PHPStan Rules
 
+## No "ValueObject" suffix in Value Object class names
+
+- class: [`NoSuffixValueObjectClassRule`](../src/Rules/NoSuffixValueObjectClassRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoSuffixValueObjectClassRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+namespace App\ValueObject;
+
+final class PersonValueObject
+{
+    /**
+     * @var string
+     */
+    private $name;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## No Container used in `__construct`
 
 - class: [`NoContainerInjectionInConstructorRule`](../src/Rules/NoContainerInjectionInConstructorRule.php)
