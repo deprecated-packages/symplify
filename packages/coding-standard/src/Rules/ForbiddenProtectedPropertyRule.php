@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\Property;
@@ -35,11 +34,6 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         if (! $node->isProtected()) {
-            return [];
-        }
-
-        $className = (string) $this->getShortClassName($scope);
-        if (Strings::endsWith($className, 'Test') || Strings::endsWith($className, 'TestCase')) {
             return [];
         }
 
