@@ -1693,12 +1693,12 @@ declare(strict_types=1);
 
 interface ConfigInterface
 {
-    public function config():
+    public function getConfig():
 }
 
 abstract class SomeClass implements ConfigInterface
 {
-    public function config()
+    public function getConfig()
     {
         // ...
     }
