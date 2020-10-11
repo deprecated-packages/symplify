@@ -1705,7 +1705,7 @@ abstract class SomeClass implements ConfigInterface
 
     public function run()
     {
-        $this->config();
+        $this->getConfig();
     }
 }
 ```
