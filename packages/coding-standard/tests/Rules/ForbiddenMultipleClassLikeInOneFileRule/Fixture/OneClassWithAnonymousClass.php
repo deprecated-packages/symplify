@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMultipleClassLikeInOneFileRule\Fixture;
 
-final class OneClassWithoutAnonymousClass
+final class OneClassWithAnonymousClass
 {
     public function run()
     {

@@ -46,7 +46,16 @@ final class ForbiddenMultipleClassLikeInOneFileRule extends AbstractSymplifyRule
     {
         $classLikes = $this->nodeFinder->findInstanceOf($node->getNodes(), ClassLike::class);
 
-        if (count($classLikes) <= 1) {
+        $findclassLikes = [];
+        foreach ($classLikes as $classLike) {
+            if ($classLike->name === null) {
+                continue;
+            }
+
+            $findclassLikes[] = $classLike;
+        }
+
+        if (count($findclassLikes) <= 1) {
             return [];
         }
 
