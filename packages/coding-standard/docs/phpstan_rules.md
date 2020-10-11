@@ -1659,6 +1659,61 @@ final class ProductRepository
 
 <br>
 
+## Forbid Protected Property Usage. Use Interface Instead.
+
+- class: [`ForbiddenProtectedPropertyRule`](../src/Rules/ForbiddenProtectedPropertyRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenProtectedPropertyRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+abstract class SomeClass
+{
+    protected $config = [];
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+interface ConfigInterface
+{
+    public function getConfig():
+}
+
+abstract class SomeClass implements ConfigInterface
+{
+    public function getConfig()
+    {
+        // ...
+    }
+
+    public function run()
+    {
+        $this->getConfig();
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## Assignment inside if statement is forbidden. Use before if instead
 
 - class: [`ForbiddenAssignInifRule`](../src/Rules/ForbiddenAssignInifRule.php)

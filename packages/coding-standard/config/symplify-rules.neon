@@ -216,6 +216,7 @@ services:
                 - 'Symplify\CodingStandard\Rules\PreferredClassRule'
                 - 'Symplify\CodingStandard\Rules\PrefixAbstractClassRule'
                 - 'Symplify\CodingStandard\Rules\SeeAnnotationToTestRule'
+                - 'Symplify\CodingStandard\Rules\NoSuffixValueObjectClassRule'
 
     -
         class: Symplify\CodingStandard\Rules\ForbiddenAssignInifRule
@@ -231,6 +232,10 @@ services:
 
     -
         class: Symplify\CodingStandard\Rules\ForbiddenMultipleClassLikeInOneFileRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenProtectedPropertyRule
         tags: [phpstan.rules.rule]
 
     # services
