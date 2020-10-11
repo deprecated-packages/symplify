@@ -310,3 +310,8 @@ parameters:
                 - packages/monorepo-builder/packages/release/src/ReleaseWorker/AbstractMutualDependencyReleaseWorker.php # 23
                 - packages/monorepo-builder/packages/release/src/ReleaseWorker/AbstractMutualDependencyReleaseWorker.php # 28
                 - packages/monorepo-builder/packages/release/src/ReleaseWorker/AbstractMutualDependencyReleaseWorker.php # 33
+                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 17
+                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 26
+                - packages/monorepo-builder/packages/merge/tests/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php # 18
+                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 28
+                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 33
