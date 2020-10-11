@@ -91,7 +91,9 @@ final class HydratedObjectFactory
 
         $value = $data[$propertyKey] ?? $data[$underscoreKey] ?? '';
 
-        return $this->retypeValue($reflectionParameter, $value);
+        // @TODO: TypeCastersCollector via constructor and decouple things related to type casting
+        /** @var TypeCastersCollector $typeCaster */
+        return $typeCaster->retype($value, $reflectionParameter);
     }
 
     /**
