@@ -44,6 +44,7 @@ final class ForbiddenMultipleClassLikeInOneFileRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        /** @var ClassLike[] $classLikes */
         $classLikes = $this->nodeFinder->findInstanceOf($node->getNodes(), ClassLike::class);
 
         $findclassLikes = [];
