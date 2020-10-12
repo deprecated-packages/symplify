@@ -1,4 +1,4 @@
-<?php declare (strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\EasyHydrator\TypeCaster;
 
@@ -26,11 +26,14 @@ final class ObjectTypeCaster implements TypeCasterInterface
         return class_exists($className);
     }
 
-    public function retype($value, ReflectionParameter $reflectionParameter, ClassConstructorValuesResolver $classConstructorValuesResolver)
-    {
+    public function retype(
+        $value,
+        ReflectionParameter $reflectionParameter,
+        ClassConstructorValuesResolver $classConstructorValuesResolver
+    ) {
         $className = $this->getClassName($reflectionParameter);
 
-        if (!$this->parameterTypeRecognizer->isArray($reflectionParameter)) {
+        if (! $this->parameterTypeRecognizer->isArray($reflectionParameter)) {
             return $this->createObject($className, $value, $classConstructorValuesResolver);
         }
 
@@ -51,8 +54,11 @@ final class ObjectTypeCaster implements TypeCasterInterface
      * @param mixed $data
      * @return object
      */
-    private function createObject(string $className, $data, ClassConstructorValuesResolver $classConstructorValuesResolver)
-    {
+    private function createObject(
+        string $className,
+        $data,
+        ClassConstructorValuesResolver $classConstructorValuesResolver
+    ) {
         $constructorValues = $classConstructorValuesResolver->resolve($className, $data);
 
         return new $className(...$constructorValues);

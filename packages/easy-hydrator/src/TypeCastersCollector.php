@@ -1,4 +1,4 @@
-<?php declare (strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\EasyHydrator;
 
@@ -22,8 +22,11 @@ final class TypeCastersCollector
         $this->typeCasters = $typeCasters;
     }
 
-    public function retype($value, ReflectionParameter $reflectionParameter, ClassConstructorValuesResolver $classConstructorValuesResolver)
-    {
+    public function retype(
+        $value,
+        ReflectionParameter $reflectionParameter,
+        ClassConstructorValuesResolver $classConstructorValuesResolver
+    ) {
         foreach ($this->typeCasters as $typeCaster) {
             if ($typeCaster->isSupported($reflectionParameter)) {
                 return $typeCaster->retype($value, $reflectionParameter, $classConstructorValuesResolver);
@@ -33,10 +36,9 @@ final class TypeCastersCollector
         return $value;
     }
 
-
     private function sortCastersByPriority(TypeCasterInterface ...$typeCasters): void
     {
-        usort($typeCasters, static function(TypeCasterInterface $a, TypeCasterInterface $b): int {
+        usort($typeCasters, static function (TypeCasterInterface $a, TypeCasterInterface $b): int {
             return $a->getPriority() <=> $b->getPriority();
         });
     }

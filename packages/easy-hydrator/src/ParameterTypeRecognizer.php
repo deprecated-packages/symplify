@@ -1,4 +1,4 @@
-<?php declare (strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\EasyHydrator;
 
@@ -71,7 +71,7 @@ final class ParameterTypeRecognizer
             return null;
         }
 
-        if (method_exists($parameterType,'getName')) {
+        if (method_exists($parameterType, 'getName')) {
             return $parameterType->getName();
         }
 
@@ -118,7 +118,6 @@ final class ParameterTypeRecognizer
         return null;
     }
 
-
     private function getDocNode(ReflectionParameter $reflectionParameter): ?PhpDocNode
     {
         $docComment = $reflectionParameter->getDeclaringFunction()
@@ -132,7 +131,6 @@ final class ParameterTypeRecognizer
 
         return $this->phpDocParser->parse($tokens);
     }
-
 
     private function getTypeNodeFromDoc(string $parameterName, PhpDocNode $docNode): ?TypeNode
     {

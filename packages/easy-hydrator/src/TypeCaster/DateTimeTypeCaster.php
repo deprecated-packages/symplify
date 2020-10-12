@@ -1,4 +1,4 @@
-<?php declare (strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\EasyHydrator\TypeCaster;
 
@@ -23,8 +23,11 @@ final class DateTimeTypeCaster implements TypeCasterInterface
         return $this->parameterTypeRecognizer->isParameterOfClass($reflectionParameter, DateTimeInterface::class);
     }
 
-    public function retype($value, ReflectionParameter $reflectionParameter, ClassConstructorValuesResolver $classConstructorValuesResolver)
-    {
+    public function retype(
+        $value,
+        ReflectionParameter $reflectionParameter,
+        ClassConstructorValuesResolver $classConstructorValuesResolver
+    ) {
         $dateTime = DateTime::from($value);
         $class = $this->parameterTypeRecognizer->getType($reflectionParameter);
 

@@ -1,4 +1,4 @@
-<?php declare (strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\EasyHydrator\TypeCaster;
 
@@ -15,5 +15,9 @@ interface TypeCasterInterface
      * @param mixed $value
      * @return mixed
      */
-    public function retype($value, ReflectionParameter $reflectionParameter, ClassConstructorValuesResolver $classConstructorValuesResolver);
+    public function retype(
+        $value,
+        ReflectionParameter $reflectionParameter,
+        ClassConstructorValuesResolver $classConstructorValuesResolver
+    );
 }

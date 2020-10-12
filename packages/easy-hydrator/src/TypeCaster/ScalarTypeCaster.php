@@ -1,4 +1,4 @@
-<?php declare (strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\EasyHydrator\TypeCaster;
 
@@ -10,12 +10,10 @@ final class ScalarTypeCaster implements TypeCasterInterface
 {
     private $parameterTypeRecognizer;
 
-
     public function __construct(ParameterTypeRecognizer $parameterTypeRecognizer)
     {
         $this->parameterTypeRecognizer = $parameterTypeRecognizer;
     }
-
 
     public function isSupported(ReflectionParameter $reflectionParameter): bool
     {
@@ -24,9 +22,11 @@ final class ScalarTypeCaster implements TypeCasterInterface
         return in_array($type, ['string', 'bool', 'int'], true);
     }
 
-
-    public function retype($value, ReflectionParameter $reflectionParameter, ClassConstructorValuesResolver $classConstructorValuesResolver)
-    {
+    public function retype(
+        $value,
+        ReflectionParameter $reflectionParameter,
+        ClassConstructorValuesResolver $classConstructorValuesResolver
+    ) {
         $type = $this->parameterTypeRecognizer->getType($reflectionParameter);
 
         if ($type === 'string') {
@@ -43,7 +43,6 @@ final class ScalarTypeCaster implements TypeCasterInterface
 
         return $value;
     }
-
 
     public function getPriority(): int
     {

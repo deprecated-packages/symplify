@@ -22,7 +22,6 @@ final class ArrayToValueObjectHydrator
      */
     private $classConstructorValuesResolver;
 
-
     public function __construct(CacheInterface $cache, ClassConstructorValuesResolver $classConstructorValuesResolver)
     {
         $this->cache = $cache;
