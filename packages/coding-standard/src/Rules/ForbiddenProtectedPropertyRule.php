@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
@@ -17,10 +18,6 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpKernel\KernelInterface;
-use PhpParser\Comment\Doc;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenProtectedPropertyRule\ForbiddenProtectedPropertyRuleTest
@@ -86,6 +83,31 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
     /**
      * @param Property|ClassConst $node
      */
+    public function isStaticAndContainerOrKernelType(Node $node): bool
+    {
+        if ($node instanceof ClassConst) {
+            return false;
+        }
+
+        if (! $node->isStatic()) {
+            return false;
+        }
+
+        $docComment = $node->getDocComment();
+        if (! $docComment instanceof Doc) {
+            return false;
+        }
+
+        $docCommentText = $docComment->getText();
+        if (Strings::match($docCommentText, self::KERNEL_REGEX)) {
+            return true;
+        }
+        return (bool) Strings::match($docCommentText, self::CONTAINER_REGEX);
+    }
+
+    /**
+     * @param Property|ClassConst $node
+     */
     private function isInsideAbstractClassAndPassedAsDependencyViaConstructor(Node $node): bool
     {
         /** @var Class_ $class */
@@ -138,30 +160,5 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
         }
 
         return false;
-    }
-
-    /**
-     * @param Property|ClassConst $node
-     */
-    public function isStaticAndContainerOrKernelType(Node $node): bool
-    {
-        if ($node instanceof ClassConst) {
-            return false;
-        }
-
-        if (! $node->isStatic()) {
-            return false;
-        }
-
-        $docComment = $node->getDocComment();
-        if (! $docComment instanceof Doc) {
-            return false;
-        }
-
-        $docCommentText = $docComment->getText();
-        if (Strings::match($docCommentText, self::KERNEL_REGEX)) {
-            return true;
-        }
-        return (bool) Strings::match($docCommentText, self::CONTAINER_REGEX);
     }
 }
