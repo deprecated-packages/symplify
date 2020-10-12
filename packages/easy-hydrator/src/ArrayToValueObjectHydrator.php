@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\EasyHydrator;
 
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\CacheItem;
+use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * @see \Symplify\EasyHydrator\Tests\ArrayToValueObjectHydratorTest
@@ -13,19 +13,20 @@ use Symfony\Component\Cache\CacheItem;
 final class ArrayToValueObjectHydrator
 {
     /**
-     * @var FilesystemAdapter
+     * @var CacheInterface
      */
-    private $filesystemAdapter;
+    private $cache;
 
     /**
-     * @var HydratedObjectFactory
+     * @var ClassConstructorValuesResolver
      */
-    private $hydratedObjectFactory;
+    private $classConstructorValuesResolver;
 
-    public function __construct(FilesystemAdapter $filesystemAdapter, HydratedObjectFactory $hydratedObjectFactory)
+
+    public function __construct(CacheInterface $cache, ClassConstructorValuesResolver $classConstructorValuesResolver)
     {
-        $this->filesystemAdapter = $filesystemAdapter;
-        $this->hydratedObjectFactory = $hydratedObjectFactory;
+        $this->cache = $cache;
+        $this->classConstructorValuesResolver = $classConstructorValuesResolver;
     }
 
     /**
@@ -36,17 +37,19 @@ final class ArrayToValueObjectHydrator
         $arrayHash = md5(serialize($data) . $class);
 
         /** @var CacheItem $cacheItem */
-        $cacheItem = $this->filesystemAdapter->getItem($arrayHash);
+        $cacheItem = $this->cache->getItem($arrayHash);
         if ($cacheItem->get() !== null) {
             return $cacheItem->get();
         }
 
-        $value = $this->hydratedObjectFactory->create($class, $data);
+        $resolveClassConstructorValues = $this->classConstructorValuesResolver->resolve($class, $data);
 
-        $cacheItem->set($value);
-        $this->filesystemAdapter->save($cacheItem);
+        $valueObject = new $class(...$resolveClassConstructorValues);
 
-        return $value;
+        $cacheItem->set($valueObject);
+        $this->cache->save($cacheItem);
+
+        return $valueObject;
     }
 
     /**
@@ -55,11 +58,11 @@ final class ArrayToValueObjectHydrator
      */
     public function hydrateArrays(array $datas, string $class): array
     {
-        $objects = [];
+        $valueObjects = [];
         foreach ($datas as $data) {
-            $objects[] = $this->hydrateArray($data, $class);
+            $valueObjects[] = $this->hydrateArray($data, $class);
         }
 
-        return $objects;
+        return $valueObjects;
     }
 }

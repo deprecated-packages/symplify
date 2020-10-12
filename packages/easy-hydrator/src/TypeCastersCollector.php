@@ -3,37 +3,41 @@
 namespace Symplify\EasyHydrator;
 
 use ReflectionParameter;
+use Symplify\EasyHydrator\TypeCaster\TypeCasterInterface;
 
-final class TypeCastersCollector implements TypeCaster
+final class TypeCastersCollector
 {
     /**
-     * @var TypeCaster[]
+     * @var TypeCasterInterface[]
      */
     private $typeCasters;
 
     /**
-     * @param TypeCaster[] $typeCasters
+     * @param TypeCasterInterface[] $typeCasters
      */
     public function __construct(array $typeCasters)
     {
+        $this->sortCastersByPriority(...$typeCasters);
+
         $this->typeCasters = $typeCasters;
     }
 
-    public function isSupported(string $type): bool
+    public function retype($value, ReflectionParameter $reflectionParameter, ClassConstructorValuesResolver $classConstructorValuesResolver)
     {
-        return true;
-    }
-
-    public function retype($value, ReflectionParameter $reflectionParameter)
-    {
-        $type = ''; // @TODO
-
         foreach ($this->typeCasters as $typeCaster) {
-            if ($typeCaster->isSupported($type)) {
-                return $typeCaster->retype($value, $reflectionParameter);
+            if ($typeCaster->isSupported($reflectionParameter)) {
+                return $typeCaster->retype($value, $reflectionParameter, $classConstructorValuesResolver);
             }
         }
 
         return $value;
+    }
+
+
+    private function sortCastersByPriority(TypeCasterInterface ...$typeCasters): void
+    {
+        usort($typeCasters, static function(TypeCasterInterface $a, TypeCasterInterface $b): int {
+            return $a->getPriority() <=> $b->getPriority();
+        });
     }
 }
