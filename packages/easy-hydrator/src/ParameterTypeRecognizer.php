@@ -83,6 +83,10 @@ final class ParameterTypeRecognizer
     {
         $parameterType = $this->getType($reflectionParameter);
 
+        if ($parameterType === null) {
+            return false;
+        }
+
         return is_a($parameterType, $class, true);
     }
 
