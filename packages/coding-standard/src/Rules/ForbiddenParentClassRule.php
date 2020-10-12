@@ -66,7 +66,8 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node->name === null) {
+        $shortClassName = $node->name;
+        if ($shortClassName === null) {
             return [];
         }
 

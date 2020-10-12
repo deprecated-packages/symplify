@@ -67,7 +67,8 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node->name === null) {
+        $shortClassName = $node->name;
+        if ($shortClassName === null) {
             return [];
         }
 
@@ -79,7 +80,7 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
             return $this->processParent($node, $node->extends);
         }
 
-        $class = (string) $node->name;
+        $class = (string) $shortClassName;
         foreach ($node->implements as $implement) {
             $errorMessages = $this->processClassNameAndShort($class, $implement->getLast());
             if ($errorMessages !== []) {
@@ -117,12 +118,12 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
      */
     private function processParent(Class_ $class, Name $parentClassName): array
     {
-        $className = (string) $class->name;
+        $shortClassName = (string) $class->name;
 
         $parentShortClassName = $parentClassName->getLast();
         $parentShortClassName = $this->resolveExpectedSuffix($parentShortClassName);
 
-        return $this->processClassNameAndShort($className, $parentShortClassName);
+        return $this->processClassNameAndShort($shortClassName, $parentShortClassName);
     }
 
     /**

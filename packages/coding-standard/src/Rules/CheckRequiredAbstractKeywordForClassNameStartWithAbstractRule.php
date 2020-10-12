@@ -34,9 +34,9 @@ final class CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule extend
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Identifier $name */
-        $name = $node->name;
-        $className = ucfirst($name->toString());
+        /** @var Identifier $shortClassName */
+        $shortClassName = $node->name;
+        $className = ucfirst($shortClassName->toString());
 
         if ($node->isAbstract() || ! Strings::startsWith($className, 'Abstract')) {
             return [];

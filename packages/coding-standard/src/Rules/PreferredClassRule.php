@@ -78,11 +78,11 @@ final class PreferredClassRule extends AbstractSymplifyRule
         }
 
         if ($newClass instanceof Class_) {
-            $className = $newClass->name;
-            if ($className === null) {
+            $shortClassName = $newClass->name;
+            if ($shortClassName === null) {
                 return [];
             }
-            $className = $className->toString();
+            $className = $shortClassName->toString();
         } else {
             $className = (string) $newClass;
         }
