@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticPropertyFetch;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
@@ -97,11 +98,15 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
         }
 
         foreach ($assigns as $assign) {
-            if (! $assign->var instanceof PropertyFetch && ! $assign instanceof StaticPropertyFetch) {
+            /** @var PropertyFetch|StaticPropertyFetch|Variable $assignVariable */
+            $assignVariable = $assign->var;
+            if (! $assignVariable instanceof PropertyFetch && ! $assignVariable instanceof StaticPropertyFetch) {
                 continue;
             }
 
-            if (in_array($assign->expr->name, $parametersVariableNames, true)) {
+            /** @var Variable $exprVariable */
+            $exprVariable = $assign->expr;
+            if (in_array($exprVariable->name, $parametersVariableNames, true)) {
                 return true;
             }
         }
