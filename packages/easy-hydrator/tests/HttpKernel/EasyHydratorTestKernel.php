@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyHydrator\Tests\HttpKernel;
 
+use Rector\SimplePhpDocParser\Bundle\SimplePhpDocParserBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\EasyHydrator\EasyHydratorBundle;
@@ -24,6 +25,6 @@ final class EasyHydratorTestKernel extends AbstractSymplifyKernel
      */
     public function registerBundles(): iterable
     {
-        return [new EasyHydratorBundle(), new SymplifyKernelBundle()];
+        return [new EasyHydratorBundle(), new SymplifyKernelBundle(), new SimplePhpDocParserBundle()];
     }
 }
