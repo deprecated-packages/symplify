@@ -3,33 +3,23 @@
 namespace Symplify\EasyHydrator;
 
 use Nette\Utils\Reflection;
-use Nette\Utils\Strings;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\GenericTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
-use PHPStan\PhpDocParser\Ast\Type\TypeNode;
-use PHPStan\PhpDocParser\Lexer\Lexer;
-use PHPStan\PhpDocParser\Parser\PhpDocParser;
-use PHPStan\PhpDocParser\Parser\TokenIterator;
+use Rector\SimplePhpDocParser\SimplePhpDocParser;
+use Rector\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 use ReflectionParameter;
 
 final class ParameterTypeRecognizer
 {
     /**
-     * @var Lexer
+     * @var SimplePhpDocParser
      */
-    private $lexer;
+    private $simplePhpDocParser;
 
-    /**
-     * @var PhpDocParser
-     */
-    private $phpDocParser;
-
-    public function __construct(Lexer $lexer, PhpDocParser $phpDocParser)
+    public function __construct(SimplePhpDocParser $simplePhpDocParser)
     {
-        $this->lexer = $lexer;
-        $this->phpDocParser = $phpDocParser;
+        $this->simplePhpDocParser = $simplePhpDocParser;
     }
 
     public function isArray(ReflectionParameter $reflectionParameter): bool
@@ -41,13 +31,11 @@ final class ParameterTypeRecognizer
         }
 
         $docNode = $this->getDocNode($reflectionParameter);
-
         if ($docNode === null) {
             return false;
         }
 
-        $typeNode = $this->getTypeNodeFromDoc($reflectionParameter->getName(), $docNode);
-
+        $typeNode = $docNode->getParamType($reflectionParameter->getName());
         if ($typeNode instanceof ArrayTypeNode) {
             return true;
         }
@@ -100,7 +88,7 @@ final class ParameterTypeRecognizer
             return null;
         }
 
-        $typeNode = $this->getTypeNodeFromDoc($reflectionParameter->getName(), $docNode);
+        $typeNode = $docNode->getParamType($reflectionParameter->getName());
 
         if ($typeNode instanceof ArrayTypeNode) {
             /** @var IdentifierTypeNode $identifierTypeNode */
@@ -123,7 +111,7 @@ final class ParameterTypeRecognizer
         return null;
     }
 
-    private function getDocNode(ReflectionParameter $reflectionParameter): ?PhpDocNode
+    private function getDocNode(ReflectionParameter $reflectionParameter): ?SimplePhpDocNode
     {
         $docComment = $reflectionParameter->getDeclaringFunction()
             ->getDocComment();
@@ -132,23 +120,6 @@ final class ParameterTypeRecognizer
             return null;
         }
 
-        $tokens = new TokenIterator($this->lexer->tokenize($docComment));
-
-        return $this->phpDocParser->parse($tokens);
-    }
-
-    private function getTypeNodeFromDoc(string $parameterName, PhpDocNode $phpDocNode): ?TypeNode
-    {
-        foreach ($phpDocNode->getParamTagValues() as $paramTagValueNode) {
-            $nodeParameterName = Strings::after($paramTagValueNode->parameterName, '$');
-
-            if ($nodeParameterName !== $parameterName) {
-                continue;
-            }
-
-            return $paramTagValueNode->type;
-        }
-
-        return null;
+        return $this->simplePhpDocParser->parseDocBlock($docComment);
     }
 }
