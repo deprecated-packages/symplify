@@ -303,5 +303,3 @@ parameters:
                 - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 15
                 - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 20
                 - packages/monorepo-builder/packages/merge/tests/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php # 18
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 28
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 33
