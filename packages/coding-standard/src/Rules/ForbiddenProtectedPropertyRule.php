@@ -74,18 +74,18 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
             return false;
         }
 
-        $constructor = $class->getMethod('__construct');
-        if (! $constructor instanceof ClassMethod) {
+        $classMethod = $class->getMethod('__construct');
+        if (! $classMethod instanceof ClassMethod) {
             return false;
         }
 
-        $parameters = $constructor->getParams();
+        $parameters = $classMethod->getParams();
         if ($parameters === []) {
             return false;
         }
 
         /** @var Assign[] $assigns */
-        $assigns = $this->nodeFinder->findInstanceOf($constructor, Assign::class);
+        $assigns = $this->nodeFinder->findInstanceOf($classMethod, Assign::class);
         if ($assigns === []) {
             return false;
         }
