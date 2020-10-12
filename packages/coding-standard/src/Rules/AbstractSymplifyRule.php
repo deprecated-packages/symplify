@@ -93,7 +93,7 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface
     {
         $node = $node->getAttribute(PHPStanAttributeKey::PARENT);
         while ($node) {
-            if (is_a($node, $nodeClass, true)) {
+            if (is_a($node, $nodeClass, true) && $node instanceof Node) {
                 return $node;
             }
 
