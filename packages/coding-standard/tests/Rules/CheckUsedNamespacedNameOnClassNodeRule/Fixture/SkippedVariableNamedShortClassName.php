@@ -11,7 +11,7 @@ final class SkippedVariableNamedShortClassName
 {
     public function process(Class_ $class, Scope $scope): array
     {
-        $shortClassName = $class->name;
+        $shortClassName = (string) $class->name;
 
         return [];
     }

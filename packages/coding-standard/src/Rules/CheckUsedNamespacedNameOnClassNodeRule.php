@@ -85,8 +85,14 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
 
     private function isVariableNamedShortClassName(Variable $variable): bool
     {
-        $assign = $variable->getAttribute(PHPStanAttributeKey::PARENT)
-            ->getAttribute(PHPStanAttributeKey::PARENT);
+        $assign = $variable->getAttribute(PHPStanAttributeKey::PARENT);
+        while ($assign) {
+            if ($assign instanceof Assign) {
+                break;
+            }
+
+            $assign = $assign->getAttribute(PHPStanAttributeKey::PARENT);
+        }
 
         if (! $assign instanceof Assign) {
             return false;
