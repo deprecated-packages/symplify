@@ -30,7 +30,7 @@ final class ObjectTypeCaster implements TypeCasterInterface
     }
 
     /**
-     * @return object|object[]
+     * @return mixed|mixed[]
      */
     public function retype(
         $value,

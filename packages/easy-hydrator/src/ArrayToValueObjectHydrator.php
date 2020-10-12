@@ -35,20 +35,11 @@ final class ArrayToValueObjectHydrator
     {
         $arrayHash = md5(serialize($data) . $class);
 
-        /** @var CacheItem $cacheItem */
-        $cacheItem = $this->cache->getItem($arrayHash);
-        if ($cacheItem->get() !== null) {
-            return $cacheItem->get();
-        }
+        return $this->cache->get($arrayHash, function() use ($class, $data) {
+            $resolveClassConstructorValues = $this->classConstructorValuesResolver->resolve($class, $data);
 
-        $resolveClassConstructorValues = $this->classConstructorValuesResolver->resolve($class, $data);
-
-        $valueObject = new $class(...$resolveClassConstructorValues);
-
-        $cacheItem->set($valueObject);
-        $this->cache->save($cacheItem);
-
-        return $valueObject;
+            return new $class(...$resolveClassConstructorValues);
+        });
     }
 
     /**
