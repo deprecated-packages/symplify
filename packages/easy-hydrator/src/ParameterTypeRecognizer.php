@@ -16,8 +16,14 @@ use ReflectionParameter;
 
 final class ParameterTypeRecognizer
 {
+    /**
+     * @var Lexer
+     */
     private $lexer;
 
+    /**
+     * @var PhpDocParser
+     */
     private $phpDocParser;
 
     public function __construct(Lexer $lexer, PhpDocParser $phpDocParser)
@@ -45,12 +51,7 @@ final class ParameterTypeRecognizer
         if ($typeNode instanceof ArrayTypeNode) {
             return true;
         }
-
-        if ($typeNode instanceof GenericTypeNode) {
-            return true;
-        }
-
-        return false;
+        return $typeNode instanceof GenericTypeNode;
     }
 
     public function getType(ReflectionParameter $reflectionParameter): ?string
@@ -132,9 +133,9 @@ final class ParameterTypeRecognizer
         return $this->phpDocParser->parse($tokens);
     }
 
-    private function getTypeNodeFromDoc(string $parameterName, PhpDocNode $docNode): ?TypeNode
+    private function getTypeNodeFromDoc(string $parameterName, PhpDocNode $phpDocNode): ?TypeNode
     {
-        foreach ($docNode->getParamTagValues() as $paramTagValueNode) {
+        foreach ($phpDocNode->getParamTagValues() as $paramTagValueNode) {
             $nodeParameterName = Strings::after($paramTagValueNode->parameterName, '$');
 
             if ($nodeParameterName !== $parameterName) {

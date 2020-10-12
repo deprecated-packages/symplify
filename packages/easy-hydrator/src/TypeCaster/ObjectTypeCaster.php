@@ -8,6 +8,9 @@ use Symplify\EasyHydrator\ParameterTypeRecognizer;
 
 final class ObjectTypeCaster implements TypeCasterInterface
 {
+    /**
+     * @var ParameterTypeRecognizer
+     */
     private $parameterTypeRecognizer;
 
     public function __construct(ParameterTypeRecognizer $parameterTypeRecognizer)
@@ -26,6 +29,9 @@ final class ObjectTypeCaster implements TypeCasterInterface
         return class_exists($className);
     }
 
+    /**
+     * @return object|object[]
+     */
     public function retype(
         $value,
         ReflectionParameter $reflectionParameter,
@@ -52,7 +58,7 @@ final class ObjectTypeCaster implements TypeCasterInterface
 
     /**
      * @param mixed $data
-     * @return object
+     * @return mixed
      */
     private function createObject(
         string $className,

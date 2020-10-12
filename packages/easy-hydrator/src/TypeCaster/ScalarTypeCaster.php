@@ -8,6 +8,9 @@ use Symplify\EasyHydrator\ParameterTypeRecognizer;
 
 final class ScalarTypeCaster implements TypeCasterInterface
 {
+    /**
+     * @var ParameterTypeRecognizer
+     */
     private $parameterTypeRecognizer;
 
     public function __construct(ParameterTypeRecognizer $parameterTypeRecognizer)

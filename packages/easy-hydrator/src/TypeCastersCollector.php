@@ -10,7 +10,7 @@ final class TypeCastersCollector
     /**
      * @var TypeCasterInterface[]
      */
-    private $typeCasters;
+    private $typeCasters = [];
 
     /**
      * @param TypeCasterInterface[] $typeCasters
@@ -22,6 +22,9 @@ final class TypeCastersCollector
         $this->typeCasters = $typeCasters;
     }
 
+    /**
+     * @return mixed
+     */
     public function retype(
         $value,
         ReflectionParameter $reflectionParameter,
@@ -36,9 +39,9 @@ final class TypeCastersCollector
         return $value;
     }
 
-    private function sortCastersByPriority(TypeCasterInterface ...$typeCasters): void
+    private function sortCastersByPriority(TypeCasterInterface ...$typeCaster): void
     {
-        usort($typeCasters, static function (TypeCasterInterface $a, TypeCasterInterface $b): int {
+        usort($typeCaster, static function (TypeCasterInterface $a, TypeCasterInterface $b): int {
             return $a->getPriority() <=> $b->getPriority();
         });
     }

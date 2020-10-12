@@ -11,6 +11,9 @@ use Symplify\EasyHydrator\ParameterTypeRecognizer;
 
 final class DateTimeTypeCaster implements TypeCasterInterface
 {
+    /**
+     * @var ParameterTypeRecognizer
+     */
     private $parameterTypeRecognizer;
 
     public function __construct(ParameterTypeRecognizer $parameterTypeRecognizer)
@@ -23,6 +26,9 @@ final class DateTimeTypeCaster implements TypeCasterInterface
         return $this->parameterTypeRecognizer->isParameterOfClass($reflectionParameter, DateTimeInterface::class);
     }
 
+    /**
+     * @return DateTimeImmutable|DateTime
+     */
     public function retype(
         $value,
         ReflectionParameter $reflectionParameter,
