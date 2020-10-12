@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyHydrator;
 
-use Symfony\Component\Cache\CacheItem;
 use Symfony\Contracts\Cache\CacheInterface;
 
 /**
@@ -35,7 +34,7 @@ final class ArrayToValueObjectHydrator
     {
         $arrayHash = md5(serialize($data) . $class);
 
-        return $this->cache->get($arrayHash, function() use ($class, $data) {
+        return $this->cache->get($arrayHash, function () use ($class, $data) {
             $resolveClassConstructorValues = $this->classConstructorValuesResolver->resolve($class, $data);
 
             return new $class(...$resolveClassConstructorValues);
