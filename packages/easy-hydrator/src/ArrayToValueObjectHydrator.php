@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyHydrator;
 
-use ReflectionClass;
-use ReflectionParameter;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\Cache\CacheItem;
-use Symplify\EasyHydrator\Exception\MissingConstructorException;
+use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * @see \Symplify\EasyHydrator\Tests\ArrayToValueObjectHydratorTest
@@ -16,19 +12,19 @@ use Symplify\EasyHydrator\Exception\MissingConstructorException;
 final class ArrayToValueObjectHydrator
 {
     /**
-     * @var FilesystemAdapter
+     * @var CacheInterface
      */
-    private $filesystemAdapter;
+    private $cache;
 
     /**
-     * @var ValueResolver
+     * @var ClassConstructorValuesResolver
      */
-    private $valueResolver;
+    private $classConstructorValuesResolver;
 
-    public function __construct(FilesystemAdapter $filesystemAdapter, ValueResolver $valueResolver)
+    public function __construct(CacheInterface $cache, ClassConstructorValuesResolver $classConstructorValuesResolver)
     {
-        $this->filesystemAdapter = $filesystemAdapter;
-        $this->valueResolver = $valueResolver;
+        $this->cache = $cache;
+        $this->classConstructorValuesResolver = $classConstructorValuesResolver;
     }
 
     /**
@@ -38,20 +34,11 @@ final class ArrayToValueObjectHydrator
     {
         $arrayHash = md5(serialize($data) . $class);
 
-        /** @var CacheItem $cacheItem */
-        $cacheItem = $this->filesystemAdapter->getItem($arrayHash);
-        if ($cacheItem->get() !== null) {
-            return $cacheItem->get();
-        }
+        return $this->cache->get($arrayHash, function () use ($class, $data) {
+            $resolveClassConstructorValues = $this->classConstructorValuesResolver->resolve($class, $data);
 
-        $arguments = $this->resolveClassConstructorValues($class, $data);
-
-        $value = new $class(...$arguments);
-
-        $cacheItem->set($value);
-        $this->filesystemAdapter->save($cacheItem);
-
-        return $value;
+            return new $class(...$resolveClassConstructorValues);
+        });
     }
 
     /**
@@ -60,41 +47,11 @@ final class ArrayToValueObjectHydrator
      */
     public function hydrateArrays(array $datas, string $class): array
     {
-        $objects = [];
+        $valueObjects = [];
         foreach ($datas as $data) {
-            $objects[] = $this->hydrateArray($data, $class);
+            $valueObjects[] = $this->hydrateArray($data, $class);
         }
 
-        return $objects;
-    }
-
-    /**
-     * @return array<int, mixed>
-     */
-    private function resolveClassConstructorValues(string $class, array $data): array
-    {
-        $arguments = [];
-
-        $parameterReflections = $this->getConstructorParameterReflections($class);
-        foreach ($parameterReflections as $parameterReflection) {
-            $arguments[] = $this->valueResolver->resolveValue($data, $parameterReflection);
-        }
-
-        return $arguments;
-    }
-
-    /**
-     * @return ReflectionParameter[]
-     */
-    private function getConstructorParameterReflections(string $class): array
-    {
-        $reflectionClass = new ReflectionClass($class);
-
-        $constructorReflectionMethod = $reflectionClass->getConstructor();
-        if ($constructorReflectionMethod === null) {
-            throw new MissingConstructorException(sprintf('Hydrated class "%s" is missing constructor.', $class));
-        }
-
-        return $constructorReflectionMethod->getParameters();
+        return $valueObjects;
     }
 }

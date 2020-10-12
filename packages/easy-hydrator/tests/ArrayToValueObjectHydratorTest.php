@@ -7,8 +7,11 @@ namespace Symplify\EasyHydrator\Tests;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
+use Symplify\EasyHydrator\Tests\Fixture\Arrays;
 use Symplify\EasyHydrator\Tests\Fixture\ImmutableTimeEvent;
+use Symplify\EasyHydrator\Tests\Fixture\Marriage;
 use Symplify\EasyHydrator\Tests\Fixture\Person;
+use Symplify\EasyHydrator\Tests\Fixture\PersonsCollection;
 use Symplify\EasyHydrator\Tests\Fixture\PersonWithAge;
 use Symplify\EasyHydrator\Tests\Fixture\TimeEvent;
 use Symplify\EasyHydrator\Tests\HttpKernel\EasyHydratorTestKernel;
@@ -110,6 +113,118 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
         $this->assertCount(2, $timeEvents);
         foreach ($timeEvents as $timeEvent) {
             $this->assertInstanceOf(TimeEvent::class, $timeEvent);
+        }
+    }
+
+    public function testMultipleArrays(): void
+    {
+        $data = [
+            [
+                'integers' => [1, 2],
+                'floats' => [1.1, 2.2],
+                'booleans' => [true, false],
+                'strings' => ['a', 'b'],
+            ],
+            [
+                'integers' => [3, 4],
+                'floats' => [3.3, 4.24],
+                'booleans' => [false, true],
+                'strings' => ['c', 'd'],
+            ],
+        ];
+
+        /** @var Arrays[] $arrayOfArrays */
+        $arrayOfArrays = $this->arrayToValueObjectHydrator->hydrateArrays($data, Arrays::class);
+
+        $this->assertCount(2, $arrayOfArrays);
+        $this->assertContainsOnlyInstancesOf(Arrays::class, $arrayOfArrays);
+        $this->assertArraysHasValidTypes(...$arrayOfArrays);
+    }
+
+    public function testMultipleRecursiveObjects(): void
+    {
+        $data = [
+            [
+                'date' => '2019-06-21',
+                'personA' => [
+                    'name' => 'John Doe 1',
+                ],
+                'personB' => [
+                    'name' => 'Jane Doe 1',
+                ],
+            ], [
+                'date' => '2019-06-22',
+                'personA' => [
+                    'name' => 'John Doe 2',
+                ],
+                'personB' => [
+                    'name' => 'Jane Doe 2',
+                ],
+            ],
+        ];
+
+        $marriages = $this->arrayToValueObjectHydrator->hydrateArrays($data, Marriage::class);
+
+        $this->assertCount(2, $marriages);
+        $this->assertContainsOnlyInstancesOf(Marriage::class, $marriages);
+    }
+
+    public function testMultipleRecursiveArrayOfObjects(): void
+    {
+        $data = [
+            [
+                'persons' => [
+                    [
+                        'name' => 'John Doe 1',
+                    ],
+                    [
+                        'name' => 'Jane Doe 1',
+                    ],
+                ],
+            ],
+            [
+                'persons' => [
+                    [
+                        'name' => 'John Doe 2',
+                    ],
+                    [
+                        'name' => 'Jane Doe 2',
+                    ],
+                ],
+            ],
+        ];
+
+        /** @var PersonsCollection[] $personsCollections */
+        $personsCollections = $this->arrayToValueObjectHydrator->hydrateArrays($data, PersonsCollection::class);
+
+        $this->assertCount(2, $personsCollections);
+
+        foreach ($personsCollections as $personsCollection) {
+            $persons = $personsCollection->getPersons();
+
+            $this->assertCount(2, $persons);
+            $this->assertContainsOnlyInstancesOf(Person::class, $persons);
+        }
+    }
+
+    private function assertArraysHasValidTypes(Arrays ...$arrayOfArrays): void
+    {
+        foreach ($arrayOfArrays as $arrays) {
+            foreach ($arrays->getIntegers() as $integer) {
+                $this->assertIsInt($integer);
+            }
+
+            foreach ($arrays->getFloats() as $float) {
+                $this->assertIsFloat($float);
+            }
+
+            foreach ($arrays->getStrings() as $string) {
+                $this->assertIsString($string);
+            }
+
+            foreach ($arrays->getBooleans() as $bool) {
+                $this->assertIsBool($bool);
+            }
         }
     }
 }
