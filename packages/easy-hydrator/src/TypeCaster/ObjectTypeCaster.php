@@ -39,6 +39,10 @@ final class ObjectTypeCaster implements TypeCasterInterface
     ) {
         $className = $this->getClassName($reflectionParameter);
 
+        if ($className === null) {
+            return $value;
+        }
+
         if (! $this->parameterTypeRecognizer->isArray($reflectionParameter)) {
             return $this->createObject($className, $value, $classConstructorValuesResolver);
         }
