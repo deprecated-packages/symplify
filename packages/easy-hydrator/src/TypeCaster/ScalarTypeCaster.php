@@ -4,22 +4,22 @@ namespace Symplify\EasyHydrator\TypeCaster;
 
 use ReflectionParameter;
 use Symplify\EasyHydrator\ClassConstructorValuesResolver;
-use Symplify\EasyHydrator\TypeRecognizer;
+use Symplify\EasyHydrator\ParameterTypeRecognizer;
 
 final class ScalarTypeCaster implements TypeCasterInterface
 {
-    private $typeRecognizer;
+    private $parameterTypeRecognizer;
 
 
-    public function __construct(TypeRecognizer $typeRecognizer)
+    public function __construct(ParameterTypeRecognizer $parameterTypeRecognizer)
     {
-        $this->typeRecognizer = $typeRecognizer;
+        $this->parameterTypeRecognizer = $parameterTypeRecognizer;
     }
 
 
     public function isSupported(ReflectionParameter $reflectionParameter): bool
     {
-        $type = $this->typeRecognizer->getParameterType($reflectionParameter);
+        $type = $this->parameterTypeRecognizer->getType($reflectionParameter);
 
         return in_array($type, ['string', 'bool', 'int'], true);
     }
@@ -27,7 +27,7 @@ final class ScalarTypeCaster implements TypeCasterInterface
 
     public function retype($value, ReflectionParameter $reflectionParameter, ClassConstructorValuesResolver $classConstructorValuesResolver)
     {
-        $type = $this->typeRecognizer->getParameterType($reflectionParameter);
+        $type = $this->parameterTypeRecognizer->getType($reflectionParameter);
 
         if ($type === 'string') {
             return (string) $value;
@@ -38,7 +38,7 @@ final class ScalarTypeCaster implements TypeCasterInterface
         }
 
         if ($type === 'int') {
-            return (int) $type;
+            return (int) $value;
         }
 
         return $value;

@@ -4,43 +4,66 @@ namespace Symplify\EasyHydrator\TypeCaster;
 
 use ReflectionParameter;
 use Symplify\EasyHydrator\ClassConstructorValuesResolver;
-use Symplify\EasyHydrator\TypeRecognizer;
+use Symplify\EasyHydrator\ParameterTypeRecognizer;
 
 final class ObjectTypeCaster implements TypeCasterInterface
 {
-    private $typeRecognizer;
+    private $parameterTypeRecognizer;
 
-
-    public function __construct(TypeRecognizer $typeRecognizer)
+    public function __construct(ParameterTypeRecognizer $parameterTypeRecognizer)
     {
-        $this->typeRecognizer = $typeRecognizer;
+        $this->parameterTypeRecognizer = $parameterTypeRecognizer;
     }
-
 
     public function isSupported(ReflectionParameter $reflectionParameter): bool
     {
-        $class = $this->typeRecognizer->getParameterClass($reflectionParameter);
+        $className = $this->getClassName($reflectionParameter);
 
-        if ($class === null) {
+        if ($className === null) {
             return false;
         }
 
-        return class_exists($class);
+        return class_exists($className);
     }
-
 
     public function retype($value, ReflectionParameter $reflectionParameter, ClassConstructorValuesResolver $classConstructorValuesResolver)
     {
-        $className = $this->typeRecognizer->getParameterClass($reflectionParameter);
+        $className = $this->getClassName($reflectionParameter);
 
-        $constructorValues = $classConstructorValuesResolver->resolve($className, $value);
+        if (!$this->parameterTypeRecognizer->isArray($reflectionParameter)) {
+            return $this->createObject($className, $value, $classConstructorValuesResolver);
+        }
 
-        return new $className(...$constructorValues);
+        $objects = [];
+        foreach ($value as $objectData) {
+            $objects[] = $this->createObject($className, $objectData, $classConstructorValuesResolver);
+        }
+
+        return $objects;
     }
-
 
     public function getPriority(): int
     {
         return 5;
+    }
+
+    /**
+     * @param mixed $data
+     * @return object
+     */
+    private function createObject(string $className, $data, ClassConstructorValuesResolver $classConstructorValuesResolver)
+    {
+        $constructorValues = $classConstructorValuesResolver->resolve($className, $data);
+
+        return new $className(...$constructorValues);
+    }
+
+    private function getClassName(ReflectionParameter $reflectionParameter): ?string
+    {
+        if ($this->parameterTypeRecognizer->isArray($reflectionParameter)) {
+            return $this->parameterTypeRecognizer->getTypeFromDocBlock($reflectionParameter);
+        }
+
+        return $this->parameterTypeRecognizer->getType($reflectionParameter);
     }
 }

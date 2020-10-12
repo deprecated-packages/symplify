@@ -7,26 +7,26 @@ use DateTimeInterface;
 use Nette\Utils\DateTime;
 use ReflectionParameter;
 use Symplify\EasyHydrator\ClassConstructorValuesResolver;
-use Symplify\EasyHydrator\TypeRecognizer;
+use Symplify\EasyHydrator\ParameterTypeRecognizer;
 
 final class DateTimeTypeCaster implements TypeCasterInterface
 {
-    private $typeRecognizer;
+    private $parameterTypeRecognizer;
 
-    public function __construct(TypeRecognizer $typeRecognizer)
+    public function __construct(ParameterTypeRecognizer $parameterTypeRecognizer)
     {
-        $this->typeRecognizer = $typeRecognizer;
+        $this->parameterTypeRecognizer = $parameterTypeRecognizer;
     }
 
     public function isSupported(ReflectionParameter $reflectionParameter): bool
     {
-        return $this->typeRecognizer->isParameterOfClass($reflectionParameter, DateTimeInterface::class);
+        return $this->parameterTypeRecognizer->isParameterOfClass($reflectionParameter, DateTimeInterface::class);
     }
 
     public function retype($value, ReflectionParameter $reflectionParameter, ClassConstructorValuesResolver $classConstructorValuesResolver)
     {
         $dateTime = DateTime::from($value);
-        $class = $this->typeRecognizer->getParameterClass($reflectionParameter);
+        $class = $this->parameterTypeRecognizer->getType($reflectionParameter);
 
         if ($class === DateTimeImmutable::class) {
             return DateTimeImmutable::createFromMutable($dateTime);
