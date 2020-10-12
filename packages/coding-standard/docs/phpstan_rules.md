@@ -1,5 +1,38 @@
 # 40+ PHPStan Rules
 
+## No "ValueObject" suffix in Value Object class names
+
+- class: [`NoSuffixValueObjectClassRule`](../src/Rules/NoSuffixValueObjectClassRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoSuffixValueObjectClassRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+namespace App\ValueObject;
+
+final class PersonValueObject
+{
+    /**
+     * @var string
+     */
+    private $name;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## No Container used in `__construct`
 
 - class: [`NoContainerInjectionInConstructorRule`](../src/Rules/NoContainerInjectionInConstructorRule.php)
@@ -1618,6 +1651,61 @@ final class ProductRepository
     public function __construct(EntityRepository $entityRepository)
     {
         $this->entityRepository = $entityRepository;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## Forbid Protected Property Usage. Use Interface Instead.
+
+- class: [`ForbiddenProtectedPropertyRule`](../src/Rules/ForbiddenProtectedPropertyRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenProtectedPropertyRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+abstract class SomeClass
+{
+    protected $config = [];
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+interface ConfigInterface
+{
+    public function getConfig():
+}
+
+abstract class SomeClass implements ConfigInterface
+{
+    public function getConfig()
+    {
+        // ...
+    }
+
+    public function run()
+    {
+        $this->getConfig();
     }
 }
 ```

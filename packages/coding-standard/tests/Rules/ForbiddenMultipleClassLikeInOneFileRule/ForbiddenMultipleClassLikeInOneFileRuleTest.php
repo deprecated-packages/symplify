@@ -22,6 +22,7 @@ final class ForbiddenMultipleClassLikeInOneFileRuleTest extends AbstractServiceA
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/OneInterface.php', []];
+        yield [__DIR__ . '/Fixture/OneClassWithAnonymousClass.php', []];
         yield [__DIR__ . '/Fixture/OneClass.php', []];
         yield [__DIR__ . '/Fixture/OneTrait.php', []];
         yield [__DIR__ . '/Fixture/NoClassLike.php', []];
