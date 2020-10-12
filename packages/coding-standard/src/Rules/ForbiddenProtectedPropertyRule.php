@@ -90,6 +90,11 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
             return false;
         }
 
+        return $this->isInsideAssignByParameter($parameters, $assigns);
+    }
+
+    private function isInsideAssignByParameter(array $parameters, array $assigns): bool
+    {
         $parametersVariableNames = [];
         foreach ($parameters as $parameter) {
             /** @var Identifier $parameterIdentifier */
