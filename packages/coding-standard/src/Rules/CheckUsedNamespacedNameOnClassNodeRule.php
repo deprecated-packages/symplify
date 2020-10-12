@@ -71,7 +71,8 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
             return [];
         }
 
-        $class = $this->getClassOfVariable($node);
+        /** @var Class_|null $class */
+        $class = $this->getFirstParentByType($node, Class_::class);
         if ($class === null) {
             return [];
         }
@@ -85,15 +86,8 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
 
     private function isVariableNamedShortClassName(Variable $variable): bool
     {
-        $assign = $variable->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($assign) {
-            if ($assign instanceof Assign) {
-                break;
-            }
-
-            $assign = $assign->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
+        /** @var Assign|null $assign */
+        $assign = $this->getFirstParentByType($variable, Assign::class);
         if (! $assign instanceof Assign) {
             return false;
         }
@@ -109,19 +103,5 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
         }
 
         return true;
-    }
-
-    private function getClassOfVariable(Variable $variable): ?Class_
-    {
-        $class = $variable->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($class) {
-            if ($class instanceof Class_) {
-                return $class;
-            }
-
-            $class = $class->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
-        return null;
     }
 }
