@@ -98,11 +98,13 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
             return false;
         }
 
-        /** @var Identifier $identifierClassName */
-        $identifierClassName = $assign->var->name;
-        $variableClassName = (string) $identifierClassName;
+        /** @var Variable $classNameVariable */
+        $classNameVariable = $assign->var;
+        /** @var Identifier $classNameIdentifier */
+        $classNameIdentifier = $classNameVariable->name;
+        $classNameVariableName = (string) $classNameIdentifier;
 
-        if ($variableClassName !== 'shortClassName') {
+        if ($classNameVariableName !== 'shortClassName') {
             return false;
         }
 
