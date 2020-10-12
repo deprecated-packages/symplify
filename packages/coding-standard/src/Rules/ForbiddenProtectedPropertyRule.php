@@ -101,11 +101,7 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
                 continue;
             }
 
-            /** @var Identifier $propertyIdentifier */
-            $propertyIdentifier = $assign->var;
-            $propertyName = (string) $propertyIdentifier;
-
-            if (in_array($propertyName, $parametersVariableNames, true)) {
+            if (in_array($assign->expr->name, $parametersVariableNames, true)) {
                 return true;
             }
         }
