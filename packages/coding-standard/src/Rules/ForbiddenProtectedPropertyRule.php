@@ -162,11 +162,6 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
         if (Strings::match($docCommentText, self::KERNEL_REGEX)) {
             return true;
         }
-
-        if (Strings::match($docCommentText, self::CONTAINER_REGEX)) {
-            return true;
-        }
-
-        return false;
+        return (bool) Strings::match($docCommentText, self::CONTAINER_REGEX);
     }
 }
