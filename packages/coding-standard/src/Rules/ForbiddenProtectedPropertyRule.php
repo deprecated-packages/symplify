@@ -7,16 +7,8 @@ namespace Symplify\CodingStandard\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
-use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Expr\StaticPropertyFetch;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
-use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\NodeAnalyzer\DependencyNodeAnalyzer;
 
@@ -43,18 +35,12 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
     public const CONTAINER_REGEX = '#@var\s+(\\\\Psr\\\\Container\\\\)?ContainerInterface|(\\\\Symfony\\\\Component\\\\DependencyInjection\\\\)?Container\n?$#';
 
     /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
      * @var DependencyNodeAnalyzer
      */
     private $dependencyNodeAnalyzer;
 
-    public function __construct(NodeFinder $nodeFinder, DependencyNodeAnalyzer $dependencyNodeAnalyzer)
+    public function __construct(DependencyNodeAnalyzer $dependencyNodeAnalyzer)
     {
-        $this->nodeFinder = $nodeFinder;
         $this->dependencyNodeAnalyzer = $dependencyNodeAnalyzer;
     }
 

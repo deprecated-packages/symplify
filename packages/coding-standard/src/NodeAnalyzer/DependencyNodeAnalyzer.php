@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\NodeAnalyzer;
 
-use Nette\Utils\Strings;
-use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
@@ -13,11 +11,9 @@ use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
-use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 final class DependencyNodeAnalyzer
 {
@@ -26,9 +22,9 @@ final class DependencyNodeAnalyzer
      */
     private $nodeFinder;
 
-    public function __construct(NodeFinder $nodeFinder)
+    public function __construct()
     {
-        $this->nodeFinder = $nodeFinder;
+        $this->nodeFinder = new NodeFinder();
     }
 
     public function isInsideAbstractClassAndPassedAsDependencyViaConstructor(Node $node): bool
