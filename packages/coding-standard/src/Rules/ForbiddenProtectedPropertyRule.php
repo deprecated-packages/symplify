@@ -18,6 +18,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\NodeAnalyzer\DependencyNodeAnalyzer;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenProtectedPropertyRule\ForbiddenProtectedPropertyRuleTest
@@ -46,9 +47,15 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
      */
     private $nodeFinder;
 
-    public function __construct(NodeFinder $nodeFinder)
+    /**
+     * @var DependencyNodeAnalyzer
+     */
+    private $dependencyNodeAnalyzer;
+
+    public function __construct(NodeFinder $nodeFinder, DependencyNodeAnalyzer $dependencyNodeAnalyzer)
     {
         $this->nodeFinder = $nodeFinder;
+        $this->dependencyNodeAnalyzer = $dependencyNodeAnalyzer;
     }
 
     /**
@@ -69,7 +76,7 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->isInsideAbstractClassAndPassedAsDependencyViaConstructor($node)) {
+        if ($this->dependencyNodeAnalyzer->isInsideAbstractClassAndPassedAsDependencyViaConstructor($node)) {
             return [];
         }
 
@@ -103,62 +110,5 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
             return true;
         }
         return (bool) Strings::match($docCommentText, self::CONTAINER_REGEX);
-    }
-
-    /**
-     * @param Property|ClassConst $node
-     */
-    private function isInsideAbstractClassAndPassedAsDependencyViaConstructor(Node $node): bool
-    {
-        /** @var Class_ $class */
-        $class = $this->resolveCurrentClass($node);
-
-        if (! $class->isAbstract()) {
-            return false;
-        }
-
-        $classMethod = $class->getMethod('__construct');
-        if (! $classMethod instanceof ClassMethod) {
-            return false;
-        }
-
-        $parameters = $classMethod->getParams();
-        if ($parameters === []) {
-            return false;
-        }
-
-        /** @var Assign[] $assigns */
-        $assigns = $this->nodeFinder->findInstanceOf($classMethod, Assign::class);
-        if ($assigns === []) {
-            return false;
-        }
-
-        return $this->isInsideAssignByParameter($parameters, $assigns);
-    }
-
-    private function isInsideAssignByParameter(array $parameters, array $assigns): bool
-    {
-        $parametersVariableNames = [];
-        foreach ($parameters as $parameter) {
-            /** @var Identifier $parameterIdentifier */
-            $parameterIdentifier = $parameter->var->name;
-            $parametersVariableNames[] = (string) $parameterIdentifier;
-        }
-
-        foreach ($assigns as $assign) {
-            /** @var PropertyFetch|StaticPropertyFetch|Variable $assignVariable */
-            $assignVariable = $assign->var;
-            if (! $assignVariable instanceof PropertyFetch && ! $assignVariable instanceof StaticPropertyFetch) {
-                continue;
-            }
-
-            /** @var Variable $exprVariable */
-            $exprVariable = $assign->expr;
-            if (in_array($exprVariable->name, $parametersVariableNames, true)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
