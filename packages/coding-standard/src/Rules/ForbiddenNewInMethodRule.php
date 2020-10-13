@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use PhpParser\NodeFinder;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule\ForbiddenNewInMethodRuleTest
@@ -49,7 +47,7 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
     {
         /** @var string $className */
         $className = $node->getClassName();
-        if ($className == null) {
+        if ($className === null) {
             return [];
         }
 
