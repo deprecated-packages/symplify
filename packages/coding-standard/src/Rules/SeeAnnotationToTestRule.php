@@ -118,7 +118,8 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule
 
     private function matchClassReflection(Class_ $class): ?ClassReflection
     {
-        if ($class->name === null) {
+        $shortClassName = $class->name;
+        if ($shortClassName === null) {
             return null;
         }
 

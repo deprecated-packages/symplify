@@ -89,6 +89,20 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface
         return null;
     }
 
+    public function getFirstParentByType(Node $node, string $nodeClass): ?Node
+    {
+        $node = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        while ($node) {
+            if (is_a($node, $nodeClass, true) && $node instanceof Node) {
+                return $node;
+            }
+
+            $node = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        }
+
+        return null;
+    }
+
     private function shouldSkipNode(Node $node): bool
     {
         foreach ($this->getNodeTypes() as $nodeType) {

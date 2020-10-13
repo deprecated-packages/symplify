@@ -64,7 +64,8 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
     public function process(Node $node, Scope $scope): array
     {
         // skip anonymous class
-        if ($node->name === null) {
+        $shortClassName = $node->name;
+        if ($shortClassName === null) {
             return [];
         }
 
@@ -72,7 +73,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
             return [];
         }
 
-        $classShortName = (string) $node->name;
+        $classShortName = (string) $shortClassName;
         if ($this->shouldSkipClassName($classShortName)) {
             return [];
         }

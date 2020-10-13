@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
@@ -65,7 +67,12 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
             return [];
         }
 
-        $class = $this->getClassOfVariable($node);
+        if ($this->isVariableNamedShortClassName($node)) {
+            return [];
+        }
+
+        /** @var Class_|null $class */
+        $class = $this->getFirstParentByType($node, Class_::class);
         if ($class === null) {
             return [];
         }
@@ -77,17 +84,24 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
         return [self::ERROR_MESSAGE];
     }
 
-    private function getClassOfVariable(Variable $variable): ?Class_
+    private function isVariableNamedShortClassName(Variable $variable): bool
     {
-        $class = $variable->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($class) {
-            if ($class instanceof Class_) {
-                return $class;
-            }
-
-            $class = $class->getAttribute(PHPStanAttributeKey::PARENT);
+        /** @var Assign|null $assign */
+        $assign = $this->getFirstParentByType($variable, Assign::class);
+        if (! $assign instanceof Assign) {
+            return false;
         }
 
-        return null;
+        /** @var Variable $classNameVariable */
+        $classNameVariable = $assign->var;
+        /** @var Identifier $classNameIdentifier */
+        $classNameIdentifier = $classNameVariable->name;
+        $classNameVariableName = (string) $classNameIdentifier;
+
+        if ($classNameVariableName !== 'shortClassName') {
+            return false;
+        }
+
+        return true;
     }
 }

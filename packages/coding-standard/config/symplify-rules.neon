@@ -207,16 +207,6 @@ services:
     -
         class: Symplify\CodingStandard\Rules\CheckUsedNamespacedNameOnClassNodeRule
         tags: [phpstan.rules.rule]
-        arguments:
-            excludedClasses:
-                - 'Symplify\CodingStandard\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule'
-                - 'Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule'
-                - 'Symplify\CodingStandard\Rules\ForbiddenParentClassRule'
-                - 'Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule'
-                - 'Symplify\CodingStandard\Rules\PreferredClassRule'
-                - 'Symplify\CodingStandard\Rules\PrefixAbstractClassRule'
-                - 'Symplify\CodingStandard\Rules\SeeAnnotationToTestRule'
-                - 'Symplify\CodingStandard\Rules\NoSuffixValueObjectClassRule'
 
     -
         class: Symplify\CodingStandard\Rules\ForbiddenAssignInifRule
