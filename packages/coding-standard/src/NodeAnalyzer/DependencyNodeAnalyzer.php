@@ -11,7 +11,9 @@ use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
@@ -22,11 +24,14 @@ final class DependencyNodeAnalyzer
      */
     private $nodeFinder;
 
-    public function __construct(NodeFinder $nodeFinder)
+    public function __construct()
     {
-        $this->nodeFinder = $nodeFinder;
+        $this->nodeFinder = new NodeFinder();
     }
 
+    /**
+     * @param Property|ClassConst $node
+     */
     public function isInsideAbstractClassAndPassedAsDependencyViaConstructor(Node $node): bool
     {
         /** @var Class_ $class */
