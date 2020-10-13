@@ -15,9 +15,9 @@ final class NamespaceDetector
 {
     /**
      * @var string
-     * @see https://regex101.com/r/CrvWwT/1
+     * @see https://regex101.com/r/CrvWwT/3
      */
-    private const ENTITY_CLASS_NAME_REGEX = '#entity\s+name="(?<className>.*?)"#';
+    private const ENTITY_CLASS_NAME_REGEX = '#(mapped-superclass|entity)\s+name="(?<className>.*?)"#';
 
     /**
      * @var string
