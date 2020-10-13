@@ -291,22 +291,15 @@ parameters:
         -
             message: '#Property with protected modifier is not allowed\. Use interface instead#'
             paths:
+                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 17
+                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 26
                 - packages/coding-standard/src/Fixer/ArrayNotation/AbstractArrayFixer.php # 22
                 - packages/coding-standard/src/Fixer/ArrayNotation/AbstractArrayFixer.php # 27
                 - packages/coding-standard/src/Fixer/ArrayNotation/AbstractArrayFixer.php # 32
-                - packages/coding-standard/src/Rules/AbstractPrefferedCallOverFuncRule.php # 18
                 - packages/easy-coding-standard/src/Application/AbstractFileProcessor.php # 16
                 - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php # 25
                 - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php # 30
                 - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php # 35
                 - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 15
                 - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 20
-                - packages/monorepo-builder/packages/release/src/ReleaseWorker/AbstractMutualDependencyReleaseWorker.php # 18
-                - packages/monorepo-builder/packages/release/src/ReleaseWorker/AbstractMutualDependencyReleaseWorker.php # 23
-                - packages/monorepo-builder/packages/release/src/ReleaseWorker/AbstractMutualDependencyReleaseWorker.php # 28
-                - packages/monorepo-builder/packages/release/src/ReleaseWorker/AbstractMutualDependencyReleaseWorker.php # 33
-                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 17
-                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 26
                 - packages/monorepo-builder/packages/merge/tests/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php # 18
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 28
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 33

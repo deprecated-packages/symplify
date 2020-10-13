@@ -246,3 +246,5 @@ services:
     - Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser
     - Symplify\CodingStandard\PHPStan\ParentGuard\ParentMethodReturnTypeResolver
     - Symplify\CodingStandard\PHPStan\NodeComparator
+    - Symplify\CodingStandard\NodeAnalyzer\DependencyNodeAnalyzer
+    - Symplify\CodingStandard\NodeAnalyzer\TypeNodeAnalyzer
