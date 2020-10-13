@@ -1468,6 +1468,34 @@ final class IssetOnObject
 
 <br>
 
+## No `@method` Tag in Class Docblock
+
+- class: [`NoMethodTagInClassDocblockRule`](../src/Rules/NoMethodTagInClassDocblockRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\NoMethodTagInClassDocblockRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+/**
+ * @method getMagic() string
+ */
+class ClassWithMethodTag
+{
+}
+```
+
+:x:
+
+<br>
+
 ## Use explicit Property Fetch Names over Dynamic
 
 - class: [`NoDynamicPropertyFetchNameRule`](../src/Rules/NoDynamicPropertyFetchNameRule.php)
