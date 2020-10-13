@@ -69,7 +69,7 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
             }
 
             if (in_array($methodName, $methods, true)) {
-                return [self::ERROR_MESSAGE];
+                return [sprintf(self::ERROR_MESSAGE, $class, $methodName)];
             }
         }
 
