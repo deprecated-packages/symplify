@@ -1242,6 +1242,43 @@ foreach ($errors as $fileErrors) {
 
 <br>
 
+## Forbid New in Method Rule
+
+- class: [`ForbiddenNewInMethodRule`](../src/Rules/ForbiddenNewInMethodRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenNewInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenClassMethod:
+                Some\Namespace\SomeClass: ['getRule']
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+namespace Some\Namespace;
+
+class SomeClass
+{
+    protected function getRule(): Rule
+    {
+        return new SomeRule();
+    }
+
+}
+```
+
+:x:
+
+<br>
+
 ## Use explicit comparison over `empty()`
 
 - class: [`NoEmptyRule`](../src/Rules/NoEmptyRule.php)

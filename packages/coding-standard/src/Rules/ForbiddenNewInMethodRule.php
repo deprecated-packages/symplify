@@ -6,7 +6,11 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PhpParser\Node\Expr\New_;
+use PhpParser\NodeFinder;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule\ForbiddenNewInMethodRuleTest
@@ -19,6 +23,11 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = '"new" in method "%s->%s()" is not allowed.';
 
     /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    /**
      * @var array<string, string[]>
      */
     private $forbiddenClassMethods = [];
@@ -26,8 +35,9 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
     /**
      * @param array<string, string[]> $forbiddenClassMethods
      */
-    public function __construct(array $forbiddenClassMethods = [])
+    public function __construct(NodeFinder $nodeFinder, array $forbiddenClassMethods = [])
     {
+        $this->nodeFinder = $nodeFinder;
         $this->forbiddenClassMethods = $forbiddenClassMethods;
     }
 
@@ -45,11 +55,13 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var string $className */
-        $className = $node->getClassName();
-        if ($className === null) {
+        /** @var Class_|null $class */
+        $class = $this->resolveCurrentClass($node);
+        if ($class === null) {
             return [];
         }
+
+        $className = $class->namespacedName->toString();
 
         /** @var Identitifier $methodIdentifier */
         $methodIdentifier = $node->name;
@@ -60,11 +72,18 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
                 continue;
             }
 
-            if (in_array($methodName, $methods, true)) {
+            if (in_array($methodName, $methods, true) && $this->isHaveNewInside($node)) {
                 return [sprintf(self::ERROR_MESSAGE, $class, $methodName)];
             }
         }
 
         return [];
+    }
+
+    private function isHaveNewInside(ClassMethod $classMethod): bool
+    {
+        return (bool) $this->nodeFinder->findFirst($classMethod, function (Node $node): bool {
+            return $node instanceof New_;
+        });
     }
 }
