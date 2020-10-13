@@ -238,6 +238,10 @@ services:
         class: Symplify\CodingStandard\Rules\ForbiddenProtectedPropertyRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\NoMethodTagInClassDocblockRule
+        tags: [phpstan.rules.rule]
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
