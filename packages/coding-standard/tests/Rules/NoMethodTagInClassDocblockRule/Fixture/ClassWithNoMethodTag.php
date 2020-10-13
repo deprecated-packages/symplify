@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoAbstractMethodRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\NoMethodTagInClassDocblockRule\Fixture;
 
 /**
  * @property int $id
