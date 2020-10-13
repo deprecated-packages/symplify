@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
@@ -62,7 +63,7 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
 
         $className = $class->namespacedName->toString();
 
-        /** @var Identitifier $methodIdentifier */
+        /** @var Identifier $methodIdentifier */
         $methodIdentifier = $node->name;
         $methodName = (string) $methodIdentifier;
 
