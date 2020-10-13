@@ -236,8 +236,8 @@ services:
         class: Symplify\CodingStandard\Rules\ForbiddenNewInMethodRule
         tags: [phpstan.rules.rule]
         arguments:
-            forbiddenClassMethod:
-                Some\Namespace\SomeClass: ['getRule']
+            # forbiddenClassMethod:
+                # Some\Namespace\SomeClass: ['getRule']
 
     # services
     - PhpParser\NodeFinder
