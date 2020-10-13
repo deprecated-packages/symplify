@@ -67,12 +67,8 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
         $methodIdentifier = $node->name;
         $methodName = (string) $methodIdentifier;
 
-        $classImplements = class_implements($className);
-        $classParents = class_parents($className);
-        $classLikes = array_merge($classImplements, $classParents, [$className]);
-
         foreach ($this->forbiddenClassMethods as $class => $methods) {
-            if (! in_array($class, $classLikes, true)) {
+            if (! is_a($className, $class, true)) {
                 continue;
             }
 
