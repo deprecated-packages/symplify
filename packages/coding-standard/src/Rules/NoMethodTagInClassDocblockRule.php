@@ -34,7 +34,7 @@ final class NoMethodTagInClassDocblockRule extends AbstractSymplifyRule
     }
 
     /**
-     * @param Comment $node
+     * @param Class_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
