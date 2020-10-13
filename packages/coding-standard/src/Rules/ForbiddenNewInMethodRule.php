@@ -21,11 +21,6 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = '"new" in method "%s->%s()" is not allowed.';
 
     /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
      * @var array<string, string[]>
      */
     private $forbiddenClassMethods = [];
@@ -33,9 +28,8 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
     /**
      * @param array<string, string[]> $forbiddenClassMethods
      */
-    public function __construct(NodeFinder $nodeFinder, array $forbiddenClassMethods = [])
+    public function __construct(array $forbiddenClassMethods = [])
     {
-        $this->nodeFinder = $nodeFinder;
         $this->forbiddenClassMethods = $forbiddenClassMethods;
     }
 
