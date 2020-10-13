@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Class_;
-use PHPStan\Analyser\Scope;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use PHPStan\Analyser\Scope;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule\ForbiddenNewInMethodRuleTest
