@@ -21,6 +21,9 @@ final class NoMethodTagInClassDocblockRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Do not use @method tag in class docblock';
 
+    /**
+     * @var string
+     */
     public const METHOD_TAG_REGEX = '#\*\s+@method\s+.*\n?#';
 
     /**
