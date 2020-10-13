@@ -1253,7 +1253,7 @@ services:
         class: Symplify\CodingStandard\Rules\ForbiddenNewInMethodRule
         tags: [phpstan.rules.rule]
         arguments:
-            forbiddenClassMethod:
+            forbiddenClassMethods:
                 PHPStan\Rules\Rule: ['getRule']
 ```
 
