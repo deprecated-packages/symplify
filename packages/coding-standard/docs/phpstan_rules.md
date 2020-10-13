@@ -1254,7 +1254,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenClassMethod:
-                Some\Namespace\SomeClass: ['getRule']
+                PHPStan\Rules\Rule: ['getRule']
 ```
 
 ```php
@@ -1265,13 +1265,16 @@ declare(strict_types=1);
 
 namespace Some\Namespace;
 
-class SomeClass
+use PHPStan\Rules\Rule;
+
+class SomeClassRule implements Rule
 {
+    // ...
+
     protected function getRule(): Rule
     {
         return new SomeRule();
     }
-
 }
 ```
 

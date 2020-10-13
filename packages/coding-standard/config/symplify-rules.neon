@@ -237,7 +237,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             # forbiddenClassMethod:
-                # Some\Namespace\SomeClass: ['getRule']
+                # PHPStan\Rules\Rule: ['getRule']
 
     # services
     - PhpParser\NodeFinder

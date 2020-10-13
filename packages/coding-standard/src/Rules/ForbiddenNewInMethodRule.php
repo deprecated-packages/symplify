@@ -67,13 +67,17 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
         $methodIdentifier = $node->name;
         $methodName = (string) $methodIdentifier;
 
+        $classImplements = class_implements($className);
+        $classParents = class_parents($className);
+        $classLikes = array_merge($classImplements, $classParents, [$className]);
+
         foreach ($this->forbiddenClassMethods as $class => $methods) {
-            if ($class !== $className) {
+            if (! in_array($class, $classLikes, true)) {
                 continue;
             }
 
             if (in_array($methodName, $methods, true) && $this->isHaveNewInside($node)) {
-                return [sprintf(self::ERROR_MESSAGE, $class, $methodName)];
+                return [sprintf(self::ERROR_MESSAGE, $className, $methodName)];
             }
         }
 

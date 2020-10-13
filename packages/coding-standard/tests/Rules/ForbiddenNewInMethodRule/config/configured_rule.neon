@@ -6,3 +6,5 @@ services:
         arguments:
             forbiddenClassMethods:
                 Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule\Fixture\HasNewInMethod: ['run']
+                Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule\Fixture\InterfaceFoo: ['run']
+                Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule\Fixture\AbstractFoo: ['run']
