@@ -232,6 +232,13 @@ services:
         class: Symplify\CodingStandard\Rules\NoMethodTagInClassDocblockRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenNewInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenClassMethods:
+                PHPStan\Rules\Rule: ['getRule']
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
