@@ -1282,15 +1282,15 @@ class SomeClassRule implements Rule
 
 <br>
 
-## Forbid New Outside Factory
+## Forbid New Outside Factory Service
 
-- class: [`ForbiddenNewOutsideFactoryRule`](../src/Rules/ForbiddenNewOutsideFactoryRule.php)
+- class: [`ForbidNewOutsideFactoryServiceRule`](../src/Rules/ForbidNewOutsideFactoryServiceRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenNewOutsideFactoryRule
+        class: Symplify\CodingStandard\Rules\ForbidNewOutsideFactoryServiceRule
         tags: [phpstan.rules.rule]
         arguments:
             types:

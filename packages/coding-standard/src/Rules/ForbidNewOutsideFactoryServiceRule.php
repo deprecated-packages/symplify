@@ -15,9 +15,9 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenNewOutsideFactoryRule\ForbiddenNewOutsideFactoryRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\ForbidNewOutsideFactoryServiceRule\ForbidNewOutsideFactoryServiceRuleTest
  */
-final class ForbiddenNewOutsideFactoryRule extends AbstractSymplifyRule
+final class ForbidNewOutsideFactoryServiceRule extends AbstractSymplifyRule
 {
     /**
      * @var string
