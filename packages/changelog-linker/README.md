@@ -230,3 +230,7 @@ parameters:
 ```
 
 ...and it will be resolved to `CodingStandard` package.
+
+## Contribute
+
+The sources of this package are contained in the symplify monorepo. We welcome contributions for this package at [symplify/symplify](https://github.com/symplify/symplify).
