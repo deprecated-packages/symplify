@@ -23,7 +23,9 @@ final class ForbiddenNewInMethodRuleTest extends AbstractServiceAwareRuleTestCas
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipAnonymousClass.php', []];
         yield [__DIR__ . '/Fixture/NoNewInMethod.php', []];
+
         yield [__DIR__ . '/Fixture/HasNewInMethod.php', [
             [sprintf(ForbiddenNewInMethodRule::ERROR_MESSAGE, HasNewInMethod::class, 'run'), 9],
         ]];
