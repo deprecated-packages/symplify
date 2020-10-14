@@ -97,7 +97,7 @@ final class ForbidNewOutsideFactoryServiceRule extends AbstractSymplifyRule
                 return $className === $type;
             }
 
-            return Strings::match((string) $className, '#.' . $type . '#') > 0;
+            return Strings::match($className, '#.' . $type . '#') > 0;
         });
     }
 }
