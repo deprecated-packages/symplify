@@ -1295,6 +1295,7 @@ services:
         arguments:
             types:
                 - *Search
+                - Foo
 ```
 
 ```php

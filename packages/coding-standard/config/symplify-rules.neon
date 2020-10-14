@@ -245,6 +245,7 @@ services:
         arguments:
             #types:
             #    - *Search
+            #    - Foo
 
     # services
     - PhpParser\NodeFinder
