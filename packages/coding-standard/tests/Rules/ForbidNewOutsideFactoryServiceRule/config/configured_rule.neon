@@ -5,4 +5,5 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             types:
+                - Foo
                 - *Search

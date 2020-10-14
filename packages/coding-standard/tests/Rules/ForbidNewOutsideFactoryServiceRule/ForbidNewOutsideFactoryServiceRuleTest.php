@@ -21,8 +21,12 @@ final class ForbidNewOutsideFactoryServiceRuleTest extends AbstractServiceAwareR
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/AFactory.php', []];
-        yield [__DIR__ . '/Fixture/NotAFactoryClass.php', [
+        yield [__DIR__ . '/Fixture/StarFactory.php', []];
+        yield [__DIR__ . '/Fixture/NonStarFactory.php', []];
+        yield [__DIR__ . '/Fixture/NotAFactoryClassNonStar.php', [
+            [sprintf(ForbidNewOutsideFactoryServiceRule::ERROR_MESSAGE, 'Foo'), 9],
+        ]];
+        yield [__DIR__ . '/Fixture/NotAFactoryClassStar.php', [
             [sprintf(ForbidNewOutsideFactoryServiceRule::ERROR_MESSAGE, '*Search'), 9],
         ]];
     }

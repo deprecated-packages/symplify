@@ -88,14 +88,16 @@ final class ForbidNewOutsideFactoryServiceRule extends AbstractSymplifyRule
 
             /** @var FullyQualified $fullyQualifiedName */
             $fullyQualifiedName = $node->class;
-            if ($fullyQualifiedName instanceof FullyQualified) {
-                $className = end($fullyQualifiedName->parts);
-                if (Strings::match((string) $className, '#.' . $type . '#')) {
-                    return true;
-                }
+            if (! $fullyQualifiedName instanceof FullyQualified) {
+                return false;
             }
 
-            return false;
+            $className = end($fullyQualifiedName->parts);
+            if (! Strings::contains($type, '*')) {
+                return $className === $type;
+            }
+
+            return Strings::match((string) $className, '#.' . $type . '#') > 0;
         });
     }
 }
