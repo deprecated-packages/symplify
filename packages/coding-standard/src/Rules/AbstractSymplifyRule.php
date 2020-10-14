@@ -61,6 +61,21 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface
         return $this->process($node, $scope);
     }
 
+    public function resolveCurrentClassName(Node $node): ?string
+    {
+        $class = $this->resolveCurrentClass($node);
+        if ($class === null) {
+            return null;
+        }
+
+        // anonymous  class
+        if ($class->namespacedName === null) {
+            return null;
+        }
+
+        return (string) $class->namespacedName;
+    }
+
     public function resolveCurrentClass(Node $node): ?Class_
     {
         $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
