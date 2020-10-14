@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PhpParser\Node\Name\FullyQualified;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenNewOutsideFactoryRule\ForbiddenNewOutsideFactoryRuleTest
@@ -29,12 +30,12 @@ final class ForbiddenNewOutsideFactoryRule extends AbstractSymplifyRule
     private $nodeFinder;
 
     /**
-     * @var array<string, string[]>
+     * @var array<string, string>
      */
     private $types = [];
 
     /**
-     * @param array<string, string[]> $types
+     * @param array<string, string> $types
      */
     public function __construct(NodeFinder $nodeFinder, array $types = [])
     {
@@ -62,7 +63,9 @@ final class ForbiddenNewOutsideFactoryRule extends AbstractSymplifyRule
             return [];
         }
 
-        $shortClassName = $class->name->toString();
+        /** @var Identifier $classIdentifier */
+        $classIdentifier = $class->namespacedName;
+        $shortClassName = $classIdentifier->toString();
         if (Strings::endsWith($shortClassName, 'Factory')) {
             return [];
         }
@@ -79,8 +82,14 @@ final class ForbiddenNewOutsideFactoryRule extends AbstractSymplifyRule
     private function isHaveNewWithTypeInside(ClassMethod $classMethod, string $type): bool
     {
         return (bool) $this->nodeFinder->findFirst($classMethod, function (Node $node) use ($type) : bool {
-            if ($node instanceof New_) {
-                $className = end($node->class->parts);
+            if (! $node instanceof New_) {
+               return false;
+            }
+
+            /** @var FullyQualified $fullyQualifiedName */
+            $fullyQualifiedName = $node->class;
+            if ($fullyQualifiedName instanceof FullyQualified) {
+                $className = end($fullyQualifiedName->parts);
                 if (Strings::match((string) $className, '#.' . $type . '#')) {
                     return true;
                 }
