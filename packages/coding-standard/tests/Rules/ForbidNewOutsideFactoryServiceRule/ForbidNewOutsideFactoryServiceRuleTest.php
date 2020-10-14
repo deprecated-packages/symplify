@@ -24,10 +24,10 @@ final class ForbidNewOutsideFactoryServiceRuleTest extends AbstractServiceAwareR
         yield [__DIR__ . '/Fixture/StarFactory.php', []];
         yield [__DIR__ . '/Fixture/NonStarFactory.php', []];
         yield [__DIR__ . '/Fixture/NotAFactoryClassNonStar.php', [
-            [sprintf(ForbidNewOutsideFactoryServiceRule::ERROR_MESSAGE, 'Foo'), 9],
+            [sprintf(ForbidNewOutsideFactoryServiceRule::ERROR_MESSAGE, 'Foo'), 11],
         ]];
         yield [__DIR__ . '/Fixture/NotAFactoryClassStar.php', [
-            [sprintf(ForbidNewOutsideFactoryServiceRule::ERROR_MESSAGE, '*Search'), 9],
+            [sprintf(ForbidNewOutsideFactoryServiceRule::ERROR_MESSAGE, '*Search'), 11],
         ]];
     }
 

@@ -10,8 +10,6 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -25,11 +23,6 @@ final class ForbidNewOutsideFactoryServiceRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = '"new" outside factory is not allowed for object type %s.';
 
     /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
      * @var array<string, string>
      */
     private $types = [];
@@ -37,9 +30,8 @@ final class ForbidNewOutsideFactoryServiceRule extends AbstractSymplifyRule
     /**
      * @param array<string, string> $types
      */
-    public function __construct(NodeFinder $nodeFinder, array $types = [])
+    public function __construct(array $types = [])
     {
-        $this->nodeFinder = $nodeFinder;
         $this->types = $types;
     }
 
@@ -48,11 +40,11 @@ final class ForbidNewOutsideFactoryServiceRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [ClassMethod::class];
+        return [New_::class];
     }
 
     /**
-     * @param ClassMethod $node
+     * @param New_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
@@ -79,25 +71,19 @@ final class ForbidNewOutsideFactoryServiceRule extends AbstractSymplifyRule
         return [];
     }
 
-    private function isHaveNewWithTypeInside(ClassMethod $classMethod, string $type): bool
+    private function isHaveNewWithTypeInside(New_ $new, string $type): bool
     {
-        return (bool) $this->nodeFinder->findFirst($classMethod, function (Node $node) use ($type): bool {
-            if (! $node instanceof New_) {
-                return false;
-            }
+        /** @var FullyQualified $fullyQualifiedName */
+        $fullyQualifiedName = $new->class;
+        if (! $fullyQualifiedName instanceof FullyQualified) {
+            return false;
+        }
 
-            /** @var FullyQualified $fullyQualifiedName */
-            $fullyQualifiedName = $node->class;
-            if (! $fullyQualifiedName instanceof FullyQualified) {
-                return false;
-            }
+        $className = end($fullyQualifiedName->parts);
+        if (! Strings::startsWith($type, '*')) {
+            return $className === $type;
+        }
 
-            $className = end($fullyQualifiedName->parts);
-            if (! Strings::startsWith($type, '*')) {
-                return $className === $type;
-            }
-
-            return Strings::match($className, '#.' . $type . '#') > 0;
-        });
+        return Strings::match($className, '#.' . $type . '#') > 0;
     }
 }

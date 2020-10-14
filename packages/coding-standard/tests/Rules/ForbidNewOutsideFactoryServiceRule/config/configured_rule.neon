@@ -1,5 +1,4 @@
 services:
-    - PhpParser\NodeFinder
     -
         class: Symplify\CodingStandard\Rules\ForbidNewOutsideFactoryServiceRule
         tags: [phpstan.rules.rule]
