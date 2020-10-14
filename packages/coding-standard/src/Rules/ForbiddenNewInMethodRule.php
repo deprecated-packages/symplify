@@ -6,8 +6,6 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
@@ -55,35 +53,29 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Class_|null $class */
-        $class = $this->resolveCurrentClass($node);
-        if ($class === null) {
+        $currentFullyQualifiedClassName = $this->resolveCurrentClassName($node);
+        if ($currentFullyQualifiedClassName === null) {
             return [];
         }
 
-        $className = $class->namespacedName->toString();
-
-        /** @var Identifier $methodIdentifier */
-        $methodIdentifier = $node->name;
-        $methodName = (string) $methodIdentifier;
+        $methodName = (string) $node->name;
 
         foreach ($this->forbiddenClassMethods as $class => $methods) {
-            if (! is_a($className, $class, true)) {
+            if (! is_a($currentFullyQualifiedClassName, $class, true)) {
                 continue;
             }
 
-            if (in_array($methodName, $methods, true) && $this->isHaveNewInside($node)) {
-                return [sprintf(self::ERROR_MESSAGE, $className, $methodName)];
+            if (in_array($methodName, $methods, true) && $this->hasNewInside($node)) {
+                $errorMessage = sprintf(self::ERROR_MESSAGE, $currentFullyQualifiedClassName, $methodName);
+                return [$errorMessage];
             }
         }
 
         return [];
     }
 
-    private function isHaveNewInside(ClassMethod $classMethod): bool
+    private function hasNewInside(ClassMethod $classMethod): bool
     {
-        return (bool) $this->nodeFinder->findFirst($classMethod, function (Node $node): bool {
-            return $node instanceof New_;
-        });
+        return (bool) $this->nodeFinder->findFirstInstanceOf($classMethod, New_::class);
     }
 }
