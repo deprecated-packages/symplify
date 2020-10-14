@@ -160,4 +160,4 @@ var_dump($smartFileInfos);
 ```
 ## Contribute
 
-The sources of this package are contained in the symplify monorepo. We welcome contributions for this package on [symplify/packages/smart-file-system](https://github.com/symplify/symplify/tree/master/packages/smart-file-system).
+The sources of this package are contained in the symplify monorepo. We welcome contributions for this package at [symplify/symplify](https://github.com/symplify/symplify).
