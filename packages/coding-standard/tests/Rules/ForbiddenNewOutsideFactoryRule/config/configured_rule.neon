@@ -1,0 +1,8 @@
+services:
+    - PhpParser\NodeFinder
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenNewOutsideFactoryRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            types:
+                - *Search

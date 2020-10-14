@@ -67,16 +67,8 @@ final class ForbiddenNewOutsideFactoryRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var Identifier $methodIdentifier */
-        $methodIdentifier = $node->name;
-        $methodName = (string) $methodIdentifier;
-
         foreach ($this->types as $type) {
-            if (! Strings::match($methodName, $type)) {
-                continue;
-            }
-
-            if ($this->isHaveNewInside($node)) {
+            if ($this->isHaveNewWithTypeInside($node, $type)) {
                 return [sprintf(self::ERROR_MESSAGE, $type)];
             }
         }
@@ -84,10 +76,17 @@ final class ForbiddenNewOutsideFactoryRule extends AbstractSymplifyRule
         return [];
     }
 
-    private function isHaveNewInside(ClassMethod $classMethod): bool
+    private function isHaveNewWithTypeInside(ClassMethod $classMethod, string $type): bool
     {
-        return (bool) $this->nodeFinder->findFirst($classMethod, function (Node $node): bool {
-            return $node instanceof New_;
+        return (bool) $this->nodeFinder->findFirst($classMethod, function (Node $node) use ($type) : bool {
+            if ($node instanceof New_) {
+                $className = end($node->class->parts);
+                if (Strings::match((string) $className, '#.' . $type . '#')) {
+                    return true;
+                }
+            }
+
+            return false;
         });
     }
 }
