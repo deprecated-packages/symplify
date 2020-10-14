@@ -36,6 +36,14 @@ The easiest way to start a coding standard in your project. Easy, simple and int
 
 <br>
 
+### [PHPStan Extensions](https://github.com/symplify/phpstan-extensions)
+
+[![Downloads](https://img.shields.io/packagist/dt/symplify/phpstan-extensions.svg?style=flat-square)](https://packagist.org/packages/symplify/phpstan-extensions/stats)
+
+Extensions for [PHPStan](https://phpstan.org/).
+
+<br>
+
 ## Symfony Kernel and Dependency Injection on MDMA
 
 ### [Autodiscovery](https://github.com/symplify/autodiscovery)
