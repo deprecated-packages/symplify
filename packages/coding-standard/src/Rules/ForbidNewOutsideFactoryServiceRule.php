@@ -93,7 +93,7 @@ final class ForbidNewOutsideFactoryServiceRule extends AbstractSymplifyRule
             }
 
             $className = end($fullyQualifiedName->parts);
-            if (! Strings::contains($type, '*')) {
+            if (! Strings::startsWith($type, '*')) {
                 return $className === $type;
             }
 
