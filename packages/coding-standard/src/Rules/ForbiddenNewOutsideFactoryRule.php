@@ -21,7 +21,7 @@ final class ForbiddenNewOutsideFactoryRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '"new" in factory is not allowed for object type %s.';
+    public const ERROR_MESSAGE = '"new" outside factory is not allowed for object type %s.';
 
     /**
      * @var NodeFinder
