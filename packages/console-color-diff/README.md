@@ -51,6 +51,6 @@ class SomeCommand
 }
 ```
 
-## Contributing
+## Contribute
 
-Open an [issue](https://github.com/symplify/symplify/issues) or send a [pull-request](https://github.com/symplify/symplify/pulls) to main repository.
+The sources of this package are contained in the symplify monorepo. We welcome contributions for this package at [symplify/symplify](https://github.com/symplify/symplify).

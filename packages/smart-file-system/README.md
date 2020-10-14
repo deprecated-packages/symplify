@@ -31,7 +31,7 @@ $fileRealPath = $fileInfo->getRealPath();
 While this has a reason - e.g. to be sure the file was not deleted since the construction,
 we actually have to call the method to find out the file was removed. Another annoyance is to tell this to static analyzers.
 
-In reality, **it's very rare to work with file that was existing a while ago, but not is gone, without us doing it on purpose**. We usually use `SplFileInfo` to modify files or work with their paths.
+In reality, **it's very rare to work with file that was existing a while ago, but now is gone, without us doing it on purpose**. We usually use `SplFileInfo` to modify files or work with their paths.
 
 **What if:**
 
@@ -158,3 +158,6 @@ $smartFileInfos = $finderSanitizer->sanitize($files);
 // always array of Symplify\SmartFileSystem\SmartFileInfo
 var_dump($smartFileInfos);
 ```
+## Contribute
+
+The sources of this package are contained in the symplify monorepo. We welcome contributions for this package at [symplify/symplify](https://github.com/symplify/symplify).
