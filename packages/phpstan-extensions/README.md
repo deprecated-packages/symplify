@@ -104,3 +104,7 @@ foreach ($finder as $fileInfo) {
     $fileInfo->getRealPath();
 }
 ```
+
+## Contribute
+
+The sources of this package are contained in the symplify monorepo. We welcome contributions for this package at [symplify/symplify](https://github.com/symplify/symplify).
