@@ -8,11 +8,11 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PhpParser\Node\Name\FullyQualified;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenNewOutsideFactoryRule\ForbiddenNewOutsideFactoryRuleTest
@@ -81,9 +81,9 @@ final class ForbiddenNewOutsideFactoryRule extends AbstractSymplifyRule
 
     private function isHaveNewWithTypeInside(ClassMethod $classMethod, string $type): bool
     {
-        return (bool) $this->nodeFinder->findFirst($classMethod, function (Node $node) use ($type) : bool {
+        return (bool) $this->nodeFinder->findFirst($classMethod, function (Node $node) use ($type): bool {
             if (! $node instanceof New_) {
-               return false;
+                return false;
             }
 
             /** @var FullyQualified $fullyQualifiedName */

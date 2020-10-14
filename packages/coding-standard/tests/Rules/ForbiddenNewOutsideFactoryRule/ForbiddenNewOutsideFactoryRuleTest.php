@@ -23,15 +23,15 @@ final class ForbiddenNewOutsideFactoryRuleTest extends AbstractServiceAwareRuleT
     {
         yield [__DIR__ . '/Fixture/AFactory.php', []];
         yield [__DIR__ . '/Fixture/NotAFactoryClass.php', [
-            [
-                sprintf(ForbiddenNewOutsideFactoryRule::ERROR_MESSAGE, '*Search'),
-                9
-            ]
+            [sprintf(ForbiddenNewOutsideFactoryRule::ERROR_MESSAGE, '*Search'), 9],
         ]];
     }
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ForbiddenNewOutsideFactoryRule::class, __DIR__ . '/config/configured_rule.neon');
+        return $this->getRuleFromConfig(
+            ForbiddenNewOutsideFactoryRule::class,
+            __DIR__ . '/config/configured_rule.neon'
+        );
     }
 }
