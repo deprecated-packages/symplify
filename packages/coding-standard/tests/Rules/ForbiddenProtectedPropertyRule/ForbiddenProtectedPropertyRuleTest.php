@@ -23,6 +23,7 @@ final class ForbiddenProtectedPropertyRuleTest extends AbstractServiceAwareRuleT
     {
         yield [__DIR__ . '/Fixture/HasNonProtectedPropertyAndConstant.php', []];
         yield [__DIR__ . '/Fixture/AbstractClassWithConstructorInjection.php', []];
+        yield [__DIR__ . '/Fixture/AbstractClassWithAutowireInjection.php', []];
         yield [__DIR__ . '/Fixture/AbstractKernelTestCase.php', []];
         yield [__DIR__ . '/Fixture/HasProtectedPropertyAndConstant.php',
             [
