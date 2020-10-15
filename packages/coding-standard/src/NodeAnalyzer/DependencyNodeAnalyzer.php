@@ -89,11 +89,11 @@ final class DependencyNodeAnalyzer
 
         $docComment = $classMethod->getDocComment();
         if ($docComment === null) {
-            return [];
+            return false;
         }
 
         if (! Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
-            return [];
+            return false;
         }
 
         $parameters = $classMethod->getParams();
