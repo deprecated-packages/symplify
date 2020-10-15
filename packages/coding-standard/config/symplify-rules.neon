@@ -239,6 +239,14 @@ services:
             forbiddenClassMethods:
                 PHPStan\Rules\Rule: ['getRule']
 
+#    -
+#       class: Symplify\CodingStandard\Rules\ForbidNewOutsideFactoryServiceRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+            #types:
+            #    - *Search
+            #    - Foo
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem

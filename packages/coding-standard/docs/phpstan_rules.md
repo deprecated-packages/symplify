@@ -1282,6 +1282,58 @@ class SomeClassRule implements Rule
 
 <br>
 
+## Forbid New Outside Factory Service
+
+- class: [`ForbidNewOutsideFactoryServiceRule`](../src/Rules/ForbidNewOutsideFactoryServiceRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbidNewOutsideFactoryServiceRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            types:
+                - *Search
+                - Foo
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+final class SomeClass
+{
+    public function create()
+	{
+		return new CarSearch();
+	}
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+final class SearchFactory
+{
+    public function create()
+	{
+		return new CarSearch();
+	}
+}
+```
+
+:+1:
+
+<br>
+
 ## Use explicit comparison over `empty()`
 
 - class: [`NoEmptyRule`](../src/Rules/NoEmptyRule.php)
