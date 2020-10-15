@@ -1,0 +1,6 @@
+services:
+    -
+        class: Symplify\CodingStandard\Rules\TooDeepNewClassNestingRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxNewClassNesting: 3
