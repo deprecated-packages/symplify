@@ -6,11 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\PreferredClassConstantOverVariable
 
 use Symplify\CodingStandard\Tests\Rules\PreferredClassConstantOverVariableConstantRule\Source\SomeClassWithConstant;
 
-final class VariableConstant
+final class SkipClassContantFetch
 {
     public function run()
     {
-        $obj = new SomeClassWithConstant();
-        $obj::SOME_CONSTANT;
+        return SomeClassWithConstant::SOME_CONSTANT;
     }
 }
