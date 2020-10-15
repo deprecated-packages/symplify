@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
@@ -50,7 +47,7 @@ final class TooDeepNewClassNestingRule extends AbstractSymplifyRule
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
         while ($parent) {
             if ($parent instanceof New_) {
-                $countNew +=1;
+                ++$countNew;
             }
 
             $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
