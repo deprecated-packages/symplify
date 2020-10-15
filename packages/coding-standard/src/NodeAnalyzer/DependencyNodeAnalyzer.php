@@ -108,7 +108,7 @@ final class DependencyNodeAnalyzer
         }
 
         $shortClassName = $class->name;
-        $classMethod = $class->getMethod('autowire' . (string) $shortClassName);
+        $classMethod = $class->getMethod('autowire' . $shortClassName);
         if (! $classMethod instanceof ClassMethod) {
             return false;
         }
