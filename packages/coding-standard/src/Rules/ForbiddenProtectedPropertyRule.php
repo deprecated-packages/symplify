@@ -59,6 +59,10 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
             return [];
         }
 
+        if ($this->dependencyNodeAnalyzer->isInsideClassAndPassedAsDependencyViaAutowireMethod($node)) {
+            return [];
+        }
+
         if ($this->typeNodeAnalyzer->isStaticAndContainerOrKernelType($node)) {
             return [];
         }
