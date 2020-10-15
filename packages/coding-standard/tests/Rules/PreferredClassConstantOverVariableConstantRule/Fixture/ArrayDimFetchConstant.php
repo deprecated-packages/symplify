@@ -6,11 +6,14 @@ namespace Symplify\CodingStandard\Tests\Rules\PreferredClassConstantOverVariable
 
 use Symplify\CodingStandard\Tests\Rules\PreferredClassConstantOverVariableConstantRule\Source\SomeClassWithConstant;
 
-final class VariableConstant
+final class ArrayDimFetchConstant
 {
     public function run()
     {
-        $obj = new SomeClassWithConstant();
-        $obj::SOME_CONSTANT;
+        $objs = [
+            new SomeClassWithConstant()
+        ];
+
+        $objs[0]::SOME_CONSTANT;
     }
 }

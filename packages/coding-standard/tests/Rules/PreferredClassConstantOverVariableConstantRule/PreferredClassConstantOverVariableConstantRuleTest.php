@@ -21,10 +21,16 @@ final class PreferredClassConstantOverVariableConstantRuleTest extends AbstractS
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/ClassContant.php', []];
+        yield [__DIR__ . '/Fixture/SkipClassContantFetch.php', []];
+
         yield [
             __DIR__ . '/Fixture/VariableConstant.php',
             [[PreferredClassConstantOverVariableConstantRule::ERROR_MESSAGE, 14]],
+        ];
+
+        yield [
+            __DIR__ . '/Fixture/ArrayDimFetchConstant.php',
+            [[PreferredClassConstantOverVariableConstantRule::ERROR_MESSAGE, 17]],
         ];
     }
 

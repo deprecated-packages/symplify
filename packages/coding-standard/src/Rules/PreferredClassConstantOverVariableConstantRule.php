@@ -6,7 +6,7 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -17,7 +17,7 @@ final class PreferredClassConstantOverVariableConstantRule extends AbstractSympl
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class constant is preferred over Variable constant';
+    public const ERROR_MESSAGE = 'Use SomeClass::CONSTANT over dynamic expression::CONSTANT';
 
     /**
      * @return string[]
@@ -33,7 +33,7 @@ final class PreferredClassConstantOverVariableConstantRule extends AbstractSympl
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->class instanceof Variable) {
+        if ($node->class instanceof Name) {
             return [];
         }
 
