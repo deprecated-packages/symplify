@@ -21,15 +21,15 @@ use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 final class DependencyNodeAnalyzer
 {
     /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
      * @var string
      * @see https://regex101.com/r/gn2P0C/1
      */
     private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@required\n?#';
+
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
 
     public function __construct()
     {
@@ -70,32 +70,6 @@ final class DependencyNodeAnalyzer
         return $this->isInsideAssignByParameter($parameters, $assigns);
     }
 
-    private function isInsideAssignByParameter(array $parameters, array $assigns): bool
-    {
-        $parametersVariableNames = [];
-        foreach ($parameters as $parameter) {
-            /** @var Identifier $parameterIdentifier */
-            $parameterIdentifier = $parameter->var->name;
-            $parametersVariableNames[] = (string) $parameterIdentifier;
-        }
-
-        foreach ($assigns as $assign) {
-            /** @var PropertyFetch|StaticPropertyFetch|Variable $assignVariable */
-            $assignVariable = $assign->var;
-            if (! $assignVariable instanceof PropertyFetch && ! $assignVariable instanceof StaticPropertyFetch) {
-                continue;
-            }
-
-            /** @var Variable $exprVariable */
-            $exprVariable = $assign->expr;
-            if (in_array($exprVariable->name, $parametersVariableNames, true)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     /**
      * @param Property|ClassConst $node
      */
@@ -134,6 +108,32 @@ final class DependencyNodeAnalyzer
         }
 
         return $this->isInsideAssignByParameter($parameters, $assigns);
+    }
+
+    private function isInsideAssignByParameter(array $parameters, array $assigns): bool
+    {
+        $parametersVariableNames = [];
+        foreach ($parameters as $parameter) {
+            /** @var Identifier $parameterIdentifier */
+            $parameterIdentifier = $parameter->var->name;
+            $parametersVariableNames[] = (string) $parameterIdentifier;
+        }
+
+        foreach ($assigns as $assign) {
+            /** @var PropertyFetch|StaticPropertyFetch|Variable $assignVariable */
+            $assignVariable = $assign->var;
+            if (! $assignVariable instanceof PropertyFetch && ! $assignVariable instanceof StaticPropertyFetch) {
+                continue;
+            }
+
+            /** @var Variable $exprVariable */
+            $exprVariable = $assign->expr;
+            if (in_array($exprVariable->name, $parametersVariableNames, true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function resolveCurrentClass(Node $node): ?Class_
