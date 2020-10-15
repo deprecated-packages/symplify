@@ -17,7 +17,7 @@ final class TooDeepNewClassNestingRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'new <class> is limited to %d, you have %d nesting.';
+    public const ERROR_MESSAGE = 'new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.';
 
     /**
      * @var int
