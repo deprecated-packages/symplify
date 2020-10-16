@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\TooLongVariableRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\TooDeepNewClassNestingRule\Fixture;
 
 function foo(A $a, B $b, C $c, D $d, E $e)
 {

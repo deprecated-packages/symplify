@@ -49,7 +49,7 @@ final class TooDeepNewClassNestingRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $countNew = count($this->nodeFinder->findInstanceOf($node, New_::class)) - 1;
+        $countNew = count($this->nodeFinder->findInstanceOf($node, New_::class));
 
         if ($this->maxNewClassNesting >= $countNew) {
             return [];
