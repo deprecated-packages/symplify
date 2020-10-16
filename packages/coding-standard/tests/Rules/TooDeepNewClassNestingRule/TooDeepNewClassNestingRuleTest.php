@@ -21,6 +21,7 @@ final class TooDeepNewClassNestingRuleTest extends AbstractServiceAwareRuleTestC
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/InsideFunction.php', []];
         yield [__DIR__ . '/Fixture/AllowedDeepNewClass.php', []];
         yield [__DIR__ . '/Fixture/TooDeepNewClassInSameLevel.php', [
             [sprintf(TooDeepNewClassNestingRule::ERROR_MESSAGE, 3, 4), 7],
