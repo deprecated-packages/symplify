@@ -303,9 +303,3 @@ parameters:
                 - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 15
                 - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 20
                 - packages/monorepo-builder/packages/merge/tests/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php # 18
-
-        -
-            message: '#new <class\> is limited to 3 "new <class\>\(new <class\>\)\)" nesting to each other\. You have 4 nesting#'
-            paths:
-                - packages/easy-coding-standard/packages/changed-files-detector/src/FileHashComputer.php # 60
-                - packages/easy-coding-standard/src/DependencyInjection/DelegatingLoaderFactory.php # 45
