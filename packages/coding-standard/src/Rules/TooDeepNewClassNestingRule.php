@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\TooDeepNewClassNestingRule\TooDeepNewClassNestingRuleTest
@@ -20,12 +20,18 @@ final class TooDeepNewClassNestingRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.';
 
     /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    /**
      * @var int
      */
     private $maxNewClassNesting;
 
-    public function __construct(int $maxNewClassNesting = 3)
+    public function __construct(NodeFinder $nodeFinder, int $maxNewClassNesting = 3)
     {
+        $this->nodeFinder = $nodeFinder;
         $this->maxNewClassNesting = $maxNewClassNesting;
     }
 
@@ -43,15 +49,7 @@ final class TooDeepNewClassNestingRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $countNew = 1;
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($parent) {
-            if ($parent instanceof New_) {
-                ++$countNew;
-            }
-
-            $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
-        }
+        $countNew = count($this->nodeFinder->findInstanceOf($node, New_::class)) - 1;
 
         if ($this->maxNewClassNesting >= $countNew) {
             return [];

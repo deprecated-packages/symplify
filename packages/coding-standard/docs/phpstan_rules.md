@@ -519,12 +519,10 @@ services:
 ```php
 new A(
     new B(
-        new C(),
-        new D(),
-        new E(
-            new F(
-                new G(
-                    new H()
+        new C(
+            new D(
+                new E(
+                    new F()
                 )
             )
         )
@@ -533,6 +531,25 @@ new A(
 ```
 
 :x:
+
+```php
+new A(
+    new B(),
+    new C(),
+    new D()
+);
+```
+
+:x:
+
+```php
+new A(
+    new B(),
+    new C()
+);
+```
+
+:+1:
 
 <br>
 

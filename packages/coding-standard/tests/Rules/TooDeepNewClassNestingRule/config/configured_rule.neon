@@ -1,4 +1,5 @@
 services:
+    - PhpParser\NodeFinder
     -
         class: Symplify\CodingStandard\Rules\TooDeepNewClassNestingRule
         tags: [phpstan.rules.rule]
