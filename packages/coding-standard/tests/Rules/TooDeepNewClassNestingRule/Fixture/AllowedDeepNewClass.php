@@ -6,9 +6,7 @@ namespace Symplify\CodingStandard\Tests\Rules\TooLongVariableRule\Fixture;
 
 new A(
     new B(
-        new C(
-
-        )
+        new C()
     )
 );
 
