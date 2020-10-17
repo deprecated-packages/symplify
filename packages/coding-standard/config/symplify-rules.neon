@@ -247,6 +247,12 @@ services:
             #    - *Search
             #    - Foo
 
+    -
+        class: Symplify\CodingStandard\Rules\TooDeepNewClassNestingRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxNewClassNesting: 3
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem

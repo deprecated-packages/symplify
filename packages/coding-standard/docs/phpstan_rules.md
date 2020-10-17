@@ -502,6 +502,57 @@ final class SomeClass
 
 <br>
 
+## Keep Nesting `new <class>` Not Too Deep
+
+- class: [`TooDeepNewClassNestingRule`](../src/Rules/TooDeepNewClassNestingRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\TooDeepNewClassNestingRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxNewClassNesting: 3
+```
+
+```php
+new A(
+    new B(
+        new C(
+            new D(
+                new E(
+                    new F()
+                )
+            )
+        )
+    )
+);
+```
+
+:x:
+
+```php
+new A(
+    new B(),
+    new C(),
+    new D()
+);
+```
+
+:x:
+
+```php
+new A(
+    new B(),
+    new C()
+);
+```
+
+:+1:
+
+<br>
+
 ## Keep Low Public Elements in a Class
 
 - class: [`ExcessivePublicCountRule`](../src/Rules/ExcessivePublicCountRule.php)
