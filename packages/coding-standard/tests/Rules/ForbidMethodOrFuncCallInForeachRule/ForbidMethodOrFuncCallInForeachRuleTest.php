@@ -23,6 +23,7 @@ final class ForbidMethodOrFuncCallInForeachRuleTest extends AbstractServiceAware
     {
         yield [__DIR__ . '/Fixture/WithoutMethodOrFuncCall.php', []];
         yield [__DIR__ . '/Fixture/WithFuncCall.php', [[ForbidMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 12]]];
+        yield [__DIR__ . '/Fixture/WithMethodCall.php', [[ForbidMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 16]]];
     }
 
     protected function getRule(): Rule
