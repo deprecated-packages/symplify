@@ -11,19 +11,19 @@
         "slevomat/coding-standard": "^6.3.11",
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpstan/phpstan": "^0.12.40",
-        "symplify/package-builder": "^8.4",
-        "symplify/symplify-kernel": "^8.4",
-        "symplify/autowire-array-parameter": "^8.4"
+        "symplify/package-builder": "^8.3.38",
+        "symplify/symplify-kernel": "^8.3.38",
+        "symplify/autowire-array-parameter": "^8.3.38"
     },
     "require-dev": {
         "nette/application": "^3.0",
         "nette/bootstrap": "^3.0",
-        "symplify/easy-coding-standard-tester": "^8.4",
-        "symplify/package-builder": "^8.4",
-        "symplify/phpstan-extensions": "^8.4",
+        "symplify/easy-coding-standard-tester": "^8.3.38",
+        "symplify/package-builder": "^8.3.38",
+        "symplify/phpstan-extensions": "^8.3.38",
         "symfony/http-kernel": "^4.4|^5.1",
         "doctrine/orm": "^2.7",
-        "symplify/smart-file-system": "^8.4",
+        "symplify/smart-file-system": "^8.3.38",
         "symfony/framework-bundle": "^4.4|^5.1",
         "phpunit/phpunit": "^8.5|^9.0"
     },
