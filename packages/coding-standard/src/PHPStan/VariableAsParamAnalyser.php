@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection;
+use Symplify\CodingStandard\ValueObject\MethodName;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class VariableAsParamAnalyser
@@ -25,7 +26,7 @@ final class VariableAsParamAnalyser
 
     public function isVariableFromConstructorParam(MethodReflection $methodReflection, Variable $variable): bool
     {
-        if ($methodReflection->getName() !== '__construct') {
+        if ($methodReflection->getName() !== MethodName::CONSTRUCTOR) {
             return false;
         }
 

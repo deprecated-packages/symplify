@@ -10,6 +10,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\ValueObject\MethodName;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoEntityManagerInControllerRule\NoEntityManagerInControllerRuleTest
@@ -41,7 +42,7 @@ final class NoEntityManagerInControllerRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ((string) $node->name !== '__construct') {
+        if ((string) $node->name !== MethodName::CONSTRUCTOR) {
             return [];
         }
 
