@@ -8,6 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\FileSystem\DirectoryToRepositoryProvider;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
@@ -38,17 +39,24 @@ final class SplitCommand extends Command
      */
     private $directoryToRepositoryProvider;
 
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
     public function __construct(
         RepositoryGuard $repositoryGuard,
         ParameterProvider $parameterProvider,
         PackageToRepositorySplitter $packageToRepositorySplitter,
-        DirectoryToRepositoryProvider $directoryToRepositoryProvider
+        DirectoryToRepositoryProvider $directoryToRepositoryProvider,
+        SymfonyStyle $symfonyStyle
     ) {
         parent::__construct();
 
         $this->repositoryGuard = $repositoryGuard;
         $this->packageToRepositorySplitter = $packageToRepositorySplitter;
         $this->directoryToRepositoryProvider = $directoryToRepositoryProvider;
+        $this->symfonyStyle = $symfonyStyle;
 
         $this->rootDirectory = $parameterProvider->provideStringParameter(Option::ROOT_DIRECTORY);
     }
@@ -58,8 +66,8 @@ final class SplitCommand extends Command
         $this->setName(CommandNaming::classToName(self::class));
         $description = sprintf(
             'Splits monorepo packages to standalone repositories as defined in "%s" section of "%s" config.',
-            'parameters > directories_to_repositories',
-            'monorepo-builder.yml'
+            '$parameters->set(Option::DIRECTORIES_REPOSITORY, [...])',
+            'monorepo-builder.php'
         );
 
         $this->setDescription($description);
@@ -70,12 +78,14 @@ final class SplitCommand extends Command
             InputOption::VALUE_OPTIONAL,
             'Branch to run split on, defaults to current branch'
         );
+
         $this->addOption(
             Option::MAX_PROCESSES,
             null,
             InputOption::VALUE_REQUIRED,
             'Maximum number of processes to run in parallel'
         );
+
         $this->addOption(
             Option::TAG,
             't',
@@ -89,7 +99,7 @@ final class SplitCommand extends Command
         $this->repositoryGuard->ensureIsRepositoryDirectory($this->rootDirectory);
 
         $maxProcesses = $input->getOption(Option::MAX_PROCESSES) ? (int)
-            $input->getOption(Option::MAX_PROCESSES)
+        $input->getOption(Option::MAX_PROCESSES)
             : null;
 
         /** @var string|null $tag */
@@ -98,6 +108,22 @@ final class SplitCommand extends Command
         $branch = $input->getOption(Option::BRANCH) ? (string) $input->getOption(Option::BRANCH) : null;
 
         $resolvedDirectoriesToRepository = $this->directoryToRepositoryProvider->provide();
+        if (count($resolvedDirectoriesToRepository) === 0) {
+            $this->symfonyStyle->error('No packages to split');
+            return ShellCode::SUCCESS;
+        }
+
+        $this->symfonyStyle->title('Splitting Following Packages');
+
+        foreach ($resolvedDirectoriesToRepository as $directory => $gitRepository) {
+            $message = sprintf('* "%s" directory to "%s" repository', $directory, $gitRepository);
+            $this->symfonyStyle->writeln($message);
+        }
+
+        $this->symfonyStyle->newLine(2);
+
+        // to give time to process split information
+        sleep(2);
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $resolvedDirectoriesToRepository,
@@ -106,6 +132,9 @@ final class SplitCommand extends Command
             $maxProcesses,
             $tag
         );
+
+        $message = sprintf('Split of %d packages was successful', count($resolvedDirectoriesToRepository));
+        $this->symfonyStyle->success($message);
 
         return ShellCode::SUCCESS;
     }
