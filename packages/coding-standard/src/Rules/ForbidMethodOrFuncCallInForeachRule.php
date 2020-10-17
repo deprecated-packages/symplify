@@ -40,6 +40,7 @@ final class ForbidMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
     }
 
     /**
+     * @param Foreach_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
