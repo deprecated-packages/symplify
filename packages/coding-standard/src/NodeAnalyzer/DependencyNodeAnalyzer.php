@@ -44,16 +44,16 @@ final class DependencyNodeAnalyzer
      */
     public function isInsideAbstractClassAndPassedAsDependencyViaConstructor(Node $node): bool
     {
-        $class = $this->resolveCurrentClass($node);
-        if (! $class instanceof Class_) {
+        $classLike = $this->resolveCurrentClass($node);
+        if (! $classLike instanceof Class_) {
             return false;
         }
 
-        if (! $class->isAbstract()) {
+        if (! $classLike->isAbstract()) {
             return false;
         }
 
-        $classMethod = $class->getMethod(MethodName::CONSTRUCTOR);
+        $classMethod = $classLike->getMethod(MethodName::CONSTRUCTOR);
         if (! $classMethod instanceof ClassMethod) {
             return false;
         }
@@ -77,15 +77,15 @@ final class DependencyNodeAnalyzer
      */
     public function isInsideClassAndPassedAsDependencyViaAutowireMethod(Node $node): bool
     {
-        $class = $this->resolveCurrentClass($node);
-        if (! $class instanceof Class_ && ! $class instanceof Trait_) {
+        $classLike = $this->resolveCurrentClass($node);
+        if (! $classLike instanceof Class_ && ! $classLike instanceof Trait_) {
             return false;
         }
 
-        $shortClassName = (string) $class->name;
+        $shortClassName = (string) $classLike->name;
         $autowireMethodName = 'autowire' . $shortClassName;
 
-        $classMethod = $class->getMethod($autowireMethodName);
+        $classMethod = $classLike->getMethod($autowireMethodName);
         if (! $classMethod instanceof ClassMethod) {
             return false;
         }
