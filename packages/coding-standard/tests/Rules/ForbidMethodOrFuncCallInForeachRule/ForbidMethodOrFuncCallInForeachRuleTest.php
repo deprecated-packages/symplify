@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbidMethodCallInForeachRule;
+namespace Symplify\CodingStandard\Tests\Rules\ForbidMethodOrFuncCallInForeachRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
