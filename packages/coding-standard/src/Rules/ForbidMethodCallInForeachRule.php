@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
@@ -44,6 +45,10 @@ final class ForbidMethodCallInForeachRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         if (count($this->nodeFinder->findInstanceOf($node->expr, MethodCall::class)) > 0) {
+            return [self::ERROR_MESSAGE];
+        }
+
+        if (count($this->nodeFinder->findInstanceOf($node->expr, FuncCall::class)) > 0) {
             return [self::ERROR_MESSAGE];
         }
 

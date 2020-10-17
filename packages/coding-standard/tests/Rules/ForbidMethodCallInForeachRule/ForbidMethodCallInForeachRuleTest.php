@@ -21,8 +21,8 @@ final class ForbidMethodCallInForeachRuleTest extends AbstractServiceAwareRuleTe
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/WithoutMethodCall.php', []];
-        yield [__DIR__ . '/Fixture/WithMethodCall.php', [[ForbidMethodCallInForeachRule::ERROR_MESSAGE, 12]]];
+        yield [__DIR__ . '/Fixture/WithoutMethodOrFuncCall.php', []];
+        yield [__DIR__ . '/Fixture/WithFuncCall.php', [[ForbidMethodCallInForeachRule::ERROR_MESSAGE, 12]]];
     }
 
     protected function getRule(): Rule
