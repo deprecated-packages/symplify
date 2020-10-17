@@ -12,14 +12,14 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbidMethodCallInForeachRule\ForbidMethodCallInForeachRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\ForbidMethodOrFuncCallInForeachRule\ForbidMethodOrFuncCallInForeachRuleTest
  */
-final class ForbidMethodCallInForeachRule extends AbstractSymplifyRule
+final class ForbidMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method call in foreach is not allowed.';
+    public const ERROR_MESSAGE = 'Method or Function call in foreach is not allowed.';
 
     /**
      * @var NodeFinder

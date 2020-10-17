@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbidMethodCallInForeachRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbidMethodCallInForeachRule;
+use Symplify\CodingStandard\Rules\ForbidMethodOrFuncCallInForeachRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ForbidMethodCallInForeachRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbidMethodOrFuncCallInForeachRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -22,13 +22,13 @@ final class ForbidMethodCallInForeachRuleTest extends AbstractServiceAwareRuleTe
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/WithoutMethodOrFuncCall.php', []];
-        yield [__DIR__ . '/Fixture/WithFuncCall.php', [[ForbidMethodCallInForeachRule::ERROR_MESSAGE, 12]]];
+        yield [__DIR__ . '/Fixture/WithFuncCall.php', [[ForbidMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 12]]];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            ForbidMethodCallInForeachRule::class,
+            ForbidMethodOrFuncCallInForeachRule::class,
             __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }
