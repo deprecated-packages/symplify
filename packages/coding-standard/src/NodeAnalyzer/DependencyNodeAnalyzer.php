@@ -13,9 +13,12 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeFinder;
+use Symplify\CodingStandard\ValueObject\MethodName;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 final class DependencyNodeAnalyzer
@@ -41,7 +44,6 @@ final class DependencyNodeAnalyzer
      */
     public function isInsideAbstractClassAndPassedAsDependencyViaConstructor(Node $node): bool
     {
-        /** @var Class_ $class */
         $class = $this->resolveCurrentClass($node);
         if (! $class instanceof Class_) {
             return false;
@@ -51,7 +53,7 @@ final class DependencyNodeAnalyzer
             return false;
         }
 
-        $classMethod = $class->getMethod('__construct');
+        $classMethod = $class->getMethod(MethodName::CONSTRUCTOR);
         if (! $classMethod instanceof ClassMethod) {
             return false;
         }
@@ -75,14 +77,15 @@ final class DependencyNodeAnalyzer
      */
     public function isInsideClassAndPassedAsDependencyViaAutowireMethod(Node $node): bool
     {
-        /** @var Class_ $class */
         $class = $this->resolveCurrentClass($node);
-        if (! $class instanceof Class_) {
+        if (! $class instanceof Class_ && ! $class instanceof Trait_) {
             return false;
         }
 
-        $shortClassName = $class->name;
-        $classMethod = $class->getMethod('autowire' . $shortClassName);
+        $shortClassName = (string) $class->name;
+        $autowireMethodName = 'autowire' . $shortClassName;
+
+        $classMethod = $class->getMethod($autowireMethodName);
         if (! $classMethod instanceof ClassMethod) {
             return false;
         }
@@ -136,11 +139,11 @@ final class DependencyNodeAnalyzer
         return false;
     }
 
-    private function resolveCurrentClass(Node $node): ?Class_
+    private function resolveCurrentClass(Node $node): ?ClassLike
     {
         $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
         while ($class) {
-            if ($class instanceof Class_) {
+            if ($class instanceof ClassLike) {
                 return $class;
             }
 
