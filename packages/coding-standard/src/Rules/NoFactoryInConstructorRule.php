@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\MethodCall;
@@ -11,8 +12,10 @@ use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ThisType;
+use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symplify\CodingStandard\ValueObject\MethodName;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
@@ -29,7 +32,11 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
     /**
      * @var string[]
      */
-    private const ALLOWED_TYPES = [ParameterProvider::class, ParameterBagInterface::class];
+    private const ALLOWED_TYPES = [
+        ParameterProvider::class,
+        ParameterBagInterface::class,
+        EntityManagerInterface::class,
+    ];
 
     /**
      * @return string[]
@@ -64,14 +71,8 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! $callerType instanceof TypeWithClassName) {
+        if ($this->isAllowedType($callerType)) {
             return [];
-        }
-
-        foreach (self::ALLOWED_TYPES as $allowedType) {
-            if (is_a($callerType->getClassName(), $allowedType, true)) {
-                return [];
-            }
         }
 
         return [self::ERROR_MESSAGE];
@@ -84,6 +85,21 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
             return false;
         }
 
-        return $reflectionFunction->getName() === '__construct';
+        return $reflectionFunction->getName() === MethodName::CONSTRUCTOR;
+    }
+
+    private function isAllowedType(Type $type): bool
+    {
+        if (! $type instanceof TypeWithClassName) {
+            return false;
+        }
+
+        foreach (self::ALLOWED_TYPES as $allowedType) {
+            if (is_a($type->getClassName(), $allowedType, true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

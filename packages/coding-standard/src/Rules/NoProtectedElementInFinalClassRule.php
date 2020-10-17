@@ -12,7 +12,9 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use ReflectionClass;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
+use Symplify\CodingStandard\PHPStan\Types\ClassMethodTypeAnalyzer;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
@@ -30,9 +32,17 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
      */
     private $parentMethodAnalyser;
 
-    public function __construct(ParentMethodAnalyser $parentMethodAnalyser)
-    {
+    /**
+     * @var ClassMethodTypeAnalyzer
+     */
+    private $classMethodTypeAnalyzer;
+
+    public function __construct(
+        ParentMethodAnalyser $parentMethodAnalyser,
+        ClassMethodTypeAnalyzer $classMethodTypeAnalyzer
+    ) {
         $this->parentMethodAnalyser = $parentMethodAnalyser;
+        $this->classMethodTypeAnalyzer = $classMethodTypeAnalyzer;
     }
 
     /**
@@ -111,8 +121,12 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
      */
     private function processClassMethod(ClassMethod $classMethod, Class_ $class, Scope $scope): array
     {
-        $methodName = (string) $classMethod->name;
+        // is Symfony Kernel required magic method?
+        if ($this->isSymfonyMicroKernelRequired($classMethod, $scope)) {
+            return [];
+        }
 
+        $methodName = (string) $classMethod->name;
         if ($this->isMethodExistInTraits($class, $methodName)
             || $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
             return [];
@@ -134,5 +148,15 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    private function isSymfonyMicroKernelRequired(ClassMethod $classMethod, Scope $scope): bool
+    {
+        return $this->classMethodTypeAnalyzer->isClassMethodOfNamesAndType(
+            $classMethod,
+            $scope,
+            ['configureRoutes', 'configureContainer'],
+            MicroKernelTrait::class
+        );
     }
 }

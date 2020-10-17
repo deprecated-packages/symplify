@@ -21,7 +21,10 @@
         "symplify/easy-coding-standard-tester": "^8.4",
         "symplify/package-builder": "^8.4",
         "symplify/phpstan-extensions": "^8.4",
+        "symfony/http-kernel": "^4.4|^5.1",
+        "doctrine/orm": "^2.7",
         "symplify/smart-file-system": "^8.4",
+        "symfony/framework-bundle": "^4.4|^5.1",
         "phpunit/phpunit": "^8.5|^9.0"
     },
     "autoload": {
