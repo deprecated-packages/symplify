@@ -17,6 +17,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
 use Symplify\CodingStandard\PHPStan\ParentGuard\ParentMethodReturnTypeResolver;
+use Symplify\CodingStandard\ValueObject\MethodName;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
@@ -83,7 +84,7 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
         }
 
         // skip examples in Rector::getDefinition() method
-        if (in_array($scope->getFunctionName(), ['getDefinition', '__construct'], true)) {
+        if (in_array($scope->getFunctionName(), ['getDefinition', MethodName::CONSTRUCTOR], true)) {
             return true;
         }
 

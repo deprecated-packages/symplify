@@ -6,6 +6,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\ValueObject\MethodName;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoGetRepositoryOutsideConstructorRule\NoGetRepositoryOutsideConstructorRuleTest
@@ -45,7 +46,7 @@ final class NoGetRepositoryOutsideConstructorRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (in_array($functionReflection->getName(), ['__construct', 'setUp'], true)) {
+        if (in_array($functionReflection->getName(), [MethodName::CONSTRUCTOR, 'setUp'], true)) {
             return [];
         }
 

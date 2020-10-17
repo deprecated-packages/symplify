@@ -11,6 +11,7 @@ use PHPStan\Reflection\MethodReflection;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser;
+use Symplify\CodingStandard\ValueObject\MethodName;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoContainerInjectionInConstructorRule\NoContainerInjectionInConstructorRuleTest
@@ -68,6 +69,6 @@ final class NoContainerInjectionInConstructorRule extends AbstractSymplifyRule
             return false;
         }
 
-        return $reflectionFunction->getName() === '__construct';
+        return $reflectionFunction->getName() === MethodName::CONSTRUCTOR;
     }
 }

@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\CodingStandard\ValueObject\MethodName;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoConstructorInTestRule\NoConstructorInTestRuleTest
@@ -33,7 +34,7 @@ final class NoConstructorInTestRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ((string) $node->name !== '__construct') {
+        if ((string) $node->name !== MethodName::CONSTRUCTOR) {
             return [];
         }
 
