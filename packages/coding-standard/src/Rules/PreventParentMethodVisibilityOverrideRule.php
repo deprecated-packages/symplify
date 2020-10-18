@@ -39,13 +39,13 @@ final class PreventParentMethodVisibilityOverrideRule extends AbstractSymplifyRu
         }
 
         $classReflection = $scope->getClassReflection();
-        if ($classReflection->getParentClassesNames() === []) {
+        $parentClassNames = $classReflection->getParentClassesNames();
+        if ($parentClassNames === []) {
             return [];
         }
 
         $methodName = (string) $node->name;
-
-        foreach ($classReflection->getParentClassesNames() as $parentClassName) {
+        foreach ($parentClassNames as $parentClassName) {
             if (! method_exists($parentClassName, $methodName)) {
                 continue;
             }

@@ -307,7 +307,6 @@ parameters:
         -
             message: '#Method or Function call in foreach is not allowed#'
             paths:
-                - packages/coding-standard/src/Rules/PreventParentMethodVisibilityOverrideRule.php # 48
                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/DuplicatedArrayMalformWorker.php # 29
                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/MissingParamNameMalformWorker.php # 80
                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousReturnNameMalformWorker.php # 34
