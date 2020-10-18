@@ -46,7 +46,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
             return;
         }
         $currentRequire = $composerJson->getRequire();
-        foreach (array_keys($composerJsonToRemove->getRequire()) as $package) {
+        $packages = array_keys($composerJsonToRemove->getRequire());
+        foreach ($packages as $package) {
             unset($currentRequire[$package]);
         }
 
@@ -60,7 +61,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
         }
 
         $currentRequireDev = $composerJson->getRequireDev();
-        foreach (array_keys($composerJsonToRemove->getRequireDev()) as $package) {
+        $packages = array_keys($composerJsonToRemove->getRequireDev());
+        foreach ($packages as $package) {
             unset($currentRequireDev[$package]);
         }
 
@@ -80,7 +82,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
                 continue;
             }
 
-            foreach (array_keys($autoloadList) as $namespace) {
+            $autoloadListKeys = array_keys($autoloadList);
+            foreach ($autoloadListKeys as $namespace) {
                 unset($currentAutoload[$type][$namespace]);
             }
         }
@@ -101,7 +104,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
                 continue;
             }
 
-            foreach (array_keys($autoloadList) as $namespace) {
+            $autoloadListKeys = array_keys($autoloadList);
+            foreach ($autoloadListKeys as $namespace) {
                 unset($currentAutoloadDev[$type][$namespace]);
             }
         }
