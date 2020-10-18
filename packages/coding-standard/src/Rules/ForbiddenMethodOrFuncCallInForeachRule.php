@@ -46,26 +46,23 @@ final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $calls = $this->nodeFinder->findInstanceOf($node->expr, MethodCall::class);
-        $isHasArgs = $this->isHasArgs($calls);
+        $expressionClasses = [
+            MethodCall::class,
+            StaticCall::class,
+            FuncCall::class,
+        ];
 
-        if ($isHasArgs) {
+        foreach ($expressionClasses as $expressionClass) {
+            $calls = $this->nodeFinder->findInstanceOf($node->expr, $expressionClass);
+            $isHasArgs = $this->isHasArgs($calls);
+
+            if (! $isHasArgs) {
+                continue;
+            }
+
             return [self::ERROR_MESSAGE];
         }
 
-        $calls = $this->nodeFinder->findInstanceOf($node->expr, StaticCall::class);
-        $isHasArgs = $this->isHasArgs($calls);
-
-        if ($isHasArgs) {
-            return [self::ERROR_MESSAGE];
-        }
-
-        $calls = $this->nodeFinder->findInstanceOf($node->expr, FuncCall::class);
-        $isHasArgs = $this->isHasArgs($calls);
-
-        if ($isHasArgs) {
-            return [self::ERROR_MESSAGE];
-        }
 
         return [];
     }
