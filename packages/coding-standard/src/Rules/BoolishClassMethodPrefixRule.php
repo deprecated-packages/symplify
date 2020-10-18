@@ -162,7 +162,8 @@ final class BoolishClassMethodPrefixRule extends AbstractSymplifyRule
 
     private function isMethodRequiredByParentInterface(ClassReflection $classReflection, string $methodName): bool
     {
-        foreach ($classReflection->getInterfaces() as $interface) {
+        $interfaces = $classReflection->getInterfaces();
+        foreach ($interfaces as $interface) {
             if ($interface->hasMethod($methodName)) {
                 return true;
             }

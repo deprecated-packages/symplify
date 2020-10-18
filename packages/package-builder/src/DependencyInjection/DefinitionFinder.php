@@ -19,7 +19,8 @@ final class DefinitionFinder
     public function findAllByType(ContainerBuilder $containerBuilder, string $type): array
     {
         $definitions = [];
-        foreach ($containerBuilder->getDefinitions() as $name => $definition) {
+        $containerBuilderDefinitions = $containerBuilder->getDefinitions();
+        foreach ($containerBuilderDefinitions as $name => $definition) {
             $class = $definition->getClass() ?: $name;
             if (! is_string($class)) {
                 continue;
@@ -45,7 +46,8 @@ final class DefinitionFinder
 
     public function getByTypeIfExists(ContainerBuilder $containerBuilder, string $type): ?Definition
     {
-        foreach ($containerBuilder->getDefinitions() as $name => $definition) {
+        $containerBuilderDefinitions = $containerBuilder->getDefinitions();
+        foreach ($containerBuilderDefinitions as $name => $definition) {
             $class = $definition->getClass() ?: $name;
             if (! is_string($class)) {
                 continue;

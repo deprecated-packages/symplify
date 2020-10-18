@@ -32,7 +32,8 @@ final class UsedPackagesResolver
                 continue;
             }
 
-            foreach (array_keys($packageComposerJson[$section]) as $packageName) {
+            $sectionKeys = array_keys($packageComposerJson[$section]);
+            foreach ($sectionKeys as $packageName) {
                 if (! in_array($packageName, $this->packageNamesProvider->provide(), true)) {
                     continue;
                 }

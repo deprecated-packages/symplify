@@ -34,7 +34,8 @@ final class PriorityResolver
             return null;
         }
 
-        foreach (array_keys($rawOptions) as $name) {
+        $names = array_keys($rawOptions);
+        foreach ($names as $name) {
             if ($name === Option::IN_PACKAGES) {
                 return 'packages';
             }

@@ -57,7 +57,8 @@ abstract class AbstractArrayFixer extends AbstractSymplifyFixer implements Array
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        foreach ($this->reverseTokens($tokens) as $index => $token) {
+        $reverseTokens = $this->reverseTokens($tokens);
+        foreach ($reverseTokens as $index => $token) {
             if (! $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
                 continue;
             }

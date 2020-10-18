@@ -17,12 +17,13 @@ final class CommonNamespaceResolver
      */
     public function resolve(ServiceConfig $serviceConfig, int $nestingLevel): array
     {
-        if ($serviceConfig->getClasses() === []) {
+        $classes = $serviceConfig->getClasses();
+        if ($classes === []) {
             return [];
         }
 
         $namespaces = [];
-        foreach ($serviceConfig->getClasses() as $class) {
+        foreach ($classes as $class) {
             $namespace = Strings::before($class, '\\', $nestingLevel);
             if ($namespace) {
                 $namespaces[] = $namespace;

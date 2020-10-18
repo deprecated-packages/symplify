@@ -85,8 +85,9 @@ final class PropagateCommand extends Command
             unset($filesToVersion['composer.json']);
 
             $filesToVersion = $this->processManualConfigFiles($filesToVersion, $packageName, $newVersion);
+            $fileToVersionKeys = array_keys($filesToVersion);
 
-            foreach (array_keys($filesToVersion) as $filePath) {
+            foreach ($fileToVersionKeys as $filePath) {
                 $this->dependencyUpdater->updateFileInfosWithPackagesAndVersion(
                     [new SmartFileInfo($filePath)],
                     [$packageName],

@@ -31,7 +31,8 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
     {
         $docBlock = new DocBlock($docContent);
 
-        foreach ($docBlock->getLines() as $line) {
+        $lines = $docBlock->getLines();
+        foreach ($lines as $line) {
             $match = Strings::match($line->getContent(), self::RETURN_VARIABLE_NAME_REGEX);
             if ($this->shouldSkip($match, $line->getContent())) {
                 continue;

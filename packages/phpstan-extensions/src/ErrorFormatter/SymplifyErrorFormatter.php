@@ -65,11 +65,13 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
         $this->reportErrors($analysisResult);
 
-        foreach ($analysisResult->getNotFileSpecificErrors() as $notFileSpecificError) {
+        $notFileSpecificErrors = $analysisResult->getNotFileSpecificErrors();
+        foreach ($notFileSpecificErrors as $notFileSpecificError) {
             $this->symfonyStyle->warning($notFileSpecificError);
         }
 
-        foreach ($analysisResult->getWarnings() as $warning) {
+        $warnings = $analysisResult->getWarnings();
+        foreach ($warnings as $warning) {
             $this->symfonyStyle->warning($warning);
         }
 
@@ -136,7 +138,8 @@ final class SymplifyErrorFormatter implements ErrorFormatter
     {
         $errorsByFile = [];
 
-        foreach ($analysisResult->getFileSpecificErrors() as $fileSpecificError) {
+        $fileSpecificErrors = $analysisResult->getFileSpecificErrors();
+        foreach ($fileSpecificErrors as $fileSpecificError) {
             $errorsByFile[$fileSpecificError->getMessage()][] = $fileSpecificError;
         }
 

@@ -22,7 +22,8 @@ final class VideoRepository
         $recodedEvents = array_merge($this->recordedMeetups, $this->recordedConferences);
 
         foreach ($recodedEvents as $recodedEvent) { // operation: +1
-            foreach ($recodedEvent->getVideos() as $video) { // operation: +1, nesting: +1
+            $videos = $recodedEvent->getVideos();
+            foreach ($videos as $video) { // operation: +1, nesting: +1
                 if ($video->getSlug() !== $slug) { // operation: +1, nesting: +2
                     continue;
                 }

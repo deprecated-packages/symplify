@@ -42,7 +42,8 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
     public function autodiscover(): void
     {
         $entityMappings = [];
-        foreach ($this->autodiscoveryFinder->getEntityDirectories() as $entityDirectory) {
+        $entityDirectories = $this->autodiscoveryFinder->getEntityDirectories();
+        foreach ($entityDirectories as $entityDirectory) {
             $namespace = $this->namespaceDetector->detectFromDirectory($entityDirectory);
             if (! $namespace) {
                 continue;

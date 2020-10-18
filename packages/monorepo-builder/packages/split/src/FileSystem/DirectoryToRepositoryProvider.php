@@ -86,7 +86,8 @@ final class DirectoryToRepositoryProvider
         // fnmatch
         $patternWithoutAsterisk = (string) trim($directory, '*');
 
-        foreach ((array) glob($directory) as $foundDirectory) {
+        $foundDirectories = (array) glob($directory);
+        foreach ($foundDirectories as $foundDirectory) {
             /** @var string $foundDirectory */
             $exclusiveName = (string) Strings::after($foundDirectory, $patternWithoutAsterisk);
             $targetRepository = Strings::replace($repository, self::ASTERISK_REGEX, $exclusiveName);

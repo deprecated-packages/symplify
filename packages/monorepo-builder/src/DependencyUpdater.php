@@ -75,7 +75,8 @@ final class DependencyUpdater
             return $json;
         }
 
-        foreach (array_keys($json[$section]) as $packageName) {
+        $sectionKeys = array_keys($json[$section]);
+        foreach ($sectionKeys as $packageName) {
             if (! in_array($packageName, $packageNames, true)) {
                 continue;
             }

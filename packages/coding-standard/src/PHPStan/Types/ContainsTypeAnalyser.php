@@ -35,7 +35,8 @@ final class ContainsTypeAnalyser
         $exprType = $scope->getType($expr);
 
         if ($exprType instanceof IntersectionType) {
-            foreach ($exprType->getTypes() as $intersectionedType) {
+            $intersectionedTypes = $exprType->getTypes();
+            foreach ($intersectionedTypes as $intersectionedType) {
                 if ($this->isExprTypeOfType($intersectionedType, $type)) {
                     return true;
                 }
@@ -51,7 +52,8 @@ final class ContainsTypeAnalyser
             return false;
         }
 
-        foreach ($type->getTypes() as $unionedType) {
+        $unionedTypes = $type->getTypes();
+        foreach ($unionedTypes as $unionedType) {
             if (! $unionedType instanceof TypeWithClassName) {
                 continue;
             }

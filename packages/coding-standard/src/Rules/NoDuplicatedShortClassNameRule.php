@@ -85,7 +85,8 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
             return;
         }
 
-        foreach (get_declared_classes() as $fullyQualifiedClassName) {
+        $fullyQualifiedClassNames = get_declared_classes();
+        foreach ($fullyQualifiedClassNames as $fullyQualifiedClassName) {
             if (! Strings::contains($fullyQualifiedClassName, '\\')) {
                 continue;
             }

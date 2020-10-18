@@ -23,7 +23,8 @@ final class RegexPatternTest extends TestCase
     ): void {
         $matches = [];
 
-        foreach (Strings::matchAll($content, $regexPattern) as $match) {
+        $matchesRegexContents = Strings::matchAll($content, $regexPattern);
+        foreach ($matchesRegexContents as $match) {
             $matches[] = $match[$matchName];
         }
 

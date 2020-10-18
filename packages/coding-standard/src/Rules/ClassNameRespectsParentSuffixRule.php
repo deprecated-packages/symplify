@@ -132,8 +132,8 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
     private function processClassNameAndShort(string $class, string $currentShortClass): array
     {
         $currentShortClass = $this->resolveExpectedSuffix($currentShortClass);
-
-        foreach ($this->getParentClassesToCheck() as $parentSuffix => $expectedSuffix) {
+        $parentClassesToCheck = $this->getParentClassesToCheck();
+        foreach ($parentClassesToCheck as $parentSuffix => $expectedSuffix) {
             if (is_int($parentSuffix)) {
                 $parentSuffix = $expectedSuffix;
             }

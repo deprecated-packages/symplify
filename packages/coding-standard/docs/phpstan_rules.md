@@ -1885,6 +1885,57 @@ abstract class SomeClass implements ConfigInterface
 
 <br>
 
+## Forbid Method or Function Call Inside Foreach's Expression. Use Variable instead.
+
+- class: [`ForbiddenMethodOrFuncCallInForeachRule`](../src/Rules/ForbiddenMethodOrFuncCallInForeachRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrFuncCallInForeachRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+function getData()
+{
+    return [];
+}
+
+foreach (getData() as $key => $item) {
+
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+function getData()
+{
+    return [];
+}
+
+$data = getData();
+foreach ($data as $key => $item) {
+
+}
+```
+
+:+1:
+
+<br>
+
 ## Assignment inside if statement is forbidden. Use before if instead
 
 - class: [`ForbiddenAssignInifRule`](../src/Rules/ForbiddenAssignInifRule.php)

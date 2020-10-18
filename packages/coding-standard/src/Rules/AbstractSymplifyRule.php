@@ -120,7 +120,8 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface
 
     private function shouldSkipNode(Node $node): bool
     {
-        foreach ($this->getNodeTypes() as $nodeType) {
+        $nodeTypes = $this->getNodeTypes();
+        foreach ($nodeTypes as $nodeType) {
             if (is_a($node, $nodeType, true)) {
                 return false;
             }

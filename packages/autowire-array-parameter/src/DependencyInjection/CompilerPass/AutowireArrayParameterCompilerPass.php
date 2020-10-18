@@ -60,7 +60,8 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $containerBuilder): void
     {
-        foreach ($containerBuilder->getDefinitions() as $definition) {
+        $definitions = $containerBuilder->getDefinitions();
+        foreach ($definitions as $definition) {
             if ($this->shouldSkipDefinition($containerBuilder, $definition)) {
                 continue;
             }
@@ -120,7 +121,8 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         ReflectionMethod $reflectionMethod,
         Definition $definition
     ): void {
-        foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
+        $reflectionParameters = $reflectionMethod->getParameters();
+        foreach ($reflectionParameters as $reflectionParameter) {
             if ($this->shouldSkipParameter($reflectionMethod, $definition, $reflectionParameter)) {
                 continue;
             }
@@ -215,7 +217,8 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
     private function createReferencesFromDefinitions(array $definitions): array
     {
         $references = [];
-        foreach (array_keys($definitions) as $definitionOfTypeName) {
+        $definitionOfTypeNames = array_keys($definitions);
+        foreach ($definitionOfTypeNames as $definitionOfTypeName) {
             $references[] = new Reference($definitionOfTypeName);
         }
 
