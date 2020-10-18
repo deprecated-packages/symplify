@@ -21,8 +21,14 @@ final class ForbiddenReturnValueOfIncludeOnceRuleTest extends AbstractServiceAwa
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/ReturnRequireOnce.php', [[ForbiddenReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]];
-        yield [__DIR__ . '/Fixture/AssignRequireOnce.php', [[ForbiddenReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]];
+        yield [
+            __DIR__ . '/Fixture/ReturnRequireOnce.php',
+            [[ForbiddenReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]],
+        ];
+        yield [
+            __DIR__ . '/Fixture/AssignRequireOnce.php',
+            [[ForbiddenReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]],
+        ];
     }
 
     protected function getRule(): Rule
