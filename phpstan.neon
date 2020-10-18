@@ -307,9 +307,6 @@ parameters:
         -
             message: '#Method or Function call in foreach is not allowed#'
             paths:
-                - packages/autodiscovery/src/Doctrine/DoctrineEntityMappingAutodiscoverer.php # 45
-                - packages/autodiscovery/src/Routing/AnnotationRoutesAutodiscoverer.php # 36
-                - packages/autodiscovery/src/Translation/TranslationPathAutodiscoverer.php # 36
                 - packages/autodiscovery/src/Twig/TwigPathAutodiscoverer.php # 35
                 - packages/autodiscovery/src/Yaml/CommonNamespaceResolver.php # 25
                 - packages/autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php # 165

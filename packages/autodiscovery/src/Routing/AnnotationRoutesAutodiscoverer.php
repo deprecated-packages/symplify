@@ -33,7 +33,8 @@ final class AnnotationRoutesAutodiscoverer implements AutodiscovererInterface
 
     public function autodiscover(): void
     {
-        foreach ($this->autodiscoveryFinder->getControllerDirectories() as $controllerDirectoryFileInfo) {
+        $controllerDirectories = $this->autodiscoveryFinder->getControllerDirectories();
+        foreach ($controllerDirectories as $controllerDirectoryFileInfo) {
             $this->routeCollectionBuilder->import($controllerDirectoryFileInfo->getRealPath(), '/', 'annotation');
         }
     }
