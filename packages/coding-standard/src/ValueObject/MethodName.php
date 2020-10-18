@@ -10,4 +10,9 @@ final class MethodName
      * @var string
      */
     public const CONSTRUCTOR = '__construct';
+
+    /**
+     * @var string
+     */
+    public const SET_UP = 'setUp';
 }

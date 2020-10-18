@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\NodeAnalyzer\DependencyNodeAnalyzer;
-use Symplify\CodingStandard\NodeAnalyzer\TypeNodeAnalyzer;
+use Symplify\CodingStandard\PHPStan\NodeAnalyser\ProtectedAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenProtectedPropertyRule\ForbiddenProtectedPropertyRuleTest
@@ -22,19 +20,13 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Property with protected modifier is not allowed. Use interface instead.';
 
     /**
-     * @var DependencyNodeAnalyzer
+     * @var ProtectedAnalyser
      */
-    private $dependencyNodeAnalyzer;
+    private $protectedAnalyser;
 
-    /**
-     * @var TypeNodeAnalyzer
-     */
-    private $typeNodeAnalyzer;
-
-    public function __construct(DependencyNodeAnalyzer $dependencyNodeAnalyzer, TypeNodeAnalyzer $typeNodeAnalyzer)
+    public function __construct(ProtectedAnalyser $protectedAnalyser)
     {
-        $this->dependencyNodeAnalyzer = $dependencyNodeAnalyzer;
-        $this->typeNodeAnalyzer = $typeNodeAnalyzer;
+        $this->protectedAnalyser = $protectedAnalyser;
     }
 
     /**
@@ -42,11 +34,11 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Property::class, ClassConst::class];
+        return [Property::class];
     }
 
     /**
-     * @param Property|ClassConst $node
+     * @param Property $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
@@ -55,15 +47,7 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->dependencyNodeAnalyzer->isInsideAbstractClassAndPassedAsDependencyViaConstructor($node)) {
-            return [];
-        }
-
-        if ($this->dependencyNodeAnalyzer->isInsideClassAndPassedAsDependencyViaAutowireMethod($node)) {
-            return [];
-        }
-
-        if ($this->typeNodeAnalyzer->isStaticAndContainerOrKernelType($node)) {
+        if ($this->protectedAnalyser->isProtectedPropertyOrClassConstAllowed($node)) {
             return [];
         }
 

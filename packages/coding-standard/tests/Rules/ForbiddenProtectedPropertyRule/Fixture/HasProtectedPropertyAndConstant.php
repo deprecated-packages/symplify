@@ -13,8 +13,4 @@ final class HasProtectedPropertyAndConstant
     public static $d;
     private static $e;
     protected static $f;
-
-    public const G = 'G';
-    private const H = 'H';
-    protected const I = 'I';
 }
