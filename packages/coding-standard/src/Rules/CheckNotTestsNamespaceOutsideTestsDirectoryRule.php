@@ -84,6 +84,6 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymp
 
     private function isInTestsDirectory(Scope $scope): bool
     {
-        return Strings::contains($scope->getFile(), '/tests/');
+        return Strings::contains($scope->getFile(), DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR);
     }
 }
