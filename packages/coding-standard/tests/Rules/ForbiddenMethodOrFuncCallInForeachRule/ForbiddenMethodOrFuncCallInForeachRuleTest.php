@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbidMethodOrFuncCallInForeachRule;
+namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrFuncCallInForeachRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbidMethodOrFuncCallInForeachRule;
+use Symplify\CodingStandard\Rules\ForbiddenMethodOrFuncCallInForeachRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ForbidMethodOrFuncCallInForeachRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenMethodOrFuncCallInForeachRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -22,14 +22,14 @@ final class ForbidMethodOrFuncCallInForeachRuleTest extends AbstractServiceAware
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/WithoutMethodOrFuncCall.php', []];
-        yield [__DIR__ . '/Fixture/WithFuncCall.php', [[ForbidMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 12]]];
-        yield [__DIR__ . '/Fixture/WithMethodCall.php', [[ForbidMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 16]]];
+        yield [__DIR__ . '/Fixture/WithFuncCall.php', [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 12]]];
+        yield [__DIR__ . '/Fixture/WithMethodCall.php', [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 16]]];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            ForbidMethodOrFuncCallInForeachRule::class,
+            ForbiddenMethodOrFuncCallInForeachRule::class,
             __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }

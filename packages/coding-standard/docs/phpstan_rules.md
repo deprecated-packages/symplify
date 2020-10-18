@@ -1887,13 +1887,13 @@ abstract class SomeClass implements ConfigInterface
 
 ## Forbid Method or Function Call Inside Foreach's Expression. Use Variable instead.
 
-- class: [`ForbidMethodOrFuncCallInForeachRule`](../src/Rules/ForbidMethodOrFuncCallInForeachRule.php)
+- class: [`ForbiddenMethodOrFuncCallInForeachRule`](../src/Rules/ForbiddenMethodOrFuncCallInForeachRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbidMethodOrFuncCallInForeachRule
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrFuncCallInForeachRule
         tags: [phpstan.rules.rule]
 ```
 
