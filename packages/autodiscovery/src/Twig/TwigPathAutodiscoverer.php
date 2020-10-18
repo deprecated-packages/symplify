@@ -32,7 +32,8 @@ final class TwigPathAutodiscoverer implements AutodiscovererInterface
     public function autodiscover(): void
     {
         $paths = [];
-        foreach ($this->autodiscoveryFinder->getTemplatesDirectories() as $templatesDirectory) {
+        $templatesDirectories = $this->autodiscoveryFinder->getTemplatesDirectories();
+        foreach ($templatesDirectories as $templatesDirectory) {
             $paths[] = $templatesDirectory->getRealPath();
         }
 

@@ -307,12 +307,6 @@ parameters:
         -
             message: '#Method or Function call in foreach is not allowed#'
             paths:
-                - packages/autodiscovery/src/Twig/TwigPathAutodiscoverer.php # 35
-                - packages/autodiscovery/src/Yaml/CommonNamespaceResolver.php # 25
-                - packages/autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php # 165
-                - packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php # 63
-                - packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php # 123
-                - packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php # 218
                 - packages/changelog-linker/src/Console/Input/PriorityResolver.php # 37
                 - packages/changelog-linker/src/LinkAppender.php # 70
                 - packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php # 57

@@ -161,8 +161,9 @@ final class ExplicitToAutodiscoveryConverter
     private function groupServicesByNamespaces(ServiceConfig $serviceConfig, array $commonNamespaces): array
     {
         $groupedServicesByNamespace = [];
+        $serviceConfigClasses = $serviceConfig->getClasses();
         foreach ($commonNamespaces as $commonNamespace) {
-            foreach ($serviceConfig->getClasses() as $class) {
+            foreach ($serviceConfigClasses as $class) {
                 if (Strings::startsWith($class, $commonNamespace . '\\')) {
                     $groupedServicesByNamespace[$commonNamespace][] = $class;
                     continue;
