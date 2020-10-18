@@ -20,13 +20,18 @@ final class PrefferedMethodCallOverFuncCallRule extends AbstractPrefferedCallOve
     public const ERROR_MESSAGE = 'Use "%s->%s()" method call over "%s()" func call';
 
     /**
+     * @var array<string, string[]>
+     */
+    private $funcCallToPrefferedMethodCalls = [];
+
+    /**
      * @param array<string, string[]> $funcCallToPrefferedMethodCalls
      */
     public function __construct(NodeNameResolver $nodeNameResolver, array $funcCallToPrefferedMethodCalls = [])
     {
         parent::__construct($nodeNameResolver);
 
-        $this->funcCallToPrefferedCalls = $funcCallToPrefferedMethodCalls;
+        $this->funcCallToPrefferedMethodCalls = $funcCallToPrefferedMethodCalls;
     }
 
     /**
@@ -35,7 +40,11 @@ final class PrefferedMethodCallOverFuncCallRule extends AbstractPrefferedCallOve
      */
     public function process(Node $node, Scope $scope): array
     {
-        $errorMessageParameters = $this->getErrorMessageParameters($node, $scope);
+        $errorMessageParameters = $this->getErrorMessageParameters(
+            $node,
+            $scope,
+            $this->funcCallToPrefferedMethodCalls
+        );
         if ($errorMessageParameters === []) {
             return [];
         }
