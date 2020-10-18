@@ -39,7 +39,8 @@ final class KernelGetContainerAfterBootReturnTypeExtension implements DynamicMet
         }
 
         if ($returnType instanceof UnionType) {
-            foreach ($returnType->getTypes() as $singleType) {
+            $singleTypes = $returnType->getTypes();
+            foreach ($singleTypes as $singleType) {
                 if ($singleType instanceof ObjectType) {
                     return $singleType;
                 }

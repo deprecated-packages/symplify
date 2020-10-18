@@ -74,7 +74,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
         }
 
         $currentAutoload = $composerJson->getAutoload();
-        foreach ($composerJsonToRemove->getAutoload() as $type => $autoloadList) {
+        $autoloads = $composerJsonToRemove->getAutoload();
+        foreach ($autoloads as $type => $autoloadList) {
             if (! is_array($autoloadList)) {
                 continue;
             }
@@ -94,7 +95,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
         }
 
         $currentAutoloadDev = $composerJson->getAutoloadDev();
-        foreach ($composerJsonToRemove->getAutoloadDev() as $type => $autoloadList) {
+        $autoloadDev = $composerJsonToRemove->getAutoloadDev();
+        foreach ($autoloadDev as $type => $autoloadList) {
             if (! is_array($autoloadList)) {
                 continue;
             }

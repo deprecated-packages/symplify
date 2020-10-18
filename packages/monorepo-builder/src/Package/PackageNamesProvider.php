@@ -40,7 +40,8 @@ final class PackageNamesProvider
             return $this->names;
         }
 
-        foreach ($this->composerJsonProvider->getPackagesFileInfos() as $packagesFileInfo) {
+        $packagesFileInfos = $this->composerJsonProvider->getPackagesFileInfos();
+        foreach ($packagesFileInfos as $packagesFileInfo) {
             $name = $this->extractNameFromFileInfo($packagesFileInfo);
             if ($name !== null) {
                 $this->names[] = $name;

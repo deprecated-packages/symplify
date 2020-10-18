@@ -88,11 +88,13 @@ final class VersionValidator
             ? self::MONOREPO_BUILDER_YAML
             : self::MONOREPO_BUILDER_PHP;
 
-        foreach ($appendingComposerJson->getRequire() as $packageName => $packageVersion) {
+        $requires = $appendingComposerJson->getRequire();
+        foreach ($requires as $packageName => $packageVersion) {
             $packageVersionsPerFile[$packageName][$monorepoBuilderConfig] = $packageVersion;
         }
 
-        foreach ($appendingComposerJson->getRequireDev() as $packageName => $packageVersion) {
+        $requiredevs = $appendingComposerJson->getRequireDev();
+        foreach ($requiredevs as $packageName => $packageVersion) {
             $packageVersionsPerFile[$packageName][$monorepoBuilderConfig] = $packageVersion;
         }
 

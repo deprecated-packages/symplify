@@ -210,19 +210,23 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
     private function assertArraysHasValidTypes(Arrays ...$arrayOfArrays): void
     {
         foreach ($arrayOfArrays as $arrays) {
-            foreach ($arrays->getIntegers() as $integer) {
+            $integers = $arrays->getIntegers();
+            foreach ($integers as $integer) {
                 $this->assertIsInt($integer);
             }
 
-            foreach ($arrays->getFloats() as $float) {
+            $floats = $arrays->getFloats();
+            foreach ($floats as $float) {
                 $this->assertIsFloat($float);
             }
 
-            foreach ($arrays->getStrings() as $string) {
+            $strings = $arrays->getStrings();
+            foreach ($strings as $string) {
                 $this->assertIsString($string);
             }
 
-            foreach ($arrays->getBooleans() as $bool) {
+            $booleans = $arrays->getBooleans();
+            foreach ($booleans as $bool) {
                 $this->assertIsBool($bool);
             }
         }
