@@ -45,13 +45,13 @@ final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $countMethodCall = $this->nodeFinder->findInstanceOf($node->expr, MethodCall::class);
-        if ($countMethodCall > 0) {
+        $methodCalls = $this->nodeFinder->findInstanceOf($node->expr, MethodCall::class);
+        if (count($methodCalls) > 0) {
             return [self::ERROR_MESSAGE];
         }
 
-        $countFuncCall = $this->nodeFinder->findInstanceOf($node->expr, FuncCall::class);
-        if ($countFuncCall > 0) {
+        $funcCalls = $this->nodeFinder->findInstanceOf($node->expr, FuncCall::class);
+        if (count($funcCalls) > 0) {
             return [self::ERROR_MESSAGE];
         }
 
