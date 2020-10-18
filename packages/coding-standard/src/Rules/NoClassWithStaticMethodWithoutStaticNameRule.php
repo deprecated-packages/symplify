@@ -85,7 +85,8 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
 
     private function isClassWithStaticMethod($node): bool
     {
-        foreach ($node->getMethods() as $classMethod) {
+        $classMethods = $node->getMethods();
+        foreach ($classMethods as $classMethod) {
             if ($classMethod->isStatic()) {
                 if ($this->isStaticConstructorOfValueObject($classMethod)) {
                     continue;

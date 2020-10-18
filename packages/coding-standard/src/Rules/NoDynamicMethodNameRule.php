@@ -74,7 +74,8 @@ final class NoDynamicMethodNameRule extends AbstractSymplifyRule
             return $type;
         }
 
-        if (count($type->getTypes()) !== 2) {
+        $unionedTypes = $type->getTypes();
+        if (count($unionedTypes) !== 2) {
             return $type;
         }
 
@@ -82,7 +83,7 @@ final class NoDynamicMethodNameRule extends AbstractSymplifyRule
             return $type;
         }
 
-        foreach ($type->getTypes() as $unionedType) {
+        foreach ($unionedTypes as $unionedType) {
             if ($unionedType instanceof NullType) {
                 continue;
             }

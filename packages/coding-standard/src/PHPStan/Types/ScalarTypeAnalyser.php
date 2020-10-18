@@ -52,7 +52,8 @@ final class ScalarTypeAnalyser
             return false;
         }
 
-        foreach ($type->getTypes() as $unionedType) {
+        $unionedTypes = $type->getTypes();
+        foreach ($unionedTypes as $unionedType) {
             if ($this->isScalarOrArrayType($unionedType)) {
                 return true;
             }
