@@ -53,6 +53,7 @@ final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
         ];
 
         foreach ($expressionClasses as $expressionClass) {
+            /** @var MethodCall[]|StaticCall[]|FuncCall[] $calls */
             $calls = $this->nodeFinder->findInstanceOf($node->expr, $expressionClass);
             $isHasArgs = $this->isHasArgs($calls);
 
