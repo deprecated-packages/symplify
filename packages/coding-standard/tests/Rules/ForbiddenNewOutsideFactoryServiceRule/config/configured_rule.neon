@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbidNewOutsideFactoryServiceRule
+        class: Symplify\CodingStandard\Rules\ForbiddenNewOutsideFactoryServiceRule
         tags: [phpstan.rules.rule]
         arguments:
             types:

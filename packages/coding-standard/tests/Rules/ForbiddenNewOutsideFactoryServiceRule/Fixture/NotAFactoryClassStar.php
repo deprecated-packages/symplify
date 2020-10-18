@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbidNewOutsideFactoryServiceRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\ForbiddenNewOutsideFactoryServiceRule\Fixture;
 
 final class NotAFactoryClassStar
 {

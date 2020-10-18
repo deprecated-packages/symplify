@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbidReturnValueOfIncludeOnceRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\ForbiddenReturnValueOfIncludeOnceRule\Fixture;
 
 final class AssignRequireOnce
 {

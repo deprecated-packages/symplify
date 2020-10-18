@@ -1335,13 +1335,13 @@ class SomeClassRule implements Rule
 
 ## Forbid New Outside Factory Service
 
-- class: [`ForbidNewOutsideFactoryServiceRule`](../src/Rules/ForbidNewOutsideFactoryServiceRule.php)
+- class: [`ForbiddenNewOutsideFactoryServiceRule`](../src/Rules/ForbiddenNewOutsideFactoryServiceRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbidNewOutsideFactoryServiceRule
+        class: Symplify\CodingStandard\Rules\ForbiddenNewOutsideFactoryServiceRule
         tags: [phpstan.rules.rule]
         arguments:
             types:
@@ -1968,7 +1968,7 @@ throw new FileNotFoundExceptoin('...');
 
 ## Forbidden return of `require_once()`/`incude_once()`
 
-- class: [`ForbidReturnValueOfIncludeOnceRule`](../src/Rules/ForbidReturnValueOfIncludeOnceRule.php)
+- class: [`ForbiddenReturnValueOfIncludeOnceRule`](../src/Rules/ForbiddenReturnValueOfIncludeOnceRule.php)
 
 ```php
 <?php
@@ -1978,11 +1978,11 @@ throw new FileNotFoundExceptoin('...');
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule;
+use Symplify\CodingStandard\Rules\ForbiddenReturnValueOfIncludeOnceRule;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
-    $services->set(ForbidReturnValueOfIncludeOnceRule::class);
+    $services->set(ForbiddenReturnValueOfIncludeOnceRule::class);
 };
 ```
 

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbidReturnValueOfIncludeOnceRule;
+namespace Symplify\CodingStandard\Tests\Rules\ForbiddenReturnValueOfIncludeOnceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule;
+use Symplify\CodingStandard\Rules\ForbiddenReturnValueOfIncludeOnceRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ForbidReturnValueOfIncludeOnceRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenReturnValueOfIncludeOnceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -21,14 +21,14 @@ final class ForbidReturnValueOfIncludeOnceRuleTest extends AbstractServiceAwareR
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/ReturnRequireOnce.php', [[ForbidReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]];
-        yield [__DIR__ . '/Fixture/AssignRequireOnce.php', [[ForbidReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/ReturnRequireOnce.php', [[ForbiddenReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/AssignRequireOnce.php', [[ForbiddenReturnValueOfIncludeOnceRule::ERROR_MESSAGE, 11]]];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            ForbidReturnValueOfIncludeOnceRule::class,
+            ForbiddenReturnValueOfIncludeOnceRule::class,
             __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }

@@ -101,7 +101,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbidReturnValueOfIncludeOnceRule
+        class: Symplify\CodingStandard\Rules\ForbiddenReturnValueOfIncludeOnceRule
         tags: [phpstan.rules.rule]
 
     -
@@ -240,7 +240,7 @@ services:
                 PHPStan\Rules\Rule: ['getRule']
 
 #    -
-#       class: Symplify\CodingStandard\Rules\ForbidNewOutsideFactoryServiceRule
+#       class: Symplify\CodingStandard\Rules\ForbiddenNewOutsideFactoryServiceRule
 #        tags: [phpstan.rules.rule]
 #        arguments:
             #types:

@@ -13,9 +13,9 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbidNewOutsideFactoryServiceRule\ForbidNewOutsideFactoryServiceRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenNewOutsideFactoryServiceRule\ForbiddenNewOutsideFactoryServiceRuleTest
  */
-final class ForbidNewOutsideFactoryServiceRule extends AbstractSymplifyRule
+final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule
 {
     /**
      * @var string
