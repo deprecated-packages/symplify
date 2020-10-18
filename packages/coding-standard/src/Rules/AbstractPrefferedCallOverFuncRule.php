@@ -13,11 +13,6 @@ use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
 {
     /**
-     * @var array<string, string[]>
-     */
-    protected $funcCallToPrefferedCalls = [];
-
-    /**
      * @var NodeNameResolver
      */
     private $nodeNameResolver;
@@ -37,11 +32,12 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
 
     /**
      * @param FuncCall $node
+     * @param array<string, string[]> $funcCallToPrefferedCalls
      * @return string[]
      */
-    protected function getErrorMessageParameters(Node $node, Scope $scope): array
+    protected function getErrorMessageParameters(Node $node, Scope $scope, array $funcCallToPrefferedCalls): array
     {
-        foreach ($this->funcCallToPrefferedCalls as $funcCall => $call) {
+        foreach ($funcCallToPrefferedCalls as $funcCall => $call) {
             if (! $this->nodeNameResolver->isName($node->name, $funcCall)) {
                 return [];
             }

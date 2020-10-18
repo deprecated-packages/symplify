@@ -20,13 +20,18 @@ final class PrefferedStaticCallOverFuncCallRule extends AbstractPrefferedCallOve
     public const ERROR_MESSAGE = 'Use "%s::%s()" static call over "%s()" func call';
 
     /**
+     * @var array<string, string[]>
+     */
+    private $funcCallToPrefferedStaticCalls = [];
+
+    /**
      * @param array<string, string[]> $funcCallToPrefferedStaticCalls
      */
     public function __construct(NodeNameResolver $nodeNameResolver, array $funcCallToPrefferedStaticCalls = [])
     {
         parent::__construct($nodeNameResolver);
 
-        $this->funcCallToPrefferedCalls = $funcCallToPrefferedStaticCalls;
+        $this->funcCallToPrefferedStaticCalls = $funcCallToPrefferedStaticCalls;
     }
 
     /**
@@ -35,7 +40,11 @@ final class PrefferedStaticCallOverFuncCallRule extends AbstractPrefferedCallOve
      */
     public function process(Node $node, Scope $scope): array
     {
-        $errorMessageParameters = $this->getErrorMessageParameters($node, $scope);
+        $errorMessageParameters = $this->getErrorMessageParameters(
+            $node,
+            $scope,
+            $this->funcCallToPrefferedStaticCalls
+        );
         if ($errorMessageParameters === []) {
             return [];
         }
