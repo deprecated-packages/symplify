@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrFuncCallInForeachRule\Fixture;
 
-class WithMethodCall
+class WithStaticCallWithoutParameter
 {
-    public function getData()
+    public static function getData()
     {
         return [];
     }
 
     public function execute()
     {
-        foreach ($this->getData() as $key => $item) {
+        foreach (self::getData() as $key => $item) {
 
         }
     }

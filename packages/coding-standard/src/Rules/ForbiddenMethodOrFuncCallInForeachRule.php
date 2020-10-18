@@ -46,21 +46,41 @@ final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $methodCalls = $this->nodeFinder->findInstanceOf($node->expr, MethodCall::class);
-        if ($methodCalls !== []) {
+        $calls = $this->nodeFinder->findInstanceOf($node->expr, MethodCall::class);
+        $isHasArgs = $this->isHasArgs($calls);
+
+        if ($isHasArgs) {
             return [self::ERROR_MESSAGE];
         }
 
-        $staticCalls = $this->nodeFinder->findInstanceOf($node->expr, StaticCall::class);
-        if ($staticCalls !== []) {
+        $calls = $this->nodeFinder->findInstanceOf($node->expr, StaticCall::class);
+        $isHasArgs = $this->isHasArgs($calls);
+
+        if ($isHasArgs) {
             return [self::ERROR_MESSAGE];
         }
 
-        $funcCalls = $this->nodeFinder->findInstanceOf($node->expr, FuncCall::class);
-        if ($funcCalls !== []) {
+        $calls = $this->nodeFinder->findInstanceOf($node->expr, FuncCall::class);
+        $isHasArgs = $this->isHasArgs($calls);
+
+        if ($isHasArgs) {
             return [self::ERROR_MESSAGE];
         }
 
         return [];
+    }
+
+    /**
+     * @param MethodCall[]|StaticCall[]|FuncCall[] $calls
+     */
+    private function isHasArgs(array $calls): bool
+    {
+        foreach ($calls as $call) {
+            if ($call->args !== []) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
