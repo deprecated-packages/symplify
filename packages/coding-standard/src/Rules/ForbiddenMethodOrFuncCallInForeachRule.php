@@ -46,11 +46,7 @@ final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $expressionClasses = [
-            MethodCall::class,
-            StaticCall::class,
-            FuncCall::class,
-        ];
+        $expressionClasses = [MethodCall::class, StaticCall::class, FuncCall::class];
 
         foreach ($expressionClasses as $expressionClass) {
             /** @var MethodCall[]|StaticCall[]|FuncCall[] $calls */
@@ -63,7 +59,6 @@ final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
 
             return [self::ERROR_MESSAGE];
         }
-
 
         return [];
     }
