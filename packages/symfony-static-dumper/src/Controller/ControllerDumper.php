@@ -154,7 +154,8 @@ final class ControllerDumper
         string $outputDirectory,
         ?ProgressBar $progressBar
     ): void {
-        foreach ($controllerWithDataProvider->getArguments() as $argument) {
+        $arguments = $controllerWithDataProvider->getArguments();
+        foreach ($arguments as $argument) {
             $fileContent = $this->controllerContentResolver->resolveFromRouteAndArgument(
                 $routeName,
                 $route,
