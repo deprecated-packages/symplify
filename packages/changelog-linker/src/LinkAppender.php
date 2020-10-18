@@ -67,7 +67,8 @@ final class LinkAppender
     {
         $this->isExistingLinks = false;
 
-        foreach (array_keys($this->linksToAppend) as $id) {
+        $ids = array_keys($this->linksToAppend);
+        foreach ($ids as $id) {
             if ($this->linksAnalyzer->hasLinkedId((string) $id)) {
                 unset($this->linksToAppend[$id]);
                 $this->isExistingLinks = true;

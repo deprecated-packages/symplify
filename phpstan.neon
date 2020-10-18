@@ -307,15 +307,6 @@ parameters:
         -
             message: '#Method or Function call in foreach is not allowed#'
             paths:
-                - packages/changelog-linker/src/Console/Input/PriorityResolver.php # 37
-                - packages/changelog-linker/src/LinkAppender.php # 70
-                - packages/coding-standard/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php # 57
-                - packages/coding-standard/src/Fixer/Annotation/RemovePHPStormAnnotationFixer.php # 37
-                - packages/coding-standard/src/Fixer/ArrayNotation/AbstractArrayFixer.php # 60
-                - packages/coding-standard/src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php # 70
-                - packages/coding-standard/src/PHPStan/ParentClassMethodNodeResolver.php # 50
-                - packages/coding-standard/src/PHPStan/Types/ContainsTypeAnalyser.php # 38
-                - packages/coding-standard/src/PHPStan/Types/ContainsTypeAnalyser.php # 54
                 - packages/coding-standard/src/PHPStan/Types/ScalarTypeAnalyser.php # 55
                 - packages/coding-standard/src/Rules/AbstractSymplifyRule.php # 123
                 - packages/coding-standard/src/Rules/BoolishClassMethodPrefixRule.php # 165

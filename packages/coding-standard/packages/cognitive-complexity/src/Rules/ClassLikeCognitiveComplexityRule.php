@@ -54,7 +54,8 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $classLikeCognitiveComplexity = 0;
-        foreach ($node->getMethods() as $classMethod) {
+        $classMethods = $node->getMethods();
+        foreach ($classMethods as $classMethod) {
             $classLikeCognitiveComplexity += $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($classMethod);
         }
 

@@ -47,7 +47,8 @@ final class ParentClassMethodNodeResolver
             return [];
         }
 
-        foreach ($classReflection->getParents() as $parentClassReflection) {
+        $parentClassReflections = $classReflection->getParents();
+        foreach ($parentClassReflections as $parentClassReflection) {
             $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
 
             /** @var Class_|null $class */

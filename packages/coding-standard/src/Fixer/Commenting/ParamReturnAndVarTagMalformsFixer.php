@@ -67,7 +67,8 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        foreach ($this->reverseTokens($tokens) as $index => $token) {
+        $reverseTokens = $this->reverseTokens($tokens);
+        foreach ($reverseTokens as $index => $token) {
             if (! $token->isGivenKind([T_DOC_COMMENT, T_COMMENT])) {
                 continue;
             }
