@@ -11,9 +11,9 @@ use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbidReturnValueOfIncludeOnceRule\ForbidReturnValueOfIncludeOnceRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenReturnValueOfIncludeOnceRule\ForbiddenReturnValueOfIncludeOnceRuleTest
  */
-final class ForbidReturnValueOfIncludeOnceRule extends AbstractSymplifyRule
+final class ForbiddenReturnValueOfIncludeOnceRule extends AbstractSymplifyRule
 {
     /**
      * @var string
