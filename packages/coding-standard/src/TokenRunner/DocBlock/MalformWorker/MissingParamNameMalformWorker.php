@@ -77,7 +77,8 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
         foreach ($missingArgumentNames as $key => $missingArgumentName) {
             $newArgumentName = $this->resolveNewArgumentName($argumentNames, $missingArgumentName, $key);
 
-            foreach ($docBlock->getLines() as $line) {
+            $lines = $docBlock->getLines();
+            foreach ($lines as $line) {
                 if ($this->shouldSkipLine($line)) {
                     continue;
                 }

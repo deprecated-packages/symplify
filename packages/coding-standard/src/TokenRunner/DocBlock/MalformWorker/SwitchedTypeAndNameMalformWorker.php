@@ -21,7 +21,8 @@ final class SwitchedTypeAndNameMalformWorker implements MalformWorkerInterface
     {
         $docBlock = new DocBlock($docContent);
 
-        foreach ($docBlock->getLines() as $line) {
+        $lines = $docBlock->getLines();
+        foreach ($lines as $line) {
             // $value is first, instead of type is first
             $match = Strings::match($line->getContent(), self::NAME_THEN_TYPE_REGEX);
 

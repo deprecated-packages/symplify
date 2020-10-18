@@ -26,7 +26,8 @@ final class DuplicatedArrayMalformWorker extends AbstractMalformWorker
     {
         $docBlock = new DocBlock($docContent);
 
-        foreach ($docBlock->getLines() as $line) {
+        $lines = $docBlock->getLines();
+        foreach ($lines as $line) {
             $newContent = Strings::replace($line->getContent(), self::IMPLICIT_ARRAY_WITH_ARRAY_LEFT_REGEX, '$1');
             $newContent = Strings::replace($newContent, self::IMPLICIT_ARRAY_WITH_ARRAY_RIGHT_REGEX, '$1');
 
