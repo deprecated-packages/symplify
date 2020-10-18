@@ -22,9 +22,21 @@ final class ForbiddenMethodOrFuncCallInForeachRuleTest extends AbstractServiceAw
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/WithoutMethodOrFuncCall.php', []];
-        yield [__DIR__ . '/Fixture/WithFuncCall.php', [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 12]]];
-        yield [__DIR__ . '/Fixture/WithMethodCall.php', [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 16]]];
-        yield [__DIR__ . '/Fixture/WithStaticCall.php', [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 16]]];
+        yield [__DIR__ . '/Fixture/WithFuncCallWithoutParameter.php', []];
+        yield [__DIR__ . '/Fixture/WithMethodCallWithoutParameter.php', []];
+        yield [__DIR__ . '/Fixture/WithStaticCallWithoutParameter.php', []];
+        yield [
+            __DIR__ . '/Fixture/WithFuncCallWithParameter.php',
+            [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 13]],
+        ];
+        yield [
+            __DIR__ . '/Fixture/WithMethodCallWithParameter.php',
+            [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 16]],
+        ];
+        yield [
+            __DIR__ . '/Fixture/WithStaticCallWithParameter.php',
+            [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 16]],
+        ];
     }
 
     protected function getRule(): Rule

@@ -6,14 +6,14 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrFuncCallInForeach
 
 class WithStaticCall
 {
-    public static function getData()
+    public static function getData($arg)
     {
         return [];
     }
 
-    public function execute()
+    public function execute($arg)
     {
-        foreach (self::getData() as $key => $item) {
+        foreach (self::getData($arg) as $key => $item) {
 
         }
     }

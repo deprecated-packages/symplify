@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrFuncCallInForeachRule\Fixture;
 
-function getData()
+function getDataWithoutParameter()
 {
     return [];
 }
 
-foreach (getData() as $key => $item) {
+foreach (getDataWithoutParameter() as $key => $item) {
 
 }
