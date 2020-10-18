@@ -24,6 +24,7 @@ final class ForbiddenMethodOrFuncCallInForeachRuleTest extends AbstractServiceAw
         yield [__DIR__ . '/Fixture/WithoutMethodOrFuncCall.php', []];
         yield [__DIR__ . '/Fixture/WithFuncCall.php', [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 12]]];
         yield [__DIR__ . '/Fixture/WithMethodCall.php', [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 16]]];
+        yield [__DIR__ . '/Fixture/WithStaticCall.php', [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 16]]];
     }
 
     protected function getRule(): Rule

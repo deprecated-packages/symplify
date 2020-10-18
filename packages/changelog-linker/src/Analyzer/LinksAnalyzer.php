@@ -32,14 +32,16 @@ final class LinksAnalyzer
     {
         // [content]: url
         $this->linkedIds = [];
-        foreach (Strings::matchAll($content, RegexPattern::LINK_REFERENCE_REGEX) as $match) {
+        $matches = Strings::matchAll($content, RegexPattern::LINK_REFERENCE_REGEX);
+        foreach ($matches as $match) {
             $this->linkedIds[] = $match['reference'];
         }
         $this->linkedIds = array_unique($this->linkedIds);
 
         // [content]
         $this->references = [];
-        foreach (Strings::matchAll($content, self::REFERENCE_REGEX) as $match) {
+        $matches = Strings::matchAll($content, self::REFERENCE_REGEX);
+        foreach ($matches as $match) {
             $this->references[] = $match['reference'];
         }
         $this->references = array_unique($this->references);

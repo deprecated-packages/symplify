@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
@@ -47,6 +48,11 @@ final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
     {
         $methodCalls = $this->nodeFinder->findInstanceOf($node->expr, MethodCall::class);
         if (count($methodCalls) > 0) {
+            return [self::ERROR_MESSAGE];
+        }
+
+        $staticCalls = $this->nodeFinder->findInstanceOf($node->expr, StaticCall::class);
+        if (count($staticCalls) > 0) {
             return [self::ERROR_MESSAGE];
         }
 
