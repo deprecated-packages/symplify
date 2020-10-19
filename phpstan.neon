@@ -303,3 +303,49 @@ parameters:
                 - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 15
                 - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 20
                 - packages/monorepo-builder/packages/merge/tests/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php # 18
+
+        -
+            message: '#Method or Function call in if or elseif is not allowed#'
+            paths:
+                - packages/autodiscovery/src/Command/ConvertYamlCommand.php # 112
+                - packages/autodiscovery/src/Doctrine/DoctrineEntityMappingAutodiscoverer.php # 67
+                - packages/autodiscovery/src/Doctrine/DoctrineEntityMappingAutodiscoverer.php # 83
+                - packages/autodiscovery/src/Finder/AutodiscoveryFinder.php # 94
+                - packages/autodiscovery/src/Finder/AutodiscoveryFinder.php # 116
+                - packages/autodiscovery/src/NamespaceDetector.php # 41
+                - packages/autodiscovery/src/SymplifyArrays.php # 14
+                - packages/autodiscovery/src/Yaml/CommonNamespaceResolver.php # 33
+                - packages/autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php # 113
+                - packages/autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php # 167
+                - packages/autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php # 203
+                - packages/autodiscovery/src/Yaml/ExplicitToAutodiscoveryConverter.php # 215
+                - packages/autodiscovery/src/Yaml/TagAnalyzer.php # 51
+                - packages/autodiscovery/src/Yaml/TagAnalyzer.php # 55
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php # 61
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php # 65
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php # 93
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php # 97
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php # 102
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php # 104
+                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php # 123
+                - packages/set-config-resolver/src/Config/SetsParameterResolver.php # 80
+                - packages/set-config-resolver/src/Console/OptionValueResolver.php # 17
+                - packages/smart-file-system/src/FileSystemGuard.php # 14
+                - packages/smart-file-system/src/FileSystemGuard.php # 22
+                - packages/smart-file-system/src/Finder/FinderSanitizer.php # 27
+                - packages/smart-file-system/src/Finder/SmartFinder.php # 41
+                - packages/smart-file-system/src/SmartFileInfo.php # 33
+                - packages/smart-file-system/src/SmartFileInfo.php # 42
+                - packages/smart-file-system/src/SmartFileInfo.php # 86
+                - packages/smart-file-system/src/SmartFileInfo.php # 112
+                - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php # 31
+                - packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php # 44
+                - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 48
+                - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 53
+                - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 59
+                - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 71
+                - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 76
+                - packages/symfony-static-dumper/src/Routing/ControllerMatcher.php # 23
+                - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php # 39
+                - packages/symplify-kernel/src/Console/AbstractSymplifyConsoleApplication.php # 36
+                - packages/symplify-kernel/src/Strings/StringsConverter.php # 19
