@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\If_;
+use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
@@ -23,6 +25,33 @@ final class ForbiddenMethodCallInIfRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Method call in if or elseif is not allowed.';
+
+    /**
+     * @var string[]
+     */
+    private const BOOL_PREFIXES = [
+        'is',
+        'are',
+        'was',
+        'will',
+        'has',
+        'have',
+        'had',
+        'do',
+        'does',
+        'di',
+        'can',
+        'could',
+        'should',
+        'starts',
+        'contains',
+        'ends',
+        'exists',
+        'supports',
+        'provide',
+        # array access
+        'offsetExists',
+    ];
 
     /**
      * @var NodeFinder
@@ -81,9 +110,20 @@ final class ForbiddenMethodCallInIfRule extends AbstractSymplifyRule
                 continue;
             }
 
+            if ($this->isMethodNameMatchingBoolPrefixes($call->name->toString())) {
+                continue;
+            }
+
             return true;
         }
 
         return false;
+    }
+
+    private function isMethodNameMatchingBoolPrefixes(string $methodName): bool
+    {
+        $prefixesPattern = '#^(' . implode('|', self::BOOL_PREFIXES) . ')#';
+
+        return (bool) Strings::match($methodName, $prefixesPattern);
     }
 }
