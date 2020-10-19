@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Split\ValueObject;
 
+/**
+ * @see \Symplify\MonorepoBuilder\Split\Tests\FileSystem\DirectoryToRepositoryProvider\ConvertFormatTest
+ */
 final class ConvertFormat
 {
     /**
