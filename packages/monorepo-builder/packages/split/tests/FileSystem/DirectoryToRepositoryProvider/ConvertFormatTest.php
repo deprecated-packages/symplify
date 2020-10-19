@@ -54,12 +54,13 @@ final class ConvertFormatTest extends AbstractKernelTestCase
     public function provideData(): Iterator
     {
         $smartFileInfo = new SmartFileInfo(__DIR__ . '/FixtureConvertFormat/PascalCasePackage');
-        $relativeFilePathFromCwd = $smartFileInfo->getRelativeFilePathFromCwd();
+        $anotherSmartFileInfo = new SmartFileInfo(__DIR__ . '/FixtureConvertFormat/ThereIs1Number');
 
         yield [[
             __DIR__ . '/FixtureConvertFormat/*' => 'some/*.git',
         ], [
-            $relativeFilePathFromCwd => 'some/pascal-case-package.git',
+            $smartFileInfo->getRelativeFilePathFromCwd() => 'some/pascal-case-package.git',
+            $anotherSmartFileInfo->getRelativeFilePathFromCwd() => 'some/there-is1-number.git',
         ]];
     }
 }
