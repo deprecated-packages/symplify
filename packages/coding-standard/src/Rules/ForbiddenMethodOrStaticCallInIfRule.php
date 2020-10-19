@@ -49,7 +49,7 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
         $expressionClasses = [MethodCall::class, StaticCall::class];
 
         foreach ($expressionClasses as $expressionClass) {
-            /** @var MethodCall[]|StaticCall[]|FuncCall[] $calls */
+            /** @var MethodCall[]|StaticCall[] $calls */
             $calls = $this->nodeFinder->findInstanceOf($node->cond, $expressionClass);
             $isHasArgs = $this->isHasArgs($calls);
 
@@ -64,7 +64,7 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
     }
 
     /**
-     * @param MethodCall[]|StaticCall[]|FuncCall[] $calls
+     * @param MethodCall[]|StaticCall[] $calls
      */
     private function isHasArgs(array $calls): bool
     {
