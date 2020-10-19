@@ -1942,9 +1942,10 @@ services:
 
 declare(strict_types=1);
 
-if ($this->getData($arg) === []) {
+$obj = new SomeClass();
+if ($obj->getData($arg) === []) {
 
-} elseif ($this->getData2($arg) !== []) {
+} elseif ($obj->getData($arg) !== []) {
 
 }
 ```
@@ -1957,8 +1958,9 @@ if ($this->getData($arg) === []) {
 
 declare(strict_types=1);
 
-$data = $this->getData($arg);
-if ( === []) {
+$obj = new SomeClass();
+$data = $obj->getData($arg);
+if ($data === []) {
 
 } elseif ($data !== []) {
 

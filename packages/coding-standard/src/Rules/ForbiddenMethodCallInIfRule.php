@@ -10,6 +10,8 @@ use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\ThisType;
+use PHPStan\Type\ObjectType;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodCallInIfRule\ForbiddenMethodCallInIfRuleTest
@@ -47,7 +49,7 @@ final class ForbiddenMethodCallInIfRule extends AbstractSymplifyRule
     {
         /** @var MethodCall[] $calls */
         $calls = $this->nodeFinder->findInstanceOf($node->cond, MethodCall::class);
-        $isHasArgs = $this->isHasArgs($calls);
+        $isHasArgs = $this->isHasArgs($calls, $scope);
 
         if (! $isHasArgs) {
             return [];
@@ -59,12 +61,26 @@ final class ForbiddenMethodCallInIfRule extends AbstractSymplifyRule
     /**
      * @param MethodCall[] $calls
      */
-    private function isHasArgs(array $calls): bool
+    private function isHasArgs(array $calls, Scope $scope): bool
     {
         foreach ($calls as $call) {
-            if ($call->args !== []) {
-                return true;
+            if ($call->args === []) {
+                continue;
             }
+
+            /** @var ObjectType $type */
+            $type = $scope->getType($call->var);
+
+            if ($call->var instanceof PropertyFetch) {
+                /** @var ObjectType|ThisType $type */
+                $type = $scope->getType($call->var);
+            }
+
+            if ($type instanceof ThisType) {
+                continue;
+            }
+
+            return true;
         }
 
         return false;

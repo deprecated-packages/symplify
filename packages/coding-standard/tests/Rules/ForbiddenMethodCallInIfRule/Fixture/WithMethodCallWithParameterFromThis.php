@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodCallInIfRule\Fixture;
 
-class WithMethodCall
+class WithMethodCallWithParameterFromThis
 {
     public function getData($arg)
     {
