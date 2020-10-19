@@ -6,21 +6,20 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrStaticCallInIfRule\ForbiddenMethodOrStaticCallInIfRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodCallInIfRule\ForbiddenMethodCallInIfRuleTest
  */
-final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
+final class ForbiddenMethodCallInIfRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method or Static call in if or elseif is not allowed.';
+    public const ERROR_MESSAGE = 'Method call in if or elseif is not allowed.';
 
     /**
      * @var NodeFinder
@@ -41,30 +40,24 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
     }
 
     /**
-     * @param If_ $node
+     * @param If_|ElseIf_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        $expressionClasses = [MethodCall::class, StaticCall::class];
+        /** @var MethodCall[] $calls */
+        $calls = $this->nodeFinder->findInstanceOf($node->cond, MethodCall::class);
+        $isHasArgs = $this->isHasArgs($calls);
 
-        foreach ($expressionClasses as $expressionClass) {
-            /** @var MethodCall[]|StaticCall[] $calls */
-            $calls = $this->nodeFinder->findInstanceOf($node->cond, $expressionClass);
-            $isHasArgs = $this->isHasArgs($calls);
-
-            if (! $isHasArgs) {
-                continue;
-            }
-
-            return [self::ERROR_MESSAGE];
+        if (! $isHasArgs) {
+            return [];
         }
 
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 
     /**
-     * @param MethodCall[]|StaticCall[] $calls
+     * @param MethodCall[] $calls
      */
     private function isHasArgs(array $calls): bool
     {

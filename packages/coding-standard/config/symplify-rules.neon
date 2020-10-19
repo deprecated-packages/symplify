@@ -244,7 +244,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrStaticCallInIfRule
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodCallInIfRule
         tags: [phpstan.rules.rule]
 
 #    -

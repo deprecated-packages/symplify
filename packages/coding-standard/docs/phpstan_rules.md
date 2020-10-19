@@ -1924,15 +1924,15 @@ foreach ($arg as $key => $item) {
 
 :+1:
 
-## Forbid Method or Static Call with Arguments Inside If's or ElseIf's Expression. Use Variable instead.
+## Forbid Method Call with Arguments Inside If's or ElseIf's Expression. Use Variable instead.
 
-- class: [`ForbiddenMethodOrStaticCallInIfRule`](../src/Rules/ForbiddenMethodOrStaticCallInIfRule.php)
+- class: [`ForbiddenMethodCallInIfRule`](../src/Rules/ForbiddenMethodCallInIfRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrStaticCallInIfRule
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodCallInIfRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1947,12 +1947,6 @@ if ($this->getData($arg) === []) {
 } elseif ($this->getData2($arg) !== []) {
 
 }
-
-if (self::getData($arg) === []) {
-
-} elseif (self::getData($arg) !== []) {
-
-}
 ```
 
 :x:
@@ -1965,13 +1959,6 @@ declare(strict_types=1);
 
 $data = $this->getData($arg);
 if ( === []) {
-
-} elseif ($data !== []) {
-
-}
-
-$data = self::getData($arg);
-if ($data === []) {
 
 } elseif ($data !== []) {
 
