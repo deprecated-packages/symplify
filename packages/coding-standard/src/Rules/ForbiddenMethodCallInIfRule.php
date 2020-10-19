@@ -7,14 +7,13 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\BooleanType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\ThisType;
-use PHPStan\Type\BooleanType;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodCallInIfRule\ForbiddenMethodCallInIfRuleTest
