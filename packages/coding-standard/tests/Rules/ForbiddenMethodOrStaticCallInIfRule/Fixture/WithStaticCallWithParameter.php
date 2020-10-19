@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrFuncCallInIfRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrStaticCallInIfRule\Fixture;
 
 class WithStaticCall
 {

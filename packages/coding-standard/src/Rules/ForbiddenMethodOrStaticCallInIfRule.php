@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\ElseIf_;
@@ -14,9 +13,9 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrFuncCallInIfRule\ForbiddenMethodOrFuncCallInIfRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrStaticCallInIfRule\ForbiddenMethodOrStaticCallInIfRuleTest
  */
-final class ForbiddenMethodOrFuncCallInIfRule extends AbstractSymplifyRule
+final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -47,7 +46,7 @@ final class ForbiddenMethodOrFuncCallInIfRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $expressionClasses = [MethodCall::class, StaticCall::class, FuncCall::class];
+        $expressionClasses = [MethodCall::class, StaticCall::class];
 
         foreach ($expressionClasses as $expressionClass) {
             /** @var MethodCall[]|StaticCall[]|FuncCall[] $calls */

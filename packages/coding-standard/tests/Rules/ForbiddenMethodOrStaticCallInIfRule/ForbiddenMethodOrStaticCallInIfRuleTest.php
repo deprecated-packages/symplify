@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrFuncCallInIfRule;
+namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrStaticCallInIfRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbiddenMethodOrFuncCallInIfRule;
+use Symplify\CodingStandard\Rules\ForbiddenMethodOrStaticCallInIfRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ForbiddenMethodOrFuncCallInIfRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenMethodOrStaticCallInIfRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -21,29 +21,21 @@ final class ForbiddenMethodOrFuncCallInIfRuleTest extends AbstractServiceAwareRu
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/WithoutMethodOrFuncCall.php', []];
-        yield [__DIR__ . '/Fixture/WithFuncCallWithoutParameter.php', []];
+        yield [__DIR__ . '/Fixture/WithoutMethodOrStaticCall.php', []];
         yield [__DIR__ . '/Fixture/WithMethodCallWithoutParameter.php', []];
         yield [__DIR__ . '/Fixture/WithStaticCallWithoutParameter.php', []];
         yield [
-            __DIR__ . '/Fixture/WithFuncCallWithParameter.php',
-            [
-                [ForbiddenMethodOrFuncCallInIfRule::ERROR_MESSAGE, 13],
-                [ForbiddenMethodOrFuncCallInIfRule::ERROR_MESSAGE, 15],
-            ],
-        ];
-        yield [
             __DIR__ . '/Fixture/WithMethodCallWithParameter.php',
             [
-                [ForbiddenMethodOrFuncCallInIfRule::ERROR_MESSAGE, 16],
-                [ForbiddenMethodOrFuncCallInIfRule::ERROR_MESSAGE, 18],
+                [ForbiddenMethodOrStaticCallInIfRule::ERROR_MESSAGE, 16],
+                [ForbiddenMethodOrStaticCallInIfRule::ERROR_MESSAGE, 18],
             ],
         ];
         yield [
             __DIR__ . '/Fixture/WithStaticCallWithParameter.php',
             [
-                [ForbiddenMethodOrFuncCallInIfRule::ERROR_MESSAGE, 16],
-                [ForbiddenMethodOrFuncCallInIfRule::ERROR_MESSAGE, 18],
+                [ForbiddenMethodOrStaticCallInIfRule::ERROR_MESSAGE, 16],
+                [ForbiddenMethodOrStaticCallInIfRule::ERROR_MESSAGE, 18],
             ],
         ];
     }
@@ -51,7 +43,7 @@ final class ForbiddenMethodOrFuncCallInIfRuleTest extends AbstractServiceAwareRu
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            ForbiddenMethodOrFuncCallInIfRule::class,
+            ForbiddenMethodOrStaticCallInIfRule::class,
             __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }
