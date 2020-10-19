@@ -303,3 +303,16 @@ parameters:
                 - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 15
                 - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 20
                 - packages/monorepo-builder/packages/merge/tests/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php # 18
+
+        -
+            message: '#Method call in if or elseif is not allowed#'
+            paths:
+                - packages/changelog-linker/src/Console/Command/DumpMergesCommand.php # 161
+                - packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNewlineInNestedAnnotationFixer.php # 85
+                - packages/coding-standard/src/Fixer/LineLength/LineLengthFixer.php # 155
+                - packages/coding-standard/src/Fixer/LineLength/LineLengthFixer.php # 241
+                - packages/coding-standard/src/PHPStan/Types/ScalarTypeAnalyser.php # 51
+                - packages/coding-standard/src/Rules/ForbiddenMethodCallInIfRule.php # 86
+                - packages/coding-standard/src/Rules/NoDynamicMethodNameRule.php # 82
+                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 81
+                - packages/package-builder/src/Yaml/FileLoader/AbstractParameterMergingYamlFileLoader.php # 82
