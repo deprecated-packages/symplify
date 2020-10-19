@@ -26,10 +26,7 @@ final class ForbiddenMethodCallInIfRuleTest extends AbstractServiceAwareRuleTest
         yield [__DIR__ . '/Fixture/WithMethodCallWithParameterFromThis.php', []];
         yield [
             __DIR__ . '/Fixture/WithMethodCallWithParameterNotFromThis.php',
-            [
-                [ForbiddenMethodCallInIfRule::ERROR_MESSAGE, 17],
-                [ForbiddenMethodCallInIfRule::ERROR_MESSAGE, 19],
-            ],
+            [[ForbiddenMethodCallInIfRule::ERROR_MESSAGE, 17], [ForbiddenMethodCallInIfRule::ERROR_MESSAGE, 19]],
         ];
     }
 
