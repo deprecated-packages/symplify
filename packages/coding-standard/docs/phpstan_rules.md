@@ -1903,12 +1903,12 @@ services:
 
 declare(strict_types=1);
 
-function getData()
+function getData($arg)
 {
     return [];
 }
 
-foreach (getData() as $key => $item) {
+foreach (getData($arg) as $key => $item) {
 
 }
 ```
@@ -1921,13 +1921,61 @@ foreach (getData() as $key => $item) {
 
 declare(strict_types=1);
 
+function getData($arg)
+{
+    return [];
+}
+
+$data = getData($arg);
+foreach ($data as $key => $item) {
+
+}
+```
+
+:+1:
+
+## Forbid Method or Function Call Inside If's or ElseIf's Expression. Use Variable instead.
+
+- class: [`ForbiddenMethodOrFuncCallInIfRule`](../src/Rules/ForbiddenMethodOrFuncCallInIfRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrFuncCallInIfRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
 function getData()
 {
     return [];
 }
 
-$data = getData();
-foreach ($data as $key => $item) {
+if (getData($arg) === []) {
+
+} elseif (getData($arg) !== []) {
+
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+$data = getData($arg);
+if ($data === []) {
+
+} elseif ($data !== []) {
 
 }
 ```

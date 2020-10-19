@@ -243,6 +243,10 @@ services:
         class: Symplify\CodingStandard\Rules\ForbiddenMethodOrFuncCallInForeachRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrFuncCallInIfRule
+        tags: [phpstan.rules.rule]
+
 #    -
 #       class: Symplify\CodingStandard\Rules\ForbiddenNewOutsideFactoryServiceRule
 #        tags: [phpstan.rules.rule]
