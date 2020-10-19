@@ -13,14 +13,14 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrFuncCallInForeachRule\ForbiddenMethodOrFuncCallInForeachRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\ForbiddenMethodOrStaticCallInForeachRuleTest
  */
-final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
+final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method or Function call in foreach is not allowed.';
+    public const ERROR_MESSAGE = 'Method or Static call in foreach is not allowed.';
 
     /**
      * @var NodeFinder
@@ -46,7 +46,7 @@ final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $expressionClasses = [MethodCall::class, StaticCall::class, FuncCall::class];
+        $expressionClasses = [MethodCall::class, StaticCall::class];
 
         foreach ($expressionClasses as $expressionClass) {
             /** @var MethodCall[]|StaticCall[]|FuncCall[] $calls */

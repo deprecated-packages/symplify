@@ -6,16 +6,6 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrStaticCallInIfRul
 
 class WithoutMethodOrStaticCall
 {
-    public function getData($arg)
-    {
-        return [];
-    }
-
-    public static function getData2($arg)
-    {
-        return [];
-    }
-
     public function execute($arg)
     {
         $data = [];

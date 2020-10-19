@@ -20,7 +20,7 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method or Function call in if or elseif is not allowed.';
+    public const ERROR_MESSAGE = 'Method or Static call in if or elseif is not allowed.';
 
     /**
      * @var NodeFinder
