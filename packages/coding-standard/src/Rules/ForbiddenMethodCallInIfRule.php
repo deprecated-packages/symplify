@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
@@ -109,7 +110,7 @@ final class ForbiddenMethodCallInIfRule extends AbstractSymplifyRule
                 continue;
             }
 
-            if ($this->isMethodNameMatchingBoolPrefixes($call->name->toString())) {
+            if ($call->name instanceof Identifier && $this->isMethodNameMatchingBoolPrefixes($call->name->toString())) {
                 continue;
             }
 
