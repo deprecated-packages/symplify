@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Split\FileSystem;
 
 use Nette\Utils\Strings;
+use Symplify\MonorepoBuilder\Split\ValueObject\ConvertFormat;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\PackageBuilder\Strings\StringFormatConverter;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -31,10 +33,19 @@ final class DirectoryToRepositoryProvider
      */
     private $parameterProvider;
 
-    public function __construct(ParameterProvider $parameterProvider, FileSystemGuard $fileSystemGuard)
-    {
+    /**
+     * @var StringFormatConverter
+     */
+    private $stringFormatConverter;
+
+    public function __construct(
+        ParameterProvider $parameterProvider,
+        FileSystemGuard $fileSystemGuard,
+        StringFormatConverter $stringFormatConverter
+    ) {
         $this->fileSystemGuard = $fileSystemGuard;
         $this->parameterProvider = $parameterProvider;
+        $this->stringFormatConverter = $stringFormatConverter;
     }
 
     /**
@@ -90,8 +101,10 @@ final class DirectoryToRepositoryProvider
         foreach ($foundDirectories as $foundDirectory) {
             /** @var string $foundDirectory */
             $exclusiveName = (string) Strings::after($foundDirectory, $patternWithoutAsterisk);
-            $targetRepository = Strings::replace($repository, self::ASTERISK_REGEX, $exclusiveName);
 
+            $exclusiveName = $this->convertRepositoryToDesiredFormat($exclusiveName);
+
+            $targetRepository = Strings::replace($repository, self::ASTERISK_REGEX, $exclusiveName);
             $resolvedDirectoriesToRepository[$foundDirectory] = $targetRepository;
         }
 
@@ -114,5 +127,18 @@ final class DirectoryToRepositoryProvider
         }
 
         return $relativeDirectoriesToRepositories;
+    }
+
+    private function convertRepositoryToDesiredFormat(string $repository): string
+    {
+        $convertFormat = $this->parameterProvider->provideStringParameter(
+            Option::DIRECTORIES_TO_REPOSITORIES_CONVERT_FORMAT
+        );
+
+        if ($convertFormat === ConvertFormat::PASCAL_CASE_TO_KEBAB_CASE) {
+            return $this->stringFormatConverter->camelCaseToDashed($repository);
+        }
+
+        return $repository;
     }
 }
