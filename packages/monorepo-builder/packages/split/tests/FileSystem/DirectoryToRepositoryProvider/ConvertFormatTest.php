@@ -13,7 +13,7 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class DirectoryToRepositoryProviderTest extends AbstractKernelTestCase
+final class ConvertFormatTest extends AbstractKernelTestCase
 {
     /**
      * @var DirectoryToRepositoryProvider
@@ -32,8 +32,9 @@ final class DirectoryToRepositoryProviderTest extends AbstractKernelTestCase
         $this->parameterProvider = self::$container->get(ParameterProvider::class);
         $this->parameterProvider->changeParameter(
             Option::DIRECTORIES_TO_REPOSITORIES_CONVERT_FORMAT,
-            ConvertFormat::EQUAL
+            ConvertFormat::PASCAL_CASE_TO_KEBAB_CASE
         );
+
         $this->directoryToRepositoryProvider = self::$container->get(DirectoryToRepositoryProvider::class);
     }
 
@@ -52,21 +53,13 @@ final class DirectoryToRepositoryProviderTest extends AbstractKernelTestCase
 
     public function provideData(): Iterator
     {
-        yield [[], []];
-
-        $smartFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/existing-package');
+        $smartFileInfo = new SmartFileInfo(__DIR__ . '/FixtureConvertFormat/PascalCasePackage');
         $relativeFilePathFromCwd = $smartFileInfo->getRelativeFilePathFromCwd();
 
         yield [[
-            __DIR__ . '/Fixture/existing-package' => 'some.git',
+            __DIR__ . '/FixtureConvertFormat/*' => 'some/*.git',
         ], [
-            $relativeFilePathFromCwd => 'some.git',
-        ]];
-
-        yield [[
-            __DIR__ . '/Fixture/existing-*' => 'some/*.git',
-        ], [
-            $relativeFilePathFromCwd => 'some/package.git',
+            $relativeFilePathFromCwd => 'some/pascal-case-package.git',
         ]];
     }
 }
