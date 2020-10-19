@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodCallInIfRule\Fixture;
 
-class SkipMethodCallWithBooleanPrefix
+class SkipMethodCallWithBooleanReturn
 {
-    public function isSkipped($arg)
+    public function isSkipped($arg): bool
     {
-        return [];
+        return true;
     }
 
     public function execute($arg)
