@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrFuncCallInForeachRule;
+namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbiddenMethodOrFuncCallInForeachRule;
+use Symplify\CodingStandard\Rules\ForbiddenMethodOrStaticCallInForeachRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
-final class ForbiddenMethodOrFuncCallInForeachRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenMethodOrStaticCallInForeachRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -21,28 +21,23 @@ final class ForbiddenMethodOrFuncCallInForeachRuleTest extends AbstractServiceAw
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/WithoutMethodOrFuncCall.php', []];
-        yield [__DIR__ . '/Fixture/WithFuncCallWithoutParameter.php', []];
+        yield [__DIR__ . '/Fixture/WithoutMethodOrStaticCall.php', []];
         yield [__DIR__ . '/Fixture/WithMethodCallWithoutParameter.php', []];
         yield [__DIR__ . '/Fixture/WithStaticCallWithoutParameter.php', []];
         yield [
-            __DIR__ . '/Fixture/WithFuncCallWithParameter.php',
-            [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 13]],
-        ];
-        yield [
             __DIR__ . '/Fixture/WithMethodCallWithParameter.php',
-            [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 16]],
+            [[ForbiddenMethodOrStaticCallInForeachRule::ERROR_MESSAGE, 16]],
         ];
         yield [
             __DIR__ . '/Fixture/WithStaticCallWithParameter.php',
-            [[ForbiddenMethodOrFuncCallInForeachRule::ERROR_MESSAGE, 16]],
+            [[ForbiddenMethodOrStaticCallInForeachRule::ERROR_MESSAGE, 16]],
         ];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            ForbiddenMethodOrFuncCallInForeachRule::class,
+            ForbiddenMethodOrStaticCallInForeachRule::class,
             __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }

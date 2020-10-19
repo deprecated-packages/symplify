@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Foreach_;
@@ -13,14 +12,14 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrFuncCallInForeachRule\ForbiddenMethodOrFuncCallInForeachRuleTest
+ * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\ForbiddenMethodOrStaticCallInForeachRuleTest
  */
-final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
+final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method or Function call in foreach is not allowed.';
+    public const ERROR_MESSAGE = 'Method or Static call in foreach is not allowed.';
 
     /**
      * @var NodeFinder
@@ -46,10 +45,10 @@ final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $expressionClasses = [MethodCall::class, StaticCall::class, FuncCall::class];
+        $expressionClasses = [MethodCall::class, StaticCall::class];
 
         foreach ($expressionClasses as $expressionClass) {
-            /** @var MethodCall[]|StaticCall[]|FuncCall[] $calls */
+            /** @var MethodCall[]|StaticCall[] $calls */
             $calls = $this->nodeFinder->findInstanceOf($node->expr, $expressionClass);
             $isHasArgs = $this->isHasArgs($calls);
 
@@ -64,7 +63,7 @@ final class ForbiddenMethodOrFuncCallInForeachRule extends AbstractSymplifyRule
     }
 
     /**
-     * @param MethodCall[]|StaticCall[]|FuncCall[] $calls
+     * @param MethodCall[]|StaticCall[] $calls
      */
     private function isHasArgs(array $calls): bool
     {

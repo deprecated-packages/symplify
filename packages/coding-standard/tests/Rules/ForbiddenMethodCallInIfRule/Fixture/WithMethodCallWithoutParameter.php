@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrFuncCallInForeachRule\Fixture;
+namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodCallInIfRule\Fixture;
 
 class WithMethodCallWithoutParameter
 {
@@ -13,7 +13,9 @@ class WithMethodCallWithoutParameter
 
     public function execute()
     {
-        foreach ($this->getData() as $key => $item) {
+        if ($this->getData() === []) {
+
+        } elseif ($this->getData() !== []) {
 
         }
     }

@@ -240,7 +240,11 @@ services:
                 PHPStan\Rules\Rule: ['getRule']
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrFuncCallInForeachRule
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrStaticCallInForeachRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodCallInIfRule
         tags: [phpstan.rules.rule]
 
 #    -

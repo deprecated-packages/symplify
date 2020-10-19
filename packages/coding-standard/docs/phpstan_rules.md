@@ -1885,15 +1885,15 @@ abstract class SomeClass implements ConfigInterface
 
 <br>
 
-## Forbid Method or Function Call Inside Foreach's Expression. Use Variable instead.
+## Forbid Method or Static Call with Arguments Inside Foreach's Expression. Use Variable instead.
 
-- class: [`ForbiddenMethodOrFuncCallInForeachRule`](../src/Rules/ForbiddenMethodOrFuncCallInForeachRule.php)
+- class: [`ForbiddenMethodOrStaticCallInForeachRule`](../src/Rules/ForbiddenMethodOrStaticCallInForeachRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrFuncCallInForeachRule
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrStaticCallInForeachRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1903,12 +1903,7 @@ services:
 
 declare(strict_types=1);
 
-function getData()
-{
-    return [];
-}
-
-foreach (getData() as $key => $item) {
+foreach ($this->getData($arg) as $key => $item) {
 
 }
 ```
@@ -1921,13 +1916,53 @@ foreach (getData() as $key => $item) {
 
 declare(strict_types=1);
 
-function getData()
-{
-    return [];
-}
+$data = $this->getData($arg);
+foreach ($arg as $key => $item) {
 
-$data = getData();
-foreach ($data as $key => $item) {
+}
+```
+
+:+1:
+
+## Forbid Method Call with Arguments Inside If's or ElseIf's Expression. Use Variable instead.
+
+- class: [`ForbiddenMethodCallInIfRule`](../src/Rules/ForbiddenMethodCallInIfRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodCallInIfRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+$obj = new SomeClass();
+if ($obj->getData($arg) === []) {
+
+} elseif ($obj->getData($arg) !== []) {
+
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+$obj = new SomeClass();
+$data = $obj->getData($arg);
+if ($data === []) {
+
+} elseif ($data !== []) {
 
 }
 ```
