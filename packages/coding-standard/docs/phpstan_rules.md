@@ -1885,7 +1885,7 @@ abstract class SomeClass implements ConfigInterface
 
 <br>
 
-## Forbid Method or Function Call Inside Foreach's Expression. Use Variable instead.
+## Forbid Method or Function Call with Arguments Inside Foreach's Expression. Use Variable instead.
 
 - class: [`ForbiddenMethodOrFuncCallInForeachRule`](../src/Rules/ForbiddenMethodOrFuncCallInForeachRule.php)
 
@@ -1934,7 +1934,7 @@ foreach ($data as $key => $item) {
 
 :+1:
 
-## Forbid Method or Function Call Inside If's or ElseIf's Expression. Use Variable instead.
+## Forbid Method or Function Call with Arguments Inside If's or ElseIf's Expression. Use Variable instead.
 
 - class: [`ForbiddenMethodOrFuncCallInIfRule`](../src/Rules/ForbiddenMethodOrFuncCallInIfRule.php)
 
