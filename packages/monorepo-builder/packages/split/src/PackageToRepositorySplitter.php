@@ -86,12 +86,8 @@ final class PackageToRepositorySplitter
         // If branch not set, default to current branch
         $branch = $branch ?? $this->gitManager->getCurrentBranch();
 
-        // If branch doesn't exist on origin, push it
-        if (! $this->gitManager->doesBranchExistOnRemote($branch)) {
-            $missingBranchMessage = sprintf('Branch "%s" does not exist on origin, pushing it...', $branch);
-            $this->symfonyStyle->note($missingBranchMessage);
-            $this->symfonyStyle->writeln($this->gitManager->pushBranchToRemoteOrigin($branch));
-        }
+        $message = sprintf('Splitting "%s" branch', $branch);
+        $this->symfonyStyle->note($message);
 
         foreach ($splitConfig as $localDirectory => $remoteRepository) {
             $this->fileSystemGuard->ensureDirectoryExists($localDirectory);

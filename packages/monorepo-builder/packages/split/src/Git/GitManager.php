@@ -44,14 +44,6 @@ final class GitManager
         $this->githubToken = (string) $parameterProvider->provideStringParameter(Option::GITHUB_TOKEN);
     }
 
-    public function doesBranchExistOnRemote(string $branch): bool
-    {
-        $command = ['git', 'branch', '-a'];
-        $result = $this->processRunner->run($command);
-
-        return Strings::contains($result, sprintf('remotes/origin/%s', $branch));
-    }
-
     public function getCurrentBranch(): string
     {
         $command = ['git', 'rev-parse', '--abbrev-ref', 'HEAD'];
@@ -63,13 +55,6 @@ final class GitManager
         }
 
         return $currentBranch;
-    }
-
-    public function pushBranchToRemoteOrigin(string $branch): string
-    {
-        $command = ['git', 'push', '--set-upstream', 'origin', trim($branch)];
-
-        return $this->processRunner->run($command);
     }
 
     public function doTagsHaveCommitterDate(): bool
