@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
@@ -51,12 +52,24 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule
         }
 
         $funcName = $node->name->toString();
+        foreach ($this->forbiddenFunctions as $forbiddenFunction) {
+            $errorMessage = [sprintf(self::ERROR_MESSAGE, $forbiddenFunction)];
 
-        if (! in_array($funcName, $this->forbiddenFunctions, true)) {
-            return [];
+            if ($funcName === $forbiddenFunction) {
+                return $errorMessage;
+            }
+
+            $isEndWithMask = Strings::endsWith($forbiddenFunction, '*');
+            $isStartWithFunctionForbidden = Strings::startsWith(
+                $funcName,
+                Strings::substring($forbiddenFunction, 0, -1)
+            );
+
+            if ($isEndWithMask && $isStartWithFunctionForbidden) {
+                return $errorMessage;
+            }
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $funcName);
-        return [$errorMessage];
+        return [];
     }
 }

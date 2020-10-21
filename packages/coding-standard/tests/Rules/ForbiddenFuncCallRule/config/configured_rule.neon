@@ -6,3 +6,4 @@ services:
             forbiddenFunctions:
                 - 'extract'
                 - 'dump'
+                - 'curl_*'
