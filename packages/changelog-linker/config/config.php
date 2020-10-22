@@ -26,6 +26,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->defaults()
         ->autowire()
+        ->autoconfigure()
         ->public();
 
     $services->set(FileSystemGuard::class);
