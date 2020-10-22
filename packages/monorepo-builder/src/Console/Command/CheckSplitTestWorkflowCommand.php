@@ -79,14 +79,17 @@ final class CheckSplitTestWorkflowCommand extends Command
             return ShellCode::SUCCESS;
         }
 
+        $errorMessage = sprintf(
+            'Add missing packages to "%s" workflow file',
+            $workflowFileInfo->getRelativeFilePathFromCwd()
+        );
+        $this->symfonyStyle->error($errorMessage);
+
         foreach ($missingPackages as $missingPackage) {
-            $errorMessage = sprintf(
-                'Add missing "%s" package to "%s" workflow file',
-                $missingPackage->getShortName(),
-                $workflowFileInfo->getRelativeFilePathFromCwd()
-            );
-            $this->symfonyStyle->error($errorMessage);
+            $this->symfonyStyle->writeln(' - ' . $missingPackage->getShortName());
         }
+
+        $this->symfonyStyle->newLine(2);
 
         return ShellCode::ERROR;
     }

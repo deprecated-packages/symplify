@@ -42,6 +42,7 @@
         "twig/twig": "^3.0"
     },
     "require-dev": {
+        "doctrine/annotations": "^1.10",
         "doctrine/cache": "^1.10",
         "doctrine/doctrine-bundle": "^2.0",
         "doctrine/doctrine-cache-bundle": "^1.4",
@@ -133,7 +134,8 @@
             "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
-            "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src"
+            "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
+            "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests"
         }
     },
     "replace": {

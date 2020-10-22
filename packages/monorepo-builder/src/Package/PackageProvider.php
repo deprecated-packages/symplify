@@ -33,7 +33,7 @@ final class PackageProvider
      */
     public function provideWithTests(): array
     {
-        return array_filter($this->provide(), function (Package $package) {
+        return array_filter($this->provide(), function (Package $package): bool {
             return $package->hasTests();
         });
     }
@@ -49,7 +49,7 @@ final class PackageProvider
             $packages[] = new Package($packageName, $packageFileInfo);
         }
 
-        usort($packages, function (Package $firstPackage, Package $secondPackage) {
+        usort($packages, function (Package $firstPackage, Package $secondPackage): int {
             return $firstPackage->getShortName() <=> $secondPackage->getShortName();
         });
 
