@@ -2166,6 +2166,57 @@ class AbstractFoo
 
 <br>
 
+## Check Required autowire(), autoconfigure(), and public() are Used in Config Service Rule
+
+- class: [`CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule`](../src/Rules/CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->defaults()
+        ->autowire()
+        ->autoconfigure();
+};
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->defaults()
+        ->autowire()
+        ->autoconfigure()
+        ->public();
+};
+```
+
+:+1:
+
+<br>
+
 ## Check Method with @required need to be named autowire+class name
 
 - class: [`CheckRequiredMethodTobeAutowireWithClassNameRule`](../src/Rules/CheckRequiredMethodTobeAutowireWithClassNameRule.php)
