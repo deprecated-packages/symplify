@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
@@ -43,6 +44,15 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule exte
         if (! is_a($className, ServicesConfigurator::class, true)) {
             return [];
         }
+
+        /** @var Identifier $methodIdentifier */
+        $methodIdentifier = $node->name;
+        // ensure start with ->defaults()
+        if ($methodIdentifier->toString() !== 'defaults') {
+            return [];
+        }
+
+
 
         return [self::ERROR_MESSAGE];
     }
