@@ -59,6 +59,18 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule exte
             return [];
         }
 
+        $methodCallNames = $this->getMethodCallNames($node);
+        foreach (self::REQUIRED_METHODS as $method) {
+            if (! in_array($method, $methodCallNames, true)) {
+                return [self::ERROR_MESSAGE];
+            }
+        }
+
+        return [];
+    }
+
+    private function getMethodCallNames(MethodCall $node): array
+    {
         $methodCalls = [];
         while ($node) {
             if ($node instanceof MethodCall && $node->name instanceof Identifier) {
@@ -68,12 +80,6 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule exte
             $node = $node->getAttribute(PHPStanAttributeKey::PARENT);
         }
 
-        foreach (self::REQUIRED_METHODS as $method) {
-            if (! in_array($method, $methodCalls, true)) {
-                return [self::ERROR_MESSAGE];
-            }
-        }
-
-        return [];
+        return $methodCalls;
     }
 }
