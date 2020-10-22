@@ -22,6 +22,9 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule exte
      */
     public const ERROR_MESSAGE = 'autowire(), autoconfigure(), and public() are required in config service';
 
+    /**
+     * @var string[]
+     */
     private const REQUIRED_METHODS = ['autowire', 'autoconfigure', 'public'];
 
     /**
