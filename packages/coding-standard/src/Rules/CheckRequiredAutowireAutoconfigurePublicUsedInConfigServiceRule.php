@@ -69,15 +69,18 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule exte
         return [];
     }
 
-    private function getMethodCallNames(MethodCall $node): array
+    /**
+     * @return string[]
+     */
+    private function getMethodCallNames(MethodCall $methodCall): array
     {
         $methodCalls = [];
-        while ($node) {
-            if ($node instanceof MethodCall && $node->name instanceof Identifier) {
-                $methodCalls[] = $node->name->toString();
+        while ($methodCall) {
+            if ($methodCall instanceof MethodCall && $methodCall->name instanceof Identifier) {
+                $methodCalls[] = $methodCall->name->toString();
             }
 
-            $node = $node->getAttribute(PHPStanAttributeKey::PARENT);
+            $methodCall = $methodCall->getAttribute(PHPStanAttributeKey::PARENT);
         }
 
         return $methodCalls;
