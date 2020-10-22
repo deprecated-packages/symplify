@@ -9,18 +9,18 @@ final class ArrayStringAndFnMatcher
     /**
      * @param string[] $matchingValues
      */
-    public function isMatch(string $currenctValue, array $matchingValues): bool
+    public function isMatch(string $currentValue, array $matchingValues): bool
     {
         foreach ($matchingValues as $matchingValue) {
-            if ($currenctValue === $matchingValue) {
+            if ($currentValue === $matchingValue) {
                 return true;
             }
 
-            if (fnmatch($matchingValue, $currenctValue)) {
+            if (fnmatch($matchingValue, $currentValue)) {
                 return true;
             }
 
-            if (fnmatch($matchingValue, $currenctValue, FNM_NOESCAPE)) {
+            if (fnmatch($matchingValue, $currentValue, FNM_NOESCAPE)) {
                 return true;
             }
         }

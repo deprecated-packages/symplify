@@ -71,7 +71,7 @@ final class BumpInterdependencyCommand extends Command
         [$vendor] = explode('/', $mainComposerJson['name']);
 
         $this->dependencyUpdater->updateFileInfosWithVendorAndVersion(
-            $this->composerJsonProvider->getPackagesFileInfos(),
+            $this->composerJsonProvider->getPackagesComposerFileInfos(),
             $vendor,
             $version
         );

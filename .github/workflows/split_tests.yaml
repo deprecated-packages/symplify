@@ -17,6 +17,7 @@ jobs:
                     - package-builder
                     - easy-coding-standard
                     - easy-coding-standard-tester
+                    - composer-json-manipulator
                     - coding-standard
                     - changelog-linker
                     - monorepo-builder

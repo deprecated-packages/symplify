@@ -40,6 +40,11 @@ jobs:
                         run: composer validate --strict
 
                     -
+                        name: Check Missing Split Test Directories
+                        run: |
+                            packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_tests.yaml
+
+                    -
                         name: Binary File Run
                         run: |
                             # test run bin files

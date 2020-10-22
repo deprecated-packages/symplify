@@ -13,7 +13,7 @@ final class SetCurrentMutualDependenciesReleaseWorker extends AbstractMutualDepe
         $versionInString = $this->versionUtils->getRequiredFormat($version);
 
         $this->dependencyUpdater->updateFileInfosWithPackagesAndVersion(
-            $this->composerJsonProvider->getPackagesFileInfos(),
+            $this->composerJsonProvider->getPackagesComposerFileInfos(),
             $this->packageNamesProvider->provide(),
             $versionInString
         );

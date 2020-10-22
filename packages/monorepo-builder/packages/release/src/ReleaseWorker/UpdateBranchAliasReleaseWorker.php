@@ -42,7 +42,7 @@ final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
         $nextAlias = $this->versionUtils->getNextAliasFormat($version);
 
         $this->devMasterAliasUpdater->updateFileInfosWithAlias(
-            $this->composerJsonProvider->getPackagesFileInfos(),
+            $this->composerJsonProvider->getPackagesComposerFileInfos(),
             $nextAlias
         );
     }
