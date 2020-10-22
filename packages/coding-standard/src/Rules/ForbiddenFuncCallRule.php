@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenFuncCallRule\ForbiddenFuncCallRuleTest
@@ -20,6 +21,11 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Function "%s()" cannot be used/left in the code';
 
     /**
+     * @var ArrayStringAndFnMatcher
+     */
+    private $arrayStringAndFnMatcher;
+
+    /**
      * @var string[]
      */
     private $forbiddenFunctions = [];
@@ -27,8 +33,9 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule
     /**
      * @param string[] $forbiddenFunctions
      */
-    public function __construct(array $forbiddenFunctions)
+    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher, array $forbiddenFunctions)
     {
+        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
         $this->forbiddenFunctions = $forbiddenFunctions;
     }
 
@@ -51,12 +58,10 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule
         }
 
         $funcName = $node->name->toString();
-
-        if (! in_array($funcName, $this->forbiddenFunctions, true)) {
+        if (! $this->arrayStringAndFnMatcher->isMatch($funcName, $this->forbiddenFunctions)) {
             return [];
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $funcName);
-        return [$errorMessage];
+        return [sprintf(self::ERROR_MESSAGE, $funcName)];
     }
 }

@@ -95,6 +95,7 @@ services:
                 - 'dump'
                 - 'var_dump'
                 - 'extract'
+                - 'curl_*'
 
     -
         class: Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule
