@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
+use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRuleTest
@@ -20,6 +21,8 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule exte
      * @var string
      */
     public const ERROR_MESSAGE = 'autowire(), autoconfigure(), and public() are required in config service';
+
+    private const REQUIRED_METHODS = ['autowire', 'autoconfigure', 'public'];
 
     /**
      * @return string[]
@@ -47,13 +50,27 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule exte
 
         /** @var Identifier $methodIdentifier */
         $methodIdentifier = $node->name;
+
         // ensure start with ->defaults()
         if ($methodIdentifier->toString() !== 'defaults') {
             return [];
         }
 
+        $methodCalls = [];
+        while ($node) {
+            if ($node instanceof MethodCall && $node->name instanceof Identifier) {
+                $methodCalls[] = $node->name->toString();
+            }
 
+            $node = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        }
 
-        return [self::ERROR_MESSAGE];
+        foreach (self::REQUIRED_METHODS as $method) {
+            if (! in_array($method, $methodCalls, true)) {
+                return [self::ERROR_MESSAGE];
+            }
+        }
+
+        return [];
     }
 }

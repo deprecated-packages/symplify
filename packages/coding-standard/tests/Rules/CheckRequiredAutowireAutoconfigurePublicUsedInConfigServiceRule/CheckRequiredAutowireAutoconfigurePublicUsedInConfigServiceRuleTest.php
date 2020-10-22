@@ -23,7 +23,10 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRuleTest 
     {
         yield [__DIR__ . '/Fixture/ConfigParameter.php', []];
         yield [__DIR__ . '/Fixture/ConfigServiceHasAutowireAutoConfigurePublicMethodCall.php', []];
-        yield [__DIR__ . '/Fixture/ConfigServiceMissingMethodCall.php', [[CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule::ERROR_MESSAGE, 9]]];
+        yield [
+            __DIR__ . '/Fixture/ConfigServiceMissingMethodCall.php',
+            [[CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule::ERROR_MESSAGE, 9]],
+        ];
     }
 
     protected function getRule(): Rule
