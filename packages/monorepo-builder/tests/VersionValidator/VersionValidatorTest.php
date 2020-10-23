@@ -9,6 +9,7 @@ use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class VersionValidatorTest extends AbstractKernelTestCase
 {
@@ -44,9 +45,12 @@ final class VersionValidatorTest extends AbstractKernelTestCase
 
         $this->assertArrayHasKey('some/package', $conflictingPackageVersionsPerFile);
 
+        $firstJson = new SmartFileInfo(__DIR__ . DIRECTORY_SEPARATOR . 'Source' . DIRECTORY_SEPARATOR . 'first.json');
+        $secondJson = new SmartFileInfo(__DIR__ . DIRECTORY_SEPARATOR . 'Source' . DIRECTORY_SEPARATOR . 'second.json');
+
         $expectedConflictingVersionsPerFile = [
-            __DIR__ . DIRECTORY_SEPARATOR . 'Source' . DIRECTORY_SEPARATOR . 'first.json' => '^1.0',
-            __DIR__ . DIRECTORY_SEPARATOR . 'Source' . DIRECTORY_SEPARATOR . 'second.json' => '^2.0',
+            $firstJson->getRelativeFilePathFromCwd() => '^1.0',
+            $secondJson->getRelativeFilePathFromCwd() => '^2.0',
         ];
 
         $this->assertSame($expectedConflictingVersionsPerFile, $conflictingPackageVersionsPerFile['some/package']);
