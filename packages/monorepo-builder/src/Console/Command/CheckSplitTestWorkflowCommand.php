@@ -113,12 +113,12 @@ final class CheckSplitTestWorkflowCommand extends Command
         $missingPackages = [];
 
         foreach ($packages as $package) {
-            $packageNameItemPattern = '#\-\s+' . preg_quote($package->getShortName(), '#') . '\b#';
+            $packageNameItemPattern = '#\-\s+' . preg_quote($package->getShortDirectory(), '#') . '\b#';
 
             if (Strings::match($workflowFileInfo->getContents(), $packageNameItemPattern)) {
                 $message = sprintf(
                     'Package "%s" was found in "%s"',
-                    $package->getShortName(),
+                    $package->getShortDirectory(),
                     $workflowFileInfo->getRelativeFilePathFromCwd()
                 );
                 $this->symfonyStyle->note($message);

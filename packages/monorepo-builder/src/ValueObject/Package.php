@@ -24,6 +24,11 @@ final class Package
      */
     private $shortName;
 
+    /**
+     * @var string
+     */
+    private $shortDirectory;
+
     public function __construct(string $name, SmartFileInfo $composerJsonFileInfo)
     {
         $this->name = $name;
@@ -31,6 +36,8 @@ final class Package
         $this->shortName = (string) Strings::after($name, '/', -1);
 
         $this->rootDirectoryFileInfo = new SmartFileInfo($composerJsonFileInfo->getPath());
+
+        $this->shortDirectory = (string) Strings::after($composerJsonFileInfo->getPath(), '/', -1);
     }
 
     public function getName(): string
@@ -47,5 +54,10 @@ final class Package
     public function getShortName(): string
     {
         return $this->shortName;
+    }
+
+    public function getShortDirectory(): string
+    {
+        return $this->shortDirectory;
     }
 }
