@@ -65,7 +65,8 @@ final class VersionValidator
                 }
 
                 foreach ($json[$section] as $packageName => $packageVersion) {
-                    $packageVersionsPerFile[$packageName][$smartFileInfo->getPathname()] = $packageVersion;
+                    $filePath = $smartFileInfo->getRelativeFilePathFromCwd();
+                    $packageVersionsPerFile[$packageName][$filePath] = $packageVersion;
                 }
             }
         }
