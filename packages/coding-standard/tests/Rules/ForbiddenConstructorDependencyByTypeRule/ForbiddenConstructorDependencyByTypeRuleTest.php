@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTy
 
 use Iterator;
 use PHPStan\Rules\Rule;
+use Psr\Container\ContainerInterface;
 use Symplify\CodingStandard\Rules\ForbiddenConstructorDependencyByTypeRule;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\Fixture\SkipNoConstruct;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\Fixture\SkipNoConstructParameter;
@@ -28,6 +29,11 @@ final class ForbiddenConstructorDependencyByTypeRuleTest extends AbstractService
     {
         yield [__DIR__ . '/Fixture/SkipNoConstruct.php', []];
         yield [__DIR__ . '/Fixture/SkipNoConstructParameter.php', []];
+        yield [__DIR__ . '/Fixture/PassContainertoConstructorParameter.php', [
+            [
+                sprintf(ForbiddenConstructorDependencyByTypeRule::ERROR_MESSAGE, ContainerInterface::class), 9]
+            ]
+        ];
     }
 
     protected function getRule(): Rule
