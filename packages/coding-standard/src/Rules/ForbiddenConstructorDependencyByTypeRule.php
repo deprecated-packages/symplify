@@ -67,8 +67,10 @@ final class ForbiddenConstructorDependencyByTypeRule extends AbstractSymplifyRul
             }
 
             $paramType = $param->type->toString();
-            if (in_array($paramType, $this->forbiddenTypes, true)) {
-                return [self::ERROR_MESSAGE];
+            foreach ($this->forbiddenTypes as $forbiddenType) {
+                if (is_a($paramType, $forbiddenType, true)) {
+                    return [self::ERROR_MESSAGE];
+                }
             }
         }
 
