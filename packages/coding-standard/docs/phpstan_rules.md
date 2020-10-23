@@ -928,6 +928,41 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 <br>
 
+## Forbid Constructor Dependency By Type Rule
+
+- class: [`ForbiddenConstructorDependencyByTypeRule`](../src/Rules/ForbiddenConstructorDependencyByTypeRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenConstructorDependencyByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypes:
+                - Psr\Container\ContainerInterface
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+use Psr\Container\ContainerInterface;
+
+class SomeClass
+{
+    public function __construct(ContainerInterface $container)
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Use specific Repository over EntityManager in Controller
 
 - class: [`NoEntityManagerInControllerRule`](../src/Rules/NoEntityManagerInControllerRule.php)
