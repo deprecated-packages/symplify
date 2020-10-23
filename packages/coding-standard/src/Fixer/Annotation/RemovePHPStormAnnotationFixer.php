@@ -41,7 +41,7 @@ final class RemovePHPStormAnnotationFixer extends AbstractSymplifyFixer
             }
 
             $originalDocContent = $token->getContent();
-            $cleanedDocContent = Strings::replace($originalDocContent, self::CRETED_BY_PHPSTORM_DOC_REGEX);
+            $cleanedDocContent = Strings::replace($originalDocContent, self::CRETED_BY_PHPSTORM_DOC_REGEX, '');
             if ($cleanedDocContent !== '') {
                 continue;
             }
