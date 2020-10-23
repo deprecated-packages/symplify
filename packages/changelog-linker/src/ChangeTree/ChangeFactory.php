@@ -93,6 +93,6 @@ final class ChangeFactory
         }
 
         // can be aliased (not the $package variable), so we need to check any naming
-        return Strings::replace($message, PackageResolver::PACKAGE_NAME_REGEX);
+        return Strings::replace($message, PackageResolver::PACKAGE_NAME_REGEX, '');
     }
 }

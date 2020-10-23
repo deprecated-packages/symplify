@@ -30,7 +30,7 @@ final class ChangelogCleaner
 
         foreach ($deadLinks as $deadLink) {
             $deadLinkPattern = sprintf('#\[\#?(%s)\]:(.*?)\n#', preg_quote($deadLink));
-            $changelogContent = Strings::replace($changelogContent, $deadLinkPattern);
+            $changelogContent = Strings::replace($changelogContent, $deadLinkPattern, '');
         }
 
         return rtrim($changelogContent) . PHP_EOL;

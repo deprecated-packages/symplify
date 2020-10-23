@@ -65,7 +65,7 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
         }
 
         $shortClassName = (string) $node->name;
-        $expectedShortClassName = Strings::replace($shortClassName, self::VALUE_OBJECT_SUFFIX_REGEX);
+        $expectedShortClassName = Strings::replace($shortClassName, self::VALUE_OBJECT_SUFFIX_REGEX, '');
         $errorMessage = sprintf(self::ERROR, $shortClassName, $expectedShortClassName);
 
         return [$errorMessage];

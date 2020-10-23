@@ -145,7 +145,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         Definition $definition,
         ReflectionParameter $reflectionParameter
     ): bool {
-        if (! $reflectionParameter->isArray()) {
+        if (! ($reflectionParameter->getType() !== null && $reflectionParameter->getType()->getName() === 'array')) {
             return true;
         }
 
