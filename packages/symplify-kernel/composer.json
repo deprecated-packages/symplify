@@ -18,11 +18,6 @@
             "Symplify\\SymplifyKernel\\": "src"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Symplify\\SymplifyKernel\\Tests\\": "tests"
-        }
-    },
     "extra": {
         "branch-alias": {
             "dev-master": "8.4-dev"
