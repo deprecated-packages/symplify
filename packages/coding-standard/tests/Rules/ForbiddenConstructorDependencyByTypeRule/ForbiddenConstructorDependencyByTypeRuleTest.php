@@ -7,6 +7,8 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTy
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\Rules\ForbiddenConstructorDependencyByTypeRule;
+use Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\Fixture\SkipNoConstruct;
+use Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\Fixture\SkipNoConstructParameter;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 final class ForbiddenConstructorDependencyByTypeRuleTest extends AbstractServiceAwareRuleTestCase
@@ -25,6 +27,7 @@ final class ForbiddenConstructorDependencyByTypeRuleTest extends AbstractService
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipNoConstruct.php', []];
+        yield [__DIR__ . '/Fixture/SkipNoConstructParameter.php', []];
     }
 
     protected function getRule(): Rule
