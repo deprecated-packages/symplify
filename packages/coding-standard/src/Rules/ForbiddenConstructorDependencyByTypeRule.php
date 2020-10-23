@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
-use PhpParser\Node\Name;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\ForbiddenConstructorDependencyByTypeRule

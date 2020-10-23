@@ -7,7 +7,6 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTy
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\CodingStandard\Rules\ForbiddenConstructorDependencyByTypeRule;
-use Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\Fixture\SkipNoConstruct;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 final class ForbiddenConstructorDependencyByTypeRuleTest extends AbstractServiceAwareRuleTestCase
@@ -30,6 +29,9 @@ final class ForbiddenConstructorDependencyByTypeRuleTest extends AbstractService
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ForbiddenConstructorDependencyByTypeRule::class, __DIR__ . '/config/configured_rule.neon');
+        return $this->getRuleFromConfig(
+            ForbiddenConstructorDependencyByTypeRule::class,
+            __DIR__ . '/config/configured_rule.neon'
+        );
     }
 }
