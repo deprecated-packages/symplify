@@ -12,6 +12,7 @@ use PhpParser\Node\Name;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\ForbiddenConstructorDependencyByTypeRule
+ * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\ForbiddenConstructorDependencyByTypeRuleTest
  */
 final class ForbiddenConstructorDependencyByTypeRule extends AbstractSymplifyRule
 {
