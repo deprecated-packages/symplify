@@ -41,7 +41,7 @@ final class PackageComposerFinder
 
     public function getRootPackageComposerFile(): SmartFileInfo
     {
-        return new SmartFileInfo('composer.json');
+        return new SmartFileInfo(getcwd() . DIRECTORY_SEPARATOR . 'composer.json');
     }
 
     /**
@@ -52,6 +52,8 @@ final class PackageComposerFinder
         $finder = Finder::create()
             ->files()
             ->in($this->packageDirectories)
+            // sub-directory for wrapping to phar
+            ->exclude('compiler')
             // "init" command template data
             ->exclude('templates')
             ->exclude('vendor')

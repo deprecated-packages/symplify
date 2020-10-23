@@ -19,6 +19,8 @@
         "symplify/smart-file-system": "^8.4"
     },
     "require-dev": {
+        "doctrine/annotations": "^1.10",
+        "doctrine/cache": "^1.10",
         "phpstan/phpstan": "^0.12.40",
         "phpunit/phpunit": "^8.5|^9.0",
         "symfony/framework-bundle": "^4.4|^5.1",

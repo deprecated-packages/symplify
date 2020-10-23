@@ -85,7 +85,7 @@ final class LocalizeComposerPathsCommand extends Command
     {
         $rootFileInfo = $this->composerJsonProvider->getRootFileInfo();
 
-        $packagesFileInfos = $this->composerJsonProvider->getPackagesFileInfos();
+        $packagesFileInfos = $this->composerJsonProvider->getPackagesComposerFileInfos();
         foreach ($packagesFileInfos as $packagesFileInfo) {
             $this->processPackage($packagesFileInfo, $rootFileInfo);
         }

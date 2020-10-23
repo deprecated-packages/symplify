@@ -87,7 +87,7 @@ final class MergeCommand extends Command
 
         $mainComposerJsonFilePath = getcwd() . '/composer.json';
         $mainComposerJson = $this->composerJsonFactory->createFromFilePath($mainComposerJsonFilePath);
-        $packageFileInfos = $this->composerJsonProvider->getPackagesFileInfos();
+        $packageFileInfos = $this->composerJsonProvider->getPackagesComposerFileInfos();
 
         $this->mergedAndDecoratedComposerJsonFactory->createFromRootConfigAndPackageFileInfos(
             $mainComposerJson,
@@ -103,7 +103,7 @@ final class MergeCommand extends Command
     private function ensureNoConflictingPackageVersions(): void
     {
         $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
-            $this->composerJsonProvider->getPackagesFileInfos()
+            $this->composerJsonProvider->getPackagesComposerFileInfos()
         );
 
         if (count($conflictingPackageVersions) === 0) {

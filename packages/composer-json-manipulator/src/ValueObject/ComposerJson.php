@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Symplify\ComposerJsonManipulator\ValueObject;
 
 use Composer\Json\JsonManipulator;
+use Nette\Utils\Arrays;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ComposerJson
 {
@@ -169,6 +171,31 @@ final class ComposerJson
         $classmapDirectories = $this->autoload['classmap'] ?? [];
 
         return array_merge($psr4Directories, $classmapDirectories);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAbsoluteAutoloadDirectories(): array
+    {
+        if ($this->fileInfo === null) {
+            throw new ShouldNotHappenException();
+        }
+
+        $autoloadDirectories = $this->getAutoloadDirectories();
+
+        $absoluteAutoloadDirectories = [];
+
+        foreach ($autoloadDirectories as $autoloadDirectory) {
+            if (is_file($autoloadDirectory)) {
+                // skip files
+                continue;
+            }
+
+            $absoluteAutoloadDirectories[] = $this->resolveExistingAutoloadDirectory($autoloadDirectory);
+        }
+
+        return $absoluteAutoloadDirectories;
     }
 
     /**
@@ -455,6 +482,30 @@ final class ComposerJson
     }
 
     /**
+     * @return string[]
+     */
+    private function getAutoloadDirectories(): array
+    {
+        $autoloadDirectories = array_merge(
+            $this->getPsr4AndClassmapDirectories(),
+            $this->getPsr4AndClassmapDevDirectories()
+        );
+
+        return Arrays::flatten($autoloadDirectories);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getPsr4AndClassmapDevDirectories(): array
+    {
+        $psr4Directories = array_values($this->autoloadDev['psr-4'] ?? []);
+        $classmapDirectories = $this->autoloadDev['classmap'] ?? [];
+
+        return array_merge($psr4Directories, $classmapDirectories);
+    }
+
+    /**
      * @param string[] $packages
      * @return string[]
      */
@@ -492,5 +543,26 @@ final class ComposerJson
         });
 
         return $contentItems;
+    }
+
+    private function resolveExistingAutoloadDirectory(string $autoloadDirectory): string
+    {
+        if ($this->fileInfo === null) {
+            throw new ShouldNotHappenException();
+        }
+
+        $filePathCandidates = [
+            $this->fileInfo->getPath() . DIRECTORY_SEPARATOR . $autoloadDirectory,
+            // mostly tests
+            getcwd() . DIRECTORY_SEPARATOR . $autoloadDirectory,
+        ];
+
+        foreach ($filePathCandidates as $filePathCandidate) {
+            if (file_exists($filePathCandidate)) {
+                return $filePathCandidate;
+            }
+        }
+
+        return $autoloadDirectory;
     }
 }

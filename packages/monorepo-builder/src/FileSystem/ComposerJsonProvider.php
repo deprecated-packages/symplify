@@ -43,7 +43,7 @@ final class ComposerJsonProvider
     /**
      * @return SmartFileInfo[]
      */
-    public function getPackagesFileInfos(): array
+    public function getPackagesComposerFileInfos(): array
     {
         return $this->packageComposerFinder->getPackageComposerFiles();
     }
@@ -53,7 +53,10 @@ final class ComposerJsonProvider
      */
     public function getRootAndPackageFileInfos(): array
     {
-        return array_merge($this->getPackagesFileInfos(), [$this->packageComposerFinder->getRootPackageComposerFile()]);
+        return array_merge(
+            $this->getPackagesComposerFileInfos(),
+            [$this->packageComposerFinder->getRootPackageComposerFile()]
+        );
     }
 
     public function getPackageByName(string $packageName): SmartFileInfo

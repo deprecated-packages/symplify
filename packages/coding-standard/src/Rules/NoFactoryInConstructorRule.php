@@ -17,6 +17,7 @@ use PHPStan\Type\TypeWithClassName;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\CodingStandard\ValueObject\MethodName;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
@@ -37,6 +38,24 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
         ParameterBagInterface::class,
         EntityManagerInterface::class,
     ];
+
+    /**
+     * @var string[]
+     */
+    private const SKIP_CLASS_NAMES = [
+        // to resolve extra values
+        '*\ValueObject\*',
+    ];
+
+    /**
+     * @var ArrayStringAndFnMatcher
+     */
+    private $arrayStringAndFnMatcher;
+
+    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher)
+    {
+        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
+    }
 
     /**
      * @return string[]
@@ -75,6 +94,10 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
             return [];
         }
 
+        if ($this->isInAllowedClass($scope)) {
+            return [];
+        }
+
         return [self::ERROR_MESSAGE];
     }
 
@@ -94,12 +117,18 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
             return false;
         }
 
-        foreach (self::ALLOWED_TYPES as $allowedType) {
-            if (is_a($type->getClassName(), $allowedType, true)) {
-                return true;
-            }
+        return $this->arrayStringAndFnMatcher->isMatch($type->getClassName(), self::ALLOWED_TYPES);
+    }
+
+    private function isInAllowedClass(Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return false;
         }
 
-        return false;
+        $className = $classReflection->getName();
+
+        return $this->arrayStringAndFnMatcher->isMatch($className, self::SKIP_CLASS_NAMES);
     }
 }

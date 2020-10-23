@@ -17,12 +17,18 @@ jobs:
                     - package-builder
                     - easy-coding-standard
                     - easy-coding-standard-tester
+                    - composer-json-manipulator
                     - coding-standard
                     - changelog-linker
                     - monorepo-builder
                     - flex-loader
                     - autodiscovery
                     - set-config-resolver
+                    - console-color-diff
+                    - easy-hydrator
+                    - easy-testing
+                    - phpstan-extensions
+                    - symfony-static-dumper
 
         name: Split Tests of ${{ matrix.package_name }}
 

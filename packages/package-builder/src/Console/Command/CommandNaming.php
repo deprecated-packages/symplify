@@ -44,11 +44,11 @@ final class CommandNaming
         });
     }
 
-    private static function getShortClassName(string $class): ?string
+    private static function getShortClassName(string $class): string
     {
         $classParts = explode('\\', $class);
 
-        return array_pop($classParts);
+        return (string) array_pop($classParts);
     }
 
     private static function isFollowedByUpperCaseLetterOrNothing(string $string, int $position): bool

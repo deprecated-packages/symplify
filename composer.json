@@ -42,6 +42,7 @@
         "twig/twig": "^3.0"
     },
     "require-dev": {
+        "doctrine/annotations": "^1.10",
         "doctrine/cache": "^1.10",
         "doctrine/doctrine-bundle": "^2.0",
         "doctrine/doctrine-cache-bundle": "^1.4",
