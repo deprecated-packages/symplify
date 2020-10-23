@@ -56,23 +56,31 @@ final class ForbiddenConstructorDependencyByTypeRule extends AbstractSymplifyRul
         }
 
         $params = $node->params;
-        if ($params === []) {
-            return [];
-        }
-
         foreach ($params as $param) {
             if (! $param->type instanceof Name) {
                 continue;
             }
 
             $paramType = $param->type->toString();
-            foreach ($this->forbiddenTypes as $forbiddenType) {
-                if (is_a($paramType, $forbiddenType, true)) {
-                    return [sprintf(self::ERROR_MESSAGE, $forbiddenType)];
-                }
+            $forbiddenType = $this->getForbiddenType($paramType);
+            if ($forbiddenType === null) {
+                continue;
             }
+
+            return [sprintf(self::ERROR_MESSAGE, $forbiddenType)];
         }
 
         return [];
+    }
+
+    private function getForbiddenType(string $paramType): ?string
+    {
+        foreach ($this->forbiddenTypes as $forbiddenType) {
+            if (is_a($paramType, $forbiddenType, true)) {
+                return $forbiddenType;
+            }
+        }
+
+        return null;
     }
 }
