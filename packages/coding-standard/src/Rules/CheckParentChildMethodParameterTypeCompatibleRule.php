@@ -112,10 +112,14 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
         }
 
         if ($node instanceof NullableType) {
-            $node = $param->type->type;
+            $node = $node->type;
             return $this->getParamType($node);
         }
 
-        return $node->toString();
+        if (method_exists($node, 'toString')) {
+            return $node->toString();
+        }
+
+        return null;
     }
 }
