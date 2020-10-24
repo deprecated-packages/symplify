@@ -65,7 +65,7 @@ final class ParentClassMethodNodeResolver
     }
 
     /**
-     * @return Node[]
+     * @return mixed[]|mixed
      */
     public function resolveParentClassMethodParams(Scope $scope, string $methodName): array
     {

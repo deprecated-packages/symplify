@@ -46,7 +46,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
 
     /**
      * @param ClassMethod $node
-     * @return string[]
+     * @return mixed[]|null|string[]
      */
     public function process(Node $node, Scope $scope): array
     {
