@@ -132,7 +132,7 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
     /**
      * @param mixed[]|null $configuration
      */
-    public function configure(?array $configuration = null): void
+    public function configure(array $configuration = null): void
     {
         $this->lineLength = $configuration[self::LINE_LENGTH] ?? 120;
         $this->breakLongLines = $configuration[self::BREAK_LONG_LINES] ?? true;
