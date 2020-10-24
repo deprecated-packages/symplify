@@ -22,6 +22,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRuleTest extends Abstra
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/NoParent.php', []];
+        yield [__DIR__ . '/Fixture/NotHasParentMethod.php', []];
     }
 
     protected function getRule(): Rule
