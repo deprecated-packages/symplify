@@ -266,6 +266,13 @@ services:
         class: Symplify\CodingStandard\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
         tags: [phpstan.rules.rule]
 
+#    -
+#        class: Symplify\CodingStandard\Rules\ForbiddenConstructorDependencyByTypeRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+#            forbiddenTypes:
+#                - Psr\Container\ContainerInterface
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
