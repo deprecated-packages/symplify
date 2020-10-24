@@ -48,7 +48,7 @@ abstract class AbstractParameterMergingYamlFileLoader extends YamlFileLoader
      *
      * @param string|null $type
      */
-    public function load($resource, $type = null): void
+    public function load($resource, string $type = null): void
     {
         $path = $this->locator->locate($resource);
 
