@@ -23,6 +23,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRuleTest extends Abstra
     {
         yield [__DIR__ . '/Fixture/NoParent.php', []];
         yield [__DIR__ . '/Fixture/NotHasParentMethod.php', []];
+        yield [__DIR__ . '/Fixture/HasSameParameterWithParentMethod.php', []];
     }
 
     protected function getRule(): Rule

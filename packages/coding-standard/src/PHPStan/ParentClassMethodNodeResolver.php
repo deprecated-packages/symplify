@@ -42,7 +42,7 @@ final class ParentClassMethodNodeResolver
     public function resolveParentClassMethodNodes(Scope $scope, string $methodName): array
     {
         /** @var ClassReflection[] $parentClassReflections */
-        $parentClassReflections = $this->getParentClassReflections();
+        $parentClassReflections = $this->getParentClassReflections($scope);
         foreach ($parentClassReflections as $parentClassReflection) {
             $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
 
@@ -69,7 +69,7 @@ final class ParentClassMethodNodeResolver
     public function resolveParentClassMethodParams(Scope $scope, string $methodName): array
     {
         /** @var ClassReflection[] $parentClassReflections */
-        $parentClassReflections = $this->getParentClassIncludeInterfaceReflections();
+        $parentClassReflections = $this->getParentClassIncludeInterfaceReflections($scope);
         foreach ($parentClassReflections as $parentClassReflection) {
             $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
 
