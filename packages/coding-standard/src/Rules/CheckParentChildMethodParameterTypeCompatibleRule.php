@@ -95,24 +95,27 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     {
         $parameterTypes = [];
         foreach ($params as $param) {
-            if ($param->type instanceof Identifier) {
-                $parameterTypes[] = $param->type->name;
-                continue;
-            }
-
-            if ($param->type === null) {
-                $parameterTypes[] = null;
-                continue;
-            }
-
-            if ($param->type instanceof NullableType) {
-                $parameterTypes[] = $param->type->type;
-                continue;
-            }
-
-            $parameterTypes[] = $param->type->toString();
+            $parameterTypes[] = $this->getParamType($param->type);
         }
 
         return $parameterTypes;
+    }
+
+    private function getParamType(?Node $type): ?string
+    {
+        if ($type instanceof Identifier) {
+            return $type->name;
+        }
+
+        if ($type === null) {
+            return null;
+        }
+
+        if ($type instanceof NullableType) {
+            $type = $param->type->type;
+            return $this->getParamType($type);
+        }
+
+        return $type->toString();
     }
 }
