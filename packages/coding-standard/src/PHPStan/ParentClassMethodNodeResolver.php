@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\PHPStan;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\NodeFinder;
 use PhpParser\Parser;
 use PHPStan\Analyser\Scope;

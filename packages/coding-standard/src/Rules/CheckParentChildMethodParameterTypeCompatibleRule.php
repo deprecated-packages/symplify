@@ -9,8 +9,8 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 use Symplify\CodingStandard\PHPStan\ParentClassMethodNodeResolver;
+use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckParentChildMethodParameterTypeCompatibleRule\CheckParentChildMethodParameterTypeCompatibleRuleTest
@@ -27,11 +27,15 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
      */
     private $parentMethodAnalyser;
 
-    /** @var ParentClassMethodNodeResolver */
+    /**
+     * @var ParentClassMethodNodeResolver
+     */
     private $parentClassMethodNodeResolver;
 
-    public function __construct(ParentMethodAnalyser $parentMethodAnalyser, ParentClassMethodNodeResolver $parentClassMethodNodeResolver)
-    {
+    public function __construct(
+        ParentMethodAnalyser $parentMethodAnalyser,
+        ParentClassMethodNodeResolver $parentClassMethodNodeResolver
+    ) {
         $this->parentMethodAnalyser = $parentMethodAnalyser;
         $this->parentClassMethodNodeResolver = $parentClassMethodNodeResolver;
     }
@@ -46,7 +50,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
 
     /**
      * @param ClassMethod $node
-     * @return mixed[]|null|string[]
+     * @return mixed[]|string[]|null
      */
     public function process(Node $node, Scope $scope): array
     {
