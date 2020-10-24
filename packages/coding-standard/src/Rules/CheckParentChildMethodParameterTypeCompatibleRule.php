@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -99,6 +100,10 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
             if ($param->type === null) {
                 $parameterTypes[] = null;
                 continue;
+            }
+
+            if ($param->type instanceof NullableType) {
+                $parameterTypes[] = $param->type->type;
             }
 
             $parameterTypes[] = $param->type->toString();
