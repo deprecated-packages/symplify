@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -67,11 +68,23 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
         $parentParameterTypes = [];
 
         foreach ($parentParameters as $param) {
+            if ($param->type instanceof Identifier) {
+                $parentParameterTypes[] = $param->type->name;
+                continue;
+            }
+
             $parentParameterTypes[] = $param->type->toString();
         }
 
         $currentParameterTypes = [];
         foreach ($node->params as $param) {
+            if ($param->type instanceof Identifier) {
+                $parentParameterTypes[] = $param->type->name;
+                continue;
+            }
+
+            dd($param->type);
+
             $currentParameterTypes[] = $param->type->toString();
         }
 
