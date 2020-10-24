@@ -68,20 +68,15 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
             return [];
         }
 
-        // not has parent method → skip
+        // method name is __construct or not has parent method → skip
         $methodName = (string) $node->name;
-        if (! $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
+        if ($methodName === '__construct' || ! $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
             return [];
         }
 
         $parentParameters = $this->parentClassMethodNodeResolver->resolveParentClassMethodParams($scope, $methodName);
         $parentParameterTypes = $this->getParameterTypes($parentParameters);
         $currentParameterTypes = $this->getParameterTypes($node->params);
-
-        // different total parameters → skip
-        if (count($parentParameterTypes) !== count($currentParameterTypes)) {
-            return [];
-        }
 
         if ($parentParameterTypes === $currentParameterTypes) {
             return [];
