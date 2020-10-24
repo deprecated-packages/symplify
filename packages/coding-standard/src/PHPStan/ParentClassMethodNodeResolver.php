@@ -65,7 +65,7 @@ final class ParentClassMethodNodeResolver
     }
 
     /**
-     * @return mixed[]|mixed
+     * @return Node\Param[]
      */
     public function resolveParentClassMethodParams(Scope $scope, string $methodName): array
     {
@@ -74,9 +74,9 @@ final class ParentClassMethodNodeResolver
         foreach ($parentClassReflections as $parentClassReflection) {
             $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
 
-            /** @var ClassLike|null $class */
+            /** @var ClassLike[] $classes */
             $classes = $this->nodeFinder->findInstanceOf($parentClassNodes, ClassLike::class);
-            if ($classes === null) {
+            if ($classes === []) {
                 return [];
             }
 
