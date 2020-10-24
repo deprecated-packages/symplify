@@ -2169,6 +2169,41 @@ class TestsNamespaceInsideTestsDirectoryClass
 
 :x:
 
+## Check Parent and Child Method Parameter Must be Compatible
+
+- class: [`CheckParentChildMethodParameterTypeCompatibleRule`](../src/Rules/CheckParentChildMethodParameterTypeCompatibleRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\CheckParentChildMethodParameterTypeCompatibleRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+class ParentClass
+{
+    public function run(string $a, int $b)
+    {
+    }
+}
+
+class SomeClass extends ParentClass
+{
+    public function run($a, $b)
+    {
+    }
+}
+```
+
+:x:
+
 <br>
 
 ## Check Required `abstract` Keyword for Class Name Start with Abstract
