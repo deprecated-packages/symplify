@@ -57,11 +57,6 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
             return [];
         }
 
-        // no parameter → skip
-        if ($node->params === []) {
-            return [];
-        }
-
         // not has parent method? → skip
         $methodName = (string) $node->name;
         if (! $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
