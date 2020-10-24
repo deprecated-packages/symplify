@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\ParserFactory;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -19,6 +18,16 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
      * @var string
      */
     public const ERROR_MESSAGE = 'Parent and Child Method Parameter must be compatible';
+
+    /**
+     * @var ParentMethodAnalyser
+     */
+    private $parentMethodAnalyser;
+
+    public function __construct(ParentMethodAnalyser $parentMethodAnalyser)
+    {
+        $this->parentMethodAnalyser = $parentMethodAnalyser;
+    }
 
     /**
      * @return string[]
@@ -42,10 +51,11 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
             return [];
         }
 
-        // @todo
-        // 1. get parent class, get file, parse
-        // 2. get method, get method->params, compare each param->type->toString() exists in $node->params
-        //    with same position
+        // not has parent method? → skip
+        $methodName = (string) $node->name;
+        if (! $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
+            return [];
+        }
 
         return [self::ERROR_MESSAGE];
     }
