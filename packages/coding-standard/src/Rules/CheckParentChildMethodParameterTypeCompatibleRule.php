@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
+use Symplify\CodingStandard\PHPStan\ParentClassMethodNodeResolver;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckParentChildMethodParameterTypeCompatibleRule\CheckParentChildMethodParameterTypeCompatibleRuleTest
@@ -25,9 +26,13 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
      */
     private $parentMethodAnalyser;
 
-    public function __construct(ParentMethodAnalyser $parentMethodAnalyser)
+    /** @var ParentClassMethodNodeResolver */
+    private $parentClassMethodNodeResolver;
+
+    public function __construct(ParentMethodAnalyser $parentMethodAnalyser, ParentClassMethodNodeResolver $parentClassMethodNodeResolver)
     {
         $this->parentMethodAnalyser = $parentMethodAnalyser;
+        $this->parentClassMethodNodeResolver = $parentClassMethodNodeResolver;
     }
 
     /**
@@ -52,9 +57,30 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
             return [];
         }
 
+        // no parameter → skip
+        if ($node->params === []) {
+            return [];
+        }
+
         // not has parent method? → skip
         $methodName = (string) $node->name;
         if (! $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
+            return [];
+        }
+
+        $parentParameters = $this->parentClassMethodNodeResolver->resolveParentClassMethodParams($scope, $methodName);
+        $parentParameterTypes = [];
+
+        foreach ($parentParameters as $param) {
+            $parentParameterTypes[] = $param->type->toString();
+        }
+
+        $currentParameterTypes = [];
+        foreach ($node->params as $param) {
+            $currentParameterTypes[] = $param->type->toString();
+        }
+
+        if ($parentParameterTypes === $currentParameterTypes) {
             return [];
         }
 

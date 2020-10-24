@@ -41,13 +41,8 @@ final class ParentClassMethodNodeResolver
      */
     public function resolveParentClassMethodNodes(Scope $scope, string $methodName): array
     {
-        /** @var ClassReflection|null $classReflection */
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
-            return [];
-        }
-
-        $parentClassReflections = $classReflection->getParents();
+        /** @var ClassReflection[] $parentClassReflections */
+        $parentClassReflections = $this->getParentClassReflections();
         foreach ($parentClassReflections as $parentClassReflection) {
             $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
 
@@ -66,6 +61,61 @@ final class ParentClassMethodNodeResolver
         }
 
         return [];
+    }
+
+    /**
+     * @return Node[]
+     */
+    public function resolveParentClassMethodParams(Scope $scope, string $methodName): array
+    {
+        /** @var ClassReflection[] $parentClassReflections */
+        $parentClassReflections = $this->getParentClassIncludeInterfaceReflections();
+        foreach ($parentClassReflections as $parentClassReflection) {
+            $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
+
+            /** @var Class_|null $class */
+            $class = $this->nodeFinder->findFirstInstanceOf($parentClassNodes, Class_::class);
+            if ($class === null) {
+                return [];
+            }
+
+            $classMethod = $class->getMethod($methodName);
+            if ($classMethod === null) {
+                continue;
+            }
+
+            return $classMethod->params;
+        }
+
+        return [];
+    }
+
+    /**
+     * @return ClassReflection[]
+     */
+    private function getParentClassReflections(Scope $scope): array
+    {
+        /** @var ClassReflection|null $classReflection */
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return [];
+        }
+
+        return $classReflection->getParents();
+    }
+
+    /**
+     * @return ClassReflection[]
+     */
+    private function getParentClassIncludeInterfaceReflections(Scope $scope): array
+    {
+        /** @var ClassReflection|null $classReflection */
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return [];
+        }
+
+        return array_merge($classReflection->getParents(), $classReflection->getInterfaces());
     }
 
     /**
