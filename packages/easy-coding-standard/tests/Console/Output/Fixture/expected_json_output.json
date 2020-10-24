@@ -1,6 +1,6 @@
 {
     "meta": {
-        "version": ""
+        "version": "%s"
     },
     "totals": {
         "errors": 1,

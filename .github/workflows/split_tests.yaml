@@ -39,11 +39,13 @@ jobs:
                     php-version: 7.3
                     coverage: none
 
-            -   run: |
-                    composer self-update --1
-                    composer install --no-progress --ansi
-                    packages/monorepo-builder/bin/monorepo-builder localize-composer-paths --ansi
+            -   run: composer --version
 
+            -   run: |
+                    composer update --no-progress --ansi
+                    packages/monorepo-builder/bin/monorepo-builder localize-composer-paths --ansi
+            -
+                run: |
                     cd packages/${{ matrix.package_name }}
                     composer update --no-progress --ansi
 

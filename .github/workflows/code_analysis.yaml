@@ -25,7 +25,7 @@ jobs:
 
                     -
                         name: Validate Monorepo
-                        run: 'packages/monorepo-builder/bin/monorepo-builder validate'
+                        run: composer validate-monorepo
 
                     -
                         name: PHPStan
