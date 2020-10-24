@@ -53,9 +53,14 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
         /** @var Class_|null $class */
         $class = $this->resolveCurrentClass($node);
 
-        // not inside class or no extends → skip
-        if ($class === null || $class->extends === null) {
+        // not inside class → skip
+        if ($class === null) {
             return [];
+        }
+
+        // no extends and no implements → skip
+        if ($class->extends === null && $class->implements === []) {
+            return null;
         }
 
         // not has parent method? → skip
@@ -65,33 +70,36 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
         }
 
         $parentParameters = $this->parentClassMethodNodeResolver->resolveParentClassMethodParams($scope, $methodName);
-        $parentParameterTypes = [];
-
-        foreach ($parentParameters as $param) {
-            if ($param->type instanceof Identifier) {
-                $parentParameterTypes[] = $param->type->name;
-                continue;
-            }
-
-            $parentParameterTypes[] = $param->type->toString();
-        }
-
-        $currentParameterTypes = [];
-        foreach ($node->params as $param) {
-            if ($param->type instanceof Identifier) {
-                $parentParameterTypes[] = $param->type->name;
-                continue;
-            }
-
-            dd($param->type);
-
-            $currentParameterTypes[] = $param->type->toString();
-        }
+        $parentParameterTypes = $this->getParameterTypes($parentParameters);
+        $currentParameterTypes = $this->getParameterTypes($node->params);
 
         if ($parentParameterTypes === $currentParameterTypes) {
             return [];
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getParameterTypes(array $params): array
+    {
+        $parameterTypes = [];
+        foreach ($params as $param) {
+            if ($param->type instanceof Identifier) {
+                $parameterTypes[] = $param->type->name;
+                continue;
+            }
+
+            if ($param->type === null) {
+                $parameterTypes[] = null;
+                continue;
+            }
+
+            $parameterTypes[] = $param->type->toString();
+        }
+
+        return $parameterTypes;
     }
 }

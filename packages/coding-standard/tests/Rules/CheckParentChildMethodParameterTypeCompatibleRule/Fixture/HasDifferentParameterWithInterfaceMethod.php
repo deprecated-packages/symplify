@@ -6,13 +6,13 @@ namespace Symplify\CodingStandard\Tests\Rules\CheckParentChildMethodParameterTyp
 
 use stdClass;
 
-class HasSameParameterWithInterfaceMethod implements AnInterface, AnInterfaceOther
+class HasDifferentParameterWithInterfaceMethod implements AnInterface, AnInterfaceOther
 {
-    public function execute(string $string, int $int)
+    public function execute($string, $int)
     {
     }
 
-    public function run(stdClass $stdClass)
+    public function run($stdClass)
     {
     }
 }

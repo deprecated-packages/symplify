@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\PHPStan;
 
 use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use PhpParser\Parser;
@@ -73,18 +74,20 @@ final class ParentClassMethodNodeResolver
         foreach ($parentClassReflections as $parentClassReflection) {
             $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
 
-            /** @var Class_|null $class */
-            $class = $this->nodeFinder->findFirstInstanceOf($parentClassNodes, Class_::class);
-            if ($class === null) {
+            /** @var ClassLike|null $class */
+            $classes = $this->nodeFinder->findInstanceOf($parentClassNodes, ClassLike::class);
+            if ($classes === null) {
                 return [];
             }
 
-            $classMethod = $class->getMethod($methodName);
-            if ($classMethod === null) {
-                continue;
-            }
+            foreach ($classes as $class) {
+                $classMethod = $class->getMethod($methodName);
+                if ($classMethod === null) {
+                    continue;
+                }
 
-            return $classMethod->params;
+                return $classMethod->params;
+            }
         }
 
         return [];
