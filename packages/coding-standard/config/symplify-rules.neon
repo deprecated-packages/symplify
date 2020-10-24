@@ -272,6 +272,9 @@ services:
 #        arguments:
 #            forbiddenTypes:
 #                - Psr\Container\ContainerInterface
+    -
+        class: Symplify\CodingStandard\Rules\CheckParentChildMethodParameterTypeCompatibleRule
+        tags: [phpstan.rules.rule]
 
     # services
     - PhpParser\NodeFinder

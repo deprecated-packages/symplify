@@ -40,6 +40,7 @@ jobs:
                     coverage: none
 
             -   run: |
+                    composer self-update --1
                     composer install --no-progress --ansi
                     packages/monorepo-builder/bin/monorepo-builder localize-composer-paths --ansi
 

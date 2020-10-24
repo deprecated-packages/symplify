@@ -316,3 +316,8 @@ parameters:
                 - packages/coding-standard/src/Rules/NoDynamicMethodNameRule.php # 82
                 - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 81
                 - packages/package-builder/src/Yaml/FileLoader/AbstractParameterMergingYamlFileLoader.php # 82
+
+        -
+            message: '#Parent and Child Method Parameter must be compatible#'
+            paths:
+                - packages/package-builder/src/Yaml/FileLoader/AbstractParameterMergingYamlFileLoader.php # 51
