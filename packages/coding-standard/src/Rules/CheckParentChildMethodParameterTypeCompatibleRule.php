@@ -104,6 +104,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
 
             if ($param->type instanceof NullableType) {
                 $parameterTypes[] = $param->type->type;
+                continue;
             }
 
             $parameterTypes[] = $param->type->toString();
