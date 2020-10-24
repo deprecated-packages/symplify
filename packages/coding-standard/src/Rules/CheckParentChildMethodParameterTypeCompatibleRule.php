@@ -64,7 +64,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
 
         // no extends and no implements → skip
         if ($class->extends === null && $class->implements === []) {
-            return null;
+            return [];
         }
 
         // not has parent method? → skip
