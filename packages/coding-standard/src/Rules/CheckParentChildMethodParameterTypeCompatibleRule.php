@@ -70,7 +70,10 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
 
         // method name is __construct or not has parent method → skip
         $methodName = (string) $node->name;
-        if ($methodName === '__construct' || ! $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
+        if ($methodName === '__construct' || ! $this->parentMethodAnalyser->hasParentClassMethodWithSameName(
+            $scope,
+            $methodName
+        )) {
             return [];
         }
 
