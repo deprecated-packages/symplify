@@ -89,7 +89,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     }
 
     /**
-     * @return string[]
+     * @return string[]|null[]
      */
     private function getParameterTypes(array $params): array
     {
@@ -101,21 +101,21 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
         return $parameterTypes;
     }
 
-    private function getParamType(?Node $type): ?string
+    private function getParamType(?Node $node): ?string
     {
-        if ($type instanceof Identifier) {
-            return $type->name;
+        if ($node instanceof Identifier) {
+            return $node->name;
         }
 
-        if ($type === null) {
+        if ($node === null) {
             return null;
         }
 
-        if ($type instanceof NullableType) {
-            $type = $param->type->type;
-            return $this->getParamType($type);
+        if ($node instanceof NullableType) {
+            $node = $param->type->type;
+            return $this->getParamType($node);
         }
 
-        return $type->toString();
+        return $node->toString();
     }
 }
