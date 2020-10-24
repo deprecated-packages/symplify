@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\PHPStan;
 
 use PhpParser\Node;
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\NodeFinder;
@@ -65,7 +66,7 @@ final class ParentClassMethodNodeResolver
     }
 
     /**
-     * @return Node\Param[]
+     * @return Param[]
      */
     public function resolveParentClassMethodParams(Scope $scope, string $methodName): array
     {
