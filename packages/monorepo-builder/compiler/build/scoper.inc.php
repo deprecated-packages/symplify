@@ -20,5 +20,6 @@ return [
         'Symplify\*',
         // for config.php
         ContainerConfigurator::class,
+        'Composer\*',
     ],
 ];
