@@ -13,7 +13,7 @@ use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\CodingStandard\TokenRunner\Exception\TokenNotFoundException;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
-use Symplify\CodingStandard\TokenRunner\ValueObject\LineLenghtAndPosition;
+use Symplify\CodingStandard\TokenRunner\ValueObjectFactory\LineLengthAndPositionFactory;
 use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 final class LineLengthTransformer
@@ -53,16 +53,23 @@ final class LineLengthTransformer
      */
     private $lineLengthResolver;
 
+    /**
+     * @var LineLengthAndPositionFactory
+     */
+    private $lineLengthAndPositionFactory;
+
     public function __construct(
         IndentDetector $indentDetector,
         TokenSkipper $tokenSkipper,
         WhitespacesFixerConfig $whitespacesFixerConfig,
-        LineLengthResolver $lineLengthResolver
+        LineLengthResolver $lineLengthResolver,
+        LineLengthAndPositionFactory $lineLengthAndPositionFactory
     ) {
         $this->indentDetector = $indentDetector;
         $this->tokenSkipper = $tokenSkipper;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->lineLengthResolver = $lineLengthResolver;
+        $this->lineLengthAndPositionFactory = $lineLengthAndPositionFactory;
     }
 
     public function fixStartPositionToEndPosition(
@@ -98,7 +105,7 @@ final class LineLengthTransformer
         // 1. break before arguments closing
         $this->insertNewlineBeforeClosingIfNeeded($tokens, $blockInfo->getEnd());
 
-        // again, from bottom top
+        // again, from the bottom to the top
         for ($i = $blockInfo->getEnd() - 1; $i > $blockInfo->getStart(); --$i) {
             /** @var Token $currentToken */
             $currentToken = $tokens[$i];
@@ -132,19 +139,22 @@ final class LineLengthTransformer
         $currentPosition = $startPosition;
 
         // collect length of tokens on current line which precede token at $currentPosition
-        $lineLenghtAndPosition = $this->getLengthToStartOfLine($tokens, $currentPosition);
-        $lineLenght = $lineLenghtAndPosition->getLineLenght();
-        $currentPosition = $lineLenghtAndPosition->getCurrentPosition();
+        $lineLengthAndPosition = $this->lineLengthAndPositionFactory->createFromTokensAndLineStartPosition(
+            $tokens,
+            $currentPosition
+        );
+        $lineLength = $lineLengthAndPosition->getLineLength();
+        $currentPosition = $lineLengthAndPosition->getCurrentPosition();
 
         /** @var Token $currentToken */
         $currentToken = $tokens[$currentPosition];
 
         // includes indent in the beginning
-        $lineLenght += strlen($currentToken->getContent());
+        $lineLength += strlen($currentToken->getContent());
 
         // minus end of lines, do not count line feeds as characters
         $endOfLineCount = substr_count($currentToken->getContent(), StaticEolConfiguration::getEolChar());
-        $lineLenght -= $endOfLineCount;
+        $lineLength -= $endOfLineCount;
 
         // compute from here to end of line
         $currentPosition = $startPosition + 1;
@@ -157,7 +167,7 @@ final class LineLengthTransformer
             // in case of multiline string, we are interested in length of the part on current line only
             $explode = explode("\n", $currentToken->getContent(), 2);
             // string follows current token, so we are interested in beginning only
-            $lineLenght += strlen($explode[0]);
+            $lineLength += strlen($explode[0]);
 
             ++$currentPosition;
 
@@ -171,7 +181,7 @@ final class LineLengthTransformer
             }
         }
 
-        return $lineLenght;
+        return $lineLength;
     }
 
     /**
@@ -257,50 +267,18 @@ final class LineLengthTransformer
         return $nextToken->isWhitespace(' ') && $nextNextToken->isComment();
     }
 
-    private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
+    private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $blockStartIndex): void
     {
-        if (! isset($tokens[$arrayStartIndex + 1])) {
-            throw new TokenNotFoundException($arrayStartIndex + 1);
+        if (! isset($tokens[$blockStartIndex + 1])) {
+            throw new TokenNotFoundException($blockStartIndex + 1);
         }
 
-        if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
-            $tokens->ensureWhitespaceAtIndex($arrayStartIndex + 1, 0, $this->newlineIndentWhitespace);
+        if ($tokens[$blockStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
+            $tokens->ensureWhitespaceAtIndex($blockStartIndex + 1, 0, $this->newlineIndentWhitespace);
             return;
         }
 
-        $tokens->ensureWhitespaceAtIndex($arrayStartIndex, 1, $this->newlineIndentWhitespace);
-    }
-
-    private function getLengthToStartOfLine(Tokens $tokens, int $currentPosition): LineLenghtAndPosition
-    {
-        $length = 0;
-
-        while (! $this->isNewLineOrOpenTag($tokens, $currentPosition)) {
-            // in case of multiline string, we are interested in length of the part on current line only
-            if (! isset($tokens[$currentPosition])) {
-                throw new TokenNotFoundException($currentPosition);
-            }
-
-            $explode = explode("\n", $tokens[$currentPosition]->getContent());
-            // string precedes current token, so we are interested in end part only
-            if (count($explode) !== 0) {
-                $lastSection = end($explode);
-                $length += strlen($lastSection);
-            }
-
-            --$currentPosition;
-
-            if (count($explode) > 1) {
-                // no longer need to continue searching for newline
-                break;
-            }
-
-            if (! isset($tokens[$currentPosition])) {
-                break;
-            }
-        }
-
-        return new LineLenghtAndPosition($length, $currentPosition);
+        $tokens->ensureWhitespaceAtIndex($blockStartIndex, 1, $this->newlineIndentWhitespace);
     }
 
     /**
@@ -326,21 +304,5 @@ final class LineLengthTransformer
         }
 
         return in_array($nextToken->getContent(), [')', ']'], true);
-    }
-
-    /**
-     * @param Tokens|Token[] $tokens
-     */
-    private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
-    {
-        if (! isset($tokens[$position])) {
-            throw new TokenNotFoundException($position);
-        }
-
-        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
-            return true;
-        }
-
-        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
     }
 }

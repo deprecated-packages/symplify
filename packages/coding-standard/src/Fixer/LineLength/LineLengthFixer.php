@@ -112,11 +112,13 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
                 continue;
             }
 
+            // opener
             if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
                 $this->processFunctionOrArray($tokens, $position);
                 continue;
             }
 
+            // closer
             if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE) || ($token->equals(')') && $token->isArray())) {
                 $this->processFunctionOrArray($tokens, $position);
                 continue;

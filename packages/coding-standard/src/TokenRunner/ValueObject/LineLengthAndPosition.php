@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner\ValueObject;
 
-final class LineLenghtAndPosition
+final class LineLengthAndPosition
 {
     /**
      * @var int
@@ -22,7 +22,7 @@ final class LineLenghtAndPosition
         $this->currentPosition = $currentPosition;
     }
 
-    public function getLineLenght(): int
+    public function getLineLength(): int
     {
         return $this->lineLenght;
     }

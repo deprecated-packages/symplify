@@ -9,6 +9,7 @@ use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
 use SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
@@ -49,6 +50,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::SKIP, [
+        ArrayOpenerAndCloserNewlineFixer::class => null,
+
         ArrayDeclarationSniff::class => null,
         BlankLineAfterOpeningTagFixer::class => null,
         UnaryOperatorSpacesFixer::class => null,
