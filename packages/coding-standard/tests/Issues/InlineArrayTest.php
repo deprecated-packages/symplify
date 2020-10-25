@@ -21,6 +21,7 @@ final class InlineArrayTest extends AbstractCheckerTestCase
     public function provideData(): Iterator
     {
         yield [new SmartFileInfo(__DIR__ . '/Fixture/inline_array.php.inc')];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_already_inlined.php.inc')];
     }
 
     protected function provideConfig(): string
