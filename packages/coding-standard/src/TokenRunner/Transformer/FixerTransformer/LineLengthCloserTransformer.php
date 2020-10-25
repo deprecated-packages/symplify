@@ -58,7 +58,7 @@ final class LineLengthCloserTransformer
         bool $isMethodCall,
         int $kind
     ): bool {
-        if ($isMethodCall === true) {
+        if ($isMethodCall) {
             return false;
         }
 
