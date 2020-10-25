@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\ComposerJsonManipulator\ValueObject;
 
-use Composer\Json\JsonManipulator;
 use Nette\Utils\Arrays;
-use Symplify\PackageBuilder\Reflection\PrivatesCaller;
+use Symplify\ComposerJsonManipulator\Sorter\ComposerPackageSorter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
@@ -97,6 +96,16 @@ final class ComposerJson
      */
     private $fileInfo;
 
+    /**
+     * @var ComposerPackageSorter
+     */
+    private $composerPackageSorter;
+
+    public function __construct()
+    {
+        $this->composerPackageSorter = new ComposerPackageSorter();
+    }
+
     public function setOriginalFileInfo(SmartFileInfo $fileInfo): void
     {
         $this->fileInfo = $fileInfo;
@@ -112,9 +121,7 @@ final class ComposerJson
      */
     public function setRequire(array $require): void
     {
-        $require = $this->sortPackages($require);
-
-        $this->require = $require;
+        $this->require = $this->composerPackageSorter->sortPackages($require);
     }
 
     /**
@@ -135,7 +142,7 @@ final class ComposerJson
 
     public function setRequireDev(array $requireDev): void
     {
-        $this->requireDev = $this->sortPackages($requireDev);
+        $this->requireDev = $this->composerPackageSorter->sortPackages($requireDev);
     }
 
     /**
@@ -503,17 +510,6 @@ final class ComposerJson
         $classmapDirectories = $this->autoloadDev['classmap'] ?? [];
 
         return array_merge($psr4Directories, $classmapDirectories);
-    }
-
-    /**
-     * @param string[] $packages
-     * @return string[]
-     */
-    private function sortPackages(array $packages): array
-    {
-        $privatesCaller = new PrivatesCaller();
-
-        return $privatesCaller->callPrivateMethodWithReference(JsonManipulator::class, 'sortPackages', $packages);
     }
 
     private function moveValueToBack(string $valueName): void

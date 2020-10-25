@@ -8,7 +8,7 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-abstract class AbstractKernelTestCase
+abstract class AbstractAnyTestCase
 {
     /**
      * @var KernelInterface

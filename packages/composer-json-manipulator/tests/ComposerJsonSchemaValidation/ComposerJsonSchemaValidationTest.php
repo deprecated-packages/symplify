@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\ComposerJsonManipulator\Tests\ComposerJsonSchemaValidation;
 
-use Composer\Console\Application;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\Tests\HttpKernel\ComposerJsonManipulatorKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
+final class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
 {
     /**
      * @var JsonFileManager
@@ -49,25 +47,5 @@ class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
         $this->assertArrayHasKey('auto-scripts', $sourceJson['scripts']);
         $this->assertArrayNotHasKey('require-dev', $targetJson);
         $this->assertArrayNotHasKey('auto-scripts', $targetJson['scripts']);
-
-        /*
-         * Validate composer.json schema using `composer validate`
-         */
-        $arrayInput = new ArrayInput([
-            'command' => 'validate',
-            'file' => $targetJsonPath,
-            // https://getcomposer.org/doc/03-cli.md#validate
-            '--no-check-publish' => true,
-            '--no-interaction' => true,
-            '--quiet' => true,
-        ]);
-        $application = new Application();
-        // prevent `$application->run` method from exiting the script
-        $application->setAutoExit(false);
-        $this->assertSame(
-            0,
-            $application->run($arrayInput),
-            'Dumped composer.json did not pass validation ("composer validate --no-check-publish" exited with non-zero status)'
-        );
     }
 }

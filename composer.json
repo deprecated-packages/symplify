@@ -4,7 +4,6 @@
     "license": "MIT",
     "require": {
         "php": ">=7.2",
-        "composer/composer": "^1.10|^2.0",
         "composer/xdebug-handler": "^1.4",
         "erusev/parsedown": "^1.7",
         "erusev/parsedown-extra": "^0.7.1",
@@ -23,7 +22,7 @@
         "phpstan/phpdoc-parser": "^0.4.9",
         "phpstan/phpstan": "^0.12.40",
         "psr/simple-cache": "^1.0",
-        "rector/simple-php-doc-parser": "^0.8.21",
+        "rector/simple-php-doc-parser": "^0.8.42",
         "sebastian/diff": "^3.0|^4.0",
         "slevomat/coding-standard": "^6.3.11",
         "squizlabs/php_codesniffer": "^3.5",
@@ -53,7 +52,7 @@
         "nette/application": "^3.0",
         "nette/bootstrap": "^3.0",
         "phpunit/phpunit": "^8.5|^9.0",
-        "rector/rector": "^0.8.21",
+        "rector/rector": "^0.8.42",
         "symfony/framework-bundle": "^4.4|^5.1",
         "symfony/templating": "^4.4|^5.1",
         "symfony/translation": "^4.4|^5.1",
@@ -137,26 +136,26 @@
         }
     },
     "replace": {
-        "symplify/autodiscovery": "8.3.42",
-        "symplify/autowire-array-parameter": "8.3.42",
-        "symplify/changelog-linker": "8.3.42",
-        "symplify/coding-standard": "8.3.42",
-        "symplify/composer-json-manipulator": "8.3.42",
-        "symplify/console-color-diff": "8.3.42",
-        "symplify/easy-coding-standard": "8.3.42",
-        "symplify/easy-coding-standard-compiler": "8.3.42",
-        "symplify/easy-coding-standard-tester": "8.3.42",
-        "symplify/easy-hydrator": "8.3.42",
-        "symplify/easy-testing": "8.3.42",
-        "symplify/flex-loader": "8.3.42",
-        "symplify/gerudoc": "self.version",
-        "symplify/monorepo-builder": "8.3.42",
-        "symplify/package-builder": "8.3.42",
-        "symplify/phpstan-extensions": "8.3.42",
-        "symplify/set-config-resolver": "8.3.42",
-        "symplify/smart-file-system": "8.3.42",
-        "symplify/symfony-static-dumper": "8.3.42",
-        "symplify/symplify-kernel": "8.3.42"
+        "symplify/autodiscovery": "^8.3.45",
+        "symplify/autowire-array-parameter": "^8.3.45",
+        "symplify/changelog-linker": "^8.3.45",
+        "symplify/coding-standard": "^8.3.45",
+        "symplify/composer-json-manipulator": "^8.3.45",
+        "symplify/console-color-diff": "^8.3.45",
+        "symplify/easy-coding-standard": "^8.3.45",
+        "symplify/easy-coding-standard-compiler": "^8.3.45",
+        "symplify/easy-coding-standard-tester": "^8.3.45",
+        "symplify/easy-hydrator": "^8.3.45",
+        "symplify/easy-testing": "^8.3.45",
+        "symplify/flex-loader": "^8.3.45",
+        "symplify/gerudoc": "^8.3.45",
+        "symplify/monorepo-builder": "^8.3.45",
+        "symplify/package-builder": "^8.3.45",
+        "symplify/phpstan-extensions": "^8.3.45",
+        "symplify/set-config-resolver": "^8.3.45",
+        "symplify/smart-file-system": "^8.3.45",
+        "symplify/symfony-static-dumper": "^8.3.45",
+        "symplify/symplify-kernel": "^8.3.45"
     },
     "scripts": {
         "complete-check": [
@@ -185,7 +184,5 @@
     },
     "config": {
         "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
