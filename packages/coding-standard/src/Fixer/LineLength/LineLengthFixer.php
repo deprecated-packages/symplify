@@ -121,7 +121,6 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
             // closer
             if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE) || ($token->equals(')') && $token->isArray())) {
                 $this->processFunctionOrArray($tokens, $position);
-                continue;
             }
         }
     }
@@ -154,7 +153,8 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
         }
 
         // has comments => dangerous to change: https://github.com/symplify/symplify/issues/973
-        if ($tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd()) !== []) {
+        $comments = $tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd());
+        if ($comments !== []) {
             return;
         }
 

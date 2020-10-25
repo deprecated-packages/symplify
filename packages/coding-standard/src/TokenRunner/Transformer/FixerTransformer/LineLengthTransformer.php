@@ -58,18 +58,25 @@ final class LineLengthTransformer
      */
     private $lineLengthAndPositionFactory;
 
+    /**
+     * @var TokensInliner
+     */
+    private $tokensInliner;
+
     public function __construct(
         IndentDetector $indentDetector,
         TokenSkipper $tokenSkipper,
         WhitespacesFixerConfig $whitespacesFixerConfig,
         LineLengthResolver $lineLengthResolver,
-        LineLengthAndPositionFactory $lineLengthAndPositionFactory
+        LineLengthAndPositionFactory $lineLengthAndPositionFactory,
+        TokensInliner $tokensInliner
     ) {
         $this->indentDetector = $indentDetector;
         $this->tokenSkipper = $tokenSkipper;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->lineLengthResolver = $lineLengthResolver;
         $this->lineLengthAndPositionFactory = $lineLengthAndPositionFactory;
+        $this->tokensInliner = $tokensInliner;
     }
 
     public function fixStartPositionToEndPosition(
@@ -87,7 +94,7 @@ final class LineLengthTransformer
 
         $fullLineLength = $this->lineLengthResolver->getLengthFromStartEnd($blockInfo, $tokens);
         if ($fullLineLength <= $lineLength && $inlineShortLine) {
-            $this->inlineItems($blockInfo, $tokens);
+            $this->tokensInliner->inlineItems($tokens, $blockInfo);
             return;
         }
     }
@@ -184,44 +191,9 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    /**
-     * @param Tokens|Token[] $tokens
-     */
-    private function inlineItems(BlockInfo $blockInfo, Tokens $tokens): void
+    private function prepareIndentWhitespaces(Tokens $tokens, int $startIndex): void
     {
-        // replace line feeds with " "
-        for ($i = $blockInfo->getStart() + 1; $i < $blockInfo->getEnd(); ++$i) {
-            /** @var Token $currentToken */
-            $currentToken = $tokens[$i];
-            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
-            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
-                continue;
-            }
-
-            /** @var Token $previousToken */
-            $previousToken = $tokens[$i - 1];
-
-            /** @var Token $nextToken */
-            $nextToken = $tokens[$i + 1];
-
-            // do not clear before *doc end, removing spaces breaks stuff
-            if ($previousToken->isGivenKind([T_START_HEREDOC, T_END_HEREDOC])) {
-                continue;
-            }
-
-            // clear space after opening and before closing bracket
-            if ($this->isBlockStartOrEnd($previousToken, $nextToken)) {
-                $tokens->clearAt($i);
-                continue;
-            }
-
-            $tokens[$i] = new Token([T_WHITESPACE, ' ']);
-        }
-    }
-
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
-    {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $startIndex);
 
         $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
         $this->closingBracketNewlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . str_repeat(
@@ -295,14 +267,5 @@ final class LineLengthTransformer
         }
 
         return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
-    }
-
-    private function isBlockStartOrEnd(Token $previousToken, Token $nextToken): bool
-    {
-        if (in_array($previousToken->getContent(), ['(', '['], true)) {
-            return true;
-        }
-
-        return in_array($nextToken->getContent(), [')', ']'], true);
     }
 }
