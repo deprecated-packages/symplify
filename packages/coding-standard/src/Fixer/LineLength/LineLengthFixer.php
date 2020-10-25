@@ -243,6 +243,7 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
         if ($tokens->findGivenKind(T_DOUBLE_ARROW, $blockInfo->getStart(), $blockInfo->getEnd()) !== []) {
             return true;
         }
+
         // has comments => dangerous to change: https://github.com/symplify/symplify/issues/973
         return (bool) $tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd());
     }
