@@ -11,6 +11,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
+use Symplify\CodingStandard\TokenRunner\ValueObject\LineKind;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
 /**
@@ -45,7 +46,7 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractArrayFixer
             return;
         }
 
-        $this->lineLengthTransformer->breakItems($blockInfo, $tokens);
+        $this->lineLengthTransformer->breakItems($blockInfo, $tokens, LineKind::ARRAYS);
     }
 
     public function getPriority(): int

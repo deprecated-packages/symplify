@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Tests\Set\Psr12;
+namespace Symplify\CodingStandard\Tests\Issues;
 
 use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
-use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class Psr12Test extends AbstractCheckerTestCase
+final class InlineArrayTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideData()
@@ -21,11 +20,11 @@ final class Psr12Test extends AbstractCheckerTestCase
 
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/inline_array.php.inc')];
     }
 
     protected function provideConfig(): string
     {
-        return __DIR__ . '/../../../config/set/psr12.php';
+        return __DIR__ . '/config/config_inline_long_array.php';
     }
 }

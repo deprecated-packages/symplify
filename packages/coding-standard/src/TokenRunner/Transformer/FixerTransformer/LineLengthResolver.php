@@ -15,7 +15,7 @@ final class LineLengthResolver
     /**
      * @param Tokens|Token[] $tokens
      */
-    public function getLengthFromStartEnd(BlockInfo $blockInfo, Tokens $tokens): int
+    public function getLengthFromStartEnd(Tokens $tokens, BlockInfo $blockInfo): int
     {
         $lineLength = 0;
 
@@ -34,7 +34,7 @@ final class LineLengthResolver
         $lineLength += strlen($tokens[$start]->getContent());
 
         // get length from start of function till end of arguments - with spaces as one
-        $lineLength += $this->getLenthFromFunctionStartToEndOfArguments($blockInfo, $tokens);
+        $lineLength += $this->getLengthFromFunctionStartToEndOfArguments($blockInfo, $tokens);
 
         // get length from end or arguments to first line break
         $lineLength += $this->getLengthFromEndOfArgumentToLineBreak($blockInfo, $tokens);
@@ -60,7 +60,7 @@ final class LineLengthResolver
     /**
      * @param Tokens|Token[] $tokens
      */
-    private function getLenthFromFunctionStartToEndOfArguments(BlockInfo $blockInfo, Tokens $tokens): int
+    private function getLengthFromFunctionStartToEndOfArguments(BlockInfo $blockInfo, Tokens $tokens): int
     {
         $length = 0;
 

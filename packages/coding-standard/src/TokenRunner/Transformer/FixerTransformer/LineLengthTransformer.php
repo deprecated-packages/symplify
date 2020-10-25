@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -13,8 +12,7 @@ use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\CodingStandard\TokenRunner\Exception\TokenNotFoundException;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
-use Symplify\CodingStandard\TokenRunner\ValueObject\LineLenghtAndPosition;
-use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
+use Symplify\CodingStandard\TokenRunner\ValueObject\LineKind;
 
 final class LineLengthTransformer
 {
@@ -53,16 +51,44 @@ final class LineLengthTransformer
      */
     private $lineLengthResolver;
 
+    /**
+     * @var TokensInliner
+     */
+    private $tokensInliner;
+
+    /**
+     * @var FirstLineLengthResolver
+     */
+    private $firstLineLengthResolver;
+
+    /**
+     * @var LineLengthCloserTransformer
+     */
+    private $lineLengthCloserTransformer;
+
+    /**
+     * @var LineLengthOpenerTransformer
+     */
+    private $lineLengthOpenerTransformer;
+
     public function __construct(
         IndentDetector $indentDetector,
         TokenSkipper $tokenSkipper,
         WhitespacesFixerConfig $whitespacesFixerConfig,
-        LineLengthResolver $lineLengthResolver
+        LineLengthResolver $lineLengthResolver,
+        TokensInliner $tokensInliner,
+        FirstLineLengthResolver $firstLineLengthResolver,
+        LineLengthCloserTransformer $lineLengthCloserTransformer,
+        LineLengthOpenerTransformer $lineLengthOpenerTransformer
     ) {
         $this->indentDetector = $indentDetector;
         $this->tokenSkipper = $tokenSkipper;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->lineLengthResolver = $lineLengthResolver;
+        $this->tokensInliner = $tokensInliner;
+        $this->firstLineLengthResolver = $firstLineLengthResolver;
+        $this->lineLengthCloserTransformer = $lineLengthCloserTransformer;
+        $this->lineLengthOpenerTransformer = $lineLengthOpenerTransformer;
     }
 
     public function fixStartPositionToEndPosition(
@@ -72,15 +98,15 @@ final class LineLengthTransformer
         bool $breakLongLines,
         bool $inlineShortLine
     ): void {
-        $firstLineLength = $this->getFirstLineLength($blockInfo->getStart(), $tokens);
+        $firstLineLength = $this->firstLineLengthResolver->resolveFromTokensAndStartPosition($tokens, $blockInfo);
         if ($firstLineLength > $lineLength && $breakLongLines) {
             $this->breakItems($blockInfo, $tokens);
             return;
         }
 
-        $fullLineLength = $this->lineLengthResolver->getLengthFromStartEnd($blockInfo, $tokens);
+        $fullLineLength = $this->lineLengthResolver->getLengthFromStartEnd($tokens, $blockInfo);
         if ($fullLineLength <= $lineLength && $inlineShortLine) {
-            $this->inlineItems($blockInfo, $tokens);
+            $this->tokensInliner->inlineItems($tokens, $blockInfo);
             return;
         }
     }
@@ -88,7 +114,7 @@ final class LineLengthTransformer
     /**
      * @param Tokens|Token[] $tokens
      */
-    public function breakItems(BlockInfo $blockInfo, Tokens $tokens): void
+    public function breakItems(BlockInfo $blockInfo, Tokens $tokens, int $kind = LineKind::CALLS): void
     {
         $this->prepareIndentWhitespaces($tokens, $blockInfo->getStart());
 
@@ -96,9 +122,15 @@ final class LineLengthTransformer
         //  e.g when token is added in the middle, the end index does now point to earlier element!
 
         // 1. break before arguments closing
-        $this->insertNewlineBeforeClosingIfNeeded($tokens, $blockInfo->getEnd());
+        $this->lineLengthCloserTransformer->insertNewlineBeforeClosingIfNeeded(
+            $tokens,
+            $blockInfo,
+            $kind,
+            $this->newlineIndentWhitespace,
+            $this->closingBracketNewlineIndentWhitespace
+        );
 
-        // again, from bottom top
+        // again, from the bottom to the top
         for ($i = $blockInfo->getEnd() - 1; $i > $blockInfo->getStart(); --$i) {
             /** @var Token $currentToken */
             $currentToken = $tokens[$i];
@@ -120,98 +152,16 @@ final class LineLengthTransformer
         }
 
         // 3. break after arguments opening
-        $this->insertNewlineAfterOpeningIfNeeded($tokens, $blockInfo->getStart());
+        $this->lineLengthOpenerTransformer->insertNewlineAfterOpeningIfNeeded(
+            $tokens,
+            $blockInfo->getStart(),
+            $this->newlineIndentWhitespace
+        );
     }
 
-    /**
-     * @param Tokens|Token[] $tokens
-     */
-    private function getFirstLineLength(int $startPosition, Tokens $tokens): int
+    private function prepareIndentWhitespaces(Tokens $tokens, int $startIndex): void
     {
-        // compute from here to start of line
-        $currentPosition = $startPosition;
-
-        // collect length of tokens on current line which precede token at $currentPosition
-        $lineLenghtAndPosition = $this->getLengthToStartOfLine($tokens, $currentPosition);
-        $lineLenght = $lineLenghtAndPosition->getLineLenght();
-        $currentPosition = $lineLenghtAndPosition->getCurrentPosition();
-
-        /** @var Token $currentToken */
-        $currentToken = $tokens[$currentPosition];
-
-        // includes indent in the beginning
-        $lineLenght += strlen($currentToken->getContent());
-
-        // minus end of lines, do not count line feeds as characters
-        $endOfLineCount = substr_count($currentToken->getContent(), StaticEolConfiguration::getEolChar());
-        $lineLenght -= $endOfLineCount;
-
-        // compute from here to end of line
-        $currentPosition = $startPosition + 1;
-
-        // collect length of tokens on current line which follow token at $currentPosition
-        while (! $this->isEndOFArgumentsLine($tokens, $currentPosition)) {
-            /** @var Token $currentToken */
-            $currentToken = $tokens[$currentPosition];
-
-            // in case of multiline string, we are interested in length of the part on current line only
-            $explode = explode("\n", $currentToken->getContent(), 2);
-            // string follows current token, so we are interested in beginning only
-            $lineLenght += strlen($explode[0]);
-
-            ++$currentPosition;
-
-            if (count($explode) > 1) {
-                // no longer need to continue searching for end of arguments
-                break;
-            }
-
-            if (! isset($tokens[$currentPosition])) {
-                break;
-            }
-        }
-
-        return $lineLenght;
-    }
-
-    /**
-     * @param Tokens|Token[] $tokens
-     */
-    private function inlineItems(BlockInfo $blockInfo, Tokens $tokens): void
-    {
-        // replace line feeds with " "
-        for ($i = $blockInfo->getStart() + 1; $i < $blockInfo->getEnd(); ++$i) {
-            /** @var Token $currentToken */
-            $currentToken = $tokens[$i];
-            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
-            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
-                continue;
-            }
-
-            /** @var Token $previousToken */
-            $previousToken = $tokens[$i - 1];
-
-            /** @var Token $nextToken */
-            $nextToken = $tokens[$i + 1];
-
-            // do not clear before *doc end, removing spaces breaks stuff
-            if ($previousToken->isGivenKind([T_START_HEREDOC, T_END_HEREDOC])) {
-                continue;
-            }
-
-            // clear space after opening and before closing bracket
-            if ($this->isBlockStartOrEnd($previousToken, $nextToken)) {
-                $tokens->clearAt($i);
-                continue;
-            }
-
-            $tokens[$i] = new Token([T_WHITESPACE, ' ']);
-        }
-    }
-
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
-    {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $startIndex);
 
         $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
         $this->closingBracketNewlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . str_repeat(
@@ -220,11 +170,6 @@ final class LineLengthTransformer
         );
 
         $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
-    }
-
-    private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
-    {
-        $tokens->ensureWhitespaceAtIndex($arrayEndIndex - 1, 1, $this->closingBracketNewlineIndentWhitespace);
     }
 
     /**
@@ -253,94 +198,8 @@ final class LineLengthTransformer
         if ($nextNextToken->isComment()) {
             return true;
         }
+
         // if next token is just space, turn it to newline
         return $nextToken->isWhitespace(' ') && $nextNextToken->isComment();
-    }
-
-    private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
-    {
-        if (! isset($tokens[$arrayStartIndex + 1])) {
-            throw new TokenNotFoundException($arrayStartIndex + 1);
-        }
-
-        if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
-            $tokens->ensureWhitespaceAtIndex($arrayStartIndex + 1, 0, $this->newlineIndentWhitespace);
-            return;
-        }
-
-        $tokens->ensureWhitespaceAtIndex($arrayStartIndex, 1, $this->newlineIndentWhitespace);
-    }
-
-    private function getLengthToStartOfLine(Tokens $tokens, int $currentPosition): LineLenghtAndPosition
-    {
-        $length = 0;
-
-        while (! $this->isNewLineOrOpenTag($tokens, $currentPosition)) {
-            // in case of multiline string, we are interested in length of the part on current line only
-            if (! isset($tokens[$currentPosition])) {
-                throw new TokenNotFoundException($currentPosition);
-            }
-
-            $explode = explode("\n", $tokens[$currentPosition]->getContent());
-            // string precedes current token, so we are interested in end part only
-            if (count($explode) !== 0) {
-                $lastSection = end($explode);
-                $length += strlen($lastSection);
-            }
-
-            --$currentPosition;
-
-            if (count($explode) > 1) {
-                // no longer need to continue searching for newline
-                break;
-            }
-
-            if (! isset($tokens[$currentPosition])) {
-                break;
-            }
-        }
-
-        return new LineLenghtAndPosition($length, $currentPosition);
-    }
-
-    /**
-     * @param Tokens|Token[] $tokens
-     */
-    private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
-    {
-        if (! isset($tokens[$position])) {
-            throw new TokenNotFoundException($position);
-        }
-
-        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
-            return true;
-        }
-
-        return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
-    }
-
-    private function isBlockStartOrEnd(Token $previousToken, Token $nextToken): bool
-    {
-        if (in_array($previousToken->getContent(), ['(', '['], true)) {
-            return true;
-        }
-
-        return in_array($nextToken->getContent(), [')', ']'], true);
-    }
-
-    /**
-     * @param Tokens|Token[] $tokens
-     */
-    private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
-    {
-        if (! isset($tokens[$position])) {
-            throw new TokenNotFoundException($position);
-        }
-
-        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
-            return true;
-        }
-
-        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
     }
 }

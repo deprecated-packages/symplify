@@ -24,7 +24,7 @@
         "psr/simple-cache": "^1.0",
         "rector/simple-php-doc-parser": "^0.8.42",
         "sebastian/diff": "^3.0|^4.0",
-        "slevomat/coding-standard": "^6.3.11",
+        "slevomat/coding-standard": "^6.4",
         "squizlabs/php_codesniffer": "^3.5",
         "symfony/cache": "^4.4|^5.1",
         "symfony/config": "^4.4|^5.1",
