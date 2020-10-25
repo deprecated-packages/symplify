@@ -27,23 +27,25 @@ final class ComposerPackageSorter
      * Sorts packages by importance (platform packages first, then PHP dependencies) and alphabetically.
      * @link https://getcomposer.org/doc/02-libraries.md#platform-packages
      *
-     * @param string[] $packages
-     * @return string[]
+     * @param array<string, string> $packages
+     * @return array<string, string>
      */
     public function sortPackages(array $packages = []): array
     {
         uksort($packages, function (string $firstPackageName, string $secondPackageName): int {
-            return $this->createRequirement($firstPackageName) <=> $this->createRequirement($secondPackageName);
+            return $this->createNameWithPriority($firstPackageName) <=> $this->createNameWithPriority(
+                $secondPackageName
+            );
         });
 
         return $packages;
     }
 
-    private function createRequirement(string $requirement): string
+    private function createNameWithPriority(string $requirementName): string
     {
-        if ($this->isPlatformPackage($requirement)) {
+        if ($this->isPlatformPackage($requirementName)) {
             return (string) Strings::replace(
-                $requirement,
+                $requirementName,
                 self::REQUIREMENT_TYPE_REGEX,
                 function (array $match): string {
                     $name = $match['name'];
@@ -62,7 +64,7 @@ final class ComposerPackageSorter
             );
         }
 
-        return '4-' . $requirement;
+        return '4-' . $requirementName;
     }
 
     private function isPlatformPackage(string $name): bool
