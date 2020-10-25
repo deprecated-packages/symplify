@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\CallAnalyzer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\CodingStandard\TokenRunner\Exception\TokenNotFoundException;
-use Symplify\CodingStandard\TokenRunner\TokenFinder;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
+use Symplify\CodingStandard\TokenRunner\ValueObject\LineKind;
 
 final class LineLengthTransformer
 {
@@ -64,14 +62,14 @@ final class LineLengthTransformer
     private $firstLineLengthResolver;
 
     /**
-     * @var TokenFinder
+     * @var LineLengthCloserTransformer
      */
-    private $tokenFinder;
+    private $lineLengthCloserTransformer;
 
     /**
-     * @var CallAnalyzer
+     * @var LineLengthOpenerTransformer
      */
-    private $callAnalyzer;
+    private $lineLengthOpenerTransformer;
 
     public function __construct(
         IndentDetector $indentDetector,
@@ -80,8 +78,8 @@ final class LineLengthTransformer
         LineLengthResolver $lineLengthResolver,
         TokensInliner $tokensInliner,
         FirstLineLengthResolver $firstLineLengthResolver,
-        TokenFinder $tokenFinder,
-        CallAnalyzer $callAnalyzer
+        LineLengthCloserTransformer $lineLengthCloserTransformer,
+        LineLengthOpenerTransformer $lineLengthOpenerTransformer
     ) {
         $this->indentDetector = $indentDetector;
         $this->tokenSkipper = $tokenSkipper;
@@ -89,8 +87,8 @@ final class LineLengthTransformer
         $this->lineLengthResolver = $lineLengthResolver;
         $this->tokensInliner = $tokensInliner;
         $this->firstLineLengthResolver = $firstLineLengthResolver;
-        $this->tokenFinder = $tokenFinder;
-        $this->callAnalyzer = $callAnalyzer;
+        $this->lineLengthCloserTransformer = $lineLengthCloserTransformer;
+        $this->lineLengthOpenerTransformer = $lineLengthOpenerTransformer;
     }
 
     public function fixStartPositionToEndPosition(
@@ -116,7 +114,7 @@ final class LineLengthTransformer
     /**
      * @param Tokens|Token[] $tokens
      */
-    public function breakItems(BlockInfo $blockInfo, Tokens $tokens): void
+    public function breakItems(BlockInfo $blockInfo, Tokens $tokens, int $kind = LineKind::CALLS): void
     {
         $this->prepareIndentWhitespaces($tokens, $blockInfo->getStart());
 
@@ -124,7 +122,13 @@ final class LineLengthTransformer
         //  e.g when token is added in the middle, the end index does now point to earlier element!
 
         // 1. break before arguments closing
-        $this->insertNewlineBeforeClosingIfNeeded($tokens, $blockInfo);
+        $this->lineLengthCloserTransformer->insertNewlineBeforeClosingIfNeeded(
+            $tokens,
+            $blockInfo,
+            $kind,
+            $this->newlineIndentWhitespace,
+            $this->closingBracketNewlineIndentWhitespace
+        );
 
         // again, from the bottom to the top
         for ($i = $blockInfo->getEnd() - 1; $i > $blockInfo->getStart(); --$i) {
@@ -148,7 +152,11 @@ final class LineLengthTransformer
         }
 
         // 3. break after arguments opening
-        $this->insertNewlineAfterOpeningIfNeeded($tokens, $blockInfo->getStart());
+        $this->lineLengthOpenerTransformer->insertNewlineAfterOpeningIfNeeded(
+            $tokens,
+            $blockInfo->getStart(),
+            $this->newlineIndentWhitespace
+        );
     }
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $startIndex): void
@@ -162,25 +170,6 @@ final class LineLengthTransformer
         );
 
         $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
-    }
-
-    private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, BlockInfo $blockInfo): void
-    {
-        $isMethodCall = $this->callAnalyzer->isMethodCall($tokens, $blockInfo->getStart());
-        $endIndex = $blockInfo->getEnd();
-
-        $previousToken = $this->tokenFinder->getPreviousMeaningfulToken($tokens, $endIndex);
-        $previousPreviousToken = $this->tokenFinder->getPreviousMeaningfulToken($tokens, $previousToken);
-
-        // special case, if the function is followed by array - method([...]) - but not - method([[...]]))
-        if ($previousToken->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE) && ! $previousPreviousToken->isGivenKind(
-            [CT::T_ARRAY_SQUARE_BRACE_CLOSE, CT::T_ARRAY_SQUARE_BRACE_OPEN]
-        ) && ! $isMethodCall) {
-            $tokens->ensureWhitespaceAtIndex($endIndex - 1, 0, $this->newlineIndentWhitespace);
-            return;
-        }
-
-        $tokens->ensureWhitespaceAtIndex($endIndex - 1, 1, $this->closingBracketNewlineIndentWhitespace);
     }
 
     /**
@@ -212,31 +201,5 @@ final class LineLengthTransformer
 
         // if next token is just space, turn it to newline
         return $nextToken->isWhitespace(' ') && $nextNextToken->isComment();
-    }
-
-    private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $blockStartIndex): void
-    {
-        if (! isset($tokens[$blockStartIndex + 1])) {
-            throw new TokenNotFoundException($blockStartIndex + 1);
-        }
-
-        /** @var Token $nextToken */
-        $nextToken = $tokens[$blockStartIndex + 1];
-
-        if ($nextToken->isGivenKind(T_WHITESPACE)) {
-            $tokens->ensureWhitespaceAtIndex($blockStartIndex + 1, 0, $this->newlineIndentWhitespace);
-            return;
-        }
-
-        // special case, if the function is followed by array - method([...])
-        if ($nextToken->isGivenKind([T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN]) && ! $this->callAnalyzer->isMethodCall(
-            $tokens,
-            $blockStartIndex
-        )) {
-            $tokens->ensureWhitespaceAtIndex($blockStartIndex + 1, 1, $this->newlineIndentWhitespace);
-            return;
-        }
-
-        $tokens->ensureWhitespaceAtIndex($blockStartIndex, 1, $this->newlineIndentWhitespace);
     }
 }

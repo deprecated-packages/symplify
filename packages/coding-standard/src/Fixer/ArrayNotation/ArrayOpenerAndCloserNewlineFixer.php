@@ -8,6 +8,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 /**
@@ -39,6 +40,11 @@ class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
         // closer must run before the opener, as tokens as added by traversing up
         $this->handleArrayCloser($tokens, $blockInfo->getEnd());
         $this->handleArrayOpener($tokens, $index);
+    }
+
+    public function getPriority(): int
+    {
+        return $this->getPriorityBefore(LineLengthFixer::class);
     }
 
     private function isNextTokenAlsoArrayOpener(Tokens $tokens, int $index): bool

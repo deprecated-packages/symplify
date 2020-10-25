@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Tokenizer\Token;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Return_;
@@ -26,7 +27,7 @@ final class NoNewOutsideFactoryRule extends AbstractSymplifyRule
     /**
      * @var string[]
      */
-    private const ALLOWED_CLASSES = ['*FileInfo', '*\Node\*'];
+    private const ALLOWED_CLASSES = ['*FileInfo', '*\Node\*', Token::class];
 
     /**
      * @var ArrayStringAndFnMatcher
