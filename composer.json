@@ -49,6 +49,7 @@
         "migrify/class-presence": "^0.3.50",
         "migrify/config-transformer": "^0.3.50",
         "migrify/easy-ci": "^0.3.50",
+        "migrify/php-config-printer": "^0.3.50",
         "nette/application": "^3.0",
         "nette/bootstrap": "^3.0",
         "phpunit/phpunit": "^8.5|^9.0",

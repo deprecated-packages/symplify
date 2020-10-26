@@ -1,2 +1,0 @@
-services:
-    PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer: {  }

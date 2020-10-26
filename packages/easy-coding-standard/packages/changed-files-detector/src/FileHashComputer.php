@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ChangedFilesDetector;
 
-use Nette\Utils\Strings;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolver;
@@ -19,23 +18,8 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
  */
 final class FileHashComputer
 {
-    /**
-     * @var string
-     * @see https://regex101.com/r/pCAjLa/1
-     */
-    private const YAML_SUFFIX_REGEX = '#\.(yml|yaml)$#';
-
-    public function compute(string $filePath): string
+    public function computeConfig(string $filePath): string
     {
-        if (! Strings::match($filePath, self::YAML_SUFFIX_REGEX)) {
-            $fileHash = md5_file($filePath);
-            if (! $fileHash) {
-                throw new FileNotFoundException(sprintf('File "%s" was not found', $fileHash));
-            }
-
-            return $fileHash;
-        }
-
         $containerBuilder = new ContainerBuilder();
 
         $loader = $this->createLoader($filePath, $containerBuilder);
@@ -43,6 +27,16 @@ final class FileHashComputer
 
         return $this->arrayToHash($containerBuilder->getDefinitions()) .
             $this->arrayToHash($containerBuilder->getParameterBag()->all());
+    }
+
+    public function compute(string $filePath): string
+    {
+        $fileHash = md5_file($filePath);
+        if (! $fileHash) {
+            throw new FileNotFoundException(sprintf('File "%s" was not found', $fileHash));
+        }
+
+        return $fileHash;
     }
 
     /**

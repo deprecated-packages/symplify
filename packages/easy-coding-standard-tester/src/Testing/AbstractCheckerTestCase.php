@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandardTester\Testing;
 
+use Migrify\PhpConfigPrinter\HttpKernel\PhpConfigPrinterKernel;
+use Migrify\PhpConfigPrinter\YamlToPhpConverter;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Yaml;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
@@ -23,6 +24,11 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 {
+    /**
+     * @var YamlToPhpConverter|null
+     */
+    private static $yamlToPhpConverter;
+
     /**
      * @var FixerFileProcessor
      */
@@ -45,11 +51,10 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $configs = $this->getValidatedConfigs();
-
         // autoload php code sniffer before Kernel boot
         $this->autoloadCodeSniffer();
 
+        $configs = $this->getValidatedConfigs();
         $this->bootKernelWithConfigs(EasyCodingStandardKernel::class, $configs);
 
         $this->fixerFileProcessor = self::$container->get(FixerFileProcessor::class);
@@ -91,8 +96,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         // use local if not overloaded
         if ($this->getCheckerClass() !== '') {
             $hash = $this->createConfigHash();
-
-            $configFileTempPath = sprintf(sys_get_temp_dir() . '/ecs_temp_tests/config_%s.yaml', $hash);
+            $configFileTempPath = sprintf(sys_get_temp_dir() . '/ecs_temp_tests/config_%s.php', $hash);
 
             // cache for 2nd run, similar to original config one
             if (file_exists($configFileTempPath)) {
@@ -110,8 +114,10 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
                 ],
             ];
 
-            $yamlContent = Yaml::dump($servicesConfiguration, Yaml::DUMP_OBJECT_AS_MAP);
-            (new SmartFileSystem())->dumpFile($configFileTempPath, $yamlContent);
+            $phpConfigContent = $this->getYamlToPhpConverter()
+                ->convertYamlArray($servicesConfiguration);
+
+            (new SmartFileSystem())->dumpFile($configFileTempPath, $phpConfigContent);
 
             return $configFileTempPath;
         }
@@ -255,5 +261,17 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         (new FileSystemGuard())->ensureFileExists($config, static::class);
 
         return [$config];
+    }
+
+    private function getYamlToPhpConverter(): YamlToPhpConverter
+    {
+        if (self::$yamlToPhpConverter !== null) {
+            return self::$yamlToPhpConverter;
+        }
+
+        $this->bootKernel(PhpConfigPrinterKernel::class);
+        self::$yamlToPhpConverter = self::$container->get(YamlToPhpConverter::class);
+
+        return self::$yamlToPhpConverter;
     }
 }

@@ -29,7 +29,7 @@ final class FixerServiceRegistrationTest extends AbstractKernelTestCase
     {
         $this->bootKernelWithConfigs(
             EasyCodingStandardKernel::class,
-            [__DIR__ . '/FixerServiceRegistrationSource/easy-coding-standard.yml']
+            [__DIR__ . '/FixerServiceRegistrationSource/easy-coding-standard.php']
         );
 
         $fixerFileProcessor = self::$container->get(FixerFileProcessor::class);
@@ -67,7 +67,7 @@ final class FixerServiceRegistrationTest extends AbstractKernelTestCase
 
         $this->bootKernelWithConfigs(
             EasyCodingStandardKernel::class,
-            [__DIR__ . '/FixerServiceRegistrationSource/non-configurable-fixer.yml']
+            [__DIR__ . '/FixerServiceRegistrationSource/non-configurable-fixer.php']
         );
     }
 }
