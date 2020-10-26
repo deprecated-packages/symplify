@@ -125,6 +125,6 @@ final class SmartFileInfo extends SplFileInfo
 
     private function getNormalizedPath(?string $string = null): string
     {
-        return str_replace('\\', '/', is_null($string) ? $this->getRealPath() : $string);
+        return str_replace('\\', '/', $string === null ? $this->getRealPath() : $string);
     }
 }
