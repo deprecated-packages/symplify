@@ -29,7 +29,7 @@ final class ChangelogLinkerTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/test_config.yaml']);
+        $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/test_config.php']);
         $this->changelogLinker = self::$container->get(ChangelogLinker::class);
     }
 

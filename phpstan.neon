@@ -317,7 +317,14 @@ parameters:
                 - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 81
                 - packages/package-builder/src/Yaml/FileLoader/AbstractParameterMergingYamlFileLoader.php # 82
 
+        # static cache
         -
-            message: '#Parent and Child Method Parameter must be compatible#'
+            message: '#Do not use static property#'
             paths:
-                - packages/package-builder/src/Yaml/FileLoader/AbstractParameterMergingYamlFileLoader.php # 51
+                - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 268
+                - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 269
+                - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 273
+                - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 275
+
+
+        - '#The path "/another\-one\.php" was not found#'

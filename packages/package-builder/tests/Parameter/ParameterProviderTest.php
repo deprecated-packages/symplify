@@ -38,7 +38,7 @@ final class ParameterProviderTest extends AbstractKernelTestCase
     {
         $this->bootKernelWithConfigs(
             PackageBuilderTestKernel::class,
-            [__DIR__ . '/ParameterProviderSource/Yaml/including-config.yml']
+            [__DIR__ . '/ParameterProviderSource/Yaml/including-config.php']
         );
 
         $parameterProvider = self::$container->get(ParameterProvider::class);
