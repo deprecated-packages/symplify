@@ -1,10 +1,11 @@
+# goodies inspiration - https://github.com/sdras/awesome-actions
 name: CI Review
 
 on:
     pull_request: null
 
 jobs:
-    code_analysis:
+    ci_review:
         strategy:
             fail-fast: false
             matrix:
