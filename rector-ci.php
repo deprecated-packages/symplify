@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Core\Configuration\Option;
+use Rector\Naming\Rector\Property\MakeBoolPropertyRespectIsHasWasMethodNamingRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Set\ValueObject\SetList;
 use Rector\SOLID\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector;
@@ -44,6 +45,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
+
+    $parameters->set(Option::EXCLUDE_RECTORS, [
+        // fixed on master 2020-10-16
+        MakeBoolPropertyRespectIsHasWasMethodNamingRector::class,
+        \Rector\Naming\Rector\ClassMethod\MakeIsserClassMethodNameStartWithIsRector::class,
+    ]);
 
     $parameters->set(Option::EXCLUDE_PATHS, [
         '/vendor/',
