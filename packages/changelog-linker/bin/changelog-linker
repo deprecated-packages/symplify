@@ -30,9 +30,7 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 $configFileInfos = [];
 
 $configResolver = new ConfigResolver();
-$inputConfigFileInfos = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [
-    'changelog-linker.php', 'changelog-linker.yml', 'changelog-linker.yaml'
-]);
+$inputConfigFileInfos = $configResolver->resolveFromInputWithFallback(new ArgvInput(), ['changelog-linker.php']);
 
 if ($inputConfigFileInfos !== null) {
     $configFileInfos[] = $inputConfigFileInfos;

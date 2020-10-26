@@ -55,7 +55,7 @@ final class AudiscoveryTestingKernel extends Kernel
 
     protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
     {
-        $loader->load(__DIR__ . '/../config/config_test.yaml');
+        $loader->load(__DIR__ . '/../config/config_test.php');
 
         $this->discovery->discoverTranslations($containerBuilder);
         $this->discovery->discoverEntityMappings($containerBuilder);

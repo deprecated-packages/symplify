@@ -1,5 +1,0 @@
-parameters:
-    kernel.secret: 123
-
-imports:
-    - { resource: 'packages/*.yaml' }
