@@ -17,6 +17,7 @@ use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
 use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
 use Symplify\MonorepoBuilder\Release\ValueObject\SemVersion;
 use Symplify\MonorepoBuilder\Release\Version\VersionFactory;
+use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -85,9 +86,11 @@ final class ReleaseCommand extends Command
 
         $activeReleaseWorkers = $this->getReleaseWorkers($stage);
         if ($activeReleaseWorkers === []) {
-            $this->symfonyStyle->error(
-                'There are no release workers registered. Be sure to add them to monorepo-builder.yaml'
+            $errorMessage = sprintf(
+                'There are no release workers registered. Be sure to add them to "%s"',
+                File::CONFIG
             );
+            $this->symfonyStyle->error($errorMessage);
 
             return ShellCode::ERROR;
         }

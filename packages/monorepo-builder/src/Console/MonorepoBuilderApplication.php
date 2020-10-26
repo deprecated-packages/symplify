@@ -14,6 +14,8 @@ use Symplify\MonorepoBuilder\Console\Command\ValidateCommand;
 use Symplify\MonorepoBuilder\Merge\Command\MergeCommand;
 use Symplify\MonorepoBuilder\Release\Command\ReleaseCommand;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
+use Symplify\MonorepoBuilder\ValueObject\File;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\SymplifyKernel\Console\AbstractSymplifyConsoleApplication;
 
 final class MonorepoBuilderApplication extends AbstractSymplifyConsoleApplication
@@ -39,11 +41,11 @@ final class MonorepoBuilderApplication extends AbstractSymplifyConsoleApplicatio
         $inputDefinition = parent::getDefaultInputDefinition();
 
         $inputDefinition->addOption(new InputOption(
-            'config',
+            Option::CONFIG,
             'c',
             InputOption::VALUE_REQUIRED,
-            'Path to config file.',
-            'monorepo-builder.php'
+            'Path to config file',
+            File::CONFIG
         ));
 
         return $inputDefinition;

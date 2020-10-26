@@ -8,6 +8,7 @@ use Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\SetConfigResolver\ConfigResolver;
 use Symplify\PackageBuilder\Console\Input\InputDetector;
+use Symplify\MonorepoBuilder\ValueObject\File;
 
 # 1. autoload
 $possibleAutoloadPaths = [
@@ -33,9 +34,7 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 $configFileInfos = [];
 
 $configResolver = new ConfigResolver();
-$inputConfigFileInfo = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [
-    'monorepo-builder.php', 'monorepo-builder.yml', 'monorepo-builder.yaml',
-]);
+$inputConfigFileInfo = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [File::CONFIG]);
 
 if ($inputConfigFileInfo !== null) {
     $configFileInfos[] = $inputConfigFileInfo;

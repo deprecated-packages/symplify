@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -58,8 +59,8 @@ final class InitCommand extends Command
 
         $this->smartFileSystem->mirror(__DIR__ . '/../../templates/monorepo', $output);
 
-        // Replace MonorepoBuilder version in monorepo-builder.yml
-        $filename = sprintf('%s/monorepo-builder.yaml', $output);
+        // Replace MonorepoBuilder version in monorepo-builder.php
+        $filename = sprintf('%s/%s', $output, File::CONFIG);
 
         $fileContent = $this->smartFileSystem->readFile($filename);
         $content = str_replace('<version>', $this->getMonorepoBuilderVersion(), $fileContent);

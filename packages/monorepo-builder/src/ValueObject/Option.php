@@ -128,4 +128,9 @@ final class Option
      * @var string
      */
     public const GITHUB_TOKEN = 'github_token';
+
+    /**
+     * @var string
+     */
+    public const CONFIG = 'config';
 }

@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
+use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -17,15 +18,6 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PropagateCommand extends Command
 {
-    /**
-     * @var string[]
-     */
-    private const POSSIBLE_CONFIG_FILE_PATHS = [
-        'monorepo-builder.yaml',
-        'monorepo-builder.yml',
-        'monorepo-builder.php',
-    ];
-
     /**
      * @var SymfonyStyle
      */
@@ -75,14 +67,14 @@ final class PropagateCommand extends Command
         );
 
         foreach ($conflictingPackageVersions as $packageName => $filesToVersion) {
-            if (! isset($filesToVersion['composer.json'])) {
+            if (! isset($filesToVersion[File::COMPOSER_JSON])) {
                 // nothing to propagate
                 continue;
             }
 
             // update all other files to root composer.json version
-            $newVersion = $filesToVersion['composer.json'];
-            unset($filesToVersion['composer.json']);
+            $newVersion = $filesToVersion[File::COMPOSER_JSON];
+            unset($filesToVersion[File::COMPOSER_JSON]);
 
             $filesToVersion = $this->processManualConfigFiles($filesToVersion, $packageName, $newVersion);
             $fileToVersionKeys = array_keys($filesToVersion);
@@ -109,21 +101,19 @@ final class PropagateCommand extends Command
      */
     private function processManualConfigFiles(array $filesToVersion, string $packageName, string $newVersion): array
     {
-        foreach (self::POSSIBLE_CONFIG_FILE_PATHS as $possibleConfigFilepath) {
-            if (! isset($filesToVersion[$possibleConfigFilepath])) {
-                continue;
-            }
-
-            $message = sprintf(
-                'Update "%s" to "%s" version in "%s" file manually',
-                $packageName,
-                $newVersion,
-                $possibleConfigFilepath
-            );
-            $this->symfonyStyle->warning($message);
-
-            unset($filesToVersion[$possibleConfigFilepath]);
+        if (! isset($filesToVersion[File::CONFIG])) {
+            return $filesToVersion;
         }
+
+        $message = sprintf(
+            'Update "%s" to "%s" version in "%s" file manually',
+            $packageName,
+            $newVersion,
+            File::CONFIG
+        );
+        $this->symfonyStyle->warning($message);
+
+        unset($filesToVersion[File::CONFIG]);
 
         return $filesToVersion;
     }

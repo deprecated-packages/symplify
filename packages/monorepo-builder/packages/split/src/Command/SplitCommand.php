@@ -12,6 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\FileSystem\DirectoryToRepositoryProvider;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
+use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -67,7 +68,7 @@ final class SplitCommand extends Command
         $description = sprintf(
             'Splits monorepo packages to standalone repositories as defined in "%s" section of "%s" config.',
             '$parameters->set(Option::DIRECTORIES_REPOSITORY, [...])',
-            'monorepo-builder.php'
+            File::CONFIG
         );
 
         $this->setDescription($description);
