@@ -16,7 +16,7 @@ services:
         class: Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
-            maxClassCognitiveComplexity: 50
+            maxClassCognitiveComplexity: 45
 
 parameters:
     level: max

@@ -2,44 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard;
+namespace Symplify\Skipper\Skipper;
 
-use Nette\Utils\Strings;
-use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\Skipper\FileSystem\PathNormalizer;
+use Symplify\Skipper\ValueObject\Option;
+use Symplify\Skipper\ValueObject\SkipRules;
+use Symplify\Skipper\ValueObjectFactory\SkipRulesFactory;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class Skipper
 {
-    /**
-     * @var string
-     * @see https://regex101.com/r/ZB2dFV/1
-     */
-    private const ONLY_ENDS_WITH_ASTERISK_REGEX = '#^[^*](.*?)\*$#';
-
-    /**
-     * @var string
-     * @see https://regex101.com/r/aVUDjM/1
-     */
-    private const ONLY_STARTS_WITH_ASTERISK_REGEX = '#^\*(.*?)[^*]$#';
-
-    /**
-     * @var string[][]
-     */
-    private $skipped = [];
-
-    /**
-     * @var string[]
-     */
-    private $skippedCodes = [];
-
-    /**
-     * @var string[]
-     */
-    private $skippedMessages = [];
-
     /**
      * @var string[]
      */
@@ -50,41 +23,54 @@ final class Skipper
      */
     private $only = [];
 
-    public function __construct(ParameterProvider $parameterProvider)
-    {
+    /**
+     * @var SkipRules
+     */
+    private $skipRules;
+
+    /**
+     * @var PathNormalizer
+     */
+    private $pathNormalizer;
+
+    public function __construct(
+        ParameterProvider $parameterProvider,
+        SkipRulesFactory $skipRulesFactory,
+        PathNormalizer $pathNormalizer
+    ) {
         $skip = $parameterProvider->provideArrayParameter(Option::SKIP);
         $only = $parameterProvider->provideArrayParameter(Option::ONLY);
 
         $excludePaths = $parameterProvider->provideArrayParameter(Option::EXCLUDE_PATHS);
-        // for BC
-        $excludeFiles = $parameterProvider->provideArrayParameter(Option::EXCLUDE_FILES);
 
-        $this->categorizeSkipSettings($skip);
+        $this->skipRules = $skipRulesFactory->createFromSkipParameter($skip);
+
         $this->only = $only;
-        $this->excludedPaths = array_merge($excludePaths, $excludeFiles);
+        $this->excludedPaths = $excludePaths;
+        $this->pathNormalizer = $pathNormalizer;
     }
 
     public function shouldSkipCodeAndFile(string $code, SmartFileInfo $smartFileInfo): bool
     {
-        return $this->shouldSkipMatchingRuleAndFile($this->skippedCodes, $code, $smartFileInfo);
+        return $this->shouldSkipMatchingRuleAndFile($this->skipRules->getSkippedCodes(), $code, $smartFileInfo);
     }
 
     public function shouldSkipMessageAndFile(string $message, SmartFileInfo $smartFileInfo): bool
     {
-        return $this->shouldSkipMatchingRuleAndFile($this->skippedMessages, $message, $smartFileInfo);
+        return $this->shouldSkipMatchingRuleAndFile($this->skipRules->getSkippedMessages(), $message, $smartFileInfo);
     }
 
     /**
-     * @param FixerInterface|Sniff|string $checker
+     * @param object|string $class
      */
-    public function shouldSkipCheckerAndFile($checker, SmartFileInfo $smartFileInfo): bool
+    public function shouldSkipClassAndFile($class, SmartFileInfo $smartFileInfo): bool
     {
-        $doesMatchOnly = $this->doesMatchOnly($checker, $smartFileInfo);
+        $doesMatchOnly = $this->doesMatchOnly($class, $smartFileInfo);
         if (is_bool($doesMatchOnly)) {
             return $doesMatchOnly;
         }
 
-        return $this->doesMatchSkipped($checker, $smartFileInfo);
+        return $this->doesMatchSkipped($class, $smartFileInfo);
     }
 
     public function shouldSkipFileInfo(SmartFileInfo $smartFileInfo): bool
@@ -98,41 +84,23 @@ final class Skipper
         return false;
     }
 
-    /**
-     * @param mixed[] $skipped
-     */
-    private function categorizeSkipSettings(array $skipped): void
+    private function shouldSkipMatchingRuleAndFile(array $skipped, string $key, SmartFileInfo $smartFileInfo): bool
     {
-        foreach ($skipped as $key => $settings) {
-            if (class_exists($key)) {
-                $this->skipped[$key] = $settings;
-            } elseif (class_exists((string) Strings::before($key, '.'))) {
-                $this->skippedCodes[$key] = $settings;
-            } else {
-                $this->skippedMessages[$key] = $settings;
-            }
-        }
-    }
-
-    /**
-     * @param string[]|null[] $rules
-     */
-    private function shouldSkipMatchingRuleAndFile(array $rules, string $key, SmartFileInfo $smartFileInfo): bool
-    {
-        if (! array_key_exists($key, $rules)) {
+        if (! array_key_exists($key, $skipped)) {
             return false;
         }
 
         // skip regardless the path
-        if ($rules[$key] === null) {
+        $skippedPaths = $skipped[$key];
+        if ($skippedPaths === null) {
             return true;
         }
 
-        return $this->doesFileMatchSkippedFiles($smartFileInfo, (array) $rules[$key]);
+        return $this->doesFileMatchSkippedFiles($smartFileInfo, $skippedPaths);
     }
 
     /**
-     * @param FixerInterface|Sniff|string $checker
+     * @param object|string $checker
      */
     private function doesMatchOnly($checker, SmartFileInfo $smartFileInfo): ?bool
     {
@@ -154,11 +122,11 @@ final class Skipper
     }
 
     /**
-     * @param FixerInterface|Sniff|string $checker
+     * @param object|string $checker
      */
     private function doesMatchSkipped($checker, SmartFileInfo $smartFileInfo): bool
     {
-        foreach ($this->skipped as $skippedClass => $skippedFiles) {
+        foreach ($this->skipRules->getSkippedClasses() as $skippedClass => $skippedFiles) {
             if (! is_a($checker, $skippedClass, true)) {
                 continue;
             }
@@ -187,7 +155,7 @@ final class Skipper
             return true;
         }
 
-        $ignoredPath = $this->normalizeForFnmatch($ignoredPath);
+        $ignoredPath = $this->pathNormalizer->normalizeForFnmatch($ignoredPath);
 
         return $smartFileInfo->endsWith($ignoredPath) || $smartFileInfo->doesFnmatch($ignoredPath);
     }
@@ -204,22 +172,5 @@ final class Skipper
         }
 
         return false;
-    }
-
-    /**
-     * "value*" → "*value*"
-     * "*value" → "*value*"
-     */
-    private function normalizeForFnmatch(string $path): string
-    {
-        // ends with *
-        if (Strings::match($path, self::ONLY_ENDS_WITH_ASTERISK_REGEX)) {
-            return '*' . $path;
-        }
-        // starts with *
-        if (Strings::match($path, self::ONLY_STARTS_WITH_ASTERISK_REGEX)) {
-            return $path . '*';
-        }
-        return $path;
     }
 }

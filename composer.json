@@ -93,6 +93,7 @@
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\SetConfigResolver\\": "packages/set-config-resolver/src",
+            "Symplify\\Skipper\\": "packages/skipper/src",
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
             "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src"
@@ -131,6 +132,7 @@
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
+            "Symplify\\Skipper\\Tests\\": "packages/skipper/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src"
@@ -154,6 +156,7 @@
         "symplify/package-builder": "^8.3.45",
         "symplify/phpstan-extensions": "^8.3.45",
         "symplify/set-config-resolver": "^8.3.45",
+        "symplify/skipper": "self.version",
         "symplify/smart-file-system": "^8.3.45",
         "symplify/symfony-static-dumper": "^8.3.45",
         "symplify/symplify-kernel": "^8.3.45"
