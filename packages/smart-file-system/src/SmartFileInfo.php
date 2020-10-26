@@ -92,7 +92,7 @@ final class SmartFileInfo extends SplFileInfo
         }
 
         return rtrim(
-            $this->smartFileSystem->makePathRelative($this->getNormalizedPath(), (string) realpath($directory)),
+            $this->smartFileSystem->makePathRelative($this->getNormalizedRealPath(), (string) realpath($directory)),
             '/'
         );
     }
@@ -104,17 +104,17 @@ final class SmartFileInfo extends SplFileInfo
 
     public function endsWith(string $string): bool
     {
-        return Strings::endsWith($this->getNormalizedPath(), $string);
+        return Strings::endsWith($this->getNormalizedRealPath(), $string);
     }
 
     public function doesFnmatch(string $string): bool
     {
-        if (fnmatch($this->getNormalizedPath($string), $this->getNormalizedPath())) {
+        if (fnmatch($this->normalizePath($string), $this->getNormalizedRealPath())) {
             return true;
         }
 
         // in case of relative compare
-        return fnmatch('*/' . $this->getNormalizedPath($string), $this->getNormalizedPath());
+        return fnmatch('*/' . $this->normalizePath($string), $this->getNormalizedRealPath());
     }
 
     public function getRealPath(): string
@@ -123,8 +123,13 @@ final class SmartFileInfo extends SplFileInfo
         return parent::getRealPath() ?: $this->getPathname();
     }
 
-    private function getNormalizedPath(?string $string = null): string
+    private function getNormalizedRealPath(): string
     {
-        return str_replace('\\', '/', $string === null ? $this->getRealPath() : $string);
+        return str_replace('\\', '/', $this->getRealPath());
+    }
+
+    private function normalizePath(string $string): string
+    {
+        return str_replace('\\', '/', $string);
     }
 }
