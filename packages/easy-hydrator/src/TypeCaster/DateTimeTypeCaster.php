@@ -34,6 +34,10 @@ final class DateTimeTypeCaster implements TypeCasterInterface
         ReflectionParameter $reflectionParameter,
         ClassConstructorValuesResolver $classConstructorValuesResolver
     ) {
+        if ($value === null && $reflectionParameter->allowsNull()) {
+            return null;
+        }
+
         $dateTime = DateTime::from($value);
         $class = $this->parameterTypeRecognizer->getType($reflectionParameter);
 

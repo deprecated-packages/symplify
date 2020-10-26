@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Contracts\Cache\CacheInterface;
+use Symplify\EasyHydrator\ParameterValueGetter\DefaultParameterValueGetter;
+use Symplify\EasyHydrator\ParameterValueGetter\ParameterValueGetterInterface;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -22,4 +24,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(CacheInterface::class, FilesystemAdapter::class);
 
     $services->set(StringFormatConverter::class);
+
+    $services->alias(ParameterValueGetterInterface::class, DefaultParameterValueGetter::class);
 };

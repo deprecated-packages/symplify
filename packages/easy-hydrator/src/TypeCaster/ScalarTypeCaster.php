@@ -32,6 +32,10 @@ final class ScalarTypeCaster implements TypeCasterInterface
     ) {
         $type = $this->parameterTypeRecognizer->getType($reflectionParameter);
 
+        if ($value === null && $reflectionParameter->allowsNull()) {
+            return null;
+        }
+
         if ($type === 'string') {
             return (string) $value;
         }
