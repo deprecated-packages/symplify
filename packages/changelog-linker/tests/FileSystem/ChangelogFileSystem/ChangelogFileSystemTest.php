@@ -19,9 +19,9 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         if (defined('SYMPLIFY_MONOREPO')) {
-            $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/test_config.yaml']);
+            $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/test_config.php']);
         } else {
-            $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/test_config_split.yaml']);
+            $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/test_config_split.php']);
         }
 
         $this->changelogFileSystem = self::$container->get(ChangelogFileSystem::class);

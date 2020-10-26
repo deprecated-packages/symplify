@@ -1,5 +1,0 @@
-imports:
-    - { resource: included-config.yml }
-
-parameters:
-    two: 2

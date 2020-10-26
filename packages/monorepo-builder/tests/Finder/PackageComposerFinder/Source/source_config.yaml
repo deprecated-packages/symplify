@@ -1,5 +1,0 @@
-parameters:
-    package_directories:
-        - '%kernel.project_dir%/tests/Finder/PackageComposerFinder/Source'
-    package_directories_excludes:
-        - 'ExcludeThis'
