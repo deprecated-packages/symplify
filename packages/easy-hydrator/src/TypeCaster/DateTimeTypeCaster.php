@@ -27,7 +27,7 @@ final class DateTimeTypeCaster implements TypeCasterInterface
     }
 
     /**
-     * @return DateTimeImmutable|DateTime
+     * @return DateTimeImmutable|DateTime|null
      */
     public function retype(
         $value,
