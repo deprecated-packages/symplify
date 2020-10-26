@@ -15,8 +15,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->defaults()
         ->autowire()
         ->autoconfigure()
-        ->public()
-    ;
+        ->public();
 
     $services->load('Symplify\\Autodiscovery\\', __DIR__ . '/../src')
         ->exclude([
