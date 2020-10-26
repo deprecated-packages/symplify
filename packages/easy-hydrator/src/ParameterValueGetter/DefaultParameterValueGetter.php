@@ -7,6 +7,9 @@ use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
 final class DefaultParameterValueGetter implements ParameterValueGetterInterface
 {
+    /**
+     * @var StringFormatConverter
+     */
     private $stringFormatConverter;
 
     public function __construct(StringFormatConverter $stringFormatConverter)

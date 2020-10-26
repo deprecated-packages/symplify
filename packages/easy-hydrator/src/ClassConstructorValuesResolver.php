@@ -14,6 +14,9 @@ final class ClassConstructorValuesResolver
      */
     private $typeCastersCollector;
 
+    /**
+     * @var ParameterValueGetterInterface
+     */
     private $parameterValueGetter;
 
     public function __construct(
