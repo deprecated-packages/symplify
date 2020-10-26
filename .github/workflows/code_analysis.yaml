@@ -24,16 +24,8 @@ jobs:
                         run: 'php ci/check_coding_standard_readme_sync.php'
 
                     -
-                        name: Validate Monorepo
-                        run: composer validate-monorepo
-
-                    -
                         name: PHPStan
                         run: composer phpstan
-
-                    -
-                        name: Rector CI
-                        run: composer rector
 
                     -
                         name: Composer Validate

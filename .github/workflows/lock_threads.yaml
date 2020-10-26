@@ -1,0 +1,16 @@
+name: 'Lock Threads'
+
+on:
+    schedule:
+        - cron: '0 * * * *'
+
+jobs:
+    lock:
+        runs-on: ubuntu-latest
+        steps:
+            # see https://github.com/dessant/lock-threads
+            -
+                uses: dessant/lock-threads@v2
+                with:
+                    github-token: ${{ secrets.ACCESS_TOKEN }}
+                    issue-lock-inactive-days: 365
