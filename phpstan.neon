@@ -27,6 +27,8 @@ parameters:
         - packages
 
     excludes_analyse:
+        - *packages/**/tests/**/config.php
+        - *packages/**/tests/**-config.php
         - *packages/monorepo-builder/packages/init/templates/*
         - *packages/coding-standard/tests/**/correct*
         - *packages/coding-standard/tests/**/wrong*
