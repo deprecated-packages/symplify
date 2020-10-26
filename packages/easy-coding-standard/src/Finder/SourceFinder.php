@@ -102,7 +102,7 @@ final class SourceFinder
      */
     private function filterOutGitDiffFiles(array $fileInfos, bool $doesMatchGitDiff): array
     {
-        if (!$doesMatchGitDiff) {
+        if (! $doesMatchGitDiff) {
             return $fileInfos;
         }
 
