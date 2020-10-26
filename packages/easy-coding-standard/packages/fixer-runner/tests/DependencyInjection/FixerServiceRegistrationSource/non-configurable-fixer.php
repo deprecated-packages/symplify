@@ -2,18 +2,14 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
+use PhpCsFixer\Fixer\Strict\StrictParamFixer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set('sets', [
-        'not_here',
-    ]);
-
     $services = $containerConfigurator->services();
-    $services->set(ArraySyntaxFixer::class)
+
+    $services->set(StrictParamFixer::class)
         ->call('configure', [[
-            'syntax' => 'short',
+            'be_strict' => 'yea',
         ]]);
 };
