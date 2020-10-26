@@ -29,9 +29,7 @@ $configs = [];
 
 // 1. --config CLI option or local fallback
 $configResolver = new SetAwareConfigResolver(new EasyCodingStandardSetProvider());
-$inputConfig = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [
-    'ecs.yml', 'ecs.yaml', 'easy-coding-standard.yml', 'easy-coding-standard.yaml',
-]);
+$inputConfig = $configResolver->resolveFromInputWithFallback(new ArgvInput(), ['ecs.php']);
 
 if ($inputConfig !== null) {
     $configs[] = $inputConfig;
