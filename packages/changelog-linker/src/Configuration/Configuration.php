@@ -5,5 +5,4 @@ namespace Symplify\ChangelogLinker\Configuration;
 
 final class Configuration
 {
-
 }

@@ -16,10 +16,6 @@ jobs:
                         run: 'php ci/forbidden_idea_committing.php'
 
                     -
-                        name: Coding Standard
-                        run: 'composer check-cs'
-
-                    -
                         name: Coding Standard README Sync
                         run: 'php ci/check_coding_standard_readme_sync.php'
 
@@ -33,8 +29,7 @@ jobs:
 
                     -
                         name: Check Missing Split Test Directories
-                        run: |
-                            packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_tests.yaml
+                        run: packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_tests.yaml
 
                     -
                         name: Binary File Run
