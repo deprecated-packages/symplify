@@ -9,6 +9,9 @@ jobs:
         if: github.event.pull_request.head.repo.full_name == github.repository
         steps:
             -   uses: actions/checkout@v2
+                with:
+                    # Must be used to trigger workflow after push
+                    token: ${{ secrets.ACCESS_TOKEN }}
 
             -
                 uses: shivammathur/setup-php@v1
@@ -22,6 +25,7 @@ jobs:
 
             ## First run Rector - here can't be --dry-run !!! it would stop the job with it and not commit anything in the future
             -   run: vendor/bin/rector rectify --config rector-ci.php --ansi --no-progress-bar
+
             -   run: packages/easy-coding-standard/bin/ecs check --match-git-diff --fix --ansi
 
             -
