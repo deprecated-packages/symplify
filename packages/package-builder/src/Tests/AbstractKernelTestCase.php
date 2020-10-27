@@ -78,7 +78,8 @@ abstract class AbstractKernelTestCase extends TestCase
             // @see https://github.com/symfony/symfony/pull/31202/files
             $container = (new ReflectionClass(static::$kernel))->getProperty('container');
             $container->setAccessible(true);
-            if ($container->getValue(static::$kernel) !== null) {
+            $containerGetValue = $container->getValue(static::$kernel);
+            if ($containerGetValue !== null) {
                 $container = static::$kernel->getContainer();
                 static::$kernel->shutdown();
                 if ($container instanceof ResetInterface) {

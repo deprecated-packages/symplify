@@ -80,9 +80,10 @@ final class DoctrineAnnotationNewlineInNestedAnnotationFixer extends AbstractDoc
 
             $tokens->insertAt($index, new Token(DocLexer::T_NONE, ' * '));
             $tokens->insertAt($index, new Token(DocLexer::T_NONE, "\n"));
+            $tNone = $previousToken->isType(DocLexer::T_NONE);
 
             // remove redundant space
-            if ($previousToken->isType(DocLexer::T_NONE)) {
+            if ($tNone) {
                 $tokens->offsetUnset($previousTokenPosition);
             }
 
