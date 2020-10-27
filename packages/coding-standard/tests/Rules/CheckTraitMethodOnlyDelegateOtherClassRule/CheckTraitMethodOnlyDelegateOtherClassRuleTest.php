@@ -24,12 +24,10 @@ final class CheckTraitMethodOnlyDelegateOtherClassRuleTest extends AbstractServi
         yield [__DIR__ . '/Fixture/Delegate.php', []];
         yield [
             __DIR__ . '/Fixture/CallThisType.php',
-            [[sprintf(CheckTraitMethodOnlyDelegateOtherClassRule::ERROR_MESSAGE, 'run'), 9],
-            ], ];
+            [[sprintf(CheckTraitMethodOnlyDelegateOtherClassRule::ERROR_MESSAGE, 'run'), 9]], ];
         yield [
             __DIR__ . '/Fixture/HasInstanceofCheck.php',
-            [[sprintf(CheckTraitMethodOnlyDelegateOtherClassRule::ERROR_MESSAGE, 'run'), 9],
-            ], ];
+            [[sprintf(CheckTraitMethodOnlyDelegateOtherClassRule::ERROR_MESSAGE, 'run'), 9]], ];
     }
 
     protected function getRule(): Rule
