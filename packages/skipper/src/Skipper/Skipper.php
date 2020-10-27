@@ -88,7 +88,7 @@ final class Skipper
     /**
      * @param object|string $class
      */
-    public function shouldSkipClassAndFile($class, SmartFileInfo $smartFileInfo): bool
+    private function shouldSkipClassAndFile($class, SmartFileInfo $smartFileInfo): bool
     {
         $doesMatchOnly = $this->doesMatchOnly($class, $smartFileInfo);
         if (is_bool($doesMatchOnly)) {
