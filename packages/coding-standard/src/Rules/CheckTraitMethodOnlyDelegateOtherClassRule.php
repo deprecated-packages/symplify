@@ -67,6 +67,7 @@ final class CheckTraitMethodOnlyDelegateOtherClassRule extends AbstractSymplifyR
 
     private function hasMethodCallFromThis(ClassMethod $classMethod)
     {
+        /** @var MethodCall[] $methodCalls */
         $methodCalls = $this->nodeFinder->findInstanceOf($classMethod, MethodCall::class);
 
         foreach ($methodCalls as $methodCall) {
