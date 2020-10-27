@@ -5,17 +5,13 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Stmt;
+use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\ThisType;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckTraitMethodOnlyDelegateOtherClassRule\CheckTraitMethodOnlyDelegateOtherClassRuleTest
@@ -51,23 +47,42 @@ final class CheckTraitMethodOnlyDelegateOtherClassRule extends AbstractSymplifyR
      */
     public function process(Node $node, Scope $scope): array
     {
-        /* @var ClassMethod[] $classMethods */
+        /** @var ClassMethod[] $classMethods */
         $classMethods = $this->nodeFinder->findInstanceOf($node, ClassMethod::class);
 
         foreach ($classMethods as $classMethod) {
             $classMethodName = $classMethod->name->toString();
 
-            /** @var MethodCall[] $methodCalls */
-            $methodCalls = $this->nodeFinder->findInstanceOf($classMethod, MethodCall::class);
+            if ($this->hasMethodCallFromThis($classMethod)) {
+                return [sprintf(self::ERROR_MESSAGE, $classMethodName)];
+            }
 
-            foreach ($methodCalls as $methodCall) {
-                $methodCallVar = $methodCall->var;
-                if (! $methodCallVar instanceof PropertyFetch) {
-                    return [sprintf(self::ERROR_MESSAGE, $classMethodName)];
-                }
+            if ($this->hasInstanceOfExpression($classMethod)) {
+                return [sprintf(self::ERROR_MESSAGE, $classMethodName)];
             }
         }
 
         return [];
+    }
+
+    private function hasMethodCallFromThis(ClassMethod $classMethod)
+    {
+        $methodCalls = $this->nodeFinder->findInstanceOf($classMethod, MethodCall::class);
+
+        foreach ($methodCalls as $methodCall) {
+            $methodCallVar = $methodCall->var;
+            if (! $methodCallVar instanceof PropertyFetch) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function hasInstanceOfExpression(ClassMethod $classMethod)
+    {
+        return (bool) $this->nodeFinder->findFirst($classMethod, function (Node $node): bool {
+            return $node instanceof Instanceof_;
+        });
     }
 }
