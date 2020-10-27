@@ -125,7 +125,7 @@ final class SmartFileInfo extends SplFileInfo
 
     private function getNormalizedRealPath(): string
     {
-        return $this->normalizePath();
+        return $this->normalizePath($this->getRealPath());
     }
 
     private function normalizePath(?string $string = null): string
