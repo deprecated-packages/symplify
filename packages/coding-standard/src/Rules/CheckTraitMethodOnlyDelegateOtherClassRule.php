@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt;
@@ -54,11 +55,16 @@ final class CheckTraitMethodOnlyDelegateOtherClassRule extends AbstractSymplifyR
         $classMethods = $this->nodeFinder->findInstanceOf($node, ClassMethod::class);
 
         foreach ($classMethods as $classMethod) {
-            /* @var MethodCall[] $methodCalls */
-            $methodCalls = $this->nodeFinder->findInstanceOf($node, MethodCall::class);
+            $classMethodName = $classMethod->name->toString();
+
+            /** @var MethodCall[] $methodCalls */
+            $methodCalls = $this->nodeFinder->findInstanceOf($classMethod, MethodCall::class);
 
             foreach ($methodCalls as $methodCall) {
-                // ...
+                $methodCallVar = $methodCall->var;
+                if (! $methodCallVar instanceof PropertyFetch) {
+                    return [sprintf(self::ERROR_MESSAGE, $classMethodName)];
+                }
             }
         }
 
