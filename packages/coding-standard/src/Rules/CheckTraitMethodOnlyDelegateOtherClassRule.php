@@ -65,7 +65,7 @@ final class CheckTraitMethodOnlyDelegateOtherClassRule extends AbstractSymplifyR
         return [];
     }
 
-    private function hasMethodCallFromThis(ClassMethod $classMethod)
+    private function hasMethodCallFromThis(ClassMethod $classMethod): bool
     {
         /** @var MethodCall[] $methodCalls */
         $methodCalls = $this->nodeFinder->findInstanceOf($classMethod, MethodCall::class);
@@ -80,7 +80,7 @@ final class CheckTraitMethodOnlyDelegateOtherClassRule extends AbstractSymplifyR
         return false;
     }
 
-    private function hasInstanceOfExpression(ClassMethod $classMethod)
+    private function hasInstanceOfExpression(ClassMethod $classMethod): bool
     {
         return (bool) $this->nodeFinder->findFirst($classMethod, function (Node $node): bool {
             return $node instanceof Instanceof_;
