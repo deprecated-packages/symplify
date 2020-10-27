@@ -330,3 +330,8 @@ parameters:
 
 
         - '#The path "/another\-one\.php" was not found#'
+
+        -
+            message: '#Trait method assertDirectoryEquals should only delegate other class#'
+            paths:
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18

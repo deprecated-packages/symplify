@@ -2339,6 +2339,71 @@ class SomeClass
 
 <br>
 
+## Check Trait Method Only Delegate Other Class
+
+- class: [`CheckTraitMethodOnlyDelegateOtherClassRule`](../src/Rules/CheckTraitMethodOnlyDelegateOtherClassRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\CheckTraitMethodOnlyDelegateOtherClassRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+trait CalllThisType
+{
+    public function run()
+    {
+        $this->isName('test');
+    }
+}
+
+trait HasInstanceofCheck
+{
+    public function run()
+    {
+        if ($this->d instanceof DateTime) {
+            $this->d->format('Y-m-d');
+        }
+    }
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+trait Delegate
+{
+    private $d;
+
+    public function __construct(DateTime $d)
+    {
+        $this->d = $d;
+    }
+
+    public function run()
+    {
+        return $this->d->format('Y-m-d H:i:s');
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## Check Unneeded SymfonyStyle usage for only newline, write, and/or writeln
 
 - class: [`CheckUnneededSymfonyStyleUsageRule`](../src/Rules/CheckUnneededSymfonyStyleUsageRule.php)
