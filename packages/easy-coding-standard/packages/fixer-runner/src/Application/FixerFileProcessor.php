@@ -187,7 +187,7 @@ final class FixerFileProcessor extends AbstractFileProcessor
 
     private function shouldSkip(SmartFileInfo $smartFileInfo, FixerInterface $fixer, Tokens $tokens): bool
     {
-        if ($this->skipper->shouldSkipClassAndFile($fixer, $smartFileInfo)) {
+        if ($this->skipper->shouldSkipElementAndFileInfo($fixer, $smartFileInfo)) {
             return true;
         }
 

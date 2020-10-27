@@ -240,7 +240,8 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
         }
 
         // is array with indexed values "=>"
-        if ($tokens->findGivenKind(T_DOUBLE_ARROW, $blockInfo->getStart(), $blockInfo->getEnd()) !== []) {
+        $doubleArrowTokens = $tokens->findGivenKind(T_DOUBLE_ARROW, $blockInfo->getStart(), $blockInfo->getEnd());
+        if ($doubleArrowTokens !== []) {
             return true;
         }
 

@@ -79,7 +79,8 @@ final class NoDynamicMethodNameRule extends AbstractSymplifyRule
             return $type;
         }
 
-        if (! $type->isSuperTypeOf(new NullType())->yes()) {
+        $nullSuperTypeTrinaryLogic = $type->isSuperTypeOf(new NullType());
+        if (! $nullSuperTypeTrinaryLogic->yes()) {
             return $type;
         }
 

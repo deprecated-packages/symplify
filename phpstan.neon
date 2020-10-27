@@ -16,12 +16,16 @@ services:
         class: Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
-            maxClassCognitiveComplexity: 45
+            maxClassCognitiveComplexity: 40
 
 parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
     reportUnmatchedIgnoredErrors: false
+
+    parallel:
+        # to prevent full thread lagging pc
+        maximumNumberOfProcesses: 6
 
     paths:
         - packages
@@ -51,7 +55,7 @@ parameters:
         - '*/Fixture/*'
 
     bootstrapFiles:
-        - %currentWorkingDirectory%/tests/bootstrap.php
+        - tests/bootstrap.php
         - packages/easy-coding-standard/packages/changed-files-detector/tests/ChangedFilesDetectorSource/OneClass.php
         - packages/easy-coding-standard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
@@ -210,12 +214,6 @@ parameters:
         # dx handy class
         - '#Use decouled factory service to create "Symplify\\EasyTesting\\ValueObject\\InputAndExpected" object#'
 
-        # merging
-        - '#Use decouled factory service to create "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson" object#'
-
-        # normalizing version
-        - '#Use decouled factory service to create "PharIo\\Version\\Version" object#'
-
         # making reflection method for local use
         - '#Use decouled factory service to create "ReflectionMethod" object#'
 
@@ -306,33 +304,16 @@ parameters:
                 - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 20
                 - packages/monorepo-builder/packages/merge/tests/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php # 18
 
-        -
-            message: '#Method call in if or elseif is not allowed#'
-            paths:
-                - packages/changelog-linker/src/Console/Command/DumpMergesCommand.php # 161
-                - packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNewlineInNestedAnnotationFixer.php # 85
-                - packages/coding-standard/src/Fixer/LineLength/LineLengthFixer.php # 155
-                - packages/coding-standard/src/Fixer/LineLength/LineLengthFixer.php # 241
-                - packages/coding-standard/src/PHPStan/Types/ScalarTypeAnalyser.php # 51
-                - packages/coding-standard/src/Rules/ForbiddenMethodCallInIfRule.php # 86
-                - packages/coding-standard/src/Rules/NoDynamicMethodNameRule.php # 82
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php # 81
-                - packages/package-builder/src/Yaml/FileLoader/AbstractParameterMergingYamlFileLoader.php # 82
-
         # static cache
         -
             message: '#Do not use static property#'
             paths:
                 - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 268
-                - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 269
-                - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 273
-                - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 275
-
 
         - '#The path "/another\-one\.php" was not found#'
 
         -
-            message: '#Trait method assertDirectoryEquals should only delegate other class#'
+            message: '#Trait method "assertDirectoryEquals\(\)" should not contain any logic, but only delegate to other class call#'
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
 
@@ -340,3 +321,4 @@ parameters:
             message: '#Do not use factory/method call in constructor, put factory in config and get service with dependency injection#'
             paths:
                 - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 22
+                - packages/skipper/src/Skipper/Skipper.php

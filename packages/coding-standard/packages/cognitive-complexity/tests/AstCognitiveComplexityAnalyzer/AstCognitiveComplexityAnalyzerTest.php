@@ -16,6 +16,7 @@ use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class AstCognitiveComplexityAnalyzerTest extends TestCase
 {
@@ -46,6 +47,10 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
         $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
 
         $functionLike = $this->parseFileToFistFunctionLike($inputAndExpected->getInput());
+        if ($functionLike === null) {
+            throw new ShouldNotHappenException();
+        }
+
         $cognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($functionLike);
 
         $this->assertSame((int) $inputAndExpected->getExpected(), $cognitiveComplexity);

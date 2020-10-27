@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Symplify\Skipper\ValueObjectFactory;
 
 use Nette\Utils\Strings;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\Skipper\ValueObject\Option;
 use Symplify\Skipper\ValueObject\SkipRules;
 
 final class SkipRulesFactory
@@ -24,15 +26,24 @@ final class SkipRulesFactory
     private $skippedMessages = [];
 
     /**
-     * @param mixed[] $skipped
+     * @var ParameterProvider
      */
-    public function createFromSkipParameter(array $skipped): SkipRules
+    private $parameterProvider;
+
+    public function __construct(ParameterProvider $parameterProvider)
     {
+        $this->parameterProvider = $parameterProvider;
+    }
+
+    public function create(): SkipRules
+    {
+        $skip = $this->parameterProvider->provideArrayParameter(Option::SKIP);
+
         $this->skippedClasses = [];
         $this->skippedCodes = [];
         $this->skippedMessages = [];
 
-        foreach ($skipped as $key => $value) {
+        foreach ($skip as $key => $value) {
             if (is_int($key)) {
                 $this->separateSkipItem($value, null);
                 continue;

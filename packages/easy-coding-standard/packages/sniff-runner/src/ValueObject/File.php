@@ -132,7 +132,7 @@ final class File extends BaseFile
             }
 
             foreach ($this->tokenListeners[$token['code']] as $sniff) {
-                if ($this->skipper->shouldSkipClassAndFile($sniff, $this->fileInfo)) {
+                if ($this->skipper->shouldSkipElementAndFileInfo($sniff, $this->fileInfo)) {
                     continue;
                 }
 
