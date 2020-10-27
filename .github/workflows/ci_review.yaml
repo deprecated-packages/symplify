@@ -16,6 +16,12 @@ jobs:
                         commit_message: "propagate monorepo dependencies"
                         check_run: "composer validate-monorepo --ansi"
 
+                    -
+                        name: "Apply Coding Standards"
+                        write_run: "composer fix-cs"
+                        commit_message: "apply coding standards"
+                        check_run: "composer check-cs"
+
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest
 

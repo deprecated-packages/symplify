@@ -12,12 +12,19 @@ composer require symplify/changelog-linker --dev
 
 ## Usage
 
-Create `changelog-linker.yaml` with configuration:
+Create `changelog-linker.php` with configuration:
 
-```yaml
-parameters:
-    # this is detected from "git origin", but you can change it
-    repository_url: 'https://github.com/symplify/symplify'
+```php
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ChangelogLinker\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    // this parameter is detected from "git origin", but you can change it
+    $parameters->set(Option::REPOSITORY_URL, 'https://github.com/symplify/symplify');
+};
 ```
 
 The config is autodiscovered in the root directory or by `--config` option.
@@ -51,7 +58,7 @@ But that is a mash-up of everything. Not very nice:
 
 What if we'd have *Added*, *Changed*... all the standard categories?
 
-```
+```bash
 vendor/bin/changelog-linker dump-merges --in-categories
 ```
 
@@ -72,7 +79,7 @@ Nice, now everything is nicely grouped.
 
 What about packages - can we have group them as well? Sure:
 
-```
+```bash
 vendor/bin/changelog-linker dump-merges --in-packages
 ```
 
@@ -91,7 +98,7 @@ vendor/bin/changelog-linker dump-merges --in-packages
 
 Let's take it one step further!
 
-```
+```bash
 vendor/bin/changelog-linker dump-merges --in-packages --in-categories
 ```
 
@@ -110,7 +117,7 @@ vendor/bin/changelog-linker dump-merges --in-packages --in-categories
 
 Do you prefer categories first? Just switch the order:
 
-```
+```bash
 vendor/bin/changelog-linker dump-merges --in-categories --in-packages
 ```
 
@@ -129,7 +136,7 @@ vendor/bin/changelog-linker dump-merges --in-categories --in-packages
 
 Do you want to dump only such pull requests that were merged into a particular branch? Just use `base-branch` option:
 
-```
+```bash
 vendor/bin/changelog-linker dump-merges --base-branch=7.3
 ```
 This is very handy when you support multiple versions of your project.
@@ -138,7 +145,7 @@ This is very handy when you support multiple versions of your project.
 
 In case you cross the API rate limit and get denied, create [new Github Token](https://github.com/settings/tokens) and run it via `GITHUB_TOKEN` ENV variable.
 
-```
+```bash
 GITHUB_TOKEN super-secret-token vendor/bin/changelog-linker dump-merges
 ```
 
@@ -188,21 +195,36 @@ Of course! Give your contributors credit they deserve:
 
 You can exclude core maintainers, to give external contributors more credit:
 
-```yaml
-# changelog-linker.yaml
-parameters:
-    authors_to_ignore: ['TomasVotruba']
+```php
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ChangelogLinker\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    // this parameter is detected from "git origin", but you can change it
+    $parameters->set(Option::AUTHORS_TO_IGNORE, ['TomasVotruba']);
+};
 ```
 
 ### 4. How to Link Specific Words?
 
 In Symplify, I need that every `EasyCodingStandard` word leads to `https://github.com/symplify/easy-coding-standard/`.
 
-```yaml
-# changelog-linker.yaml
-parameters:
-    names_to_urls:
-        EasyCodingStandard: 'https://github.com/symplify/easy-coding-standard/'
+```php
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ChangelogLinker\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    // this parameter is detected from "git origin", but you can change it
+    $parameters->set(Option::NAMES_TO_URLS, [
+        'EasyCodingStandard' => 'https://github.com/symplify/easy-coding-standard/',
+    ]);
+};
 ```
 
 ```diff
@@ -222,11 +244,19 @@ parameters:
 
 Just add alias to config:
 
-```yaml
-# changelog-linker.yaml
-parameters:
-    package_aliases:
-        CS: 'CodingStandard'
+```php
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ChangelogLinker\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    // this parameter is detected from "git origin", but you can change it
+    $parameters->set(Option::PACKAGE_ALIASES, [
+        'CS' => 'CodingStandard',
+    ]);
+};
 ```
 
 ...and it will be resolved to `CodingStandard` package.

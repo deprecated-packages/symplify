@@ -82,7 +82,8 @@ final class ForbiddenMethodCallInIfRule extends AbstractSymplifyRule
                 continue;
             }
 
-            if ($scope->getType($call) instanceof BooleanType) {
+            $callType = $scope->getType($call);
+            if ($callType instanceof BooleanType) {
                 continue;
             }
 

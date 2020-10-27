@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder;
 
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\Merge\Configuration\ModifyingComposerJsonProvider;
+use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\ValueObject\Section;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -18,16 +19,6 @@ final class VersionValidator
      * @var string[]
      */
     private const SECTIONS = [Section::REQUIRE, Section::REQUIRE_DEV];
-
-    /**
-     * @var string
-     */
-    private const MONOREPO_BUILDER_YAML = 'monorepo-builder.yaml';
-
-    /**
-     * @var string
-     */
-    private const MONOREPO_BUILDER_PHP = 'monorepo-builder.php';
 
     /**
      * @var JsonFileManager
@@ -85,18 +76,14 @@ final class VersionValidator
             return $packageVersionsPerFile;
         }
 
-        $monorepoBuilderConfig = file_exists(self::MONOREPO_BUILDER_YAML)
-            ? self::MONOREPO_BUILDER_YAML
-            : self::MONOREPO_BUILDER_PHP;
-
         $requires = $appendingComposerJson->getRequire();
         foreach ($requires as $packageName => $packageVersion) {
-            $packageVersionsPerFile[$packageName][$monorepoBuilderConfig] = $packageVersion;
+            $packageVersionsPerFile[$packageName][File::CONFIG] = $packageVersion;
         }
 
         $requiredevs = $appendingComposerJson->getRequireDev();
         foreach ($requiredevs as $packageName => $packageVersion) {
-            $packageVersionsPerFile[$packageName][$monorepoBuilderConfig] = $packageVersion;
+            $packageVersionsPerFile[$packageName][File::CONFIG] = $packageVersion;
         }
 
         return $packageVersionsPerFile;
