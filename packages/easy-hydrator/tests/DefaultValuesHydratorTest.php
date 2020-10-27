@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyHydrator\Tests;
 
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
+use Symplify\EasyHydrator\Exception\MissingDataException;
 use Symplify\EasyHydrator\Tests\Fixture\DefaultValuesConstructor;
 use Symplify\EasyHydrator\Tests\HttpKernel\EasyHydratorTestKernel;
 use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
@@ -23,10 +24,18 @@ final class DefaultValuesHydratorTest extends AbstractKernelTestCase
         $this->arrayToValueObjectHydrator = self::$container->get(ArrayToValueObjectHydrator::class);
     }
 
+    public function testExceptionWillBeThrownWhenMissingDataForNonOptionalParameter(): void
+    {
+        $this->expectException(MissingDataException::class);
+
+        $this->arrayToValueObjectHydrator->hydrateArray([], DefaultValuesConstructor::class);
+    }
+
     public function testDefaultValues(): void
     {
         $data = [
-            'bar' => 'bar',
+            'foo' => null,
+            'bar' => 'baz',
         ];
 
         /** @var DefaultValuesConstructor $object */
@@ -34,6 +43,6 @@ final class DefaultValuesHydratorTest extends AbstractKernelTestCase
 
         self::assertNull($object->getFoo());
         self::assertNull($object->getPerson());
-        self::assertSame('bar', $object->getBar());
+        self::assertSame('baz', $object->getBar());
     }
 }

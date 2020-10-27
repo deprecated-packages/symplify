@@ -1,11 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyHydrator\ParameterValueGetter;
+namespace Symplify\EasyHydrator;
 
 use ReflectionParameter;
+use Symplify\EasyHydrator\Exception\MissingDataException;
+use Symplify\EasyHydrator\ParameterValueGetter\ParameterValueGetterInterface;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
-final class DefaultParameterValueGetter implements ParameterValueGetterInterface
+final class ParameterValueResolver implements ParameterValueGetterInterface
 {
     /**
      * @var StringFormatConverter
@@ -24,6 +26,7 @@ final class DefaultParameterValueGetter implements ParameterValueGetterInterface
     public function getValue(ReflectionParameter $reflectionParameter, array $data)
     {
         $parameterName = $reflectionParameter->name;
+
         $underscoreParameterName = $this->stringFormatConverter->camelCaseToUnderscore($parameterName);
 
         if (array_key_exists($parameterName, $data)) {
@@ -38,6 +41,12 @@ final class DefaultParameterValueGetter implements ParameterValueGetterInterface
             return $reflectionParameter->getDefaultValue();
         }
 
-        return null;
+        $declaringClassReflection = $reflectionParameter->getDeclaringClass();
+
+        throw new MissingDataException(sprintf(
+            'Missing data of "$%s" parameter for hydrated class "%s" __construct method.',
+            $parameterName,
+            $declaringClassReflection ? $declaringClassReflection->getName() : ''
+        ));
     }
 }

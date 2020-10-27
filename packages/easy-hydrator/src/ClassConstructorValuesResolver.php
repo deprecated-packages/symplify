@@ -5,7 +5,6 @@ namespace Symplify\EasyHydrator;
 use ReflectionClass;
 use ReflectionMethod;
 use Symplify\EasyHydrator\Exception\MissingConstructorException;
-use Symplify\EasyHydrator\ParameterValueGetter\ParameterValueGetterInterface;
 
 final class ClassConstructorValuesResolver
 {
@@ -15,16 +14,16 @@ final class ClassConstructorValuesResolver
     private $typeCastersCollector;
 
     /**
-     * @var ParameterValueGetterInterface
+     * @var ParameterValueResolver
      */
-    private $parameterValueGetter;
+    private $parameterValueResolver;
 
     public function __construct(
         TypeCastersCollector $typeCastersCollector,
-        ParameterValueGetterInterface $parameterValueGetter
+        ParameterValueResolver $parameterValueResolver
     ) {
         $this->typeCastersCollector = $typeCastersCollector;
-        $this->parameterValueGetter = $parameterValueGetter;
+        $this->parameterValueResolver = $parameterValueResolver;
     }
 
     /**
@@ -38,7 +37,7 @@ final class ClassConstructorValuesResolver
         $parameterReflections = $constructorMethodReflection->getParameters();
 
         foreach ($parameterReflections as $parameterReflection) {
-            $value = $this->parameterValueGetter->getValue($parameterReflection, $data);
+            $value = $this->parameterValueResolver->getValue($parameterReflection, $data);
 
             $arguments[] = $this->typeCastersCollector->retype($value, $parameterReflection, $this);
         }

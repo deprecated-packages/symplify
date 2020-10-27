@@ -7,6 +7,8 @@
 - constructor injection support
 - auto-resolving of `DateTimeInterface` string value
 - auto-retype based on param type declarations
+- nested objects support
+- customizable objects creation
 - cached
 
 ## Install
@@ -158,6 +160,45 @@ $manyPersonsAsArray[] = [
 /** @var Person[] $persons */
 $persons = $this->arrayToValueObjectHydrator->hydrateArrays($manyPersonsAsArray, Person::class);
 ```
+
+### Optionable values
+
+If object has optional parameters, and some of their values are not provided in data, default value is used in the hydrated object.
+
+```php
+class MyObject {
+    private string $foo;
+
+    private string $bar;
+
+    public function __construct(string $foo, string $bar = 'bar')
+    {
+        $this->foo = $foo;
+        $this->bar = $bar;
+    }
+
+    public function getFoo(): string
+    {
+        return $this->foo;
+    }
+
+    public function getBar(): string
+    {
+        return $this->bar;
+    }
+}
+
+$data = [
+    'foo' => 'foo',
+];
+
+$object = $this->arrayToValueObjectHydrator->hydrateArray($data, MyObject::class);
+$object->getBar(); // bar
+```
+
+### Missing constructor data
+
+When not provided data for required constructor parameter, `Symplify\EasyHydrator\Exception\MissingDataException` is thrown.
 
 ## Contribute
 

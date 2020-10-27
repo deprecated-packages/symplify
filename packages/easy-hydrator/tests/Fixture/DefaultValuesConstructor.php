@@ -21,7 +21,7 @@ final class DefaultValuesConstructor
 
 
     public function __construct(
-        ?string $foo = null,
+        ?string $foo,
         string $bar = 'bar',
         ?Person $person = null
     ) {
