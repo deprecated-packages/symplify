@@ -58,6 +58,25 @@ final class SmartFileInfoTest extends TestCase
         $smartFileInfo->getRelativeFilePathFromDirectory('non-existing-path');
     }
 
+    public function testDoesFnmatch(): void
+    {
+        $smartFileInfo = new SmartFileInfo(__DIR__ . '/Source/AnotherFile.txt');
+
+        // Test param
+        $this->assertStringEndsWith(
+            $this->normalizePath('tests\\SmartFileInfo\\Source\\AnotherFile.txt'),
+            $smartFileInfo->getRelativePathname()
+        );
+        $this->assertStringEndsWith(
+            $this->normalizePath('tests/SmartFileInfo/Source/AnotherFile.txt'),
+            $smartFileInfo->getRelativePathname()
+        );
+
+        // Test function
+        $this->assertTrue($smartFileInfo->doesFnmatch(__DIR__ . '/Source/AnotherFile.txt'));
+        $this->assertTrue($smartFileInfo->doesFnmatch(__DIR__ . '\\Source\\AnotherFile.txt'));
+    }
+
     /**
      * Normalizing required to allow running tests on windows.
      */

@@ -109,12 +109,12 @@ final class SmartFileInfo extends SplFileInfo
 
     public function doesFnmatch(string $string): bool
     {
-        if (fnmatch($string, $this->getNormalizedRealPath())) {
+        if (fnmatch($this->normalizePath($string), $this->getNormalizedRealPath())) {
             return true;
         }
 
         // in case of relative compare
-        return fnmatch('*/' . $string, $this->getNormalizedRealPath());
+        return fnmatch('*/' . $this->normalizePath($string), $this->getNormalizedRealPath());
     }
 
     public function getRealPath(): string
@@ -125,6 +125,11 @@ final class SmartFileInfo extends SplFileInfo
 
     private function getNormalizedRealPath(): string
     {
-        return str_replace('\\', '/', $this->getRealPath());
+        return $this->normalizePath($this->getRealPath());
+    }
+
+    private function normalizePath(string $path): string
+    {
+        return str_replace('\\', '/', $path);
     }
 }
