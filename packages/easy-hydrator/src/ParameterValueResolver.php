@@ -45,7 +45,7 @@ final class ParameterValueResolver
         throw new MissingDataException(sprintf(
             'Missing data of "$%s" parameter for hydrated class "%s" __construct method.',
             $parameterName,
-            $declaringClassReflection ? $declaringClassReflection->getName() : ''
+            $declaringClassReflection !== null ? $declaringClassReflection->getName() : ''
         ));
     }
 }
