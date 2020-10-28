@@ -4,10 +4,9 @@ namespace Symplify\EasyHydrator;
 
 use ReflectionParameter;
 use Symplify\EasyHydrator\Exception\MissingDataException;
-use Symplify\EasyHydrator\ParameterValueGetter\ParameterValueGetterInterface;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
-final class ParameterValueResolver implements ParameterValueGetterInterface
+final class ParameterValueResolver
 {
     /**
      * @var StringFormatConverter

@@ -166,7 +166,10 @@ $persons = $this->arrayToValueObjectHydrator->hydrateArrays($manyPersonsAsArray,
 If object has optional parameters, and some of their values are not provided in data, default value is used in the hydrated object.
 
 ```php
-class MyObject {
+declare(strict_types=1);
+
+class MyObject
+{
     private string $foo;
 
     private string $bar;
@@ -193,7 +196,8 @@ $data = [
 ];
 
 $object = $this->arrayToValueObjectHydrator->hydrateArray($data, MyObject::class);
-$object->getBar(); // bar
+// bar
+$object->getBar();
 ```
 
 ### Missing constructor data
