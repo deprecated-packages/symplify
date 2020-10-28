@@ -50,6 +50,9 @@ jobs:
             -
                 working-directory: packages/${{ matrix.package_name }}
                 run: composer update --no-progress --ansi
+                env:
+                    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+                    COMPOSER_ROOT_VERSION: "dev-master"
 
             -
                 working-directory: packages/${{ matrix.package_name }}
