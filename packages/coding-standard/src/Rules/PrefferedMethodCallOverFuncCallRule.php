@@ -40,16 +40,15 @@ final class PrefferedMethodCallOverFuncCallRule extends AbstractPrefferedCallOve
      */
     public function process(Node $node, Scope $scope): array
     {
-        $errorMessageParameters = $this->getErrorMessageParameters(
-            $node,
-            $scope,
-            $this->funcCallToPrefferedMethodCalls
-        );
-        if ($errorMessageParameters === []) {
-            return [];
+        foreach ($this->funcCallToPrefferedMethodCalls as $functionName => $methodCall) {
+            if (! $this->isFuncCallToCallMatch($node, $scope, $functionName, $methodCall)) {
+                continue;
+            }
+
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $methodCall[0], $methodCall[1], $functionName);
+            return [$errorMessage];
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, ...$errorMessageParameters);
-        return [$errorMessage];
+        return [];
     }
 }

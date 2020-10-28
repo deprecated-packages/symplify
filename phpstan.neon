@@ -31,6 +31,8 @@ parameters:
         - packages
 
     excludes_analyse:
+        - *packages/easy-coding-standard/compiler/config/*
+
         - *packages/**/tests/**/config.php
         - *packages/**/tests/**-config.php
         - *packages/monorepo-builder/packages/init/templates/*
@@ -182,9 +184,6 @@ parameters:
                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
 
-                # Abstract Rule
-                - packages/coding-standard/src/Rules/AbstractPrefferedCallOverFuncRule.php #57
-
         - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
         -
@@ -199,8 +198,6 @@ parameters:
             paths:
                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
                 - packages/package-builder/src/Http/BetterGuzzleClient.php
-
-        - '#Parameter \#1 \$functionLike of method Symplify\\CodingStandard\\CognitiveComplexity\\AstCognitiveComplexityAnalyzer\:\:analyzeFunctionLike\(\) expects PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_\|null given#'
 
         -
             message: '#Too many public elements on class \- \d+\. Try narrow it down under \d+#'
