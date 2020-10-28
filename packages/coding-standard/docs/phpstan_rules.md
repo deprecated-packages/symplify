@@ -2006,6 +2006,43 @@ if ($data === []) {
 
 <br>
 
+## Forbid Method Call on New Expression
+
+- class: [`ForbiddenMethodCallOnNewRule`](../src/Rules/ForbiddenMethodCallOnNewRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodCallOnNewRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+(new DateTime('2020-01-01'))->format('Y-m-d');
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+$d = new DateTime('2020-01-01');
+$d->format('Y-m-d');
+```
+
+:+1:
+
+<br>
+
 ## Assignment inside if statement is forbidden. Use before if instead
 
 - class: [`ForbiddenAssignInifRule`](../src/Rules/ForbiddenAssignInifRule.php)
