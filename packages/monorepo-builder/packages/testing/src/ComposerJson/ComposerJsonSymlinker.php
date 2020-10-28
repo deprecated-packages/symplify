@@ -56,9 +56,6 @@ final class ComposerJsonSymlinker
                 'options' => [
                     'symlink' => false,
                 ],
-
-                // since composer 2.0 - see https://getcomposer.org/doc/articles/repository-priorities.md#default-behavior
-                // 'canonical' => true,
             ];
 
             if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {

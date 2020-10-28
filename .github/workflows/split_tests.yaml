@@ -40,6 +40,7 @@ jobs:
                 with:
                     php-version: 7.3
                     coverage: none
+                    # needs composer v2 to work in this setup
 
             -   run: composer --version
 
