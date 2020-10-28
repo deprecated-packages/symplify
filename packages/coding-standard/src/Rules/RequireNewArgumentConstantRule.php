@@ -87,13 +87,13 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule
      * @return mixed|null
      */
     private function matchPositions(
-        MethodCall $methodCall,
+        New_ $new,
         Scope $scope,
         string $desiredType,
         array $positionsByNews,
         string $methodName
     ) {
-        if (! $this->containsTypeAnalyser->containsExprTypes($methodCall->var, $scope, [$desiredType])) {
+        if (! $this->containsTypeAnalyser->containsExprTypes($new->class, $scope, [$desiredType])) {
             return null;
         }
 
