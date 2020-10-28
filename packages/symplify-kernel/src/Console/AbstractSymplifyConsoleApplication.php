@@ -35,7 +35,8 @@ abstract class AbstractSymplifyConsoleApplication extends Application
         } catch (RuntimeException $runtimeException) {
             if (Strings::contains($runtimeException->getMessage(), 'Provide required arguments')) {
                 $this->cleanExtraCommandArgument($command);
-                (new TextDescriptor())->describe($output, $command);
+                $textDescriptor = new TextDescriptor();
+                $textDescriptor->describe($output, $command);
 
                 return ShellCode::SUCCESS;
             }
