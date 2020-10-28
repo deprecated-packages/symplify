@@ -27,13 +27,17 @@ final class DateTimeTypeCaster implements TypeCasterInterface
     }
 
     /**
-     * @return DateTimeImmutable|DateTime
+     * @return DateTimeImmutable|DateTime|null
      */
     public function retype(
         $value,
         ReflectionParameter $reflectionParameter,
         ClassConstructorValuesResolver $classConstructorValuesResolver
     ) {
+        if ($value === null && $reflectionParameter->allowsNull()) {
+            return null;
+        }
+
         $dateTime = DateTime::from($value);
         $class = $this->parameterTypeRecognizer->getType($reflectionParameter);
 

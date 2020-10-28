@@ -5,26 +5,25 @@ namespace Symplify\EasyHydrator;
 use ReflectionClass;
 use ReflectionMethod;
 use Symplify\EasyHydrator\Exception\MissingConstructorException;
-use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
 final class ClassConstructorValuesResolver
 {
-    /**
-     * @var StringFormatConverter
-     */
-    private $stringFormatConverter;
-
     /**
      * @var TypeCastersCollector
      */
     private $typeCastersCollector;
 
+    /**
+     * @var ParameterValueResolver
+     */
+    private $parameterValueResolver;
+
     public function __construct(
-        StringFormatConverter $stringFormatConverter,
-        TypeCastersCollector $typeCastersCollector
+        TypeCastersCollector $typeCastersCollector,
+        ParameterValueResolver $parameterValueResolver
     ) {
-        $this->stringFormatConverter = $stringFormatConverter;
         $this->typeCastersCollector = $typeCastersCollector;
+        $this->parameterValueResolver = $parameterValueResolver;
     }
 
     /**
@@ -38,20 +37,12 @@ final class ClassConstructorValuesResolver
         $parameterReflections = $constructorMethodReflection->getParameters();
 
         foreach ($parameterReflections as $parameterReflection) {
-            $propertyKey = $parameterReflection->name;
-            $value = $this->getParameterValue($propertyKey, $data);
+            $value = $this->parameterValueResolver->getValue($parameterReflection, $data);
 
             $arguments[] = $this->typeCastersCollector->retype($value, $parameterReflection, $this);
         }
 
         return $arguments;
-    }
-
-    private function getParameterValue(string $parameterName, array $data)
-    {
-        $underscoreParameterName = $this->stringFormatConverter->camelCaseToUnderscore($parameterName);
-
-        return $data[$parameterName] ?? $data[$underscoreParameterName] ?? '';
     }
 
     private function getConstructorMethodReflection(string $class): ReflectionMethod
