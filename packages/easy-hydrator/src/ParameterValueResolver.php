@@ -4,10 +4,9 @@ namespace Symplify\EasyHydrator;
 
 use ReflectionParameter;
 use Symplify\EasyHydrator\Exception\MissingDataException;
-use Symplify\EasyHydrator\ParameterValueGetter\ParameterValueGetterInterface;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
-final class ParameterValueResolver implements ParameterValueGetterInterface
+final class ParameterValueResolver
 {
     /**
      * @var StringFormatConverter
@@ -46,7 +45,7 @@ final class ParameterValueResolver implements ParameterValueGetterInterface
         throw new MissingDataException(sprintf(
             'Missing data of "$%s" parameter for hydrated class "%s" __construct method.',
             $parameterName,
-            $declaringClassReflection ? $declaringClassReflection->getName() : ''
+            $declaringClassReflection !== null ? $declaringClassReflection->getName() : ''
         ));
     }
 }
