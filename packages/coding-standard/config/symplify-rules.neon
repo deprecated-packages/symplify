@@ -280,6 +280,10 @@ services:
         class: Symplify\CodingStandard\Rules\CheckTraitMethodOnlyDelegateOtherClassRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenMethodCallOnNewRule
+        tags: [phpstan.rules.rule]
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
