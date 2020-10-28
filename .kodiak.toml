@@ -4,3 +4,5 @@ version = 1
 
 merge.delete_branch_on_merge = true
 merge.method = "squash"
+
+approve.auto_approve_usernames = ["TomasVotruba"]
