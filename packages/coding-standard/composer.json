@@ -11,8 +11,8 @@
         "slevomat/coding-standard": "^6.4",
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpstan/phpstan": "^0.12.40",
-        "symplify/package-builder": "^8.4",
         "symplify/symplify-kernel": "^8.4",
+        "symplify/package-builder": "^8.4",
         "symplify/autowire-array-parameter": "^8.4"
     },
     "require-dev": {

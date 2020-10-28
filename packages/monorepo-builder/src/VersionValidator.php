@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder;
 
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\Merge\Configuration\ModifyingComposerJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\File;
-use Symplify\MonorepoBuilder\ValueObject\Section;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -18,7 +18,7 @@ final class VersionValidator
     /**
      * @var string[]
      */
-    private const SECTIONS = [Section::REQUIRE, Section::REQUIRE_DEV];
+    private const SECTIONS = [ComposerJsonSection::REQUIRE, ComposerJsonSection::REQUIRE_DEV];
 
     /**
      * @var JsonFileManager

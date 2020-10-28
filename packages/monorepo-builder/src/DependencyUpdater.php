@@ -6,7 +6,7 @@ namespace Symplify\MonorepoBuilder;
 
 use Nette\Utils\Strings;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
-use Symplify\MonorepoBuilder\ValueObject\Section;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DependencyUpdater
@@ -33,9 +33,9 @@ final class DependencyUpdater
         foreach ($smartFileInfos as $packageComposerFileInfo) {
             $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFileInfo);
 
-            $json = $this->processSectionWithPackages($json, $packageNames, $version, Section::REQUIRE);
+            $json = $this->processSectionWithPackages($json, $packageNames, $version, ComposerJsonSection::REQUIRE);
 
-            $json = $this->processSectionWithPackages($json, $packageNames, $version, Section::REQUIRE_DEV);
+            $json = $this->processSectionWithPackages($json, $packageNames, $version, ComposerJsonSection::REQUIRE_DEV);
 
             $this->jsonFileManager->saveJsonWithFileInfo($json, $packageComposerFileInfo);
         }
@@ -52,9 +52,9 @@ final class DependencyUpdater
         foreach ($smartFileInfos as $packageComposerFileInfo) {
             $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFileInfo);
 
-            $json = $this->processSection($json, $vendor, $version, Section::REQUIRE);
+            $json = $this->processSection($json, $vendor, $version, ComposerJsonSection::REQUIRE);
 
-            $json = $this->processSection($json, $vendor, $version, Section::REQUIRE_DEV);
+            $json = $this->processSection($json, $vendor, $version, ComposerJsonSection::REQUIRE_DEV);
 
             $this->jsonFileManager->saveJsonWithFileInfo($json, $packageComposerFileInfo);
         }

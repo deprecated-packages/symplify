@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Symplify\ComposerJsonManipulator\FileSystem;
 
 use Nette\Utils\Json;
-use Nette\Utils\Strings;
+use Symplify\ComposerJsonManipulator\Json\JsonCleaner;
+use Symplify\ComposerJsonManipulator\Json\JsonInliner;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
-use Symplify\ComposerJsonManipulator\ValueObject\Option;
 use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -19,25 +18,28 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class JsonFileManager
 {
     /**
-     * @var string
-     * @see https://regex101.com/r/jhWo9g/1
-     */
-    private const SPACE_REGEX = '#\s+#';
-
-    /**
-     * @var string[]
-     */
-    private $inlineSections = [];
-
-    /**
      * @var SmartFileSystem
      */
     private $smartFileSystem;
 
-    public function __construct(SmartFileSystem $smartFileSystem, ParameterProvider $parameterProvider)
-    {
+    /**
+     * @var JsonCleaner
+     */
+    private $jsonCleaner;
+
+    /**
+     * @var JsonInliner
+     */
+    private $jsonInliner;
+
+    public function __construct(
+        SmartFileSystem $smartFileSystem,
+        JsonCleaner $jsonCleaner,
+        JsonInliner $jsonInliner
+    ) {
         $this->smartFileSystem = $smartFileSystem;
-        $this->inlineSections = $parameterProvider->provideArrayParameter(Option::INLINE_SECTIONS);
+        $this->jsonCleaner = $jsonCleaner;
+        $this->jsonInliner = $jsonInliner;
     }
 
     /**
@@ -61,16 +63,20 @@ final class JsonFileManager
     /**
      * @param mixed[] $json
      */
-    public function saveJsonWithFileInfo(array $json, SmartFileInfo $smartFileInfo): void
+    public function saveJsonWithFileInfo(array $json, SmartFileInfo $smartFileInfo): string
     {
-        $jsonString = $this->encodeJsonToFileContent($json, $this->inlineSections);
+        $jsonString = $this->encodeJsonToFileContent($json);
         $this->smartFileSystem->dumpFile($smartFileInfo->getPathname(), $jsonString);
+
+        return $jsonString;
     }
 
-    public function saveComposerJsonToFilePath(ComposerJson $composerJson, string $filePath): void
+    public function saveComposerJsonToFilePath(ComposerJson $composerJson, string $filePath): string
     {
-        $jsonString = $this->encodeJsonToFileContent($composerJson->getJsonArray(), $this->inlineSections);
+        $jsonString = $this->encodeJsonToFileContent($composerJson->getJsonArray());
         $this->smartFileSystem->dumpFile($filePath, $jsonString);
+
+        return $jsonString;
     }
 
     public function saveComposerJsonWithFileInfo(ComposerJson $composerJson, SmartFileInfo $smartFileInfo): void
@@ -80,46 +86,13 @@ final class JsonFileManager
 
     /**
      * @param mixed[] $json
-     * @param string[] $inlineSections
      */
-    public function encodeJsonToFileContent(array $json, array $inlineSections = []): string
+    public function encodeJsonToFileContent(array $json): string
     {
         // Empty arrays may lead to bad encoding since we can't be sure whether they need to be arrays or objects.
-        $json = $this->removeEmptyKeysFromJsonArray($json);
+        $json = $this->jsonCleaner->removeEmptyKeysFromJsonArray($json);
         $jsonContent = Json::encode($json, Json::PRETTY) . StaticEolConfiguration::getEolChar();
 
-        foreach ($inlineSections as $inlineSection) {
-            $pattern = '#("' . preg_quote($inlineSection, '#') . '": )\[(.*?)\](,)#ms';
-
-            $jsonContent = Strings::replace($jsonContent, $pattern, function (array $match): string {
-                $inlined = Strings::replace($match[2], self::SPACE_REGEX, ' ');
-                $inlined = trim($inlined);
-                $inlined = '[' . $inlined . ']';
-
-                return $match[1] . $inlined . $match[3];
-            });
-        }
-
-        return $jsonContent;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function removeEmptyKeysFromJsonArray(array $json): array
-    {
-        foreach ($json as $key => $value) {
-            if (! is_array($value)) {
-                continue;
-            }
-
-            if (count($value) === 0) {
-                unset($json[$key]);
-            } else {
-                $json[$key] = $this->removeEmptyKeysFromJsonArray($value);
-            }
-        }
-
-        return $json;
+        return $this->jsonInliner->inlineSections($jsonContent);
     }
 }

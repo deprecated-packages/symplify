@@ -6,6 +6,7 @@ namespace Symplify\ComposerJsonManipulator;
 
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -100,8 +101,8 @@ final class ComposerJsonFactory
             $composerJson->setPreferStable($jsonArray['prefer-stable']);
         }
 
-        if (isset($jsonArray['repositories'])) {
-            $composerJson->setRepositories($jsonArray['repositories']);
+        if (isset($jsonArray[ComposerJsonSection::REPOSITORIES])) {
+            $composerJson->setRepositories($jsonArray[ComposerJsonSection::REPOSITORIES]);
         }
 
         $orderedKeys = array_keys($jsonArray);

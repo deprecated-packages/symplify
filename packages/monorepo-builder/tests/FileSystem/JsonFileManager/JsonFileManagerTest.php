@@ -24,7 +24,9 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernel(MonorepoBuilderKernel::class);
+        $this->bootKernelWithConfigs(MonorepoBuilderKernel::class, [
+            __DIR__ . '/config/inlined_section_config.php',
+        ]);
 
         $this->jsonFileManager = self::$container->get(JsonFileManager::class);
         $this->smartFileSystem = self::$container->get(SmartFileSystem::class);
@@ -63,7 +65,7 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
         $fileContent = $this->jsonFileManager->encodeJsonToFileContent([
             'inline_section' => [1, 2, 3],
             'normal_section' => [1, 2, 3],
-        ], ['inline_section']);
+        ]);
 
         $this->assertStringEqualsFile(__DIR__ . '/Source/expected-inlined.json', $fileContent);
     }

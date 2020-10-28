@@ -6,6 +6,7 @@
         "php": ">=7.2",
         "phpunit/phpunit": "^8.5|^9.0",
         "symplify/easy-coding-standard": "^8.4",
+        "symplify/skipper": "^8.4",
         "symplify/package-builder": "^8.4",
         "symplify/easy-testing": "^8.4",
         "symplify/smart-file-system": "^8.4"

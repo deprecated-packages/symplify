@@ -40,17 +40,19 @@ jobs:
                 with:
                     php-version: 7.3
                     coverage: none
+                    # possibly fixes
+                    tools: composer:v1
 
             -   run: composer --version
 
-            -   run: |
-                    composer update --no-progress --ansi
-                    packages/monorepo-builder/bin/monorepo-builder localize-composer-paths --ansi
-            -
-                run: |
-                    cd packages/${{ matrix.package_name }}
-                    composer update --no-progress --ansi
+            -   run: composer update --no-progress --ansi
 
-            -   run: |
-                    cd packages/${{ matrix.package_name }}
-                    vendor/bin/phpunit
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.package_name }}/composer.json --ansi
+
+            -
+                working-directory: packages/${{ matrix.package_name }}
+                run: composer update --no-progress --ansi
+
+            -
+                working-directory: packages/${{ matrix.package_name }}
+                run: vendor/bin/phpunit

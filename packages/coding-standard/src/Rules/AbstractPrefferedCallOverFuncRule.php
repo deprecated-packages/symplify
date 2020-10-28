@@ -52,7 +52,7 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
             return false;
         }
 
-        $declaringClass = $function->getDeclaringClass();
-        return $declaringClass->getName() === $class;
+        $classReflection = $function->getDeclaringClass();
+        return $classReflection->getName() === $class;
     }
 }

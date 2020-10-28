@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Testing\ComposerJson;
 
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Testing\PathResolver\PackagePathResolver;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -41,7 +42,7 @@ final class ComposerJsonSymlinker
     ): array {
         // @see https://getcomposer.org/doc/05-repositories.md#path
         foreach ($packageNames as $packageName) {
-            $usedPackageFileInfo = $this->composerJsonProvider->getPackageByName($packageName);
+            $usedPackageFileInfo = $this->composerJsonProvider->getPackageFileInfoByName($packageName);
 
             $relativePathToLocalPackage = $this->packagePathResolver->resolveRelativePathToLocalPackage(
                 $mainComposerJsonFileInfo,
@@ -55,16 +56,24 @@ final class ComposerJsonSymlinker
                 'options' => [
                     'symlink' => false,
                 ],
+
                 // since composer 2.0 - see https://getcomposer.org/doc/articles/repository-priorities.md#default-behavior
-                'canonical' => false,
+                'canonical' => true,
             ];
 
-            if (array_key_exists('repositories', $packageComposerJson)) {
-                array_unshift($packageComposerJson['repositories'], $repositoriesContent);
+            if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
+                array_unshift($packageComposerJson[ComposerJsonSection::REPOSITORIES], $repositoriesContent);
             } else {
-                $packageComposerJson['repositories'][] = $repositoriesContent;
+                $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = $repositoriesContent;
             }
         }
+
+        // https://getcomposer.org/doc/articles/repository-priorities.md#filtering-packages - do not required 3rd party "<your_vendor>/*" packages from packagist - use local version with priority
+        $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = [
+            'type' => 'composer',
+            'url' => 'https://packagist.org',
+            'exclude' => $packageNames,
+        ];
 
         return $packageComposerJson;
     }

@@ -319,3 +319,5 @@ parameters:
             paths:
                 - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 22
                 - packages/skipper/src/Skipper/Skipper.php
+
+        - '#Property Symplify\\Skipper\\ValueObject\\SkipRules\:\:\$skippedClasses \(array<string, array<string\>\|null\>\) does not accept array<string\>#'
