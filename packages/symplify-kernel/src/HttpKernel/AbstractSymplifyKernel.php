@@ -60,6 +60,7 @@ abstract class AbstractSymplifyKernel extends Kernel implements ExtraConfigAware
 
     private function getUniqueKernelHash(): string
     {
-        return (new KernelUniqueHasher())->hashKernelClass(static::class);
+        $kernelUniqueHasher = new KernelUniqueHasher();
+        return $kernelUniqueHasher->hashKernelClass(static::class);
     }
 }
