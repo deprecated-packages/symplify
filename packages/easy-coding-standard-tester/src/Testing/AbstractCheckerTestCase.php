@@ -117,7 +117,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
             $phpConfigContent = $this->getYamlToPhpConverter()
                 ->convertYamlArray($servicesConfiguration);
 
-            (new SmartFileSystem())->dumpFile($configFileTempPath, $phpConfigContent);
+            $smartFileSystem = new SmartFileSystem();
+            $smartFileSystem->dumpFile($configFileTempPath, $phpConfigContent);
 
             return $configFileTempPath;
         }
@@ -258,7 +259,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     private function getValidatedConfigs(): array
     {
         $config = $this->provideConfig();
-        (new FileSystemGuard())->ensureFileExists($config, static::class);
+        $fileSystemGuard = new FileSystemGuard();
+        $fileSystemGuard->ensureFileExists($config, static::class);
 
         return [$config];
     }

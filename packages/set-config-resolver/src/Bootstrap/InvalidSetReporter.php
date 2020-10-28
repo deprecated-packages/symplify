@@ -18,7 +18,8 @@ final class InvalidSetReporter
 
     public function __construct()
     {
-        $this->symfonyStyle = (new SymfonyStyleFactory())->create();
+        $symfonyStyleFactory = new SymfonyStyleFactory();
+        $this->symfonyStyle = $symfonyStyleFactory->create();
     }
 
     public function report(SetNotFoundException $setNotFoundException): void

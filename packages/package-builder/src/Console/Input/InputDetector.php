@@ -10,6 +10,7 @@ final class InputDetector
 {
     public static function isDebug(): bool
     {
-        return (new ArgvInput())->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
+        $argvInput = new ArgvInput();
+        return $argvInput->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
     }
 }

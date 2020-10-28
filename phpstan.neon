@@ -335,3 +335,8 @@ parameters:
             message: '#Trait method assertDirectoryEquals should only delegate other class#'
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
+
+        -
+            message: '#Do not use factory/method call in constructor, put factory in config and get service with dependency injection#'
+            paths:
+                - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 22

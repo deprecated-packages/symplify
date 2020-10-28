@@ -56,6 +56,7 @@ final class AddTagToChangelogReleaseWorker implements ReleaseWorkerInterface
 
     private function createNewHeadline(Version $version): string
     {
-        return $version->getVersionString() . ' - ' . (new DateTime())->format('Y-m-d');
+        $dateTime = new DateTime();
+        return $version->getVersionString() . ' - ' . $dateTime->format('Y-m-d');
     }
 }

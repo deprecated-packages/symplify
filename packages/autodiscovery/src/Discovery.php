@@ -29,21 +29,34 @@ final class Discovery
 
     public function discoverTemplates(ContainerBuilder $containerBuilder): void
     {
-        (new TwigPathAutodiscoverer($containerBuilder, $this->autodiscoveryFinder))->autodiscover();
+        $twigPathAutodiscoverer = new TwigPathAutodiscoverer($containerBuilder, $this->autodiscoveryFinder);
+        $twigPathAutodiscoverer->autodiscover();
     }
 
     public function discoverEntityMappings(ContainerBuilder $containerBuilder): void
     {
-        (new DoctrineEntityMappingAutodiscoverer($containerBuilder, $this->autodiscoveryFinder))->autodiscover();
+        $doctrineEntityMappingAutodiscoverer = new DoctrineEntityMappingAutodiscoverer(
+            $containerBuilder,
+            $this->autodiscoveryFinder
+        );
+        $doctrineEntityMappingAutodiscoverer->autodiscover();
     }
 
     public function discoverTranslations(ContainerBuilder $containerBuilder): void
     {
-        (new TranslationPathAutodiscoverer($containerBuilder, $this->autodiscoveryFinder))->autodiscover();
+        $translationPathAutodiscoverer = new TranslationPathAutodiscoverer(
+            $containerBuilder,
+            $this->autodiscoveryFinder
+        );
+        $translationPathAutodiscoverer->autodiscover();
     }
 
     public function discoverRoutes(RouteCollectionBuilder $routeCollectionBuilder): void
     {
-        (new AnnotationRoutesAutodiscoverer($routeCollectionBuilder, $this->autodiscoveryFinder))->autodiscover();
+        $annotationRoutesAutodiscoverer = new AnnotationRoutesAutodiscoverer(
+            $routeCollectionBuilder,
+            $this->autodiscoveryFinder
+        );
+        $annotationRoutesAutodiscoverer->autodiscover();
     }
 }
