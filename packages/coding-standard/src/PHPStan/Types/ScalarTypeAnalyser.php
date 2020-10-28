@@ -48,7 +48,8 @@ final class ScalarTypeAnalyser
             return false;
         }
 
-        if (! $type->isSuperTypeOf(new NullType())->yes()) {
+        $nullSuperTypeTrinaryLogic = $type->isSuperTypeOf(new NullType());
+        if (! $nullSuperTypeTrinaryLogic->yes()) {
             return false;
         }
 

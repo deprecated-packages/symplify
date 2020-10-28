@@ -10,6 +10,7 @@ jobs:
     after_split_testing:
         runs-on: ubuntu-latest
         strategy:
+            fail-fast: false
             matrix:
                 package_name:
                     - autowire-array-parameter
@@ -29,6 +30,7 @@ jobs:
                     - easy-testing
                     - phpstan-extensions
                     - symfony-static-dumper
+                    - skipper
 
         name: Split Tests of ${{ matrix.package_name }}
 
@@ -38,17 +40,21 @@ jobs:
                 with:
                     php-version: 7.3
                     coverage: none
+                    # needs composer v2 to work in this setup
 
             -   run: composer --version
 
-            -   run: |
-                    composer update --no-progress --ansi
-                    packages/monorepo-builder/bin/monorepo-builder localize-composer-paths --ansi
-            -
-                run: |
-                    cd packages/${{ matrix.package_name }}
-                    composer update --no-progress --ansi
+            -   run: composer update --no-progress --ansi
 
-            -   run: |
-                    cd packages/${{ matrix.package_name }}
-                    vendor/bin/phpunit
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.package_name }}/composer.json --ansi
+
+            -
+                working-directory: packages/${{ matrix.package_name }}
+                run: composer update --no-progress --ansi
+                env:
+                    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+                    COMPOSER_ROOT_VERSION: "dev-master"
+
+            -
+                working-directory: packages/${{ matrix.package_name }}
+                run: vendor/bin/phpunit

@@ -40,16 +40,15 @@ final class PrefferedStaticCallOverFuncCallRule extends AbstractPrefferedCallOve
      */
     public function process(Node $node, Scope $scope): array
     {
-        $errorMessageParameters = $this->getErrorMessageParameters(
-            $node,
-            $scope,
-            $this->funcCallToPrefferedStaticCalls
-        );
-        if ($errorMessageParameters === []) {
-            return [];
+        foreach ($this->funcCallToPrefferedStaticCalls as $functionName => $staticCall) {
+            if (! $this->isFuncCallToCallMatch($node, $scope, $functionName, $staticCall)) {
+                continue;
+            }
+
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $staticCall[0], $staticCall[1], $functionName);
+            return [$errorMessage];
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, ...$errorMessageParameters);
-        return [$errorMessage];
+        return [];
     }
 }

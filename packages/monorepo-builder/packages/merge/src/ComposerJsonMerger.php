@@ -56,7 +56,7 @@ final class ComposerJsonMerger
      */
     public function mergeFileInfos(array $composerPackageFileInfos): ComposerJson
     {
-        $mainComposerJson = new ComposerJson();
+        $mainComposerJson = $this->composerJsonFactory->createFromArray([]);
         foreach ($composerPackageFileInfos as $packageFileInfo) {
             $packageComposerJson = $this->composerJsonFactory->createFromFileInfo($packageFileInfo);
 

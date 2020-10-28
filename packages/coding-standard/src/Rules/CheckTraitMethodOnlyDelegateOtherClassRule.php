@@ -21,7 +21,7 @@ final class CheckTraitMethodOnlyDelegateOtherClassRule extends AbstractSymplifyR
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Trait method %s should only delegate other class';
+    public const ERROR_MESSAGE = 'Trait method "%s()" should not contain any logic, but only delegate to other class call';
 
     /**
      * @var NodeFinder

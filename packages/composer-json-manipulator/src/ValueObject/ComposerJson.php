@@ -360,7 +360,7 @@ final class ComposerJson
         }
 
         if ($this->repositories !== []) {
-            $array['repositories'] = $this->repositories;
+            $array[ComposerJsonSection::REPOSITORIES] = $this->repositories;
         }
 
         if ($this->extra !== []) {

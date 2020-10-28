@@ -157,8 +157,8 @@ final class DumpMergesCommand extends Command
             $inCategories,
             $inPackages
         );
-        $dryRun = $input->getOption(Option::DRY_RUN);
 
+        $dryRun = $input->getOption(Option::DRY_RUN);
         if ((bool) $dryRun) {
             $this->symfonyStyle->writeln($content);
 

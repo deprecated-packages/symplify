@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Rules;
 
-use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
@@ -31,42 +30,29 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
     }
 
     /**
-     * @param FuncCall $node
-     * @param array<string, string[]> $funcCallToPrefferedCalls
-     * @return string[]
+     * @param string[] $call
      */
-    protected function getErrorMessageParameters(Node $node, Scope $scope, array $funcCallToPrefferedCalls): array
+    protected function isFuncCallToCallMatch(FuncCall $funcCall, Scope $scope, string $functionName, array $call): bool
     {
-        foreach ($funcCallToPrefferedCalls as $funcCall => $call) {
-            if (! $this->nodeNameResolver->isName($node->name, $funcCall)) {
-                return [];
-            }
-
-            if ($this->isInDesiredMethod($scope, $call)) {
-                return [];
-            }
-
-            return [$call[0], $call[1], $funcCall];
+        if (! $this->nodeNameResolver->isName($funcCall->name, $functionName)) {
+            return false;
         }
 
-        return [];
+        return ! $this->isInDesiredMethod($scope, $call[0], $call[1]);
     }
 
-    /**
-     * @param string[] $staticCall
-     */
-    private function isInDesiredMethod(Scope $scope, array $staticCall): bool
+    private function isInDesiredMethod(Scope $scope, string $class, string $method): bool
     {
         $function = $scope->getFunction();
         if (! $function instanceof MethodReflection) {
             return false;
         }
 
-        if ($function->getName() !== $staticCall[1]) {
+        if ($function->getName() !== $method) {
             return false;
         }
 
         $classReflection = $function->getDeclaringClass();
-        return $classReflection->getName() === $staticCall[0];
+        return $classReflection->getName() === $class;
     }
 }

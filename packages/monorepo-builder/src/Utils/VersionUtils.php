@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder\Utils;
 
 use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\MonorepoBuilder\ValueObjectFactory\VersionFactory;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
@@ -18,9 +19,15 @@ final class VersionUtils
      */
     private $packageAliasFormat;
 
-    public function __construct(ParameterProvider $parameterProvider)
+    /**
+     * @var VersionFactory
+     */
+    private $versionFactory;
+
+    public function __construct(ParameterProvider $parameterProvider, VersionFactory $versionFactory)
     {
         $this->packageAliasFormat = $parameterProvider->provideStringParameter(Option::PACKAGE_ALIAS_FORMAT);
+        $this->versionFactory = $versionFactory;
     }
 
     /**
@@ -74,7 +81,7 @@ final class VersionUtils
     private function normalizeVersion($version): Version
     {
         if (is_string($version)) {
-            return new Version($version);
+            return $this->versionFactory->create($version);
         }
 
         return $version;

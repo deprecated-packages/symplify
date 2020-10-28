@@ -8,6 +8,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle;
+use Symplify\ConsoleColorDiff\ConsoleColorDiffBundle;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
@@ -27,7 +28,7 @@ final class MonorepoBuilderKernel extends AbstractSymplifyKernel
      */
     public function registerBundles(): iterable
     {
-        return [new ComposerJsonManipulatorBundle(), new SymplifyKernelBundle()];
+        return [new ComposerJsonManipulatorBundle(), new SymplifyKernelBundle(), new ConsoleColorDiffBundle()];
     }
 
     protected function build(ContainerBuilder $containerBuilder): void
