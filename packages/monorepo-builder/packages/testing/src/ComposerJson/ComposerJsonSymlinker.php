@@ -68,13 +68,6 @@ final class ComposerJsonSymlinker
             }
         }
 
-        // https://getcomposer.org/doc/articles/repository-priorities.md#filtering-packages - do not required 3rd party "<your_vendor>/*" packages from packagist - use local version with priority
-//        $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = [
-//            'type' => 'composer',
-//            'url' => 'https://packagist.org',
-//            'exclude' => $packageNames,
-//        ];
-
         return $packageComposerJson;
     }
 }

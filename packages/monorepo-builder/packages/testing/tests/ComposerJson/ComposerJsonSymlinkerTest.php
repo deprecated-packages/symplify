@@ -59,11 +59,6 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
                 [
                     'packagist.org' => false,
                 ],
-//                [
-//                    'type' => 'composer',
-//                    'url' => 'https://packagist.org',
-//                    'exclude' => ['example/package-two'],
-//                ],
             ],
         ], $packageComposerJson);
     }
@@ -90,13 +85,7 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
                     'options' => [
                         'symlink' => false,
                     ],
-                    //                    'canonical' => true,
                 ],
-//                [
-//                    'type' => 'composer',
-//                    'url' => 'https://packagist.org',
-//                    'exclude' => ['example/package-one'],
-//                ],
             ],
         ], $packageComposerJson);
     }
