@@ -40,8 +40,6 @@ jobs:
                 with:
                     php-version: 7.3
                     coverage: none
-                    # possibly fixes
-                    tools: composer:v1
 
             -   run: composer --version
 

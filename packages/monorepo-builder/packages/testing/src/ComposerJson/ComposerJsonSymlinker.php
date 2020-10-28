@@ -58,7 +58,7 @@ final class ComposerJsonSymlinker
                 ],
 
                 // since composer 2.0 - see https://getcomposer.org/doc/articles/repository-priorities.md#default-behavior
-                'canonical' => true,
+                // 'canonical' => true,
             ];
 
             if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
@@ -69,11 +69,11 @@ final class ComposerJsonSymlinker
         }
 
         // https://getcomposer.org/doc/articles/repository-priorities.md#filtering-packages - do not required 3rd party "<your_vendor>/*" packages from packagist - use local version with priority
-        $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = [
-            'type' => 'composer',
-            'url' => 'https://packagist.org',
-            'exclude' => $packageNames,
-        ];
+//        $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = [
+//            'type' => 'composer',
+//            'url' => 'https://packagist.org',
+//            'exclude' => $packageNames,
+//        ];
 
         return $packageComposerJson;
     }

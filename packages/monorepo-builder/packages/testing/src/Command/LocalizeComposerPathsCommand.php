@@ -48,13 +48,13 @@ final class LocalizeComposerPathsCommand extends Command
     public function __construct(
         ComposerJsonProvider $composerJsonProvider,
         SymfonyStyle $symfonyStyle,
-        ComposerJsonRequireUpdater $composerJsonUpdater,
+        ComposerJsonRequireUpdater $composerJsonRequireUpdater,
         ComposerJsonRepositoriesUpdater $composerJsonRepositoriesUpdater,
         FileSystemGuard $fileSystemGuard
     ) {
         $this->composerJsonProvider = $composerJsonProvider;
         $this->symfonyStyle = $symfonyStyle;
-        $this->composerJsonRequireUpdater = $composerJsonUpdater;
+        $this->composerJsonRequireUpdater = $composerJsonRequireUpdater;
         $this->fileSystemGuard = $fileSystemGuard;
 
         parent::__construct();
