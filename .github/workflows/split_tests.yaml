@@ -40,11 +40,12 @@ jobs:
                 with:
                     php-version: 7.3
                     coverage: none
-                    # needs composer v2 to work in this setup
+                    tools: composer:v2
 
-            -   run: composer --version
+            # composer install cache - https://github.com/ramsey/composer-install
+            -   uses: "ramsey/composer-install@v1"
 
-            -   run: composer update --no-progress --ansi
+            -   run: composer install --no-progress --ansi
 
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.package_name }}/composer.json --ansi
 

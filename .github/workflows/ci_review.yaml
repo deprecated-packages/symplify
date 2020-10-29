@@ -36,7 +36,10 @@ jobs:
                 with:
                     php-version: 7.4
                     coverage: none
-                    tools: composer:v1
+                    tools: composer:v2
+
+            # composer install cache - https://github.com/ramsey/composer-install
+            -   uses: "ramsey/composer-install@v1"
 
             -   run: composer install --no-progress --ansi
 
