@@ -284,6 +284,13 @@ services:
         class: Symplify\CodingStandard\Rules\ForbiddenMethodCallOnNewRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\RequireNewArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByNewByType:
+                Symfony\Component\Console\Input\InputOption: [0, 2]
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem

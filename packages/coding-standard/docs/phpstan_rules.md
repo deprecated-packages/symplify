@@ -2598,6 +2598,50 @@ class SomeClass
 
 <br>
 
+## Defined New Argument should be Always Constant Value
+
+- class: [`RequireNewArgumentConstantRule`](../src/Rules/RequireNewArgumentConstantRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\RequireNewArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByNewByType:
+                Symfony\Component\Console\Input\InputOption: [0, 2]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+use Symfony\Component\Console\Input\InputOption;
+
+new InputOption('config', 'c', 2, 'Config file');
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+use Rector\Core\Configuration\Option;
+use Symfony\Component\Console\Input\InputOption;
+
+new InputOption(Option::OPTION_DEBUG, 'c', InputOption::VALUE_REQUIRED, 'Config file');
+```
+
+:+1:
+
+<br>
+
 ## Require @see annotation to class Test case by Type
 
 - class: [`SeeAnnotationToTestRule`](../src/Rules/SeeAnnotationToTestRule.php)
