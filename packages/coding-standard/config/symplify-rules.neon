@@ -289,7 +289,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             constantArgByNewByType:
-                Symfony\Component\Console\Input\InputOption: [2]
+                Symfony\Component\Console\Input\InputOption: [0, 2]
 
     # services
     - PhpParser\NodeFinder
