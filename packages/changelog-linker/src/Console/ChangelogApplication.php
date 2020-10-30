@@ -56,7 +56,9 @@ final class ChangelogApplication extends AbstractSymplifyConsoleApplication
         );
 
         // adds "--config" | "-c" option
-        $inputDefinition->addOption(new InputOption(RectorOption::OPTION_CONFIG, 'c', InputOption::VALUE_REQUIRED, 'Config file'));
+        $inputDefinition->addOption(
+            new InputOption(RectorOption::OPTION_CONFIG, 'c', InputOption::VALUE_REQUIRED, 'Config file')
+        );
 
         return $inputDefinition;
     }

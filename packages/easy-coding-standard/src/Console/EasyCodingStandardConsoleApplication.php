@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console;
 
-use Rector\Core\Configuration\Option as RectorOption;
 use Composer\XdebugHandler\XdebugHandler;
+use Rector\Core\Configuration\Option as RectorOption;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -91,7 +91,9 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
             'Allow running xdebug'
         ));
 
-        $inputDefinition->addOption(new InputOption(RectorOption::OPTION_SET, 's', InputOption::VALUE_REQUIRED, 'Load provided set'));
+        $inputDefinition->addOption(
+            new InputOption(RectorOption::OPTION_SET, 's', InputOption::VALUE_REQUIRED, 'Load provided set')
+        );
 
         $inputDefinition->addOption(new InputOption(
             RectorOption::OPTION_DEBUG,
