@@ -2610,7 +2610,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             constantArgByNewByType:
-                Symfony\Component\Console\Input\InputOption: [2]
+                Symfony\Component\Console\Input\InputOption: [0, 2]
 ```
 
 ```php
@@ -2634,7 +2634,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Console\Input\InputOption;
 
-new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Config file');
+new InputOption(Option::OPTION_DEBUG, 'c', InputOption::VALUE_REQUIRED, 'Config file');
 ```
 
 :+1:
