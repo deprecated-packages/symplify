@@ -21,7 +21,10 @@ final class RequireNewArgumentConstantRuleTest extends AbstractServiceAwareRuleT
 
     public function provideData(): Iterator
     {
-        return yield [__DIR__ . '/Fixture/SkippedInstance.php', []];
+        yield [__DIR__ . '/Fixture/SkippedInstance.php', []];
+        yield [__DIR__ . '/Fixture/InputOptionInstance.php', [
+            [sprintf(RequireNewArgumentConstantRule::ERROR_MESSAGE, 2), 9]
+        ]];
     }
 
     protected function getRule(): Rule

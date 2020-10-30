@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
+use PhpParser\Node\Stmt\Class_;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\RequireNewArgumentConstantRule\RequireNewArgumentConstantRuleTest
@@ -49,6 +50,16 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        $class = $node->class;
+        if (! $class instanceof Class_) {
+            return [];
+        }
+
+        $namespacedName = $class->namespacedName;
+        if (! in_array($namespacedName->toString(), array_keys($this->constantArgByNewByType), true)) {
+            return [];
+        }
+
         return [];
     }
 }
