@@ -17,9 +17,7 @@ final class TypeCastersCollector
      */
     public function __construct(array $typeCasters)
     {
-        $this->sortCastersByPriority(...$typeCasters);
-
-        $this->typeCasters = $typeCasters;
+        $this->typeCasters = $this->sortCastersByPriority($typeCasters);
     }
 
     /**
@@ -39,10 +37,16 @@ final class TypeCastersCollector
         return $value;
     }
 
-    private function sortCastersByPriority(TypeCasterInterface ...$typeCaster): void
+    /**
+     * @param TypeCasterInterface[] $typeCasters
+     * @return TypeCasterInterface[]
+     */
+    private function sortCastersByPriority(array $typeCasters): array
     {
-        usort($typeCaster, static function (TypeCasterInterface $a, TypeCasterInterface $b): int {
+        usort($typeCasters, static function (TypeCasterInterface $a, TypeCasterInterface $b): int {
             return $a->getPriority() <=> $b->getPriority();
         });
+
+        return $typeCasters;
     }
 }
