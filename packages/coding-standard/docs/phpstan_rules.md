@@ -2632,6 +2632,7 @@ new InputOption('config', 'c', 2, 'Config file');
 
 declare(strict_types=1);
 
+use Rector\Core\Configuration\Option;
 use Symfony\Component\Console\Input\InputOption;
 
 new InputOption(Option::OPTION_DEBUG, 'c', InputOption::VALUE_REQUIRED, 'Config file');
