@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -47,13 +48,22 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $class = $node->class;
-        if (! $class instanceof Class_) {
+        if (! $class instanceof FullyQualified) {
             return [];
         }
 
-        $namespacedName = $class->namespacedName;
-        if (! in_array($namespacedName->toString(), array_keys($this->constantArgByNewByType), true)) {
+        $className = $class->toString();
+        if (! in_array($className, array_keys($this->constantArgByNewByType), true)) {
             return [];
+        }
+
+        $args = $node->args;
+        $positions = $this->constantArgByNewByType[$className];
+
+        foreach ($positions as $position) {
+            if ($args[$position]->value instanceof ClassConstFetch) {
+                return [sprintf(self::ERROR_MESSAGE, $position)];
+            }
         }
 
         return [];
