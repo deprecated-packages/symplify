@@ -61,7 +61,7 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule
         $positions = $this->constantArgByNewByType[$className];
 
         foreach ($positions as $position) {
-            if ($args[$position]->value instanceof ClassConstFetch) {
+            if (! $args[$position]->value instanceof ClassConstFetch) {
                 return [sprintf(self::ERROR_MESSAGE, $position)];
             }
         }
