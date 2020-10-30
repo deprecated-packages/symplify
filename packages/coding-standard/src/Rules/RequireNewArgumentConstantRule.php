@@ -53,7 +53,7 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule
         }
 
         $className = $class->toString();
-        if (! in_array($className, array_keys($this->constantArgByNewByType), true)) {
+        if (! array_key_exists($className, $this->constantArgByNewByType)) {
             return [];
         }
 
