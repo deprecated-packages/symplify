@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Identifier;
-use PHPStan\Analyser\Scope;
 use PhpParser\Node\Stmt\Class_;
+use PHPStan\Analyser\Scope;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\RequireNewArgumentConstantRule\RequireNewArgumentConstantRuleTest
