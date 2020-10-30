@@ -6,6 +6,8 @@ use Nette\Utils\Reflection;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\GenericTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Rector\SimplePhpDocParser\SimplePhpDocParser;
 use Rector\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 use ReflectionParameter;
@@ -90,6 +92,10 @@ final class ParameterTypeRecognizer
 
         $typeNode = $docNode->getParamType($reflectionParameter->getName());
 
+        if ($typeNode instanceof UnionTypeNode) {
+            $typeNode = $this->findFirstNonNullNodeType($typeNode);
+        }
+
         if ($typeNode instanceof ArrayTypeNode) {
             /** @var IdentifierTypeNode $identifierTypeNode */
             $identifierTypeNode = $typeNode->type;
@@ -106,6 +112,17 @@ final class ParameterTypeRecognizer
 
         if ($typeNode instanceof IdentifierTypeNode) {
             return Reflection::expandClassName($typeNode->name, $declaringClass);
+        }
+
+        return null;
+    }
+
+    private function findFirstNonNullNodeType(UnionTypeNode $typeNode): ?TypeNode
+    {
+        foreach ($typeNode->types as $innerType) {
+            if ((string) $innerType !== 'null') {
+                return $innerType;
+            }
         }
 
         return null;
