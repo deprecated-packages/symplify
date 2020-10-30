@@ -18,9 +18,6 @@ jobs:
         -
             name: Compile and Release ecs.phar
             if: (branch = master OR tag IS present) && type = push
-            before_install:
-                # autoload has changed on Composer 2 and is broken
-                - composer self-update --1
             script:
                 - cd packages/easy-coding-standard/compiler
 
@@ -53,9 +50,6 @@ jobs:
         -
             name: Compile and Release monorepo-builder.phar
             if: (branch = master OR tag IS present) && type = push
-            before_install:
-                # autoload has changed on Composer 2 and is broken
-                - composer self-update --1
             script:
                 - cd packages/monorepo-builder/compiler
 
