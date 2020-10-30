@@ -24,7 +24,7 @@ final class RequireNewArgumentConstantRuleTest extends AbstractServiceAwareRuleT
         yield [__DIR__ . '/Fixture/SkippedInstance.php', []];
         yield [__DIR__ . '/Fixture/InputOptionInstanceWithConstantParameter.php', []];
         yield [__DIR__ . '/Fixture/InputOptionInstanceWithNonConstantParameter.php', [
-            [sprintf(RequireNewArgumentConstantRule::ERROR_MESSAGE, 2), 9]
+            [sprintf(RequireNewArgumentConstantRule::ERROR_MESSAGE, 2), 9],
         ]];
     }
 
