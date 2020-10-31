@@ -30,7 +30,7 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
 
     /**
      * @param Arg|ClassMethod|Function_ $node
-     * @return string[]
+     * @return mixed[]|string[]
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -47,6 +47,7 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
 
     /**
      * @param ClassMethod|Function_ $node
+     * @return string[]
      */
     private function processParam(Node $node): array
     {
