@@ -6,7 +6,6 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
-use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -28,7 +27,7 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
     }
 
     /**
-     * @param ClassMethod $node
+     * @param Arg $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
