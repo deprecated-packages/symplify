@@ -30,12 +30,12 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
 
     /**
      * @param Arg|ClassMethod|Function_ $node
-     * @return mixed[]|string[]
+     * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node instanceof Arg) {
-            return $this->processParam($node);
+        if (! $node instanceof Arg && $this->hasVariadicParam($node)) {
+            return [self::ERROR_MESSAGE];
         }
 
         if ($node->unpack) {
@@ -47,17 +47,16 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
 
     /**
      * @param ClassMethod|Function_ $node
-     * @return string[]
      */
-    private function processParam(Node $node): array
+    private function hasVariadicParam(Node $node): bool
     {
         $params = $node->params;
         foreach ($params as $param) {
             if ($param->variadic) {
-                return [self::ERROR_MESSAGE];
+                return true;
             }
         }
 
-        return [];
+        return false;
     }
 }
