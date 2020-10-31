@@ -6,6 +6,8 @@ namespace Symplify\CodingStandard\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -23,19 +25,38 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Arg::class];
+        return [Arg::class, ClassMethod::class, Function_::class];
     }
 
     /**
-     * @param Arg $node
+     * @param Arg|ClassMethod|Function_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->unpack) {
-            return [];
+        if (! $node instanceof Arg) {
+            return $this->processParam($node);
         }
 
-        return [self::ERROR_MESSAGE];
+        if ($node->unpack) {
+            return [self::ERROR_MESSAGE];
+        }
+
+        return [];
+    }
+
+    /**
+     * @param ClassMethod|Function_ $node
+     */
+    private function processParam(Node $node): array
+    {
+        $params = $node->params;
+        foreach ($params as $param) {
+            if ($param->variadic) {
+                return [self::ERROR_MESSAGE];
+            }
+        }
+
+        return [];
     }
 }

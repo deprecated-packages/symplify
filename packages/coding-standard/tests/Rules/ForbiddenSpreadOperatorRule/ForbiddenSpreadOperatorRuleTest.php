@@ -23,6 +23,8 @@ final class ForbiddenSpreadOperatorRuleTest extends AbstractServiceAwareRuleTest
     {
         yield [__DIR__ . '/Fixture/NoSpreadOperator.php', []];
         yield [__DIR__ . '/Fixture/SpreadOperator.php', [[ForbiddenSpreadOperatorRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/SpreadOperatorAsMethodArg.php', [[ForbiddenSpreadOperatorRule::ERROR_MESSAGE, 9]]];
+        yield [__DIR__ . '/Fixture/SpreadOperatorAsFunctionArg.php', [[ForbiddenSpreadOperatorRule::ERROR_MESSAGE, 7]]];
     }
 
     protected function getRule(): Rule
