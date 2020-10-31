@@ -34,11 +34,11 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (($node instanceof ClassMethod || $node instanceof Function_) && $this->hasVariadicParam($node)) {
+        if ($node instanceof Arg && $node->unpack) {
             return [self::ERROR_MESSAGE];
         }
 
-        if ($node->unpack) {
+        if (($node instanceof ClassMethod || $node instanceof Function_) && $this->hasVariadicParam($node)) {
             return [self::ERROR_MESSAGE];
         }
 
