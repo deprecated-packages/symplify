@@ -80,7 +80,7 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
             'c',
             InputOption::VALUE_REQUIRED,
             'Path to config file.',
-            '(ecs|easy-coding-standard).php'
+            getcwd() . DIRECTORY_SEPARATOR . 'ecs.php'
         ));
 
         $inputDefinition->addOption(new InputOption(
@@ -89,10 +89,6 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
             InputOption::VALUE_NONE,
             'Allow running xdebug'
         ));
-
-        $inputDefinition->addOption(
-            new InputOption(Option::SET, 's', InputOption::VALUE_REQUIRED, 'Load provided set')
-        );
 
         $inputDefinition->addOption(new InputOption(
             Option::DEBUG,
