@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Symplify\SymfonyStaticDumper\HttpFoundation;
 
 use Psr\Container\ContainerInterface;
+use ReflectionMethod;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Route;
 use Symplify\SymfonyStaticDumper\Routing\ControllerMatcher;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
-use ReflectionMethod;
 
 final class ControllerContentResolver
 {
