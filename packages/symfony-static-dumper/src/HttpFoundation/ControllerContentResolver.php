@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\SymfonyStaticDumper\HttpFoundation;
 
 use Psr\Container\ContainerInterface;
+use ReflectionMethod;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,8 +60,10 @@ final class ControllerContentResolver
         if (! is_array($values)) {
             $values = [$values];
         }
+
+        $reflectionMethod = new ReflectionMethod($controller, $controllerCallable->getMethod());
         /** @var Response $response */
-        $response = call_user_func([$controller, $controllerCallable->getMethod()], ...$values);
+        $response = $reflectionMethod->invokeArgs($controller, $values);
 
         return (string) $response->getContent();
     }
@@ -83,8 +86,10 @@ final class ControllerContentResolver
             return strpos($key, '_') !== 0;
         }, ARRAY_FILTER_USE_KEY);
 
+        $reflectionMethod = new ReflectionMethod($controller, $controllerCallable->getMethod());
+        $defaultParamsValues = array_values($defaultParams);
         /** @var Response $response */
-        $response = call_user_func([$controller, $controllerCallable->getMethod()], ...array_values($defaultParams));
+        $response = $reflectionMethod->invokeArgs($controller, $defaultParamsValues);
 
         return (string) $response->getContent();
     }

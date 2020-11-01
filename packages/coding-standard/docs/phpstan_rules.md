@@ -2163,6 +2163,37 @@ class SomeClass
 
 <br>
 
+## Forbidden Spread Operator
+
+- class: [`ForbiddenSpreadOperatorRule`](../src/Rules/ForbiddenSpreadOperatorRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\ForbiddenSpreadOperatorRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+final class SpreadOperator
+{
+    public function __construct(array $args)
+    {
+        echo sprintf('%s', ...$args);
+    }
+}
+```
+
+:x:
+
+<br>
+
 ## Boolish Methods has to have is/has/was Name
 
 - class: [`BoolishClassMethodPrefixRule`](../src/Rules/BoolishClassMethodPrefixRule.php)

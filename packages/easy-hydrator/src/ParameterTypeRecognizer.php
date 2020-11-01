@@ -12,6 +12,9 @@ use Rector\SimplePhpDocParser\SimplePhpDocParser;
 use Rector\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 use ReflectionParameter;
 
+/**
+ * @see \Symplify\EasyHydrator\Tests\ParameterTypeRecognizerTest
+ */
 final class ParameterTypeRecognizer
 {
     /**
@@ -117,9 +120,9 @@ final class ParameterTypeRecognizer
         return null;
     }
 
-    private function findFirstNonNullNodeType(UnionTypeNode $typeNode): ?TypeNode
+    private function findFirstNonNullNodeType(UnionTypeNode $unionTypeNode): ?TypeNode
     {
-        foreach ($typeNode->types as $innerType) {
+        foreach ($unionTypeNode->types as $innerType) {
             if ((string) $innerType !== 'null') {
                 return $innerType;
             }

@@ -321,3 +321,11 @@ parameters:
                 - packages/skipper/src/Skipper/Skipper.php
 
         - '#Property Symplify\\Skipper\\ValueObject\\SkipRules\:\:\$skippedClasses \(array<string, array<string\>\|null\>\) does not accept array<string\>#'
+
+        -
+            message: '#Spread operator is not allowed#'
+            paths:
+                - packages/easy-hydrator/src/ArrayToValueObjectHydrator.php # 40
+                - packages/easy-hydrator/src/TypeCaster/ObjectTypeCaster.php # 78
+                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 141
+                - packages/package-builder/src/Reflection/PrivatesCaller.php # 19

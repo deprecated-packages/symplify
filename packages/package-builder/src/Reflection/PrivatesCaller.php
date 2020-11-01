@@ -25,7 +25,7 @@ final class PrivatesCaller
 
         $methodReflection = $this->createAccessibleMethodReflection($object, $methodName);
 
-        return $methodReflection->invoke($object, ...$arguments);
+        return $methodReflection->invokeArgs($object, $arguments);
     }
 
     /**
