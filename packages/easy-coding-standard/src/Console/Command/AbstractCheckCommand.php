@@ -129,7 +129,7 @@ abstract class AbstractCheckCommand extends Command
 
         throw new NoCheckersLoadedException(
             'No checkers were found. Register them in your config in "services:" '
-            . 'section, load them via "--config <file>.yml" or "--set <set>" option.'
+            . 'section, load them via "--config <file>.php" or "--set <set>" option.'
         );
     }
 }
