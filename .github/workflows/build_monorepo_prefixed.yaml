@@ -18,3 +18,7 @@ jobs:
             -   uses: "ramsey/composer-install@v1"
 
             -   run: composer install --no-progress --ansi
+
+            -   run: composer install --working-dir packages/monorepo-builder
+
+            -   run: vendor/bin/php-scoper add-prefix packages/monorepo-builder --output-dir packages-scoped/monorepo-builder --config packages/monorepo-builder/compiler/build/scoper.inc.php
