@@ -1,0 +1,20 @@
+name: Build Monorepo Prefixed
+
+on:
+    pull_request: null
+
+jobs:
+    build_monorepo_prefixed:
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.2
+                    coverage: none
+                    tools: composer:v2
+
+            # composer install cache - https://github.com/ramsey/composer-install
+            -   uses: "ramsey/composer-install@v1"
+
+            -   run: composer install --no-progress --ansi
