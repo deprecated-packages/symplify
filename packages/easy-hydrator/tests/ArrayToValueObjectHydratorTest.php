@@ -55,7 +55,7 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
         $this->assertSame('Tom', $person->getName());
     }
 
-    public function testRetypeStringToInteger(): void
+    public function testRetypes(): void
     {
         $personWithAge = $this->arrayToValueObjectHydrator->hydrateArray([
             'name' => 'John',
@@ -67,6 +67,22 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
 
         /** @var PersonWithAge $personWithAge */
         $this->assertSame(50, $personWithAge->getAge());
+
+        // retype scalar arrays
+        $data = [
+            'integers' => ['1', 2.0],
+            'floats' => ['1.1', 2],
+            'booleans' => ['true', '0'],
+            'strings' => [1, 2.2],
+        ];
+
+        /** @var Arrays $actual */
+        $actual = $this->arrayToValueObjectHydrator->hydrateArray($data, Arrays::class);
+
+        $this->assertSame([1, 2], $actual->getIntegers());
+        $this->assertSame([1.1, 2.0], $actual->getFloats());
+        $this->assertSame([true, false], $actual->getBooleans());
+        $this->assertSame(['1', '2.2'], $actual->getStrings());
     }
 
     public function testDateTimeImmutable(): void
