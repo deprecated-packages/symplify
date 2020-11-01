@@ -10,10 +10,13 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCodingStandard\Bootstrap\NoCheckersLoaderReporter;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
+use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\SymplifyKernel\Console\AbstractSymplifyConsoleApplication;
+use Throwable;
 
 final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsoleApplication
 {
@@ -23,14 +26,23 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
     private $configuration;
 
     /**
+     * @var NoCheckersLoaderReporter
+     */
+    private $noCheckersLoaderReporter;
+
+    /**
      * @param Command[] $commands
      */
-    public function __construct(Configuration $configuration, array $commands)
-    {
+    public function __construct(
+        Configuration $configuration,
+        NoCheckersLoaderReporter $noCheckersLoaderReporter,
+        array $commands
+    ) {
         parent::__construct('EasyCodingStandard', $configuration->getPrettyVersion());
 
         $this->configuration = $configuration;
         $this->addCommands($commands);
+        $this->noCheckersLoaderReporter = $noCheckersLoaderReporter;
     }
 
     public function doRun(InputInterface $input, OutputInterface $output): int
@@ -54,6 +66,16 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
         }
 
         return parent::doRun($input, $output);
+    }
+
+    public function renderThrowable(Throwable $throwable, OutputInterface $output): void
+    {
+        if (is_a($throwable, NoCheckersLoadedException::class)) {
+            $this->noCheckersLoaderReporter->report();
+            return;
+        }
+
+        parent::renderThrowable($throwable, $output);
     }
 
     protected function getDefaultInputDefinition(): InputDefinition

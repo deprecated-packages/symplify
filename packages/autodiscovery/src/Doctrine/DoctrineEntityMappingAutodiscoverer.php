@@ -112,14 +112,14 @@ final class DoctrineEntityMappingAutodiscoverer implements AutodiscovererInterfa
 
     /**
      * @param SmartFileInfo[] $smartFileInfos
-     * @return SmartFileInfo[][]
+     * @return array<string, SmartFileInfo[]>
      */
     private function groupFileInfosByDirectory(array $smartFileInfos): array
     {
         $filesByDirectory = [];
 
-        foreach ($smartFileInfos as $entityXmlFile) {
-            $filesByDirectory[$entityXmlFile->getPath()][] = $entityXmlFile;
+        foreach ($smartFileInfos as $entityXmlFileInfo) {
+            $filesByDirectory[$entityXmlFileInfo->getPath()][] = $entityXmlFileInfo;
         }
 
         return $filesByDirectory;

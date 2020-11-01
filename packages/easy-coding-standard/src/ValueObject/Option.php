@@ -9,11 +9,6 @@ class Option
     /**
      * @var string
      */
-    public const SOURCES = 'source';
-
-    /**
-     * @var string
-     */
     public const FIX = 'fix';
 
     /**
@@ -109,11 +104,6 @@ class Option
      * @var string
      */
     public const XDEBUG = 'xdebug';
-
-    /**
-     * @var string
-     */
-    public const SET = 'set';
 
     /**
      * @var string
