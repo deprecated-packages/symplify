@@ -44,9 +44,9 @@ final class PackageProvider
     public function provide(): array
     {
         $packages = [];
-        foreach ($this->composerJsonProvider->getPackagesComposerFileInfos() as $packageFileInfo) {
-            $packageName = $this->detectNameFromFileInfo($packageFileInfo);
-            $packages[] = new Package($packageName, $packageFileInfo);
+        foreach ($this->composerJsonProvider->getPackagesComposerFileInfos() as $packagesComposerFileInfo) {
+            $packageName = $this->detectNameFromFileInfo($packagesComposerFileInfo);
+            $packages[] = new Package($packageName, $packagesComposerFileInfo);
         }
 
         usort($packages, function (Package $firstPackage, Package $secondPackage): int {
