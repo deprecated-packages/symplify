@@ -104,4 +104,24 @@ class Option
      * @var string
      */
     public const MATCH_GIT_DIFF = 'match-git-diff';
+
+    /**
+     * @var string
+     */
+    public const XDEBUG = 'xdebug';
+
+    /**
+     * @var string
+     */
+    public const SET = 'set';
+
+    /**
+     * @var string
+     */
+    public const DEBUG = 'debug';
+
+    /**
+     * @var string
+     */
+    public const CONFIG = 'config';
 }

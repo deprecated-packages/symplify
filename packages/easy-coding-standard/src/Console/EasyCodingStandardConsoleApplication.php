@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Console;
 
 use Composer\XdebugHandler\XdebugHandler;
-use Rector\Core\Configuration\Option as RectorOption;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -77,7 +76,7 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
     private function addExtraOptions(InputDefinition $inputDefinition): void
     {
         $inputDefinition->addOption(new InputOption(
-            RectorOption::OPTION_CONFIG,
+            Option::CONFIG,
             'c',
             InputOption::VALUE_REQUIRED,
             'Path to config file.',
@@ -85,18 +84,18 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
         ));
 
         $inputDefinition->addOption(new InputOption(
-            RectorOption::XDEBUG,
+            Option::XDEBUG,
             null,
             InputOption::VALUE_NONE,
             'Allow running xdebug'
         ));
 
         $inputDefinition->addOption(
-            new InputOption(RectorOption::OPTION_SET, 's', InputOption::VALUE_REQUIRED, 'Load provided set')
+            new InputOption(Option::SET, 's', InputOption::VALUE_REQUIRED, 'Load provided set')
         );
 
         $inputDefinition->addOption(new InputOption(
-            RectorOption::OPTION_DEBUG,
+            Option::DEBUG,
             null,
             InputOption::VALUE_NONE,
             'Run in debug mode (alias for "-vvv")'
