@@ -27,7 +27,9 @@ jobs:
                     # see https://github.com/composer-unused/composer-unused
                     -
                         name: Unused Packages
-                        run: composer unused
+                        run: |
+                            comoser require icanhazstring/composer-unused --dev
+                            composer unused
 
                     -
                         name: Check Missing Split Test Directories
