@@ -12,18 +12,18 @@ use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
 abstract class AbstractChangeFactoryTest extends AbstractKernelTestCase
 {
     /**
+     * @var ChangeFactory
+     */
+    protected $changeFactory;
+
+    /**
      * @var mixed[]
      */
-    protected $pullRequest = [
+    private $pullRequest = [
         'number' => null,
         'title' => 'Blind title',
         'merge_commit_sha' => 'random',
     ];
-
-    /**
-     * @var ChangeFactory
-     */
-    protected $changeFactory;
 
     protected function setUp(): void
     {

@@ -101,7 +101,7 @@ final class YamlServiceProcessor
         // is in vendor?
         if (class_exists($class)) {
             $reflectionClass = new ReflectionClass($class);
-            if (Strings::match($reflectionClass->getFileName(), self::VENDOR_DIRECTORY_REGEX)) {
+            if (Strings::match((string) $reflectionClass->getFileName(), self::VENDOR_DIRECTORY_REGEX)) {
                 return true;
             }
         }

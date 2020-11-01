@@ -97,7 +97,10 @@
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
             "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src"
-        }
+        },
+        "files": [
+            "packages/package-builder/functions/service_polyfill.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [
@@ -184,7 +187,8 @@
         "rector": "vendor/bin/rector process --config rector-ci.php --dry-run --ansi",
         "sonar": "vendor/bin/easy-ci generate-sonar --ansi",
         "validate-monorepo": "packages/monorepo-builder/bin/monorepo-builder validate --ansi",
-        "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi"
+        "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi",
+        "prefix-monorepo-builder": "vendor/bin/php-scoper add-prefix packages/monorepo-builder --output-dir packages-scoped/monorepo-builder --config packages/monorepo-builder/compiler/build/scoper.inc.php"
     },
     "config": {
         "sort-packages": true

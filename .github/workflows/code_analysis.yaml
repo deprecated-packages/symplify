@@ -28,7 +28,7 @@ jobs:
                     -
                         name: Unused Packages
                         run: |
-                            comoser require icanhazstring/composer-unused --dev
+                            composer require icanhazstring/composer-unused --dev
                             composer unused
 
                     -
