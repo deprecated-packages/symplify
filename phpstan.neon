@@ -329,5 +329,3 @@ parameters:
                 - packages/easy-hydrator/src/TypeCaster/ObjectTypeCaster.php # 78
                 - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 141
                 - packages/package-builder/src/Reflection/PrivatesCaller.php # 19
-                - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 63
-                - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 87

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Route;
 use Symplify\SymfonyStaticDumper\Routing\ControllerMatcher;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
+use ReflectionMethod;
 
 final class ControllerContentResolver
 {
@@ -59,8 +60,10 @@ final class ControllerContentResolver
         if (! is_array($values)) {
             $values = [$values];
         }
+
+        $reflectionMethod = new ReflectionMethod($controller, $controllerCallable->getMethod());
         /** @var Response $response */
-        $response = call_user_func([$controller, $controllerCallable->getMethod()], ...$values);
+        $response = $reflectionMethod->invokeArgs($controller, $values);
 
         return (string) $response->getContent();
     }
@@ -83,8 +86,9 @@ final class ControllerContentResolver
             return strpos($key, '_') !== 0;
         }, ARRAY_FILTER_USE_KEY);
 
+        $reflectionMethod = new ReflectionMethod($controller, $controllerCallable->getMethod());
         /** @var Response $response */
-        $response = call_user_func([$controller, $controllerCallable->getMethod()], ...array_values($defaultParams));
+        $response = $reflectionMethod->invokeArgs($controller, array_values($defaultParams));
 
         return (string) $response->getContent();
     }
