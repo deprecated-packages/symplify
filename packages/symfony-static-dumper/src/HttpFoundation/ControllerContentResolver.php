@@ -87,8 +87,9 @@ final class ControllerContentResolver
         }, ARRAY_FILTER_USE_KEY);
 
         $reflectionMethod = new ReflectionMethod($controller, $controllerCallable->getMethod());
+        $defaultParamsValues = array_values($defaultParams);
         /** @var Response $response */
-        $response = $reflectionMethod->invokeArgs($controller, array_values($defaultParams));
+        $response = $reflectionMethod->invokeArgs($controller, $defaultParamsValues);
 
         return (string) $response->getContent();
     }
