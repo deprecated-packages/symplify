@@ -8,7 +8,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\ChangelogLinker\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -41,8 +40,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ;
 
     $services->set(ParametersMerger::class);
-
-    $services->set(ParameterProvider::class);
 
     $services->set(SymfonyStyleFactory::class);
 

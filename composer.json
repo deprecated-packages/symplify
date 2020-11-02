@@ -188,7 +188,12 @@
         "sonar": "vendor/bin/easy-ci generate-sonar --ansi",
         "validate-monorepo": "packages/monorepo-builder/bin/monorepo-builder validate --ansi",
         "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi",
-        "prefix-monorepo-builder": "vendor/bin/php-scoper add-prefix packages/monorepo-builder --output-dir packages-scoped/monorepo-builder --config packages/monorepo-builder/compiler/build/scoper.inc.php"
+        "prefix-monorepo-builder": [
+            "packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/monorepo-builder/composer.json",
+            "composer install --working-dir packages/monorepo-builder",
+            "vendor/bin/php-scoper add-prefix packages/monorepo-builder --output-dir packages-scoped/monorepo-builder --config packages/monorepo-builder/scoper.inc.php --force",
+            "composer dump-autoload --working-dir packages-scoped/monorepo-builder"
+        ]
     },
     "config": {
         "sort-packages": true

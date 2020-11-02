@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
@@ -34,6 +35,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(FileSystemGuard::class);
     $services->set(FileSystemFilter::class);
 
-    $services->set(ParameterProvider::class);
+    $services->set(ParameterProvider::class)
+        ->args([service_polyfill(ContainerInterface::class)]);
+
     $services->set(PrivatesAccessor::class);
 };

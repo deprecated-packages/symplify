@@ -39,9 +39,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(SymfonyStyleFactory::class);
 
+    $services->set(ParameterProvider::class);
+
     // Symfony 5.1+
     $services->set(SymfonyStyle::class)
         ->factory([service_polyfill(SymfonyStyleFactory::class), 'create']);
-
-    $services->set(ParameterProvider::class);
 };
