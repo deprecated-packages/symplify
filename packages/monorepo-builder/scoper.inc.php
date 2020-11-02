@@ -12,21 +12,6 @@ return [
         // these paths are relative to this file location, so it should be in the root directory
         'vendor/symfony/deprecation-contracts/function.php',
     ],
-//    'patchers' => [
-//        function (string $filePath, string $prefix, string $content): string {
-//            var_dump($content);
-//            die;
-//        }
-////            if ($filePath !== 'vendor/symfony/deprecation-contracts/function.php') {
-////                return $content;
-////            }
-////
-////            dump($content);
-////            die;
-////
-////            return preg_replace('#^namespace (.*?);$#', '', $content);
-////        }
-//    ],
     'whitelist' => [
         // needed for autoload, that is not prefixed, since it's in bin/* file
         'Symplify\*',
