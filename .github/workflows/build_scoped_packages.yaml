@@ -1,10 +1,10 @@
-name: Build Monorepo Prefixed
+name: Build Scoped Packages
 
 on:
     pull_request: null
 
 jobs:
-    build_monorepo_prefixed:
+    build_scoped_packages:
         runs-on: ubuntu-latest
         strategy:
             matrix:

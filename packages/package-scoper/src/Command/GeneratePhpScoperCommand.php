@@ -46,7 +46,8 @@ final class GeneratePhpScoperCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $phpScoperFilePath = (string) $input->getArgument(Option::PATH) . DIRECTORY_SEPARATOR . 'scoper.inc.php';
+        $packageDirectory = (string) $input->getArgument(Option::PATH);
+        $phpScoperFilePath = $packageDirectory . DIRECTORY_SEPARATOR . 'scoper.inc.php';
 
         if (file_exists($phpScoperFilePath)) {
             $phpScoperFileInfo = new SmartFileInfo($phpScoperFilePath);

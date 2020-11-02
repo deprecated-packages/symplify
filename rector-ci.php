@@ -54,6 +54,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::EXCLUDE_PATHS, [
+        '*/scoper.inc.php',
         '/vendor/',
         '/init/',
         '/Source/',

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+// see https://github.com/humbug/php-scoper
+
 return [
     'files-whitelist' => [
         // do not prefix "trigger_deprecatoin" from symfony - https://github.com/symfony/symfony/commit/0032b2a2893d3be592d4312b7b098fb9d71aca03

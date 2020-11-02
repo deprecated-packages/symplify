@@ -1,7 +1,10 @@
 name: Split Unused Packages
 
 on:
-    pull_request: null
+    # no need to run always, just once a day is enough
+    schedule:
+        # https://crontab.guru/#0_0_*_*_* - every day at midnight
+        -   cron: '0 0 * * *'
 
 jobs:
     split_unused_packages:
