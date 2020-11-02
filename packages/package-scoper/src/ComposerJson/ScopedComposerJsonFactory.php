@@ -25,24 +25,25 @@ final class ScopedComposerJsonFactory
         $this->composerJsonFactory = $composerJsonFactory;
     }
 
-    public function createFromPackageComposerJson(ComposerJson $packageComposeJson): ComposerJson
+    public function createFromPackageComposerJson(ComposerJson $composerJson): ComposerJson
     {
-        $packageName = $packageComposeJson->getName();
+        $packageName = $composerJson->getName();
 
         $scopedPackageComposerJson = $this->composerJsonFactory->createEmpty();
 
         $scopedPackageComposerJson->setName($packageName . self::SCOPED_PACKAGE_NAME_SUFFIX);
+
         $description = sprintf('Prefixed scoped version of %s package', $packageName);
         $scopedPackageComposerJson->setDescription($description);
 
-        $scopedPackageComposerJson->setBin($packageComposeJson->getBin());
+        $scopedPackageComposerJson->setBin($composerJson->getBin());
 
         $license = $scopedPackageComposerJson->getLicense();
         if ($license !== null) {
             $scopedPackageComposerJson->setLicense($license);
         }
 
-        $scopedPackageComposerJson->setRequire($packageComposeJson->getRequirePhp());
+        $scopedPackageComposerJson->setRequire($composerJson->getRequirePhp());
 
         $scopedPackageComposerJson->setConflicting([$packageName]);
         $scopedPackageComposerJson->setReplace([

@@ -17,6 +17,9 @@ final class PackageScoperKernel extends AbstractSymplifyKernel
         parent::registerContainerConfiguration($loader);
     }
 
+    /**
+     * @return ComposerJsonManipulatorBundle[]|SymplifyKernelBundle[]
+     */
     public function registerBundles(): iterable
     {
         return [new SymplifyKernelBundle(), new ComposerJsonManipulatorBundle()];
