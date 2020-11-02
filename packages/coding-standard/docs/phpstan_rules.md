@@ -2355,6 +2355,56 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 <br>
 
+## Check Required use Interface in Constract namespace
+
+- class: [`CheckRequiredInterfaceInContractNamespaceRule`](../src/Rules/CheckRequiredInterfaceInContractNamespaceRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\CheckRequiredInterfaceInContractNamespaceRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+namespace A\Contract;
+
+use DateTime;
+
+interface AContract
+{
+
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+namespace A\Contract;
+
+use Psr\Container\Containerinterface;
+
+interface AContract
+{
+
+}
+```
+
+:+1:
+
+<br>
+
 ## Check Method with @required need to be named autowire+class name
 
 - class: [`CheckRequiredMethodTobeAutowireWithClassNameRule`](../src/Rules/CheckRequiredMethodTobeAutowireWithClassNameRule.php)
