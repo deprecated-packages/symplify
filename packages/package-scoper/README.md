@@ -1,5 +1,7 @@
 # Package Scoper
 
+[![Downloads total](https://img.shields.io/packagist/dt/symplify/package-scoper.svg?style=flat-square)](https://packagist.org/packages/symplify/package-scoper/stats)
+
 - Does your package require Symfony 5, but developers want to use it on Symfony 3?
 - Do you want to scope your package dependencies with unique namespace, but don't know how?
 - Do you want to skip learning of PhpScoper, PHAR packing, Box and GitHub Actions automated deploy?
