@@ -33,7 +33,9 @@ jobs:
 
                     -
                         name: Check Missing Split Test Directories
-                        run: packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_tests.yaml
+                        run: |
+                            packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_tests.yaml
+                            packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_unused_packages.yaml
 
                     -
                         name: Binary File Run
@@ -53,7 +55,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
             # see https://github.com/shivammathur/setup-php
-            -   uses: shivammathur/setup-php@v1
+            -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: 7.4
                     coverage: none

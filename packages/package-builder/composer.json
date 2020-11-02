@@ -12,7 +12,6 @@
         "symfony/finder": "^4.4|^5.1",
         "symfony/http-kernel": "^4.4|^5.1",
         "symfony/yaml": "^4.4|^5.1",
-        "symplify/autowire-array-parameter": "^8.4",
         "symplify/symplify-kernel": "^8.4"
     },
     "require-dev": {
@@ -21,10 +20,7 @@
     "autoload": {
         "psr-4": {
             "Symplify\\PackageBuilder\\": "src"
-        },
-        "files": [
-            "functions/service_polyfill.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {

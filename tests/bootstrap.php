@@ -15,6 +15,6 @@ if (! defined('PHP_CODESNIFFER_VERBOSITY')) {
 }
 
 // absolute paths differ in monorepo and split packages
-// e.g. /packagse/EasyCodingStandard/src (monorepo) => src (after split)
+// e.g. /packagse/EasyCodingStandard/src (monorepo) => src (after monorepo)
 // use this to find out where you are
 define('SYMPLIFY_MONOREPO', true);

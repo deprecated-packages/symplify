@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PackageBuilder\Console\Input;
 
-use Symfony\Component\Console\Input\ArgvInput;
-
-final class InputDetector
+/**
+ * @deprecated since Symplify 8, will be removed in Symplify 9
+ * Use @see \Symplify\PackageBuilder\Console\Input\StaticInputDetector instad
+ */
+final class InputDetector extends StaticInputDetector
 {
-    public static function isDebug(): bool
-    {
-        $argvInput = new ArgvInput();
-        return $argvInput->hasParameterOption(['--debug', '-v', '-vv', '-vvv']);
-    }
 }

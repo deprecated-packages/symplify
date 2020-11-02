@@ -37,7 +37,7 @@ final class DependencyUpdater
 
             $json = $this->processSectionWithPackages($json, $packageNames, $version, ComposerJsonSection::REQUIRE_DEV);
 
-            $this->jsonFileManager->saveJsonWithFileInfo($json, $packageComposerFileInfo);
+            $this->jsonFileManager->printJsonToFileInfo($json, $packageComposerFileInfo);
         }
     }
 
@@ -56,7 +56,7 @@ final class DependencyUpdater
 
             $json = $this->processSection($json, $vendor, $version, ComposerJsonSection::REQUIRE_DEV);
 
-            $this->jsonFileManager->saveJsonWithFileInfo($json, $packageComposerFileInfo);
+            $this->jsonFileManager->printJsonToFileInfo($json, $packageComposerFileInfo);
         }
     }
 

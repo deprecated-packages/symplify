@@ -101,6 +101,16 @@ final class ComposerJson
      */
     private $composerPackageSorter;
 
+    /**
+     * @var mixed[]
+     */
+    private $conflicting = [];
+
+    /**
+     * @var mixed[]
+     */
+    private $bin = [];
+
     public function __construct()
     {
         $this->composerPackageSorter = new ComposerPackageSorter();
@@ -130,6 +140,20 @@ final class ComposerJson
     public function getRequire(): array
     {
         return $this->require;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getRequirePhp(): array
+    {
+        $requiredPhpVersion = $this->require['php'] ?? null;
+        if ($requiredPhpVersion === null) {
+            return [];
+        }
+        return [
+            'php' => $requiredPhpVersion,
+        ];
     }
 
     /**
@@ -332,31 +356,31 @@ final class ComposerJson
         $array = [];
 
         if ($this->name !== null) {
-            $array['name'] = $this->name;
+            $array[ComposerJsonSection::NAME] = $this->name;
         }
 
         if ($this->description !== null) {
-            $array['description'] = $this->description;
+            $array[ComposerJsonSection::DESCRIPTION] = $this->description;
         }
 
         if ($this->license !== null) {
-            $array['license'] = $this->license;
+            $array[ComposerJsonSection::LICENSE] = $this->license;
         }
 
         if ($this->require !== []) {
-            $array['require'] = $this->require;
+            $array[ComposerJsonSection::REQUIRE] = $this->require;
         }
 
         if ($this->requireDev !== []) {
-            $array['require-dev'] = $this->requireDev;
+            $array[ComposerJsonSection::REQUIRE_DEV] = $this->requireDev;
         }
 
         if ($this->autoload !== []) {
-            $array['autoload'] = $this->autoload;
+            $array[ComposerJsonSection::AUTOLOAD] = $this->autoload;
         }
 
         if ($this->autoloadDev !== []) {
-            $array['autoload-dev'] = $this->autoloadDev;
+            $array[ComposerJsonSection::AUTOLOAD_DEV] = $this->autoloadDev;
         }
 
         if ($this->repositories !== []) {
@@ -364,29 +388,33 @@ final class ComposerJson
         }
 
         if ($this->extra !== []) {
-            $array['extra'] = $this->extra;
+            $array[ComposerJsonSection::EXTRA] = $this->extra;
+        }
+
+        if ($this->bin !== null) {
+            $array[ComposerJsonSection::BIN] = $this->bin;
         }
 
         if ($this->scripts !== []) {
-            $array['scripts'] = $this->scripts;
+            $array[ComposerJsonSection::SCRIPTS] = $this->scripts;
         }
 
         if ($this->config !== []) {
-            $array['config'] = $this->config;
+            $array[ComposerJsonSection::CONFIG] = $this->config;
         }
 
         if ($this->replace !== []) {
-            $array['replace'] = $this->replace;
+            $array[ComposerJsonSection::REPLACE] = $this->replace;
         }
 
         if ($this->minimumStability !== null) {
-            $array['minimum-stability'] = $this->minimumStability;
-            $this->moveValueToBack('minimum-stability');
+            $array[ComposerJsonSection::MINIMUM_STABILITY] = $this->minimumStability;
+            $this->moveValueToBack(ComposerJsonSection::MINIMUM_STABILITY);
         }
 
         if ($this->preferStable !== null) {
-            $array['prefer-stable'] = $this->preferStable;
-            $this->moveValueToBack('prefer-stable');
+            $array[ComposerJsonSection::PREFER_STABLE] = $this->preferStable;
+            $this->moveValueToBack(ComposerJsonSection::PREFER_STABLE);
         }
 
         return $this->sortItemsByOrderedListOfKeys($array, $this->orderedKeys);
@@ -486,6 +514,39 @@ final class ComposerJson
         $autoloadDevClassmaps = $this->autoloadDev[self::CLASSMAP_KEY] ?? [];
 
         return array_merge($autoloadClassmaps, $autoloadDevClassmaps);
+    }
+
+    /**
+     * @api
+     * @param mixed[] $conflicting
+     */
+    public function setConflicting(array $conflicting): void
+    {
+        $this->conflicting = $conflicting;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getConflicting(): array
+    {
+        return $this->conflicting;
+    }
+
+    /**
+     * @param mixed[] $bin
+     */
+    public function setBin(array $bin): void
+    {
+        $this->bin = $bin;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getBin(): array
+    {
+        return $this->bin;
     }
 
     /**

@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileSystem;
-use function Symplify\PackageBuilder\Functions\service_polyfill;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -24,7 +24,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(SymfonyStyleFactory::class);
     $services->set(SymfonyStyle::class)
-        ->factory([service_polyfill(SymfonyStyleFactory::class), 'create']);
+        ->factory([ref(SymfonyStyleFactory::class), 'create']);
 
     $services->set(SmartFileSystem::class);
 };

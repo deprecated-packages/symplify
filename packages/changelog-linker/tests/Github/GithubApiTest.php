@@ -28,7 +28,7 @@ final class GithubApiTest extends AbstractKernelTestCase
     public function testGetUnmergedPrsSinceId(): void
     {
         if (! defined('SYMPLIFY_MONOREPO')) {
-            $this->markTestSkipped('Can be tested only with PRs in monorepo, not in split where are no PRs.');
+            $this->markTestSkipped('Can be tested only with PRs in split, not in monorepo where are no PRs.');
         }
 
         $mergedPullRequests = $this->githubApi->getMergedPullRequestsSinceId(1000);

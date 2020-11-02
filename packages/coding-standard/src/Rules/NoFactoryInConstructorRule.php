@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Rules;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Jean85\PrettyVersions;
+use Jean85\Version;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\MethodCall;
@@ -28,7 +30,7 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Do not use factory/method call in constructor, put factory in config and get service with dependency injection';
+    public const ERROR_MESSAGE = 'Do not use factory/method call in constructor. Put factory in config and get service with dependency injection';
 
     /**
      * @var string[]
@@ -37,6 +39,8 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
         ParameterProvider::class,
         ParameterBagInterface::class,
         EntityManagerInterface::class,
+        PrettyVersions::class,
+        Version::class,
     ];
 
     /**

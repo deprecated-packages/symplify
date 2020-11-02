@@ -73,7 +73,7 @@ final class ComposerJsonRequireUpdater
 
         $oldComposerJsonContents = $packageFileInfo->getContents();
 
-        $newComposerJsonContents = $this->jsonFileManager->saveJsonWithFileInfo($packageComposerJson, $packageFileInfo);
+        $newComposerJsonContents = $this->jsonFileManager->printJsonToFileInfo($packageComposerJson, $packageFileInfo);
 
         $message = sprintf('File "%s" was updated', $packageFileInfo->getRelativeFilePathFromCwd());
         $this->symfonyStyle->title($message);
