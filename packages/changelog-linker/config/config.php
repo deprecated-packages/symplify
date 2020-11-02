@@ -11,7 +11,7 @@ use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileSystem;
-use function Symplify\PackageBuilder\Functions\service_polyfill;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
@@ -44,7 +44,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SymfonyStyleFactory::class);
 
     $services->set(SymfonyStyle::class)
-        ->factory([service_polyfill(SymfonyStyleFactory::class), 'create']);
+        ->factory([ref(SymfonyStyleFactory::class), 'create']);
 
     $services->set(Client::class);
 

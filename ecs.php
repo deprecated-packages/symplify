@@ -38,6 +38,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/changelog-linker.php',
         __DIR__ . '/monorepo-builder.php',
         __DIR__ . '/easy-ci.php',
+        // bin files
+        __DIR__ . '/packages/package-scoper/bin/package-scoper',
     ]);
 
     $parameters->set(Option::EXCLUDE_PATHS, [

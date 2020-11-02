@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Console;
 
+use Jean85\PrettyVersions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,7 +34,9 @@ final class MonorepoBuilderApplication extends AbstractSymplifyConsoleApplicatio
         $this->addCommands($commands);
         $this->sourcesPresenceValidator = $sourcesPresenceValidator;
 
-        parent::__construct();
+        $version = PrettyVersions::getVersion('symplify/monorepo-builder');
+
+        parent::__construct('Monorepo Builder', $version->getPrettyVersion());
     }
 
     protected function getDefaultInputDefinition(): InputDefinition

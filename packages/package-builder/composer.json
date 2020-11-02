@@ -21,10 +21,7 @@
     "autoload": {
         "psr-4": {
             "Symplify\\PackageBuilder\\": "src"
-        },
-        "files": [
-            "functions/service_polyfill.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {

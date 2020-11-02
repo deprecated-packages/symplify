@@ -77,7 +77,7 @@ final class SplitCommand extends Command
             Option::BRANCH,
             null,
             InputOption::VALUE_OPTIONAL,
-            'Branch to run split on, defaults to current branch'
+            'Branch to run monorepo on, defaults to current branch'
         );
 
         $this->addOption(
@@ -91,7 +91,7 @@ final class SplitCommand extends Command
             Option::TAG,
             't',
             InputOption::VALUE_REQUIRED,
-            'Specify the Git tag use for split. Use the most recent one by default'
+            'Specify the Git tag use for monorepo. Use the most recent one by default'
         );
     }
 
@@ -110,7 +110,7 @@ final class SplitCommand extends Command
 
         $resolvedDirectoriesToRepository = $this->directoryToRepositoryProvider->provide();
         if (count($resolvedDirectoriesToRepository) === 0) {
-            $this->symfonyStyle->error('No packages to split');
+            $this->symfonyStyle->error('No packages to monorepo');
             return ShellCode::SUCCESS;
         }
 
@@ -123,7 +123,7 @@ final class SplitCommand extends Command
 
         $this->symfonyStyle->newLine(2);
 
-        // to give time to process split information
+        // to give time to process monorepo information
         sleep(2);
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(

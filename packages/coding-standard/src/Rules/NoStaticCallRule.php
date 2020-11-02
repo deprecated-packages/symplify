@@ -52,6 +52,7 @@ final class NoStaticCallRule extends AbstractSymplifyRule
         'Jean85\PrettyVersions',
         'DG\BypassFinals',
         'Nette\Utils\Random',
+        '*Static*',
     ];
 
     /**

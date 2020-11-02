@@ -34,7 +34,7 @@ final class GitCommitDateTagResolverTest extends AbstractKernelTestCase
 
     public function provideData(): Iterator
     {
-        // different commit hashes after split
+        // different commit hashes after monorepo
         yield ['ef5e708', 'v4.1.1'];
         yield ['940ec99', 'v3.2.26'];
         yield ['too-new', 'Unreleased'];

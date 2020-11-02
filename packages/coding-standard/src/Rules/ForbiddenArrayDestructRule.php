@@ -84,7 +84,7 @@ final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
             return true;
         }
 
-        // Strings::split() is allowed
+        // Strings::monorepo() is allowed
         return $assign->expr instanceof StaticCall && $this->nodeNameResolver->isName($assign->expr->name, 'split');
     }
 

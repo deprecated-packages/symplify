@@ -23,7 +23,7 @@ final class StaticFixtureSplitter
     {
         $splitLineCount = count(Strings::matchAll($smartFileInfo->getContents(), SplitLine::SPLIT_LINE_REGEX));
 
-        // if more or less, it could be a test cases for split line in it
+        // if more or less, it could be a test cases for monorepo line in it
         if ($splitLineCount === 1) {
             // input → expected
             [$input, $expected] = Strings::split($smartFileInfo->getContents(), SplitLine::SPLIT_LINE_REGEX);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 use Symplify\Autodiscovery\Console\AutodiscoveryApplication;
 use Symplify\Autodiscovery\HttpKernel\AutodiscoveryKernel;
-use Symplify\PackageBuilder\Console\Input\InputDetector;
+use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
 
 $possibleAutoloadPaths = [
     // after split package
@@ -26,7 +26,7 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 
 // random has is needed, so cache is invalidated and changes from config are loaded
 $environment = 'prod' . random_int(1, 100000);
-$autodiscoveryKernel = new AutodiscoveryKernel($environment, InputDetector::isDebug());
+$autodiscoveryKernel = new AutodiscoveryKernel($environment, StaticInputDetector::isDebug());
 $autodiscoveryKernel->boot();
 
 $container = $autodiscoveryKernel->getContainer();

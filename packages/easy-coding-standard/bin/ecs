@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\EasyCodingStandard\Bootstrap\ConfigHasher;
 use Symplify\EasyCodingStandard\Bootstrap\ConfigShifter;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
+use Symplify\EasyCodingStandard\Set\ConstantReflectionSetFactory;
 use Symplify\SetConfigResolver\Bootstrap\InvalidSetReporter;
 use Symplify\EasyCodingStandard\Bootstrap\YamlConfigReporter;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
@@ -14,7 +15,7 @@ use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\Set\EasyCodingStandardSetProvider;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
-use Symplify\PackageBuilder\Console\Input\InputDetector;
+use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\SetConfigResolver\Exception\SetNotFoundException;
 use Symplify\SetConfigResolver\SetAwareConfigResolver;
@@ -37,7 +38,11 @@ try {
     $configFileInfos = [];
 
     // 1. --config CLI option or default
-    $configResolver = new SetAwareConfigResolver(new EasyCodingStandardSetProvider());
+    $configResolver = new SetAwareConfigResolver(
+        new EasyCodingStandardSetProvider(
+            new ConstantReflectionSetFactory()
+        )
+    );
 
     $input = new ArgvInput();
     $inputConfigFileInfo = $configResolver->resolveFromInputWithFallback($input, ['ecs.php']);
@@ -62,7 +67,7 @@ try {
     $environment = 'prod' . md5($configHasher->computeFileInfosHash($configFileInfos) . random_int(1, 100000));
     $configFileInfosWithInputAsLast = (new ConfigShifter())->shiftInputConfigAsLast($configFileInfos, $inputConfigFileInfo);
 
-    $easyCodingStandardKernel = new EasyCodingStandardKernel($environment, InputDetector::isDebug());
+    $easyCodingStandardKernel = new EasyCodingStandardKernel($environment, StaticInputDetector::isDebug());
     if ($configFileInfos !== []) {
         $easyCodingStandardKernel->setConfigs($configFileInfosWithInputAsLast);
     }

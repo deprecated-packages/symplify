@@ -6,7 +6,7 @@ declare(strict_types=1);
 use Symplify\Gerudoc\HttpKernel\GenudocKernel;
 use Symplify\SetConfigResolver\ConfigResolver;
 use Symplify\SetConfigResolver\SetAwareConfigResolver;
-use Symplify\PackageBuilder\Console\Input\InputDetector;
+use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
 
 # 1. autoload
 $possibleAutoloadPaths = [
@@ -28,7 +28,7 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 
 // the environment name must be "random", so configs are invalidated without clearing the cache
 $environment = 'prod' . random_int(0, 100000);
-$monorepoBuilderKernel = new GenudocBuilderKernel($environment, InputDetector::isDebug());
+$monorepoBuilderKernel = new GenudocBuilderKernel($environment, StaticInputDetector::isDebug());
 $monorepoBuilderKernel->boot();
 
 $container = $monorepoBuilderKernel->getContainer();

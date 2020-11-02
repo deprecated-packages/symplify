@@ -161,7 +161,7 @@ services:
                 'preg_match_all': ['Nette\Utils\Strings', 'matchAll']
                 'preg_replace': ['Nette\Utils\Strings', 'replace']
                 'preg_replace_callback': ['Nette\Utils\Strings', 'replace']
-                'preg_split': ['Nette\Utils\Strings', 'split']
+                'preg_split': ['Nette\Utils\Strings', 'monorepo']
                 'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
                 'file_put_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'dumpFile']
                 'strstr': ['Nette\Utils\Strings', 'contains']

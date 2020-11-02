@@ -28,6 +28,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'packages/*' => 'git@github.com:symplify/*.git',
     ]);
 
+    $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, [__DIR__ . '/packages/package-scoper']);
+
     $services = $containerConfigurator->services();
 
     # release workers - in order to execute
