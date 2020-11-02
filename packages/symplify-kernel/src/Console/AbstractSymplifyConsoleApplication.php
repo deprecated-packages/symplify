@@ -11,6 +11,7 @@ use Symfony\Component\Console\Descriptor\TextDescriptor;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 
 abstract class AbstractSymplifyConsoleApplication extends Application
@@ -19,6 +20,21 @@ abstract class AbstractSymplifyConsoleApplication extends Application
      * @var string
      */
     private const COMMAND = 'command';
+
+    /**
+     * Add names to all commands by class-name convention
+     * @param Command[] $commands
+     */
+    public function addCommands(array $commands): void
+    {
+        $commandNaming = new CommandNaming();
+        foreach ($commands as $command) {
+            $commandName = $commandNaming->resolveFromCommand($command);
+            $command->setName($commandName);
+        }
+
+        parent::addCommands($commands);
+    }
 
     protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
     {

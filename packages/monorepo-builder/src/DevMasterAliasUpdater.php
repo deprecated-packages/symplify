@@ -35,7 +35,7 @@ final class DevMasterAliasUpdater
 
             $json['extra']['branch-alias']['dev-master'] = $alias;
 
-            $this->jsonFileManager->saveJsonWithFileInfo($json, $fileInfo);
+            $this->jsonFileManager->printJsonToFileInfo($json, $fileInfo);
         }
     }
 
