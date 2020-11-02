@@ -21,7 +21,9 @@ final class CheckRequiredInterfaceInContractNamespaceRuleTest extends AbstractSe
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/NotAContract.php', []];
         yield [__DIR__ . '/Fixture/Contract/AContractWithInterface.php', []];
+        yield [__DIR__ . '/Fixture/Contract/AContractWithClass.php', [[CheckRequiredInterfaceInContractNamespaceRule::ERROR_MESSAGE, 7]]];
     }
 
     protected function getRule(): Rule
