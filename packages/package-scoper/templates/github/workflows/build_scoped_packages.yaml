@@ -52,6 +52,10 @@ jobs:
 
             # 5. publish it to remote repository
             # see https://github.com/cpina/github-action-push-to-another-repository
+            # to be able to commit full /vendor
+            -
+                run: rm .gitignore -f
+
             -
                 name: Pushes to another repository
                 uses: cpina/github-action-push-to-another-repository@master
