@@ -1,9 +1,30 @@
 name: Split Unused Packages
 
 on:
-    pull_request: null
+    # no need to run always, just once a day is enough
+    schedule:
+        # https://crontab.guru/#0_0_*_*_* - every day at midnight
+        -   cron: '0 0 * * *'
 
 jobs:
+    unused_packages:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    # PHP 7.3 is required by "icanhazstring/composer-unused"
+                    php-version: 7.3
+                    tools: composer:v2
+
+            # see https://github.com/composer-unused/composer-unused
+            -
+                name: Unused Packages
+                run: composer require icanhazstring/composer-unused --dev
+
+            -   run: composer unused
+
     split_unused_packages:
         runs-on: ubuntu-latest
         strategy:
@@ -37,7 +58,6 @@ jobs:
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: 7.3
-                    coverage: none
                     tools: composer:v2
 
             -   run: composer install --no-progress --ansi

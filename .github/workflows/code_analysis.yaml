@@ -24,13 +24,6 @@ jobs:
                         name: Composer Validate
                         run: composer validate --strict
 
-                    # see https://github.com/composer-unused/composer-unused
-                    -
-                        name: Unused Packages
-                        run: |
-                            composer require icanhazstring/composer-unused --dev
-                            composer unused
-
                     -
                         name: Check Missing Split Test Directories
                         run: |
@@ -58,7 +51,6 @@ jobs:
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: 7.4
-                    coverage: none
 
             -   run: composer install --no-progress
 

@@ -186,14 +186,7 @@
         "rector": "vendor/bin/rector process --config rector-ci.php --dry-run --ansi",
         "sonar": "vendor/bin/easy-ci generate-sonar --ansi",
         "validate-monorepo": "packages/monorepo-builder/bin/monorepo-builder validate --ansi",
-        "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi",
-        "prefix-monorepo-builder": [
-            "packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/monorepo-builder/composer.json --ansi",
-            "composer install --working-dir packages/monorepo-builder --no-dev",
-            "vendor/bin/php-scoper add-prefix packages/monorepo-builder --output-dir packages-scoped/monorepo-builder --config packages/monorepo-builder/scoper.inc.php --force",
-            "composer dump-autoload --working-dir packages-scoped/monorepo-builder --ansi --optimize --classmap-authoritative",
-            "packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/monorepo-builder/composer.json"
-        ]
+        "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi"
     },
     "config": {
         "sort-packages": true
