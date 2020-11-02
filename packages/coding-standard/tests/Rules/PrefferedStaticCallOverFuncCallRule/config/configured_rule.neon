@@ -9,5 +9,5 @@ services:
                 preg_match: ['Nette\Utils\Strings', 'match']
                 preg_matchAll: ['Nette\Utils\Strings', 'match']
                 preg_replace: ['Nette\Utils\Strings', 'replace']
-                preg_split: ['Nette\Utils\Strings', 'monorepo']
+                preg_split: ['Nette\Utils\Strings', 'split']
                 substr: ['Symplify\CodingStandard\Tests\Rules\PrefferedStaticCallOverFuncCallRule\Fixture\SkipSelfCall', 'run']

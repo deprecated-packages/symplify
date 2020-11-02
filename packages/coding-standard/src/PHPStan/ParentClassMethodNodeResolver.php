@@ -46,7 +46,17 @@ final class ParentClassMethodNodeResolver
         /** @var ClassReflection[] $parentClassReflections */
         $parentClassReflections = $this->getParentClassReflections($scope);
         foreach ($parentClassReflections as $parentClassReflection) {
-            $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
+            $fileName = $parentClassReflection->getFileName();
+            if ($fileName === false) {
+                continue;
+            }
+
+            // not reachable
+            if (realpath($fileName) === false) {
+                continue;
+            }
+
+            $parentClassNodes = $this->parseFileToNodes($fileName);
 
             /** @var Class_|null $class */
             $class = $this->nodeFinder->findFirstInstanceOf($parentClassNodes, Class_::class);

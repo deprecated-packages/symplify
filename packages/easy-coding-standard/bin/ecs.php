@@ -46,13 +46,13 @@ try {
     $input = new ArgvInput();
     $inputConfigFileInfo = $configResolver->resolveFromInputWithFallback($input, ['ecs.php']);
 
-    if ($inputConfigFileInfo) {
+    if ($inputConfigFileInfo !== null) {
         $configFileInfos[] = $inputConfigFileInfo;
     }
 
     // 2. --set CLI option
     $setInputConfig = $configResolver->resolveSetFromInput($input);
-    if ($setInputConfig) {
+    if ($setInputConfig !== null) {
         $configFileInfos[] = $setInputConfig;
     }
 

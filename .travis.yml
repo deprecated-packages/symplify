@@ -13,7 +13,7 @@ jobs:
             script:
                 - composer update --ansi
                 # travis_retry to prevent fails
-                - travis_retry packages/monorepo-builder/bin/monorepo-builder monorepo --max-processes 6 --ansi
+                - travis_retry packages/monorepo-builder/bin/monorepo-builder split --max-processes 6 --ansi
 
         -
             name: Compile and Release ecs.phar

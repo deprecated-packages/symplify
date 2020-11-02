@@ -391,6 +391,10 @@ final class ComposerJson
             $array[ComposerJsonSection::EXTRA] = $this->extra;
         }
 
+        if ($this->bin !== null) {
+            $array[ComposerJsonSection::BIN] = $this->bin;
+        }
+
         if ($this->scripts !== []) {
             $array[ComposerJsonSection::SCRIPTS] = $this->scripts;
         }
@@ -510,22 +514,6 @@ final class ComposerJson
         $autoloadDevClassmaps = $this->autoloadDev[self::CLASSMAP_KEY] ?? [];
 
         return array_merge($autoloadClassmaps, $autoloadDevClassmaps);
-    }
-
-    /**
-     * @api
-     */
-    public function clearExtra(): void
-    {
-        $this->extra = [];
-    }
-
-    /**
-     * @api
-     */
-    public function clearRepositories(): void
-    {
-        $this->repositories = [];
     }
 
     /**

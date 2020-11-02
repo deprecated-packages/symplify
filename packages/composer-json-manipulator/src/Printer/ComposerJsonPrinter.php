@@ -6,6 +6,7 @@ namespace Symplify\ComposerJsonManipulator\Printer;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ComposerJsonPrinter
 {
@@ -19,8 +20,19 @@ final class ComposerJsonPrinter
         $this->jsonFileManager = $jsonFileManager;
     }
 
-    public function print(ComposerJson $composerJson, SmartFileInfo $targetFileInfo): string
+    /**
+     * @param string|SmartFileInfo $targetFile
+     */
+    public function print(ComposerJson $composerJson, $targetFile): string
     {
-        return $this->jsonFileManager->printJsonToFileInfo($composerJson->getJsonArray(), $targetFileInfo);
+        if (is_string($targetFile)) {
+            return $this->jsonFileManager->printComposerJsonToFilePath($composerJson, $targetFile);
+        }
+
+        if (! $targetFile instanceof SmartFileInfo) {
+            throw new ShouldNotHappenException();
+        }
+
+        return $this->jsonFileManager->printJsonToFileInfo($composerJson->getJsonArray(), $targetFile);
     }
 }

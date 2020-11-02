@@ -28,7 +28,7 @@ abstract class AbstractRegexRule extends AbstractSymplifyRule implements RegexRu
     /**
      * @var string[]
      */
-    private const NETTE_UTILS_CALLS_METHOD_NAMES_WITH_SECOND_ARG_REGEX = ['match', 'matchAll', 'replace', 'monorepo'];
+    private const NETTE_UTILS_CALLS_METHOD_NAMES_WITH_SECOND_ARG_REGEX = ['match', 'matchAll', 'replace', 'split'];
 
     /**
      * @var string

@@ -132,7 +132,6 @@
             "Symplify\\MonorepoBuilder\\Tests\\": "packages/monorepo-builder/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
-            "Symplify\\PackageScoper\\Tests\\": "packages/package-scoper/tests",
             "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
             "Symplify\\Skipper\\Tests\\": "packages/skipper/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
@@ -192,7 +191,8 @@
             "packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/monorepo-builder/composer.json --ansi",
             "composer install --working-dir packages/monorepo-builder --no-dev",
             "vendor/bin/php-scoper add-prefix packages/monorepo-builder --output-dir packages-scoped/monorepo-builder --config packages/monorepo-builder/scoper.inc.php --force",
-            "composer dump-autoload --working-dir packages-scoped/monorepo-builder --ansi --optimize --classmap-authoritative"
+            "composer dump-autoload --working-dir packages-scoped/monorepo-builder --ansi --optimize --classmap-authoritative",
+            "packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/monorepo-builder/composer.json"
         ]
     },
     "config": {

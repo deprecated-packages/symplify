@@ -19,9 +19,6 @@ $possibleAutoloadPaths = [
     __DIR__ . '/../../../autoload.php',
     // monorepo
     __DIR__ . '/../../../vendor/autoload.php',
-
-    // For monorepo on different branch test in Travis - To be removed
-    __DIR__ . '/../../../../../autoload.php',
 ];
 
 foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {

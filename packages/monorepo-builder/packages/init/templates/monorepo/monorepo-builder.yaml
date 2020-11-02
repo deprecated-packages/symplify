@@ -5,7 +5,7 @@ parameters:
             phpunit/phpunit: '^7.3'
             symplify/monorepo-builder: '<version>'
 
-    # for "monorepo" command
+    # for "split" command
     directories_to_repositories:
         packages/first-package: 'git@github.com:your-monorepo/first-package.git'
         packages/second-package: 'git@github.com:your-monorepo/second-package.git'

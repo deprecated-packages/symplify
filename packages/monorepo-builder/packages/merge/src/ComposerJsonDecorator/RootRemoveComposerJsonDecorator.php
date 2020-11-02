@@ -9,7 +9,7 @@ use Symplify\MonorepoBuilder\Merge\Configuration\MergedPackagesCollector;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
 
 /**
- * Remove inter-dependencies in monorepo packages from root,
+ * Remove inter-dependencies in split packages from root,
  * e.g. symfony/console needs symfony/filesystem in package,
  * but it makes no sense to have symfony/filesystem in root of symfony/symfony.
  * @see \Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\RootRemoveComposerJsonDecorator\RootRemoveComposerJsonDecoratorTest

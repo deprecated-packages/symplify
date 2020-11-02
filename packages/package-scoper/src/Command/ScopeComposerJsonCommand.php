@@ -75,10 +75,7 @@ final class ScopeComposerJsonCommand extends Command
             $packageComposerJson
         );
 
-        $scopedPackageComposerJsonFileContent = $this->composerJsonPrinter->print(
-            $scopedPackageComposerJson,
-            $packageComposerJson->getFileInfo()
-        );
+        $scopedPackageComposerJsonFileContent = $this->composerJsonPrinter->print($scopedPackageComposerJson, $path);
 
         $this->symfonyStyle->title('Changing to scoped composer.json');
         $this->symfonyStyle->writeln('----------------------------------------------------');
