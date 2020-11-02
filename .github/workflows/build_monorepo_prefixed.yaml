@@ -23,7 +23,7 @@ jobs:
 
             # install local dependencies
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/monorepo-builder/composer.json --ansi
-            -   run: composer install --working-dir packages/monorepo-builder --ansi
+            -   run: composer install --working-dir packages/monorepo-builder --ansi --no-dev
                 env:
                     # see https://tomasvotruba.com/blog/2020/10/19/how-to-split-test-monorepo-with-composer-2/
                     COMPOSER_ROOT_VERSION: "dev-master"
@@ -33,7 +33,18 @@ jobs:
             -   run: composer dump-autoload --working-dir packages-scoped/monorepo-builder --ansi
 
             # run it
-            -   run: php ./packages-scoped/monorepo-builder/bin/monorepo-builder
-
+            -   run: php ./packages-scoped/monorepo-builder/bin/monorepo-builder --ansi
 
             # @todo - push to remote repository
+            # see https://github.com/marketplace/actions/push-a-file-to-another-repository
+            -
+                name: Pushes test file
+                uses: dmnemec/copy_file_to_another_repo_action@v1.0.4
+                env:
+                    API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
+                with:
+                    source_file: 'packages-scoped/monorepo-builder'
+                    destination_repo: 'symplify/monorepo-builder-prefixed'
+                    user_email: 'tomas.vot@gmail.com'
+                    user_name: 'TomasVotruba'
+                    commit_message: 'Publish scoped Monorepo Builder'
