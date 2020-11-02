@@ -27,7 +27,6 @@ jobs:
                 with:
                     # PHP 7.4, to typed test case are covered
                     php-version: 7.4
-                    coverage: none
                     tools: composer:v2
 
             # composer install cache - https://github.com/ramsey/composer-install
