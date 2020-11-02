@@ -9,8 +9,10 @@ You're in the right place!
 ## Install
 
 ```bash
-composer require symplify/package-scoper --dev
+composer require symplify/package-scoper symplify/monorepo-builder --dev
 ```
+
+We also need `symplify/monorepo-builder`, so we can work with relative paths of local packages.
 
 ## Usage
 
@@ -20,3 +22,21 @@ vendor/bin/package-scoper scope-composer-json packages-scoped/some-package/compo
 ```
 
 @todo generate GitHub Action for full publishing
+
+### Generate GitHub Action Workflow
+
+The process without automatization would not be much helpful. That why we have GitHub Action to automate it.
+
+```bash
+vendor/bin/package-scoper generate-workflow
+```
+
+Go to your `.github/workflows`, update packages names manually and you're ready to go.
+
+### Convention over Configuration in GitHub Action
+
+### Generate PhpScoper Config
+
+[php-scoper](https://github.com/humbug/php-scoper) is a package that prefixed classes and functions by prefix, so they're unique and don't conflict with same-named class in different version.
+
+@todo scoper-php.inc generato
