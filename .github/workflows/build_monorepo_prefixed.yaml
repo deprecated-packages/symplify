@@ -6,6 +6,14 @@ on:
 jobs:
     build_monorepo_prefixed:
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                scoping:
+                    -
+                        local_package: 'packages/monorepo-builder'
+                        local_scoped_package: 'packages-scoped/monorepo-builder'
+                        remote_scoped_repository: 'symplify/monorepo-builder-prefixed'
+                        bin_file: 'monorepo-builder'
 
         steps:
             -   uses: actions/checkout@v2
@@ -16,35 +24,31 @@ jobs:
                     coverage: none
                     tools: composer:v2
 
-            # composer install cache - https://github.com/ramsey/composer-install
-            -   uses: "ramsey/composer-install@v1"
-
             -   run: composer install --no-progress --ansi
 
-            # install local dependencies
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/monorepo-builder/composer.json --ansi
-            -   run: composer install --working-dir packages/monorepo-builder --ansi --no-dev
+            # 1. install package dependencies
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths ${{ matrix.scoping.local_package }}/composer.json --ansi
+            -   run: composer install --working-dir ${{ matrix.scoping.local_package }} --ansi --no-dev
                 env:
                     # see https://tomasvotruba.com/blog/2020/10/19/how-to-split-test-monorepo-with-composer-2/
                     COMPOSER_ROOT_VERSION: "dev-master"
 
-            # scope it
-            -   run: vendor/bin/php-scoper add-prefix packages/monorepo-builder --output-dir packages-scoped/monorepo-builder --config packages/monorepo-builder/scoper.inc.php --force --ansi
-            -   run: composer dump-autoload --working-dir packages-scoped/monorepo-builder --ansi
+            # 2. scope it
+            -   run: vendor/bin/php-scoper add-prefix ${{ matrix.scoping.local_package }} --output-dir ${{ matrix.scoping.local_scoped_package }} --config ${{ matrix.scoping.local_package }}/scoper.inc.php --force --ansi
+            -   run: composer dump-autoload --working-dir ${{ matrix.scoping.local_scoped_package }} --ansi
 
-            # run it
-            -   run: php ./packages-scoped/monorepo-builder/bin/monorepo-builder --ansi
+            # 3. run it
+            -   run: php ./${{ matrix.scoping.local_scoped_package }}/bin/monorepo-builder --ansi
 
-            # @todo - push to remote repository
+            # 4. publish it to remote repository
             # see https://github.com/marketplace/actions/push-a-file-to-another-repository
             -
-                name: Pushes test file
+                name: Pushes To Remove Repository
                 uses: dmnemec/copy_file_to_another_repo_action@v1.0.4
                 env:
                     API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
                 with:
-                    source_file: 'packages-scoped/monorepo-builder'
-                    destination_repo: 'symplify/monorepo-builder-prefixed'
+                    source_file: ${{ matrix.scoping.local_scoped_package }}
+                    destination_repo: ${{ matrix.scoping.remote_scoped_repository }}
                     user_email: 'tomas.vot@gmail.com'
                     user_name: 'TomasVotruba'
-                    commit_message: 'Publish scoped Monorepo Builder'
