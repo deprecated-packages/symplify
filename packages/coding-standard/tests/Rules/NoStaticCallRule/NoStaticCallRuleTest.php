@@ -27,6 +27,8 @@ final class NoStaticCallRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipAllowedDateTime.php', []];
         yield [__DIR__ . '/Fixture/SkipParentSelfStatic.php', []];
         yield [__DIR__ . '/Fixture/SkipStaticFactory.php', []];
+        yield [__DIR__ . '/Fixture/SkipStaticMask.php', []];
+        yield [__DIR__ . '/Fixture/SkipSymfonyPhpConfig.php', []];
     }
 
     protected function getRule(): Rule

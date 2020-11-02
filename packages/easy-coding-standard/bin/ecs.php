@@ -64,7 +64,9 @@ try {
 
     $configHasher = new ConfigHasher();
     $environment = 'prod' . md5($configHasher->computeFileInfosHash($configFileInfos) . random_int(1, 100000));
-    $configFileInfosWithInputAsLast = (new ConfigShifter())->shiftInputConfigAsLast(
+
+    $configShifter = new ConfigShifter();
+    $configFileInfosWithInputAsLast = $configShifter->shiftInputConfigAsLast(
         $configFileInfos,
         $inputConfigFileInfo
     );
@@ -77,10 +79,10 @@ try {
     $easyCodingStandardKernel->boot();
     $container = $easyCodingStandardKernel->getContainer();
 } catch (SetNotFoundException $setNotFoundException) {
-    (new InvalidSetReporter())->report($setNotFoundException);
+    $invalidSetReporter = new InvalidSetReporter();
+    $invalidSetReporter->report($setNotFoundException);
     exit(ShellCode::ERROR);
 } catch (Throwable $throwable) {
-    $symfonyStyle = (new SymfonyStyleFactory())->create();
     $symfonyStyle->error($throwable->getMessage());
     exit(ShellCode::ERROR);
 }
