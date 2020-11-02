@@ -49,7 +49,7 @@ final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSympli
         $namespace = $node->getAttribute(PHPStanAttributeKey::PARENT);
         while ($namespace) {
             if ($namespace instanceof Namespace_) {
-                return $namespace;
+                break;
             }
 
             $namespace = $namespace->getAttribute(PHPStanAttributeKey::PARENT);
