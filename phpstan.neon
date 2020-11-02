@@ -21,7 +21,7 @@ services:
 parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
-    reportUnmatchedIgnoredErrors: false
+#    reportUnmatchedIgnoredErrors: false
 
     parallel:
         # to prevent full thread lagging pc
@@ -31,6 +31,8 @@ parameters:
         - packages
 
     excludes_analyse:
+        # functions false positive
+        - packages/package-builder/functions/service_polyfill.php
         - *packages/easy-coding-standard/compiler/config/*
 
         - *packages/**/tests/**/config.php
@@ -48,13 +50,16 @@ parameters:
         - packages/easy-coding-standard/packages/sniff-runner/src/ValueObject/File.php
         # tests
         - packages/phpstan-extensions/tests/Rules/ClassMethod/Source/*
-        - packages/easy-coding-standard/compiler/vendor/*
+
+        # 3rd party
+        - packages/package-builder/src/Yaml/ParametersMerger.php
 
         # requires PHP 7.4
         - 'packages/easy-hydrator/tests/Fixture/TypedProperty.php'
         - 'packages/easy-hydrator/tests/TypedPropertiesTest.php'
         - '*/Source/*'
         - '*/Fixture/*'
+        - */vendor/*
 
     bootstrapFiles:
         - tests/bootstrap.php
@@ -66,12 +71,6 @@ parameters:
         -
             message: '#Cannot cast array<string>\|string\|null to string#'
             path: '*packages/*Command.php'
-
-        # copied 3rd party magic
-        -
-            message: '#Use strict comparison instead of empty#'
-            paths:
-                - 'packages/package-builder/src/Yaml/ParametersMerger.php'
 
         # invalid 3rd party-code
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\|null given#'
@@ -100,8 +99,6 @@ parameters:
         - '#Cannot cast array<string\>\|bool\|string to string#'
 
         # known values
-        - '#Cannot call method (get|has)\(\) on (.*?)\|null#'
-        - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept object\|null#'
         - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
 
         # false positive
@@ -110,7 +107,6 @@ parameters:
 
         # false positive
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
-        - '#Parameter \#1 \$subject of static method Nette\\Utils\\Strings\:\:match\(\) expects string, string\|false given#'
 
         # yield iterator
         - '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
@@ -123,15 +119,12 @@ parameters:
 
         - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'
 
-        - '#call_user_func#'
-
         # the Filesystem method is only iterable way
         - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
         # cognitive complexity
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is 14, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is 14, keep it under 8#'
-        - '#Cognitive complexity for "Symplify\\PackageBuilder\\Yaml\\ParametersMerger::(.*?)\(\)" is \d+, keep it under 8#'
 
         - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
         - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
@@ -149,10 +142,6 @@ parameters:
         - '#Cannot call method getSetFileInfo\(\) on Symplify\\SetConfigResolver\\ValueObject\\Set\|null#'
         - '#Cannot call method getRealPath\(\) on Symplify\\SmartFileSystem\\SmartFileInfo\|null#'
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
-
-        -
-            message: '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings\:\:after\(\) expects string, string\|false given#'
-            path: 'packages/monorepo-builder/packages/split/src/Command/SplitCommand.php'
 
         # false positive
         - '#Property Symplify\\ChangelogLinker\\ChangelogDumper\:\:\$content is never written, only read#'
@@ -230,7 +219,7 @@ parameters:
             paths:
                 - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 146
                 - packages/easy-coding-standard/packages/snippet-formatter/src/Provider/CurrentParentFileInfoProvider.php # 16
-                - packages/package-builder/tests/HttpKernel/PackageBuilderTestKernel.php # 31
+#                - packages/package-builder/tests/HttpKernel/PackageBuilderTestKernel.php # 31
 
         -
             message: '#Do not call parent method if parent method is empty#'
@@ -242,10 +231,10 @@ parameters:
             paths:
                 - packages/package-builder/src/Tests/AbstractKernelTestCase.php
 
-        -
-            message: '#Use "Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\)" static call over "file_get_contents\(\)" func call#'
-            paths:
-                - packages/smart-file-system/src/SmartFileSystem.php
+#        -
+#            message: '#Use "Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\)" static call over "file_get_contents\(\)" func call#'
+#            paths:
+#                - packages/smart-file-system/src/SmartFileSystem.php
 
         -
            message: '#Use explicit return value over magic &reference#'
@@ -265,41 +254,15 @@ parameters:
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
 
         -
-             message: '#Node "empty" is fobidden to use#'
-             paths:
-                - packages/package-builder/src/Yaml/ParametersMerger.php
-
-        -
             message:  '#Node "errorsuppress" is fobidden to use#'
             paths:
                 - packages/smart-file-system/src/SmartFileSystem.php
-
-        -
-            message: '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings\:\:after\(\) expects string, string\|false given#'
-            paths:
-                 - packages/monorepo-builder/packages/split/src/FileSystem/DirectoryToRepositoryProvider.php
 
         -
             message: '#Instead of container injection, use specific service#'
             paths:
                  - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                  - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 37
-
-        -
-            message: '#Property with protected modifier is not allowed\. Use interface instead#'
-            paths:
-                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 17
-                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/AbstractChangeFactoryTest.php # 26
-                - packages/coding-standard/src/Fixer/ArrayNotation/AbstractArrayFixer.php # 22
-                - packages/coding-standard/src/Fixer/ArrayNotation/AbstractArrayFixer.php # 27
-                - packages/coding-standard/src/Fixer/ArrayNotation/AbstractArrayFixer.php # 32
-                - packages/easy-coding-standard/src/Application/AbstractFileProcessor.php # 16
-                - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php # 25
-                - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php # 30
-                - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php # 35
-                - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 15
-                - packages/monorepo-builder/packages/merge/src/ComposerKeyMerger/AbstractComposerKeyMerger.php # 20
-                - packages/monorepo-builder/packages/merge/tests/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php # 18
 
         # static cache
         -

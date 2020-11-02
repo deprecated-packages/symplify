@@ -13,7 +13,7 @@ use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileSystem;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symplify\PackageBuilder\Functions\service_polyfill;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -38,8 +38,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ParametersMerger::class);
 
     $services->set(SymfonyStyleFactory::class);
-    $services->set(SymfonyStyle::class)
-        ->factory([ref(SymfonyStyleFactory::class), 'create']);
 
     $services->set(ParameterProvider::class);
+
+    // Symfony 5.1+
+    $services->set(SymfonyStyle::class)
+        ->factory([service_polyfill(SymfonyStyleFactory::class), 'create']);
 };

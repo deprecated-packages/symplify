@@ -16,12 +16,15 @@
         "symplify/symplify-kernel": "^8.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5|^9.0"
+        "phpunit/phpunit": "^8.5|^9.4"
     },
     "autoload": {
         "psr-4": {
             "Symplify\\PackageBuilder\\": "src"
-        }
+        },
+        "files": [
+            "functions/service_polyfill.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

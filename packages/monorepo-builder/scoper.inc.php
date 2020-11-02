@@ -7,13 +7,10 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return [
     'prefix' => null,
     'finders' => [],
-    'patchers' => [
-        function (string $filePath, string $prefix, string $content): string {
-            if ($filePath !== 'bin/monorepo-builder') {
-                return $content;
-            }
-            return str_replace("__DIR__ . '/..", "'phar://monorepo-builder.phar", $content);
-        },
+    'files-whitelist' => [
+        // do not prefix "trigger_deprecatoin" from symfony - https://github.com/symfony/symfony/commit/0032b2a2893d3be592d4312b7b098fb9d71aca03
+        // these paths are relative to this file location, so it should be in the root directory
+        'vendor/symfony/deprecation-contracts/function.php',
     ],
     'whitelist' => [
         // needed for autoload, that is not prefixed, since it's in bin/* file

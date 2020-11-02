@@ -100,6 +100,6 @@ final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
         }
 
         $reflectionClass = new ReflectionClass($callerType->getClassName());
-        return (bool) Strings::match($reflectionClass->getFileName(), self::VENDOR_DIRECTORY_REGEX);
+        return (bool) Strings::match((string) $reflectionClass->getFileName(), self::VENDOR_DIRECTORY_REGEX);
     }
 }

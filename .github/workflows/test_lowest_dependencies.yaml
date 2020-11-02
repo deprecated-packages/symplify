@@ -11,11 +11,14 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v2
+
             -   run: git fetch --depth=100000 origin
+
             -   uses: shivammathur/setup-php@v1
                 with:
                     php-version: 7.2
                     coverage: none
 
-            -   run: composer update --no-progress --prefer-lowest
+            -   run: composer update --no-progress --prefer-lowest --ansi
+
             -   run: vendor/bin/phpunit

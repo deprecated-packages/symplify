@@ -25,11 +25,14 @@ final class ArrayTypeCaster implements TypeCasterInterface
         return $type === 'array';
     }
 
+    /**
+     * @return mixed[]|null
+     */
     public function retype(
         $value,
         ReflectionParameter $reflectionParameter,
         ClassConstructorValuesResolver $classConstructorValuesResolver
-    ) {
+    ): ?array {
         $type = $this->parameterTypeRecognizer->getTypeFromDocBlock($reflectionParameter);
 
         if ($value === null && $reflectionParameter->allowsNull()) {

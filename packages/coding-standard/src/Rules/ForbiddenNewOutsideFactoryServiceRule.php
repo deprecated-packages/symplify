@@ -79,7 +79,7 @@ final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule
             return false;
         }
 
-        $className = end($fullyQualifiedName->parts);
+        $className = (string) end($fullyQualifiedName->parts);
         if (! Strings::startsWith($type, '*')) {
             return $className === $type;
         }

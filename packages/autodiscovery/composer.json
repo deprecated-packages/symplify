@@ -27,7 +27,7 @@
         "symfony/templating": "^4.4|^5.1",
         "symfony/translation": "^4.4|^5.1",
         "symplify/easy-testing": "^8.4",
-        "phpunit/phpunit": "^8.5|^9.0"
+        "phpunit/phpunit": "^8.5|^9.4"
     },
     "autoload": {
         "psr-4": {

@@ -2,9 +2,6 @@ name: Split Tests
 
 on:
     pull_request: null
-    push:
-        branches:
-            - master
 
 jobs:
     after_split_testing:

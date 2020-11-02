@@ -12,9 +12,6 @@ jobs:
             fail-fast: false
             matrix:
                 actions:
-                    -   name: .idea dir
-                        run: 'php ci/forbidden_idea_committing.php'
-
                     -
                         name: Coding Standard README Sync
                         run: 'php ci/check_coding_standard_readme_sync.php'
@@ -26,6 +23,13 @@ jobs:
                     -
                         name: Composer Validate
                         run: composer validate --strict
+
+                    # see https://github.com/composer-unused/composer-unused
+                    -
+                        name: Unused Packages
+                        run: |
+                            composer require icanhazstring/composer-unused --dev
+                            composer unused
 
                     -
                         name: Check Missing Split Test Directories

@@ -10,7 +10,7 @@
     },
     "require-dev": {
         "nette/finder": "^2.5",
-        "phpunit/phpunit": "^8.5|^9.0"
+        "phpunit/phpunit": "^8.5|^9.4"
     },
     "autoload": {
         "psr-4": {

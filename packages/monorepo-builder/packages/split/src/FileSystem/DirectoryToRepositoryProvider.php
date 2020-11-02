@@ -100,7 +100,7 @@ final class DirectoryToRepositoryProvider
         $foundDirectories = (array) glob($directory);
         foreach ($foundDirectories as $foundDirectory) {
             /** @var string $foundDirectory */
-            $exclusiveName = (string) Strings::after($foundDirectory, $patternWithoutAsterisk);
+            $exclusiveName = (string) Strings::after((string) $foundDirectory, $patternWithoutAsterisk);
 
             $exclusiveName = $this->convertRepositoryToDesiredFormat($exclusiveName);
 
