@@ -21,7 +21,7 @@ services:
 parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
-#    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     parallel:
         # to prevent full thread lagging pc
@@ -32,7 +32,6 @@ parameters:
 
     excludes_analyse:
         # functions false positive
-        - packages/package-builder/functions/service_polyfill.php
         - *packages/easy-coding-standard/compiler/config/*
 
         - *packages/**/tests/**/config.php
@@ -123,8 +122,8 @@ parameters:
         - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
         # cognitive complexity
-        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is 14, keep it under 8#'
-        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is 14, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is \d+, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is \d+, keep it under 8#'
 
         - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
         - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
@@ -132,7 +131,6 @@ parameters:
 
         # might be BC break
         - '#Class "CommandNaming" with static method must have "static" in its name#'
-        - '#Class "InputDetector" with static method must have "static" in its name#'
 
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
@@ -247,13 +245,6 @@ parameters:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 25
 
         -
-            message: '#Do not use factory/method call in constructor, put factory in config and get service with dependency injection#'
-            paths:
-                - packages/easy-coding-standard/src/Console/EasyCodingStandardConsoleApplication.php # 30
-                - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 37
-                - packages/package-builder/src/Parameter/ParameterProvider.php # 26
-
-        -
             message:  '#Node "errorsuppress" is fobidden to use#'
             paths:
                 - packages/smart-file-system/src/SmartFileSystem.php
@@ -277,12 +268,6 @@ parameters:
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
 
-        -
-            message: '#Do not use factory/method call in constructor, put factory in config and get service with dependency injection#'
-            paths:
-                - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 22
-                - packages/skipper/src/Skipper/Skipper.php
-
         - '#Property Symplify\\Skipper\\ValueObject\\SkipRules\:\:\$skippedClasses \(array<string, array<string\>\|null\>\) does not accept array<string\>#'
 
         -
@@ -292,3 +277,11 @@ parameters:
                 - packages/easy-hydrator/src/TypeCaster/ObjectTypeCaster.php # 78
                 - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 141
                 - packages/package-builder/src/Reflection/PrivatesCaller.php # 19
+
+        -
+            message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
+            paths:
+                - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 23
+                - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 22
+                - packages/package-builder/src/Parameter/ParameterProvider.php # 26
+                - packages/skipper/src/Skipper/Skipper.php # 50

@@ -1,0 +1,51 @@
+name: Build Monorepo Prefixed
+
+on:
+    pull_request: null
+
+jobs:
+    build_monorepo_prefixed:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                scoped_package:
+                    - 'monorepo-builder'
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.2
+                    tools: composer:v2
+
+            -   run: composer install --no-progress --ansi
+
+            # 1. install package dependencies
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.scoped_package }}/composer.json --ansi
+            -   run: composer install --working-dir packages/${{ matrix.scoped_package }} --ansi --no-dev
+                env:
+                    # see https://tomasvotruba.com/blog/2020/10/19/how-to-split-test-monorepo-with-composer-2/
+                    COMPOSER_ROOT_VERSION: "dev-master"
+
+            # 2. scope it
+            -   run: vendor/bin/php-scoper add-prefix packages/${{ matrix.scoped_package }} --output-dir packages-scoped/${{ matrix.scoped_package }} --config packages/${{ matrix.scoped_package }}/scoper.inc.php --force --ansi
+            -   run: composer dump-autoload --working-dir packages-scoped/${{ matrix.scoped_package }} --ansi --optimize --classmap-authoritative
+            -   run: packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/${{ matrix.scoped_package }}/composer.json
+
+            # 3. run it
+            -   run: chmod 777 ./packages-scoped/${{ matrix.scoped_package }}/bin/${{ matrix.scoped_package }}
+            -   run: packages-scoped/${{ matrix.scoped_package }}/bin/${{ matrix.scoped_package }} --ansi
+
+            # 4. publish it to remote repository
+            # see https://github.com/cpina/github-action-push-to-another-repository
+            -
+                name: Pushes to another repository
+                uses: cpina/github-action-push-to-another-repository@master
+                env:
+                    API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
+                with:
+                    source-directory: 'packages-scoped/${{ matrix.scoped_package }}'
+                    destination-github-username: 'symplify'
+                    destination-repository-name: '${{ matrix.scoped_package }}-prefixed'
+                    user-email: tomas.vot@gmail.com

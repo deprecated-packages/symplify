@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Rules\NoStaticCallRule\Source;
 
-final class ClassWithStaticFactory
+final class ClassWithFactory
 {
     public static function create()
     {

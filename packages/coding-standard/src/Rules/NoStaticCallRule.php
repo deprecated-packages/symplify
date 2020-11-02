@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
+use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoStaticCallRule\NoStaticCallRuleTest
@@ -60,14 +61,21 @@ final class NoStaticCallRule extends AbstractSymplifyRule
     private $allowedStaticCallClasses = [];
 
     /**
+     * @var ArrayStringAndFnMatcher
+     */
+    private $arrayStringAndFnMatcher;
+
+    /**
      * @param string[] $allowedStaticCallClasses
      */
-    public function __construct(array $allowedStaticCallClasses = [])
+    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher, array $allowedStaticCallClasses = [])
     {
         $this->allowedStaticCallClasses = array_merge(
             $allowedStaticCallClasses,
             self::DEFAULT_ALLOWED_STATIC_CALL_CLASSES
         );
+
+        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
     }
 
     /**
@@ -104,7 +112,13 @@ final class NoStaticCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (in_array($className, $this->allowedStaticCallClasses, true)) {
+        // skip static class in name
+        $shortClassName = (string) Strings::after($className, '\\', -1);
+        if (Strings::contains($shortClassName, 'Static')) {
+            return [];
+        }
+
+        if ($this->arrayStringAndFnMatcher->isMatch($className, $this->allowedStaticCallClasses)) {
             return [];
         }
 

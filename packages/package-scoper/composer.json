@@ -1,0 +1,25 @@
+{
+    "name": "symplify/package-scoper",
+    "description": "Scope package in unique namespace to prevent composer install conflicts - with 1 click",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2",
+        "symfony/dependency-injection": "^4.4|^5.1",
+        "symfony/http-kernel": "^4.4|^5.1",
+        "symfony/console": "^4.4|^5.1",
+        "symplify/symplify-kernel": "^8.4",
+        "symplify/composer-json-manipulator": "^8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\PackageScoper\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "8.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

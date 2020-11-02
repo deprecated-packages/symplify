@@ -45,60 +45,76 @@ final class ComposerJsonFactory
         return $composerJson;
     }
 
+    public function createEmpty(): ComposerJson
+    {
+        return new ComposerJson();
+    }
+
+    /**
+     * @param mixed[] $jsonArray
+     */
     public function createFromArray(array $jsonArray): ComposerJson
     {
         $composerJson = new ComposerJson();
 
-        if (isset($jsonArray['name'])) {
-            $composerJson->setName($jsonArray['name']);
+        if (isset($jsonArray[ComposerJsonSection::NAME])) {
+            $composerJson->setName($jsonArray[ComposerJsonSection::NAME]);
         }
 
-        if (isset($jsonArray['description'])) {
-            $composerJson->setDescription($jsonArray['description']);
+        if (isset($jsonArray[ComposerJsonSection::DESCRIPTION])) {
+            $composerJson->setDescription($jsonArray[ComposerJsonSection::DESCRIPTION]);
         }
 
-        if (isset($jsonArray['license'])) {
-            $composerJson->setLicense($jsonArray['license']);
+        if (isset($jsonArray[ComposerJsonSection::LICENSE])) {
+            $composerJson->setLicense($jsonArray[ComposerJsonSection::LICENSE]);
         }
 
-        if (isset($jsonArray['require'])) {
-            $composerJson->setRequire($jsonArray['require']);
+        if (isset($jsonArray[ComposerJsonSection::BIN])) {
+            $composerJson->setBin($jsonArray[ComposerJsonSection::BIN]);
         }
 
-        if (isset($jsonArray['require-dev'])) {
-            $composerJson->setRequireDev($jsonArray['require-dev']);
+        if (isset($jsonArray[ComposerJsonSection::REQUIRE])) {
+            $composerJson->setRequire($jsonArray[ComposerJsonSection::REQUIRE]);
         }
 
-        if (isset($jsonArray['autoload'])) {
-            $composerJson->setAutoload($jsonArray['autoload']);
+        if (isset($jsonArray[ComposerJsonSection::REQUIRE_DEV])) {
+            $composerJson->setRequireDev($jsonArray[ComposerJsonSection::REQUIRE_DEV]);
         }
 
-        if (isset($jsonArray['autoload-dev'])) {
-            $composerJson->setAutoloadDev($jsonArray['autoload-dev']);
+        if (isset($jsonArray[ComposerJsonSection::AUTOLOAD])) {
+            $composerJson->setAutoload($jsonArray[ComposerJsonSection::AUTOLOAD]);
         }
 
-        if (isset($jsonArray['replace'])) {
-            $composerJson->setReplace($jsonArray['replace']);
+        if (isset($jsonArray[ComposerJsonSection::AUTOLOAD_DEV])) {
+            $composerJson->setAutoloadDev($jsonArray[ComposerJsonSection::AUTOLOAD_DEV]);
         }
 
-        if (isset($jsonArray['config'])) {
-            $composerJson->setConfig($jsonArray['config']);
+        if (isset($jsonArray[ComposerJsonSection::REPLACE])) {
+            $composerJson->setReplace($jsonArray[ComposerJsonSection::REPLACE]);
         }
 
-        if (isset($jsonArray['extra'])) {
-            $composerJson->setExtra($jsonArray['extra']);
+        if (isset($jsonArray[ComposerJsonSection::CONFIG])) {
+            $composerJson->setConfig($jsonArray[ComposerJsonSection::CONFIG]);
         }
 
-        if (isset($jsonArray['scripts'])) {
-            $composerJson->setScripts($jsonArray['scripts']);
+        if (isset($jsonArray[ComposerJsonSection::EXTRA])) {
+            $composerJson->setExtra($jsonArray[ComposerJsonSection::EXTRA]);
         }
 
-        if (isset($jsonArray['minimum-stability'])) {
-            $composerJson->setMinimumStability($jsonArray['minimum-stability']);
+        if (isset($jsonArray[ComposerJsonSection::SCRIPTS])) {
+            $composerJson->setScripts($jsonArray[ComposerJsonSection::SCRIPTS]);
         }
 
-        if (isset($jsonArray['prefer-stable'])) {
-            $composerJson->setPreferStable($jsonArray['prefer-stable']);
+        if (isset($jsonArray[ComposerJsonSection::MINIMUM_STABILITY])) {
+            $composerJson->setMinimumStability($jsonArray[ComposerJsonSection::MINIMUM_STABILITY]);
+        }
+
+        if (isset($jsonArray[ComposerJsonSection::PREFER_STABLE])) {
+            $composerJson->setPreferStable($jsonArray[ComposerJsonSection::PREFER_STABLE]);
+        }
+
+        if (isset($jsonArray[ComposerJsonSection::CONFLICTING])) {
+            $composerJson->setConflicting($jsonArray[ComposerJsonSection::CONFLICTING]);
         }
 
         if (isset($jsonArray[ComposerJsonSection::REPOSITORIES])) {

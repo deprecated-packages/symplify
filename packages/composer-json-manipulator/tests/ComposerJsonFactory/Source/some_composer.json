@@ -11,5 +11,8 @@
     "require": {
         "php": "^7.4",
         "symfony/console": "^5.2"
+    },
+    "replace": {
+        "symplify/autodiscovery": "^8.3.45"
     }
 }

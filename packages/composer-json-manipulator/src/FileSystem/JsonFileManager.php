@@ -63,7 +63,7 @@ final class JsonFileManager
     /**
      * @param mixed[] $json
      */
-    public function saveJsonWithFileInfo(array $json, SmartFileInfo $smartFileInfo): string
+    public function printJsonToFileInfo(array $json, SmartFileInfo $smartFileInfo): string
     {
         $jsonString = $this->encodeJsonToFileContent($json);
         $this->smartFileSystem->dumpFile($smartFileInfo->getPathname(), $jsonString);
@@ -71,17 +71,12 @@ final class JsonFileManager
         return $jsonString;
     }
 
-    public function saveComposerJsonToFilePath(ComposerJson $composerJson, string $filePath): string
+    public function printComposerJsonToFilePath(ComposerJson $composerJson, string $filePath): string
     {
         $jsonString = $this->encodeJsonToFileContent($composerJson->getJsonArray());
         $this->smartFileSystem->dumpFile($filePath, $jsonString);
 
         return $jsonString;
-    }
-
-    public function saveComposerJsonWithFileInfo(ComposerJson $composerJson, SmartFileInfo $smartFileInfo): void
-    {
-        $this->saveJsonWithFileInfo($composerJson->getJsonArray(), $smartFileInfo);
     }
 
     /**

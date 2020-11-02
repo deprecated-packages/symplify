@@ -94,7 +94,7 @@ final class MergeCommand extends Command
             $packageFileInfos
         );
 
-        $this->jsonFileManager->saveComposerJsonToFilePath($mainComposerJson, $mainComposerJsonFilePath);
+        $this->jsonFileManager->printComposerJsonToFilePath($mainComposerJson, $mainComposerJsonFilePath);
         $this->symfonyStyle->success('Main "composer.json" was updated.');
 
         return ShellCode::SUCCESS;

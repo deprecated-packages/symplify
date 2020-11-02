@@ -92,15 +92,13 @@
             "Symplify\\MonorepoBuilder\\Testing\\": "packages/monorepo-builder/packages/testing/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
+            "Symplify\\PackageScoper\\": "packages/package-scoper/src",
             "Symplify\\SetConfigResolver\\": "packages/set-config-resolver/src",
             "Symplify\\Skipper\\": "packages/skipper/src",
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
             "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src"
-        },
-        "files": [
-            "packages/package-builder/functions/service_polyfill.php"
-        ]
+        }
     },
     "autoload-dev": {
         "classmap": [
@@ -157,6 +155,7 @@
         "symplify/gerudoc": "^8.3.45",
         "symplify/monorepo-builder": "^8.3.45",
         "symplify/package-builder": "^8.3.45",
+        "symplify/package-scoper": "self.version",
         "symplify/phpstan-extensions": "^8.3.45",
         "symplify/set-config-resolver": "^8.3.45",
         "symplify/skipper": "self.version",
@@ -189,10 +188,11 @@
         "validate-monorepo": "packages/monorepo-builder/bin/monorepo-builder validate --ansi",
         "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi",
         "prefix-monorepo-builder": [
-            "packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/monorepo-builder/composer.json",
-            "composer install --working-dir packages/monorepo-builder",
+            "packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/monorepo-builder/composer.json --ansi",
+            "composer install --working-dir packages/monorepo-builder --no-dev",
             "vendor/bin/php-scoper add-prefix packages/monorepo-builder --output-dir packages-scoped/monorepo-builder --config packages/monorepo-builder/scoper.inc.php --force",
-            "composer dump-autoload --working-dir packages-scoped/monorepo-builder"
+            "composer dump-autoload --working-dir packages-scoped/monorepo-builder --ansi --optimize --classmap-authoritative",
+            "packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/monorepo-builder/composer.json"
         ]
     },
     "config": {
