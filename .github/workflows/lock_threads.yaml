@@ -13,4 +13,4 @@ jobs:
                 uses: dessant/lock-threads@v2
                 with:
                     github-token: ${{ secrets.ACCESS_TOKEN }}
-                    issue-lock-inactive-days: 365
+                    issue-lock-inactive-days: 100
