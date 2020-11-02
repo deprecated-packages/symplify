@@ -29,7 +29,7 @@ jobs:
                     COMPOSER_ROOT_VERSION: "dev-master"
 
             # scope it
-            -   run: vendor/bin/php-scoper add-prefix packages/monorepo-builder --output-dir packages-scoped/monorepo-builder --config packages/monorepo-builder/compiler/build/scoper.inc.php --force
+            -   run: vendor/bin/php-scoper add-prefix packages/monorepo-builder --output-dir packages-scoped/monorepo-builder --config packages/monorepo-builder/scoper.inc.php --force
             -   run: composer dump-autoload --working-dir packages-scoped/monorepo-builder
 
             # run it
