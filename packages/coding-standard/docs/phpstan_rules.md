@@ -2391,6 +2391,24 @@ interface AContract
 
 declare(strict_types=1);
 
+namespace A\Controller;
+
+use DateTime;
+
+interface ControllerInteface
+{
+
+}
+```
+
+:+1:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
 namespace A\Contract;
 
 use Psr\Container\Containerinterface;
