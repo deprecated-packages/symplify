@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooLongClassLikeRule;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\TooLongClassLikeRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassLikeRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule;
 
 final class TooLongClassLikeRuleTest extends AbstractServiceAwareRuleTestCase
 {

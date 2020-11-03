@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoShortNameRule;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoShortNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule;
 
 final class NoShortNameRuleTest extends AbstractServiceAwareRuleTestCase
 {

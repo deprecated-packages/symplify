@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoSetterClassMethodRule;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoSetterClassMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule;
 
 final class NoSetterClassMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {

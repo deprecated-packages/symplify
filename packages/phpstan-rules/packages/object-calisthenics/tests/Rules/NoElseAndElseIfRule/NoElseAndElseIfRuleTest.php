@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoElseAndElseIfRule;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoElseAndElseIfRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule;
 
 final class NoElseAndElseIfRuleTest extends AbstractServiceAwareRuleTestCase
 {

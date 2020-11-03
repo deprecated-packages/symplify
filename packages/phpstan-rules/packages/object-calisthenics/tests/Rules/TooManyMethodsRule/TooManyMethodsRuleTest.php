@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooManyMethodsRule;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\TooManyMethodsRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyMethodsRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule;
 
 final class TooManyMethodsRuleTest extends AbstractServiceAwareRuleTestCase
 {

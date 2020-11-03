@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooManyPropertiesRule\Fixture;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\TooManyPropertiesRule\Fixture;
 
 final class TooManyProperties
 {

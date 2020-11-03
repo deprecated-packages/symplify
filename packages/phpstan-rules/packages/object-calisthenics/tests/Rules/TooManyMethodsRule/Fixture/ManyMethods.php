@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooManyMethodsRule\Fixture;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\TooManyMethodsRule\Fixture;
 
 final class ManyMethods
 {

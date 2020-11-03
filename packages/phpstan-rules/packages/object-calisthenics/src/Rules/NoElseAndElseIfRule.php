@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Else_;
@@ -13,7 +13,7 @@ use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#2-do-not-use-else-keyword
  *
- * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoElseAndElseIfRule\NoElseAndElseIfRuleTest
+ * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoElseAndElseIfRule\NoElseAndElseIfRuleTest
  */
 final class NoElseAndElseIfRule extends AbstractSymplifyRule
 {

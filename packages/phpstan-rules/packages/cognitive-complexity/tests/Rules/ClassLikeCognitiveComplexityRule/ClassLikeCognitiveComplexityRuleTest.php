@@ -6,8 +6,8 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCogniti
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
 
 final class ClassLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRuleTestCase
 {

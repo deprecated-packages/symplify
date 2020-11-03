@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooManyPropertiesRule;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\TooManyPropertiesRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyPropertiesRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule;
 
 final class TooManyPropertiesRuleTest extends AbstractServiceAwareRuleTestCase
 {

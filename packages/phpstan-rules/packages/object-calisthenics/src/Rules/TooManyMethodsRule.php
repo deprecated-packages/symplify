@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 
 /**
- * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooManyMethodsRule\TooManyMethodsRuleTest
+ * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\TooManyMethodsRule\TooManyMethodsRuleTest
  */
 final class TooManyMethodsRule extends AbstractSymplifyRule
 {

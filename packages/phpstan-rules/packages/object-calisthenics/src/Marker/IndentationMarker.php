@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Marker;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Marker;
 
 final class IndentationMarker
 {

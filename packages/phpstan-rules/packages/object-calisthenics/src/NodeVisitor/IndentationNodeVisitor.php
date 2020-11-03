@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\NodeVisitor;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use Symplify\CodingStandard\ObjectCalisthenics\Marker\IndentationMarker;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use Symplify\PHPStanRules\ObjectCalisthenics\Marker\IndentationMarker;
 
 final class IndentationNodeVisitor extends NodeVisitorAbstract
 {

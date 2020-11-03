@@ -3,52 +3,52 @@ includes:
 
 services:
     -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoShortNameRule
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
         tags: [phpstan.rules.rule]
         arguments:
             minNameLenght: 3
             allowedShortNames: ['id', 'to', 'up']
 
     -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
         tags: [phpstan.rules.rule]
         arguments:
             maxNestingLevel: 1
 
     -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongClassLikeRule
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule
         tags: [phpstan.rules.rule]
         arguments:
             maxClassLikeLength: 300
 
     -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
         tags: [phpstan.rules.rule]
         arguments:
             maxFunctionLikeLength: 20
 
     -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyPropertiesRule
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule
         tags: [phpstan.rules.rule]
         arguments:
             maxPropertyCount: 10
 
     -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyMethodsRule
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule
         tags: [phpstan.rules.rule]
         arguments:
             maxMethodCount: 10
 
     -
-         class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule
+         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule
          tags: [phpstan.rules.rule]
          arguments:
             allowedSetterClasses: []
 
     -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoElseAndElseIfRule
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule
         tags: [phpstan.rules.rule]

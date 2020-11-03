@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
@@ -12,7 +12,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 
 /**
- * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooLongFunctionLikeRule\TooLongFunctionLikeRuleTest
+ * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\TooLongFunctionLikeRule\TooLongFunctionLikeRuleTest
  */
 final class TooLongFunctionLikeRule extends AbstractSymplifyRule
 {

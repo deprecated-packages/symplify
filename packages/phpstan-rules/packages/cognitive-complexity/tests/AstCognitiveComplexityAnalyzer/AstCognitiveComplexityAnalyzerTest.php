@@ -12,9 +12,9 @@ use PhpParser\NodeFinder;
 use PhpParser\ParserFactory;
 use PHPStan\DependencyInjection\ContainerFactory;
 use PHPUnit\Framework\TestCase;
-use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
+use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 

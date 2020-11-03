@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
@@ -14,7 +14,7 @@ use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#9-do-not-use-getters-and-setters
  *
- * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoSetterClassMethodRule\NoSetterClassMethodRuleTest
+ * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoSetterClassMethodRule\NoSetterClassMethodRuleTest
  */
 final class NoSetterClassMethodRule extends AbstractSymplifyRule
 {

@@ -6,10 +6,10 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCogn
 
 use Iterator;
 use PHPStan\Rules\Rule;
+use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
 use Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Source\ClassMethodOverComplicated;
 use Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Source\VideoRepository;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 final class FunctionLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRuleTestCase
 {

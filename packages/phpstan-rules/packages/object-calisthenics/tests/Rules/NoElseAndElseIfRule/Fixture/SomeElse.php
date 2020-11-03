@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoElseAndElseIfRule\Fixture;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoElseAndElseIfRule\Fixture;
 
 final class SomeElse
 {

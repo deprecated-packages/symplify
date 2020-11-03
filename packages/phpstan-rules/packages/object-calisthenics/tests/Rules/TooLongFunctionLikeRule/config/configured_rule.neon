@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
         tags: [phpstan.rules.rule]
         arguments:
             maxFunctionLikeLength: 10

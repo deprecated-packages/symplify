@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule
         tags: [phpstan.rules.rule]
         arguments:
             allowedSetterClasses:

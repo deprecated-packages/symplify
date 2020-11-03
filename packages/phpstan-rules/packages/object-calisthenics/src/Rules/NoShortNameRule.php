@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
@@ -17,7 +17,7 @@ use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#6-do-not-abbreviate
  *
- * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\NoShortNameRule\NoShortNameRuleTest
+ * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoShortNameRule\NoShortNameRuleTest
  */
 final class NoShortNameRule extends AbstractSymplifyRule
 {

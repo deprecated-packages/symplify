@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\ObjectCalisthenics\NodeTraverserFactory;
+namespace Symplify\PHPStanRules\ObjectCalisthenics\NodeTraverserFactory;
 
 use PhpParser\NodeTraverser;
-use Symplify\CodingStandard\ObjectCalisthenics\NodeVisitor\IndentationNodeVisitor;
+use Symplify\PHPStanRules\ObjectCalisthenics\NodeVisitor\IndentationNodeVisitor;
 
 final class IndentationNodeTraverserFactory
 {
