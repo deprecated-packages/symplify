@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\CognitiveComplexity\Tests\AstCognitiveComplexityAnalyzer;
+namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\AstCognitiveComplexityAnalyzer;
 
 use Iterator;
 use PhpParser\Node;
@@ -12,7 +12,7 @@ use PhpParser\NodeFinder;
 use PhpParser\ParserFactory;
 use PHPStan\DependencyInjection\ContainerFactory;
 use PHPUnit\Framework\TestCase;
-use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
+use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\SmartFileInfo;

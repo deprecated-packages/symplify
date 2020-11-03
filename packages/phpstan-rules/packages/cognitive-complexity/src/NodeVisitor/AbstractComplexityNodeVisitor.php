@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\CognitiveComplexity\NodeVisitor;
+namespace Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\BooleanAnd;

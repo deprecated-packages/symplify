@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\CognitiveComplexity\NodeVisitor;
+namespace Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\For_;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\While_;
-use Symplify\CodingStandard\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
+use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
 
 final class NestingNodeVisitor extends AbstractComplexityNodeVisitor
 {

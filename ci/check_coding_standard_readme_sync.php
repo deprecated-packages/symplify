@@ -3,8 +3,8 @@
 use Nette\Loaders\RobotLoader;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
-use Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
+use Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
+use Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerNewlineFixer;
 use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;

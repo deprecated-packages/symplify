@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\CognitiveComplexity\NodeVisitor;
+namespace Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor;
 
 use PhpParser\Node;
-use Symplify\CodingStandard\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
+use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
 
 final class ComplexityNodeVisitor extends AbstractComplexityNodeVisitor
 {

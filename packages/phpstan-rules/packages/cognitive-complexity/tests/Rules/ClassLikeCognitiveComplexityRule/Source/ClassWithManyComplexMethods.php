@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule\Source;
+namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule\Source;
 
 final class ClassWithManyComplexMethods
 {

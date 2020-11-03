@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule;
+namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
+use Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 final class ClassLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRuleTestCase

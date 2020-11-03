@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\CognitiveComplexity;
+namespace Symplify\PHPStanRules\CognitiveComplexity;
 
 use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\NodeTraverser;
-use Symplify\CodingStandard\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
-use Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor;
-use Symplify\CodingStandard\CognitiveComplexity\NodeVisitor\NestingNodeVisitor;
+use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
+use Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor;
+use Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\NestingNodeVisitor;
 
 /**
- * @see \Symplify\CodingStandard\CognitiveComplexity\Tests\AstCognitiveComplexityAnalyzer\AstCognitiveComplexityAnalyzerTest
+ * @see \Symplify\PHPStanRules\CognitiveComplexity\Tests\AstCognitiveComplexityAnalyzer\AstCognitiveComplexityAnalyzerTest
  */
 final class AstCognitiveComplexityAnalyzer
 {

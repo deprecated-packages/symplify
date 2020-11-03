@@ -7,13 +7,13 @@ includes:
 
 services:
     -
-        class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
             maxMethodCognitiveComplexity: 8
 
     -
-        class: Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
             maxClassCognitiveComplexity: 40

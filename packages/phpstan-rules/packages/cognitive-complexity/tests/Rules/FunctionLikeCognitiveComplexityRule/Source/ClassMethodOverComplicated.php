@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Source;
+namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Source;
 
 final class ClassMethodOverComplicated
 {

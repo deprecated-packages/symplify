@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\CognitiveComplexity\Rules;
+namespace Symplify\PHPStanRules\CognitiveComplexity\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
+use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 
 /**
- * @see \Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule\ClassLikeCognitiveComplexityRuleTest
+ * @see \Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule\ClassLikeCognitiveComplexityRuleTest
  */
 final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule
 {

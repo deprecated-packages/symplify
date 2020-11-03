@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\CognitiveComplexity\Rules;
+namespace Symplify\PHPStanRules\CognitiveComplexity\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrowFunction;
@@ -11,7 +11,7 @@ use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
+use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
@@ -25,7 +25,7 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
  *
  * @see https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/
  *
- * @see \Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\FunctionLikeCognitiveComplexityRuleTest
+ * @see \Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\FunctionLikeCognitiveComplexityRuleTest
  */
 final class FunctionLikeCognitiveComplexityRule extends AbstractSymplifyRule
 {

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule;
+namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
-use Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Source\ClassMethodOverComplicated;
-use Symplify\CodingStandard\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Source\VideoRepository;
+use Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
+use Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Source\ClassMethodOverComplicated;
+use Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Source\VideoRepository;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 final class FunctionLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRuleTestCase
