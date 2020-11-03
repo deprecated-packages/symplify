@@ -292,7 +292,7 @@ parameters:
                 - packages/easy-hydrator/src/TypeCaster/TypeCasterInterface.php # 8
 
         -
-            message: '#Constant string value need to only have small letters, underscore, and numbers#'
+            message: '#Constant string value need to only have small letters, underscore, dash, fullstop, and numbers#'
             paths:
                 - packages/changelog-linker/src/Configuration/Category.php # 12
                 - packages/changelog-linker/src/Configuration/Category.php # 17
