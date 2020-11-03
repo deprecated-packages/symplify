@@ -7,8 +7,8 @@ use Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexity
 use Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerNewlineFixer;
-use Symplify\CodingStandard\Rules\AbstractManyNodeTypeRule;
-use Symplify\CodingStandard\Rules\AbstractRegexRule;
+use Symplify\PHPStanRules\Rules\AbstractManyNodeTypeRule;
+use Symplify\PHPStanRules\Rules\AbstractRegexRule;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\SmartFileSystem\SmartFileSystem;

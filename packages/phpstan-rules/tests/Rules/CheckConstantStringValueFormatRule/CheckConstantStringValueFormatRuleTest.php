@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckConstantStringValueFormatRule;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantStringValueFormatRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\CheckConstantStringValueFormatRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule;
 
 final class CheckConstantStringValueFormatRuleTest extends AbstractServiceAwareRuleTestCase
 {

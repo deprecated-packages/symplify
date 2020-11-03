@@ -2225,7 +2225,7 @@ class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckConstantStringValueFormatRule
+        class: Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule
         tags: [phpstan.rules.rule]
 ```
 

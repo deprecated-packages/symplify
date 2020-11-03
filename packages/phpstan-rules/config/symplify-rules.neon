@@ -300,7 +300,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\CheckConstantStringValueFormatRule
+        class: Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule
         tags: [phpstan.rules.rule]
 
     # services

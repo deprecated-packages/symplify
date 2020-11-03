@@ -321,3 +321,13 @@ parameters:
                 - packages/easy-coding-standard/packages/fixer-runner/src/WhitespacesFixerConfigFactory.php # 21
                 - packages/easy-coding-standard/packages/fixer-runner/src/WhitespacesFixerConfigFactory.php # 26
                 - packages/flex-loader/src/Flex/FlexLoader.php # 19
+
+        -
+            message: '#Constant string value need to only have small letters, underscore, dash, fullstop, and numbers#'
+            paths:
+                - packages/phpstan-rules/packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php # 23
+                - packages/phpstan-rules/src/Rules/AnnotateRegexClassConstWithRegexLinkRule.php # 27
+                - packages/phpstan-rules/src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php # 22
+                - packages/phpstan-rules/src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php # 27
+                - packages/phpstan-rules/src/Rules/ForbiddenParentClassRule.php # 25
+                - packages/phpstan-rules/src/Rules/NoSuffixValueObjectClassRule.php # 21
