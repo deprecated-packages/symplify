@@ -46,7 +46,12 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
         }
 
         foreach ($consts as $const) {
-            if ($const->name->toString() !== 'ERROR_MESSAGE' && ! $const->value instanceof String_) {
+            $constName = $const->name->toString();
+            if ($constName === 'ERROR_MESSAGE' || Strings::endWith($constName, '_REGEX')) {
+                continue;
+            }
+
+            if (! $const->value instanceof String_) {
                 continue;
             }
 
