@@ -8,8 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\New_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Contract\ManyNodeRuleInterface;
+use Symplify\PHPStanRules\Contract\ManyNodeRuleInterface;
 
 final class SkipParentMethod implements ManyNodeRuleInterface
 {

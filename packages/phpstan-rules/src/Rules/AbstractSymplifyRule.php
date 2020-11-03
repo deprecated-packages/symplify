@@ -10,8 +10,8 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Contract\ManyNodeRuleInterface;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use Symplify\PHPStanRules\Contract\ManyNodeRuleInterface;
 
 abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface
 {
