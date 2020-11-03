@@ -1,0 +1,6 @@
+services:
+    -
+        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyMethodsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxMethodCount: 3
