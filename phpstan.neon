@@ -285,3 +285,8 @@ parameters:
                 - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 22
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                 - packages/skipper/src/Skipper/Skipper.php # 50
+
+        -
+            message: '#Interface is required in Contract namespace#'
+            paths:
+                - packages/easy-hydrator/src/TypeCaster/TypeCasterInterface.php # 8
