@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenReturnValueOfIncludeOnceRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenReturnValueOfIncludeOnceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

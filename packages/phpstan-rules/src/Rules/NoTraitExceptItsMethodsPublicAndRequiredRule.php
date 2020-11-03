@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule\NoTraitExceptItsMethodsPublicAndRequiredRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule\NoTraitExceptItsMethodsPublicAndRequiredRuleTest
  */
 final class NoTraitExceptItsMethodsPublicAndRequiredRule extends AbstractSymplifyRule
 {

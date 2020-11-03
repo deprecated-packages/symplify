@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\ForbiddenConstructorDependencyByTypeRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\ForbiddenConstructorDependencyByTypeRuleTest
  */
 final class ForbiddenConstructorDependencyByTypeRule extends AbstractSymplifyRule
 {

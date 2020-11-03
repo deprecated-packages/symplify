@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\AnnotateRegexClassConstWithRegexLinkRule;
+namespace Symplify\PHPStanRules\Tests\Rules\AnnotateRegexClassConstWithRegexLinkRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

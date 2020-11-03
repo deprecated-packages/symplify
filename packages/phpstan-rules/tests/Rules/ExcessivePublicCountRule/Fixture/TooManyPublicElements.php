@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ExcessivePublicCountRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ExcessivePublicCountRule\Fixture;
 
 final class TooManyPublicElements
 {

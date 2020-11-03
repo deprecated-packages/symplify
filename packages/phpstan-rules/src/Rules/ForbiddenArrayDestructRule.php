@@ -17,7 +17,7 @@ use ReflectionClass;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenArrayDestructRule\ForbiddenArrayDestructRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayDestructRule\ForbiddenArrayDestructRuleTest
  */
 final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
 {

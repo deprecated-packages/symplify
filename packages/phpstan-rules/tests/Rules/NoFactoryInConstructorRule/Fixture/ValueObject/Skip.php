@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoFactoryInConstructorRule\Fixture\ValueObject;
+namespace Symplify\PHPStanRules\Tests\Rules\NoFactoryInConstructorRule\Fixture\ValueObject;
 
 use Symplify\SmartFileSystem\SmartFileInfo;
 

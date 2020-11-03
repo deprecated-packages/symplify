@@ -11,7 +11,7 @@ use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\RequireNewArgumentConstantRule\RequireNewArgumentConstantRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\RequireNewArgumentConstantRule\RequireNewArgumentConstantRuleTest
  */
 final class RequireNewArgumentConstantRule extends AbstractSymplifyRule
 {

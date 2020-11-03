@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule\Fixture;
 
-use Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule\Source\ClassUsingTraitWithProtectedAbstractMethod;
+use Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule\Source\ClassUsingTraitWithProtectedAbstractMethod;
 
 final class SkipKernelProtectedMethod extends ClassUsingTraitWithProtectedAbstractMethod
 {

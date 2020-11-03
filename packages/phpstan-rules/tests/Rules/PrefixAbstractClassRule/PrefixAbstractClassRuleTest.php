@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PrefixAbstractClassRule;
+namespace Symplify\PHPStanRules\Tests\Rules\PrefixAbstractClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

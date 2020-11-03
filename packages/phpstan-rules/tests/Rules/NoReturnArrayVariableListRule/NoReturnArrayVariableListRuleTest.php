@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoReturnArrayVariableListRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoReturnArrayVariableListRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

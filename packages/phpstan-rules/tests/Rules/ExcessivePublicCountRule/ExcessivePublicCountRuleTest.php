@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ExcessivePublicCountRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ExcessivePublicCountRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

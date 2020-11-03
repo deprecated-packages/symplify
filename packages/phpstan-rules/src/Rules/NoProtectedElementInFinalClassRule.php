@@ -18,7 +18,7 @@ use Symplify\PHPStanRules\ParentMethodAnalyser;
 use Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule\NoProtectedElementInFinalClassRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule\NoProtectedElementInFinalClassRuleTest
  */
 final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
 {

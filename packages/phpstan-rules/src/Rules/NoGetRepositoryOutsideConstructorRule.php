@@ -9,7 +9,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ValueObject\MethodName;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoGetRepositoryOutsideConstructorRule\NoGetRepositoryOutsideConstructorRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoGetRepositoryOutsideConstructorRule\NoGetRepositoryOutsideConstructorRuleTest
  */
 final class NoGetRepositoryOutsideConstructorRule extends AbstractSymplifyRule
 {

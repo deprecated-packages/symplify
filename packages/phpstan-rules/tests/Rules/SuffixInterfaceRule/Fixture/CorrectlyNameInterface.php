@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\SuffixInterfaceRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\SuffixInterfaceRule\Fixture;
 
 interface CorrectlyNameInterface
 {

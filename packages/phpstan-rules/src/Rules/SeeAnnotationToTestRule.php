@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\SeeAnnotationToTestRule\SeeAnnotationToTestRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule\SeeAnnotationToTestRuleTest
  */
 final class SeeAnnotationToTestRule extends AbstractSymplifyRule
 {

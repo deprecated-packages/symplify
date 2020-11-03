@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PrefferedMethodCallOverFuncCallRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\PrefferedMethodCallOverFuncCallRule\Fixture;
 
 final class SkipSelfCall
 {

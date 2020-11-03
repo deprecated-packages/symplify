@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\NodeAnalyser\ProtectedAnalyser;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenProtectedPropertyRule\ForbiddenProtectedPropertyRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenProtectedPropertyRule\ForbiddenProtectedPropertyRuleTest
  */
 final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
 {

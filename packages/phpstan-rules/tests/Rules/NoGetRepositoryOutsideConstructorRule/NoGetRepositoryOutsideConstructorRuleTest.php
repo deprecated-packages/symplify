@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoGetRepositoryOutsideConstructorRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoGetRepositoryOutsideConstructorRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

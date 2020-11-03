@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoIssetOnObjectRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoIssetOnObjectRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

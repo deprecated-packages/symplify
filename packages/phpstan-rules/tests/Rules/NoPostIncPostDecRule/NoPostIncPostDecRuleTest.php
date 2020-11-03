@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoPostIncPostDecRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoPostIncPostDecRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

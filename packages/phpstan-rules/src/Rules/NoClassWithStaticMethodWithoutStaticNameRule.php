@@ -15,7 +15,7 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule\NoClassWithStaticMethodWithoutStaticNameRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule\NoClassWithStaticMethodWithoutStaticNameRuleTest
  */
 final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplifyRule
 {

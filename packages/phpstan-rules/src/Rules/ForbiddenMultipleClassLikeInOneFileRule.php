@@ -11,7 +11,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Node\FileNode;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMultipleClassLikeInOneFileRule\ForbiddenMultipleClassLikeInOneFileRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMultipleClassLikeInOneFileRule\ForbiddenMultipleClassLikeInOneFileRuleTest
  */
 final class ForbiddenMultipleClassLikeInOneFileRule extends AbstractSymplifyRule
 {

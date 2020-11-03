@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoIssetOnObjectRule\NoIssetOnObjectRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoIssetOnObjectRule\NoIssetOnObjectRuleTest
  */
 final class NoIssetOnObjectRule extends AbstractSymplifyRule
 {

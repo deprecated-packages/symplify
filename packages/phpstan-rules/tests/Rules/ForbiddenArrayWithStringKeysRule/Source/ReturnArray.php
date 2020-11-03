@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenArrayWithStringKeysRule\Source;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayWithStringKeysRule\Source;
 
 interface ReturnArray
 {

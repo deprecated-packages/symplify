@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\SuffixInterfaceRule\SuffixInterfaceRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\SuffixInterfaceRule\SuffixInterfaceRuleTest
  */
 final class SuffixInterfaceRule extends AbstractSymplifyRule
 {

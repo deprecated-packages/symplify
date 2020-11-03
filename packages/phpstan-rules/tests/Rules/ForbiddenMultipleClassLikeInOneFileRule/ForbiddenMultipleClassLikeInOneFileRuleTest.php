@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMultipleClassLikeInOneFileRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMultipleClassLikeInOneFileRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

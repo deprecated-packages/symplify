@@ -17,7 +17,7 @@ use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoReturnArrayVariableListRule\NoReturnArrayVariableListRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoReturnArrayVariableListRule\NoReturnArrayVariableListRuleTest
  */
 final class NoReturnArrayVariableListRule extends AbstractSymplifyRule
 {

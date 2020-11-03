@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\TooLongVariableRule;
+namespace Symplify\PHPStanRules\Tests\Rules\TooLongVariableRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

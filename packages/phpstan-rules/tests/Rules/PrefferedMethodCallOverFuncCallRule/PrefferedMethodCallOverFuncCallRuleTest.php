@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PrefferedMethodCallOverFuncCallRule;
+namespace Symplify\PHPStanRules\Tests\Rules\PrefferedMethodCallOverFuncCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

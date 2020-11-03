@@ -14,7 +14,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\RequireMethodCallArgumentConstantRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\RequireMethodCallArgumentConstantRule\RequireMethodCallArgumentConstantRuleTest
  */
 final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule
 {

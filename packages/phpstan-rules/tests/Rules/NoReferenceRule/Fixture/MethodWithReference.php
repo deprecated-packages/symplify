@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoReferenceRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoReferenceRule\Fixture;
 
 final class MethodWithReference
 {

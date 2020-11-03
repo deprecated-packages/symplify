@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreferredClassConstantOverVariableConstantRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\PreferredClassConstantOverVariableConstantRule\Fixture;
 
-use Symplify\CodingStandard\Tests\Rules\PreferredClassConstantOverVariableConstantRule\Source\SomeClassWithConstant;
+use Symplify\PHPStanRules\Tests\Rules\PreferredClassConstantOverVariableConstantRule\Source\SomeClassWithConstant;
 
 final class ArrayDimFetchConstant
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenNewOutsideFactoryServiceRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenNewOutsideFactoryServiceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

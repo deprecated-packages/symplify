@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

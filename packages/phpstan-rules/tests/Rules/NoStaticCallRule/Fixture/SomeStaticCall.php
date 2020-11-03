@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoStaticCallRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoStaticCallRule\Fixture;
 
-use Symplify\CodingStandard\Tests\Rules\NoStaticCallRule\Source\SomeMethods;
+use Symplify\PHPStanRules\Tests\Rules\NoStaticCallRule\Source\SomeMethods;
 
 final class SomeStaticCall
 {

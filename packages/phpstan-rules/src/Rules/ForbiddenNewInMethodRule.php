@@ -11,7 +11,7 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule\ForbiddenNewInMethodRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNewInMethodRule\ForbiddenNewInMethodRuleTest
  */
 final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckRequiredInterfaceInContractNamespaceRule;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredInterfaceInContractNamespaceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenProtectedPropertyRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenProtectedPropertyRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

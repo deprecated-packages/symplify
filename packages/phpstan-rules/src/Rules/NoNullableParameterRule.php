@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoNullableParameterRule\NoNullableParameterRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoNullableParameterRule\NoNullableParameterRuleTest
  */
 final class NoNullableParameterRule extends AbstractSymplifyRule
 {

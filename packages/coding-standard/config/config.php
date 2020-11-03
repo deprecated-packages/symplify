@@ -21,8 +21,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/../src/TokenRunner/Exception',
             __DIR__ . '/../src/Sniffs',
             __DIR__ . '/../src/Fixer',
-            __DIR__ . '/../src/Rules',
-            __DIR__ . '/../src/PHPStan',
         ]);
 
     $services->set(FunctionsAnalyzer::class);

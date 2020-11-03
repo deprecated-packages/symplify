@@ -11,7 +11,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenFuncCallRule\ForbiddenFuncCallRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenFuncCallRule\ForbiddenFuncCallRuleTest
  */
 final class ForbiddenFuncCallRule extends AbstractSymplifyRule
 {

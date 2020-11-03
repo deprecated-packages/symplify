@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\RequireThisOnParentMethodCallRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\RequireThisOnParentMethodCallRule\Fixture;
 
 class CallParentMethodStaticallySameMethod extends ParentClass
 {

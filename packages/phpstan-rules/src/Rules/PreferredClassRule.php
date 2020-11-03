@@ -16,7 +16,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\PreferredClassRule\PreferredClassRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\PreferredClassRuleTest
  */
 final class PreferredClassRule extends AbstractSymplifyRule
 {

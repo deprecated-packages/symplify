@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodCallOnNewRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallOnNewRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

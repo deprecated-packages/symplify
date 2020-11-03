@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoEntityManagerInControllerRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoEntityManagerInControllerRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

@@ -16,7 +16,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\BooleanType;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\BoolishClassMethodPrefixRule\BoolishClassMethodPrefixRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\BoolishClassMethodPrefixRule\BoolishClassMethodPrefixRuleTest
  */
 final class BoolishClassMethodPrefixRule extends AbstractSymplifyRule
 {

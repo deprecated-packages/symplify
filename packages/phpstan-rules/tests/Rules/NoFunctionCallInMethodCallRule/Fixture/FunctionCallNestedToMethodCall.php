@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoFunctionCallInMethodCallRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoFunctionCallInMethodCallRule\Fixture;
 
 final class FunctionCallNestedToMethodCall
 {

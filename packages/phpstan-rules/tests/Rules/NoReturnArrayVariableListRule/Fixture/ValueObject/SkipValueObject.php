@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoReturnArrayVariableListRule\Fixture\ValueObject;
+namespace Symplify\PHPStanRules\Tests\Rules\NoReturnArrayVariableListRule\Fixture\ValueObject;
 
 final class SkipValueObject
 {

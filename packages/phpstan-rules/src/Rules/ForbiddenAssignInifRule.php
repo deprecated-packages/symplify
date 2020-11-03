@@ -11,7 +11,7 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenAssignInifRule\ForbiddenAssignInifRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenAssignInifRule\ForbiddenAssignInifRuleTest
  */
 final class ForbiddenAssignInifRule extends AbstractSymplifyRule
 {

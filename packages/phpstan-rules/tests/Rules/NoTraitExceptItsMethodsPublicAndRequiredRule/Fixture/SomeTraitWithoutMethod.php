@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule\Fixture;
 
 trait SomeTraitWithoutMethod
 {

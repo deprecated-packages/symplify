@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoDynamicMethodNameRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoDynamicMethodNameRule\Fixture;
 
 final class DynamicFuncCallName
 {

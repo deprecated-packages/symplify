@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoEntityManagerInControllerRule\Source;
+namespace Symplify\PHPStanRules\Tests\Rules\NoEntityManagerInControllerRule\Source;
 
 abstract class SomeController
 {

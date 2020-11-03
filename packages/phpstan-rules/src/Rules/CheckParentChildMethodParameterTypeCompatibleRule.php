@@ -14,7 +14,7 @@ use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\CheckParentChildMethodParameterTypeCompatibleRule\CheckParentChildMethodParameterTypeCompatibleRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\CheckParentChildMethodParameterTypeCompatibleRule\CheckParentChildMethodParameterTypeCompatibleRuleTest
  */
 final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSymplifyRule
 {

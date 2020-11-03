@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoStaticPropertyRule\NoStaticPropertyRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoStaticPropertyRule\NoStaticPropertyRuleTest
  */
 final class NoStaticPropertyRule extends AbstractSymplifyRule
 {

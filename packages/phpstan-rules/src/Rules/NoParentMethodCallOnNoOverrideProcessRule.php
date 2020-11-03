@@ -13,7 +13,7 @@ use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 use Symplify\PHPStanRules\NodeComparator;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnNoOverrideProcessRule\NoParentMethodCallOnNoOverrideProcessRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoParentMethodCallOnNoOverrideProcessRule\NoParentMethodCallOnNoOverrideProcessRuleTest
  */
 final class NoParentMethodCallOnNoOverrideProcessRule extends AbstractSymplifyRule
 {

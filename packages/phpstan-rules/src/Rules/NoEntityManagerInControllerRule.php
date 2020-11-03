@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ValueObject\MethodName;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoEntityManagerInControllerRule\NoEntityManagerInControllerRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoEntityManagerInControllerRule\NoEntityManagerInControllerRuleTest
  */
 final class NoEntityManagerInControllerRule extends AbstractSymplifyRule
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckRequiredInterfaceInContractNamespaceRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredInterfaceInContractNamespaceRule\Fixture;
 
 interface AnInterfaceNotInContract
 {

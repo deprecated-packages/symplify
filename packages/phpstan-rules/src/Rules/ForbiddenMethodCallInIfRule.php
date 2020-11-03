@@ -16,7 +16,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\ThisType;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodCallInIfRule\ForbiddenMethodCallInIfRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallInIfRule\ForbiddenMethodCallInIfRuleTest
  */
 final class ForbiddenMethodCallInIfRule extends AbstractSymplifyRule
 {

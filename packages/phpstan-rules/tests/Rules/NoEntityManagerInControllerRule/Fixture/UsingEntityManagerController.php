@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoEntityManagerInControllerRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoEntityManagerInControllerRule\Fixture;
 
-use Symplify\CodingStandard\Tests\Rules\NoEntityManagerInControllerRule\Source\SomeController;
+use Symplify\PHPStanRules\Tests\Rules\NoEntityManagerInControllerRule\Source\SomeController;
 use Doctrine\ORM\EntityManager;
 
 final class UsingEntityManagerController extends SomeController

@@ -12,7 +12,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule\CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule\CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest
  */
 final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymplifyRule
 {

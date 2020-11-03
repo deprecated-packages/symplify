@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoEmptyRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoEmptyRule\Fixture;
 
 final class EmptyCall
 {

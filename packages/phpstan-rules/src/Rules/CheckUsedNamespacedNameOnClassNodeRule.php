@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\CheckUsedNamespacedNameOnClassNodeRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\CheckUsedNamespacedNameOnClassNodeRuleTest
  */
 final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreferredClassRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\Fixture;
 
 use SplFileInfo;
-use Symplify\CodingStandard\Tests\Rules\PreferredClassRule\Source\SplFileInfoContract;
+use Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\Source\SplFileInfoContract;
 
 final class SkipRequiredByContract implements SplFileInfoContract
 {

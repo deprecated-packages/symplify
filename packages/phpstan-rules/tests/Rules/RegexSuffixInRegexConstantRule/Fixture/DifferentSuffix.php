@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\RegexSuffixInRegexConstantRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\RegexSuffixInRegexConstantRule\Fixture;
 
 use Nette\Utils\Strings;
 

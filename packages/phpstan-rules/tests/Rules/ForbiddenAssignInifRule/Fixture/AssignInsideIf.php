@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenAssignInifRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenAssignInifRule\Fixture;
 
 function data()
 {

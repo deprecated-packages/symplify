@@ -7,4 +7,4 @@ services:
         arguments:
             funcCallToPrefferedMethodCalls:
                 file_get_contents: ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
-                substr: ['Symplify\CodingStandard\Tests\Rules\PrefferedMethodCallOverFuncCallRule\Fixture\SkipSelfCall', 'run']
+                substr: ['Symplify\PHPStanRules\Tests\Rules\PrefferedMethodCallOverFuncCallRule\Fixture\SkipSelfCall', 'run']

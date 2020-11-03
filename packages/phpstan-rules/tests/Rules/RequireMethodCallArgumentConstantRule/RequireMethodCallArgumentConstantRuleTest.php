@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule;
+namespace Symplify\PHPStanRules\Tests\Rules\RequireMethodCallArgumentConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

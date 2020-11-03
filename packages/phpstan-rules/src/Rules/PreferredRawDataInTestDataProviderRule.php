@@ -15,7 +15,7 @@ use PHPStan\Type\ThisType;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\PreferredRawDataInTestDataProviderRule\PreferredRawDataInTestDataProviderRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\PreferredRawDataInTestDataProviderRule\PreferredRawDataInTestDataProviderRuleTest
  */
 final class PreferredRawDataInTestDataProviderRule extends AbstractSymplifyRule
 {

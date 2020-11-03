@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Fixture;
 
-use Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString;
-use Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AnotherClassWithConstant;
+use Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString;
+use Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AnotherClassWithConstant;
 
 final class WithClassConstant
 {

@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenNestedForeachWithEmptyStatementRule\ForbiddenNestedForeachWithEmptyStatementRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNestedForeachWithEmptyStatementRule\ForbiddenNestedForeachWithEmptyStatementRuleTest
  */
 final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplifyRule
 {

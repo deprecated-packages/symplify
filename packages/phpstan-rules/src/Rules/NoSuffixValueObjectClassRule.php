@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoSuffixValueObjectClassRule\NoSuffixValueObjectClassRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoSuffixValueObjectClassRule\NoSuffixValueObjectClassRuleTest
  */
 final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
 {

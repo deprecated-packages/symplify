@@ -18,7 +18,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoDynamicMethodNameRule\NoDynamicMethodNameRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoDynamicMethodNameRule\NoDynamicMethodNameRuleTest
  */
 final class NoDynamicMethodNameRule extends AbstractSymplifyRule
 {

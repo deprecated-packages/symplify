@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\TooDeepNewClassNestingRule;
+namespace Symplify\PHPStanRules\Tests\Rules\TooDeepNewClassNestingRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

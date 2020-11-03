@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoContainerInjectionInConstructorRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoContainerInjectionInConstructorRule\Fixture;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

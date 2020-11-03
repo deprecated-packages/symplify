@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoReferenceRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoReferenceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

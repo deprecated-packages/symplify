@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoInlineStringRegexRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoInlineStringRegexRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

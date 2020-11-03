@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\UppercaseConstantRule\UppercaseConstantRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\UppercaseConstantRule\UppercaseConstantRuleTest
  */
 final class UppercaseConstantRule extends AbstractSymplifyRule
 {

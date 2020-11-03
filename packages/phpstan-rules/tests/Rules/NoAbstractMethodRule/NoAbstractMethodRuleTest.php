@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoAbstractMethodRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoAbstractMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

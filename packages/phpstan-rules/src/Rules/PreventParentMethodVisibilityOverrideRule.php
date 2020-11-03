@@ -11,7 +11,7 @@ use Rector\Core\Exception\NotImplementedException;
 use ReflectionMethod;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\PreventParentMethodVisibilityOverrideRule\PreventParentMethodVisibilityOverrideRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\PreventParentMethodVisibilityOverrideRule\PreventParentMethodVisibilityOverrideRuleTest
  */
 final class PreventParentMethodVisibilityOverrideRule extends AbstractSymplifyRule
 {

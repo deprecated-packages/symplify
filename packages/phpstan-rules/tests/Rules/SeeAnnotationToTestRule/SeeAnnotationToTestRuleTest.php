@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\SeeAnnotationToTestRule;
+namespace Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Tests\Rules\SeeAnnotationToTestRule\Fixture\RuleWithoutSee;
-use Symplify\CodingStandard\Tests\Rules\SeeAnnotationToTestRule\Fixture\RuleWithSeeRandom;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule;
+use Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule\Fixture\RuleWithoutSee;
+use Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule\Fixture\RuleWithSeeRandom;
 
 final class SeeAnnotationToTestRuleTest extends AbstractServiceAwareRuleTestCase
 {

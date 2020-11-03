@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ClassNameRespectsParentSuffixRule\Source;
+namespace Symplify\PHPStanRules\Tests\Rules\ClassNameRespectsParentSuffixRule\Source;
 
 interface SuperFixerInterface
 {

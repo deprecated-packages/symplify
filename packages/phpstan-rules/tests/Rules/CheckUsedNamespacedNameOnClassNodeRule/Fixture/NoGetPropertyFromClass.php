@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\Fixture;
 
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;

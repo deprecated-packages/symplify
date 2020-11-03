@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenSpreadOperatorRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenSpreadOperatorRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

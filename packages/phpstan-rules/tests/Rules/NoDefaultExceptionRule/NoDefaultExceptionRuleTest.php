@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoDefaultExceptionRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoDefaultExceptionRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

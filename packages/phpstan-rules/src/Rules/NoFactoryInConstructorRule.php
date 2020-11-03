@@ -23,7 +23,7 @@ use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoFactoryInConstructorRule\NoFactoryInConstructorRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoFactoryInConstructorRule\NoFactoryInConstructorRuleTest
  */
 final class NoFactoryInConstructorRule extends AbstractSymplifyRule
 {

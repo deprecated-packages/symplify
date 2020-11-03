@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreferredClassConstantOverVariableConstantRule;
+namespace Symplify\PHPStanRules\Tests\Rules\PreferredClassConstantOverVariableConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

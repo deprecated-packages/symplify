@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoNullableParameterRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoNullableParameterRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

@@ -10,7 +10,7 @@ use PhpParser\Node\Expr\New_;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodCallOnNewRule\ForbiddenMethodCallOnNewRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallOnNewRule\ForbiddenMethodCallOnNewRuleTest
  */
 final class ForbiddenMethodCallOnNewRule extends AbstractSymplifyRule
 {

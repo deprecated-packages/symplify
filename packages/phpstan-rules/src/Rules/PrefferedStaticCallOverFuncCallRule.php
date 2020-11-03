@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\PrefferedStaticCallOverFuncCallRule\PrefferedStaticCallOverFuncCallRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\PrefferedStaticCallOverFuncCallRule\PrefferedStaticCallOverFuncCallRuleTest
  */
 final class PrefferedStaticCallOverFuncCallRule extends AbstractPrefferedCallOverFuncRule
 {

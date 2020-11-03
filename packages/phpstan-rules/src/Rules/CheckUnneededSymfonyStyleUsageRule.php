@@ -15,7 +15,7 @@ use PHPStan\Node\ClassMethodsNode;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\CheckUnneededSymfonyStyleUsageRule\CheckUnneededSymfonyStyleUsageRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\CheckUnneededSymfonyStyleUsageRule\CheckUnneededSymfonyStyleUsageRuleTest
  */
 final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
 {

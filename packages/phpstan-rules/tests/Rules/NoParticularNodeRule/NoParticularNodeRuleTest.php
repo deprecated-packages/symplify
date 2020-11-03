@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoParticularNodeRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoParticularNodeRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

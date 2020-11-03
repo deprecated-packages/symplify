@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\MatchingTypeConstantRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\MatchingTypeConstantRule\Fixture;
 
 final class ClassWithConstants
 {

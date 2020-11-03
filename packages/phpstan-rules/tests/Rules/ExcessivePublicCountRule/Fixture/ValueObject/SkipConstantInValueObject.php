@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ExcessivePublicCountRule\Fixture\ValueObject;
+namespace Symplify\PHPStanRules\Tests\Rules\ExcessivePublicCountRule\Fixture\ValueObject;
 
 final class SkipConstantInValueObject
 {

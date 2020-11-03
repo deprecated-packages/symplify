@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoNewOutsideFactoryRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule\Source\SomeValueObject;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNewOutsideFactoryRule;
+use Symplify\PHPStanRules\Tests\Rules\NoNewOutsideFactoryRule\Source\SomeValueObject;
 
 final class NoNewOutsideFactoryRuleTest extends AbstractServiceAwareRuleTestCase
 {

@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoDefaultParameterValueRule\NoDefaultParameterValueRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoDefaultParameterValueRule\NoDefaultParameterValueRuleTest
  */
 final class NoDefaultParameterValueRule extends AbstractSymplifyRule
 {

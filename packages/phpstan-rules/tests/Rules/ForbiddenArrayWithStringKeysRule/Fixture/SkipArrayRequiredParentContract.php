@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenArrayWithStringKeysRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayWithStringKeysRule\Fixture;
 
-use Symplify\CodingStandard\Tests\Rules\ForbiddenArrayWithStringKeysRule\Source\ReturnArray;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayWithStringKeysRule\Source\ReturnArray;
 
 final class SkipArrayRequiredParentContract implements ReturnArray
 {

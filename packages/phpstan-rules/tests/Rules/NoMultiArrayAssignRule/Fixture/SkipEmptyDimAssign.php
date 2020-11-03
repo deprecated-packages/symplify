@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoMultiArrayAssignRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoMultiArrayAssignRule\Fixture;
 
 final class SkipEmptyDimAssign
 {

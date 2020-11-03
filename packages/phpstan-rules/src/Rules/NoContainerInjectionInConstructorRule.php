@@ -14,7 +14,7 @@ use Symplify\CodingStandard\ValueObject\MethodName;
 use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoContainerInjectionInConstructorRule\NoContainerInjectionInConstructorRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoContainerInjectionInConstructorRule\NoContainerInjectionInConstructorRuleTest
  */
 final class NoContainerInjectionInConstructorRule extends AbstractSymplifyRule
 {

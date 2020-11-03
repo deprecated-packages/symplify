@@ -12,7 +12,7 @@ use PHPStan\Analyser\Scope;
  * @deprecated Use
  * @see NoParticularNodeRule with configuration instead
  *
- * @see \Symplify\CodingStandard\Tests\Rules\NoEmptyRule\NoEmptyRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoEmptyRule\NoEmptyRuleTest
  */
 final class NoEmptyRule extends AbstractSymplifyRule
 {

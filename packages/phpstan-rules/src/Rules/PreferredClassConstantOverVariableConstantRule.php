@@ -10,7 +10,7 @@ use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\PreferredClassConstantOverVariableConstantRule\PreferredClassConstantOverVariableConstantRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\PreferredClassConstantOverVariableConstantRule\PreferredClassConstantOverVariableConstantRuleTest
  */
 final class PreferredClassConstantOverVariableConstantRule extends AbstractSymplifyRule
 {

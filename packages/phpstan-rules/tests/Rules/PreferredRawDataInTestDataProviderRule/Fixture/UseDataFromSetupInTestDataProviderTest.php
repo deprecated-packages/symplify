@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreferredRawDataInTestDataProviderRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\PreferredRawDataInTestDataProviderRule\Fixture;
 
 final class UseDataFromSetupInTestDataProviderTest
 {

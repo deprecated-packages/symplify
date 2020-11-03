@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoMethodTagInClassDocblockRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoMethodTagInClassDocblockRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

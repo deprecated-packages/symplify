@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTypeRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenConstructorDependencyByTypeRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

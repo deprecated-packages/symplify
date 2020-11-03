@@ -15,7 +15,7 @@ use Symplify\CodingStandard\PhpParser\FileExistFuncCallAnalyzer;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoMissingDirPathRule\NoMissingDirPathRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoMissingDirPathRule\NoMissingDirPathRuleTest
  */
 final class NoMissingDirPathRule extends AbstractSymplifyRule
 {

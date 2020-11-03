@@ -14,7 +14,7 @@ use PHPStan\Type\ObjectType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenComplexArrayConfigInSetRule\ForbiddenComplexArrayConfigInSetRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenComplexArrayConfigInSetRule\ForbiddenComplexArrayConfigInSetRuleTest
  */
 final class ForbiddenComplexArrayConfigInSetRule extends AbstractSymplifyRule
 {

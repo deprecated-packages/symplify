@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\AnotherForbiddenParent;
-use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\ClassForbiddenParent;
-use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\HasParentWithPrefference;
-use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\ForbiddenParent;
-use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\PreferredClass;
-use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\SomeFnMatched;
-use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\UnwantedClass;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenParentClassRule;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Fixture\AnotherForbiddenParent;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Fixture\ClassForbiddenParent;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Fixture\HasParentWithPrefference;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Source\ForbiddenParent;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Source\PreferredClass;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Source\SomeFnMatched;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Source\UnwantedClass;
 
 final class ForbiddenParentClassRuleTest extends AbstractServiceAwareRuleTestCase
 {

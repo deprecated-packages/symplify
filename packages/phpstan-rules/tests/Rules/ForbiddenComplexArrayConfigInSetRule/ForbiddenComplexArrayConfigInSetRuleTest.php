@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenComplexArrayConfigInSetRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenComplexArrayConfigInSetRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

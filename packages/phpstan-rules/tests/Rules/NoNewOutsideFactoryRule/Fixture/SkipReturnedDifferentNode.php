@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoNewOutsideFactoryRule\Fixture;
 
-use Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule\Source\AnotherClass;
-use Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule\Source\SomeValueObject;
+use Symplify\PHPStanRules\Tests\Rules\NoNewOutsideFactoryRule\Source\AnotherClass;
+use Symplify\PHPStanRules\Tests\Rules\NoNewOutsideFactoryRule\Source\SomeValueObject;
 
 final class SkipReturnedDifferentNode
 {

@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoAbstractMethodRule\NoAbstractMethodRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoAbstractMethodRule\NoAbstractMethodRuleTest
  */
 final class NoAbstractMethodRule extends AbstractSymplifyRule
 {

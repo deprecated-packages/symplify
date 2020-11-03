@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\UppercaseConstantRule;
+namespace Symplify\PHPStanRules\Tests\Rules\UppercaseConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

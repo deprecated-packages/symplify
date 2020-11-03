@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ClassNameRespectsParentSuffixRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ClassNameRespectsParentSuffixRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\RequireDataProviderTestMethodRule;
+namespace Symplify\PHPStanRules\Tests\Rules\RequireDataProviderTestMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

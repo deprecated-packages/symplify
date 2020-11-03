@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoSetterOnServiceRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoSetterOnServiceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

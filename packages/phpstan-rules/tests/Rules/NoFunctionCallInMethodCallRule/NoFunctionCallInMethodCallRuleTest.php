@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoFunctionCallInMethodCallRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoFunctionCallInMethodCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

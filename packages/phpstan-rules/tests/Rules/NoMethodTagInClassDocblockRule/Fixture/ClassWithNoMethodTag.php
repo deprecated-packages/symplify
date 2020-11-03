@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoMethodTagInClassDocblockRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoMethodTagInClassDocblockRule\Fixture;
 
 /**
  * @property int $id

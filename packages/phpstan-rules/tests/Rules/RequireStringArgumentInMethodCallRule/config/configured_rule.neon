@@ -4,7 +4,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             stringArgByMethodByType:
-                Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString:
+                Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString:
                     callMe: [1]
 
     - Symplify\CodingStandard\PhpParser\NodeNameResolver

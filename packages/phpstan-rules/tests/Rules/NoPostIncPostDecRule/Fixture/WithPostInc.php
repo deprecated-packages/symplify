@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoPostIncPostDecRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoPostIncPostDecRule\Fixture;
 
 final class WithPostInc
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoConstructorInTestRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoConstructorInTestRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

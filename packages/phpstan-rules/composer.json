@@ -22,7 +22,8 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\PHPStanRules\\Tests\\": "tests",
-            "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/object-calisthenics/tests"
+            "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/object-calisthenics/tests",
+            "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/cognitive-complexity/tests"
         }
     },
     "extra": {

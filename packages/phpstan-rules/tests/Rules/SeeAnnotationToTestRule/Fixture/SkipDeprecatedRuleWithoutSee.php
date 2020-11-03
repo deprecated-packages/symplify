@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\SeeAnnotationToTestRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule\Fixture;
 
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;

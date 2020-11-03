@@ -18,7 +18,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoReferenceRule\NoReferenceRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoReferenceRule\NoReferenceRuleTest
  */
 final class NoReferenceRule extends AbstractSymplifyRule
 {

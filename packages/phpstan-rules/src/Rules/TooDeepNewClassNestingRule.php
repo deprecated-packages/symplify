@@ -10,7 +10,7 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\TooDeepNewClassNestingRule\TooDeepNewClassNestingRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\TooDeepNewClassNestingRule\TooDeepNewClassNestingRuleTest
  */
 final class TooDeepNewClassNestingRule extends AbstractSymplifyRule
 {

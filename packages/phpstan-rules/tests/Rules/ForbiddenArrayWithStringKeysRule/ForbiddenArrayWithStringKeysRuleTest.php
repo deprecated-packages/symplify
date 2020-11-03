@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenArrayWithStringKeysRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayWithStringKeysRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

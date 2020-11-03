@@ -12,7 +12,7 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\ForbiddenMethodOrStaticCallInForeachRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\ForbiddenMethodOrStaticCallInForeachRuleTest
  */
 final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRule
 {

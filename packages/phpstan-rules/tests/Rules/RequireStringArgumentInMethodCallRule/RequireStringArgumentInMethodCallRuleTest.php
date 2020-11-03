@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallRule;
+namespace Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoReferenceRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoReferenceRule\Fixture;
 
-use Symplify\CodingStandard\Tests\Rules\NoReferenceRule\Source\AbstractSomeParentClassWithReference;
+use Symplify\PHPStanRules\Tests\Rules\NoReferenceRule\Source\AbstractSomeParentClassWithReference;
 
 final class SkipParentMethodWithReference extends AbstractSomeParentClassWithReference
 {

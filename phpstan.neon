@@ -119,7 +119,7 @@ parameters:
         - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'
 
         # the Filesystem method is only iterable way
-        - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
+        - '#Method Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
         # cognitive complexity
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is \d+, keep it under 8#'

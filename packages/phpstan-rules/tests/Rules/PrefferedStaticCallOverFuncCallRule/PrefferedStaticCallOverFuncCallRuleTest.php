@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PrefferedStaticCallOverFuncCallRule;
+namespace Symplify\PHPStanRules\Tests\Rules\PrefferedStaticCallOverFuncCallRule;
 
 use Iterator;
 use Nette\Utils\Strings;

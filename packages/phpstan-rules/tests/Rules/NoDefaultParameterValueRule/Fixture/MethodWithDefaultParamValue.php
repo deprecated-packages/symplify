@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoDefaultParameterValueRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoDefaultParameterValueRule\Fixture;
 
 final class MethodWithDefaultParamValue
 {

@@ -22,7 +22,7 @@ use Symplify\CodingStandard\PhpParser\NodeNameResolver;
  * Basically inversion of this rule:
  * @see https://github.com/symplify/symplify/tree/master/packages/coding-standard#defined-method-argument-should-be-always-constant-value
  *
- * @see \Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallRule\RequireStringArgumentInMethodCallRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\RequireStringArgumentInMethodCallRuleTest
  */
 final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule
 {

@@ -4,6 +4,6 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             allowedStaticCallClasses:
-                - Symplify\CodingStandard\Tests\Rules\NoStaticCallRule\Source\AllowedMethods
+                - Symplify\PHPStanRules\Tests\Rules\NoStaticCallRule\Source\AllowedMethods
 
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher

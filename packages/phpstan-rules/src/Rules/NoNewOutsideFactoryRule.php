@@ -15,7 +15,7 @@ use Symfony\Component\Process\Process;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule\NoNewOutsideFactoryRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoNewOutsideFactoryRule\NoNewOutsideFactoryRuleTest
  */
 final class NoNewOutsideFactoryRule extends AbstractSymplifyRule
 {

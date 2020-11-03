@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\SuffixTraitRule\SuffixTraitRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\SuffixTraitRule\SuffixTraitRuleTest
  */
 final class SuffixTraitRule extends AbstractSymplifyRule
 {

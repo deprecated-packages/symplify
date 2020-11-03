@@ -11,7 +11,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ValueObject\MethodName;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoConstructorInTestRule\NoConstructorInTestRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoConstructorInTestRule\NoConstructorInTestRuleTest
  */
 final class NoConstructorInTestRule extends AbstractSymplifyRule
 {

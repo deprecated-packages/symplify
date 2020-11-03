@@ -4,4 +4,4 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             excludedClasses:
-                - 'Symplify\CodingStandard\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\Fixture\SkippedClass'
+                - 'Symplify\PHPStanRules\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\Fixture\SkippedClass'

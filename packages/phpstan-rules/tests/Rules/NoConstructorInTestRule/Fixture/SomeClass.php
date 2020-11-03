@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoConstructorInTestRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoConstructorInTestRule\Fixture;
 
 final class SomeClass
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenAssignInifRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenAssignInifRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

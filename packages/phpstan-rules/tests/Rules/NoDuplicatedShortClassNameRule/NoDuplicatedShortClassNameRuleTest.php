@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoDuplicatedShortClassNameRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Tests\Rules\NoDuplicatedShortClassNameRule\Fixture\AlreadyExistingShortName as SecondAlreadyExistingShortName;
-use Symplify\CodingStandard\Tests\Rules\NoDuplicatedShortClassNameRule\Source\AlreadyExistingShortName;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule;
+use Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule\Fixture\AlreadyExistingShortName as SecondAlreadyExistingShortName;
+use Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule\Source\AlreadyExistingShortName;
 
 final class NoDuplicatedShortClassNameRuleTest extends AbstractServiceAwareRuleTestCase
 {

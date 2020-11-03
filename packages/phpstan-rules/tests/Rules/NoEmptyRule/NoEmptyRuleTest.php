@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoEmptyRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoEmptyRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

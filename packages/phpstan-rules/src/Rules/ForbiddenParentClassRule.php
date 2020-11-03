@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\ForbiddenParentClassRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\ForbiddenParentClassRuleTest
  */
 final class ForbiddenParentClassRule extends AbstractSymplifyRule
 {

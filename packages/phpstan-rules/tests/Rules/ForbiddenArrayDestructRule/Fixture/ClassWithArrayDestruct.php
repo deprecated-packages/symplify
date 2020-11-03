@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenArrayDestructRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayDestructRule\Fixture;
 
 final class ClassWithArrayDestruct
 {

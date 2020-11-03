@@ -14,7 +14,7 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ExcessivePublicCountRule\ExcessivePublicCountRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ExcessivePublicCountRule\ExcessivePublicCountRuleTest
  */
 final class ExcessivePublicCountRule extends AbstractSymplifyRule
 {

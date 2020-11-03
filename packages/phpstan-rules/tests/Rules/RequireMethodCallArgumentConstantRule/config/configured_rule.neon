@@ -4,7 +4,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             constantArgByMethodByType:
-                Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstant:
+                Symplify\PHPStanRules\Tests\Rules\RequireMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstant:
                     call: [0]
                 Symfony\Component\DependencyInjection\Loader\Configurator\ParametersConfigurator:
                     set: [0]

@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoMethodTagInClassDocblockRule\NoMethodTagInClassDocblockRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoMethodTagInClassDocblockRule\NoMethodTagInClassDocblockRuleTest
  */
 final class NoMethodTagInClassDocblockRule extends AbstractSymplifyRule
 {

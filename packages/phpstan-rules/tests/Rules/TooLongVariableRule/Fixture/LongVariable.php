@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\TooLongVariableRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\TooLongVariableRule\Fixture;
 
 final class LongVariable
 {

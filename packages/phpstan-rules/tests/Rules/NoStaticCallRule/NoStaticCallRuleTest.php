@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoStaticCallRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoStaticCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

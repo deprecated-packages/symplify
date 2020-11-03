@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PrefixAbstractClassRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\PrefixAbstractClassRule\Fixture;
 
 abstract class SomeAbstractClass
 {

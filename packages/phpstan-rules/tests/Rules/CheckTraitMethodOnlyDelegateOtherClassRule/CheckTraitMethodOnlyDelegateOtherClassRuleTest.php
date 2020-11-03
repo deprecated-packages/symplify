@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckTraitMethodOnlyDelegateOtherClassRule;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckTraitMethodOnlyDelegateOtherClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

@@ -4,6 +4,6 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             classesRequiringDataProvider:
-                - Symplify\CodingStandard\Tests\Rules\RequireDataProviderTestMethodRule\Source\AbstractSomeTestClass
+                - Symplify\PHPStanRules\Tests\Rules\RequireDataProviderTestMethodRule\Source\AbstractSomeTestClass
 
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher

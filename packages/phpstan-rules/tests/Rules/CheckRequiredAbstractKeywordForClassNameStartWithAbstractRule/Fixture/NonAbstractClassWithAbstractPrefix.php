@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckRequireMethodTobeAutowireWithClassName\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckRequireMethodTobeAutowireWithClassName\Fixture;
 
 final class AbstractFoo
 {

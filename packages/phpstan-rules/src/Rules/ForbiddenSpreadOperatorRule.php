@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenSpreadOperatorRule\ForbiddenSpreadOperatorRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenSpreadOperatorRule\ForbiddenSpreadOperatorRuleTest
  */
 final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
 {

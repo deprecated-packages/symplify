@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\Source;
+namespace Symplify\PHPStanRules\Tests\Rules\RequireMethodCallArgumentConstantRule\Source;
 
 final class AlwaysCallMeWithConstant
 {

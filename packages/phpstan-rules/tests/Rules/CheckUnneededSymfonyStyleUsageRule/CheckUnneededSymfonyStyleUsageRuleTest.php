@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckUnneededSymfonyStyleUsageRule;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckUnneededSymfonyStyleUsageRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

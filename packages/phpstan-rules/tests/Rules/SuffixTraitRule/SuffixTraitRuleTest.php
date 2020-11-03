@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\SuffixTraitRule;
+namespace Symplify\PHPStanRules\Tests\Rules\SuffixTraitRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

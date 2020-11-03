@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodCallInIfRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallInIfRule\Fixture;
 
 class SkipMethodCallWithBooleanReturn
 {

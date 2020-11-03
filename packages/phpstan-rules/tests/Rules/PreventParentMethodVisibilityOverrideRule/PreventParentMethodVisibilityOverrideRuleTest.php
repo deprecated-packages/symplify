@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreventParentMethodVisibilityOverrideRule;
+namespace Symplify\PHPStanRules\Tests\Rules\PreventParentMethodVisibilityOverrideRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

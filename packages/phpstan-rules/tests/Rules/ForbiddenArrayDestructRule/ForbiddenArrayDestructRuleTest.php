@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenArrayDestructRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayDestructRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

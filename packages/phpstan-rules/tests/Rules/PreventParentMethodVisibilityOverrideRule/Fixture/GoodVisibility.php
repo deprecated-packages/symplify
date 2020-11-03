@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreventParentMethodVisibilityOverrideRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\PreventParentMethodVisibilityOverrideRule\Fixture;
 
 abstract class GoodVisibility
 {

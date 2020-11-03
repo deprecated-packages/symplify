@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ExcessiveParameterListRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ExcessiveParameterListRule\Fixture;
 
 final class TooManyParameters
 {

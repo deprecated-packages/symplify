@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\RequireThisOnParentMethodCallRule;
+namespace Symplify\PHPStanRules\Tests\Rules\RequireThisOnParentMethodCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

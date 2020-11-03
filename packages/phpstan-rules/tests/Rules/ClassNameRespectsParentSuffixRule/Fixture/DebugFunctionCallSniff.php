@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ClassNameRespectsParentSuffixRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ClassNameRespectsParentSuffixRule\Fixture;
 
 use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\ForbiddenFunctionsSniff;
 

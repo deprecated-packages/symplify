@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\SuffixInterfaceRule;
+namespace Symplify\PHPStanRules\Tests\Rules\SuffixInterfaceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

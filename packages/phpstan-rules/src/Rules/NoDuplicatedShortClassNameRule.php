@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoDuplicatedShortClassNameRule\NoDuplicatedShortClassNameRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule\NoDuplicatedShortClassNameRuleTest
  */
 final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
 {

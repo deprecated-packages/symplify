@@ -14,7 +14,7 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoSetterOnServiceRule\NoSetterOnServiceRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoSetterOnServiceRule\NoSetterOnServiceRuleTest
  */
 final class NoSetterOnServiceRule extends AbstractSymplifyRule
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoArrayAccessOnObjectRule\Source;
+namespace Symplify\PHPStanRules\Tests\Rules\NoArrayAccessOnObjectRule\Source;
 
 use ArrayAccess;
 

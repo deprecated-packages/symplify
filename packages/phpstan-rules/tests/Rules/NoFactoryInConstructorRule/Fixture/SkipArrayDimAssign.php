@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoFactoryInConstructorRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoFactoryInConstructorRule\Fixture;
 
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 

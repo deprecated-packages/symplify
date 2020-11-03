@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoInlineStringRegexRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoInlineStringRegexRule\Fixture;
 
 final class SkipConstRegex
 {

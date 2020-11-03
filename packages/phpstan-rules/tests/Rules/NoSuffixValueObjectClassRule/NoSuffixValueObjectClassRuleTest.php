@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoSuffixValueObjectClassRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoSuffixValueObjectClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

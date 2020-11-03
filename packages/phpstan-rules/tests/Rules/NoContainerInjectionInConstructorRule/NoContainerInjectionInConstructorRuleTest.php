@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoContainerInjectionInConstructorRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoContainerInjectionInConstructorRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

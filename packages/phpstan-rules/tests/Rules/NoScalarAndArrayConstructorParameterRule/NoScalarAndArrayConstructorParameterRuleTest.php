@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoScalarAndArrayConstructorParameterRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoScalarAndArrayConstructorParameterRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

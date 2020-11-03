@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreferredClassRule;
+namespace Symplify\PHPStanRules\Tests\Rules\PreferredClassRule;
 
 use DateTime as NativeDateTime;
 use Iterator;

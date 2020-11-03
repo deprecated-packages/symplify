@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoArrayAccessOnObjectRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoArrayAccessOnObjectRule\Fixture;
 
-use Symplify\CodingStandard\Tests\Rules\NoArrayAccessOnObjectRule\Source\SomeClassWithArrayAccess;
+use Symplify\PHPStanRules\Tests\Rules\NoArrayAccessOnObjectRule\Source\SomeClassWithArrayAccess;
 
 final class ArrayAccessOnObject
 {

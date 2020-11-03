@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenNestedForeachWithEmptyStatementRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenNestedForeachWithEmptyStatementRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

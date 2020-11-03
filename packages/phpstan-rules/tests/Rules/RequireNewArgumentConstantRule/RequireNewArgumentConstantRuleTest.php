@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\RequireNewArgumentConstantRule;
+namespace Symplify\PHPStanRules\Tests\Rules\RequireNewArgumentConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

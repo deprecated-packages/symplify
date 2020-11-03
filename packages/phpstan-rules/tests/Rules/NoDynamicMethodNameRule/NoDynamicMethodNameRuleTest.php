@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoDynamicMethodNameRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoDynamicMethodNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

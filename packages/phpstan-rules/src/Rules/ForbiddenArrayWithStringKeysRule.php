@@ -21,7 +21,7 @@ use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenArrayWithStringKeysRule\ForbiddenArrayWithStringKeysRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayWithStringKeysRule\ForbiddenArrayWithStringKeysRuleTest
  */
 final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
 {

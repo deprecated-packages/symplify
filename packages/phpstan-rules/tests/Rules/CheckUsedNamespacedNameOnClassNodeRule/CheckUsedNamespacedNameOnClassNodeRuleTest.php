@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

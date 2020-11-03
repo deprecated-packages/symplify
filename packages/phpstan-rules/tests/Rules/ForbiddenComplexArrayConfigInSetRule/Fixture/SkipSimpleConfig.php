@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenComplexArrayConfigInSetRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenComplexArrayConfigInSetRule\Fixture;
 
 use Rector\Generic\Rector\MethodCall\ServiceGetterToConstructorInjectionRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;

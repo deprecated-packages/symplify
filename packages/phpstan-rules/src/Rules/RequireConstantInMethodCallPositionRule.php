@@ -16,7 +16,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\RequireConstantInMethodCallPositionRule\RequireConstantInMethodCallPositionRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\RequireConstantInMethodCallPositionRule\RequireConstantInMethodCallPositionRuleTest
  */
 final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
 {

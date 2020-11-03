@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoMultiArrayAssignRule\NoMultiArrayAssignRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoMultiArrayAssignRule\NoMultiArrayAssignRuleTest
  */
 final class NoMultiArrayAssignRule extends AbstractSymplifyRule
 {

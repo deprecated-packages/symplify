@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoParticularNodeRule\NoParticularNodeRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoParticularNodeRule\NoParticularNodeRuleTest
  */
 final class NoParticularNodeRule extends AbstractSymplifyRule
 {

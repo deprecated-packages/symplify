@@ -14,7 +14,7 @@ use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Throwable;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule\NoParentMethodCallOnEmptyStatementInParentMethodRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule\NoParentMethodCallOnEmptyStatementInParentMethodRuleTest
  */
 final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends AbstractSymplifyRule
 {

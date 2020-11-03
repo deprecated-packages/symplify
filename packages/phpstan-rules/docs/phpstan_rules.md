@@ -2269,7 +2269,7 @@ class SomeClass
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule\Fixture\Tests;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule\Fixture\Tests;
 
 class TestsNamespaceInsideTestsDirectoryClass
 {
@@ -2334,7 +2334,7 @@ services:
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstract\Fixture\Tests;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstract\Fixture\Tests;
 
 class AbstractFoo
 {
@@ -2461,7 +2461,7 @@ services:
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckRequiredMethodTobeAutowireWithClassName\Fixture\Tests;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredMethodTobeAutowireWithClassName\Fixture\Tests;
 
 final class WithRequiredAutowire
 {
@@ -2578,7 +2578,7 @@ services:
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\CheckRequireMethodTobeAutowireWithClassName\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckRequireMethodTobeAutowireWithClassName\Fixture;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -2614,7 +2614,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             excludedClasses:
-                - 'Symplify\CodingStandard\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\Fixture\SkippedClass'
+                - 'Symplify\PHPStanRules\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\Fixture\SkippedClass'
 ```
 
 ```php

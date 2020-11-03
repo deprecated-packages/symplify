@@ -17,7 +17,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\MatchingTypeConstantRule\MatchingTypeConstantRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\MatchingTypeConstantRule\MatchingTypeConstantRuleTest
  */
 final class MatchingTypeConstantRule extends AbstractSymplifyRule
 {

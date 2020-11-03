@@ -13,7 +13,7 @@ use ReflectionClass;
 use Throwable;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoDefaultExceptionRule\NoDefaultExceptionRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoDefaultExceptionRule\NoDefaultExceptionRuleTest
  */
 final class NoDefaultExceptionRule extends AbstractSymplifyRule
 {

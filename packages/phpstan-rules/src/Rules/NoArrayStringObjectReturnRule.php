@@ -15,7 +15,7 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoArrayStringObjectReturnRule\NoArrayStringObjectReturnRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoArrayStringObjectReturnRule\NoArrayStringObjectReturnRuleTest
  */
 final class NoArrayStringObjectReturnRule extends AbstractSymplifyRule
 {

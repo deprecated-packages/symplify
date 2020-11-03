@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoMissingDirPathRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoMissingDirPathRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

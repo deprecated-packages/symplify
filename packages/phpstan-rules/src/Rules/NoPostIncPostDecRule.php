@@ -10,7 +10,7 @@ use PhpParser\Node\Expr\PostInc;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoPostIncPostDecRule\NoPostIncPostDecRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoPostIncPostDecRule\NoPostIncPostDecRuleTest
  */
 final class NoPostIncPostDecRule extends AbstractSymplifyRule
 {

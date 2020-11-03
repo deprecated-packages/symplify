@@ -11,7 +11,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Broker\Broker;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\PrefixAbstractClassRule\PrefixAbstractClassRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\PrefixAbstractClassRule\PrefixAbstractClassRuleTest
  */
 final class PrefixAbstractClassRule extends AbstractSymplifyRule
 {

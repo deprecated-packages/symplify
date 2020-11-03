@@ -11,7 +11,7 @@ use PHPStan\Type\TypeWithClassName;
 use SplFixedArray;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoArrayAccessOnObjectRule\NoArrayAccessOnObjectRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoArrayAccessOnObjectRule\NoArrayAccessOnObjectRuleTest
  */
 final class NoArrayAccessOnObjectRule extends AbstractSymplifyRule
 {

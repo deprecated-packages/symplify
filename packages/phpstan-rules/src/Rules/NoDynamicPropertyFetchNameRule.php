@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\StaticPropertyFetch;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoDynamicPropertyFetchNameRule\NoDynamicPropertyFetchNameRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoDynamicPropertyFetchNameRule\NoDynamicPropertyFetchNameRuleTest
  */
 final class NoDynamicPropertyFetchNameRule extends AbstractSymplifyRule
 {

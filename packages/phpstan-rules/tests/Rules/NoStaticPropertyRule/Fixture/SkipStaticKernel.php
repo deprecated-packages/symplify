@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoStaticPropertyRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoStaticPropertyRule\Fixture;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 

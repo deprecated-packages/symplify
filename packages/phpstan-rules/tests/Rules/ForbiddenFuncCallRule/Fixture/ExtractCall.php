@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenFuncCallRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenFuncCallRule\Fixture;
 
 final class ExtractCall
 {

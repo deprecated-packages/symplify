@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\PreferredClassConstantOverVariableConstantRule\Source;
+namespace Symplify\PHPStanRules\Tests\Rules\PreferredClassConstantOverVariableConstantRule\Source;
 
 final class SomeClassWithConstant
 {

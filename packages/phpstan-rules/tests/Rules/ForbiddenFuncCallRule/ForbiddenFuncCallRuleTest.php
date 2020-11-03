@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenFuncCallRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenFuncCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

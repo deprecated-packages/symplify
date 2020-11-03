@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\BoolishClassMethodPrefixRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\BoolishClassMethodPrefixRule\Fixture;
 
 final class ClassWithBoolishMethods
 {

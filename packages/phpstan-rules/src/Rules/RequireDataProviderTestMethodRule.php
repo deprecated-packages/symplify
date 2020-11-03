@@ -11,7 +11,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\RequireDataProviderTestMethodRule\RequireDataProviderTestMethodRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\RequireDataProviderTestMethodRule\RequireDataProviderTestMethodRuleTest
  */
 final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\NoArrayStringObjectReturnRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoArrayStringObjectReturnRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

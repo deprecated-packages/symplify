@@ -12,7 +12,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoStaticCallRule\NoStaticCallRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoStaticCallRule\NoStaticCallRuleTest
  */
 final class NoStaticCallRule extends AbstractSymplifyRule
 {

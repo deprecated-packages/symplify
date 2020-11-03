@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\ExcessiveParameterListRule\ExcessiveParameterListRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ExcessiveParameterListRule\ExcessiveParameterListRuleTest
  */
 final class ExcessiveParameterListRule extends AbstractSymplifyRule
 {

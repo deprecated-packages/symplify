@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\TooLongVariableRule\TooLongVariableRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\TooLongVariableRule\TooLongVariableRuleTest
  */
 final class TooLongVariableRule extends AbstractSymplifyRule
 {

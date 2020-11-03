@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenNewInMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule\Fixture\DefinedInterfaceAndParentClass;
-use Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule\Fixture\HasNewInMethod;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenNewInMethodRule\Fixture\DefinedInterfaceAndParentClass;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenNewInMethodRule\Fixture\HasNewInMethod;
 
 final class ForbiddenNewInMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {

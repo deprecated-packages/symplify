@@ -21,7 +21,7 @@ use Symplify\PHPStanRules\VariableAsParamAnalyser;
 use Throwable;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Rules\NoScalarAndArrayConstructorParameterRule\NoScalarAndArrayConstructorParameterRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoScalarAndArrayConstructorParameterRule\NoScalarAndArrayConstructorParameterRuleTest
  */
 final class NoScalarAndArrayConstructorParameterRule extends AbstractSymplifyRule
 {
