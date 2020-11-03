@@ -2217,6 +2217,48 @@ class SomeClass
 
 <br>
 
+## Check Constant String Value Format
+
+- class: [`CheckConstantStringValueFormatRule`](../src/Rules/CheckConstantStringValueFormatRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\CodingStandard\Rules\CheckConstantStringValueFormatRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+class SomeClass
+{
+    private static FOO = '$not_ok$';
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+class SomeClass
+{
+    private static FOO = 'ok';
+}
+```
+
+:+1:
+
+<br>
+
 ## Check Not Tests Namespace Outside Tests Directory
 
 - class: [`CheckNotTestsNamespaceOutsideTestsDirectoryRule`](../src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php)
