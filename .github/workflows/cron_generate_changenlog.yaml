@@ -2,9 +2,6 @@
 name: Cron Generate Changelog
 
 on:
-    # to try it out
-    pull_request: null
-
     schedule:
         # every 1st and 15th day at 00:00 https://crontab.guru/#00_0_1,15_*_*
         -   cron: "00 0 1,15 * *"
