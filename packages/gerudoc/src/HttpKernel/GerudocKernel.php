@@ -7,7 +7,7 @@ namespace Symplify\Gerudoc\HttpKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class GerudocBuilderKernel extends AbstractSymplifyKernel
+final class GerudocKernel extends AbstractSymplifyKernel
 {
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {

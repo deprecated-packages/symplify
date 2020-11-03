@@ -51,7 +51,7 @@ final class GenerateCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('Validates synchronized versions in "composer.json" in all found packages.');
+        $this->setDescription('Generated d synchronized versions in "composer.json" in all found packages.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
