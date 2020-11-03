@@ -29,7 +29,7 @@ final class CodingStandardSyncChecker
      * @see https://regex101.com/r/Unygf7/5
      * @var string
      */
-    private const CHECKER_CLASS_REGEX = '#\b(?<class_name>\w+(Fixer|Sniff|Rule))\b#m';
+    private const CHECKER_CLASS_REGEX = '#\b(?<class_name>\w+(Fixer|Sniff))\b#m';
 
     /**
      * @var SymfonyStyle
@@ -60,7 +60,6 @@ final class CodingStandardSyncChecker
         if ($missingCheckerClasses === []) {
             $this->reportCountBySuffix($existingCheckerClasses, 'Sniff');
             $this->reportCountBySuffix($existingCheckerClasses, 'Fixer');
-            $this->reportCountBySuffix($existingCheckerClasses, 'Rule');
 
             $this->symfonyStyle->success('README.md is up to date');
             die(ShellCode::SUCCESS);
@@ -124,8 +123,6 @@ final class CodingStandardSyncChecker
             // part of imported config
             ClassLikeCognitiveComplexityRule::class,
             FunctionLikeCognitiveComplexityRule::class,
-            // deprecated
-            ArrayOpenerNewlineFixer::class,
         ];
 
         $shortClasses = [];
