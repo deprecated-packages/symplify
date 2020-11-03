@@ -43,7 +43,7 @@ jobs:
             # 2. scope it
             -   run: vendor/bin/php-scoper add-prefix packages/${{ matrix.scoped_package.directory }} --output-dir packages-scoped/${{ matrix.scoped_package.directory }} --config packages/${{ matrix.scoped_package.directory }}/scoper.inc.php --force --ansi
             -   run: composer dump-autoload --working-dir packages-scoped/${{ matrix.scoped_package.directory }} --ansi --optimize --classmap-authoritative
-            -   run: packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/${{ matrix.scoped_package.directory }}/composer.json
+            -   run: packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/${{ matrix.scoped_package.directory }}/composer.json --ansi
 
             # 3. run it
             -   run: chmod 777 ./packages-scoped/${{ matrix.scoped_package.directory }}/bin/${{ matrix.scoped_package.binary_file_name }}
