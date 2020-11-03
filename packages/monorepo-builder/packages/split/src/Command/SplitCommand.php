@@ -95,6 +95,12 @@ final class SplitCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->symfonyStyle->warning(
+            'This command is deprecated and will be removed in the future. No worries, switch to GitHub Action, that can do the work much faster and more reliable, then this poor wrapper around bash that wraps a git hacking.'
+        );
+        // to get the attention
+        sleep(3);
+
         $this->repositoryGuard->ensureIsRepositoryDirectory($this->rootDirectory);
 
         $maxProcesses = $input->getOption(Option::MAX_PROCESSES) ? (int)
