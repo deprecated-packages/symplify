@@ -6,9 +6,9 @@ namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
-use PhpParser\Node\Scalar\String_;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckConstantStringValueFormatRule\CheckConstantStringValueFormatRuleTest
