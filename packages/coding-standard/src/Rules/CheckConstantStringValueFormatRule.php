@@ -37,7 +37,6 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
      */
     private $arrayStringAndFnMatcher;
 
-
     public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher)
     {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
