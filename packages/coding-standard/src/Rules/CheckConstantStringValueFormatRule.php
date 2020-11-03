@@ -30,20 +30,14 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
     /**
      * @var string[]
      */
-    private const ALLOWED_CONST_NAMES = [
-        'ERROR_MESSAGE',
-        '*_REGEX',
-        'ALLOWED_CONST_NAMES',
-    ];
+    private const ALLOWED_CONST_NAMES = ['ERROR_MESSAGE', '*_REGEX', 'ALLOWED_CONST_NAMES'];
 
     /**
      * @var ArrayStringAndFnMatcher
      */
     private $arrayStringAndFnMatcher;
 
-    /**
-     * @param string[] $forbiddenFunctions
-     */
+
     public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher)
     {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
