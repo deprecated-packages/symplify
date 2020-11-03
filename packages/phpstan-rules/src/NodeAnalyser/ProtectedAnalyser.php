@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\PHPStan\NodeAnalyser;
+namespace Symplify\PHPStanRules\NodeAnalyser;
 
 use PhpParser\Node\Stmt\Property;
 use Symplify\CodingStandard\NodeAnalyzer\TypeNodeAnalyzer;
-use Symplify\CodingStandard\PHPStan\NodeAnalyzer\DependencyNodeAnalyzer;
+use Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer;
 
 final class ProtectedAnalyser
 {

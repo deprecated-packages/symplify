@@ -10,7 +10,7 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Nop;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
-use Symplify\CodingStandard\PHPStan\ParentClassMethodNodeResolver;
+use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Throwable;
 
 /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\PHPStan\Types;
+namespace Symplify\PHPStanRules\Types;
 
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;

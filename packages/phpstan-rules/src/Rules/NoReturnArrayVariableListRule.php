@@ -13,8 +13,8 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
 use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
+use Symplify\PHPStanRules\ParentMethodAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoReturnArrayVariableListRule\NoReturnArrayVariableListRuleTest

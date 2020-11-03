@@ -13,9 +13,9 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
-use Symplify\CodingStandard\PHPStan\Types\ClassMethodTypeAnalyzer;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoProtectedElementInFinalClassRule\NoProtectedElementInFinalClassRuleTest

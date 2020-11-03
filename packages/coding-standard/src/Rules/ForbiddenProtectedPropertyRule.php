@@ -7,7 +7,7 @@ namespace Symplify\CodingStandard\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\PHPStan\NodeAnalyser\ProtectedAnalyser;
+use Symplify\PHPStanRules\NodeAnalyser\ProtectedAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\ForbiddenProtectedPropertyRule\ForbiddenProtectedPropertyRuleTest

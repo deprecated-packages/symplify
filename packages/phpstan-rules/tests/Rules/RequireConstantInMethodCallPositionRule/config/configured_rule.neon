@@ -10,4 +10,4 @@ services:
                 Symplify\CodingStandard\Tests\Rules\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstantExternal:
                     call: [0]
 
-    - Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser
+    - Symplify\PHPStanRules\Types\ContainsTypeAnalyser

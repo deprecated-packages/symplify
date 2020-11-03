@@ -310,15 +310,15 @@ services:
     - Symplify\CodingStandard\PhpParser\FileExistFuncCallAnalyzer
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
-    - Symplify\CodingStandard\PHPStan\ParentMethodAnalyser
-    - Symplify\CodingStandard\PHPStan\VariableAsParamAnalyser
-    - Symplify\CodingStandard\PHPStan\ParentClassMethodNodeResolver
-    - Symplify\CodingStandard\PHPStan\Types\ScalarTypeAnalyser
-    - Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser
-    - Symplify\CodingStandard\PHPStan\Types\ClassMethodTypeAnalyzer
-    - Symplify\CodingStandard\PHPStan\ParentGuard\ParentMethodReturnTypeResolver
-    - Symplify\CodingStandard\PHPStan\NodeComparator
-    - Symplify\CodingStandard\PHPStan\NodeAnalyser\ProtectedAnalyser
-    - Symplify\CodingStandard\PHPStan\Naming\SimpleNameResolver
-    - Symplify\CodingStandard\PHPStan\NodeAnalyzer\DependencyNodeAnalyzer
+    - Symplify\PHPStanRules\ParentMethodAnalyser
+    - Symplify\PHPStanRules\VariableAsParamAnalyser
+    - Symplify\PHPStanRules\ParentClassMethodNodeResolver
+    - Symplify\PHPStanRules\Types\ScalarTypeAnalyser
+    - Symplify\PHPStanRules\Types\ContainsTypeAnalyser
+    - Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer
+    - Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver
+    - Symplify\PHPStanRules\NodeComparator
+    - Symplify\PHPStanRules\NodeAnalyser\ProtectedAnalyser
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
     - Symplify\CodingStandard\NodeAnalyzer\TypeNodeAnalyzer

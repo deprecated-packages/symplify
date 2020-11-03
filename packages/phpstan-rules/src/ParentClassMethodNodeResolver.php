@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\PHPStan;
+namespace Symplify\PHPStanRules;
 
 use PhpParser\Node;
 use PhpParser\Node\Param;

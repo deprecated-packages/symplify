@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\PHPStan\NodeAnalyzer;
+namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
@@ -15,9 +15,9 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeFinder;
-use Symplify\CodingStandard\PHPStan\Naming\SimpleNameResolver;
 use Symplify\CodingStandard\ValueObject\MethodName;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 
 final class DependencyNodeAnalyzer
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\PHPStan\Naming;
+namespace Symplify\PHPStanRules\Naming;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;

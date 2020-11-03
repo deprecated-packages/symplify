@@ -10,8 +10,8 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser;
 use Symplify\CodingStandard\ValueObject\MethodName;
+use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoContainerInjectionInConstructorRule\NoContainerInjectionInConstructorRuleTest

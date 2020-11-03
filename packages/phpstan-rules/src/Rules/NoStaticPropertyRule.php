@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\Container;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser;
+use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoStaticPropertyRule\NoStaticPropertyRuleTest

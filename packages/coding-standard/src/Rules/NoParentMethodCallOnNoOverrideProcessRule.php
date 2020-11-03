@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\PhpParser\NodeNameResolver;
-use Symplify\CodingStandard\PHPStan\NodeComparator;
+use Symplify\PHPStanRules\NodeComparator;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnNoOverrideProcessRule\NoParentMethodCallOnNoOverrideProcessRuleTest

@@ -15,9 +15,9 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Autodiscovery\Discovery;
 use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
-use Symplify\CodingStandard\PHPStan\Types\ScalarTypeAnalyser;
-use Symplify\CodingStandard\PHPStan\VariableAsParamAnalyser;
 use Symplify\FlexLoader\Flex\FlexLoader;
+use Symplify\PHPStanRules\Types\ScalarTypeAnalyser;
+use Symplify\PHPStanRules\VariableAsParamAnalyser;
 use Throwable;
 
 /**

@@ -15,7 +15,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\PHPStan\ParentMethodAnalyser;
+use Symplify\PHPStanRules\ParentMethodAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoReferenceRule\NoReferenceRuleTest

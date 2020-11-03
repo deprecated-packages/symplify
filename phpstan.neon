@@ -1,9 +1,9 @@
 includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - packages/phpstan-extensions/config/config.neon
-    - packages/coding-standard/config/symplify-rules.neon
+    - packages/phpstan-rules/config/symplify-rules.neon
     # for cognitive rules
-    - packages/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-services.neon
+    - packages/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
 
 services:
     -

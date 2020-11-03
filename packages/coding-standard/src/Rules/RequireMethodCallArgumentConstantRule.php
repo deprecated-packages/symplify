@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\PHPStan\Types\ContainsTypeAnalyser;
+use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\RequireMethodCallArgumentConstantRule\RequireMethodCallArgumentConstantRuleTest

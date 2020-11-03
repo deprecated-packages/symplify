@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\PHPStan\ParentGuard;
+namespace Symplify\PHPStanRules\ParentGuard;
 
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
