@@ -14,7 +14,7 @@ use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
 use ReflectionClass;
-use Symplify\CodingStandard\PhpParser\NodeNameResolver;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayDestructRule\ForbiddenArrayDestructRuleTest
@@ -33,13 +33,13 @@ final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
     public const VENDOR_DIRECTORY_REGEX = '#/vendor/#';
 
     /**
-     * @var NodeNameResolver
+     * @var SimpleNameResolver
      */
-    private $nodeNameResolver;
+    private $simpleNameResolver;
 
-    public function __construct(NodeNameResolver $nodeNameResolver)
+    public function __construct(SimpleNameResolver $simpleNameResolver)
     {
-        $this->nodeNameResolver = $nodeNameResolver;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -80,12 +80,12 @@ final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
     private function isAllowedCall(Assign $assign): bool
     {
         // "explode()" is allowed
-        if ($assign->expr instanceof FuncCall && $this->nodeNameResolver->isName($assign->expr->name, 'explode')) {
+        if ($assign->expr instanceof FuncCall && $this->simpleNameResolver->isName($assign->expr->name, 'explode')) {
             return true;
         }
 
         // Strings::split() is allowed
-        return $assign->expr instanceof StaticCall && $this->nodeNameResolver->isName($assign->expr->name, 'split');
+        return $assign->expr instanceof StaticCall && $this->simpleNameResolver->isName($assign->expr->name, 'split');
     }
 
     private function isVendorProvider(Assign $assign, Scope $scope): bool

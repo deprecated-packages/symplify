@@ -7,4 +7,4 @@ services:
                 Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString:
                     callMe: [1]
 
-    - Symplify\CodingStandard\PhpParser\NodeNameResolver
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver

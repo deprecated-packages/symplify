@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\PhpParser;
+namespace Symplify\PHPStanRules\PhpParser;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;

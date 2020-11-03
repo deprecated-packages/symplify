@@ -7,18 +7,18 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use Symplify\CodingStandard\PhpParser\NodeNameResolver;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 
 abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
 {
     /**
-     * @var NodeNameResolver
+     * @var SimpleNameResolver
      */
-    private $nodeNameResolver;
+    private $simpleNameResolver;
 
-    public function __construct(NodeNameResolver $nodeNameResolver)
+    public function __construct(SimpleNameResolver $simpleNameResolver)
     {
-        $this->nodeNameResolver = $nodeNameResolver;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -34,7 +34,7 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
      */
     protected function isFuncCallToCallMatch(FuncCall $funcCall, Scope $scope, string $functionName, array $call): bool
     {
-        if (! $this->nodeNameResolver->isName($funcCall->name, $functionName)) {
+        if (! $this->simpleNameResolver->isName($funcCall->name, $functionName)) {
             return false;
         }
 
