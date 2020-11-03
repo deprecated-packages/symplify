@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Namespace_;
-use PhpParser\Node\Stmt\UseUse;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 
@@ -32,20 +32,15 @@ final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSympli
      */
     public function getNodeTypes(): array
     {
-        return [UseUse::class];
+        return [Interface_::class];
     }
 
     /**
-     * @param UseUse $node
+     * @param Interface_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        $name = (string) $node->name;
-        if (interface_exists($name)) {
-            return [];
-        }
-
         $namespace = $node->getAttribute(PHPStanAttributeKey::PARENT);
         while ($namespace) {
             if ($namespace instanceof Namespace_) {
@@ -55,11 +50,8 @@ final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSympli
             $namespace = $namespace->getAttribute(PHPStanAttributeKey::PARENT);
         }
 
-        if (! $namespace instanceof Namespace_) {
-            return [];
-        }
-
-        if (! Strings::match((string) $namespace->name, self::A_CONTRACT_NAMESPACE_REGEX)) {
+        $namespaceName = (string) $namespace->name;
+        if (Strings::match($namespaceName, self::A_CONTRACT_NAMESPACE_REGEX)) {
             return [];
         }
 
