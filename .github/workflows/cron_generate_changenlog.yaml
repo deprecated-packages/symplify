@@ -1,0 +1,57 @@
+# inspired by https://github.com/TomasVotruba/tomasvotruba.com/blob/master/.github/workflows/refresh_framework_stats.yaml
+name: Cron Generate Changelog
+
+on:
+    # to try it out
+    pull_request: null
+
+    schedule:
+        # every 1st and 15th day at 00:00 https://crontab.guru/#00_0_1,15_*_*
+        -   cron: "00 0 1,15 * *"
+
+jobs:
+    cron_generate_changelog:
+        runs-on: ubuntu-latest
+
+        steps:
+            -
+                uses: actions/checkout@v2
+                with:
+                    # Must be used to trigger workflow after push
+                    token: ${{ secrets.ACCESS_TOKEN }}
+
+            # see https://github.com/shivammathur/setup-php
+            -
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.4
+                    tools: composer:v2
+
+            # composer install cache - https://github.com/ramsey/composer-install
+            -   uses: "ramsey/composer-install@v1"
+
+            -   run: composer install --no-progress --ansi
+
+            -
+                name: Generate Changelog
+                run: composer changelog
+
+            -
+                name: Fix README spaces
+                run: bin/clear_readmes.sh
+
+            -
+                name: Get current Month
+                id: date
+                run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+            -
+                name: Create pull-request
+                uses: peter-evans/create-pull-request@v3
+                with:
+                    token: ${{ secrets.GITHUB_TOKEN }}
+                    commit-message: "generated changelog ${{ steps.date.outputs.date }}"
+                    branch: ci-generated-changelog
+                    base: 'master'
+                    title: "Automated Update of Changelog on ${{ steps.date.outputs.date }}"
+                    delete-branch: true
