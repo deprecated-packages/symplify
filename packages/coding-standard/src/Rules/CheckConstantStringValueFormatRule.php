@@ -18,7 +18,7 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Constant string value need to only have small letters, underscore, and numbers';
+    public const ERROR_MESSAGE = 'Constant string value need to only have small letters, underscore, dash, fullstop, and numbers';
 
     /**
      * @var string
