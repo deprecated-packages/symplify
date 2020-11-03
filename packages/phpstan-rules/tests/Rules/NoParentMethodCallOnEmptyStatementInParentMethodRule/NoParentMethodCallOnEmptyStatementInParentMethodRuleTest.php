@@ -23,7 +23,6 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRuleTest extends Abs
     {
         yield [__DIR__ . '/Fixture/SkipException.php', []];
         yield [__DIR__ . '/Fixture/NotCallParentMethod.php', []];
-        yield [__DIR__ . '/Fixture/SkipParentInFixer.php', []];
         yield [__DIR__ . '/Fixture/CallParentMethodWithStatement.php', []];
 
         yield [
