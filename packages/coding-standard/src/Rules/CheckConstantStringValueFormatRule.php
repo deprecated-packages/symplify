@@ -24,7 +24,7 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
      * @var string
      * @see https://regex101.com/r/92F0op/4
      */
-    private const FORMAT_REGEX = '#^[a-z0-9_-\.]+$#';
+    private const FORMAT_REGEX = '#^[a-z0-9_\.-]+$#';
 
     /**
      * @return string[]
