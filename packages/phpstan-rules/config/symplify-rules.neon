@@ -321,3 +321,4 @@ services:
     - Symplify\PHPStanRules\Naming\SimpleNameResolver
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
+    - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser

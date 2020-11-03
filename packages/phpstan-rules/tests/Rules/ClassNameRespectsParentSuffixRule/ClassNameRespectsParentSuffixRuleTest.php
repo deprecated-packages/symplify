@@ -31,8 +31,6 @@ final class ClassNameRespectsParentSuffixRuleTest extends AbstractServiceAwareRu
         );
         yield [__DIR__ . '/Fixture/SomeEventSubscriberFalse.php', [[$errorMessage, 9]]];
 
-        yield [__DIR__ . '/Fixture/DebugFunctionCallSniff.php', []];
-
         yield [__DIR__ . '/Fixture/SkipCommand.php', []];
         yield [__DIR__ . '/Fixture/SkipSomeEventSubscriber.php', []];
         yield [__DIR__ . '/Fixture/SkipFixer.php', []];
