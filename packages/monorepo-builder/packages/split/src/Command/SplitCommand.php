@@ -14,7 +14,6 @@ use Symplify\MonorepoBuilder\Split\FileSystem\DirectoryToRepositoryProvider;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
 use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\ValueObject\Option;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
@@ -64,7 +63,6 @@ final class SplitCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
         $description = sprintf(
             'Splits monorepo packages to standalone repositories as defined in "%s" section of "%s" config.',
             '$parameters->set(Option::DIRECTORIES_REPOSITORY, [...])',

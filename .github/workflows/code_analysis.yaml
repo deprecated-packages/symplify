@@ -37,6 +37,8 @@ jobs:
                             packages/easy-coding-standard/bin/ecs --ansi
                             packages/changelog-linker/bin/changelog-linker --ansi
                             packages/monorepo-builder/bin/monorepo-builder --ansi
+                            packages/easy-coding-standard/bin/ecs --ansi
+                            # packages/gerudoc/bin/gerudoc --ansi
 
                             # test "check" options
                             packages/easy-coding-standard/bin/ecs check packages/changelog-linker/src --no-progress-bar --no-error-table --clear-cache --ansi
