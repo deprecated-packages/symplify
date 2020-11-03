@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Service\ResetInterface;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PackageBuilder\Exception\HttpKernel\MissingInterfaceException;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
@@ -33,11 +34,13 @@ abstract class AbstractKernelTestCase extends TestCase
     protected static $container;
 
     /**
-     * @param string[] $configs
+     * @param string[]|SmartFileInfo[] $configs
      */
     protected function bootKernelWithConfigs(string $kernelClass, array $configs): KernelInterface
     {
-        $configsHash = $this->resolveConfigsHash($configs);
+        // unwrap file infos to real paths
+        $configFilePaths = $this->resolveConfigFilePaths($configs);
+        $configsHash = $this->resolveConfigsHash($configFilePaths);
 
         $this->ensureKernelShutdown();
 
@@ -49,7 +52,7 @@ abstract class AbstractKernelTestCase extends TestCase
         $this->ensureIsConfigAwareKernel($kernel);
 
         /** @var ExtraConfigAwareKernelInterface $kernel */
-        $kernel->setConfigs($configs);
+        $kernel->setConfigs($configFilePaths);
 
         static::$kernel = $this->bootAndReturnKernel($kernel);
 
@@ -93,6 +96,9 @@ abstract class AbstractKernelTestCase extends TestCase
         static::$container = null;
     }
 
+    /**
+     * @param string[] $configs
+     */
     private function resolveConfigsHash(array $configs): string
     {
         $configsHash = '';
@@ -140,5 +146,20 @@ abstract class AbstractKernelTestCase extends TestCase
         static::$container = $container;
 
         return $kernel;
+    }
+
+    /**
+     * @param string[]|SmartFileInfo[] $configs
+     * @return string[]
+     */
+    private function resolveConfigFilePaths(array $configs): array
+    {
+        $configFilePaths = [];
+
+        foreach ($configs as $config) {
+            $configFilePaths[] = $config instanceof SmartFileInfo ? $config->getRealPath() : $config;
+        }
+
+        return $configFilePaths;
     }
 }
