@@ -1,7 +1,9 @@
 name: Build Scoped Packages
 
 on:
-    pull_request: null
+    push:
+        branches:
+            - master
 
 jobs:
     build_scoped_packages:
