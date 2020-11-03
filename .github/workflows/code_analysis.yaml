@@ -27,8 +27,8 @@ jobs:
                     -
                         name: Check Missing Split Test Directories
                         run: |
-                            packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_tests.yaml
-                            packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_unused_packages.yaml
+                            packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_tests.yaml --ansi
+                            packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_unused_packages.yaml --ansi
 
                     -
                         name: Binary File Run

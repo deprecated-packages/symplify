@@ -28,6 +28,7 @@ jobs:
                     - phpstan-extensions
                     - symfony-static-dumper
                     - skipper
+                    - phpstan-rules
 
         name: Split Tests of ${{ matrix.package_name }}
 

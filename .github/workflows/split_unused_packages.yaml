@@ -49,6 +49,7 @@ jobs:
                     - phpstan-extensions
                     - symfony-static-dumper
                     - skipper
+                    - phpstan-rules
 
         name: Unused Packages of ${{ matrix.package_name }}
 
