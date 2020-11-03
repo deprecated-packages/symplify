@@ -10,6 +10,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\PHPStanRules\ValueObject\Regex;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckConstantStringValueFormatRule\CheckConstantStringValueFormatRuleTest
@@ -56,6 +57,10 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($this->shouldSkipForValueObjectNamespace($scope)) {
+            return [];
+        }
+
         $consts = $node->consts;
         if ($consts === []) {
             return [];
@@ -76,5 +81,15 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
         }
 
         return [];
+    }
+
+    private function shouldSkipForValueObjectNamespace(Scope $scope): bool
+    {
+        $className = $this->getClassName($scope);
+        if ($className === null) {
+            return false;
+        }
+
+        return (bool) Strings::match($className, Regex::VALUE_OBJECT_REGEX);
     }
 }

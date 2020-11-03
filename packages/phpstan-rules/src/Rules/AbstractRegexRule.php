@@ -10,7 +10,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\Contract\RegexRuleInterface;
+use Symplify\PHPStanRules\Contract\RegexRuleInterface;
 
 abstract class AbstractRegexRule extends AbstractSymplifyRule implements RegexRuleInterface
 {

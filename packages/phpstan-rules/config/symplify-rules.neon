@@ -306,8 +306,7 @@ services:
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
-    - Symplify\CodingStandard\PhpParser\NodeNameResolver
-    - Symplify\CodingStandard\PhpParser\FileExistFuncCallAnalyzer
+    - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - Symplify\PHPStanRules\ParentMethodAnalyser
@@ -321,4 +320,5 @@ services:
     - Symplify\PHPStanRules\NodeAnalyser\ProtectedAnalyser
     - Symplify\PHPStanRules\Naming\SimpleNameResolver
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
-    - Symplify\CodingStandard\NodeAnalyzer\TypeNodeAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
+    - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser

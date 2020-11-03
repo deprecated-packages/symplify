@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\DocBlock\Annotation;
-use PhpCsFixer\DocBlock\DocBlock;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ConstFetch;
@@ -15,6 +13,8 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use Symplify\PHPStanRules\PhpDoc\BarePhpDocParser;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\MatchingTypeConstantRule\MatchingTypeConstantRuleTest
@@ -45,6 +45,16 @@ final class MatchingTypeConstantRule extends AbstractSymplifyRule
         DNumber::class => 'float',
         ConstFetch::class => 'bool',
     ];
+
+    /**
+     * @var BarePhpDocParser
+     */
+    private $barePhpDocParser;
+
+    public function __construct(BarePhpDocParser $barePhpDocParser)
+    {
+        $this->barePhpDocParser = $barePhpDocParser;
+    }
 
     /**
      * @return string[]
@@ -90,17 +100,12 @@ final class MatchingTypeConstantRule extends AbstractSymplifyRule
 
     private function resolveOnlyVarAnnotationType(ClassConst $classConst): ?string
     {
-        $varAnnotations = $this->getVarAnnotationsForNode($classConst);
-        if (count($varAnnotations) === 0) {
+        $varTagValueNode = $this->getVarTagValueForNode($classConst);
+        if ($varTagValueNode === null) {
             return null;
         }
 
-        $types = $varAnnotations[0]->getNormalizedTypes();
-        if (count($types) !== 1) {
-            return null;
-        }
-
-        return $types[0];
+        return (string) $varTagValueNode->type;
     }
 
     /**
@@ -124,18 +129,14 @@ final class MatchingTypeConstantRule extends AbstractSymplifyRule
         return [];
     }
 
-    /**
-     * @return Annotation[]
-     */
-    private function getVarAnnotationsForNode(Node $node): array
+    private function getVarTagValueForNode(Node $node): ?VarTagValueNode
     {
         if ($node->getDocComment() === null) {
-            return [];
+            return null;
         }
 
-        $docBlock = new DocBlock($node->getDocComment()->getText());
-
-        return $docBlock->getAnnotationsOfType('var');
+        $phpDocNode = $this->barePhpDocParser->parseDocBlock($node->getDocComment()->getText());
+        return $phpDocNode->getVarTagValues()[0] ?? null;
     }
 
     /**

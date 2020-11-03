@@ -14,7 +14,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
 use Rector\Core\Exception\ShouldNotHappenException;
-use Symplify\CodingStandard\PhpParser\NodeNameResolver;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 
 /**
  * Useful for prefixed phar bulid, to keep original references to class un-prefixed
@@ -37,17 +37,17 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule
     private $stringArgByMethodByType = [];
 
     /**
-     * @var NodeNameResolver
+     * @var SimpleNameResolver
      */
-    private $nodeNameResolver;
+    private $simpleNameResolver;
 
     /**
      * @param array<string, array<string, array<int>>> $stringArgByMethodByType
      */
-    public function __construct(NodeNameResolver $nodeNameResolver, array $stringArgByMethodByType = [])
+    public function __construct(SimpleNameResolver $simpleNameResolver, array $stringArgByMethodByType = [])
     {
         $this->stringArgByMethodByType = $stringArgByMethodByType;
-        $this->nodeNameResolver = $nodeNameResolver;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -124,7 +124,7 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule
         /** @var ClassConstFetch $classConstFetch */
         $classConstFetch = $arg->value;
 
-        return ! $this->nodeNameResolver->isName($classConstFetch->name, 'class');
+        return ! $this->simpleNameResolver->isName($classConstFetch->name, 'class');
     }
 
     private function isNodeVarType(MethodCall $methodCall, Scope $scope, string $desiredType): bool

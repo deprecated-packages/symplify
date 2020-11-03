@@ -9,7 +9,7 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\PhpParser\NodeNameResolver;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeComparator;
 
 /**
@@ -23,19 +23,19 @@ final class NoParentMethodCallOnNoOverrideProcessRule extends AbstractSymplifyRu
     public const ERROR_MESSAGE = 'Do not call parent method if no override process';
 
     /**
-     * @var NodeNameResolver
-     */
-    private $nodeNameResolver;
-
-    /**
      * @var NodeComparator
      */
     private $nodeComparator;
 
-    public function __construct(NodeNameResolver $nodeNameResolver, NodeComparator $nodeComparator)
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver, NodeComparator $nodeComparator)
     {
-        $this->nodeNameResolver = $nodeNameResolver;
         $this->nodeComparator = $nodeComparator;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -76,11 +76,11 @@ final class NoParentMethodCallOnNoOverrideProcessRule extends AbstractSymplifyRu
             return false;
         }
 
-        if (! $this->nodeNameResolver->isName($node->class, 'parent')) {
+        if (! $this->simpleNameResolver->isName($node->class, 'parent')) {
             return false;
         }
 
-        return $this->nodeNameResolver->areNamesEquals($node->name, $classMethod->name);
+        return $this->simpleNameResolver->areNamesEqual($node->name, $classMethod->name);
     }
 
     private function resolveOnlyNode(ClassMethod $classMethod): ?Node

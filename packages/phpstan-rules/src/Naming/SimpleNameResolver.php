@@ -45,4 +45,23 @@ final class SimpleNameResolver
 
         return null;
     }
+
+    /**
+     * @param string|Node $node
+     */
+    public function isName($node, string $desiredName): bool
+    {
+        return $this->getName($node) === $desiredName;
+    }
+
+    public function areNamesEqual(Node $firstNode, Node $secondNode): bool
+    {
+        $firstName = $this->getName($firstNode);
+        if ($firstName === null) {
+            return false;
+        }
+
+        $secondName = $this->getName($secondNode);
+        return $firstName === $secondName;
+    }
 }

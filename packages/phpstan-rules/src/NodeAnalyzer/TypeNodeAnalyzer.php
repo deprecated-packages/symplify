@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\NodeAnalyzer;
+namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;

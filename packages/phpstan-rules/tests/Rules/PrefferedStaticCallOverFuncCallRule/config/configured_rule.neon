@@ -1,5 +1,5 @@
 services:
-    - Symplify\CodingStandard\PhpParser\NodeNameResolver
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver
 
     -
         class: Symplify\PHPStanRules\Rules\PrefferedStaticCallOverFuncCallRule

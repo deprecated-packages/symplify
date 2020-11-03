@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\PhpParser;
+namespace Symplify\PHPStanRules\PhpParser;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
@@ -10,7 +10,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Stmt\If_;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 final class FileExistFuncCallAnalyzer
 {

@@ -9,7 +9,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Nop;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\PhpParser\NodeNameResolver;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Throwable;
 
@@ -24,9 +24,9 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends Abstrac
     public const ERROR_MESSAGE = 'Do not call parent method if parent method is empty';
 
     /**
-     * @var NodeNameResolver
+     * @var SimpleNameResolver
      */
-    private $nodeNameResolver;
+    private $simpleNameResolver;
 
     /**
      * @var ParentClassMethodNodeResolver
@@ -34,10 +34,10 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends Abstrac
     private $parentClassMethodNodeResolver;
 
     public function __construct(
-        NodeNameResolver $nodeNameResolver,
+        SimpleNameResolver $simpleNameResolver,
         ParentClassMethodNodeResolver $parentClassMethodNodeResolver
     ) {
-        $this->nodeNameResolver = $nodeNameResolver;
+        $this->simpleNameResolver = $simpleNameResolver;
         $this->parentClassMethodNodeResolver = $parentClassMethodNodeResolver;
     }
 
@@ -74,7 +74,7 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends Abstrac
             return [];
         }
 
-        $methodName = $this->nodeNameResolver->getName($node->name);
+        $methodName = $this->simpleNameResolver->getName($node->name);
 
         if ($methodName === null) {
             return [];

@@ -4,4 +4,4 @@ services:
         tags: [phpstan.rules.rule]
 
     - PhpParser\NodeFinder
-    - Symplify\CodingStandard\PhpParser\NodeNameResolver
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver

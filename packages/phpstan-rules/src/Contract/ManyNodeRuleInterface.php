@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Contract;
+namespace Symplify\PHPStanRules\Contract;
 
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;

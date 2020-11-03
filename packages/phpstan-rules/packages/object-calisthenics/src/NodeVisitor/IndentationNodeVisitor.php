@@ -6,8 +6,8 @@ namespace Symplify\PHPStanRules\ObjectCalisthenics\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 use Symplify\PHPStanRules\ObjectCalisthenics\Marker\IndentationMarker;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 final class IndentationNodeVisitor extends NodeVisitorAbstract
 {

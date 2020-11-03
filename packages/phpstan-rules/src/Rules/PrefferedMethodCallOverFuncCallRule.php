@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\PhpParser\NodeNameResolver;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PrefferedMethodCallOverFuncCallRule\PrefferedMethodCallOverFuncCallRuleTest
@@ -27,9 +27,9 @@ final class PrefferedMethodCallOverFuncCallRule extends AbstractPrefferedCallOve
     /**
      * @param array<string, string[]> $funcCallToPrefferedMethodCalls
      */
-    public function __construct(NodeNameResolver $nodeNameResolver, array $funcCallToPrefferedMethodCalls = [])
+    public function __construct(SimpleNameResolver $simpleNameResolver, array $funcCallToPrefferedMethodCalls = [])
     {
-        parent::__construct($nodeNameResolver);
+        parent::__construct($simpleNameResolver);
 
         $this->funcCallToPrefferedMethodCalls = $funcCallToPrefferedMethodCalls;
     }

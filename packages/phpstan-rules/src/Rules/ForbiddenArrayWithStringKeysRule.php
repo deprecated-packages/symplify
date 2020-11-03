@@ -16,9 +16,9 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
-use Symplify\CodingStandard\ValueObject\MethodName;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver;
+use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayWithStringKeysRule\ForbiddenArrayWithStringKeysRuleTest
