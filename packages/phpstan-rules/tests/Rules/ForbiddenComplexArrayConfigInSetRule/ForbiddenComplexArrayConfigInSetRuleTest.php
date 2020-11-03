@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenComplexArrayConfigInSetRu
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbiddenComplexArrayConfigInSetRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule;
 
 final class ForbiddenComplexArrayConfigInSetRuleTest extends AbstractServiceAwareRuleTestCase
 {

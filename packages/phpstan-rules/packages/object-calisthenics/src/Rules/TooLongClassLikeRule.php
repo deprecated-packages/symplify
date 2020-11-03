@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 
 /**
  * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooLongClassLikeRule\TooLongClassLikeRuleTest

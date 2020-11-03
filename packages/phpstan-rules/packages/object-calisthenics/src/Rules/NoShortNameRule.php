@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#6-do-not-abbreviate

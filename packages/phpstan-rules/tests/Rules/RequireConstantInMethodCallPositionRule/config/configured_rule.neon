@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\RequireConstantInMethodCallPositionRule
+        class: Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule
         tags: [phpstan.rules.rule]
         arguments:
             requiredLocalConstantInMethodCall:

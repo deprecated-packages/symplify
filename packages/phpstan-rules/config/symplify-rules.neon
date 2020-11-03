@@ -12,28 +12,28 @@ includes:
 
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoContainerInjectionInConstructorRule
+        class: Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoFactoryInConstructorRule
+        class: Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\PreventParentMethodVisibilityOverrideRule
+        class: Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
         tags: [phpstan.rules.rule]
 
     # paths
     -
-        class: Symplify\CodingStandard\Rules\NoMissingDirPathRule
+        class: Symplify\PHPStanRules\Rules\NoMissingDirPathRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoScalarAndArrayConstructorParameterRule
+        class: Symplify\PHPStanRules\Rules\NoScalarAndArrayConstructorParameterRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoParticularNodeRule
+        class: Symplify\PHPStanRules\Rules\NoParticularNodeRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenNodes:
@@ -42,12 +42,12 @@ services:
                 - PhpParser\Node\Expr\ErrorSuppress
 
     -
-        class: Symplify\CodingStandard\Rules\NoAbstractMethodRule
+        class: Symplify\PHPStanRules\Rules\NoAbstractMethodRule
         tags: [phpstan.rules.rule]
 
     # parenting
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenParentClassRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenParentClassRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenParentClasses:
@@ -57,7 +57,7 @@ services:
                 PHPStan\Testing\RuleTestCase: 'Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase'
 
     -
-        class: Symplify\CodingStandard\Rules\PreferredClassRule
+        class: Symplify\PHPStanRules\Rules\PreferredClassRule
         tags: [phpstan.rules.rule]
         arguments:
             oldToPrefferedClasses:
@@ -70,23 +70,23 @@ services:
                 'Symfony\Component\Filesystem\Filesystem': 'Symplify\SmartFileSystem\SmartFileSystem'
 
     -
-        class: Symplify\CodingStandard\Rules\NoReferenceRule
+        class: Symplify\PHPStanRules\Rules\NoReferenceRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoArrayAccessOnObjectRule
+        class: Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule
+        class: Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule
+        class: Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenFuncCallRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenFunctions:
@@ -98,15 +98,15 @@ services:
                 - 'curl_*'
 
     -
-        class: Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule
+        class: Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenReturnValueOfIncludeOnceRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
+        class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule
         tags: [phpstan.rules.rule]
         arguments:
             requiredSeeTypes:
@@ -116,44 +116,44 @@ services:
 
     # dead-code
     -
-        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
+        class: Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoDynamicMethodNameRule
+        class: Symplify\PHPStanRules\Rules\NoDynamicMethodNameRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoIssetOnObjectRule
+        class: Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoEmptyRule
+        class: Symplify\PHPStanRules\Rules\NoEmptyRule
         tags: [phpstan.rules.rule]
 
     # explicit naming
     -
-        class: Symplify\CodingStandard\Rules\NoDefaultExceptionRule
+        class: Symplify\PHPStanRules\Rules\NoDefaultExceptionRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\MatchingTypeConstantRule
+        class: Symplify\PHPStanRules\Rules\MatchingTypeConstantRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule
+        class: Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule
         tags: [phpstan.rules.rule]
         arguments:
             stringArgByMethodByType: []
 
     -
-        class: Symplify\CodingStandard\Rules\ExcessiveParameterListRule
+        class: Symplify\PHPStanRules\Rules\ExcessiveParameterListRule
         tags: [phpstan.rules.rule]
         arguments:
             maxParameterCount: 8
 
     -
-        class: Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
+        class: Symplify\PHPStanRules\Rules\PrefferedStaticCallOverFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
             funcCallToPrefferedStaticCalls:
@@ -167,89 +167,89 @@ services:
                 'strstr': ['Nette\Utils\Strings', 'contains']
 
     -
-        class: Symplify\CodingStandard\Rules\PrefferedMethodCallOverFuncCallRule
+        class: Symplify\PHPStanRules\Rules\PrefferedMethodCallOverFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
             funcCallToPrefferedMethodCalls:
                 'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
 
     -
-        class: Symplify\CodingStandard\Rules\ExcessivePublicCountRule
+        class: Symplify\PHPStanRules\Rules\ExcessivePublicCountRule
         tags: [phpstan.rules.rule]
         arguments:
             maxPublicClassElementCount: 10
 
     -
-        class: Symplify\CodingStandard\Rules\TooLongVariableRule
+        class: Symplify\PHPStanRules\Rules\TooLongVariableRule
         tags: [phpstan.rules.rule]
         arguments:
             maxVariableLength: 40
 
     -
-        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule
+        class: Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\PreferredClassConstantOverVariableConstantRule
+        class: Symplify\PHPStanRules\Rules\PreferredClassConstantOverVariableConstantRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\PreferredRawDataInTestDataProviderRule
+        class: Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoSuffixValueObjectClassRule
+        class: Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
+        class: Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\CheckUsedNamespacedNameOnClassNodeRule
+        class: Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenAssignInifRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInifRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\RequireThisOnParentMethodCallRule
+        class: Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenNestedForeachWithEmptyStatementRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMultipleClassLikeInOneFileRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenProtectedPropertyRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoMethodTagInClassDocblockRule
+        class: Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenNewInMethodRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenClassMethods:
                 PHPStan\Rules\Rule: ['getRule']
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrStaticCallInForeachRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMethodCallInIfRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallInIfRule
         tags: [phpstan.rules.rule]
 
 #    -
-#       class: Symplify\CodingStandard\Rules\ForbiddenNewOutsideFactoryServiceRule
+#       class: Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule
 #        tags: [phpstan.rules.rule]
 #        arguments:
             #types:
@@ -257,46 +257,46 @@ services:
             #    - Foo
 
     -
-        class: Symplify\CodingStandard\Rules\TooDeepNewClassNestingRule
+        class: Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule
         tags: [phpstan.rules.rule]
         arguments:
             maxNewClassNesting: 3
 
     -
-        class: Symplify\CodingStandard\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
+        class: Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
         tags: [phpstan.rules.rule]
 
 #    -
-#        class: Symplify\CodingStandard\Rules\ForbiddenConstructorDependencyByTypeRule
+#        class: Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule
 #        tags: [phpstan.rules.rule]
 #        arguments:
 #            forbiddenTypes:
 #                - Psr\Container\ContainerInterface
     -
-        class: Symplify\CodingStandard\Rules\CheckParentChildMethodParameterTypeCompatibleRule
+        class: Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\CheckTraitMethodOnlyDelegateOtherClassRule
+        class: Symplify\PHPStanRules\Rules\CheckTraitMethodOnlyDelegateOtherClassRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMethodCallOnNewRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\RequireNewArgumentConstantRule
+        class: Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule
         tags: [phpstan.rules.rule]
         arguments:
             constantArgByNewByType:
                 Symfony\Component\Console\Input\InputOption: [0, 2]
 
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenSpreadOperatorRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\CheckRequiredInterfaceInContractNamespaceRule
+        class: Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
         tags: [phpstan.rules.rule]
 
     -

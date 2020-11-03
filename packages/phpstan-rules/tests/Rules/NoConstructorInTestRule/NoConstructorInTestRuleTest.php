@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoConstructorInTestRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoConstructorInTestRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoConstructorInTestRule;
 
 final class NoConstructorInTestRuleTest extends AbstractServiceAwareRuleTestCase
 {

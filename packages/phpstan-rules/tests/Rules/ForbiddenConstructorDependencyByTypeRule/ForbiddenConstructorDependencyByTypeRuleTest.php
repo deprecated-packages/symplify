@@ -7,8 +7,8 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenConstructorDependencyByTy
 use Iterator;
 use PHPStan\Rules\Rule;
 use Psr\Container\ContainerInterface;
-use Symplify\CodingStandard\Rules\ForbiddenConstructorDependencyByTypeRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule;
 
 final class ForbiddenConstructorDependencyByTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {

@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenNestedForeachWithEmptySta
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbiddenNestedForeachWithEmptyStatementRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule;
 
 final class ForbiddenNestedForeachWithEmptyStatementRuleTest extends AbstractServiceAwareRuleTestCase
 {

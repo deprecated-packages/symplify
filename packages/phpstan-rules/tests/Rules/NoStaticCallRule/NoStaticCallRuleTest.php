@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoStaticCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoStaticCallRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoStaticCallRule;
 
 final class NoStaticCallRuleTest extends AbstractServiceAwareRuleTestCase
 {

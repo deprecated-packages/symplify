@@ -10,7 +10,6 @@
         "squizlabs/php_codesniffer": "^3.5",
         "slevomat/coding-standard": "^6.4",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "phpstan/phpstan": "^0.12.40",
         "symplify/symplify-kernel": "^8.4",
         "symplify/package-builder": "^8.4",
         "symplify/autowire-array-parameter": "^8.4"
@@ -20,7 +19,6 @@
         "nette/bootstrap": "^3.0",
         "symplify/easy-coding-standard-tester": "^8.4",
         "symplify/package-builder": "^8.4",
-        "symplify/phpstan-extensions": "^8.4",
         "symfony/http-kernel": "^4.4|^5.1",
         "doctrine/orm": "^2.7",
         "symplify/smart-file-system": "^8.4",
@@ -30,15 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\CodingStandard\\": "src",
-            "Symplify\\CodingStandard\\CognitiveComplexity\\": "packages/cognitive-complexity/src",
-            "Symplify\\CodingStandard\\ObjectCalisthenics\\": "packages/object-calisthenics/src"
+            "Symplify\\CodingStandard\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\CodingStandard\\Tests\\": "tests",
-            "Symplify\\CodingStandard\\ObjectCalisthenics\\Tests\\": "packages/object-calisthenics/tests"
+            "Symplify\\CodingStandard\\Tests\\": "tests"
         }
     },
     "extra": {

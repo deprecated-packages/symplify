@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\CheckNotTestsNamespaceOutsideTests
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule;
 
 final class CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest extends AbstractServiceAwareRuleTestCase
 {

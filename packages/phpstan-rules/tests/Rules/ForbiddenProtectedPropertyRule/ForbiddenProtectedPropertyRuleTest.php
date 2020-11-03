@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenProtectedPropertyRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbiddenProtectedPropertyRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule;
 
 final class ForbiddenProtectedPropertyRuleTest extends AbstractServiceAwareRuleTestCase
 {

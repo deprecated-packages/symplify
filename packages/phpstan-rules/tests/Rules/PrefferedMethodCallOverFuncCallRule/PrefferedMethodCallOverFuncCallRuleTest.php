@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\PrefferedMethodCallOverFuncCallRul
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\PrefferedMethodCallOverFuncCallRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\PrefferedMethodCallOverFuncCallRule;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class PrefferedMethodCallOverFuncCallRuleTest extends AbstractServiceAwareRuleTestCase

@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbiddenNewInMethodRule;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule\Fixture\DefinedInterfaceAndParentClass;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenNewInMethodRule\Fixture\HasNewInMethod;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule;
 
 final class ForbiddenNewInMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {

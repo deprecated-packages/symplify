@@ -1,6 +1,0 @@
-services:
-    -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\TooManyPropertiesRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxPropertyCount: 3

@@ -8,8 +8,8 @@ use DateTime as NativeDateTime;
 use Iterator;
 use Nette\Utils\DateTime;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\PreferredClassRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\PreferredClassRule;
 
 final class PreferredClassRuleTest extends AbstractServiceAwareRuleTestCase
 {

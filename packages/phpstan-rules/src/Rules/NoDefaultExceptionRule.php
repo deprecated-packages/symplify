@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Rules;
+namespace Symplify\PHPStanRules\Rules;
 
-use Exception;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Throw_;
 use PHPStan\Analyser\Scope;
 use ReflectionClass;
+use Throwable;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\NoDefaultExceptionRule\NoDefaultExceptionRuleTest
@@ -47,7 +47,7 @@ final class NoDefaultExceptionRule extends AbstractSymplifyRule
         }
 
         $exceptionClass = (string) $new->class;
-        if (! is_a($exceptionClass, Exception::class, true)) {
+        if (! is_a($exceptionClass, Throwable::class, true)) {
             return [];
         }
 

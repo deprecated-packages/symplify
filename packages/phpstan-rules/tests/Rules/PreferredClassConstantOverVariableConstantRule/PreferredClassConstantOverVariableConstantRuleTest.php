@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\PreferredClassConstantOverVariable
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\PreferredClassConstantOverVariableConstantRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\PreferredClassConstantOverVariableConstantRule;
 
 final class PreferredClassConstantOverVariableConstantRuleTest extends AbstractServiceAwareRuleTestCase
 {

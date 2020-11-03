@@ -8,7 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules;
-use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#5-use-only-one-object-operator---per-statement

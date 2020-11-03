@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoDynamicMethodNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoDynamicMethodNameRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoDynamicMethodNameRule;
 
 final class NoDynamicMethodNameRuleTest extends AbstractServiceAwareRuleTestCase
 {

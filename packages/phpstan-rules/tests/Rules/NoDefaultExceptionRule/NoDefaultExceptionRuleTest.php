@@ -7,8 +7,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoDefaultExceptionRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use RuntimeException;
-use Symplify\CodingStandard\Rules\NoDefaultExceptionRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoDefaultExceptionRule;
 
 final class NoDefaultExceptionRuleTest extends AbstractServiceAwareRuleTestCase
 {

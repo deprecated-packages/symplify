@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenMethodOrStaticCallInForea
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbiddenMethodOrStaticCallInForeachRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule;
 
 final class ForbiddenMethodOrStaticCallInForeachRuleTest extends AbstractServiceAwareRuleTestCase
 {

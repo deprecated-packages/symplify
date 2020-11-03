@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\RequireStringArgumentInMethodCallR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule;
 
 final class RequireStringArgumentInMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
 {

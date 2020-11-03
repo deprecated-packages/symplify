@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\CheckRequiredMethodTobeAutowireWit
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule;
 
 final class CheckRequiredMethodTobeAutowireWithClassNameRuleTest extends AbstractServiceAwareRuleTestCase
 {

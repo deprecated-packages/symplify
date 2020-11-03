@@ -6,9 +6,9 @@ namespace Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoNewOutsideFactoryRule;
 use Symplify\CodingStandard\Tests\Rules\NoNewOutsideFactoryRule\Source\SomeValueObject;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoNewOutsideFactoryRule;
 
 final class NoNewOutsideFactoryRuleTest extends AbstractServiceAwareRuleTestCase
 {

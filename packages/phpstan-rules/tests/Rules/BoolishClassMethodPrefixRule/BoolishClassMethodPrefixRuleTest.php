@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\BoolishClassMethodPrefixRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\BoolishClassMethodPrefixRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule;
 
 final class BoolishClassMethodPrefixRuleTest extends AbstractServiceAwareRuleTestCase
 {

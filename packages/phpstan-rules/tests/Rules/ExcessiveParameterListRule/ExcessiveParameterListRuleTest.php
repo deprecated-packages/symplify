@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\ExcessiveParameterListRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ExcessiveParameterListRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\ExcessiveParameterListRule;
 
 final class ExcessiveParameterListRuleTest extends AbstractServiceAwareRuleTestCase
 {

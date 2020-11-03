@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoParticularNodeRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoParticularNodeRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoParticularNodeRule;
 
 final class NoParticularNodeRuleTest extends AbstractServiceAwareRuleTestCase
 {

@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\UppercaseConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\UppercaseConstantRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\UppercaseConstantRule;
 
 final class UppercaseConstantRuleTest extends AbstractServiceAwareRuleTestCase
 {

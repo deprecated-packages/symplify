@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\RequireNewArgumentConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\RequireNewArgumentConstantRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule;
 
 final class RequireNewArgumentConstantRuleTest extends AbstractServiceAwareRuleTestCase
 {

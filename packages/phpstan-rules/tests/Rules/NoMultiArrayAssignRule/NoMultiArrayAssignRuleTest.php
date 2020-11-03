@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoMultiArrayAssignRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoMultiArrayAssignRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule;
 
 final class NoMultiArrayAssignRuleTest extends AbstractServiceAwareRuleTestCase
 {

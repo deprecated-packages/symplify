@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoEmptyRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoEmptyRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoEmptyRule;
 
 final class NoEmptyRuleTest extends AbstractServiceAwareRuleTestCase
 {

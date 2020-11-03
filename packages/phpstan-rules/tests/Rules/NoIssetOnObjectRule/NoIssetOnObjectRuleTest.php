@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoIssetOnObjectRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoIssetOnObjectRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoIssetOnObjectRule;
 
 final class NoIssetOnObjectRuleTest extends AbstractServiceAwareRuleTestCase
 {

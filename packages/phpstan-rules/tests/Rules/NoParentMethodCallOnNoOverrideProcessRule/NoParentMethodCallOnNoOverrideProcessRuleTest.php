@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoParentMethodCallOnNoOverrideProc
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule;
 
 final class NoParentMethodCallOnNoOverrideProcessRuleTest extends AbstractServiceAwareRuleTestCase
 {

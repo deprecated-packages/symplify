@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\NoDuplicatedShortClassNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule;
 use Symplify\CodingStandard\Tests\Rules\NoDuplicatedShortClassNameRule\Fixture\AlreadyExistingShortName as SecondAlreadyExistingShortName;
 use Symplify\CodingStandard\Tests\Rules\NoDuplicatedShortClassNameRule\Source\AlreadyExistingShortName;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule;
 
 final class NoDuplicatedShortClassNameRuleTest extends AbstractServiceAwareRuleTestCase
 {

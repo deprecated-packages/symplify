@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\TooDeepNewClassNestingRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\TooDeepNewClassNestingRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule;
 
 final class TooDeepNewClassNestingRuleTest extends AbstractServiceAwareRuleTestCase
 {

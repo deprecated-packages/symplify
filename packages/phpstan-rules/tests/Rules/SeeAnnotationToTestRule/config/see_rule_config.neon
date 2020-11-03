@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
+        class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule
         tags: [phpstan.rules.rule]
         arguments:
             requiredSeeTypes:

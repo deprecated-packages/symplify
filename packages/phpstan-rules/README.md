@@ -1,6 +1,6 @@
-# Coding Standard
+# PHPStan Rules
 
-[![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/phpstan-rules.svg?style=flat-square)](https://packagist.org/packages/symplify/phpstan-rules/stats)
 
 Set of rules for PHP_CodeSniffer, PHP-CS-Fixer and PHPStan used by Symplify projects.
 
@@ -9,7 +9,7 @@ Set of rules for PHP_CodeSniffer, PHP-CS-Fixer and PHPStan used by Symplify proj
 ## Install
 
 ```bash
-composer require symplify/coding-standard --dev
+composer require symplify/phpstan-rules --dev
 composer require symplify/easy-coding-standard --dev
 ```
 
@@ -44,7 +44,7 @@ or even better
 ```yaml
 # phpstan.neon
 includes:
-    - vendor/symplify/coding-standard/config/symplify-rules.neon
+    - vendor/symplify/phpstan-rules/config/symplify-rules.neon
 ```
 
 ## Rules Overview

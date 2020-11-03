@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoDynamicPropertyFetchNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoDynamicPropertyFetchNameRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoDynamicPropertyFetchNameRule;
 
 final class NoDynamicPropertyFetchNameRuleTest extends AbstractServiceAwareRuleTestCase
 {

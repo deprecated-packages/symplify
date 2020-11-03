@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\ObjectCalisthenics\Marker\IndentationMarker;
 use Symplify\CodingStandard\ObjectCalisthenics\NodeTraverserFactory\IndentationNodeTraverserFactory;
-use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 
 /**
  * @see https://williamdurand.fr/2013/06/03/object-calisthenics/#1-only-one-level-of-indentation-per-method

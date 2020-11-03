@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoArrayAccessOnObjectRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoArrayAccessOnObjectRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule;
 
 final class NoArrayAccessOnObjectRuleTest extends AbstractServiceAwareRuleTestCase
 {

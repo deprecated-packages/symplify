@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
+        class: Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule
         tags: [phpstan.rules.rule]
 
     - PhpParser\NodeFinder

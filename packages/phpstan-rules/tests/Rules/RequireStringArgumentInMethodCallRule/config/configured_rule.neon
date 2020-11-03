@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule
+        class: Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule
         tags: [phpstan.rules.rule]
         arguments:
             stringArgByMethodByType:

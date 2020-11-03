@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\AnnotateRegexClassConstWithRegexLi
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\AnnotateRegexClassConstWithRegexLinkRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\AnnotateRegexClassConstWithRegexLinkRule;
 
 final class AnnotateRegexClassConstWithRegexLinkRuleTest extends AbstractServiceAwareRuleTestCase
 {

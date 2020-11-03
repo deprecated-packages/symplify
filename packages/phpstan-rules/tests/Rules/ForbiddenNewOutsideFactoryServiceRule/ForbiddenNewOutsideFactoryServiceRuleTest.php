@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenNewOutsideFactoryServiceR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbiddenNewOutsideFactoryServiceRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule;
 
 final class ForbiddenNewOutsideFactoryServiceRuleTest extends AbstractServiceAwareRuleTestCase
 {

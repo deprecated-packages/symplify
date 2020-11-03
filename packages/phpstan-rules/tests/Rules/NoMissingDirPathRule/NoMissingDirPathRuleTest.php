@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoMissingDirPathRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoMissingDirPathRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoMissingDirPathRule;
 
 final class NoMissingDirPathRuleTest extends AbstractServiceAwareRuleTestCase
 {

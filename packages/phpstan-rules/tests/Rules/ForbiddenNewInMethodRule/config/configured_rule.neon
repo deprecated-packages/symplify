@@ -1,7 +1,7 @@
 services:
     - PhpParser\NodeFinder
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenNewInMethodRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenClassMethods:

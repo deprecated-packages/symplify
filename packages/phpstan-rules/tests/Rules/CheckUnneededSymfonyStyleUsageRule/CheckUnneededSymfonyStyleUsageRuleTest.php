@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\CheckUnneededSymfonyStyleUsageRule
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule;
 
 final class CheckUnneededSymfonyStyleUsageRuleTest extends AbstractServiceAwareRuleTestCase
 {

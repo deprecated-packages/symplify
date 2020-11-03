@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\CheckParentChildMethodParameterTyp
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\CheckParentChildMethodParameterTypeCompatibleRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule;
 
 final class CheckParentChildMethodParameterTypeCompatibleRuleTest extends AbstractServiceAwareRuleTestCase
 {

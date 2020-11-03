@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoMethodTagInClassDocblockRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoMethodTagInClassDocblockRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule;
 
 final class NoMethodTagInClassDocblockRuleTest extends AbstractServiceAwareRuleTestCase
 {

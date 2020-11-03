@@ -7,7 +7,7 @@ namespace Symplify\CodingStandard\ObjectCalisthenics\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 
 /**
  * @see \Symplify\CodingStandard\ObjectCalisthenics\Tests\Rules\TooManyPropertiesRule\TooManyPropertiesRuleTest

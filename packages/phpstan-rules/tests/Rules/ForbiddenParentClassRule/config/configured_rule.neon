@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenParentClassRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenParentClassRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenParentClasses:

@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\RequireDataProviderTestMethodRule
+        class: Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule
         tags: [phpstan.rules.rule]
         arguments:
             classesRequiringDataProvider:

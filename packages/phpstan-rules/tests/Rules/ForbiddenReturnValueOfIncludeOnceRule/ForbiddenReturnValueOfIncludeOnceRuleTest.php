@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenReturnValueOfIncludeOnceR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbiddenReturnValueOfIncludeOnceRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule;
 
 final class ForbiddenReturnValueOfIncludeOnceRuleTest extends AbstractServiceAwareRuleTestCase
 {

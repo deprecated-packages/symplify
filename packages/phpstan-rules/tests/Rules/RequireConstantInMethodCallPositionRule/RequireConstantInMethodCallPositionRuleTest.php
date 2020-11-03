@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\RequireConstantInMethodCallPositio
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\RequireConstantInMethodCallPositionRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule;
 
 final class RequireConstantInMethodCallPositionRuleTest extends AbstractServiceAwareRuleTestCase
 {

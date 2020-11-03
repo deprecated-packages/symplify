@@ -7,8 +7,8 @@ namespace Symplify\CodingStandard\Tests\Rules\PrefferedStaticCallOverFuncCallRul
 use Iterator;
 use Nette\Utils\Strings;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\PrefferedStaticCallOverFuncCallRule;
 
 final class PrefferedStaticCallOverFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
 {

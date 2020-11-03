@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\CheckRequiredInterfaceInContractNa
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\CheckRequiredInterfaceInContractNamespaceRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule;
 
 final class CheckRequiredInterfaceInContractNamespaceRuleTest extends AbstractServiceAwareRuleTestCase
 {

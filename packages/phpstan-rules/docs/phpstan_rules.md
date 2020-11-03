@@ -8,7 +8,7 @@
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoSuffixValueObjectClassRule
+        class: Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -41,7 +41,7 @@ final class PersonValueObject
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoContainerInjectionInConstructorRule
+        class: Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -67,7 +67,7 @@ class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoParticularNodeRule
+        class: Symplify\PHPStanRules\Rules\NoParticularNodeRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenNodes:
@@ -217,7 +217,7 @@ class SomePath
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\RequireConstantInMethodCallPositionRule
+        class: Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule
         tags: [phpstan.rules.rule]
         arguments:
             requiredLocalConstantInMethodCall:
@@ -262,7 +262,7 @@ class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\RequireDataProviderTestMethodRule
+        class: Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule
         arguments:
             classesRequiringDataProvider:
                 - '*RectorTestCase'
@@ -425,7 +425,7 @@ class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule
+        class: Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -482,7 +482,7 @@ final class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\TooLongVariableRule
+        class: Symplify\PHPStanRules\Rules\TooLongVariableRule
         tags: [phpstan.rules.rule]
         arguments:
             maxVariableLength: 40
@@ -510,7 +510,7 @@ final class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\TooDeepNewClassNestingRule
+        class: Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule
         tags: [phpstan.rules.rule]
         arguments:
             maxNewClassNesting: 3
@@ -561,7 +561,7 @@ new A(
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ExcessivePublicCountRule
+        class: Symplify\PHPStanRules\Rules\ExcessivePublicCountRule
         tags: [phpstan.rules.rule]
         arguments:
             maxPublicClassElementCount: 10
@@ -599,7 +599,7 @@ final class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
+        class: Symplify\PHPStanRules\Rules\PrefferedStaticCallOverFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
             funcCallToPrefferedStaticCalls:
@@ -633,7 +633,7 @@ final class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\PrefferedMethodCallOverFuncCallRule
+        class: Symplify\PHPStanRules\Rules\PrefferedMethodCallOverFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
             funcCallToPrefferedMethodCalls:
@@ -667,7 +667,7 @@ final class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ExcessiveParameterListRule
+        class: Symplify\PHPStanRules\Rules\ExcessiveParameterListRule
         tags: [phpstan.rules.rule]
         arguments:
             maxParameterCount: 8
@@ -699,7 +699,7 @@ final class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoStaticCallRule
+        class: Symplify\PHPStanRules\Rules\NoStaticCallRule
         tags: [phpstan.rules.rule]
         arguments:
             allowedStaticCallClasses:
@@ -733,7 +733,7 @@ final class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoStaticPropertyRule
+        class: Symplify\PHPStanRules\Rules\NoStaticPropertyRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -761,7 +761,7 @@ final class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule
+        class: Symplify\PHPStanRules\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule
 ```
 
 ```php
@@ -796,7 +796,7 @@ Useful for PHAR prefixing with [php-scoper](https://github.com/humbug/php-scoper
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\RequireStringArgumentInMethodCallRule
+        class: Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule
         tags: [phpstan.rules.rule]
         arguments:
             stringArgByMethodByType:
@@ -848,7 +848,7 @@ class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\RequireThisOnParentMethodCallRule
+        class: Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -936,7 +936,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenConstructorDependencyByTypeRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenTypes:
@@ -1013,7 +1013,7 @@ final class SomeController
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoFactoryInConstructorRule
+        class: Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1113,7 +1113,7 @@ class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
+        class: Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1149,7 +1149,7 @@ final class SomeClass extends ParentClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoParentMethodCallOnNoOverrideProcessRule
+        class: Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1199,7 +1199,7 @@ Covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscr
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
+        class: Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule
         tags: [phpstan.rules.rule]
         arguments:
             parentClasses:
@@ -1231,7 +1231,7 @@ class Some extends Command
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenFuncCallRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
             # default are: ['d', 'dd', 'dump', 'var_dump', 'extract']
@@ -1259,7 +1259,7 @@ dump($value);
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMultipleClassLikeInOneFileRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1290,7 +1290,7 @@ class Bar implements Foo
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenNestedForeachWithEmptyStatementRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1336,7 +1336,7 @@ foreach ($errors as $fileErrors) {
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenNewInMethodRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenClassMethods:
@@ -1376,7 +1376,7 @@ class SomeClassRule implements Rule
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenNewOutsideFactoryServiceRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule
         tags: [phpstan.rules.rule]
         arguments:
             types:
@@ -1654,7 +1654,7 @@ final class IssetOnObject
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoMethodTagInClassDocblockRule
+        class: Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1762,7 +1762,7 @@ function someFunction($var)
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoScalarAndArrayConstructorParameterRule
+        class: Symplify\PHPStanRules\Rules\NoScalarAndArrayConstructorParameterRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1787,7 +1787,7 @@ final class SomeConstruct
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule
+        class: Symplify\PHPStanRules\Rules\NoSetterOnServiceRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1815,7 +1815,7 @@ final class SomeServiceWithSetter
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenParentClassRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenParentClassRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenParentClasses:
@@ -1873,7 +1873,7 @@ final class ProductRepository
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenProtectedPropertyRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1928,7 +1928,7 @@ abstract class SomeClass implements ConfigInterface
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMethodOrStaticCallInForeachRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -1967,7 +1967,7 @@ foreach ($arg as $key => $item) {
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMethodCallInIfRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallInIfRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2014,7 +2014,7 @@ if ($data === []) {
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenMethodCallOnNewRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2051,7 +2051,7 @@ $d->format('Y-m-d');
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenAssignInifRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInifRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2136,7 +2136,7 @@ throw new FileNotFoundExceptoin('...');
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\CodingStandard\Rules\ForbiddenReturnValueOfIncludeOnceRule;
+use Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -2171,7 +2171,7 @@ class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenSpreadOperatorRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2287,7 +2287,7 @@ class TestsNamespaceInsideTestsDirectoryClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckParentChildMethodParameterTypeCompatibleRule
+        class: Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2324,7 +2324,7 @@ class SomeClass extends ParentClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule
+        class: Symplify\PHPStanRules\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2354,7 +2354,7 @@ class AbstractFoo
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
+        class: Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2405,7 +2405,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckRequiredInterfaceInContractNamespaceRule
+        class: Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2451,7 +2451,7 @@ interface AnInterface
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule
+        class: Symplify\PHPStanRules\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2503,7 +2503,7 @@ class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckTraitMethodOnlyDelegateOtherClassRule
+        class: Symplify\PHPStanRules\Rules\CheckTraitMethodOnlyDelegateOtherClassRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2568,7 +2568,7 @@ trait Delegate
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckUnneededSymfonyStyleUsageRule
+        class: Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2610,7 +2610,7 @@ class UseMethodCallFromSymfonyStyle
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\CheckUsedNamespacedNameOnClassNodeRule
+        class: Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule
         tags: [phpstan.rules.rule]
         arguments:
             excludedClasses:
@@ -2688,7 +2688,7 @@ class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\RequireMethodCallArgumentConstantRule
+        class: Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule
         tags: [phpstan.rules.rule]
         arguments:
             constantArgByMethodByType:
@@ -2725,7 +2725,7 @@ class SomeClass
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\RequireNewArgumentConstantRule
+        class: Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule
         tags: [phpstan.rules.rule]
         arguments:
             constantArgByNewByType:
@@ -2769,7 +2769,7 @@ new InputOption(Option::OPTION_DEBUG, 'c', InputOption::VALUE_REQUIRED, 'Config 
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\SeeAnnotationToTestRule
+        class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule
         tags: [phpstan.rules.rule]
         arguments:
             requiredSeeTypes:
@@ -2823,7 +2823,7 @@ class SomeRule implements Rule
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\PreferredClassRule
+        class: Symplify\PHPStanRules\Rules\PreferredClassRule
         tags: [phpstan.rules.rule]
         arguments:
             oldToPrefferedClasses:
@@ -2861,7 +2861,7 @@ $dateTime = new Nette\Utils\DateTime('now');
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\PreferredRawDataInTestDataProviderRule
+        class: Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2936,7 +2936,7 @@ final class UseRawDataForTestDataProviderTest
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\PreferredClassConstantOverVariableConstantRule
+        class: Symplify\PHPStanRules\Rules\PreferredClassConstantOverVariableConstantRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -3008,7 +3008,7 @@ class StaticFormatConverter
 # phpstan.neon
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoConstructorInTestRule
+        class: Symplify\PHPStanRules\Rules\NoConstructorInTestRule
         tags: [phpstan.rules.rule]
 ```
 

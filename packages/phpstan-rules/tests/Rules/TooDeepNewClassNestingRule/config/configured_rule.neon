@@ -1,7 +1,7 @@
 services:
     - PhpParser\NodeFinder
     -
-        class: Symplify\CodingStandard\Rules\TooDeepNewClassNestingRule
+        class: Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule
         tags: [phpstan.rules.rule]
         arguments:
             maxNewClassNesting: 3

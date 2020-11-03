@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoTraitExceptItsMethodsPublicAndRe
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule;
 
 final class NoTraitExceptItsMethodsPublicAndRequiredRuleTest extends AbstractServiceAwareRuleTestCase
 {

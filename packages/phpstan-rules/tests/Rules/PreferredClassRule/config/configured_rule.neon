@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\PreferredClassRule
+        class: Symplify\PHPStanRules\Rules\PreferredClassRule
         tags: [phpstan.rules.rule]
         arguments:
             oldToPrefferedClasses:

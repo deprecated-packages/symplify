@@ -6,10 +6,10 @@ namespace Symplify\CodingStandard\Tests\Rules\SeeAnnotationToTestRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\SeeAnnotationToTestRule;
 use Symplify\CodingStandard\Tests\Rules\SeeAnnotationToTestRule\Fixture\RuleWithoutSee;
 use Symplify\CodingStandard\Tests\Rules\SeeAnnotationToTestRule\Fixture\RuleWithSeeRandom;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule;
 
 final class SeeAnnotationToTestRuleTest extends AbstractServiceAwareRuleTestCase
 {

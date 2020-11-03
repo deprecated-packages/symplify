@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoSuffixValueObjectClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoSuffixValueObjectClassRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule;
 
 final class NoSuffixValueObjectClassRuleTest extends AbstractServiceAwareRuleTestCase
 {

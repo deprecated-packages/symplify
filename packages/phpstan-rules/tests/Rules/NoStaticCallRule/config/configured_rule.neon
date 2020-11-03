@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoStaticCallRule
+        class: Symplify\PHPStanRules\Rules\NoStaticCallRule
         tags: [phpstan.rules.rule]
         arguments:
             allowedStaticCallClasses:

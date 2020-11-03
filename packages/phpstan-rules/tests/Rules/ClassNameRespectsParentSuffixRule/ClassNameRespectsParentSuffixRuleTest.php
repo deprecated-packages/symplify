@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\ClassNameRespectsParentSuffixRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule;
 
 final class ClassNameRespectsParentSuffixRuleTest extends AbstractServiceAwareRuleTestCase
 {

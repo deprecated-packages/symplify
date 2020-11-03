@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use Symplify\CodingStandard\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
-use Symplify\CodingStandard\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**

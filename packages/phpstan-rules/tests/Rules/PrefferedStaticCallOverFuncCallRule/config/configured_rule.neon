@@ -2,7 +2,7 @@ services:
     - Symplify\CodingStandard\PhpParser\NodeNameResolver
 
     -
-        class: Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule
+        class: Symplify\PHPStanRules\Rules\PrefferedStaticCallOverFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
             funcCallToPrefferedStaticCalls:

@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoNullableParameterRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoNullableParameterRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoNullableParameterRule;
 
 final class NoNullableParameterRuleTest extends AbstractServiceAwareRuleTestCase
 {

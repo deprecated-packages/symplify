@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoArrayStringObjectReturnRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoArrayStringObjectReturnRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoArrayStringObjectReturnRule;
 
 final class NoArrayStringObjectReturnRuleTest extends AbstractServiceAwareRuleTestCase
 {

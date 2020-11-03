@@ -1,20 +1,20 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\SuffixInterfaceRule
+        class: Symplify\PHPStanRules\Rules\SuffixInterfaceRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\SuffixTraitRule
+        class: Symplify\PHPStanRules\Rules\SuffixTraitRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\PrefixAbstractClassRule
+        class: Symplify\PHPStanRules\Rules\PrefixAbstractClassRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\UppercaseConstantRule
+        class: Symplify\PHPStanRules\Rules\UppercaseConstantRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule
+        class: Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule
         tags: [phpstan.rules.rule]

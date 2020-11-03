@@ -1,12 +1,12 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoSetterOnServiceRule
+        class: Symplify\PHPStanRules\Rules\NoSetterOnServiceRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoNewOutsideFactoryRule
+        class: Symplify\PHPStanRules\Rules\NoNewOutsideFactoryRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\NoProtectedElementInFinalClassRule
+        class: Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule
         tags: [phpstan.rules.rule]

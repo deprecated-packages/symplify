@@ -1,7 +1,7 @@
 services:
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     -
-        class: Symplify\CodingStandard\Rules\ForbiddenFuncCallRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenFunctions:

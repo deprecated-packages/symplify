@@ -1,14 +1,14 @@
 services:
     -
-        class: Symplify\CodingStandard\Rules\NoConstructorInTestRule
+        class: Symplify\PHPStanRules\Rules\NoConstructorInTestRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule
+        class: Symplify\PHPStanRules\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\CodingStandard\Rules\RequireDataProviderTestMethodRule
+        class: Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule
         tags: [phpstan.rules.rule]
         arguments:
             classesRequiringDataProvider:

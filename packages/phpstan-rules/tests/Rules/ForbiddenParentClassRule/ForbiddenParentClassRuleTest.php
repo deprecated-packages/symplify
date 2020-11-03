@@ -6,7 +6,6 @@ namespace Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\ForbiddenParentClassRule;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\AnotherForbiddenParent;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\ClassForbiddenParent;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Fixture\HasParentWithPrefference;
@@ -15,6 +14,7 @@ use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\Preferre
 use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\SomeFnMatched;
 use Symplify\CodingStandard\Tests\Rules\ForbiddenParentClassRule\Source\UnwantedClass;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\ForbiddenParentClassRule;
 
 final class ForbiddenParentClassRuleTest extends AbstractServiceAwareRuleTestCase
 {

@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\Rules\NoContainerInjectionInConstructorR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\CodingStandard\Rules\NoContainerInjectionInConstructorRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule;
 
 final class NoContainerInjectionInConstructorRuleTest extends AbstractServiceAwareRuleTestCase
 {
