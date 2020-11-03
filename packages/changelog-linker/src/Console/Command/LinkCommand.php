@@ -10,7 +10,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 
 final class LinkCommand extends Command
@@ -44,7 +43,6 @@ final class LinkCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Adds links to CHANGELOG.md');
     }
 

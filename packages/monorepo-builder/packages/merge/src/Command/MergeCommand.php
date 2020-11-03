@@ -14,7 +14,6 @@ use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Merge\Application\MergedAndDecoratedComposerJsonFactory;
 use Symplify\MonorepoBuilder\VersionValidator;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
@@ -77,7 +76,6 @@ final class MergeCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Merge "composer.json" from all found packages to root one');
     }
 
