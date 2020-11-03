@@ -298,8 +298,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#2323] Init command feature - remove .idea, Thanks to [@Kerrialn]
 - [#2406] Drop dependency on Composer
 
-
-
 <!-- dumped content start -->
 ## [8.3.5] - 2020-09-17
 
