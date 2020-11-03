@@ -1,0 +1,8 @@
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            minNameLenght: 3
+            allowedShortNames:
+                - id

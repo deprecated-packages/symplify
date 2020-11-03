@@ -1,0 +1,12 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule
+        tags: [phpstan.rules.rule]

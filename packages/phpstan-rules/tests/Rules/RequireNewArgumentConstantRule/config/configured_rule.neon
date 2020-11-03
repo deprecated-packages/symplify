@@ -1,0 +1,7 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByNewByType:
+                Symfony\Component\Console\Input\InputOption: [2]

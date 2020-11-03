@@ -1,0 +1,6 @@
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassLikeLength: 10

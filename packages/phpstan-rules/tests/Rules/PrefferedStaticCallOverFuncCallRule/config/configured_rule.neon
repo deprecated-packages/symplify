@@ -1,0 +1,13 @@
+services:
+    - Symplify\CodingStandard\PhpParser\NodeNameResolver
+
+    -
+        class: Symplify\PHPStanRules\Rules\PrefferedStaticCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPrefferedStaticCalls:
+                preg_match: ['Nette\Utils\Strings', 'match']
+                preg_matchAll: ['Nette\Utils\Strings', 'match']
+                preg_replace: ['Nette\Utils\Strings', 'replace']
+                preg_split: ['Nette\Utils\Strings', 'split']
+                substr: ['Symplify\PHPStanRules\Tests\Rules\PrefferedStaticCallOverFuncCallRule\Fixture\SkipSelfCall', 'run']

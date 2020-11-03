@@ -1,0 +1,15 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByMethodByType:
+                Symplify\PHPStanRules\Tests\Rules\RequireMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstant:
+                    call: [0]
+                Symfony\Component\DependencyInjection\Loader\Configurator\ParametersConfigurator:
+                    set: [0]
+                PhpParser\Node:
+                    getAttribute: [0]
+                    setAttribute: [0]
+
+    - Symplify\PHPStanRules\Types\ContainsTypeAnalyser

@@ -1,0 +1,5 @@
+services:
+    - Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer
+    - Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector
+    - Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\NestingNodeVisitor
+    - Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor

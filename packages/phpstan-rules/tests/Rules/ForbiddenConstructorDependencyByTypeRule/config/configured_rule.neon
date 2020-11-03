@@ -1,0 +1,7 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypes:
+                - Psr\Container\ContainerInterface

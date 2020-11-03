@@ -1,0 +1,54 @@
+includes:
+    - object-calisthenics-services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            minNameLenght: 3
+            allowedShortNames: ['id', 'to', 'up']
+
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxNestingLevel: 1
+
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassLikeLength: 300
+
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxFunctionLikeLength: 20
+
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPropertyCount: 10
+
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxMethodCount: 10
+
+    -
+         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule
+         tags: [phpstan.rules.rule]
+         arguments:
+            allowedSetterClasses: []
+
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule
+        tags: [phpstan.rules.rule]

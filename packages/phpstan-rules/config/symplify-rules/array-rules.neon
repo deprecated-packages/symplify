@@ -1,0 +1,24 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\NoArrayStringObjectReturnRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoReturnArrayVariableListRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenArrayDestructRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule
+        tags: [phpstan.rules.rule]

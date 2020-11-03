@@ -1,7 +1,0 @@
-services:
-    -
-        class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoSetterClassMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedSetterClasses:
-                - '*\AllowedClass'

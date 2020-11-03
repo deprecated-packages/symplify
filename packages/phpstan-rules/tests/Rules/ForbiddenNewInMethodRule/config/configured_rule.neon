@@ -1,0 +1,10 @@
+services:
+    - PhpParser\NodeFinder
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenClassMethods:
+                Symplify\PHPStanRules\Tests\Rules\ForbiddenNewInMethodRule\Fixture\HasNewInMethod: ['run']
+                Symplify\PHPStanRules\Tests\Rules\ForbiddenNewInMethodRule\Fixture\InterfaceFoo: ['run']
+                Symplify\PHPStanRules\Tests\Rules\ForbiddenNewInMethodRule\Fixture\AbstractFoo: ['run']

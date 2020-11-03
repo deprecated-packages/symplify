@@ -1,0 +1,6 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ExcessiveParameterListRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxParameterCount: 5

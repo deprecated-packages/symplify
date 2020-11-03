@@ -1,0 +1,9 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classesRequiringDataProvider:
+                - Symplify\PHPStanRules\Tests\Rules\RequireDataProviderTestMethodRule\Source\AbstractSomeTestClass
+
+    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher

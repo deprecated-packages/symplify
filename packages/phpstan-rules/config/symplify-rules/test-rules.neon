@@ -1,0 +1,16 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\NoConstructorInTestRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classesRequiringDataProvider:
+                - '*RuleTest'
+                - Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase

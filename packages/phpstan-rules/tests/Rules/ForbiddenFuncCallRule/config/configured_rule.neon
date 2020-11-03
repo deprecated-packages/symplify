@@ -1,0 +1,10 @@
+services:
+    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenFunctions:
+                - 'extract'
+                - 'dump'
+                - 'curl_*'

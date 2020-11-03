@@ -1,6 +1,0 @@
-services:
-    -
-        class: Symplify\CodingStandard\Rules\ExcessivePublicCountRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxPublicClassElementCount: 5

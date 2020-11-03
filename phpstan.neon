@@ -1,19 +1,19 @@
 includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - packages/phpstan-extensions/config/config.neon
-    - packages/coding-standard/config/symplify-rules.neon
+    - packages/phpstan-rules/config/symplify-rules.neon
     # for cognitive rules
-    - packages/coding-standard/packages/cognitive-complexity/config/cognitive-complexity-services.neon
+    - packages/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
 
 services:
     -
-        class: Symplify\CodingStandard\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
             maxMethodCognitiveComplexity: 8
 
     -
-        class: Symplify\CodingStandard\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
             maxClassCognitiveComplexity: 40
@@ -119,7 +119,7 @@ parameters:
         - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'
 
         # the Filesystem method is only iterable way
-        - '#Method Symplify\\CodingStandard\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
+        - '#Method Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
         # cognitive complexity
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is \d+, keep it under 8#'
@@ -321,3 +321,13 @@ parameters:
                 - packages/easy-coding-standard/packages/fixer-runner/src/WhitespacesFixerConfigFactory.php # 21
                 - packages/easy-coding-standard/packages/fixer-runner/src/WhitespacesFixerConfigFactory.php # 26
                 - packages/flex-loader/src/Flex/FlexLoader.php # 19
+
+        -
+            message: '#Constant string value need to only have small letters, underscore, dash, fullstop, and numbers#'
+            paths:
+                - packages/phpstan-rules/packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php # 23
+                - packages/phpstan-rules/src/Rules/AnnotateRegexClassConstWithRegexLinkRule.php # 27
+                - packages/phpstan-rules/src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php # 22
+                - packages/phpstan-rules/src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php # 27
+                - packages/phpstan-rules/src/Rules/ForbiddenParentClassRule.php # 25
+                - packages/phpstan-rules/src/Rules/NoSuffixValueObjectClassRule.php # 21

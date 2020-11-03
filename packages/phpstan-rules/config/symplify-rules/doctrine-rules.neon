@@ -1,0 +1,8 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\NoEntityManagerInControllerRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule
+        tags: [phpstan.rules.rule]

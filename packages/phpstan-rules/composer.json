@@ -1,0 +1,36 @@
+{
+    "name": "symplify/phpstan-rules",
+    "description": "Set of Symplify rules for PHPStan",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2",
+        "nette/finder": "^2.5",
+        "nikic/php-parser": "^4.10.2",
+        "phpstan/phpstan": "^0.12.40"
+    },
+    "require-dev": {
+        "symplify/phpstan-extensions": "^8.4",
+        "phpunit/phpunit": "^8.5|^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\PHPStanRules\\": "src",
+            "Symplify\\PHPStanRules\\CognitiveComplexity\\": "packages/cognitive-complexity/src",
+            "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/object-calisthenics/src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\PHPStanRules\\Tests\\": "tests",
+            "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/object-calisthenics/tests",
+            "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/cognitive-complexity/tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "8.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

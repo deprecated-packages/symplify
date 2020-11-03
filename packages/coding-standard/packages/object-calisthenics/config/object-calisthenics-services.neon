@@ -1,4 +1,0 @@
-services:
-    - Symplify\CodingStandard\ObjectCalisthenics\Marker\IndentationMarker
-    - Symplify\CodingStandard\ObjectCalisthenics\NodeVisitor\IndentationNodeVisitor
-    - Symplify\CodingStandard\ObjectCalisthenics\NodeTraverserFactory\IndentationNodeTraverserFactory

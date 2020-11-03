@@ -1,0 +1,4 @@
+services:
+    - Symplify\PHPStanRules\ObjectCalisthenics\Marker\IndentationMarker
+    - Symplify\PHPStanRules\ObjectCalisthenics\NodeVisitor\IndentationNodeVisitor
+    - Symplify\PHPStanRules\ObjectCalisthenics\NodeTraverserFactory\IndentationNodeTraverserFactory

@@ -1,8 +1,0 @@
-services:
-    -
-        class: Symplify\CodingStandard\Rules\ForbiddenNewOutsideFactoryServiceRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            types:
-                - Foo
-                - *Search
