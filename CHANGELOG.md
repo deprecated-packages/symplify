@@ -11,6 +11,22 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ## Unreleased
 
+### Changed
+
+#### CI
+
+- [#2448] Automated CHANGELOG generation once 2 weeks
+
+#### PHPStanRules
+
+- [#2445] update ManyNodeRuleInterface location
+
+#### Unknown Package
+
+- [#2449] Automated Update of Changelog on 2020-11-03, Thanks to [@github-actions][bot]
+
+## Unreleased
+
 ### Added
 
 #### CodingStandard
@@ -1297,7 +1313,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#2366]: https://github.com/symplify/symplify/pull/2366
 [#2365]: https://github.com/symplify/symplify/pull/2365
 [#2364]: https://github.com/symplify/symplify/pull/2364
-[#2363]: https://github.com/symplify/symplify/pull/2363
 [#2362]: https://github.com/symplify/symplify/pull/2362
 [#2361]: https://github.com/symplify/symplify/pull/2361
 [#2360]: https://github.com/symplify/symplify/pull/2360
@@ -1424,7 +1439,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#2202]: https://github.com/symplify/symplify/pull/2202
 [#2199]: https://github.com/symplify/symplify/pull/2199
 [#2195]: https://github.com/symplify/symplify/pull/2195
-[#2194]: https://github.com/symplify/symplify/pull/2194
 [#2177]: https://github.com/symplify/symplify/pull/2177
 [#2176]: https://github.com/symplify/symplify/pull/2176
 [#2172]: https://github.com/symplify/symplify/pull/2172
@@ -1435,7 +1449,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@required]: https://github.com/required
 [@janatjak]: https://github.com/janatjak
 [@glensc]: https://github.com/glensc
-[@dotdevru]: https://github.com/dotdevru
 [@ThomasLandauer]: https://github.com/ThomasLandauer
 [@NoorAdiana]: https://github.com/NoorAdiana
 [@Kerrialn]: https://github.com/Kerrialn
@@ -1443,3 +1456,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@ComiR]: https://github.com/ComiR
 [@BoGnY]: https://github.com/BoGnY
 [8.3.6]: https://github.com/symplify/symplify/compare/8.3.0...8.3.6
+[#2449]: https://github.com/symplify/symplify/pull/2449
+[#2448]: https://github.com/symplify/symplify/pull/2448
+[@github-actions]: https://github.com/github-actions
