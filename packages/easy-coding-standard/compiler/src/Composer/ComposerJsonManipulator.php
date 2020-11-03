@@ -72,14 +72,6 @@ final class ComposerJsonManipulator
     }
 
     /**
-     * This prevent root composer.json constant override
-     */
-    public function restore(): void
-    {
-        $this->smartFileSystem->dumpFile($this->composerJsonFilePath, $this->originalComposerJsonFileContent);
-    }
-
-    /**
      * @return mixed[]
      */
     private function replaceDevSymplifyVersionWithLastStableVersion(array $json): array

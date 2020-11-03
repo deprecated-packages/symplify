@@ -37,3 +37,9 @@ return [
         'Composer\*',
     ],
 ];
+
+
+// notes from compiler commands
+
+// remove this file, breaks stuff
+// __DIR__ . '/../../../vendor/friendsofphp/php-cs-fixer/src/Test/AbstractIntegrationTestCase.php',
