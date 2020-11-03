@@ -25,15 +25,13 @@ jobs:
                     php-version: 7.2
                     tools: composer:v2
 
-            # --prefer-lowest makes sure there are the same package in root + package,
-            # that prevents see https://github.com/symplify/symplify/pull/2442/checks?check_run_id=1348085811#step:8:5
+            # --prefer-lowest makes sure there are the same package in root + package - that prevents see https://github.com/symplify/symplify/pull/2442/checks?check_run_id=1348085811#step:8:5
             -   run: composer update --no-progress --ansi --prefer-lowest
 
             # 1. install package dependencies
-            # that prevents see https://github.com/symplify/symplify/pull/2442/checks?check_run_id=1348085811#step:8:5-
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.scoped_package.directory }}/composer.json --ansi
 
-            # --prefer-lowest makes sure there are the same package in root + package,
+            # --prefer-lowest makes sure there are the same package in root + package - that prevents see https://github.com/symplify/symplify/pull/2442/checks?check_run_id=1348085811#step:8:5
             -
                 run: composer update --working-dir packages/${{ matrix.scoped_package.directory }} --ansi --no-dev --prefer-lowest
                 env:

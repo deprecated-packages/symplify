@@ -116,7 +116,7 @@ final class AutoloadIncluder
         if (! is_file($cwdVendorAutoload)) {
             return;
         }
-        $this->loadIfNotLoadedYet($cwdVendorAutoload, __METHOD__ . '()" on line ' . __LINE__);
+        $this->loadIfNotLoadedYet($cwdVendorAutoload);
     }
 
     public function includeDependencyOrRepositoryVendorAutoloadIfExists(): void
@@ -131,7 +131,7 @@ final class AutoloadIncluder
             return;
         }
 
-        $this->loadIfNotLoadedYet($devVendorAutoload, __METHOD__ . '()" on line ' . __LINE__);
+        $this->loadIfNotLoadedYet($devVendorAutoload);
     }
 
     public function autoloadProjectAutoloaderFile(string $file): void
@@ -140,7 +140,7 @@ final class AutoloadIncluder
         if (! is_file($path)) {
             return;
         }
-        $this->loadIfNotLoadedYet($path, __METHOD__ . '()" on line ' . __LINE__);
+        $this->loadIfNotLoadedYet($path);
     }
 
     public function includePhpCodeSnifferAutoloadIfNotInPharAndInitliazeTokens(): void
@@ -158,33 +158,25 @@ final class AutoloadIncluder
         ];
 
         foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
-            if (! is_file($possibleAutoloadPath . '/autoload.php')) {
+            $possiblePhpCodeSnifferAutoloadPath = $possibleAutoloadPath . '/squizlabs/php_codesniffer/autoload.php';
+            if (! is_file($possiblePhpCodeSnifferAutoloadPath)) {
                 continue;
             }
 
-            require_once $possibleAutoloadPath . '/squizlabs/php_codesniffer/autoload.php';
+            require_once $possiblePhpCodeSnifferAutoloadPath;
         }
 
         // initalize PHPCS tokens
         new Tokens();
     }
 
-    private function loadIfNotLoadedYet(string $file, string $location): void
+    private function loadIfNotLoadedYet(string $file): void
     {
         if (in_array($file, $this->alreadyLoadedAutoloadFiles, true)) {
             return;
         }
 
-        if ($this->isDebugOption()) {
-            echo sprintf(sprintf('File "%s" is about to be loaded in "%s"' . PHP_EOL, $file, $location));
-        }
-
         $this->alreadyLoadedAutoloadFiles[] = realpath($file);
         require_once $file;
-    }
-
-    private function isDebugOption(): bool
-    {
-        return in_array('--debug', $_SERVER['argv'], true);
     }
 }

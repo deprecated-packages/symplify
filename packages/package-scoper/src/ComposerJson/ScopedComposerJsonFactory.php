@@ -35,16 +35,14 @@ final class ScopedComposerJsonFactory
 
         $description = sprintf('Prefixed scoped version of %s package', $packageName);
         $scopedPackageComposerJson->setDescription($description);
-
         $scopedPackageComposerJson->setBin($composerJson->getBin());
 
-        $license = $scopedPackageComposerJson->getLicense();
+        $license = $composerJson->getLicense();
         if ($license !== null) {
             $scopedPackageComposerJson->setLicense($license);
         }
 
         $scopedPackageComposerJson->setRequire($composerJson->getRequirePhp());
-
         $scopedPackageComposerJson->setConflicting([$packageName]);
         $scopedPackageComposerJson->setReplace([
             $packageName => ComposerValues::SELF_VERSION,
