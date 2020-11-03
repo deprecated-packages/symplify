@@ -75,7 +75,6 @@ final class CompileCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName(self::NAME);
         $this->setDescription('Compile prefixed ecs.phar');
     }
 
