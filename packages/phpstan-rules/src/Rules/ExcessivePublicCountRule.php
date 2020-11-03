@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\ValueObject\Regex;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ExcessivePublicCountRule\ExcessivePublicCountRuleTest
@@ -22,12 +23,6 @@ final class ExcessivePublicCountRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Too many public elements on class - %d. Try narrow it down under %d';
-
-    /**
-     * @var string
-     * @see https://regex101.com/r/YnDoFR/1
-     */
-    private const VALUE_OBJECT_REGEX = '#\bValueObject\b#';
 
     /**
      * @var int
@@ -89,7 +84,7 @@ final class ExcessivePublicCountRule extends AbstractSymplifyRule
             return true;
         }
 
-        if (Strings::match($className, self::VALUE_OBJECT_REGEX) && $classStmt instanceof ClassConst) {
+        if (Strings::match($className, Regex::VALUE_OBJECT_REGEX) && $classStmt instanceof ClassConst) {
             return true;
         }
 

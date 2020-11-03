@@ -13,7 +13,7 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\PreferredClassRuleTest

@@ -15,9 +15,9 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeFinder;
-use Symplify\CodingStandard\ValueObject\MethodName;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 final class DependencyNodeAnalyzer
 {

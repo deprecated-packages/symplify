@@ -80,7 +80,7 @@ final class NoParentMethodCallOnNoOverrideProcessRule extends AbstractSymplifyRu
             return false;
         }
 
-        return $this->simpleNameResolver->areNamesEquals($node->name, $classMethod->name);
+        return $this->simpleNameResolver->areNamesEqual($node->name, $classMethod->name);
     }
 
     private function resolveOnlyNode(ClassMethod $classMethod): ?Node

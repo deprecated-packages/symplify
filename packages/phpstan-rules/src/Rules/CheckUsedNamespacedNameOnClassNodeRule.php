@@ -10,7 +10,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\CheckUsedNamespacedNameOnClassNodeRuleTest

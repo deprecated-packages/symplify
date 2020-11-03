@@ -9,8 +9,8 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection;
-use Symplify\CodingStandard\ValueObject\MethodName;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
+use Symplify\PHPStanRules\ValueObject\MethodName;
 
 final class VariableAsParamAnalyser
 {

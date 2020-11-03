@@ -10,7 +10,7 @@ use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRuleTest

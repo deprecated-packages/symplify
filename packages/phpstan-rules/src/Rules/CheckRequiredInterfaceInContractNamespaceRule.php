@@ -9,7 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckRequiredInterfaceInContractNamespaceRule\CheckRequiredInterfaceInContractNamespaceRuleTest

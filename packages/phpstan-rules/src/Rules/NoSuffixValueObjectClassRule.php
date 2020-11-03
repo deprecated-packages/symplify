@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\ValueObject\Regex;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoSuffixValueObjectClassRule\NoSuffixValueObjectClassRuleTest
@@ -25,12 +26,6 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
      * @var string
      */
     private const VALUE_OBJECT_SUFFIX_REGEX = '#ValueObject$#';
-
-    /**
-     * @see https://regex101.com/r/zyZ9KJ/1
-     * @var string
-     */
-    private const VALUE_OBJECT_NAMESPACE_REGEX = '#\bValueObject\b#';
 
     /**
      * @return string[]
@@ -73,7 +68,7 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
 
     private function hasValueObjectNamespace(string $fullyQualifiedClassName): bool
     {
-        return (bool) Strings::match($fullyQualifiedClassName, self::VALUE_OBJECT_NAMESPACE_REGEX);
+        return (bool) Strings::match($fullyQualifiedClassName, Regex::VALUE_OBJECT_REGEX);
     }
 
     private function hasValueObjectSuffix(string $fullyQualifiedClassName): bool

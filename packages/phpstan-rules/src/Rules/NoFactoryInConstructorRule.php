@@ -17,10 +17,10 @@ use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symplify\CodingStandard\ValueObject\MethodName;
-use Symplify\CodingStandard\ValueObject\PHPStanAttributeKey;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoFactoryInConstructorRule\NoFactoryInConstructorRuleTest
