@@ -299,6 +299,10 @@ services:
         class: Symplify\CodingStandard\Rules\CheckRequiredInterfaceInContractNamespaceRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\CodingStandard\Rules\CheckConstantStringValueFormatRule
+        tags: [phpstan.rules.rule]
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
