@@ -26,8 +26,7 @@ final class CheckConstantStringValueFormatRuleTest extends AbstractServiceAwareR
         yield [__DIR__ . '/Fixture/HasValidStringClassConstant.php', []];
         yield [
             __DIR__ . '/Fixture/HasInvalidStringClassConstant.php',
-            [[CheckConstantStringValueFormatRule::ERROR_MESSAGE, 9],
-            ], ];
+            [[CheckConstantStringValueFormatRule::ERROR_MESSAGE, 9]], ];
     }
 
     protected function getRule(): Rule
