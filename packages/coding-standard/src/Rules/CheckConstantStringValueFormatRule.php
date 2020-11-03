@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
+use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Rules\CheckConstantStringValueFormatRule\CheckConstantStringValueFormatRuleTest
@@ -25,6 +26,28 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
      * @see https://regex101.com/r/92F0op/4
      */
     private const FORMAT_REGEX = '#^[a-z0-9_\.-]+$#';
+
+    /**
+     * @var string[]
+     */
+    private const ALLOWED_CONST_NAMES = [
+        'ERROR_MESSAGE',
+        '*_REGEX',
+        'ALLOWED_CONST_NAMES',
+    ];
+
+    /**
+     * @var ArrayStringAndFnMatcher
+     */
+    private $arrayStringAndFnMatcher;
+
+    /**
+     * @param string[] $forbiddenFunctions
+     */
+    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher)
+    {
+        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
+    }
 
     /**
      * @return string[]
@@ -46,8 +69,7 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
         }
 
         foreach ($consts as $const) {
-            $constName = $const->name->toString();
-            if ($constName === 'ERROR_MESSAGE' || Strings::endsWith($constName, '_REGEX')) {
+            if ($this->arrayStringAndFnMatcher->isMatch($const->name->toString(), self::ALLOWED_CONST_NAMES)) {
                 continue;
             }
 
