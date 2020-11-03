@@ -44,3 +44,5 @@ jobs:
                     source-directory: 'packages/${{ matrix.package_name }}'
                     destination-github-username: 'symplify'
                     destination-repository-name: '${{ matrix.package_name }}'
+                    user-email: tomas@getrector.org
+                    target-branch: master
