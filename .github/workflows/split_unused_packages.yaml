@@ -61,6 +61,9 @@ jobs:
                     php-version: 7.3
                     tools: composer:v2
 
+            # composer install cache - https://github.com/ramsey/composer-install
+            -   uses: "ramsey/composer-install@v1"
+
             -   run: composer install --no-progress --ansi
 
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.package_name }}/composer.json --ansi

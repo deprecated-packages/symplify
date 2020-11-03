@@ -2,21 +2,22 @@ name: Test Lowest Dependencies
 
 on:
     pull_request: null
-    push:
-        branches:
-            - master
 
 jobs:
     test_lowest_dependencies:
         runs-on: ubuntu-latest
+
         steps:
             -   uses: actions/checkout@v2
 
-            -   run: git fetch --depth=100000 origin
+            -   run: git fetch --depth=10000 origin
 
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: 7.2
+
+            # composer install cache - https://github.com/ramsey/composer-install
+            -   uses: "ramsey/composer-install@v1"
 
             -   run: composer update --no-progress --prefer-lowest --ansi
 
