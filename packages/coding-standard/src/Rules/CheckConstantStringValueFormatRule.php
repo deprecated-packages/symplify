@@ -47,7 +47,7 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
 
         foreach ($consts as $const) {
             $constName = $const->name->toString();
-            if ($constName === 'ERROR_MESSAGE' || Strings::endWith($constName, '_REGEX')) {
+            if ($constName === 'ERROR_MESSAGE' || Strings::endsWith($constName, '_REGEX')) {
                 continue;
             }
 
