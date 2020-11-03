@@ -157,11 +157,7 @@ abstract class AbstractKernelTestCase extends TestCase
         $configFilePaths = [];
 
         foreach ($configs as $config) {
-            if ($config instanceof SmartFileInfo) {
-                $configFilePaths[] = $config->getRealPath();
-            } else {
-                $configFilePaths[] = $config;
-            }
+            $configFilePaths[] = $config instanceof SmartFileInfo ? $config->getRealPath() : $config;
         }
 
         return $configFilePaths;
