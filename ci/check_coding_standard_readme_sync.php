@@ -3,12 +3,6 @@
 use Nette\Loaders\RobotLoader;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
-use Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
-use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerNewlineFixer;
-use Symplify\PHPStanRules\Rules\AbstractManyNodeTypeRule;
-use Symplify\PHPStanRules\Rules\AbstractRegexRule;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -106,33 +100,20 @@ final class CodingStandardSyncChecker
         $pathsWithRules = [
             __DIR__ . '/../packages/coding-standard/src/Fixer',
             __DIR__ . '/../packages/coding-standard/src/Sniffs',
-            __DIR__ . '/../packages/coding-standard/src/Rules',
-            __DIR__ . '/../packages/coding-standard/packages/cognitive-complexity/src/Rules',
-            __DIR__ . '/../packages/coding-standard/packages/object-calisthenics/src/Rules',
         ];
 
         $robotLoader->addDirectory(...$pathsWithRules);
 
-        $robotLoader->acceptFiles = ['*Sniff.php', '*Fixer.php', '*Rule.php'];
+        $robotLoader->acceptFiles = ['*Sniff.php', '*Fixer.php'];
         $robotLoader->rebuild();
 
         $existingCheckerRules = array_keys($robotLoader->getIndexedClasses());
         sort($existingCheckerRules);
 
-        $classesToExclude = [
-            // part of imported config
-            ClassLikeCognitiveComplexityRule::class,
-            FunctionLikeCognitiveComplexityRule::class,
-        ];
-
         $shortClasses = [];
         foreach ($existingCheckerRules as $key => $existingCheckerRule) {
             // filter out abstract class
             if (Strings::contains($existingCheckerRule, '\Abstract')) {
-                continue;
-            }
-
-            if (in_array($existingCheckerRule, $classesToExclude, true)) {
                 continue;
             }
 
