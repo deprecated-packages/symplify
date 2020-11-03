@@ -31,7 +31,28 @@ final class PersonValueObject
 
 :x:
 
+```php
+namespace App\ValueObject;
+
+final class Person
+{
+    /**
+     * @var string
+     */
+    private $name;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
+```
+
+:+1:
+
 <br>
+
+
 
 ## No Container used in `__construct`
 
@@ -209,7 +230,7 @@ class SomePath
 
 <br>
 
-## Require Cnstant Used in Specific Method Call Position
+## Require Constant Used in Specific Method Call Position
 
 - class: [`RequireConstantInMethodCallPositionRule`](../src/Rules/RequireConstantInMethodCallPositionRule.php)
 
