@@ -7,7 +7,6 @@ namespace Symplify\CodingStandard\Tests\Rules\CheckConstantStringValueFormatRule
 class HasValidStringClassConstant
 {
     private const FOO = 'ok';
-
     private const ERROR_MESSAGE = '';
     private const A_REGEX = '';
 }
