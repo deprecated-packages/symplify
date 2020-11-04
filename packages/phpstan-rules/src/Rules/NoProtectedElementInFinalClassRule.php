@@ -16,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 use Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule\NoProtectedElementInFinalClassRuleTest
@@ -25,7 +27,7 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Do not use protected element in final class';
+    public const ERROR_MESSAGE = 'Instead of protected element in final class use private element or contract method';
 
     /**
      * @var ParentMethodAnalyser
@@ -79,6 +81,31 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
         return $this->processProperty($parent, $node);
     }
 
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    protected function run()
+    {
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    private function run()
+    {
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
+    }
+
     private function isPropertyExistInTraits(Class_ $class, string $propertyName): bool
     {
         /** @var Identifier $name */
@@ -87,22 +114,6 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
         foreach ($usedTraits as $trait) {
             $r = new ReflectionClass($trait);
             if ($r->hasProperty($propertyName)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function isMethodExistInTraits(Class_ $class, string $methodName): bool
-    {
-        /** @var Identifier $name */
-        $name = $class->namespacedName;
-        $usedTraits = class_uses($name->toString());
-
-        foreach ($usedTraits as $trait) {
-            $reflectionClass = new ReflectionClass($trait);
-            if ($reflectionClass->hasMethod($methodName)) {
                 return true;
             }
         }
@@ -127,7 +138,7 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
         }
 
         $methodName = (string) $classMethod->name;
-        if ($this->isMethodExistInTraits($class, $methodName)
+        if ($this->doesMethodExistInTraits($class, $methodName)
             || $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
             return [];
         }

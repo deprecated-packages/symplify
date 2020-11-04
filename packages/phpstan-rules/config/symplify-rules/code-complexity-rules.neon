@@ -4,9 +4,9 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoFunctionCallInMethodCallRule
+        class: Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoDynamicPropertyFetchNameRule
+        class: Symplify\PHPStanRules\Rules\NoDynamicNameRule
         tags: [phpstan.rules.rule]

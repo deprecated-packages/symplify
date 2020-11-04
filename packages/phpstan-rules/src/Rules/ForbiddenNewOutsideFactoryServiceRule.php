@@ -11,16 +11,19 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNewOutsideFactoryServiceRule\ForbiddenNewOutsideFactoryServiceRuleTest
  */
-final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule
+final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '"new" outside factory is not allowed for object type %s.';
+    public const ERROR_MESSAGE = '"new" outside factory is not allowed for object type "%s"';
 
     /**
      * @var array<string, string>
@@ -69,6 +72,44 @@ final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function process()
+    {
+        $anotherObject = new AnotherObject();
+        // ...
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function __construt(AnotherObjectFactory $anotherObjectFactory)
+    {
+        $this->anotherObjectFactory = $anotherObjectFactory;
+    }
+
+    public function process()
+    {
+        $anotherObject = $this->anotherObjectFactory = $anotherObjectFactory->create();
+        // ...
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'types' => ['AnotherObject'],
+                ]
+            ),
+        ]);
     }
 
     private function isHaveNewWithTypeInside(New_ $new, string $type): bool

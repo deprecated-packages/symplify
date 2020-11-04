@@ -7,7 +7,7 @@ namespace Symplify\Autodiscovery\Tests\Routing;
 use Symfony\Component\Routing\Router;
 use Symplify\Autodiscovery\Routing\AnnotationRoutesAutodiscoverer;
 use Symplify\Autodiscovery\Tests\Source\HttpKernel\AudiscoveryTestingKernel;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 /**
  * @see AnnotationRoutesAutodiscoverer

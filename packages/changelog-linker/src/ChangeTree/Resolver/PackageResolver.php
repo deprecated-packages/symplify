@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\ChangeTree\Resolver;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Configuration\PackageName;
 use Symplify\ChangelogLinker\ValueObject\Option;
+use Symplify\ChangelogLinker\ValueObject\PackageName;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**

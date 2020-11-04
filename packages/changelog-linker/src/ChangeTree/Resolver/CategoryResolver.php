@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\ChangeTree\Resolver;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Configuration\Category;
+use Symplify\ChangelogLinker\ValueObject\Category;
 
 /**
  * @see \Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory\Resolver\CategoryResolverTest

@@ -13,11 +13,14 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\Regex;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ExcessivePublicCountRule\ExcessivePublicCountRuleTest
  */
-final class ExcessivePublicCountRule extends AbstractSymplifyRule
+final class ExcessivePublicCountRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -55,6 +58,37 @@ final class ExcessivePublicCountRule extends AbstractSymplifyRule
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $classPublicElementCount, $this->maxPublicClassElementCount);
         return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public $one;
+
+    public $two;
+
+    public $three;
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public $one;
+
+    public $two;
+}
+CODE_SAMPLE
+                ,
+                [
+                    'maxPublicClassElementCount' => 2,
+                ]
+            ),
+        ]);
     }
 
     private function resolveClassPublicElementCount(Class_ $class): int

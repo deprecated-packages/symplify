@@ -11,6 +11,8 @@ use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PHPStanRules\ValueObject\Regex;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckConstantStringValueFormatRule\CheckConstantStringValueFormatRuleTest
@@ -20,7 +22,7 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Constant string value need to only have small letters, underscore, dash, fullstop, and numbers';
+    public const ERROR_MESSAGE = 'Constant string value need to only have small letters, _, -, . and numbers';
 
     /**
      * @var string
@@ -61,7 +63,7 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
             return [];
         }
 
-        $consts = $node->consts;
+        $consts = (array) $node->consts;
         if ($consts === []) {
             return [];
         }
@@ -75,12 +77,42 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
                 continue;
             }
 
-            if (! Strings::match($const->value->value, self::FORMAT_REGEX)) {
-                return [self::ERROR_MESSAGE];
+            $string = $const->value;
+
+            // should skip string value
+            if ($this->isStringConstantValue($string)) {
+                continue;
             }
+
+            if (Strings::match($const->value->value, self::FORMAT_REGEX)) {
+                continue;
+            }
+
+            return [self::ERROR_MESSAGE];
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    private const FOO = '$not_ok$';
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    private const FOO = 'bar';
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function shouldSkipForValueObjectNamespace(Scope $scope): bool
@@ -91,5 +123,10 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
         }
 
         return (bool) Strings::match($className, Regex::VALUE_OBJECT_REGEX);
+    }
+
+    private function isStringConstantValue(String_ $string): bool
+    {
+        return (bool) Strings::startsWith($string->value, 'http');
     }
 }

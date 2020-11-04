@@ -6,7 +6,7 @@ namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
-use Symplify\ChangelogLinker\Regex\RegexPattern;
+use Symplify\ChangelogLinker\ValueObject\RegexPattern;
 
 /**
  * Comletes [] around commit, pull-request, issues and version references
@@ -46,12 +46,12 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
         );
 
         // version references
-        $content = Strings::replace($content, '#\#\# ' . RegexPattern::VERSION . '#', '## [$1]');
+        $content = Strings::replace($content, '#\#\# ' . RegexPattern::VERSION_REGEX . '#', '## [$1]');
 
         $content = $this->wrapClosesKeywordIds($content);
 
         // user references
-        return Strings::replace($content, '# ' . RegexPattern::USER . '#', ' [$1]');
+        return Strings::replace($content, '# ' . RegexPattern::USER_REGEX . '#', ' [$1]');
     }
 
     public function getPriority(): int
@@ -63,7 +63,7 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
     {
         return Strings::replace(
             $content,
-            sprintf('#(%s) \#%s#', implode('|', self::CLOSES_KEYWORDS), RegexPattern::VERSION),
+            sprintf('#(%s) \#%s#', implode('|', self::CLOSES_KEYWORDS), RegexPattern::VERSION_REGEX),
             '$1 [#$2]'
         );
     }

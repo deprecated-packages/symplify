@@ -13,6 +13,9 @@ use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
@@ -27,7 +30,7 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
  *
  * @see \Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\FunctionLikeCognitiveComplexityRuleTest
  */
-final class FunctionLikeCognitiveComplexityRule extends AbstractSymplifyRule
+final class FunctionLikeCognitiveComplexityRule extends AbstractSymplifyRule implements DocumentedRuleInterface
 {
     /**
      * @var string
@@ -81,6 +84,45 @@ final class FunctionLikeCognitiveComplexityRule extends AbstractSymplifyRule
         );
 
         return [$message];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(
+            'Cognitive complexity of function/method must be under specific limit',
+            [new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+```
+CODE_SAMPLE
+            ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value === 1) {
+            return true;
+        }
+
+        return $value === 2;
+    }
+}
+CODE_SAMPLE
+            )]
+        );
     }
 
     private function resolveFunctionName(FunctionLike $functionLike, Scope $scope): string

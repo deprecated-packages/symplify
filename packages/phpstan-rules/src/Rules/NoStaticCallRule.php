@@ -10,6 +10,8 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoStaticCallRule\NoStaticCallRuleTest
@@ -123,5 +125,33 @@ final class NoStaticCallRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    public function run()
+    {
+        return AnotherClass::staticMethod();
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    public function run()
+    {
+        $anotherClass = new AnotherClass();
+        return $anotherClass->staticMethod();
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

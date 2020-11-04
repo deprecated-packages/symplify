@@ -37,7 +37,7 @@ final class CheckUnneededSymfonyStyleUsageRuleTest extends AbstractServiceAwareR
     {
         return $this->getRuleFromConfig(
             CheckUnneededSymfonyStyleUsageRule::class,
-            __DIR__ . '/config/standalone_config.neon'
+            __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }
 }

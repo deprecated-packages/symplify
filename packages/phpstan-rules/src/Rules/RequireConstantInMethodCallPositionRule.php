@@ -14,11 +14,14 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireConstantInMethodCallPositionRule\RequireConstantInMethodCallPositionRuleTest
  */
-final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
+final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -79,6 +82,7 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
             $this->requiredLocalConstantInMethodCall,
             'local'
         );
+
         $errorMessagesExternal = $this->getErrorMessages(
             $node,
             $scope,
@@ -88,6 +92,43 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
         );
 
         return array_merge($errorMessagesLocal, $errorMessagesExternal);
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function someMethod(SomeType $someType)
+    {
+        $someType->someMethod('hey');
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    private const HEY = 'hey'
+
+    public function someMethod(SomeType $someType)
+    {
+        $someType->someMethod(self::HEY);
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'requiredLocalConstantInMethodCall' => [
+                        'SomeType' => [
+                            'someMethod' => [0],
+                        ],
+                    ],
+                ]
+            ),
+        ]);
     }
 
     /**

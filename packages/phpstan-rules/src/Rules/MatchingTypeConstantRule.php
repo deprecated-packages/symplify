@@ -15,6 +15,8 @@ use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use Symplify\PHPStanRules\PhpDoc\BarePhpDocParser;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\MatchingTypeConstantRule\MatchingTypeConstantRuleTest
@@ -87,6 +89,33 @@ final class MatchingTypeConstantRule extends AbstractSymplifyRule
         $constantValue = $node->consts[0]->value;
 
         return $this->processConstantValue($constantValue, $type);
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    /**
+     * @var int
+     */
+    private const LIMIT = 'max';
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    /**
+     * @var string
+     */
+    private const LIMIT = 'max';
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function shouldSkip(ClassConst $classConst): bool

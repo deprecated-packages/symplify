@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyHydrator;
 
 use ReflectionParameter;
-use Symplify\EasyHydrator\TypeCaster\TypeCasterInterface;
+use Symplify\EasyHydrator\Contract\TypeCasterInterface;
 
 final class TypeCastersCollector
 {

@@ -9,6 +9,8 @@ use PhpParser\Node\Expr\ArrayDimFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
 use SplFixedArray;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoArrayAccessOnObjectRule\NoArrayAccessOnObjectRuleTest
@@ -18,7 +20,7 @@ final class NoArrayAccessOnObjectRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use explicit methods, over array acccess on object';
+    public const ERROR_MESSAGE = 'Use explicit methods over array access on object';
 
     /**
      * @return string[]
@@ -44,5 +46,32 @@ final class NoArrayAccessOnObjectRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run(MagicArrayObject $magicArrayObject)
+    {
+        return $magicArrayObject['more_magic'];
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run(MagicArrayObject $magicArrayObject)
+    {
+        return $magicArrayObject->getExplicitValue();
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

@@ -5,10 +5,9 @@
 declare(strict_types=1);
 
 use Symfony\Component\Console\Input\ArgvInput;
-use Symplify\ChangelogLinker\Console\ChangelogApplication;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
-use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
 use Symplify\SetConfigResolver\ConfigResolver;
+use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 $possibleAutoloadPaths = [
     // after split package
@@ -36,18 +35,5 @@ if ($inputConfigFileInfos !== null) {
     $configFileInfos[] = $inputConfigFileInfos;
 }
 
-// create container
-// random has is needed, so cache is invalidated and changes from config are loaded
-$environment = 'prod' . random_int(1, 100000);
-$changelogLinkerKernel = new ChangelogLinkerKernel($environment, StaticInputDetector::isDebug());
-if ($configFileInfos) {
-    $changelogLinkerKernel->setConfigs($configFileInfos);
-}
-
-$changelogLinkerKernel->boot();
-
-$container = $changelogLinkerKernel->getContainer();
-
-// run application
-$application = $container->get(ChangelogApplication::class);
-exit($application->run());
+$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(ChangelogLinkerKernel::class, $configFileInfos);
+$kernelBootAndApplicationRun->run();

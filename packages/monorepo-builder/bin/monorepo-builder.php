@@ -5,11 +5,10 @@
 declare(strict_types=1);
 
 use Symfony\Component\Console\Input\ArgvInput;
-use Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\ValueObject\File;
-use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
 use Symplify\SetConfigResolver\ConfigResolver;
+use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 # 1. autoload
 $possibleAutoloadPaths = [
@@ -38,16 +37,5 @@ if ($inputConfigFileInfo !== null) {
     $configFileInfos[] = $inputConfigFileInfo;
 }
 
-// the environment name must be "random", so configs are invalidated without clearing the cache
-$environment = 'prod' . random_int(0, 100000);
-$monorepoBuilderKernel = new MonorepoBuilderKernel($environment, StaticInputDetector::isDebug());
-if ($configFileInfos !== []) {
-    $monorepoBuilderKernel->setConfigs($configFileInfos);
-}
-$monorepoBuilderKernel->boot();
-
-$container = $monorepoBuilderKernel->getContainer();
-
-# 3. run it
-$application = $container->get(MonorepoBuilderApplication::class);
-exit($application->run());
+$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(MonorepoBuilderKernel::class);
+$kernelBootAndApplicationRun->run();

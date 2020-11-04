@@ -8,11 +8,14 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\TooManyPropertiesRule\TooManyPropertiesRuleTest
  */
-final class TooManyPropertiesRule extends AbstractSymplifyRule
+final class TooManyPropertiesRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -50,5 +53,36 @@ final class TooManyPropertiesRule extends AbstractSymplifyRule
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $currentPropertyCount, $this->maxPropertyCount);
         return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    private $some;
+
+    private $another;
+
+    private $third;
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    private $some;
+
+    private $another;
+}
+CODE_SAMPLE
+                ,
+                [
+                    'maxPropertyCount' => 2,
+                ]
+            ),
+        ]);
     }
 }

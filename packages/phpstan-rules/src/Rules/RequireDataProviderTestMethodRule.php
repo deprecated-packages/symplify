@@ -9,16 +9,19 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireDataProviderTestMethodRule\RequireDataProviderTestMethodRuleTest
  */
-final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule
+final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Test method "%s()" must use data provider';
+    public const ERROR_MESSAGE = 'The "%s()" method must use data provider';
 
     /**
      * @var string[]
@@ -66,7 +69,7 @@ final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule
         }
 
         $className = $classReflection->getName();
-        if (! $this->arrayStringAndFnMatcher->isMatchOrSubType($className, $this->classesRequiringDataProvider)) {
+        if (! $this->arrayStringAndFnMatcher->isMatchWithIsA($className, $this->classesRequiringDataProvider)) {
             return [];
         }
 
@@ -76,5 +79,42 @@ final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $methodName);
         return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeRectorTestCase extends RectorTestCase
+{
+    public function test()
+    {
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeRectorTestCase extends RectorTestCase
+{
+    /**
+     * @dataProvider provideData()
+     */
+    public function test($value)
+    {
+    }
+
+    public function provideData()
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'classesRequiringDataProvider' => ['*RectorTestCase'],
+                ]
+            ),
+        ]);
     }
 }

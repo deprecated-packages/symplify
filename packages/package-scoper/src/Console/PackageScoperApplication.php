@@ -16,9 +16,7 @@ final class PackageScoperApplication extends AbstractSymplifyConsoleApplication
      */
     public function __construct(array $commands)
     {
-        $this->addCommands($commands);
-
-        parent::__construct('Package Scoper', $this->getPrettyVersion());
+        parent::__construct($commands, 'Package Scoper', $this->getPrettyVersion());
     }
 
     private function getPrettyVersion(): string

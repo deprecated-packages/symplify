@@ -10,6 +10,8 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Throw_;
 use PHPStan\Analyser\Scope;
 use ReflectionClass;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Throwable;
 
 /**
@@ -57,5 +59,22 @@ final class NoDefaultExceptionRule extends AbstractSymplifyRule
         }
 
         return [sprintf(self::ERROR_MESSAGE, $exceptionClass)];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+throw new RuntimeException('...');
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+use App\Exception\FileNotFoundExceptoin;
+
+throw new FileNotFoundException('...');
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

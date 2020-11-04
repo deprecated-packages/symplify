@@ -9,6 +9,8 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoGetRepositoryOutsideConstructorRule\NoGetRepositoryOutsideConstructorRuleTest
@@ -53,5 +55,26 @@ final class NoGetRepositoryOutsideConstructorRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class SomeController
+{
+    public function someAction(EntityManager $entityManager): void
+    {
+        $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

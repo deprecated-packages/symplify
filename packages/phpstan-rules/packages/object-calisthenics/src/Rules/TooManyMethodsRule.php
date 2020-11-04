@@ -8,6 +8,8 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\TooManyMethodsRule\TooManyMethodsRuleTest
@@ -24,7 +26,7 @@ final class TooManyMethodsRule extends AbstractSymplifyRule
      */
     private $maxMethodCount;
 
-    public function __construct(int $maxMethodCount)
+    public function __construct(int $maxMethodCount = 15)
     {
         $this->maxMethodCount = $maxMethodCount;
     }
@@ -50,5 +52,38 @@ final class TooManyMethodsRule extends AbstractSymplifyRule
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $currentMethodCount, $this->maxMethodCount);
         return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function firstMethod()
+    {
+    }
+
+    public function secondMethod()
+    {
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function firstMethod()
+    {
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'maxMethodCount' => 1,
+                ]
+            ),
+        ]);
     }
 }

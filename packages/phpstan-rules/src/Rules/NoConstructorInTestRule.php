@@ -9,6 +9,8 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoConstructorInTestRule\NoConstructorInTestRuleTest
@@ -18,7 +20,7 @@ final class NoConstructorInTestRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Do not use constructor in test, only setUp()';
+    public const ERROR_MESSAGE = 'Do not use constructor in tests. Move to "setUp()" method';
 
     /**
      * @return string[]
@@ -48,5 +50,32 @@ final class NoConstructorInTestRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class SomeTest
+{
+    public function __construct()
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class SomeTest
+{
+    public function setUp()
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

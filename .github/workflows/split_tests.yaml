@@ -33,6 +33,7 @@ jobs:
                     - symfony-static-dumper
                     - skipper
                     - phpstan-rules
+                    - rule-doc-generator
 
         name: Split Tests of ${{ matrix.package_name }}
 

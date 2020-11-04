@@ -14,6 +14,8 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\BooleanType;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\BoolishClassMethodPrefixRule\BoolishClassMethodPrefixRuleTest
@@ -86,6 +88,33 @@ final class BoolishClassMethodPrefixRule extends AbstractSymplifyRule
         }
 
         return [sprintf(self::ERROR_MESSAGE, (string) $node->name)];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function old(): bool
+    {
+        return $this->age > 100;
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function isOld(): bool
+    {
+        return $this->age > 100;
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function shouldSkip(ClassMethod $classMethod, Scope $scope, ClassReflection $classReflection): bool

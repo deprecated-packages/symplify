@@ -13,13 +13,16 @@ use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#6-do-not-abbreviate
  *
  * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoShortNameRule\NoShortNameRuleTest
  */
-final class NoShortNameRule extends AbstractSymplifyRule
+final class NoShortNameRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -29,7 +32,7 @@ final class NoShortNameRule extends AbstractSymplifyRule
     /**
      * @var int
      */
-    private $minNameLenght;
+    private $minNameLength;
 
     /**
      * @var string[]
@@ -39,9 +42,9 @@ final class NoShortNameRule extends AbstractSymplifyRule
     /**
      * @param string[] $allowedShortNames
      */
-    public function __construct(int $minNameLenght, array $allowedShortNames)
+    public function __construct(int $minNameLength, array $allowedShortNames)
     {
-        $this->minNameLenght = $minNameLenght;
+        $this->minNameLength = $minNameLength;
         $this->allowedShortNames = $allowedShortNames;
     }
 
@@ -60,7 +63,7 @@ final class NoShortNameRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $name = (string) $node->name;
-        if (Strings::length($name) >= $this->minNameLenght) {
+        if (Strings::length($name) >= $this->minNameLength) {
             return [];
         }
 
@@ -68,7 +71,30 @@ final class NoShortNameRule extends AbstractSymplifyRule
             return [];
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $name, $this->minNameLenght);
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $name, $this->minNameLength);
         return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+function is()
+{
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+function isClass()
+{
+}
+CODE_SAMPLE
+                ,
+                [
+                    'minNameLength' => 3,
+                ]
+            ),
+        ]);
     }
 }

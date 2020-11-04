@@ -6,7 +6,7 @@ namespace Symplify\MonorepoBuilder\Split\Tests\Process;
 
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class ProcessFactoryTest extends AbstractKernelTestCase
 {

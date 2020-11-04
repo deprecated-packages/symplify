@@ -63,7 +63,9 @@ final class SkipRulesFactory
             return;
         }
 
-        if (class_exists((string) Strings::before($key, '.'))) {
+        $class = (string) Strings::before($key, '.');
+
+        if (class_exists($class)) {
             $this->skippedCodes[$key] = $value;
             return;
         }

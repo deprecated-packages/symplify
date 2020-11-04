@@ -15,6 +15,9 @@ use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * Useful for prefixed phar bulid, to keep original references to class un-prefixed
@@ -24,12 +27,12 @@ use Symplify\PHPStanRules\Naming\SimpleNameResolver;
  *
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\RequireStringArgumentInMethodCallRuleTest
  */
-final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule
+final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method call "%s()" argument on position %d cannot use "::class" reference, use explicit string instead';
+    public const ERROR_MESSAGE = 'Use quoted string in method call "%s()" argument on position %d instead of "::class. It prevent scoping of the class in building prefixed package.';
 
     /**
      * @var array<string, array<string, array<int>>>
@@ -89,6 +92,41 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule
         }
 
         return $errorMessages;
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class AnotherClass
+{
+    public function run(SomeClass $someClass)
+    {
+        $someClass->someMethod(YetAnotherClass:class);
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class AnotherClass
+{
+    public function run(SomeClass $someClass)
+    {
+        $someClass->someMethod('YetAnotherClass'');
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'stringArgByMethodByType' => [
+                        'SomeClass' => [
+                            'someMethod' => [0],
+                        ],
+                    ],
+                ]
+            ),
+        ]);
     }
 
     /**

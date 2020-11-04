@@ -90,7 +90,8 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             ->resolveValue($definition->getClass());
 
         // skip 3rd party classes, they're autowired by own config
-        if (Strings::match($resolvedClassName, '#^(' . implode('|', self::EXCLUDED_NAMESPACES) . ')\\\\#')) {
+        $excludedNamespacePattern = '#^(' . implode('|', self::EXCLUDED_NAMESPACES) . ')\\\\#';
+        if ((bool) Strings::match($resolvedClassName, $excludedNamespacePattern)) {
             return true;
         }
 

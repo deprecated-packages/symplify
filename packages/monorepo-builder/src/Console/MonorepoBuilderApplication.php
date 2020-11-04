@@ -36,7 +36,7 @@ final class MonorepoBuilderApplication extends AbstractSymplifyConsoleApplicatio
 
         $version = PrettyVersions::getVersion('symplify/monorepo-builder');
 
-        parent::__construct('Monorepo Builder', $version->getPrettyVersion());
+        parent::__construct($commands, 'Monorepo Builder', $version->getPrettyVersion());
     }
 
     protected function getDefaultInputDefinition(): InputDefinition

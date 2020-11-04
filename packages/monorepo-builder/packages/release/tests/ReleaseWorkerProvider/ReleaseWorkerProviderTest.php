@@ -6,7 +6,7 @@ namespace Symplify\MonorepoBuilder\Release\Tests\ReleaseWorkerProvider;
 
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class ReleaseWorkerProviderTest extends AbstractKernelTestCase
 {

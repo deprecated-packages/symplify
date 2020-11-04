@@ -11,6 +11,8 @@ use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNestedForeachWithEmptyStatementRule\ForbiddenNestedForeachWithEmptyStatementRuleTest
@@ -53,7 +55,32 @@ final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplif
         return [self::ERROR_MESSAGE];
     }
 
-    public function isNextForeachWithEmptyStatement(Foreach_ $foreach): bool
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+$collectedFileErrors = [];
+
+foreach ($errors as $fileErrors) {
+    foreach ($fileErrors as $fileError) {
+        $collectedFileErrors[] = $fileError;
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+$collectedFileErrors = [];
+
+foreach ($fileErrors as $fileError) {
+    $collectedFileErrors[] = $fileError;
+}
+CODE_SAMPLE
+            ),
+        ]);
+    }
+
+    private function isNextForeachWithEmptyStatement(Foreach_ $foreach): bool
     {
         $stmts = $this->nodeFinder->findInstanceOf($foreach->stmts, Stmt::class);
         if (! isset($stmts[0])) {
@@ -66,6 +93,7 @@ final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplif
 
         /** @var Variable $foreachVariable */
         $foreachVariable = $foreach->expr->getAttribute(PHPStanAttributeKey::NEXT);
+
         /** @var Variable $nextForeachVariable */
         $nextForeachVariable = $stmts[0]->expr;
 

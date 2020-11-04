@@ -12,6 +12,8 @@ use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoSetterOnServiceRule\NoSetterOnServiceRuleTest
@@ -81,5 +83,30 @@ final class NoSetterOnServiceRule extends AbstractSymplifyRule
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeService
+{
+    public function setSomeValue(...)
+    {
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeEntity
+{
+    public function setSomeValue(...)
+    {
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

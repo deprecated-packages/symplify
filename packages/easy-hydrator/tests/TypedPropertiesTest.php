@@ -7,7 +7,7 @@ namespace Symplify\EasyHydrator\Tests;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 use Symplify\EasyHydrator\Tests\Fixture\TypedProperty;
 use Symplify\EasyHydrator\Tests\HttpKernel\EasyHydratorTestKernel;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 /**
  * @requires PHP >= 7.4

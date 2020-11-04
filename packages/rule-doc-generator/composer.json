@@ -9,6 +9,7 @@
         "php": ">=7.2",
         "symfony/dependency-injection": "^4.4|^5.1",
         "symfony/console": "^4.4|^5.1",
+        "nette/robot-loader": "^3.2",
         "symplify/symplify-kernel": "^8.4"
     },
     "require-dev": {
@@ -17,6 +18,11 @@
     "autoload": {
         "psr-4": {
             "Symplify\\RuleDocGenerator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\RuleDocGenerator\\Tests\\": "tests"
         }
     },
     "extra": {

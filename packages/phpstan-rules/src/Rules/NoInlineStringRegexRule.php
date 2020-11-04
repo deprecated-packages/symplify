@@ -8,6 +8,8 @@ use Nette\Utils\Strings;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Scalar\String_;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoInlineStringRegexRule\NoInlineStringRegexRuleTest
@@ -53,5 +55,37 @@ final class NoInlineStringRegexRule extends AbstractRegexRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run($value)
+    {
+        return preg_match('#some_stu|ff#', $value);
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    /**
+     * @var string
+     */
+    public const SOME_STUFF_REGEX = '#some_stu|ff#';
+
+    public function run($value)
+    {
+        return preg_match(self::SOME_STUFF_REGEX, $value);
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

@@ -9,6 +9,8 @@ use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ClassNameRespectsParentSuffixRule\ClassNameRespectsParentSuffixRuleTest
@@ -89,6 +91,25 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class Some extends Command
+{
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeCommand extends Command
+{
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     /**

@@ -10,11 +10,14 @@ use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule\ClassLikeCognitiveComplexityRuleTest
  */
-final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule
+final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implements DocumentedRuleInterface
 {
     /**
      * @var string
@@ -77,5 +80,54 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule
         );
 
         return [$message];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(
+            'Cognitive complexity of class/trait must be under specific limit',
+            [new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function another($value)
+    {
+        if ($value !== 1 && $value !== 2) {
+            return false;
+        }
+
+        return true;
+    }
+}
+```
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function simple($value)
+    {
+        return $this->someOtherService->count($value);
+    }
+
+    public function another($value)
+    {
+        return $this->someOtherService->delete($value);
+    }
+}
+CODE_SAMPLE
+            )]
+        );
     }
 }

@@ -10,6 +10,8 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\ForbiddenMethodOrStaticCallInForeachRuleTest
@@ -19,12 +21,12 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method or Static call in foreach is not allowed.';
+    public const ERROR_MESSAGE = 'Method nor static call in foreach is not allowed. Extract expression to a new variable assign on line before';
 
     /**
      * @var string[]
      */
-    private const EXPRESSION_CLASS_TYPES = [MethodCall::class, StaticCall::class];
+    private const CALL_CLASS_TYPES = [MethodCall::class, StaticCall::class];
 
     /**
      * @var NodeFinder
@@ -50,12 +52,10 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
      */
     public function process(Node $node, Scope $scope): array
     {
-        foreach (self::EXPRESSION_CLASS_TYPES as $expressionClassType) {
+        foreach (self::CALL_CLASS_TYPES as $expressionClassType) {
             /** @var MethodCall[]|StaticCall[] $calls */
             $calls = $this->nodeFinder->findInstanceOf($node->expr, $expressionClassType);
-            $isHasArgs = $this->isHasArgs($calls);
-
-            if (! $isHasArgs) {
+            if (! $this->hasCallArgs($calls)) {
                 continue;
             }
 
@@ -65,10 +65,30 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
         return [];
     }
 
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+foreach ($this->getData($arg) as $key => $item) {
+    // ...
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+$data = $this->getData($arg);
+foreach ($arg as $key => $item) {
+    // ...
+}
+CODE_SAMPLE
+            ),
+        ]);
+    }
+
     /**
      * @param MethodCall[]|StaticCall[] $calls
      */
-    private function isHasArgs(array $calls): bool
+    private function hasCallArgs(array $calls): bool
     {
         foreach ($calls as $call) {
             if ($call->args !== []) {

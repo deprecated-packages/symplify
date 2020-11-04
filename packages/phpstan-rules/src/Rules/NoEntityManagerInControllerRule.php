@@ -11,6 +11,8 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoEntityManagerInControllerRule\NoEntityManagerInControllerRuleTest
@@ -59,6 +61,33 @@ final class NoEntityManagerInControllerRule extends AbstractSymplifyRule
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class SomeController
+{
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class SomeController
+{
+    public function __construct(AnotherRepository $anotherRepository)
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isInControllerClass(Scope $scope): bool

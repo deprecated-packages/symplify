@@ -6,6 +6,7 @@ namespace Symplify\EasyHydrator\TypeCaster;
 
 use ReflectionParameter;
 use Symplify\EasyHydrator\ClassConstructorValuesResolver;
+use Symplify\EasyHydrator\Contract\TypeCasterInterface;
 use Symplify\EasyHydrator\ParameterTypeRecognizer;
 
 final class ObjectTypeCaster implements TypeCasterInterface

@@ -7,7 +7,7 @@ namespace Symplify\ChangelogLinker\Tests\Git;
 use Iterator;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class GitCommitDateTagResolverTest extends AbstractKernelTestCase
 {

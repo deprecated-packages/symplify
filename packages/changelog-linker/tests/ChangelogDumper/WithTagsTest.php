@@ -8,7 +8,7 @@ use Iterator;
 use Symplify\ChangelogLinker\ChangelogDumper;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class WithTagsTest extends AbstractKernelTestCase
 {

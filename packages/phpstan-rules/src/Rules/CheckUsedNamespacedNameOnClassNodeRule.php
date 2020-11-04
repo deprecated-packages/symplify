@@ -11,6 +11,8 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\CheckUsedNamespacedNameOnClassNodeRuleTest
@@ -20,7 +22,7 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use namespaceName on Class_ node';
+    public const ERROR_MESSAGE = 'Use "$class->namespaceName" instead of "$class->name" that only returns short class name';
 
     /**
      * @var string[]
@@ -82,6 +84,39 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+use PhpParser\Node\Stmt\Class_;
+
+final class SomeClass
+{
+    public function run(Class_ $class): bool
+    {
+        $className = (string) $class->name;
+        return class_exists($className);
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+use PhpParser\Node\Stmt\Class_;
+
+final class SomeClass
+{
+    public function run(Class_ $class): bool
+    {
+        $className = (string) $class->namespacedName;
+        return class_exists($className);
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isVariableNamedShortClassName(Variable $variable): bool

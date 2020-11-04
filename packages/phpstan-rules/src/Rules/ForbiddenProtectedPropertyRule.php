@@ -7,7 +7,9 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyser\ProtectedAnalyser;
+use Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenProtectedPropertyRule\ForbiddenProtectedPropertyRuleTest
@@ -17,14 +19,14 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Property with protected modifier is not allowed. Use interface instead.';
+    public const ERROR_MESSAGE = 'Property with protected modifier is not allowed. Use interface contract method instead';
 
     /**
-     * @var ProtectedAnalyser
+     * @var ProtectedAnalyzer
      */
     private $protectedAnalyser;
 
-    public function __construct(ProtectedAnalyser $protectedAnalyser)
+    public function __construct(ProtectedAnalyzer $protectedAnalyser)
     {
         $this->protectedAnalyser = $protectedAnalyser;
     }
@@ -52,5 +54,29 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    protected $repository;
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass implements RepositoryAwareInterface
+{
+    public function getRepository()
+    {
+        // ....
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

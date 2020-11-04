@@ -10,6 +10,8 @@ use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckRequiredInterfaceInContractNamespaceRule\CheckRequiredInterfaceInContractNamespaceRuleTest
@@ -19,7 +21,7 @@ final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSympli
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Interface is required in Contract namespace';
+    public const ERROR_MESSAGE = 'Relocate Interface to a "Contract" namespace';
 
     /**
      * @var string
@@ -53,5 +55,28 @@ final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSympli
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+namespace App\Repository;
+
+interface ProductRepositoryInterface
+{
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+namespace App\Contract\Repository;
+
+interface ProductRepositoryInterface
+{
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

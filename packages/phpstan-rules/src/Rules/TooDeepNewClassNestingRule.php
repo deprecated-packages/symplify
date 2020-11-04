@@ -8,11 +8,14 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\TooDeepNewClassNestingRule\TooDeepNewClassNestingRuleTest
  */
-final class TooDeepNewClassNestingRule extends AbstractSymplifyRule
+final class TooDeepNewClassNestingRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -55,6 +58,31 @@ final class TooDeepNewClassNestingRule extends AbstractSymplifyRule
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $this->maxNewClassNesting, $countNew)];
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $this->maxNewClassNesting, $countNew);
+        return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+$someObject = new A(
+    new B(
+        new C()
+    )
+);
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+$firstObject = new B(new C());
+$someObject = new A($firstObject);
+CODE_SAMPLE
+                ,
+                [
+                    'maxNewClassNesting' => 2,
+                ]
+            ),
+        ]);
     }
 }

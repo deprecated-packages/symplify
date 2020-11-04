@@ -9,6 +9,8 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Rector\Core\Exception\NotImplementedException;
 use ReflectionMethod;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreventParentMethodVisibilityOverrideRule\PreventParentMethodVisibilityOverrideRuleTest
@@ -62,6 +64,45 @@ final class PreventParentMethodVisibilityOverrideRule extends AbstractSymplifyRu
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeParentClass
+{
+    public function run()
+    {
+    }
+}
+
+class SomeClass
+{
+    protected function run()
+    {
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeParentClass
+{
+    public function run()
+    {
+    }
+}
+
+class SomeClass
+{
+    public function run()
+    {
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isClassMethodCompatibleWithParentReflectionMethod(

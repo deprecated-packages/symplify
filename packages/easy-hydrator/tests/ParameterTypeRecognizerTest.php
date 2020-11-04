@@ -10,7 +10,7 @@ use Symplify\EasyHydrator\ParameterTypeRecognizer;
 use Symplify\EasyHydrator\Tests\Fixture\DocTypeTestObject;
 use Symplify\EasyHydrator\Tests\Fixture\Person;
 use Symplify\EasyHydrator\Tests\HttpKernel\EasyHydratorTestKernel;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 class ParameterTypeRecognizerTest extends AbstractKernelTestCase
 {

@@ -17,6 +17,8 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\CheckConstantExpressionDefinedInConstructOrSetupRuleTest
@@ -26,7 +28,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Constant expression can be only defined in "__construct()" or "setUp()" method';
+    public const ERROR_MESSAGE = 'Move constant expression to "__construct()", "setUp()" method or constant';
 
     /**
      * @var NodeFinder
@@ -93,6 +95,43 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function someMethod()
+    {
+        $mainPath = getcwd() . '/absolute_path;
+        // ...
+        return $mainPath;
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    private $mainPath;
+
+    public function __construct()
+    {
+        $this->mainPath = getcwd() . '/absolute_path;
+    }
+
+    public function someMethod()
+    {
+        // ...
+        return $this->mainPath;
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isConstantExpr(Expr $expr): bool

@@ -11,6 +11,8 @@ use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeComparator;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoParentMethodCallOnNoOverrideProcessRule\NoParentMethodCallOnNoOverrideProcessRuleTest
@@ -68,6 +70,29 @@ final class NoParentMethodCallOnNoOverrideProcessRule extends AbstractSymplifyRu
             return [];
         }
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass extends Printer
+{
+    public function print($nodes)
+    {
+        return parent::print($nodes);
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass extends Printer
+{
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isParentSelfMethodStaticCall(Node $node, ClassMethod $classMethod): bool

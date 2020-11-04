@@ -15,6 +15,8 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
 use ReflectionClass;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayDestructRule\ForbiddenArrayDestructRuleTest
@@ -75,6 +77,35 @@ final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    public function run(): void
+    {
+        [$firstValue, $secondValue] = $this->getRandomData();
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    public function run(): void
+    {
+        $valueObject = $this->getValueObject();
+        $firstValue = $valueObject->getFirstValue();
+        $secondValue = $valueObject->getSecondValue();
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isAllowedCall(Assign $assign): bool

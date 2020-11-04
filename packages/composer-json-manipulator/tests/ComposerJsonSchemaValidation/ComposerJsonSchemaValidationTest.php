@@ -6,7 +6,7 @@ namespace Symplify\ComposerJsonManipulator\Tests\ComposerJsonSchemaValidation;
 
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\Tests\HttpKernel\ComposerJsonManipulatorKernel;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase

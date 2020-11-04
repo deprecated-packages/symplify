@@ -6,10 +6,10 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule\CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest
@@ -19,12 +19,7 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymp
     /**
      * @var string
      */
-    private const ERROR_NAMESPACE_OUTSIDE_TEST_DIR = '"Tests" namespace (%s) used outside of "tests" directory (%s)';
-
-    /**
-     * @var string
-     */
-    private const ERROR_TEST_FILE_OUTSIDE_NAMESPACE = 'Test file (%s) is outside of "Tests" namespace (%s)';
+    private const ERROR_MESSAGE = '"*Test.php" file cannot be located outside "Tests" namespace';
 
     /**
      * @return string[]
@@ -40,50 +35,39 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymp
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node->name === null) {
+        if ($this->containsNamespace($node, 'Tests')) {
             return [];
         }
 
-        $fileInfo = new SmartFileInfo($scope->getFile());
-
-        if (! $this->hasTestsNamespace($node->name)) {
-            if ($this->hasTestSuffix($scope)) {
-                $errorMessage = sprintf(
-                    self::ERROR_TEST_FILE_OUTSIDE_NAMESPACE,
-                    $fileInfo->getRelativeFilePathFromCwd(),
-                    $node->name->toString()
-                );
-                return [$errorMessage];
-            }
-
+        if (! Strings::endsWith($scope->getFile(), 'Test.php')) {
             return [];
         }
 
-        if ($this->isInTestsDirectory($scope)) {
-            return [];
-        }
-
-        $errorMessage = sprintf(
-            self::ERROR_NAMESPACE_OUTSIDE_TEST_DIR,
-            $node->name->toString(),
-            $fileInfo->getRelativeFilePathFromCwd()
-        );
-
-        return [$errorMessage];
+        return [self::ERROR_MESSAGE];
     }
 
-    private function hasTestsNamespace(Name $name): bool
+    public function getRuleDefinition(): RuleDefinition
     {
-        return in_array('Tests', $name->parts, true);
-    }
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+// file: "SomeTest.php
+namespace App;
 
-    private function hasTestSuffix(Scope $scope): bool
-    {
-        return Strings::endsWith($scope->getFile(), 'Test.php');
-    }
+class SomeTest
+{
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+// file: "SomeTest.php
+namespace App\Tests;
 
-    private function isInTestsDirectory(Scope $scope): bool
-    {
-        return Strings::contains($scope->getFile(), DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR);
+class SomeTest
+{
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

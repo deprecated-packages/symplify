@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\SymfonyStaticDumper\Tests\Routing;
 
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SymfonyStaticDumper\Routing\RoutesProvider;
 use Symplify\SymfonyStaticDumper\Tests\TestProject\HttpKernel\TestSymfonyStaticDumperKernel;
 

@@ -1,0 +1,10 @@
+services:
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver
+
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPreferredMethodCalls:
+                file_get_contents: ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
+                substr: ['Symplify\PHPStanRules\Tests\Rules\PreferredMethodCallOverFuncCallRule\Fixture\SkipSelfCall', 'run']

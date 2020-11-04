@@ -13,6 +13,8 @@ use PHPStan\Analyser\Scope;
 use PHPUnit\Framework\TestCase;
 use Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoMissingDirPathRule\NoMissingDirPathRuleTest
@@ -77,6 +79,33 @@ final class NoMissingDirPathRule extends AbstractSymplifyRule
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $relativeDirPath);
         return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run()
+    {
+        return __DIR__ . '/missing_location.txt';
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run()
+    {
+        return __DIR__ . '/existing_location.txt';
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isPartOfPHPUnit(Scope $scope): bool

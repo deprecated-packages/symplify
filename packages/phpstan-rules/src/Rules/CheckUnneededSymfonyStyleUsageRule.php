@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\ClassMethodsNode;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckUnneededSymfonyStyleUsageRule\CheckUnneededSymfonyStyleUsageRuleTest
@@ -28,6 +30,24 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
      * @var string[]
      */
     private const SIMPLE_CONSOLE_OUTPUT_METHODS = ['newline', 'write', 'writeln'];
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
+     * @var ClassMethodsNodeAnalyzer
+     */
+    private $classMethodsNodeAnalyzer;
+
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        ClassMethodsNodeAnalyzer $classMethodsNodeAnalyzer
+    ) {
+        $this->simpleNameResolver = $simpleNameResolver;
+        $this->classMethodsNodeAnalyzer = $classMethodsNodeAnalyzer;
+    }
 
     /**
      * @return string[]
@@ -49,37 +69,55 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
             return [];
         }
 
-        $methodCalls = $node->getMethodCalls();
-        foreach ($methodCalls as $methodCall) {
-            /** @var MethodCall $methodCallNode */
-            $methodCallNode = $methodCall->getNode();
-            if (! $methodCallNode->var instanceof Expr) {
-                return [];
-            }
-
-            $callerType = $methodCall->getScope()
-                ->getType($methodCallNode->var);
-            if (! method_exists($callerType, 'getClassName')) {
-                return [];
-            }
-
-            if (! is_a($callerType->getClassName(), SymfonyStyle::class, true)) {
-                return [];
-            }
-
-            /** @var Identifier $methodCallIdentifier */
-            $methodCallIdentifier = $methodCallNode->name;
-            $methodName = (string) $methodCallIdentifier->name;
-            if (! in_array($methodName, self::SIMPLE_CONSOLE_OUTPUT_METHODS, true)) {
-                return [];
-            }
+        $symfonyStyleMethodCalls = $this->classMethodsNodeAnalyzer->resolveMethodCallsByType(
+            $node,
+            SymfonyStyle::class
+        );
+        if ($symfonyStyleMethodCalls === []) {
+            return [];
         }
 
-        if ($methodCalls === []) {
+        if ($this->hasUsefulSymfonyStyleMethodNames($symfonyStyleMethodCalls)) {
             return [];
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+class SomeClass
+{
+    private $symfonyStyle;
+
+    public function __construct(SymfonyStyle $symfonyStyle)
+    {
+        $this->symfonyStyle = $symfonyStyle;
+    }
+
+    public function run()
+    {
+        $this->symfonyStyle->writeln('Hi');
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run()
+    {
+        echo 'Hi';
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function hasParentClassSymfonyStyle(ClassLike $classLike): bool
@@ -95,5 +133,19 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
         $parentClass = $classLike->extends->toString();
 
         return is_a($parentClass, SymfonyStyle::class, true);
+    }
+
+    /**
+     * @param MethodCall[] $methodCalls
+     */
+    private function hasUsefulSymfonyStyleMethodNames(array $methodCalls): bool
+    {
+        foreach ($methodCalls as $methodCall) {
+            if (! $this->simpleNameResolver->isNames($methodCall->name, self::SIMPLE_CONSOLE_OUTPUT_METHODS)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

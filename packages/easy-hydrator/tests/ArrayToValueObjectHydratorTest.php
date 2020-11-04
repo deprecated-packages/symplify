@@ -15,7 +15,7 @@ use Symplify\EasyHydrator\Tests\Fixture\PersonsCollection;
 use Symplify\EasyHydrator\Tests\Fixture\PersonWithAge;
 use Symplify\EasyHydrator\Tests\Fixture\TimeEvent;
 use Symplify\EasyHydrator\Tests\HttpKernel\EasyHydratorTestKernel;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
 {

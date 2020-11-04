@@ -15,6 +15,8 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoReturnArrayVariableListRule\NoReturnArrayVariableListRuleTest
@@ -80,6 +82,33 @@ final class NoReturnArrayVariableListRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class ReturnVariables
+{
+    public function run($value, $value2): array
+    {
+        return [$value, $value2];
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class ReturnVariables
+{
+    public function run($value, $value2): ValueObject
+    {
+        return new ValueObject($value, $value2);
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function shouldSkip(Scope $scope, $node): bool

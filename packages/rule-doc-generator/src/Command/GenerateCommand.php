@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace Symplify\RuleDocGenerator\Command;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
-use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\RuleDocGenerator\DirectoryToMarkdownPrinter;
+use Symplify\RuleDocGenerator\ValueObject\Option;
+use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class GenerateCommand extends Command
 {
@@ -21,52 +24,55 @@ final class GenerateCommand extends Command
     private $symfonyStyle;
 
     /**
-     * @var VersionValidator
+     * @var DirectoryToMarkdownPrinter
      */
-    private $versionValidator;
+    private $directoryToMarkdownPrinter;
 
     /**
-     * @var ComposerJsonProvider
+     * @var SmartFileSystem
      */
-    private $composerJsonProvider;
-
-    /**
-     * @var ConflictingPackageVersionsReporter
-     */
-    private $conflictingPackageVersionsReporter;
+    private $smartFileSystem;
 
     public function __construct(
         SymfonyStyle $symfonyStyle,
-        ComposerJsonProvider $composerJsonProvider,
-        VersionValidator $versionValidator,
-        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter
+        SmartFileSystem $smartFileSystem,
+        DirectoryToMarkdownPrinter $directoryToMarkdownPrinter
     ) {
         parent::__construct();
 
         $this->symfonyStyle = $symfonyStyle;
-        $this->versionValidator = $versionValidator;
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->conflictingPackageVersionsReporter = $conflictingPackageVersionsReporter;
+        $this->smartFileSystem = $smartFileSystem;
+        $this->directoryToMarkdownPrinter = $directoryToMarkdownPrinter;
     }
 
     protected function configure(): void
     {
         $this->setDescription('Generated d synchronized versions in "composer.json" in all found packages.');
+        $this->addArgument(Option::PATH, InputArgument::REQUIRED, 'Path to package directory');
+        $this->addOption(
+            Option::OUTPUT,
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Path to output generated markdown file',
+            getcwd() . '/docs/rules_overview.md'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
-            $this->composerJsonProvider->getRootAndPackageFileInfos()
-        );
-        if ($conflictingPackageVersions === []) {
-            $this->symfonyStyle->success('All packages "composer.json" files use same package versions.');
+        $path = (string) $input->getArgument(Option::PATH);
 
-            return ShellCode::SUCCESS;
-        }
+        $directoryFileInfo = new SmartFileInfo($path);
+        $markdownFileContent = $this->directoryToMarkdownPrinter->printDirectory($directoryFileInfo);
 
-        $this->conflictingPackageVersionsReporter->report($conflictingPackageVersions);
+        // dump markdown file
+        $outputFilePath = (string) $input->getOption(Option::OUTPUT);
+        $this->smartFileSystem->dumpFile($outputFilePath, $markdownFileContent);
 
-        return ShellCode::ERROR;
+        $outputFileInfo = new SmartFileInfo($outputFilePath);
+        $message = sprintf('File "%s" was created', $outputFileInfo->getRelativeFilePathFromCwd());
+        $this->symfonyStyle->success($message);
+
+        return ShellCode::SUCCESS;
     }
 }

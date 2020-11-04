@@ -10,6 +10,8 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#9-do-not-use-getters-and-setters
@@ -67,6 +69,34 @@ final class NoSetterClassMethodRule extends AbstractSymplifyRule
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $methodName);
         return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    public function setName(string $name)
+    {
+        // ...
+    }
+}
+
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    public function __construct(string $name)
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isClassExcluded(Scope $scope): bool

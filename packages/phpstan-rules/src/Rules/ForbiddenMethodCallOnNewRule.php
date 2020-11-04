@@ -7,7 +7,10 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallOnNewRule\ForbiddenMethodCallOnNewRuleTest
@@ -24,20 +27,39 @@ final class ForbiddenMethodCallOnNewRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [MethodCall::class];
+        return [MethodCall::class, StaticCall::class];
     }
 
     /**
-     * @param MethodCall $node
+     * @param MethodCall|StaticCall $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        $methodCallVar = $node->var;
-        if (! $methodCallVar instanceof New_) {
-            return [];
+        if ($node instanceof MethodCall && $node->var instanceof New_) {
+            return [self::ERROR_MESSAGE];
         }
 
-        return [self::ERROR_MESSAGE];
+        if ($node instanceof StaticCall && $node->class instanceof New_) {
+            return [self::ERROR_MESSAGE];
+        }
+
+        return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+(new SomeClass())->run();
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+$someClass = new SomeClass();
+$someClass->run();
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

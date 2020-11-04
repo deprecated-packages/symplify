@@ -11,11 +11,14 @@ use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ExcessiveParameterListRule\ExcessiveParameterListRuleTest
  */
-final class ExcessiveParameterListRule extends AbstractSymplifyRule
+final class ExcessiveParameterListRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -54,6 +57,37 @@ final class ExcessiveParameterListRule extends AbstractSymplifyRule
         $name = $this->resolveName($node);
         $message = sprintf(self::ERROR_MESSAGE, $name, $currentParameterCount, $this->maxParameterCount);
         return [$message];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function __construct($one, $two, $three)
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function __construct($one, $two)
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'maxParameterCount' => 2,
+                ]
+            ),
+        ]);
     }
 
     private function resolveName(FunctionLike $functionLike): string
