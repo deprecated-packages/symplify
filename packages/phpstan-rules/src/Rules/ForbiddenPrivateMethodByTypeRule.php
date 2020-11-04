@@ -19,12 +19,12 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'private method "%s" in "%s" is not allowed.';
 
     /**
-     * @var array<string, string[]>
+     * @var array<string, string>
      */
     private $forbiddenTypes = [];
 
     /**
-     * @param array<string, string[]> $forbiddenTypes
+     * @param array<string, string> $forbiddenTypes
      */
     public function __construct(array $forbiddenTypes = [])
     {
@@ -41,7 +41,7 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule
 
     /**
      * @param ClassMethod $node
-     * @return mixed[]|mixed
+     * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
