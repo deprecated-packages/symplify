@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
@@ -71,7 +72,7 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
                 continue;
             }
 
-            if (! $const->value instanceof String_) {
+            if (! $const->value instanceof String_ || $const->value instanceof Array_) {
                 continue;
             }
 
