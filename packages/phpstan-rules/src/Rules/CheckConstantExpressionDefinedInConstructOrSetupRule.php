@@ -60,7 +60,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        $var = $node->var;
+        /*$var = $node->var;
         $next = $parent->getAttribute(PHPStanAttributeKey::NEXT);
         while ($next) {
             $found = (bool) $this->nodeFinder->findFirst($next, function (Node $node) use ($var): bool {
@@ -72,7 +72,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             }
 
             $next = $next->getAttribute(PHPStanAttributeKey::NEXT);
-        }
+        }*/
 
         if (in_array(strtolower((string) $classMethod->name), ['__construct', 'setup'], true)) {
             return [];
