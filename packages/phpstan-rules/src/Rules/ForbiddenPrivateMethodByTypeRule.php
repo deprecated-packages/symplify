@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -27,7 +26,7 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule
     /**
      * @param array<string, string[]> $forbiddenTypes
      */
-    public function __construct(NodeFinder $nodeFinder, array $forbiddenTypes = [])
+    public function __construct(array $forbiddenTypes = [])
     {
         $this->forbiddenTypes = $forbiddenTypes;
     }
@@ -42,7 +41,7 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule
 
     /**
      * @param ClassMethod $node
-     * @return string[]
+     * @return mixed[]|mixed
      */
     public function process(Node $node, Scope $scope): array
     {
