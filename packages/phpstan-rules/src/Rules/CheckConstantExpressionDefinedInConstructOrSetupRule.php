@@ -55,24 +55,11 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $parent->getAttribute(PHPStanAttributeKey::PARENT) instanceof ClassMethod) {
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT)
+            ->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $parent instanceof ClassMethod || $this->isFoundInNextStatement($node)) {
             return [];
         }
-
-        /*$var = $node->var;
-        $next = $parent->getAttribute(PHPStanAttributeKey::NEXT);
-        while ($next) {
-            $found = (bool) $this->nodeFinder->findFirst($next, function (Node $node) use ($var): bool {
-                return $node instanceof Variable && $node->name = $var->name;
-            });
-
-            if ($found) {
-                return [];
-            }
-
-            $next = $next->getAttribute(PHPStanAttributeKey::NEXT);
-        }*/
 
         if (in_array(strtolower((string) $classMethod->name), ['__construct', 'setup'], true)) {
             return [];
@@ -91,5 +78,30 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    private function isFoundInNextStatement(Assign $assign): bool
+    {
+        $var = $assign->var;
+        $next = $assign->getAttribute(PHPStanAttributeKey::PARENT)
+            ->getAttribute(PHPStanAttributeKey::NEXT);
+
+        if ($next === null) {
+            return false;
+        }
+
+        while (isset($next)) {
+            $var = $this->nodeFinder->findFirst($next, function (Node $node) use ($var): bool {
+                return $node instanceof Variable && $node->name = $var->name;
+            });
+
+            if ($var) {
+                return true;
+            }
+
+            $next = $next->getAttribute(PHPStanAttributeKey::NEXT);
+        }
+
+        return false;
     }
 }
