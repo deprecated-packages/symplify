@@ -344,7 +344,6 @@ parameters:
         -
             message: '#Constant expression should only defined in __construct\(\) or setUp\(\)#'
             paths:
-                - packages/changelog-linker/tests/ChangelogDumper/WithTagsTest.php # 39
                 - packages/composer-json-manipulator/tests/ComposerJsonFactory/ComposerJsonFactoryTest.php # 25
                 - packages/composer-json-manipulator/tests/ComposerJsonSchemaValidation/ComposerJsonSchemaValidationTest.php # 34
                 - packages/easy-coding-standard/packages/changed-files-detector/tests/FileHashComputerTest.php # 70

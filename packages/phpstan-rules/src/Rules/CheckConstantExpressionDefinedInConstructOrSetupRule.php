@@ -38,6 +38,15 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
      */
     public function process(Node $node, Scope $scope): array
     {
+        $classMethod = $this->resolveCurrentClassMethod($node);
+        if ($classMethod === null) {
+            return [];
+        }
+
+        if (in_array(strtolower((string) $classMethod->name), ['__construct', 'setup'], true)) {
+            return [];
+        }
+
         if ($node->expr instanceof Concat && $node->expr->left instanceof MagicConst) {
             if ($node->expr->right instanceof MethodCall) {
                 return [];
@@ -47,15 +56,6 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         }
 
         if (! $node->expr instanceof ClassConstFetch) {
-            return [];
-        }
-
-        $classMethod = $this->resolveCurrentClassMethod($node);
-        if ($classMethod === null) {
-            return [];
-        }
-
-        if (in_array(strtolower((string) $classMethod->name), ['__construct', 'setup'], true)) {
             return [];
         }
 
