@@ -303,6 +303,13 @@ services:
         class: Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypes:
+                - Symfony\Component\Console\Command\Command
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem

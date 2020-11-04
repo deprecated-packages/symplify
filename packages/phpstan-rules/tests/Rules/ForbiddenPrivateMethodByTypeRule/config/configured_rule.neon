@@ -1,0 +1,7 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypes:
+                - Symfony\Component\Console\Command\Command
