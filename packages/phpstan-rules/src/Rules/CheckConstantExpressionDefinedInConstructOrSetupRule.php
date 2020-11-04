@@ -6,8 +6,8 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
-use PHPStan\Analyser\Scope;
 use PhpParser\Node\Expr\ClassConstFetch;
+use PHPStan\Analyser\Scope;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\CheckConstantExpressionDefinedInConstructOrSetupRuleTest
