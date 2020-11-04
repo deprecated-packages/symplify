@@ -49,7 +49,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         }
 
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT)
-                       ->getAttribute(PHPStanAttributeKey::PARENT);
+            ->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof ClassMethod) {
             return [];
         }
