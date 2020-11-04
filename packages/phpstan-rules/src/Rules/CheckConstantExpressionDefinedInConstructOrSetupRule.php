@@ -6,7 +6,10 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
@@ -35,6 +38,14 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($node->expr instanceof Concat && $node->expr->left instanceof MagicConst) {
+            if ($node->expr->right instanceof MethodCall) {
+                return [];
+            }
+
+            return [self::ERROR_MESSAGE];
+        }
+
         if (! $node->expr instanceof ClassConstFetch) {
             return [];
         }
