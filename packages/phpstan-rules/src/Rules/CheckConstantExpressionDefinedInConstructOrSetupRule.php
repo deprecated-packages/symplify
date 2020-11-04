@@ -9,8 +9,10 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
@@ -23,6 +25,16 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
      * @var string
      */
     public const ERROR_MESSAGE = 'Constant expression should only defined in __construct() or setUp()';
+
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    public function __construct(NodeFinder $nodeFinder)
+    {
+        $this->nodeFinder = $nodeFinder;
+    }
 
     /**
      * @return string[]
@@ -59,10 +71,23 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT)
-            ->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $parent instanceof ClassMethod) {
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $parent->getAttribute(PHPStanAttributeKey::PARENT) instanceof ClassMethod) {
             return [];
+        }
+
+        $var = $node->var;
+        $next = $parent->getAttribute(PHPStanAttributeKey::NEXT);
+        while ($next) {
+            $found = (bool) $this->nodeFinder->findFirst($next, function (Node $node) use ($var): bool {
+                return $node instanceof Variable && $node->name = $var->name;
+            });
+
+            if ($found) {
+                return [];
+            }
+
+            $next = $next->getAttribute(PHPStanAttributeKey::NEXT);
         }
 
         return [self::ERROR_MESSAGE];
