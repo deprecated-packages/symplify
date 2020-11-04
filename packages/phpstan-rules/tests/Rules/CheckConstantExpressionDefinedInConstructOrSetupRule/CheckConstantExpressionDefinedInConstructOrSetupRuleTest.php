@@ -25,8 +25,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRuleTest extends Abs
         yield [__DIR__ . '/Fixture/InsideConstruct.php', []];
         yield [
             __DIR__ . '/Fixture/InsideOtherMethod.php',
-            [[CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 13],
-            ], ];
+            [[CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 13]], ];
     }
 
     protected function getRule(): Rule
