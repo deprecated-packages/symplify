@@ -16,7 +16,7 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'private method "%s" in "%s" is not allowed.';
+    public const ERROR_MESSAGE = 'private method "%s" in type "%s" is not allowed.';
 
     /**
      * @var array<string, string>
@@ -54,10 +54,14 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! in_array($className, $this->forbiddenTypes, true)) {
-            return [];
+        foreach ($this->forbiddenTypes as $forbiddenType) {
+            if (! is_a($className, $forbiddenType, true)) {
+                continue;
+            }
+
+            return [sprintf(self::ERROR_MESSAGE, (string) $node->name, $forbiddenType)];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, (string) $node->name, $className)];
+        return [];
     }
 }
