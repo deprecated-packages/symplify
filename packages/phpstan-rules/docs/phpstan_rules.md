@@ -2238,6 +2238,77 @@ class SomeClass
 
 <br>
 
+## Check Constant Expression Defined in __construct() or setUp() Method
+
+- class: [`CheckConstantExpressionDefinedInConstructOrSetupRule`](../src/Rules/CheckConstantExpressionDefinedInConstructOrSetupRule.php)
+
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
+        tags: [phpstan.rules.rule]
+```
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+class SomeClass
+{
+    private const A_CONSTANT = 'a';
+
+    public function someMethod()
+    {
+        $this->x = getcwd() . '/' . self::A_CONSTANT;
+    }
+}
+```
+
+:x:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+class SomeClass
+{
+    private const A_CONSTANT = 'a';
+
+    public function __construct()
+    {
+        $this->x = getcwd() . '/' . self::A_CONSTANT;
+    }
+}
+```
+
+:+1:
+
+```php
+<?php
+
+
+declare(strict_types=1);
+
+class SomeClass extends TestCase
+{
+    private const A_CONSTANT = 'a';
+
+    public function setUp()
+    {
+        $this->x = getcwd() . '/' . self::A_CONSTANT;
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## Check Constant String Value Format
 
 - class: [`CheckConstantStringValueFormatRule`](../src/Rules/CheckConstantStringValueFormatRule.php)
