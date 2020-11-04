@@ -95,7 +95,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
                 return $node instanceof Variable && $node->name = $var->name;
             });
 
-            if ($var) {
+            if ($var !== null) {
                 return true;
             }
 
