@@ -1,15 +1,23 @@
 name: Build Scoped Packages
 
 on:
-    pull_request: null
+    push:
+        branches:
+            - master
 
 jobs:
     build_scoped_packages:
         runs-on: ubuntu-latest
         strategy:
+            fail-fast: false
             matrix:
                 scoped_package:
-                    - 'monorepo-builder'
+                    -
+                        directory: 'monorepo-builder'
+                        binary_file_name: 'monorepo-builder'
+                    -
+                        directory: 'easy-coding-standard'
+                        binary_file_name: 'ecs'
 
         steps:
             -   uses: actions/checkout@v2
@@ -19,23 +27,27 @@ jobs:
                     php-version: 7.2
                     tools: composer:v2
 
-            -   run: composer install --no-progress --ansi
+            # --prefer-lowest makes sure there are the same package in root + package - that prevents see https://github.com/symplify/symplify/pull/2442/checks?check_run_id=1348085811#step:8:5
+            -   run: composer update --no-progress --ansi --prefer-lowest
 
             # 1. install package dependencies
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.scoped_package }}/composer.json --ansi
-            -   run: composer install --working-dir packages/${{ matrix.scoped_package }} --ansi --no-dev
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.scoped_package.directory }}/composer.json --ansi
+
+            # --prefer-lowest makes sure there are the same package in root + package - that prevents see https://github.com/symplify/symplify/pull/2442/checks?check_run_id=1348085811#step:8:5
+            -
+                run: composer update --working-dir packages/${{ matrix.scoped_package.directory }} --ansi --no-dev --prefer-lowest
                 env:
                     # see https://tomasvotruba.com/blog/2020/10/19/how-to-split-test-monorepo-with-composer-2/
                     COMPOSER_ROOT_VERSION: "dev-master"
 
             # 2. scope it
-            -   run: vendor/bin/php-scoper add-prefix packages/${{ matrix.scoped_package }} --output-dir packages-scoped/${{ matrix.scoped_package }} --config packages/${{ matrix.scoped_package }}/scoper.inc.php --force --ansi
-            -   run: composer dump-autoload --working-dir packages-scoped/${{ matrix.scoped_package }} --ansi --optimize --classmap-authoritative
-            -   run: packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/${{ matrix.scoped_package }}/composer.json
+            -   run: vendor/bin/php-scoper add-prefix packages/${{ matrix.scoped_package.directory }} --output-dir packages-scoped/${{ matrix.scoped_package.directory }} --config packages/${{ matrix.scoped_package.directory }}/scoper.inc.php --force --ansi
+            -   run: composer dump-autoload --working-dir packages-scoped/${{ matrix.scoped_package.directory }} --ansi --optimize --classmap-authoritative
+            -   run: packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/${{ matrix.scoped_package.directory }}/composer.json --ansi
 
             # 3. run it
-            -   run: chmod 777 ./packages-scoped/${{ matrix.scoped_package }}/bin/${{ matrix.scoped_package }}
-            -   run: packages-scoped/${{ matrix.scoped_package }}/bin/${{ matrix.scoped_package }} --ansi
+            -   run: chmod 777 ./packages-scoped/${{ matrix.scoped_package.directory }}/bin/${{ matrix.scoped_package.binary_file_name }}
+#            -   run: packages-scoped/${{ matrix.scoped_package.directory }}/bin/${{ matrix.scoped_package.binary_file_name }} --ansi
 
             # 4. publish it to remote repository
             # see https://github.com/cpina/github-action-push-to-another-repository
@@ -45,7 +57,7 @@ jobs:
                 env:
                     API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
                 with:
-                    source-directory: 'packages-scoped/${{ matrix.scoped_package }}'
+                    source-directory: 'packages-scoped/${{ matrix.scoped_package.directory }}'
                     destination-github-username: 'symplify'
-                    destination-repository-name: '${{ matrix.scoped_package }}-prefixed'
+                    destination-repository-name: '${{ matrix.scoped_package.directory }}-prefixed'
                     user-email: tomas.vot@gmail.com
