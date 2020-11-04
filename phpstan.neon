@@ -340,6 +340,10 @@ parameters:
                 - packages/monorepo-builder/src/Console/Command/CheckSplitTestWorkflowCommand.php # 108
                 - packages/monorepo-builder/src/Console/Command/PackageAliasCommand.php # 76
                 - packages/monorepo-builder/src/Console/Command/PropagateCommand.php # 100
+
+        -
+            message: '#Constant expression should only defined in __construct\(\) or setUp\(\)#'
+            paths:
                 - packages/changelog-linker/tests/ChangelogDumper/WithTagsTest.php # 39
                 - packages/composer-json-manipulator/tests/ComposerJsonFactory/ComposerJsonFactoryTest.php # 25
                 - packages/composer-json-manipulator/tests/ComposerJsonSchemaValidation/ComposerJsonSchemaValidationTest.php # 34
