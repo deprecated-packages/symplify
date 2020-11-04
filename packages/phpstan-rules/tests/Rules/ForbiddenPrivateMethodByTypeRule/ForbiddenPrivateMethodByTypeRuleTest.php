@@ -6,9 +6,9 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenPrivateMethodByTypeRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
+use Symfony\Component\Console\Command\Command;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule;
-use Symfony\Component\Console\Command\Command;
 
 final class ForbiddenPrivateMethodByTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -30,6 +30,9 @@ final class ForbiddenPrivateMethodByTypeRuleTest extends AbstractServiceAwareRul
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ForbiddenPrivateMethodByTypeRule::class, __DIR__ . '/config/configured_rule.neon');
+        return $this->getRuleFromConfig(
+            ForbiddenPrivateMethodByTypeRule::class,
+            __DIR__ . '/config/configured_rule.neon'
+        );
     }
 }
