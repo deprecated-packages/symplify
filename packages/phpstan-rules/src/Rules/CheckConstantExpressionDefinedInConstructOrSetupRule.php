@@ -7,7 +7,9 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\CheckConstantExpressionDefinedInConstructOrSetupRuleTest
@@ -43,6 +45,12 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         }
 
         if (in_array(strtolower((string) $classMethod->name), ['__construct', 'setup'], true)) {
+            return [];
+        }
+
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT)
+                       ->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $parent instanceof ClassMethod) {
             return [];
         }
 
