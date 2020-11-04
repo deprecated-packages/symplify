@@ -319,3 +319,24 @@ parameters:
                 - packages/phpstan-rules/src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php # 27
                 - packages/phpstan-rules/src/Rules/ForbiddenParentClassRule.php # 25
                 - packages/phpstan-rules/src/Rules/NoSuffixValueObjectClassRule.php # 22
+
+        -
+            message: '#private method in type "Symfony\\Component\\Console\\Command\\Command" is not allowed#'
+            paths:
+                - packages/changelog-linker/src/Console/Command/DumpMergesCommand.php # 172
+                - packages/changelog-linker/src/Console/Command/DumpMergesCommand.php # 189
+                - packages/easy-coding-standard/packages/snippet-formatter/src/Command/AbstractSnippetFormatterCommand.php # 70
+                - packages/easy-coding-standard/packages/snippet-formatter/src/Command/AbstractSnippetFormatterCommand.php # 89
+                - packages/easy-coding-standard/src/Console/Command/ShowCommand.php # 86
+                - packages/easy-coding-standard/src/Console/Command/ShowCommand.php # 105
+                - packages/monorepo-builder/packages/init/src/Command/InitCommand.php # 81
+                - packages/monorepo-builder/packages/init/src/Command/InitCommand.php # 103
+                - packages/monorepo-builder/packages/merge/src/Command/MergeCommand.php # 101
+                - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php # 129
+                - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php # 144
+                - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php # 160
+                - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php # 171
+                - packages/monorepo-builder/src/Console/Command/CheckSplitTestWorkflowCommand.php # 94
+                - packages/monorepo-builder/src/Console/Command/CheckSplitTestWorkflowCommand.php # 108
+                - packages/monorepo-builder/src/Console/Command/PackageAliasCommand.php # 76
+                - packages/monorepo-builder/src/Console/Command/PropagateCommand.php # 100
