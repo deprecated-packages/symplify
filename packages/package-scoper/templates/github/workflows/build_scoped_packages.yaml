@@ -6,6 +6,10 @@ on:
         branches:
             - master
 
+env:
+    # see https://tomasvotruba.com/blog/2020/10/19/how-to-split-test-monorepo-with-composer-2/
+    COMPOSER_ROOT_VERSION: "dev-master"
+
 jobs:
     build_scoped_packages:
         runs-on: ubuntu-latest
@@ -31,10 +35,6 @@ jobs:
             -   run: vendor/bin/monorepo-builder localize-composer-paths packages/${{ matrix.scoped_package }}/composer.json --ansi
 
             -   run: composer install --working-dir packages/${{ matrix.scoped_package }} --ansi --no-dev
-                env:
-                    # see https://tomasvotruba.com/blog/2020/10/19/how-to-split-test-monorepo-with-composer-2/
-                    COMPOSER_ROOT_VERSION: "dev-master"
-
 
             # 3. scope it
             -   run: vendor/bin/php-scoper add-prefix packages/${{ matrix.scoped_package }} --output-dir packages-scoped/${{ matrix.scoped_package }} --config packages/${{ matrix.scoped_package }}/scoper.inc.php --force --ansi

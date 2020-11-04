@@ -6,6 +6,10 @@ on:
         # https://crontab.guru/#0_0_*_*_* - every day at midnight
         -   cron: '0 0 * * *'
 
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-master"
+
 jobs:
     unused_packages:
         runs-on: ubuntu-latest
@@ -71,16 +75,10 @@ jobs:
             -
                 working-directory: packages/${{ matrix.package_name }}
                 run: composer update --no-progress --ansi
-                env:
-                    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
-                    COMPOSER_ROOT_VERSION: "dev-master"
 
             -
                 working-directory: packages/${{ matrix.package_name }}
                 run: composer require icanhazstring/composer-unused --dev --ansi
-                env:
-                    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
-                    COMPOSER_ROOT_VERSION: "dev-master"
 
             -
                 working-directory: packages/${{ matrix.package_name }}
