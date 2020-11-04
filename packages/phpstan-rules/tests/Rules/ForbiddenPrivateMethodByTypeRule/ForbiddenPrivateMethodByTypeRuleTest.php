@@ -24,7 +24,7 @@ final class ForbiddenPrivateMethodByTypeRuleTest extends AbstractServiceAwareRul
     {
         yield [__DIR__ . '/Fixture/NotConsoleCommand.php', []];
         yield [__DIR__ . '/Fixture/ConsoleCommand.php', [
-            [sprintf(ForbiddenPrivateMethodByTypeRule::ERROR_MESSAGE, Command::class), 11],
+            [sprintf(ForbiddenPrivateMethodByTypeRule::ERROR_MESSAGE, 'foo', Command::class), 11],
         ]];
     }
 
