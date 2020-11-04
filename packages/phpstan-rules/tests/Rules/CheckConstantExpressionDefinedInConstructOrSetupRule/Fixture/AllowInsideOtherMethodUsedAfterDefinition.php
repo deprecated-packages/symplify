@@ -6,11 +6,9 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckParentChildMethodParameterTypeC
 
 class AllowInsideOtherMethodUsedAfterDefinition
 {
-    private const A = 'a';
-
     public function otherMethod()
     {
-        $a = self::A;
+        $a = __DIR__ . '/static.txt';
 
         assert(is_string($a));
     }
