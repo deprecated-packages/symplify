@@ -31,7 +31,9 @@ echo 'content after';
 Or in case of no change at all:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 echo 'just this content';
 ```
@@ -53,6 +55,7 @@ How this package makes it easy to work with them? 2 classes:
 - `Symplify\EasyTesting\StaticFixtureSplitter`
 
 ```php
+
 declare(strict_types=1);
 
 // tests/SomeTest/SomeTest.php
@@ -108,6 +111,7 @@ Compared to formated method, `splitFileInfoToLocalInputAndExpectedFileInfos()` w
 - optionally autoload the first one, e.g. if you need it for Reflection
 
 ```php
+
 declare(strict_types=1);
 
 use Symplify\EasyTesting\StaticFixtureSplitter;
@@ -123,6 +127,7 @@ $inputFileInfoAndExpectedFileInfo = StaticFixtureSplitter::splitFileInfoToLocalI
 By default, the `StaticFixtureFinder` finds only `*.php.inc` files.
 
 ```php
+
 declare(strict_types=1);
 
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
@@ -133,6 +138,7 @@ return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
 In case you use different files, e.g. `*.twig` or `*.md`, change it in 2nd argument:
 
 ```php
+
 declare(strict_types=1);
 
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
@@ -154,6 +160,7 @@ UT=1 vendor/bin/phpunit
 To make this work, we have to add `StaticFixtureUpdater::updateFixtureContent()` call to our test case:
 
 ```php
+
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
@@ -194,7 +201,9 @@ Do you generate large portion of files? Do you want to skip nitpicking tests fil
 Use `assertDirectoryEquals()` method to validate the files and their content is as expected.
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\PHPUnit\Behavior\DirectoryAssertableTrait;

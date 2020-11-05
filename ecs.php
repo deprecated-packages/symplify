@@ -16,6 +16,7 @@ use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
     $services->set(LineLengthFixer::class);
+    $services->set(BlankLineAfterOpeningTagFixer::class);
 
     $parameters = $containerConfigurator->parameters();
 
@@ -50,7 +51,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::SKIP, [
         ArrayDeclarationSniff::class => null,
-        BlankLineAfterOpeningTagFixer::class => null,
         UnaryOperatorSpacesFixer::class => null,
         PhpUnitStrictFixer::class => [
             __DIR__ . '/packages/easy-coding-standard/tests/Indentation/IndentationTest.php',

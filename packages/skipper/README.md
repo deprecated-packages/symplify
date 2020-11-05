@@ -13,6 +13,7 @@ composer require symplify/skipper
 Register bundle in your Kernel:
 
 ```php
+
 declare(strict_types=1);
 
 namespace App;

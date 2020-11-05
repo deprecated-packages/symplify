@@ -11,6 +11,7 @@ composer require symplify/console-color-diff
 Add to `config/bundles.php`:
 
 ```php
+
 declare(strict_types=1);
 
 return [
