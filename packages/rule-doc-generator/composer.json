@@ -1,9 +1,9 @@
 {
-    "name": "symplify/gerudoc",
+    "name": "symplify/rule-doc-generator",
     "description": "Documentation generator for coding standard or static analysis rules",
     "license": "MIT",
     "bin": [
-        "bin/gerudoc"
+        "bin/rule-doc-generator"
     ],
     "require": {
         "php": ">=7.2",
@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\Gerudoc\\": "src"
+            "Symplify\\RuleDocGenerator\\": "src"
         }
     },
     "extra": {

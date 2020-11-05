@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Symplify\Gerudoc\HttpKernel\GerudocKernel;
+use Symplify\RuleDocGenerator\HttpKernel\RuleDocGeneratorKernel;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 # 1. autoload
@@ -22,5 +22,5 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     }
 }
 
-$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(GerudocKernel::class);
+$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(RuleDocGeneratorKernel::class);
 $kernelBootAndApplicationRun->run();

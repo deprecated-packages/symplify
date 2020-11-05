@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\Gerudoc\HttpKernel;
+namespace Symplify\RuleDocGenerator\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class GerudocKernel extends AbstractSymplifyKernel
+final class RuleDocGeneratorKernel extends AbstractSymplifyKernel
 {
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
