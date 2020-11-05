@@ -47,6 +47,20 @@ final class SimpleNameResolver
     }
 
     /**
+     * @param string[] $desiredNames
+     */
+    public function isNames(Node $node, array $desiredNames): bool
+    {
+        foreach ($desiredNames as $desiredName) {
+            if ($this->isName($node, $desiredName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @param string|Node $node
      */
     public function isName($node, string $desiredName): bool

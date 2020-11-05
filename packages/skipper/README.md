@@ -47,10 +47,6 @@ final class AppKernel
 
 @todo test on windows in Github Actions - paths!!!!
 
-```php
-isFileSkipped()
-```
-
 ## Contribute
 
 The sources of this package are contained in the symplify monorepo. We welcome contributions for this package at [symplify/symplify](https://github.com/symplify/symplify).

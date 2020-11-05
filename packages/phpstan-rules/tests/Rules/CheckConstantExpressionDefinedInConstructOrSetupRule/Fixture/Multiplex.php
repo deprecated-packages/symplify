@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\Fixture;
 
-class InsideOtherMethod
+final class Multiplex
 {
-    private const A = 'a';
-
-    public function otherMethod()
+    public function run()
     {
-        $this->a = self::A;
+        $value = __DIR__ . getcwd();
+
+        $value2 = __DIR__;
     }
 }

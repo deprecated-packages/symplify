@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\Fixture;
 
-class FuncCallInConcat
+class SkipPropertySetter
 {
-    public function otherMethod()
+    /**
+     * @var bool
+     */
+    private $isEnabled;
+
+    public function enable()
     {
-        $value = str_repeat('a', 1) . str_repeat('b', 2);
+        $this->isEnabled = true;
     }
 }

@@ -31,7 +31,9 @@ echo 'content after';
 Or in case of no change at all:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 echo 'just this content';
 ```
@@ -194,7 +196,9 @@ Do you generate large portion of files? Do you want to skip nitpicking tests fil
 Use `assertDirectoryEquals()` method to validate the files and their content is as expected.
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\PHPUnit\Behavior\DirectoryAssertableTrait;

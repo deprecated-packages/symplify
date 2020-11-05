@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use PhpParser\ConstExprEvaluationException;
+use PhpParser\ConstExprEvaluator;
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\BinaryOp\Concat;
-use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Scalar;
-use PhpParser\Node\Scalar\MagicConst;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\For_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 /**
@@ -24,16 +26,31 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Constant expression should only defined in __construct() or setUp()';
+    public const ERROR_MESSAGE = 'Constant expression can be only defined in "__construct()" or "setUp()" method';
 
     /**
      * @var NodeFinder
      */
     private $nodeFinder;
 
-    public function __construct(NodeFinder $nodeFinder)
-    {
+    /**
+     * @var ConstExprEvaluator
+     */
+    private $constExprEvaluator;
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(
+        NodeFinder $nodeFinder,
+        SimpleNameResolver $simpleNameResolver,
+        ConstExprEvaluator $constExprEvaluator
+    ) {
         $this->nodeFinder = $nodeFinder;
+        $this->simpleNameResolver = $simpleNameResolver;
+        $this->constExprEvaluator = $constExprEvaluator;
     }
 
     /**
@@ -50,45 +67,42 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
      */
     public function process(Node $node, Scope $scope): array
     {
-        $classMethod = $this->resolveCurrentClassMethod($node);
-        if ($classMethod === null) {
+        if (! $node->var instanceof Variable) {
             return [];
         }
 
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        if ($this->isNotInsideClassMethodDirectly($parent) || $this->isUsedInNextStatement($node, $parent)) {
+        if ($parent instanceof For_) {
             return [];
         }
 
-        if (in_array(strtolower((string) $classMethod->name), ['__construct', 'setup'], true)) {
+        if ($this->isNotInsideClassMethodDirectly($parent)) {
             return [];
         }
 
-        if ($this->isMayNotAllowedConcat($node)) {
-            return [self::ERROR_MESSAGE];
+        if ($this->isUsedInNextStatement($node, $parent)) {
+            return [];
         }
 
-        if (! $node->expr instanceof ClassConstFetch) {
+        if ($this->isInInstatiationClassMethod($node)) {
+            return [];
+        }
+
+        if (! $this->isConstantExpr($node->expr)) {
             return [];
         }
 
         return [self::ERROR_MESSAGE];
     }
 
-    private function isMayNotAllowedConcat(Assign $assign): bool
+    private function isConstantExpr(Expr $expr): bool
     {
-        if ($assign->expr instanceof Concat) {
-            if ($assign->expr->left instanceof Scalar && $assign->expr->right instanceof Scalar) {
-                return true;
-            }
-
-            if ($assign->expr->left instanceof MagicConst && $assign->expr->right instanceof MethodCall) {
-                return false;
-            }
-            return ! (! $assign->expr->left instanceof ClassConstFetch && ! $assign->expr->right instanceof ClassConstFetch);
+        try {
+            $this->constExprEvaluator->evaluateDirectly($expr);
+            return true;
+        } catch (ConstExprEvaluationException $constExprEvaluationException) {
+            return false;
         }
-
-        return false;
     }
 
     private function isNotInsideClassMethodDirectly(Node $node): bool
@@ -121,10 +135,8 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         foreach ($nodes as $node) {
             $parentOfParentNode = $node->getAttribute(PHPStanAttributeKey::PARENT)
                 ->getAttribute(PHPStanAttributeKey::PARENT);
-            if (
-                property_exists($node, 'name')
-                && property_exists($var, 'name')
-                && $node->name === $var->name
+
+            if (property_exists($node, 'name') && property_exists($var, 'name') && $node->name === $var->name
                 && $parentOfParentNode !== $parentOfParentAssignment
                 ) {
                 return true;
@@ -132,5 +144,14 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         }
 
         return false;
+    }
+
+    private function isInInstatiationClassMethod(Assign $assign): bool
+    {
+        $classMethod = $this->resolveCurrentClassMethod($assign);
+        if ($classMethod === null) {
+            return true;
+        }
+        return $this->simpleNameResolver->isNames($classMethod->name, [MethodName::CONSTRUCTOR, MethodName::SET_UP]);
     }
 }

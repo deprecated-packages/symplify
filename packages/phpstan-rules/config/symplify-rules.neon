@@ -333,3 +333,8 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
     - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
+
+    - Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory
+    -
+        class: PhpParser\ConstExprEvaluator
+        factory: ['@Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory', 'create']

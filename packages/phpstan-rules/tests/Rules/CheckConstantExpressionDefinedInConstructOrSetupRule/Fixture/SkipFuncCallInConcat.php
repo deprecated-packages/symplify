@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\Fixture;
 
-class DisallowMagicConstantWithConcatString
+class SkipFuncCallInConcat
 {
-    public function otherMethod()
+    public function otherMethod($value)
     {
-        $variable = __DIR__ . '/static.txt';
+        $value = str_repeat('a', 1) . str_repeat('b', 2);
     }
 }

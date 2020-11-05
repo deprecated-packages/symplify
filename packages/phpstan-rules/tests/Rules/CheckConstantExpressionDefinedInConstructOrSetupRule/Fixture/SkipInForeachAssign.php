@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\Fixture;
 
-class InsideSetup
+class SkipInForeachAssign
 {
-    private const A = 'a';
-
-    public function setUp()
+    public function run()
     {
-        $this->a = self::A;
+        for ($i = 1; $i <= 100; $i++) {
+            continue;
+        }
     }
 }

@@ -15,7 +15,9 @@ composer require symplify/smart-file-system
 The `SplFileInfo::getRealPath()` method returns absolute path to the file... [or `FALSE`, if the file doesn't exist](https://www.php.net/manual/en/splfileinfo.getrealpath.php). This default PHP behavior forces you to **check all `getRealPath()` calls**:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 $fileInfo = new SplFileInfo('non_existing_file.txt');
 
@@ -41,7 +43,9 @@ In reality, **it's very rare to work with file that was existing a while ago, bu
 ### Introducing `SmartFileInfo`
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 $fileInfo = new Symplify\SmartFileSystem\SmartFileInfo('non_existing_file.txt');
 // throws Symplify\SmartFileSystem\Exception\FileNotFoundException
@@ -50,7 +54,9 @@ $fileInfo = new Symplify\SmartFileSystem\SmartFileInfo('non_existing_file.txt');
 This class also bring new useful methods:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 // current directory (cwd()) is "/var/www"
 $smartFileInfo = new Symplify\SmartFileSystem\SmartFileInfo('/var/www/src/ExistingFile.php');
@@ -71,7 +77,9 @@ echo $smartFileInfo->getRelativeFilePathFromDirectory('/var');
 **It also fixes WTF behavior** of `Symfony\Component\Finder\SplFileInfo`. Which one? When you run e.g. `vendor/bin/ecs check src` and use `Finder`, the `getRelativeFilePath()` in Symfony now returns all the relative paths to `src`. Which is useless, mainly with multiple dirs like: `vendor/bin/ecs check src tests` both containing file `Post.php`.
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 $smartFileInfo = new Symplify\SmartFileSystem\SmartFileInfo('/var/www/src/Post.php');
 
@@ -84,7 +92,9 @@ echo $smartFileInfo->getRelativeFilePathFromCwd();
 Last but not least, matching a file comes useful in excluding files (typical for tools like ECS, PHPStan, Psalm, Rector, PHP CS Fixer or PHP_CodeSniffer):
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 $smartFileInfo = new Symplify\SmartFileSystem\SmartFileInfo('/var/www/src/PostRepository.php');
 
@@ -107,6 +117,8 @@ $fileContent = $smartFileSystem->readFile(__DIR__ . '/SomeFile.php');
 ```
 
 ```php
+declare(strict_types=1);
+
 // if you plan to use SmartFileInfo, use this
 $smartFileInfo = $smartFileSystem->readFileToSmartFileInfo(__DIR__ . '/SomeFile.php');
 ```
@@ -116,7 +128,9 @@ $smartFileInfo = $smartFileSystem->readFileToSmartFileInfo(__DIR__ . '/SomeFile.
 Do you have multiple file inputs that can mix-up?
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 $files = [new SplFileInfo('someFile.php')];
 
@@ -148,7 +162,9 @@ foreach ($files as $file) {
 Use sanitized files, that **have united format you can rely on**:
 
 ```php
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 

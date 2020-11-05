@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\Fixture;
 
-class InsideConstruct
+class GetCwdFuncCallInConcat
 {
-    private const A = 'a';
-
-    public function __construct()
+    public function otherMethod()
     {
-        $this->a = self::A;
+        $value = getcwd() . getcwd();
     }
 }

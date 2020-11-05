@@ -26,6 +26,7 @@ jobs:
                 with:
                     # note: use higher PHP if you want, but try to keep it as low as your local composer.json
                     php-version: 7.2
+                    coverage: none
                     tools: composer:v2
 
             -   run: composer install --no-progress --ansi
