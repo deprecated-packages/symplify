@@ -32,6 +32,9 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRuleTest extends Abs
         yield [
             __DIR__ . '/Fixture/DisallowMagicConstantWithConcatString.php',
             [[CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 13]], ];
+        yield [
+            __DIR__ . '/Fixture/DisallowInsideOtherMethodNextDeadCode.php',
+            [[CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 11]], ];
     }
 
     protected function getRule(): Rule
