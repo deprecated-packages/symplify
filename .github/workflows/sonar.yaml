@@ -20,6 +20,7 @@ jobs:
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: 7.2
+                    coverage: none
 
             -   run: composer install --no-progress --ansi
 

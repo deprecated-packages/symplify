@@ -24,6 +24,7 @@ jobs:
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: ${{ matrix.php }}
+                    coverage: none
 
             # composer install cache - https://github.com/ramsey/composer-install
             -   uses: "ramsey/composer-install@v1"

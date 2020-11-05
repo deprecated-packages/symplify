@@ -1,11 +1,3 @@
-name: Prefixed ECS Deploy
-
-on:
-    pull_request: null
-    push:
-        branches:
-            - master
-
 jobs:
     # see https://github.community/t5/GitHub-Actions/How-to-get-just-the-tag-name/m-p/32163/highlight/true#M1024
     get_tag:
@@ -13,71 +5,14 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
             -
-                name: Get the version
                 id: get_tag
+                # see https://github.community/t5/GitHub-Actions/How-to-get-just-the-tag-name/m-p/32163/highlight/true#M1024
                 run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
     ecs_phar_compile:
-        runs-on: ubuntu-latest
-
-        steps:
-            -   uses: actions/checkout@v2
-            -   uses: shivammathur/setup-php@v2
-                with:
-                    php-version: 7.2
-
-            -   run: |
-                    # install
-                    cd packages/easy-coding-standard/compiler
-                    composer install
-            -
-                name: Compile ecs.phar with Box and PHP Scoper
-                run:  |
-                    # compile
-                    cd packages/easy-coding-standard/compiler
-                    bin/compile
-
-            -
-                name: Run ecs.phar
-                run:  |
-                    # remove local vendor, to prevent duplicated content
-                    rm -rf packages/easy-coding-standard/vendor
-                    cd packages/easy-coding-standard
-                    tmp/ecs.phar
-
-            -
-                name: Run ecs.phar with PSR-12 set
-                run:  |
-                    cd packages/easy-coding-standard
-                    # create dummy file
-                    echo "<?php echo 'hi';" >> someFile.php
-                    tmp/ecs.phar check someFile.php --set dead-code
-
-            # Deploy PHAR to https://github.com/symplify/easy-coding-standard-prefixed
             -
                 name: Publish ecs.phar to symplify/easy-coding-standard-prefixed
                 run: |
-                    cd packages/easy-coding-standard
-
-                    # reuse tmp/ecs.phar from previous job
-                    git clone https://${ACCESS_TOKEN}@github.com/Symplify/easy-coding-standard-prefixed.git > /dev/null 2>&1
-
-                    # copy phar files inside cloned repository
-                    cp tmp/ecs.phar easy-coding-standard-prefixed/ecs.phar
-                    cp tmp/ecs.phar easy-coding-standard-prefixed/ecs
-
-                    # go to clone repository
-                    cd easy-coding-standard-prefixed
-                    git config user.name "TomasVotruba"
-                    git config user.email "tomas.vot@gmail.com"
-                    git add ecs ecs.phar
-
-                    # commit with new tag, if this commit is tagged, or with normal commit
-                    if [ "${CURRENT_TAG}" != "" ]; then COMMIT_MESSAGE="ECS ${CURRENT_TAG}"; else COMMIT_MESSAGE="Updated ECS to commit ${GITHUB_SHA}"; fi
-                    git commit -m "${COMMIT_MESSAGE}"
-
-                    git push --quiet origin master
-
                     # push tag, if this commit is tagged, or with normal push
                     if [ "${CURRENT_TAG}" != "" ]; then git tag "${CURRENT_TAG}" && git push --quiet origin ${CURRENT_TAG}; fi
                 env:
