@@ -15,6 +15,7 @@ jobs:
                     - autowire-array-parameter
                     - smart-file-system
                     - package-builder
+                    - package-scoper
                     - easy-coding-standard
                     - easy-coding-standard-tester
                     - composer-json-manipulator
