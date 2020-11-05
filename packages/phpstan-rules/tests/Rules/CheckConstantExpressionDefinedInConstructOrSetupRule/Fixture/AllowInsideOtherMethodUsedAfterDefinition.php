@@ -9,7 +9,11 @@ class AllowInsideOtherMethodUsedAfterDefinition
     public function otherMethod()
     {
         $a = __DIR__ . '/static.txt';
+        $this->run($a);
+    }
 
-        assert(is_string($a));
+    public function run(string $arg)
+    {
+
     }
 }

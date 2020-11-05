@@ -55,9 +55,8 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT)
-            ->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $parent instanceof ClassMethod || $this->isFoundInNextStatement($node)) {
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        if ($this->isNotInsideClassMethodDirectly($parent) || $this->isFoundInNextStatement($node, $parent)) {
             return [];
         }
 
@@ -80,23 +79,24 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         return [self::ERROR_MESSAGE];
     }
 
-    private function isFoundInNextStatement(Assign $assign): bool
+    public function isNotInsideClassMethodDirectly(Node $node): bool
+    {
+        $parentStatement = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        return ! $parentStatement instanceof ClassMethod;
+    }
+
+    private function isFoundInNextStatement(Assign $assign, Node $node): bool
     {
         $var = $assign->var;
-        $next = $assign->getAttribute(PHPStanAttributeKey::PARENT)
-            ->getAttribute(PHPStanAttributeKey::NEXT);
+        $varClass = get_class($var);
+        $next = $node->getAttribute(PHPStanAttributeKey::NEXT);
 
-        if ($next === null) {
-            return false;
-        }
-
-        while (isset($next)) {
-            $var = $this->nodeFinder->findFirst($next, function (Node $node) use ($var): bool {
-                return $node instanceof Variable && $node->name = $var->name;
-            });
-
-            if ($var !== null) {
-                return true;
+        while ($next) {
+            $nextVars = $this->nodeFinder->findInstanceOf($next, $varClass);
+            foreach ($nextVars as $nextVar) {
+                if ($nextVar->name === $var->name) {
+                    return true;
+                }
             }
 
             $next = $next->getAttribute(PHPStanAttributeKey::NEXT);
