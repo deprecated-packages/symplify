@@ -20,7 +20,7 @@ We also need `symplify/monorepo-builder`, so we can work with relative paths of 
 
 ### 1. Generate php-scoper Config
 
-[php-scoper](https://github.com/humbug/php-scoper) is a package that prefixed classes and functions by prefix, so they're unique and don't conflict with same-named class in different version. You can read [the documentation](https://github.com/humbug/php-scoper), or you can generate the config with saint defaults:
+[php-scoper](https://github.com/humbug/php-scoper) is a package that prefixed classes and functions by prefix, so they're unique and don't conflict with same-named class in different version. You can read [the documentation](https://github.com/humbug/php-scoper), or you can generate the config with sain defaults:
 
 ```bash
 vendor/bin/package-scoper generate-php-scoper
@@ -32,7 +32,7 @@ It will create `scoper.inc.php` right in the root of the package. That's the bes
 
 Scoping PHP code with [php-scoper](https://github.com/humbug/php-scoper/) is a just first step. The second is making a `composer.json` with different name than the original package. We got you covered! The following command will:
 
-- update package name to `<origina>-prefixed`
+- update package name to `<original>-prefixed`
 - keep PHP version in `require` section, license and bin files
 - drops the rest
 
@@ -52,7 +52,7 @@ The process without automatization would not be much helpful. That why we have G
 vendor/bin/package-scoper generate-workflow
 ```
 
-Go to your `.github/workflows`, update packages names manually and you're ready to go.
+Go to your `.github/workflows` folder, update packages names manually and you're ready to go.
 
 ### Convention over Configuration in GitHub Action
 
