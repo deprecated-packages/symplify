@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
@@ -64,7 +65,15 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         }
 
         if ($node->expr instanceof Concat) {
+            if ($node->expr->left instanceof Scalar && $node->expr->right instanceof Scalar) {
+                return [self::ERROR_MESSAGE];
+            }
+
             if ($node->expr->left instanceof MagicConst && $node->expr->right instanceof MethodCall) {
+                return [];
+            }
+
+            if (! $node->expr->left instanceof ClassConstFetch && ! $node->expr->right instanceof ClassConstFetch) {
                 return [];
             }
 
