@@ -9,7 +9,6 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
@@ -56,7 +55,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         }
 
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        if ($this->isNotInsideClassMethodDirectly($parent) || $this->isFoundInNextStatement($node, $parent)) {
+        if ($this->isNotInsideClassMethodDirectly($parent) || $this->isUsedInNextStatement($node, $parent)) {
             return [];
         }
 
@@ -85,7 +84,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         return ! $parentStatement instanceof ClassMethod;
     }
 
-    private function isFoundInNextStatement(Assign $assign, Node $node): bool
+    private function isUsedInNextStatement(Assign $assign, Node $node): bool
     {
         $var = $assign->var;
         $varClass = get_class($var);
@@ -94,7 +93,10 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         while ($next) {
             $nextVars = $this->nodeFinder->findInstanceOf($next, $varClass);
             foreach ($nextVars as $nextVar) {
-                if ($nextVar->name === $var->name) {
+                if (property_exists($nextVar, 'name') && property_exists(
+                    $var,
+                    'name'
+                ) && $nextVar->name === $var->name) {
                     return true;
                 }
             }
