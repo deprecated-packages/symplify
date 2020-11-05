@@ -63,8 +63,8 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        if ($node->expr instanceof Concat && $node->expr->left instanceof MagicConst) {
-            if ($node->expr->right instanceof MethodCall) {
+        if ($node->expr instanceof Concat) {
+            if ($node->expr->left instanceof MagicConst && $node->expr->right instanceof MethodCall) {
                 return [];
             }
 
