@@ -1,7 +1,9 @@
 name: Monorepo Split Packages
 
 on:
-    pull_request: null
+    push:
+        branches:
+            - master
 
 jobs:
     monorepo_split_packages:
@@ -10,25 +12,25 @@ jobs:
             fail-fast: false
             matrix:
                 package_name:
-#                    - autowire-array-parameter
-#                    - smart-file-system
-#                    - package-builder
-#                    - easy-coding-standard
-#                    - easy-coding-standard-tester
-#                    - composer-json-manipulator
-#                    - coding-standard
-#                    - changelog-linker
-#                    - monorepo-builder
-#                    - flex-loader
-#                    - autodiscovery
-#                    - set-config-resolver
-#                    - console-color-diff
-#                    - easy-hydrator
-#                    - easy-testing
-#                    - phpstan-extensions
-#                    - symfony-static-dumper
+                    - autowire-array-parameter
+                    - smart-file-system
+                    - package-builder
+                    - easy-coding-standard
+                    - easy-coding-standard-tester
+                    - composer-json-manipulator
+                    - coding-standard
+                    - changelog-linker
+                    - monorepo-builder
+                    - flex-loader
+                    - autodiscovery
+                    - set-config-resolver
+                    - console-color-diff
+                    - easy-hydrator
+                    - easy-testing
+                    - phpstan-extensions
+                    - symfony-static-dumper
                     - skipper
-#                    - phpstan-rules
+                    - phpstan-rules
 
         name: Monorepo Split of ${{ matrix.package_name }}
 
