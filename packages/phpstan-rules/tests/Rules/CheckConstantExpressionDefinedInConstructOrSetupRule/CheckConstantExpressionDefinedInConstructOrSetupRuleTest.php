@@ -26,6 +26,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRuleTest extends Abs
         yield [__DIR__ . '/Fixture/InsideOtherMethodInsideIf.php', []];
         yield [__DIR__ . '/Fixture/AllowMagicConstantWithConcatMethodCall.php', []];
         yield [__DIR__ . '/Fixture/AllowInsideOtherMethodUsedAfterDefinition.php', []];
+        yield [__DIR__ . '/Fixture/FuncCallInConcat.php', []];
 
         yield [
             __DIR__ . '/Fixture/InsideOtherMethod.php',
