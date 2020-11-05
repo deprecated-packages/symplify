@@ -22,7 +22,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 - [Easy Coding Standard](https://github.com/symplify/easy-coding-standard)
 - [Coding Standard](https://github.com/symplify/coding-standard)
-- [PHPStan Extensions](https://github.com/symplify/phpstan-extensions)
+- [Easy Coding Standard Tester](https://github.com/symplify/easy-coding-standard-tester)
 
 ## For Symfony
 
@@ -38,7 +38,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Smart File System](https://github.com/symplify/smart-file-system)
 - [Rule Doc Generator](https://github.com/symplify/rule-doc-generator)
 - [Set Config Resolver](https://github.com/symplify/set-config-resolver)
-- [Easy Coding Standard Tester](https://github.com/symplify/easy-coding-standard-tester)
 - [Skipper](https://github.com/symplify/skipper)
 - [Symplify Kernel](https://github.com/symplify/symplify-kernel)
 - [Package Scoper](https://github.com/symplify/package-scoper)
