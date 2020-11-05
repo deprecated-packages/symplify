@@ -36,10 +36,8 @@ final class ConstExprEvaluatorFactory
                 return get_class($node);
             }
 
-            if ($node instanceof FuncCall) {
-                if ($this->simpleNameResolver->isNames($node->name, ['getcwd'])) {
-                    return get_class($node);
-                }
+            if ($node instanceof FuncCall && $this->simpleNameResolver->isNames($node->name, ['getcwd'])) {
+                return get_class($node);
             }
 
             throw new ConstExprEvaluationException();
@@ -54,7 +52,7 @@ final class ConstExprEvaluatorFactory
         return new ConstExprEvaluator(function ($node) use ($basicConstExprEvaluator) {
             try {
                 return $basicConstExprEvaluator->evaluateDirectly($node);
-            } catch (ConstExprEvaluationException $throwable) {
+            } catch (ConstExprEvaluationException $constExprEvaluationException) {
                 if ($node instanceof Concat) {
                     return $basicConstExprEvaluator->evaluateDirectly(
                         $node->left

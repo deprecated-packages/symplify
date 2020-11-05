@@ -146,17 +146,12 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         return false;
     }
 
-    private function isInInstatiationClassMethod(Assign $node): bool
+    private function isInInstatiationClassMethod(Assign $assign): bool
     {
-        $classMethod = $this->resolveCurrentClassMethod($node);
+        $classMethod = $this->resolveCurrentClassMethod($assign);
         if ($classMethod === null) {
             return true;
         }
-
-        if ($this->simpleNameResolver->isNames($classMethod->name, [MethodName::CONSTRUCTOR, MethodName::SET_UP])) {
-            return true;
-        }
-
-        return false;
+        return $this->simpleNameResolver->isNames($classMethod->name, [MethodName::CONSTRUCTOR, MethodName::SET_UP]);
     }
 }
