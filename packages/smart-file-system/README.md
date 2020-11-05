@@ -117,6 +117,8 @@ $fileContent = $smartFileSystem->readFile(__DIR__ . '/SomeFile.php');
 ```
 
 ```php
+declare(strict_types=1);
+
 // if you plan to use SmartFileInfo, use this
 $smartFileInfo = $smartFileSystem->readFileToSmartFileInfo(__DIR__ . '/SomeFile.php');
 ```
