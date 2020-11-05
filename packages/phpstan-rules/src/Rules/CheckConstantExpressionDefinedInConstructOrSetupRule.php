@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
@@ -63,11 +64,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        if ($node->expr instanceof Concat && $node->expr->left instanceof MagicConst) {
-            if ($node->expr->right instanceof MethodCall) {
-                return [];
-            }
-
+        if ($this->isMayNotAllowedConcat($node)) {
             return [self::ERROR_MESSAGE];
         }
 
@@ -78,7 +75,23 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         return [self::ERROR_MESSAGE];
     }
 
-    public function isNotInsideClassMethodDirectly(Node $node): bool
+    private function isMayNotAllowedConcat(Assign $assign): bool
+    {
+        if ($assign->expr instanceof Concat) {
+            if ($assign->expr->left instanceof Scalar && $assign->expr->right instanceof Scalar) {
+                return true;
+            }
+
+            if ($assign->expr->left instanceof MagicConst && $assign->expr->right instanceof MethodCall) {
+                return false;
+            }
+            return ! (! $assign->expr->left instanceof ClassConstFetch && ! $assign->expr->right instanceof ClassConstFetch);
+        }
+
+        return false;
+    }
+
+    private function isNotInsideClassMethodDirectly(Node $node): bool
     {
         $parentStatement = $node->getAttribute(PHPStanAttributeKey::PARENT);
         return ! $parentStatement instanceof ClassMethod;
