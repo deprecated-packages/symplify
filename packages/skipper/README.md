@@ -13,7 +13,6 @@ composer require symplify/skipper
 Register bundle in your Kernel:
 
 ```php
-
 declare(strict_types=1);
 
 namespace App;
@@ -47,10 +46,6 @@ final class AppKernel
 @todo
 
 @todo test on windows in Github Actions - paths!!!!
-
-```php
-isFileSkipped()
-```
 
 ## Contribute
 

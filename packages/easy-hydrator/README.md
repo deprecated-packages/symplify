@@ -20,7 +20,6 @@ composer require symplify/easy-hydrator
 Add to `config/bundles.php`:
 
 ```php
-
 declare(strict_types=1);
 
 return [
@@ -139,7 +138,6 @@ $person = $this->arrayToValueObjectHydrator->hydrateArray($singlePersonAsArray, 
 But how can we hydrate multiple items?
 
 ```php
-
 declare(strict_types=1);
 
 $manyPersonsAsArray = [];
@@ -168,7 +166,6 @@ $persons = $this->arrayToValueObjectHydrator->hydrateArrays($manyPersonsAsArray,
 If object has optional parameters, and some of their values are not provided in data, default value is used in the hydrated object.
 
 ```php
-
 declare(strict_types=1);
 
 class MyObject

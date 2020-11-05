@@ -49,7 +49,6 @@ vendor/bin/monorepo-builder merge
 Typical location for packages is `/packages`. But what if you have different naming or extra `/projects` directory?
 
 ```php
-
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -133,7 +132,6 @@ This will add alias `3.1-dev` to `composer.json` in each package.
 If you prefer [`3.1.x-dev`](https://getcomposer.org/doc/articles/aliases.md#branch-alias) over default `3.1-dev`, you can configure it:
 
 ```php
-
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -151,7 +149,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 Classic use case for monorepo is to synchronize last tag and the `master` branch to allow testing of `@dev` version.
 
 ```php
-
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -170,7 +167,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 Or even simpler:
 
 ```php
-
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -193,7 +189,6 @@ Do you have non standard directory <=> repository name structure?
 Add `Option::DIRECTORIES_TO_REPOSITORIES_CONVERT_FORMAT`:
 
 ```php
-
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -234,7 +229,6 @@ git init --bare
 Then you can set the target using `file://` prefix for absolute path:
 
 ```php
-
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -298,7 +292,6 @@ There is set of few default release workers - classes that implement `Symplify\M
 You need to register them as services. Feel free to start with default ones:
 
 ```php
-
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;

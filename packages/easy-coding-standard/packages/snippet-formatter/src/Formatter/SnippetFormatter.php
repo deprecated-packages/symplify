@@ -81,7 +81,7 @@ final class SnippetFormatter
                 . str_replace(PHP_EOL, '', $match['closing']);
         }
 
-        return rtrim($match['opening'], PHP_EOL) . PHP_EOL
+        return ltrim($match['opening'], PHP_EOL) . PHP_EOL
             . $this->fixContent($match['content'])
             . ltrim($match['closing'], PHP_EOL);
     }
@@ -121,6 +121,8 @@ final class SnippetFormatter
             $fileContent = substr($fileContent, 6);
         }
 
-        return rtrim($fileContent, PHP_EOL) . PHP_EOL;
+        $fileContent = rtrim($fileContent, PHP_EOL) . PHP_EOL;
+
+        return ltrim($fileContent, PHP_EOL);
     }
 }

@@ -110,7 +110,6 @@ echo $smartFileInfo->doesFnmatch('*Repo*');
 New method - `readFile()` (to read files):
 
 ```php
-
 declare(strict_types=1);
 
 $smartFileSystem = new Symplify\SmartFileSystem\SmartFileSystem();

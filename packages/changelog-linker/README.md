@@ -15,7 +15,6 @@ composer require symplify/changelog-linker --dev
 Create `changelog-linker.php` with configuration:
 
 ```php
-
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -197,7 +196,6 @@ Of course! Give your contributors credit they deserve:
 You can exclude core maintainers, to give external contributors more credit:
 
 ```php
-
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -215,7 +213,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 In Symplify, I need that every `EasyCodingStandard` word leads to `https://github.com/symplify/easy-coding-standard/`.
 
 ```php
-
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -248,7 +245,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 Just add alias to config:
 
 ```php
-
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
