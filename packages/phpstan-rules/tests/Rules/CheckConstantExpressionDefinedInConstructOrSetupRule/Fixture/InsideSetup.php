@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckParentChildMethodParameterTypeCompatibleRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\Fixture;
 
 class InsideSetup
 {
@@ -10,6 +10,6 @@ class InsideSetup
 
     public function setUp()
     {
-        $a = self::A;
+        $this->a = self::A;
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckParentChildMethodParameterTypeCompatibleRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\Fixture;
 
 class AllowMagicConstantWithConcatMethodCall
 {
@@ -10,7 +10,7 @@ class AllowMagicConstantWithConcatMethodCall
 
     public function otherMethod()
     {
-        $a = __DIR__ . $this->getValue();
+        $this->a = __DIR__ . $this->getValue();
     }
 
     private function getValue()

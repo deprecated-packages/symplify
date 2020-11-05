@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckParentChildMethodParameterTypeCompatibleRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\Fixture;
 
 class DisallowMagicConstantWithConcatString
 {
@@ -10,6 +10,6 @@ class DisallowMagicConstantWithConcatString
 
     public function otherMethod()
     {
-        $a = __DIR__ . '/static.txt';
+        $this->a = __DIR__ . '/static.txt';
     }
 }
