@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\Fixture;
 
-class FuncCallInConcat
+final class Multiplex
 {
-    public function otherMethod($value)
+    public function run()
     {
-        $value = str_repeat('a', 1) . str_repeat('b', 2);
+        $value = __DIR__ . getcwd();
+
+        $value2 = __DIR__;
     }
 }

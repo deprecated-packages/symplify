@@ -24,24 +24,41 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRuleTest extends Abs
         yield [__DIR__ . '/Fixture/InsideSetup.php', []];
         yield [__DIR__ . '/Fixture/InsideConstruct.php', []];
         yield [__DIR__ . '/Fixture/InsideOtherMethodInsideIf.php', []];
-        yield [__DIR__ . '/Fixture/AllowMagicConstantWithConcatMethodCall.php', []];
         yield [__DIR__ . '/Fixture/AllowInsideOtherMethodUsedAfterDefinition.php', []];
+        yield [__DIR__ . '/Fixture/AllowMagicConstantWithConcatMethodCall.php', []];
+
         yield [__DIR__ . '/Fixture/FuncCallInConcat.php', []];
 
         yield [
-            __DIR__ . '/Fixture/InsideOtherMethod.php',
-            [[CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 13]], ];
+            __DIR__ . '/Fixture/InsideOtherMethod.php', [
+                [CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 13],
+            ], ];
 
         yield [
             __DIR__ . '/Fixture/StringIntConcat.php',
-            [[CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 11]], ];
+            [
+                [CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 11],
+                [CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 13],
+            ],
+        ];
 
         yield [
             __DIR__ . '/Fixture/DisallowMagicConstantWithConcatString.php',
-            [[CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 13]], ];
+            [[CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 13]],
+        ];
+
         yield [
             __DIR__ . '/Fixture/DisallowInsideOtherMethodNextDeadCode.php',
-            [[CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 11]], ];
+            [[CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 11]],
+        ];
+
+        yield [
+            __DIR__ . '/Fixture/Multiplex.php',
+            [
+                [CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 11],
+                [CheckConstantExpressionDefinedInConstructOrSetupRule::ERROR_MESSAGE, 13],
+            ],
+        ];
     }
 
     protected function getRule(): Rule
