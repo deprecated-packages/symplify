@@ -340,3 +340,8 @@ parameters:
                 - packages/monorepo-builder/src/Console/Command/CheckSplitTestWorkflowCommand.php # 108
                 - packages/monorepo-builder/src/Console/Command/PackageAliasCommand.php # 76
                 - packages/monorepo-builder/src/Console/Command/PropagateCommand.php # 100
+
+        # false positives
+        - '#Constant Symplify\\ChangelogLinker\\Tests\\ChangeTree\\ChangeFactory\\ChangeFactoryTest\:\:PULL_REQUEST is unused#'
+        - '#Property Symplify\\ChangelogLinker\\Tests\\ChangelogDumper\\WithTagsTest\:\:\$changes is never read, only written#'
+        - '#Property Symplify\\ChangelogLinker\\Tests\\ChangelogDumper\\WithTagsTest\:\:\$changelogDumper is never read, only written#'
