@@ -36,7 +36,8 @@ final class WithTagsTest extends AbstractKernelTestCase
 
         $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, false, false, 'categories');
 
-        $this->assertStringEqualsFile(__DIR__ . '/WithTagsSource/expected1.md', $content);
+        $expectedFile = __DIR__ . '/WithTagsSource/expected1.md';
+        $this->assertStringEqualsFile($expectedFile, $content);
     }
 
     /**
