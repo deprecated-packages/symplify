@@ -85,12 +85,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             if ($assign->expr->left instanceof MagicConst && $assign->expr->right instanceof MethodCall) {
                 return false;
             }
-
-            if (! $assign->expr->left instanceof ClassConstFetch && ! $assign->expr->right instanceof ClassConstFetch) {
-                return false;
-            }
-
-            return true;
+            return ! (! $assign->expr->left instanceof ClassConstFetch && ! $assign->expr->right instanceof ClassConstFetch);
         }
 
         return false;
