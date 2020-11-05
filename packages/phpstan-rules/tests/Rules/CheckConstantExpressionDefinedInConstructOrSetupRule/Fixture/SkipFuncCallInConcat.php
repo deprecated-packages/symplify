@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\Fixture;
 
-class InsideSetup
+class SkipFuncCallInConcat
 {
-    private const A = 'a';
-
-    public function setUp()
+    public function otherMethod($value)
     {
-        $this->a = self::A;
+        $value = str_repeat('a', 1) . str_repeat('b', 2);
     }
 }

@@ -9,7 +9,9 @@ use PhpParser\ConstExprEvaluator;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\For_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
@@ -65,12 +67,15 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
      */
     public function process(Node $node, Scope $scope): array
     {
-        $classMethod = $this->resolveCurrentClassMethod($node);
-        if ($classMethod === null) {
+        if (! $node->var instanceof Variable) {
             return [];
         }
 
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        if ($parent instanceof For_) {
+            return [];
+        }
+
         if ($this->isNotInsideClassMethodDirectly($parent)) {
             return [];
         }
@@ -79,7 +84,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        if ($this->simpleNameResolver->isNames($classMethod->name, [MethodName::CONSTRUCTOR, MethodName::SET_UP])) {
+        if ($this->isInInstatiationClassMethod($node)) {
             return [];
         }
 
@@ -136,6 +141,20 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
                 ) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    private function isInInstatiationClassMethod(Assign $node): bool
+    {
+        $classMethod = $this->resolveCurrentClassMethod($node);
+        if ($classMethod === null) {
+            return true;
+        }
+
+        if ($this->simpleNameResolver->isNames($classMethod->name, [MethodName::CONSTRUCTOR, MethodName::SET_UP])) {
+            return true;
         }
 
         return false;

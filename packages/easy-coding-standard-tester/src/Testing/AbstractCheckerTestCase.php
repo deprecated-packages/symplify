@@ -25,6 +25,14 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 {
     /**
+     * @var string[]
+     */
+    private const POSSIBLE_CODE_SNIFFER_AUTOLOAD_PATHS = [
+        __DIR__ . '/../../../../../vendor/squizlabs/php_codesniffer/autoload.php',
+        __DIR__ . '/../../../../vendor/squizlabs/php_codesniffer/autoload.php',
+    ];
+
+    /**
      * @var YamlToPhpConverter|null
      */
     private static $yamlToPhpConverter;
@@ -205,17 +213,12 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
     private function autoloadCodeSniffer(): void
     {
-        $possibleAutoloadPaths = [
-            __DIR__ . '/../../../../../vendor/squizlabs/php_codesniffer/autoload.php',
-            __DIR__ . '/../../../../vendor/squizlabs/php_codesniffer/autoload.php',
-        ];
-
-        foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
-            if (! file_exists($possibleAutoloadPath)) {
+        foreach (self::POSSIBLE_CODE_SNIFFER_AUTOLOAD_PATHS as $possibleCodeSnifferAutoloadPath) {
+            if (! file_exists($possibleCodeSnifferAutoloadPath)) {
                 continue;
             }
 
-            require_once $possibleAutoloadPath;
+            require_once $possibleCodeSnifferAutoloadPath;
             return;
         }
     }

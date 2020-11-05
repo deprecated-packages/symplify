@@ -44,6 +44,12 @@ final class ConstExprEvaluatorFactory
             throw new ConstExprEvaluationException();
         });
 
+        return $this->createConcatAwareConstExprEvaluator($basicConstExprEvaluator);
+    }
+
+    private function createConcatAwareConstExprEvaluator(
+        ConstExprEvaluator $basicConstExprEvaluator
+    ): ConstExprEvaluator {
         return new ConstExprEvaluator(function ($node) use ($basicConstExprEvaluator) {
             try {
                 return $basicConstExprEvaluator->evaluateDirectly($node);

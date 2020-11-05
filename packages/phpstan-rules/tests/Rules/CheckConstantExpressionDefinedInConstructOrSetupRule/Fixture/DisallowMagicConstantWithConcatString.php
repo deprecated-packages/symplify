@@ -6,10 +6,8 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInCons
 
 class DisallowMagicConstantWithConcatString
 {
-    private const A = 'a';
-
     public function otherMethod()
     {
-        $this->a = __DIR__ . '/static.txt';
+        $variable = __DIR__ . '/static.txt';
     }
 }

@@ -22,6 +22,11 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
     public const ERROR_MESSAGE = 'Method or Static call in foreach is not allowed.';
 
     /**
+     * @var string[]
+     */
+    private const EXPRESSION_CLASS_TYPES = [MethodCall::class, StaticCall::class];
+
+    /**
      * @var NodeFinder
      */
     private $nodeFinder;
@@ -45,11 +50,9 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
      */
     public function process(Node $node, Scope $scope): array
     {
-        $expressionClasses = [MethodCall::class, StaticCall::class];
-
-        foreach ($expressionClasses as $expressionClass) {
+        foreach (self::EXPRESSION_CLASS_TYPES as $expressionClassType) {
             /** @var MethodCall[]|StaticCall[] $calls */
-            $calls = $this->nodeFinder->findInstanceOf($node->expr, $expressionClass);
+            $calls = $this->nodeFinder->findInstanceOf($node->expr, $expressionClassType);
             $isHasArgs = $this->isHasArgs($calls);
 
             if (! $isHasArgs) {
