@@ -94,7 +94,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             $nextVars = $this->nodeFinder->findInstanceOf($next, $varClass);
             foreach ($nextVars as $nextVar) {
                 $parent = $nextVar->getAttribute(PHPStanAttributeKey::PARENT)
-                                  ->getAttribute(PHPStanAttributeKey::PARENT);
+                    ->getAttribute(PHPStanAttributeKey::PARENT);
                 if (
                     property_exists($nextVar, 'name')
                     && property_exists($var, 'name')
