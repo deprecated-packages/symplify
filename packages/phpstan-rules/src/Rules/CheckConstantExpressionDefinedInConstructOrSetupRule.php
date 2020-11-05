@@ -64,19 +64,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        if ($node->expr instanceof Concat) {
-            if ($node->expr->left instanceof Scalar && $node->expr->right instanceof Scalar) {
-                return [self::ERROR_MESSAGE];
-            }
-
-            if ($node->expr->left instanceof MagicConst && $node->expr->right instanceof MethodCall) {
-                return [];
-            }
-
-            if (! $node->expr->left instanceof ClassConstFetch && ! $node->expr->right instanceof ClassConstFetch) {
-                return [];
-            }
-
+        if ($this->isMayNotAllowedConcat($node)) {
             return [self::ERROR_MESSAGE];
         }
 
@@ -87,7 +75,28 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
         return [self::ERROR_MESSAGE];
     }
 
-    public function isNotInsideClassMethodDirectly(Node $node): bool
+    private function isMayNotAllowedConcat(Assign $assign): bool
+    {
+        if ($assign->expr instanceof Concat) {
+            if ($assign->expr->left instanceof Scalar && $assign->expr->right instanceof Scalar) {
+                return true;
+            }
+
+            if ($assign->expr->left instanceof MagicConst && $assign->expr->right instanceof MethodCall) {
+                return false;
+            }
+
+            if (! $assign->expr->left instanceof ClassConstFetch && ! $assign->expr->right instanceof ClassConstFetch) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isNotInsideClassMethodDirectly(Node $node): bool
     {
         $parentStatement = $node->getAttribute(PHPStanAttributeKey::PARENT);
         return ! $parentStatement instanceof ClassMethod;
