@@ -41,6 +41,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Easy Coding Standard Tester](https://github.com/symplify/easy-coding-standard-tester)
 - [Skipper](https://github.com/symplify/skipper)
 - [Symplify Kernel](https://github.com/symplify/symplify-kernel)
+- [Package Scoper](https://github.com/symplify/package-scoper)
 
 ## For Any Developers
 
@@ -49,6 +50,11 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Composer Json Manipulator](https://github.com/symplify/composer-json-manipulator)
 - [Symfony Static Dumper](https://github.com/symplify/symfony-static-dumper)
 - [Console Color Diff](https://github.com/symplify/console-color-diff)
+
+## PHPStan
+
+- [PHPStan Extensions](https://github.com/symplify/phpstan-extensions)
+- [PHPStan Rules](https://github.com/symplify/phpstan-rules)
 
 <br>
 
