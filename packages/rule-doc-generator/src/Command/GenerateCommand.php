@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\Gerudoc\Command;
+namespace Symplify\RuleDocGenerator\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
