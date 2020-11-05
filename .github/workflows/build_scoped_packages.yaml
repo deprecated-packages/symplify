@@ -45,7 +45,7 @@ jobs:
 
             # 3. run it
             -   run: chmod 777 ./packages-scoped/${{ matrix.scoped_package.directory }}/bin/${{ matrix.scoped_package.binary_file_name }}
-            -   run: packages-scoped/${{ matrix.scoped_package.directory }}/bin/${{ matrix.scoped_package.binary_file_name }} --ansi
+            #-   run: packages-scoped/${{ matrix.scoped_package.directory }}/bin/${{ matrix.scoped_package.binary_file_name }} --ansi
 
             # 4. publish it to remote repository
             # see https://github.com/cpina/github-action-push-to-another-repository
