@@ -11,8 +11,9 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
-use Symfony\Component\Process\Process;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoNewOutsideFactoryRule\NoNewOutsideFactoryRuleTest
@@ -22,12 +23,12 @@ final class NoNewOutsideFactoryRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use decouled factory service to create "%s" object';
+    public const ERROR_MESSAGE = 'Use decoupled factory service to create "%s" object';
 
     /**
      * @var string[]
      */
-    private const ALLOWED_CLASSES = ['*FileInfo', '*\Node\*', Token::class];
+    private const ALLOWED_CLASSES = ['*FileInfo', '*\Node\*', Token::class, '*Reflection', 'Reflection*'];
 
     /**
      * @var ArrayStringAndFnMatcher
@@ -99,6 +100,34 @@ final class NoNewOutsideFactoryRule extends AbstractSymplifyRule
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $newClassName);
         return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    public function run()
+    {
+        return new SomeValueObject();
+    }
+}
+
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class SomeFactory
+{
+    public function create()
+    {
+        return new SomeValueObject();
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isLocatedInCorrectlyNamedClass(Scope $scope): bool

@@ -16,6 +16,8 @@ use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoReferenceRule\NoReferenceRuleTest
@@ -72,6 +74,32 @@ final class NoReferenceRule extends AbstractSymplifyRule
         $errorMessages = array_merge($errorMessages, $paramErrorMessage);
 
         return array_unique($errorMessages);
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run(&$value)
+    {
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run($value)
+    {
+        return $value;
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     /**

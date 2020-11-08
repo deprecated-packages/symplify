@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory\Resolver;
 
 use Iterator;
-use Symplify\ChangelogLinker\Configuration\Category;
 use Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory\AbstractChangeFactoryTest;
+use Symplify\ChangelogLinker\ValueObject\Category;
 
 final class CategoryResolverTest extends AbstractChangeFactoryTest
 {

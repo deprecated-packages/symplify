@@ -8,6 +8,10 @@ use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\ForbiddenConstructorDependencyByTypeRuleTest
@@ -17,7 +21,7 @@ final class ForbiddenConstructorDependencyByTypeRule extends AbstractSymplifyRul
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Object instance of %s is forbidden to be passed to constructor';
+    public const ERROR_MESSAGE = 'Object instance of "%s" is forbidden to be passed to constructor';
 
     /**
      * @var string[]
@@ -25,11 +29,17 @@ final class ForbiddenConstructorDependencyByTypeRule extends AbstractSymplifyRul
     private $forbiddenTypes = [];
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @param string[] $forbiddenTypes
      */
-    public function __construct(array $forbiddenTypes = [])
+    public function __construct(SimpleNameResolver $simpleNameResolver, array $forbiddenTypes = [])
     {
         $this->forbiddenTypes = $forbiddenTypes;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -50,8 +60,7 @@ final class ForbiddenConstructorDependencyByTypeRule extends AbstractSymplifyRul
             return [];
         }
 
-        $methodName = (string) $node->name;
-        if ($methodName !== '__construct') {
+        if (! $this->simpleNameResolver->isName($node->name, MethodName::CONSTRUCTOR)) {
             return [];
         }
 
@@ -71,6 +80,24 @@ final class ForbiddenConstructorDependencyByTypeRule extends AbstractSymplifyRul
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+
+CODE_SAMPLE
+                ,
+                [
+                    'forbiddenTypes' => ['EntityManager'],
+                ]
+            ),
+        ]);
     }
 
     private function getForbiddenType(string $paramType): ?string

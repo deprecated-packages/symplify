@@ -26,7 +26,7 @@ final class RequireMethodCallArgumentConstantRuleTest extends AbstractServiceAwa
         yield [__DIR__ . '/Fixture/SymfonyPHPConfigParameterSetter.php', [[$errorMessage, 14]]];
 
         yield [__DIR__ . '/Fixture/NestedNode.php', [[$errorMessage, 14], [$errorMessage, 19]]];
-        yield [__DIR__ . '/Fixture/IntersetionNode.php', [[$errorMessage, 17]]];
+        yield [__DIR__ . '/Fixture/IntersectionNode.php', [[$errorMessage, 17]]];
 
         yield [__DIR__ . '/Fixture/WithConstant.php', []];
         yield [__DIR__ . '/Fixture/SkipWithVariable.php', []];

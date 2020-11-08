@@ -6,11 +6,13 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireThisOnParentMethodCallRule\RequireThisOnParentMethodCallRuleTest
@@ -20,7 +22,17 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use $this-> on parent method call unless in the same named method';
+    public const ERROR_MESSAGE = 'Use "$this-><method>()" instead of "parent::<method>()" unless in the same named method';
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
 
     /**
      * @return string[]
@@ -40,8 +52,7 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        $isParentCall = $node->class->parts[0] === 'parent';
-        if (! $isParentCall) {
+        if (! $this->simpleNameResolver->isName($node->class, 'parent')) {
             return [];
         }
 
@@ -50,20 +61,32 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var Identifier $classMethodIdentifier */
-        $classMethodIdentifier = $classMethod->name;
-        /** @var Identifier $staticCallIdentifier */
-        $staticCallIdentifier = $node->name;
-
-        if ((string) $classMethodIdentifier === (string) $staticCallIdentifier) {
+        if ($this->simpleNameResolver->areNamesEqual($classMethod->name, $node->name)) {
             return [];
         }
 
-        if ($this->isMethodNameExistsInCurrentClass($classMethod, (string) $staticCallIdentifier)) {
+        /** @var string $staticCallMethodName */
+        $staticCallMethodName = $this->simpleNameResolver->getName($node->name);
+        if ($this->isMethodNameExistsInCurrentClass($classMethod, $staticCallMethodName)) {
             return [];
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isMethodNameExistsInCurrentClass(ClassMethod $classMethod, string $methodName): bool

@@ -7,7 +7,7 @@ namespace Symplify\MonorepoBuilder\Split\Tests\Configuration;
 use Iterator;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class RepositoryGuardTest extends AbstractKernelTestCase
 {

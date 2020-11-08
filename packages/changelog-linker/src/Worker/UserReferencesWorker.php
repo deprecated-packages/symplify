@@ -7,7 +7,7 @@ namespace Symplify\ChangelogLinker\Worker;
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
-use Symplify\ChangelogLinker\Regex\RegexPattern;
+use Symplify\ChangelogLinker\ValueObject\RegexPattern;
 
 /**
  * Completes link to @user mentions
@@ -26,7 +26,7 @@ final class UserReferencesWorker implements WorkerInterface
 
     public function processContent(string $content): string
     {
-        $matches = Strings::matchAll($content, '#\[' . RegexPattern::USER . '\]#');
+        $matches = Strings::matchAll($content, '#\[' . RegexPattern::USER_REGEX . '\]#');
         foreach ($matches as $match) {
             if ($this->shouldSkip($match)) {
                 continue;

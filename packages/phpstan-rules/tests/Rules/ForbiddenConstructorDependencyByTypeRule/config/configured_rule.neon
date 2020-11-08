@@ -5,3 +5,5 @@ services:
         arguments:
             forbiddenTypes:
                 - Psr\Container\ContainerInterface
+
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver

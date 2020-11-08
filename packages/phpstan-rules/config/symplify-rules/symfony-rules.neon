@@ -4,9 +4,9 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule
+        class: Symplify\PHPStanRules\Rules\NoTraitExceptRequiredAutowireRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule
+        class: Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule
         tags: [phpstan.rules.rule]

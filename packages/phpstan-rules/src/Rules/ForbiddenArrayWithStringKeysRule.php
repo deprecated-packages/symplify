@@ -19,6 +19,8 @@ use PHPStan\Type\ArrayType;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayWithStringKeysRule\ForbiddenArrayWithStringKeysRuleTest
@@ -75,6 +77,37 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+
+final class SomeClass
+{
+    public function run()
+    {
+        return [
+            'name' => 'John',
+            'surname' => 'Dope',
+        ];
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    public function run()
+    {
+        return new Person('John', 'Dope');
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function shouldSkipArray(Array_ $array, Scope $scope): bool

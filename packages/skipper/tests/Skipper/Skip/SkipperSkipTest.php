@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\Skipper\Tests\Skipper\Skip;
 
 use Iterator;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\Skipper\HttpKernel\SkipperKernel;
 use Symplify\Skipper\Skipper\Skipper;
 use Symplify\Skipper\Tests\Skipper\Skip\Source\AnotherClassToSkip;

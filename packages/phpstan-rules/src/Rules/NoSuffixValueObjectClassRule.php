@@ -10,6 +10,8 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\Regex;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoSuffixValueObjectClassRule\NoSuffixValueObjectClassRuleTest
@@ -19,7 +21,7 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR = 'Value Object class name "%s" must be withotu "ValueObject" suffix. The correct class name is "%s".';
+    public const ERROR_MESSAGE = 'Value Object class name "%s" must be withotu "ValueObject" suffix. The correct class name is "%s".';
 
     /**
      * @see https://regex101.com/r/3jsBnt/1
@@ -61,9 +63,36 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
 
         $shortClassName = (string) $node->name;
         $expectedShortClassName = Strings::replace($shortClassName, self::VALUE_OBJECT_SUFFIX_REGEX, '');
-        $errorMessage = sprintf(self::ERROR, $shortClassName, $expectedShortClassName);
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $shortClassName, $expectedShortClassName);
 
         return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeValueObject
+{
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class Some
+{
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function hasValueObjectNamespace(string $fullyQualifiedClassName): bool

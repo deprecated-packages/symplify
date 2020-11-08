@@ -12,6 +12,8 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
 use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoContainerInjectionInConstructorRule\NoContainerInjectionInConstructorRuleTest
@@ -60,6 +62,33 @@ final class NoContainerInjectionInConstructorRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function __construct(ContainerInterface $container)
+    {
+        $this->someDependency = $container->get('...');
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function __construct(SomeDependency $someDependency)
+    {
+        $this->someDependency = $someDependency;
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isInConstructMethod(Scope $scope): bool

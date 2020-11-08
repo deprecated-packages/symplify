@@ -9,6 +9,8 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Include_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenReturnValueOfIncludeOnceRule\ForbiddenReturnValueOfIncludeOnceRuleTest
@@ -42,6 +44,33 @@ final class ForbiddenReturnValueOfIncludeOnceRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run()
+    {
+        return require_once 'Test.php';
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run()
+    {
+        require_once 'Test.php';
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     /**

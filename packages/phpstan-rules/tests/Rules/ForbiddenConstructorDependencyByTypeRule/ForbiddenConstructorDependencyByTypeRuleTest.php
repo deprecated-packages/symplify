@@ -27,7 +27,7 @@ final class ForbiddenConstructorDependencyByTypeRuleTest extends AbstractService
     {
         yield [__DIR__ . '/Fixture/SkipNoConstruct.php', []];
         yield [__DIR__ . '/Fixture/SkipNoConstructParameter.php', []];
-        yield [__DIR__ . '/Fixture/PassContainertoConstructorParameter.php', [
+        yield [__DIR__ . '/Fixture/PassContainerToConstructorParameter.php', [
             [sprintf(ForbiddenConstructorDependencyByTypeRule::ERROR_MESSAGE, ContainerInterface::class), 9],
         ],
         ];

@@ -13,12 +13,17 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use SplFileInfo;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\PreferredClassRuleTest
  */
-final class PreferredClassRule extends AbstractSymplifyRule
+final class PreferredClassRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -31,11 +36,11 @@ final class PreferredClassRule extends AbstractSymplifyRule
     private $oldToPrefferedClasses = [];
 
     /**
-     * @param string[] $oldToPrefferedClasses
+     * @param string[] $oldToPreferredClasses
      */
-    public function __construct(array $oldToPrefferedClasses)
+    public function __construct(array $oldToPreferredClasses)
     {
-        $this->oldToPrefferedClasses = $oldToPrefferedClasses;
+        $this->oldToPrefferedClasses = $oldToPreferredClasses;
     }
 
     /**
@@ -65,6 +70,41 @@ final class PreferredClassRule extends AbstractSymplifyRule
         }
 
         return $this->processClassName($node->toString(), $node, $scope);
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run()
+    {
+        return new SplFileInfo('...');
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+use Symplify\SmartFileSystem\SmartFileInfo;
+
+class SomeClass
+{
+    public function run()
+    {
+        return new SmartFileInfo('...');
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'oldToPreferredClasses' => [
+                        SplFileInfo::class => SmartFileInfo::class,
+                    ],
+                ]
+            ),
+        ]);
     }
 
     /**

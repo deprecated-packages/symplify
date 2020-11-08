@@ -9,6 +9,8 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\StaticCall;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RegexSuffixInRegexConstantRule\RegexSuffixInRegexConstantRuleTest
@@ -36,6 +38,37 @@ final class RegexSuffixInRegexConstantRule extends AbstractRegexRule
     {
         $secondArgValue = $staticCall->args[1]->value;
         return $this->processConstantName($secondArgValue);
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public const SOME_NAME = '#some\s+name#';
+
+    public function run($value)
+    {
+        $somePath = preg_match(self::SOME_NAME, $value);
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public const SOME_NAME_REGEX = '#some\s+name#';
+
+    public function run($value)
+    {
+        $somePath = preg_match(self::SOME_NAME_REGEX, $value);
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     /**

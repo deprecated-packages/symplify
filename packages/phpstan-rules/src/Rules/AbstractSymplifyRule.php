@@ -6,14 +6,19 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
+use ReflectionClass;
 use Symplify\PHPStanRules\Contract\ManyNodeRuleInterface;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 
-abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface
+abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, DocumentedRuleInterface
 {
     public function getShortClassName(Scope $scope): ?string
     {
@@ -23,25 +28,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface
         }
 
         return $this->resolveShortName($className);
-    }
-
-    public function getClassName(Scope $scope): ?string
-    {
-        if ($scope->isInTrait()) {
-            $traitReflection = $scope->getTraitReflection();
-            if ($traitReflection === null) {
-                return null;
-            }
-
-            return $traitReflection->getName();
-        }
-
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
-            return null;
-        }
-
-        return $classReflection->getName();
     }
 
     public function getNodeType(): string
@@ -78,6 +64,10 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface
 
     public function resolveCurrentClass(Node $node): ?Class_
     {
+        if ($node instanceof Class_) {
+            return $node;
+        }
+
         $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
         while ($class) {
             if ($class instanceof Class_) {
@@ -116,6 +106,65 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface
         }
 
         return null;
+    }
+
+    protected function getClassName(Scope $scope): ?string
+    {
+        if ($scope->isInTrait()) {
+            $traitReflection = $scope->getTraitReflection();
+            if ($traitReflection === null) {
+                return null;
+            }
+
+            return $traitReflection->getName();
+        }
+
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return null;
+        }
+
+        return $classReflection->getName();
+    }
+
+    protected function isInDirectoryNamed(Scope $scope, string $directoryName): bool
+    {
+        return Strings::contains($scope->getFile(), DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR);
+    }
+
+    protected function containsNamespace(Namespace_ $namespace, string $part): bool
+    {
+        if ($namespace->name === null) {
+            return false;
+        }
+
+        return in_array($part, $namespace->name->parts, true);
+    }
+
+    protected function doesMethodExistInTraits(Class_ $class, string $methodName): bool
+    {
+        /** @var Identifier $name */
+        $name = $class->namespacedName;
+        $usedTraits = class_uses($name->toString());
+
+        foreach ($usedTraits as $trait) {
+            $reflectionClass = new ReflectionClass($trait);
+            if ($reflectionClass->hasMethod($methodName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected function isInClassMethodNamed(Scope $scope, string $methodName): bool
+    {
+        $reflectionFunction = $scope->getFunction();
+        if (! $reflectionFunction instanceof MethodReflection) {
+            return false;
+        }
+
+        return $reflectionFunction->getName() === $methodName;
     }
 
     private function shouldSkipNode(Node $node): bool

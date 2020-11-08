@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
+use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Kernel;
@@ -18,6 +19,8 @@ use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 use Symplify\FlexLoader\Flex\FlexLoader;
 use Symplify\PHPStanRules\Types\ScalarTypeAnalyser;
 use Symplify\PHPStanRules\VariableAsParamAnalyser;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Throwable;
 
 /**
@@ -50,6 +53,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractSymplifyRul
         Discovery::class,
         AutodiscoveryFinder::class,
         Extension::class,
+        Application::class,
     ];
 
     /**
@@ -108,6 +112,43 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractSymplifyRul
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    /**
+     * @var string
+     */
+    private $outputDirectory;
+
+    public function __construct(string $outputDirectory)
+    {
+        $this->outputDirectory = $outputDirectory;
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    /**
+     * @var string
+     */
+    private $outputDirectory;
+
+    public function __construct(ParameterProvider $parameterProvider)
+    {
+        $this->outputDirectory = $parameterProvider->getStringParam(...);
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isValueObjectNamespace(Scope $scope): bool

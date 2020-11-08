@@ -21,7 +21,7 @@ final class NoParticularNodeRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
-        $errorMessage = sprintf(NoParticularNodeRule::ERROR_MESSAGE, 'empty');
+        $errorMessage = sprintf(NoParticularNodeRule::ERROR_MESSAGE, 'empty($value)');
         yield [__DIR__ . '/Fixture/EmptyCall.php', [[$errorMessage, 11]]];
     }
 

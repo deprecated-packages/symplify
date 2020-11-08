@@ -9,11 +9,15 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNewInMethodRule\ForbiddenNewInMethodRuleTest
  */
-final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
+final class ForbiddenNewInMethodRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -72,6 +76,43 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+use PHPStan\Rules\Rule;
+
+class SomeRule implements Rule
+{
+    protected function getRule(): Rule
+    {
+        return new SomeRule();
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+use PHPStan\Rules\Rule;
+
+class SomeRule implements Rule
+{
+    protected function getRule(): Rule
+    {
+        return $this->getService(SomeRule::class);
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'forbiddenClassMethods' => [
+                        Rule::class => ['getRule'],
+                    ],
+                ]
+            ),
+        ]);
     }
 
     private function hasNewInside(ClassMethod $classMethod): bool

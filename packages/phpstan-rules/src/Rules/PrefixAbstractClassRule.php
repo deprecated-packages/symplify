@@ -9,6 +9,8 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\Broker;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PrefixAbstractClassRule\PrefixAbstractClassRuleTest
@@ -60,5 +62,24 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
         }
 
         return [sprintf(self::ERROR_MESSAGE, $shortClassName)];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+abstract class SomeClass
+{
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+abstract class AbstractSomeClass
+{
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

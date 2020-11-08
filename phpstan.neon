@@ -98,7 +98,7 @@ parameters:
         - '#Cannot cast array<string\>\|bool\|string to string#'
 
         # known values
-        - '#Static property Symplify\\PackageBuilder\\Tests\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
+        - '#Static property Symplify\\PackageBuilder\\Testing\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
 
         # false positive
         - '#Unreachable statement \- code above always terminates#'
@@ -225,16 +225,6 @@ parameters:
                 - packages/smart-file-system/src/SmartFileInfo.php # 122
 
         -
-            message: '#"Tests" namespace \(Symplify\\PackageBuilder\\Tests\) used outside of "tests" directory \(packages/package\-builder/src/Tests/AbstractKernelTestCase\.php\)#'
-            paths:
-                - packages/package-builder/src/Tests/AbstractKernelTestCase.php
-
-#        -
-#            message: '#Use "Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\)" static call over "file_get_contents\(\)" func call#'
-#            paths:
-#                - packages/smart-file-system/src/SmartFileSystem.php
-
-        -
            message: '#Use explicit return value over magic &reference#'
            paths:
                - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
@@ -345,3 +335,27 @@ parameters:
         - '#Constant Symplify\\ChangelogLinker\\Tests\\ChangeTree\\ChangeFactory\\ChangeFactoryTest\:\:PULL_REQUEST is unused#'
         - '#Property Symplify\\ChangelogLinker\\Tests\\ChangelogDumper\\WithTagsTest\:\:\$changes is never read, only written#'
         - '#Property Symplify\\ChangelogLinker\\Tests\\ChangelogDumper\\WithTagsTest\:\:\$changelogDumper is never read, only written#'
+
+        # solve later
+        - '#Private method in is not allowed here \- it should only delegate to others\. Decouple the private method to a new service class#'
+        - '#Constant string value need to only have small letters, _, \-, \. and numbers#'
+        # use rector rule for this
+        - '#Method nor static call in if \(\) or elseif \(\) is not allowed\. Extract expression to a new variable assign on line before#'
+        - '#Use decoupled factory service to create "Symplify\\EasyTesting\\ValueObject\\InputAndExpected" object#'
+
+        -
+            message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
+            paths:
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 25
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
+
+        -
+            message: '#SymfonyStyle usage is unneeded for only newline, write, and/or writeln, use PHP_EOL and concatenation instead#'
+            paths:
+                - packages/console-color-diff/src/Console/Output/ConsoleDiffer.php # 11
+                - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php # 18
+
+        - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
+        - '#Class "Symplify\\PackageBuilder\\Console\\Command\\CommandNaming" with static method must have "Static" in its name it explicit#'

@@ -7,7 +7,7 @@ namespace Symplify\MonorepoBuilder\Tests\Utils;
 use Iterator;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Utils\VersionUtils;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class VersionUtilsTest extends AbstractKernelTestCase
 {

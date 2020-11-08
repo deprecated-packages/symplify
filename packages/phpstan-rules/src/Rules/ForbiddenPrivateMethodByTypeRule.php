@@ -7,16 +7,19 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenPrivateMethodByTypeRule\ForbiddenPrivateMethodByTypeRuleTest
  */
-final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule
+final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'private method in type "%s" is not allowed.';
+    public const ERROR_MESSAGE = 'Private method in is not allowed here - it should only delegate to others. Decouple the private method to a new service class';
 
     /**
      * @var array<string, string>
@@ -59,9 +62,55 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule
                 continue;
             }
 
-            return [sprintf(self::ERROR_MESSAGE, $forbiddenType)];
+            return [self::ERROR_MESSAGE];
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeCommand extends Command
+{
+    public function run()
+    {
+        $this->somePrivateMethod();
+    }
+
+    private function somePrivateMethod()
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeCommand extends Command
+{
+    /**
+     * @var ExternalService
+     */
+    private $externalService;
+
+    public function __construct(ExternalService $externalService)
+    {
+        $this->externalService = $externalService;
+    }
+
+    public function run()
+    {
+        $this->externalService->someMethod();
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'forbiddenTypes' => ['Command'],
+                ]
+            ),
+        ]);
     }
 }

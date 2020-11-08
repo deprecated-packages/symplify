@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule\Fixture;
 
-final class SkipEventSubscriber
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+final class SkipEventSubscriber implements EventSubscriberInterface
 {
-    public static function run(): void
+    public static function getSubscribedEvents()
     {
     }
 }

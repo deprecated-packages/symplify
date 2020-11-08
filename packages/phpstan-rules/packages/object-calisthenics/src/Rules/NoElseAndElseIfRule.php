@@ -9,6 +9,8 @@ use PhpParser\Node\Stmt\Else_;
 use PhpParser\Node\Stmt\ElseIf_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#2-do-not-use-else-keyword
@@ -20,7 +22,7 @@ final class NoElseAndElseIfRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const MESSAGE = 'Do not use "else/elseif". Prefer early return statement instead.';
+    public const ERROR_MESSAGE = 'Do not use "else/elseif". Refactor to early return';
 
     /**
      * @return string[]
@@ -36,6 +38,29 @@ final class NoElseAndElseIfRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        return [self::MESSAGE];
+        return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+if (...) {
+    return 1;
+} else {
+    return 2;
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+if (...) {
+    return 1;
+}
+
+return 2;
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

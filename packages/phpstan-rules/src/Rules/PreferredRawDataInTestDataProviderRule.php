@@ -13,6 +13,8 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreferredRawDataInTestDataProviderRule\PreferredRawDataInTestDataProviderRuleTest
@@ -69,6 +71,66 @@ final class PreferredRawDataInTestDataProviderRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class UseDataFromSetupInTestDataProviderTest extends TestCase
+{
+    private $data;
+
+    protected function setUp()
+    {
+        $this->data = true;
+    }
+
+    public function provideFoo()
+    {
+        yield [$this->data];
+    }
+
+    /**
+     * @dataProvider provideFoo
+     */
+    public function testFoo($value)
+    {
+        $this->assertTrue($value);
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+use stdClass;
+
+final class UseRawDataForTestDataProviderTest
+{
+    private $obj;
+
+    protected function setUp()
+    {
+        $this->obj = new stdClass;
+    }
+
+    public function provideFoo()
+    {
+        yield [true];
+    }
+
+    /**
+     * @dataProvider provideFoo
+     */
+    public function testFoo($value)
+    {
+        $this->obj->x = $value;
+        $this->assertTrue($this->obj->x);
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function findDataProviderClassMethod(ClassMethod $classMethod, string $methodName): ?ClassMethod

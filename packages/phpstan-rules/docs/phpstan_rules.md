@@ -786,11 +786,6 @@ services:
 ```
 
 ```php
-<?php
-
-
-declare(strict_types=1);
-
 trait SomeTrait
 {
     /**
@@ -1109,11 +1104,6 @@ Inspired by [Null Hell](https://afilina.com/null-hell) by @afilina
 - class: [`NoNullableParameterRule`](../src/Rules/NoNullableParameterRule.php)
 
 ```php
-<?php
-
-
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run(?string $vaulue = true): void
@@ -1175,7 +1165,7 @@ services:
 ```
 
 ```php
-final class SomeTest exteds TestCase
+final class SomeTest extends TestCase
 {
      protected function setUp()
      {
@@ -1316,11 +1306,6 @@ services:
 ```
 
 ```php
-<?php
-
-
-declare(strict_types=1);
-
 foreach ($errors as $fileErrors) {
     // empty
     foreach ($fileErrors as $fileError) {
@@ -1365,11 +1350,6 @@ services:
 ```
 
 ```php
-<?php
-
-
-declare(strict_types=1);
-
 namespace Some\Namespace;
 
 use PHPStan\Rules\Rule;
@@ -1441,46 +1421,6 @@ final class SearchFactory
 
 <br>
 
-## Use explicit comparison over `empty()`
-
-- class: [`NoEmptyRule`](../src/Rules/NoEmptyRule.php)
-
-```php
-<?php
-
-
-declare(strict_types=1);
-
-final class SomeClass
-{
-    public function run($value)
-    {
-        return empty($value);
-    }
-}
-```
-
-:x:
-
-```php
-<?php
-
-
-declare(strict_types=1);
-
-final class SomeClass
-{
-    public function run(array $value)
-    {
-        return $value === [];
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## Prevent Override of Parent Method Visbility
 
 - class: [`PreventParentMethodVisibilityOverrideRule`](../src/Rules/PreventParentMethodVisibilityOverrideRule.php)
@@ -1512,7 +1452,7 @@ final class PublicOverride extends ProtectedVisibility
 
 ## No Function Call in Method Call
 
-- class: [`NoFunctionCallInMethodCallRule`](../src/Rules/NoFunctionCallInMethodCallRule.php)
+- class: [`NoFuncCallInMethodCallRule`](../src/Rules/NoFuncCallInMethodCallRule.php)
 
 ```php
 <?php
@@ -1619,11 +1559,6 @@ final class SomeClass
 - class: [`NoIssetOnObjectRule`](../src/Rules/NoIssetOnObjectRule.php)
 
 ```php
-<?php
-
-
-declare(strict_types=1);
-
 final class IssetOnObject
 {
     public function run()
@@ -2066,13 +2001,13 @@ $d->format('Y-m-d');
 
 ## Assignment inside if statement is forbidden. Use before if instead
 
-- class: [`ForbiddenAssignInifRule`](../src/Rules/ForbiddenAssignInifRule.php)
+- class: [`ForbiddenAssignInIfRule`](../src/Rules/ForbiddenAssignInIfRule.php)
 
 ```yaml
 # phpstan.neon
 services:
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInifRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule
         tags: [phpstan.rules.rule]
 ```
 
@@ -2120,22 +2055,12 @@ if ($a === 1) {
 - class: [`NoDefaultExceptionRule`](../src/Rules/NoDefaultExceptionRule.php)
 
 ```php
-<?php
-
-
-declare(strict_types=1);
-
 throw new RuntimeException('...');
 ```
 
 :x:
 
 ```php
-<?php
-
-
-declare(strict_types=1);
-
 use App\Exception\FileNotFoundExceptoin;
 
 throw new FileNotFoundExceptoin('...');
@@ -2149,28 +2074,15 @@ throw new FileNotFoundExceptoin('...');
 
 - class: [`ForbiddenReturnValueOfIncludeOnceRule`](../src/Rules/ForbiddenReturnValueOfIncludeOnceRule.php)
 
-```php
-<?php
-
-// ecs.php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(ForbiddenReturnValueOfIncludeOnceRule::class);
-};
+```yaml
+# phpstan.neon
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule;
+        tags: [phpstan.rules.rule]
 ```
 
 ```php
-<?php
-
-
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run()
@@ -2329,7 +2241,7 @@ declare(strict_types=1);
 
 class SomeClass
 {
-    private static FOO = '$not_ok$';
+    private const FOO = '$not_ok$';
 }
 ```
 
@@ -2548,13 +2460,6 @@ services:
 ```
 
 ```php
-<?php
-
-
-declare(strict_types=1);
-
-namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredMethodTobeAutowireWithClassName\Fixture\Tests;
-
 final class WithRequiredAutowire
 {
     /**
@@ -2665,11 +2570,6 @@ services:
 ```
 
 ```php
-<?php
-
-
-declare(strict_types=1);
-
 namespace Symplify\PHPStanRules\Tests\Rules\CheckRequireMethodTobeAutowireWithClassName\Fixture;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -2710,10 +2610,6 @@ services:
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 
@@ -2736,11 +2632,6 @@ final class UsedNameOfClass
 - class: [`MatchingTypeConstantRule`](../src/Rules/MatchingTypeConstantRule.php)
 
 ```php
-<?php
-
-
-declare(strict_types=1);
-
 class SomeClass
 {
     /**

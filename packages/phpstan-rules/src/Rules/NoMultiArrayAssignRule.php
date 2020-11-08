@@ -11,6 +11,8 @@ use PhpParser\Node\Stmt\Expression;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoMultiArrayAssignRule\NoMultiArrayAssignRuleTest
@@ -61,6 +63,36 @@ final class NoMultiArrayAssignRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    public function run()
+    {
+        $values = [];
+        $values['person']['name'] = 'Tom';
+        $values['person']['surname'] = 'Dev';
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    public function run()
+    {
+        $values = [];
+        $values[] = new Person('Tom', 'Dev');
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function haveSameArrayDimFetchNonEmptyRoot(

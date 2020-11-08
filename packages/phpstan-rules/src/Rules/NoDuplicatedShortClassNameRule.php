@@ -8,6 +8,8 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule\NoDuplicatedShortClassNameRuleTest
@@ -74,8 +76,42 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
         }
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $shortClassName, implode('", "', $classesByShortName));
-
         return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+namespace App;
+
+class SomeClass
+{
+}
+
+namespace App\Nested;
+
+class SomeClass
+{
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+namespace App;
+
+class SomeClass
+{
+}
+
+namespace App\Nested;
+
+class AnotherClass
+{
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function prepareDeclaredClassesByShortName(): void

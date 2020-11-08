@@ -9,11 +9,15 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
+use Symfony\Component\Console\Input\InputOption;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireNewArgumentConstantRule\RequireNewArgumentConstantRuleTest
  */
-final class RequireNewArgumentConstantRule extends AbstractSymplifyRule
+final class RequireNewArgumentConstantRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -67,5 +71,30 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+use Symfony\Component\Console\Input\InputOption;
+
+$inputOption = new InputOption('name', null, 2);
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+use Symfony\Component\Console\Input\InputOption;
+
+$inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
+CODE_SAMPLE
+                ,
+                [
+                    'constantArgByNewByType' => [
+                        InputOption::class => [2],
+                    ],
+                ]
+            ),
+        ]);
     }
 }

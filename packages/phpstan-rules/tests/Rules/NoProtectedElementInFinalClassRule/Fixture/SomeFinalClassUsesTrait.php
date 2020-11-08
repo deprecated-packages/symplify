@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule\F
 
 final class SomeFinalClassUsesTrait
 {
-    use SomeTrait;
+    use SkipTrait;
 
     protected $x;
 

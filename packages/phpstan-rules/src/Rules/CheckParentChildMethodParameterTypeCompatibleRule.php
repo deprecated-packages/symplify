@@ -12,6 +12,8 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckParentChildMethodParameterTypeCompatibleRule\CheckParentChildMethodParameterTypeCompatibleRuleTest
@@ -21,7 +23,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Parent and Child Method Parameter must be compatible';
+    public const ERROR_MESSAGE = 'Method parameters must be compatible with its parent';
 
     /**
      * @var ParentMethodAnalyser
@@ -86,6 +88,45 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class ParentClass
+{
+    public function run(string $someParameter)
+    {
+    }
+}
+
+class SomeClass extends ParentClass
+{
+    public function run($someParameter)
+    {
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class ParentClass
+{
+    public function run(string $someParameter)
+    {
+    }
+}
+
+class SomeClass extends ParentClass
+{
+    public function run(string $someParameter)
+    {
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     /**

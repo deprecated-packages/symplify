@@ -12,16 +12,19 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireMethodCallArgumentConstantRule\RequireMethodCallArgumentConstantRuleTest
  */
-final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule
+final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method call argument on position %d must use constant over value';
+    public const ERROR_MESSAGE = 'Method call argument on position %d must use constant (e.g. "Option::NAME") over value';
 
     /**
      * @var array<class-string, mixed[]>
@@ -80,6 +83,43 @@ final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule
         }
 
         return $errorMessages;
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class AnotherClass
+{
+    public function run(SomeClass $someClass)
+    {
+        $someClass->call('name');
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class AnotherClass
+{
+    private OPTION_NAME = 'name';
+
+    public function run(SomeClass $someClass)
+    {
+        $someClass->call(self::OPTION_NAME);
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'constantArgByMethodByType' => [
+                        'SomeClass' => [
+                            'call' => [0],
+                        ],
+                    ],
+                ]
+            ),
+        ]);
     }
 
     /**

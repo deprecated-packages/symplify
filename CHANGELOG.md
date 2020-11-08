@@ -121,7 +121,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#2319] Fixes [#2214] : add PrefferedMethodCallOverFuncCallRule, Thanks to [@samsonasik]
 - [#2375] Fixes [#2329] Add TooDeepNewClassNestingRule, Thanks to [@samsonasik]
-- [#2341] Fixes [#2328] Add ForbiddenAssignInifRule, Thanks to [@samsonasik]
+- [#2341] Fixes [#2328] Add ForbiddenAssignInIfRule, Thanks to [@samsonasik]
 
 ### Changed
 
@@ -776,7 +776,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### CodingStandard
 
-- [#2030] Make NoFunctionCallInMethodCallRule skip fqn names
+- [#2030] Make NoFuncCallInMethodCallRule skip fqn names
 
 #### Unknown Package
 
@@ -905,7 +905,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### CodingStandard
 
-- [#1990] Add NoFunctionCallInMethodCallRule
+- [#1990] Add NoFuncCallInMethodCallRule
 - [#1987] Add NoEmptyRule
 
 ### Changed

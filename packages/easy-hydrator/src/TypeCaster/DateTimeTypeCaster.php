@@ -9,6 +9,7 @@ use DateTimeInterface;
 use Nette\Utils\DateTime;
 use ReflectionParameter;
 use Symplify\EasyHydrator\ClassConstructorValuesResolver;
+use Symplify\EasyHydrator\Contract\TypeCasterInterface;
 use Symplify\EasyHydrator\ParameterTypeRecognizer;
 
 final class DateTimeTypeCaster implements TypeCasterInterface

@@ -6,7 +6,7 @@ namespace Symplify\ChangelogLinker\Tests\FileSystem\ChangelogFileSystem;
 
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ChangelogFileSystemTest extends AbstractKernelTestCase

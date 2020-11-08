@@ -10,11 +10,14 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\TooLongFunctionLikeRule\TooLongFunctionLikeRuleTest
  */
-final class TooLongFunctionLikeRule extends AbstractSymplifyRule
+final class TooLongFunctionLikeRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -60,6 +63,35 @@ final class TooLongFunctionLikeRule extends AbstractSymplifyRule
         );
 
         return [$errorMessage];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+function some()
+{
+    if (...) {
+        return 1;
+    } else {
+        return 2;
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+function some()
+{
+    return (...) ? 1 : 2;
+}
+CODE_SAMPLE
+                ,
+                [
+                    'maxFunctionLikeLength' => 3,
+                ]
+            ),
+        ]);
     }
 
     /**

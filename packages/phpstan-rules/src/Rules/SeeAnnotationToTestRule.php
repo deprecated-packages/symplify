@@ -17,11 +17,14 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\FileTypeMapper;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule\SeeAnnotationToTestRuleTest
  */
-final class SeeAnnotationToTestRule extends AbstractSymplifyRule
+final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -39,7 +42,7 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule
     private $broker;
 
     /**
-     * @var class-string[]
+     * @var string[]
      */
     private $requiredSeeTypes = [];
 
@@ -48,6 +51,9 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule
      */
     private $privatesAccessor;
 
+    /**
+     * @param string[] $requiredSeeTypes
+     */
     public function __construct(Broker $broker, FileTypeMapper $fileTypeMapper, array $requiredSeeTypes = [])
     {
         $this->fileTypeMapper = $fileTypeMapper;
@@ -99,6 +105,32 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule
         }
 
         return [sprintf(self::ERROR_MESSAGE, $classReflection->getName())];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass extends Rule
+{
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+/**
+ * @see SomeClassTest
+ */
+class SomeClass extends Rule
+{
+}
+CODE_SAMPLE
+                ,
+                [
+                    'requiredSeeTypes' => ['Rule'],
+                ]
+            ),
+        ]);
     }
 
     private function shouldSkipClassReflection(ClassReflection $classReflection): bool

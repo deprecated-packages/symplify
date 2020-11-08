@@ -60,7 +60,7 @@ services:
         class: Symplify\PHPStanRules\Rules\PreferredClassRule
         tags: [phpstan.rules.rule]
         arguments:
-            oldToPrefferedClasses:
+            oldToPreferredClasses:
                 SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
                 DateTime: 'Nette\Utils\DateTime'
                 'PhpCsFixer\Finder': 'Symfony\Component\Finder\Finder'
@@ -120,15 +120,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoDynamicMethodNameRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoEmptyRule
         tags: [phpstan.rules.rule]
 
     # explicit naming
@@ -153,10 +145,10 @@ services:
             maxParameterCount: 8
 
     -
-        class: Symplify\PHPStanRules\Rules\PrefferedStaticCallOverFuncCallRule
+        class: Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
-            funcCallToPrefferedStaticCalls:
+            funcCallToPreferredStaticCalls:
                 'preg_match': ['Nette\Utils\Strings', 'match']
                 'preg_match_all': ['Nette\Utils\Strings', 'matchAll']
                 'preg_replace': ['Nette\Utils\Strings', 'replace']
@@ -167,10 +159,10 @@ services:
                 'strstr': ['Nette\Utils\Strings', 'contains']
 
     -
-        class: Symplify\PHPStanRules\Rules\PrefferedMethodCallOverFuncCallRule
+        class: Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
-            funcCallToPrefferedMethodCalls:
+            funcCallToPreferredMethodCalls:
                 'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
 
     -
@@ -190,10 +182,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\PreferredClassConstantOverVariableConstantRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule
         tags: [phpstan.rules.rule]
 
@@ -210,7 +198,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInifRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule
         tags: [phpstan.rules.rule]
 
     -
@@ -245,7 +233,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallInIfRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule
         tags: [phpstan.rules.rule]
 
 #    -
@@ -328,13 +316,16 @@ services:
     - Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer
     - Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver
     - Symplify\PHPStanRules\NodeComparator
-    - Symplify\PHPStanRules\NodeAnalyser\ProtectedAnalyser
+    - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\Naming\SimpleNameResolver
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
     - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
+    - Symplify\PHPStanRules\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
 
     - Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory
     -
         class: PhpParser\ConstExprEvaluator
         factory: ['@Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory', 'create']
+
+    - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer

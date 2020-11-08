@@ -12,7 +12,6 @@ use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
@@ -21,6 +20,8 @@ use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoFactoryInConstructorRule\NoFactoryInConstructorRuleTest
@@ -75,7 +76,7 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->isInConstructMethod($scope)) {
+        if (! $this->isInClassMethodNamed($scope, MethodName::CONSTRUCTOR)) {
             return [];
         }
 
@@ -105,14 +106,35 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
         return [self::ERROR_MESSAGE];
     }
 
-    private function isInConstructMethod(Scope $scope): bool
+    public function getRuleDefinition(): RuleDefinition
     {
-        $reflectionFunction = $scope->getFunction();
-        if (! $reflectionFunction instanceof MethodReflection) {
-            return false;
-        }
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    private $someDependency;
 
-        return $reflectionFunction->getName() === MethodName::CONSTRUCTOR;
+    public function __construct(SomeFactory $factory)
+    {
+        $this->someDependency = $factory->build();
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    private $someDependency;
+
+    public function __construct(SomeDependency $someDependency)
+    {
+        $this->someDependency = $someDependency;
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isAllowedType(Type $type): bool

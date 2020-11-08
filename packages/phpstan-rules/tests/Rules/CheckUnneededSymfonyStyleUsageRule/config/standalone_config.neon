@@ -1,7 +1,0 @@
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule
-        tags: [phpstan.rules.rule]
-
-    - PhpParser\NodeFinder
-    - Symplify\PHPStanRules\Naming\SimpleNameResolver

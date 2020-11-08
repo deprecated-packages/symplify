@@ -21,7 +21,7 @@ final class NoElseAndElseIfRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SomeElse.php', [[NoElseAndElseIfRule::MESSAGE, 13]]];
+        yield [__DIR__ . '/Fixture/SomeElse.php', [[NoElseAndElseIfRule::ERROR_MESSAGE, 13]]];
     }
 
     protected function getRule(): Rule

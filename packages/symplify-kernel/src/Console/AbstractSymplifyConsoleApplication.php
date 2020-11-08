@@ -22,12 +22,23 @@ abstract class AbstractSymplifyConsoleApplication extends Application
     private const COMMAND = 'command';
 
     /**
+     * @param Command[] $commands
+     */
+    public function __construct(array $commands, string $name = 'UNKNOWN', string $version = 'UNKNOWN')
+    {
+        $this->addCommands($commands);
+
+        parent::__construct($name, $version);
+    }
+
+    /**
      * Add names to all commands by class-name convention
      * @param Command[] $commands
      */
     public function addCommands(array $commands): void
     {
         $commandNaming = new CommandNaming();
+
         foreach ($commands as $command) {
             $commandName = $commandNaming->resolveFromCommand($command);
             $command->setName($commandName);

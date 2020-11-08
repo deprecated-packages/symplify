@@ -11,6 +11,8 @@ use PhpParser\Node\Stmt\Nop;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Throwable;
 
 /**
@@ -86,6 +88,46 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends Abstrac
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class ParentClass
+{
+    public function someMethod()
+    {
+    }
+}
+
+class SomeClass extends ParentClass
+{
+    public function someMethod()
+    {
+        parent::someMethod();
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class ParentClass
+{
+    public function someMethod()
+    {
+    }
+}
+
+class SomeClass extends ParentClass
+{
+    public function someMethod()
+    {
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function resolveParentClassMethodStmtCount(Scope $scope, string $methodName): int

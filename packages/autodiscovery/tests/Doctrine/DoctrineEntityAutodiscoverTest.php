@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Symplify\Autodiscovery\Tests\Source\HttpKernel\AudiscoveryTestingKernel;
 use Symplify\Autodiscovery\Tests\Source\KernelProjectDir\Entity\Product;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 /**
  * @covers \Symplify\Autodiscovery\Doctrine\DoctrineEntityMappingAutodiscoverer

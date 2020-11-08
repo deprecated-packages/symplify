@@ -12,6 +12,8 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckTraitMethodOnlyDelegateOtherClassRule\CheckTraitMethodOnlyDelegateOtherClassRuleTest
@@ -63,6 +65,36 @@ final class CheckTraitMethodOnlyDelegateOtherClassRule extends AbstractSymplifyR
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+trait SomeTrait
+{
+    public function someComplexLogic()
+    {
+        if (...) {
+        } else {
+            // ...
+        }
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+trait SomeTrait
+{
+    public function someDelegateCall()
+    {
+        $this->singleDelegateCall();
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function hasMethodCallFromThis(ClassMethod $classMethod): bool

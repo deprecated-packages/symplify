@@ -11,6 +11,8 @@ use PhpParser\Node\Expr\Empty_;
 use PhpParser\Node\Expr\Isset_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoIssetOnObjectRule\NoIssetOnObjectRuleTest
@@ -41,6 +43,46 @@ final class NoIssetOnObjectRule extends AbstractSymplifyRule
         }
 
         return $this->processEmpty($node, $scope);
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run()
+    {
+        if (random_int(0, 1)) {
+            $object = new SomeClass();
+        }
+
+        if (isset($object)) {
+            return $object;
+        }
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function run()
+    {
+        $object = null;
+        if (random_int(0, 1)) {
+            $object = new SomeClass();
+        }
+
+        if ($object !== null) {
+            return $object;
+        }
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     /**

@@ -8,11 +8,14 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\ForbiddenParentClassRuleTest
  */
-final class ForbiddenParentClassRule extends AbstractSymplifyRule
+final class ForbiddenParentClassRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -95,6 +98,33 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass extends ParentClass
+{
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function __construct(DecoupledClass $decoupledClass)
+    {
+        $this->decoupledClass = $decoupledClass;
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'forbiddenParentClasses' => ['ParentClass'],
+                ]
+            ),
+        ]);
     }
 
     private function createErrorMessage(?string $preference, string $class, string $currentParentClass): string

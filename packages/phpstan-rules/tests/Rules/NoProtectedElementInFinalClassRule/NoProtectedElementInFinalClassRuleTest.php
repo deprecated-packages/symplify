@@ -24,10 +24,10 @@ final class NoProtectedElementInFinalClassRuleTest extends AbstractServiceAwareR
     {
         yield [[__DIR__ . '/Fixture/AnotherClassUsingTrait.php', __DIR__ . '/Fixture/SomeAutowiredTrait.php'], []];
 
-        yield [[__DIR__ . '/Fixture/SomeInterface.php'], []];
-        yield [[__DIR__ . '/Fixture/SomeTrait.php'], []];
-        yield [[__DIR__ . '/Fixture/SomeNotFinalClass.php'], []];
-        yield [[__DIR__ . '/Fixture/SomeFinalClassWithNoPropertyAndNoMethod.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipInterface.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipTrait.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipNotFinalClass.php'], []];
+
         yield [[__DIR__ . '/Fixture/SomeFinalClassWithNoProtectedProperty.php'], []];
         yield [[__DIR__ . '/Fixture/SomeFinalClassWithNoProtectedMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SomeFinalClassUsesTrait.php'], []];

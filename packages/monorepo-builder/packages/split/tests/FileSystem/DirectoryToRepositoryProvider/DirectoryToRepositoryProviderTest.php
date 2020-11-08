@@ -10,7 +10,7 @@ use Symplify\MonorepoBuilder\Split\FileSystem\DirectoryToRepositoryProvider;
 use Symplify\MonorepoBuilder\Split\ValueObject\ConvertFormat;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DirectoryToRepositoryProviderTest extends AbstractKernelTestCase

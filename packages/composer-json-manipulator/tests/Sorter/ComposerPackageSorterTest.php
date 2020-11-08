@@ -7,7 +7,7 @@ namespace Symplify\ComposerJsonManipulator\Tests\Sorter;
 use Iterator;
 use Symplify\ComposerJsonManipulator\Sorter\ComposerPackageSorter;
 use Symplify\ComposerJsonManipulator\Tests\HttpKernel\ComposerJsonManipulatorKernel;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class ComposerPackageSorterTest extends AbstractKernelTestCase
 {

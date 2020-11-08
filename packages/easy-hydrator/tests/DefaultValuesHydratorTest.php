@@ -8,7 +8,7 @@ use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
 use Symplify\EasyHydrator\Exception\MissingDataException;
 use Symplify\EasyHydrator\Tests\Fixture\DefaultValuesConstructor;
 use Symplify\EasyHydrator\Tests\HttpKernel\EasyHydratorTestKernel;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class DefaultValuesHydratorTest extends AbstractKernelTestCase
 {

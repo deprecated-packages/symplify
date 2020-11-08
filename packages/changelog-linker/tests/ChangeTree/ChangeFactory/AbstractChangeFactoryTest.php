@@ -7,7 +7,7 @@ namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 abstract class AbstractChangeFactoryTest extends AbstractKernelTestCase
 {

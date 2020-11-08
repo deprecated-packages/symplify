@@ -9,6 +9,8 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenSpreadOperatorRule\ForbiddenSpreadOperatorRuleTest
@@ -45,13 +47,28 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
         return [];
     }
 
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+$args = [$firstValue, $secondValue];
+$message =  sprintf('%s', ...$args);
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+$message =  sprintf('%s', $firstValue, $secondValue);
+CODE_SAMPLE
+            ),
+        ]);
+    }
+
     /**
      * @param ClassMethod|Function_ $node
      */
     private function hasVariadicParam(Node $node): bool
     {
-        $params = $node->params;
-        foreach ($params as $param) {
+        foreach ((array) $node->params as $param) {
             if ($param->variadic) {
                 return true;
             }

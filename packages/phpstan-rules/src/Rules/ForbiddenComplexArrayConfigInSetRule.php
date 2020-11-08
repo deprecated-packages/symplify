@@ -9,9 +9,9 @@ use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\Native\NativeParameterReflection;
-use PHPStan\Type\ObjectType;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\PHPStanRules\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenComplexArrayConfigInSetRule\ForbiddenComplexArrayConfigInSetRuleTest
@@ -22,6 +22,16 @@ final class ForbiddenComplexArrayConfigInSetRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'For complex configuration use value object over array';
+
+    /**
+     * @var SymfonyPhpConfigClosureAnalyzer
+     */
+    private $symfonyPhpConfigClosureAnalyzer;
+
+    public function __construct(SymfonyPhpConfigClosureAnalyzer $symfonyPhpConfigClosureAnalyzer)
+    {
+        $this->symfonyPhpConfigClosureAnalyzer = $symfonyPhpConfigClosureAnalyzer;
+    }
 
     /**
      * @return string[]
@@ -42,7 +52,7 @@ final class ForbiddenComplexArrayConfigInSetRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! $this->isInSymfonyPhpConfigClosure($scope)) {
+        if (! $this->symfonyPhpConfigClosureAnalyzer->isSymfonyPhpConfigScope($scope)) {
             return [];
         }
 
@@ -66,24 +76,38 @@ final class ForbiddenComplexArrayConfigInSetRule extends AbstractSymplifyRule
         return [];
     }
 
-    private function isInSymfonyPhpConfigClosure(Scope $scope): bool
+    public function getRuleDefinition(): RuleDefinition
     {
-        // we are in a closure
-        if ($scope->getAnonymousFunctionReflection() === null) {
-            return false;
-        }
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-        if (count($scope->getAnonymousFunctionReflection()->getParameters()) !== 1) {
-            return false;
-        }
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
 
-        /** @var NativeParameterReflection $onlyParameter */
-        $onlyParameter = $scope->getAnonymousFunctionReflection()
-            ->getParameters()[0];
-        $onlyParameterType = $onlyParameter->getType();
+    $services->set('...')
+        ->call('...', [[
+            'options' => ['Cake\Network\Response', ['withLocation', 'withHeader']],
+        ]]);
+};
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-        $containerConfiguratorObjectType = new ObjectType(ContainerConfigurator::class);
-        return $onlyParameterType->isSuperTypeOf($containerConfiguratorObjectType)
-            ->yes();
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set('...')
+        ->call('...', [[
+            'options' => inline_value_objects([
+                new SomeValueObject('Cake\Network\Response', ['withLocation', 'withHeader']),
+            ]),
+        ]]);
+};
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

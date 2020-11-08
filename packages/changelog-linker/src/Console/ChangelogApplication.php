@@ -29,9 +29,8 @@ final class ChangelogApplication extends AbstractSymplifyConsoleApplication
     public function __construct(ParameterProvider $parameterProvider, array $commands)
     {
         $this->parameterProvider = $parameterProvider;
-        $this->addCommands($commands);
 
-        parent::__construct();
+        parent::__construct($commands);
     }
 
     protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\ChangeTree;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Regex\RegexPattern;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
+use Symplify\ChangelogLinker\ValueObject\RegexPattern;
 
 final class ChangeResolver
 {

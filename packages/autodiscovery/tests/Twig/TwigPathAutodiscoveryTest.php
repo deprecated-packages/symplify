@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\Autodiscovery\Tests\Twig;
 
 use Symplify\Autodiscovery\Tests\Source\HttpKernel\AudiscoveryTestingKernel;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 

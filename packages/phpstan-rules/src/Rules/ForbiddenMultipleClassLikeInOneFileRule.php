@@ -9,6 +9,8 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\FileNode;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMultipleClassLikeInOneFileRule\ForbiddenMultipleClassLikeInOneFileRuleTest
@@ -18,7 +20,7 @@ final class ForbiddenMultipleClassLikeInOneFileRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Multiple class/interface/trait is not allowed in a file.';
+    public const ERROR_MESSAGE = 'Multiple class/interface/trait is not allowed in single file';
 
     /**
      * @var NodeFinder
@@ -61,5 +63,34 @@ final class ForbiddenMultipleClassLikeInOneFileRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+}
+
+interface SomeInterface
+{
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+// SomeClass.php
+class SomeClass
+{
+}
+
+// SomeInterface.php
+interface SomeInterface
+{
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

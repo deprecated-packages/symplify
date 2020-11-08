@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Expr\ErrorSuppress;
+use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoParticularNodeRule\NoParticularNodeRuleTest
  */
-final class NoParticularNodeRule extends AbstractSymplifyRule
+final class NoParticularNodeRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Node "%s" is fobidden to use';
+    public const ERROR_MESSAGE = '"%s" is forbidden to use';
 
     /**
      * @var string[]
@@ -25,9 +29,14 @@ final class NoParticularNodeRule extends AbstractSymplifyRule
     private $forbiddenNodes = [];
 
     /**
+     * @var Standard
+     */
+    private $standard;
+
+    /**
      * @param string[] $forbiddenNodes
      */
-    public function __construct(array $forbiddenNodes = [])
+    public function __construct(Standard $standard, array $forbiddenNodes = [])
     {
         foreach ($forbiddenNodes as $forbiddenNode) {
             if (is_a($forbiddenNode, Node::class, true)) {
@@ -39,6 +48,7 @@ final class NoParticularNodeRule extends AbstractSymplifyRule
         }
 
         $this->forbiddenNodes = $forbiddenNodes;
+        $this->standard = $standard;
     }
 
     /**
@@ -59,14 +69,36 @@ final class NoParticularNodeRule extends AbstractSymplifyRule
                 continue;
             }
 
-            $name = (string) Strings::after($forbiddenNode, '\\', -1);
-            $name = rtrim($name, '_');
-            $name = Strings::lower($name);
-
+            $name = $this->resolveNameFromNode($node);
             $errorMessage = sprintf(self::ERROR_MESSAGE, $name);
+
             return [$errorMessage];
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+return @strlen('...');
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+return strlen('...');
+CODE_SAMPLE
+                ,
+                [
+                    'forbiddenNodes' => [ErrorSuppress::class],
+                ]
+            ),
+        ]);
+    }
+
+    private function resolveNameFromNode(Node $node): string
+    {
+        return $this->standard->prettyPrint([$node]);
     }
 }

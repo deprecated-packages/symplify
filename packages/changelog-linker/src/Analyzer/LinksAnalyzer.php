@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\Analyzer;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Regex\RegexPattern;
+use Symplify\ChangelogLinker\ValueObject\RegexPattern;
 
 /**
  * @see \Symplify\ChangelogLinker\Tests\Analyzer\LinksAnalyzer\LinksAnalyzerTest

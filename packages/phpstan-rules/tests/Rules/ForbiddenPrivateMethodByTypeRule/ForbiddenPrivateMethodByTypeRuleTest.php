@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenPrivateMethodByTypeRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symfony\Component\Console\Command\Command;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule;
 
@@ -23,9 +22,7 @@ final class ForbiddenPrivateMethodByTypeRuleTest extends AbstractServiceAwareRul
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/NotConsoleCommand.php', []];
-        yield [__DIR__ . '/Fixture/ConsoleCommand.php', [
-            [sprintf(ForbiddenPrivateMethodByTypeRule::ERROR_MESSAGE, Command::class), 11],
-        ]];
+        yield [__DIR__ . '/Fixture/ConsoleCommand.php', [[ForbiddenPrivateMethodByTypeRule::ERROR_MESSAGE, 11]]];
     }
 
     protected function getRule(): Rule

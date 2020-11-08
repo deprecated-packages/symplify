@@ -7,6 +7,8 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoAbstractMethodRule\NoAbstractMethodRuleTest
@@ -37,5 +39,30 @@ final class NoAbstractMethodRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+abstract class SomeClass
+{
+    abstract public function run();
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+abstract class SomeClass implements RunnableInterface
+{
+}
+
+interface RunnableInterface
+{
+    public function run();
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

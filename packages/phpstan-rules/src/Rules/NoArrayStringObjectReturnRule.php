@@ -13,6 +13,8 @@ use PHPStan\Type\ArrayType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoArrayStringObjectReturnRule\NoArrayStringObjectReturnRuleTest
@@ -22,7 +24,7 @@ final class NoArrayStringObjectReturnRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use another value object over string with value object arrays';
+    public const ERROR_MESSAGE = 'Use another value object over array with string-keys and objects, array<string, ValueObject>';
 
     /**
      * @return string[]
@@ -48,6 +50,38 @@ final class NoArrayStringObjectReturnRule extends AbstractSymplifyRule
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    /**
+     * @return array<string, Value>
+     */
+    private function getValues()
+    {
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+final class SomeClass
+{
+    /**
+     * @return WrappingValue[]
+     */
+    private function getValues()
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     /**

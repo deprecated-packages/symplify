@@ -7,7 +7,7 @@ namespace Symplify\ComposerJsonManipulator\Tests\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\Tests\HttpKernel\ComposerJsonManipulatorKernel;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
-use Symplify\PackageBuilder\Tests\AbstractKernelTestCase;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ComposerJsonFactoryTest extends AbstractKernelTestCase
