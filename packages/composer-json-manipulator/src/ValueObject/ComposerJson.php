@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ComposerJsonManipulator\ValueObject;
 
 use Nette\Utils\Arrays;
+use Nette\Utils\Strings;
 use Symplify\ComposerJsonManipulator\Sorter\ComposerPackageSorter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
@@ -318,6 +319,15 @@ final class ComposerJson
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getShortName(): ?string
+    {
+        if ($this->name === null) {
+            return null;
+        }
+
+        return Strings::after($this->name, '/', -1);
     }
 
     /**

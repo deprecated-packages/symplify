@@ -1,0 +1,6 @@
+/tests export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
+.travis.yml export-
+phpunit.xml export-ignore
+*.md export-ignore

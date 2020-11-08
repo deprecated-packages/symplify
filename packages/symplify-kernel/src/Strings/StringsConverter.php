@@ -28,4 +28,21 @@ final class StringsConverter
 
         return implode($glue, $parts);
     }
+
+    public function dashedToCamelCaseWithGlue(string $content, string $glue): string
+    {
+        $parts = explode('-', $content);
+        $casedParts = [];
+        foreach ($parts as $part) {
+            // special names
+            if ($part === 'phpstan') {
+                $casedParts[] = 'PHPStan';
+                continue;
+            }
+
+            $casedParts[] = ucfirst($part);
+        }
+
+        return implode($glue, $casedParts);
+    }
 }

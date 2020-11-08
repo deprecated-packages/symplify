@@ -123,6 +123,11 @@ final class SmartFileInfo extends SplFileInfo
         return parent::getRealPath() ?: $this->getPathname();
     }
 
+    public function getRealPathDirectory(): string
+    {
+        return dirname($this->getRealPath());
+    }
+
     private function getNormalizedRealPath(): string
     {
         return $this->normalizePath($this->getRealPath());
