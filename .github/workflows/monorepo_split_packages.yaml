@@ -32,6 +32,7 @@ jobs:
                     - symfony-static-dumper
                     - skipper
                     - phpstan-rules
+                    - rule-doc-generator
 
         name: Monorepo Split of ${{ matrix.package_name }}
 

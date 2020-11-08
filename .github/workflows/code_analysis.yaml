@@ -29,6 +29,7 @@ jobs:
                         run: |
                             packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_tests.yaml --ansi
                             packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_unused_packages.yaml --ansi
+                            packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/monorepo_split_packages.yaml --ansi
 
                     -
                         name: Binary File Run
