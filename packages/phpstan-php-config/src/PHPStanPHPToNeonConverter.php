@@ -51,22 +51,7 @@ final class PHPStanPHPToNeonConverter
         }
 
         if ($parameterBag->has(Option::PATHS)) {
-            // relativize paths to root
-            $paths = (array) $parameterBag->get(Option::PATHS);
-            $relativePaths = [];
-            foreach ($paths as $path) {
-                $pathFileInfo = new SmartFileInfo($path);
-                $relativeFilePath = $pathFileInfo->getRelativeFilePathFromCwd();
-
-                // clear temp file path for tests
-                if (StaticPHPUnitEnvironment::isPHPUnitRun()) {
-                    $relativeFilePath = Strings::after($relativeFilePath, 'easy_testing/');
-                }
-
-                $relativePaths[] = $relativeFilePath;
-            }
-
-            $neonParameters[Option::PATHS] = $relativePaths;
+            $neonParameters[Option::PATHS] = $this->resolvePaths($parameterBag);
         }
 
         if ($parameterBag->has(Option::REPORT_UNMATCHED_IGNORED_ERRORS)) {
@@ -97,5 +82,29 @@ final class PHPStanPHPToNeonConverter
         $neonContent = Strings::replace($neonContent, '#\t#', '    ');
 
         return rtrim($neonContent) . PHP_EOL;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function resolvePaths(ParameterBagInterface $parameterBag): array
+    {
+        // relativize paths to root
+        $paths = (array) $parameterBag->get(Option::PATHS);
+
+        $relativePaths = [];
+        foreach ($paths as $path) {
+            $pathFileInfo = new SmartFileInfo($path);
+            $relativeFilePath = $pathFileInfo->getRelativeFilePathFromCwd();
+
+            // clear temp file path for tests
+            if (StaticPHPUnitEnvironment::isPHPUnitRun()) {
+                $relativeFilePath = (string) Strings::after($relativeFilePath, 'easy_testing/');
+            }
+
+            $relativePaths[] = $relativeFilePath;
+        }
+
+        return $relativePaths;
     }
 }

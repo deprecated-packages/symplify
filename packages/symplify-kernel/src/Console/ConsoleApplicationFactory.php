@@ -58,10 +58,10 @@ final class ConsoleApplicationFactory
 
     public function create(): AutowiredConsoleApplication
     {
-        $application = new AutowiredConsoleApplication($this->commands);
-        $this->decorateApplicationWithNameAndVersion($application);
+        $autowiredConsoleApplication = new AutowiredConsoleApplication($this->commands);
+        $this->decorateApplicationWithNameAndVersion($autowiredConsoleApplication);
 
-        return $application;
+        return $autowiredConsoleApplication;
     }
 
     private function decorateApplicationWithNameAndVersion(Application $application): void
