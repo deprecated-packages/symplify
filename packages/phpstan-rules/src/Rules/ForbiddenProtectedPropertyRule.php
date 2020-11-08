@@ -24,11 +24,11 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
     /**
      * @var ProtectedAnalyzer
      */
-    private $protectedAnalyser;
+    private $protectedAnalyzer;
 
-    public function __construct(ProtectedAnalyzer $protectedAnalyser)
+    public function __construct(ProtectedAnalyzer $protectedAnalyzer)
     {
-        $this->protectedAnalyser = $protectedAnalyser;
+        $this->protectedAnalyzer = $protectedAnalyzer;
     }
 
     /**
@@ -49,7 +49,7 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->protectedAnalyser->isProtectedPropertyOrClassConstAllowed($node)) {
+        if ($this->protectedAnalyzer->isProtectedPropertyOrClassConstAllowed($node)) {
             return [];
         }
 

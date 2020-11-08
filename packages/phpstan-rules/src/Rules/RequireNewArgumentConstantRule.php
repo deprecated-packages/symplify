@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
+use Symfony\Component\Console\Input\InputOption;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -90,7 +91,7 @@ CODE_SAMPLE
                 ,
                 [
                     'constantArgByNewByType' => [
-                        'Symfony\Component\Console\Input\InputOption' => [2],
+                        InputOption::class => [2],
                     ],
                 ]
             ),

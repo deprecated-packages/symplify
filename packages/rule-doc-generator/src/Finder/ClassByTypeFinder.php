@@ -9,6 +9,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ClassByTypeFinder
 {
+    /**
+     * @return string[]
+     */
     public function findByType(SmartFileInfo $directoryFileInfo, string $type): array
     {
         $robotLoader = new RobotLoader();

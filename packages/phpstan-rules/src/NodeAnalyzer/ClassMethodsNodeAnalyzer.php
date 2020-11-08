@@ -15,9 +15,9 @@ final class ClassMethodsNodeAnalyzer
     /**
      * @return MethodCall[]
      */
-    public function resolveMethodCallsByType(ClassMethodsNode $classMethodsNodeode, string $desiredType): array
+    public function resolveMethodCallsByType(ClassMethodsNode $classMethodsNode, string $desiredType): array
     {
-        $phpStanMethodCalls = $classMethodsNodeode->getMethodCalls();
+        $phpStanMethodCalls = $classMethodsNode->getMethodCalls();
 
         $methodCallsByType = [];
         foreach ($phpStanMethodCalls as $phpStanMethodCall) {

@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -107,7 +108,7 @@ CODE_SAMPLE
                 ,
                 [
                     'forbiddenClassMethods' => [
-                        'PHPStan\Rules\Rule' => ['getRule'],
+                        Rule::class => ['getRule'],
                     ],
                 ]
             ),
