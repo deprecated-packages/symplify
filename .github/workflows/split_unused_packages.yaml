@@ -55,6 +55,7 @@ jobs:
                     - symfony-static-dumper
                     - skipper
                     - phpstan-rules
+                    - rule-doc-generator
 
         name: Unused Packages of ${{ matrix.package_name }}
 
