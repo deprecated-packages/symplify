@@ -65,14 +65,14 @@ final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule
             return [];
         }
 
-        $currentLocation = $classReflection->getName();
+        $name = $classReflection->getName();
 
         /** @var Identifier $methodIdentifier */
         $methodIdentifier = $node->name;
         $methodName = $methodIdentifier->toString();
 
         foreach ($this->forbiddenTypeInLocations[$className] as $location) {
-            if (Strings::match($currentLocation, '#\b' . $location . '\b#')) {
+            if (Strings::match($name, '#\b' . $location . '\b#')) {
                 return [sprintf(self::ERROR_MESSAGE, $className, $methodName, $location)];
             }
         }
