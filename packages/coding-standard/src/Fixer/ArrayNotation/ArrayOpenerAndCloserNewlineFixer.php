@@ -8,6 +8,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\Fixer\AbstractArrayFixer;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;

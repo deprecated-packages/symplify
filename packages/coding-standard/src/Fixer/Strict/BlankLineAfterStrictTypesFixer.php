@@ -11,6 +11,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * Inspired at https://github.com/aidantwoods/PHP-CS-Fixer/tree/feature/DeclareStrictTypesFixer-split
@@ -18,8 +21,13 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
  * @thanks Aidan Woods
  * @see \Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFixer\BlankLineAfterStrictTypesFixerTest
  */
-final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
+final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer implements DocumentedRuleInterface
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Strict type declaration has to be followed by empty line';
+
     /**
      * @var WhitespacesFixerConfig
      */
@@ -48,7 +56,7 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Strict type declaration has to be followed by empty line', []);
+        return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
     public function isCandidate(Tokens $tokens): bool
@@ -74,5 +82,23 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 
         $tokens->ensureWhitespaceAtIndex($semicolonPosition + 1, 0, $lineEnding . $lineEnding);
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+declare(strict_types=1);
+namespace App;
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+declare(strict_types=1);
+
+namespace App;
+CODE_SAMPLE
+            ),
+        ]);
     }
 }
