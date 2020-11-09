@@ -302,6 +302,14 @@ services:
         class: Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
         tags: [phpstan.rules.rule]
 
+#    -
+#        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallByTypeInLocationRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+#            forbiddenTypeInLocations:
+#                View\Helper: ['Controller']
+#                Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallByTypeInLocationRule\Fixture\View\Helper\NumberHelper: ['Controller']
+
     # services
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
