@@ -34,6 +34,7 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
 
     public function provideData(): Iterator
     {
-        yield [new SmartFileInfo(__DIR__ . '/Fixture/PHPStanRule'), __DIR__ . '/Expected/some_content.md'];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/PHPStan'), __DIR__ . '/Expected/phpstan_content.md'];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/PHPCSFixer'), __DIR__ . '/Expected/phpcsfixer_content.md'];
     }
 }

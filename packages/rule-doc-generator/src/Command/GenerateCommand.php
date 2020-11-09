@@ -47,8 +47,8 @@ final class GenerateCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('Generated d synchronized versions in "composer.json" in all found packages.');
-        $this->addArgument(Option::PATH, InputArgument::REQUIRED, 'Path to package directory');
+        $this->setDescription('Generated Markdown documentation based on documented rules found in directory');
+        $this->addArgument(Option::PATH, InputArgument::REQUIRED, 'Path to directory of your project');
         $this->addOption(
             Option::OUTPUT,
             null,

@@ -35,8 +35,7 @@ composer require symplify/easy-coding-standard --dev
 
 ## Rules Overview
 
-- [1. PHP_CodeSniffer sniffs](/docs/php_code_sniffer_sniffs.md)
-- [2. PHP CS Fixer fixers](/docs/phpcs_fixer_fixers.md)
+- [Rules Overview](/docs/rules_overview.md)
 
 <br>
 

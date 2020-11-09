@@ -2,14 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPStanRule;
+namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPCSFixer;
 
+use PhpCsFixer\AbstractFixer;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Tokens;
 use PHPStan\Rules\Rule;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
-final class SomePHPStanRule implements Rule, DocumentedRuleInterface
+final class SomeFixer extends AbstractFixer implements DocumentedRuleInterface
 {
     public function getRuleDefinition(): RuleDefinition
     {
@@ -26,11 +29,15 @@ CODE_SAMPLE
         ]);
     }
 
-    public function getNodeType(): string
+    protected function applyFix(\SplFileInfo $file, Tokens $tokens)
     {
     }
 
-    public function processNode(\PhpParser\Node $node, \PHPStan\Analyser\Scope $scope): array
+    public function getDefinition()
+    {
+    }
+
+    public function isCandidate(Tokens $tokens)
     {
     }
 }

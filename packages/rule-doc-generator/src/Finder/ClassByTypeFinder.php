@@ -31,6 +31,8 @@ final class ClassByTypeFinder
             $desiredClasses[] = $class;
         }
 
+        sort($desiredClasses);
+
         return $desiredClasses;
     }
 }

@@ -10,13 +10,14 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\Annotation\RemovePHPStormAnnotationFixer\RemovePHPStormAnnotationFixerTest
  */
-final class RemovePHPStormAnnotationFixer extends AbstractSymplifyFixer
+final class RemovePHPStormAnnotationFixer extends AbstractSymplifyFixer implements DocumentedRuleInterface
 {
     /**
      * @see https://regex101.com/r/nGZBzj/2

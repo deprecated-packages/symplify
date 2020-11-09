@@ -4,30 +4,39 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\Printer;
 
+use Symplify\ConsoleColorDiff\Differ\MarkdownDiffer;
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class CodeSamplesPrinter
 {
     /**
-     * @param CodeSampleInterface[] $codeSamples
+     * @var MarkdownDiffer
+     */
+    private $markdownDiffer;
+
+    public function __construct(MarkdownDiffer $markdownDiffer)
+    {
+        $this->markdownDiffer = $markdownDiffer;
+    }
+
+    /**
      * @return string[]
      */
-    public function print(array $codeSamples): array
+    public function print(RuleDefinition $ruleDefinition): array
     {
         $lines = [];
-        foreach ($codeSamples as $codeSample) {
-            $lines[] = $this->printPhpCode($codeSample->getGoodCode());
-            $lines[] = ':x:';
 
-            $lines[] = $this->printPhpCode($codeSample->getBadCode());
-            $lines[] = ':+1:';
+        foreach ($ruleDefinition->getCodeSamples() as $codeSample) {
+            /** @noRector */
+            if (is_a($ruleDefinition->getRuleClass(), 'PhpCsFixer\Fixer\FixerInterface', true)) {
+                $lines = array_merge($lines, $this->printDiffCodeSample($codeSample));
+            } else {
+                $lines = array_merge($lines, $this->printGoodBadCodeSample($codeSample));
+            }
 
             $lines[] = '<br>';
-
-            if ($codeSample instanceof ConfiguredCodeSample) {
-                // @todo
-            }
         }
 
         return $lines;
@@ -41,5 +50,35 @@ final class CodeSamplesPrinter
     private function printCodeWrapped(string $content, string $format): string
     {
         return sprintf('```%s%s%s%s```', $format, PHP_EOL, rtrim($content), PHP_EOL);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function printGoodBadCodeSample(CodeSampleInterface $codeSample): array
+    {
+        $lines = [];
+
+        $lines[] = $this->printPhpCode($codeSample->getGoodCode());
+        $lines[] = ':x:';
+
+        $lines[] = $this->printPhpCode($codeSample->getBadCode());
+        $lines[] = ':+1:';
+
+        if ($codeSample instanceof ConfiguredCodeSample) {
+            // @todo
+        }
+        return $lines;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function printDiffCodeSample(CodeSampleInterface $codeSample): array
+    {
+        $diffContent = $this->markdownDiffer->diff($codeSample->getGoodCode(), $codeSample->getBadCode());
+        $diffLine = $this->printCodeWrapped($diffContent, 'diff');
+
+        return [$diffLine];
     }
 }

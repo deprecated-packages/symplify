@@ -103,7 +103,7 @@
             "packages/autodiscovery/tests/Source/KernelProjectDir"
         ],
         "files": [
-            "vendor/squizlabs/php_codesniffer/src/Sniffs/Sniff.php"
+            "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
             "Symplify\\Autodiscovery\\Tests\\": "packages/autodiscovery/tests",
@@ -176,6 +176,9 @@
             "bin/clear_readmes.sh"
         ],
         "phpstan": "vendor/bin/phpstan analyse --error-format symplify --ansi",
+        "docs": [
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output packages/coding-standard/docs/rules_overview.md"
+        ],
         "changelog": [
             "packages/changelog-linker/bin/changelog-linker dump-merges --in-categories --in-packages --ansi",
             "packages/changelog-linker/bin/changelog-linker link --ansi",
