@@ -29,6 +29,7 @@ final class CodeSamplesPrinter
         $lines = [];
 
         foreach ($ruleDefinition->getCodeSamples() as $codeSample) {
+            /** @noRector */
             if (is_a($ruleDefinition->getRuleClass(), 'PhpCsFixer\Fixer\FixerInterface', true)) {
                 $lines = array_merge($lines, $this->printDiffCodeSample($codeSample));
             } else {
