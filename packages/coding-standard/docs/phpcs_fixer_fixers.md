@@ -294,3 +294,25 @@ namespace App;
 :+1:
 
 <br>
+
+## CommentedOutCodeSniff
+
+There should be no commented code. Git is good enough for versioning
+
+- `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
+
+```php
+// $one = 1;
+// $two = 2;
+// $three = 3;
+```
+
+:x:
+
+```php
+// note
+```
+
+:+1:
+
+<br>

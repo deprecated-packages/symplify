@@ -35,10 +35,15 @@ final class ConsoleDiffer
         $this->colorConsoleDiffFormatter = $colorConsoleDiffFormatter;
     }
 
-    public function diff(string $old, string $new): void
+    public function diff(string $old, string $new): string
     {
         $diff = $this->differ->diff($old, $new);
-        $consoleFormatted = $this->colorConsoleDiffFormatter->format($diff);
-        $this->symfonyStyle->writeln($consoleFormatted);
+        return $this->colorConsoleDiffFormatter->format($diff);
+    }
+
+    public function diffAndPrint(string $old, string $new): void
+    {
+        $formattedDiff = $this->diff($old, $new);
+        $this->symfonyStyle->writeln($formattedDiff);
     }
 }

@@ -103,7 +103,7 @@
             "packages/autodiscovery/tests/Source/KernelProjectDir"
         ],
         "files": [
-            "vendor/squizlabs/php_codesniffer/src/Sniffs/Sniff.php"
+            "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
             "Symplify\\Autodiscovery\\Tests\\": "packages/autodiscovery/tests",

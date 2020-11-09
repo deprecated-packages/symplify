@@ -48,7 +48,7 @@ final class GenerateCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('Generated Markdown documentation based on documented rules found in directory');
-        $this->addArgument(Option::PATH, InputArgument::REQUIRED, 'Path to directory with documented rules');
+        $this->addArgument(Option::PATH, InputArgument::REQUIRED, 'Path to directory of your project');
         $this->addOption(
             Option::OUTPUT,
             null,
