@@ -10,6 +10,8 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\Annotation\RemovePHPStormAnnotationFixer\RemovePHPStormAnnotationFixerTest
@@ -20,11 +22,16 @@ final class RemovePHPStormAnnotationFixer extends AbstractSymplifyFixer
      * @see https://regex101.com/r/nGZBzj/2
      * @var string
      */
-    private const CRETED_BY_PHPSTORM_DOC_REGEX = '#\/\*\*\s+\*\s+Created by PHPStorm(.*?)\*\/#msi';
+    private const CREATED_BY_PHPSTORM_DOC_REGEX = '#\/\*\*\s+\*\s+Created by PHPStorm(.*?)\*\/#msi';
+
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Remove "Created by PhpStorm" annotations';
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Remove "Created by PhpStorm" annotations', []);
+        return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
     public function isCandidate(Tokens $tokens): bool
@@ -41,7 +48,7 @@ final class RemovePHPStormAnnotationFixer extends AbstractSymplifyFixer
             }
 
             $originalDocContent = $token->getContent();
-            $cleanedDocContent = Strings::replace($originalDocContent, self::CRETED_BY_PHPSTORM_DOC_REGEX, '');
+            $cleanedDocContent = Strings::replace($originalDocContent, self::CREATED_BY_PHPSTORM_DOC_REGEX, '');
             if ($cleanedDocContent !== '') {
                 continue;
             }
@@ -49,5 +56,30 @@ final class RemovePHPStormAnnotationFixer extends AbstractSymplifyFixer
             // remove token
             $tokens->clearAt($index);
         }
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+/**
+ * Created by PhpStorm.
+ * User: ...
+ * Date: 17/10/17
+ * Time: 8:50 AM
+ */
+class SomeClass
+{
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

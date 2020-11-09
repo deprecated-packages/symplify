@@ -12,11 +12,14 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\Naming\StandardizeHereNowDocKeywordFixer\StandardizeHereNowDocKeywordFixerTest
  */
-final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface
+final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer implements ConfigurableFixerInterface, DocumentedRuleInterface
 {
     /**
      * @api
@@ -39,11 +42,16 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
     /**
      * @var string
      */
+    private const ERROR_MESSAGE = 'Use configured nowdoc and heredoc keyword';
+
+    /**
+     * @var string
+     */
     private $keyword = self::DEFAULT_KEYWORD;
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Use configured nowdoc and heredoc keyword', []);
+        return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
     public function isCandidate(Tokens $tokens): bool
@@ -74,6 +82,29 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
     public function configure(?array $configuration = null): void
     {
         $this->keyword = $configuration[self::KEYWORD] ?? self::DEFAULT_KEYWORD;
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+$value = <<<'WHATEVER'
+...
+'WHATEVER'
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+$value = <<<'CODE_SNIPPET'
+...
+'CODE_SNIPPET'
+CODE_SAMPLE
+,
+                [
+                    self::KEYWORD => 'CODE_SNIPPET',
+                ]
+            ),
+        ]);
     }
 
     private function fixStartToken(Tokens $tokens, Token $token, int $position): void

@@ -10,19 +10,24 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\Spacing\SpaceAfterCommaHereNowDocFixer\SpaceAfterCommaHereNowDocFixerTest
  * @see https://3v4l.org/KPZXU
  */
-final class SpaceAfterCommaHereNowDocFixer extends AbstractSymplifyFixer
+final class SpaceAfterCommaHereNowDocFixer extends AbstractSymplifyFixer implements DocumentedRuleInterface
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Add space after nowdoc and heredoc keyword, to prevent bugs on PHP 7.2 and lower, see https://laravel-news.com/flexible-heredoc-and-nowdoc-coming-to-php-7-3';
+
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition(
-            'Add space after nowdoc and heredoc keyword, to prevent bugs on PHP 7.2 and lower, see https://laravel-news.com/flexible-heredoc-and-nowdoc-coming-to-php-7-3',
-            []
-        );
+        return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
     public function isCandidate(Tokens $tokens): bool
@@ -54,5 +59,31 @@ final class SpaceAfterCommaHereNowDocFixer extends AbstractSymplifyFixer
 
             $tokens->ensureWhitespaceAtIndex($position + 1, 0, PHP_EOL);
         }
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+$values = [
+    <<<RECTIFY
+Some content
+RECTIFY,
+    1000
+];
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+$values = [
+    <<<RECTIFY
+Some content
+RECTIFY
+,
+    1000
+];
+CODE_SAMPLE
+            ),
+        ]);
     }
 }

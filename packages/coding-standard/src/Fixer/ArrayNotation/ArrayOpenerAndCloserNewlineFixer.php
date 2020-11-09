@@ -8,17 +8,26 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\Fixer\AbstractArrayFixer;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer\ArrayOpenerAndCloserNewlineFixerTest
  */
-class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
+final class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer implements DocumentedRuleInterface
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Indexed PHP array opener [ and closer ] must be on own line';
+
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Indexed PHP array opener and closer must be indented on newline', []);
+        return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
     public function fixArrayOpener(Tokens $tokens, BlockInfo $blockInfo, int $index): void
@@ -45,6 +54,23 @@ class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer
     public function getPriority(): int
     {
         return $this->getPriorityBefore(LineLengthFixer::class);
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+$items = [1 => 'Hey'];
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+$items = [
+1 => 'Hey'
+];
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function isNextTokenAlsoArrayOpener(Tokens $tokens, int $index): bool

@@ -13,12 +13,20 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\DoctrineBlockFinder;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer\DoctrineAnnotationNewlineInNestedAnnotationFixerTest
  */
-final class DoctrineAnnotationNewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFixer
+final class DoctrineAnnotationNewlineInNestedAnnotationFixer extends AbstractDoctrineAnnotationFixer implements DocumentedRuleInterface
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Nested object annotations should start on a standalone line';
+
     /**
      * @var DoctrineBlockFinder
      */
@@ -44,7 +52,38 @@ final class DoctrineAnnotationNewlineInNestedAnnotationFixer extends AbstractDoc
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Nested annotation should start on standalone line', []);
+        return new FixerDefinition(self::ERROR_MESSAGE, []);
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="user", indexes={@ORM\Index(name="user_id", columns={"another_id"})})
+ */
+class SomeEntity
+{
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="user", indexes={
+ * @ORM\Index(name="user_id", columns={"another_id"})
+ * })
+ */
+class SomeEntity
+{
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     /**
