@@ -6,7 +6,7 @@ namespace Symplify\RuleDocGenerator\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\ConsoleColorDiff\ConsoleColorDiffBundle;
+use Symplify\MarkdownDiff\MarkdownDiffBundle;
 use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
@@ -22,6 +22,6 @@ final class RuleDocGeneratorKernel extends AbstractSymplifyKernel
      */
     public function registerBundles(): iterable
     {
-        return [new SymplifyKernelBundle(), new ConsoleColorDiffBundle()];
+        return [new SymplifyKernelBundle(), new MarkdownDiffBundle()];
     }
 }

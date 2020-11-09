@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ConsoleColorDiff\Differ;
+namespace Symplify\MarkdownDiff\Differ;
 
 use Nette\Utils\Strings;
 use SebastianBergmann\Diff\Differ;
 
+/**
+ * @see \Symplify\MarkdownDiff\Tests\Differ\MarkdownDifferTest
+ */
 final class MarkdownDiffer
 {
     /**
@@ -38,11 +41,10 @@ final class MarkdownDiffer
         }
 
         $diff = $this->markdownDiffer->diff($old, $new);
+        $diff = $this->clearUnifiedDiffOutputFirstLine($diff);
+        $diff = $this->removeTrailingWhitespaces($diff);
 
-        // remove first line, just meta info added by UnifiedDiffOutputBuilder
-        $diff = Strings::replace($diff, self::METADATA_REGEX);
-
-        return $this->removeTrailingWhitespaces($diff);
+        return $this->warpToDiffCode($diff);
     }
 
     /**
@@ -53,5 +55,15 @@ final class MarkdownDiffer
         $diff = Strings::replace($diff, self::SPACE_AND_NEWLINE_REGEX, PHP_EOL);
 
         return rtrim($diff);
+    }
+
+    private function warpToDiffCode(string $content): string
+    {
+        return '```diff' . PHP_EOL . $content . PHP_EOL . '```' . PHP_EOL;
+    }
+
+    private function clearUnifiedDiffOutputFirstLine(string $diff): string
+    {
+        return Strings::replace($diff, self::METADATA_REGEX);
     }
 }

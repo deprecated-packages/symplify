@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\Printer;
 
-use Symplify\ConsoleColorDiff\Differ\MarkdownDiffer;
+use Symplify\MarkdownDiff\Differ\MarkdownDiffer;
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -49,7 +49,7 @@ final class CodeSamplesPrinter
 
     private function printCodeWrapped(string $content, string $format): string
     {
-        return sprintf('```%s%s%s%s```', $format, PHP_EOL, rtrim($content), PHP_EOL);
+        return sprintf('```%s%s%s%s```', $format, PHP_EOL, rtrim($content), PHP_EOL) . PHP_EOL;
     }
 
     /**
@@ -76,9 +76,8 @@ final class CodeSamplesPrinter
      */
     private function printDiffCodeSample(CodeSampleInterface $codeSample): array
     {
-        $diffContent = $this->markdownDiffer->diff($codeSample->getGoodCode(), $codeSample->getBadCode());
-        $diffLine = $this->printCodeWrapped($diffContent, 'diff');
-
-        return [$diffLine];
+        $lines = [];
+        $lines[] = $this->markdownDiffer->diff($codeSample->getGoodCode(), $codeSample->getBadCode());
+        return $lines;
     }
 }
