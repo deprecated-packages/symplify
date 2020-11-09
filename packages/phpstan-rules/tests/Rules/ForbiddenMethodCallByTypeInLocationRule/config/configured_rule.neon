@@ -4,5 +4,5 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenTypeInLocations:
-                - View\Helper: ['Controller']
-                - Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallByTypeInLocationRule\Fixture\View\Helper\NumberHelper: ['Controller']
+                View\Helper: ['Controller']
+                Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallByTypeInLocationRule\Fixture\View\Helper\NumberHelper: ['Controller']

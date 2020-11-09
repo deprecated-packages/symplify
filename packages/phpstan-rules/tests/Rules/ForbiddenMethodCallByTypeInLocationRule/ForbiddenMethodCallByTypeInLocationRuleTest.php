@@ -8,6 +8,7 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenMethodCallByTypeInLocationRule;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallByTypeInLocationRule\Fixture\View\Helper\NumberHelper;
 
 final class ForbiddenMethodCallByTypeInLocationRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -25,6 +26,9 @@ final class ForbiddenMethodCallByTypeInLocationRuleTest extends AbstractServiceA
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipNotSpecified.php', []];
+        yield [__DIR__ . '/Fixture/Controller/AlbumController.php', [
+            [sprintf(ForbiddenMethodCallByTypeInLocationRule::ERROR_MESSAGE, NumberHelper::class, 'get', 'Controller'), 12]
+        ]];
     }
 
     protected function getRule(): Rule
