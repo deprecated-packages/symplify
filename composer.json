@@ -176,6 +176,9 @@
             "bin/clear_readmes.sh"
         ],
         "phpstan": "vendor/bin/phpstan analyse --error-format symplify --ansi",
+        "docs": [
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard/src/Fixer --output packages/coding-standard/docs/phpcs_fixer_fixers.md"
+        ],
         "changelog": [
             "packages/changelog-linker/bin/changelog-linker dump-merges --in-categories --in-packages --ansi",
             "packages/changelog-linker/bin/changelog-linker link --ansi",
