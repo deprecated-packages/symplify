@@ -6,6 +6,7 @@ use Rector\Core\Configuration\Option;
 use Rector\Naming\Rector\ClassMethod\MakeIsserClassMethodNameStartWithIsRector;
 use Rector\Naming\Rector\Property\MakeBoolPropertyRespectIsHasWasMethodNamingRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
+use Rector\Restoration\Rector\Class_\RemoveUselessJustForSakeInterfaceRector;
 use Rector\Set\ValueObject\SetList;
 use Rector\SOLID\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddArrayParamDocTypeRector;
@@ -17,6 +18,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ChangeReadOnlyPropertyWithDefaultValueToConstantRector::class);
 
     $services->set(AddArrayParamDocTypeRector::class);
+
+    $services->set(RemoveUselessJustForSakeInterfaceRector::class);
 
     $services->set(StringClassNameToClassConstantRector::class)
         ->call('configure', [[
