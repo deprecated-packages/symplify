@@ -2,7 +2,7 @@
 
 Some description
 
-- `Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPCSFixer\SomeFixer`
+- class: `Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPCSFixer\SomeFixer`
 
 ```diff
 -bad code
