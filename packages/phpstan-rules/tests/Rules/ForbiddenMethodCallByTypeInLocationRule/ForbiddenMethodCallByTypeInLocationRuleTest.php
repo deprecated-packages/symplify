@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallByTypeInLocationR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Psr\Container\ContainerInterface;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenMethodCallByTypeInLocationRule;
 
