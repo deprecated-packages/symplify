@@ -128,7 +128,7 @@ CODE_SAMPLE
     private function getForbiddenTypeByPattern(string $objectType): ?string
     {
         foreach (array_keys($this->forbiddenTypeInLocations) as $type) {
-            if (Strings::match($objectType, '#\b' . $type . '\b#')) {
+            if (Strings::match($objectType, '#\b' . addslashes($type) . '\b#')) {
                 return $type;
             }
         }
