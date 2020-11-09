@@ -27,7 +27,15 @@ final class ForbiddenMethodCallByTypeInLocationRuleTest extends AbstractServiceA
     {
         yield [__DIR__ . '/Fixture/SkipNotSpecified.php', []];
         yield [__DIR__ . '/Fixture/Controller/AlbumController.php', [
-            [sprintf(ForbiddenMethodCallByTypeInLocationRule::ERROR_MESSAGE, NumberHelper::class, 'get', 'Controller'), 12]
+            [
+                sprintf(
+                    ForbiddenMethodCallByTypeInLocationRule::ERROR_MESSAGE,
+                    NumberHelper::class,
+                    'get',
+                    'Controller'
+                ),
+                12,
+            ],
         ]];
     }
 
