@@ -10,13 +10,14 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallByTypeInLocationRule\ForbiddenMethodCallByTypeInLocationRuleTest
  */
-final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule
+final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
