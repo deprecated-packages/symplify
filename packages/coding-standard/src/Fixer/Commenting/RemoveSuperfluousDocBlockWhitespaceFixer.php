@@ -24,13 +24,19 @@ final class RemoveSuperfluousDocBlockWhitespaceFixer extends AbstractSymplifyFix
      */
     private const EMPTY_LINE_REGEX = '#(?<oneLine>[\t ]+\*\n){2,}#';
 
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Block comment should not have 2 empty lines in a row.';
+
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Block comment should not have 2 empty lines in a row.', []);
+        return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
     public function isCandidate(Tokens $tokens): bool
     {
+        return false;
         return $tokens->isTokenKindFound(T_DOC_COMMENT);
     }
 

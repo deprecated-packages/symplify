@@ -4,7 +4,8 @@ namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMult
 
 $emotions = [
     'filePath' => [
-        new Error(5, 'error message'), // keep this in line
+        // keep this in line
+        new Error(5, 'error message'),
     ],
     'anotherFilePath' => 'Hou'
 ];

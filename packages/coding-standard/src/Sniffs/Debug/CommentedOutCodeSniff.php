@@ -6,6 +6,9 @@ namespace Symplify\CodingStandard\Sniffs\Debug;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\CommentedOutCodeSniff as PHP_CodeSnifferCommentedOutCodeSniff;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * Additionally to parent check,
@@ -13,7 +16,7 @@ use PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\CommentedOutCodeSniff as PHP_Code
  *
  * @see \Symplify\CodingStandard\Tests\Sniffs\Debug\CommentedOutCode\CommentedOutCodeSniffTest
  */
-final class CommentedOutCodeSniff extends PHP_CodeSnifferCommentedOutCodeSniff
+final class CommentedOutCodeSniff extends PHP_CodeSnifferCommentedOutCodeSniff implements DocumentedRuleInterface
 {
     /**
      * @return int[]
@@ -35,6 +38,23 @@ final class CommentedOutCodeSniff extends PHP_CodeSnifferCommentedOutCodeSniff
         }
 
         parent::process($file, $position);
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition('There should be no commented code. Git is good enough for versioning', [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+// $one = 1;
+// $two = 2;
+// $three = 3;
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+// note
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     /**

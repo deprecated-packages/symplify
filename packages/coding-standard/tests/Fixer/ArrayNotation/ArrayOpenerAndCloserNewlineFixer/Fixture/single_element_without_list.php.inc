@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer\Fixture;
 
-class SkipSingleElementWithoutList
+class SingleElementWithoutList
 {
     public function __invoke(string $param)
     {
@@ -21,7 +21,7 @@ class SkipSingleElementWithoutList
 
 namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer\Fixture;
 
-class SkipSingleElementWithoutList
+class SingleElementWithoutList
 {
     public function __invoke(string $param)
     {
