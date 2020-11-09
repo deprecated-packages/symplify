@@ -13,7 +13,7 @@ use PHPStan\Type\ObjectType;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallByTypeInLocationRule\ForbiddenMethodCallByTypeInLocationRuleTest
  */
-final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule
 {
     /**
      * @var string
