@@ -51,35 +51,30 @@ final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return [];
+        }
+
         $variableType = $scope->getType($node->var);
         if (! $variableType instanceof ObjectType) {
             return [];
         }
 
         $className = $variableType->getClassName();
-        $forbiddenType = $this->getForbiddenTypeByPattern($className);
-
-        if ($forbiddenType === null && array_key_exists($className, $this->forbiddenTypeInLocations)) {
-            $forbiddenType = $className;
-        }
-
-        if ($forbiddenType === null) {
-            return [];
-        }
-
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
-            return [];
-        }
-
         $name = $classReflection->getName();
+
+        $location = $this->getLocationOfCurrentClassName($name);
+        if ($location === null) {
+            return null;
+        }
 
         /** @var Identifier $methodIdentifier */
         $methodIdentifier = $node->name;
         $methodName = $methodIdentifier->toString();
 
-        foreach ($this->forbiddenTypeInLocations[$forbiddenType] as $location) {
-            if (Strings::match($name, '#\b' . $location . '\b#')) {
+        foreach ($this->forbiddenTypeInLocations[$location] as $type) {
+            if (Strings::match($className, '#\b' . addslashes($type) . '\b#')) {
                 return [sprintf(self::ERROR_MESSAGE, $className, $methodName, $location)];
             }
         }
@@ -125,14 +120,15 @@ CODE_SAMPLE
         ]);
     }
 
-    private function getForbiddenTypeByPattern(string $objectType): ?string
+    private function getLocationOfCurrentClassName(string $className): ?string
     {
-        foreach (array_keys($this->forbiddenTypeInLocations) as $type) {
-            if (Strings::match($objectType, '#\b' . addslashes($type) . '\b#')) {
-                return $type;
+        $location = null;
+        foreach (array_keys($this->forbiddenTypeInLocations) as $location) {
+            if (Strings::match($className, '#\b' . $location . '\b#')) {
+                break;
             }
         }
 
-        return null;
+        return $location;
     }
 }
