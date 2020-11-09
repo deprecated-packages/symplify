@@ -66,7 +66,7 @@ final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule
 
         $location = $this->getLocationOfCurrentClassName($name);
         if ($location === null) {
-            return null;
+            return [];
         }
 
         /** @var Identifier $methodIdentifier */
