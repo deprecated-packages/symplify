@@ -1,0 +1,9 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallByTypeInLocationRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypeInLocations:
+                Controller:
+                    - View\Helper
+                    - Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallByTypeInLocationRule\Fixture\View\Helper\NumberHelper
