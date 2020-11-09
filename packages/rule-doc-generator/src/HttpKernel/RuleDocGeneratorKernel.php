@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\HttpKernel;
 
+use Migrify\PhpConfigPrinter\Bundle\PhpConfigPrinterBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\MarkdownDiff\MarkdownDiffBundle;
@@ -22,6 +23,6 @@ final class RuleDocGeneratorKernel extends AbstractSymplifyKernel
      */
     public function registerBundles(): iterable
     {
-        return [new SymplifyKernelBundle(), new MarkdownDiffBundle()];
+        return [new SymplifyKernelBundle(), new MarkdownDiffBundle(), new PhpConfigPrinterBundle()];
     }
 }
