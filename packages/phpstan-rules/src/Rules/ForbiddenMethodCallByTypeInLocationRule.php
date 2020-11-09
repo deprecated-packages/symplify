@@ -55,18 +55,15 @@ final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule
             return [];
         }
 
-        $objectTypeName = $variableType->getClassName();
-        $className = $objectTypeName;
+        $objectType = $variableType->getClassName();
+        $forbiddenType = $this->getForbiddenTypeByPattern($objectType);
 
-        if (! array_key_exists($objectTypeName, $this->forbiddenTypeInLocations)) {
-            return [];
+        if ($forbiddenType === null && array_key_exists($objectType, $this->forbiddenTypeInLocations)) {
+            $forbiddenType = $objectType;
         }
 
-        foreach (array_keys($this->forbiddenTypeInLocations) as $type) {
-            if (Strings::match($objectTypeName, '#\b' . $type . '\b#')) {
-                $objectTypeName = $type;
-                break;
-            }
+        if ($forbiddenType === null) {
+            return [];
         }
 
         $classReflection = $scope->getClassReflection();
@@ -80,9 +77,9 @@ final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule
         $methodIdentifier = $node->name;
         $methodName = $methodIdentifier->toString();
 
-        foreach ($this->forbiddenTypeInLocations[$objectTypeName] as $location) {
+        foreach ($this->forbiddenTypeInLocations[$forbiddenType] as $location) {
             if (Strings::match($name, '#\b' . $location . '\b#')) {
-                return [sprintf(self::ERROR_MESSAGE, $className, $methodName, $location)];
+                return [sprintf(self::ERROR_MESSAGE, $objectType, $methodName, $location)];
             }
         }
 
@@ -125,5 +122,16 @@ final class AlbumController
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function getForbiddenTypeByPattern(string $objectType): ?string
+    {
+        foreach (array_keys($this->forbiddenTypeInLocations) as $type) {
+            if (Strings::match($objectType, '#\b' . $type . '\b#')) {
+                return $type;
+            }
+        }
+
+        return null;
     }
 }
