@@ -15,12 +15,20 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\Spacing\MethodChainingNewlineFixer\MethodChainingNewlineFixerTest
  */
-final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
+final class MethodChainingNewlineFixer extends AbstractSymplifyFixer implements DocumentedRuleInterface
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Each chain method call must be on own line';
+
     /**
      * @var WhitespacesFixerConfig
      */
@@ -44,7 +52,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Makes each chain method call on own line', []);
+        return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
     public function getPriority(): int
@@ -73,6 +81,22 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer
             $tokens->ensureWhitespaceAtIndex($index, 0, $this->whitespacesFixerConfig->getLineEnding());
             ++$index;
         }
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+$someClass->firstCall()->secondCall();
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+$someClass->firstCall()
+->secondCall();
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     private function shouldPrefixNewline(Tokens $tokens, int $objectOperatorIndex): bool

@@ -2,12 +2,8 @@
 
 declare(strict_types=1);
 
-/**
- *
- *
- * @param
- * @return int
- */
-function some(): int
+class SomeClass
 {
+    public    $a     =   '100';
+    public const    HEY     =  'yaa';
 }
