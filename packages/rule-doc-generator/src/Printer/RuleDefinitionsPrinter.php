@@ -25,6 +25,8 @@ final class RuleDefinitionsPrinter
     public function print(array $ruleDefinitions): array
     {
         $markdownLines = [];
+        $markdownLines[] = '# Rules Overview';
+
         foreach ($ruleDefinitions as $ruleDefinition) {
             $markdownLines[] = '## ' . $ruleDefinition->getRuleShortClass();
             $markdownLines[] = $ruleDefinition->getDescription();

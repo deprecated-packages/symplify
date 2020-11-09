@@ -1,3 +1,5 @@
+# Rules Overview
+
 ## SomePHPStanRule
 
 Some description
