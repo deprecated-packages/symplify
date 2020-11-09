@@ -60,7 +60,6 @@ final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule
             return [];
         }
 
-
         $classReflection = $scope->getClassReflection();
         if ($classReflection === null) {
             return [];
