@@ -55,9 +55,18 @@ final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule
             return [];
         }
 
-        $className = $variableType->getClassName();
-        if (! array_key_exists($className, $this->forbiddenTypeInLocations)) {
+        $objectTypeName = $variableType->getClassName();
+        $className = $objectTypeName;
+
+        if (! array_key_exists($objectTypeName, $this->forbiddenTypeInLocations)) {
             return [];
+        }
+
+        foreach (array_keys($this->forbiddenTypeInLocations) as $type) {
+            if (Strings::match($objectTypeName, '#\b' . $type . '\b#')) {
+                $objectTypeName = $type;
+                break;
+            }
         }
 
         $classReflection = $scope->getClassReflection();
@@ -71,7 +80,7 @@ final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule
         $methodIdentifier = $node->name;
         $methodName = $methodIdentifier->toString();
 
-        foreach ($this->forbiddenTypeInLocations[$className] as $location) {
+        foreach ($this->forbiddenTypeInLocations[$objectTypeName] as $location) {
             if (Strings::match($name, '#\b' . $location . '\b#')) {
                 return [sprintf(self::ERROR_MESSAGE, $className, $methodName, $location)];
             }
