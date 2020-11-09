@@ -7,8 +7,11 @@ namespace Symplify\PHPStanRules\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallByTypeInLocationRule\ForbiddenMethodCallByTypeInLocationRuleTest
@@ -57,13 +60,62 @@ final class ForbiddenMethodCallByTypeInLocationRule extends AbstractSymplifyRule
             return [];
         }
 
-        $methodName = $methodCall->name->toString();
+
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return [];
+        }
+
+        $currentLocation = $classReflection->getName();
+
+        /** @var Identifier $methodIdentifier */
+        $methodIdentifier = $node->name;
+        $methodName = $methodIdentifier->toString();
+
         foreach ($this->forbiddenTypeInLocations[$className] as $location) {
-            if (Strings::match($className, '#\b' . $location . '\b#')) {
+            if (Strings::match($currentLocation, '#\b' . $location . '\b#')) {
                 return [sprintf(self::ERROR_MESSAGE, $className, $methodName, $location)];
             }
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        $description = sprintf(self::ERROR_MESSAGE, '"ClassName"', '"method"', '"Location"');
+
+        return new RuleDefinition($description, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+namespace App\Controller;
+
+use View\Helper;
+
+final class AlbumController
+{
+    public function get()
+    {
+        $helper = new Helper();
+        $helper->number(4);
+
+        return render();
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+namespace App\Controller;
+
+final class AlbumController
+{
+    public function get()
+    {
+        return render();
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 }
