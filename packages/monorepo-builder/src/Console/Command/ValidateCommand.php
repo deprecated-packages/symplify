@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
+use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\ShellCode;
 
-final class ValidateCommand extends Command
+final class ValidateCommand extends AbstractMonorepoBuilderCommand
 {
     /**
      * @var SymfonyStyle
@@ -35,11 +35,17 @@ final class ValidateCommand extends Command
      */
     private $conflictingPackageVersionsReporter;
 
+    /**
+     * @var SourcesPresenceValidator
+     */
+    private $sourcesPresenceValidator;
+
     public function __construct(
         SymfonyStyle $symfonyStyle,
         ComposerJsonProvider $composerJsonProvider,
         VersionValidator $versionValidator,
-        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter
+        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter,
+        SourcesPresenceValidator $sourcesPresenceValidator
     ) {
         parent::__construct();
 
@@ -47,15 +53,20 @@ final class ValidateCommand extends Command
         $this->versionValidator = $versionValidator;
         $this->composerJsonProvider = $composerJsonProvider;
         $this->conflictingPackageVersionsReporter = $conflictingPackageVersionsReporter;
+        $this->sourcesPresenceValidator = $sourcesPresenceValidator;
     }
 
     protected function configure(): void
     {
+        parent::configure();
+
         $this->setDescription('Validates synchronized versions in "composer.json" in all found packages.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->sourcesPresenceValidator->validatePackageComposerJsons();
+
         $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
             $this->composerJsonProvider->getRootAndPackageFileInfos()
         );

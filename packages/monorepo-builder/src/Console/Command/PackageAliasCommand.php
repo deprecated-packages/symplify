@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -14,7 +13,7 @@ use Symplify\MonorepoBuilder\Finder\PackageComposerFinder;
 use Symplify\MonorepoBuilder\Utils\VersionUtils;
 use Symplify\PackageBuilder\Console\ShellCode;
 
-final class PackageAliasCommand extends Command
+final class PackageAliasCommand extends AbstractMonorepoBuilderCommand
 {
     /**
      * @var SymfonyStyle
@@ -52,6 +51,8 @@ final class PackageAliasCommand extends Command
 
     protected function configure(): void
     {
+        parent::configure();
+
         $this->setDescription('Updates branch alias in "composer.json" all found packages');
     }
 

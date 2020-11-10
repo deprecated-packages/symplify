@@ -13,6 +13,7 @@ use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Merge\Application\MergedAndDecoratedComposerJsonFactory;
+use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
@@ -54,6 +55,11 @@ final class MergeCommand extends Command
      */
     private $mergedAndDecoratedComposerJsonFactory;
 
+    /**
+     * @var SourcesPresenceValidator
+     */
+    private $sourcesPresenceValidator;
+
     public function __construct(
         SymfonyStyle $symfonyStyle,
         VersionValidator $versionValidator,
@@ -61,7 +67,8 @@ final class MergeCommand extends Command
         ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter,
         ComposerJsonFactory $composerJsonFactory,
         JsonFileManager $jsonFileManager,
-        MergedAndDecoratedComposerJsonFactory $mergedAndDecoratedComposerJsonFactory
+        MergedAndDecoratedComposerJsonFactory $mergedAndDecoratedComposerJsonFactory,
+        SourcesPresenceValidator $sourcesPresenceValidator
     ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->versionValidator = $versionValidator;
@@ -72,6 +79,8 @@ final class MergeCommand extends Command
         $this->mergedAndDecoratedComposerJsonFactory = $mergedAndDecoratedComposerJsonFactory;
 
         parent::__construct();
+
+        $this->sourcesPresenceValidator = $sourcesPresenceValidator;
     }
 
     protected function configure(): void
@@ -81,6 +90,8 @@ final class MergeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->sourcesPresenceValidator->validatePackageComposerJsons();
+
         $this->ensureNoConflictingPackageVersions();
 
         $mainComposerJsonFilePath = getcwd() . '/composer.json';

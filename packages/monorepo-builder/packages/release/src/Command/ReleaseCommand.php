@@ -17,6 +17,7 @@ use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
 use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
 use Symplify\MonorepoBuilder\Release\ValueObject\SemVersion;
 use Symplify\MonorepoBuilder\Release\Version\VersionFactory;
+use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -43,11 +44,17 @@ final class ReleaseCommand extends Command
      */
     private $versionFactory;
 
+    /**
+     * @var SourcesPresenceValidator
+     */
+    private $sourcesPresenceValidator;
+
     public function __construct(
         SymfonyStyle $symfonyStyle,
         ReleaseWorkerProvider $releaseWorkerProvider,
         ReleaseGuard $releaseGuard,
-        VersionFactory $versionFactory
+        VersionFactory $versionFactory,
+        SourcesPresenceValidator $sourcesPresenceValidator
     ) {
         parent::__construct();
 
@@ -55,6 +62,7 @@ final class ReleaseCommand extends Command
         $this->releaseGuard = $releaseGuard;
         $this->releaseWorkerProvider = $releaseWorkerProvider;
         $this->versionFactory = $versionFactory;
+        $this->sourcesPresenceValidator = $sourcesPresenceValidator;
     }
 
     protected function configure(): void
@@ -79,6 +87,8 @@ final class ReleaseCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->sourcesPresenceValidator->validateRootComposerJsonName();
+
         // validation phase
         $stage = $this->resolveStage($input);
 
