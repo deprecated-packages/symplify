@@ -1,9 +1,8 @@
 parameters:
-	level: 8
-	paths:
-		- packages
+    level: max
+    paths:
+        - packages
 
-	reportUnmatchedIgnoredErrors: false
-	parallel:
-		maximumNumberOfProcesses: 6
-
+    reportUnmatchedIgnoredErrors: false
+    parallel:
+        maximumNumberOfProcesses: 6
