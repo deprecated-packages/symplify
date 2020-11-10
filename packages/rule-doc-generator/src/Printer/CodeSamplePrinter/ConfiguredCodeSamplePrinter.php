@@ -39,7 +39,7 @@ final class ConfiguredCodeSamplePrinter
     }
 
     /**
-     * @return string[]
+     * @return mixed[]|string[]
      */
     public function print(ConfiguredCodeSample $configuredCodeSample, RuleDefinition $ruleDefinition): array
     {
