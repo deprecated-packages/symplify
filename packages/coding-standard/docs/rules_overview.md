@@ -1,11 +1,14 @@
+# Rules Overview
+
 ## DoctrineAnnotationNewlineInNestedAnnotationFixer
 
 Nested object annotations should start on a standalone line
 
-- `Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer`
+- class: `Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer`
 
 ```diff
  use Doctrine\ORM\Mapping as ORM;
+
  /**
 - * @ORM\Table(name="user", indexes={@ORM\Index(name="user_id", columns={"another_id"})})
 + * @ORM\Table(name="user", indexes={
@@ -23,7 +26,7 @@ Nested object annotations should start on a standalone line
 
 Remove "Created by PhpStorm" annotations
 
-- `Symplify\CodingStandard\Fixer\Annotation\RemovePHPStormAnnotationFixer`
+- class: `Symplify\CodingStandard\Fixer\Annotation\RemovePHPStormAnnotationFixer`
 
 ```diff
 -/**
@@ -43,7 +46,7 @@ Remove "Created by PhpStorm" annotations
 
 Indexed PHP array item has to have one line per item
 
-- `Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer`
+- class: `Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer`
 
 ```diff
 -$value = ['simple' => 1, 'easy' => 2];
@@ -57,7 +60,7 @@ Indexed PHP array item has to have one line per item
 
 Indexed PHP array opener [ and closer ] must be on own line
 
-- `Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer`
+- class: `Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer`
 
 ```diff
 -$items = [1 => 'Hey'];
@@ -72,7 +75,7 @@ Indexed PHP array opener [ and closer ] must be on own line
 
 Indexed arrays must have 1 item per line
 
-- `Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`
+- class: `Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`
 
 ```diff
 -$friends = [1 => 'Peter', 2 => 'Paul'];
@@ -88,7 +91,7 @@ Indexed arrays must have 1 item per line
 
 Fixes @param, @return, @var and inline @var annotations broken formats
 
-- `Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`
+- class: `Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`
 
 ```diff
  /**
@@ -106,7 +109,9 @@ Fixes @param, @return, @var and inline @var annotations broken formats
 
 Array items, method parameters, method call arguments, new arguments should be on same/standalone line to fit line length.
 
-- `Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`
+:wrench: **configure it!**
+
+- class: `Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`
 
 ```diff
 -function some($veryLong, $superLong, $oneMoreTime)
@@ -126,13 +131,33 @@ Array items, method parameters, method call arguments, new arguments should be o
  }
 ```
 
+```php
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(LineLengthFixer::class)
+        ->call('configure', [[
+            LineLengthFixer::LINE_LENGTH => 40,
+        ]]);
+};
+```
+
 <br>
 
 ## StandardizeHereNowDocKeywordFixer
 
 Use configured nowdoc and heredoc keyword
 
-- `Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer`
+:wrench: **configure it!**
+
+- class: `Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer`
 
 ```diff
 -$value = <<<'WHATEVER'
@@ -142,13 +167,31 @@ Use configured nowdoc and heredoc keyword
 +'CODE_SNIPPET'
 ```
 
+```php
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(StandardizeHereNowDocKeywordFixer::class)
+        ->call('configure', [[
+            StandardizeHereNowDocKeywordFixer::KEYWORD => 'CODE_SNIPPET',
+        ]]);
+};
+```
+
 <br>
 
 ## MethodChainingNewlineFixer
 
 Each chain method call must be on own line
 
-- `Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer`
+- class: `Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer`
 
 ```diff
 -$someClass->firstCall()->secondCall();
@@ -162,7 +205,7 @@ Each chain method call must be on own line
 
 Add space after nowdoc and heredoc keyword, to prevent bugs on PHP 7.2 and lower, see https://laravel-news.com/flexible-heredoc-and-nowdoc-coming-to-php-7-3
 
-- `Symplify\CodingStandard\Fixer\Spacing\SpaceAfterCommaHereNowDocFixer`
+- class: `Symplify\CodingStandard\Fixer\Spacing\SpaceAfterCommaHereNowDocFixer`
 
 ```diff
  $values = [
@@ -181,7 +224,7 @@ Add space after nowdoc and heredoc keyword, to prevent bugs on PHP 7.2 and lower
 
 Strict type declaration has to be followed by empty line
 
-- `Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`
+- class: `Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`
 
 ```diff
  declare(strict_types=1);
@@ -195,9 +238,11 @@ Strict type declaration has to be followed by empty line
 
 There should be no commented code. Git is good enough for versioning
 
-- `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
+- class: `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
 
 ```php
+declare(strict_types=1);
+
 // $one = 1;
 // $two = 2;
 // $three = 3;
@@ -206,6 +251,8 @@ There should be no commented code. Git is good enough for versioning
 :x:
 
 ```php
+declare(strict_types=1);
+
 // note
 ```
 

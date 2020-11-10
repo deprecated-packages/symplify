@@ -66,7 +66,10 @@ final class DirectoryToMarkdownPrinter
         // 3. print rule definitions to markdown lines
         $markdownLines = $this->ruleDefinitionsPrinter->print($ruleDefinitions);
 
-        $fileContent = implode(PHP_EOL . PHP_EOL, $markdownLines);
+        $fileContent = '';
+        foreach ($markdownLines as $markdownLine) {
+            $fileContent .= trim($markdownLine) . PHP_EOL . PHP_EOL;
+        }
 
         return rtrim($fileContent) . PHP_EOL;
     }

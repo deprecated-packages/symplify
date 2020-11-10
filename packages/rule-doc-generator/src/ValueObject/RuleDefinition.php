@@ -73,4 +73,15 @@ final class RuleDefinition
     {
         return $this->codeSamples;
     }
+
+    public function isConfigurable(): bool
+    {
+        foreach ($this->codeSamples as $codeSample) {
+            if ($codeSample instanceof ConfiguredCodeSample) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

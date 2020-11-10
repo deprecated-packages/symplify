@@ -78,6 +78,7 @@
             "Symplify\\EasyHydrator\\": "packages/easy-hydrator/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\FlexLoader\\": "packages/flex-loader/src",
+            "Symplify\\MarkdownDiff\\": "packages/markdown-diff/src",
             "Symplify\\MonorepoBuilder\\": "packages/monorepo-builder/src",
             "Symplify\\MonorepoBuilder\\Init\\": "packages/monorepo-builder/packages/init/src",
             "Symplify\\MonorepoBuilder\\Merge\\": "packages/monorepo-builder/packages/merge/src",
@@ -121,6 +122,7 @@
             "Symplify\\EasyHydrator\\Tests\\": "packages/easy-hydrator/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\FlexLoader\\Tests\\": "packages/flex-loader/tests",
+            "Symplify\\MarkdownDiff\\Tests\\": "packages/markdown-diff/tests",
             "Symplify\\MonorepoBuilder\\Merge\\Tests\\": "packages/monorepo-builder/packages/merge/tests",
             "Symplify\\MonorepoBuilder\\Release\\Tests\\": "packages/monorepo-builder/packages/release/tests",
             "Symplify\\MonorepoBuilder\\Split\\Tests\\": "packages/monorepo-builder/packages/split/tests",
@@ -151,6 +153,7 @@
         "symplify/easy-hydrator": "^8.3.45",
         "symplify/easy-testing": "^8.3.45",
         "symplify/flex-loader": "^8.3.45",
+        "symplify/markdown-diff": "self.version",
         "symplify/monorepo-builder": "^8.3.45",
         "symplify/package-builder": "^8.3.45",
         "symplify/package-scoper": "self.version",
@@ -177,7 +180,8 @@
         ],
         "phpstan": "vendor/bin/phpstan analyse --error-format symplify --ansi",
         "docs": [
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output packages/coding-standard/docs/rules_overview.md"
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output packages/coding-standard/docs/rules_overview.md",
+            "packages/easy-coding-standard/bin/ecs check-markdown packages/coding-standard/docs/rules_overview.md --fix"
         ],
         "changelog": [
             "packages/changelog-linker/bin/changelog-linker dump-merges --in-categories --in-packages --ansi",

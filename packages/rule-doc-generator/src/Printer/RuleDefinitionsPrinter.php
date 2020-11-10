@@ -24,16 +24,23 @@ final class RuleDefinitionsPrinter
      */
     public function print(array $ruleDefinitions): array
     {
-        $markdownLines = [];
+        $lines = [];
+        $lines[] = '# Rules Overview';
+
         foreach ($ruleDefinitions as $ruleDefinition) {
-            $markdownLines[] = '## ' . $ruleDefinition->getRuleShortClass();
-            $markdownLines[] = $ruleDefinition->getDescription();
-            $markdownLines[] = '- class: `' . $ruleDefinition->getRuleClass() . '`';
+            $lines[] = '## ' . $ruleDefinition->getRuleShortClass();
+            $lines[] = $ruleDefinition->getDescription();
+
+            if ($ruleDefinition->isConfigurable()) {
+                $lines[] = ':wrench: **configure it!**';
+            }
+
+            $lines[] = '- class: `' . $ruleDefinition->getRuleClass() . '`';
 
             $codeSampleLines = $this->codeSamplesPrinter->print($ruleDefinition);
-            $markdownLines = array_merge($markdownLines, $codeSampleLines);
+            $lines = array_merge($lines, $codeSampleLines);
         }
 
-        return $markdownLines;
+        return $lines;
     }
 }
