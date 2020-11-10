@@ -80,6 +80,33 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
         return $this->processDependencyCheck($node, $foundInLocation, $location);
     }
 
+    public function getRuleDefinition(): RuleDefinition
+    {
+        $description = sprintf(self::ERROR_MESSAGE, '"Type"', '"Dependency Type"');
+
+        return new RuleDefinition($description, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class SomeController
+{
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    {
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeRepository
+{
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    {
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
+    }
+
     private function processDependencyCheck(ClassMethod $classMethod, bool $foundInLocation, ?string $location = null)
     {
         $params = $classMethod->getParams();
@@ -115,32 +142,5 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
         }
 
         return $allowedTypes;
-    }
-
-    public function getRuleDefinition(): RuleDefinition
-    {
-        $description = sprintf(self::ERROR_MESSAGE, '"Type"', '"Dependency Type"');
-
-        return new RuleDefinition($description, [
-            new CodeSample(
-                <<<'CODE_SAMPLE'
-class SomeController
-{
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
-    {
-    }
-}
-CODE_SAMPLE
-                ,
-                <<<'CODE_SAMPLE'
-class SomeRepository
-{
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
-    {
-    }
-}
-CODE_SAMPLE
-            ),
-        ]);
     }
 }
