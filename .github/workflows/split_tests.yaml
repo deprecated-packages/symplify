@@ -8,7 +8,8 @@ env:
     COMPOSER_ROOT_VERSION: "dev-master"
 
 jobs:
-    provide_packages:
+    provide_packages_json:
+        # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v2
@@ -24,36 +25,21 @@ jobs:
 
             -   run: composer install --no-progress --ansi
 
-            -   run: packages/
+            # get package json list
+            -
+                id: set-matrix
+                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json)
+
+        outputs:
+            matrix: ${{ steps.set-matrix.outputs.matrix }}
 
     split_tests:
+        needs: provide_packages_json
+
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
-            matrix:
-                package_name:
-                    - autowire-array-parameter
-                    - smart-file-system
-                    - package-builder
-                    - easy-coding-standard
-                    - easy-coding-standard-tester
-                    - composer-json-manipulator
-                    - coding-standard
-                    - changelog-linker
-                    - monorepo-builder
-                    - flex-loader
-                    - autodiscovery
-                    - set-config-resolver
-                    - console-color-diff
-                    - easy-hydrator
-                    - easy-testing
-                    - phpstan-extensions
-                    - symfony-static-dumper
-                    - skipper
-                    - phpstan-rules
-                    - rule-doc-generator
-                    - markdown-diff
-                    - phpstan-php-config
+            matrix: ${{fromJson(needs:provide_packages_json:outputs:matrix)}}
 
         name: Split Tests of ${{ matrix.package_name }}
 

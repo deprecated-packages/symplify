@@ -37,7 +37,9 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
             $packageRelativePaths[] = $package->getRelativePath();
         }
 
-        $json = Json::encode($packageRelativePaths);
+        $json = Json::encode([
+            'package_name' => $packageRelativePaths,
+        ]);
         $this->symfonyStyle->writeln($json);
 
         return ShellCode::SUCCESS;
