@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\SymfonyStaticDumper\Tests\Application;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
@@ -40,10 +38,6 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
         $this->symfonyStaticDumperApplication = self::$container->get(SymfonyStaticDumperApplication::class);
 
         $this->smartFileSystem = new SmartFileSystem();
-
-        // disable output in tests
-        $symfonyStyle = self::$container->get(SymfonyStyle::class);
-        $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
 
         $this->symfonyStaticDumperApplication->run(__DIR__ . '/../test_project/public', self::OUTPUT_DIRECTORY);
     }
