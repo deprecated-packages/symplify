@@ -132,10 +132,6 @@ Array items, method parameters, method call arguments, new arguments should be o
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 
@@ -168,10 +164,6 @@ Use configured nowdoc and heredoc keyword
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
 
@@ -241,8 +233,6 @@ There should be no commented code. Git is good enough for versioning
 - class: `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
 
 ```php
-declare(strict_types=1);
-
 // $one = 1;
 // $two = 2;
 // $three = 3;
@@ -251,8 +241,6 @@ declare(strict_types=1);
 :x:
 
 ```php
-declare(strict_types=1);
-
 // note
 ```
 
