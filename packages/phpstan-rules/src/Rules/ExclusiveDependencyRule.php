@@ -66,16 +66,10 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
             return [];
         }
 
-        $allowedTypes = [];
-        foreach ($this->allowedTypeByLocations as $types) {
-            foreach ($types as $type) {
-                $allowedTypes[] = $type;
-            }
-        }
-
         // Use loop on purpose to fetch $location variable
         // to be re-used in next params check
         $foundInLocation = false;
+        $location = null;
         foreach (array_keys($this->allowedTypeByLocations) as $location) {
             if ($this->arrayStringAndFnMatcher->isMatch($className, [$location])) {
                 $foundInLocation = true;
@@ -83,8 +77,13 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
             }
         }
 
-        $params = $node->getParams();
+        return $this->processDependencyCheck($node, $foundInLocation, $location);
+    }
 
+    private function processDependencyCheck(ClassMethod $classMethod, bool $foundInLocation, ?string $location = null)
+    {
+        $params = $classMethod->getParams();
+        $allowedTypes = $this->getAllowedTypes();
         foreach ($params as $param) {
             $type = $param->type;
             if (! $type instanceof FullyQualified) {
@@ -104,6 +103,18 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
         }
 
         return [];
+    }
+
+    private function getAllowedTypes()
+    {
+        $allowedTypes = [];
+        foreach ($this->allowedTypeByLocations as $types) {
+            foreach ($types as $type) {
+                $allowedTypes[] = $type;
+            }
+        }
+
+        return $allowedTypes;
     }
 
     public function getRuleDefinition(): RuleDefinition
