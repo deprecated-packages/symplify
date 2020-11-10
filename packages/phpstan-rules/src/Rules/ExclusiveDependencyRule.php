@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\ObjectType;
+use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
-use PhpParser\Node\Name\FullyQualified;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\ExclusiveDependencyRuleTest
