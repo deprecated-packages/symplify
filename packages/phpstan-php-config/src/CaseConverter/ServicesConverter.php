@@ -58,6 +58,9 @@ final class ServicesConverter
         return $services;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function convertServiceArguments(Definition $serviceDefinition, string $serviceClass): array
     {
         // get name from the position!

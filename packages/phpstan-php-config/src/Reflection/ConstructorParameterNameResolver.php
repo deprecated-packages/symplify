@@ -17,12 +17,12 @@ final class ConstructorParameterNameResolver
             throw new ShouldNotHappenException();
         }
 
-        foreach ($constructorReflection->getParameters() as $key => $parameterReflection) {
+        foreach ($constructorReflection->getParameters() as $key => $reflectionParameter) {
             if ($key !== $argumentPosition) {
                 continue;
             }
 
-            return '$' . $parameterReflection->name;
+            return '$' . $reflectionParameter->name;
         }
 
         throw new ShouldNotHappenException();

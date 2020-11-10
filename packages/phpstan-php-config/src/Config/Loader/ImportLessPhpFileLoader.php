@@ -17,11 +17,11 @@ final class ImportLessPhpFileLoader extends PhpFileLoader
     private $importsDataCollector;
 
     public function __construct(
-        ContainerBuilder $container,
-        FileLocatorInterface $locator,
+        ContainerBuilder $containerBuilder,
+        FileLocatorInterface $fileLocator,
         ImportsDataCollector $importsDataCollector
     ) {
-        parent::__construct($container, $locator);
+        parent::__construct($containerBuilder, $fileLocator);
 
         $this->importsDataCollector = $importsDataCollector;
     }

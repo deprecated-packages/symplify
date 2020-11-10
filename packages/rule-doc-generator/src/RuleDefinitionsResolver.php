@@ -40,9 +40,12 @@ final class RuleDefinitionsResolver
      */
     private function sortByClassName(array $ruleDefinitions): array
     {
-        usort($ruleDefinitions, function (RuleDefinition $firstRuleDefinition, RuleDefinition $secondRuleDefinition) {
-            return $firstRuleDefinition->getRuleShortClass() <=> $secondRuleDefinition->getRuleShortClass();
-        });
+        usort(
+            $ruleDefinitions,
+            function (RuleDefinition $firstRuleDefinition, RuleDefinition $secondRuleDefinition): int {
+                return $firstRuleDefinition->getRuleShortClass() <=> $secondRuleDefinition->getRuleShortClass();
+            }
+        );
 
         return $ruleDefinitions;
     }
