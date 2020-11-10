@@ -75,6 +75,8 @@ final class CodeSamplePrinter
         $lines[] = $this->markdownCodeWrapper->printPhpCode($codeSample->getGoodCode());
         $lines[] = ':x:';
 
+        $lines[] = '<br>';
+
         $lines[] = $this->markdownCodeWrapper->printPhpCode($codeSample->getBadCode());
         $lines[] = ':+1:';
 

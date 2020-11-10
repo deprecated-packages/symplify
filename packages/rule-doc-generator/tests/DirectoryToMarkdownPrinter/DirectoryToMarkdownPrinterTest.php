@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter;
 
 use Iterator;
+use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\RuleDocGenerator\DirectoryToMarkdownPrinter;
 use Symplify\RuleDocGenerator\HttpKernel\RuleDocGeneratorKernel;
@@ -30,6 +31,10 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
     public function test(SmartFileInfo $directoryFileInfo, string $expectedFile): void
     {
         $fileContent = $this->directoryToMarkdownPrinter->printDirectory($directoryFileInfo);
+
+        $expectedFileInfo = new SmartFileInfo($expectedFile);
+        StaticFixtureUpdater::updateExpectedFixtureContent($fileContent, $expectedFileInfo);
+
         $this->assertStringEqualsFile($expectedFile, $fileContent);
     }
 

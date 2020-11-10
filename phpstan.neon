@@ -365,5 +365,5 @@ parameters:
             paths:
                 # phpstan neon
                 - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/ConfiguredCodeSamplePrinter.php # 71
-                - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/ConfiguredCodeSamplePrinter.php # 73
                 - packages/phpstan-php-config/src/PHPStanPHPToNeonConverter.php
+                - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php

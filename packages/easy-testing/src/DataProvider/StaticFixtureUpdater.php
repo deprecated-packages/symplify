@@ -24,6 +24,18 @@ final class StaticFixtureUpdater
             ->dumpFile($fixtureFileInfo->getRealPath(), $newOriginalContent);
     }
 
+    public static function updateExpectedFixtureContent(
+        string $newOriginalContent,
+        SmartFileInfo $expectedFixtureFileInfo
+    ): void {
+        if (! getenv('UPDATE_TESTS') && ! getenv('UT')) {
+            return;
+        }
+
+        self::getSmartFileSystem()
+            ->dumpFile($expectedFixtureFileInfo->getRealPath(), $newOriginalContent);
+    }
+
     private static function getSmartFileSystem(): SmartFileSystem
     {
         return new SmartFileSystem();

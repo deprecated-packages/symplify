@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanPHPConfig;
 
-use Psr\Container\ContainerInterface;
 use Symplify\PackageBuilder\Neon\NeonPrinter;
 use Symplify\PHPStanPHPConfig\CaseConverter\ParameterConverter;
+use Symplify\PHPStanPHPConfig\CaseConverter\ServicesConverter;
 use Symplify\PHPStanPHPConfig\ContainerBuilderFactory\SymfonyContainerBuilderFactory;
 use Symplify\PHPStanPHPConfig\DataCollector\ImportsDataCollector;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -36,16 +36,23 @@ final class PHPStanPHPToNeonConverter
      */
     private $parameterConverter;
 
+    /**
+     * @var ServicesConverter
+     */
+    private $servicesConverter;
+
     public function __construct(
         SymfonyContainerBuilderFactory $symfonyContainerBuilderFactory,
         ImportsDataCollector $importsDataCollector,
         NeonPrinter $neonPrinter,
-        ParameterConverter $parameterConverter
+        ParameterConverter $parameterConverter,
+        ServicesConverter $servicesConverter
     ) {
         $this->symfonyContainerBuilderFactory = $symfonyContainerBuilderFactory;
         $this->importsDataCollector = $importsDataCollector;
         $this->neonPrinter = $neonPrinter;
         $this->parameterConverter = $parameterConverter;
+        $this->servicesConverter = $servicesConverter;
     }
 
     public function convert(SmartFileInfo $phpConfigFileInfo): string
@@ -65,28 +72,7 @@ final class PHPStanPHPToNeonConverter
             $phpStanNeon['parameters'] = $neonParameters;
         }
 
-        $services = [];
-        foreach ($containerBuilder->getDefinitions() as $serviceDefinition) {
-            if ($serviceDefinition->getClass() === null) {
-                continue;
-            }
-
-            if (is_a($serviceDefinition->getClass(), ContainerInterface::class, true)) {
-                continue;
-            }
-
-            $service = [
-                'class' => $serviceDefinition->getClass(),
-            ];
-
-            // automatically add a tag
-            if (is_a($serviceDefinition->getClass(), 'PHPStan\Rules\Rule', true)) {
-                $service['tags'] = ['phpstan.rules.rule'];
-            }
-
-            $services[] = $service;
-        }
-
+        $services = $this->servicesConverter->convertContainerBuilder($containerBuilder);
         if ($services !== []) {
             $phpStanNeon['services'] = $services;
         }

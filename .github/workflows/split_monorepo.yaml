@@ -34,6 +34,7 @@ jobs:
                     - phpstan-rules
                     - rule-doc-generator
                     - markdown-diff
+                    - phpstan-php-config
 
         name: Monorepo Split of ${{ matrix.package_name }}
 
