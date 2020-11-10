@@ -87,10 +87,23 @@ final class ForbiddenConstructorDependencyByTypeRule extends AbstractSymplifyRul
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function __construct(EntityManager $entityManager)
+    {
+        // ...
+    }
+}
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-
+class SomeClass
+{
+    public function __construct(ProductRepository $productRepository)
+    {
+        // ...
+    }
+}
 CODE_SAMPLE
                 ,
                 [

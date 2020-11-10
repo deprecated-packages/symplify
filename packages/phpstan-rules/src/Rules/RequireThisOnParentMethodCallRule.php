@@ -79,11 +79,37 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
+class SomeParentClass
+{
+    public function run()
+    {
+    }
+}
 
+class SomeClass extends SomeParentClass
+{
+    public function go()
+    {
+        parent::run();
+    }
+}
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
+class SomeParentClass
+{
+    public function run()
+    {
+    }
+}
 
+class SomeClass extends SomeParentClass
+{
+    public function go()
+    {
+        $tihs->run();
+    }
+}
 CODE_SAMPLE
             ),
         ]);

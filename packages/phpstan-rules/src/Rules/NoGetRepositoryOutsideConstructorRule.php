@@ -72,7 +72,13 @@ final class SomeController
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-
+final class SomeRepository
+{
+    public function __construct(EntityManager $entityManager): void
+    {
+        $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
+    }
+}
 CODE_SAMPLE
             ),
         ]);

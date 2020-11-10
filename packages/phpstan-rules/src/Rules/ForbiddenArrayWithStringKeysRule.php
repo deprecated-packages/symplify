@@ -84,7 +84,6 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-
 final class SomeClass
 {
     public function run()
