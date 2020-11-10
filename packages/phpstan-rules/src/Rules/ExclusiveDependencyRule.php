@@ -52,7 +52,7 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
 
     /**
      * @param ClassMethod $node
-     * @return mixed[]|mixed
+     * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
