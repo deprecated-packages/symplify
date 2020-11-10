@@ -1,0 +1,9 @@
+services:
+    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
+    -
+        class: Symplify\PHPStanRules\Rules\ExclusiveDependencyRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedTypeByLocations:
+                *Repository:
+                    - Doctrine\ORM\EntityManager
