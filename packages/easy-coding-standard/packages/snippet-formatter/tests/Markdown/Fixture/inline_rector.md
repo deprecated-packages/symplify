@@ -1,8 +1,6 @@
 Move value object to ValueObject namespace/directory
 
 ```php
-<?php
-
 declare(strict_types=1);
 
 use Rector\Autodiscovery\Rector\FileSystem\MoveValueObjectsToValueObjectDirectoryRector;

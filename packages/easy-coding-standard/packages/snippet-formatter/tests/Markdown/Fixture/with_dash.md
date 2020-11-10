@@ -1,7 +1,7 @@
 Hey
 
 ```php
-<?php
+
 
 function () {
     $obj = new stdClass;

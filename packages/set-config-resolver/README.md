@@ -15,14 +15,14 @@ composer require symplify/set-config-resolver
 Use in CLI entry file `bin/<app-name>`, e.g. `bin/ecs` or `bin/rector`.
 
 ```php
-# bin/ecsuse Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\EasyCodingStandard\Set\EasyCodingStandardSetProvider;
 use Symplify\SetConfigResolver\SetAwareConfigResolver;
 
 $configs = [];
 
 // 1. --config CLI option or local fallback
-$configResolver = new SetAwareConfigResolver(new EasyCodingStandardSetProvider());
+$configResolver = new SetAwareConfigResolver(new EasyCodingStandardSetProvider(...));
 $inputConfig = $configResolver->resolveFromInputWithFallback(new ArgvInput(), ['ecs.php']);
 
 if ($inputConfig !== null) {

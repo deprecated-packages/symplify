@@ -35,6 +35,7 @@ return [
 Having value object with constructor injection:
 
 ```php
+
 namespace App\ValueObject;
 
 use DateTimeInterface;
@@ -74,6 +75,7 @@ final class Person
 Use hydrator with array like this:
 
 ```php
+
 namespace App\Repository;
 
 use App\ValueObject\Person;

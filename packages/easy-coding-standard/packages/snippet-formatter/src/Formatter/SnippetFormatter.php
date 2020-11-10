@@ -28,7 +28,7 @@ final class SnippetFormatter
      * @see https://regex101.com/r/MJTq5C/2
      * @var string
      */
-    private const OPENING_TAG_REGEX = '#^(\<\?php)(\s+)?#ms';
+    private const OPENING_TAG_REGEX = '#^(\<\?php)\s+$#ms';
 
     /**
      * @var SmartFileSystem

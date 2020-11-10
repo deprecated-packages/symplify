@@ -14,7 +14,7 @@ Some description
 ```
 
 ```php
-<?php
+
 
 declare(strict_types=1);
 

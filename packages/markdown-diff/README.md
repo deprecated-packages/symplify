@@ -21,6 +21,7 @@ return [
 ## Usage
 
 ```php
+
 namespace App;
 
 use Symplify\MarkdownDiff\Differ\MarkdownDiffer;

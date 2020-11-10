@@ -1,7 +1,7 @@
 Hey
 
 ```php
-<?php
+
 $array = array('old array');
 ```
 

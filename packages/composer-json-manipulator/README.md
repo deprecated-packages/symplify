@@ -26,6 +26,7 @@ return [
 ## Usage
 
 ```php
+
 namespace App;
 
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
