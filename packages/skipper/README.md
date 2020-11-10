@@ -13,7 +13,6 @@ composer require symplify/skipper
 Register bundle in your Kernel:
 
 ```php
-
 namespace App;
 
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;

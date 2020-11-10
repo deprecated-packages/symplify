@@ -16,7 +16,6 @@ Do you use unit fixture file format?
 
 ```php
 
-
 echo 'content before';
 
 ?>

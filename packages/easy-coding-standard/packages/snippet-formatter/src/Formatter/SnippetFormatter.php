@@ -22,13 +22,13 @@ final class SnippetFormatter
      * @see https://regex101.com/r/MJTq5C/1
      * @var string
      */
-    private const DECLARE_REGEX = '#(\s+declare\(strict\_types\=1\)\;\s+)#ms';
+    private const DECLARE_REGEX = '#(declare\(strict\_types\=1\)\;\s+)#ms';
 
     /**
-     * @see https://regex101.com/r/MJTq5C/2
+     * @see https://regex101.com/r/MJTq5C/3
      * @var string
      */
-    private const OPENING_TAG_REGEX = '#^(\<\?php)\s+$#ms';
+    private const OPENING_TAG_REGEX = '#^\<\?php\s+(\S)#ms';
 
     /**
      * @var SmartFileSystem
@@ -134,8 +134,9 @@ final class SnippetFormatter
     private function removeOpeningTagAndStrictTypes(string $content): string
     {
         $content = Strings::replace($content, self::DECLARE_REGEX, '');
+        $content = ltrim($content);
 
-        return Strings::replace($content, self::OPENING_TAG_REGEX, '');
+        return Strings::replace($content, self::OPENING_TAG_REGEX, '$1');
     }
 
     private function createTemporaryFilePath(string $content): string

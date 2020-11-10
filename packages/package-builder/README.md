@@ -29,7 +29,6 @@ services:
 Then require in `__construct()` where needed:
 
 ```php
-
 namespace App\Configuration;
 
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
@@ -77,7 +76,6 @@ $vendorDirProvider->provide();
 Do you want to allow users to register services without worrying about autowiring? After all, they might forget it and that would break their code. Set types to always autowire:
 
 ```php
-
 namespace App;
 
 use PhpCsFixer\Fixer\FixerInterface;

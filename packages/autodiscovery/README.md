@@ -74,7 +74,6 @@ How can we avoid that?
 ```
 
 ```php
-
 namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -131,7 +130,6 @@ twig:
 ```
 
 ```php
-
 namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -179,7 +177,6 @@ framework:
 ```
 
 ```php
-
 namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -233,7 +230,6 @@ social_annotations:
 ```
 
 ```php
-
 namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;

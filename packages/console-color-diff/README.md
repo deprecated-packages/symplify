@@ -21,7 +21,6 @@ return [
 ## Usage
 
 ```php
-
 namespace App;
 
 use Symplify\ConsoleColorDiff\Console\Output\ConsoleDiffer;

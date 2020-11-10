@@ -19,7 +19,6 @@ composer require symplify/easy-coding-standard-tester --dev
 2. Provide files to `doTestFiles()` method
 
 ```php
-
 namespace Your\CodingStandard\Tests\Fixer\YourFixer;
 
 use Iterator;
