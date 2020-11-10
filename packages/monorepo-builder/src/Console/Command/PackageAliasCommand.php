@@ -6,20 +6,15 @@ namespace Symplify\MonorepoBuilder\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\Finder\PackageComposerFinder;
 use Symplify\MonorepoBuilder\Utils\VersionUtils;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
-final class PackageAliasCommand extends AbstractMonorepoBuilderCommand
+final class PackageAliasCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
     /**
      * @var PackageComposerFinder
      */
@@ -36,14 +31,12 @@ final class PackageAliasCommand extends AbstractMonorepoBuilderCommand
     private $versionUtils;
 
     public function __construct(
-        SymfonyStyle $symfonyStyle,
         PackageComposerFinder $packageComposerFinder,
         DevMasterAliasUpdater $devMasterAliasUpdater,
         VersionUtils $versionUtils
     ) {
         parent::__construct();
 
-        $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerFinder = $packageComposerFinder;
         $this->devMasterAliasUpdater = $devMasterAliasUpdater;
         $this->versionUtils = $versionUtils;
@@ -51,8 +44,6 @@ final class PackageAliasCommand extends AbstractMonorepoBuilderCommand
 
     protected function configure(): void
     {
-        parent::configure();
-
         $this->setDescription('Updates branch alias in "composer.json" all found packages');
     }
 

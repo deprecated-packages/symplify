@@ -6,20 +6,15 @@ namespace Symplify\MonorepoBuilder\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\MonorepoBuilder\VersionValidator;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
-final class ValidateCommand extends AbstractMonorepoBuilderCommand
+final class ValidateCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
     /**
      * @var VersionValidator
      */
@@ -41,7 +36,6 @@ final class ValidateCommand extends AbstractMonorepoBuilderCommand
     private $sourcesPresenceValidator;
 
     public function __construct(
-        SymfonyStyle $symfonyStyle,
         ComposerJsonProvider $composerJsonProvider,
         VersionValidator $versionValidator,
         ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter,
@@ -49,7 +43,6 @@ final class ValidateCommand extends AbstractMonorepoBuilderCommand
     ) {
         parent::__construct();
 
-        $this->symfonyStyle = $symfonyStyle;
         $this->versionValidator = $versionValidator;
         $this->composerJsonProvider = $composerJsonProvider;
         $this->conflictingPackageVersionsReporter = $conflictingPackageVersionsReporter;
@@ -58,8 +51,6 @@ final class ValidateCommand extends AbstractMonorepoBuilderCommand
 
     protected function configure(): void
     {
-        parent::configure();
-
         $this->setDescription('Validates synchronized versions in "composer.json" in all found packages.');
     }
 

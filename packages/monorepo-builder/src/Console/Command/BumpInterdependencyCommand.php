@@ -7,23 +7,18 @@ namespace Symplify\MonorepoBuilder\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
-final class BumpInterdependencyCommand extends AbstractMonorepoBuilderCommand
+final class BumpInterdependencyCommand extends AbstractSymplifyCommand
 {
     /**
      * @var string
      */
     private const VERSION_ARGUMENT = 'version';
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
 
     /**
      * @var DependencyUpdater
@@ -41,14 +36,12 @@ final class BumpInterdependencyCommand extends AbstractMonorepoBuilderCommand
     private $sourcesPresenceValidator;
 
     public function __construct(
-        SymfonyStyle $symfonyStyle,
         DependencyUpdater $dependencyUpdater,
         ComposerJsonProvider $composerJsonProvider,
         SourcesPresenceValidator $sourcesPresenceValidator
     ) {
         parent::__construct();
 
-        $this->symfonyStyle = $symfonyStyle;
         $this->dependencyUpdater = $dependencyUpdater;
         $this->composerJsonProvider = $composerJsonProvider;
         $this->sourcesPresenceValidator = $sourcesPresenceValidator;
@@ -56,8 +49,6 @@ final class BumpInterdependencyCommand extends AbstractMonorepoBuilderCommand
 
     protected function configure(): void
     {
-        parent::configure();
-
         $this->setDescription('Bump dependency of split packages on each other');
         $this->addArgument(
             self::VERSION_ARGUMENT,

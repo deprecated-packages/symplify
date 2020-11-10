@@ -6,21 +6,16 @@ namespace Symplify\MonorepoBuilder\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\VersionValidator;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class PropagateCommand extends AbstractMonorepoBuilderCommand
+final class PropagateCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
     /**
      * @var VersionValidator
      */
@@ -37,14 +32,12 @@ final class PropagateCommand extends AbstractMonorepoBuilderCommand
     private $dependencyUpdater;
 
     public function __construct(
-        SymfonyStyle $symfonyStyle,
         VersionValidator $versionValidator,
         ComposerJsonProvider $composerJsonProvider,
         DependencyUpdater $dependencyUpdater
     ) {
         parent::__construct();
 
-        $this->symfonyStyle = $symfonyStyle;
         $this->versionValidator = $versionValidator;
         $this->composerJsonProvider = $composerJsonProvider;
         $this->dependencyUpdater = $dependencyUpdater;
@@ -52,8 +45,6 @@ final class PropagateCommand extends AbstractMonorepoBuilderCommand
 
     protected function configure(): void
     {
-        parent::configure();
-
         $this->setDescription(
             'Propagate versions from root "composer.json" to all packages, the opposite of "merge" command'
         );
