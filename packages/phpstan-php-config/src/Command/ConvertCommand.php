@@ -62,7 +62,7 @@ final class ConvertCommand extends Command
             null,
             InputOption::VALUE_REQUIRED,
             'Path to dump converted phpstan.neon to',
-            getcwd() . DIRECTORY_SEPARATOR . 'converted-phpstan.neon'
+            getcwd() . DIRECTORY_SEPARATOR . 'phpstan.neon'
         );
     }
 

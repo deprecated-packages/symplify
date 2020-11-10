@@ -1,6 +1,6 @@
 {
     "name": "symplify/phpstan-php-config",
-    "description": "Use PHP config syntax to configure PHPStan",
+    "description": "Use PHP config syntax to configure PHPStan in phpstan.php",
     "license": "MIT",
     "require": {
         "php": ">=7.2",
