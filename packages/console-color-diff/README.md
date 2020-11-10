@@ -11,7 +11,7 @@ composer require symplify/console-color-diff
 Add to `config/bundles.php`:
 
 ```php
-<?php return [
+return [
     Symplify\ConsoleColorDiff\ConsoleColorDiffBundle::class => [
         'all' => true,
     ],
@@ -21,7 +21,7 @@ Add to `config/bundles.php`:
 ## Usage
 
 ```php
-<?php namespace App;
+namespace App;
 
 use Symplify\ConsoleColorDiff\Console\Output\ConsoleDiffer;
 

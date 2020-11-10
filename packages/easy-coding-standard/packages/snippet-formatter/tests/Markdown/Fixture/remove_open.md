@@ -1,8 +1,6 @@
 Hey
 
 ```php
-<?php
-
 namespace App;
 ```
 -----

@@ -15,7 +15,7 @@ composer require symplify/changelog-linker --dev
 Create `changelog-linker.php` with configuration:
 
 ```php
-<?php use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\ChangelogLinker\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -194,7 +194,7 @@ Of course! Give your contributors credit they deserve:
 You can exclude core maintainers, to give external contributors more credit:
 
 ```php
-<?php use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\ChangelogLinker\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -209,7 +209,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 In Symplify, I need that every `EasyCodingStandard` word leads to `https://github.com/symplify/easy-coding-standard/`.
 
 ```php
-<?php use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\ChangelogLinker\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -239,7 +239,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 Just add alias to config:
 
 ```php
-<?php use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\ChangelogLinker\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {

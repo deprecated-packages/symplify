@@ -39,11 +39,7 @@ final class ConfiguredCodeSamplePrinter
     }
 
     /**
-<<<<<<< HEAD
-     * @return mixed[]|string[]
-=======
      * @return string[]
->>>>>>> 262e5bc45... update rules docs
      */
     public function print(ConfiguredCodeSample $configuredCodeSample, RuleDefinition $ruleDefinition): array
     {

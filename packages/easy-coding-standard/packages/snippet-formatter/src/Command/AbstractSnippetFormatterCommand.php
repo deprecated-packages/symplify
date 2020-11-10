@@ -51,7 +51,7 @@ abstract class AbstractSnippetFormatterCommand extends AbstractCheckCommand
         $this->configuration->resolveFromInput($input);
 
         $sources = $this->configuration->getSources();
-        $phpFileInfos = $this->smartFinder->find($sources, $fileNames);
+        $phpFileInfos = $this->smartFinder->find($sources, $fileNames, ['Fixture']);
 
         $fileCount = count($phpFileInfos);
         if ($fileCount === 0) {

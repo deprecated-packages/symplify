@@ -15,7 +15,7 @@ composer require symplify/smart-file-system
 The `SplFileInfo::getRealPath()` method returns absolute path to the file... [or `FALSE`, if the file doesn't exist](https://www.php.net/manual/en/splfileinfo.getrealpath.php). This default PHP behavior forces you to **check all `getRealPath()` calls**:
 
 ```php
-<?php $fileInfo = new SplFileInfo('non_existing_file.txt');
+$fileInfo = new SplFileInfo('non_existing_file.txt');
 
 if ($fileInfo->getRealPath() === false) {
     // damn, the files doesn't exist
@@ -39,14 +39,14 @@ In reality, **it's very rare to work with file that was existing a while ago, bu
 ### Introducing `SmartFileInfo`
 
 ```php
-<?php $fileInfo = new Symplify\SmartFileSystem\SmartFileInfo('non_existing_file.txt');
+$fileInfo = new Symplify\SmartFileSystem\SmartFileInfo('non_existing_file.txt');
 // throws Symplify\SmartFileSystem\Exception\FileNotFoundException
 ```
 
 This class also bring new useful methods:
 
 ```php
-<?php // current directory (cwd()) is "/var/www"
+// current directory (cwd()) is "/var/www"
 $smartFileInfo = new Symplify\SmartFileSystem\SmartFileInfo('/var/www/src/ExistingFile.php');
 
 echo $smartFileInfo->getBasenameWithoutSuffix();
@@ -65,7 +65,7 @@ echo $smartFileInfo->getRelativeFilePathFromDirectory('/var');
 **It also fixes WTF behavior** of `Symfony\Component\Finder\SplFileInfo`. Which one? When you run e.g. `vendor/bin/ecs check src` and use `Finder`, the `getRelativeFilePath()` in Symfony now returns all the relative paths to `src`. Which is useless, mainly with multiple dirs like: `vendor/bin/ecs check src tests` both containing file `Post.php`.
 
 ```php
-<?php $smartFileInfo = new Symplify\SmartFileSystem\SmartFileInfo('/var/www/src/Post.php');
+$smartFileInfo = new Symplify\SmartFileSystem\SmartFileInfo('/var/www/src/Post.php');
 
 echo $smartFileInfo->getRelativeFilePathFromCwd();
 // "src/Post.php"
@@ -76,7 +76,7 @@ echo $smartFileInfo->getRelativeFilePathFromCwd();
 Last but not least, matching a file comes useful in excluding files (typical for tools like ECS, PHPStan, Psalm, Rector, PHP CS Fixer or PHP_CodeSniffer):
 
 ```php
-<?php $smartFileInfo = new Symplify\SmartFileSystem\SmartFileInfo('/var/www/src/PostRepository.php');
+$smartFileInfo = new Symplify\SmartFileSystem\SmartFileInfo('/var/www/src/PostRepository.php');
 
 echo $smartFileInfo->endsWith('Repository.php');
 // true
@@ -90,12 +90,12 @@ echo $smartFileInfo->doesFnmatch('*Repo*');
 New method - `readFile()` (to read files):
 
 ```php
-<?php $smartFileSystem = new Symplify\SmartFileSystem\SmartFileSystem();
+$smartFileSystem = new Symplify\SmartFileSystem\SmartFileSystem();
 $fileContent = $smartFileSystem->readFile(__DIR__ . '/SomeFile.php');
 ```
 
 ```php
-<?php // if you plan to use SmartFileInfo, use this
+// if you plan to use SmartFileInfo, use this
 $smartFileInfo = $smartFileSystem->readFileToSmartFileInfo(__DIR__ . '/SomeFile.php');
 ```
 
@@ -104,7 +104,7 @@ $smartFileInfo = $smartFileSystem->readFileToSmartFileInfo(__DIR__ . '/SomeFile.
 Do you have multiple file inputs that can mix-up?
 
 ```php
-<?php $files = [new SplFileInfo('someFile.php')];
+$files = [new SplFileInfo('someFile.php')];
 
 $files = [new Symfony\Component\Finder\SplFileInfo('someFile.php', 'someFile', '')];
 
@@ -132,7 +132,7 @@ foreach ($files as $file) {
 Use sanitized files, that **have united format you can rely on**:
 
 ```php
-<?php use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 
 $finderSanitizer = new FinderSanitizer();
 $smartFileInfos = $finderSanitizer->sanitize($files);

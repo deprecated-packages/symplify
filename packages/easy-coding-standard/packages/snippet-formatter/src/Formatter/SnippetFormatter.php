@@ -133,23 +133,16 @@ final class SnippetFormatter
         }
 
         $fileContent = rtrim($fileContent, PHP_EOL) . PHP_EOL;
-<<<<<<< HEAD
-
-        if ($this->isPhp73OrAbove) {
-            $fileContent = ltrim($fileContent, PHP_EOL);
-        }
-
-        return $this->removeOpeningTagAndStrictTypes($fileContent);
-=======
 
         if ($kind === 'markdown') {
             $fileContent = ltrim($fileContent, PHP_EOL);
+
             $fileContent = $this->removeOpeningTagAndStrictTypes($fileContent);
+
             return ltrim($fileContent);
         }
 
         return Strings::replace($fileContent, self::OPENING_TAG_HERENOWDOC_REGEX, '$1');
->>>>>>> 262e5bc45... update rules docs
     }
 
     /**
