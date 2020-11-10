@@ -74,11 +74,7 @@ How can we avoid that?
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace App;
+<?php namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -134,11 +130,7 @@ twig:
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace App;
+<?php namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -185,11 +177,7 @@ framework:
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace App;
+<?php namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -242,11 +230,7 @@ social_annotations:
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace App;
+<?php namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel;

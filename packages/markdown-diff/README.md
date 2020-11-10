@@ -11,9 +11,7 @@ composer require symplify/markdown-diff
 Add to `config/bundles.php`:
 
 ```php
-declare(strict_types=1);
-
-return [
+<?php return [
     Symplify\MarkdownDiff\MarkdownDiffBundle::class => [
         'all' => true,
     ],
@@ -23,11 +21,7 @@ return [
 ## Usage
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace App;
+<?php namespace App;
 
 use Symplify\MarkdownDiff\Differ\MarkdownDiffer;
 

@@ -10,7 +10,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**

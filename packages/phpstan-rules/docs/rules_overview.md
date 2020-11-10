@@ -1,0 +1,3695 @@
+# Rules Overview
+
+## ClassLikeCognitiveComplexityRule
+
+Cognitive complexity of class/trait must be under specific limit
+
+- class: `Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function another($value)
+    {
+        if ($value !== 1 && $value !== 2) {
+            return false;
+        }
+
+        return true;
+    }
+}
+```
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        return $this->someOtherService->count($value);
+    }
+
+    public function another($value)
+    {
+        return $this->someOtherService->delete($value);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## FunctionLikeCognitiveComplexityRule
+
+Cognitive complexity of function/method must be under specific limit
+
+- class: `Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+```
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value === 1) {
+            return true;
+        }
+
+        return $value === 2;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoChainMethodCallRule
+
+Do not use chained method calls
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`
+
+```php
+$this->runThis()
+    ->runThat();
+```
+
+:x:
+
+```php
+$this->runThis();
+$this->runThat();
+```
+
+:+1:
+
+<br>
+
+## NoElseAndElseIfRule
+
+Do not use "else/elseif". Refactor to early return
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule`
+
+```php
+if (...) {
+    return 1;
+} else {
+    return 2;
+}
+```
+
+:x:
+
+```php
+if (...) {
+    return 1;
+}
+
+return 2;
+```
+
+:+1:
+
+<br>
+
+## NoSetterClassMethodRule
+
+Setter "%s()" is not allowed. Use constructor injection or behavior name instead, e.g. "changeName()"
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule`
+
+```php
+final class SomeClass
+{
+    public function setName(string $name): void
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    public function __construct(string $name)
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoShortNameRule
+
+Do not name "%s", shorter than %d chars
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            minNameLength: 3
+```
+
+↓
+
+```php
+function is(): void
+{
+}
+```
+
+:x:
+
+```php
+function isClass(): void
+{
+}
+```
+
+:+1:
+
+<br>
+
+## SingleIndentationInMethodRule
+
+Do not indent more than %dx in class methods
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxNestingLevel:
+                - 2
+```
+
+↓
+
+```php
+function someFunction()
+{
+    if (...) {
+        if (...) {
+        }
+    }
+}
+```
+
+:x:
+
+```php
+function someFunction()
+{
+    if (! ...) {
+    }
+
+    if (!...) {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## TooLongClassLikeRule
+
+%s has %d lines, it is too long. Shorted it under %d lines
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassLikeLength: 3
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function someMethod()
+    {
+        if (...) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function someMethod()
+    {
+        return (...) ? 1 : 2;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## TooLongFunctionLikeRule
+
+%s has %d lines, it is too long. Shorted it under %d lines
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxFunctionLikeLength: 3
+```
+
+↓
+
+```php
+function some()
+{
+    if (...) {
+        return 1;
+    } else {
+        return 2;
+    }
+}
+```
+
+:x:
+
+```php
+function some()
+{
+    return (...) ? 1 : 2;
+}
+```
+
+:+1:
+
+<br>
+
+## TooManyMethodsRule
+
+Method has too many methods %d. Try narrowing it down under %d
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxMethodCount: 1
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function firstMethod(): void
+    {
+    }
+
+    public function secondMethod(): void
+    {
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function firstMethod(): void
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## TooManyPropertiesRule
+
+Class has too many properties %d. Try narrowing it down under %d
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPropertyCount: 2
+```
+
+↓
+
+```php
+class SomeClass
+{
+    private $some;
+
+    private $another;
+
+    private $third;
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    private $some;
+
+    private $another;
+}
+```
+
+:+1:
+
+<br>
+
+## AnnotateRegexClassConstWithRegexLinkRule
+
+Add regex101.com link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future
+
+- class: `Symplify\PHPStanRules\Rules\AnnotateRegexClassConstWithRegexLinkRule`
+
+```php
+class SomeClass
+{
+    private const COMPLICATED_REGEX = '#some_complicated_stu|ff#';
+}
+```
+
+:x:
+
+```php
+/**
+ * @see https://regex101.com/r/SZr0X5/12
+ */
+class SomeClass
+{
+    private const COMPLICATED_REGEX = '#some_complicated_stu|ff#';
+}
+```
+
+:+1:
+
+<br>
+
+## BoolishClassMethodPrefixRule
+
+Method "%s()" returns bool type, so the name should start with is/has/was...
+
+- class: `Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule`
+
+```php
+class SomeClass
+{
+    public function old(): bool
+    {
+        return $this->age > 100;
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function isOld(): bool
+    {
+        return $this->age > 100;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## CheckConstantExpressionDefinedInConstructOrSetupRule
+
+Move constant expression to "__construct()", "setUp()" method or constant
+
+- class: `Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule`
+
+```php
+class SomeClass
+{
+    public function someMethod()
+    {
+        $mainPath = getcwd() . '/absolute_path;
+        // ...
+        return $mainPath;
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    private $mainPath;
+
+    public function __construct()
+    {
+        $this->mainPath = getcwd() . '/absolute_path;
+    }
+
+    public function someMethod()
+    {
+        // ...
+        return $this->mainPath;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## CheckConstantStringValueFormatRule
+
+Constant string value need to only have small letters, _, -, . and numbers
+
+- class: `Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule`
+
+```php
+class SomeClass
+{
+    private const FOO = '$not_ok$';
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    private const FOO = 'bar';
+}
+```
+
+:+1:
+
+<br>
+
+## CheckNotTestsNamespaceOutsideTestsDirectoryRule
+
+"*Test.php" file cannot be located outside "Tests" namespace
+
+- class: `Symplify\PHPStanRules\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule`
+
+```php
+// file: "SomeTest.php
+
+namespace App;
+
+class SomeTest
+{
+}
+```
+
+:x:
+
+```php
+// file: "SomeTest.php
+
+namespace App\Tests;
+
+class SomeTest
+{
+}
+```
+
+:+1:
+
+<br>
+
+## CheckParentChildMethodParameterTypeCompatibleRule
+
+Method parameters must be compatible with its parent
+
+- class: `Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule`
+
+```php
+class ParentClass
+{
+    public function run(string $someParameter): void
+    {
+    }
+}
+
+class SomeClass extends ParentClass
+{
+    public function run($someParameter): void
+    {
+    }
+}
+```
+
+:x:
+
+```php
+class ParentClass
+{
+    public function run(string $someParameter): void
+    {
+    }
+}
+
+class SomeClass extends ParentClass
+{
+    public function run(string $someParameter): void
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule
+
+Class name start with Abstract must have abstract keyword
+
+- class: `Symplify\PHPStanRules\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule`
+
+```php
+class AbstractClass
+{
+}
+```
+
+:x:
+
+```php
+abstract class AbstractClass
+{
+}
+
+class SomeClass
+{
+}
+```
+
+:+1:
+
+<br>
+
+## CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
+
+autowire(), autoconfigure(), and public() are required in config service
+
+- class: `Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule`
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->defaults()
+        ->public();
+};
+```
+
+:x:
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->defaults()
+        ->public()
+        ->autowire()
+        ->autoconfigure();
+};
+```
+
+:+1:
+
+<br>
+
+## CheckRequiredInterfaceInContractNamespaceRule
+
+Relocate Interface to a "Contract" namespace
+
+- class: `Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule`
+
+```php
+namespace App\Repository;
+
+interface ProductRepositoryInterface
+{
+}
+```
+
+:x:
+
+```php
+namespace App\Contract\Repository;
+
+interface ProductRepositoryInterface
+{
+}
+```
+
+:+1:
+
+<br>
+
+## CheckRequiredMethodNamingRule
+
+Method with "@required" annotation need to be named "autowire<class-name>()"
+
+- class: `Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule`
+
+```php
+final class SomeClass
+{
+    /**
+     * @required
+     */
+    public function autowireRandom(...)
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    /**
+     * @required
+     */
+    public function autowireSomeClass(...)
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## CheckTraitMethodOnlyDelegateOtherClassRule
+
+Trait method "%s()" should not contain any logic, but only delegate to other class call
+
+- class: `Symplify\PHPStanRules\Rules\CheckTraitMethodOnlyDelegateOtherClassRule`
+
+```php
+trait SomeTrait
+{
+    public function someComplexLogic()
+    {
+        if (...) {
+        } else {
+            // ...
+        }
+    }
+}
+```
+
+:x:
+
+```php
+trait SomeTrait
+{
+    public function someDelegateCall(): void
+    {
+        $this->singleDelegateCall();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## CheckUnneededSymfonyStyleUsageRule
+
+SymfonyStyle usage is unneeded for only newline, write, and/or writeln, use PHP_EOL and concatenation instead
+
+- class: `Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule`
+
+```php
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+class SomeClass
+{
+    private $symfonyStyle;
+
+    public function __construct(SymfonyStyle $symfonyStyle)
+    {
+        $this->symfonyStyle = $symfonyStyle;
+    }
+
+    public function run(): void
+    {
+        $this->symfonyStyle->writeln('Hi');
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function run(): void
+    {
+        echo 'Hi';
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## CheckUsedNamespacedNameOnClassNodeRule
+
+Use "$class->namespaceName" instead of "$class->name" that only returns short class name
+
+- class: `Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule`
+
+```php
+use PhpParser\Node\Stmt\Class_;
+
+final class SomeClass
+{
+    public function run(Class_ $class): bool
+    {
+        $className = (string) $class->name;
+        return class_exists($className);
+    }
+}
+```
+
+:x:
+
+```php
+use PhpParser\Node\Stmt\Class_;
+
+final class SomeClass
+{
+    public function run(Class_ $class): bool
+    {
+        $className = (string) $class->namespacedName;
+        return class_exists($className);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ClassNameRespectsParentSuffixRule
+
+Class "%s" should have suffix "%s" by parent class/interface
+
+- class: `Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule`
+
+```php
+class Some extends Command
+{
+}
+```
+
+:x:
+
+```php
+class SomeCommand extends Command
+{
+}
+```
+
+:+1:
+
+<br>
+
+## ExcessiveParameterListRule
+
+Method "%s()" is using too many parameters - %d. Make it under %d
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ExcessiveParameterListRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ExcessiveParameterListRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxParameterCount: 2
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function __construct($one, $two, $three)
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function __construct($one, $two)
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ExcessivePublicCountRule
+
+Too many public elements on class - %d. Try narrow it down under %d
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ExcessivePublicCountRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ExcessivePublicCountRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPublicClassElementCount: 2
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public $one;
+
+    public $two;
+
+    public $three;
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public $one;
+
+    public $two;
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenArrayDestructRule
+
+Array destruct is not allowed. Use value object to pass data instead
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenArrayDestructRule`
+
+```php
+final class SomeClass
+{
+    public function run(): void
+    {
+        [$firstValue, $secondValue] = $this->getRandomData();
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    public function run(): void
+    {
+        $valueObject = $this->getValueObject();
+        $firstValue = $valueObject->getFirstValue();
+        $secondValue = $valueObject->getSecondValue();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenArrayWithStringKeysRule
+
+Array with keys is not allowed. Use value object to pass data instead
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule`
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        return [
+            'name' => 'John',
+            'surname' => 'Dope',
+        ];
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        return new Person('John', 'Dope');
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenAssignInIfRule
+
+Assignment inside if is not allowed. Extract condition to extra variable on line above
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule`
+
+```php
+if ($isRandom = mt_rand()) {
+    // ...
+}
+```
+
+:x:
+
+```php
+$isRandom = mt_rand();
+if ($isRandom) {
+    // ...
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenComplexArrayConfigInSetRule
+
+For complex configuration use value object over array
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule`
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set('...')
+        ->call('...', [[
+            'options' => ['Cake\Network\Response', ['withLocation', 'withHeader']],
+        ]]);
+};
+```
+
+:x:
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set('...')
+        ->call('...', [[
+            'options' => inline_value_objects([
+                new SomeValueObject('Cake\Network\Response', ['withLocation', 'withHeader']),
+            ]),
+        ]]);
+};
+```
+
+:+1:
+
+<br>
+
+## ForbiddenConstructorDependencyByTypeRule
+
+Object instance of "%s" is forbidden to be passed to constructor
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypes:
+                - EntityManager
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function __construct(EntityManager $entityManager)
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function __construct(ProductRepository $productRepository)
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenFuncCallRule
+
+Function "%s()" cannot be used/left in the code
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenFunctions:
+                - eval
+```
+
+↓
+
+```php
+class SomeClass
+{
+    return eval('...');
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    return echo '...';
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenMethodCallByTypeInLocationRule
+
+Method call "ClassName"->"method" is not allowed in "Location"
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenMethodCallByTypeInLocationRule`
+
+```php
+namespace App\Controller;
+
+use View\Helper;
+
+final class AlbumController
+{
+    public function get()
+    {
+        $helper = new Helper();
+        $helper->number(4);
+
+        return render();
+    }
+}
+```
+
+:x:
+
+```php
+namespace App\Controller;
+
+final class AlbumController
+{
+    public function get()
+    {
+        return render();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenMethodCallOnNewRule
+
+Method call on new expression is not allowed.
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule`
+
+```php
+(new SomeClass())->run();
+```
+
+:x:
+
+```php
+$someClass = new SomeClass();
+$someClass->run();
+```
+
+:+1:
+
+<br>
+
+## ForbiddenMethodOrStaticCallInForeachRule
+
+Method nor static call in foreach is not allowed. Extract expression to a new variable assign on line before
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`
+
+```php
+foreach ($this->getData($arg) as $key => $item) {
+    // ...
+}
+```
+
+:x:
+
+```php
+$data = $this->getData($arg);
+foreach ($arg as $key => $item) {
+    // ...
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenMethodOrStaticCallInIfRule
+
+Method nor static call in if () or elseif () is not allowed. Extract expression to a new variable assign on line before
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule`
+
+```php
+$someObject = new SomeClass();
+if ($someObject->getData($arg) === []) {
+} elseif ($someObject->getData($arg2) !== []) {
+}
+```
+
+:x:
+
+```php
+$someObject = new SomeClass();
+$dataFirstArg = $someObject->getData($arg);
+$dataSecondArg = $someObject->getData($arg2);
+
+if ($dataFirstArg === []) {
+} elseif ($dataSecondArg !== []) {
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenMultipleClassLikeInOneFileRule
+
+Multiple class/interface/trait is not allowed in single file
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule`
+
+```php
+class SomeClass
+{
+}
+
+interface SomeInterface
+{
+}
+```
+
+:x:
+
+```php
+// SomeClass.php
+class SomeClass
+{
+}
+
+// SomeInterface.php
+interface SomeInterface
+{
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenNestedForeachWithEmptyStatementRule
+
+Nested foreach with empty statement is not allowed
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule`
+
+```php
+$collectedFileErrors = [];
+
+foreach ($errors as $fileErrors) {
+    foreach ($fileErrors as $fileError) {
+        $collectedFileErrors[] = $fileError;
+    }
+}
+```
+
+:x:
+
+```php
+$collectedFileErrors = [];
+
+foreach ($fileErrors as $fileError) {
+    $collectedFileErrors[] = $fileError;
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenNewInMethodRule
+
+"new" in method "%s->%s()" is not allowed.
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenClassMethods:
+                PHPStan\Rules\Rule:
+                    - getRule
+```
+
+↓
+
+```php
+use PHPStan\Rules\Rule;
+
+class SomeRule implements Rule
+{
+    protected function getRule(): Rule
+    {
+        return new self();
+    }
+}
+```
+
+:x:
+
+```php
+use PHPStan\Rules\Rule;
+
+class SomeRule implements Rule
+{
+    protected function getRule(): Rule
+    {
+        return $this->getService(self::class);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenNewOutsideFactoryServiceRule
+
+"new" outside factory is not allowed for object type "%s"
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            types:
+                - AnotherObject
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function process(): void
+    {
+        $anotherObject = new AnotherObject();
+        // ...
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function __construt(AnotherObjectFactory $anotherObjectFactory): void
+    {
+        $this->anotherObjectFactory = $anotherObjectFactory;
+    }
+
+    public function process(): void
+    {
+        $anotherObject = $this->anotherObjectFactory = $anotherObjectFactory->create();
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenParentClassRule
+
+Class "%s" inherits from forbidden parent class "%s". Use "%s" instead
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenParentClassRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenParentClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenParentClasses:
+                - ParentClass
+```
+
+↓
+
+```php
+class SomeClass extends ParentClass
+{
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function __construct(DecoupledClass $decoupledClass)
+    {
+        $this->decoupledClass = $decoupledClass;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenPrivateMethodByTypeRule
+
+Private method in is not allowed here - it should only delegate to others. Decouple the private method to a new service class
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypes:
+                - Command
+```
+
+↓
+
+```php
+class SomeCommand extends Command
+{
+    public function run(): void
+    {
+        $this->somePrivateMethod();
+    }
+
+    private function somePrivateMethod(): void
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+```php
+class SomeCommand extends Command
+{
+    /**
+     * @var ExternalService
+     */
+    private $externalService;
+
+    public function __construct(ExternalService $externalService)
+    {
+        $this->externalService = $externalService;
+    }
+
+    public function run(): void
+    {
+        $this->externalService->someMethod();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenProtectedPropertyRule
+
+Property with protected modifier is not allowed. Use interface contract method instead
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule`
+
+```php
+class SomeClass
+{
+    protected $repository;
+}
+```
+
+:x:
+
+```php
+class SomeClass implements RepositoryAwareInterface
+{
+    public function getRepository(): void
+    {
+        // ....
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenReturnValueOfIncludeOnceRule
+
+Cannot return include_once/require_once
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule`
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return require_once 'Test.php';
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function run(): void
+    {
+        require_once 'Test.php';
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenSpreadOperatorRule
+
+Spread operator is not allowed.
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule`
+
+```php
+$args = [$firstValue, $secondValue];
+$message = sprintf('%s', ...$args);
+```
+
+:x:
+
+```php
+$message = sprintf('%s', $firstValue, $secondValue);
+```
+
+:+1:
+
+<br>
+
+## ForbiddenTestsNamespaceOutsideTestsDirectoryRule
+
+"Tests" namespace can be only in "/tests" directory
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenTestsNamespaceOutsideTestsDirectoryRule`
+
+```php
+// file path: "src/SomeClass.php
+
+namespace App\Tests;
+
+class SomeClass
+{
+}
+```
+
+:x:
+
+```php
+// file path: "tests/SomeClass.php
+
+namespace App\Tests;
+
+class SomeClass
+{
+}
+```
+
+:+1:
+
+<br>
+
+## MatchingTypeConstantRule
+
+Constant type should be "%s", but is "%s"
+
+- class: `Symplify\PHPStanRules\Rules\MatchingTypeConstantRule`
+
+```php
+class SomeClass
+{
+    /**
+     * @var int
+     */
+    private const LIMIT = 'max';
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    /**
+     * @var string
+     */
+    private const LIMIT = 'max';
+}
+```
+
+:+1:
+
+<br>
+
+## NoAbstractMethodRule
+
+Use explicit interface contract or a service over unclear abstract methods
+
+- class: `Symplify\PHPStanRules\Rules\NoAbstractMethodRule`
+
+```php
+abstract class SomeClass
+{
+    abstract public function run();
+}
+```
+
+:x:
+
+```php
+abstract class SomeClass implements RunnableInterface
+{
+}
+
+interface RunnableInterface
+{
+    public function run();
+}
+```
+
+:+1:
+
+<br>
+
+## NoArrayAccessOnObjectRule
+
+Use explicit methods over array access on object
+
+- class: `Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule`
+
+```php
+class SomeClass
+{
+    public function run(MagicArrayObject $magicArrayObject)
+    {
+        return $magicArrayObject['more_magic'];
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function run(MagicArrayObject $magicArrayObject)
+    {
+        return $magicArrayObject->getExplicitValue();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoArrayStringObjectReturnRule
+
+Use another value object over array with string-keys and objects, array<string, ValueObject>
+
+- class: `Symplify\PHPStanRules\Rules\NoArrayStringObjectReturnRule`
+
+```php
+final class SomeClass
+{
+    /**
+     * @return array<string, Value>
+     */
+    private function getValues()
+    {
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    /**
+     * @return WrappingValue[]
+     */
+    private function getValues()
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoClassWithStaticMethodWithoutStaticNameRule
+
+Class "%s" with static method must have "Static" in its name it explicit
+
+- class: `Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule`
+
+```php
+class SomeClass
+{
+    public static function getSome(): void
+    {
+    }
+}
+```
+
+:x:
+
+```php
+class SomeStaticClass
+{
+    public static function getSome(): void
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoConstructorInTestRule
+
+Do not use constructor in tests. Move to "setUp()" method
+
+- class: `Symplify\PHPStanRules\Rules\NoConstructorInTestRule`
+
+```php
+final class SomeTest
+{
+    public function __construct()
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeTest
+{
+    protected function setUp(): void
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoContainerInjectionInConstructorRule
+
+Instead of container injection, use specific service
+
+- class: `Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule`
+
+```php
+class SomeClass
+{
+    public function __construct(ContainerInterface $container)
+    {
+        $this->someDependency = $container->get('...');
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function __construct(SomeDependency $someDependency)
+    {
+        $this->someDependency = $someDependency;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoDefaultExceptionRule
+
+Use custom exceptions instead of native "%s"
+
+- class: `Symplify\PHPStanRules\Rules\NoDefaultExceptionRule`
+
+```php
+throw new RuntimeException('...');
+```
+
+:x:
+
+```php
+throw new FileNotFoundException('...');
+```
+
+:+1:
+
+<br>
+
+## NoDefaultParameterValueRule
+
+Parameter "%s" cannot have default value
+
+- class: `Symplify\PHPStanRules\Rules\NoDefaultParameterValueRule`
+
+```php
+class SomeClass
+{
+    public function run($value = true): void
+    {
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function run($value): void
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoDuplicatedShortClassNameRule
+
+Class with base "%s" name is already used in "%s". Use unique name to make classes easy to recognize
+
+- class: `Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule`
+
+```php
+namespace App;
+
+class SomeClass
+{
+}
+
+namespace App\Nested;
+
+class SomeClass
+{
+}
+```
+
+:x:
+
+```php
+namespace App;
+
+class SomeClass
+{
+}
+
+namespace App\Nested;
+
+class AnotherClass
+{
+}
+```
+
+:+1:
+
+<br>
+
+## NoDynamicNameRule
+
+Use explicit names over dynamic ones
+
+- class: `Symplify\PHPStanRules\Rules\NoDynamicNameRule`
+
+```php
+class SomeClass
+{
+    public function old(): bool
+    {
+        return $this->${variable};
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function old(): bool
+    {
+        return $this->specificMethodName();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoEntityManagerInControllerRule
+
+Use specific repository over entity manager in Controller
+
+- class: `Symplify\PHPStanRules\Rules\NoEntityManagerInControllerRule`
+
+```php
+final class SomeController
+{
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeController
+{
+    public function __construct(AnotherRepository $anotherRepository)
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoFactoryInConstructorRule
+
+Do not use factory/method call in constructor. Put factory in config and get service with dependency injection
+
+- class: `Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule`
+
+```php
+class SomeClass
+{
+    private $someDependency;
+
+    public function __construct(SomeFactory $factory)
+    {
+        $this->someDependency = $factory->build();
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    private $someDependency;
+
+    public function __construct(SomeDependency $someDependency)
+    {
+        $this->someDependency = $someDependency;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoFuncCallInMethodCallRule
+
+Separate function "%s()" in method call to standalone row to improve readability
+
+- class: `Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule`
+
+```php
+final class SomeClass
+{
+    public function run($value): void
+    {
+        $this->someMethod(strlen('fooo'));
+    }
+
+    // ...
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    public function run($value): void
+    {
+        $fooLength = strlen('fooo');
+        $this->someMethod($fooLength);
+    }
+
+    // ...
+}
+```
+
+:+1:
+
+<br>
+
+## NoGetRepositoryOutsideConstructorRule
+
+Do not use "$entityManager->getRepository()" outside of the constructor of repository service or setUp() method in test case
+
+- class: `Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule`
+
+```php
+final class SomeController
+{
+    public function someAction(EntityManager $entityManager): void
+    {
+        $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeRepository
+{
+    public function __construct(EntityManager $entityManager): void
+    {
+        $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoInlineStringRegexRule
+
+Use local named constant instead of inline string for regex to explain meaning by constant name
+
+- class: `Symplify\PHPStanRules\Rules\NoInlineStringRegexRule`
+
+```php
+class SomeClass
+{
+    public function run($value)
+    {
+        return preg_match('#some_stu|ff#', $value);
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    /**
+     * @var string
+     */
+    public const SOME_STUFF_REGEX = '#some_stu|ff#';
+
+    public function run($value)
+    {
+        return preg_match(self::SOME_STUFF_REGEX, $value);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoIssetOnObjectRule
+
+Use default null value and nullable compare instead of isset on object
+
+- class: `Symplify\PHPStanRules\Rules\NoIssetOnObjectRule`
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        if (random_int(0, 1)) {
+            $object = new self();
+        }
+
+        if (isset($object)) {
+            return $object;
+        }
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        $object = null;
+        if (random_int(0, 1)) {
+            $object = new self();
+        }
+
+        if ($object !== null) {
+            return $object;
+        }
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoMethodTagInClassDocblockRule
+
+Do not use @method tag in class docblock
+
+- class: `Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule`
+
+```php
+/**
+ * @method getMagic() string
+ */
+class SomeClass
+{
+    public function __call(): void
+    {
+        // more magic
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function getExplicitValue()
+    {
+        return 'explicit';
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoMissingDirPathRule
+
+The path "%s" was not found
+
+- class: `Symplify\PHPStanRules\Rules\NoMissingDirPathRule`
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return __DIR__ . '/missing_location.txt';
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return __DIR__ . '/existing_location.txt';
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoMultiArrayAssignRule
+
+Use value object over multi array assign
+
+- class: `Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule`
+
+```php
+final class SomeClass
+{
+    public function run(): void
+    {
+        $values = [];
+        $values['person']['name'] = 'Tom';
+        $values['person']['surname'] = 'Dev';
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    public function run(): void
+    {
+        $values = [];
+        $values[] = new Person('Tom', 'Dev');
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoNewOutsideFactoryRule
+
+Use decoupled factory service to create "%s" object
+
+- class: `Symplify\PHPStanRules\Rules\NoNewOutsideFactoryRule`
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        return new SomeValueObject();
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeFactory
+{
+    public function create()
+    {
+        return new SomeValueObject();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoNullableParameterRule
+
+Parameter "%s" cannot be nullable
+
+- class: `Symplify\PHPStanRules\Rules\NoNullableParameterRule`
+
+```php
+class SomeClass
+{
+    public function run(?string $value = null): void
+    {
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function run(string $value): void
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoParentMethodCallOnEmptyStatementInParentMethodRule
+
+Do not call parent method if parent method is empty
+
+- class: `Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule`
+
+```php
+class ParentClass
+{
+    public function someMethod(): void
+    {
+    }
+}
+
+class SomeClass extends ParentClass
+{
+    public function someMethod(): void
+    {
+        parent::someMethod();
+    }
+}
+```
+
+:x:
+
+```php
+class ParentClass
+{
+    public function someMethod(): void
+    {
+    }
+}
+
+class SomeClass extends ParentClass
+{
+    public function someMethod(): void
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoParentMethodCallOnNoOverrideProcessRule
+
+Do not call parent method if no override process
+
+- class: `Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule`
+
+```php
+class SomeClass extends Printer
+{
+    public function print($nodes)
+    {
+        return parent::print($nodes);
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass extends Printer
+{
+}
+```
+
+:+1:
+
+<br>
+
+## NoParticularNodeRule
+
+"%s" is forbidden to use
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\NoParticularNodeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\NoParticularNodeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenNodes:
+                - PhpParser\Node\Expr\ErrorSuppress
+```
+
+↓
+
+```php
+return @strlen('...');
+```
+
+:x:
+
+```php
+return strlen('...');
+```
+
+:+1:
+
+<br>
+
+## NoPostIncPostDecRule
+
+Post operation are forbidden, as they make 2 values at the same line. Use pre instead
+
+- class: `Symplify\PHPStanRules\Rules\NoPostIncPostDecRule`
+
+```php
+class SomeClass
+{
+    public function run($value = 1): void
+    {
+        // 1 ... 0
+        if ($value--) {
+        }
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function run($value = 1): void
+    {
+        // 0
+        if (--$value) {
+        }
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoProtectedElementInFinalClassRule
+
+Instead of protected element in final class use private element or contract method
+
+- class: `Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule`
+
+```php
+final class SomeClass
+{
+    private function run(): void
+    {
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    private function run(): void
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoReferenceRule
+
+Use explicit return value over magic &reference
+
+- class: `Symplify\PHPStanRules\Rules\NoReferenceRule`
+
+```php
+class SomeClass
+{
+    public function run(&$value): void
+    {
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function run($value)
+    {
+        return $value;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoReturnArrayVariableListRule
+
+Use value object over return of values
+
+- class: `Symplify\PHPStanRules\Rules\NoReturnArrayVariableListRule`
+
+```php
+class ReturnVariables
+{
+    public function run($value, $value2): array
+    {
+        return [$value, $value2];
+    }
+}
+```
+
+:x:
+
+```php
+final class ReturnVariables
+{
+    public function run($value, $value2): ValueObject
+    {
+        return new ValueObject($value, $value2);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoScalarAndArrayConstructorParameterRule
+
+Do not use scalar or array as constructor parameter. Use ParameterProvider service instead
+
+- class: `Symplify\PHPStanRules\Rules\NoScalarAndArrayConstructorParameterRule`
+
+```php
+final class SomeClass
+{
+    /**
+     * @var string
+     */
+    private $outputDirectory;
+
+    public function __construct(string $outputDirectory)
+    {
+        $this->outputDirectory = $outputDirectory;
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    /**
+     * @var string
+     */
+    private $outputDirectory;
+
+    public function __construct(ParameterProvider $parameterProvider)
+    {
+        $this->outputDirectory = $parameterProvider->getStringParam(...);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoSetterOnServiceRule
+
+Do not use setter on a service
+
+- class: `Symplify\PHPStanRules\Rules\NoSetterOnServiceRule`
+
+```php
+class SomeService
+{
+    public function setSomeValue(...)
+    {
+    }
+}
+```
+
+:x:
+
+```php
+class SomeEntity
+{
+    public function setSomeValue(...)
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoStaticCallRule
+
+Do not use static calls
+
+- class: `Symplify\PHPStanRules\Rules\NoStaticCallRule`
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        return AnotherClass::staticMethod();
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        $anotherClass = new AnotherClass();
+        return $anotherClass->staticMethod();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoStaticPropertyRule
+
+Do not use static property
+
+- class: `Symplify\PHPStanRules\Rules\NoStaticPropertyRule`
+
+```php
+final class SomeClass
+{
+    private static $customFileNames = [];
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    private $customFileNames = [];
+}
+```
+
+:+1:
+
+<br>
+
+## NoSuffixValueObjectClassRule
+
+Value Object class name "%s" must be withotu "ValueObject" suffix. The correct class name is "%s".
+
+- class: `Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule`
+
+```php
+class SomeValueObject
+{
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
+```
+
+:x:
+
+```php
+class Some
+{
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoTraitExceptRequiredAutowireRule
+
+Do not use trait
+
+- class: `Symplify\PHPStanRules\Rules\NoTraitExceptRequiredAutowireRule`
+
+```php
+trait SomeTrait
+{
+    public function run(): void
+    {
+    }
+}
+```
+
+:x:
+
+```php
+trait SomeTrait
+{
+    /**
+     * @required
+     */
+    public function autowire(...)
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## PreferredClassRule
+
+Instead of "%s" class/interface use "%s"
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\PreferredClassRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            oldToPreferredClasses:
+                SplFileInfo: Symplify\SmartFileSystem\SmartFileInfo
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return new SplFileInfo('...');
+    }
+}
+```
+
+:x:
+
+```php
+use Symplify\SmartFileSystem\SmartFileInfo;
+
+class SomeClass
+{
+    public function run()
+    {
+        return new SmartFileInfo('...');
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## PreferredMethodCallOverFuncCallRule
+
+Use "%s->%s()" method call over "%s()" func call
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPreferredMethodCalls:
+                strlen:
+                    - Nette\Utils\Strings
+                    - lenght
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function run($value)
+    {
+        return strlen($value);
+    }
+}
+```
+
+:x:
+
+```php
+use Nette\Utils\Strings;
+
+class SomeClass
+{
+    public function __construct(Strings $strings)
+    {
+        $this->strings = $strings;
+    }
+
+    public function run($value)
+    {
+        return $this->strings->lenght($value);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## PreferredRawDataInTestDataProviderRule
+
+Code configured at setUp() cannot be used in data provider. Move it to test() method
+
+- class: `Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule`
+
+```php
+final class UseDataFromSetupInTestDataProviderTest extends TestCase
+{
+    private $data;
+
+    protected function setUp(): void
+    {
+        $this->data = true;
+    }
+
+    public function provideFoo()
+    {
+        yield [$this->data];
+    }
+
+    /**
+     * @dataProvider provideFoo
+     */
+    public function testFoo($value): void
+    {
+        $this->assertTrue($value);
+    }
+}
+```
+
+:x:
+
+```php
+use stdClass;
+
+final class UseRawDataForTestDataProviderTest
+{
+    private $obj;
+
+    private function setUp(): void
+    {
+        $this->obj = new stdClass();
+    }
+
+    public function provideFoo()
+    {
+        yield [true];
+    }
+
+    /**
+     * @dataProvider provideFoo
+     */
+    public function testFoo($value): void
+    {
+        $this->obj->x = $value;
+        $this->assertTrue($this->obj->x);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## PreferredStaticCallOverFuncCallRule
+
+Use "%s::%s()" static call over "%s()" func call
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPreferredStaticCalls:
+                strlen:
+                    - Nette\Utils\Strings
+                    - lenght
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function run($value)
+    {
+        return strlen($value);
+    }
+}
+```
+
+:x:
+
+```php
+use Nette\Utils\Strings;
+
+class SomeClass
+{
+    public function run($value)
+    {
+        return Strings::lenght($value);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## PrefixAbstractClassRule
+
+Abstract class name "%s" must be prefixed with "Abstract"
+
+- class: `Symplify\PHPStanRules\Rules\PrefixAbstractClassRule`
+
+```php
+abstract class SomeClass
+{
+}
+```
+
+:x:
+
+```php
+abstract class AbstractSomeClass
+{
+}
+```
+
+:+1:
+
+<br>
+
+## PreventParentMethodVisibilityOverrideRule
+
+Change "%s()" method visibility to "%s" to respect parent method visibility.
+
+- class: `Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule`
+
+```php
+class SomeParentClass
+{
+    public function run(): void
+    {
+    }
+}
+
+class SomeClass
+{
+    protected function run(): void
+    {
+    }
+}
+```
+
+:x:
+
+```php
+class SomeParentClass
+{
+    public function run(): void
+    {
+    }
+}
+
+class SomeClass
+{
+    public function run(): void
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RegexSuffixInRegexConstantRule
+
+Name your constant with "_REGEX" suffix, instead of "%s"
+
+- class: `Symplify\PHPStanRules\Rules\RegexSuffixInRegexConstantRule`
+
+```php
+class SomeClass
+{
+    public const SOME_NAME = '#some\s+name#';
+
+    public function run($value): void
+    {
+        $somePath = preg_match(self::SOME_NAME, $value);
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public const SOME_NAME_REGEX = '#some\s+name#';
+
+    public function run($value): void
+    {
+        $somePath = preg_match(self::SOME_NAME_REGEX, $value);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireConstantInMethodCallPositionRule
+
+Parameter argument on position %d must use %s constant
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredLocalConstantInMethodCall:
+                SomeType:
+                    someMethod:
+                        - 0
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function someMethod(SomeType $someType): void
+    {
+        $someType->someMethod('hey');
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    private const HEY = 'hey'
+
+    public function someMethod(SomeType $someType)
+    {
+        $someType->someMethod(self::HEY);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireDataProviderTestMethodRule
+
+The "%s()" method must use data provider
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classesRequiringDataProvider:
+                - *RectorTestCase
+```
+
+↓
+
+```php
+class SomeRectorTestCase extends RectorTestCase
+{
+    public function test(): void
+    {
+    }
+}
+```
+
+:x:
+
+```php
+class SomeRectorTestCase extends RectorTestCase
+{
+    /**
+     * @dataProvider provideData()
+     */
+    public function test($value): void
+    {
+    }
+
+    public function provideData(): void
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireMethodCallArgumentConstantRule
+
+Method call argument on position %d must use constant (e.g. "Option::NAME") over value
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByMethodByType:
+                SomeClass:
+                    call:
+                        - 0
+```
+
+↓
+
+```php
+class AnotherClass
+{
+    public function run(SomeClass $someClass): void
+    {
+        $someClass->call('name');
+    }
+}
+```
+
+:x:
+
+```php
+class AnotherClass
+{
+    private OPTION_NAME = 'name';
+
+    public function run(SomeClass $someClass)
+    {
+        $someClass->call(self::OPTION_NAME);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireNewArgumentConstantRule
+
+New expression argument on position %d must use constant over value
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByNewByType:
+                Symfony\Component\Console\Input\InputOption:
+                    - 2
+```
+
+↓
+
+```php
+use Symfony\Component\Console\Input\InputOption;
+
+$inputOption = new InputOption('name', null, 2);
+```
+
+:x:
+
+```php
+use Symfony\Component\Console\Input\InputOption;
+
+$inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
+```
+
+:+1:
+
+<br>
+
+## RequireStringArgumentInMethodCallRule
+
+Use quoted string in method call "%s()" argument on position %d instead of "::class. It prevent scoping of the class in building prefixed package.
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            stringArgByMethodByType:
+                SomeClass:
+                    someMethod:
+                        - 0
+```
+
+↓
+
+```php
+class AnotherClass
+{
+    public function run(SomeClass $someClass)
+    {
+        $someClass->someMethod(YetAnotherClass:class);
+    }
+}
+```
+
+:x:
+
+```php
+class AnotherClass
+{
+    public function run(SomeClass $someClass)
+    {
+        $someClass->someMethod('YetAnotherClass'');
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireThisOnParentMethodCallRule
+
+Use "$this-><method>()" instead of "parent::<method>()" unless in the same named method
+
+- class: `Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule`
+
+```php
+class SomeParentClass
+{
+    public function run(): void
+    {
+    }
+}
+
+class SomeClass extends SomeParentClass
+{
+    public function go(): void
+    {
+        parent::run();
+    }
+}
+```
+
+:x:
+
+```php
+class SomeParentClass
+{
+    public function run(): void
+    {
+    }
+}
+
+class SomeClass extends SomeParentClass
+{
+    public function go(): void
+    {
+        $tihs->run();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## SeeAnnotationToTestRule
+
+Class "%s" is missing @see annotation with test case class reference
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredSeeTypes:
+                - Rule
+```
+
+↓
+
+```php
+class SomeClass extends Rule
+{
+}
+```
+
+:x:
+
+```php
+/**
+ * @see SomeClassTest
+ */
+class SomeClass extends Rule
+{
+}
+```
+
+:+1:
+
+<br>
+
+## SuffixInterfaceRule
+
+Interface name "%s" must be suffixed with "Interface"
+
+- class: `Symplify\PHPStanRules\Rules\SuffixInterfaceRule`
+
+```php
+interface SomeClass
+{
+}
+```
+
+:x:
+
+```php
+interface SomeInterface
+{
+}
+```
+
+:+1:
+
+<br>
+
+## SuffixTraitRule
+
+Trait name "%s" must be suffixed with "Trait"
+
+- class: `Symplify\PHPStanRules\Rules\SuffixTraitRule`
+
+```php
+trait SomeClass
+{
+}
+```
+
+:x:
+
+```php
+trait SomeTrait
+{
+}
+```
+
+:+1:
+
+<br>
+
+## TooDeepNewClassNestingRule
+
+new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxNewClassNesting: 2
+```
+
+↓
+
+```php
+$someObject = new A(new B(new C()));
+```
+
+:x:
+
+```php
+$firstObject = new B(new C());
+$someObject = new A($firstObject);
+```
+
+:+1:
+
+<br>
+
+## TooLongVariableRule
+
+Variable "$%s" is too long with %d chars. Narrow it under %d chars
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\TooLongVariableRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\TooLongVariableRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxVariableLength: 10
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return $superLongVariableName;
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return $shortName;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## UppercaseConstantRule
+
+Constant "%s" must be uppercase
+
+- class: `Symplify\PHPStanRules\Rules\UppercaseConstantRule`
+
+```php
+final class SomeClass
+{
+    public const some = 'value';
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    public const SOME = 'value';
+}
+```
+
+:+1:
+
+<br>

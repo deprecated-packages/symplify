@@ -48,11 +48,7 @@ The config also loads few return type extensions.
 With Symfony container and type as an argument, you always know **the same type is returned**:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Container;
+<?php use Symfony\Component\DependencyInjection\Container;
 
 /** @var Container $container */
 // PHPStan: object ❌
@@ -69,11 +65,7 @@ $this->get(Type::class);
 After Symfony Kernel boot, `getContainer()` always returns the container:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-use Symfony\Component\HttpKernel\Kernel;
+<?php use Symfony\Component\HttpKernel\Kernel;
 
 final class AppKernel extends Kernel
 {
@@ -95,11 +87,7 @@ $kernel->getContainer();
 Symfony Finder finds only existing files (obviously), so the `getRealPath()` always return `string`:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-use Symfony\Component\Finder\Finder;
+<?php use Symfony\Component\Finder\Finder;
 
 $finder = new Finder();
 

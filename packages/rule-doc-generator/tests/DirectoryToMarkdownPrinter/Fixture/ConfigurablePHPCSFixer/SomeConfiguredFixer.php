@@ -8,7 +8,7 @@ use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class SomeConfiguredFixer extends AbstractFixer implements DocumentedRuleInterface, ConfigurableRuleInterface

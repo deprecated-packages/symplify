@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\RuleDocGenerator\Finder;
 
 use Nette\Loaders\RobotLoader;
+use ReflectionClass;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ClassByTypeFinder
@@ -25,6 +26,12 @@ final class ClassByTypeFinder
         $desiredClasses = [];
         foreach (array_keys($robotLoader->getIndexedClasses()) as $class) {
             if (! is_a($class, $type, true)) {
+                continue;
+            }
+
+            // skip abstract classes
+            $reflectionClass = new ReflectionClass($class);
+            if ($reflectionClass->isAbstract()) {
                 continue;
             }
 

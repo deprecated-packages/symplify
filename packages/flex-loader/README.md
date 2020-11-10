@@ -15,11 +15,7 @@ composer require symplify/flex-loader
 ### Traditional Kernel (Before)
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace App;
+<?php namespace App;
 
 use Iterator;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -76,11 +72,7 @@ final class MyProjectKernel extends Kernel
 ### With Flex Loader (After)
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace App;
+<?php namespace App;
 
 use Iterator;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;

@@ -29,11 +29,7 @@ services:
 Then require in `__construct()` where needed:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace App\Configuration;
+<?php namespace App\Configuration;
 
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
@@ -62,11 +58,7 @@ final class ProjectConfiguration
 ### Get Vendor Directory from Anywhere
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-$vendorDirProvider = new Symplify\PackageBuilder\Composer\VendorDirProvider();
+<?php $vendorDirProvider = new Symplify\PackageBuilder\Composer\VendorDirProvider();
 // returns path to vendor directory
 $vendorDirProvider->provide();
 ```
@@ -84,11 +76,7 @@ $vendorDirProvider->provide();
 Do you want to allow users to register services without worrying about autowiring? After all, they might forget it and that would break their code. Set types to always autowire:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace App;
+<?php namespace App;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

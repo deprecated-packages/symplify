@@ -113,6 +113,22 @@ Array items, method parameters, method call arguments, new arguments should be o
 
 - class: `Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`
 
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(LineLengthFixer::class)
+        ->call('configure', [[
+            LineLengthFixer::LINE_LENGTH => 40,
+        ]]);
+};
+```
+
+↓
+
 ```diff
 -function some($veryLong, $superLong, $oneMoreTime)
 -{
@@ -131,24 +147,6 @@ Array items, method parameters, method call arguments, new arguments should be o
  }
 ```
 
-```php
-<?php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(LineLengthFixer::class)
-        ->call('configure', [[
-            LineLengthFixer::LINE_LENGTH => 40,
-        ]]);
-};
-```
-
 <br>
 
 ## StandardizeHereNowDocKeywordFixer
@@ -159,19 +157,7 @@ Use configured nowdoc and heredoc keyword
 
 - class: `Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer`
 
-```diff
--$value = <<<'WHATEVER'
-+$value = <<<'CODE_SNIPPET'
- ...
--'WHATEVER'
-+'CODE_SNIPPET'
-```
-
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
 
@@ -183,6 +169,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             StandardizeHereNowDocKeywordFixer::KEYWORD => 'CODE_SNIPPET',
         ]]);
 };
+```
+
+↓
+
+```diff
+-$value = <<<'WHATEVER'
++$value = <<<'CODE_SNIPPET'
+ ...
+-'WHATEVER'
++'CODE_SNIPPET'
 ```
 
 <br>
@@ -241,8 +237,6 @@ There should be no commented code. Git is good enough for versioning
 - class: `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
 
 ```php
-declare(strict_types=1);
-
 // $one = 1;
 // $two = 2;
 // $three = 3;
@@ -251,8 +245,6 @@ declare(strict_types=1);
 :x:
 
 ```php
-declare(strict_types=1);
-
 // note
 ```
 

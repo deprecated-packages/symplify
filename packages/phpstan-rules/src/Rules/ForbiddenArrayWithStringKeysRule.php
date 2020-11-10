@@ -19,7 +19,7 @@ use PHPStan\Type\ArrayType;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -84,7 +84,6 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-
 final class SomeClass
 {
     public function run()
