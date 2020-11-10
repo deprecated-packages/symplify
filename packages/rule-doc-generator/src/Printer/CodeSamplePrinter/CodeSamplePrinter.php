@@ -47,7 +47,7 @@ final class CodeSamplePrinter
                 $newLines = $this->printDiffCodeSample($codeSample);
                 $lines = array_merge($lines, $newLines);
             } else {
-                $newLines = $this->printGoodBadCodeSample($codeSample, $ruleDefinition);
+                $newLines = $this->printGoodBadCodeSample($codeSample);
                 $lines = array_merge($lines, $newLines);
             }
 
@@ -60,7 +60,7 @@ final class CodeSamplePrinter
     /**
      * @return string[]
      */
-    private function printGoodBadCodeSample(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
+    private function printGoodBadCodeSample(CodeSampleInterface $codeSample): array
     {
         $lines = [];
 

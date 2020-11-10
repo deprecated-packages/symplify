@@ -38,7 +38,10 @@ final class ConfiguredCodeSamplePrinter
         $this->smartPhpConfigPrinter = $smartPhpConfigPrinter;
     }
 
-    public function print(ConfiguredCodeSample $configuredCodeSample, RuleDefinition $ruleDefinition)
+    /**
+     * @return string[]
+     */
+    public function print(ConfiguredCodeSample $configuredCodeSample, RuleDefinition $ruleDefinition): array
     {
         if ($ruleDefinition->isPHPStanRule()) {
             $lines = $this->printPHPStanConfiguration($ruleDefinition, $configuredCodeSample);

@@ -186,6 +186,17 @@ Do not name "%s", shorter than %d chars
 
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule`
 
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            minNameLength: 3
+```
+
+↓
+
 ```php
 function is(): void
 {
@@ -202,20 +213,6 @@ function isClass(): void
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(NoShortNameRule::class)
-        ->call('configure', [[
-            'minNameLength' => 3,
-        ]]);
-};
-```
-
 <br>
 
 ## SingleIndentationInMethodRule
@@ -225,6 +222,18 @@ Do not indent more than %dx in class methods
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxNestingLevel:
+                - 2
+```
+
+↓
 
 ```php
 function someFunction()
@@ -251,20 +260,6 @@ function someFunction()
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(SingleIndentationInMethodRule::class)
-        ->call('configure', [[
-            'maxNestingLevel' => [2],
-        ]]);
-};
-```
-
 <br>
 
 ## TooLongClassLikeRule
@@ -274,6 +269,17 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassLikeLength: 3
+```
+
+↓
 
 ```php
 class SomeClass
@@ -303,20 +309,6 @@ class SomeClass
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(TooLongClassLikeRule::class)
-        ->call('configure', [[
-            'maxClassLikeLength' => 3,
-        ]]);
-};
-```
-
 <br>
 
 ## TooLongFunctionLikeRule
@@ -326,6 +318,17 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxFunctionLikeLength: 3
+```
+
+↓
 
 ```php
 function some()
@@ -349,20 +352,6 @@ function some()
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(TooLongFunctionLikeRule::class)
-        ->call('configure', [[
-            'maxFunctionLikeLength' => 3,
-        ]]);
-};
-```
-
 <br>
 
 ## TooManyMethodsRule
@@ -372,6 +361,17 @@ Method has too many methods %d. Try narrowing it down under %d
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxMethodCount: 1
+```
+
+↓
 
 ```php
 class SomeClass
@@ -399,20 +399,6 @@ class SomeClass
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(TooManyMethodsRule::class)
-        ->call('configure', [[
-            'maxMethodCount' => 1,
-        ]]);
-};
-```
-
 <br>
 
 ## TooManyPropertiesRule
@@ -422,6 +408,17 @@ Class has too many properties %d. Try narrowing it down under %d
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPropertyCount: 2
+```
+
+↓
 
 ```php
 class SomeClass
@@ -446,20 +443,6 @@ class SomeClass
 ```
 
 :+1:
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(TooManyPropertiesRule::class)
-        ->call('configure', [[
-            'maxPropertyCount' => 2,
-        ]]);
-};
-```
 
 <br>
 
@@ -944,6 +927,17 @@ Method "%s()" is using too many parameters - %d. Make it under %d
 
 - class: `Symplify\PHPStanRules\Rules\ExcessiveParameterListRule`
 
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ExcessiveParameterListRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxParameterCount: 2
+```
+
+↓
+
 ```php
 class SomeClass
 {
@@ -968,20 +962,6 @@ class SomeClass
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\ExcessiveParameterListRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(ExcessiveParameterListRule::class)
-        ->call('configure', [[
-            'maxParameterCount' => 2,
-        ]]);
-};
-```
-
 <br>
 
 ## ExcessivePublicCountRule
@@ -991,6 +971,17 @@ Too many public elements on class - %d. Try narrow it down under %d
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\ExcessivePublicCountRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ExcessivePublicCountRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPublicClassElementCount: 2
+```
+
+↓
 
 ```php
 class SomeClass
@@ -1015,20 +1006,6 @@ class SomeClass
 ```
 
 :+1:
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\ExcessivePublicCountRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(ExcessivePublicCountRule::class)
-        ->call('configure', [[
-            'maxPublicClassElementCount' => 2,
-        ]]);
-};
-```
 
 <br>
 
@@ -1174,6 +1151,18 @@ Object instance of "%s" is forbidden to be passed to constructor
 
 - class: `Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule`
 
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypes:
+                - EntityManager
+```
+
+↓
+
 ```php
 class SomeClass
 {
@@ -1198,20 +1187,6 @@ class SomeClass
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(ForbiddenConstructorDependencyByTypeRule::class)
-        ->call('configure', [[
-            'forbiddenTypes' => ['EntityManager'],
-        ]]);
-};
-```
-
 <br>
 
 ## ForbiddenFuncCallRule
@@ -1221,6 +1196,18 @@ Function "%s()" cannot be used/left in the code
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenFunctions:
+                - eval
+```
+
+↓
 
 ```php
 class SomeClass
@@ -1239,20 +1226,6 @@ class SomeClass
 ```
 
 :+1:
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(ForbiddenFuncCallRule::class)
-        ->call('configure', [[
-            'forbiddenFunctions' => ['eval'],
-        ]]);
-};
-```
 
 <br>
 
@@ -1444,6 +1417,19 @@ foreach ($fileErrors as $fileError) {
 
 - class: `Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule`
 
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenClassMethods:
+                PHPStan\Rules\Rule:
+                    - getRule
+```
+
+↓
+
 ```php
 use PHPStan\Rules\Rule;
 
@@ -1472,23 +1458,6 @@ class SomeRule implements Rule
 
 :+1:
 
-```php
-use PHPStan\Rules\Rule;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(ForbiddenNewInMethodRule::class)
-        ->call('configure', [[
-            'forbiddenClassMethods' => [
-                Rule::class => ['getRule'],
-            ],
-        ]]);
-};
-```
-
 <br>
 
 ## ForbiddenNewOutsideFactoryServiceRule
@@ -1498,6 +1467,18 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            types:
+                - AnotherObject
+```
+
+↓
 
 ```php
 class SomeClass
@@ -1530,20 +1511,6 @@ class SomeClass
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(ForbiddenNewOutsideFactoryServiceRule::class)
-        ->call('configure', [[
-            'types' => ['AnotherObject'],
-        ]]);
-};
-```
-
 <br>
 
 ## ForbiddenParentClassRule
@@ -1553,6 +1520,18 @@ Class "%s" inherits from forbidden parent class "%s". Use "%s" instead
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\ForbiddenParentClassRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenParentClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenParentClasses:
+                - ParentClass
+```
+
+↓
 
 ```php
 class SomeClass extends ParentClass
@@ -1574,20 +1553,6 @@ class SomeClass
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\ForbiddenParentClassRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(ForbiddenParentClassRule::class)
-        ->call('configure', [[
-            'forbiddenParentClasses' => ['ParentClass'],
-        ]]);
-};
-```
-
 <br>
 
 ## ForbiddenPrivateMethodByTypeRule
@@ -1597,6 +1562,18 @@ Private method in is not allowed here - it should only delegate to others. Decou
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypes:
+                - Command
+```
+
+↓
 
 ```php
 class SomeCommand extends Command
@@ -1636,20 +1613,6 @@ class SomeCommand extends Command
 ```
 
 :+1:
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(ForbiddenPrivateMethodByTypeRule::class)
-        ->call('configure', [[
-            'forbiddenTypes' => ['Command'],
-        ]]);
-};
-```
 
 <br>
 
@@ -2578,6 +2541,18 @@ class SomeClass extends Printer
 
 - class: `Symplify\PHPStanRules\Rules\NoParticularNodeRule`
 
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\NoParticularNodeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenNodes:
+                - PhpParser\Node\Expr\ErrorSuppress
+```
+
+↓
+
 ```php
 return @strlen('...');
 ```
@@ -2589,21 +2564,6 @@ return strlen('...');
 ```
 
 :+1:
-
-```php
-use PhpParser\Node\Expr\ErrorSuppress;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\NoParticularNodeRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(NoParticularNodeRule::class)
-        ->call('configure', [[
-            'forbiddenNodes' => [ErrorSuppress::class],
-        ]]);
-};
-```
 
 <br>
 
@@ -2941,6 +2901,18 @@ Instead of "%s" class/interface use "%s"
 
 - class: `Symplify\PHPStanRules\Rules\PreferredClassRule`
 
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            oldToPreferredClasses:
+                SplFileInfo: Symplify\SmartFileSystem\SmartFileInfo
+```
+
+↓
+
 ```php
 class SomeClass
 {
@@ -2967,23 +2939,6 @@ class SomeClass
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\PreferredClassRule;
-use Symplify\SmartFileSystem\SmartFileInfo;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(PreferredClassRule::class)
-        ->call('configure', [[
-            'oldToPreferredClasses' => [
-                SplFileInfo::class => SmartFileInfo::class,
-            ],
-        ]]);
-};
-```
-
 <br>
 
 ## PreferredMethodCallOverFuncCallRule
@@ -2993,6 +2948,20 @@ Use "%s->%s()" method call over "%s()" func call
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPreferredMethodCalls:
+                strlen:
+                    - Nette\Utils\Strings
+                    - lenght
+```
+
+↓
 
 ```php
 class SomeClass
@@ -3024,23 +2993,6 @@ class SomeClass
 ```
 
 :+1:
-
-```php
-use Nette\Utils\Strings;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(PreferredMethodCallOverFuncCallRule::class)
-        ->call('configure', [[
-            'funcCallToPreferredMethodCalls' => [
-                'strlen' => [Strings::class, 'lenght'],
-],
-                    ]]);
-};
-```
 
 <br>
 
@@ -3117,6 +3069,20 @@ Use "%s::%s()" static call over "%s()" func call
 
 - class: `Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule`
 
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPreferredStaticCalls:
+                strlen:
+                    - Nette\Utils\Strings
+                    - lenght
+```
+
+↓
+
 ```php
 class SomeClass
 {
@@ -3142,23 +3108,6 @@ class SomeClass
 ```
 
 :+1:
-
-```php
-use Nette\Utils\Strings;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(PreferredStaticCallOverFuncCallRule::class)
-        ->call('configure', [[
-            'funcCallToPreferredStaticCalls' => [
-                'strlen' => [Strings::class, 'lenght'],
-],
-                    ]]);
-};
-```
 
 <br>
 
@@ -3274,6 +3223,20 @@ Parameter argument on position %d must use %s constant
 
 - class: `Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule`
 
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredLocalConstantInMethodCall:
+                SomeType:
+                    someMethod:
+                        - 0
+```
+
+↓
+
 ```php
 class SomeClass
 {
@@ -3300,24 +3263,6 @@ class SomeClass
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(RequireConstantInMethodCallPositionRule::class)
-        ->call('configure', [[
-            'requiredLocalConstantInMethodCall' => [
-                'SomeType' => [
-                    'someMethod' => [0],
-                ],
-],
-                    ]]);
-};
-```
-
 <br>
 
 ## RequireDataProviderTestMethodRule
@@ -3327,6 +3272,18 @@ The "%s()" method must use data provider
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classesRequiringDataProvider:
+                - *RectorTestCase
+```
+
+↓
 
 ```php
 class SomeRectorTestCase extends RectorTestCase
@@ -3358,20 +3315,6 @@ class SomeRectorTestCase extends RectorTestCase
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(RequireDataProviderTestMethodRule::class)
-        ->call('configure', [[
-            'classesRequiringDataProvider' => ['*RectorTestCase'],
-        ]]);
-};
-```
-
 <br>
 
 ## RequireMethodCallArgumentConstantRule
@@ -3381,6 +3324,20 @@ Method call argument on position %d must use constant (e.g. "Option::NAME") over
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByMethodByType:
+                SomeClass:
+                    call:
+                        - 0
+```
+
+↓
 
 ```php
 class AnotherClass
@@ -3408,24 +3365,6 @@ class AnotherClass
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(RequireMethodCallArgumentConstantRule::class)
-        ->call('configure', [[
-            'constantArgByMethodByType' => [
-                'SomeClass' => [
-                    'call' => [0],
-                ],
-],
-                    ]]);
-};
-```
-
 <br>
 
 ## RequireNewArgumentConstantRule
@@ -3435,6 +3374,19 @@ New expression argument on position %d must use constant over value
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByNewByType:
+                Symfony\Component\Console\Input\InputOption:
+                    - 2
+```
+
+↓
 
 ```php
 use Symfony\Component\Console\Input\InputOption;
@@ -3452,23 +3404,6 @@ $inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
 
 :+1:
 
-```php
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(RequireNewArgumentConstantRule::class)
-        ->call('configure', [[
-            'constantArgByNewByType' => [
-                InputOption::class => [2],
-            ],
-        ]]);
-};
-```
-
 <br>
 
 ## RequireStringArgumentInMethodCallRule
@@ -3478,6 +3413,20 @@ Use quoted string in method call "%s()" argument on position %d instead of "::cl
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            stringArgByMethodByType:
+                SomeClass:
+                    someMethod:
+                        - 0
+```
+
+↓
 
 ```php
 class AnotherClass
@@ -3502,24 +3451,6 @@ class AnotherClass
 ```
 
 :+1:
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(RequireStringArgumentInMethodCallRule::class)
-        ->call('configure', [[
-            'stringArgByMethodByType' => [
-                'SomeClass' => [
-                    'someMethod' => [0],
-                ],
-],
-                    ]]);
-};
-```
 
 <br>
 
@@ -3577,6 +3508,18 @@ Class "%s" is missing @see annotation with test case class reference
 
 - class: `Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule`
 
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredSeeTypes:
+                - Rule
+```
+
+↓
+
 ```php
 class SomeClass extends Rule
 {
@@ -3595,20 +3538,6 @@ class SomeClass extends Rule
 ```
 
 :+1:
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(SeeAnnotationToTestRule::class)
-        ->call('configure', [[
-            'requiredSeeTypes' => ['Rule'],
-        ]]);
-};
-```
 
 <br>
 
@@ -3668,6 +3597,17 @@ new <class> is limited to %d "new <class>(new <class>))" nesting to each other. 
 
 - class: `Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule`
 
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxNewClassNesting: 2
+```
+
+↓
+
 ```php
 $someObject = new A(new B(new C()));
 ```
@@ -3681,20 +3621,6 @@ $someObject = new A($firstObject);
 
 :+1:
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(TooDeepNewClassNestingRule::class)
-        ->call('configure', [[
-            'maxNewClassNesting' => 2,
-        ]]);
-};
-```
-
 <br>
 
 ## TooLongVariableRule
@@ -3704,6 +3630,17 @@ Variable "$%s" is too long with %d chars. Narrow it under %d chars
 :wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\TooLongVariableRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\TooLongVariableRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxVariableLength: 10
+```
+
+↓
 
 ```php
 class SomeClass
@@ -3728,20 +3665,6 @@ class SomeClass
 ```
 
 :+1:
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\PHPStanRules\Rules\TooLongVariableRule;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(TooLongVariableRule::class)
-        ->call('configure', [[
-            'maxVariableLength' => 10,
-        ]]);
-};
-```
 
 <br>
 

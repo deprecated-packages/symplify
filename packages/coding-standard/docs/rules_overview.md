@@ -113,6 +113,22 @@ Array items, method parameters, method call arguments, new arguments should be o
 
 - class: `Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`
 
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(LineLengthFixer::class)
+        ->call('configure', [[
+            LineLengthFixer::LINE_LENGTH => 40,
+        ]]);
+};
+```
+
+↓
+
 ```diff
 -function some($veryLong, $superLong, $oneMoreTime)
 -{
@@ -131,20 +147,6 @@ Array items, method parameters, method call arguments, new arguments should be o
  }
 ```
 
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(LineLengthFixer::class)
-        ->call('configure', [[
-            LineLengthFixer::LINE_LENGTH => 40,
-        ]]);
-};
-```
-
 <br>
 
 ## StandardizeHereNowDocKeywordFixer
@@ -154,14 +156,6 @@ Use configured nowdoc and heredoc keyword
 :wrench: **configure it!**
 
 - class: `Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer`
-
-```diff
--$value = <<<'WHATEVER'
-+$value = <<<'CODE_SNIPPET'
- ...
--'WHATEVER'
-+'CODE_SNIPPET'
-```
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -175,6 +169,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             StandardizeHereNowDocKeywordFixer::KEYWORD => 'CODE_SNIPPET',
         ]]);
 };
+```
+
+↓
+
+```diff
+-$value = <<<'WHATEVER'
++$value = <<<'CODE_SNIPPET'
+ ...
+-'WHATEVER'
++'CODE_SNIPPET'
 ```
 
 <br>

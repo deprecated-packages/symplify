@@ -16,7 +16,7 @@ composer require symplify/composer-json-manipulator
 Add to `config/bundles.php`:
 
 ```php
-return [
+<?php return [
     Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle::class => [
         'all' => true,
     ],
@@ -26,7 +26,7 @@ return [
 ## Usage
 
 ```php
-namespace App;
+<?php namespace App;
 
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 

@@ -28,7 +28,7 @@ final class SnippetFormatter
      * @see https://regex101.com/r/MJTq5C/3
      * @var string
      */
-    private const OPENING_TAG_REGEX = '#^\<\?php\s+(\S)#ms';
+    private const OPENING_TAG_REGEX = '#^\<\?php\n#ms';
 
     /**
      * @var SmartFileSystem
@@ -103,18 +103,20 @@ final class SnippetFormatter
         $content = $this->isPhp73OrAbove ? $content : trim($content);
         $temporaryFilePath = $this->createTemporaryFilePath($content);
 
-        if (! Strings::startsWith($content, '<?php')) {
+        if (! Strings::startsWith($this->isPhp73OrAbove ? trim($content) : $content, '<?php')) {
             $content = '<?php' . PHP_EOL . $content;
         }
 
-        $this->smartFileSystem->dumpFile($temporaryFilePath, $content);
+        $fileContent = $this->isPhp73OrAbove ? ltrim($content, PHP_EOL) : $content;
+
+        $this->smartFileSystem->dumpFile($temporaryFilePath, $fileContent);
         $temporaryFileInfo = new SmartFileInfo($temporaryFilePath);
 
         try {
             $this->fixerFileProcessor->processFile($temporaryFileInfo);
             $this->sniffFileProcessor->processFile($temporaryFileInfo);
 
-            $content = $temporaryFileInfo->getContents();
+            $fileContent = $temporaryFileInfo->getContents();
         } catch (Throwable $throwable) {
             // Skipped parsed error when processing php temporaryFile
         } finally {
@@ -122,10 +124,13 @@ final class SnippetFormatter
             $this->smartFileSystem->remove($temporaryFilePath);
         }
 
-        $content = rtrim($content, PHP_EOL) . PHP_EOL;
-        $content = ltrim($content, PHP_EOL);
+        $fileContent = rtrim($fileContent, PHP_EOL) . PHP_EOL;
 
-        return $this->removeOpeningTagAndStrictTypes($content);
+        if ($this->isPhp73OrAbove) {
+            $fileContent = ltrim($fileContent, PHP_EOL);
+        }
+
+        return $this->removeOpeningTagAndStrictTypes($fileContent);
     }
 
     /**
@@ -134,7 +139,6 @@ final class SnippetFormatter
     private function removeOpeningTagAndStrictTypes(string $content): string
     {
         $content = Strings::replace($content, self::DECLARE_REGEX, '');
-        $content = ltrim($content);
 
         return Strings::replace($content, self::OPENING_TAG_REGEX, '$1');
     }

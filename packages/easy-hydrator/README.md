@@ -20,7 +20,7 @@ composer require symplify/easy-hydrator
 Add to `config/bundles.php`:
 
 ```php
-return [
+<?php return [
     Symplify\EasyHydrator\EasyHydratorBundle::class => [
         'all' => true,
     ],
@@ -35,7 +35,7 @@ return [
 Having value object with constructor injection:
 
 ```php
-namespace App\ValueObject;
+<?php namespace App\ValueObject;
 
 use DateTimeInterface;
 
@@ -74,7 +74,7 @@ final class Person
 Use hydrator with array like this:
 
 ```php
-namespace App\Repository;
+<?php namespace App\Repository;
 
 use App\ValueObject\Person;
 use Symplify\EasyHydrator\ArrayToValueObjectHydrator;
@@ -126,7 +126,7 @@ $person = $this->arrayToValueObjectHydrator->hydrateArray($singlePersonAsArray, 
 But how can we hydrate multiple items?
 
 ```php
-$manyPersonsAsArray = [];
+<?php $manyPersonsAsArray = [];
 $manyPersonsAsArray[] = [
     'name' => 'Tom',
     // will be retyped to int
@@ -152,7 +152,7 @@ $persons = $this->arrayToValueObjectHydrator->hydrateArrays($manyPersonsAsArray,
 If object has optional parameters, and some of their values are not provided in data, default value is used in the hydrated object.
 
 ```php
-class MyObject
+<?php class MyObject
 {
     private string $foo;
 

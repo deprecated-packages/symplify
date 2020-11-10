@@ -10,7 +10,17 @@ use Nette\Utils\Strings;
 
 final class NeonPrinter
 {
-    public const TAGS_REGEX = '#tags:\s+\-\s+(?<tag>.*?)$#ms';
+    /**
+     * @see https://regex101.com/r/r8DGyV/1
+     * @var string
+     */
+    private const TAGS_REGEX = '#tags:\s+\-\s+(?<tag>.*?)$#ms';
+
+    /**
+     * @see https://regex101.com/r/KjekIe/1
+     * @var string
+     */
+    private const ARGUMENTS_DOUBLE_SPACE_REGEX = '#\n(\n\s+arguments:)#ms';
 
     /**
      * @param mixed[] $neon
@@ -23,7 +33,7 @@ final class NeonPrinter
         $neonContent = Strings::replace($neonContent, self::TAGS_REGEX, 'tags: [$1]');
 
         // fix double space in arguments
-        $neonContent = Strings::replace($neonContent, '#\n(\n\s+arguments:)#ms', '$1');
+        $neonContent = Strings::replace($neonContent, self::ARGUMENTS_DOUBLE_SPACE_REGEX, '$1');
 
         return Strings::replace($neonContent, '#\t#', '    ');
     }
