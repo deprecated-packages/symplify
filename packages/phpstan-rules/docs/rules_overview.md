@@ -7,8 +7,6 @@ Cognitive complexity of class/trait must be under specific limit
 - class: `Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function simple($value)
@@ -37,8 +35,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function simple($value)
@@ -64,8 +60,6 @@ Cognitive complexity of function/method must be under specific limit
 - class: `Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function simple($value)
@@ -85,8 +79,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function simple($value)
@@ -111,8 +103,6 @@ Do not use chained method calls
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`
 
 ```php
-declare(strict_types=1);
-
 $this->runThis()
     ->runThat();
 ```
@@ -120,8 +110,6 @@ $this->runThis()
 :x:
 
 ```php
-declare(strict_types=1);
-
 $this->runThis();
 $this->runThat();
 ```
@@ -165,8 +153,6 @@ Setter "%s()" is not allowed. Use constructor injection or behavior name instead
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function setName(string $name): void
@@ -179,8 +165,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function __construct(string $name)
@@ -203,8 +187,6 @@ Do not name "%s", shorter than %d chars
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule`
 
 ```php
-declare(strict_types=1);
-
 function is(): void
 {
 }
@@ -213,8 +195,6 @@ function is(): void
 :x:
 
 ```php
-declare(strict_types=1);
-
 function isClass(): void
 {
 }
@@ -223,10 +203,6 @@ function isClass(): void
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule;
 
@@ -276,10 +252,6 @@ function someFunction()
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule;
 
@@ -332,10 +304,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule;
 
@@ -382,10 +350,6 @@ function some()
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule;
 
@@ -410,8 +374,6 @@ Method has too many methods %d. Try narrowing it down under %d
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function firstMethod(): void
@@ -427,8 +389,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function firstMethod(): void
@@ -440,10 +400,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule;
 
@@ -468,8 +424,6 @@ Class has too many properties %d. Try narrowing it down under %d
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     private $some;
@@ -483,8 +437,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     private $some;
@@ -496,10 +448,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule;
 
@@ -522,8 +470,6 @@ Add regex101.com link to that shows the regex in practise, so it will be easier 
 - class: `Symplify\PHPStanRules\Rules\AnnotateRegexClassConstWithRegexLinkRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     private const COMPLICATED_REGEX = '#some_complicated_stu|ff#';
@@ -533,8 +479,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 /**
  * @see https://regex101.com/r/SZr0X5/12
  */
@@ -555,8 +499,6 @@ Method "%s()" returns bool type, so the name should start with is/has/was...
 - class: `Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function old(): bool
@@ -569,8 +511,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function isOld(): bool
@@ -633,8 +573,6 @@ Constant string value need to only have small letters, _, -, . and numbers
 - class: `Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     private const FOO = '$not_ok$';
@@ -644,8 +582,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     private const FOO = 'bar';
@@ -663,8 +599,6 @@ class SomeClass
 - class: `Symplify\PHPStanRules\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule`
 
 ```php
-declare(strict_types=1);
-
 // file: "SomeTest.php
 
 namespace App;
@@ -677,8 +611,6 @@ class SomeTest
 :x:
 
 ```php
-declare(strict_types=1);
-
 // file: "SomeTest.php
 
 namespace App\Tests;
@@ -699,8 +631,6 @@ Method parameters must be compatible with its parent
 - class: `Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule`
 
 ```php
-declare(strict_types=1);
-
 class ParentClass
 {
     public function run(string $someParameter): void
@@ -719,8 +649,6 @@ class SomeClass extends ParentClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class ParentClass
 {
     public function run(string $someParameter): void
@@ -747,8 +675,6 @@ Class name start with Abstract must have abstract keyword
 - class: `Symplify\PHPStanRules\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule`
 
 ```php
-declare(strict_types=1);
-
 class AbstractClass
 {
 }
@@ -757,8 +683,6 @@ class AbstractClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 abstract class AbstractClass
 {
 }
@@ -779,8 +703,6 @@ autowire(), autoconfigure(), and public() are required in config service
 - class: `Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule`
 
 ```php
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -794,8 +716,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 :x:
 
 ```php
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -819,8 +739,6 @@ Relocate Interface to a "Contract" namespace
 - class: `Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule`
 
 ```php
-declare(strict_types=1);
-
 namespace App\Repository;
 
 interface ProductRepositoryInterface
@@ -831,8 +749,6 @@ interface ProductRepositoryInterface
 :x:
 
 ```php
-declare(strict_types=1);
-
 namespace App\Contract\Repository;
 
 interface ProductRepositoryInterface
@@ -904,8 +820,6 @@ trait SomeTrait
 :x:
 
 ```php
-declare(strict_types=1);
-
 trait SomeTrait
 {
     public function someDelegateCall(): void
@@ -926,8 +840,6 @@ SymfonyStyle usage is unneeded for only newline, write, and/or writeln, use PHP_
 - class: `Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule`
 
 ```php
-declare(strict_types=1);
-
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class SomeClass
@@ -949,8 +861,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run(): void
@@ -971,8 +881,6 @@ Use "$class->namespaceName" instead of "$class->name" that only returns short cl
 - class: `Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule`
 
 ```php
-declare(strict_types=1);
-
 use PhpParser\Node\Stmt\Class_;
 
 final class SomeClass
@@ -988,8 +896,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 use PhpParser\Node\Stmt\Class_;
 
 final class SomeClass
@@ -1013,8 +919,6 @@ Class "%s" should have suffix "%s" by parent class/interface
 - class: `Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule`
 
 ```php
-declare(strict_types=1);
-
 class Some extends Command
 {
 }
@@ -1023,8 +927,6 @@ class Some extends Command
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeCommand extends Command
 {
 }
@@ -1043,8 +945,6 @@ Method "%s()" is using too many parameters - %d. Make it under %d
 - class: `Symplify\PHPStanRules\Rules\ExcessiveParameterListRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function __construct($one, $two, $three)
@@ -1057,8 +957,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function __construct($one, $two)
@@ -1071,10 +969,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\ExcessiveParameterListRule;
 
@@ -1099,8 +993,6 @@ Too many public elements on class - %d. Try narrow it down under %d
 - class: `Symplify\PHPStanRules\Rules\ExcessivePublicCountRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public $one;
@@ -1114,8 +1006,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public $one;
@@ -1127,10 +1017,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\ExcessivePublicCountRule;
 
@@ -1153,8 +1039,6 @@ Array destruct is not allowed. Use value object to pass data instead
 - class: `Symplify\PHPStanRules\Rules\ForbiddenArrayDestructRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function run(): void
@@ -1167,8 +1051,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function run(): void
@@ -1191,8 +1073,6 @@ Array with keys is not allowed. Use value object to pass data instead
 - class: `Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function run()
@@ -1208,8 +1088,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function run()
@@ -1230,8 +1108,6 @@ Assignment inside if is not allowed. Extract condition to extra variable on line
 - class: `Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule`
 
 ```php
-declare(strict_types=1);
-
 if ($isRandom = mt_rand()) {
     // ...
 }
@@ -1240,8 +1116,6 @@ if ($isRandom = mt_rand()) {
 :x:
 
 ```php
-declare(strict_types=1);
-
 $isRandom = mt_rand();
 if ($isRandom) {
     // ...
@@ -1259,8 +1133,6 @@ For complex configuration use value object over array
 - class: `Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule`
 
 ```php
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -1276,8 +1148,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 :x:
 
 ```php
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -1305,8 +1175,6 @@ Object instance of "%s" is forbidden to be passed to constructor
 - class: `Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function __construct(EntityManager $entityManager)
@@ -1319,8 +1187,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function __construct(ProductRepository $productRepository)
@@ -1333,10 +1199,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule;
 
@@ -1379,10 +1241,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
 
@@ -1405,8 +1263,6 @@ Method call "ClassName"->"method" is not allowed in "Location"
 - class: `Symplify\PHPStanRules\Rules\ForbiddenMethodCallByTypeInLocationRule`
 
 ```php
-declare(strict_types=1);
-
 namespace App\Controller;
 
 use View\Helper;
@@ -1426,8 +1282,6 @@ final class AlbumController
 :x:
 
 ```php
-declare(strict_types=1);
-
 namespace App\Controller;
 
 final class AlbumController
@@ -1450,16 +1304,12 @@ Method call on new expression is not allowed.
 - class: `Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule`
 
 ```php
-declare(strict_types=1);
-
 (new SomeClass())->run();
 ```
 
 :x:
 
 ```php
-declare(strict_types=1);
-
 $someClass = new SomeClass();
 $someClass->run();
 ```
@@ -1475,8 +1325,6 @@ Method nor static call in foreach is not allowed. Extract expression to a new va
 - class: `Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`
 
 ```php
-declare(strict_types=1);
-
 foreach ($this->getData($arg) as $key => $item) {
     // ...
 }
@@ -1485,8 +1333,6 @@ foreach ($this->getData($arg) as $key => $item) {
 :x:
 
 ```php
-declare(strict_types=1);
-
 $data = $this->getData($arg);
 foreach ($arg as $key => $item) {
     // ...
@@ -1504,8 +1350,6 @@ Method nor static call in if () or elseif () is not allowed. Extract expression 
 - class: `Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule`
 
 ```php
-declare(strict_types=1);
-
 $someObject = new SomeClass();
 if ($someObject->getData($arg) === []) {
 } elseif ($someObject->getData($arg2) !== []) {
@@ -1515,8 +1359,6 @@ if ($someObject->getData($arg) === []) {
 :x:
 
 ```php
-declare(strict_types=1);
-
 $someObject = new SomeClass();
 $dataFirstArg = $someObject->getData($arg);
 $dataSecondArg = $someObject->getData($arg2);
@@ -1537,8 +1379,6 @@ Multiple class/interface/trait is not allowed in single file
 - class: `Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
 }
@@ -1551,8 +1391,6 @@ interface SomeInterface
 :x:
 
 ```php
-declare(strict_types=1);
-
 // SomeClass.php
 class SomeClass
 {
@@ -1575,8 +1413,6 @@ Nested foreach with empty statement is not allowed
 - class: `Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule`
 
 ```php
-declare(strict_types=1);
-
 $collectedFileErrors = [];
 
 foreach ($errors as $fileErrors) {
@@ -1589,8 +1425,6 @@ foreach ($errors as $fileErrors) {
 :x:
 
 ```php
-declare(strict_types=1);
-
 $collectedFileErrors = [];
 
 foreach ($fileErrors as $fileError) {
@@ -1611,8 +1445,6 @@ foreach ($fileErrors as $fileError) {
 - class: `Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule`
 
 ```php
-declare(strict_types=1);
-
 use PHPStan\Rules\Rule;
 
 class SomeRule implements Rule
@@ -1627,8 +1459,6 @@ class SomeRule implements Rule
 :x:
 
 ```php
-declare(strict_types=1);
-
 use PHPStan\Rules\Rule;
 
 class SomeRule implements Rule
@@ -1643,10 +1473,6 @@ class SomeRule implements Rule
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use PHPStan\Rules\Rule;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule;
@@ -1674,8 +1500,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 - class: `Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function process(): void
@@ -1689,8 +1513,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function __construt(AnotherObjectFactory $anotherObjectFactory): void
@@ -1709,10 +1531,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule;
 
@@ -1737,8 +1555,6 @@ Class "%s" inherits from forbidden parent class "%s". Use "%s" instead
 - class: `Symplify\PHPStanRules\Rules\ForbiddenParentClassRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass extends ParentClass
 {
 }
@@ -1747,8 +1563,6 @@ class SomeClass extends ParentClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function __construct(DecoupledClass $decoupledClass)
@@ -1761,10 +1575,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\ForbiddenParentClassRule;
 
@@ -1789,8 +1599,6 @@ Private method in is not allowed here - it should only delegate to others. Decou
 - class: `Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeCommand extends Command
 {
     public function run(): void
@@ -1808,8 +1616,6 @@ class SomeCommand extends Command
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeCommand extends Command
 {
     /**
@@ -1832,10 +1638,6 @@ class SomeCommand extends Command
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule;
 
@@ -1858,8 +1660,6 @@ Property with protected modifier is not allowed. Use interface contract method i
 - class: `Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     protected $repository;
@@ -1869,8 +1669,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass implements RepositoryAwareInterface
 {
     public function getRepository(): void
@@ -1891,8 +1689,6 @@ Cannot return include_once/require_once
 - class: `Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run()
@@ -1905,8 +1701,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run(): void
@@ -1927,8 +1721,6 @@ Spread operator is not allowed.
 - class: `Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule`
 
 ```php
-declare(strict_types=1);
-
 $args = [$firstValue, $secondValue];
 $message = sprintf('%s', ...$args);
 ```
@@ -1936,8 +1728,6 @@ $message = sprintf('%s', ...$args);
 :x:
 
 ```php
-declare(strict_types=1);
-
 $message = sprintf('%s', $firstValue, $secondValue);
 ```
 
@@ -1952,8 +1742,6 @@ $message = sprintf('%s', $firstValue, $secondValue);
 - class: `Symplify\PHPStanRules\Rules\ForbiddenTestsNamespaceOutsideTestsDirectoryRule`
 
 ```php
-declare(strict_types=1);
-
 // file path: "src/SomeClass.php
 
 namespace App\Tests;
@@ -1966,8 +1754,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 // file path: "tests/SomeClass.php
 
 namespace App\Tests;
@@ -1988,8 +1774,6 @@ Constant type should be "%s", but is "%s"
 - class: `Symplify\PHPStanRules\Rules\MatchingTypeConstantRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     /**
@@ -2002,8 +1786,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     /**
@@ -2024,8 +1806,6 @@ Use explicit interface contract or a service over unclear abstract methods
 - class: `Symplify\PHPStanRules\Rules\NoAbstractMethodRule`
 
 ```php
-declare(strict_types=1);
-
 abstract class SomeClass
 {
     abstract public function run();
@@ -2035,8 +1815,6 @@ abstract class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 abstract class SomeClass implements RunnableInterface
 {
 }
@@ -2058,8 +1836,6 @@ Use explicit methods over array access on object
 - class: `Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run(MagicArrayObject $magicArrayObject)
@@ -2072,8 +1848,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run(MagicArrayObject $magicArrayObject)
@@ -2094,8 +1868,6 @@ Use another value object over array with string-keys and objects, array<string, 
 - class: `Symplify\PHPStanRules\Rules\NoArrayStringObjectReturnRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     /**
@@ -2110,8 +1882,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     /**
@@ -2135,8 +1905,6 @@ Class "%s" with static method must have "Static" in its name it explicit
 - class: `Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public static function getSome(): void
@@ -2148,8 +1916,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeStaticClass
 {
     public static function getSome(): void
@@ -2169,8 +1935,6 @@ Do not use constructor in tests. Move to "setUp()" method
 - class: `Symplify\PHPStanRules\Rules\NoConstructorInTestRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeTest
 {
     public function __construct()
@@ -2183,8 +1947,6 @@ final class SomeTest
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeTest
 {
     protected function setUp(): void
@@ -2205,8 +1967,6 @@ Instead of container injection, use specific service
 - class: `Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function __construct(ContainerInterface $container)
@@ -2219,8 +1979,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function __construct(SomeDependency $someDependency)
@@ -2241,17 +1999,12 @@ Use custom exceptions instead of native "%s"
 - class: `Symplify\PHPStanRules\Rules\NoDefaultExceptionRule`
 
 ```php
-declare(strict_types=1);
-
 throw new RuntimeException('...');
 ```
 
 :x:
 
 ```php
-declare(strict_types=1);
-
-
 throw new FileNotFoundException('...');
 ```
 
@@ -2266,8 +2019,6 @@ Parameter "%s" cannot have default value
 - class: `Symplify\PHPStanRules\Rules\NoDefaultParameterValueRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run($value = true): void
@@ -2279,8 +2030,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run($value): void
@@ -2300,8 +2049,6 @@ Class with base "%s" name is already used in "%s". Use unique name to make class
 - class: `Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule`
 
 ```php
-declare(strict_types=1);
-
 namespace App;
 
 class SomeClass
@@ -2318,8 +2065,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 namespace App;
 
 class SomeClass
@@ -2344,8 +2089,6 @@ Use explicit names over dynamic ones
 - class: `Symplify\PHPStanRules\Rules\NoDynamicNameRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function old(): bool
@@ -2358,8 +2101,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function old(): bool
@@ -2380,8 +2121,6 @@ Use specific repository over entity manager in Controller
 - class: `Symplify\PHPStanRules\Rules\NoEntityManagerInControllerRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeController
 {
     public function __construct(EntityManagerInterface $entityManager)
@@ -2394,8 +2133,6 @@ final class SomeController
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeController
 {
     public function __construct(AnotherRepository $anotherRepository)
@@ -2416,8 +2153,6 @@ Do not use factory/method call in constructor. Put factory in config and get ser
 - class: `Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     private $someDependency;
@@ -2432,8 +2167,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     private $someDependency;
@@ -2456,8 +2189,6 @@ Separate function "%s()" in method call to standalone row to improve readability
 - class: `Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function run($value): void
@@ -2472,8 +2203,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function run($value): void
@@ -2497,8 +2226,6 @@ Do not use "$entityManager->getRepository()" outside of the constructor of repos
 - class: `Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeController
 {
     public function someAction(EntityManager $entityManager): void
@@ -2511,8 +2238,6 @@ final class SomeController
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeRepository
 {
     public function __construct(EntityManager $entityManager): void
@@ -2533,8 +2258,6 @@ Use local named constant instead of inline string for regex to explain meaning b
 - class: `Symplify\PHPStanRules\Rules\NoInlineStringRegexRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run($value)
@@ -2547,8 +2270,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     /**
@@ -2574,8 +2295,6 @@ Use default null value and nullable compare instead of isset on object
 - class: `Symplify\PHPStanRules\Rules\NoIssetOnObjectRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run()
@@ -2594,8 +2313,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run()
@@ -2623,8 +2340,6 @@ Do not use @method tag in class docblock
 - class: `Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule`
 
 ```php
-declare(strict_types=1);
-
 /**
  * @method getMagic() string
  */
@@ -2640,8 +2355,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function getExplicitValue()
@@ -2662,8 +2375,6 @@ The path "%s" was not found
 - class: `Symplify\PHPStanRules\Rules\NoMissingDirPathRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run()
@@ -2676,8 +2387,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run()
@@ -2698,8 +2407,6 @@ Use value object over multi array assign
 - class: `Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function run(): void
@@ -2714,8 +2421,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function run(): void
@@ -2737,8 +2442,6 @@ Use decoupled factory service to create "%s" object
 - class: `Symplify\PHPStanRules\Rules\NoNewOutsideFactoryRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function run()
@@ -2751,8 +2454,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeFactory
 {
     public function create()
@@ -2773,8 +2474,6 @@ Parameter "%s" cannot be nullable
 - class: `Symplify\PHPStanRules\Rules\NoNullableParameterRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run(?string $value = null): void
@@ -2786,8 +2485,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run(string $value): void
@@ -2807,8 +2504,6 @@ Do not call parent method if parent method is empty
 - class: `Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule`
 
 ```php
-declare(strict_types=1);
-
 class ParentClass
 {
     public function someMethod(): void
@@ -2828,8 +2523,6 @@ class SomeClass extends ParentClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class ParentClass
 {
     public function someMethod(): void
@@ -2856,8 +2549,6 @@ Do not call parent method if no override process
 - class: `Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass extends Printer
 {
     public function print($nodes)
@@ -2870,8 +2561,6 @@ class SomeClass extends Printer
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass extends Printer
 {
 }
@@ -2890,26 +2579,18 @@ class SomeClass extends Printer
 - class: `Symplify\PHPStanRules\Rules\NoParticularNodeRule`
 
 ```php
-declare(strict_types=1);
-
 return @strlen('...');
 ```
 
 :x:
 
 ```php
-declare(strict_types=1);
-
 return strlen('...');
 ```
 
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use PhpParser\Node\Expr\ErrorSuppress;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\NoParticularNodeRule;
@@ -2933,8 +2614,6 @@ Post operation are forbidden, as they make 2 values at the same line. Use pre in
 - class: `Symplify\PHPStanRules\Rules\NoPostIncPostDecRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run($value = 1): void
@@ -2949,8 +2628,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run($value = 1): void
@@ -2973,8 +2650,6 @@ Instead of protected element in final class use private element or contract meth
 - class: `Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     private function run(): void
@@ -2986,8 +2661,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     private function run(): void
@@ -3007,8 +2680,6 @@ Use explicit return value over magic &reference
 - class: `Symplify\PHPStanRules\Rules\NoReferenceRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run(&$value): void
@@ -3020,8 +2691,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run($value)
@@ -3042,8 +2711,6 @@ Use value object over return of values
 - class: `Symplify\PHPStanRules\Rules\NoReturnArrayVariableListRule`
 
 ```php
-declare(strict_types=1);
-
 class ReturnVariables
 {
     public function run($value, $value2): array
@@ -3056,8 +2723,6 @@ class ReturnVariables
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class ReturnVariables
 {
     public function run($value, $value2): ValueObject
@@ -3078,8 +2743,6 @@ Do not use scalar or array as constructor parameter. Use ParameterProvider servi
 - class: `Symplify\PHPStanRules\Rules\NoScalarAndArrayConstructorParameterRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     /**
@@ -3152,8 +2815,6 @@ Do not use static calls
 - class: `Symplify\PHPStanRules\Rules\NoStaticCallRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function run()
@@ -3166,8 +2827,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public function run()
@@ -3189,8 +2848,6 @@ Do not use static property
 - class: `Symplify\PHPStanRules\Rules\NoStaticPropertyRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     private static $customFileNames = [];
@@ -3200,8 +2857,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     private $customFileNames = [];
@@ -3219,8 +2874,6 @@ Value Object class name "%s" must be withotu "ValueObject" suffix. The correct c
 - class: `Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeValueObject
 {
     public function __construct(string $name)
@@ -3233,8 +2886,6 @@ class SomeValueObject
 :x:
 
 ```php
-declare(strict_types=1);
-
 class Some
 {
     public function __construct(string $name)
@@ -3255,8 +2906,6 @@ Do not use trait
 - class: `Symplify\PHPStanRules\Rules\NoTraitExceptRequiredAutowireRule`
 
 ```php
-declare(strict_types=1);
-
 trait SomeTrait
 {
     public function run(): void
@@ -3293,8 +2942,6 @@ Instead of "%s" class/interface use "%s"
 - class: `Symplify\PHPStanRules\Rules\PreferredClassRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run()
@@ -3307,8 +2954,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 class SomeClass
@@ -3323,10 +2968,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\PreferredClassRule;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -3354,8 +2995,6 @@ Use "%s->%s()" method call over "%s()" func call
 - class: `Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run($value)
@@ -3368,8 +3007,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 use Nette\Utils\Strings;
 
 class SomeClass
@@ -3389,10 +3026,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule;
@@ -3418,8 +3051,6 @@ Code configured at setUp() cannot be used in data provider. Move it to test() me
 - class: `Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule`
 
 ```php
-declare(strict_types=1);
-
 final class UseDataFromSetupInTestDataProviderTest extends TestCase
 {
     private $data;
@@ -3447,8 +3078,6 @@ final class UseDataFromSetupInTestDataProviderTest extends TestCase
 :x:
 
 ```php
-declare(strict_types=1);
-
 use stdClass;
 
 final class UseRawDataForTestDataProviderTest
@@ -3489,8 +3118,6 @@ Use "%s::%s()" static call over "%s()" func call
 - class: `Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run($value)
@@ -3503,8 +3130,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 use Nette\Utils\Strings;
 
 class SomeClass
@@ -3519,10 +3144,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule;
@@ -3548,8 +3169,6 @@ Abstract class name "%s" must be prefixed with "Abstract"
 - class: `Symplify\PHPStanRules\Rules\PrefixAbstractClassRule`
 
 ```php
-declare(strict_types=1);
-
 abstract class SomeClass
 {
 }
@@ -3558,8 +3177,6 @@ abstract class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 abstract class AbstractSomeClass
 {
 }
@@ -3576,8 +3193,6 @@ Change "%s()" method visibility to "%s" to respect parent method visibility.
 - class: `Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeParentClass
 {
     public function run(): void
@@ -3596,8 +3211,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeParentClass
 {
     public function run(): void
@@ -3624,8 +3237,6 @@ Name your constant with "_REGEX" suffix, instead of "%s"
 - class: `Symplify\PHPStanRules\Rules\RegexSuffixInRegexConstantRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public const SOME_NAME = '#some\s+name#';
@@ -3640,8 +3251,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public const SOME_NAME_REGEX = '#some\s+name#';
@@ -3666,8 +3275,6 @@ Parameter argument on position %d must use %s constant
 - class: `Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function someMethod(SomeType $someType): void
@@ -3694,10 +3301,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule;
 
@@ -3726,8 +3329,6 @@ The "%s()" method must use data provider
 - class: `Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeRectorTestCase extends RectorTestCase
 {
     public function test(): void
@@ -3739,8 +3340,6 @@ class SomeRectorTestCase extends RectorTestCase
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeRectorTestCase extends RectorTestCase
 {
     /**
@@ -3760,10 +3359,6 @@ class SomeRectorTestCase extends RectorTestCase
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule;
 
@@ -3788,8 +3383,6 @@ Method call argument on position %d must use constant (e.g. "Option::NAME") over
 - class: `Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule`
 
 ```php
-declare(strict_types=1);
-
 class AnotherClass
 {
     public function run(SomeClass $someClass): void
@@ -3816,10 +3409,6 @@ class AnotherClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule;
 
@@ -3848,8 +3437,6 @@ New expression argument on position %d must use constant over value
 - class: `Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule`
 
 ```php
-declare(strict_types=1);
-
 use Symfony\Component\Console\Input\InputOption;
 
 $inputOption = new InputOption('name', null, 2);
@@ -3858,8 +3445,6 @@ $inputOption = new InputOption('name', null, 2);
 :x:
 
 ```php
-declare(strict_types=1);
-
 use Symfony\Component\Console\Input\InputOption;
 
 $inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
@@ -3868,10 +3453,6 @@ $inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule;
@@ -3923,10 +3504,6 @@ class AnotherClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule;
 
@@ -3953,8 +3530,6 @@ Use "$this-><method>()" instead of "parent::<method>()" unless in the same named
 - class: `Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeParentClass
 {
     public function run(): void
@@ -3974,8 +3549,6 @@ class SomeClass extends SomeParentClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeParentClass
 {
     public function run(): void
@@ -4005,8 +3578,6 @@ Class "%s" is missing @see annotation with test case class reference
 - class: `Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass extends Rule
 {
 }
@@ -4015,8 +3586,6 @@ class SomeClass extends Rule
 :x:
 
 ```php
-declare(strict_types=1);
-
 /**
  * @see SomeClassTest
  */
@@ -4028,10 +3597,6 @@ class SomeClass extends Rule
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule;
 
@@ -4054,8 +3619,6 @@ Interface name "%s" must be suffixed with "Interface"
 - class: `Symplify\PHPStanRules\Rules\SuffixInterfaceRule`
 
 ```php
-declare(strict_types=1);
-
 interface SomeClass
 {
 }
@@ -4064,8 +3627,6 @@ interface SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 interface SomeInterface
 {
 }
@@ -4082,8 +3643,6 @@ Trait name "%s" must be suffixed with "Trait"
 - class: `Symplify\PHPStanRules\Rules\SuffixTraitRule`
 
 ```php
-declare(strict_types=1);
-
 trait SomeClass
 {
 }
@@ -4092,8 +3651,6 @@ trait SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 trait SomeTrait
 {
 }
@@ -4112,16 +3669,12 @@ new <class> is limited to %d "new <class>(new <class>))" nesting to each other. 
 - class: `Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule`
 
 ```php
-declare(strict_types=1);
-
 $someObject = new A(new B(new C()));
 ```
 
 :x:
 
 ```php
-declare(strict_types=1);
-
 $firstObject = new B(new C());
 $someObject = new A($firstObject);
 ```
@@ -4129,10 +3682,6 @@ $someObject = new A($firstObject);
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule;
 
@@ -4157,8 +3706,6 @@ Variable "$%s" is too long with %d chars. Narrow it under %d chars
 - class: `Symplify\PHPStanRules\Rules\TooLongVariableRule`
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run()
@@ -4171,8 +3718,6 @@ class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 class SomeClass
 {
     public function run()
@@ -4185,10 +3730,6 @@ class SomeClass
 :+1:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PHPStanRules\Rules\TooLongVariableRule;
 
@@ -4211,8 +3752,6 @@ Constant "%s" must be uppercase
 - class: `Symplify\PHPStanRules\Rules\UppercaseConstantRule`
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public const some = 'value';
@@ -4222,8 +3761,6 @@ final class SomeClass
 :x:
 
 ```php
-declare(strict_types=1);
-
 final class SomeClass
 {
     public const SOME = 'value';

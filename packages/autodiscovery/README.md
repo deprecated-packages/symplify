@@ -74,10 +74,6 @@ How can we avoid that?
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -134,10 +130,6 @@ twig:
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -185,10 +177,6 @@ framework:
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -242,10 +230,6 @@ social_annotations:
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;

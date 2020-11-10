@@ -17,10 +17,6 @@ composer require symplify/easy-coding-standard --dev
 
 ```diff
 # ecs.php
- <?php
-
- declare(strict_types=1);
-
  use Symplify\EasyCodingStandard\ValueObject\Option;
 +use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
