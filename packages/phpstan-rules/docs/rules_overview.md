@@ -492,7 +492,6 @@ class SomeClass
     }
 }
 ```
-```
 
 :x:
 
@@ -1383,7 +1382,6 @@ class SomeClass
         return true;
     }
 }
-```
 ```
 
 :x:

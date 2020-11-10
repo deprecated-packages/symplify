@@ -111,7 +111,6 @@ class SomeClass
         return true;
     }
 }
-```
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
