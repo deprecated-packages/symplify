@@ -19,10 +19,6 @@ composer require symplify/easy-coding-standard-tester --dev
 2. Provide files to `doTestFiles()` method
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 namespace Your\CodingStandard\Tests\Fixer\YourFixer;
 
 use Iterator;
@@ -70,14 +66,10 @@ final class YourFixerTest extends AbstractCheckerTestCase
 Instead of `[__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc']` you can use single file: `__DIR__ . '/fixture/fixture.php.inc'` in this format:
 
 ```php
-<?php
-
 $array = array();
 
 ?>
 -----
-<?php
-
 $array = [];
 
 ?>

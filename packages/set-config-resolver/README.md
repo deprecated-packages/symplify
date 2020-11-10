@@ -15,13 +15,7 @@ composer require symplify/set-config-resolver
 Use in CLI entry file `bin/<app-name>`, e.g. `bin/ecs` or `bin/rector`.
 
 ```php
-<?php
-
-# bin/ecs
-
-declare(strict_types=1);
-
-use Symfony\Component\Console\Input\ArgvInput;
+# bin/ecsuse Symfony\Component\Console\Input\ArgvInput;
 use Symplify\EasyCodingStandard\Set\EasyCodingStandardSetProvider;
 use Symplify\SetConfigResolver\SetAwareConfigResolver;
 

@@ -12,8 +12,6 @@ function () {
 Hey
 
 ```php
-<?php
-
 function () {
     $obj = new stdClass;
     $obj->test = ['test'];

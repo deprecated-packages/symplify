@@ -12,7 +12,6 @@ $second = array('also old array');
 Hey
 
 ```php
-<?php
 $array = ['old array'];
 ```
 

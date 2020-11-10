@@ -17,11 +17,7 @@ composer require symplify/easy-coding-standard --dev
 
 ```diff
 # ecs.php
- <?php
-
- declare(strict_types=1);
-
- use Symplify\EasyCodingStandard\ValueObject\Option;
+ <?phpuse Symplify\EasyCodingStandard\ValueObject\Option;
 +use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
  return static function (ContainerConfigurator $containerConfigurator): void {
