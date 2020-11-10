@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 final class SymfonyStyleFactory
@@ -39,6 +40,11 @@ final class SymfonyStyleFactory
         // --debug is called
         if ($argvInput->hasParameterOption('--debug')) {
             $consoleOutput->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
+        }
+
+        // disable output for tests
+        if (StaticPHPUnitEnvironment::isPHPUnitRun()) {
+            $consoleOutput->setVerbosity(OutputInterface::VERBOSITY_QUIET);
         }
 
         return new SymfonyStyle($argvInput, $consoleOutput);
