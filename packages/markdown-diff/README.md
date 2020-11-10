@@ -29,9 +29,9 @@ declare(strict_types=1);
 
 namespace App;
 
-use Symplify\MarkdownDiff\MarkdownDiffer;
+use Symplify\MarkdownDiff\Differ\MarkdownDiffer;
 
-class SomeClass
+final class SomeClass
 {
     /**
      * @var MarkdownDiffer
@@ -46,8 +46,7 @@ class SomeClass
     public function run(): void
     {
         $markdownDiff = $this->markdownDiffer->diff('oldContent', 'newContent');
-        dump($markdownDiff);
-        die;
+        // ...
     }
 }
 ```

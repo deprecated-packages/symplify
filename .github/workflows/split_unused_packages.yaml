@@ -56,6 +56,7 @@ jobs:
                     - skipper
                     - phpstan-rules
                     - rule-doc-generator
+                    - markdown-diff
 
         name: Unused Packages of ${{ matrix.package_name }}
 
