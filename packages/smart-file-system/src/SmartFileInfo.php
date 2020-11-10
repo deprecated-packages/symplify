@@ -6,6 +6,8 @@ namespace Symplify\SmartFileSystem;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
+use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
 use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 
@@ -95,6 +97,16 @@ final class SmartFileInfo extends SplFileInfo
             $this->smartFileSystem->makePathRelative($this->getNormalizedRealPath(), (string) realpath($directory)),
             '/'
         );
+    }
+
+    public function getRelativeFilePathFromCwdInTests(): string
+    {
+        // special case for tests
+        if (StaticPHPUnitEnvironment::isPHPUnitRun()) {
+            return $this->getRelativeFilePathFromDirectory(StaticFixtureSplitter::getTemporaryPath());
+        }
+
+        return $this->getRelativeFilePathFromDirectory(getcwd());
     }
 
     public function getRelativeFilePathFromCwd(): string

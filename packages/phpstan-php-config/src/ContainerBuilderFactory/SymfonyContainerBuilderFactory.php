@@ -6,19 +6,37 @@ namespace Symplify\PHPStanPHPConfig\ContainerBuilderFactory;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symplify\PHPStanPHPConfig\Config\LoaderFactory\ImportLessPhpFileLoaderFactory;
+use Symplify\PHPStanPHPConfig\DependencyInjection\MakeServicesPublicCompilerPass;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SymfonyContainerBuilderFactory
 {
+    /**
+     * @var ImportLessPhpFileLoaderFactory
+     */
+    private $importLessPhpFileLoaderFactory;
+
+    public function __construct(ImportLessPhpFileLoaderFactory $importLessPhpFileLoaderFactory)
+    {
+        $this->importLessPhpFileLoaderFactory = $importLessPhpFileLoaderFactory;
+    }
+
     public function createFromConfig(SmartFileInfo $phpConfigFileInfo): ContainerBuilder
     {
         $containerBuilder = new ContainerBuilder();
+        $fileLocator = new FileLocator($phpConfigFileInfo->getRealPathDirectory());
 
-        $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator(
-            $phpConfigFileInfo->getRealPathDirectory()
-        ));
-        $phpFileLoader->load($phpConfigFileInfo->getFilename());
+        $importLessPhpFileLoader = $this->importLessPhpFileLoaderFactory->create($containerBuilder, $fileLocator);
+        $importLessPhpFileLoader->load($phpConfigFileInfo->getFilename());
+
+        $containerBuilder->getCompilerPassConfig()
+            ->setRemovingPasses([]);
+
+        $containerBuilder->addCompilerPass(new MakeServicesPublicCompilerPass());
+
+        $containerBuilder->reset();
+        $containerBuilder->compile();
 
         return $containerBuilder;
     }

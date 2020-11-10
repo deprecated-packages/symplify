@@ -40,6 +40,10 @@ final class PHPStanPHPToNeonConverterTest extends AbstractKernelTestCase
         // for path check
         $temporaryPath = StaticFixtureSplitter::getTemporaryPath();
         $this->smartFileSystem->mkdir($temporaryPath . '/existing_path');
+        $this->smartFileSystem->copy(
+            __DIR__ . '/Fixture/import/config/rules.neon',
+            $temporaryPath . '/config/rules.neon'
+        );
 
         $splitFileInfoToLocalInputAndExpected = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpected(
             $fixtureFileInfo

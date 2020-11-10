@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanPHPConfig;
 
-use Nette\Neon\Encoder;
-use Nette\Neon\Neon;
-use Nette\Utils\Strings;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
+use Psr\Container\ContainerInterface;
+use Symplify\PackageBuilder\Neon\NeonPrinter;
+use Symplify\PHPStanPHPConfig\CaseConverter\ParameterConverter;
 use Symplify\PHPStanPHPConfig\ContainerBuilderFactory\SymfonyContainerBuilderFactory;
-use Symplify\PHPStanPHPConfig\ValueObject\Option;
+use Symplify\PHPStanPHPConfig\DataCollector\ImportsDataCollector;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -23,9 +21,31 @@ final class PHPStanPHPToNeonConverter
      */
     private $symfonyContainerBuilderFactory;
 
-    public function __construct(SymfonyContainerBuilderFactory $symfonyContainerBuilderFactory)
-    {
+    /**
+     * @var ImportsDataCollector
+     */
+    private $importsDataCollector;
+
+    /**
+     * @var NeonPrinter
+     */
+    private $neonPrinter;
+
+    /**
+     * @var ParameterConverter
+     */
+    private $parameterConverter;
+
+    public function __construct(
+        SymfonyContainerBuilderFactory $symfonyContainerBuilderFactory,
+        ImportsDataCollector $importsDataCollector,
+        NeonPrinter $neonPrinter,
+        ParameterConverter $parameterConverter
+    ) {
         $this->symfonyContainerBuilderFactory = $symfonyContainerBuilderFactory;
+        $this->importsDataCollector = $importsDataCollector;
+        $this->neonPrinter = $neonPrinter;
+        $this->parameterConverter = $parameterConverter;
     }
 
     public function convert(SmartFileInfo $phpConfigFileInfo): string
@@ -34,77 +54,34 @@ final class PHPStanPHPToNeonConverter
         $parameterBag = $containerBuilder->getParameterBag();
 
         $phpStanNeon = [];
-        $neonParameters = $this->createParameters($parameterBag);
+
+        $includes = $this->createIncludes();
+        if ($includes !== []) {
+            $phpStanNeon['includes'] = $includes;
+        }
+
+        $neonParameters = $this->parameterConverter->convertParameterBag($parameterBag);
         if ($neonParameters !== []) {
             $phpStanNeon['parameters'] = $neonParameters;
         }
 
-        return $this->printNeon($phpStanNeon);
-    }
+        foreach ($containerBuilder->getDefinitions() as $serviceDefinition) {
+            if (is_a($serviceDefinition->getClass(), ContainerInterface::class, true)) {
+                continue;
+            }
 
-    private function createParameters(ParameterBagInterface $parameterBag): array
-    {
-        $neonParameters = [];
-
-        if ($parameterBag->has(Option::LEVEL)) {
-            $neonParameters[Option::LEVEL] = $parameterBag->get(Option::LEVEL);
+            dump($serviceDefinition->getClass());
+            die;
         }
 
-        if ($parameterBag->has(Option::PATHS)) {
-            $neonParameters[Option::PATHS] = $this->resolvePaths($parameterBag);
-        }
-
-        if ($parameterBag->has(Option::REPORT_UNMATCHED_IGNORED_ERRORS)) {
-            // to prevent full thread lagging pc
-            $neonParameters[Option::REPORT_UNMATCHED_IGNORED_ERRORS] = (bool) $parameterBag->get(
-                Option::REPORT_UNMATCHED_IGNORED_ERRORS
-            );
-        }
-
-        if ($parameterBag->has(Option::PARALLEL_MAX_PROCESSES)) {
-            // to prevent full thread lagging pc
-            $neonParameters['parallel'][Option::PARALLEL_MAX_PROCESSES] = (int) $parameterBag->get(
-                Option::PARALLEL_MAX_PROCESSES
-            );
-        }
-
-        return $neonParameters;
-    }
-
-    /**
-     * @param mixed[] $phpStanNeon
-     */
-    private function printNeon(array $phpStanNeon): string
-    {
-        $neonContent = Neon::encode($phpStanNeon, Encoder::BLOCK);
-
-        // tabs to spaces for consistency
-        $neonContent = Strings::replace($neonContent, '#\t#', '    ');
-
-        return rtrim($neonContent) . PHP_EOL;
+        return $this->neonPrinter->printNeon($phpStanNeon);
     }
 
     /**
      * @return string[]
      */
-    private function resolvePaths(ParameterBagInterface $parameterBag): array
+    private function createIncludes(): array
     {
-        // relativize paths to root
-        $paths = (array) $parameterBag->get(Option::PATHS);
-
-        $relativePaths = [];
-        foreach ($paths as $path) {
-            $pathFileInfo = new SmartFileInfo($path);
-            $relativeFilePath = $pathFileInfo->getRelativeFilePathFromCwd();
-
-            // clear temp file path for tests
-            if (StaticPHPUnitEnvironment::isPHPUnitRun()) {
-                $relativeFilePath = (string) Strings::after($relativeFilePath, 'easy_testing/');
-            }
-
-            $relativePaths[] = $relativeFilePath;
-        }
-
-        return $relativePaths;
+        return $this->importsDataCollector->getFilePaths();
     }
 }
