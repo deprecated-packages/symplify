@@ -1912,7 +1912,7 @@ final class SomeTest
 ```php
 final class SomeTest
 {
-    protected function setUp(): void
+    private function setUp(): void
     {
         // ...
     }

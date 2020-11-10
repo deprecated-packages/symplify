@@ -30,7 +30,7 @@ echo 'content after';
 Or in case of no change at all:
 
 ```php
-<?php echo 'just this content';
+echo 'just this content';
 ```
 
 The code is separated by `-----`. Top half of the file is input, the 2nd half is excpeted output.
@@ -50,7 +50,7 @@ How this package makes it easy to work with them? 2 classes:
 - `Symplify\EasyTesting\StaticFixtureSplitter`
 
 ```php
-<?php // tests/SomeTest/SomeTest.php
+// tests/SomeTest/SomeTest.php
 
 namespace App\Tests\SomeTest;
 
@@ -103,7 +103,7 @@ Compared to formated method, `splitFileInfoToLocalInputAndExpectedFileInfos()` w
 - optionally autoload the first one, e.g. if you need it for Reflection
 
 ```php
-<?php use Symplify\EasyTesting\StaticFixtureSplitter;
+use Symplify\EasyTesting\StaticFixtureSplitter;
 
 $inputFileInfoAndExpectedFileInfo = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos(
     $fileInfo,
@@ -116,7 +116,7 @@ $inputFileInfoAndExpectedFileInfo = StaticFixtureSplitter::splitFileInfoToLocalI
 By default, the `StaticFixtureFinder` finds only `*.php.inc` files.
 
 ```php
-<?php use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 
 return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
 ```
@@ -124,7 +124,7 @@ return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
 In case you use different files, e.g. `*.twig` or `*.md`, change it in 2nd argument:
 
 ```php
-<?php use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 
 return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.md');
 ```
@@ -143,7 +143,7 @@ UT=1 vendor/bin/phpunit
 To make this work, we have to add `StaticFixtureUpdater::updateFixtureContent()` call to our test case:
 
 ```php
-<?php use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -181,7 +181,7 @@ Do you generate large portion of files? Do you want to skip nitpicking tests fil
 Use `assertDirectoryEquals()` method to validate the files and their content is as expected.
 
 ```php
-<?php use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\PHPUnit\Behavior\DirectoryAssertableTrait;
 
 final class DirectoryAssertableTraitTest extends TestCase
