@@ -52,7 +52,7 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
 
     /**
      * @param ClassMethod $node
-     * @return string[]
+     * @return mixed[]|mixed
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -107,8 +107,14 @@ CODE_SAMPLE
         ]);
     }
 
-    private function processDependencyCheck(ClassMethod $classMethod, bool $foundInLocation, ?string $location = null)
-    {
+    /**
+     * @return string[]
+     */
+    private function processDependencyCheck(
+        ClassMethod $classMethod,
+        bool $foundInLocation,
+        ?string $location = null
+    ): array {
         $params = $classMethod->getParams();
         $allowedTypes = $this->getAllowedTypes();
         foreach ($params as $param) {
@@ -132,7 +138,10 @@ CODE_SAMPLE
         return [];
     }
 
-    private function getAllowedTypes()
+    /**
+     * @return string[]
+     */
+    private function getAllowedTypes(): array
     {
         $allowedTypes = [];
         foreach ($this->allowedTypeByLocations as $types) {
