@@ -65,13 +65,30 @@ final class PHPStanPHPToNeonConverter
             $phpStanNeon['parameters'] = $neonParameters;
         }
 
+        $services = [];
         foreach ($containerBuilder->getDefinitions() as $serviceDefinition) {
+            if ($serviceDefinition->getClass() === null) {
+                continue;
+            }
+
             if (is_a($serviceDefinition->getClass(), ContainerInterface::class, true)) {
                 continue;
             }
 
-            dump($serviceDefinition->getClass());
-            die;
+            $service = [
+                'class' => $serviceDefinition->getClass(),
+            ];
+
+            // automatically add a tag
+            if (is_a($serviceDefinition->getClass(), 'PHPStan\Rules\Rule', true)) {
+                $service['tags'] = ['phpstan.rules.rule'];
+            }
+
+            $services[] = $service;
+        }
+
+        if ($services !== []) {
+            $phpStanNeon['services'] = $services;
         }
 
         return $this->neonPrinter->printNeon($phpStanNeon);

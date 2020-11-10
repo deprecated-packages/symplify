@@ -12,6 +12,7 @@
         "nette/robot-loader": "^3.2",
         "symplify/symplify-kernel": "^8.4",
         "symplify/markdown-diff": "^8.4",
+        "symplify/package-builder": "^8.4",
         "nette/neon": "^3.2",
         "migrify/php-config-printer": "^0.3.50"
     },
