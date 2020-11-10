@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\PackageBuilder\Neon\NeonPrinter;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -14,4 +15,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Symplify\RuleDocGenerator\\', __DIR__ . '/../src')
         ->exclude([__DIR__ . '/../src/HttpKernel', __DIR__ . '/../src/ValueObject']);
+
+    $services->set(NeonPrinter::class);
 };
