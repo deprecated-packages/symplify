@@ -10,14 +10,15 @@ use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule\ClassLikeCognitiveComplexityRuleTest
  */
-final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implements DocumentedRuleInterface
+final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implements DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -86,7 +87,7 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
     {
         return new RuleDefinition(
             'Cognitive complexity of class/trait must be under specific limit',
-            [new CodeSample(
+            [new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
 class SomeClass
 {
@@ -110,7 +111,6 @@ class SomeClass
         return true;
     }
 }
-```
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
@@ -127,6 +127,10 @@ class SomeClass
     }
 }
 CODE_SAMPLE
+                ,
+                [
+                    'maxClassCognitiveComplexity' => 10,
+                ]
             )]
         );
     }

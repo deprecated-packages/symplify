@@ -7,13 +7,17 @@ namespace Symplify\SymplifyKernel\DependencyInjection\CompilerPass;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
+use Symplify\SymplifyKernel\Console\AutowiredConsoleApplication;
+use Symplify\SymplifyKernel\Console\ConsoleApplicationFactory;
 
-final class MakeConsoleApplicationPublicAliasCompilerPass implements CompilerPassInterface
+final class PrepareConsoleApplicationCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $containerBuilder): void
     {
         $consoleApplicationClass = $this->resolveConsoleApplicationClass($containerBuilder);
         if ($consoleApplicationClass === null) {
+            $this->registerAutowiredSymfonyConsole($containerBuilder);
             return;
         }
 
@@ -24,6 +28,10 @@ final class MakeConsoleApplicationPublicAliasCompilerPass implements CompilerPas
 
         $containerBuilder->setAlias(Application::class, $consoleApplicationClass)
             ->setPublic(true);
+
+        // calls
+        // resolve name
+        // resolve version
     }
 
     private function resolveConsoleApplicationClass(ContainerBuilder $containerBuilder): ?string
@@ -37,5 +45,17 @@ final class MakeConsoleApplicationPublicAliasCompilerPass implements CompilerPas
         }
 
         return null;
+    }
+
+    /**
+     * Missing console application? add basic one
+     */
+    private function registerAutowiredSymfonyConsole(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->autowire(AutowiredConsoleApplication::class, AutowiredConsoleApplication::class)
+            ->setFactory([new Reference(ConsoleApplicationFactory::class), 'create']);
+
+        $containerBuilder->setAlias(Application::class, AutowiredConsoleApplication::class)
+            ->setPublic(true);
     }
 }

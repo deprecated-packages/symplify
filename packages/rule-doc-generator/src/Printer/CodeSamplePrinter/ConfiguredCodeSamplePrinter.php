@@ -6,7 +6,7 @@ namespace Symplify\RuleDocGenerator\Printer\CodeSamplePrinter;
 
 use Migrify\PhpConfigPrinter\Printer\SmartPhpConfigPrinter;
 use Symplify\CodingStandard\Exception\NotImplementedYetException;
-use Symplify\RuleDocGenerator\Neon\NeonPrinter;
+use Symplify\PackageBuilder\Neon\NeonPrinter;
 use Symplify\RuleDocGenerator\Printer\MarkdownCodeWrapper;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -86,7 +86,7 @@ final class ConfiguredCodeSamplePrinter
             ],
         ];
 
-        $printedNeon = $this->neonPrinter->print($phpstanNeon);
+        $printedNeon = $this->neonPrinter->printNeon($phpstanNeon);
         $lines[] = $this->markdownCodeWrapper->printYamlCode($printedNeon);
 
         return $lines;

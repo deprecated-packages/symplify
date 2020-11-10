@@ -1,0 +1,33 @@
+{
+    "name": "symplify/phpstan-php-config",
+    "description": "Use PHP config syntax to configure PHPStan in phpstan.php",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2",
+        "phpstan/phpstan": "^0.12.40",
+        "symfony/console": "^4.4|^5.1",
+        "symplify/smart-file-system": "^8.4",
+        "symplify/package-builder": "^8.4",
+        "symplify/symplify-kernel": "^8.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5|^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\PHPStanPHPConfig\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\PHPStanPHPConfig\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "8.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

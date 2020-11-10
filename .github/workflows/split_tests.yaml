@@ -35,6 +35,7 @@ jobs:
                     - phpstan-rules
                     - rule-doc-generator
                     - markdown-diff
+                    - phpstan-php-config
 
         name: Split Tests of ${{ matrix.package_name }}
 

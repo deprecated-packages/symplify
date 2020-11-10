@@ -57,6 +57,7 @@ jobs:
                     - phpstan-rules
                     - rule-doc-generator
                     - markdown-diff
+                    - phpstan-php-config
 
         name: Unused Packages of ${{ matrix.package_name }}
 

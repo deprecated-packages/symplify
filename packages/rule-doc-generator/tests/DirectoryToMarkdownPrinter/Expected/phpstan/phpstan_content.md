@@ -12,6 +12,8 @@ bad code
 
 :x:
 
+<br>
+
 ```php
 good code
 ```

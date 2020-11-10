@@ -1,451 +1,5 @@
 # Rules Overview
 
-## ClassLikeCognitiveComplexityRule
-
-Cognitive complexity of class/trait must be under specific limit
-
-- class: `Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function another($value)
-    {
-        if ($value !== 1 && $value !== 2) {
-            return false;
-        }
-
-        return true;
-    }
-}
-```
-```
-
-:x:
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        return $this->someOtherService->count($value);
-    }
-
-    public function another($value)
-    {
-        return $this->someOtherService->delete($value);
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## FunctionLikeCognitiveComplexityRule
-
-Cognitive complexity of function/method must be under specific limit
-
-- class: `Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-}
-```
-```
-
-:x:
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        if ($value === 1) {
-            return true;
-        }
-
-        return $value === 2;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoChainMethodCallRule
-
-Do not use chained method calls
-
-- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`
-
-```php
-$this->runThis()
-    ->runThat();
-```
-
-:x:
-
-```php
-$this->runThis();
-$this->runThat();
-```
-
-:+1:
-
-<br>
-
-## NoElseAndElseIfRule
-
-Do not use "else/elseif". Refactor to early return
-
-- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule`
-
-```php
-if (...) {
-    return 1;
-} else {
-    return 2;
-}
-```
-
-:x:
-
-```php
-if (...) {
-    return 1;
-}
-
-return 2;
-```
-
-:+1:
-
-<br>
-
-## NoSetterClassMethodRule
-
-Setter "%s()" is not allowed. Use constructor injection or behavior name instead, e.g. "changeName()"
-
-- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule`
-
-```php
-final class SomeClass
-{
-    public function setName(string $name): void
-    {
-        // ...
-    }
-}
-```
-
-:x:
-
-```php
-final class SomeClass
-{
-    public function __construct(string $name)
-    {
-        // ...
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoShortNameRule
-
-Do not name "%s", shorter than %d chars
-
-:wrench: **configure it!**
-
-- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule`
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            minNameLength: 3
-```
-
-↓
-
-```php
-function is(): void
-{
-}
-```
-
-:x:
-
-```php
-function isClass(): void
-{
-}
-```
-
-:+1:
-
-<br>
-
-## SingleIndentationInMethodRule
-
-Do not indent more than %dx in class methods
-
-:wrench: **configure it!**
-
-- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule`
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxNestingLevel:
-                - 2
-```
-
-↓
-
-```php
-function someFunction()
-{
-    if (...) {
-        if (...) {
-        }
-    }
-}
-```
-
-:x:
-
-```php
-function someFunction()
-{
-    if (! ...) {
-    }
-
-    if (!...) {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## TooLongClassLikeRule
-
-%s has %d lines, it is too long. Shorted it under %d lines
-
-:wrench: **configure it!**
-
-- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule`
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxClassLikeLength: 3
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function someMethod()
-    {
-        if (...) {
-            return 1;
-        } else {
-            return 2;
-        }
-    }
-}
-```
-
-:x:
-
-```php
-class SomeClass
-{
-    public function someMethod()
-    {
-        return (...) ? 1 : 2;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## TooLongFunctionLikeRule
-
-%s has %d lines, it is too long. Shorted it under %d lines
-
-:wrench: **configure it!**
-
-- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule`
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxFunctionLikeLength: 3
-```
-
-↓
-
-```php
-function some()
-{
-    if (...) {
-        return 1;
-    } else {
-        return 2;
-    }
-}
-```
-
-:x:
-
-```php
-function some()
-{
-    return (...) ? 1 : 2;
-}
-```
-
-:+1:
-
-<br>
-
-## TooManyMethodsRule
-
-Method has too many methods %d. Try narrowing it down under %d
-
-:wrench: **configure it!**
-
-- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule`
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxMethodCount: 1
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function firstMethod(): void
-    {
-    }
-
-    public function secondMethod(): void
-    {
-    }
-}
-```
-
-:x:
-
-```php
-class SomeClass
-{
-    public function firstMethod(): void
-    {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## TooManyPropertiesRule
-
-Class has too many properties %d. Try narrowing it down under %d
-
-:wrench: **configure it!**
-
-- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule`
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxPropertyCount: 2
-```
-
-↓
-
-```php
-class SomeClass
-{
-    private $some;
-
-    private $another;
-
-    private $third;
-}
-```
-
-:x:
-
-```php
-class SomeClass
-{
-    private $some;
-
-    private $another;
-}
-```
-
-:+1:
-
-<br>
-
 ## AnnotateRegexClassConstWithRegexLinkRule
 
 Add regex101.com link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future
@@ -887,6 +441,71 @@ final class SomeClass
     {
         $className = (string) $class->namespacedName;
         return class_exists($className);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ClassLikeCognitiveComplexityRule
+
+Cognitive complexity of class/trait must be under specific limit
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassCognitiveComplexity: 10
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function another($value)
+    {
+        if ($value !== 1 && $value !== 2) {
+            return false;
+        }
+
+        return true;
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        return $this->someOtherService->count($value);
+    }
+
+    public function another($value)
+    {
+        return $this->someOtherService->delete($value);
     }
 }
 ```
@@ -1730,6 +1349,61 @@ class SomeClass
 
 <br>
 
+## FunctionLikeCognitiveComplexityRule
+
+Cognitive complexity of function/method must be under specific limit
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxMethodCognitiveComplexity: 5
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value === 1) {
+            return true;
+        }
+
+        return $value === 2;
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## MatchingTypeConstantRule
 
 Constant type should be "%s", but is "%s"
@@ -1861,6 +1535,28 @@ final class SomeClass
 
 <br>
 
+## NoChainMethodCallRule
+
+Do not use chained method calls
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`
+
+```php
+$this->runThis()
+    ->runThat();
+```
+
+:x:
+
+```php
+$this->runThis();
+$this->runThat();
+```
+
+:+1:
+
+<br>
+
 ## NoClassWithStaticMethodWithoutStaticNameRule
 
 Class "%s" with static method must have "Static" in its name it explicit
@@ -1912,7 +1608,7 @@ final class SomeTest
 ```php
 final class SomeTest
 {
-    private function setUp(): void
+    protected function setUp(): void
     {
         // ...
     }
@@ -2071,6 +1767,34 @@ class SomeClass
         return $this->specificMethodName();
     }
 }
+```
+
+:+1:
+
+<br>
+
+## NoElseAndElseIfRule
+
+Do not use "else/elseif". Refactor to early return
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule`
+
+```php
+if (...) {
+    return 1;
+} else {
+    return 2;
+}
+```
+
+:x:
+
+```php
+if (...) {
+    return 1;
+}
+
+return 2;
 ```
 
 :+1:
@@ -2738,6 +2462,38 @@ final class SomeClass
 
 <br>
 
+## NoSetterClassMethodRule
+
+Setter "%s()" is not allowed. Use constructor injection or behavior name instead, e.g. "changeName()"
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule`
+
+```php
+final class SomeClass
+{
+    public function setName(string $name): void
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+```php
+final class SomeClass
+{
+    public function __construct(string $name)
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## NoSetterOnServiceRule
 
 Do not use setter on a service
@@ -2761,6 +2517,43 @@ class SomeEntity
     public function setSomeValue(...)
     {
     }
+}
+```
+
+:+1:
+
+<br>
+
+## NoShortNameRule
+
+Do not name "%s", shorter than %d chars
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            minNameLength: 3
+```
+
+↓
+
+```php
+function is(): void
+{
+}
+```
+
+:x:
+
+```php
+function isClass(): void
+{
 }
 ```
 
@@ -3541,6 +3334,53 @@ class SomeClass extends Rule
 
 <br>
 
+## SingleIndentationInMethodRule
+
+Do not indent more than %dx in class methods
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxNestingLevel:
+                - 2
+```
+
+↓
+
+```php
+function someFunction()
+{
+    if (...) {
+        if (...) {
+        }
+    }
+}
+```
+
+:x:
+
+```php
+function someFunction()
+{
+    if (! ...) {
+    }
+
+    if (!...) {
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## SuffixInterfaceRule
 
 Interface name "%s" must be suffixed with "Interface"
@@ -3623,6 +3463,98 @@ $someObject = new A($firstObject);
 
 <br>
 
+## TooLongClassLikeRule
+
+%s has %d lines, it is too long. Shorted it under %d lines
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassLikeLength: 3
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function someMethod()
+    {
+        if (...) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function someMethod()
+    {
+        return (...) ? 1 : 2;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## TooLongFunctionLikeRule
+
+%s has %d lines, it is too long. Shorted it under %d lines
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxFunctionLikeLength: 3
+```
+
+↓
+
+```php
+function some()
+{
+    if (...) {
+        return 1;
+    } else {
+        return 2;
+    }
+}
+```
+
+:x:
+
+```php
+function some()
+{
+    return (...) ? 1 : 2;
+}
+```
+
+:+1:
+
+<br>
+
 ## TooLongVariableRule
 
 Variable "$%s" is too long with %d chars. Narrow it under %d chars
@@ -3661,6 +3593,98 @@ class SomeClass
     {
         return $shortName;
     }
+}
+```
+
+:+1:
+
+<br>
+
+## TooManyMethodsRule
+
+Method has too many methods %d. Try narrowing it down under %d
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxMethodCount: 1
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function firstMethod(): void
+    {
+    }
+
+    public function secondMethod(): void
+    {
+    }
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    public function firstMethod(): void
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## TooManyPropertiesRule
+
+Class has too many properties %d. Try narrowing it down under %d
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxPropertyCount: 2
+```
+
+↓
+
+```php
+class SomeClass
+{
+    private $some;
+
+    private $another;
+
+    private $third;
+}
+```
+
+:x:
+
+```php
+class SomeClass
+{
+    private $some;
+
+    private $another;
 }
 ```
 
