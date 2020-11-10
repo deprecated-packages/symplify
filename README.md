@@ -1,8 +1,8 @@
 <div align="center">
+    <h1>Symplify</h1>
     <img src="/docs/symplify.png?v=3">
+    <h2>Making Everyday PHP Development Simple</h2>
 </div>
-
-# Symplify - Making Everyday PHP Development Simple
 
 [![Coverage](https://img.shields.io/coveralls/symplify/symplify/master.svg?style=flat-square)](https://coveralls.io/github/symplify/symplify?branch=master)
 [![SonarCube](https://img.shields.io/badge/SonarCube_Debt-%3C3-brightgreen.svg?style=flat-square)](https://sonarcloud.io/dashboard?id=symplify_symplify)
