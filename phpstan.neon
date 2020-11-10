@@ -12,6 +12,8 @@ services:
         arguments:
             maxMethodCognitiveComplexity: 8
 
+
+
     -
         class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
@@ -359,3 +361,10 @@ parameters:
 
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
         - '#Class "Symplify\\PackageBuilder\\Console\\Command\\CommandNaming" with static method must have "Static" in its name it explicit#'
+
+        -
+            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
+            paths:
+                # phpstan neon
+                - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/ConfiguredCodeSamplePrinter.php # 71
+                - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/ConfiguredCodeSamplePrinter.php # 73

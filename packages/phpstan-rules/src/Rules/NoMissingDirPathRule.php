@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPUnit\Framework\TestCase;
 use Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**

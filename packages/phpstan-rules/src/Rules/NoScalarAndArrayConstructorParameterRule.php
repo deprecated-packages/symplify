@@ -19,7 +19,7 @@ use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 use Symplify\FlexLoader\Flex\FlexLoader;
 use Symplify\PHPStanRules\Types\ScalarTypeAnalyser;
 use Symplify\PHPStanRules\VariableAsParamAnalyser;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Throwable;
 

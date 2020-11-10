@@ -17,7 +17,7 @@ use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use Rector\PHPStan\Type\FullyQualifiedObjectType;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**

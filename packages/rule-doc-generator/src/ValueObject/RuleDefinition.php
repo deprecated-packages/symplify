@@ -7,6 +7,7 @@ namespace Symplify\RuleDocGenerator\ValueObject;
 use Nette\Utils\Strings;
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\Exception\PoorDocumentationException;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class RuleDefinition
@@ -50,6 +51,24 @@ final class RuleDefinition
     public function setRuleClass(string $ruleClass): void
     {
         $this->ruleClass = $ruleClass;
+    }
+
+    public function isPHPStanRule(): bool
+    {
+        /** @noRector */
+        return is_a($this->ruleClass, 'PHPStan\Rules\Rule', true);
+    }
+
+    public function isPHPCSFixer(): bool
+    {
+        /** @noRector */
+        return is_a($this->ruleClass, 'PhpCsFixer\Fixer\FixerInterface', true);
+    }
+
+    public function isPHPCodeSniffer(): bool
+    {
+        /** @noRector */
+        return is_a($this->ruleClass, 'PHP_CodeSniffer\Sniffs\Sniff', true);
     }
 
     public function getRuleClass(): string

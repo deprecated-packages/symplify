@@ -8,13 +8,8 @@ Some description
 
 - class: `Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\ConfigurablePHPCSFixer\SomeConfiguredFixer`
 
-```diff
--bad code
-+good code
-```
-
 ```php
-
+<?php
 
 declare(strict_types=1);
 
@@ -27,6 +22,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SomeConfiguredFixer::class)
         ->call('configure', [['key' => 'value']]);
 };
+```
+
+↓
+
+```diff
+-bad code
++good code
 ```
 
 <br>
