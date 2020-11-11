@@ -39,13 +39,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
-<<<<<<< HEAD
-            matrix:
-                package_name: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
-=======
             matrix: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
->>>>>>> 08ea54934... fixup! fixup! fixup! [MonorepoBuilder] Drop CheckSplitTestWorkflowCommand, use PackageJsonCommand instead
-
 
         steps:
             -
@@ -67,9 +61,7 @@ jobs:
 
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths ${{ matrix.package_path }}/composer.json --ansi
 
-            -
-                working-directory: ${{ matrix.package_path }}
-                run: composer update --no-progress --ansi
+            -   run: composer update --no-progress --ansi --working-dir ${{ matrix.package_path }}
 
             -
                 working-directory: ${{ matrix.package_path }}

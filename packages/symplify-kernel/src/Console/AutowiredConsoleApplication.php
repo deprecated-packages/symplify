@@ -6,6 +6,9 @@ namespace Symplify\SymplifyKernel\Console;
 
 use Symfony\Component\Console\Command\Command;
 
+/**
+ * @see \Symplify\SymplifyKernel\Tests\Console\AbstractSymplifyConsoleApplication\AutowiredConsoleApplicationTest
+ */
 final class AutowiredConsoleApplication extends AbstractSymplifyConsoleApplication
 {
     /**

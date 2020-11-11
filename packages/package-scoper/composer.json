@@ -15,6 +15,11 @@
             "Symplify\\PackageScoper\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\PackageScoper\\Tests\\": "tests"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "8.4-dev"
