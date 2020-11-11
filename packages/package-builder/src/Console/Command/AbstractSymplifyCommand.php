@@ -7,8 +7,7 @@ namespace Symplify\PackageBuilder\Console\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\MonorepoBuilder\ValueObject\File;
-use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 abstract class AbstractSymplifyCommand extends Command
@@ -27,7 +26,7 @@ abstract class AbstractSymplifyCommand extends Command
     {
         parent::__construct();
 
-        $this->addOption(Option::CONFIG, 'c', InputOption::VALUE_REQUIRED, 'Path to config file', File::CONFIG);
+        $this->addOption(Option::CONFIG, 'c', InputOption::VALUE_REQUIRED, 'Path to config file');
     }
 
     /**
