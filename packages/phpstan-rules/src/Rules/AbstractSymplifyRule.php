@@ -62,24 +62,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return (string) $class->namespacedName;
     }
 
-    public function resolveCurrentClass(Node $node): ?Class_
-    {
-        if ($node instanceof Class_) {
-            return $node;
-        }
-
-        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($class) {
-            if ($class instanceof Class_) {
-                return $class;
-            }
-
-            $class = $class->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
-        return null;
-    }
-
     public function resolveCurrentClassMethod(Node $node): ?ClassMethod
     {
         $classMethod = $node->getAttribute(PHPStanAttributeKey::PARENT);
@@ -103,6 +85,34 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
             }
 
             $node = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        }
+
+        return null;
+    }
+
+    protected function isInAbstractClass(Node $node): bool
+    {
+        $class = $this->resolveCurrentClass($node);
+        if ($class === null) {
+            return false;
+        }
+
+        return $class->isAbstract();
+    }
+
+    protected function resolveCurrentClass(Node $node): ?Class_
+    {
+        if ($node instanceof Class_) {
+            return $node;
+        }
+
+        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        while ($class) {
+            if ($class instanceof Class_) {
+                return $class;
+            }
+
+            $class = $class->getAttribute(PHPStanAttributeKey::PARENT);
         }
 
         return null;

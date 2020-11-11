@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Json;
-
 
 use Symplify\MonorepoBuilder\Package\PackageProvider;
 
@@ -47,5 +47,4 @@ final class PackageJsonProvider
             'package_name' => $packageShortNames,
         ];
     }
-
 }

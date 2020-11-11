@@ -9,6 +9,7 @@ use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Exception\ConfigurationException;
+use Symplify\MonorepoBuilder\Release\ValueObject\Stage;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
@@ -91,10 +92,10 @@ final class ReleaseGuard
         ));
     }
 
-    public function guardVersion(Version $version, ?string $stage): void
+    public function guardVersion(Version $version, string $stage): void
     {
         // stage is set and it doesn't need a validation
-        if ($stage && in_array($stage, $this->stagesToAllowExistingTag, true)) {
+        if ($stage !== Stage::MAIN && in_array($stage, $this->stagesToAllowExistingTag, true)) {
             return;
         }
 

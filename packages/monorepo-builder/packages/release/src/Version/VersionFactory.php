@@ -27,7 +27,7 @@ final class VersionFactory
         $this->gitManager = $gitManager;
     }
 
-    public function createValidVersion(string $versionArgument, ?string $stage): Version
+    public function createValidVersion(string $versionArgument, string $stage): Version
     {
         if (in_array($versionArgument, SemVersion::ALL, true)) {
             return $this->resolveNextVersionByVersionKind($versionArgument);
@@ -35,7 +35,6 @@ final class VersionFactory
 
         // this object performs validation of version
         $version = new Version($versionArgument);
-
         $this->releaseGuard->guardVersion($version, $stage);
 
         return $version;
