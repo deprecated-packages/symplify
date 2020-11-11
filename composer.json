@@ -11,9 +11,9 @@
         "jean85/pretty-package-versions": "^1.2",
         "latte/latte": "^2.5",
         "migrify/php-config-printer": "^0.3.50",
-        "nette/neon": "^3.2",
         "nette/di": "^3.0",
         "nette/finder": "^2.5",
+        "nette/neon": "^3.2",
         "nette/robot-loader": "^3.2",
         "nette/utils": "^3.0",
         "nikic/php-parser": "^4.10.2",
@@ -136,12 +136,14 @@
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/phpstan-rules/packages/object-calisthenics/tests",
             "Symplify\\PHPStanRules\\Tests\\": "packages/phpstan-rules/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
+            "Symplify\\PackageScoper\\Tests\\": "packages/package-scoper/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
             "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
             "Symplify\\Skipper\\Tests\\": "packages/skipper/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
-            "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src"
+            "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
+            "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests"
         }
     },
     "replace": {

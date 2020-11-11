@@ -4,36 +4,22 @@ declare(strict_types=1);
 
 namespace Symplify\PackageScoper\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class GenerateWorkflowCommand extends Command
+final class GenerateWorkflowCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
     /**
      * @var string
      */
     private $workflowFilePath;
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(SymfonyStyle $symfonyStyle, SmartFileSystem $smartFileSystem)
+    public function __construct()
     {
-        $this->symfonyStyle = $symfonyStyle;
         $this->workflowFilePath = getcwd() . '/.github/workflows/build_scoped_packages.yaml';
-        $this->smartFileSystem = $smartFileSystem;
 
         parent::__construct();
     }

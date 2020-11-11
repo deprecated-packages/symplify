@@ -4,26 +4,21 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
+use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
-final class BumpInterdependencyCommand extends Command
+final class BumpInterdependencyCommand extends AbstractSymplifyCommand
 {
     /**
      * @var string
      */
     private const VERSION_ARGUMENT = 'version';
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
 
     /**
      * @var DependencyUpdater
@@ -35,16 +30,21 @@ final class BumpInterdependencyCommand extends Command
      */
     private $composerJsonProvider;
 
+    /**
+     * @var SourcesPresenceValidator
+     */
+    private $sourcesPresenceValidator;
+
     public function __construct(
-        SymfonyStyle $symfonyStyle,
         DependencyUpdater $dependencyUpdater,
-        ComposerJsonProvider $composerJsonProvider
+        ComposerJsonProvider $composerJsonProvider,
+        SourcesPresenceValidator $sourcesPresenceValidator
     ) {
         parent::__construct();
 
-        $this->symfonyStyle = $symfonyStyle;
         $this->dependencyUpdater = $dependencyUpdater;
         $this->composerJsonProvider = $composerJsonProvider;
+        $this->sourcesPresenceValidator = $sourcesPresenceValidator;
     }
 
     protected function configure(): void
@@ -59,6 +59,8 @@ final class BumpInterdependencyCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->sourcesPresenceValidator->validateRootComposerJsonName();
+
         /** @var string $version */
         $version = $input->getArgument(self::VERSION_ARGUMENT);
 

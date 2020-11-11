@@ -60,4 +60,9 @@ final class Package
     {
         return $this->shortDirectory;
     }
+
+    public function getRelativePath(): string
+    {
+        return $this->rootDirectoryFileInfo->getRelativeFilePathFromCwd();
+    }
 }

@@ -8,56 +8,52 @@ env:
     COMPOSER_ROOT_VERSION: "dev-master"
 
 jobs:
+    provide_packages_json:
+        # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.4
+                    coverage: none
+                    tools: composer:v2
+
+            -   run: composer install --no-progress --ansi
+
+            # get package json list
+            -
+                id: set-matrix
+                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json)"
+
+        outputs:
+            matrix: ${{ steps.set-matrix.outputs.matrix }}
+
     split_tests:
+        needs: provide_packages_json
+
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
-            matrix:
-                package_name:
-                    - autowire-array-parameter
-                    - smart-file-system
-                    - package-builder
-                    - easy-coding-standard
-                    - easy-coding-standard-tester
-                    - composer-json-manipulator
-                    - coding-standard
-                    - changelog-linker
-                    - monorepo-builder
-                    - flex-loader
-                    - autodiscovery
-                    - set-config-resolver
-                    - console-color-diff
-                    - easy-hydrator
-                    - easy-testing
-                    - phpstan-extensions
-                    - symfony-static-dumper
-                    - skipper
-                    - phpstan-rules
-                    - rule-doc-generator
-                    - markdown-diff
-                    - phpstan-php-config
-
-        name: Split Tests of ${{ matrix.package_name }}
+            matrix: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
 
         steps:
             -   uses: actions/checkout@v2
+
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: 7.3
                     coverage: none
                     tools: composer:v2
 
-            # composer install cache - https://github.com/ramsey/composer-install
-            -   uses: "ramsey/composer-install@v1"
-
             -   run: composer install --no-progress --ansi
 
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.package_name }}/composer.json --ansi
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths ${{ matrix.package_path }}/composer.json --ansi
+
+            -   run: composer update --no-progress --ansi --working-dir ${{ matrix.package_path }}
 
             -
-                working-directory: packages/${{ matrix.package_name }}
-                run: composer update --no-progress --ansi
-
-            -
-                working-directory: packages/${{ matrix.package_name }}
+                name: Split Tests of ${{ matrix.package_path }}
+                working-directory: ${{ matrix.package_path }}
                 run: vendor/bin/phpunit

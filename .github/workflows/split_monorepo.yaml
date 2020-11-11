@@ -6,43 +6,38 @@ on:
             - master
 
 jobs:
+    provide_packages_json:
+        # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.4
+                    coverage: none
+                    tools: composer:v2
+
+            -   run: composer install --no-progress --ansi
+
+            # get package json list
+            -   id: set-matrix
+                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json --names)"
+
     split_monorepo:
+        needs: provide_packages_json
+
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
-            matrix:
-                package_name:
-                    - autowire-array-parameter
-                    - smart-file-system
-                    - package-builder
-                    - package-scoper
-                    - easy-coding-standard
-                    - easy-coding-standard-tester
-                    - composer-json-manipulator
-                    - coding-standard
-                    - changelog-linker
-                    - monorepo-builder
-                    - flex-loader
-                    - autodiscovery
-                    - set-config-resolver
-                    - console-color-diff
-                    - easy-hydrator
-                    - easy-testing
-                    - phpstan-extensions
-                    - symfony-static-dumper
-                    - skipper
-                    - phpstan-rules
-                    - rule-doc-generator
-                    - markdown-diff
-                    - phpstan-php-config
-
-        name: Monorepo Split of ${{ matrix.package_name }}
+            matrix: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
 
         steps:
             -   uses: actions/checkout@v2
 
             # https://github.com/cpina/github-action-push-to-another-repository
             -
+                name: Monorepo Split of ${{ matrix.package_name }}
                 uses: cpina/github-action-push-to-another-repository@master
                 env:
                     API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
 use Symplify\ChangelogLinker\Application\ChangelogLinkerApplication;
 use Symplify\ChangelogLinker\Configuration\Option;
@@ -16,12 +14,13 @@ use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\FileSystem\ChangelogPlaceholderGuard;
 use Symplify\ChangelogLinker\Github\GithubApi;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
 /**
  * @inspired by https://github.com/weierophinney/changelog_generator
  */
-final class DumpMergesCommand extends Command
+final class DumpMergesCommand extends AbstractSymplifyCommand
 {
     /**
      * @inspiration markdown comment: https://gist.github.com/jonikarppinen/47dc8c1d7ab7e911f4c9#gistcomment-2109856
@@ -33,11 +32,6 @@ final class DumpMergesCommand extends Command
      * @var GithubApi
      */
     private $githubApi;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
 
     /**
      * @var IdsAnalyzer
@@ -66,7 +60,6 @@ final class DumpMergesCommand extends Command
 
     public function __construct(
         GithubApi $githubApi,
-        SymfonyStyle $symfonyStyle,
         IdsAnalyzer $idsAnalyzer,
         ChangelogFileSystem $changelogFileSystem,
         PriorityResolver $priorityResolver,
@@ -76,7 +69,6 @@ final class DumpMergesCommand extends Command
         parent::__construct();
 
         $this->githubApi = $githubApi;
-        $this->symfonyStyle = $symfonyStyle;
         $this->idsAnalyzer = $idsAnalyzer;
         $this->changelogFileSystem = $changelogFileSystem;
         $this->priorityResolver = $priorityResolver;

@@ -356,6 +356,7 @@ parameters:
             paths:
                 - packages/console-color-diff/src/Console/Output/ConsoleDiffer.php # 11
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php # 18
+                - packages/monorepo-builder/src/Console/Command/PackagesJsonCommand.php
 
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
         - '#Class "Symplify\\PackageBuilder\\Console\\Command\\CommandNaming" with static method must have "Static" in its name it explicit#'

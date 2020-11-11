@@ -4,35 +4,23 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanPHPConfig\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PHPStanPHPConfig\PHPStanPHPToNeonConverter;
 use Symplify\PHPStanPHPConfig\ValueObject\Option;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class ConvertCommand extends Command
+final class ConvertCommand extends AbstractSymplifyCommand
 {
     /**
      * @var FileSystemGuard
      */
     private $fileSystemGuard;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
 
     /**
      * @var PHPStanPHPToNeonConverter
@@ -41,13 +29,9 @@ final class ConvertCommand extends Command
 
     public function __construct(
         FileSystemGuard $fileSystemGuard,
-        SmartFileSystem $smartFileSystem,
-        SymfonyStyle $symfonyStyle,
         PHPStanPHPToNeonConverter $phpStanPHPToNeonConverter
     ) {
         $this->fileSystemGuard = $fileSystemGuard;
-        $this->smartFileSystem = $smartFileSystem;
-        $this->symfonyStyle = $symfonyStyle;
         $this->phpStanPHPToNeonConverter = $phpStanPHPToNeonConverter;
 
         parent::__construct();
