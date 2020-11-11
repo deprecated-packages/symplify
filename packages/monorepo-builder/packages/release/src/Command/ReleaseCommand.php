@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Release\Command;
 
 use PharIo\Version\Version;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
@@ -20,15 +18,11 @@ use Symplify\MonorepoBuilder\Release\Version\VersionFactory;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
-final class ReleaseCommand extends Command
+final class ReleaseCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
     /**
      * @var ReleaseGuard
      */
@@ -50,7 +44,6 @@ final class ReleaseCommand extends Command
     private $sourcesPresenceValidator;
 
     public function __construct(
-        SymfonyStyle $symfonyStyle,
         ReleaseWorkerProvider $releaseWorkerProvider,
         ReleaseGuard $releaseGuard,
         VersionFactory $versionFactory,
@@ -58,7 +51,6 @@ final class ReleaseCommand extends Command
     ) {
         parent::__construct();
 
-        $this->symfonyStyle = $symfonyStyle;
         $this->releaseGuard = $releaseGuard;
         $this->releaseWorkerProvider = $releaseWorkerProvider;
         $this->versionFactory = $versionFactory;

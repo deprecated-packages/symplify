@@ -8,6 +8,9 @@ use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerValues;
 
+/**
+ * @see \Symplify\PackageScoper\Tests\ComposerJson\ScopedComposerJsonFactory\ScopedComposerJsonFactoryTest
+ */
 final class ScopedComposerJsonFactory
 {
     /**

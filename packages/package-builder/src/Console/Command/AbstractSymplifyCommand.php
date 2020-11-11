@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 abstract class AbstractSymplifyCommand extends Command
 {
@@ -16,6 +17,11 @@ abstract class AbstractSymplifyCommand extends Command
      * @var SymfonyStyle
      */
     protected $symfonyStyle;
+
+    /**
+     * @var SmartFileSystem
+     */
+    protected $smartFileSystem;
 
     public function __construct()
     {
@@ -27,8 +33,9 @@ abstract class AbstractSymplifyCommand extends Command
     /**
      * @required
      */
-    public function autowireAbstractSymplifyCommand(SymfonyStyle $symfonyStyle): void
+    public function autowireAbstractSymplifyCommand(SymfonyStyle $symfonyStyle, SmartFileSystem $smartFileSystem): void
     {
         $this->symfonyStyle = $symfonyStyle;
+        $this->smartFileSystem = $smartFileSystem;
     }
 }

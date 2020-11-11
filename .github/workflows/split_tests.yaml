@@ -42,10 +42,6 @@ jobs:
             matrix: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
 
         steps:
-            -
-                name: Split Tests of ${{ matrix.package_name }}
-                run: ${{ matrix.package_name }}
-
             -   uses: actions/checkout@v2
 
             -   uses: shivammathur/setup-php@v2
@@ -54,9 +50,6 @@ jobs:
                     coverage: none
                     tools: composer:v2
 
-            # composer install cache - https://github.com/ramsey/composer-install
-            -   uses: "ramsey/composer-install@v1"
-
             -   run: composer install --no-progress --ansi
 
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths ${{ matrix.package_path }}/composer.json --ansi
@@ -64,5 +57,6 @@ jobs:
             -   run: composer update --no-progress --ansi --working-dir ${{ matrix.package_path }}
 
             -
+                name: Split Tests of ${{ matrix.package_name }}
                 working-directory: ${{ matrix.package_path }}
                 run: vendor/bin/phpunit

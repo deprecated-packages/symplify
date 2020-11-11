@@ -9,40 +9,20 @@ use Nette\Utils\Json as NetteJson;
 use OutOfBoundsException;
 use PharIo\Version\InvalidVersionException;
 use PharIo\Version\Version;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\ValueObject\File;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\SmartFileSystem\SmartFileSystem;
 use function dirname;
 
-final class InitCommand extends Command
+final class InitCommand extends AbstractSymplifyCommand
 {
     /**
      * @var string
      */
     private const OUTPUT = 'output';
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(SymfonyStyle $symfonyStyle, SmartFileSystem $smartFileSystem)
-    {
-        parent::__construct();
-
-        $this->symfonyStyle = $symfonyStyle;
-        $this->smartFileSystem = $smartFileSystem;
-    }
 
     protected function configure(): void
     {

@@ -4,30 +4,24 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Testing\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Testing\ComposerJsonRepositoriesUpdater;
 use Symplify\MonorepoBuilder\Testing\ComposerJsonRequireUpdater;
 use Symplify\MonorepoBuilder\Testing\ValueObject\Option;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class LocalizeComposerPathsCommand extends Command
+final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
 {
     /**
      * @var ComposerJsonProvider
      */
     private $composerJsonProvider;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
 
     /**
      * @var ComposerJsonRequireUpdater
@@ -46,13 +40,11 @@ final class LocalizeComposerPathsCommand extends Command
 
     public function __construct(
         ComposerJsonProvider $composerJsonProvider,
-        SymfonyStyle $symfonyStyle,
         ComposerJsonRequireUpdater $composerJsonRequireUpdater,
         ComposerJsonRepositoriesUpdater $composerJsonRepositoriesUpdater,
         FileSystemGuard $fileSystemGuard
     ) {
         $this->composerJsonProvider = $composerJsonProvider;
-        $this->symfonyStyle = $symfonyStyle;
         $this->composerJsonRequireUpdater = $composerJsonRequireUpdater;
         $this->fileSystemGuard = $fileSystemGuard;
 

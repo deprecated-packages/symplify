@@ -4,36 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\PackageScoper\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageScoper\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class GeneratePhpScoperCommand extends Command
+final class GeneratePhpScoperCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(SymfonyStyle $symfonyStyle, SmartFileSystem $smartFileSystem)
-    {
-        $this->symfonyStyle = $symfonyStyle;
-        $this->smartFileSystem = $smartFileSystem;
-
-        parent::__construct();
-    }
-
     protected function configure(): void
     {
         $this->setDescription('Generate php-scoper.php.inc config for scoping packages');

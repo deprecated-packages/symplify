@@ -4,44 +4,27 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\RuleDocGenerator\DirectoryToMarkdownPrinter;
 use Symplify\RuleDocGenerator\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class GenerateCommand extends Command
+final class GenerateCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
     /**
      * @var DirectoryToMarkdownPrinter
      */
     private $directoryToMarkdownPrinter;
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(
-        SymfonyStyle $symfonyStyle,
-        SmartFileSystem $smartFileSystem,
-        DirectoryToMarkdownPrinter $directoryToMarkdownPrinter
-    ) {
+    public function __construct(DirectoryToMarkdownPrinter $directoryToMarkdownPrinter)
+    {
         parent::__construct();
 
-        $this->symfonyStyle = $symfonyStyle;
-        $this->smartFileSystem = $smartFileSystem;
         $this->directoryToMarkdownPrinter = $directoryToMarkdownPrinter;
     }
 
