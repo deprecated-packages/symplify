@@ -303,14 +303,12 @@ services:
         tags: [phpstan.rules.rule]
 
 #    -
-#        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallByTypeInLocationRule
+#        class: Symplify\PHPStanRules\Rules\ExclusiveDependencyRule
 #        tags: [phpstan.rules.rule]
 #        arguments:
-#            forbiddenTypeInLocations:
-#                Controller:
-#                    - View\Helper
-#                    - Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallByTypeInLocationRule\Fixture\View\Helper\NumberHelper
-
+#            allowedTypeByLocations:
+#                *Repository:
+#                    - Doctrine\ORM\EntityManager
 
     # services
     - PhpParser\NodeFinder

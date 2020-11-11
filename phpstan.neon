@@ -368,3 +368,9 @@ parameters:
                 - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/ConfiguredCodeSamplePrinter.php # 71
                 - packages/phpstan-php-config/src/PHPStanPHPToNeonConverter.php
                 - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php
+                - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/ConfiguredCodeSamplePrinter.php # 73
+
+        -
+            message: '#Nested foreach with empty statement is not allowed#'
+            paths:
+                - packages/phpstan-rules/src/Rules/ExclusiveDependencyRule.php # 70
