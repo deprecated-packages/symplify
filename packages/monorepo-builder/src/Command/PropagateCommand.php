@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Console\Command;
+namespace Symplify\MonorepoBuilder\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\File;
+use Symplify\MonorepoBuilder\VersionPropagator;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -31,16 +32,23 @@ final class PropagateCommand extends AbstractSymplifyCommand
      */
     private $dependencyUpdater;
 
+    /**
+     * @var VersionPropagator
+     */
+    private $versionPropagator;
+
     public function __construct(
         VersionValidator $versionValidator,
         ComposerJsonProvider $composerJsonProvider,
-        DependencyUpdater $dependencyUpdater
+        DependencyUpdater $dependencyUpdater,
+        VersionPropagator $versionPropagator
     ) {
         parent::__construct();
 
         $this->versionValidator = $versionValidator;
         $this->composerJsonProvider = $composerJsonProvider;
         $this->dependencyUpdater = $dependencyUpdater;
+        $this->versionPropagator = $versionPropagator;
     }
 
     protected function configure(): void
@@ -66,7 +74,11 @@ final class PropagateCommand extends AbstractSymplifyCommand
             $newVersion = $filesToVersion[File::COMPOSER_JSON];
             unset($filesToVersion[File::COMPOSER_JSON]);
 
-            $filesToVersion = $this->processManualConfigFiles($filesToVersion, $packageName, $newVersion);
+            $filesToVersion = $this->versionPropagator->processManualConfigFiles(
+                $filesToVersion,
+                $packageName,
+                $newVersion
+            );
             $fileToVersionKeys = array_keys($filesToVersion);
 
             foreach ($fileToVersionKeys as $filePath) {
@@ -83,28 +95,5 @@ final class PropagateCommand extends AbstractSymplifyCommand
         );
 
         return ShellCode::SUCCESS;
-    }
-
-    /**
-     * @param array<string, string> $filesToVersion
-     * @return array<string, string>
-     */
-    private function processManualConfigFiles(array $filesToVersion, string $packageName, string $newVersion): array
-    {
-        if (! isset($filesToVersion[File::CONFIG])) {
-            return $filesToVersion;
-        }
-
-        $message = sprintf(
-            'Update "%s" to "%s" version in "%s" file manually',
-            $packageName,
-            $newVersion,
-            File::CONFIG
-        );
-        $this->symfonyStyle->warning($message);
-
-        unset($filesToVersion[File::CONFIG]);
-
-        return $filesToVersion;
     }
 }

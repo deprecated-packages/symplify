@@ -310,34 +310,12 @@ parameters:
                 - packages/phpstan-rules/src/Rules/ForbiddenParentClassRule.php # 25
                 - packages/phpstan-rules/src/Rules/NoSuffixValueObjectClassRule.php # 22
 
-        -
-            message: '#private method in type "Symfony\\Component\\Console\\Command\\Command" is not allowed#'
-            paths:
-                - packages/changelog-linker/src/Console/Command/DumpMergesCommand.php # 172
-                - packages/changelog-linker/src/Console/Command/DumpMergesCommand.php # 189
-                - packages/easy-coding-standard/packages/snippet-formatter/src/Command/AbstractSnippetFormatterCommand.php # 70
-                - packages/easy-coding-standard/packages/snippet-formatter/src/Command/AbstractSnippetFormatterCommand.php # 89
-                - packages/easy-coding-standard/src/Console/Command/ShowCommand.php # 86
-                - packages/easy-coding-standard/src/Console/Command/ShowCommand.php # 105
-                - packages/monorepo-builder/packages/init/src/Command/InitCommand.php # 81
-                - packages/monorepo-builder/packages/init/src/Command/InitCommand.php # 103
-                - packages/monorepo-builder/packages/merge/src/Command/MergeCommand.php # 101
-                - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php # 129
-                - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php # 144
-                - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php # 160
-                - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php # 171
-                - packages/monorepo-builder/src/Console/Command/CheckSplitTestWorkflowCommand.php # 94
-                - packages/monorepo-builder/src/Console/Command/CheckSplitTestWorkflowCommand.php # 108
-                - packages/monorepo-builder/src/Console/Command/PackageAliasCommand.php # 76
-                - packages/monorepo-builder/src/Console/Command/PropagateCommand.php # 100
-
         # false positives
         - '#Constant Symplify\\ChangelogLinker\\Tests\\ChangeTree\\ChangeFactory\\ChangeFactoryTest\:\:PULL_REQUEST is unused#'
         - '#Property Symplify\\ChangelogLinker\\Tests\\ChangelogDumper\\WithTagsTest\:\:\$changes is never read, only written#'
         - '#Property Symplify\\ChangelogLinker\\Tests\\ChangelogDumper\\WithTagsTest\:\:\$changelogDumper is never read, only written#'
 
         # solve later
-        - '#Private method in is not allowed here \- it should only delegate to others\. Decouple the private method to a new service class#'
         - '#Constant string value need to only have small letters, _, \-, \. and numbers#'
         # use rector rule for this
         - '#Method nor static call in if \(\) or elseif \(\) is not allowed\. Extract expression to a new variable assign on line before#'
@@ -357,6 +335,7 @@ parameters:
                 - packages/console-color-diff/src/Console/Output/ConsoleDiffer.php # 11
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php # 18
                 - packages/monorepo-builder/src/Console/Command/PackagesJsonCommand.php
+                - packages/monorepo-builder/src/Command/PackagesJsonCommand.php
 
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
         - '#Class "Symplify\\PackageBuilder\\Console\\Command\\CommandNaming" with static method must have "Static" in its name it explicit#'

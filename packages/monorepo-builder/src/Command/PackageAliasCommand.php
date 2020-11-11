@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Console\Command;
+namespace Symplify\MonorepoBuilder\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\Finder\PackageComposerFinder;
-use Symplify\MonorepoBuilder\Utils\VersionUtils;
+use Symplify\MonorepoBuilder\Git\ExpectedAliasResolver;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
@@ -26,20 +25,20 @@ final class PackageAliasCommand extends AbstractSymplifyCommand
     private $devMasterAliasUpdater;
 
     /**
-     * @var VersionUtils
+     * @var ExpectedAliasResolver
      */
-    private $versionUtils;
+    private $expectedAliasResolver;
 
     public function __construct(
         PackageComposerFinder $packageComposerFinder,
         DevMasterAliasUpdater $devMasterAliasUpdater,
-        VersionUtils $versionUtils
+        ExpectedAliasResolver $expectedAliasResolver
     ) {
         parent::__construct();
 
         $this->packageComposerFinder = $packageComposerFinder;
         $this->devMasterAliasUpdater = $devMasterAliasUpdater;
-        $this->versionUtils = $versionUtils;
+        $this->expectedAliasResolver = $expectedAliasResolver;
     }
 
     protected function configure(): void
@@ -55,7 +54,7 @@ final class PackageAliasCommand extends AbstractSymplifyCommand
             return ShellCode::ERROR;
         }
 
-        $expectedAlias = $this->getExpectedAlias();
+        $expectedAlias = $this->expectedAliasResolver->resolve();
 
         $this->devMasterAliasUpdater->updateFileInfosWithAlias($composerPackageFiles, $expectedAlias);
 
@@ -63,15 +62,5 @@ final class PackageAliasCommand extends AbstractSymplifyCommand
         $this->symfonyStyle->success($message);
 
         return ShellCode::SUCCESS;
-    }
-
-    private function getExpectedAlias(): string
-    {
-        $process = new Process(['git', 'describe', '--abbrev=0', '--tags']);
-        $process->run();
-
-        $output = $process->getOutput();
-
-        return $this->versionUtils->getNextAliasFormat($output);
     }
 }

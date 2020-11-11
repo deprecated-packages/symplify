@@ -8,31 +8,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
-use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Merge\Application\MergedAndDecoratedComposerJsonFactory;
+use Symplify\MonorepoBuilder\Merge\Guard\ConflictingVersionsGuard;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
-use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class MergeCommand extends AbstractSymplifyCommand
 {
     /**
-     * @var VersionValidator
-     */
-    private $versionValidator;
-
-    /**
      * @var ComposerJsonProvider
      */
     private $composerJsonProvider;
-
-    /**
-     * @var ConflictingPackageVersionsReporter
-     */
-    private $conflictingPackageVersionsReporter;
 
     /**
      * @var ComposerJsonFactory
@@ -54,18 +42,20 @@ final class MergeCommand extends AbstractSymplifyCommand
      */
     private $sourcesPresenceValidator;
 
+    /**
+     * @var ConflictingVersionsGuard
+     */
+    private $conflictingVersionsGuard;
+
     public function __construct(
-        VersionValidator $versionValidator,
         ComposerJsonProvider $composerJsonProvider,
-        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter,
         ComposerJsonFactory $composerJsonFactory,
         JsonFileManager $jsonFileManager,
         MergedAndDecoratedComposerJsonFactory $mergedAndDecoratedComposerJsonFactory,
-        SourcesPresenceValidator $sourcesPresenceValidator
+        SourcesPresenceValidator $sourcesPresenceValidator,
+        ConflictingVersionsGuard $conflictingVersionsGuard
     ) {
-        $this->versionValidator = $versionValidator;
         $this->composerJsonProvider = $composerJsonProvider;
-        $this->conflictingPackageVersionsReporter = $conflictingPackageVersionsReporter;
         $this->composerJsonFactory = $composerJsonFactory;
         $this->jsonFileManager = $jsonFileManager;
         $this->mergedAndDecoratedComposerJsonFactory = $mergedAndDecoratedComposerJsonFactory;
@@ -73,6 +63,7 @@ final class MergeCommand extends AbstractSymplifyCommand
         parent::__construct();
 
         $this->sourcesPresenceValidator = $sourcesPresenceValidator;
+        $this->conflictingVersionsGuard = $conflictingVersionsGuard;
     }
 
     protected function configure(): void
@@ -84,7 +75,7 @@ final class MergeCommand extends AbstractSymplifyCommand
     {
         $this->sourcesPresenceValidator->validatePackageComposerJsons();
 
-        $this->ensureNoConflictingPackageVersions();
+        $this->conflictingVersionsGuard->ensureNoConflictingPackageVersions();
 
         $mainComposerJsonFilePath = getcwd() . '/composer.json';
         $mainComposerJson = $this->composerJsonFactory->createFromFilePath($mainComposerJsonFilePath);
@@ -99,20 +90,5 @@ final class MergeCommand extends AbstractSymplifyCommand
         $this->symfonyStyle->success('Main "composer.json" was updated.');
 
         return ShellCode::SUCCESS;
-    }
-
-    private function ensureNoConflictingPackageVersions(): void
-    {
-        $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
-            $this->composerJsonProvider->getPackagesComposerFileInfos()
-        );
-
-        if (count($conflictingPackageVersions) === 0) {
-            return;
-        }
-
-        $this->conflictingPackageVersionsReporter->report($conflictingPackageVersions);
-
-        throw new ShouldNotHappenException('Fix conflicting package version first');
     }
 }

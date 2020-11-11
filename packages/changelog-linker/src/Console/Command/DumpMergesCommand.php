@@ -7,8 +7,8 @@ namespace Symplify\ChangelogLinker\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
 use Symplify\ChangelogLinker\Application\ChangelogLinkerApplication;
+use Symplify\ChangelogLinker\Configuration\HighestMergedIdResolver;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
@@ -34,11 +34,6 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
     private $githubApi;
 
     /**
-     * @var IdsAnalyzer
-     */
-    private $idsAnalyzer;
-
-    /**
      * @var ChangelogFileSystem
      */
     private $changelogFileSystem;
@@ -58,22 +53,27 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
      */
     private $changelogLinkerApplication;
 
+    /**
+     * @var HighestMergedIdResolver
+     */
+    private $highestMergedIdResolver;
+
     public function __construct(
         GithubApi $githubApi,
-        IdsAnalyzer $idsAnalyzer,
         ChangelogFileSystem $changelogFileSystem,
         PriorityResolver $priorityResolver,
         ChangelogPlaceholderGuard $changelogPlaceholderGuard,
-        ChangelogLinkerApplication $changelogLinkerApplication
+        ChangelogLinkerApplication $changelogLinkerApplication,
+        HighestMergedIdResolver $highestMergedIdResolver
     ) {
         parent::__construct();
 
         $this->githubApi = $githubApi;
-        $this->idsAnalyzer = $idsAnalyzer;
         $this->changelogFileSystem = $changelogFileSystem;
         $this->priorityResolver = $priorityResolver;
         $this->changelogPlaceholderGuard = $changelogPlaceholderGuard;
         $this->changelogLinkerApplication = $changelogLinkerApplication;
+        $this->highestMergedIdResolver = $highestMergedIdResolver;
     }
 
     protected function configure(): void
@@ -123,8 +123,7 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
 
         $this->changelogPlaceholderGuard->ensurePlaceholderIsPresent($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
-        /** @var int $sinceId */
-        $sinceId = $this->getSinceIdFromInputAndContent($input, $content) ?: 1;
+        $sinceId = $this->highestMergedIdResolver->resolveFromInputAndChangelogContent($input, $content);
 
         /** @var string $baseBranch */
         $baseBranch = $input->getOption(Option::BASE_BRANCH);
@@ -159,39 +158,5 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
         $this->symfonyStyle->success('The CHANGELOG.md was updated');
 
         return ShellCode::SUCCESS;
-    }
-
-    private function getSinceIdFromInputAndContent(InputInterface $input, string $content): ?int
-    {
-        /** @var string|int|null $sinceId */
-        $sinceId = $input->getOption(Option::SINCE_ID);
-        if ($sinceId !== null) {
-            return (int) $sinceId;
-        }
-
-        /** @var string $baseBranch */
-        $baseBranch = $input->getOption(Option::BASE_BRANCH);
-        if ($baseBranch !== null) {
-            return $this->findHighestIdMergedInBranch($content, $baseBranch);
-        }
-
-        return $this->idsAnalyzer->getHighestIdInChangelog($content);
-    }
-
-    private function findHighestIdMergedInBranch(string $content, string $branch): ?int
-    {
-        $allIdsInChangelog = $this->idsAnalyzer->getAllIdsInChangelog($content);
-        if ($allIdsInChangelog === null) {
-            return null;
-        }
-
-        rsort($allIdsInChangelog);
-        foreach ($allIdsInChangelog as $id) {
-            $idInt = (int) $id;
-            if ($this->githubApi->isPullRequestMergedToBaseBranch($idInt, $branch)) {
-                return $idInt;
-            }
-        }
-        return null;
     }
 }

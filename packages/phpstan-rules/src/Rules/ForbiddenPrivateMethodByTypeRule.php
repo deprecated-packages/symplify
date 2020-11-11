@@ -57,6 +57,10 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
             return [];
         }
 
+        if ($this->isInAbstractClass($node)) {
+            return [];
+        }
+
         foreach ($this->forbiddenTypes as $forbiddenType) {
             if (! is_a($className, $forbiddenType, true)) {
                 continue;
