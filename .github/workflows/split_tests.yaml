@@ -28,7 +28,7 @@ jobs:
             # get package json list
             -
                 id: set-matrix
-                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json)
+                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json)"
 
         outputs:
             matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -39,12 +39,21 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
-            matrix: ${{fromJson(needs:provide_packages_json:outputs:matrix)}}
+<<<<<<< HEAD
+            matrix:
+                package_name: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
+=======
+            matrix: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
+>>>>>>> 08ea54934... fixup! fixup! fixup! [MonorepoBuilder] Drop CheckSplitTestWorkflowCommand, use PackageJsonCommand instead
 
-        name: Split Tests of ${{ matrix.package_name }}
 
         steps:
+            -
+                name: Split Tests of ${{ matrix.package_name }}
+                run: ${{ matrix.package_name }}
+
             -   uses: actions/checkout@v2
+
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: 7.3
@@ -56,12 +65,12 @@ jobs:
 
             -   run: composer install --no-progress --ansi
 
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.package_name }}/composer.json --ansi
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths ${{ matrix.package_path }}/composer.json --ansi
 
             -
-                working-directory: packages/${{ matrix.package_name }}
+                working-directory: ${{ matrix.package_path }}
                 run: composer update --no-progress --ansi
 
             -
-                working-directory: packages/${{ matrix.package_name }}
+                working-directory: ${{ matrix.package_path }}
                 run: vendor/bin/phpunit

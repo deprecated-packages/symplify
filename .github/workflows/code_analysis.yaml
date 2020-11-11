@@ -21,18 +21,6 @@ jobs:
                         run: composer validate --strict
 
                     -
-                        name: Check Missing Split Tests
-                        run: packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_tests.yaml --ansi
-
-                    -
-                        name: Check Missing Split Unused Packages
-                        run:  packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_unused_packages.yaml --ansi
-
-                    -
-                        name: Check Missing Split Monorepo
-                        run: packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_monorepo.yaml --ansi
-
-                    -
                         name: Binary File Run
                         run: |
                             # test run bin files
