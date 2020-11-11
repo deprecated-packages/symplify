@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Console\Command;
+namespace Symplify\MonorepoBuilder\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
+use Symplify\MonorepoBuilder\Validator\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;

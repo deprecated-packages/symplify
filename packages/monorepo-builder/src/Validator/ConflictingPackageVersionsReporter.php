@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Console\Reporter;
+namespace Symplify\MonorepoBuilder\Validator;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\SmartFileSystem\SmartFileInfo;

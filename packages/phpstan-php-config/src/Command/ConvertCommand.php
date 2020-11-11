@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\PHPStanPHPConfig\Neon\NeonFilePrinter;
 use Symplify\PHPStanPHPConfig\PHPStanPHPToNeonConverter;
 use Symplify\PHPStanPHPConfig\ValueObject\Option;
 use Symplify\SmartFileSystem\FileSystemGuard;
@@ -27,14 +28,22 @@ final class ConvertCommand extends AbstractSymplifyCommand
      */
     private $phpStanPHPToNeonConverter;
 
+    /**
+     * @var NeonFilePrinter
+     */
+    private $neonFilePrinter;
+
     public function __construct(
         FileSystemGuard $fileSystemGuard,
-        PHPStanPHPToNeonConverter $phpStanPHPToNeonConverter
+        PHPStanPHPToNeonConverter $phpStanPHPToNeonConverter,
+        NeonFilePrinter $neonFilePrinter
     ) {
         $this->fileSystemGuard = $fileSystemGuard;
         $this->phpStanPHPToNeonConverter = $phpStanPHPToNeonConverter;
 
         parent::__construct();
+
+        $this->neonFilePrinter = $neonFilePrinter;
     }
 
     protected function configure(): void
@@ -59,24 +68,8 @@ final class ConvertCommand extends AbstractSymplifyCommand
         $neonFileContent = $this->phpStanPHPToNeonConverter->convert($phpConfigFileInfo);
 
         $outputFilePath = (string) $input->getOption(Option::OUTPUT_FILE);
-        $this->printNeonToOutputFile($neonFileContent, $outputFilePath);
+        $this->neonFilePrinter->printContentToOutputFile($neonFileContent, $outputFilePath);
 
         return ShellCode::SUCCESS;
-    }
-
-    private function printNeonToOutputFile(string $neonFileContent, string $outputFilePath): void
-    {
-        $this->smartFileSystem->dumpFile($outputFilePath, $neonFileContent);
-
-        $outputFileInfo = new SmartFileInfo($outputFilePath);
-
-        $message = sprintf('The neon file was converted to "%s"', $outputFileInfo->getRelativeFilePathFromCwd());
-        $this->symfonyStyle->success($message);
-
-        $this->symfonyStyle->writeln('===================================');
-        $this->symfonyStyle->newLine(1);
-        $this->symfonyStyle->writeln('<comment>' . $neonFileContent . '</comment>');
-        $this->symfonyStyle->writeln('===================================');
-        $this->symfonyStyle->newLine(1);
     }
 }

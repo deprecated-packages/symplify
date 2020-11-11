@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Console\Command;
+namespace Symplify\MonorepoBuilder\Command;
 
 use Nette\Utils\Json;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,11 +23,14 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
      * @var PackageProvider
      */
     private $packageProvider;
+    /**
+     * @var \Symplify\MonorepoBuilder\Json\PackageJsonProvider
+     */
+    private $packageJsonProvider;
 
-    public function __construct(PackageProvider $packageProvider)
+    public function __construct(\Symplify\MonorepoBuilder\Json\PackageJsonProvider $packageJsonProvider)
     {
-        $this->packageProvider = $packageProvider;
-
+        $this->packageJsonProvider = $packageJsonProvider;
         parent::__construct();
     }
 
@@ -39,41 +42,15 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $data = (bool) $input->getOption(self::NAMES) ? $this->createPackageNames() : $this->createPackagePaths();
+        if ((bool) $input->getOption(self::NAMES)) {
+            $data = $this->packageJsonProvider->createPackageNames();
+        } else {
+            $data = $this->packageJsonProvider->createPackagePaths();
+        }
 
         $json = Json::encode($data);
         $this->symfonyStyle->writeln($json);
 
         return ShellCode::SUCCESS;
-    }
-
-    /**
-     * @return array<string, string[]>
-     */
-    private function createPackagePaths(): array
-    {
-        $packageRelativePaths = [];
-        foreach ($this->packageProvider->provide() as $package) {
-            $packageRelativePaths[] = $package->getRelativePath();
-        }
-
-        return [
-            'package_path' => $packageRelativePaths,
-        ];
-    }
-
-    /**
-     * @return array<string, string[]>
-     */
-    private function createPackageNames(): array
-    {
-        $packageShortNames = [];
-        foreach ($this->packageProvider->provide() as $package) {
-            $packageShortNames[] = $package->getShortName();
-        }
-
-        return [
-            'package_name' => $packageShortNames,
-        ];
     }
 }
