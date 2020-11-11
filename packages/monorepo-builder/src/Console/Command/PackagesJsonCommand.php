@@ -39,11 +39,7 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ((bool) $input->getOption(self::NAMES)) {
-            $data = $this->createPackageNames();
-        } else {
-            $data = $this->createPackagePaths();
-        }
+        $data = (bool) $input->getOption(self::NAMES) ? $this->createPackageNames() : $this->createPackagePaths();
 
         $json = Json::encode($data);
         $this->symfonyStyle->writeln($json);
