@@ -49,7 +49,11 @@ final class RemovePHPStormTodoImplementMethodCommentFixer extends AbstractSympli
             }
 
             $originalDocContent = $token->getContent();
-            $cleanedDocContent = Strings::replace($originalDocContent, self::TODO_IMPLEMENT_METHOD_COMMENT_BY_PHPSTORM_REGEX, '');
+            $cleanedDocContent = Strings::replace(
+                $originalDocContent,
+                self::TODO_IMPLEMENT_METHOD_COMMENT_BY_PHPSTORM_REGEX,
+                ''
+            );
             if ($cleanedDocContent !== '') {
                 continue;
             }
