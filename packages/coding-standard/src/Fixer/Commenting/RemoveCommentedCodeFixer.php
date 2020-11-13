@@ -20,10 +20,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class RemoveCommentedCodeFixer extends AbstractSymplifyFixer implements DocumentedRuleInterface
 {
     /**
-     * @see https://regex101.com/r/uMDMtt/2
+     * @see https://regex101.com/r/uMDMtt/3
      * @var string
      */
-    private const COMMENTED_CODE_REGEX = '#\/\/\s+(\$.*|.*\(.*?\));$#';
+    private const COMMENTED_CODE_REGEX = '#\/\/\s+(\$.*|[^"].*\(.*?\));$#';
 
     /**
      * @var string

@@ -4,4 +4,5 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveCommentedCodeFixe
 
 // note
 // another note ;
+// "array"();
 ?>
