@@ -8,6 +8,7 @@ on:
 jobs:
     provide_packages_json:
         # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
+        # see https://stackoverflow.com/a/62953566/1348344
         runs-on: ubuntu-latest
 
         steps:
@@ -24,10 +25,12 @@ jobs:
             -   run: composer install --no-progress --ansi
 
             # get package json list
-            -   run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json --names)"
+            -
+                id: set-matrix
+                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json --names)"
 
-            # check if it runs
-            -   run: packages/monorepo-builder/bin/monorepo-builder packages-json --names
+        outputs:
+            matrix: ${{ steps.set-matrix.outputs.matrix }}
 
     split_monorepo:
         needs: provide_packages_json
