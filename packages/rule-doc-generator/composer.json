@@ -14,7 +14,7 @@
         "symplify/markdown-diff": "^9.0",
         "symplify/package-builder": "^9.0",
         "nette/neon": "^3.2",
-        "migrify/php-config-printer": "^0.3.58"
+        "migrify/php-config-printer": "^0.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5|^9.4",
