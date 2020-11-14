@@ -55,18 +55,6 @@ final class Option
      * @var string
      * @api
      */
-    public const DIRECTORIES_TO_REPOSITORIES = 'directories_to_repositories';
-
-    /**
-     * @var string
-     * @api
-     */
-    public const DIRECTORIES_TO_REPOSITORIES_CONVERT_FORMAT = 'directories_to_repositories_convert_format';
-
-    /**
-     * @var string
-     * @api
-     */
     public const PACKAGE_DIRECTORIES = 'package_directories';
 
     /**

@@ -25,7 +25,6 @@ final class VersionResolver
     {
         /** @var string $versionArgument */
         $versionArgument = $input->getArgument(Option::VERSION);
-
         return $this->versionFactory->createValidVersion($versionArgument, $stage);
     }
 }

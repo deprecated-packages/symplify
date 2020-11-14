@@ -353,3 +353,8 @@ parameters:
             message: '#Nested foreach with empty statement is not allowed#'
             paths:
                 - packages/phpstan-rules/src/Rules/ExclusiveDependencyRule.php # 70
+
+        -
+            message: '#Use decoupled factory service to create "PharIo\\Version\\Version" object#'
+            paths:
+                - packages/monorepo-builder/packages/release/src/Configuration/VersionResolver.php

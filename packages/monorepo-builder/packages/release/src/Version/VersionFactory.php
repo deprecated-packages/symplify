@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Release\Version;
 
 use PharIo\Version\Version;
+use Symplify\MonorepoBuilder\Git\MostRecentTagResolver;
 use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
 use Symplify\MonorepoBuilder\Release\ValueObject\SemVersion;
-use Symplify\MonorepoBuilder\Split\Git\GitManager;
 
 final class VersionFactory
 {
@@ -17,14 +17,14 @@ final class VersionFactory
     private $releaseGuard;
 
     /**
-     * @var GitManager
+     * @var MostRecentTagResolver
      */
-    private $gitManager;
+    private $mostRecentTagResolver;
 
-    public function __construct(ReleaseGuard $releaseGuard, GitManager $gitManager)
+    public function __construct(ReleaseGuard $releaseGuard, MostRecentTagResolver $mostRecentTagResolver)
     {
         $this->releaseGuard = $releaseGuard;
-        $this->gitManager = $gitManager;
+        $this->mostRecentTagResolver = $mostRecentTagResolver;
     }
 
     public function createValidVersion(string $versionArgument, string $stage): Version
@@ -43,7 +43,7 @@ final class VersionFactory
     private function resolveNextVersionByVersionKind(string $versionKind): Version
     {
         // get current version
-        $mostRecentVersion = $this->gitManager->getMostRecentTag(getcwd());
+        $mostRecentVersion = $this->mostRecentTagResolver->resolve(getcwd());
         if ($mostRecentVersion === null) {
             // the very first tag
             return new Version('v0.1.0');
