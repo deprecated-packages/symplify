@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\TestCase;
+use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\Core\Configuration\Option;
 use Rector\Naming\Rector\ClassMethod\MakeIsserClassMethodNameStartWithIsRector;
 use Rector\Naming\Rector\Property\MakeBoolPropertyRespectIsHasWasMethodNamingRector;
@@ -28,7 +30,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'Exception',
                 'Doctrine\ORM\EntityManagerInterface',
                 'Doctrine\ORM\EntityManager',
-            ]
+            ],
+        ]]);
+
+    $services->set(PreferThisOrSelfMethodCallRector::class)
+        ->call('configure', [[
+            PreferThisOrSelfMethodCallRector::TYPE_TO_PREFERENCE => [
+                TestCase::class => PreferThisOrSelfMethodCallRector::PREFER_THIS,
+            ],
         ]]);
 
     $parameters = $containerConfigurator->parameters();
@@ -68,6 +77,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/packages/monorepo-builder/packages/init/templates',
 
         // few dead-code false positives, solve later
-        __DIR__ . '/packages/easy-coding-standard/bin/ecs.php'
+        __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
     ]);
 };
