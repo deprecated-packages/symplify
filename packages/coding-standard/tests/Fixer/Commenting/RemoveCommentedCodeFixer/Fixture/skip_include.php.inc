@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveCommentedCodeFixer\Fixture;
 
-// note
-// another note ;
-// "array"();
-?>
+final class SkipInclude
+{
+    // include all
+}

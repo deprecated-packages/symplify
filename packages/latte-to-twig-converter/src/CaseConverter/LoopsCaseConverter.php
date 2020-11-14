@@ -58,12 +58,19 @@ final class LoopsCaseConverter implements CaseConverterInterface
 
     public function convertContent(string $content): string
     {
-        // {foreach $values as $key => $value}...{/foreach} =>
-        // {% for key, value in values %}...{% endfor %}
+        /**
+         * {foreach $values as $key => $value}...{/foreach}
+         * ↓
+         *
+         * {% for key, value in values %}...{% endfor %}
+         */
         $content = Strings::replace($content, self::FOREACH_OPEN_WITH_KEY_REGEX, '{% for $2, $3 in $1 %}');
 
-        // {foreach $values as [$value1, $value2]}...{/foreach} =>
-        // {% for [value1, value2] in values %}...{% endfor %}
+        /**
+         * {foreach $values as [$value1, $value2]}...{/foreach}
+         * ↓
+         * {% for [value1, value2] in values %}...{% endfor %}
+         */
         $content = Strings::replace(
             $content,
             self::FOREACH_LIST_REGEX,
@@ -72,8 +79,11 @@ final class LoopsCaseConverter implements CaseConverterInterface
             }
         );
 
-        // {foreach $values as $value}...{/foreach} =>
-        // {% for value in values %}...{% endfor %}
+        /**
+         * {foreach $values as $value}...{/foreach}
+         * ↓
+         * {% for value in values %}...{% endfor %}
+         */
         $content = Strings::replace($content, self::FOREACH_OPEN_REGEX, '{% for $2 in $1 %}');
         $content = Strings::replace($content, self::FOREACH_CLOSE_REGEX, '{% endfor %}');
 

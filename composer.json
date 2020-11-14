@@ -11,7 +11,7 @@
         "composer/xdebug-handler": "^1.4",
         "cweagans/composer-patches": "^1.6",
         "friendsofphp/php-cs-fixer": "^2.17.1",
-        "guzzlehttp/guzzle": "^6.5|^7.0",
+        "guzzlehttp/guzzle": "^7.2",
         "j7mbo/twitter-api-php": "^1.0.6",
         "jean85/pretty-package-versions": "^1.5",
         "knplabs/doctrine-behaviors": "^2.0.7",

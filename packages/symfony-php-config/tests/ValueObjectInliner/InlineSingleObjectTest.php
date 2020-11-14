@@ -34,7 +34,6 @@ final class InlineSingleObjectTest extends TestCase
     public function provideData(): Iterator
     {
         yield [new SomeValueObject('Rector'), SomeValueObject::class];
-        // yield [new WithType(new StringType()), WithType::class];
     }
 
     private function createServiceConfigurator(): ServicesConfigurator

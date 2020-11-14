@@ -46,25 +46,40 @@ final class BlockCaseConverter implements CaseConverterInterface
 
     public function convertContent(string $content): string
     {
-        // block/include:
-        // {block content}...{/block} =>
-        // {% block content %}...{% endblock %}
+        /**
+         * {block content}...{/block}
+         * ↓
+         * {% block content %}...{% endblock %}
+         */
         $content = Strings::replace($content, self::BLOCK_REGEX, '{% block $1 %}$2{% endblock %}');
-        // {include "_snippets/menu.latte"} =>
-        // {% include "_snippets/menu.latte" %}
-        // {extends "_snippets/menu.latte"} =>
-        // {% extends "_snippets/menu.latte" %}
+
+        /**
+         * {include "_snippets/menu.latte"}
+         * ↓
+         * {% include "_snippets/menu.latte" %}
+         *
+         * {extends "_snippets/menu.latte"}
+         * ↓
+         * {% extends "_snippets/menu.latte" %}
+         */
         $content = Strings::replace($content, self::INCLUDE_EXTENDS_REGEX, '{% $1 $2 %}');
-        // {define sth}...{/define} =>
-        // {% block sth %}...{% endblock %}
+
+        /**
+         * {define sth}...{/define}
+         * ↓
+         * {% block sth %}...{% endblock %}
+         */
         $content = Strings::replace($content, self::DEFINE_REGEX, '{% block $1 %}$2{% endblock %}');
 
-        // include var:
-        // {% include "_snippets/menu.latte", "data" => $data %} =>
-        // {% include "_snippets/menu.twig", { "data": data } %}
-        // see https://twig.symfony.com/doc/2.x/functions/include.html
-        // single lines
-        // ref https://regex101.com/r/uDJaia/1
+        /**
+         * {% include "_snippets/menu.latte", "data" => $data %}
+         * ↓
+         * {% include "_snippets/menu.twig", { "data": data } %}
+         *
+         * @see https://twig.symfony.com/doc/2.x/functions/include.html
+         * single lines
+         * ref https://regex101.com/r/uDJaia/1
+         */
         $content = Strings::replace($content, self::INCLUDE_REGEX, function (array $match): string {
             $variables = explode(',', $match[2]);
 
@@ -92,8 +107,11 @@ final class BlockCaseConverter implements CaseConverterInterface
             return $match[1] . $twigDataInString . $match[3];
         });
 
-        // {% include "sth", =>
-        // {% include "sth" with
+        /**
+         * {% include "sth",
+         * ↓
+         * {% include "sth" with
+         */
         return Strings::replace($content, self::INCLUDE_WITH_COMMA_REGEX, '$1 with');
     }
 }

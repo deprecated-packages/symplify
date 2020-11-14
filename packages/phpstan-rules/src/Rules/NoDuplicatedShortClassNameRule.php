@@ -30,8 +30,6 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
         '#Exception$#',
         '#Option#',
         '#InitCommand#',
-        # extended 3rd party class
-        '#CommentedOutCodeSniff$#',
         # tests
         '#Some#',
         '#GithubApi#',

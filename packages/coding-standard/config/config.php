@@ -19,8 +19,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->exclude([
             __DIR__ . '/../src/TokenRunner/ValueObject',
             __DIR__ . '/../src/TokenRunner/Exception',
-            __DIR__ . '/../src/Sniffs',
             __DIR__ . '/../src/Fixer',
+            __DIR__ . '/../src/ValueObject',
         ]);
 
     $services->set(FunctionsAnalyzer::class);

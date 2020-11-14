@@ -9,7 +9,6 @@ use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
 use SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
-use Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -54,7 +53,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         UnaryOperatorSpacesFixer::class,
 
         // class in paths
-        CommentedOutCodeSniff::class => [__DIR__ . '/packages/latte-to-twig-converter/src/CaseConverter/*'],
         PhpUnitStrictFixer::class => [
             __DIR__ . '/packages/easy-coding-standard/tests/Indentation/IndentationTest.php',
             __DIR__ . '/packages/set-config-resolver/tests/ConfigResolver/SetAwareConfigResolverTest.php',

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveCommentedCodeFixer\Fixture;
 
-final class CommentedCode
+final class CommentedSingleLine
 {
-//    public function run()
-//    {
-//    }
+    public function run()
+    {
+        // return 5000;
+        return 1000;
+    }
 }
 
 ?>
@@ -19,8 +21,12 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveCommentedCodeFixer\Fixture;
 
-final class CommentedCode
+final class CommentedSingleLine
 {
+    public function run()
+    {
+        return 1000;
+    }
 }
 
 ?>

@@ -19,7 +19,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
     $services->set(LineLengthFixer::class);
 
-    // array spacing
+    // spacing
     $services->set(NoWhitespaceBeforeCommaInArrayFixer::class);
     $services->set(ArrayOpenerAndCloserNewlineFixer::class);
     $services->set(ArrayIndentationFixer::class);

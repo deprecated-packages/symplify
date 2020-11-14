@@ -46,17 +46,25 @@ final class ConditionCaseConverter implements CaseConverterInterface
 
     public function convertContent(string $content): string
     {
-        // https://regex101.com/r/XKKoUh/1/
-        // {if isset($post['variable'])}...{/if} =>
-        // {% if $post['variable'] is defined %}...{% endif %}
+        /**
+         * {if isset($post['variable'])}...{/if}
+         * ↓
+         * {% if $post['variable'] is defined %}...{% endif %}
+         */
         $content = Strings::replace($content, self::IF_ISSET_REGEX, '{% if $1 is defined %}$2{% endif %}');
-        // {ifset $post}...{/ifset} =>
-        // {% if $post is defined %}..{% endif %}
+
+        /**
+         * {ifset $post}...{/ifset} =>
+         * ↓
+         * {% if $post is defined %}..{% endif %}
+         */
         $content = Strings::replace($content, self::IFSET_REGEX, '{% if $1 is defined %}$2{% endif %}');
 
-        // {if "sth"}..{/if} =>
-        // {% if "sth" %}..{% endif %}
-        // https://regex101.com/r/DrDSJf/1
+        /**
+         * {if "sth"}..{/if}
+         * ↓
+         * {% if "sth" %}..{% endif %}
+         */
         $content = Strings::replace($content, self::IF_REGEX, '{% if $1 %}$2{% endif %}');
 
         $content = Strings::replace($content, self::ELSE_REGEX, '{% else %}');
