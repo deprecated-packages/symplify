@@ -20,9 +20,15 @@ jobs:
                         binary_file_name: 'ecs'
 
         steps:
-            -   uses: actions/checkout@v2
+            -
+                uses: actions/checkout@v2
+                # this is required for "WyriHaximus/github-action-get-previous-tag" workflow
+                # see https://github.com/actions/checkout#fetch-all-history-for-all-tags-and-branches
+                with:
+                    fetch-depth: 0
 
-            -   uses: shivammathur/setup-php@v2
+            -
+                uses: shivammathur/setup-php@v2
                 with:
                     php-version: 7.2
                     coverage: none
@@ -47,15 +53,20 @@ jobs:
             -   run: chmod 777 ./packages-scoped/${{ matrix.scoped_package.directory }}/bin/${{ matrix.scoped_package.binary_file_name }}
             #-   run: packages-scoped/${{ matrix.scoped_package.directory }}/bin/${{ matrix.scoped_package.binary_file_name }} --ansi
 
-            # 4. publish it to remote repository
+            # 4. get tag - see https://github.com/WyriHaximus/github-action-get-previous-tag
+            -
+                id: previous_tag
+                uses: "WyriHaximus/github-action-get-previous-tag@master"
+
+            # 5. split it to remote repository
             # see https://github.com/cpina/github-action-push-to-another-repository
             -
-                name: Pushes to another repository
-                uses: cpina/github-action-push-to-another-repository@master
+                # Uses an action in the root directory
+                uses: TomasVotruba/github-action-monorepo-split@master
                 env:
-                    API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
+                    GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
                 with:
-                    source-directory: 'packages-scoped/${{ matrix.scoped_package.directory }}'
-                    destination-github-username: 'symplify'
-                    destination-repository-name: '${{ matrix.scoped_package.directory }}-prefixed'
-                    user-email: tomas.vot@gmail.com
+                    package-directory: 'packages-scoped/${{ matrix.scoped_package.directory }}'
+                    split-repository-organization: 'symplify'
+                    split-repository-name: '${{ matrix.scoped_package.directory }}-prefixed'
+                    tag: ${{ steps.previous_tag.outputs.tag }}
