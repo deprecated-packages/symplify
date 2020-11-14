@@ -9,9 +9,12 @@ jobs:
     provide_packages_json:
         # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
         runs-on: ubuntu-latest
-        steps:
-            -   uses: actions/checkout@v2
 
+        steps:
+            -
+                uses: actions/checkout@v2
+
+            # required for matrix of packages set
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: 7.4
@@ -33,17 +36,25 @@ jobs:
             matrix: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
 
         steps:
-            -   uses: actions/checkout@v2
-
-            # https://github.com/cpina/github-action-push-to-another-repository
             -
-                name: Monorepo Split of ${{ matrix.package_name }}
-                uses: cpina/github-action-push-to-another-repository@master
-                env:
-                    API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
+                uses: actions/checkout@v2
+                # this is required for "WyriHaximus/github-action-get-previous-tag" workflow
+                # see https://github.com/actions/checkout#fetch-all-history-for-all-tags-and-branches
                 with:
-                    source-directory: 'packages/${{ matrix.package_name }}'
-                    destination-github-username: 'symplify'
-                    destination-repository-name: '${{ matrix.package_name }}'
-                    user-email: tomas@getrector.org
-                    target-branch: master
+                    fetch-depth: 0
+
+            # see https://github.com/WyriHaximus/github-action-get-previous-tag
+            -
+                id: previous_tag
+                uses: "WyriHaximus/github-action-get-previous-tag@master"
+
+            -
+                # Uses an action in the root directory
+                uses: TomasVotruba/github-action-monorepo-split@master
+                env:
+                    GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                with:
+                    package-directory: 'packages/${{ matrix.package_name }}'
+                    split-repository-organization: 'migrify'
+                    split-repository-name: '${{ matrix.package_name }}'
+                    tag: ${{ steps.previous_tag.outputs.tag }}
