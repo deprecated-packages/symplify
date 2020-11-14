@@ -24,8 +24,10 @@ jobs:
             -   run: composer install --no-progress --ansi
 
             # get package json list
-            -   id: set-matrix
-                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json --names)"
+            -   run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json --names)"
+
+            # check if it runs
+            -   run: packages/monorepo-builder/bin/monorepo-builder packages-json --names
 
     split_monorepo:
         needs: provide_packages_json
