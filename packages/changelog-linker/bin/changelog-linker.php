@@ -29,10 +29,10 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 $configFileInfos = [];
 
 $configResolver = new ConfigResolver();
-$inputConfigFileInfos = $configResolver->resolveFromInputWithFallback(new ArgvInput(), ['changelog-linker.php']);
+$inputConfigFileInfo = $configResolver->resolveFromInputWithFallback(new ArgvInput(), ['changelog-linker.php']);
 
-if ($inputConfigFileInfos !== null) {
-    $configFileInfos[] = $inputConfigFileInfos;
+if ($inputConfigFileInfo !== null) {
+    $configFileInfos[] = $inputConfigFileInfo;
 }
 
 $kernelBootAndApplicationRun = new KernelBootAndApplicationRun(ChangelogLinkerKernel::class, $configFileInfos);
