@@ -27,7 +27,6 @@
     "autoload": {
         "psr-4": {
             "Symplify\\MonorepoBuilder\\": "src",
-            "Symplify\\MonorepoBuilder\\Split\\": "packages/split/src",
             "Symplify\\MonorepoBuilder\\Release\\": "packages/release/src",
             "Symplify\\MonorepoBuilder\\Init\\": "packages/init/src",
             "Symplify\\MonorepoBuilder\\Testing\\": "packages/testing/src",
@@ -37,7 +36,6 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\MonorepoBuilder\\Tests\\": "tests",
-            "Symplify\\MonorepoBuilder\\Split\\Tests\\": "packages/split/tests",
             "Symplify\\MonorepoBuilder\\Merge\\Tests\\": "packages/merge/tests",
             "Symplify\\MonorepoBuilder\\Release\\Tests\\": "packages/release/tests",
             "Symplify\\MonorepoBuilder\\Testing\\Tests\\": "packages/testing/tests"

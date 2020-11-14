@@ -8,21 +8,6 @@ final class Option
 {
     /**
      * @var string
-     */
-    public const BRANCH = 'branch';
-
-    /**
-     * @var string
-     */
-    public const MAX_PROCESSES = 'max-processes';
-
-    /**
-     * @var string
-     */
-    public const TAG = 'tag';
-
-    /**
-     * @var string
      * @api
      */
     public const VERSION = 'version';
@@ -50,18 +35,6 @@ final class Option
      * @api
      */
     public const DATA_TO_REMOVE = 'data_to_remove';
-
-    /**
-     * @var string
-     * @api
-     */
-    public const DIRECTORIES_TO_REPOSITORIES = 'directories_to_repositories';
-
-    /**
-     * @var string
-     * @api
-     */
-    public const DIRECTORIES_TO_REPOSITORIES_CONVERT_FORMAT = 'directories_to_repositories_convert_format';
 
     /**
      * @var string
