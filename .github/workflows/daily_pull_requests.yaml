@@ -1,0 +1,64 @@
+name: Daily Pull Requests
+
+on:
+    schedule:
+        # https://crontab.guru/once-a-day
+        -   cron: "0 0 * * *"
+
+jobs:
+    daily_pull_requests:
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                actions:
+                    -
+                        name: "Re-Apply Rector Rules"
+                        run: "vendor/bin/rector process --config rector-ci.php --ansi"
+                        run_2: "packages/easy-coding-standard/bin/ecs check --match-git-diff --fix --ansi"
+                        branch: 'automated-re-apply-rector-rules'
+
+                    -
+                        name: "Re-Apply Coding Standard"
+                        run: "composer fix-cs"
+                        run_2: "composer check-cs"
+                        branch: "automated-re-apply-coding-standard"
+
+                    -
+                        name: "Re-Apply Monorepo Version Propagate"
+                        run: "composer propagate --ansi"
+                        run_2: "composer validate-monorepo --ansi"
+                        branch: "automated-re-apply-monorepo-propagate"
+
+        steps:
+            -
+                uses: actions/checkout@v2
+                with:
+                    token: ${{ secrets.ACCESS_TOKEN }}
+
+            # see https://github.com/shivammathur/setup-php
+            -
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.4
+                    coverage: none
+                    tools: composer:v2
+
+            -   run: composer install --no-progress --ansi
+
+            -   run: ${{ matrix.actions.run }}
+
+            -   run: ${{ matrix.actions.run_2 }}
+
+            # see https://github.com/peter-evans/create-pull-request
+            -
+                name: ${{ matrix.actions.name }}
+                uses: peter-evans/create-pull-request@v3
+                with:
+                    token: ${{ secrets.GITHUB_TOKEN }}
+                    commit-message: "[automated] ${{ matrix.actions.name }}"
+                    base: 'master'
+                    branch: ${{ matrix.actions.branch }}
+                    title: '[automated] ${{ matrix.actions.name }}'
+                    delete-branch: true
