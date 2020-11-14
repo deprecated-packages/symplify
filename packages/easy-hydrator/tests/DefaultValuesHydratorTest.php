@@ -41,8 +41,8 @@ final class DefaultValuesHydratorTest extends AbstractKernelTestCase
         /** @var DefaultValuesConstructor $object */
         $object = $this->arrayToValueObjectHydrator->hydrateArray($data, DefaultValuesConstructor::class);
 
-        self::assertNull($object->getFoo());
-        self::assertNull($object->getPerson());
-        self::assertSame('baz', $object->getBar());
+        $this->assertNull($object->getFoo());
+        $this->assertNull($object->getPerson());
+        $this->assertSame('baz', $object->getBar());
     }
 }
