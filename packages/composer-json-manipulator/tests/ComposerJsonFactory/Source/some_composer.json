@@ -1,4 +1,5 @@
 {
+    "type": "project",
     "autoload": {
         "classmap": ["src"],
         "psr-4": {

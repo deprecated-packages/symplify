@@ -112,6 +112,11 @@ final class ComposerJson
      */
     private $bin = [];
 
+    /**
+     * @var string|null
+     */
+    private $type;
+
     public function __construct()
     {
         $this->composerPackageSorter = new ComposerPackageSorter();
@@ -125,6 +130,11 @@ final class ComposerJson
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function setType(string $type): void
+    {
+        $this->type = $type;
     }
 
     /**
@@ -557,6 +567,11 @@ final class ComposerJson
     public function getBin(): array
     {
         return $this->bin;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
     }
 
     /**
