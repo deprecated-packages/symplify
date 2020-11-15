@@ -37,6 +37,7 @@ final class VersionUtils
     {
         $version = $this->normalizeVersion($version);
 
+        /** @var Version $minor */
         $minor = $this->getNextMinorNumber($version);
 
         return str_replace(

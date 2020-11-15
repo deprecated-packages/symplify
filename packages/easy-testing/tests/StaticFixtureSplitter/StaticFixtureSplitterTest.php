@@ -26,8 +26,7 @@ final class StaticFixtureSplitterTest extends TestCase
 
         $inputFileInfoAndExpected = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpected($fileInfo);
 
-        $realPath = $inputFileInfoAndExpected->getInputFileInfo()
-            ->getRealPath();
+        $realPath = $inputFileInfoAndExpected->getInputFileRealPath();
         $this->assertFileExists($realPath);
 
         $this->assertSame(15025, $inputFileInfoAndExpected->getExpected());

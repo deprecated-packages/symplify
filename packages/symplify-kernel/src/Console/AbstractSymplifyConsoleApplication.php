@@ -83,15 +83,15 @@ abstract class AbstractSymplifyConsoleApplication extends Application
      */
     private function cleanExtraCommandArgument(Command $command): void
     {
-        $arguments = $command->getDefinition()
-            ->getArguments();
+        $inputDefinition = $command->getDefinition();
+        $arguments = $inputDefinition->getArguments();
 
         if (! isset($arguments[self::COMMAND])) {
             return;
         }
 
         unset($arguments[self::COMMAND]);
-        $command->getDefinition()
-            ->setArguments($arguments);
+
+        $inputDefinition->setArguments($arguments);
     }
 }

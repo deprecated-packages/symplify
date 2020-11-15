@@ -27,7 +27,7 @@ final class TooManyPropertiesRule extends AbstractSymplifyRule implements Config
      */
     private $maxPropertyCount;
 
-    public function __construct(int $maxPropertyCount)
+    public function __construct(int $maxPropertyCount = 10)
     {
         $this->maxPropertyCount = $maxPropertyCount;
     }

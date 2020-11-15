@@ -33,4 +33,9 @@ final class Set
     {
         return $this->setFileInfo;
     }
+
+    public function getSetPathname(): string
+    {
+        return $this->setFileInfo->getPathname();
+    }
 }

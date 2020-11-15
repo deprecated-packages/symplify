@@ -44,7 +44,7 @@ abstract class AbstractSetProvider implements SetProviderInterface
             foreach ($sets as $set) {
                 // possible bug for PHAR files, see https://bugs.php.net/bug.php?id=52769
                 // this is very tricky to handle, see https://stackoverflow.com/questions/27838025/how-to-get-a-phar-file-real-directory-within-the-phar-file-code
-                $setUniqueId = $this->resolveSetUniquePathId($set->getSetFileInfo()->getPathname());
+                $setUniqueId = $this->resolveSetUniquePathId($set->getSetPathname());
                 $desiredSetUniqueId = $this->resolveSetUniquePathId($desiredSetName);
 
                 if ($setUniqueId !== $desiredSetUniqueId) {

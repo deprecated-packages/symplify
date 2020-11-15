@@ -86,8 +86,8 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         // here class name can be "%parameter.class%"
-        $resolvedClassName = $containerBuilder->getParameterBag()
-            ->resolveValue($definition->getClass());
+        $parameterBag = $containerBuilder->getParameterBag();
+        $resolvedClassName = $parameterBag->resolveValue($definition->getClass());
 
         // skip 3rd party classes, they're autowired by own config
         $excludedNamespacePattern = '#^(' . implode('|', self::EXCLUDED_NAMESPACES) . ')\\\\#';
@@ -146,7 +146,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         Definition $definition,
         ReflectionParameter $reflectionParameter
     ): bool {
-        if (! ($reflectionParameter->getType() !== null && $reflectionParameter->getType()->getName() === 'array')) {
+        if (! $this->isArrayType($reflectionParameter)) {
             return true;
         }
 
@@ -224,5 +224,15 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         return $references;
+    }
+
+    private function isArrayType(ReflectionParameter $reflectionParameter): bool
+    {
+        if ($reflectionParameter->getType() === null) {
+            return false;
+        }
+
+        $reflectionParameterType = $reflectionParameter->getType();
+        return $reflectionParameterType->getName() === 'array';
     }
 }
