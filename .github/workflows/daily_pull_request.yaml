@@ -16,6 +16,18 @@ jobs:
                         run: "composer fix-cs"
                         branch: 'automated-re-apply-coding-standards'
 
+                    -
+                        name: "Re-Propagate Composer Dependencies to Packages"
+                        run: "composer propagate"
+                        branch: 'automated-re-propagate-dependencies'
+
+                    -
+                        name: "Re-Apply Rector Rules"
+                        run: |
+                            vendor/bin/rector rectify --config rector-ci.php --ansi --no-progress-bar
+                            packages/easy-coding-standard/bin/ecs check --match-git-diff --fix --ansi
+                        branch: 'automated-re-apply-rector'
+
         name: ${{ matrix.actions.name }}
 
         runs-on: ubuntu-latest
@@ -36,8 +48,7 @@ jobs:
 
             -   run: composer install --no-progress --ansi
 
-            -
-                run: ${{ matrix.actions.run }}
+            -   run: ${{ matrix.actions.run }}
 
             # see https://github.com/peter-evans/create-pull-request
             -
