@@ -61,6 +61,10 @@ final class ComposerJsonFactory
             $composerJson->setName($jsonArray[ComposerJsonSection::NAME]);
         }
 
+        if (isset($jsonArray[ComposerJsonSection::TYPE])) {
+            $composerJson->setType($jsonArray[ComposerJsonSection::TYPE]);
+        }
+
         if (isset($jsonArray[ComposerJsonSection::DESCRIPTION])) {
             $composerJson->setDescription($jsonArray[ComposerJsonSection::DESCRIPTION]);
         }
