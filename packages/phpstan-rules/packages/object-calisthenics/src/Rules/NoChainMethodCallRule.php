@@ -38,6 +38,8 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
         'PharIo\Version\Version',
         'Symfony\Component\Routing\RouteCollection',
         'PHPStan\TrinaryLogic',
+        // also trinary logic ↓
+        'PHPStan\Reflection\PassedByReference',
     ];
 
     /**
