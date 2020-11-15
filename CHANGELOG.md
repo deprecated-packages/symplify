@@ -9,7 +9,106 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## 9.0.0-BETA1 - 2020-11-14
+## Unreleased
+
+### Added
+
+#### CI
+
+- [#2468] Drop coding standard doc check, will be replaced by RuleDocGenerator + add rule definitions for sniffs/fixers
+
+#### CodingStandard
+
+- [#2457] Fixes [#2208] Add CheckConstantExpressionDefinedInConstructOrSetupRule, Thanks to [@samsonasik]
+- [#2483] Fixes [#2482] Add RemovePHPStormTodoImplementMethodCommentFixer, Thanks to [@samsonasik]
+- [#2481] Fixes [#2480] Add RemovePHPStormTodoCommentFixer, Thanks to [@samsonasik]
+
+#### PHPStanRules
+
+- [#2456] Fixes [#2404] Add ForbiddenPrivateMethodByTypeRule, Thanks to [@samsonasik]
+- [#2466] Fixes [#2405] Add ForbiddenMethodCallByTypeInLocationRule, Thanks to [@samsonasik]
+- [#2476] Add ExclusiveDependencyRule, Thanks to [@samsonasik]
+
+#### Unknown Package
+
+- [#2475] add missing nette/neon package
+
+### Changed
+
+#### CI
+
+- [#2453] What if Github Actions can handle the split of packages?
+- [#2448] Automated CHANGELOG generation once 2 weeks
+
+#### CodingStandard
+
+- [#2469] Generate rules_overview file
+- [#2455] Improve CheckConstantStringValueFormatRule : Allow array constant value, Thanks to [@samsonasik]
+
+#### DX
+
+- [#2478] Decouple private methods from commands
+
+#### EasyCodingStandard
+
+- [#2442] Switch prefixed ecs.phar to automated package scoping in GitHub Action
+
+#### MarkdownDiffer
+
+- [#2470] Init new package
+
+#### MonorepoBuilder
+
+- [#2477] Move from manual package list to json list
+- [#2454] Prepare for split command deprectaion
+
+#### PHPStanPHPConfig
+
+- [#2464] Init new package with phpstan.php
+
+#### PHPStanRules
+
+- [#2445] update ManyNodeRuleInterface location
+- [#2462] Decorated with Rule Doc Generator interface and move examples to the code
+- [#2458] Fail for CheckConstantExpressionDefinedInConstructOrSetupRule
+- [#2461] Improve CheckConstantExpressionDefinedInConstructOrSetupRule
+- [#2473] Generate the docs
+
+#### PackageBuilder
+
+- [#2452] Accept also file info configs
+
+#### Unknown Package
+
+- [#2449] Automated Update of Changelog on 2020-11-03, Thanks to [@github-actions][bot]
+
+### Fixed
+
+#### CodingStandard
+
+- [#2467] Fixes [#2425] Register RemoveUselessJustForSakeInterfaceRector into rector-ci.php, Thanks to [@samsonasik]
+
+#### DX
+
+- [#2486] Fixes [#2485] enable PreferThisOrSelfMethodCallRector, Thanks to [@samsonasik]
+
+#### Unknown Package
+
+- [#2459] fix typo, Thanks to [@staabm]
+- [#2460] Fix typos, Thanks to [@staabm]
+- [#2474] Markdown format fixes
+
+### Removed
+
+#### MonorepoBuilder
+
+- [#2490] Drop split command, delegate to GitHub Action with less magic
+
+#### Unknown Package
+
+- [#2451] drop manual setName(), let applicaton handle that
+
+## [9.0.0-BETA1] - 2020-11-14
 
 ### Added
 
@@ -1297,7 +1396,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#2366]: https://github.com/symplify/symplify/pull/2366
 [#2365]: https://github.com/symplify/symplify/pull/2365
 [#2364]: https://github.com/symplify/symplify/pull/2364
-[#2363]: https://github.com/symplify/symplify/pull/2363
 [#2362]: https://github.com/symplify/symplify/pull/2362
 [#2361]: https://github.com/symplify/symplify/pull/2361
 [#2360]: https://github.com/symplify/symplify/pull/2360
@@ -1424,7 +1522,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#2202]: https://github.com/symplify/symplify/pull/2202
 [#2199]: https://github.com/symplify/symplify/pull/2199
 [#2195]: https://github.com/symplify/symplify/pull/2195
-[#2194]: https://github.com/symplify/symplify/pull/2194
 [#2177]: https://github.com/symplify/symplify/pull/2177
 [#2176]: https://github.com/symplify/symplify/pull/2176
 [#2172]: https://github.com/symplify/symplify/pull/2172
@@ -1435,7 +1532,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@required]: https://github.com/required
 [@janatjak]: https://github.com/janatjak
 [@glensc]: https://github.com/glensc
-[@dotdevru]: https://github.com/dotdevru
 [@ThomasLandauer]: https://github.com/ThomasLandauer
 [@NoorAdiana]: https://github.com/NoorAdiana
 [@Kerrialn]: https://github.com/Kerrialn
@@ -1443,3 +1539,43 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@ComiR]: https://github.com/ComiR
 [@BoGnY]: https://github.com/BoGnY
 [8.3.6]: https://github.com/symplify/symplify/compare/8.3.0...8.3.6
+[#2490]: https://github.com/symplify/symplify/pull/2490
+[#2486]: https://github.com/symplify/symplify/pull/2486
+[#2485]: https://github.com/symplify/symplify/pull/2485
+[#2483]: https://github.com/symplify/symplify/pull/2483
+[#2482]: https://github.com/symplify/symplify/pull/2482
+[#2481]: https://github.com/symplify/symplify/pull/2481
+[#2480]: https://github.com/symplify/symplify/pull/2480
+[#2478]: https://github.com/symplify/symplify/pull/2478
+[#2477]: https://github.com/symplify/symplify/pull/2477
+[#2476]: https://github.com/symplify/symplify/pull/2476
+[#2475]: https://github.com/symplify/symplify/pull/2475
+[#2474]: https://github.com/symplify/symplify/pull/2474
+[#2473]: https://github.com/symplify/symplify/pull/2473
+[#2470]: https://github.com/symplify/symplify/pull/2470
+[#2469]: https://github.com/symplify/symplify/pull/2469
+[#2468]: https://github.com/symplify/symplify/pull/2468
+[#2467]: https://github.com/symplify/symplify/pull/2467
+[#2466]: https://github.com/symplify/symplify/pull/2466
+[#2464]: https://github.com/symplify/symplify/pull/2464
+[#2462]: https://github.com/symplify/symplify/pull/2462
+[#2461]: https://github.com/symplify/symplify/pull/2461
+[#2460]: https://github.com/symplify/symplify/pull/2460
+[#2459]: https://github.com/symplify/symplify/pull/2459
+[#2458]: https://github.com/symplify/symplify/pull/2458
+[#2457]: https://github.com/symplify/symplify/pull/2457
+[#2456]: https://github.com/symplify/symplify/pull/2456
+[#2455]: https://github.com/symplify/symplify/pull/2455
+[#2454]: https://github.com/symplify/symplify/pull/2454
+[#2453]: https://github.com/symplify/symplify/pull/2453
+[#2452]: https://github.com/symplify/symplify/pull/2452
+[#2451]: https://github.com/symplify/symplify/pull/2451
+[#2449]: https://github.com/symplify/symplify/pull/2449
+[#2448]: https://github.com/symplify/symplify/pull/2448
+[#2442]: https://github.com/symplify/symplify/pull/2442
+[#2425]: https://github.com/symplify/symplify/pull/2425
+[#2405]: https://github.com/symplify/symplify/pull/2405
+[#2404]: https://github.com/symplify/symplify/pull/2404
+[#2208]: https://github.com/symplify/symplify/pull/2208
+[@github-actions]: https://github.com/github-actions
+[9.0.0-BETA1]: https://github.com/symplify/symplify/compare/8.3.5...9.0.0-BETA1
