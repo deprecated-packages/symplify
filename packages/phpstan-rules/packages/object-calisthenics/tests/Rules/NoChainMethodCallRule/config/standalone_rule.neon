@@ -2,3 +2,6 @@ services:
     -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
         tags: [phpstan.rules.rule]
+        arguments:
+            allowedChainTypes:
+                - Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoChainMethodCallRule\Source\SomeAllowedFluent

@@ -23,8 +23,8 @@ final class ParameterProvider
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->parameters = $container->getParameterBag()
-            ->all();
+        $parameterBag = $container->getParameterBag();
+        $this->parameters = $parameterBag->all();
     }
 
     /**

@@ -30,8 +30,8 @@ final class SymfonyContainerBuilderFactory
         $importLessPhpFileLoader = $this->importLessPhpFileLoaderFactory->create($containerBuilder, $fileLocator);
         $importLessPhpFileLoader->load($phpConfigFileInfo->getFilename());
 
-        $containerBuilder->getCompilerPassConfig()
-            ->setRemovingPasses([]);
+        $compilerPassConfig = $containerBuilder->getCompilerPassConfig();
+        $compilerPassConfig->setRemovingPasses([]);
 
         $containerBuilder->addCompilerPass(new MakeServicesPublicCompilerPass());
 

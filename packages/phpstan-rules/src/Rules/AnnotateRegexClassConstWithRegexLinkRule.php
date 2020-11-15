@@ -121,13 +121,12 @@ CODE_SAMPLE
 
     private function hasDocBlockWithRegexLink(Node $node): bool
     {
-        if ($node->getDocComment() === null) {
+        $docComment = $node->getDocComment();
+        if ($docComment === null) {
             return false;
         }
 
-        $docCommentText = $node->getDocComment()
-            ->getText();
-
+        $docCommentText = $docComment->getText();
         return Strings::contains($docCommentText, '@see https://regex101.com/r');
     }
 

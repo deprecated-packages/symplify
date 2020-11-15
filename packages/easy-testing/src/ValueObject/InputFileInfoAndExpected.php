@@ -32,6 +32,11 @@ final class InputFileInfoAndExpected
         return $this->inputFileInfo;
     }
 
+    public function getInputFileRealPath(): string
+    {
+        return $this->inputFileInfo->getRealPath();
+    }
+
     /**
      * @return mixed
      */

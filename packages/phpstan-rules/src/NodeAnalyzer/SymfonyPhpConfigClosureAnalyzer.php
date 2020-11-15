@@ -18,16 +18,17 @@ final class SymfonyPhpConfigClosureAnalyzer
             return false;
         }
 
-        if (count($scope->getAnonymousFunctionReflection()->getParameters()) !== 1) {
+        $anonymousFunctionReflection = $scope->getAnonymousFunctionReflection();
+        if (count($anonymousFunctionReflection->getParameters()) !== 1) {
             return false;
         }
 
         /** @var NativeParameterReflection $onlyParameter */
-        $onlyParameter = $scope->getAnonymousFunctionReflection()
-            ->getParameters()[0];
+        $onlyParameter = $anonymousFunctionReflection->getParameters()[0];
         $onlyParameterType = $onlyParameter->getType();
 
         $containerConfiguratorObjectType = new ObjectType(ContainerConfigurator::class);
+
         return $onlyParameterType->isSuperTypeOf($containerConfiguratorObjectType)
             ->yes();
     }

@@ -10,3 +10,7 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\NoDynamicNameRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
+        tags: [phpstan.rules.rule]

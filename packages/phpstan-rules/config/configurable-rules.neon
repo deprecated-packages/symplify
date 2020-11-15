@@ -94,7 +94,3 @@ services:
         arguments:
             forbiddenTypes:
                 - Symfony\Component\Console\Command\Command
-
-    -
-        class: Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
-        tags: [phpstan.rules.rule]

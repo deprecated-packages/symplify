@@ -18,32 +18,22 @@ services:
     -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule
         tags: [phpstan.rules.rule]
-        arguments:
-            maxClassLikeLength: 300
 
     -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
         tags: [phpstan.rules.rule]
-        arguments:
-            maxFunctionLikeLength: 20
 
     -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule
         tags: [phpstan.rules.rule]
-        arguments:
-            maxPropertyCount: 10
 
     -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule
         tags: [phpstan.rules.rule]
-        arguments:
-            maxMethodCount: 10
 
     -
          class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule
          tags: [phpstan.rules.rule]
-         arguments:
-            allowedSetterClasses: []
 
     -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule

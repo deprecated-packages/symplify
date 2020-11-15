@@ -116,8 +116,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
                 ],
             ];
 
-            $phpConfigContent = $this->getYamlToPhpConverter()
-                ->convertYamlArray($servicesConfiguration);
+            $yamlToPhpConverter = $this->getYamlToPhpConverter();
+            $phpConfigContent = $yamlToPhpConverter->convertYamlArray($servicesConfiguration);
 
             $smartFileSystem = new SmartFileSystem();
             $smartFileSystem->dumpFile($configFileTempPath, $phpConfigContent);

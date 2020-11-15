@@ -29,7 +29,7 @@ final class TooLongClassLikeRule extends AbstractSymplifyRule implements Configu
      */
     private $maxClassLikeLength;
 
-    public function __construct(int $maxClassLikeLength)
+    public function __construct(int $maxClassLikeLength = 300)
     {
         $this->maxClassLikeLength = $maxClassLikeLength;
     }

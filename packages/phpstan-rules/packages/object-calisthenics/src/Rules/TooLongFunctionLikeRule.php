@@ -29,7 +29,7 @@ final class TooLongFunctionLikeRule extends AbstractSymplifyRule implements Conf
      */
     private $maxFunctionLikeLength;
 
-    public function __construct(int $maxFunctionLikeLength)
+    public function __construct(int $maxFunctionLikeLength = 20)
     {
         $this->maxFunctionLikeLength = $maxFunctionLikeLength;
     }

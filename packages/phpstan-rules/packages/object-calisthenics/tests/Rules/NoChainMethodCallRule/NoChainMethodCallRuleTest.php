@@ -22,6 +22,9 @@ final class NoChainMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/ChainMethodCall.php', [[NoChainMethodCallRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/SkipSymfonyConfig.php', []];
+        yield [__DIR__ . '/Fixture/SkipExtraAllowedClass.php', []];
+        yield [__DIR__ . '/Fixture/SkipTrinaryLogic.php', []];
     }
 
     protected function getRule(): Rule
