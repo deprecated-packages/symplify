@@ -21,22 +21,19 @@ final class ClassLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRul
 
     public function provideDataForTest(): Iterator
     {
-        $errorMessage = sprintf(
-            ClassLikeCognitiveComplexityRule::ERROR_MESSAGE,
-            'Class',
-            'ClassWithManyComplexMethods',
-            54,
-            50
-        );
+        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 54, 50);
 
-        yield [__DIR__ . '/Source/ClassWithManyComplexMethods.php', [[$errorMessage, 7]]];
+        yield [__DIR__ . '/Fixture/ClassWithManyComplexMethods.php', [[$errorMessage, 7]]];
+
+        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 9, 5);
+        yield [__DIR__ . '/Fixture/SimpleCommand.php', [[$errorMessage, 9]]];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
             ClassLikeCognitiveComplexityRule::class,
-            __DIR__ . '/../../../../../packages/cognitive-complexity/config/cognitive-complexity-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

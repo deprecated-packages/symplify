@@ -8,8 +8,8 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
-use Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Source\ClassMethodOverComplicated;
-use Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Source\VideoRepository;
+use Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Fixture\ClassMethodOverComplicated;
+use Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\Fixture\VideoRepository;
 
 final class FunctionLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -24,7 +24,7 @@ final class FunctionLikeCognitiveComplexityRuleTest extends AbstractServiceAware
     public function provideDataForTest(): Iterator
     {
         $errorMessage = sprintf(FunctionLikeCognitiveComplexityRule::ERROR_MESSAGE, 'someFunction()', 9, 8);
-        yield [__DIR__ . '/Source/function.php.inc', [[$errorMessage, 3]]];
+        yield [__DIR__ . '/Fixture/function.php.inc', [[$errorMessage, 3]]];
 
         $errorMessage = sprintf(
             FunctionLikeCognitiveComplexityRule::ERROR_MESSAGE,
@@ -32,7 +32,7 @@ final class FunctionLikeCognitiveComplexityRuleTest extends AbstractServiceAware
             9,
             8
         );
-        yield [__DIR__ . '/Source/ClassMethodOverComplicated.php', [[$errorMessage, 7]]];
+        yield [__DIR__ . '/Fixture/ClassMethodOverComplicated.php', [[$errorMessage, 7]]];
 
         $errorMessage = sprintf(
             FunctionLikeCognitiveComplexityRule::ERROR_MESSAGE,
@@ -40,7 +40,7 @@ final class FunctionLikeCognitiveComplexityRuleTest extends AbstractServiceAware
             9,
             8
         );
-        yield [__DIR__ . '/Source/VideoRepository.php', [[$errorMessage, 12]]];
+        yield [__DIR__ . '/Fixture/VideoRepository.php', [[$errorMessage, 12]]];
     }
 
     protected function getRule(): Rule

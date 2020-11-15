@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
@@ -118,8 +119,12 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return null;
     }
 
-    protected function getClassName(Scope $scope): ?string
+    protected function getClassName(Scope $scope, ?Node $node = null): ?string
     {
+        if ($node instanceof ClassLike) {
+            return $this->resolveCurrentClassName($node);
+        }
+
         if ($scope->isInTrait()) {
             $traitReflection = $scope->getTraitReflection();
             if ($traitReflection === null) {

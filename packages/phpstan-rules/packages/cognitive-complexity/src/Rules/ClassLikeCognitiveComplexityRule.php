@@ -6,8 +6,10 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
+use Symfony\Component\Console\Command\Command;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -23,7 +25,7 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '%s cognitive complexity for "%s" is %d, keep it under %d';
+    public const ERROR_MESSAGE = '%s cognitive complexity is %d, keep it under %d';
 
     /**
      * @var int
@@ -35,12 +37,22 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
      */
     private $astCognitiveComplexityAnalyzer;
 
+    /**
+     * @var array<string, int>
+     */
+    private $limitsByTypes = [];
+
+    /**
+     * @param array<string, int> $limitsByTypes
+     */
     public function __construct(
         AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
-        int $maxClassCognitiveComplexity = 50
+        int $maxClassCognitiveComplexity = 50,
+        array $limitsByTypes = []
     ) {
         $this->maxClassCognitiveComplexity = $maxClassCognitiveComplexity;
         $this->astCognitiveComplexityAnalyzer = $astCognitiveComplexityAnalyzer;
+        $this->limitsByTypes = $limitsByTypes;
     }
 
     /**
@@ -57,28 +69,15 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
      */
     public function process(Node $node, Scope $scope): array
     {
-        $classLikeCognitiveComplexity = 0;
+        $measuredCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeClassLike($node);
 
-        $classMethods = $node->getMethods();
-        foreach ($classMethods as $classMethod) {
-            $classLikeCognitiveComplexity += $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($classMethod);
-        }
-
-        if ($classLikeCognitiveComplexity <= $this->maxClassCognitiveComplexity) {
+        $allowedCognitiveComplexity = $this->resolveAllowedCognitiveComplexity($scope, $node);
+        if ($measuredCognitiveComplexity <= $allowedCognitiveComplexity) {
             return [];
         }
 
-        $classLikeName = (string) $node->name;
-
         $type = $node instanceof Class_ ? 'Class' : 'Trait';
-
-        $message = sprintf(
-            self::ERROR_MESSAGE,
-            $type,
-            $classLikeName,
-            $classLikeCognitiveComplexity,
-            $this->maxClassCognitiveComplexity
-        );
+        $message = sprintf(self::ERROR_MESSAGE, $type, $measuredCognitiveComplexity, $allowedCognitiveComplexity);
 
         return [$message];
     }
@@ -131,7 +130,70 @@ CODE_SAMPLE
                 [
                     'maxClassCognitiveComplexity' => 10,
                 ]
-            )]
+            ),
+                new ConfiguredCodeSample(
+                    <<<'CODE_SAMPLE'
+use Symfony\Component\Console\Command\Command;
+
+class SomeCommand extends Command
+{
+    public function configure()
+    {
+        $this->setName('...');
+    }
+
+    public function execute()
+    {
+        if (...) {
+            // ...
+        } else {
+            // ...
+        }
+    }
+}
+CODE_SAMPLE
+                    ,
+                    <<<'CODE_SAMPLE'
+use Symfony\Component\Console\Command\Command;
+
+class SomeCommand extends Command
+{
+    public function configure()
+    {
+        $this->setName('...');
+    }
+
+    public function execute()
+    {
+        return $this->externalService->resolve(...);
+    }
+}
+CODE_SAMPLE
+                    ,
+                    [
+                        'limitsByTypes' => [
+                            Command::class => 5,
+                        ],
+                    ]
+                ),
+
+            ]
         );
+    }
+
+    private function resolveAllowedCognitiveComplexity(Scope $scope, ClassLike $classLike): int
+    {
+        $className = $this->getClassName($scope, $classLike);
+        if ($className === null) {
+            return $this->maxClassCognitiveComplexity;
+        }
+
+        foreach ($this->limitsByTypes as $type => $limit) {
+            if (is_a($className, $type, true)) {
+                return $limit;
+            }
+        }
+
+        return $this->maxClassCognitiveComplexity;
     }
 }
