@@ -27,6 +27,11 @@ class SomeClass3
 class SomeClass4
 {
 }
+
+// class        SomeClass
+class SomeClass5
+{
+}
 ?>
 -----
 <?php
@@ -50,6 +55,11 @@ class SomeClass3
 
 
 class SomeClass4
+{
+}
+
+
+class SomeClass5
 {
 }
 ?>

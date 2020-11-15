@@ -20,10 +20,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class RemoveUselessClassCommentFixer extends AbstractSymplifyFixer implements DocumentedRuleInterface
 {
     /**
-     * @see https://regex101.com/r/RzTdFH/3
+     * @see https://regex101.com/r/RzTdFH/4
      * @var string
      */
-    private const TODO_COMMENT_CLASS_REGEX = '#(\/\*{2}\s+?)?(\*|\/\/)\s+[cC]lass [^\s]*(\s+\*\/)?$#';
+    private const TODO_COMMENT_CLASS_REGEX = '#(\/\*{2}\s+?)?(\*|\/\/)\s+[cC]lass\s+[^\s]*(\s+\*\/)?$#';
 
     /**
      * @var string
