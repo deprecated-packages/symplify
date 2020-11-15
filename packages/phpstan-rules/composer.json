@@ -1,6 +1,7 @@
 {
     "name": "symplify/phpstan-rules",
     "description": "Set of Symplify rules for PHPStan",
+    "type": "phpstan-extension",
     "license": "MIT",
     "require": {
         "php": ">=7.2",
@@ -34,6 +35,11 @@
     "extra": {
         "branch-alias": {
             "dev-master": "9.0-dev"
+        },
+        "phpstan": {
+            "includes": [
+                "config/symplify-rules.neon"
+            ]
         }
     },
     "minimum-stability": "dev",
