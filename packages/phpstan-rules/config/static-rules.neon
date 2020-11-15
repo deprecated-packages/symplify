@@ -1,0 +1,183 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
+        tags: [phpstan.rules.rule]
+
+    # paths
+    -
+        class: Symplify\PHPStanRules\Rules\NoMissingDirPathRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoScalarAndArrayConstructorParameterRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoAbstractMethodRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoReferenceRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule
+        tags: [phpstan.rules.rule]
+
+    # dead-code
+    -
+        class: Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
+        tags: [phpstan.rules.rule]
+
+    # explicit naming
+    -
+        class: Symplify\PHPStanRules\Rules\NoDefaultExceptionRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\MatchingTypeConstantRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckTraitMethodOnlyDelegateOtherClassRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
+        tags: [phpstan.rules.rule]
+
+    # services
+    - PhpParser\NodeFinder
+    - Symplify\SmartFileSystem\SmartFileSystem
+    - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
+    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
+    - Symplify\PackageBuilder\Reflection\PrivatesAccessor
+    - Symplify\PHPStanRules\ParentMethodAnalyser
+    - Symplify\PHPStanRules\VariableAsParamAnalyser
+    - Symplify\PHPStanRules\ParentClassMethodNodeResolver
+    - Symplify\PHPStanRules\Types\ScalarTypeAnalyser
+    - Symplify\PHPStanRules\Types\ContainsTypeAnalyser
+    - Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer
+    - Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver
+    - Symplify\PHPStanRules\NodeComparator
+    - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
+    - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
+    - Symplify\PHPStanRules\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
+
+    - Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory
+    -
+        class: PhpParser\ConstExprEvaluator
+        factory: ['@Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory', 'create']
+
+    - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer

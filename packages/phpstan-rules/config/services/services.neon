@@ -1,0 +1,27 @@
+services:
+    - PhpParser\NodeFinder
+    - Symplify\SmartFileSystem\SmartFileSystem
+    - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
+    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
+    - Symplify\PackageBuilder\Reflection\PrivatesAccessor
+    - Symplify\PHPStanRules\ParentMethodAnalyser
+    - Symplify\PHPStanRules\VariableAsParamAnalyser
+    - Symplify\PHPStanRules\ParentClassMethodNodeResolver
+    - Symplify\PHPStanRules\Types\ScalarTypeAnalyser
+    - Symplify\PHPStanRules\Types\ContainsTypeAnalyser
+    - Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer
+    - Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver
+    - Symplify\PHPStanRules\NodeComparator
+    - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
+    - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
+    - Symplify\PHPStanRules\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
+
+    - Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory
+    -
+        class: PhpParser\ConstExprEvaluator
+        factory: ['@Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory', 'create']
+
+    - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer

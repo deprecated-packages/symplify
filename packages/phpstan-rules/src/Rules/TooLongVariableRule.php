@@ -28,7 +28,7 @@ final class TooLongVariableRule extends AbstractSymplifyRule implements Configur
      */
     private $maxVariableLength;
 
-    public function __construct(int $maxVariableLength = 20)
+    public function __construct(int $maxVariableLength = 40)
     {
         $this->maxVariableLength = $maxVariableLength;
     }

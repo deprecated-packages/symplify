@@ -1,0 +1,100 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\NoParticularNodeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenNodes:
+                - PhpParser\Node\Expr\Empty_
+                - PhpParser\Node\Stmt\Switch_
+                - PhpParser\Node\Expr\ErrorSuppress
+
+    # parenting
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenParentClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenParentClasses:
+                - Doctrine\ORM\EntityRepository
+
+            forbiddenParentClassesWithPreferences:
+                PHPStan\Testing\RuleTestCase: 'Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase'
+
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredClassRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            oldToPreferredClasses:
+                SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
+                DateTime: 'Nette\Utils\DateTime'
+                'PhpCsFixer\Finder': 'Symfony\Component\Finder\Finder'
+                # smart file system
+                'Symfony\Component\Finder\SplFileInfo': 'Symplify\SmartFileSystem\SmartFileInfo'
+                'Nette\Utils\FileSystem': 'Symplify\SmartFileSystem\SmartFileSystem'
+                'Symfony\Component\Filesystem\Filesystem': 'Symplify\SmartFileSystem\SmartFileSystem'
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenFunctions:
+                - 'd'
+                - 'dd'
+                - 'dump'
+                - 'var_dump'
+                - 'extract'
+                - 'curl_*'
+
+    -
+        class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredSeeTypes:
+                - PHPStan\Rules\Rule
+                - PHP_CodeSniffer\Sniffs\Sniff
+                - PHP_CodeSniffer\Fixer
+
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPreferredStaticCalls:
+                'preg_match': ['Nette\Utils\Strings', 'match']
+                'preg_match_all': ['Nette\Utils\Strings', 'matchAll']
+                'preg_replace': ['Nette\Utils\Strings', 'replace']
+                'preg_replace_callback': ['Nette\Utils\Strings', 'replace']
+                'preg_split': ['Nette\Utils\Strings', 'split']
+                'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
+                'file_put_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'dumpFile']
+                'strstr': ['Nette\Utils\Strings', 'contains']
+
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            funcCallToPreferredMethodCalls:
+                'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenClassMethods:
+                PHPStan\Rules\Rule: ['getRule']
+
+    -
+        class: Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantArgByNewByType:
+                Symfony\Component\Console\Input\InputOption: [0, 2]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypes:
+                - Symfony\Component\Console\Command\Command
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
+        tags: [phpstan.rules.rule]

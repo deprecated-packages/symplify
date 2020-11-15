@@ -32,7 +32,7 @@ final class ExcessivePublicCountRule extends AbstractSymplifyRule implements Con
      */
     private $maxPublicClassElementCount;
 
-    public function __construct(int $maxPublicClassElementCount)
+    public function __construct(int $maxPublicClassElementCount = 10)
     {
         $this->maxPublicClassElementCount = $maxPublicClassElementCount;
     }
