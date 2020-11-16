@@ -39,7 +39,9 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ((bool) $input->getOption(self::NAMES)) {
+        $names = (bool) $input->getOption(self::NAMES);
+
+        if ($names) {
             $data = $this->packageJsonProvider->createPackageNames();
         } else {
             $data = $this->packageJsonProvider->createPackagePaths();

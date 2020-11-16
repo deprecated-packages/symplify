@@ -320,7 +320,6 @@ parameters:
         # solve later
         - '#Constant string value need to only have small letters, _, \-, \. and numbers#'
         # use rector rule for this
-        - '#Method nor static call in if \(\) or elseif \(\) is not allowed\. Extract expression to a new variable assign on line before#'
         - '#Use decoupled factory service to create "Symplify\\EasyTesting\\ValueObject\\InputAndExpected" object#'
 
         -

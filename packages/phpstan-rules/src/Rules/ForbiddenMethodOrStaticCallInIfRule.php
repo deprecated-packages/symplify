@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
@@ -15,6 +16,7 @@ use PHPStan\Type\BooleanType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeWithClassName;
 use Rector\PHPStan\Type\FullyQualifiedObjectType;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -28,12 +30,17 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method nor static call in if () or elseif () is not allowed. Extract expression to a new variable assign on line before';
+    public const ERROR_MESSAGE = 'Method nor static call in if() or elseif() is not allowed. Extract expression to a new variable assign on line before';
 
     /**
      * @var string[]
      */
     private const CALL_CLASS_TYPES = [MethodCall::class, StaticCall::class];
+
+    /**
+     * @var string[]
+     */
+    private const ALLOWED_CLASS_TYPES = [Strings::class];
 
     /**
      * @var NodeFinder
@@ -85,21 +92,15 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
                 <<<'CODE_SAMPLE'
 $someObject = new SomeClass();
 if ($someObject->getData($arg) === []) {
-
-} elseif ($someObject->getData($arg2) !== []) {
-
+    // ...
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
 $someObject = new SomeClass();
 $dataFirstArg = $someObject->getData($arg);
-$dataSecondArg = $someObject->getData($arg2);
-
 if ($dataFirstArg === []) {
-
-} elseif ($dataSecondArg !== []) {
-
+    // ...
 }
 CODE_SAMPLE
             ),
@@ -116,8 +117,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $type = $this->resolveCalleeType($scope, $call);
-            if ($type instanceof ThisType) {
+            if ($this->isAllowedCallerType($scope, $call)) {
                 continue;
             }
 
@@ -147,5 +147,32 @@ CODE_SAMPLE
         }
 
         return $scope->getType($node->var);
+    }
+
+    /**
+     * @param StaticCall|MethodCall $node
+     */
+    private function isAllowedCallerType(Scope $scope, Node $node): bool
+    {
+        $type = $this->resolveCalleeType($scope, $node);
+        if ($type instanceof ThisType) {
+            return true;
+        }
+
+        if (! $node instanceof StaticCall) {
+            return false;
+        }
+
+        if ($type instanceof TypeWithClassName) {
+            foreach (self::ALLOWED_CLASS_TYPES as $allowedClassType) {
+                if (! is_a($type->getClassName(), $allowedClassType, true)) {
+                    continue;
+                }
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

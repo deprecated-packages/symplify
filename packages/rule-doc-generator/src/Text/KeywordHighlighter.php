@@ -94,7 +94,7 @@ final class KeywordHighlighter
 
         if (ClassExistenceStaticHelper::doesClassLikeExist($word)) {
             // not a class
-            if (!Strings::contains($word, '\\')) {
+            if (! Strings::contains($word, '\\')) {
                 return in_array($word, ['Throwable', 'Exception'], true);
             }
 
