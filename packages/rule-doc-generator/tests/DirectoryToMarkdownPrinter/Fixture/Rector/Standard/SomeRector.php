@@ -1,36 +1,32 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPStan;
+namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Standard;
 
-use PHPStan\Rules\Rule;
+use Rector\Core\Contract\Rector\RectorInterface;
+use Rector\Core\RectorDefinition\RectorDefinition;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
-final class SomePHPStanRule implements Rule, DocumentedRuleInterface
+final class SomeRector implements RectorInterface, DocumentedRuleInterface
 {
+    public function getDefinition(): RectorDefinition
+    {
+    }
+
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition('Some description', [
+        return new RuleDefinition('Some change', [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-bad code
+before
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-good code
+after
 CODE_SAMPLE
             )
         ]);
-    }
-
-    public function getNodeType(): string
-    {
-    }
-
-    public function processNode(\PhpParser\Node $node, \PHPStan\Analyser\Scope $scope): array
-    {
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\ConfigurablePHPStan;
+namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPStan\Configurable;
 
 use PHPStan\Rules\Rule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;

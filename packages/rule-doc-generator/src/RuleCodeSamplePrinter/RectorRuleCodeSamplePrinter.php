@@ -9,6 +9,7 @@ use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\DiffCodeSamplePrinter;
 use Symplify\RuleDocGenerator\Printer\MarkdownCodeWrapper;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ComposerJsonAwareCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -50,6 +51,10 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
      */
     public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
     {
+        if ($codeSample instanceof ComposerJsonAwareCodeSample) {
+            return $this->printComposerJsonAwareCodeSample($codeSample);
+        }
+
         if ($codeSample instanceof ConfiguredCodeSample) {
             return $this->printConfiguredCodeSample($ruleDefinition, $codeSample);
         }
@@ -71,6 +76,20 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
         $lines[] = '↓';
 
         $newLines = $this->diffCodeSamplePrinter->print($configuredCodeSample);
+        return array_merge($lines, $newLines);
+    }
+
+    private function printComposerJsonAwareCodeSample(ComposerJsonAwareCodeSample $composerJsonAwareCodeSample)
+    {
+        $lines = [];
+
+        $lines[] = '- with `composer.json`:';
+
+        $lines[] = $this->markdownCodeWrapper->printJsonCode($composerJsonAwareCodeSample->getComposerJson());
+
+        $lines[] = '↓';
+
+        $newLines = $this->diffCodeSamplePrinter->print($composerJsonAwareCodeSample);
         return array_merge($lines, $newLines);
     }
 }
