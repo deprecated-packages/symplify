@@ -71,16 +71,7 @@ final class KeywordHighlighter
             return false;
         }
 
-        if (function_exists($word) || function_exists(trim($word, '()'))) {
-            return true;
-        }
-
-        if (ClassExistenceStaticHelper::doesClassLikeExist($word)) {
-            // not a class
-            if (! Strings::contains($word, '\\')) {
-                return in_array($word, ['Throwable', 'Exception'], true);
-            }
-
+        if ($this->isFunctionOrClass($word)) {
             return true;
         }
 
@@ -93,5 +84,23 @@ final class KeywordHighlighter
         }
 
         return (bool) Strings::match($word, self::STATIC_CALL_REGEX);
+    }
+
+    private function isFunctionOrClass(string $word): bool
+    {
+        if (function_exists($word) || function_exists(trim($word, '()'))) {
+            return true;
+        }
+
+        if (ClassExistenceStaticHelper::doesClassLikeExist($word)) {
+            // not a class
+            if (!Strings::contains($word, '\\')) {
+                return in_array($word, ['Throwable', 'Exception'], true);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }
