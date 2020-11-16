@@ -14,7 +14,7 @@ final class ResponseFormatter
      */
     public function formatToJson(ResponseInterface $response): array
     {
-        $responseBody = $response->getBody();
-        return Json::decode($responseBody->getContents(), Json::FORCE_ARRAY);
+        $stream = $response->getBody();
+        return Json::decode($stream->getContents(), Json::FORCE_ARRAY);
     }
 }

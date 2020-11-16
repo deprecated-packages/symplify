@@ -4,11 +4,20 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\ObjectCalisthenics\Rules;
 
+use PharIo\Version\Version;
+use PharIo\Version\VersionNumber;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\PassedByReference;
+use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
+use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Routing\RouteCollection;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -30,16 +39,16 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
      * @var string[]
      */
     private const DEFAULT_ALLOWED_CHAIN_TYPES = [
-        'Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator',
-        'Symfony\Component\DependencyInjection\Alias',
-        'Symfony\Component\Finder\Finder',
-        'Symfony\Component\DependencyInjection\Definition',
-        'PharIo\Version\VersionNumber',
-        'PharIo\Version\Version',
-        'Symfony\Component\Routing\RouteCollection',
-        'PHPStan\TrinaryLogic',
+        AbstractConfigurator::class,
+        Alias::class,
+        Finder::class,
+        Definition::class,
+        VersionNumber::class,
+        Version::class,
+        RouteCollection::class,
+        TrinaryLogic::class,
         // also trinary logic ↓
-        'PHPStan\Reflection\PassedByReference',
+        PassedByReference::class,
     ];
 
     /**
@@ -96,10 +105,10 @@ CODE_SAMPLE
         ]);
     }
 
-    private function shouldSkipType(Scope $scope, MethodCall $node): bool
+    private function shouldSkipType(Scope $scope, MethodCall $methodCall): bool
     {
-        $methodCallType = $scope->getType($node);
-        $callerType = $scope->getType($node->var);
+        $methodCallType = $scope->getType($methodCall);
+        $callerType = $scope->getType($methodCall->var);
 
         foreach ($this->allowedChainTypes as $allowedChainType) {
             if ($this->isSkippedType($methodCallType, $allowedChainType)) {
