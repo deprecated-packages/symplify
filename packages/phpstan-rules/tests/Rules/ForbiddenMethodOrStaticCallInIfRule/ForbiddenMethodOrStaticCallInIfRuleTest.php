@@ -21,6 +21,7 @@ final class ForbiddenMethodOrStaticCallInIfRuleTest extends AbstractServiceAware
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipTrinaryLogic.php', []];
         yield [__DIR__ . '/Fixture/WithoutMethodCall.php', []];
         yield [__DIR__ . '/Fixture/WithMethodCallWithoutParameter.php', []];
         yield [__DIR__ . '/Fixture/WithMethodCallWithParameterFromThis.php', []];
