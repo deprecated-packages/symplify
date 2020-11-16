@@ -11,6 +11,7 @@ use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\DiffCodeSamplePrinter;
 use Symplify\RuleDocGenerator\Printer\MarkdownCodeWrapper;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ComposerJsonAwareCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ExtraFileCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
@@ -51,6 +52,10 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
      */
     public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
     {
+        if ($codeSample instanceof ExtraFileCodeSample) {
+            return $this->printExtraFileCodeSample($codeSample);
+        }
+
         if ($codeSample instanceof ComposerJsonAwareCodeSample) {
             return $this->printComposerJsonAwareCodeSample($codeSample);
         }
@@ -84,12 +89,23 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
         $lines = [];
 
         $lines[] = '- with `composer.json`:';
-
         $lines[] = $this->markdownCodeWrapper->printJsonCode($composerJsonAwareCodeSample->getComposerJson());
-
         $lines[] = '↓';
 
         $newLines = $this->diffCodeSamplePrinter->print($composerJsonAwareCodeSample);
         return array_merge($lines, $newLines);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function printExtraFileCodeSample(ExtraFileCodeSample $extraFileCodeSample): array
+    {
+        $lines = $this->diffCodeSamplePrinter->print($extraFileCodeSample);
+
+        $lines[] = 'Extra file:';
+        $lines[] = $this->markdownCodeWrapper->printPhpCode($extraFileCodeSample->getExtraFile());
+
+        return $lines;
     }
 }

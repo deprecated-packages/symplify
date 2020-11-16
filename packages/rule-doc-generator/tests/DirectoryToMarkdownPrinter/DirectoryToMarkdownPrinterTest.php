@@ -66,5 +66,6 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
             __DIR__ . '/Fixture/Rector/ComposerJsonAware',
             __DIR__ . '/Expected/rector/composer_json_aware_rector_content.md',
         ];
+        yield [__DIR__ . '/Fixture/Rector/ExtraFile', __DIR__ . '/Expected/rector/extra_file_rector_content.md'];
     }
 }
