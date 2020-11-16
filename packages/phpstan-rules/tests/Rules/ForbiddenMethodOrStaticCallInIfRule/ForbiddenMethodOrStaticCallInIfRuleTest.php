@@ -24,11 +24,14 @@ final class ForbiddenMethodOrStaticCallInIfRuleTest extends AbstractServiceAware
         yield [__DIR__ . '/Fixture/WithoutMethodCall.php', []];
         yield [__DIR__ . '/Fixture/WithMethodCallWithoutParameter.php', []];
         yield [__DIR__ . '/Fixture/WithMethodCallWithParameterFromThis.php', []];
+        yield [__DIR__ . '/Fixture/SkipNetteUtilsStringsMatchCall.php', []];
         yield [__DIR__ . '/Fixture/SkipMethodCallWithBooleanReturn.php', []];
+
         yield [
-            __DIR__ . '/Fixture/WithMethodCallWithParameterNotFromThis.php',
-            [[ForbiddenMethodOrStaticCallInIfRule::ERROR_MESSAGE, 17],
-                [ForbiddenMethodOrStaticCallInIfRule::ERROR_MESSAGE, 19], ],
+            __DIR__ . '/Fixture/WithMethodCallWithParameterNotFromThis.php', [
+                [ForbiddenMethodOrStaticCallInIfRule::ERROR_MESSAGE, 17],
+                [ForbiddenMethodOrStaticCallInIfRule::ERROR_MESSAGE, 19],
+            ],
         ];
     }
 
