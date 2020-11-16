@@ -10,7 +10,7 @@ final class Option
      * @api
      * @var string
      */
-    public const PATH = 'path';
+    public const PATHS = 'paths';
 
     /**
      * @api

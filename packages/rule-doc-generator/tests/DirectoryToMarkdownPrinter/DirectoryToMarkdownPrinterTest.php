@@ -28,9 +28,9 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
      * @dataProvider provideDataPHPStan()
      * @dataProvider provideDataPHPCSFixer()
      */
-    public function test(SmartFileInfo $directoryFileInfo, string $expectedFile): void
+    public function test(string $directory, string $expectedFile): void
     {
-        $fileContent = $this->directoryToMarkdownPrinter->printDirectory($directoryFileInfo);
+        $fileContent = $this->directoryToMarkdownPrinter->print([$directory]);
 
         $expectedFileInfo = new SmartFileInfo($expectedFile);
         StaticFixtureUpdater::updateExpectedFixtureContent($fileContent, $expectedFileInfo);
@@ -40,9 +40,9 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
 
     public function provideDataPHPStan(): Iterator
     {
-        yield [new SmartFileInfo(__DIR__ . '/Fixture/PHPStan'), __DIR__ . '/Expected/phpstan/phpstan_content.md'];
+        yield [__DIR__ . '/Fixture/PHPStan', __DIR__ . '/Expected/phpstan/phpstan_content.md'];
         yield [
-            new SmartFileInfo(__DIR__ . '/Fixture/ConfigurablePHPStan'),
+            __DIR__ . '/Fixture/ConfigurablePHPStan',
             __DIR__ . '/Expected/phpstan/configurable_phpstan_content.md',
         ];
     }
@@ -50,11 +50,11 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
     public function provideDataPHPCSFixer(): Iterator
     {
         yield [
-            new SmartFileInfo(__DIR__ . '/Fixture/PHPCSFixer'),
+            __DIR__ . '/Fixture/PHPCSFixer',
             __DIR__ . '/Expected/php-cs-fixer/phpcsfixer_content.md',
         ];
         yield [
-            new SmartFileInfo(__DIR__ . '/Fixture/ConfigurablePHPCSFixer'),
+            __DIR__ . '/Fixture/ConfigurablePHPCSFixer',
             __DIR__ . '/Expected/php-cs-fixer/configurable_phpcsfixer_content.md',
         ];
     }
