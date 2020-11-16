@@ -4,7 +4,7 @@
 
 Some description
 
-- class: `Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPStan\SomePHPStanRule`
+- class: `Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPStan\Standard\SomePHPStanRule`
 
 ```php
 bad code

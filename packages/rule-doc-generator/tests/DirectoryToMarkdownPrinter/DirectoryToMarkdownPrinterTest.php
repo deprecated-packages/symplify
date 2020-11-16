@@ -42,25 +42,29 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
 
     public function provideDataPHPStan(): Iterator
     {
-        yield [__DIR__ . '/Fixture/PHPStan', __DIR__ . '/Expected/phpstan/phpstan_content.md'];
+        yield [__DIR__ . '/Fixture/PHPStan/Standard', __DIR__ . '/Expected/phpstan/phpstan_content.md'];
         yield [
-            __DIR__ . '/Fixture/ConfigurablePHPStan',
+            __DIR__ . '/Fixture/PHPStan/Configurable',
             __DIR__ . '/Expected/phpstan/configurable_phpstan_content.md',
         ];
     }
 
     public function provideDataPHPCSFixer(): Iterator
     {
-        yield [__DIR__ . '/Fixture/PHPCSFixer', __DIR__ . '/Expected/php-cs-fixer/phpcsfixer_content.md'];
+        yield [__DIR__ . '/Fixture/PHPCSFixer/Standard', __DIR__ . '/Expected/php-cs-fixer/phpcsfixer_content.md'];
         yield [
-            __DIR__ . '/Fixture/ConfigurablePHPCSFixer',
+            __DIR__ . '/Fixture/PHPCSFixer/Configurable',
             __DIR__ . '/Expected/php-cs-fixer/configurable_phpcsfixer_content.md',
         ];
     }
 
     public function provideDataRector(): Iterator
     {
-        yield [__DIR__ . '/Fixture/Rector', __DIR__ . '/Expected/rector/rector_content.md'];
-        yield [__DIR__ . '/Fixture/ConfigurableRector', __DIR__ . '/Expected/rector/configurable_rector_content.md'];
+        yield [__DIR__ . '/Fixture/Rector/Standard', __DIR__ . '/Expected/rector/rector_content.md'];
+        yield [__DIR__ . '/Fixture/Rector/Configurable', __DIR__ . '/Expected/rector/configurable_rector_content.md'];
+        yield [
+            __DIR__ . '/Fixture/Rector/ComposerJsonAware',
+            __DIR__ . '/Expected/rector/composer_json_aware_rector_content.md',
+        ];
     }
 }
