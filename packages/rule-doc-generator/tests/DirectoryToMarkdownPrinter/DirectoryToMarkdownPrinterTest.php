@@ -36,7 +36,8 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
         $expectedFileInfo = new SmartFileInfo($expectedFile);
         StaticFixtureUpdater::updateExpectedFixtureContent($fileContent, $expectedFileInfo);
 
-        $this->assertStringEqualsFile($expectedFile, $fileContent);
+        $directoryFileInfo = new SmartFileInfo($directory);
+        $this->assertStringEqualsFile($expectedFile, $fileContent, $directoryFileInfo->getRelativeFilePathFromCwd());
     }
 
     public function provideDataPHPStan(): Iterator

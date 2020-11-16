@@ -53,24 +53,6 @@ final class RuleDefinition
         $this->ruleClass = $ruleClass;
     }
 
-    public function isPHPStanRule(): bool
-    {
-        /** @noRector */
-        return is_a($this->ruleClass, 'PHPStan\Rules\Rule', true);
-    }
-
-    public function isPHPCSFixer(): bool
-    {
-        /** @noRector */
-        return is_a($this->ruleClass, 'PhpCsFixer\Fixer\FixerInterface', true);
-    }
-
-    public function isPHPCodeSniffer(): bool
-    {
-        /** @noRector */
-        return is_a($this->ruleClass, 'PHP_CodeSniffer\Sniffs\Sniff', true);
-    }
-
     public function getRuleClass(): string
     {
         if ($this->ruleClass === null) {
@@ -102,11 +84,5 @@ final class RuleDefinition
         }
 
         return false;
-    }
-
-    public function isRector(): bool
-    {
-        /** @noRector */
-        return is_a($this->ruleClass, 'Rector\Core\Contract\Rector\RectorInterface', true);
     }
 }
