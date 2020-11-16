@@ -103,4 +103,10 @@ final class RuleDefinition
 
         return false;
     }
+
+    public function isRector(): bool
+    {
+        /** @noRector */
+        return is_a($this->ruleClass, 'Rector\Core\Contract\Rector\RectorInterface', true);
+    }
 }

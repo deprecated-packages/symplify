@@ -50,7 +50,7 @@ final class ConfiguredCodeSamplePrinter
             return $lines;
         }
 
-        if ($ruleDefinition->isPHPCSFixer()) {
+        if ($ruleDefinition->isPHPCSFixer() || $ruleDefinition->isRector()) {
             $lines = [];
 
             $configContent = $this->smartPhpConfigPrinter->printConfiguredServices([

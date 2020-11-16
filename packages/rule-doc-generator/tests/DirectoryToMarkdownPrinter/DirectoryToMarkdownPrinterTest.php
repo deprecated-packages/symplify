@@ -27,6 +27,7 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
     /**
      * @dataProvider provideDataPHPStan()
      * @dataProvider provideDataPHPCSFixer()
+     * @dataProvider provideDataRector()
      */
     public function test(string $directory, string $expectedFile): void
     {
@@ -49,13 +50,16 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
 
     public function provideDataPHPCSFixer(): Iterator
     {
-        yield [
-            __DIR__ . '/Fixture/PHPCSFixer',
-            __DIR__ . '/Expected/php-cs-fixer/phpcsfixer_content.md',
-        ];
+        yield [__DIR__ . '/Fixture/PHPCSFixer', __DIR__ . '/Expected/php-cs-fixer/phpcsfixer_content.md'];
         yield [
             __DIR__ . '/Fixture/ConfigurablePHPCSFixer',
             __DIR__ . '/Expected/php-cs-fixer/configurable_phpcsfixer_content.md',
         ];
+    }
+
+    public function provideDataRector(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/Rector', __DIR__ . '/Expected/rector/rector_content.md'];
+        yield [__DIR__ . '/Fixture/ConfigurableRector', __DIR__ . '/Expected/rector/configurable_rector_content.md'];
     }
 }

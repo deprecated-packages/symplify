@@ -51,7 +51,7 @@ final class CodeSamplePrinter
             }
 
             /** @noRector */
-            if ($ruleDefinition->isPHPCSFixer()) {
+            if ($ruleDefinition->isPHPCSFixer() || $ruleDefinition->isRector()) {
                 $newLines = $this->printDiffCodeSample($codeSample);
                 $lines = array_merge($lines, $newLines);
             } else {
