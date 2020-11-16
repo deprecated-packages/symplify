@@ -6,20 +6,21 @@ namespace Symplify\RuleDocGenerator\Finder;
 
 use Nette\Loaders\RobotLoader;
 use ReflectionClass;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ClassByTypeFinder
 {
     /**
+     * @param string[] $directories
      * @return string[]
      */
-    public function findByType(SmartFileInfo $directoryFileInfo, string $type): array
+    public function findByType(array $directories, string $type): array
     {
         $robotLoader = new RobotLoader();
         $robotLoader->setTempDirectory(sys_get_temp_dir() . '/robot_loader_temp');
-        $robotLoader->addDirectory($directoryFileInfo->getPathname());
+        $robotLoader->addDirectory(...$directories);
         $robotLoader->ignoreDirs[] = '*tests*';
         $robotLoader->ignoreDirs[] = '*Fixture*';
+        $robotLoader->ignoreDirs[] = '*templates*';
 
         $robotLoader->rebuild();
 

@@ -31,7 +31,11 @@ final class GenerateCommand extends AbstractSymplifyCommand
     protected function configure(): void
     {
         $this->setDescription('Generated Markdown documentation based on documented rules found in directory');
-        $this->addArgument(Option::PATH, InputArgument::REQUIRED, 'Path to directory of your project');
+        $this->addArgument(
+            Option::PATHS,
+            InputArgument::REQUIRED | InputArgument::IS_ARRAY,
+            'Path to directory of your project'
+        );
         $this->addOption(
             Option::OUTPUT,
             null,
@@ -43,10 +47,8 @@ final class GenerateCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $path = (string) $input->getArgument(Option::PATH);
-
-        $directoryFileInfo = new SmartFileInfo($path);
-        $markdownFileContent = $this->directoryToMarkdownPrinter->printDirectory($directoryFileInfo);
+        $paths = (array) $input->getArgument(Option::PATHS);
+        $markdownFileContent = $this->directoryToMarkdownPrinter->print($paths);
 
         // dump markdown file
         $outputFilePath = (string) $input->getOption(Option::OUTPUT);
