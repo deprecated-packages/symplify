@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\ArrowFunction;
+use PhpParser\Node\Expr\Closure;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
@@ -27,20 +32,41 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Arg::class, ClassMethod::class, Function_::class];
+        return [
+            Closure::class,
+            ArrowFunction::class,
+            ClassMethod::class,
+            Function_::class,
+            MethodCall::class,
+            StaticCall::class,
+            FuncCall::class,
+        ];
     }
 
     /**
-     * @param Arg|ClassMethod|Function_ $node
+     * @param Closure|ArrowFunction|MethodCall|StaticCall|FuncCall|ClassMethod|Function_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node instanceof Arg && $node->unpack) {
+        if ($node instanceof FunctionLike) {
+            if (! $this->hasVariadicParam($node)) {
+                return [];
+            }
+
             return [self::ERROR_MESSAGE];
         }
 
-        if (($node instanceof ClassMethod || $node instanceof Function_) && $this->hasVariadicParam($node)) {
+        foreach ($node->args as $key => $arg) {
+            if (! $arg->unpack) {
+                continue;
+            }
+
+            if ($key === 0) {
+                // unpack args on 1st position cannot be skipped
+                return [];
+            }
+
             return [self::ERROR_MESSAGE];
         }
 
@@ -64,7 +90,7 @@ CODE_SAMPLE
     }
 
     /**
-     * @param ClassMethod|Function_ $node
+     * @param Closure|ArrowFunction|ClassMethod|Function_ $node
      */
     private function hasVariadicParam(Node $node): bool
     {

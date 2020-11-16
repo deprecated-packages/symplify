@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenProtectedPropertyRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenSpreadOperatorRule\Fixture;
 
 final class SpreadOperator
 {

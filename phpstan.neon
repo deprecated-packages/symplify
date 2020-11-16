@@ -358,3 +358,6 @@ parameters:
             message: '#Use decoupled factory service to create "PharIo\\Version\\Version" object#'
             paths:
                 - packages/monorepo-builder/packages/release/src/Configuration/VersionResolver.php
+
+        # child type
+        - '#Parameter \#1 \$node of method Symplify\\PHPStanRules\\Rules\\ForbiddenSpreadOperatorRule\:\:hasVariadicParam\(\) expects PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|\(PhpParser\\Node\\Expr\\FuncCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\MethodCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\StaticCall&PhpParser\\Node\\FunctionLike\)\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ given#'
