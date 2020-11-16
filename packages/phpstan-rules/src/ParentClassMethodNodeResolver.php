@@ -13,6 +13,7 @@ use PhpParser\Parser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Throwable;
 
 final class ParentClassMethodNodeResolver
 {
@@ -51,12 +52,12 @@ final class ParentClassMethodNodeResolver
                 continue;
             }
 
-            // not reachable
-            if (realpath($fileName) === false) {
-                continue;
+            try {
+                $parentClassNodes = $this->parseFileToNodes($fileName);
+            } catch (Throwable $throwable) {
+                // not reachable
+                return [];
             }
-
-            $parentClassNodes = $this->parseFileToNodes($fileName);
 
             /** @var Class_|null $class */
             $class = $this->nodeFinder->findFirstInstanceOf($parentClassNodes, Class_::class);
