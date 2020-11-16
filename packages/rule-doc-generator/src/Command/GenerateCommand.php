@@ -37,7 +37,7 @@ final class GenerateCommand extends AbstractSymplifyCommand
             'Path to directory of your project'
         );
         $this->addOption(
-            Option::OUTPUT,
+            Option::OUTPUT_FILE,
             null,
             InputOption::VALUE_REQUIRED,
             'Path to output generated markdown file',
@@ -51,7 +51,7 @@ final class GenerateCommand extends AbstractSymplifyCommand
         $markdownFileContent = $this->directoryToMarkdownPrinter->print($paths);
 
         // dump markdown file
-        $outputFilePath = (string) $input->getOption(Option::OUTPUT);
+        $outputFilePath = (string) $input->getOption(Option::OUTPUT_FILE);
         $this->smartFileSystem->dumpFile($outputFilePath, $markdownFileContent);
 
         $outputFileInfo = new SmartFileInfo($outputFilePath);
