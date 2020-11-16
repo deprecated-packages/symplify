@@ -183,9 +183,9 @@
         ],
         "phpstan": "vendor/bin/phpstan analyse --error-format symplify --ansi",
         "docs": [
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output packages/coding-standard/docs/rules_overview.md",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output-file packages/coding-standard/docs/rules_overview.md",
             "packages/easy-coding-standard/bin/ecs check-markdown packages/coding-standard/docs/rules_overview.md --fix",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules --output packages/phpstan-rules/docs/rules_overview.md",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules --output-file packages/phpstan-rules/docs/rules_overview.md",
             "packages/easy-coding-standard/bin/ecs check-markdown packages/phpstan-rules/docs/rules_overview.md --fix"
         ],
         "changelog": [
