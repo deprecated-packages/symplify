@@ -155,6 +155,8 @@ parameters:
 
                 # Symfony API
                 - packages/autodiscovery/src/Doctrine/DoctrineEntityMappingAutodiscoverer.php
+                - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 69
+                - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
 
         -
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'

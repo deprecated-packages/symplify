@@ -4,37 +4,25 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\Printer\CodeSamplePrinter;
 
-use Symplify\MarkdownDiff\Differ\MarkdownDiffer;
-use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
-use Symplify\RuleDocGenerator\Printer\MarkdownCodeWrapper;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
+/**
+ * @see \Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\DirectoryToMarkdownPrinterTest
+ */
 final class CodeSamplePrinter
 {
     /**
-     * @var MarkdownDiffer
+     * @var RuleCodeSamplePrinterInterface[]
      */
-    private $markdownDiffer;
+    private $ruleCodeSamplePrinters = [];
 
     /**
-     * @var ConfiguredCodeSamplePrinter
+     * @param RuleCodeSamplePrinterInterface[] $ruleCodeSamplePrinters
      */
-    private $configuredCodeSamplePrinter;
-
-    /**
-     * @var MarkdownCodeWrapper
-     */
-    private $markdownCodeWrapper;
-
-    public function __construct(
-        MarkdownDiffer $markdownDiffer,
-        ConfiguredCodeSamplePrinter $configuredCodeSamplePrinter,
-        MarkdownCodeWrapper $markdownCodeWrapper
-    ) {
-        $this->markdownDiffer = $markdownDiffer;
-        $this->configuredCodeSamplePrinter = $configuredCodeSamplePrinter;
-        $this->markdownCodeWrapper = $markdownCodeWrapper;
+    public function __construct(array $ruleCodeSamplePrinters)
+    {
+        $this->ruleCodeSamplePrinters = $ruleCodeSamplePrinters;
     }
 
     /**
@@ -45,51 +33,18 @@ final class CodeSamplePrinter
         $lines = [];
 
         foreach ($ruleDefinition->getCodeSamples() as $codeSample) {
-            if ($codeSample instanceof ConfiguredCodeSample) {
-                $newLines = $this->configuredCodeSamplePrinter->print($codeSample, $ruleDefinition);
-                $lines = array_merge($lines, $newLines);
-            }
+            foreach ($this->ruleCodeSamplePrinters as $ruleCodeSamplePrinter) {
+                if (! $ruleCodeSamplePrinter->isMatch($ruleDefinition->getRuleClass())) {
+                    continue;
+                }
 
-            /** @noRector */
-            if ($ruleDefinition->isPHPCSFixer()) {
-                $newLines = $this->printDiffCodeSample($codeSample);
+                $newLines = $ruleCodeSamplePrinter->print($codeSample, $ruleDefinition);
                 $lines = array_merge($lines, $newLines);
-            } else {
-                $newLines = $this->printGoodBadCodeSample($codeSample);
-                $lines = array_merge($lines, $newLines);
+                break;
             }
 
             $lines[] = '<br>';
         }
-
-        return $lines;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function printGoodBadCodeSample(CodeSampleInterface $codeSample): array
-    {
-        $lines = [];
-
-        $lines[] = $this->markdownCodeWrapper->printPhpCode($codeSample->getGoodCode());
-        $lines[] = ':x:';
-
-        $lines[] = '<br>';
-
-        $lines[] = $this->markdownCodeWrapper->printPhpCode($codeSample->getBadCode());
-        $lines[] = ':+1:';
-
-        return $lines;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function printDiffCodeSample(CodeSampleInterface $codeSample): array
-    {
-        $lines = [];
-        $lines[] = $this->markdownDiffer->diff($codeSample->getGoodCode(), $codeSample->getBadCode());
 
         return $lines;
     }
