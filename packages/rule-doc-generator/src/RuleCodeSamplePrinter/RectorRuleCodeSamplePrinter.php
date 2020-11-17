@@ -48,7 +48,7 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
     }
 
     /**
-     * @return string[]|mixed|mixed[]
+     * @return string[]
      */
     public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
     {
