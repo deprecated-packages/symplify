@@ -48,7 +48,7 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
     }
 
     /**
-     * @return string[]
+     * @return string[]|mixed|mixed[]
      */
     public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
     {
@@ -67,6 +67,9 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
         return $this->diffCodeSamplePrinter->print($codeSample);
     }
 
+    /**
+     * @return string[]
+     */
     private function printConfiguredCodeSample(
         RuleDefinition $ruleDefinition,
         ConfiguredCodeSample $configuredCodeSample
@@ -84,7 +87,10 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
         return array_merge($lines, $newLines);
     }
 
-    private function printComposerJsonAwareCodeSample(ComposerJsonAwareCodeSample $composerJsonAwareCodeSample)
+    /**
+     * @return string[]
+     */
+    private function printComposerJsonAwareCodeSample(ComposerJsonAwareCodeSample $composerJsonAwareCodeSample): array
     {
         $lines = [];
 
