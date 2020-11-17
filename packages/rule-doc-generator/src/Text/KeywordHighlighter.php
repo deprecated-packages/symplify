@@ -45,6 +45,12 @@ final class KeywordHighlighter
      */
     private const ANNOTATION_REGEX = '#(\@\w+)$#';
 
+    /**
+     * @var string
+     * @see https://regex101.com/r/bwUIKb/1
+     */
+    private const METHOD_NAME_REGEX = '#\w+\(\)#';
+
     public function highlight(string $content): string
     {
         $words = Strings::split($content, '# #');
@@ -92,6 +98,10 @@ final class KeywordHighlighter
 
     private function isFunctionOrClass(string $word): bool
     {
+        if (Strings::match($word, self::METHOD_NAME_REGEX)) {
+            return true;
+        }
+
         if (function_exists($word) || function_exists(trim($word, '()'))) {
             return true;
         }
