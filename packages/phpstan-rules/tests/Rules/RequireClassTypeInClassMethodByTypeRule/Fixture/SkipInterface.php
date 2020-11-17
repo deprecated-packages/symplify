@@ -3,9 +3,9 @@
 
 namespace Symplify\PHPStanRules\Tests\Rules\RequireClassTypeInClassMethodByTypeRule\Fixture;
 
-use Rector\Core\Contract\Rector\PhpRectorInterface;
+use Symplify\PHPStanRules\Tests\Rules\RequireClassTypeInClassMethodByTypeRule\Source\AnyParentGetTypesInterface;
 
-interface SkipInterface extends PhpRectorInterface
+interface SkipInterface extends AnyParentGetTypesInterface
 {
     /**
      * @return string[]

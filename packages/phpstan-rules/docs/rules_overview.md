@@ -2,7 +2,7 @@
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
-Add regex101.com link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future
+Add regex101.com `link` to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future
 
 - class: `Symplify\PHPStanRules\Rules\AnnotateRegexClassConstWithRegexLinkRule`
 
@@ -14,6 +14,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 /**
@@ -46,6 +48,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -81,6 +85,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -105,7 +111,7 @@ class SomeClass
 
 ## CheckConstantStringValueFormatRule
 
-Constant string value need to only have small letters, _, -, . and numbers
+`Constant` string value need to only have small letters, _, -, . and numbers
 
 - class: `Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule`
 
@@ -117,6 +123,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -137,7 +145,6 @@ class SomeClass
 
 ```php
 // file: "SomeTest.php
-
 namespace App;
 
 class SomeTest
@@ -147,9 +154,10 @@ class SomeTest
 
 :x:
 
+<br>
+
 ```php
 // file: "SomeTest.php
-
 namespace App\Tests;
 
 class SomeTest
@@ -185,6 +193,8 @@ class SomeClass extends ParentClass
 
 :x:
 
+<br>
+
 ```php
 class ParentClass
 {
@@ -219,6 +229,8 @@ class AbstractClass
 
 :x:
 
+<br>
+
 ```php
 abstract class AbstractClass
 {
@@ -235,7 +247,7 @@ class SomeClass
 
 ## CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
 
-autowire(), autoconfigure(), and public() are required in config service
+autowire(), autoconfigure(), and `public()` are required in config service
 
 - class: `Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule`
 
@@ -251,6 +263,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 ```
 
 :x:
+
+<br>
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -285,6 +299,8 @@ interface ProductRepositoryInterface
 
 :x:
 
+<br>
+
 ```php
 namespace App\Contract\Repository;
 
@@ -317,6 +333,8 @@ final class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 final class SomeClass
@@ -355,6 +373,8 @@ trait SomeTrait
 ```
 
 :x:
+
+<br>
 
 ```php
 trait SomeTrait
@@ -397,6 +417,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -431,6 +453,8 @@ final class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 use PhpParser\Node\Stmt\Class_;
@@ -495,6 +519,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -506,6 +532,64 @@ class SomeClass
     public function another($value)
     {
         return $this->someOtherService->delete($value);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            limitsByTypes:
+                Symfony\Component\Console\Command\Command: 5
+```
+
+↓
+
+```php
+use Symfony\Component\Console\Command\Command;
+
+class SomeCommand extends Command
+{
+    public function configure()
+    {
+        $this->setName('...');
+    }
+
+    public function execute()
+    {
+        if (...) {
+            // ...
+        } else {
+            // ...
+        }
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\Console\Command\Command;
+
+class SomeCommand extends Command
+{
+    public function configure()
+    {
+        $this->setName('...');
+    }
+
+    public function execute()
+    {
+        return $this->externalService->resolve(...);
     }
 }
 ```
@@ -527,6 +611,8 @@ class Some extends Command
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeCommand extends Command
@@ -568,6 +654,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -615,12 +703,46 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
     public $one;
 
     public $two;
+}
+```
+
+:+1:
+
+<br>
+
+## ExclusiveDependencyRule
+
+Only "Type" type can require "Dependency Type" type
+
+- class: `Symplify\PHPStanRules\Rules\ExclusiveDependencyRule`
+
+```php
+use Doctrine\ORM\EntityManager;class SomeController
+{
+    public function __construct(EntityManager $entityManager)
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Doctrine\ORM\EntityManager;class SomeRepository
+{
+    public function __construct(EntityManager $entityManager)
+    {
+    }
 }
 ```
 
@@ -645,6 +767,8 @@ final class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 final class SomeClass
@@ -683,6 +807,8 @@ final class SomeClass
 
 :x:
 
+<br>
+
 ```php
 final class SomeClass
 {
@@ -699,7 +825,7 @@ final class SomeClass
 
 ## ForbiddenAssignInIfRule
 
-Assignment inside if is not allowed. Extract condition to extra variable on line above
+Assignment inside if is not allowed. `Extract` condition to extra variable on line above
 
 - class: `Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule`
 
@@ -710,6 +836,8 @@ if ($isRandom = mt_rand()) {
 ```
 
 :x:
+
+<br>
 
 ```php
 $isRandom = mt_rand();
@@ -742,6 +870,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 ```
 
 :x:
+
+<br>
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -794,6 +924,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -837,51 +969,12 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
     return echo '...';
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenMethodCallByTypeInLocationRule
-
-Method call "ClassName"->"method" is not allowed in "Location"
-
-- class: `Symplify\PHPStanRules\Rules\ForbiddenMethodCallByTypeInLocationRule`
-
-```php
-namespace App\Controller;
-
-use View\Helper;
-
-final class AlbumController
-{
-    public function get()
-    {
-        $helper = new Helper();
-        $helper->number(4);
-
-        return render();
-    }
-}
-```
-
-:x:
-
-```php
-namespace App\Controller;
-
-final class AlbumController
-{
-    public function get()
-    {
-        return render();
-    }
 }
 ```
 
@@ -901,6 +994,8 @@ Method call on new expression is not allowed.
 
 :x:
 
+<br>
+
 ```php
 $someClass = new SomeClass();
 $someClass->run();
@@ -912,7 +1007,7 @@ $someClass->run();
 
 ## ForbiddenMethodOrStaticCallInForeachRule
 
-Method nor static call in foreach is not allowed. Extract expression to a new variable assign on line before
+Method nor static call in foreach is not allowed. `Extract` expression to a new variable assign on line before
 
 - class: `Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`
 
@@ -923,6 +1018,8 @@ foreach ($this->getData($arg) as $key => $item) {
 ```
 
 :x:
+
+<br>
 
 ```php
 $data = $this->getData($arg);
@@ -937,26 +1034,26 @@ foreach ($arg as $key => $item) {
 
 ## ForbiddenMethodOrStaticCallInIfRule
 
-Method nor static call in if () or elseif () is not allowed. Extract expression to a new variable assign on line before
+Method nor static call in `if()` or `elseif()` is not allowed. `Extract` expression to a new variable assign on line before
 
 - class: `Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule`
 
 ```php
 $someObject = new SomeClass();
 if ($someObject->getData($arg) === []) {
-} elseif ($someObject->getData($arg2) !== []) {
+    // ...
 }
 ```
 
 :x:
 
+<br>
+
 ```php
 $someObject = new SomeClass();
 $dataFirstArg = $someObject->getData($arg);
-$dataSecondArg = $someObject->getData($arg2);
-
 if ($dataFirstArg === []) {
-} elseif ($dataSecondArg !== []) {
+    // ...
 }
 ```
 
@@ -981,6 +1078,8 @@ interface SomeInterface
 ```
 
 :x:
+
+<br>
 
 ```php
 // SomeClass.php
@@ -1015,6 +1114,8 @@ foreach ($errors as $fileErrors) {
 ```
 
 :x:
+
+<br>
 
 ```php
 $collectedFileErrors = [];
@@ -1062,6 +1163,8 @@ class SomeRule implements Rule
 ```
 
 :x:
+
+<br>
 
 ```php
 use PHPStan\Rules\Rule;
@@ -1112,6 +1215,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -1159,6 +1264,8 @@ class SomeClass extends ParentClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -1211,6 +1318,8 @@ class SomeCommand extends Command
 
 :x:
 
+<br>
+
 ```php
 class SomeCommand extends Command
 {
@@ -1250,6 +1359,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass implements RepositoryAwareInterface
 {
@@ -1282,6 +1393,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -1309,6 +1422,8 @@ $message = sprintf('%s', ...$args);
 
 :x:
 
+<br>
+
 ```php
 $message = sprintf('%s', $firstValue, $secondValue);
 ```
@@ -1334,6 +1449,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 // file path: "tests/SomeClass.php
@@ -1386,6 +1503,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -1406,7 +1525,7 @@ class SomeClass
 
 ## MatchingTypeConstantRule
 
-Constant type should be "%s", but is "%s"
+`Constant` type should be "%s", but is "%s"
 
 - class: `Symplify\PHPStanRules\Rules\MatchingTypeConstantRule`
 
@@ -1421,6 +1540,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -1450,6 +1571,8 @@ abstract class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 abstract class SomeClass implements RunnableInterface
@@ -1483,6 +1606,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -1518,6 +1643,8 @@ final class SomeClass
 
 :x:
 
+<br>
+
 ```php
 final class SomeClass
 {
@@ -1537,7 +1664,7 @@ final class SomeClass
 
 ## NoChainMethodCallRule
 
-Do not use chained method calls
+Do not use chained method calls. Put `each` on separated lines.
 
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`
 
@@ -1547,6 +1674,8 @@ $this->runThis()
 ```
 
 :x:
+
+<br>
 
 ```php
 $this->runThis();
@@ -1573,6 +1702,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeStaticClass
@@ -1604,6 +1735,8 @@ final class SomeTest
 ```
 
 :x:
+
+<br>
 
 ```php
 final class SomeTest
@@ -1637,6 +1770,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -1663,6 +1798,8 @@ throw new RuntimeException('...');
 
 :x:
 
+<br>
+
 ```php
 throw new FileNotFoundException('...');
 ```
@@ -1687,6 +1824,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -1722,6 +1861,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 namespace App;
@@ -1759,6 +1900,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -1789,6 +1932,8 @@ if (...) {
 
 :x:
 
+<br>
+
 ```php
 if (...) {
     return 1;
@@ -1818,6 +1963,8 @@ final class SomeController
 ```
 
 :x:
+
+<br>
 
 ```php
 final class SomeController
@@ -1852,6 +1999,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -1889,6 +2038,8 @@ final class SomeClass
 
 :x:
 
+<br>
+
 ```php
 final class SomeClass
 {
@@ -1908,7 +2059,7 @@ final class SomeClass
 
 ## NoGetRepositoryOutsideConstructorRule
 
-Do not use "$entityManager->getRepository()" outside of the constructor of repository service or setUp() method in test case
+Do not use "$entityManager->getRepository()" outside of the constructor of repository service or `setUp()` method in test case
 
 - class: `Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule`
 
@@ -1923,6 +2074,8 @@ final class SomeController
 ```
 
 :x:
+
+<br>
 
 ```php
 final class SomeRepository
@@ -1955,6 +2108,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -1999,6 +2154,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -2022,7 +2179,7 @@ class SomeClass
 
 ## NoMethodTagInClassDocblockRule
 
-Do not use @method tag in class docblock
+Do not use `@method` tag in class docblock
 
 - class: `Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule`
 
@@ -2040,6 +2197,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -2072,6 +2231,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -2107,6 +2268,8 @@ final class SomeClass
 
 :x:
 
+<br>
+
 ```php
 final class SomeClass
 {
@@ -2140,6 +2303,8 @@ final class SomeClass
 
 :x:
 
+<br>
+
 ```php
 final class SomeFactory
 {
@@ -2170,6 +2335,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -2209,6 +2376,8 @@ class SomeClass extends ParentClass
 
 :x:
 
+<br>
+
 ```php
 class ParentClass
 {
@@ -2247,6 +2416,8 @@ class SomeClass extends Printer
 
 :x:
 
+<br>
+
 ```php
 class SomeClass extends Printer
 {
@@ -2283,6 +2454,8 @@ return @strlen('...');
 
 :x:
 
+<br>
+
 ```php
 return strlen('...');
 ```
@@ -2310,6 +2483,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -2344,6 +2519,8 @@ final class SomeClass
 
 :x:
 
+<br>
+
 ```php
 final class SomeClass
 {
@@ -2373,6 +2550,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -2405,6 +2584,8 @@ class ReturnVariables
 ```
 
 :x:
+
+<br>
 
 ```php
 final class ReturnVariables
@@ -2443,6 +2624,8 @@ final class SomeClass
 
 :x:
 
+<br>
+
 ```php
 final class SomeClass
 {
@@ -2480,6 +2663,8 @@ final class SomeClass
 
 :x:
 
+<br>
+
 ```php
 final class SomeClass
 {
@@ -2510,6 +2695,8 @@ class SomeService
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeEntity
@@ -2551,6 +2738,8 @@ function is(): void
 
 :x:
 
+<br>
+
 ```php
 function isClass(): void
 {
@@ -2578,6 +2767,8 @@ final class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 final class SomeClass
@@ -2609,6 +2800,8 @@ final class SomeClass
 
 :x:
 
+<br>
+
 ```php
 final class SomeClass
 {
@@ -2637,6 +2830,8 @@ class SomeValueObject
 ```
 
 :x:
+
+<br>
 
 ```php
 class Some
@@ -2668,6 +2863,8 @@ trait SomeTrait
 ```
 
 :x:
+
+<br>
 
 ```php
 trait SomeTrait
@@ -2717,6 +2914,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -2768,6 +2967,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 use Nette\Utils\Strings;
 
@@ -2791,7 +2992,7 @@ class SomeClass
 
 ## PreferredRawDataInTestDataProviderRule
 
-Code configured at setUp() cannot be used in data provider. Move it to test() method
+Code configured at `setUp()` cannot be used in data provider. Move it to `test()` method
 
 - class: `Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule`
 
@@ -2821,6 +3022,8 @@ final class UseDataFromSetupInTestDataProviderTest extends TestCase
 ```
 
 :x:
+
+<br>
 
 ```php
 use stdClass;
@@ -2888,6 +3091,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 use Nette\Utils\Strings;
 
@@ -2917,6 +3122,8 @@ abstract class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 abstract class AbstractSomeClass
@@ -2951,6 +3158,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeParentClass
@@ -2992,6 +3201,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -3000,6 +3211,63 @@ class SomeClass
     public function run($value): void
     {
         $somePath = preg_match(self::SOME_NAME_REGEX, $value);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireClassTypeInClassMethodByTypeRule
+
+Required specific class-string types in defined methods
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredTypeInMethodByClass:
+                SomeTypeInterface:
+                    someMethod: PhpParser\Node
+```
+
+↓
+
+```php
+class SomeClass implements SomeTypeInterface
+{
+    /**
+     * @return string[]
+     */
+    public function someMethod(): array
+    {
+        return [AnyClass::class];
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use PhpParser\Node\Scalar\String_;
+
+class SomeClass implements SomeTypeInterface
+{
+    /**
+     * @return string[]
+     */
+    public function someMethod(): array
+    {
+        return [String_::class];
     }
 }
 ```
@@ -3041,6 +3309,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -3088,6 +3358,8 @@ class SomeRectorTestCase extends RectorTestCase
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeRectorTestCase extends RectorTestCase
@@ -3144,6 +3416,8 @@ class AnotherClass
 
 :x:
 
+<br>
+
 ```php
 class AnotherClass
 {
@@ -3189,6 +3463,8 @@ $inputOption = new InputOption('name', null, 2);
 
 :x:
 
+<br>
+
 ```php
 use Symfony\Component\Console\Input\InputOption;
 
@@ -3233,6 +3509,8 @@ class AnotherClass
 
 :x:
 
+<br>
+
 ```php
 class AnotherClass
 {
@@ -3272,6 +3550,8 @@ class SomeClass extends SomeParentClass
 
 :x:
 
+<br>
+
 ```php
 class SomeParentClass
 {
@@ -3295,7 +3575,7 @@ class SomeClass extends SomeParentClass
 
 ## SeeAnnotationToTestRule
 
-Class "%s" is missing @see annotation with test case class reference
+Class "%s" is missing `@see` annotation with test case class reference
 
 :wrench: **configure it!**
 
@@ -3320,6 +3600,8 @@ class SomeClass extends Rule
 ```
 
 :x:
+
+<br>
 
 ```php
 /**
@@ -3366,6 +3648,8 @@ function someFunction()
 
 :x:
 
+<br>
+
 ```php
 function someFunction()
 {
@@ -3395,6 +3679,8 @@ interface SomeClass
 
 :x:
 
+<br>
+
 ```php
 interface SomeInterface
 {
@@ -3419,6 +3705,8 @@ trait SomeClass
 
 :x:
 
+<br>
+
 ```php
 trait SomeTrait
 {
@@ -3431,7 +3719,7 @@ trait SomeTrait
 
 ## TooDeepNewClassNestingRule
 
-new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
+new <class> is limited to %d "new <class>(new <class>))" nesting to `each` other. You have %d nesting.
 
 :wrench: **configure it!**
 
@@ -3453,6 +3741,8 @@ $someObject = new A(new B(new C()));
 ```
 
 :x:
+
+<br>
 
 ```php
 $firstObject = new B(new C());
@@ -3497,6 +3787,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -3544,6 +3836,8 @@ function some()
 
 :x:
 
+<br>
+
 ```php
 function some()
 {
@@ -3585,6 +3879,8 @@ class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 class SomeClass
@@ -3634,6 +3930,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -3679,6 +3977,8 @@ class SomeClass
 
 :x:
 
+<br>
+
 ```php
 class SomeClass
 {
@@ -3694,7 +3994,7 @@ class SomeClass
 
 ## UppercaseConstantRule
 
-Constant "%s" must be uppercase
+`Constant` "%s" must be uppercase
 
 - class: `Symplify\PHPStanRules\Rules\UppercaseConstantRule`
 
@@ -3706,6 +4006,8 @@ final class SomeClass
 ```
 
 :x:
+
+<br>
 
 ```php
 final class SomeClass

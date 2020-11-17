@@ -33,8 +33,8 @@ final class RequireClassTypeInClassMethodByTypeRuleTest extends AbstractServiceA
             Node::class
         );
 
-        yield [__DIR__ . '/Fixture/IncorrectReturnRector.php', [[$errorMessage, 16]]];
-        yield [__DIR__ . '/Fixture/IncorrectSingleReturnRector.php', [[$errorMessage, 15]]];
+        yield [__DIR__ . '/Fixture/IncorrectReturnRector.php', [[$errorMessage, 13]]];
+        yield [__DIR__ . '/Fixture/IncorrectSingleReturnRector.php', [[$errorMessage, 12]]];
     }
 
     protected function getRule(): Rule
