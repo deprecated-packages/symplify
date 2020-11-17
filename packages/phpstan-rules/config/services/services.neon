@@ -18,7 +18,7 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
     - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
     - Symplify\PHPStanRules\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
-
+    - Symplify\PHPStanRules\Types\ConstantTypeAnalyzer
     - Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory
     -
         class: PhpParser\ConstExprEvaluator

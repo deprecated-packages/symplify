@@ -13,3 +13,5 @@ includes:
 
     - configurable-rules.neon
     - static-rules.neon
+
+    - services/services.neon

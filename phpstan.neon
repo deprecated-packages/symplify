@@ -18,6 +18,14 @@ services:
         arguments:
             maxClassCognitiveComplexity: 40
 
+    -
+        class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredTypeInMethodByClass:
+                Symplify\PHPStanRules\Contract\ManyNodeRuleInterface:
+                    getNodeTypes: 'PhpParser\Node'
+
 parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
