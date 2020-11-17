@@ -6,7 +6,11 @@ namespace Symplify\RuleDocGenerator\Text;
 
 use Nette\Utils\Strings;
 use Rector\NodeTypeResolver\ClassExistenceStaticHelper;
+use Throwable;
 
+/**
+ * @see \Symplify\RuleDocGenerator\Tests\Text\KeywordHighlighterTest
+ */
 final class KeywordHighlighter
 {
     /**
@@ -95,7 +99,7 @@ final class KeywordHighlighter
         if (ClassExistenceStaticHelper::doesClassLikeExist($word)) {
             // not a class
             if (! Strings::contains($word, '\\')) {
-                return in_array($word, ['Throwable', 'Exception'], true);
+                return in_array($word, [Throwable::class, 'Exception'], true);
             }
 
             return true;

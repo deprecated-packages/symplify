@@ -46,7 +46,7 @@ final class PHPCSFixerRuleCodeSamplePrinter implements RuleCodeSamplePrinterInte
     }
 
     /**
-     * @return string[]
+     * @return mixed[]|string[]
      */
     public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
     {
@@ -57,6 +57,9 @@ final class PHPCSFixerRuleCodeSamplePrinter implements RuleCodeSamplePrinterInte
         return $this->diffCodeSamplePrinter->print($codeSample);
     }
 
+    /**
+     * @return string[]
+     */
     private function printConfiguredCodeSample(
         RuleDefinition $ruleDefinition,
         ConfiguredCodeSample $configuredCodeSample

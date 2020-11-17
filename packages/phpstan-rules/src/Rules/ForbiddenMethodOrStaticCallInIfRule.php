@@ -106,19 +106,19 @@ CODE_SAMPLE
     }
 
     /**
-     * @param MethodCall|StaticCall $call
+     * @param MethodCall|StaticCall $expr
      */
-    private function shouldSkipCall(Expr $call, Scope $scope): bool
+    private function shouldSkipCall(Expr $expr, Scope $scope): bool
     {
-        if ($call->args === []) {
+        if ($expr->args === []) {
             return true;
         }
 
-        if ($this->isAllowedCallerType($scope, $call)) {
+        if ($this->isAllowedCallerType($scope, $expr)) {
             return true;
         }
 
-        $callType = $scope->getType($call);
+        $callType = $scope->getType($expr);
 
         if ($this->isAllowedClassType($callType)) {
             return true;
@@ -157,12 +157,7 @@ CODE_SAMPLE
         if (! $node instanceof StaticCall) {
             return false;
         }
-
-        if ($this->isAllowedClassType($type)) {
-            return true;
-        }
-
-        return false;
+        return $this->isAllowedClassType($type);
     }
 
     private function isAllowedClassType(Type $type): bool
