@@ -34,5 +34,11 @@ final class KeywordHighlighterTest extends AbstractKernelTestCase
     public function provideData(): Iterator
     {
         yield ['some @var text', 'some `@var` text'];
+        yield ['@param @var text', '`@param` `@var` text'];
+        yield ['some @var and @param text', 'some `@var` and `@param` text'];
+        yield [
+            'autowire(), autoconfigure(), and public() are required in config service',
+            '`autowire(),` `autoconfigure(),` and `public()` are required in config service',
+        ];
     }
 }
