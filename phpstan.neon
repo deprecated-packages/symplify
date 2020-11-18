@@ -337,6 +337,11 @@ parameters:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
+                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 234
+                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 234
+                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 235
+                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 236
+                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 237
 
         -
             message: '#SymfonyStyle usage is unneeded for only newline, write, and/or writeln, use PHP_EOL and concatenation instead#'
