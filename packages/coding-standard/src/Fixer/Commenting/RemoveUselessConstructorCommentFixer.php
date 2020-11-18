@@ -23,7 +23,7 @@ final class RemoveUselessConstructorCommentFixer extends AbstractSymplifyFixer i
      * @see https://regex101.com/r/bzbxXz/2
      * @var string
      */
-    private const TODO_COMMENT_CONSTRUCTOR_CLASS_REGEX = '#^\s{0,}(\/\*{2}\s+?)?(\*|\/\/)\s+[^\s]*\s+[Cc]onstructor\.?(\s+\*\/)?$#';
+    private const COMMENT_CONSTRUCTOR_CLASS_REGEX = '#^\s{0,}(\/\*{2}\s+?)?(\*|\/\/)\s+[^\s]*\s+[Cc]onstructor\.?(\s+\*\/)?$#';
 
     /**
      * @var string
@@ -49,7 +49,7 @@ final class RemoveUselessConstructorCommentFixer extends AbstractSymplifyFixer i
             }
 
             $originalDocContent = $token->getContent();
-            $cleanedDocContent = Strings::replace($originalDocContent, self::TODO_COMMENT_CONSTRUCTOR_CLASS_REGEX, '');
+            $cleanedDocContent = Strings::replace($originalDocContent, self::COMMENT_CONSTRUCTOR_CLASS_REGEX, '');
             if ($cleanedDocContent !== '') {
                 continue;
             }
