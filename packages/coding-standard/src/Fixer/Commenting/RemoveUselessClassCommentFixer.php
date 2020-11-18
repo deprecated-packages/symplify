@@ -23,12 +23,18 @@ final class RemoveUselessClassCommentFixer extends AbstractSymplifyFixer impleme
      * @see https://regex101.com/r/RzTdFH/4
      * @var string
      */
-    private const TODO_COMMENT_CLASS_REGEX = '#(\/\*{2}\s+?)?(\*|\/\/)\s+[cC]lass\s+[^\s]*(\s+\*\/)?$#';
+    private const COMMENT_CLASS_REGEX = '#(\/\*{2}\s+?)?(\*|\/\/)\s+[cC]lass\s+[^\s]*(\s+\*\/)?$#';
+
+    /**
+     * @see https://regex101.com/r/bzbxXz/2
+     * @var string
+     */
+    private const COMMENT_CONSTRUCTOR_CLASS_REGEX = '#^\s{0,}(\/\*{2}\s+?)?(\*|\/\/)\s+[^\s]*\s+[Cc]onstructor\.?(\s+\*\/)?$#';
 
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Remove useless "// Class <Some>" comment';
+    private const ERROR_MESSAGE = 'Remove useless "// Class <Some>" or "// <Some> Constructor." comment';
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -49,7 +55,9 @@ final class RemoveUselessClassCommentFixer extends AbstractSymplifyFixer impleme
             }
 
             $originalDocContent = $token->getContent();
-            $cleanedDocContent = Strings::replace($originalDocContent, self::TODO_COMMENT_CLASS_REGEX, '');
+            $cleanedDocContent = Strings::replace($originalDocContent, self::COMMENT_CLASS_REGEX, '');
+            $cleanedDocContent = Strings::replace($cleanedDocContent, self::COMMENT_CONSTRUCTOR_CLASS_REGEX, '');
+
             if ($cleanedDocContent !== '') {
                 continue;
             }
@@ -69,12 +77,21 @@ final class RemoveUselessClassCommentFixer extends AbstractSymplifyFixer impleme
  */
 class SomeClass
 {
+    /**
+     * SomeClass Constructor.
+     */
+    public function __construct()
+    {
+    }
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
 class SomeClass
 {
+    public function __construct()
+    {
+    }
 }
 CODE_SAMPLE
             ),
