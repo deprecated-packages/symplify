@@ -89,6 +89,13 @@ class SomeClass
     public function __construct()
     {
     }
+
+    /**
+     * Get Translator
+     */
+    public function getTranslator()
+    {
+    }
 }
 CODE_SAMPLE
                 ,
@@ -96,6 +103,10 @@ CODE_SAMPLE
 class SomeClass
 {
     public function __construct()
+    {
+    }
+
+    public function getTranslator()
     {
     }
 }
