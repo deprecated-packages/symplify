@@ -32,6 +32,7 @@ final class RemoveUselessClassCommentFixer extends AbstractSymplifyFixer impleme
     private const COMMENT_CONSTRUCTOR_CLASS_REGEX = '#^\s{0,}(\/\*{2}\s+?)?(\*|\/\/)\s+[^\s]*\s+[Cc]onstructor\.?(\s+\*\/)?$#';
 
     /**
+     * @see https://regex101.com/r/S1wAAh/1
      * @var string
      */
     private const COMMENT_METHOD_CLASS_REGEX = '#^\s{0,}(\/\*{2}\s+?)?(\*|\/\/)\s+([Gg]et|[Ss]et)\s+[^\s]*\.?(\s+\*\/)?$#';
