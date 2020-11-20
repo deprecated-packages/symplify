@@ -25,4 +25,3 @@ services:
         factory: ['@Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory', 'create']
 
     - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer
-    - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
