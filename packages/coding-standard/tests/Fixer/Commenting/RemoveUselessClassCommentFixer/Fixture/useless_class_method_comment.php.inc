@@ -11,6 +11,14 @@ class SomeClass
 	{
 
 	}
+
+/**
+ * Set Translator
+ */
+	public function setTranslator()
+	{
+
+	}
 }
 
 ?>
@@ -23,6 +31,12 @@ class SomeClass
 {
 
 	public function getTranslator()
+	{
+
+	}
+
+
+	public function setTranslator()
 	{
 
 	}
