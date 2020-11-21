@@ -108,6 +108,14 @@ class SomeClass
     public function getTranslator()
     {
     }
+
+    /**
+     * Get normal translator
+     */
+	public function getNormalTranslator()
+	{
+
+	}
 }
 CODE_SAMPLE
                 ,
@@ -119,6 +127,10 @@ class SomeClass
     }
 
     public function getTranslator()
+    {
+    }
+
+    public function getNormalTranslator()
     {
     }
 }
@@ -137,9 +149,7 @@ CODE_SAMPLE
             $matchAnyMethodClass = Strings::match($cleanedDocContent, self::COMMENT_ANY_METHOD_CLASS_REGEX);
             if ($matchAnyMethodClass && strtolower(
                 Strings::replace($matchAnyMethodClass[3], self::SPACE_STAR_SLASH_REGEX, '')
-            ) === strtolower(
-                $reverseTokens[$index + 6]->getContent()
-            )) {
+            ) === strtolower($reverseTokens[$index + 6]->getContent())) {
                 return Strings::replace($cleanedDocContent, self::COMMENT_ANY_METHOD_CLASS_REGEX, '');
             }
         }
