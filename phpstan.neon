@@ -18,7 +18,11 @@ services:
         arguments:
             maxClassCognitiveComplexity: 40
             limitsByTypes:
+<<<<<<< HEAD
                 PHPStan\Rules\Rule: 30
+=======
+                PHPStan\Rules\Rule: 25
+>>>>>>> cleanup AbstractSymplifyRule
 
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
