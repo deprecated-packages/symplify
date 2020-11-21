@@ -56,7 +56,7 @@ jobs:
             -
                 # Uses an action in the root directory
                 name: Monorepo Split of ${{ matrix.package_name }}
-                uses: TomasVotruba/github-action-monorepo-split@master
+                uses: symplify/github-action-monorepo-split@master
                 env:
                     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
                 with:
