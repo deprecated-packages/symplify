@@ -45,6 +45,11 @@ final class RemoveUselessClassCommentFixer extends AbstractSymplifyFixer impleme
     /**
      * @var string
      */
+    private const SPACE_STAR_SLASH_REGEX = '#[\s\*\/]#';
+
+    /**
+     * @var string
+     */
     private const ERROR_MESSAGE = 'Remove useless "// Class <Some>" or "// <Some> Constructor." comment';
 
     public function getDefinition(): FixerDefinitionInterface
@@ -68,16 +73,8 @@ final class RemoveUselessClassCommentFixer extends AbstractSymplifyFixer impleme
             $originalDocContent = $token->getContent();
             $cleanedDocContent = Strings::replace($originalDocContent, self::COMMENT_CLASS_REGEX, '');
             $cleanedDocContent = Strings::replace($cleanedDocContent, self::COMMENT_CONSTRUCTOR_CLASS_REGEX, '');
-            $matchMethodClass = Strings::match($cleanedDocContent, self::COMMENT_METHOD_CLASS_REGEX);
-
-            if (! $matchMethodClass && $this->isNextFunction($reverseTokens, $index)) {
-                $matchAnyMethodClass = Strings::match($cleanedDocContent, self::COMMENT_ANY_METHOD_CLASS_REGEX);
-                if ($matchAnyMethodClass && strtolower(preg_replace('#[\s\*\/]#', '', $matchAnyMethodClass[3])) === strtolower($reverseTokens[$index + 6]->getContent())) {
-                    $cleanedDocContent = Strings::replace($cleanedDocContent, self::COMMENT_ANY_METHOD_CLASS_REGEX, '');
-                }
-            } else {
-                $cleanedDocContent = Strings::replace($cleanedDocContent, self::COMMENT_METHOD_CLASS_REGEX, '');
-            }
+            $cleanedDocContent = Strings::replace($cleanedDocContent, self::COMMENT_METHOD_CLASS_REGEX, '');
+            $cleanedDocContent = $this->cleanClassMethodMimicMethodName($cleanedDocContent, $reverseTokens, $index);
 
             if ($cleanedDocContent !== '') {
                 continue;
@@ -86,11 +83,6 @@ final class RemoveUselessClassCommentFixer extends AbstractSymplifyFixer impleme
             // remove token
             $tokens->clearAt($index);
         }
-    }
-
-    private function isNextFunction(array $reverseTokens, int $index): bool
-    {
-        return isset($reverseTokens[$index + 4]) && $reverseTokens[$index + 4]->getContent() === 'function';
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -133,5 +125,30 @@ class SomeClass
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function cleanClassMethodMimicMethodName(
+        string $cleanedDocContent,
+        array $reverseTokens,
+        int $index
+    ): string {
+        $matchMethodClass = Strings::match($cleanedDocContent, self::COMMENT_METHOD_CLASS_REGEX);
+        if (! $matchMethodClass && $this->isNextFunction($reverseTokens, $index)) {
+            $matchAnyMethodClass = Strings::match($cleanedDocContent, self::COMMENT_ANY_METHOD_CLASS_REGEX);
+            if ($matchAnyMethodClass && strtolower(
+                Strings::replace($matchAnyMethodClass[3], self::SPACE_STAR_SLASH_REGEX, '')
+            ) === strtolower(
+                $reverseTokens[$index + 6]->getContent()
+            )) {
+                return Strings::replace($cleanedDocContent, self::COMMENT_ANY_METHOD_CLASS_REGEX, '');
+            }
+        }
+
+        return $cleanedDocContent;
+    }
+
+    private function isNextFunction(array $reverseTokens, int $index): bool
+    {
+        return isset($reverseTokens[$index + 4]) && $reverseTokens[$index + 4]->getContent() === 'function';
     }
 }

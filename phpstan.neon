@@ -307,3 +307,4 @@ parameters:
              paths:
                  - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
 
+
