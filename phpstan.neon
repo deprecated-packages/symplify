@@ -18,7 +18,7 @@ services:
         arguments:
             maxClassCognitiveComplexity: 40
             limitsByTypes:
-                PHPStan\Rule\Rule: 30
+                PHPStan\Rules\Rule: 25
 
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
@@ -301,3 +301,8 @@ parameters:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
+
+        -
+             message: '#Class cognitive complexity is 29, keep it under 25#'
+             paths:
+                 - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
