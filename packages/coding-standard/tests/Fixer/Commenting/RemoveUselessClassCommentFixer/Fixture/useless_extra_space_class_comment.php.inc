@@ -11,6 +11,12 @@ class SomeClass
 	{
 
 	}
+
+// Get normal translator
+	public function getNormalTranslator()
+	{
+
+	}
 }
 
 ?>
@@ -21,6 +27,12 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveUselessClassComme
 
 class SomeClass
 {
+
+	public function getNormalTranslator()
+	{
+
+	}
+
 
 	public function getNormalTranslator()
 	{

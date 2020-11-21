@@ -38,11 +38,13 @@ final class RemoveUselessClassCommentFixer extends AbstractSymplifyFixer impleme
     private const COMMENT_METHOD_CLASS_REGEX = '#^\s{0,}(\/\*{2}\s+?)?(\*|\/\/)\s+([Gg]et|[Ss]et)\s+[^\s]*\.?(\s+\*\/)?$#';
 
     /**
+     * @see https://regex101.com/r/eBux3I/1
      * @var string
      */
-    private const COMMENT_ANY_METHOD_CLASS_REGEX = '#^\s{0,}(\/\*{2}\s+?)?(\*|\/\/)\s+(([Gg]et|[Ss]et)\s+([^\.]*))\.?(\s+\*\/)?$#';
+    private const COMMENT_ANY_METHOD_CLASS_REGEX = '#^\s{0,}(\/\*{2}\s+?)?(\*|\/\/)\s+(([Gg]et|[Ss]et)\s+(.*))(\s+\*\/)?$#';
 
     /**
+     * @see https://regex101.com/r/QeAiRV/1
      * @var string
      */
     private const SPACE_STAR_SLASH_REGEX = '#[\s\*\/]#';
