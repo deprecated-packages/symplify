@@ -74,7 +74,7 @@ final class RemoveUselessClassCommentFixer extends AbstractSymplifyFixer impleme
             $cleanedDocContent = Strings::replace($originalDocContent, self::COMMENT_CLASS_REGEX, '');
             $cleanedDocContent = Strings::replace($cleanedDocContent, self::COMMENT_CONSTRUCTOR_CLASS_REGEX, '');
             $cleanedDocContent = Strings::replace($cleanedDocContent, self::COMMENT_METHOD_CLASS_REGEX, '');
-            $cleanedDocContent = $this->cleanClassMethodMimicMethodName($cleanedDocContent, $reverseTokens, $index);
+            $cleanedDocContent = $this->cleanClassMethodCommentMimicMethodName($cleanedDocContent, $reverseTokens, $index);
 
             if ($cleanedDocContent !== '') {
                 continue;
@@ -139,7 +139,7 @@ CODE_SAMPLE
         ]);
     }
 
-    private function cleanClassMethodMimicMethodName(
+    private function cleanClassMethodCommentMimicMethodName(
         string $cleanedDocContent,
         array $reverseTokens,
         int $index
