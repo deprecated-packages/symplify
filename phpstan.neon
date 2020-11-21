@@ -18,7 +18,7 @@ services:
         arguments:
             maxClassCognitiveComplexity: 40
             limitsByTypes:
-                PHPStan\Rules\Rule: 25
+                PHPStan\Rules\Rule: 30
 
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
