@@ -64,3 +64,5 @@ jobs:
                     split-repository-organization: 'symplify'
                     split-repository-name: '${{ matrix.package_name }}'
                     tag: ${{ steps.previous_tag.outputs.tag }}
+                    user-name: "kaizen-ci"
+                    user-email: "info@kaizen-ci.org"
