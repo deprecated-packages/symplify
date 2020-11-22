@@ -127,7 +127,7 @@ final class AliasCaseConverter implements CaseConverterInterface
         $classConstFetch = $this->commonNodeFactory->createClassReference($fullClassName);
 
         Strings::match($key, self::ARGUMENT_NAME_REGEX);
-        $argumentName = Strings::contains($key, '$');
+        $argumentName = '$' . Strings::after($key, '$');
 
         $concat = new Concat($classConstFetch, new String_(' ' . $argumentName));
         $args[] = new Arg($concat);
