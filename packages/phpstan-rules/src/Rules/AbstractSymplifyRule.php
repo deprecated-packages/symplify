@@ -48,21 +48,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return $this->process($node, $scope);
     }
 
-    public function resolveCurrentClassName(Node $node): ?string
-    {
-        $class = $this->resolveCurrentClass($node);
-        if ($class === null) {
-            return null;
-        }
-
-        // anonymous  class
-        if ($class->namespacedName === null) {
-            return null;
-        }
-
-        return (string) $class->namespacedName;
-    }
-
     public function resolveCurrentClassMethod(Node $node): ?ClassMethod
     {
         $classMethod = $node->getAttribute(PHPStanAttributeKey::PARENT);
@@ -91,16 +76,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return null;
     }
 
-    protected function isInAbstractClass(Node $node): bool
-    {
-        $class = $this->resolveCurrentClass($node);
-        if ($class === null) {
-            return false;
-        }
-
-        return $class->isAbstract();
-    }
-
     protected function resolveCurrentClass(Node $node): ?Class_
     {
         if ($node instanceof Class_) {
@@ -122,7 +97,7 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
     protected function getClassName(Scope $scope, ?Node $node = null): ?string
     {
         if ($node instanceof ClassLike) {
-            return $this->resolveCurrentClassName($node);
+            return $this->resolveClassLikeName($node);
         }
 
         if ($scope->isInTrait()) {
@@ -140,6 +115,16 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return $classReflection->getName();
+    }
+
+    protected function isInAbstractClass(Node $node): bool
+    {
+        $class = $this->resolveCurrentClass($node);
+        if ($class === null) {
+            return false;
+        }
+
+        return $class->isAbstract();
     }
 
     protected function isInDirectoryNamed(Scope $scope, string $directoryName): bool
@@ -180,6 +165,16 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return $reflectionFunction->getName() === $methodName;
+    }
+
+    private function resolveClassLikeName(ClassLike $classLike): ?string
+    {
+        // anonymous  class
+        if ($classLike->namespacedName === null) {
+            return null;
+        }
+
+        return (string) $classLike->namespacedName;
     }
 
     private function shouldSkipNode(Node $node): bool

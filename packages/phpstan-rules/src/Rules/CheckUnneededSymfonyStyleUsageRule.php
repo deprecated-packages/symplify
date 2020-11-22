@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\ClassMethodsNode;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer;
@@ -24,7 +25,7 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'SymfonyStyle usage is unneeded for only newline, write, and/or writeln, use PHP_EOL and concatenation instead';
+    public const ERROR_MESSAGE = 'SymfonyStyle service is not needed for only newline and text echo. Use PHP_EOL and concatenation instead';
 
     /**
      * @var string[]
@@ -65,7 +66,7 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
     {
         /** @var ClassLike $classLike */
         $classLike = $node->getClass();
-        if ($this->hasParentClassSymfonyStyle($classLike)) {
+        if ($this->shouldSkipClass($classLike)) {
             return [];
         }
 
@@ -120,7 +121,7 @@ CODE_SAMPLE
         ]);
     }
 
-    private function hasParentClassSymfonyStyle(ClassLike $classLike): bool
+    private function shouldSkipClass(ClassLike $classLike): bool
     {
         if (! $classLike instanceof Class_) {
             return false;
@@ -131,8 +132,11 @@ CODE_SAMPLE
         }
 
         $parentClass = $classLike->extends->toString();
+        if (is_a($parentClass, SymfonyStyle::class, true)) {
+            return true;
+        }
 
-        return is_a($parentClass, SymfonyStyle::class, true);
+        return is_a($parentClass, Command::class, true);
     }
 
     /**

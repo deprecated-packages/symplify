@@ -17,6 +17,8 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxClassCognitiveComplexity: 40
+            limitsByTypes:
+                PHPStan\Rules\Rule: 25
 
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
@@ -40,8 +42,6 @@ parameters:
 
     excludes_analyse:
         # functions false positive
-        - *packages/easy-coding-standard/compiler/config/*
-
         - *packages/**/tests/**/config.php
         - *packages/**/tests/**-config.php
         - *packages/monorepo-builder/packages/init/templates/*
@@ -98,13 +98,6 @@ parameters:
         # Symfony 4.2 typehint BC-break
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
-        # false positive, known
-        - '#Cannot cast array<string>\|bool\|string\|null to string#'
-        - '#Cannot cast array<string>\|bool\|string\|null to int#'
-
-        # console argument/option
-        - '#Cannot cast array<string\>\|bool\|string to string#'
-
         # known values
         - '#Static property Symplify\\PackageBuilder\\Testing\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
 
@@ -124,8 +117,6 @@ parameters:
         - '#Offset (.*?) does not exist on array\|null#'
         - '#in iterable type#'
 
-        - '#Method Symplify\\EasyCodingStandard\\Compiler\\Packagist\\SymplifyStableVersionProvider\:\:getLastKey\(\) should return string but returns int\|string\|null#'
-
         # the Filesystem method is only iterable way
         - '#Method Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
@@ -136,9 +127,6 @@ parameters:
         - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
         - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
         - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
-
-        # might be BC break
-        - '#Class "CommandNaming" with static method must have "static" in its name#'
 
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
         - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
@@ -155,6 +143,8 @@ parameters:
         -
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
             paths:
+                - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php
+
                 # json array
                 - *Json*
 
@@ -163,7 +153,6 @@ parameters:
 
                 # Symfony API
                 - packages/autodiscovery/src/Doctrine/DoctrineEntityMappingAutodiscoverer.php
-                - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 69
                 - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
 
         -
@@ -197,21 +186,6 @@ parameters:
                 - packages/package-builder/src/Http/BetterGuzzleClient.php
 
         -
-            message: '#Too many public elements on class \- \d+\. Try narrow it down under \d+#'
-            paths:
-                # native PHP code
-                - packages/smart-file-system/src/SmartFileInfo.php
-                # complex stuff json
-                - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
-                - packages/easy-coding-standard/packages/configuration/src/Configuration.php
-
-        # dx handy class
-        - '#Use decouled factory service to create "Symplify\\EasyTesting\\ValueObject\\InputAndExpected" object#'
-
-        # making reflection method for local use
-        - '#Use decouled factory service to create "ReflectionMethod" object#'
-
-        -
             message: '#Do not use static property#'
             paths:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
@@ -238,11 +212,6 @@ parameters:
            message: '#Use explicit return value over magic &reference#'
            paths:
                - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
-
-        -
-            message: '#Use another value object over string with value object arrays#'
-            paths:
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 25
 
         -
             message:  '#Node "errorsuppress" is fobidden to use#'
@@ -273,8 +242,6 @@ parameters:
         -
             message: '#Spread operator is not allowed#'
             paths:
-                - packages/easy-hydrator/src/ArrayToValueObjectHydrator.php # 40
-                - packages/easy-hydrator/src/TypeCaster/ObjectTypeCaster.php # 78
                 - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 141
                 - packages/package-builder/src/Reflection/PrivatesCaller.php # 19
 
@@ -286,40 +253,6 @@ parameters:
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                 - packages/skipper/src/Skipper/Skipper.php # 50
 
-        -
-            message: '#Interface is required in Contract namespace#'
-            paths:
-                - packages/easy-hydrator/src/TypeCaster/TypeCasterInterface.php # 8
-
-        -
-            message: '#Constant string value need to only have small letters, underscore, dash, fullstop, and numbers#'
-            paths:
-                - packages/changelog-linker/src/Configuration/Category.php # 12
-                - packages/changelog-linker/src/Configuration/Category.php # 17
-                - packages/changelog-linker/src/Configuration/Category.php # 22
-                - packages/changelog-linker/src/Configuration/Category.php # 27
-                - packages/changelog-linker/src/Configuration/Category.php # 32
-                - packages/changelog-linker/src/Configuration/PackageName.php # 12
-                - packages/changelog-linker/src/Console/Command/DumpMergesCommand.php # 30
-                - packages/changelog-linker/src/Github/GithubApi.php # 29
-                - packages/changelog-linker/src/Github/GithubApi.php # 34
-                - packages/changelog-linker/src/Regex/RegexPattern.php # 23
-                - packages/changelog-linker/src/Regex/RegexPattern.php # 29
-                - packages/changelog-linker/src/Regex/RegexPattern.php # 35
-                - packages/changelog-linker/src/Regex/RegexPattern.php # 42
-                - packages/coding-standard/src/Fixer/Naming/StandardizeHereNowDocKeywordFixer.php # 31
-                - packages/easy-coding-standard/compiler/src/Command/CompileCommand.php # 26
-                - packages/easy-coding-standard/packages/fixer-runner/src/WhitespacesFixerConfigFactory.php # 16
-                - packages/easy-coding-standard/packages/fixer-runner/src/WhitespacesFixerConfigFactory.php # 21
-                - packages/easy-coding-standard/packages/fixer-runner/src/WhitespacesFixerConfigFactory.php # 26
-                - packages/flex-loader/src/Flex/FlexLoader.php # 19
-                - packages/phpstan-rules/packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php # 23
-                - packages/phpstan-rules/src/Rules/AnnotateRegexClassConstWithRegexLinkRule.php # 27
-                - packages/phpstan-rules/src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php # 22
-                - packages/phpstan-rules/src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php # 27
-                - packages/phpstan-rules/src/Rules/ForbiddenParentClassRule.php # 25
-                - packages/phpstan-rules/src/Rules/NoSuffixValueObjectClassRule.php # 22
-
         # false positives
         - '#Constant Symplify\\ChangelogLinker\\Tests\\ChangeTree\\ChangeFactory\\ChangeFactoryTest\:\:PULL_REQUEST is unused#'
         - '#Property Symplify\\ChangelogLinker\\Tests\\ChangelogDumper\\WithTagsTest\:\:\$changes is never read, only written#'
@@ -330,49 +263,46 @@ parameters:
         # use rector rule for this
         - '#Use decoupled factory service to create "Symplify\\EasyTesting\\ValueObject\\InputAndExpected" object#'
 
-        -
-            message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
-            paths:
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 25
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
-                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 234
-                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 234
-                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 235
-                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 236
-                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 237
-
-        -
-            message: '#SymfonyStyle usage is unneeded for only newline, write, and/or writeln, use PHP_EOL and concatenation instead#'
-            paths:
-                - packages/console-color-diff/src/Console/Output/ConsoleDiffer.php # 11
-                - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php # 18
-                - packages/monorepo-builder/src/Console/Command/PackagesJsonCommand.php
-                - packages/monorepo-builder/src/Command/PackagesJsonCommand.php
-
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
         - '#Class "Symplify\\PackageBuilder\\Console\\Command\\CommandNaming" with static method must have "Static" in its name it explicit#'
-
-        -
-            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
-            paths:
-                # phpstan neon
-                - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/ConfiguredCodeSamplePrinter.php # 71
-                - packages/phpstan-php-config/src/PHPStanPHPToNeonConverter.php
-                - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php
-                - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/ConfiguredCodeSamplePrinter.php # 73
 
         -
             message: '#Nested foreach with empty statement is not allowed#'
             paths:
                 - packages/phpstan-rules/src/Rules/ExclusiveDependencyRule.php # 70
 
-        -
-            message: '#Use decoupled factory service to create "PharIo\\Version\\Version" object#'
-            paths:
-                - packages/monorepo-builder/packages/release/src/Configuration/VersionResolver.php
-
         # child type
         - '#Parameter \#1 \$node of method Symplify\\PHPStanRules\\Rules\\ForbiddenSpreadOperatorRule\:\:hasVariadicParam\(\) expects PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|\(PhpParser\\Node\\Expr\\FuncCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\MethodCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\StaticCall&PhpParser\\Node\\FunctionLike\)\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ given#'
-        - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
+
+
+        -
+            message: '#SymfonyStyle service is not needed for only newline and text echo\. Use PHP_EOL and concatenation instead#'
+            paths:
+                - packages/console-color-diff/src/Console/Output/ConsoleDiffer.php # 11
+                - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php # 18
+
+        -
+            message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
+            paths:
+                - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 214
+                - packages/monorepo-builder/packages/release/src/Configuration/StageResolver.php # 26
+                - packages/phpstan-php-config/src/Command/ConvertCommand.php # 70
+                - packages/rule-doc-generator/src/Command/GenerateCommand.php # 54
+
+        -
+            message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
+            paths:
+                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 234
+                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 234
+                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 235
+                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 236
+                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 237
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 25
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
+
+        -
+             message: '#Class cognitive complexity is 29, keep it under 25#'
+             paths:
+                 - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
