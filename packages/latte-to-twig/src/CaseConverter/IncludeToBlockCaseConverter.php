@@ -9,6 +9,12 @@ use Symplify\LatteToTwig\Contract\CaseConverter\CaseConverterInterface;
 
 final class IncludeToBlockCaseConverter implements CaseConverterInterface
 {
+    /**
+     * @see https://regex101.com/r/7QZ3sD/2
+     * @var string
+     */
+    private const INCLUDE_REGEX = '#{% include \'?(\w+)\'? %}#';
+
     public function getPriority(): int
     {
         return 100;
@@ -16,6 +22,6 @@ final class IncludeToBlockCaseConverter implements CaseConverterInterface
 
     public function convertContent(string $content): string
     {
-        return Strings::replace($content, '#{% include \'?(\w+)\'? %}#', '{{ block(\'$1\') }}');
+        return Strings::replace($content, self::INCLUDE_REGEX, '{{ block(\'$1\') }}');
     }
 }

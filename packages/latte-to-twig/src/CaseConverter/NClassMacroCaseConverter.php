@@ -9,6 +9,12 @@ use Symplify\LatteToTwig\Contract\CaseConverter\CaseConverterInterface;
 
 final class NClassMacroCaseConverter implements CaseConverterInterface
 {
+    /**
+     * @see https://regex101.com/r/PVBgmO/1
+     * @var string
+     */
+    private const N_CLASS_REGEX = '#n:class="\$?(.*?)\s+\?\s+(?<value>(.*?))"#';
+
     public function getPriority(): int
     {
         return 1600;
@@ -19,7 +25,7 @@ final class NClassMacroCaseConverter implements CaseConverterInterface
         return Strings::replace(
             $content,
             // n:class="$cond ? active"
-            '#n:class="\$?(.*?)\s+\?\s+(?<value>(.*?))"#',
+            self::N_CLASS_REGEX,
             'class="{% if $1 %}$2{% endif %}"'
         );
     }

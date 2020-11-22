@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Migrify\MigrifyKernel\Bootstrap\KernelBootAndApplicationRun;
 use Symplify\LatteToTwig\HttpKernel\LatteToTwigKernel;
+use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 $possibleAutoloadPaths = [
     // after split package

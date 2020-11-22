@@ -12,6 +12,12 @@ use Symplify\LatteToTwig\Contract\CaseConverter\CaseConverterInterface;
  */
 final class DefaultCaseConverter implements CaseConverterInterface
 {
+    /**
+     * @see https://regex101.com/r/DwRhbT/1
+     * @var string
+     */
+    private const DEFAULT_REGEX = '#{default \$?(.*?) = \$?(.*?)}#s';
+
     public function getPriority(): int
     {
         return 600;
@@ -21,7 +27,7 @@ final class DefaultCaseConverter implements CaseConverterInterface
     {
         return Strings::replace(
             $content,
-            '#{default \$?(.*?) = \$?(.*?)}#s',
+            self::DEFAULT_REGEX,
             '{% if $1 is not defined %}{% set $1 = $2 %}{% endif %}'
         );
     }

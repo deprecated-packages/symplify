@@ -9,6 +9,36 @@ use Symplify\LatteToTwig\Contract\CaseConverter\CaseConverterInterface;
 
 final class BlockCaseConverter implements CaseConverterInterface
 {
+    /**
+     * @see https://regex101.com/r/cUWPWT/1
+     * @var string
+     */
+    private const INCLUDE_REGEX = '#({% include .*?,)(.*?)(\s+%})#';
+
+    /**
+     * @see https://regex101.com/r/P02bCD/1
+     * @var string
+     */
+    private const DEFINE_REGEX = '#{define (.*?)}(.*?){\/define}#s';
+
+    /**
+     * @see https://regex101.com/r/WK5Rj5/1
+     * @var string
+     */
+    private const BLOCK_REGEX = '#{block (\w+)}(.*?){\/block}#s';
+
+    /**
+     * @see https://regex101.com/r/tdN2a8/1
+     * @var string
+     */
+    private const INCLUDE_WITH_COMMA_REGEX = '#({% include [^,{}]+)(,)#';
+
+    /**
+     * @see https://regex101.com/r/1PB1RT/1
+     * @var string
+     */
+    private const INCLUDE_EXTENDS_REGEX = '#{(include|extends) ([^}]+)}#';
+
     public function getPriority(): int
     {
         return 1000;
@@ -19,15 +49,15 @@ final class BlockCaseConverter implements CaseConverterInterface
         // block/include:
         // {block content}...{/block} =>
         // {% block content %}...{% endblock %}
-        $content = Strings::replace($content, '#{block (\w+)}(.*?){\/block}#s', '{% block $1 %}$2{% endblock %}');
+        $content = Strings::replace($content, self::BLOCK_REGEX, '{% block $1 %}$2{% endblock %}');
         // {include "_snippets/menu.latte"} =>
         // {% include "_snippets/menu.latte" %}
         // {extends "_snippets/menu.latte"} =>
         // {% extends "_snippets/menu.latte" %}
-        $content = Strings::replace($content, '#{(include|extends) ([^}]+)}#', '{% $1 $2 %}');
+        $content = Strings::replace($content, self::INCLUDE_EXTENDS_REGEX, '{% $1 $2 %}');
         // {define sth}...{/define} =>
         // {% block sth %}...{% endblock %}
-        $content = Strings::replace($content, '#{define (.*?)}(.*?){\/define}#s', '{% block $1 %}$2{% endblock %}');
+        $content = Strings::replace($content, self::DEFINE_REGEX, '{% block $1 %}$2{% endblock %}');
 
         // include var:
         // {% include "_snippets/menu.latte", "data" => $data %} =>
@@ -35,7 +65,7 @@ final class BlockCaseConverter implements CaseConverterInterface
         // see https://twig.symfony.com/doc/2.x/functions/include.html
         // single lines
         // ref https://regex101.com/r/uDJaia/1
-        $content = Strings::replace($content, '#({% include .*?,)(.*?)(\s+%})#', function (array $match): string {
+        $content = Strings::replace($content, self::INCLUDE_REGEX, function (array $match): string {
             $variables = explode(',', $match[2]);
 
             $twigDataInString = ' { ';
@@ -64,6 +94,6 @@ final class BlockCaseConverter implements CaseConverterInterface
 
         // {% include "sth", =>
         // {% include "sth" with
-        return Strings::replace($content, '#({% include [^,{}]+)(,)#', '$1 with');
+        return Strings::replace($content, self::INCLUDE_WITH_COMMA_REGEX, '$1 with');
     }
 }

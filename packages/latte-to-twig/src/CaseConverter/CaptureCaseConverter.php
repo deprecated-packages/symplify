@@ -9,6 +9,18 @@ use Symplify\LatteToTwig\Contract\CaseConverter\CaseConverterInterface;
 
 final class CaptureCaseConverter implements CaseConverterInterface
 {
+    /**
+     * @see https://regex101.com/r/kmkH4u/1
+     * @var string
+     */
+    private const CAPTURE_REGEX = '#{capture \$(\w+)}(.*?){\/capture}#s';
+
+    /**
+     * @see https://regex101.com/r/DjZXne/1
+     * @var string
+     */
+    private const VAR_REGEX = '#{var \$?(.*?) = \$?(.*?)}#s';
+
     public function getPriority(): int
     {
         return 900;
@@ -18,10 +30,10 @@ final class CaptureCaseConverter implements CaseConverterInterface
     {
         // {var $var = $anotherVar} =>
         // {% set var = anotherVar %}
-        $content = Strings::replace($content, '#{var \$?(.*?) = \$?(.*?)}#s', '{% set $1 = $2 %}');
+        $content = Strings::replace($content, self::VAR_REGEX, '{% set $1 = $2 %}');
 
         // {capture $var}...{/capture} =>
         // {% set var %}...{% endset %}
-        return Strings::replace($content, '#{capture \$(\w+)}(.*?){\/capture}#s', '{% set $1 %}$2{% endset %}');
+        return Strings::replace($content, self::CAPTURE_REGEX, '{% set $1 %}$2{% endset %}');
     }
 }

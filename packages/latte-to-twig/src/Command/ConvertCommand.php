@@ -17,6 +17,12 @@ use Symplify\PackageBuilder\Console\ShellCode;
 final class ConvertCommand extends AbstractMigrifyCommand
 {
     /**
+     * @see https://regex101.com/r/Q5NJ4c/1
+     * @var string
+     */
+    private const LATTE_SUFFIX_REGEX = '#\.latte$#';
+
+    /**
      * @var LatteToTwigConverter
      */
     private $latteToTwigConverter;
@@ -48,7 +54,7 @@ final class ConvertCommand extends AbstractMigrifyCommand
         foreach ($fileInfos as $fileInfo) {
             $convertedContent = $this->latteToTwigConverter->convertFile($fileInfo);
             $oldFilePath = $fileInfo->getPathname();
-            $newFilePath = Strings::replace($fileInfo->getPathname(), '#\.latte$#', '.twig');
+            $newFilePath = Strings::replace($fileInfo->getPathname(), self::LATTE_SUFFIX_REGEX, '.twig');
 
             // save
             $this->smartFileSystem->dumpFile($newFilePath, $convertedContent);
