@@ -1,12 +1,5 @@
 {
     "name": "symplify/symplify",
-    "extra": {
-        "phpstan": {
-            "includes": [
-                "config/symplify-rules.neon"
-            ]
-        }
-    },
     "description": "Repository for Symplify packages development.",
     "license": "MIT",
     "require": {

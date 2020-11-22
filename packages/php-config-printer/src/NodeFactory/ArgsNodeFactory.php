@@ -24,6 +24,12 @@ use Symplify\PhpConfigPrinter\Contract\SymfonyVersionFeatureGuardInterface;
 final class ArgsNodeFactory
 {
     /**
+     * @see https://regex101.com/r/laf2wR/1
+     * @var string
+     */
+    private const TWIG_HTML_XML_SUFFIX_REGEX = '#\.(twig|html|xml)$#';
+
+    /**
      * @var string
      */
     private const TAG_SERVICE = 'service';
@@ -32,6 +38,11 @@ final class ArgsNodeFactory
      * @var string
      */
     private const TAG_RETURNS_CLONE = 'returns_clone';
+
+    /**
+     * @var string
+     */
+    private const KIND = 'kind';
 
     /**
      * @var CommonNodeFactory
@@ -217,7 +228,7 @@ final class ArgsNodeFactory
         // do not print "\n" as empty space, but use string value instead
         if (in_array($value, ["\r", "\n", "\r\n"], true)) {
             $string = new String_($value);
-            $string->setAttribute('kind', String_::KIND_DOUBLE_QUOTED);
+            $string->setAttribute(self::KIND, String_::KIND_DOUBLE_QUOTED);
 
             return $string;
         }
@@ -282,7 +293,7 @@ final class ArgsNodeFactory
 
     private function isFilePath(string $value): bool
     {
-        return (bool) Strings::match($value, '#\.(twig|html|xml)$#');
+        return (bool) Strings::match($value, self::TWIG_HTML_XML_SUFFIX_REGEX);
     }
 
     private function resolveClassType(bool $skipClassesToConstantReference, string $value)

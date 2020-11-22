@@ -39,6 +39,7 @@ final class NoStaticCallRule extends AbstractSymplifyRule
         'Nette\Utils\Arrays',
         'Nette\Utils\Reflection',
         'Ramsey\Uuid\Uuid',
+        'PhpParser\BuilderHelpers',
         // symfony
         'Symfony\Component\Finder\Finder',
         'Symfony\Component\Yaml\Yaml',

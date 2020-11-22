@@ -54,10 +54,7 @@ final class InstanceOfNestedCaseConverter implements NestedCaseConverterInterfac
             $instanceofMethodCall
         );
 
-        $expression = new Expression($instanceofMethodCall);
-        $expression->setAttribute('comments', $instanceofMethodCall->getComments());
-
-        return $expression;
+        return new Expression($instanceofMethodCall);
     }
 
     public function match(string $rootKey, $subKey): bool

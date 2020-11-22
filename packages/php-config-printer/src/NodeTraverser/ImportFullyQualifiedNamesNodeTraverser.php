@@ -92,10 +92,14 @@ final class ImportFullyQualifiedNamesNodeTraverser
 
             if (function_exists($nameImport) || $shortNameImport === 'ref') {
                 $useBuilder = $this->builderFactory->useFunction(new Name($nameImport));
-                $useImports[] = $useBuilder->getNode();
+                /** @var Use_ $use */
+                $use = $useBuilder->getNode();
+                $useImports[] = $use;
             } else {
                 $useBuilder = $this->builderFactory->use(new Name($nameImport));
-                $useImports[] = $useBuilder->getNode();
+                /** @var Use_ $use */
+                $use = $useBuilder->getNode();
+                $useImports[] = $use;
             }
         }
 
