@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\LatteToTwig\HttpKernel;
 
-use Migrify\MigrifyKernel\HttpKernel\AbstractMigrifyKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class LatteToTwigKernel extends AbstractMigrifyKernel
+final class LatteToTwigKernel extends AbstractSymplifyKernel
 {
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
