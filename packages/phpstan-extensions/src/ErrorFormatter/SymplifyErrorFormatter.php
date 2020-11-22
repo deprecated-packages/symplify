@@ -84,18 +84,11 @@ final class SymplifyErrorFormatter implements ErrorFormatter
             return;
         }
 
-        $fileSpecificErrorsByMessage = $this->groupFileSpecificErrorsByMessage($analysisResult);
-
-        foreach ($fileSpecificErrorsByMessage as $message => $errors) {
-            if (count($errors) === 1) {
-                // @todo print with "path" only, but also specific!
-                $this->printSingleError($errors[0]);
-            } else {
-                $this->printMultiFileErrors($message, $errors);
-            }
+        foreach ($analysisResult->getFileSpecificErrors() as $error) {
+            $this->printSingleError($error);
         }
 
-        $this->symfonyStyle->newLine(1);
+        $this->symfonyStyle->newLine();
 
         $errorMessage = sprintf('Found %d errors', $analysisResult->getTotalErrorsCount());
         $this->symfonyStyle->error($errorMessage);
@@ -131,26 +124,6 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $this->output->writeLineFormatted(' ' . $separator);
     }
 
-    /**
-     * @return array<string, Error[]>
-     */
-    private function groupFileSpecificErrorsByMessage(AnalysisResult $analysisResult): array
-    {
-        $errorsByFile = [];
-
-        $fileSpecificErrors = $analysisResult->getFileSpecificErrors();
-        foreach ($fileSpecificErrors as $fileSpecificError) {
-            $errorsByFile[$fileSpecificError->getMessage()][] = $fileSpecificError;
-        }
-
-        // sort values with multiple files per error last
-        uasort($errorsByFile, function (array $firstErrors, array $secondErrors): int {
-            return count($firstErrors) <=> count($secondErrors);
-        });
-
-        return $errorsByFile;
-    }
-
     private function printSingleError(Error $error): void
     {
         $this->separator();
@@ -167,32 +140,5 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
         $this->separator();
         $this->symfonyStyle->newLine();
-    }
-
-    /**
-     * @param Error[] $errors
-     */
-    private function printMultiFileErrors(string $message, array $errors): void
-    {
-        $this->writeln('    -');
-        $this->writeln("        message: '" . $this->regexMessage($message) . "'");
-        $this->writeln('        paths:');
-
-        foreach ($errors as $error) {
-            $relativeFilePath = $this->createFileMessage($error);
-            $this->writeln('            - ' . $relativeFilePath);
-        }
-
-        $this->symfonyStyle->newLine();
-    }
-
-    private function createFileMessage(Error $error): string
-    {
-        $relativeFilePath = $this->getRelativePath($error->getFile());
-        if ($error->getLine() !== null) {
-            $relativeFilePath .= ' # ' . $error->getLine();
-        }
-
-        return $relativeFilePath;
     }
 }

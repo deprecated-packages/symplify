@@ -29,7 +29,7 @@ final class NoSetterOnServiceRule extends AbstractSymplifyRule
      * @var string
      * @see https://regex101.com/r/yI3qGS/2
      */
-    private const NOT_A_SERVICE_NAMESPACE_REGEX = '#\bEntity|Event|ValueObject\b#';
+    private const NOT_A_SERVICE_NAMESPACE_REGEX = '#\bEntity|Event|ValueObject|Provider|Kernel\b#';
 
     /**
      * @var NodeFinder

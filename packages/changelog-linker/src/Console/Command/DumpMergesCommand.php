@@ -9,11 +9,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\ChangelogLinker\Application\ChangelogLinkerApplication;
 use Symplify\ChangelogLinker\Configuration\HighestMergedIdResolver;
-use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\FileSystem\ChangelogPlaceholderGuard;
 use Symplify\ChangelogLinker\Github\GithubApi;
+use Symplify\ChangelogLinker\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\Console\Input;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symplify\ChangelogLinker\Configuration\Option;
+use Symplify\ChangelogLinker\ValueObject\Option;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class PriorityResolver

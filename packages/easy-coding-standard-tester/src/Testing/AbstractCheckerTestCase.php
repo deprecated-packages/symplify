@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandardTester\Testing;
 
-use Migrify\PhpConfigPrinter\HttpKernel\PhpConfigPrinterKernel;
-use Migrify\PhpConfigPrinter\YamlToPhpConverter;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
@@ -16,6 +14,8 @@ use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
+use Symplify\PhpConfigPrinter\HttpKernel\PhpConfigPrinterKernel;
+use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;

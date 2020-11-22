@@ -7,6 +7,7 @@ namespace Symplify\ChangelogLinker\Configuration;
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
 use Symplify\ChangelogLinker\Github\GithubApi;
+use Symplify\ChangelogLinker\ValueObject\Option;
 
 final class HighestMergedIdResolver
 {

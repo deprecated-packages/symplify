@@ -18,7 +18,7 @@ services:
         arguments:
             maxClassCognitiveComplexity: 40
             limitsByTypes:
-                PHPStan\Rules\Rule: 25
+                PHPStan\Rules\Rule: 30
 
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
@@ -144,6 +144,7 @@ parameters:
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
             paths:
                 - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php
+                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
 
                 # json array
                 - *Json*
@@ -306,5 +307,14 @@ parameters:
              message: '#Class cognitive complexity is 29, keep it under 25#'
              paths:
                  - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
+
+        # nesting
+        - '#Parameter \#1 \$items of class PhpParser\\Node\\Expr\\Array_ constructor expects array<PhpParser\\Node\\Expr\\ArrayItem\|null\>, array<PhpParser\\Node\\Arg\> given#'
+        - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ContainerConfiguratorReturnClosureFactory\:\:createNodesFromCaseConverters\(\)" is \d+, keep it under 8#'
+
+        -
+            message: '#Class cognitive complexity is \d+, keep it under 40#'
+            paths:
+                - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
 
         - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'

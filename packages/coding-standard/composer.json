@@ -22,7 +22,7 @@
         "doctrine/orm": "^2.7",
         "symplify/smart-file-system": "^9.0",
         "symfony/framework-bundle": "^4.4|^5.1",
-        "migrify/php-config-printer": "^0.4",
+        "symplify/php-config-printer": "^9.0",
         "phpunit/phpunit": "^8.5|^9.4"
     },
     "autoload": {

@@ -6,6 +6,10 @@ on:
         branches:
             - master
 
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-master"
+
 jobs:
     code_analysis:
         strategy:
