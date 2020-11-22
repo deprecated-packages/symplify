@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\LatteToTwig\HttpKernel\LatteToTwigKernel;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 $possibleAutoloadPaths = [
-    // dependency
-    __DIR__ . '/../../../autoload.php',
     // after split package
     __DIR__ . '/../vendor/autoload.php',
+    // dependency
+    __DIR__ . '/../../../autoload.php',
     // monorepo
     __DIR__ . '/../../../vendor/autoload.php',
 ];
@@ -22,11 +22,5 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     }
 }
 
-$extraConfigs = [];
-$extraConfig = getcwd() . '/easy-ci.php';
-if (file_exists($extraConfig)) {
-    $extraConfigs[] = $extraConfig;
-}
-
-$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(EasyCIKernel::class, $extraConfigs);
+$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(LatteToTwigKernel::class);
 $kernelBootAndApplicationRun->run();

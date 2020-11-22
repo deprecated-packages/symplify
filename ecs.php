@@ -6,10 +6,10 @@ use PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff;
 use PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer;
 use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
-use SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+use Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -44,20 +44,18 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::EXCLUDE_PATHS, [
         '*/Fixture/*',
         '*/Source/*',
-        __DIR__ . '/packages/easy-coding-standard/compiler/build/scoper.inc.php',
+        __DIR__ . '/packages/easy-coding-standard/scoper.inc.php',
         __DIR__ . '/packages/easy-hydrator/tests/Fixture/TypedProperty.php',
         __DIR__ . '/packages/easy-hydrator/tests/TypedPropertiesTest.php',
     ]);
 
     $parameters->set(Option::SKIP, [
+        CommentedOutCodeSniff::class => [__DIR__ . '/packages/latte-to-twig/src/CaseConverter/*'],
         ArrayDeclarationSniff::class => null,
         UnaryOperatorSpacesFixer::class => null,
         PhpUnitStrictFixer::class => [
             __DIR__ . '/packages/easy-coding-standard/tests/Indentation/IndentationTest.php',
             __DIR__ . '/packages/set-config-resolver/tests/ConfigResolver/SetAwareConfigResolverTest.php',
-        ],
-        ReferenceThrowableOnlySniff::class . '.ReferencedGeneralException' => [
-            __DIR__ . '/packages/coding-standard/src/Rules/NoDefaultExceptionRule.php',
         ],
         ParameterTypeHintSniff::class . '.MissingNativeTypeHint' => [
             '*Sniff.php',
