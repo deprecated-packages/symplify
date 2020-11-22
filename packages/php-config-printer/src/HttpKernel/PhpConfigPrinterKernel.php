@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\HttpKernel;
 
-use Migrify\MigrifyKernel\HttpKernel\AbstractMigrifyKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PhpConfigPrinter\Bundle\PhpConfigPrinterBundle;
+use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class PhpConfigPrinterKernel extends AbstractMigrifyKernel implements ExtraConfigAwareKernelInterface
+final class PhpConfigPrinterKernel extends AbstractSymplifyKernel implements ExtraConfigAwareKernelInterface
 {
     /**
      * @var string[]
