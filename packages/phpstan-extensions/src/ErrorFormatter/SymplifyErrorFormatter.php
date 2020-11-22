@@ -87,11 +87,8 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $fileSpecificErrorsByMessage = $this->groupFileSpecificErrorsByMessage($analysisResult);
 
         foreach ($fileSpecificErrorsByMessage as $message => $errors) {
-            if (count($errors) === 1) {
-                // @todo print with "path" only, but also specific!
-                $this->printSingleError($errors[0]);
-            } else {
-                $this->printMultiFileErrors($message, $errors);
+            foreach ($errors as $error) {
+                $this->printSingleError($error);
             }
         }
 
