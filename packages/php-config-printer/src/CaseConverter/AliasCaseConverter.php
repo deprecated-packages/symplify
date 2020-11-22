@@ -14,6 +14,7 @@ use PhpParser\Node\Stmt\Expression;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
+use Symplify\PhpConfigPrinter\NodeFactory\Service\ServiceOptionNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\MethodName;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
@@ -34,10 +35,10 @@ final class AliasCaseConverter implements CaseConverterInterface
     private const ARGUMENT_NAME_REGEX = '#\$(?<argument_name>\w+)#';
 
     /**
-     * @see https://regex101.com/r/7y3Kq9/1
+     * @see https://regex101.com/r/DDuuVM/1
      * @var string
      */
-    private const TYPED_VARIABLE_REGEX = '#\w+\s+\$\w+#';
+    private const NAMED_ALIAS_REGEX = '#\w+\s+\$\w+#';
 
     /**
      * @var CommonNodeFactory
@@ -49,10 +50,19 @@ final class AliasCaseConverter implements CaseConverterInterface
      */
     private $argsNodeFactory;
 
-    public function __construct(CommonNodeFactory $commonNodeFactory, ArgsNodeFactory $argsNodeFactory)
-    {
+    /**
+     * @var ServiceOptionNodeFactory
+     */
+    private $serviceOptionNodeFactory;
+
+    public function __construct(
+        CommonNodeFactory $commonNodeFactory,
+        ArgsNodeFactory $argsNodeFactory,
+        ServiceOptionNodeFactory $serviceOptionNodeFactory
+    ) {
         $this->commonNodeFactory = $commonNodeFactory;
         $this->argsNodeFactory = $argsNodeFactory;
+        $this->serviceOptionNodeFactory = $serviceOptionNodeFactory;
     }
 
     public function convertToMethodCall($key, $values): Expression
@@ -82,6 +92,7 @@ final class AliasCaseConverter implements CaseConverterInterface
             return new Expression($methodCall);
         }
 
+        $methodCall = null;
         if (isset($values[MethodName::ALIAS])) {
             $className = $values[MethodName::ALIAS];
 
@@ -96,7 +107,16 @@ final class AliasCaseConverter implements CaseConverterInterface
         if (is_string($values) && $values[0] === '@') {
             $args = $this->argsNodeFactory->createFromValues([$values], true);
             $methodCall = new MethodCall($servicesVariable, MethodName::ALIAS, $args);
-        } else {
+        } elseif (is_array($values)) {
+            if ($methodCall === null) {
+                throw new ShouldNotHappenException();
+            }
+
+            /** @var MethodCall $methodCall */
+            $methodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes($values, $methodCall);
+        }
+
+        if ($methodCall === null) {
             throw new ShouldNotHappenException();
         }
 
@@ -113,7 +133,7 @@ final class AliasCaseConverter implements CaseConverterInterface
             return true;
         }
 
-        if (Strings::match($key, self::TYPED_VARIABLE_REGEX)) {
+        if (Strings::match($key, self::NAMED_ALIAS_REGEX)) {
             return true;
         }
 
