@@ -201,7 +201,6 @@
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
         "rector": "vendor/bin/rector process --config rector-ci.php --dry-run --ansi",
-        "sonar": "packages/easy-ci/bin/easy-ci generate-sonar --ansi",
         "validate-monorepo": "packages/monorepo-builder/bin/monorepo-builder validate --ansi",
         "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi"
     },
