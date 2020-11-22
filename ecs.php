@@ -50,7 +50,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::SKIP, [
-        CommentedOutCodeSniff::class => [__DIR__ . '/packages/latte-to-twig/src/CaseConverter/*'],
+        CommentedOutCodeSniff::class => [__DIR__ . '/packages/latte-to-twig-converter/src/CaseConverter/*'],
         ArrayDeclarationSniff::class => null,
         UnaryOperatorSpacesFixer::class => null,
         PhpUnitStrictFixer::class => [
