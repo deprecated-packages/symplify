@@ -319,3 +319,7 @@ parameters:
 
         - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
         - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\CaseConverter\\AliasCaseConverter\:\:convertToMethodCall\(\)" is 10, keep it under 8#'
+
+        -
+            message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
+            path: packages/easy-ci/src/Finder/SrcTestsDirectoriesFinder.php
