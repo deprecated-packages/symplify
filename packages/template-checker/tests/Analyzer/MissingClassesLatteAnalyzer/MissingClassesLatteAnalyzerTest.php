@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Symplify\TemplateChecker\Tests\Analyzer\MissingClassesLatteAnalyzer;
 
 use Iterator;
-use Symplify\TemplateChecker\Analyzer\MissingClassesLatteAnalyzer;
-use Symplify\TemplateChecker\HttpKernel\TemplateCheckerKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\TemplateChecker\Analyzer\MissingClassesLatteAnalyzer;
+use Symplify\TemplateChecker\HttpKernel\TemplateCheckerKernel;
 
 final class MissingClassesLatteAnalyzerTest extends AbstractKernelTestCase
 {

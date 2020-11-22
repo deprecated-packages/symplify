@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Symplify\TemplateChecker\Tests\StaticCallWithFilterReplacer;
 
 use Iterator;
-use Symplify\TemplateChecker\HttpKernel\TemplateCheckerKernel;
-use Symplify\TemplateChecker\StaticCallWithFilterReplacer;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\TemplateChecker\HttpKernel\TemplateCheckerKernel;
+use Symplify\TemplateChecker\StaticCallWithFilterReplacer;
 
 final class StaticCallWithFilterReplacerTest extends AbstractKernelTestCase
 {

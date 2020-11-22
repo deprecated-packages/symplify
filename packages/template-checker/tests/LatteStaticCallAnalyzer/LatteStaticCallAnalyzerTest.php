@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Symplify\TemplateChecker\Tests\LatteStaticCallAnalyzer;
 
 use Iterator;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\TemplateChecker\HttpKernel\TemplateCheckerKernel;
 use Symplify\TemplateChecker\LatteStaticCallAnalyzer;
 use Symplify\TemplateChecker\ValueObject\ClassMethodName;
-use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class LatteStaticCallAnalyzerTest extends AbstractKernelTestCase
 {

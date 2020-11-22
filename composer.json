@@ -10,6 +10,7 @@
         "guzzlehttp/guzzle": "^6.5|^7.0",
         "j7mbo/twitter-api-php": "^1.0.6",
         "jean85/pretty-package-versions": "^1.5",
+        "migrify/migrify-kernel": "dev-master as 0.5",
         "nette/di": "^3.0",
         "nette/finder": "^2.5",
         "nette/neon": "^3.2",
@@ -48,8 +49,8 @@
         "doctrine/persistence": "^1.3.3|^2.0",
         "humbug/php-scoper": "^0.13.9",
         "jetbrains/phpstorm-stubs": "2020.2 as dev-master",
-        "migrify/migrify-kernel": "dev-master as 0.5",
-        "nette/application": "^3.0",
+        "latte/latte": "^2.9",
+        "nette/application": "^3.0.7",
         "nette/bootstrap": "^3.0",
         "symfony/framework-bundle": "^4.4|^5.1",
         "symfony/templating": "^4.4|^5.1",
@@ -98,6 +99,7 @@
             "Symplify\\StaticDetector\\": "packages/static-detector/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
             "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src",
+            "Symplify\\TemplateChecker\\": "packages/template-checker/src",
             "Symplify\\VendorPatches\\": "packages/vendor-patches/src"
         }
     },
@@ -150,6 +152,7 @@
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
             "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests",
+            "Symplify\\TemplateChecker\\Tests\\": "packages/template-checker/tests",
             "Symplify\\VendorPatches\\Tests\\": "packages/vendor-patches/tests"
         }
     },
@@ -182,6 +185,7 @@
         "symplify/static-detector": "self.version",
         "symplify/symfony-static-dumper": "self.version",
         "symplify/symplify-kernel": "self.version",
+        "symplify/template-checker": "self.version",
         "symplify/vendor-patches": "self.version"
     },
     "scripts": {

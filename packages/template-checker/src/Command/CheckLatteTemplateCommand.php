@@ -4,52 +4,26 @@ declare(strict_types=1);
 
 namespace Symplify\TemplateChecker\Command;
 
-use Symplify\MigrifyKernel\Command\AbstractMigrifyCommand;
-use Symplify\TemplateChecker\Analyzer\MissingClassConstantLatteAnalyzer;
-use Symplify\TemplateChecker\Analyzer\MissingClassesLatteAnalyzer;
-use Symplify\TemplateChecker\Analyzer\MissingClassStaticCallLatteAnalyzer;
-use Symplify\TemplateChecker\Finder\GenericFilesFinder;
-use Symplify\TemplateChecker\ValueObject\Option;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\TemplateChecker\Latte\LatteAnalyzer;
+use Symplify\TemplateChecker\ValueObject\Option;
 
-final class CheckLatteTemplateCommand extends AbstractMigrifyCommand
+final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
 {
     /**
-     * @var GenericFilesFinder
+     * @var LatteAnalyzer
      */
-    private $genericFilesFinder;
+    private $latteAnalyzer;
 
-    /**
-     * @var MissingClassConstantLatteAnalyzer
-     */
-    private $missingClassConstantLatteAnalyzer;
-
-    /**
-     * @var MissingClassesLatteAnalyzer
-     */
-    private $missingClassesLatteAnalyzer;
-
-    /**
-     * @var MissingClassStaticCallLatteAnalyzer
-     */
-    private $missingClassStaticCallLatteAnalyzer;
-
-    public function __construct(
-        GenericFilesFinder $genericFilesFinder,
-        MissingClassConstantLatteAnalyzer $missingClassConstantLatteAnalyzer,
-        MissingClassesLatteAnalyzer $missingClassesLatteAnalyzer,
-        MissingClassStaticCallLatteAnalyzer $missingClassStaticCallLatteAnalyzer
-    ) {
-        $this->genericFilesFinder = $genericFilesFinder;
-        $this->missingClassConstantLatteAnalyzer = $missingClassConstantLatteAnalyzer;
-        $this->missingClassesLatteAnalyzer = $missingClassesLatteAnalyzer;
-        $this->missingClassStaticCallLatteAnalyzer = $missingClassStaticCallLatteAnalyzer;
-
+    public function __construct(LatteAnalyzer $latteAnalyzer)
+    {
         parent::__construct();
+
+        $this->latteAnalyzer = $latteAnalyzer;
     }
 
     protected function configure(): void
@@ -65,13 +39,12 @@ final class CheckLatteTemplateCommand extends AbstractMigrifyCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $sources = (array) $input->getArgument(Option::SOURCES);
-        $latteFileInfos = $this->genericFilesFinder->find($sources, '*.latte');
+        $latteFileInfos = $this->smartFinder->find($sources, '*.latte');
 
         $message = sprintf('Analysing %d *.latte files', count($latteFileInfos));
         $this->symfonyStyle->note($message);
 
-        $errors = $this->analyzeFileInfosForErrors($latteFileInfos);
-
+        $errors = $this->latteAnalyzer->analyzeFileInfos($latteFileInfos);
         if ($errors === []) {
             $this->symfonyStyle->success('No errors found');
             return ShellCode::SUCCESS;
@@ -85,19 +58,5 @@ final class CheckLatteTemplateCommand extends AbstractMigrifyCommand
         $this->symfonyStyle->error($errorMassage);
 
         return ShellCode::ERROR;
-    }
-
-    /**
-     * @param SmartFileInfo[] $latteFileInfos
-     * @return string[]
-     */
-    private function analyzeFileInfosForErrors(array $latteFileInfos): array
-    {
-        $errors = [];
-        $errors += $this->missingClassesLatteAnalyzer->analyze($latteFileInfos);
-        $errors += $this->missingClassConstantLatteAnalyzer->analyze($latteFileInfos);
-        $errors += $this->missingClassStaticCallLatteAnalyzer->analyze($latteFileInfos);
-
-        return $errors;
     }
 }

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\TemplateChecker\PhpParser;
 
-use Symplify\TemplateChecker\NodeFactory\GetNameClassMethodFactory;
-use Symplify\TemplateChecker\NodeFactory\InvokeClassMethodFactory;
-use Symplify\TemplateChecker\ValueObject\ClassMethodName;
 use PhpParser\Builder\Class_ as ClassBuilder;
 use PhpParser\Builder\Namespace_;
 use PhpParser\Node\Const_;
@@ -19,11 +16,14 @@ use PhpParser\Node\Stmt\Declare_;
 use PhpParser\Node\Stmt\DeclareDeclare;
 use PhpParser\Node\Stmt\Nop;
 use PhpParser\PrettyPrinter\Standard;
+use Symplify\TemplateChecker\NodeFactory\GetNameClassMethodFactory;
+use Symplify\TemplateChecker\NodeFactory\InvokeClassMethodFactory;
+use Symplify\TemplateChecker\ValueObject\ClassMethodName;
 
 /**
  * @see \Symplify\TemplateChecker\Tests\PhpParser\LatteFilterProviderGenerator\LatteFilterProviderGeneratorTest
  */
-final class LatteFilterProviderGenerator
+final class LatteFilterProviderFactory
 {
     /**
      * @var string
@@ -60,7 +60,7 @@ final class LatteFilterProviderGenerator
         $this->getNameClassMethodFactory = $getNameClassMethodFactory;
     }
 
-    public function generate(ClassMethodName $classMethodName): string
+    public function createFromClassMethodName(ClassMethodName $classMethodName): string
     {
         $namespaceBuilder = new Namespace_(self::NAMESPACE_NAME);
 

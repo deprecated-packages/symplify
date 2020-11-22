@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Symplify\TemplateChecker\Tests\Analyzer\MissingClassStaticCallLatteAnalyzer;
 
 use Iterator;
-use Symplify\TemplateChecker\Analyzer\MissingClassStaticCallLatteAnalyzer;
-use Symplify\TemplateChecker\HttpKernel\TemplateCheckerKernel;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\TemplateChecker\Analyzer\MissingClassStaticCallLatteAnalyzer;
+use Symplify\TemplateChecker\HttpKernel\TemplateCheckerKernel;
 
 final class MissingClassStaticCallLatteAnalyzerTest extends AbstractKernelTestCase
 {

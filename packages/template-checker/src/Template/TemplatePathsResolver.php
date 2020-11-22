@@ -4,21 +4,33 @@ declare(strict_types=1);
 
 namespace Symplify\TemplateChecker\Template;
 
-use Symplify\MigrifyKernel\Exception\ShouldNotHappenException;
-use Symplify\TemplateChecker\Finder\GenericFilesFinder;
 use Nette\Utils\Strings;
+use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class TemplatePathsResolver
 {
     /**
-     * @var GenericFilesFinder
+     * @see https://regex101.com/r/dAH2eR/1
+     * @var string
      */
-    private $genericFilesFinder;
+    private const TEMPLATE_PATH_REGEX = '#(views|template)\/(?<template_relative_path>.*?)$#';
 
-    public function __construct(GenericFilesFinder $genericFilesFinder)
+    /**
+     * @see https://regex101.com/r/1xa9Ey/1
+     * @var string
+     */
+    private const BUNDLE_NAME_REGEX = '#\/(?<bundle_name>[\w]+)Bundle\.php$#';
+
+    /**
+     * @var SmartFinder
+     */
+    private $smartFinder;
+
+    public function __construct(SmartFinder $smartFinder)
     {
-        $this->genericFilesFinder = $genericFilesFinder;
+        $this->smartFinder = $smartFinder;
     }
 
     /**
@@ -27,7 +39,7 @@ final class TemplatePathsResolver
      */
     public function resolveFromDirectories(array $directories): array
     {
-        $twigTemplateFileInfos = $this->genericFilesFinder->find($directories, '*.twig');
+        $twigTemplateFileInfos = $this->smartFinder->find($directories, '*.twig');
         return $this->resolveTemplatePathsWithBundle($twigTemplateFileInfos);
     }
 
@@ -65,7 +77,7 @@ final class TemplatePathsResolver
             if ($foundFiles !== []) {
                 $bundleFileRealPath = $foundFiles[0];
 
-                $match = Strings::match($bundleFileRealPath, '#\/(?<bundle_name>[\w]+)Bundle\.php$#');
+                $match = Strings::match($bundleFileRealPath, self::BUNDLE_NAME_REGEX);
                 if (! isset($match['bundle_name'])) {
                     throw new ShouldNotHappenException();
                 }
@@ -85,7 +97,7 @@ final class TemplatePathsResolver
 
     private function resolveRelativeTemplateFilepath(SmartFileInfo $templateFileInfo)
     {
-        $match = Strings::match($templateFileInfo->getRealPath(), '#(views|template)/(?<template_relative_path>.*?)$#');
+        $match = Strings::match($templateFileInfo->getRealPath(), self::TEMPLATE_PATH_REGEX);
         if (! isset($match['template_relative_path'])) {
             throw new ShouldNotHappenException();
         }

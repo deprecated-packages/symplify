@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\TemplateChecker;
 
-use Symplify\TemplateChecker\ValueObject\ClassMethodName;
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\TemplateChecker\ValueObject\ClassMethodName;
 
 /**
  * @see \Symplify\TemplateChecker\Tests\LatteStaticCallAnalyzer\LatteStaticCallAnalyzerTest

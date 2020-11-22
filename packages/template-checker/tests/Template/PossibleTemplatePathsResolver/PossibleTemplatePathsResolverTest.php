@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\TemplateChecker\Tests\Template\PossibleTemplatePathsResolver;
 
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\TemplateChecker\HttpKernel\TemplateCheckerKernel;
 use Symplify\TemplateChecker\Template\TemplatePathsResolver;
-use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class PossibleTemplatePathsResolverTest extends AbstractKernelTestCase
 {

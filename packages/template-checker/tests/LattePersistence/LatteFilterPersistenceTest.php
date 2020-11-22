@@ -6,10 +6,10 @@ namespace Symplify\TemplateChecker\Tests\LattePersistence;
 
 use Iterator;
 use Latte\Engine;
-use Symplify\TemplateChecker\Tests\LattePersistence\Source\PlusFilterProvider;
-use Symplify\TemplateChecker\Tests\LattePersistence\Source\SomePresenter;
 use Nette\Bridges\ApplicationLatte\UIMacros;
 use PHPUnit\Framework\TestCase;
+use Symplify\TemplateChecker\Tests\LattePersistence\Source\PlusFilterProvider;
+use Symplify\TemplateChecker\Tests\LattePersistence\Source\SomePresenter;
 
 /**
  * This is a meta test for @see \Symplify\TemplateChecker\StaticCallWithFilterReplacer
@@ -28,6 +28,7 @@ final class LatteFilterPersistenceTest extends TestCase
 
         // install nette/application macros, so we have {link} available
         UIMacros::install($this->latteEngine->getCompiler());
+
         $this->latteEngine->addProvider('uiControl', new SomePresenter());
         $this->latteEngine->addProvider('uiPresenter', new SomePresenter());
 

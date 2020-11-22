@@ -65,6 +65,7 @@ The filter will be provided
 ```php
 use App\Contract\Latte\FilterProviderInterface;
 use App\SomeClass;
+
 final class SomeMethodFilterProvider implements FilterProviderInterface
 {
     public const FILTER_NAME = 'someMethod';

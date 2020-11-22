@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\TemplateChecker\NodeFactory;
 
-use Symplify\TemplateChecker\PhpParser\ReflectionMethodToClassMethodParser;
-use Symplify\TemplateChecker\ValueObject\ClassMethodName;
 use PhpParser\Builder\Method;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\StaticCall;
@@ -13,6 +11,8 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
+use Symplify\TemplateChecker\PhpParser\ReflectionMethodToClassMethodParser;
+use Symplify\TemplateChecker\ValueObject\ClassMethodName;
 
 final class InvokeClassMethodFactory
 {

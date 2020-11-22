@@ -297,6 +297,7 @@ parameters:
         -
             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
             paths:
+                - packages/template-checker/src/Latte/LatteFilterManager.php # 88
                 - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 234
                 - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 234
                 - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 235
@@ -333,3 +334,5 @@ parameters:
         -
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
             path: packages/vendor-patches/src/Composer/ComposerPatchesConfigurationUpdater.php
+
+        - '#Parameter \#1 \$type of method PhpParser\\Builder\\FunctionLike\:\:setReturnType\(\) expects PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|string, PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType given#'
