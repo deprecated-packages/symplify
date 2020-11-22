@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Symplify\VendorPatches\Command;
 
 use Migrify\MigrifyKernel\Command\AbstractMigrifyCommand;
-use Nette\Utils\Strings;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Composer\VendorDirProvider;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\VendorPatches\Composer\ComposerPatchesConfigurationUpdater;
+use Symplify\VendorPatches\Console\GenerateCommandReporter;
 use Symplify\VendorPatches\Differ\PatchDiffer;
 use Symplify\VendorPatches\Finder\OldToNewFilesFinder;
-use Symplify\VendorPatches\ValueObject\OldAndNewFileInfo;
+use Symplify\VendorPatches\PatchFileFactory;
 
 final class GenerateCommand extends AbstractMigrifyCommand
 {
@@ -37,11 +37,23 @@ final class GenerateCommand extends AbstractMigrifyCommand
      */
     private $vendorDirProvider;
 
+    /**
+     * @var PatchFileFactory
+     */
+    private $patchFileFactory;
+
+    /**
+     * @var GenerateCommandReporter
+     */
+    private $generateCommandReporter;
+
     public function __construct(
         OldToNewFilesFinder $oldToNewFilesFinder,
         PatchDiffer $patchDiffer,
         ComposerPatchesConfigurationUpdater $composerPatchesConfigurationUpdater,
-        VendorDirProvider $vendorDirProvider
+        VendorDirProvider $vendorDirProvider,
+        PatchFileFactory $patchFileFactory,
+        GenerateCommandReporter $generateCommandReporter
     ) {
         $this->oldToNewFilesFinder = $oldToNewFilesFinder;
         $this->patchDiffer = $patchDiffer;
@@ -50,6 +62,8 @@ final class GenerateCommand extends AbstractMigrifyCommand
         parent::__construct();
 
         $this->vendorDirProvider = $vendorDirProvider;
+        $this->patchFileFactory = $patchFileFactory;
+        $this->generateCommandReporter = $generateCommandReporter;
     }
 
     protected function configure(): void
@@ -57,7 +71,7 @@ final class GenerateCommand extends AbstractMigrifyCommand
         $this->setDescription('Generate patches from /vendor directory');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $vendorDirectory = $this->vendorDirProvider->provide();
         $oldAndNewFileInfos = $this->oldToNewFilesFinder->find($vendorDirectory);
@@ -67,24 +81,18 @@ final class GenerateCommand extends AbstractMigrifyCommand
 
         foreach ($oldAndNewFileInfos as $oldAndNewFileInfo) {
             if ($oldAndNewFileInfo->isContentIdentical()) {
-                $this->reportIdenticalNewAndOldFile($oldAndNewFileInfo);
+                $this->generateCommandReporter->reportIdenticalNewAndOldFile($oldAndNewFileInfo);
                 continue;
             }
 
             // write into patches file
-            $patchFileRelativePath = $this->createPatchFilePath($oldAndNewFileInfo, $vendorDirectory);
+            $patchFileRelativePath = $this->patchFileFactory->createPatchFilePath($oldAndNewFileInfo, $vendorDirectory);
             $composerExtraPatches[$oldAndNewFileInfo->getPackageName()][] = $patchFileRelativePath;
 
             $patchFileAbsolutePath = dirname($vendorDirectory) . DIRECTORY_SEPARATOR . $patchFileRelativePath;
 
             // dump the patch
             $patchDiff = $this->patchDiffer->diff($oldAndNewFileInfo);
-
-            if ($this->doesPatchAlreadyExist($patchFileAbsolutePath, $patchDiff)) {
-                $message = sprintf('Patch file "%s" with same content is already created', $patchFileRelativePath);
-                $this->symfonyStyle->note($message);
-                continue;
-            }
 
             if (is_file($patchFileAbsolutePath)) {
                 $message = sprintf('File "%s" was updated', $patchFileRelativePath);
@@ -109,37 +117,5 @@ final class GenerateCommand extends AbstractMigrifyCommand
         }
 
         return ShellCode::SUCCESS;
-    }
-
-    private function createPatchFilePath(OldAndNewFileInfo $oldAndNewFileInfo, string $vendorDirectory): string
-    {
-        $newFileInfo = $oldAndNewFileInfo->getNewFileInfo();
-
-        $inVendorRelativeFilePath = $newFileInfo->getRelativeFilePathFromDirectory($vendorDirectory);
-
-        $relativeFilePathWithoutSuffix = Strings::lower($inVendorRelativeFilePath);
-        $pathFileName = Strings::webalize($relativeFilePathWithoutSuffix) . '.patch';
-
-        return 'patches' . DIRECTORY_SEPARATOR . $pathFileName;
-    }
-
-    private function doesPatchAlreadyExist(string $patchFileAbsolutePath, string $diff): bool
-    {
-        if (! is_file($patchFileAbsolutePath)) {
-            return false;
-        }
-
-        return $this->smartFileSystem->readFile($patchFileAbsolutePath) === $diff;
-    }
-
-    private function reportIdenticalNewAndOldFile(OldAndNewFileInfo $oldAndNewFileInfo): void
-    {
-        $message = sprintf(
-            'Files "%s" and "%s" have the same content. Did you forgot to change it?',
-            $oldAndNewFileInfo->getOldFileRelativePath(),
-            $oldAndNewFileInfo->getNewFileRelativePath()
-        );
-
-        $this->symfonyStyle->warning($message);
     }
 }
