@@ -41,6 +41,8 @@ parameters:
         - packages
 
     excludes_analyse:
+        # there is some bug
+        - packages/package-builder/src/Testing/AbstractKernelTestCase.php
         # functions false positive
         - *packages/**/tests/**/config.php
         - *packages/**/tests/**-config.php
