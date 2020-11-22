@@ -11,4 +11,10 @@ final class Option
      * @var string
      */
     public const CONFIG = 'config';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const SOURCES = 'sources';
 }

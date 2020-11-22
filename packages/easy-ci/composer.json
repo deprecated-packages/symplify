@@ -1,0 +1,33 @@
+{
+    "name": "symplify/easy-ci",
+    "description": "Tools that you use in any CI",
+    "license": "MIT",
+    "bin": [
+        "bin/easy-ci"
+    ],
+    "require": {
+        "php": ">=7.2",
+        "symfony/dependency-injection": "^4.4|^5.1",
+        "symfony/console": "^4.4|^5.1",
+        "symfony/http-kernel": "^4.4|^5.1",
+        "symfony/yaml": "^4.4|^5.1",
+        "nette/utils": "^3.0",
+        "symplify/package-builder": "^9.0",
+        "symplify/symplify-kernel": "^9.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5|^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\EasyCI\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\EasyCI\\Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
