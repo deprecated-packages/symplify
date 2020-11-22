@@ -10,6 +10,7 @@ use SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+use Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -50,6 +51,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::SKIP, [
+        CommentedOutCodeSniff::class => [__DIR__ . '/packages/latte-to-twig/src/CaseConverter/*'],
         ArrayDeclarationSniff::class => null,
         UnaryOperatorSpacesFixer::class => null,
         PhpUnitStrictFixer::class => [

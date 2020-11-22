@@ -1,0 +1,5 @@
+<span class="blockquote-footer" n:ifset="$reference['author']">{$reference['author']}</span>
+-----
+{% if reference.author is defined %}
+<span class="blockquote-footer">{{ reference.author }}</span>
+{% endif %}
