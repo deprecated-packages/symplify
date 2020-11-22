@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\VendorPatches\HttpKernel;
 
-use Migrify\MigrifyKernel\Bundle\MigrifyKernelBundle;
-use Migrify\MigrifyKernel\HttpKernel\AbstractMigrifyKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle;
+use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
+use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class VendorPatchesKernel extends AbstractMigrifyKernel
+final class VendorPatchesKernel extends AbstractSymplifyKernel
 {
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
@@ -22,6 +22,6 @@ final class VendorPatchesKernel extends AbstractMigrifyKernel
      */
     public function registerBundles(): iterable
     {
-        return [new MigrifyKernelBundle(), new ComposerJsonManipulatorBundle()];
+        return [new SymplifyKernelBundle(), new ComposerJsonManipulatorBundle()];
     }
 }
