@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -29,9 +30,15 @@ final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplif
      */
     private $nodeFinder;
 
-    public function __construct(NodeFinder $nodeFinder)
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
     {
         $this->nodeFinder = $nodeFinder;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -87,16 +94,21 @@ CODE_SAMPLE
             return false;
         }
 
-        if (! $stmts[0] instanceof Foreach_) {
+        $nestedForeach = $stmts[0];
+        if (! $nestedForeach instanceof Foreach_) {
             return false;
         }
 
-        /** @var Variable $foreachVariable */
         $foreachVariable = $foreach->expr->getAttribute(PHPStanAttributeKey::NEXT);
+        if (! $foreachVariable instanceof Variable) {
+            return false;
+        }
 
-        /** @var Variable $nextForeachVariable */
-        $nextForeachVariable = $stmts[0]->expr;
+        $nextForeachVariable = $nestedForeach->expr;
+        if (! $nextForeachVariable instanceof Variable) {
+            return false;
+        }
 
-        return $foreachVariable->name === $nextForeachVariable->name;
+        return $this->simpleNameResolver->areNamesEqual($foreachVariable, $nextForeachVariable);
     }
 }
