@@ -8,7 +8,7 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "guzzlehttp/guzzle": "^6.5|^7.0",
         "j7mbo/twitter-api-php": "^1.0.6",
-        "jean85/pretty-package-versions": "^1.2",
+        "jean85/pretty-package-versions": "^1.5",
         "nette/di": "^3.0",
         "nette/finder": "^2.5",
         "nette/neon": "^3.2",
@@ -49,7 +49,6 @@
         "jetbrains/phpstorm-stubs": "2020.2 as dev-master",
         "nette/application": "^3.0",
         "nette/bootstrap": "^3.0",
-        "rector/rector": "dev-master",
         "symfony/framework-bundle": "^4.4|^5.1",
         "symfony/templating": "^4.4|^5.1",
         "symfony/translation": "^4.4|^5.1",
@@ -98,7 +97,8 @@
     },
     "autoload-dev": {
         "classmap": [
-            "packages/autodiscovery/tests/Source/KernelProjectDir"
+            "packages/autodiscovery/tests/Source/KernelProjectDir",
+            "packages/rule-doc-generator/stubs"
         ],
         "files": [
             "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_object_function.php",

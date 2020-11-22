@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker\Console\Input;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symplify\ChangelogLinker\ValueObject\Option as OptionAlias;
+use Symplify\ChangelogLinker\ValueObject\Option;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class PriorityResolver
@@ -28,7 +28,7 @@ final class PriorityResolver
     {
         $rawOptions = $this->privatesAccessor->getPrivateProperty($input, 'options');
 
-        $requiredOptions = [OptionAlias::IN_PACKAGES, OptionAlias::IN_CATEGORIES];
+        $requiredOptions = [Option::IN_PACKAGES, Option::IN_CATEGORIES];
 
         if (count(array_intersect($requiredOptions, array_keys($rawOptions))) !== count($requiredOptions)) {
             return null;
@@ -36,7 +36,7 @@ final class PriorityResolver
 
         $names = array_keys($rawOptions);
         foreach ($names as $name) {
-            if ($name === OptionAlias::IN_PACKAGES) {
+            if ($name === Option::IN_PACKAGES) {
                 return 'packages';
             }
 
