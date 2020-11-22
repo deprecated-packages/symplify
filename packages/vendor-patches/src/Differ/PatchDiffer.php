@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\VendorPatches\Differ;
 
-use Migrify\MigrifyKernel\Exception\ShouldNotHappenException;
 use Nette\Utils\Strings;
 use SebastianBergmann\Diff\Differ;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 use Symplify\VendorPatches\ValueObject\OldAndNewFileInfo;
 
 /**

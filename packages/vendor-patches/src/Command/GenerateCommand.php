@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\VendorPatches\Command;
 
-use Migrify\MigrifyKernel\Command\AbstractMigrifyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Composer\VendorDirProvider;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\VendorPatches\Composer\ComposerPatchesConfigurationUpdater;
 use Symplify\VendorPatches\Console\GenerateCommandReporter;
@@ -15,7 +15,7 @@ use Symplify\VendorPatches\Differ\PatchDiffer;
 use Symplify\VendorPatches\Finder\OldToNewFilesFinder;
 use Symplify\VendorPatches\PatchFileFactory;
 
-final class GenerateCommand extends AbstractMigrifyCommand
+final class GenerateCommand extends AbstractSymplifyCommand
 {
     /**
      * @var OldToNewFilesFinder

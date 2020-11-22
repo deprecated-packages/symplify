@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\VendorPatches\Composer;
 
-use Migrify\MigrifyKernel\Exception\ShouldNotHappenException;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 use Symplify\VendorPatches\FileSystem\PathResolver;
 use Symplify\VendorPatches\Json\JsonFileSystem;
 

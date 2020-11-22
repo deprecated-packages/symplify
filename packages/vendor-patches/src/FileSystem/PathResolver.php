@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\VendorPatches\FileSystem;
 
-use Migrify\MigrifyKernel\Exception\ShouldNotHappenException;
 use Nette\Utils\Strings;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class PathResolver
 {

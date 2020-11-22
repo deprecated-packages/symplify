@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Migrify\MigrifyKernel\Bootstrap\KernelBootAndApplicationRun;
+use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 use Symplify\VendorPatches\HttpKernel\VendorPatchesKernel;
 
 $possibleAutoloadPaths = [
