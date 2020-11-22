@@ -306,3 +306,5 @@ parameters:
              message: '#Class cognitive complexity is 29, keep it under 25#'
              paths:
                  - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
+
+        - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
