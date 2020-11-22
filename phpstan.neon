@@ -306,4 +306,3 @@ parameters:
              message: '#Class cognitive complexity is 29, keep it under 25#'
              paths:
                  - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
-
