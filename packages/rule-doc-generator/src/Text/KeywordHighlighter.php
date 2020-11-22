@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\RuleDocGenerator\Text;
 
 use Nette\Utils\Strings;
-use Rector\NodeTypeResolver\ClassExistenceStaticHelper;
+use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Throwable;
 
 /**
@@ -50,6 +50,16 @@ final class KeywordHighlighter
      * @see https://regex101.com/r/bwUIKb/1
      */
     private const METHOD_NAME_REGEX = '#\w+\(\)#';
+
+    /**
+     * @var ClassLikeExistenceChecker
+     */
+    private $classLikeExistenceChecker;
+
+    public function __construct(ClassLikeExistenceChecker $classLikeExistenceChecker)
+    {
+        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
+    }
 
     public function highlight(string $content): string
     {
@@ -106,7 +116,7 @@ final class KeywordHighlighter
             return true;
         }
 
-        if (ClassExistenceStaticHelper::doesClassLikeExist($word)) {
+        if ($this->classLikeExistenceChecker->doesClassLikeExist($word)) {
             // not a class
             if (! Strings::contains($word, '\\')) {
                 return in_array($word, [Throwable::class, 'Exception'], true);

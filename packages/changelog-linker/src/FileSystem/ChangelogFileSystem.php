@@ -6,7 +6,7 @@ namespace Symplify\ChangelogLinker\FileSystem;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\ChangelogLinker;
-use Symplify\ChangelogLinker\Configuration\Option;
+use Symplify\ChangelogLinker\ValueObject\Option as OptionAlias;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -94,7 +94,7 @@ final class ChangelogFileSystem
 
     private function getChangelogFilePath(): string
     {
-        $fileParameter = $this->parameterProvider->provideParameter(Option::FILE);
+        $fileParameter = $this->parameterProvider->provideParameter(OptionAlias::FILE);
         if (is_string($fileParameter) && file_exists($fileParameter)) {
             return $fileParameter;
         }

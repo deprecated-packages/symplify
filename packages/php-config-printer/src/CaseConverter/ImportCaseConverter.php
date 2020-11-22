@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\CaseConverter;
 
-use Migrify\MigrifyKernel\Exception\NotImplementedYetException;
 use Nette\Utils\Strings;
 use PhpParser\BuilderHelpers;
 use PhpParser\Node\Arg;
@@ -14,6 +13,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
+use Symplify\PhpConfigPrinter\Exception\NotImplementedYetException;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 use Symplify\PhpConfigPrinter\Sorter\YamlArgumentSorter;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
