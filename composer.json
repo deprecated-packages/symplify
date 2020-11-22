@@ -5,6 +5,7 @@
     "require": {
         "php": ">=7.2",
         "composer/xdebug-handler": "^1.4",
+        "cweagans/composer-patches": "^1.6",
         "friendsofphp/php-cs-fixer": "^2.16",
         "guzzlehttp/guzzle": "^6.5|^7.0",
         "j7mbo/twitter-api-php": "^1.0.6",
@@ -96,7 +97,8 @@
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
             "Symplify\\StaticDetector\\": "packages/static-detector/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
-            "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src"
+            "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src",
+            "Symplify\\VendorPatches\\": "packages/vendor-patches/src"
         }
     },
     "autoload-dev": {
@@ -147,7 +149,8 @@
             "Symplify\\StaticDetector\\Tests\\": "packages/static-detector/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
-            "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests"
+            "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests",
+            "Symplify\\VendorPatches\\Tests\\": "packages/vendor-patches/tests"
         }
     },
     "replace": {
@@ -178,7 +181,8 @@
         "symplify/smart-file-system": "self.version",
         "symplify/static-detector": "self.version",
         "symplify/symfony-static-dumper": "self.version",
-        "symplify/symplify-kernel": "self.version"
+        "symplify/symplify-kernel": "self.version",
+        "symplify/vendor-patches": "self.version"
     },
     "scripts": {
         "complete-check": [

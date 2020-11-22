@@ -327,3 +327,9 @@ parameters:
         -
             message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
             path: packages/easy-ci/src/Finder/SrcTestsDirectoriesFinder.php
+
+        - '#The path "/JsonFileSystemSource/temp_file\.json" was not found#'
+
+        -
+            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
+            path: packages/vendor-patches/src/Composer/ComposerPatchesConfigurationUpdater.php
