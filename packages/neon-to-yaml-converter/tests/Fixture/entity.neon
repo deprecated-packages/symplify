@@ -1,0 +1,6 @@
+someValue: Column(type=int, nulls=true)
+-----
+someValue:
+    value: Column
+    type: int
+    nulls: true

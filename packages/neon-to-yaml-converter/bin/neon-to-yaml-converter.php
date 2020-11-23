@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-use Symplify\Psr4Switcher\HttpKernel\Psr4SwitcherKernel;
+use Symplify\NeonToYamlConverter\HttpKernel\NeonToYamlKernel;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
+# 1. autoload
 $possibleAutoloadPaths = [
     // after split package
     __DIR__ . '/../vendor/autoload.php',
@@ -17,9 +18,11 @@ $possibleAutoloadPaths = [
 foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     if (file_exists($possibleAutoloadPath)) {
         require_once $possibleAutoloadPath;
+
         break;
     }
 }
 
-$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(Psr4SwitcherKernel::class);
+# 2. create container
+$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(NeonToYamlKernel::class);
 $kernelBootAndApplicationRun->run();

@@ -334,7 +334,11 @@ parameters:
 
         -
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
-            path: packages/vendor-patches/src/Composer/ComposerPatchesConfigurationUpdater.php
+            paths:
+                 - packages/vendor-patches/src/Composer/ComposerPatchesConfigurationUpdater.php
+                 # yaml array construction
+                 - packages/neon-to-yaml-converter/src/ConverterWorker/*ConverterWorker.php
+                 - */packages/neon-to-yaml-converter/src/NeonToYamlConverter.php
 
         - '#Parameter \#1 \$type of method PhpParser\\Builder\\FunctionLike\:\:setReturnType\(\) expects PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|string, PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType given#'
         - '#Cannot cast array<string\>\|bool\|string\|null to string#'
@@ -342,3 +346,4 @@ parameters:
         -
             message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
             path: 'packages/psr4-switcher/src/Configuration/Psr4SwitcherConfiguration.php'
+

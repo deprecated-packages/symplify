@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\Psr4Switcher\Configuration;
 
-use Migrify\MigrifyKernel\ValueObject\MigrifyOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\Psr4Switcher\Exception\ConfigurationException;
 use Symplify\Psr4Switcher\ValueObject\Option;
@@ -50,7 +49,7 @@ final class Psr4SwitcherConfiguration
         $this->fileSystemGuard->ensureFileExists($composerJsonPath, __METHOD__);
 
         $this->composerJsonPath = $composerJsonPath;
-        $this->source = (array) $input->getArgument(MigrifyOption::SOURCES);
+        $this->source = (array) $input->getArgument(Option::SOURCES);
     }
 
     /**
