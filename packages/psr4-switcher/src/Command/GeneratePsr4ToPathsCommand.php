@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\Psr4Switcher\Command;
 
-use Migrify\MigrifyKernel\ValueObject\MigrifyOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -65,7 +64,7 @@ final class GeneratePsr4ToPathsCommand extends AbstractSymplifyCommand
     {
         $this->setDescription('Check if application is PSR-4 ready');
 
-        $this->addArgument(MigrifyOption::SOURCES, InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'Path to source');
+        $this->addArgument(Option::SOURCES, InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'Path to source');
         $this->addOption(Option::COMPOSER_JSON, null, InputOption::VALUE_REQUIRED, 'Path to composer.json');
     }
 

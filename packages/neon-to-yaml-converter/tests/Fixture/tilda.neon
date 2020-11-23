@@ -1,0 +1,7 @@
+framework:
+     router:
+        strict_requirements: ~ # should be null
+-----
+framework:
+    router:
+        strict_requirements: ~

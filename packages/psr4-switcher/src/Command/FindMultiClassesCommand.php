@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\Psr4Switcher\Command;
 
-use Migrify\MigrifyKernel\ValueObject\MigrifyOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Psr4Switcher\Finder\MultipleClassInOneFileFinder;
+use Symplify\Psr4Switcher\ValueObject\Option;
 
 final class FindMultiClassesCommand extends AbstractSymplifyCommand
 {
@@ -30,7 +30,7 @@ final class FindMultiClassesCommand extends AbstractSymplifyCommand
     {
         $this->setDescription('Find multiple classes in one file');
         $this->addArgument(
-            MigrifyOption::SOURCES,
+            Option::SOURCES,
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,
             'Path to source to analyse'
         );
@@ -39,7 +39,7 @@ final class FindMultiClassesCommand extends AbstractSymplifyCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var string[] $source */
-        $source = $input->getArgument(MigrifyOption::SOURCES);
+        $source = $input->getArgument(Option::SOURCES);
 
         $multipleClassesByFile = $this->multipleClassInOneFileFinder->findInDirectories($source);
         if ($multipleClassesByFile === []) {
