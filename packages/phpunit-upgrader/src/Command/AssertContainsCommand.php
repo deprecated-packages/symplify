@@ -8,34 +8,24 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\ConsoleColorDiff\Console\Output\ConsoleDiffer;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\PHPUnitUpgrader\FileInfoDecorator\AssertContainsInfoDecorator;
-use Symplify\PHPUnitUpgrader\ValueObject\FilePathWithContent;
+use Symplify\PHPUnitUpgrader\AssertContainsMethodCallRenamer;
 use Symplify\PHPUnitUpgrader\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class AssertContainsCommand extends AbstractSymplifyCommand
 {
     /**
-     * @var ConsoleDiffer
+     * @var AssertContainsMethodCallRenamer
      */
-    private $consoleDiffer;
+    private $assertContainsMethodCallRenamer;
 
-    /**
-     * @var AssertContainsInfoDecorator
-     */
-    private $assertContainsInfoDecorator;
-
-    public function __construct(
-        AssertContainsInfoDecorator $assertContainsInfoDecorator,
-        ConsoleDiffer $consoleDiffer
-    ) {
-        $this->assertContainsInfoDecorator = $assertContainsInfoDecorator;
-        $this->consoleDiffer = $consoleDiffer;
-
+    public function __construct(AssertContainsMethodCallRenamer $assertContainsMethodCallRenamer)
+    {
         parent::__construct();
+
+        $this->assertContainsMethodCallRenamer = $assertContainsMethodCallRenamer;
     }
 
     protected function configure(): void
@@ -66,34 +56,10 @@ final class AssertContainsCommand extends AbstractSymplifyCommand
         $this->fileSystemGuard->ensureFileExists($errorReportFile, __METHOD__);
 
         $errorReportFileInfo = new SmartFileInfo($errorReportFile);
-
-        foreach ($testFileInfos as $testFileInfo) {
-            $filePathWithContent = new FilePathWithContent(
-                $testFileInfo->getRelativeFilePathFromCwd(),
-                $testFileInfo->getContents()
-            );
-
-            $changedContent = $this->assertContainsInfoDecorator->decorate($filePathWithContent, $errorReportFileInfo);
-            if ($changedContent === $testFileInfo->getContents()) {
-                continue;
-            }
-
-            $this->processChangedFileInfo($testFileInfo, $changedContent);
-        }
+        $this->assertContainsMethodCallRenamer->renameFileInfos($testFileInfos, $errorReportFileInfo);
 
         $this->symfonyStyle->success('assertContains() was converted to assertStringContainsString() where needed');
 
         return ShellCode::SUCCESS;
-    }
-
-    private function processChangedFileInfo(SmartFileInfo $testFileInfo, string $changedContent): void
-    {
-        $this->symfonyStyle->newLine();
-        $this->consoleDiffer->diff($testFileInfo->getContents(), $changedContent);
-
-        // update file content
-        $this->smartFileSystem->dumpFile($testFileInfo->getPathname(), $changedContent);
-        $message = sprintf('File "%s" was updated', $testFileInfo->getRelativeFilePathFromCwd());
-        $this->symfonyStyle->success($message);
     }
 }
