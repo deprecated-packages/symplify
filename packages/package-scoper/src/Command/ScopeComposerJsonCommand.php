@@ -13,15 +13,9 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageScoper\ComposerJson\ScopedComposerJsonFactory;
 use Symplify\PackageScoper\ValueObject\Option;
-use Symplify\SmartFileSystem\FileSystemGuard;
 
 final class ScopeComposerJsonCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var FileSystemGuard
-     */
-    private $fileSystemGuard;
-
     /**
      * @var ComposerJsonFactory
      */
@@ -38,12 +32,10 @@ final class ScopeComposerJsonCommand extends AbstractSymplifyCommand
     private $composerJsonPrinter;
 
     public function __construct(
-        FileSystemGuard $fileSystemGuard,
         ComposerJsonFactory $composerJsonFactory,
         ScopedComposerJsonFactory $scopedComposerJsonFactory,
         ComposerJsonPrinter $composerJsonPrinter
     ) {
-        $this->fileSystemGuard = $fileSystemGuard;
         $this->composerJsonFactory = $composerJsonFactory;
         $this->scopedComposerJsonFactory = $scopedComposerJsonFactory;
         $this->composerJsonPrinter = $composerJsonPrinter;

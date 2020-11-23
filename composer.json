@@ -60,7 +60,6 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\Psr4Switcher\\": "packages/psr4-switcher/src",
             "Symplify\\Autodiscovery\\": "packages/autodiscovery/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\ChangelogLinker\\": "packages/changelog-linker/src",
@@ -90,9 +89,11 @@
             "Symplify\\PHPStanRules\\": "packages/phpstan-rules/src",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\": "packages/phpstan-rules/packages/cognitive-complexity/src",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/phpstan-rules/packages/object-calisthenics/src",
+            "Symplify\\PHPUnitUpgrader\\": "packages/phpunit-upgrader/src",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\PackageScoper\\": "packages/package-scoper/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
+            "Symplify\\Psr4Switcher\\": "packages/psr4-switcher/src",
             "Symplify\\RuleDocGenerator\\": "packages/rule-doc-generator/src",
             "Symplify\\SetConfigResolver\\": "packages/set-config-resolver/src",
             "Symplify\\Skipper\\": "packages/skipper/src",
@@ -115,7 +116,6 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
-            "Symplify\\Psr4Switcher\\Tests\\": "packages/psr4-switcher/tests",
             "Symplify\\Autodiscovery\\Tests\\": "packages/autodiscovery/tests",
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/changelog-linker/tests",
@@ -143,9 +143,11 @@
             "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/phpstan-rules/packages/cognitive-complexity/tests",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/phpstan-rules/packages/object-calisthenics/tests",
             "Symplify\\PHPStanRules\\Tests\\": "packages/phpstan-rules/tests",
+            "Symplify\\PHPUnitUpgrader\\Tests\\": "packages/phpunit-upgrader/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\PackageScoper\\Tests\\": "packages/package-scoper/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
+            "Symplify\\Psr4Switcher\\Tests\\": "packages/psr4-switcher/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
             "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
             "Symplify\\Skipper\\Tests\\": "packages/skipper/tests",
@@ -180,6 +182,7 @@
         "symplify/phpstan-extensions": "self.version",
         "symplify/phpstan-php-config": "self.version",
         "symplify/phpstan-rules": "self.version",
+        "symplify/phpunit-upgrader": "self.version",
         "symplify/psr4-switcher": "self.version",
         "symplify/rule-doc-generator": "self.version",
         "symplify/set-config-resolver": "self.version",

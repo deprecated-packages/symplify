@@ -336,6 +336,7 @@ parameters:
             path: packages/vendor-patches/src/Composer/ComposerPatchesConfigurationUpdater.php
 
         - '#Parameter \#1 \$type of method PhpParser\\Builder\\FunctionLike\:\:setReturnType\(\) expects PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|string, PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType given#'
+        - '#Cannot cast array<string\>\|bool\|string\|null to string#'
 
         -
             message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
