@@ -60,6 +60,7 @@
     },
     "autoload": {
         "psr-4": {
+            "Symplify\\Psr4Switcher\\": "packages/psr4-switcher/src",
             "Symplify\\Autodiscovery\\": "packages/autodiscovery/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\ChangelogLinker\\": "packages/changelog-linker/src",
@@ -114,6 +115,7 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
+            "Symplify\\Psr4Switcher\\Tests\\": "packages/psr4-switcher/tests",
             "Symplify\\Autodiscovery\\Tests\\": "packages/autodiscovery/tests",
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/changelog-linker/tests",
@@ -178,6 +180,7 @@
         "symplify/phpstan-extensions": "self.version",
         "symplify/phpstan-php-config": "self.version",
         "symplify/phpstan-rules": "self.version",
+        "symplify/psr4-switcher": "self.version",
         "symplify/rule-doc-generator": "self.version",
         "symplify/set-config-resolver": "self.version",
         "symplify/skipper": "self.version",
