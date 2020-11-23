@@ -13,16 +13,10 @@ use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PHPStanPHPConfig\Neon\NeonFilePrinter;
 use Symplify\PHPStanPHPConfig\PHPStanPHPToNeonConverter;
 use Symplify\PHPStanPHPConfig\ValueObject\Option;
-use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConvertCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var FileSystemGuard
-     */
-    private $fileSystemGuard;
-
     /**
      * @var PHPStanPHPToNeonConverter
      */
@@ -34,16 +28,13 @@ final class ConvertCommand extends AbstractSymplifyCommand
     private $neonFilePrinter;
 
     public function __construct(
-        FileSystemGuard $fileSystemGuard,
         PHPStanPHPToNeonConverter $phpStanPHPToNeonConverter,
         NeonFilePrinter $neonFilePrinter
     ) {
-        $this->fileSystemGuard = $fileSystemGuard;
         $this->phpStanPHPToNeonConverter = $phpStanPHPToNeonConverter;
+        $this->neonFilePrinter = $neonFilePrinter;
 
         parent::__construct();
-
-        $this->neonFilePrinter = $neonFilePrinter;
     }
 
     protected function configure(): void

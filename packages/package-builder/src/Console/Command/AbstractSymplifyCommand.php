@@ -8,6 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\ValueObject\Option;
+use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -28,6 +29,11 @@ abstract class AbstractSymplifyCommand extends Command
      */
     protected $smartFinder;
 
+    /**
+     * @var FileSystemGuard
+     */
+    protected $fileSystemGuard;
+
     public function __construct()
     {
         parent::__construct();
@@ -41,10 +47,12 @@ abstract class AbstractSymplifyCommand extends Command
     public function autowireAbstractSymplifyCommand(
         SymfonyStyle $symfonyStyle,
         SmartFileSystem $smartFileSystem,
-        SmartFinder $smartFinder
+        SmartFinder $smartFinder,
+        FileSystemGuard $fileSystemGuard
     ): void {
         $this->symfonyStyle = $symfonyStyle;
         $this->smartFileSystem = $smartFileSystem;
         $this->smartFinder = $smartFinder;
+        $this->fileSystemGuard = $fileSystemGuard;
     }
 }

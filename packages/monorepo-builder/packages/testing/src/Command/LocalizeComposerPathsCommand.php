@@ -13,7 +13,6 @@ use Symplify\MonorepoBuilder\Testing\ComposerJsonRequireUpdater;
 use Symplify\MonorepoBuilder\Testing\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
@@ -29,11 +28,6 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
     private $composerJsonRequireUpdater;
 
     /**
-     * @var FileSystemGuard
-     */
-    private $fileSystemGuard;
-
-    /**
      * @var ComposerJsonRepositoriesUpdater
      */
     private $composerJsonRepositoriesUpdater;
@@ -41,16 +35,13 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
     public function __construct(
         ComposerJsonProvider $composerJsonProvider,
         ComposerJsonRequireUpdater $composerJsonRequireUpdater,
-        ComposerJsonRepositoriesUpdater $composerJsonRepositoriesUpdater,
-        FileSystemGuard $fileSystemGuard
+        ComposerJsonRepositoriesUpdater $composerJsonRepositoriesUpdater
     ) {
         $this->composerJsonProvider = $composerJsonProvider;
         $this->composerJsonRequireUpdater = $composerJsonRequireUpdater;
-        $this->fileSystemGuard = $fileSystemGuard;
+        $this->composerJsonRepositoriesUpdater = $composerJsonRepositoriesUpdater;
 
         parent::__construct();
-
-        $this->composerJsonRepositoriesUpdater = $composerJsonRepositoriesUpdater;
     }
 
     protected function configure(): void
