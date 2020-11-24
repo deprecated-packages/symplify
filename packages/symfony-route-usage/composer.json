@@ -7,7 +7,7 @@
         "php": ">=7.2",
         "ext-pdo": "*",
         "symplify/package-builder": "^9.0",
-        "symplify/smart-file-system": "dev-master",
+        "symplify/smart-file-system": "^9.0",
         "symplify/symplify-kernel": "^9.0",
         "knplabs/doctrine-behaviors": "^2.0.7"
     },

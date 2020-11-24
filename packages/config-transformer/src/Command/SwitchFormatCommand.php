@@ -13,9 +13,8 @@ use Symplify\ConfigTransformer\Converter\ConvertedContentFactory;
 use Symplify\ConfigTransformer\FileSystem\ConfigFileDumper;
 use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\ConfigTransformer\ValueObject\Option;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\SymplifyKernel\Command\AbstractSymplifyCommand;
-use Symplify\SymplifyKernel\ValueObject\symplifyOption;
 
 final class SwitchFormatCommand extends AbstractSymplifyCommand
 {

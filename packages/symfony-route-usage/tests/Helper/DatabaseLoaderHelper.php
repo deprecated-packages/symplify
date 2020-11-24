@@ -7,6 +7,7 @@ namespace Symplify\SymfonyRouteUsage\Tests\Helper;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use Psr\Container\ContainerInterface;
 =======
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -14,6 +15,9 @@ use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 >>>>>>> 7e1cbd8ad... fixup! fixup! misc
+=======
+use Symfony\Component\DependencyInjection\ContainerInterface;
+>>>>>>> 018230f3b... remove migrify kernel, update composer.json
 
 final class DatabaseLoaderHelper
 {
