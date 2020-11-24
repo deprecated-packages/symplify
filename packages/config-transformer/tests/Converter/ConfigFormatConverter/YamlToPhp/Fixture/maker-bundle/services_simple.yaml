@@ -1,0 +1,15 @@
+services:
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass: ~
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(FakeClass::class);
+};

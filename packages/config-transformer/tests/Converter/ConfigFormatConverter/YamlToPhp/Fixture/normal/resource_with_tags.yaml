@@ -1,0 +1,17 @@
+services:
+    TomasVotruba\Blog\Tests\:
+        resource: 'another_dir/*'
+        tags: ['controller.service_arguments']
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->load('TomasVotruba\Blog\Tests\\', __DIR__ . '/another_dir/*')
+        ->tag('controller.service_arguments');
+};
