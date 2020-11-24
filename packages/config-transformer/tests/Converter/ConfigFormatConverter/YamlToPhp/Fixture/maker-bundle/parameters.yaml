@@ -1,0 +1,36 @@
+parameters:
+  app.admin_email: 'something@example.com'
+
+  app.enable_v2_protocol: true
+
+  app.supported_locales: ['en', 'es', 'fr']
+
+  app.some_parameter: !!binary VGhpcyBpcyBhIEJlbGwgY2hhciAH
+
+  my_multilang.language_fallback:
+    en:
+      - en
+      - fr
+    fr:
+      - fr
+      - en
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+
+    $parameters->set('app.admin_email', 'something@example.com');
+
+    $parameters->set('app.enable_v2_protocol', true);
+
+    $parameters->set('app.supported_locales', ['en', 'es', 'fr']);
+
+    $parameters->set('app.some_parameter', 'This is a Bell char ');
+
+    $parameters->set('my_multilang.language_fallback', ['en' => ['en', 'fr'], 'fr' => ['fr', 'en']]);
+};

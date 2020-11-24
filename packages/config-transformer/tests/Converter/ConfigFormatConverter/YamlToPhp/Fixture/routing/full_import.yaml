@@ -1,0 +1,46 @@
+api_platform:
+    resource: .
+    type: api_platform
+    exclude: '../../src/Controller/{DebugEmailController}.php'
+    prefix: /api
+    trailing_slash_on_root: false
+    name_prefix: api_
+    defaults:
+        _locale: 'en'
+    requirements:
+        _locale: 'en|es|fr'
+    options:
+        my_option: 'my_value'
+    utf8: false
+    condition: 'context.getMethod() in ["GET", "HEAD"] and request.headers.get("User-Agent") matches "/firefox/i"'
+    host: 'https://github.com/symplify/config-transformer'
+    schemes: ['https']
+    methods: 'GET|HEAD'
+    controller: 'App\Controller\BlogApiController::show'
+    locale: 'en'
+    format: 'html'
+    stateless: false
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+
+return static function (RoutingConfigurator $routingConfigurator): void {
+    $routingConfigurator->import('.', 'api_platform', false, '../../src/Controller/{DebugEmailController}.php')
+        ->prefix('/api', false)
+        ->namePrefix('api_')
+        ->defaults(['_locale' => 'en'])
+        ->requirements(['_locale' => 'en|es|fr'])
+        ->options(['my_option' => 'my_value'])
+        ->utf8(false)
+        ->condition('context.getMethod() in ["GET", "HEAD"] and request.headers.get("User-Agent") matches "/firefox/i"')
+        ->host('https://github.com/symplify/config-transformer')
+        ->schemes(['https'])
+        ->methods(['GET', 'HEAD'])
+        ->controller('App\Controller\BlogApiController::show')
+        ->locale('en')
+        ->format('html')
+        ->stateless(false);
+};

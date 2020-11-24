@@ -1,0 +1,30 @@
+services:
+
+  _instanceof:
+    Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass:
+      public: true
+      tags: ['app.domain_loader']
+
+    Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass:
+      public: false
+      tags: ['app.domain_loader']
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->instanceof(FakeClass::class)
+        ->public()
+        ->tag('app.domain_loader');
+
+    $services->instanceof(SecondFakeClass::class)
+        ->private()
+        ->tag('app.domain_loader');
+};

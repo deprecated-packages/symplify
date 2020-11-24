@@ -315,7 +315,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### Autodiscovery
 
-- [#2446] Deprecate ConvertYamlCommand, already part of migrify/config-feature-bumper
+- [#2446] Deprecate ConvertYamlCommand, already part of symplify/config-feature-bumper
 
 #### EasyCodingStandard
 

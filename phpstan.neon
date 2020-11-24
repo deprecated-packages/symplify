@@ -175,6 +175,7 @@ parameters:
                 # Symfony API
                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
+                - packages/config-transformer/src/Configuration/Configuration.php
 
         - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
@@ -347,3 +348,4 @@ parameters:
             message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
             path: 'packages/psr4-switcher/src/Configuration/Psr4SwitcherConfiguration.php'
 
+        - '#Parameter \#5 \$default of method Symfony\\Component\\Console\\Command\\Command\:\:addOption\(\) expects array<string\>\|bool\|int\|string\|null, float given#'

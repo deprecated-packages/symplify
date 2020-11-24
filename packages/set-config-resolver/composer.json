@@ -7,7 +7,7 @@
         "nette/utils": "^3.0",
         "symfony/yaml": "^4.4|^5.1",
         "symfony/config": "^4.4|^5.1",
-        "symfony/dependency-injection": "^4.4|^5.1",
+        "symfony/dependency-injection": "^5.1",
         "symfony/console": "^4.4|^5.1",
         "symfony/finder": "^4.4|^5.1",
         "symfony/filesystem": "^4.4|^5.1",

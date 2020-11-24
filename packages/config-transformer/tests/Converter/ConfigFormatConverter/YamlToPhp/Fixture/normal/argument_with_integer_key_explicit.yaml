@@ -1,0 +1,20 @@
+services:
+    some_class:
+        class: Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeGuzzle
+        arguments:
+            $replacesByMethodAndTypes:
+                2: go
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeGuzzle;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set('some_class', FakeGuzzle::class)
+        ->arg('$replacesByMethodAndTypes', [2 => 'go']);
+};

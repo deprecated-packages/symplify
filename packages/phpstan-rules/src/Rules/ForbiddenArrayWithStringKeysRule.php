@@ -39,6 +39,12 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
     private const TEST_FILE_REGEX = '#(Test|TestCase)\.php$#';
 
     /**
+     * @see https://regex101.com/r/TOKYyM/1
+     * @var string
+     */
+    private const ARRAY_EXPECTED_CLASS_NAMES_REGEX = '#(yaml|json|neon)#i';
+
+    /**
      * @var ParentMethodReturnTypeResolver
      */
     private $parentMethodReturnTypeResolver;
@@ -62,6 +68,10 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($this->shouldSkipClass($scope)) {
+            return [];
+        }
+
         if ($this->shouldSkipArray($node, $scope)) {
             return [];
         }
@@ -172,5 +182,15 @@ CODE_SAMPLE
         }
 
         return false;
+    }
+
+    private function shouldSkipClass(Scope $scope): bool
+    {
+        $shortClassName = $this->getShortClassName($scope);
+        if ($shortClassName === null) {
+            return false;
+        }
+
+        return (bool) Strings::match($shortClassName, self::ARRAY_EXPECTED_CLASS_NAMES_REGEX);
     }
 }

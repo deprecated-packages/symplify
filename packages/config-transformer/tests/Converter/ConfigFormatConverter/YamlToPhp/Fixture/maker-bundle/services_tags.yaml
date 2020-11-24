@@ -1,0 +1,28 @@
+services:
+
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass:
+    tags: ['app.mail_transport']
+
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass:
+    tags:
+      - { name: 'app.mail_transport', alias: 'sendmail' }
+      - { name: 'app.mail_sender', alias: 'sender', priority: 512 }
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(SecondFakeClass::class)
+        ->tag('app.mail_transport');
+
+    $services->set(FakeClass::class)
+        ->tag('app.mail_transport', ['alias' => 'sendmail'])
+        ->tag('app.mail_sender', ['alias' => 'sender', 'priority' => 512]);
+};
