@@ -5,6 +5,7 @@
     "require": {
         "php": ">=7.2",
         "ext-dom": "*",
+        "ext-simplexml": "*",
         "composer/xdebug-handler": "^1.4",
         "cweagans/composer-patches": "^1.6",
         "friendsofphp/php-cs-fixer": "^2.16",
@@ -61,7 +62,11 @@
         "tracy/tracy": "^2.7"
     },
     "autoload": {
+        "files": [
+            "packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php"
+        ],
         "psr-4": {
+            "Symplify\\SnifferFixerToECSConverter\\": "packages/sniffer-fixer-to-ecs-converter/src",
             "Symplify\\Autodiscovery\\": "packages/autodiscovery/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\ChangelogLinker\\": "packages/changelog-linker/src",
@@ -120,6 +125,7 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
+            "Symplify\\SnifferFixerToECSConverter\\Tests\\": "packages/sniffer-fixer-to-ecs-converter/tests",
             "Symplify\\Autodiscovery\\Tests\\": "packages/autodiscovery/tests",
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/changelog-linker/tests",
@@ -167,6 +173,7 @@
         }
     },
     "replace": {
+        "symplify/sniffer-fixer-to-ecs-converter": "self.version",
         "symplify/autodiscovery": "self.version",
         "symplify/autowire-array-parameter": "self.version",
         "symplify/changelog-linker": "self.version",
