@@ -10,19 +10,7 @@ use Symfony\Component\Routing\Route;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use Symplify\SymfonyRouteUsage\Routing\DeadRoutesProvider;
->>>>>>> 91a7cf6c2... fixup! misc
-=======
-use Symplify\SymfonyRouteUsage\Routing\DeadRoutesProvider;
-<<<<<<< HEAD
-use Symplify\symplifyKernel\Command\AbstractsymplifyCommand;
->>>>>>> 434bcd4b3... rename Migrify to Symplify
-=======
-use Symplify\SymplifyKernel\Command\AbstractSymplifyCommand;
->>>>>>> 1a08239af... misc
 
 final class ShowDeadRoutesCommand extends AbstractSymplifyCommand
 {

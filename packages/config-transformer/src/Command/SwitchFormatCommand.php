@@ -50,15 +50,7 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
         $this->setDescription('Converts XML/YAML configs to YAML/PHP format');
 
         $this->addArgument(
-<<<<<<< HEAD
-<<<<<<< HEAD
-            MigrifyOption::SOURCES,
-=======
             Option::SOURCES,
->>>>>>> 7e1cbd8ad... fixup! fixup! misc
-=======
-            symplifyOption::SOURCES,
->>>>>>> 434bcd4b3... rename Migrify to Symplify
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,
             'Path to directory with configs'
         );

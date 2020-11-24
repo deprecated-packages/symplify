@@ -170,7 +170,7 @@ final class Skipper
         }
 
         $ignoredPath = $this->pathNormalizer->normalizeForFnmatch($ignoredPath);
-        if($ignoredPath === "") {
+        if ($ignoredPath === '') {
             return false;
         }
 

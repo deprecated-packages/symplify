@@ -10,7 +10,6 @@ use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\ConfigTransformer\ValueObject\Option;
 use Symplify\PhpConfigPrinter\Contract\SymfonyVersionFeatureGuardInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SymplifyKernel\ValueObject\symplifyOption;
 
 final class Configuration implements SymfonyVersionFeatureGuardInterface
 {
@@ -61,15 +60,7 @@ final class Configuration implements SymfonyVersionFeatureGuardInterface
 
     public function populateFromInput(InputInterface $input): void
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->source = (array) $input->getArgument(MigrifyOption::SOURCES);
-=======
         $this->source = (array) $input->getArgument(Option::SOURCES);
->>>>>>> 7e1cbd8ad... fixup! fixup! misc
-=======
-        $this->source = (array) $input->getArgument(symplifyOption::SOURCES);
->>>>>>> 434bcd4b3... rename Migrify to Symplify
         $this->targetSymfonyVersion = floatval($input->getOption(Option::TARGET_SYMFONY_VERSION));
         $this->isDryRun = boolval($input->getOption(Option::DRY_RUN));
 
@@ -182,15 +173,8 @@ final class Configuration implements SymfonyVersionFeatureGuardInterface
             return $inputFormat;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $source = (array) $input->getArgument(MigrifyOption::SOURCES);
-=======
         $source = (array) $input->getArgument(Option::SOURCES);
->>>>>>> 7e1cbd8ad... fixup! fixup! misc
-=======
-        $source = (array) $input->getArgument(symplifyOption::SOURCES);
->>>>>>> 434bcd4b3... rename Migrify to Symplify
+
         // nothing we can do
         if (count($source) !== 1) {
             return '';

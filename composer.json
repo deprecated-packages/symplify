@@ -69,7 +69,7 @@
     "autoload": {
         "files": [
             "packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php",
-            "packages/sniffer-fixer-to-ecs-converter/vendor/squizlabs/php_codesniffer/autoload.php"
+            "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
             "Symplify\\Autodiscovery\\": "packages/autodiscovery/src",

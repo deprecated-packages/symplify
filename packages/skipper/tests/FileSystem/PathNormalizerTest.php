@@ -27,10 +27,7 @@ final class PathNormalizerTest extends AbstractKernelTestCase
      */
     public function testPaths(string $path, string $expected): void
     {
-        $this->assertEquals(
-            $expected,
-            $this->pathNormalizer->normalizeForFnmatch($path)
-        );
+        $this->assertSame($expected, $this->pathNormalizer->normalizeForFnmatch($path));
     }
 
     public function providePaths(): Iterator
@@ -39,7 +36,7 @@ final class PathNormalizerTest extends AbstractKernelTestCase
         yield ['*path/with/asterisk/begin', '*path/with/asterisk/begin*'];
         yield ['path/with/asterisk/end*', '*path/with/asterisk/end*'];
         yield ['*path/with/asterisk/begin/and/end*', '*path/with/asterisk/begin/and/end*'];
-        yield [ __DIR__ . '/Fixture/path/with/../in/it', __DIR__ . '/Fixture/path/in/it'];
-        yield [ __DIR__ . '/Fixture/path/with/../../in/it', __DIR__ . '/Fixture/in/it'];
+        yield [__DIR__ . '/Fixture/path/with/../in/it', __DIR__ . '/Fixture/path/in/it'];
+        yield [__DIR__ . '/Fixture/path/with/../../in/it', __DIR__ . '/Fixture/in/it'];
     }
 }

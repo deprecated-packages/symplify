@@ -16,20 +16,7 @@ use Symplify\PackageBuilder\Exception\NotImplementedYetException;
 use Symplify\PhpConfigPrinter\Provider\CurrentFilePathProvider;
 use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 use Symplify\SmartFileSystem\SmartFileInfo;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
->>>>>>> 7e1cbd8ad... fixup! fixup! misc
-=======
-use Symplify\symplifyKernel\Exception\NotImplementedYetException;
-use Symplify\symplifyKernel\Exception\ShouldNotHappenException;
->>>>>>> 434bcd4b3... rename Migrify to Symplify
-=======
-use Symplify\SymplifyKernel\Exception\NotImplementedYetException;
-use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
->>>>>>> 1a08239af... misc
 
 final class ConfigFormatConverter
 {

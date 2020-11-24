@@ -20,7 +20,6 @@ use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\PackageBuilder\Exception\NotImplementedYetException;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
-use Symplify\SymplifyKernel\Exception\NotImplementedYetException;
 
 final class ConfigLoader
 {

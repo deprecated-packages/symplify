@@ -9,19 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ShellCode;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use Symplify\SymfonyRouteUsage\EntityRepository\RouteVisitRepository;
->>>>>>> 91a7cf6c2... fixup! misc
-=======
-use Symplify\SymfonyRouteUsage\EntityRepository\RouteVisitRepository;
-<<<<<<< HEAD
-use Symplify\symplifyKernel\Command\AbstractsymplifyCommand;
->>>>>>> 434bcd4b3... rename Migrify to Symplify
-=======
-use Symplify\SymplifyKernel\Command\AbstractSymplifyCommand;
->>>>>>> 1a08239af... misc
 
 final class ShowRouteUsageCommand extends AbstractSymplifyCommand
 {

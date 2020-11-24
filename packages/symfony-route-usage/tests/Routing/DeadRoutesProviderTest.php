@@ -18,15 +18,8 @@ final class DeadRoutesProviderTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
         $this->markTestSkipped('Out of order, needs to fix database loading in GitHub Actions');
-=======
-        $this->markTestSkipped('Temporary broken');
->>>>>>> 7e1cbd8ad... fixup! fixup! misc
 
-=======
->>>>>>> 018230f3b... remove migrify kernel, update composer.json
         $this->bootKernel(SymfonyRouteUsageKernel::class);
 
         $databaseLoaderHelper = new DatabaseLoaderHelper(self::$container);
