@@ -1,0 +1,26 @@
+services:
+	application.presenterFactory: @Entrydo\App\Presenters\ClassPresenterNameAwarePresenterFactory
+	doctrineEvents.symfonyProxy:
+		autowired: false
+	router: @Entrydo\App\Routing\RouterFactory::create
+	mailer: Entrydo\Infrastructure\Mailing\MailGunMailer(%mailgun.apiKey%, %mailgun.domain%, @emailValidator)
+	eventMailer: Entrydo\Infrastructure\Mailing\MailGunMailer(%mailgun.apiKey%, %mailgun.ticketsDomain%)
+-----
+services:
+    application.presenterFactory:
+        alias: '@Entrydo\App\Presenters\ClassPresenterNameAwarePresenterFactory'
+    doctrineEvents.symfonyProxy:
+        autowired: false
+    router:
+        factory: ['@Entrydo\App\Routing\RouterFactory', create]
+    mailer:
+        class: Entrydo\Infrastructure\Mailing\MailGunMailer
+        arguments:
+            - '%mailgun_api_key%'
+            - '%mailgun_domain%'
+            - '@emailValidator'
+    eventMailer:
+        class: Entrydo\Infrastructure\Mailing\MailGunMailer
+        arguments:
+            - '%mailgun_api_key%'
+            - '%mailgun_tickets_domain%'

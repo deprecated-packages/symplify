@@ -1,0 +1,2 @@
+1) Whatever::whatever
+TypeError: Argument 2 passed to PHPUnit\Framework\Assert::assertContains() must be iterable, string given, called in /var/www/symplify/packages/phpunit-upgrader/tests/FileInfoDecorator/AssertContainsInfoDecorator/Fixture/some_assert_contains.php.inc on line 12

@@ -1,0 +1,39 @@
+{block content}
+
+    Content
+
+{/block}
+
+
+{include "_snippets/menu.latte"}
+
+{include "_snippets/menu.latte", "key" => "var"}
+
+{include "_snippets/lecture/lectureReference.latte", "lecture_reference" => $lecture_reference, "active_lecture" => $lecture, "is_lecture_detail" => true}
+
+
+{define someBlock}
+
+    Hi
+
+{/define}
+-----
+{% block content %}
+
+    Content
+
+{% endblock %}
+
+
+{% include "_snippets/menu.twig" %}
+
+{% include "_snippets/menu.twig" with { "key": "var" } %}
+
+{% include "_snippets/lecture/lectureReference.twig" with { "lecture_reference": lecture_reference, "active_lecture": lecture, "is_lecture_detail": true } %}
+
+
+{% block someBlock %}
+
+    Hi
+
+{% endblock %}

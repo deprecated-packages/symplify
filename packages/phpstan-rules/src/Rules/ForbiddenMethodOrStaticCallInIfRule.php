@@ -16,10 +16,10 @@ use PHPStan\Analyser\Scope;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
-use Rector\PHPStan\Type\FullyQualifiedObjectType;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -138,7 +138,7 @@ CODE_SAMPLE
                 return new MixedType();
             }
 
-            return new FullyQualifiedObjectType($className);
+            return new ObjectType($className);
         }
 
         return $scope->getType($node->var);

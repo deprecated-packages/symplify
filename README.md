@@ -29,6 +29,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Autodiscovery](https://github.com/symplify/autodiscovery)
 - [Autowire Array Parameter](https://github.com/symplify/autowire-array-parameter)
 - [Flex Loader](https://github.com/symplify/flex-loader)
+- [PHP Config Printer](https://github.com/symplify/php-config-printer)
 
 ## For Package Development
 
@@ -37,23 +38,27 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Package Builder](https://github.com/symplify/package-builder)
 - [Smart File System](https://github.com/symplify/smart-file-system)
 - [Rule Doc Generator](https://github.com/symplify/rule-doc-generator)
-- [Set Config Resolver](https://github.com/symplify/set-config-resolver)
 - [Skipper](https://github.com/symplify/skipper)
 - [Symplify Kernel](https://github.com/symplify/symplify-kernel)
 - [Package Scoper](https://github.com/symplify/package-scoper)
 
-## For Any Developers
+## For CLI App Developers
 
+- [Set Config Resolver](https://github.com/symplify/set-config-resolver)
+- [Console Color Diff](https://github.com/symplify/console-color-diff)
+
+## For Any Developer
+
+- [Markdown Diff](https://github.com/symplify/markdown-diff)
 - [Easy Hydrator](https://github.com/symplify/easy-hydrator)
 - [Easy Testing](https://github.com/symplify/easy-testing)
 - [Composer Json Manipulator](https://github.com/symplify/composer-json-manipulator)
 - [Symfony Static Dumper](https://github.com/symplify/symfony-static-dumper)
-- [Console Color Diff](https://github.com/symplify/console-color-diff)
 
-## PHPStan
+## For PHPStan Lovers
 
-- [PHPStan Extensions](https://github.com/symplify/phpstan-extensions)
 - [PHPStan Rules](https://github.com/symplify/phpstan-rules)
+- [PHPStan Extensions](https://github.com/symplify/phpstan-extensions)
 
 <br>
 

@@ -1,0 +1,29 @@
+
+services:
+  fake.service.old_syntax:
+    class: \Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass
+    deprecated: 'The %service_id% service is deprecated'
+
+  fake.service.new_syntax:
+    class: \Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass
+    deprecated:
+      message: 'The %service_id% service is deprecated'
+      package: 'symfony/foobar'
+      version: '2.1'
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set('fake.service.old_syntax', FakeClass::class)
+        ->deprecate('The %service_id% service is deprecated');
+
+    $services->set('fake.service.new_syntax', FakeClass::class)
+        ->deprecate('symfony/foobar', '2.1', 'The %service_id% service is deprecated');
+};

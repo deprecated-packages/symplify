@@ -1,0 +1,19 @@
+parameters:
+    langs:
+        cs: Czech
+        en: English
+
+services:
+    sth:
+        arguments:
+            - '%langs%'
+-----
+parameters:
+    langs:
+        cs: Czech
+        en: English
+
+services:
+    sth:
+        arguments:
+            - '%langs%'

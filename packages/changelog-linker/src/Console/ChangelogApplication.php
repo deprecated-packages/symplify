@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\Console;
 
-use Rector\Core\Configuration\Option as RectorOption;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,7 +11,7 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\ChangelogLinker\Configuration\Option;
+use Symplify\ChangelogLinker\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SymplifyKernel\Console\AbstractSymplifyConsoleApplication;
 
@@ -56,7 +55,7 @@ final class ChangelogApplication extends AbstractSymplifyConsoleApplication
 
         // adds "--config" | "-c" option
         $inputDefinition->addOption(
-            new InputOption(RectorOption::OPTION_CONFIG, 'c', InputOption::VALUE_REQUIRED, 'Config file')
+            new InputOption(Option::CONFIG, 'c', InputOption::VALUE_REQUIRED, 'Config file')
         );
 
         return $inputDefinition;

@@ -38,7 +38,9 @@ final class NoStaticCallRule extends AbstractSymplifyRule
         'Nette\Utils\Json',
         'Nette\Utils\Arrays',
         'Nette\Utils\Reflection',
+        'Nette\Bridges\ApplicationLatte\UIMacros',
         'Ramsey\Uuid\Uuid',
+        'PhpParser\BuilderHelpers',
         // symfony
         'Symfony\Component\Finder\Finder',
         'Symfony\Component\Yaml\Yaml',
@@ -56,6 +58,8 @@ final class NoStaticCallRule extends AbstractSymplifyRule
         'Jean85\PrettyVersions',
         'DG\BypassFinals',
         'Nette\Utils\Random',
+        'Webmozart\Assert\Assert',
+        'Symfony\Component\DependencyInjection\ContainerBuilder',
     ];
 
     /**

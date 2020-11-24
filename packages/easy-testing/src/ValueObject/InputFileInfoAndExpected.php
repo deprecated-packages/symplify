@@ -27,6 +27,11 @@ final class InputFileInfoAndExpected
         $this->expected = $expected;
     }
 
+    public function getInputFileContent(): string
+    {
+        return $this->inputFileInfo->getContents();
+    }
+
     public function getInputFileInfo(): SmartFileInfo
     {
         return $this->inputFileInfo;

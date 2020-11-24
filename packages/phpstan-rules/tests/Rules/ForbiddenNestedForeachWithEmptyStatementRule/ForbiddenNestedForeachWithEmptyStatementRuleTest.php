@@ -21,6 +21,7 @@ final class ForbiddenNestedForeachWithEmptyStatementRuleTest extends AbstractSer
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipArray.php', []];
         yield [__DIR__ . '/Fixture/NotNestedForeach.php', []];
         yield [__DIR__ . '/Fixture/NotNestedForeachWithEmptyStatement.php', []];
         yield [__DIR__ . '/Fixture/NestedForeachWithNonEmptyStatement.php', []];

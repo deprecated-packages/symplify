@@ -140,6 +140,7 @@ $smartFileInfos = $finderSanitizer->sanitize($files);
 // always array of Symplify\SmartFileSystem\SmartFileInfo
 var_dump($smartFileInfos);
 ```
+
 ## Contribute
 
-The sources of this package are contained in the symplify monorepo. We welcome contributions for this package at [symplify/symplify](https://github.com/symplify/symplify).
+The sources of this package are contained in the Symplify monorepo. We welcome contributions for this package at [symplify/symplify](https://github.com/symplify/symplify).

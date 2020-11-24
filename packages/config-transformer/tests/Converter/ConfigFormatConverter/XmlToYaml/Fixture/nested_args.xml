@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="advertentie.gateway.api.client" class="GuzzleHttp\Client" public="false">
+            <argument type="collection">
+                <argument type="string" key="base_uri">https://%api_host%/api/1.6/</argument>
+                <argument type="collection" key="headers">
+                    <argument type="string" key="Accept">application/json</argument>
+                    <argument type="string" key="Content-Type">application/json</argument>
+                </argument>
+            </argument>
+        </service>
+        <service id="advertentie.gateway.reporting.client" class="GuzzleHttp\Client" public="false">
+            <argument type="collection">
+                <argument type="string" key="base_uri">https://%reporting_host%/api/1.6/</argument>
+                <argument type="collection" key="headers">
+                    <argument type="string" key="Content-Type">application/json</argument>
+                </argument>
+            </argument>
+        </service>
+    </services>
+</container>
+-----
+services:
+    advertentie.gateway.api.client:
+        class: GuzzleHttp\Client
+        arguments: [{ base_uri: 'https://%api_host%/api/1.6/', headers: { Accept: application/json, Content-Type: application/json } }]
+
+    advertentie.gateway.reporting.client:
+        class: GuzzleHttp\Client
+        arguments: [{ base_uri: 'https://%reporting_host%/api/1.6/', headers: { Content-Type: application/json } }]

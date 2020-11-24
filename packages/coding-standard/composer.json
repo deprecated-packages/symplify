@@ -15,14 +15,14 @@
         "symplify/rule-doc-generator": "^9.0"
     },
     "require-dev": {
-        "nette/application": "^3.0",
+        "nette/application": "^3.0.7",
         "nette/bootstrap": "^3.0",
         "symplify/easy-coding-standard-tester": "^9.0",
         "symfony/http-kernel": "^4.4|^5.1",
         "doctrine/orm": "^2.7",
         "symplify/smart-file-system": "^9.0",
         "symfony/framework-bundle": "^4.4|^5.1",
-        "migrify/php-config-printer": "^0.4",
+        "symplify/php-config-printer": "^9.0",
         "phpunit/phpunit": "^8.5|^9.4"
     },
     "autoload": {

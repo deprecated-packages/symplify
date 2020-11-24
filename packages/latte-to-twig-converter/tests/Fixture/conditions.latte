@@ -1,0 +1,37 @@
+{if isset($post['variable'])}...{/if}
+
+
+{ifset $post}...{/ifset}
+
+
+{if $post['deprecated']}
+
+{/if}
+
+
+{if true}
+
+{elseif false}
+
+{else}
+
+{/if}
+-----
+{% if post.variable is defined %}...{% endif %}
+
+
+{% if post is defined %}...{% endif %}
+
+
+{% if post.deprecated %}
+
+{% endif %}
+
+
+{% if true %}
+
+{% elseif false %}
+
+{% else %}
+
+{% endif %}

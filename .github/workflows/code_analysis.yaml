@@ -6,6 +6,10 @@ on:
         branches:
             - master
 
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-master"
+
 jobs:
     code_analysis:
         strategy:
@@ -15,6 +19,10 @@ jobs:
                     -
                         name: PHPStan
                         run: composer phpstan
+
+                    -
+                        name: Check for Git Concficts
+                        run: packages/easy-ci/bin/easy-ci check-conflicts .
 
                     -
                         name: Composer Validate
@@ -46,7 +54,5 @@ jobs:
 
             # composer install cache - https://github.com/ramsey/composer-install
             -   uses: "ramsey/composer-install@v1"
-
-            -   run: composer install --no-progress
 
             -   run: ${{ matrix.actions.run }}

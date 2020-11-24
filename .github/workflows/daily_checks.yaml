@@ -1,0 +1,62 @@
+# see https://sonarcloud.io/dashboard?id=symplify_symplify
+name: Daily Checks
+
+on:
+    schedule:
+        # https://crontab.guru/#0_16_*_*_* - once a day at 16:00
+        -   cron: "0 16 * * *"
+
+jobs:
+    sonar:
+        name: Sonar
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            # see https://github.com/shivammathur/setup-php
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.2
+                    coverage: none
+                    tools: composer:v2
+
+            -   run: composer install --no-progress --ansi
+
+            # generate sonar file configuration
+            -   run: packages/easy-ci/bin/easy-ci generate-sonar --ansi
+
+            -
+                name: Sonar Cube
+                uses: sonarsource/sonarcloud-github-action@master
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                    # get token here: https://sonarcloud.io/account/security/
+                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    code_coverage:
+        name: Code Coverage
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            # needed for tests
+            -   run: git fetch --depth=10000 origin
+
+            # see https://github.com/shivammathur/setup-php
+            -   uses: shivammathur/setup-php@v1
+                with:
+                    php-version: 7.4
+                    coverage: pcov
+                    tools: composer:v2
+
+            -   run: composer install --no-progress --ansi
+
+            -   run: |
+                    vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+                    # coveralls.io
+                    composer require --dev php-coveralls/php-coveralls:^2.4
+                    vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+                env:
+                    COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}

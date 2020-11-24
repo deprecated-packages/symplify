@@ -1,0 +1,27 @@
+services:
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
+        properties:
+            absoluteLineLimit: 120
+
+    app.newsletter_manager:
+        class: App\Mail\NewsletterManager
+        properties:
+            mailer: '@mailer'
+-----
+<?php
+
+declare(strict_types=1);
+
+use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(LineLengthSniff::class)
+        ->property('absoluteLineLimit', 120);
+
+    $services->set('app.newsletter_manager', 'App\Mail\NewsletterManager')
+        ->property('mailer', ref('mailer'));
+};

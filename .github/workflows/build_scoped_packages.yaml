@@ -62,7 +62,7 @@ jobs:
             # see https://github.com/cpina/github-action-push-to-another-repository
             -
                 # Uses an action in the root directory
-                uses: TomasVotruba/github-action-monorepo-split@master
+                uses: symplify/github-action-monorepo-split@master
                 env:
                     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
                 with:
@@ -70,3 +70,5 @@ jobs:
                     split-repository-organization: 'symplify'
                     split-repository-name: '${{ matrix.scoped_package.directory }}-prefixed'
                     tag: ${{ steps.previous_tag.outputs.tag }}
+                    user-name: "kaizen-ci"
+                    user-email: "info@kaizen-ci.org"

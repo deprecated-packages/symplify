@@ -1,0 +1,42 @@
+services:
+  App\:
+    resource: '../src/*'
+    exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+  App\Controller\:
+    resource: '../src/Controller'
+    tags: ['controller.service_arguments']
+    exclude: ['../src/Controller/SomeFile.php', '../src/Controller/OtherFile.php']
+
+  command_handlers:
+    namespace: App\Domain\
+    resource: '../src/Domain/*/CommandHandler'
+    tags: [command_handler]
+
+  event_subscribers:
+    namespace: App\Domain\
+    resource: '../src/Domain/*/EventSubscriber'
+    tags: [event_subscriber]
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->load('App\\', __DIR__ . '/../src/*')
+        ->exclude([__DIR__ . '/../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}']);
+
+    $services->load('App\Controller\\', __DIR__ . '/../src/Controller')
+        ->tag('controller.service_arguments')
+        ->exclude([__DIR__ . '/../src/Controller/SomeFile.php', __DIR__ . '/../src/Controller/OtherFile.php']);
+
+    $services->load('App\Domain\\', __DIR__ . '/../src/Domain/*/CommandHandler')
+        ->tag('command_handler');
+
+    $services->load('App\Domain\\', __DIR__ . '/../src/Domain/*/EventSubscriber')
+        ->tag('event_subscriber');
+};

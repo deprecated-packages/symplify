@@ -6,7 +6,7 @@ namespace Symplify\ChangelogLinker\FileSystem;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\ChangelogLinker;
-use Symplify\ChangelogLinker\Configuration\Option;
+use Symplify\ChangelogLinker\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileSystem;

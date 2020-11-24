@@ -1,0 +1,18 @@
+services:
+    gateway.api.client:
+        class: Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeGuzzle
+        arguments: [key: 'value']
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeGuzzle;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set('gateway.api.client', FakeGuzzle::class)
+        ->args([['key' => 'value']]);
+};

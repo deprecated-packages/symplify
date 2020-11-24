@@ -1,0 +1,9 @@
+<li n:foreach="$page['training']['phpstorm']['references'] as $reference">
+    inner
+</li>
+-----
+{% for reference in page.training.phpstorm.references %}
+<li>
+    inner
+</li>
+{% endfor %}
