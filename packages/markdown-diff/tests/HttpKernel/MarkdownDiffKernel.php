@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MarkdownDiff\Tests\HttpKernel;
 
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\MarkdownDiff\MarkdownDiffBundle;
+use Symplify\MarkdownDiff\Bundle\MarkdownDiffBundle;
 use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 

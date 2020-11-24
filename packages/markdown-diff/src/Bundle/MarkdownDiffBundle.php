@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MarkdownDiff;
+namespace Symplify\MarkdownDiff\Bundle;
 
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
