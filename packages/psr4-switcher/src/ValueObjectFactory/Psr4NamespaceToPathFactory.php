@@ -6,13 +6,13 @@ namespace Symplify\Psr4Switcher\ValueObjectFactory;
 
 use Nette\Utils\Strings;
 use Symplify\Psr4Switcher\Configuration\Psr4SwitcherConfiguration;
-use Symplify\Psr4Switcher\Utils\MigrifyStrings;
+use Symplify\Psr4Switcher\Utils\SymplifyStrings;
 use Symplify\Psr4Switcher\ValueObject\Psr4NamespaceToPath;
 
 final class Psr4NamespaceToPathFactory
 {
     /**
-     * @var MigrifyStrings
+     * @var SymplifyStrings
      */
     private $migrifyStrings;
 
@@ -21,7 +21,7 @@ final class Psr4NamespaceToPathFactory
      */
     private $psr4SwitcherConfiguration;
 
-    public function __construct(MigrifyStrings $migrifyStrings, Psr4SwitcherConfiguration $psr4SwitcherConfiguration)
+    public function __construct(SymplifyStrings $migrifyStrings, Psr4SwitcherConfiguration $psr4SwitcherConfiguration)
     {
         $this->migrifyStrings = $migrifyStrings;
         $this->psr4SwitcherConfiguration = $psr4SwitcherConfiguration;

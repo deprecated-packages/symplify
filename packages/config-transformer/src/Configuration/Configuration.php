@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\Configuration;
 
-use Migrify\MigrifyKernel\ValueObject\MigrifyOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\ConfigTransformer\Guard\InputValidator;
 use Symplify\ConfigTransformer\ValueObject\Format;
@@ -61,7 +60,7 @@ final class Configuration implements SymfonyVersionFeatureGuardInterface
 
     public function populateFromInput(InputInterface $input): void
     {
-        $this->source = (array) $input->getArgument(MigrifyOption::SOURCES);
+        $this->source = (array) $input->getArgument(Option::SOURCES);
         $this->targetSymfonyVersion = floatval($input->getOption(Option::TARGET_SYMFONY_VERSION));
         $this->isDryRun = boolval($input->getOption(Option::DRY_RUN));
 
@@ -174,7 +173,8 @@ final class Configuration implements SymfonyVersionFeatureGuardInterface
             return $inputFormat;
         }
 
-        $source = (array) $input->getArgument(MigrifyOption::SOURCES);
+        $source = (array) $input->getArgument(Option::SOURCES);
+
         // nothing we can do
         if (count($source) !== 1) {
             return '';

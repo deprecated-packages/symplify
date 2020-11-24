@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\ObjectCalisthenics\Rules;
 
+use DateTimeInterface;
 use PharIo\Version\Version;
 use PharIo\Version\VersionNumber;
 use PhpParser\Node;
@@ -49,6 +50,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
         TrinaryLogic::class,
         // also trinary logic ↓
         PassedByReference::class,
+        DateTimeInterface::class,
     ];
 
     /**

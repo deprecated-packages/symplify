@@ -7,19 +7,19 @@ namespace Symplify\Psr4Switcher\Tests\Utils;
 use Iterator;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\Psr4Switcher\HttpKernel\Psr4SwitcherKernel;
-use Symplify\Psr4Switcher\Utils\MigrifyStrings;
+use Symplify\Psr4Switcher\Utils\SymplifyStrings;
 
-final class MigrifyStringsTest extends AbstractKernelTestCase
+final class SymplifyStringsTest extends AbstractKernelTestCase
 {
     /**
-     * @var MigrifyStrings
+     * @var SymplifyStrings
      */
-    private $migrifyStrings;
+    private $symplifyStrings;
 
     protected function setUp(): void
     {
         $this->bootKernel(Psr4SwitcherKernel::class);
-        $this->migrifyStrings = self::$container->get(MigrifyStrings::class);
+        $this->symplifyStrings = self::$container->get(SymplifyStrings::class);
     }
 
     /**
@@ -27,7 +27,7 @@ final class MigrifyStringsTest extends AbstractKernelTestCase
      */
     public function test(array $strings, string $expectedSharedSuffix): void
     {
-        $sharedSuffix = $this->migrifyStrings->findSharedSlashedSuffix($strings);
+        $sharedSuffix = $this->symplifyStrings->findSharedSlashedSuffix($strings);
         $this->assertSame($expectedSharedSuffix, $sharedSuffix);
     }
 

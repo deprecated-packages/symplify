@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\Command;
 
-use Migrify\MigrifyKernel\Command\AbstractMigrifyCommand;
-use Migrify\MigrifyKernel\ValueObject\MigrifyOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,9 +13,10 @@ use Symplify\ConfigTransformer\Converter\ConvertedContentFactory;
 use Symplify\ConfigTransformer\FileSystem\ConfigFileDumper;
 use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\ConfigTransformer\ValueObject\Option;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
-final class SwitchFormatCommand extends AbstractMigrifyCommand
+final class SwitchFormatCommand extends AbstractSymplifyCommand
 {
     /**
      * @var Configuration
@@ -51,7 +50,7 @@ final class SwitchFormatCommand extends AbstractMigrifyCommand
         $this->setDescription('Converts XML/YAML configs to YAML/PHP format');
 
         $this->addArgument(
-            MigrifyOption::SOURCES,
+            Option::SOURCES,
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,
             'Path to directory with configs'
         );

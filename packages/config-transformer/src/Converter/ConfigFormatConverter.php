@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\Converter;
 
-use Migrify\MigrifyKernel\Exception\NotImplementedYetException;
-use Migrify\MigrifyKernel\Exception\ShouldNotHappenException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\ConfigTransformer\Collector\XmlImportCollector;
@@ -14,9 +12,11 @@ use Symplify\ConfigTransformer\DependencyInjection\ContainerBuilderCleaner;
 use Symplify\ConfigTransformer\DumperFactory;
 use Symplify\ConfigTransformer\DumperFomatter\YamlDumpFormatter;
 use Symplify\ConfigTransformer\ValueObject\Format;
+use Symplify\PackageBuilder\Exception\NotImplementedYetException;
 use Symplify\PhpConfigPrinter\Provider\CurrentFilePathProvider;
 use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ConfigFormatConverter
 {

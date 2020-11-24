@@ -6,7 +6,7 @@ Use PHP config syntax to configure PHPStan in `phpstan.php`
 
 ---
 
-Have you [switched from YAML to PHP configs](https://tomasvotruba.com/blog/2020/07/27/how-to-switch-from-yaml-xml-configs-to-php-today-with-migrify/) in Rector, ECS and Symfony projects? Do you still need [10 reasons why](https://tomasvotruba.com/blog/2020/07/16/10-cool-features-you-get-after-switching-from-yaml-to-php-configs/)?
+Have you [switched from YAML to PHP configs](https://tomasvotruba.com/blog/2020/07/27/how-to-switch-from-yaml-xml-configs-to-php-today-with-symplify/) in Rector, ECS and Symfony projects? Do you still need [10 reasons why](https://tomasvotruba.com/blog/2020/07/16/10-cool-features-you-get-after-switching-from-yaml-to-php-configs/)?
 
 In case you have, the `phpstan.neon` is probably the last one YAML-like config in your setup. Class renames are missed, so is autocomplete and prone to errors, since PHP-syntax is highly addictive.
 

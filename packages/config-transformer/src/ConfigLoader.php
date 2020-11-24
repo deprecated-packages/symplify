@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer;
 
-use Migrify\MigrifyKernel\Exception\NotImplementedYetException;
 use Nette\Utils\Strings;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
@@ -18,6 +17,7 @@ use Symplify\ConfigTransformer\DependencyInjection\ExtensionFaker;
 use Symplify\ConfigTransformer\DependencyInjection\LoaderFactory\IdAwareXmlFileLoaderFactory;
 use Symplify\ConfigTransformer\ValueObject\ContainerBuilderAndFileContent;
 use Symplify\ConfigTransformer\ValueObject\Format;
+use Symplify\PackageBuilder\Exception\NotImplementedYetException;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 

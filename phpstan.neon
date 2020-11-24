@@ -151,6 +151,9 @@ parameters:
             paths:
                 # yaml
                 - packages/sniffer-fixer-to-ecs-converter/src/FixerToECSConverter.php
+                # table data for symfony console output
+                - packages/symfony-route-usage/src/Command/ShowRouteUsageCommand.php
+                - packages/symfony-route-usage/src/Command/ShowDeadRoutesCommand.php
 
                 - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
@@ -359,3 +362,22 @@ parameters:
         -
             message: '#Call to an undefined method PHP_CodeSniffer\\Sniffs\\Sniff\:\:register\(\)#'
             path: packages/easy-coding-standard/packages/sniff-runner/src/Application/SniffFileProcessor.php
+
+        -
+            message: '#Instead of container injection, use specific service#'
+            paths:
+                # tests helper
+                - packages/symfony-route-usage/tests/Helper/DatabaseLoaderHelper.php
+
+        # doctrine
+        - '#Property Symplify\\SymfonyRouteUsage\\Entity\\RouteVisit\:\:\$id is never written, only read#'
+
+        -
+            message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
+            paths:
+                # tests
+                - packages/symfony-route-usage/src/Database/TableInitiator.php
+
+        # skipped tests
+        - '#Property Symplify\\SymfonyRouteUsage\\Tests\\EntityRepository\\RouteVisitRepositoryTest\:\:\$routeVisitRepository is never written, only read#'
+        - '#Property Symplify\\SymfonyRouteUsage\\Tests\\Routing\\DeadRoutesProviderTest\:\:\$deadRoutesProvider is never written, only read#'
