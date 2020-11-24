@@ -26,7 +26,8 @@
             "Symplify\\SnifferFixerToECSConverter\\": "src"
         },
         "files": [
-            "stubs/Sniff.php"
+            "stubs/Sniff.php",
+            "vendor/squizlabs/php_codesniffer/autoload.php"
         ]
     },
     "autoload-dev": {
