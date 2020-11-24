@@ -6,7 +6,7 @@
         "php": ">=7.2",
         "symfony/console": "^4.4|^5.1",
         "symfony/http-kernel": "^4.4|^5.1",
-        "symfony/dependency-injection": "^4.4|^5.1",
+        "symfony/dependency-injection": "^5.1",
         "symplify/smart-file-system": "^9.0",
         "symplify/autowire-array-parameter": "^9.0",
         "symplify/composer-json-manipulator": "^9.0",

@@ -5,7 +5,7 @@
     "require": {
         "php": ">=7.2",
         "nette/utils": "^3.0",
-        "symfony/dependency-injection": "^4.4|^5.1",
+        "symfony/dependency-injection": "^5.1",
         "symfony/routing": "^4.4|^5.1"
     },
     "require-dev": {
