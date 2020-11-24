@@ -7,8 +7,8 @@ services:
 
 declare(strict_types=1);
 
-use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeGuzzle;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeGuzzle;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
