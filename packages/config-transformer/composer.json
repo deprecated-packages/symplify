@@ -7,19 +7,19 @@
     ],
     "require": {
         "php": ">=7.2",
+        "ext-dom": "*",
         "symfony/dependency-injection": "^4.4|^5.1",
         "symfony/console": "^4.4|^5.1",
         "symfony/http-kernel": "^4.4|^5.1",
         "symfony/expression-language": "^4.4|^5.1",
         "symfony/yaml": "^4.4|^5.1",
-        "nette/neon": "^3.0",
-        "nette/utils": "^3.1",
-        "nikic/php-parser": "^4.9",
-        "symplify/php-config-printer": "dev-master",
-        "migrify/migrify-kernel": "^0.5"
+        "nette/neon": "^3.2",
+        "nette/utils": "^3.0",
+        "nikic/php-parser": "^4.10.2",
+        "symplify/php-config-printer": "^9.0"
     },
     "require-dev": {
-        "symplify/easy-testing": "dev-master",
+        "symplify/easy-testing": "^9.0",
         "phpunit/phpunit": "^8.5|^9.4",
         "symfony/framework-bundle": "^4.4|^5.1"
     },

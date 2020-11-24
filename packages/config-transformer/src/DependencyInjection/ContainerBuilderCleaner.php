@@ -16,6 +16,12 @@ use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 final class ContainerBuilderCleaner
 {
     /**
+     * @see https://regex101.com/r/0qo8RA/1
+     * @var string
+     */
+    private const ANONYMOUS_CLASS_REGEX = '#^[\d]+\_[\w]{64}$#';
+
+    /**
      * @var PrivatesAccessor
      */
     private $privatesAccessor;
@@ -83,7 +89,7 @@ final class ContainerBuilderCleaner
 
     private function isGeneratedKeyForAnonymousClass(string $name): bool
     {
-        return (bool) Strings::match($name, '#^[\d]+\_[\w]{64}$#');
+        return (bool) Strings::match($name, self::ANONYMOUS_CLASS_REGEX);
     }
 
     private function resolvePolyfillForNameTag(Definition $definition): void

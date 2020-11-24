@@ -59,6 +59,7 @@ final class NoStaticCallRule extends AbstractSymplifyRule
         'DG\BypassFinals',
         'Nette\Utils\Random',
         'Webmozart\Assert\Assert',
+        'Symfony\Component\DependencyInjection\ContainerBuilder',
     ];
 
     /**

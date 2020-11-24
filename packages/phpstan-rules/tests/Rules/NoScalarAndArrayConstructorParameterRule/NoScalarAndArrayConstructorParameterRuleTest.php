@@ -23,6 +23,7 @@ final class NoScalarAndArrayConstructorParameterRuleTest extends AbstractService
     {
         yield [__DIR__ . '/Fixture/SkipPHPStanRuleWithConstructorConfiguration.php', []];
 
+        yield [__DIR__ . '/Fixture/SkipExtension.php', []];
         yield [__DIR__ . '/Fixture/Entity/SkipApple.php', []];
         yield [__DIR__ . '/Fixture/Event/SkipEvent.php', []];
         yield [__DIR__ . '/Fixture/ValueObject/SkipValueObject.php', []];

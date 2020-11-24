@@ -6,16 +6,17 @@ namespace Symplify\ConfigTransformer\Command;
 
 use Migrify\MigrifyKernel\Command\AbstractMigrifyCommand;
 use Migrify\MigrifyKernel\ValueObject\MigrifyOption;
-use Nette\Utils\Strings;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Yaml;
 use Symplify\ConfigTransformer\Configuration\Configuration;
 use Symplify\ConfigTransformer\Converter\ConfigFormatConverter;
+use Symplify\ConfigTransformer\FileSystem\ConfigFileDumper;
+use Symplify\ConfigTransformer\ValueObject\ConvertedContentFromFileInfo;
 use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\ConfigTransformer\ValueObject\Option;
+use Symplify\ConfigTransformer\Yaml\YamlImportsFactory;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -31,12 +32,28 @@ final class SwitchFormatCommand extends AbstractMigrifyCommand
      */
     private $configuration;
 
-    public function __construct(ConfigFormatConverter $configFormatConverter, Configuration $configuration)
-    {
+    /**
+     * @var YamlImportsFactory
+     */
+    private $yamlImportsFactory;
+
+    /**
+     * @var ConfigFileDumper
+     */
+    private $configFileDumper;
+
+    public function __construct(
+        ConfigFormatConverter $configFormatConverter,
+        Configuration $configuration,
+        YamlImportsFactory $yamlImportsFactory,
+        ConfigFileDumper $configFileDumper
+    ) {
         parent::__construct();
 
         $this->configFormatConverter = $configFormatConverter;
         $this->configuration = $configuration;
+        $this->yamlImportsFactory = $yamlImportsFactory;
+        $this->configFileDumper = $configFileDumper;
     }
 
     protected function configure(): void
@@ -84,7 +101,11 @@ final class SwitchFormatCommand extends AbstractMigrifyCommand
         $suffixesRegex = '#\.' . implode('|', $suffixes) . '$#';
         $fileInfos = $this->smartFinder->find($this->configuration->getSource(), $suffixesRegex);
 
-        $this->dumpNewFileInfos($fileInfos);
+        $convertedContentsFromFileInfos = $this->convertFileInfos($fileInfos);
+        foreach ($convertedContentsFromFileInfos as $convertedContentFromFileInfo) {
+            $this->configFileDumper->dumpFile($convertedContentFromFileInfo);
+        }
+
         $this->processOldFileInfos($fileInfos);
 
         $successMessage = sprintf(
@@ -113,7 +134,7 @@ final class SwitchFormatCommand extends AbstractMigrifyCommand
 
         if ($this->configuration->shouldKeepBcLayer()) {
             foreach ($fileInfos as $fileInfo) {
-                $yamlContent = $this->crateYamlWithPhpFileImport($fileInfo);
+                $yamlContent = $this->yamlImportsFactory->createFromPhpFileInfo($fileInfo);
                 $this->smartFileSystem->dumpFile($fileInfo->getRealPath(), $yamlContent);
             }
 
@@ -126,49 +147,14 @@ final class SwitchFormatCommand extends AbstractMigrifyCommand
         }
     }
 
-    private function dumpFile(SmartFileInfo $fileInfo, string $convertedContent): void
-    {
-        $fileRealPathWithoutSuffix = Strings::replace($fileInfo->getRealPath(), '#\.[^.]+$#');
-        $newFilePath = $fileRealPathWithoutSuffix . '.' . $this->configuration->getOutputFormat();
-
-        $relativeFilePath = $this->getRelativePathOfNonExistingFile($newFilePath);
-
-        if ($this->configuration->isDryRun()) {
-            $message = sprintf('File "%s" would be dumped (is --dry-run)', $relativeFilePath);
-            $this->symfonyStyle->note($message);
-            return;
-        }
-
-        $this->smartFileSystem->dumpFile($newFilePath, $convertedContent);
-
-        $message = sprintf('File "%s" was dumped', $relativeFilePath);
-        $this->symfonyStyle->note($message);
-    }
-
-    private function getRelativePathOfNonExistingFile(string $newFilePath): string
-    {
-        $relativeFilePath = $this->smartFileSystem->makePathRelative($newFilePath, getcwd());
-        return rtrim($relativeFilePath, '/');
-    }
-
-    private function crateYamlWithPhpFileImport(SmartFileInfo $fileInfo): string
-    {
-        $yamlImportData = [
-            'imports' => [
-                [
-                    'resource' => $fileInfo->getBasenameWithoutSuffix() . '.php',
-                ],
-            ],
-        ];
-
-        return Yaml::dump($yamlImportData) . PHP_EOL;
-    }
-
     /**
      * @param SmartFileInfo[] $fileInfos
+     * @return ConvertedContentFromFileInfo[]
      */
-    private function dumpNewFileInfos(array $fileInfos): void
+    private function convertFileInfos(array $fileInfos): array
     {
+        $convertedContentFromFileInfo = [];
+
         foreach ($fileInfos as $fileInfo) {
             $message = sprintf('Processing "%s" file', $fileInfo->getRelativeFilePathFromCwd());
             $this->symfonyStyle->note($message);
@@ -179,7 +165,9 @@ final class SwitchFormatCommand extends AbstractMigrifyCommand
                 $this->configuration->getOutputFormat()
             );
 
-            $this->dumpFile($fileInfo, $convertedContent);
+            $convertedContentFromFileInfo[] = new ConvertedContentFromFileInfo($convertedContent, $fileInfo);
         }
+
+        return $convertedContentFromFileInfo;
     }
 }

@@ -12,7 +12,7 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Autodiscovery\Discovery;
 use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
@@ -31,7 +31,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractSymplifyRul
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Do not use scalar or array as constructor parameter. Use ParameterProvider service instead';
+    public const ERROR_MESSAGE = 'Do not use scalar or array as constructor parameter. Use "Symplify\PackageBuilder\Parameter\ParameterProvider" service instead';
 
     /**
      * @var string
@@ -52,7 +52,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractSymplifyRul
         AutodiscoveryFinder::class,
         Discovery::class,
         AutodiscoveryFinder::class,
-        Extension::class,
+        ExtensionInterface::class,
         Application::class,
     ];
 
@@ -158,17 +158,15 @@ CODE_SAMPLE
 
     private function isClassAllowed(Scope $scope): bool
     {
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        $className = $this->getClassName($scope);
+        if ($className === null) {
             return false;
         }
 
         foreach (self::ALLOWED_TYPES as $allowedType) {
-            if (! is_a($classReflection->getName(), $allowedType, true)) {
-                continue;
+            if (is_a($className, $allowedType, true)) {
+                return true;
             }
-
-            return true;
         }
 
         return false;

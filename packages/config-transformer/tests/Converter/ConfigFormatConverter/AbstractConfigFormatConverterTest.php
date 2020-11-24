@@ -59,8 +59,7 @@ abstract class AbstractConfigFormatConverterTest extends AbstractKernelTestCase
 
         $this->doTestFileInfo(
             $inputAndExpected->getInputFileInfo(),
-            $inputAndExpected->getExpectedFileInfo()
-                ->getContents(),
+            $inputAndExpected->getExpectedFileContent(),
             $fixtureFileInfo,
             $inputFormat,
             $outputFormat
