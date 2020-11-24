@@ -11,49 +11,39 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\ConfigTransformer\Configuration\Configuration;
-use Symplify\ConfigTransformer\Converter\ConfigFormatConverter;
+use Symplify\ConfigTransformer\Converter\ConvertedContentFactory;
 use Symplify\ConfigTransformer\FileSystem\ConfigFileDumper;
-use Symplify\ConfigTransformer\ValueObject\ConvertedContentFromFileInfo;
 use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\ConfigTransformer\ValueObject\Option;
-use Symplify\ConfigTransformer\Yaml\YamlImportsFactory;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SwitchFormatCommand extends AbstractMigrifyCommand
 {
-    /**
-     * @var ConfigFormatConverter
-     */
-    private $configFormatConverter;
-
     /**
      * @var Configuration
      */
     private $configuration;
 
     /**
-     * @var YamlImportsFactory
-     */
-    private $yamlImportsFactory;
-
-    /**
      * @var ConfigFileDumper
      */
     private $configFileDumper;
 
+    /**
+     * @var ConvertedContentFactory
+     */
+    private $convertedContentFactory;
+
     public function __construct(
-        ConfigFormatConverter $configFormatConverter,
         Configuration $configuration,
-        YamlImportsFactory $yamlImportsFactory,
-        ConfigFileDumper $configFileDumper
+        ConfigFileDumper $configFileDumper,
+        ConvertedContentFactory $convertedContentFactory
     ) {
         parent::__construct();
 
-        $this->configFormatConverter = $configFormatConverter;
         $this->configuration = $configuration;
-        $this->yamlImportsFactory = $yamlImportsFactory;
         $this->configFileDumper = $configFileDumper;
+        $this->convertedContentFactory = $convertedContentFactory;
     }
 
     protected function configure(): void
@@ -67,19 +57,13 @@ final class SwitchFormatCommand extends AbstractMigrifyCommand
         );
 
         $this->addOption(Option::INPUT_FORMAT, 'i', InputOption::VALUE_REQUIRED, 'Config format to input');
+
         $this->addOption(
             Option::OUTPUT_FORMAT,
             'o',
             InputOption::VALUE_REQUIRED,
             'Config format to output',
             Format::PHP
-        );
-
-        $this->addOption(
-            Option::BC_LAYER,
-            null,
-            InputOption::VALUE_NONE,
-            'Keep original config with include of new one, to prevent breaking of old config paths'
         );
 
         $this->addOption(
@@ -101,12 +85,15 @@ final class SwitchFormatCommand extends AbstractMigrifyCommand
         $suffixesRegex = '#\.' . implode('|', $suffixes) . '$#';
         $fileInfos = $this->smartFinder->find($this->configuration->getSource(), $suffixesRegex);
 
-        $convertedContentsFromFileInfos = $this->convertFileInfos($fileInfos);
-        foreach ($convertedContentsFromFileInfos as $convertedContentFromFileInfo) {
-            $this->configFileDumper->dumpFile($convertedContentFromFileInfo);
+        $convertedContents = $this->convertedContentFactory->createFromFileInfos($fileInfos);
+
+        foreach ($convertedContents as $convertedContent) {
+            $this->configFileDumper->dumpFile($convertedContent);
         }
 
-        $this->processOldFileInfos($fileInfos);
+        if (! $this->configuration->isDryRun()) {
+            $this->smartFileSystem->remove($fileInfos);
+        }
 
         $successMessage = sprintf(
             'Processed %d file(s) from "%s" to "%s" format',
@@ -114,60 +101,9 @@ final class SwitchFormatCommand extends AbstractMigrifyCommand
             $this->configuration->getInputFormat(),
             $this->configuration->getOutputFormat()
         );
+
         $this->symfonyStyle->success($successMessage);
 
         return ShellCode::SUCCESS;
-    }
-
-    /**
-     * @param SmartFileInfo[] $fileInfos
-     */
-    private function processOldFileInfos(array $fileInfos): void
-    {
-        if ($this->configuration->isDryRun()) {
-            return;
-        }
-
-        if (count($fileInfos) === 0) {
-            return;
-        }
-
-        if ($this->configuration->shouldKeepBcLayer()) {
-            foreach ($fileInfos as $fileInfo) {
-                $yamlContent = $this->yamlImportsFactory->createFromPhpFileInfo($fileInfo);
-                $this->smartFileSystem->dumpFile($fileInfo->getRealPath(), $yamlContent);
-            }
-
-            $updatedFilesMessage = sprintf('updated %d with BC layer to new configs', count($fileInfos));
-            $this->symfonyStyle->warning($updatedFilesMessage);
-        } else {
-            $this->smartFileSystem->remove($fileInfos);
-            $deletedFilesMessage = sprintf('Deleted %d original file(s)', count($fileInfos));
-            $this->symfonyStyle->warning($deletedFilesMessage);
-        }
-    }
-
-    /**
-     * @param SmartFileInfo[] $fileInfos
-     * @return ConvertedContentFromFileInfo[]
-     */
-    private function convertFileInfos(array $fileInfos): array
-    {
-        $convertedContentFromFileInfo = [];
-
-        foreach ($fileInfos as $fileInfo) {
-            $message = sprintf('Processing "%s" file', $fileInfo->getRelativeFilePathFromCwd());
-            $this->symfonyStyle->note($message);
-
-            $convertedContent = $this->configFormatConverter->convert(
-                $fileInfo,
-                $this->configuration->getInputFormat(),
-                $this->configuration->getOutputFormat()
-            );
-
-            $convertedContentFromFileInfo[] = new ConvertedContentFromFileInfo($convertedContent, $fileInfo);
-        }
-
-        return $convertedContentFromFileInfo;
     }
 }

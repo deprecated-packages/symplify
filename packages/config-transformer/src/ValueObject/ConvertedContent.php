@@ -6,7 +6,7 @@ namespace Symplify\ConfigTransformer\ValueObject;
 
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class ConvertedContentFromFileInfo
+final class ConvertedContent
 {
     /**
      * @var string
@@ -34,8 +34,8 @@ final class ConvertedContentFromFileInfo
         return $this->originalFileInfo;
     }
 
-    public function getOriginalFileRealPath(): string
+    public function getOriginalFilePathWithoutSuffix(): string
     {
-        return $this->originalFileInfo->getContents();
+        return $this->originalFileInfo->getRealPathWithoutSuffix();
     }
 }

@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\FileSystem;
 
-use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ConfigTransformer\Configuration\Configuration;
-use Symplify\ConfigTransformer\ValueObject\ConvertedContentFromFileInfo;
+use Symplify\ConfigTransformer\ValueObject\ConvertedContent;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ConfigFileDumper
@@ -37,15 +36,13 @@ final class ConfigFileDumper
         $this->smartFileSystem = $smartFileSystem;
     }
 
-    public function dumpFile(ConvertedContentFromFileInfo $convertedContentFromFileInfo): void
+    public function dumpFile(ConvertedContent $convertedContent): void
     {
-        $fileRealPathWithoutSuffix = Strings::replace(
-            $convertedContentFromFileInfo->getOriginalFileRealPath(),
-            '#\.[^.]+$#'
-        );
-        $newFilePath = $fileRealPathWithoutSuffix . '.' . $this->configuration->getOutputFormat();
+        $fileRealPathWithoutSuffix = $convertedContent->getOriginalFilePathWithoutSuffix();
 
-        $relativeFilePath = $this->getRelativePathOfNonExistingFile($newFilePath);
+        $newFileRealPath = $fileRealPathWithoutSuffix . '.' . $this->configuration->getOutputFormat();
+
+        $relativeFilePath = $this->getRelativePathOfNonExistingFile($newFileRealPath);
 
         if ($this->configuration->isDryRun()) {
             $message = sprintf('File "%s" would be dumped (is --dry-run)', $relativeFilePath);
@@ -53,7 +50,7 @@ final class ConfigFileDumper
             return;
         }
 
-        $this->smartFileSystem->dumpFile($newFilePath, $convertedContentFromFileInfo->getConvertedContent());
+        $this->smartFileSystem->dumpFile($newFileRealPath, $convertedContent->getConvertedContent());
 
         $message = sprintf('File "%s" was dumped', $relativeFilePath);
         $this->symfonyStyle->note($message);

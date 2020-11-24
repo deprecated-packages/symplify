@@ -348,3 +348,4 @@ parameters:
             message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
             path: 'packages/psr4-switcher/src/Configuration/Psr4SwitcherConfiguration.php'
 
+        - '#Parameter \#5 \$default of method Symfony\\Component\\Console\\Command\\Command\:\:addOption\(\) expects array<string\>\|bool\|int\|string\|null, float given#'
