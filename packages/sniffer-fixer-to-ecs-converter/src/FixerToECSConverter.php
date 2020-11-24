@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\SnifferFixerToECSConverter;
 
-use Migrify\MigrifyKernel\Exception\ShouldNotHappenException;
 use Nette\Utils\Strings;
 use PhpCsFixer\Config;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SnifferFixerToECSConverter\RobotLoader\FixerClassProvider;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
  * @see \Symplify\SnifferFixerToECSConverter\Tests\FixerToECSConverter\FixerToECSConverterTest

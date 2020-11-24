@@ -1,0 +1,30 @@
+{
+    "name": "symplify/phpmd-decomposer",
+    "description": "Decompose phpmd.xml to PHPStan, ECS and Rector rules",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2",
+        "nette/utils": "^3.0",
+        "nette/neon": "^3.2",
+        "symfony/http-kernel": "^4.4|^5.1",
+        "symplify/package-builder": "^9.0",
+        "symplify/php-config-printer": "^9.0",
+        "symplify/symplify-kernel": "^9.0"
+    },
+    "require-dev": {
+        "symplify/easy-testing": "^9.0",
+        "phpunit/phpunit": "^8.5|^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\PHPMDDecomposer\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\PHPMDDecomposer\\Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

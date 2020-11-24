@@ -19,15 +19,15 @@ final class Option
     /**
      * @var string
      */
-    public const BC_LAYER = 'bc-layer';
-
-    /**
-     * @var string
-     */
     public const TARGET_SYMFONY_VERSION = 'target-symfony-version';
 
     /**
      * @var string
      */
     public const DRY_RUN = 'dry-run';
+
+    /**
+     * @var string
+     */
+    public const SOURCES = 'sources';
 }

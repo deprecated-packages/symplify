@@ -7,19 +7,19 @@ namespace Symplify\Psr4Switcher\Tests\Utils;
 use Iterator;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\Psr4Switcher\HttpKernel\Psr4SwitcherKernel;
-use Symplify\Psr4Switcher\Utils\MigrifyStrings;
+use Symplify\Psr4Switcher\Utils\symplifyStrings;
 
 final class MigrifyStringsTest extends AbstractKernelTestCase
 {
     /**
-     * @var MigrifyStrings
+     * @var symplifyStrings
      */
     private $migrifyStrings;
 
     protected function setUp(): void
     {
         $this->bootKernel(Psr4SwitcherKernel::class);
-        $this->migrifyStrings = self::$container->get(MigrifyStrings::class);
+        $this->migrifyStrings = self::$container->get(symplifyStrings::class);
     }
 
     /**

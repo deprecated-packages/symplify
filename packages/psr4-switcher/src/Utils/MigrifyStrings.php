@@ -7,7 +7,7 @@ namespace Symplify\Psr4Switcher\Utils;
 use Nette\Utils\Strings;
 
 /**
- * @see \Symplify\Psr4Switcher\Tests\Utils\MigrifyStringsTest
+ * @see \Symplify\Psr4Switcher\Tests\Utils\symplifyStringsTest
  */
 final class MigrifyStrings
 {

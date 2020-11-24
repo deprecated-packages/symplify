@@ -88,8 +88,8 @@ Do you want to know more about **clean Latte filters**? Read [How to Get Rid of 
 
 ## Report Issues
 
-In case you are experiencing a bug or want to request a new feature head over to the [migrify monorepo issue tracker](https://github.com/migrify/migrify/issues)
+In case you are experiencing a bug or want to request a new feature head over to the [migrify monorepo issue tracker](https://github.com/symplify/symplify/issues)
 
 ## Contribute
 
-The sources of this package are contained in the migrify monorepo. We welcome contributions for this package on [migrify/migrify](https://github.com/migrify/migrify).
+The sources of this package are contained in the migrify monorepo. We welcome contributions for this package on [symplify/migrify](https://github.com/symplify/migrify).

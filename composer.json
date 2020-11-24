@@ -12,7 +12,6 @@
         "guzzlehttp/guzzle": "^6.5|^7.0",
         "j7mbo/twitter-api-php": "^1.0.6",
         "jean85/pretty-package-versions": "^1.5",
-        "migrify/migrify-kernel": "dev-master as 0.5",
         "nette/di": "^3.0",
         "nette/finder": "^2.5",
         "nette/neon": "^3.2",

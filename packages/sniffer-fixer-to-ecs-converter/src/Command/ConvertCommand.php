@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace Symplify\SnifferFixerToECSConverter\Command;
 
-use Migrify\MigrifyKernel\Exception\NotImplementedYetException;
-use Migrify\MigrifyKernel\ValueObject\MigrifyOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\PackageBuilder\Exception\NotImplementedYetException;
+use Symplify\PackageBuilder\ValueObject\Option;
 use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SnifferFixerToECSConverter\FixerToECSConverter;
 use Symplify\SnifferFixerToECSConverter\SnifferToECSConverter;
+use Symplify\SymplifyKernel\Exception\NotImplementedYetException;
+use Symplify\SymplifyKernel\ValueObject\symplifyOption;
 
 final class ConvertCommand extends AbstractSymplifyCommand
 {
@@ -41,7 +43,15 @@ final class ConvertCommand extends AbstractSymplifyCommand
     protected function configure(): void
     {
         $this->addArgument(
+<<<<<<< HEAD
+<<<<<<< HEAD
             MigrifyOption::SOURCES,
+=======
+            Option::SOURCES,
+>>>>>>> 7e1cbd8ad... fixup! fixup! misc
+=======
+            symplifyOption::SOURCES,
+>>>>>>> 434bcd4b3... rename Migrify to Symplify
             InputArgument::REQUIRED,
             'File to convert, usually "phpcs.xml" or ".php_cs.dist"'
         );
@@ -50,7 +60,15 @@ final class ConvertCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $source = (string) $input->getArgument(MigrifyOption::SOURCES);
+=======
+        $source = (string) $input->getArgument(Option::SOURCES);
+>>>>>>> 7e1cbd8ad... fixup! fixup! misc
+=======
+        $source = (string) $input->getArgument(symplifyOption::SOURCES);
+>>>>>>> 434bcd4b3... rename Migrify to Symplify
         if (! $this->smartFileSystem->exists($source)) {
             throw new FileNotFoundException($source);
         }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\Provider;
 
-use Migrify\MigrifyKernel\Exception\ShouldNotHappenException;
 use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class YamlContentProvider implements YamlFileContentProviderInterface
 {
