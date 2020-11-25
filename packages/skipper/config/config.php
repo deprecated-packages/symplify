@@ -15,6 +15,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::EXCLUDE_PATHS, []);
 
     $services = $containerConfigurator->services();
+
     $services->defaults()
         ->public()
         ->autowire()

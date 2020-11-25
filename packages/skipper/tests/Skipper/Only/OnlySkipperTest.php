@@ -9,10 +9,12 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\Skipper\HttpKernel\SkipperKernel;
 use Symplify\Skipper\Skipper\Skipper;
 use Symplify\Skipper\Tests\Skipper\Only\Source\IncludeThisClass;
+use Symplify\Skipper\Tests\Skipper\Only\Source\SkipCompletely;
+use Symplify\Skipper\Tests\Skipper\Only\Source\SkipCompletelyToo;
 use Symplify\Skipper\Tests\Skipper\Only\Source\SkipThisClass;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class SkipperOnlyTest extends AbstractKernelTestCase
+final class OnlySkipperTest extends AbstractKernelTestCase
 {
     /**
      * @var Skipper
@@ -42,6 +44,10 @@ final class SkipperOnlyTest extends AbstractKernelTestCase
 
         // no restrictions
         yield [SkipThisClass::class, __DIR__ . '/Fixture/SomeFileToOnlyInclude.php', false];
+
         yield [SkipThisClass::class, __DIR__ . '/Fixture/SomeFile.php', false];
+
+        yield [SkipCompletely::class, __DIR__ . '/Fixture/SomeFile.php', true];
+        yield [SkipCompletelyToo::class, __DIR__ . '/Fixture/SomeFile.php', true];
     }
 }

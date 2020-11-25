@@ -6,7 +6,7 @@ namespace Symplify\Skipper\Skipper;
 
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
-use Symplify\Skipper\FileSystem\PathNormalizer;
+use Symplify\Skipper\Matcher\FileInfoMatcher;
 use Symplify\Skipper\ValueObject\Option;
 use Symplify\Skipper\ValueObject\SkipRules;
 use Symplify\Skipper\ValueObjectFactory\SkipRulesFactory;
@@ -20,39 +20,53 @@ final class Skipper
     private $excludedPaths = [];
 
     /**
-     * @var mixed[]
-     */
-    private $only = [];
-
-    /**
      * @var SkipRules
      */
     private $skipRules;
-
-    /**
-     * @var PathNormalizer
-     */
-    private $pathNormalizer;
 
     /**
      * @var ClassLikeExistenceChecker
      */
     private $classLikeExistenceChecker;
 
+    /**
+     * @var FileInfoMatcher
+     */
+    private $fileInfoMatcher;
+
+    /**
+     * @var OnlySkipper
+     */
+    private $onlySkipper;
+
+    /**
+     * @var ParameterProvider
+     */
+    private $parameterProvider;
+
+    /**
+     * @var SkipSkipper
+     */
+    private $skipSkipper;
+
     public function __construct(
         ParameterProvider $parameterProvider,
         SkipRulesFactory $skipRulesFactory,
-        PathNormalizer $pathNormalizer,
-        ClassLikeExistenceChecker $classLikeExistenceChecker
+        ClassLikeExistenceChecker $classLikeExistenceChecker,
+        FileInfoMatcher $fileInfoMatcher,
+        OnlySkipper $onlySkipper,
+        SkipSkipper $skipSkipper
     ) {
         $excludePaths = $parameterProvider->provideArrayParameter(Option::EXCLUDE_PATHS);
 
         $this->skipRules = $skipRulesFactory->create();
 
-        $this->only = $parameterProvider->provideArrayParameter(Option::ONLY);
         $this->excludedPaths = $excludePaths;
-        $this->pathNormalizer = $pathNormalizer;
         $this->classLikeExistenceChecker = $classLikeExistenceChecker;
+        $this->fileInfoMatcher = $fileInfoMatcher;
+        $this->onlySkipper = $onlySkipper;
+        $this->parameterProvider = $parameterProvider;
+        $this->skipSkipper = $skipSkipper;
     }
 
     public function shouldSkipElementAndFileInfo($element, SmartFileInfo $fileInfo): bool
@@ -76,13 +90,7 @@ final class Skipper
 
     public function shouldSkipFileInfo(SmartFileInfo $smartFileInfo): bool
     {
-        foreach ($this->excludedPaths as $excludedPath) {
-            if ($this->doesFileMatchPattern($smartFileInfo, $excludedPath)) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->fileInfoMatcher->doesFileInfoMatchPatterns($smartFileInfo, $this->excludedPaths);
     }
 
     /**
@@ -90,12 +98,14 @@ final class Skipper
      */
     private function shouldSkipClassAndFile($class, SmartFileInfo $smartFileInfo): bool
     {
-        $doesMatchOnly = $this->doesMatchOnly($class, $smartFileInfo);
+        $only = $this->parameterProvider->provideArrayParameter(Option::ONLY);
+
+        $doesMatchOnly = $this->onlySkipper->doesMatchOnly($class, $smartFileInfo, $only);
         if (is_bool($doesMatchOnly)) {
             return $doesMatchOnly;
         }
 
-        return $this->doesMatchSkipped($class, $smartFileInfo);
+        return $this->skipSkipper->doesMatchSkip($class, $smartFileInfo, $this->skipRules->getSkippedClasses());
     }
 
     private function shouldSkipMatchingRuleAndFile(array $skipped, string $key, SmartFileInfo $smartFileInfo): bool
@@ -110,84 +120,6 @@ final class Skipper
             return true;
         }
 
-        return $this->doesFileMatchSkippedFiles($smartFileInfo, $skippedPaths);
-    }
-
-    /**
-     * @param object|string $checker
-     */
-    private function doesMatchOnly($checker, SmartFileInfo $smartFileInfo): ?bool
-    {
-        foreach ($this->only as $onlyClass => $onlyFiles) {
-            if (! is_a($checker, $onlyClass, true)) {
-                continue;
-            }
-
-            foreach ($onlyFiles as $onlyFile) {
-                if ($this->doesFileMatchPattern($smartFileInfo, $onlyFile)) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        return null;
-    }
-
-    /**
-     * @param object|string $checker
-     */
-    private function doesMatchSkipped($checker, SmartFileInfo $smartFileInfo): bool
-    {
-        foreach ($this->skipRules->getSkippedClasses() as $skippedClass => $skippedFiles) {
-            if (! is_a($checker, $skippedClass, true)) {
-                continue;
-            }
-
-            // skip everywhere
-            if (! is_array($skippedFiles)) {
-                return true;
-            }
-
-            if ($this->doesFileMatchSkippedFiles($smartFileInfo, $skippedFiles)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Supports both relative and absolute $file path.
-     * They differ for PHP-CS-Fixer and PHP_CodeSniffer.
-     */
-    private function doesFileMatchPattern(SmartFileInfo $smartFileInfo, string $ignoredPath): bool
-    {
-        // in ecs.php, the path can be absolute
-        if ($smartFileInfo->getRealPath() === $ignoredPath) {
-            return true;
-        }
-
-        $ignoredPath = $this->pathNormalizer->normalizeForFnmatch($ignoredPath);
-        if ($ignoredPath === '') {
-            return false;
-        }
-
-        return $smartFileInfo->endsWith($ignoredPath) || $smartFileInfo->doesFnmatch($ignoredPath);
-    }
-
-    /**
-     * @param string[] $skippedFiles
-     */
-    private function doesFileMatchSkippedFiles(SmartFileInfo $smartFileInfo, array $skippedFiles): bool
-    {
-        foreach ($skippedFiles as $skippedFile) {
-            if ($this->doesFileMatchPattern($smartFileInfo, $skippedFile)) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->fileInfoMatcher->doesFileInfoMatchPatterns($smartFileInfo, $skippedPaths);
     }
 }
