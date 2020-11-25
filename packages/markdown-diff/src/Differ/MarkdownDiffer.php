@@ -64,6 +64,6 @@ final class MarkdownDiffer
 
     private function clearUnifiedDiffOutputFirstLine(string $diff): string
     {
-        return Strings::replace($diff, self::METADATA_REGEX);
+        return Strings::replace($diff, self::METADATA_REGEX, '');
     }
 }
