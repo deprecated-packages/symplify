@@ -1,4 +1,4 @@
-# Rules Overview
+# 102 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -33,7 +33,7 @@ class SomeClass
 
 ## BoolishClassMethodPrefixRule
 
-Method "%s()" returns bool type, so the name should start with is/has/was...
+Method `"%s()"` returns bool type, so the name should start with is/has/was...
 
 - class: `Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule`
 
@@ -67,7 +67,7 @@ class SomeClass
 
 ## CheckConstantExpressionDefinedInConstructOrSetupRule
 
-Move constant expression to "__construct()", "setUp()" method or constant
+Move constant expression to `__construct()`, `setUp()"` method or constant
 
 - class: `Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule`
 
@@ -247,7 +247,7 @@ class SomeClass
 
 ## CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
 
-autowire(), autoconfigure(), and `public()` are required in config service
+`autowire(),` `autoconfigure(),` and `public()` are required in config service
 
 - class: `Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule`
 
@@ -355,7 +355,7 @@ final class SomeClass
 
 ## CheckTraitMethodOnlyDelegateOtherClassRule
 
-Trait method "%s()" should not contain any logic, but only delegate to other class call
+Trait method `"%s()"` should not contain any logic, but only delegate to other class call
 
 - class: `Symplify\PHPStanRules\Rules\CheckTraitMethodOnlyDelegateOtherClassRule`
 
@@ -392,7 +392,7 @@ trait SomeTrait
 
 ## CheckUnneededSymfonyStyleUsageRule
 
-SymfonyStyle usage is unneeded for only newline, write, and/or writeln, use PHP_EOL and concatenation instead
+SymfonyStyle service is not needed for only newline and text echo. Use PHP_EOL and concatenation instead
 
 - class: `Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule`
 
@@ -424,7 +424,7 @@ class SomeClass
 {
     public function run(): void
     {
-        echo 'Hi';
+        echo 'Hi' . PHP_EOL;
     }
 }
 ```
@@ -626,7 +626,7 @@ class SomeCommand extends Command
 
 ## ExcessiveParameterListRule
 
-Method "%s()" is using too many parameters - %d. Make it under %d
+Method `"%s()"` is using too many parameters - %d. Make it under %d
 
 :wrench: **configure it!**
 
@@ -942,7 +942,7 @@ class SomeClass
 
 ## ForbiddenFuncCallRule
 
-Function "%s()" cannot be used/left in the code
+Function `"%s()"` cannot be used/left in the code
 
 :wrench: **configure it!**
 
@@ -1131,7 +1131,7 @@ foreach ($fileErrors as $fileError) {
 
 ## ForbiddenNewInMethodRule
 
-"new" in method "%s->%s()" is not allowed.
+"new" in method `"%s->%s()"` is not allowed.
 
 :wrench: **configure it!**
 
@@ -1720,7 +1720,7 @@ class SomeStaticClass
 
 ## NoConstructorInTestRule
 
-Do not use constructor in tests. Move to "setUp()" method
+Do not use constructor in tests. Move to `"setUp()"` method
 
 - class: `Symplify\PHPStanRules\Rules\NoConstructorInTestRule`
 
@@ -2020,7 +2020,7 @@ class SomeClass
 
 ## NoFuncCallInMethodCallRule
 
-Separate function "%s()" in method call to standalone row to improve readability
+Separate function `"%s()"` in method call to standalone row to improve readability
 
 - class: `Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule`
 
@@ -2059,7 +2059,7 @@ final class SomeClass
 
 ## NoGetRepositoryOutsideConstructorRule
 
-Do not use "$entityManager->getRepository()" outside of the constructor of repository service or `setUp()` method in test case
+Do not use `"$entityManager->getRepository()"` outside of the constructor of repository service or `setUp()` method in test case
 
 - class: `Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule`
 
@@ -2603,7 +2603,7 @@ final class ReturnVariables
 
 ## NoScalarAndArrayConstructorParameterRule
 
-Do not use scalar or array as constructor parameter. Use ParameterProvider service instead
+Do not use scalar or array as constructor parameter. Use "Symplify\PackageBuilder\Parameter\ParameterProvider" service instead
 
 - class: `Symplify\PHPStanRules\Rules\NoScalarAndArrayConstructorParameterRule`
 
@@ -2647,7 +2647,7 @@ final class SomeClass
 
 ## NoSetterClassMethodRule
 
-Setter "%s()" is not allowed. Use constructor injection or behavior name instead, e.g. "changeName()"
+Setter `"%s()"` is not allowed. Use constructor injection or behavior name instead, e.g. `"changeName()"`
 
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule`
 
@@ -2935,7 +2935,7 @@ class SomeClass
 
 ## PreferredMethodCallOverFuncCallRule
 
-Use "%s->%s()" method call over "%s()" func call
+Use `"%s->%s()"` method call over `"%s()"` func call
 
 :wrench: **configure it!**
 
@@ -3059,7 +3059,7 @@ final class UseRawDataForTestDataProviderTest
 
 ## PreferredStaticCallOverFuncCallRule
 
-Use "%s::%s()" static call over "%s()" func call
+Use `"%s::%s()"` static call over `"%s()"` func call
 
 :wrench: **configure it!**
 
@@ -3137,7 +3137,7 @@ abstract class AbstractSomeClass
 
 ## PreventParentMethodVisibilityOverrideRule
 
-Change "%s()" method visibility to "%s" to respect parent method visibility.
+Change `"%s()"` method visibility to "%s" to respect parent method visibility.
 
 - class: `Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule`
 
@@ -3330,7 +3330,7 @@ class SomeClass
 
 ## RequireDataProviderTestMethodRule
 
-The "%s()" method must use data provider
+The `"%s()"` method must use data provider
 
 :wrench: **configure it!**
 
@@ -3477,7 +3477,7 @@ $inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
 
 ## RequireStringArgumentInMethodCallRule
 
-Use quoted string in method call "%s()" argument on position %d instead of "::class. It prevent scoping of the class in building prefixed package.
+Use quoted string in method call `"%s()"` argument on position %d instead of "::class. It prevent scoping of the class in building prefixed package.
 
 :wrench: **configure it!**
 

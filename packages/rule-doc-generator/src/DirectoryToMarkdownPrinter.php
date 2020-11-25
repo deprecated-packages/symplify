@@ -49,7 +49,7 @@ final class DirectoryToMarkdownPrinter
     /**
      * @param string[] $directories
      */
-    public function print(array $directories): string
+    public function print(array $directories, bool $shouldCategorize = false): string
     {
         // 1. collect documented rules in provided path
         $documentedRuleClasses = $this->classByTypeFinder->findByType($directories, DocumentedRuleInterface::class);
@@ -63,7 +63,7 @@ final class DirectoryToMarkdownPrinter
         $ruleDefinitions = $this->ruleDefinitionsResolver->resolveFromClassNames($documentedRuleClasses);
 
         // 3. print rule definitions to markdown lines
-        $markdownLines = $this->ruleDefinitionsPrinter->print($ruleDefinitions);
+        $markdownLines = $this->ruleDefinitionsPrinter->print($ruleDefinitions, $shouldCategorize);
 
         $fileContent = '';
         foreach ($markdownLines as $markdownLine) {

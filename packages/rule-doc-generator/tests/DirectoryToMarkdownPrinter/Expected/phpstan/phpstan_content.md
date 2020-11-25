@@ -1,4 +1,4 @@
-# Rules Overview
+# 1 Rules Overview
 
 ## SomePHPStanRule
 

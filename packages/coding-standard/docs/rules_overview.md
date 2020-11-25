@@ -1,4 +1,4 @@
-# Rules Overview
+# 15 Rules Overview
 
 ## ArrayListItemNewlineFixer
 
@@ -213,7 +213,7 @@ Remove "// TODO: Implement `methodName()` method." comment
 
 ## RemoveUselessClassCommentFixer
 
-Remove useless "// Class <Some>" comment
+Remove useless "// Class <Some>" or "// <Some> Constructor." comment
 
 - class: `Symplify\CodingStandard\Fixer\Commenting\RemoveUselessClassCommentFixer`
 
@@ -223,6 +223,30 @@ Remove useless "// Class <Some>" comment
 - */
  class SomeClass
  {
+-    /**
+-     * SomeClass Constructor.
+-     */
+     public function __construct()
+     {
+     }
+
+-    /**
+-     * Get Translator
+-     */
+     public function getTranslator()
+     {
+     }
+
+-    /**
+-     * Get normal translator
+-     */
+-	public function getNormalTranslator()
+-	{
+-
+-	}
++    public function getNormalTranslator()
++    {
++    }
  }
 ```
 

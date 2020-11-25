@@ -11,10 +11,6 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class SomeRector implements RectorInterface, DocumentedRuleInterface
 {
-    public function getDefinition(): RectorDefinition
-    {
-    }
-
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition('Some change', [

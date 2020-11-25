@@ -1,6 +1,12 @@
 # 1 Rules Overview
 
-## SomeRector
+## Categories
+
+- [Big Category](#big-category) (1)
+
+## Big Category
+
+### SomeRector
 
 Some change
 
