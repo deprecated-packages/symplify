@@ -140,6 +140,11 @@ final class SmartFileInfo extends SplFileInfo
         return dirname($this->getRealPath());
     }
 
+    public function startsWith(string $partialPath): bool
+    {
+        return Strings::startsWith($this->getNormalizedRealPath(), $partialPath);
+    }
+
     private function getNormalizedRealPath(): string
     {
         return $this->normalizePath($this->getRealPath());

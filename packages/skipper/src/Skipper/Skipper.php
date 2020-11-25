@@ -4,23 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\Skipper\Skipper;
 
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Skipper\Contract\SkipVoterInterface;
-use Symplify\Skipper\Matcher\FileInfoMatcher;
-use Symplify\Skipper\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class Skipper
 {
     /**
-     * @var string[]
+     * @var string
      */
-    private $excludedPaths = [];
-
-    /**
-     * @var FileInfoMatcher
-     */
-    private $fileInfoMatcher;
+    private const FILE_ELEMENT = 'file_elements';
 
     /**
      * @var SkipVoterInterface[]
@@ -30,14 +22,14 @@ final class Skipper
     /**
      * @param SkipVoterInterface[] $skipVoters
      */
-    public function __construct(
-        ParameterProvider $parameterProvider,
-        FileInfoMatcher $fileInfoMatcher,
-        array $skipVoters
-    ) {
-        $this->excludedPaths = $parameterProvider->provideArrayParameter(Option::EXCLUDE_PATHS);
-        $this->fileInfoMatcher = $fileInfoMatcher;
+    public function __construct(array $skipVoters)
+    {
         $this->skipVoters = $skipVoters;
+    }
+
+    public function shouldSkipFileInfo(SmartFileInfo $smartFileInfo): bool
+    {
+        return $this->shouldSkipElementAndFileInfo(self::FILE_ELEMENT, $smartFileInfo);
     }
 
     public function shouldSkipElementAndFileInfo($element, SmartFileInfo $smartFileInfo): bool
@@ -49,10 +41,5 @@ final class Skipper
         }
 
         return false;
-    }
-
-    public function shouldSkipFileInfo(SmartFileInfo $smartFileInfo): bool
-    {
-        return $this->fileInfoMatcher->doesFileInfoMatchPatterns($smartFileInfo, $this->excludedPaths);
     }
 }

@@ -30,6 +30,7 @@ final class SkipSkipperTest extends AbstractKernelTestCase
      * @dataProvider provideCheckerAndFile()
      * @dataProvider provideCodeAndFile()
      * @dataProvider provideMessageAndFile()
+     * @dataProvider provideAnythingAndFilePath()
      */
     public function test(string $element, string $filePath, bool $expectedSkip): void
     {
@@ -74,5 +75,11 @@ final class SkipSkipperTest extends AbstractKernelTestCase
             __DIR__ . '/Fixture/skip.php.inc',
             false,
         ];
+    }
+
+    public function provideAnythingAndFilePath(): Iterator
+    {
+        yield ['anything', __DIR__ . '/Fixture/AlwaysSkippedPath/some_file.txt', true];
+        yield ['anything', __DIR__ . '/Fixture/PathSkippedWithMask/another_file.txt', true];
     }
 }

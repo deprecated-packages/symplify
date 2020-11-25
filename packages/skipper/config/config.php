@@ -11,9 +11,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::SKIP, []);
     $parameters->set(Option::ONLY, []);
 
-    // @deprecated - merge with "SKIP" and remove before release
-    $parameters->set(Option::EXCLUDE_PATHS, []);
-
     $services = $containerConfigurator->services();
 
     $services->defaults()

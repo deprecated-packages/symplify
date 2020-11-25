@@ -17,11 +17,4 @@ final class Option
      * @var string
      */
     public const ONLY = 'only';
-
-    /**
-     * @api
-     * @var string
-     * @deprecated Use "SKIP" instead - remove before release!!!
-     */
-    public const EXCLUDE_PATHS = 'exclude_paths';
 }
