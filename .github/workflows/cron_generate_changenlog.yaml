@@ -28,8 +28,6 @@ jobs:
             # composer install cache - https://github.com/ramsey/composer-install
             -   uses: "ramsey/composer-install@v1"
 
-            -   run: composer install --no-progress --ansi
-
             -
                 name: Generate Changelog
                 run: composer changelog

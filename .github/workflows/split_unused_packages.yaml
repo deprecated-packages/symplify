@@ -72,8 +72,6 @@ jobs:
             # composer install cache - https://github.com/ramsey/composer-install
             -   uses: "ramsey/composer-install@v1"
 
-            -   run: composer install --no-progress --ansi
-
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths ${{ matrix.package_path }}/composer.json --ansi
 
             -   run: composer update --no-progress --ansi --working-dir ${{ matrix.package_path }}
