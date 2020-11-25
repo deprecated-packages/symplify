@@ -30,6 +30,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Autowire Array Parameter](https://github.com/symplify/autowire-array-parameter)
 - [Flex Loader](https://github.com/symplify/flex-loader)
 - [PHP Config Printer](https://github.com/symplify/php-config-printer)
+- [Symfony Route Usage](https://github.com/symplify/symfony-route-usage)
 
 ## For Package Development
 
@@ -46,6 +47,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 - [Set Config Resolver](https://github.com/symplify/set-config-resolver)
 - [Console Color Diff](https://github.com/symplify/console-color-diff)
+- [Console Package Builder](https://github.com/symplify/console-package-builder)
 
 ## For Any Developer
 
@@ -59,6 +61,27 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 - [PHPStan Rules](https://github.com/symplify/phpstan-rules)
 - [PHPStan Extensions](https://github.com/symplify/phpstan-extensions)
+- [PHPStan PHP Config](https://github.com/symplify/phpstan-php-config)
+
+## For CI Keeping you Safe
+
+- [Easy CI](https://github.com/symplify/easy-ci)
+- [Class Presence](https://github.com/symplify/class-presence)
+- [Template Checker](https://github.com/symplify/template-checker)
+- [Static Detector](https://github.com/symplify/static-detector)
+
+## For Syntax Transformation
+
+- [Latte to TWIG Converter](https://github.com/symplify/latte-to-twig-converter)
+- [NEON to YAML Converter](https://github.com/symplify/neon-to-yaml-converter)
+- [PHPMD Decomposer](https://github.com/symplify/phpmd-decomposer)
+- [Sniffer Fixer to ECS Converter](https://github.com/symplify/sniffer-fixer-to-ecs-converter)
+
+## For Upgrades
+
+- [PHPUnit Upgrader](https://github.com/symplify/phpunit-upgrader)
+- [PSR-4 Switcher](https://github.com/symplify/psr4-switcher)
+- [Vendor Patches](https://github.com/symplify/vendor-patches)
 
 <br>
 
