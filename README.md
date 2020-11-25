@@ -89,25 +89,23 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 If you have issue and want to improve some package, put it all into this repository.
 
-Fork, clone your repository and install dependencies:
+Fork and clone your repository:
 
 ```bash
 git clone git@github.com:<your-name>/symplify.git
-cd Symplify
-composer update
+cd symplify
+composer install
 ```
 
 ### 3 Steps to Contribute
 
 - **1 feature per pull-request**
-- **New feature needs tests**
-- Tests and static analysis **must pass**:
+- **new feature must have tests**
+- tests and static analysis **must pass**:
 
     ```bash
-    composer complete-check
-
-    # coding standard issues fix with
-    composer fix-cs
+    vendor/bin/phpunit
+    composer phsptan
     ```
 
-We would be happy to merge your feature then.
+We would be happy to merge your feature then :+1:
