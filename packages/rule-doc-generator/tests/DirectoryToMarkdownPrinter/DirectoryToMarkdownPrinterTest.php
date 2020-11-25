@@ -20,7 +20,10 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernel(RuleDocGeneratorKernel::class);
+        $this->bootKernelWithConfigs(RuleDocGeneratorKernel::class, [
+            __DIR__ . '/config/config_with_category_inferer.php',
+        ]);
+
         $this->directoryToMarkdownPrinter = self::$container->get(DirectoryToMarkdownPrinter::class);
     }
 
@@ -29,9 +32,9 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
      * @dataProvider provideDataPHPCSFixer()
      * @dataProvider provideDataRector()
      */
-    public function test(string $directory, string $expectedFile): void
+    public function test(string $directory, string $expectedFile, bool $shouldCategorize = false): void
     {
-        $fileContent = $this->directoryToMarkdownPrinter->print([$directory]);
+        $fileContent = $this->directoryToMarkdownPrinter->print([$directory], $shouldCategorize);
 
         $expectedFileInfo = new SmartFileInfo($expectedFile);
         StaticFixtureUpdater::updateExpectedFixtureContent($fileContent, $expectedFileInfo);
@@ -67,5 +70,7 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
             __DIR__ . '/Expected/rector/composer_json_aware_rector_content.md',
         ];
         yield [__DIR__ . '/Fixture/Rector/ExtraFile', __DIR__ . '/Expected/rector/extra_file_rector_content.md'];
+
+        yield [__DIR__ . '/Fixture/Rector/Standard', __DIR__ . '/Expected/rector/rector_categorized.md', true];
     }
 }

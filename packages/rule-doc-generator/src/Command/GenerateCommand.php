@@ -43,12 +43,14 @@ final class GenerateCommand extends AbstractSymplifyCommand
             'Path to output generated markdown file',
             getcwd() . '/docs/rules_overview.md'
         );
+        $this->addOption(Option::CATEGORIZE, null, InputOption::VALUE_NONE, 'Group in categories');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $paths = (array) $input->getArgument(Option::PATHS);
-        $markdownFileContent = $this->directoryToMarkdownPrinter->print($paths);
+        $shouldCategorize = (bool) $input->getArgument(Option::CATEGORIZE);
+        $markdownFileContent = $this->directoryToMarkdownPrinter->print($paths, $shouldCategorize);
 
         // dump markdown file
         $outputFilePath = (string) $input->getOption(Option::OUTPUT_FILE);

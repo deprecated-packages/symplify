@@ -13,10 +13,6 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class ConfigurableRector implements RectorInterface, DocumentedRuleInterface, ConfigurableRuleInterface
 {
-    public function getDefinition(): RectorDefinition
-    {
-    }
-
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition('Some change', [

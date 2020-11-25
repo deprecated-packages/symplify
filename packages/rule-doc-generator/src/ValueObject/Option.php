@@ -7,14 +7,17 @@ namespace Symplify\RuleDocGenerator\ValueObject;
 final class Option
 {
     /**
-     * @api
      * @var string
      */
     public const PATHS = 'paths';
 
     /**
-     * @api
      * @var string
      */
     public const OUTPUT_FILE = 'output-file';
+
+    /**
+     * @var string
+     */
+    public const CATEGORIZE = 'category';
 }
