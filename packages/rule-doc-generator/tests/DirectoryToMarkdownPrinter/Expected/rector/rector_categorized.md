@@ -1,8 +1,12 @@
 # 1 Rules Overview
 
+<br>
+
 ## Categories
 
 - [Big Category](#big-category) (1)
+
+<br>
 
 ## Big Category
 

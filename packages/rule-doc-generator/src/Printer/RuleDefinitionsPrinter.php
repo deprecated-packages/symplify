@@ -52,15 +52,8 @@ final class RuleDefinitionsPrinter
         if ($shouldCategorize) {
             $ruleDefinitionsByCategory = $this->groupDefinitionsByCategory($ruleDefinitions);
 
-            $lines[] = '## Categories';
-            foreach ($ruleDefinitionsByCategory as $category => $ruleDefinitions) {
-                $lines[] = sprintf(
-                    '- [%s](#%s) (%d)',
-                    $category,
-                    Strings::webalize($category),
-                    count($ruleDefinitions)
-                );
-            }
+            $categoryMenuLines = $this->createCategoryMenu($ruleDefinitionsByCategory);
+            $lines = array_merge($lines, $categoryMenuLines);
 
             foreach ($ruleDefinitionsByCategory as $category => $ruleDefinitions) {
                 $lines[] = '## ' . $category;
@@ -116,6 +109,30 @@ final class RuleDefinitionsPrinter
             $codeSampleLines = $this->codeSamplePrinter->print($ruleDefinition);
             $lines = array_merge($lines, $codeSampleLines);
         }
+        return $lines;
+    }
+
+    /**
+     * @param array<string, RuleDefinition[]> $ruleDefinitionsByCategory
+     * @return string[]
+     */
+    private function createCategoryMenu(array $ruleDefinitionsByCategory): array
+    {
+        $lines = [];
+        $lines[] = '<br>';
+        $lines[] = '## Categories';
+
+        foreach ($ruleDefinitionsByCategory as $category => $ruleDefinitions) {
+            $lines[] = sprintf(
+                '- [%s](#%s) (%d)',
+                $category,
+                Strings::webalize($category),
+                count($ruleDefinitions)
+            );
+        }
+
+        $lines[] = '<br>';
+
         return $lines;
     }
 }
