@@ -6,6 +6,10 @@ on:
         -   cron: "0 0 * * *"
     pull_request: null
 
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-master"
+
 jobs:
     daily_pull_requests:
         strategy:
