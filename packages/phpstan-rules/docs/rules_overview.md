@@ -67,7 +67,7 @@ class SomeClass
 
 ## CheckConstantExpressionDefinedInConstructOrSetupRule
 
-Move constant expression to `__construct()`, `setUp()"` method or constant
+Move constant expression to `__construct()`, `setUp()` method or constant
 
 - class: `Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule`
 
@@ -1720,7 +1720,7 @@ class SomeStaticClass
 
 ## NoConstructorInTestRule
 
-Do not use constructor in tests. Move to `"setUp()"` method
+Do not use constructor in tests. Move to `"setUp()` method
 
 - class: `Symplify\PHPStanRules\Rules\NoConstructorInTestRule`
 

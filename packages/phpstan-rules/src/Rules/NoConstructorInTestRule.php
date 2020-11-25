@@ -20,7 +20,7 @@ final class NoConstructorInTestRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Do not use constructor in tests. Move to "setUp()" method';
+    public const ERROR_MESSAGE = 'Do not use constructor in tests. Move to setUp() method';
 
     /**
      * @return string[]
