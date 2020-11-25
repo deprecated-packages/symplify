@@ -60,10 +60,6 @@ final class Skipper
             }
         }
 
-        if ($this->shouldSkipMatchingRuleAndFile($this->skipRules->getSkippedCodes(), $element, $smartFileInfo)) {
-            return true;
-        }
-
         return $this->shouldSkipMatchingRuleAndFile($this->skipRules->getSkippedMessages(), $element, $smartFileInfo);
     }
 

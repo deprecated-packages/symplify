@@ -9,44 +9,14 @@ final class SkipRules
     /**
      * @var array<string, string[]|null>
      */
-    private $skippedClasses = [];
-
-    /**
-     * @var string[]
-     */
-    private $skippedCodes = [];
-
-    /**
-     * @var array<string, string[]|null>
-     */
     private $skippedMessages = [];
 
     /**
-     * @param string[] $skippedClasses
-     * @param string[] $skippedCodes
      * @param array<string, string[]|null> $skippedMessages
      */
-    public function __construct(array $skippedClasses, array $skippedCodes, array $skippedMessages)
+    public function __construct(array $skippedMessages)
     {
-        $this->skippedClasses = $skippedClasses;
-        $this->skippedCodes = $skippedCodes;
         $this->skippedMessages = $skippedMessages;
-    }
-
-    /**
-     * @return array<string, string[]|null>
-     */
-    public function getSkippedClasses(): array
-    {
-        return $this->skippedClasses;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getSkippedCodes(): array
-    {
-        return $this->skippedCodes;
     }
 
     /**

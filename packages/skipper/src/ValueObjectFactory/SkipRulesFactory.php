@@ -53,7 +53,7 @@ final class SkipRulesFactory
             $this->separateSkipItem($key, $value);
         }
 
-        return new SkipRules($this->skippedClasses, $this->skippedCodes, $this->skippedMessages);
+        return new SkipRules($this->skippedMessages);
     }
 
     private function separateSkipItem($key, $value): void
