@@ -19,5 +19,5 @@ final class Option
     /**
      * @var string
      */
-    public const CATEGORIZE = 'category';
+    public const CATEGORIZE = 'categorize';
 }
