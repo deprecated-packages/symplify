@@ -93,6 +93,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         # parameter Symfony autowire hack
         __DIR__ . '/packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php',
         __DIR__ . '/packages/monorepo-builder/packages/init/templates',
+        __DIR__ . '/packages/vendor-patches/tests/Finder/VendorFilesFinderSource',
 
         // few dead-code false positives, solve later
         __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
