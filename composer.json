@@ -58,6 +58,7 @@
         "latte/latte": "^2.9",
         "nette/application": "^3.0.7",
         "nette/bootstrap": "^3.0",
+        "rector/rector": "dev-master",
         "symfony/framework-bundle": "^4.4|^5.1",
         "symfony/security-bundle": "^4.4|^5.1",
         "symfony/security-core": "^4.4|^5.1",

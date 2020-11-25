@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
+use Rector\Autodiscovery\Rector\FileNode\MoveEntitiesToEntityDirectoryRector;
+use Rector\Autodiscovery\Rector\FileNode\MoveInterfacesToContractNamespaceDirectoryRector;
+use Rector\Autodiscovery\Rector\FileNode\MoveServicesBySuffixToDirectoryRector;
+//use Rector\Autodiscovery\Rector\FileNode\MoveValueObjectsToValueObjectDirectoryRector;
 use Rector\Core\Configuration\Option;
 use Rector\Naming\Rector\ClassMethod\MakeIsserClassMethodNameStartWithIsRector;
 use Rector\Naming\Rector\Property\MakeBoolPropertyRespectIsHasWasMethodNamingRector;
@@ -39,6 +43,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 TestCase::class => PreferThisOrSelfMethodCallRector::PREFER_THIS,
             ],
         ]]);
+
+    $services->set(MoveEntitiesToEntityDirectoryRector::class);
+    $services->set(MoveInterfacesToContractNamespaceDirectoryRector::class);
+    $services->set(MoveServicesBySuffixToDirectoryRector::class);
+    //$services->set(MoveValueObjectsToValueObjectDirectoryRector::class);
 
     $parameters = $containerConfigurator->parameters();
 
