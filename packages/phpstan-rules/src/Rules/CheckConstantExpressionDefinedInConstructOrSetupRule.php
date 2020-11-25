@@ -17,7 +17,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -172,8 +172,8 @@ CODE_SAMPLE
     private function isHasSameVar(array $nodes, Node $parentOfParentAssignment, Node $var): bool
     {
         foreach ($nodes as $node) {
-            $parentOfParentNode = $node->getAttribute(PHPStanAttributeKey::PARENT)
-                ->getAttribute(PHPStanAttributeKey::PARENT);
+            $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+            $parentOfParentNode = $parent->getAttribute(PHPStanAttributeKey::PARENT);
 
             if (property_exists($node, 'name') && property_exists($var, 'name') && $node->name === $var->name
                 && $parentOfParentNode !== $parentOfParentAssignment

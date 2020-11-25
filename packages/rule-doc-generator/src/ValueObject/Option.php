@@ -10,11 +10,11 @@ final class Option
      * @api
      * @var string
      */
-    public const PATH = 'path';
+    public const PATHS = 'paths';
 
     /**
      * @api
      * @var string
      */
-    public const OUTPUT = 'output';
+    public const OUTPUT_FILE = 'output-file';
 }

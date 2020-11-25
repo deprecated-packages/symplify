@@ -4,18 +4,27 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\Printer;
 
+use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\CodeSamplePrinter;
+use Symplify\RuleDocGenerator\Text\KeywordHighlighter;
+use Symplify\RuleDocGenerator\ValueObject\Lines;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class RuleDefinitionsPrinter
 {
     /**
-     * @var CodeSamplesPrinter
+     * @var CodeSamplePrinter
      */
-    private $codeSamplesPrinter;
+    private $codeSamplePrinter;
 
-    public function __construct(CodeSamplesPrinter $codeSamplesPrinter)
+    /**
+     * @var KeywordHighlighter
+     */
+    private $keywordHighlighter;
+
+    public function __construct(CodeSamplePrinter $codeSamplePrinter, KeywordHighlighter $keywordHighlighter)
     {
-        $this->codeSamplesPrinter = $codeSamplesPrinter;
+        $this->codeSamplePrinter = $codeSamplePrinter;
+        $this->keywordHighlighter = $keywordHighlighter;
     }
 
     /**
@@ -29,15 +38,15 @@ final class RuleDefinitionsPrinter
 
         foreach ($ruleDefinitions as $ruleDefinition) {
             $lines[] = '## ' . $ruleDefinition->getRuleShortClass();
-            $lines[] = $ruleDefinition->getDescription();
+            $lines[] = $this->keywordHighlighter->highlight($ruleDefinition->getDescription());
 
             if ($ruleDefinition->isConfigurable()) {
-                $lines[] = ':wrench: **configure it!**';
+                $lines[] = Lines::CONFIGURE_IT;
             }
 
             $lines[] = '- class: `' . $ruleDefinition->getRuleClass() . '`';
 
-            $codeSampleLines = $this->codeSamplesPrinter->print($ruleDefinition);
+            $codeSampleLines = $this->codeSamplePrinter->print($ruleDefinition);
             $lines = array_merge($lines, $codeSampleLines);
         }
 

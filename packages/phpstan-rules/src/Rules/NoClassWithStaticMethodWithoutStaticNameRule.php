@@ -16,7 +16,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -92,7 +92,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
             return [];
         }
 
-        $currentFullyQualifiedClassName = $this->resolveCurrentClassName($node);
+        $currentFullyQualifiedClassName = $this->getClassName($scope, $node);
         if ($currentFullyQualifiedClassName === null) {
             return [];
         }

@@ -31,6 +31,22 @@ final class RuleDefinitionsResolver
             $ruleDefinitions[] = $ruleDefinition;
         }
 
+        return $this->sortByClassName($ruleDefinitions);
+    }
+
+    /**
+     * @param RuleDefinition[] $ruleDefinitions
+     * @return RuleDefinition[]
+     */
+    private function sortByClassName(array $ruleDefinitions): array
+    {
+        usort(
+            $ruleDefinitions,
+            function (RuleDefinition $firstRuleDefinition, RuleDefinition $secondRuleDefinition): int {
+                return $firstRuleDefinition->getRuleShortClass() <=> $secondRuleDefinition->getRuleShortClass();
+            }
+        );
+
         return $ruleDefinitions;
     }
 }

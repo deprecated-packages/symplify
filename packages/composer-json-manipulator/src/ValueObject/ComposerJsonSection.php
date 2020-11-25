@@ -101,4 +101,10 @@ final class ComposerJsonSection
      * @var string
      */
     public const BIN = 'bin';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const TYPE = 'type';
 }

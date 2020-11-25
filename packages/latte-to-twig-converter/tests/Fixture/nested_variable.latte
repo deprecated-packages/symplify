@@ -1,0 +1,19 @@
+{var $url = sprintf("%s/%s", $site['url'], $post['relativeUrl'])}
+
+{var $url = $post['external']}
+
+{var $appendix = $site['title'] . ' | ' . $site['subtitle']}
+
+{include "_snippets/layout/image.latte", src => $project['image'], url => $project['repository'], alt => $project['name']}
+
+{$page['training']['phpstorm']['date']|date:'j. n. Y'}
+-----
+{% set url = "%s/%s"|format(site.url, post.relativeUrl) %}
+
+{% set url = post.external %}
+
+{% set appendix = site.title . ' | ' . site.subtitle %}
+
+{% include "_snippets/layout/image.twig" with { src: project.image, url: project.repository, alt: project.name } %}
+
+{{ page.training.phpstorm.date|date('j. n. Y') }}

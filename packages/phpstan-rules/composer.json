@@ -1,19 +1,20 @@
 {
     "name": "symplify/phpstan-rules",
     "description": "Set of Symplify rules for PHPStan",
+    "type": "phpstan-extension",
     "license": "MIT",
     "require": {
         "php": ">=7.2",
         "nette/finder": "^2.5",
         "nikic/php-parser": "^4.10.2",
         "phpstan/phpdoc-parser": "^0.4.9",
-        "phpstan/phpstan": "^0.12.40",
-        "symplify/smart-file-system": "^8.4",
-        "symplify/rule-doc-generator": "^8.4"
+        "phpstan/phpstan": "^0.12.57",
+        "symplify/smart-file-system": "^9.0",
+        "symplify/rule-doc-generator": "^9.0"
     },
     "require-dev": {
-        "symplify/easy-testing": "^8.4",
-        "symplify/phpstan-extensions": "^8.4",
+        "symplify/easy-testing": "^9.0",
+        "symplify/phpstan-extensions": "^9.0",
         "phpunit/phpunit": "^8.5|^9.4",
         "symfony/framework-bundle": "^4.4|^5.1"
     },
@@ -33,7 +34,12 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "8.4-dev"
+            "dev-master": "9.0-dev"
+        },
+        "phpstan": {
+            "includes": [
+                "config/symplify-rules.neon"
+            ]
         }
     },
     "minimum-stability": "dev",

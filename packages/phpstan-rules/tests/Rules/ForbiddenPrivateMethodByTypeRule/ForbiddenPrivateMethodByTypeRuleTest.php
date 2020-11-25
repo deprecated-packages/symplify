@@ -21,6 +21,7 @@ final class ForbiddenPrivateMethodByTypeRuleTest extends AbstractServiceAwareRul
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipAbstractCommand.php', []];
         yield [__DIR__ . '/Fixture/NotConsoleCommand.php', []];
         yield [__DIR__ . '/Fixture/ConsoleCommand.php', [[ForbiddenPrivateMethodByTypeRule::ERROR_MESSAGE, 11]]];
     }

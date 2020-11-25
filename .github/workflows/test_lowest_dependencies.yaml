@@ -3,6 +3,10 @@ name: Test Lowest Dependencies
 on:
     pull_request: null
 
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-master"
+
 jobs:
     test_lowest_dependencies:
         runs-on: ubuntu-latest

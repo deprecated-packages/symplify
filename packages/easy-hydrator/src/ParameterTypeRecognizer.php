@@ -135,8 +135,8 @@ final class ParameterTypeRecognizer
 
     private function getDocNode(ReflectionParameter $reflectionParameter): ?SimplePhpDocNode
     {
-        $docComment = $reflectionParameter->getDeclaringFunction()
-            ->getDocComment();
+        $functionReflection = $reflectionParameter->getDeclaringFunction();
+        $docComment = $functionReflection->getDocComment();
 
         if ($docComment === false) {
             return null;

@@ -197,6 +197,11 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
                         'name' => 'Jane Doe 1',
                     ],
                 ],
+                'indexedPersons' => [
+                    'HOMER' => [
+                        'name' => 'Homer',
+                    ],
+                ],
             ],
             [
                 'persons' => [
@@ -205,6 +210,11 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
                     ],
                     [
                         'name' => 'Jane Doe 2',
+                    ],
+                ],
+                'indexedPersons' => [
+                    'HOMER' => [
+                        'name' => 'Homer',
                     ],
                 ],
             ],
@@ -220,6 +230,11 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
 
             $this->assertCount(2, $persons);
             $this->assertContainsOnlyInstancesOf(Person::class, $persons);
+
+            $indexedPersons = $personsCollection->getIndexedPersons();
+            $this->assertCount(1, $indexedPersons);
+            $this->assertArrayHasKey('HOMER', $indexedPersons);
+            $this->assertContainsOnlyInstancesOf(Person::class, $indexedPersons);
         }
     }
 

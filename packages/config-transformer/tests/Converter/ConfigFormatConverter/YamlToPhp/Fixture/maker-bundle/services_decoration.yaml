@@ -1,0 +1,36 @@
+services:
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass:
+    decorates: App\Mailer
+
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass:
+    decorates: App\Mailer
+    decoration_inner_name: App\DecoratingMailer.wooz
+    decoration_priority: 5
+    decoration_on_invalid: exception
+
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ThirdFakeClass:
+    decorates: App\Mailer
+    decoration_on_invalid: ignore
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ThirdFakeClass;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(FakeClass::class)
+        ->decorate('App\Mailer');
+
+    $services->set(SecondFakeClass::class)
+        ->decorate('App\Mailer', 'App\DecoratingMailer.wooz', 5, ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE);
+
+    $services->set(ThirdFakeClass::class)
+        ->decorate('App\Mailer', null, 0, ContainerInterface::IGNORE_ON_INVALID_REFERENCE);
+};

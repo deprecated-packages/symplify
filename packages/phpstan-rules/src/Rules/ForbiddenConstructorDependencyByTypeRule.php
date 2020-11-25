@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
-use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -87,10 +87,23 @@ final class ForbiddenConstructorDependencyByTypeRule extends AbstractSymplifyRul
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
+class SomeClass
+{
+    public function __construct(EntityManager $entityManager)
+    {
+        // ...
+    }
+}
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-
+class SomeClass
+{
+    public function __construct(ProductRepository $productRepository)
+    {
+        // ...
+    }
+}
 CODE_SAMPLE
                 ,
                 [

@@ -25,7 +25,7 @@ final class ScalarTypeCaster implements TypeCasterInterface
     {
         $type = $this->parameterTypeRecognizer->getType($reflectionParameter);
 
-        return in_array($type, ['string', 'bool', 'int'], true);
+        return in_array($type, ['string', 'bool', 'int', 'float'], true);
     }
 
     public function retype(
@@ -49,6 +49,10 @@ final class ScalarTypeCaster implements TypeCasterInterface
 
         if ($type === 'int') {
             return (int) $value;
+        }
+
+        if ($type === 'float') {
+            return (float) $value;
         }
 
         return $value;

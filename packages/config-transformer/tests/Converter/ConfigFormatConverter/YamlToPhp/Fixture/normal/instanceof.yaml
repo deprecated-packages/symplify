@@ -1,0 +1,23 @@
+services:
+    _instanceof:
+        Twig_ExtensionInterface:
+            tags: ['twig.extension']
+
+        EventSubscriberInterface:
+            tags: ['event_subscriber']
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->instanceof(Twig_ExtensionInterface::class)
+        ->tag('twig.extension');
+
+    $services->instanceof(EventSubscriberInterface::class)
+        ->tag('event_subscriber');
+};

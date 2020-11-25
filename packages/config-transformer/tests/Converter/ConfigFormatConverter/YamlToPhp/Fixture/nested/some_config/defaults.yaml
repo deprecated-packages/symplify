@@ -1,0 +1,27 @@
+services:
+    _defaults:
+        autowire: true
+        public: true
+
+    Symfony\Component\Filesystem\Filesystem: null
+    Symplify\SmartFileSystem\Finder\FinderSanitizer: null
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\Filesystem\Filesystem;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->defaults()
+        ->autowire()
+        ->public();
+
+    $services->set(Filesystem::class);
+
+    $services->set(FinderSanitizer::class);
+};

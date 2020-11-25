@@ -21,7 +21,9 @@ final class ForbiddenSpreadOperatorRuleTest extends AbstractServiceAwareRuleTest
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/NoSpreadOperator.php', []];
+        yield [__DIR__ . '/Fixture/SkipNoSpreadOperator.php', []];
+        yield [__DIR__ . '/Fixture/SkipFirstVariadic.php', []];
+
         yield [__DIR__ . '/Fixture/SpreadOperator.php', [[ForbiddenSpreadOperatorRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/SpreadOperatorAsMethodArg.php', [[ForbiddenSpreadOperatorRule::ERROR_MESSAGE, 9]]];
         yield [__DIR__ . '/Fixture/SpreadOperatorAsFunctionArg.php', [[ForbiddenSpreadOperatorRule::ERROR_MESSAGE, 7]]];

@@ -24,6 +24,5 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     }
 }
 
-
 $kernelBootAndApplicationRun = new KernelBootAndApplicationRun(PackageScoperKernel::class);
 $kernelBootAndApplicationRun->run();

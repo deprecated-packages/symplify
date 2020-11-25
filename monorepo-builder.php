@@ -24,10 +24,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'prefer-stable' => true,
     ]);
 
-    $parameters->set(Option::DIRECTORIES_TO_REPOSITORIES, [
-        'packages/*' => 'git@github.com:symplify/*.git',
-    ]);
-
     $services = $containerConfigurator->services();
 
     # release workers - in order to execute

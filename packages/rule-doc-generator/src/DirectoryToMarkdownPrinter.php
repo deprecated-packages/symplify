@@ -8,7 +8,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\Finder\ClassByTypeFinder;
 use Symplify\RuleDocGenerator\Printer\RuleDefinitionsPrinter;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\DirectoryToMarkdownPrinterTest
@@ -47,13 +46,13 @@ final class DirectoryToMarkdownPrinter
         $this->ruleDefinitionsPrinter = $ruleDefinitionsPrinter;
     }
 
-    public function printDirectory(SmartFileInfo $directoryFileInfo): string
+    /**
+     * @param string[] $directories
+     */
+    public function print(array $directories): string
     {
         // 1. collect documented rules in provided path
-        $documentedRuleClasses = $this->classByTypeFinder->findByType(
-            $directoryFileInfo,
-            DocumentedRuleInterface::class
-        );
+        $documentedRuleClasses = $this->classByTypeFinder->findByType($directories, DocumentedRuleInterface::class);
 
         $message = sprintf('Found %d documented rule classes', count($documentedRuleClasses));
         $this->symfonyStyle->note($message);

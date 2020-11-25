@@ -1,0 +1,34 @@
+services:
+    string_service_factory:
+        class: \Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass
+        factory: '@factory_service_invokable'
+
+    array_service_factory:
+        class: \Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass
+        factory: ['@factory_service', 'constructFoo']
+
+    array_static_factory:
+        class: \Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass
+        factory: ['\Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass', 'create']
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set('string_service_factory', FakeClass::class)
+        ->factory([ref('factory_service_invokable')]);
+
+    $services->set('array_service_factory', FakeClass::class)
+        ->factory([ref('factory_service'), 'constructFoo']);
+
+    $services->set('array_static_factory', FakeClass::class)
+        ->factory([SecondFakeClass::class, 'create']);
+};

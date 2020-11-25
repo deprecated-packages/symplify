@@ -11,7 +11,7 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -57,7 +57,7 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule implements Con
      */
     public function process(Node $node, Scope $scope): array
     {
-        $currentFullyQualifiedClassName = $this->resolveCurrentClassName($node);
+        $currentFullyQualifiedClassName = $this->getClassName($scope, $node);
         if ($currentFullyQualifiedClassName === null) {
             return [];
         }

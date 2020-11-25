@@ -1,0 +1,25 @@
+services:
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass:
+    configurator: ['@Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass', 'configure']
+
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass:
+    configurator: '@Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass'
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(FakeClass::class)
+        ->factory([ref(SecondFakeClass::class), 'configure']);
+
+    $services->set(SecondFakeClass::class)
+        ->factory([ref(FakeClass::class)]);
+};

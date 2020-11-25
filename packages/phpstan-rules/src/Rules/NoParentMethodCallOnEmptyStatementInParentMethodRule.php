@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\Nop;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Throwable;
 
@@ -66,28 +66,21 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends Abstrac
             return [];
         }
 
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
-            return [];
-        }
-
-        // skip exceptions
-        if (is_a($classReflection->getName(), Throwable::class, true)) {
+        if ($this->shouldSkipClass($scope)) {
             return [];
         }
 
         $methodName = $this->simpleNameResolver->getName($node->name);
-
         if ($methodName === null) {
             return [];
         }
 
         $parentClassMethodStmtCount = $this->resolveParentClassMethodStmtCount($scope, $methodName);
-        if ($parentClassMethodStmtCount === 0) {
-            return [self::ERROR_MESSAGE];
+        if ($parentClassMethodStmtCount !== 0) {
+            return [];
         }
 
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -147,5 +140,16 @@ CODE_SAMPLE
         }
 
         return $countStmts;
+    }
+
+    private function shouldSkipClass(Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return true;
+        }
+
+        // skip exceptions
+        return is_a($classReflection->getName(), Throwable::class, true);
     }
 }

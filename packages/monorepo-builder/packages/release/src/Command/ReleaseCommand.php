@@ -4,57 +4,63 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Release\Command;
 
-use PharIo\Version\Version;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
-use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
+use Symplify\MonorepoBuilder\Release\Configuration\StageResolver;
+use Symplify\MonorepoBuilder\Release\Configuration\VersionResolver;
+use Symplify\MonorepoBuilder\Release\Output\ReleaseWorkerReporter;
 use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
 use Symplify\MonorepoBuilder\Release\ValueObject\SemVersion;
-use Symplify\MonorepoBuilder\Release\Version\VersionFactory;
+use Symplify\MonorepoBuilder\Release\ValueObject\Stage;
+use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
-final class ReleaseCommand extends Command
+final class ReleaseCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var ReleaseGuard
-     */
-    private $releaseGuard;
-
     /**
      * @var ReleaseWorkerProvider
      */
     private $releaseWorkerProvider;
 
     /**
-     * @var VersionFactory
+     * @var SourcesPresenceValidator
      */
-    private $versionFactory;
+    private $sourcesPresenceValidator;
+
+    /**
+     * @var StageResolver
+     */
+    private $stageResolver;
+
+    /**
+     * @var VersionResolver
+     */
+    private $versionResolver;
+
+    /**
+     * @var ReleaseWorkerReporter
+     */
+    private $releaseWorkerReporter;
 
     public function __construct(
-        SymfonyStyle $symfonyStyle,
         ReleaseWorkerProvider $releaseWorkerProvider,
-        ReleaseGuard $releaseGuard,
-        VersionFactory $versionFactory
+        SourcesPresenceValidator $sourcesPresenceValidator,
+        StageResolver $stageResolver,
+        VersionResolver $versionResolver,
+        ReleaseWorkerReporter $releaseWorkerReporter
     ) {
         parent::__construct();
 
-        $this->symfonyStyle = $symfonyStyle;
-        $this->releaseGuard = $releaseGuard;
         $this->releaseWorkerProvider = $releaseWorkerProvider;
-        $this->versionFactory = $versionFactory;
+        $this->sourcesPresenceValidator = $sourcesPresenceValidator;
+        $this->stageResolver = $stageResolver;
+        $this->versionResolver = $versionResolver;
+        $this->releaseWorkerReporter = $releaseWorkerReporter;
     }
 
     protected function configure(): void
@@ -74,15 +80,17 @@ final class ReleaseCommand extends Command
             'Do not perform operations, just their preview'
         );
 
-        $this->addOption(Option::STAGE, null, InputOption::VALUE_REQUIRED, 'Name of stage to perform');
+        $this->addOption(Option::STAGE, null, InputOption::VALUE_REQUIRED, 'Name of stage to perform', Stage::MAIN);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // validation phase
-        $stage = $this->resolveStage($input);
+        $this->sourcesPresenceValidator->validateRootComposerJsonName();
 
-        $activeReleaseWorkers = $this->getReleaseWorkers($stage);
+        // validation phase
+        $stage = $this->stageResolver->resolveFromInput($input);
+
+        $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($stage);
         if ($activeReleaseWorkers === []) {
             $errorMessage = sprintf(
                 'There are no release workers registered. Be sure to add them to "%s"',
@@ -96,13 +104,12 @@ final class ReleaseCommand extends Command
         $totalWorkerCount = count($activeReleaseWorkers);
         $i = 0;
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
-
-        $version = $this->resolveVersion($input, $stage);
+        $version = $this->versionResolver->resolveVersion($input, $stage);
 
         foreach ($activeReleaseWorkers as $releaseWorker) {
             $title = sprintf('%d/%d) %s', ++$i, $totalWorkerCount, $releaseWorker->getDescription($version));
             $this->symfonyStyle->title($title);
-            $this->printReleaseWorkerMetadata($releaseWorker);
+            $this->releaseWorkerReporter->printMetadata($releaseWorker);
 
             if (! $isDryRun) {
                 $releaseWorker->work($version);
@@ -111,7 +118,7 @@ final class ReleaseCommand extends Command
 
         if ($isDryRun) {
             $this->symfonyStyle->note('Running in dry mode, nothing is changed');
-        } elseif ($stage === null) {
+        } elseif ($stage === Stage::MAIN) {
             $message = sprintf('Version "%s" is now released!', $version->getVersionString());
             $this->symfonyStyle->success($message);
         } else {
@@ -124,56 +131,5 @@ final class ReleaseCommand extends Command
         }
 
         return ShellCode::SUCCESS;
-    }
-
-    private function printReleaseWorkerMetadata(ReleaseWorkerInterface $releaseWorker): void
-    {
-        if (! $this->symfonyStyle->isVerbose()) {
-            return;
-        }
-
-        // show debug data on -v/--verbose/--debug
-        $this->symfonyStyle->writeln('class: ' . get_class($releaseWorker));
-        if ($releaseWorker instanceof StageAwareInterface) {
-            $this->symfonyStyle->writeln('stage: ' . $releaseWorker->getStage());
-        }
-
-        $this->symfonyStyle->newLine();
-    }
-
-    private function resolveStage(InputInterface $input): ?string
-    {
-        $stage = $input->getOption(Option::STAGE);
-
-        // string or null
-        if ($stage === null) {
-            $this->releaseGuard->guardRequiredStageOnEmptyStage();
-            return null;
-        }
-
-        $stage = (string) $stage;
-        $this->releaseGuard->guardStage($stage);
-
-        return $stage;
-    }
-
-    private function resolveVersion(InputInterface $input, ?string $stage): Version
-    {
-        /** @var string $versionArgument */
-        $versionArgument = $input->getArgument(Option::VERSION);
-
-        return $this->versionFactory->createValidVersion($versionArgument, $stage);
-    }
-
-    /**
-     * @return ReleaseWorkerInterface[]
-     */
-    private function getReleaseWorkers(?string $stage): array
-    {
-        if ($stage === null) {
-            return $this->releaseWorkerProvider->provide();
-        }
-
-        return $this->releaseWorkerProvider->provideByStage($stage);
     }
 }

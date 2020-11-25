@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
@@ -47,39 +48,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return $this->process($node, $scope);
     }
 
-    public function resolveCurrentClassName(Node $node): ?string
-    {
-        $class = $this->resolveCurrentClass($node);
-        if ($class === null) {
-            return null;
-        }
-
-        // anonymous  class
-        if ($class->namespacedName === null) {
-            return null;
-        }
-
-        return (string) $class->namespacedName;
-    }
-
-    public function resolveCurrentClass(Node $node): ?Class_
-    {
-        if ($node instanceof Class_) {
-            return $node;
-        }
-
-        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($class) {
-            if ($class instanceof Class_) {
-                return $class;
-            }
-
-            $class = $class->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
-        return null;
-    }
-
     public function resolveCurrentClassMethod(Node $node): ?ClassMethod
     {
         $classMethod = $node->getAttribute(PHPStanAttributeKey::PARENT);
@@ -108,8 +76,30 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return null;
     }
 
-    protected function getClassName(Scope $scope): ?string
+    protected function resolveCurrentClass(Node $node): ?Class_
     {
+        if ($node instanceof Class_) {
+            return $node;
+        }
+
+        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        while ($class) {
+            if ($class instanceof Class_) {
+                return $class;
+            }
+
+            $class = $class->getAttribute(PHPStanAttributeKey::PARENT);
+        }
+
+        return null;
+    }
+
+    protected function getClassName(Scope $scope, ?Node $node = null): ?string
+    {
+        if ($node instanceof ClassLike) {
+            return $this->resolveClassLikeName($node);
+        }
+
         if ($scope->isInTrait()) {
             $traitReflection = $scope->getTraitReflection();
             if ($traitReflection === null) {
@@ -125,6 +115,16 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return $classReflection->getName();
+    }
+
+    protected function isInAbstractClass(Node $node): bool
+    {
+        $class = $this->resolveCurrentClass($node);
+        if ($class === null) {
+            return false;
+        }
+
+        return $class->isAbstract();
     }
 
     protected function isInDirectoryNamed(Scope $scope, string $directoryName): bool
@@ -165,6 +165,16 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return $reflectionFunction->getName() === $methodName;
+    }
+
+    private function resolveClassLikeName(ClassLike $classLike): ?string
+    {
+        // anonymous  class
+        if ($classLike->namespacedName === null) {
+            return null;
+        }
+
+        return (string) $classLike->namespacedName;
     }
 
     private function shouldSkipNode(Node $node): bool

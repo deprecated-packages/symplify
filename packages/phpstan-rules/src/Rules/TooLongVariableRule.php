@@ -10,7 +10,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -28,7 +28,7 @@ final class TooLongVariableRule extends AbstractSymplifyRule implements Configur
      */
     private $maxVariableLength;
 
-    public function __construct(int $maxVariableLength = 20)
+    public function __construct(int $maxVariableLength = 40)
     {
         $this->maxVariableLength = $maxVariableLength;
     }

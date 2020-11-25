@@ -12,11 +12,21 @@ composer require symplify/rule-doc-generator --dev
 
 ## Usage
 
+To generate documentation from rules, use `generate` command with paths that contain the rules:
+
 ```bash
-vendor/bin/rule-doc-generator @todo
+vendor/bin/rule-doc-generator generate src/Rules
+```
+
+The file will be generated to `/docs/rules_overview.md` by default. To change that, use `--output-file`:
+
+```bash
+vendor/bin/rule-doc-generator generate src/Rules --output-file docs/symplify_rules.md
 ```
 
 Happy coding!
+
+<br>
 
 ## Contribute
 

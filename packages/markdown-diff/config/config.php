@@ -7,6 +7,7 @@ use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\MarkdownDiff\Diff\Output\CompleteUnifiedDiffOutputBuilderFactory;
 use Symplify\MarkdownDiff\Differ\MarkdownDiffer;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -30,4 +31,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(MarkdownDiffer::class)
         ->arg('$markdownDiffer', ref('markdownDiffer'));
+
+    $services->set(PrivatesAccessor::class);
 };

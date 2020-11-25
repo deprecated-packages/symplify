@@ -1,0 +1,15 @@
+items:
+    - 1
+    b: 2
+
+ouje:
+    - SomeService
+    SomeService:
+-----
+items:
+    0: 1
+    b: 2
+
+ouje:
+    0: SomeService
+    SomeService: ~

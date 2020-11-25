@@ -1,0 +1,55 @@
+services:
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass $shoutyTransformer: '@App\Util\UppercaseTransformer'
+
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass:
+    arguments:
+      - '@string'
+      - ['isaevsgdbfhhnth', 1234561456545, 'jean@vgbsetgil.com']
+      - 456
+      -
+        App\FooCommand: '@app.command_handler.foo'
+        App\BarCommand: '@app.command_handler.bar'
+      - !tagged_locator { tag: 'app.handler', index_by: 'key' }
+      - !tagged_iterator app.handler
+
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass:
+    arguments: [!tagged_locator { index_by: 'key', tag: 'app.handler', default_index_method: 'myOwnMethodName' }]
+
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ThirdFakeClass:
+    arguments:
+      $fake1: '@id.fake.service'
+      $fake2: ['fake_argument', 123, 'jean@mail.com']
+
+  site_update_manager.normal_users:
+    class: Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ThirdFakeClass
+    arguments: ['@=service("App\Mail\MailerConfiguration").getMailerMethod()']
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ThirdFakeClass;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->alias(SecondFakeClass::class . ' $shoutyTransformer', 'App\Util\UppercaseTransformer');
+
+    $services->set(FakeClass::class)
+        ->args([ref('string'), ['isaevsgdbfhhnth', 1234561456545, 'jean@vgbsetgil.com'], 456, ['App\FooCommand' => ref('app.command_handler.foo'), 'App\BarCommand' => ref('app.command_handler.bar')], tagged_locator('app.handler', 'key'), tagged_iterator('app.handler')]);
+
+    $services->set(SecondFakeClass::class)
+        ->args([tagged_locator('key', 'app.handler', 'myOwnMethodName')]);
+
+    $services->set(ThirdFakeClass::class)
+        ->arg('$fake1', ref('id.fake.service'))
+        ->arg('$fake2', ['fake_argument', 123, 'jean@mail.com']);
+
+    $services->set('site_update_manager.normal_users', ThirdFakeClass::class)
+        ->args([expr('service("App\Mail\MailerConfiguration").getMailerMethod()')]);
+};

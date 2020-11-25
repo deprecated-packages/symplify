@@ -11,22 +11,22 @@
         "symfony/http-foundation": "^4.4|^5.1",
         "symfony/http-kernel": "^4.4|^5.1",
         "symfony/config": "^4.4|^5.1",
-        "symfony/dependency-injection": "^4.4|^5.1",
+        "symfony/dependency-injection": "^5.1",
         "symfony/routing": "^4.4|^5.1",
-        "symplify/autowire-array-parameter": "^8.4",
-        "symplify/package-builder": "^8.4",
-        "symplify/symplify-kernel": "^8.4",
-        "symplify/smart-file-system": "^8.4"
+        "symplify/autowire-array-parameter": "^9.0",
+        "symplify/package-builder": "^9.0",
+        "symplify/symplify-kernel": "^9.0",
+        "symplify/smart-file-system": "^9.0"
     },
     "require-dev": {
         "doctrine/annotations": "^1.10",
         "doctrine/cache": "^1.10",
-        "phpstan/phpstan": "^0.12.40",
+        "phpstan/phpstan": "^0.12.57",
         "phpunit/phpunit": "^8.5|^9.4",
         "symfony/framework-bundle": "^4.4|^5.1",
         "symfony/twig-bundle": "^4.4|^5.1",
-        "symplify/autodiscovery": "^8.4",
-        "symplify/flex-loader": "^8.4"
+        "symplify/autodiscovery": "^9.0",
+        "symplify/flex-loader": "^9.0"
     },
     "autoload": {
         "psr-4": {
@@ -41,7 +41,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "8.4-dev"
+            "dev-master": "9.0-dev"
         }
     },
     "minimum-stability": "dev",

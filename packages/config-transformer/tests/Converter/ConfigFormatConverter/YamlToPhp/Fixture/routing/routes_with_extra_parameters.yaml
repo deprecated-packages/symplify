@@ -1,0 +1,19 @@
+foo:
+    path: /asd/das/{foo}
+    controller: Asd\Das
+    methods: GET
+    requirements:
+        foo: '[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}'
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+
+return static function (RoutingConfigurator $routingConfigurator): void {
+    $routingConfigurator->add('foo', '/asd/das/{foo}')
+        ->controller('Asd\Das')
+        ->methods(['GET'])
+        ->requirements(['foo' => '[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}']);
+};

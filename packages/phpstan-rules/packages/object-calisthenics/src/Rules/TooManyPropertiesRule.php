@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -27,7 +27,7 @@ final class TooManyPropertiesRule extends AbstractSymplifyRule implements Config
      */
     private $maxPropertyCount;
 
-    public function __construct(int $maxPropertyCount)
+    public function __construct(int $maxPropertyCount = 10)
     {
         $this->maxPropertyCount = $maxPropertyCount;
     }

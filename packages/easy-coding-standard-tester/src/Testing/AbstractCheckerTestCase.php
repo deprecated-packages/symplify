@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandardTester\Testing;
 
-use Migrify\PhpConfigPrinter\HttpKernel\PhpConfigPrinterKernel;
-use Migrify\PhpConfigPrinter\YamlToPhpConverter;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
-use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffResultFactory;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
@@ -18,6 +14,8 @@ use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
+use Symplify\PhpConfigPrinter\HttpKernel\PhpConfigPrinterKernel;
+use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -70,10 +68,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $this->errorAndDiffCollector = self::$container->get(ErrorAndDiffCollector::class);
         $this->errorAndDiffResultFactory = self::$container->get(ErrorAndDiffResultFactory::class);
 
-        // silent output
-        $easyCodingStandardStyle = self::$container->get(EasyCodingStandardStyle::class);
-        $easyCodingStandardStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
-
         // reset error count from previous possibly container cached run
         $this->errorAndDiffCollector->resetCounters();
     }
@@ -122,8 +116,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
                 ],
             ];
 
-            $phpConfigContent = $this->getYamlToPhpConverter()
-                ->convertYamlArray($servicesConfiguration);
+            $yamlToPhpConverter = $this->getYamlToPhpConverter();
+            $phpConfigContent = $yamlToPhpConverter->convertYamlArray($servicesConfiguration);
 
             $smartFileSystem = new SmartFileSystem();
             $smartFileSystem->dumpFile($configFileTempPath, $phpConfigContent);

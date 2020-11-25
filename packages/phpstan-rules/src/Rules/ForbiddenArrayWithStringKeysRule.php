@@ -19,7 +19,7 @@ use PHPStan\Type\ArrayType;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -37,6 +37,12 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
      * @see https://regex101.com/r/ddj4mB/2
      */
     private const TEST_FILE_REGEX = '#(Test|TestCase)\.php$#';
+
+    /**
+     * @see https://regex101.com/r/TOKYyM/1
+     * @var string
+     */
+    private const ARRAY_EXPECTED_CLASS_NAMES_REGEX = '#(yaml|json|neon)#i';
 
     /**
      * @var ParentMethodReturnTypeResolver
@@ -62,6 +68,10 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($this->shouldSkipClass($scope)) {
+            return [];
+        }
+
         if ($this->shouldSkipArray($node, $scope)) {
             return [];
         }
@@ -84,7 +94,6 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-
 final class SomeClass
 {
     public function run()
@@ -173,5 +182,15 @@ CODE_SAMPLE
         }
 
         return false;
+    }
+
+    private function shouldSkipClass(Scope $scope): bool
+    {
+        $shortClassName = $this->getShortClassName($scope);
+        if ($shortClassName === null) {
+            return false;
+        }
+
+        return (bool) Strings::match($shortClassName, self::ARRAY_EXPECTED_CLASS_NAMES_REGEX);
     }
 }

@@ -14,8 +14,6 @@ composer require symplify/symfony-static-dumper
 Add to `config/bundles.php` if you're not using Flex:
 
 ```php
-declare(strict_types=1);
-
 return [
     Symplify\SymfonyStaticDumper\SymfonyStaticDumperBundle::class => [
         'all' => true,

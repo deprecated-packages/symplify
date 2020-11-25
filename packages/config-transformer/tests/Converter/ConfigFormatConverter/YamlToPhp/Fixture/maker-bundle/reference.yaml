@@ -1,0 +1,28 @@
+services:
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass:
+    arguments:
+      - !service
+        class: Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ExistingClass
+
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ThirdFakeClass:
+    factory: [ !service { class: Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ExistingClass }, 'constructFoo' ]
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ExistingClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ThirdFakeClass;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(FakeClass::class)
+        ->args([inline_service(ExistingClass::class)]);
+
+    $services->set(ThirdFakeClass::class)
+        ->factory([inline_service(ExistingClass::class), 'constructFoo']);
+};

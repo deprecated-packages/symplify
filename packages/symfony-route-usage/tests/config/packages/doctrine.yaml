@@ -1,0 +1,23 @@
+doctrine:
+    dbal:
+        driver: 'pdo_pgsql'
+        server_version: '11.7'
+        host: 'localhost'
+        port: 5432
+        user: 'postgres'
+        password: 'root'
+        dbname: '%database_name%'
+        charset: 'utf8'
+
+    orm:
+        auto_generate_proxy_classes: true
+        naming_strategy: 'doctrine.orm.naming_strategy.underscore'
+        auto_mapping: true
+
+        # load local entities
+        mappings:
+            Symplify\SymfonyRouteUsage\Entity:
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity'
+                is_bundle: false
+                prefix: Symplify\SymfonyRouteUsage\Entity

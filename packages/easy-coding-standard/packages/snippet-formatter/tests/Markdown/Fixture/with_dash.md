@@ -1,10 +1,10 @@
 Hey
 
 ```php
-<?php
+
 
 function () {
-    $obj = new stdClass;
+    $obj = new stdClass();
     $obj->test = array('test');
 };
 ```
@@ -12,10 +12,8 @@ function () {
 Hey
 
 ```php
-<?php
-
 function () {
-    $obj = new stdClass;
+    $obj = new stdClass();
     $obj->test = ['test'];
 };
 ```

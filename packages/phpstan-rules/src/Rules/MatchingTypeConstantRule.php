@@ -15,7 +15,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use Symplify\PHPStanRules\PhpDoc\BarePhpDocParser;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -160,11 +160,12 @@ CODE_SAMPLE
 
     private function getVarTagValueForNode(Node $node): ?VarTagValueNode
     {
-        if ($node->getDocComment() === null) {
+        $docComment = $node->getDocComment();
+        if ($docComment === null) {
             return null;
         }
 
-        $phpDocNode = $this->barePhpDocParser->parseDocBlock($node->getDocComment()->getText());
+        $phpDocNode = $this->barePhpDocParser->parseDocBlock($docComment->getText());
         return $phpDocNode->getVarTagValues()[0] ?? null;
     }
 

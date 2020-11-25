@@ -6,10 +6,11 @@ namespace Symplify\MonorepoBuilder\Release\Guard;
 
 use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
+use Symplify\MonorepoBuilder\Git\MostRecentTagResolver;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Exception\ConfigurationException;
-use Symplify\MonorepoBuilder\Split\Git\GitManager;
+use Symplify\MonorepoBuilder\Release\ValueObject\Stage;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
@@ -36,24 +37,24 @@ final class ReleaseGuard
     private $stagesToAllowExistingTag = [];
 
     /**
-     * @var GitManager
+     * @var MostRecentTagResolver
      */
-    private $gitManager;
+    private $mostRecentTagResolver;
 
     /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
      */
     public function __construct(
-        GitManager $gitManager,
-        array $releaseWorkers,
-        ParameterProvider $parameterProvider
+        ParameterProvider $parameterProvider,
+        MostRecentTagResolver $mostRecentTagResolver,
+        array $releaseWorkers
     ) {
-        $this->gitManager = $gitManager;
         $this->releaseWorkers = $releaseWorkers;
         $this->isStageRequired = $parameterProvider->provideBoolParameter(Option::IS_STAGE_REQUIRED);
         $this->stagesToAllowExistingTag = $parameterProvider->provideArrayParameter(
             Option::STAGES_TO_ALLOW_EXISTING_TAG
         );
+        $this->mostRecentTagResolver = $mostRecentTagResolver;
     }
 
     public function guardRequiredStageOnEmptyStage(): void
@@ -91,10 +92,10 @@ final class ReleaseGuard
         ));
     }
 
-    public function guardVersion(Version $version, ?string $stage): void
+    public function guardVersion(Version $version, string $stage): void
     {
         // stage is set and it doesn't need a validation
-        if ($stage && in_array($stage, $this->stagesToAllowExistingTag, true)) {
+        if ($stage !== Stage::MAIN && in_array($stage, $this->stagesToAllowExistingTag, true)) {
             return;
         }
 
@@ -124,7 +125,7 @@ final class ReleaseGuard
 
     private function ensureVersionIsNewerThanLastOne(Version $version): void
     {
-        $mostRecentVersion = $this->gitManager->getMostRecentTag(getcwd());
+        $mostRecentVersion = $this->mostRecentTagResolver->resolve(getcwd());
 
         // no tag yet
         if ($mostRecentVersion === null) {

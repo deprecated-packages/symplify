@@ -1,0 +1,13 @@
+services:
+    -
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassCognitiveComplexity: 50
+            limitsByTypes:
+                Symfony\Component\Console\Command\Command: 5
+
+    - Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer
+    - Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector
+    - Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\NestingNodeVisitor
+    - Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor

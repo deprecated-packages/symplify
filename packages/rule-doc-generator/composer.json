@@ -7,16 +7,18 @@
     ],
     "require": {
         "php": ">=7.2",
-        "symfony/dependency-injection": "^4.4|^5.1",
+        "symfony/dependency-injection": "^5.1",
         "symfony/console": "^4.4|^5.1",
         "nette/robot-loader": "^3.2",
-        "symplify/symplify-kernel": "^8.4",
-        "symplify/markdown-diff": "^8.4",
-        "migrify/php-config-printer": "^0.3.50"
+        "symplify/symplify-kernel": "^9.0",
+        "symplify/markdown-diff": "^9.0",
+        "symplify/package-builder": "^9.0",
+        "nette/neon": "^3.2",
+        "symplify/php-config-printer": "^9.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5|^9.4",
-        "phpstan/phpstan": "^0.12.40",
+        "phpstan/phpstan": "^0.12.57",
         "friendsofphp/php-cs-fixer": "^2.16"
     },
     "autoload": {
@@ -27,11 +29,14 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\RuleDocGenerator\\Tests\\": "tests"
-        }
+        },
+        "classmap": [
+            "stubs"
+        ]
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "8.4-dev"
+            "dev-master": "9.0-dev"
         }
     },
     "minimum-stability": "dev",

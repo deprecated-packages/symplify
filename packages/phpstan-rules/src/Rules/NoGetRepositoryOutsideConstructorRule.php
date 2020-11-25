@@ -9,7 +9,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\MethodName;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -72,7 +72,13 @@ final class SomeController
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-
+final class SomeRepository
+{
+    public function __construct(EntityManager $entityManager): void
+    {
+        $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
+    }
+}
 CODE_SAMPLE
             ),
         ]);

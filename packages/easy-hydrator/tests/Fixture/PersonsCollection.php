@@ -10,11 +10,18 @@ final class PersonsCollection
     private $persons;
 
     /**
-     * @param Person[] $persons
+     * @var array<string, Person>
      */
-    public function __construct(array $persons)
+    private $indexedPersons;
+
+    /**
+     * @param Person[] $persons
+     * @param array<string, Person> $indexedPersons
+     */
+    public function __construct(array $persons, array $indexedPersons)
     {
         $this->persons = $persons;
+        $this->indexedPersons = $indexedPersons;
     }
 
     /**
@@ -23,5 +30,13 @@ final class PersonsCollection
     public function getPersons(): array
     {
         return $this->persons;
+    }
+
+    /**
+     * @return array<string, Person>
+     */
+    public function getIndexedPersons(): array
+    {
+        return $this->indexedPersons;
     }
 }

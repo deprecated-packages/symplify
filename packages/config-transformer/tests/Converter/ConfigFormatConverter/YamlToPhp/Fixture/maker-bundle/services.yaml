@@ -1,0 +1,49 @@
+parameters:
+    app.admin_email: 'original@example.com'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    service1:
+        class: Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass
+        autowire: false
+        arguments: [service1_arg]
+        tags: [service1_tag]
+
+    service2:
+        class: Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass
+        arguments: [service2_arg]
+
+    Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass $variable: '@service1'
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+
+    $parameters->set('app.admin_email', 'original@example.com');
+
+    $services = $containerConfigurator->services();
+
+    $services->defaults()
+        ->autowire()
+        ->autoconfigure();
+
+    $services->set('service1', FakeClass::class)
+        ->autowire(false)
+        ->args(['service1_arg'])
+        ->tag('service1_tag');
+
+    $services->set('service2', FakeClass::class)
+        ->args(['service2_arg']);
+
+    $services->alias(SecondFakeClass::class . ' $variable', 'service1');
+};

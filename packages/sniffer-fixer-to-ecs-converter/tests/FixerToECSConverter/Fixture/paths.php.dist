@@ -1,0 +1,31 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->in(__DIR__ . '/temporary-packages');
+
+$config = PhpCsFixer\Config::create()
+    ->setRules([
+        'list_syntax' => ['syntax' => 'long'],
+    ])
+    ->setFinder($finder);
+
+return $config;
+-----
+<?php
+
+declare(strict_types=1);
+
+use PhpCsFixer\Fixer\ListNotation\ListSyntaxFixer;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Configuration\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(ListSyntaxFixer::class)
+        ->call('configure', [['syntax' => 'long']]);
+
+    $parameters = $containerConfigurator->parameters();
+
+    $parameters->set(Option::PATHS, ['/tmp/_temp_fixture_easy_testing/temporary-packages']);
+};

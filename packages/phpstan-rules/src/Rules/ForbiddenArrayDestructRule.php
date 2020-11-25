@@ -15,7 +15,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
 use ReflectionClass;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**

@@ -1,47 +1,5 @@
 # Rules Overview
 
-## DoctrineAnnotationNewlineInNestedAnnotationFixer
-
-Nested object annotations should start on a standalone line
-
-- class: `Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer`
-
-```diff
- use Doctrine\ORM\Mapping as ORM;
-
- /**
-- * @ORM\Table(name="user", indexes={@ORM\Index(name="user_id", columns={"another_id"})})
-+ * @ORM\Table(name="user", indexes={
-+ * @ORM\Index(name="user_id", columns={"another_id"})
-+ * })
-  */
- class SomeEntity
- {
- }
-```
-
-<br>
-
-## RemovePHPStormAnnotationFixer
-
-Remove "Created by PhpStorm" annotations
-
-- class: `Symplify\CodingStandard\Fixer\Annotation\RemovePHPStormAnnotationFixer`
-
-```diff
--/**
-- * Created by PhpStorm.
-- * User: ...
-- * Date: 17/10/17
-- * Time: 8:50 AM
-- */
- class SomeClass
- {
- }
-```
-
-<br>
-
 ## ArrayListItemNewlineFixer
 
 Indexed PHP array item has to have one line per item
@@ -71,34 +29,60 @@ Indexed PHP array opener [ and closer ] must be on own line
 
 <br>
 
-## StandaloneLineInMultilineArrayFixer
+## BlankLineAfterStrictTypesFixer
 
-Indexed arrays must have 1 item per line
+Strict type declaration has to be followed by empty line
 
-- class: `Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`
+- class: `Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`
 
 ```diff
--$friends = [1 => 'Peter', 2 => 'Paul'];
-+$friends = [
-+    1 => 'Peter',
-+    2 => 'Paul'
-+];
+ declare(strict_types=1);
++
+ namespace App;
 ```
 
 <br>
 
-## ParamReturnAndVarTagMalformsFixer
+## CommentedOutCodeSniff
 
-Fixes @param, @return, @var and inline @var annotations broken formats
+There should be no commented code. Git is good enough for versioning
 
-- class: `Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`
+- class: `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
+
+```php
+// $one = 1;
+// $two = 2;
+// $three = 3;
+```
+
+:x:
+
+<br>
+
+```php
+// note
+```
+
+:+1:
+
+<br>
+
+## DoctrineAnnotationNewlineInNestedAnnotationFixer
+
+Nested object annotations should start on a standalone line
+
+- class: `Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer`
 
 ```diff
+ use Doctrine\ORM\Mapping as ORM;
+
  /**
-- * @param string
-+ * @param string $name
+- * @ORM\Table(name="user", indexes={@ORM\Index(name="user_id", columns={"another_id"})})
++ * @ORM\Table(name="user", indexes={
++ * @ORM\Index(name="user_id", columns={"another_id"})
++ * })
   */
- function getPerson($name)
+ class SomeEntity
  {
  }
 ```
@@ -112,6 +96,22 @@ Array items, method parameters, method call arguments, new arguments should be o
 :wrench: **configure it!**
 
 - class: `Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(LineLengthFixer::class)
+        ->call('configure', [[
+            LineLengthFixer::LINE_LENGTH => 40,
+        ]]);
+};
+```
+
+↓
 
 ```diff
 -function some($veryLong, $superLong, $oneMoreTime)
@@ -131,65 +131,11 @@ Array items, method parameters, method call arguments, new arguments should be o
  }
 ```
 
-```php
-<?php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(LineLengthFixer::class)
-        ->call('configure', [[
-            LineLengthFixer::LINE_LENGTH => 40,
-        ]]);
-};
-```
-
-<br>
-
-## StandardizeHereNowDocKeywordFixer
-
-Use configured nowdoc and heredoc keyword
-
-:wrench: **configure it!**
-
-- class: `Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer`
-
-```diff
--$value = <<<'WHATEVER'
-+$value = <<<'CODE_SNIPPET'
- ...
--'WHATEVER'
-+'CODE_SNIPPET'
-```
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(StandardizeHereNowDocKeywordFixer::class)
-        ->call('configure', [[
-            StandardizeHereNowDocKeywordFixer::KEYWORD => 'CODE_SNIPPET',
-        ]]);
-};
-```
-
 <br>
 
 ## MethodChainingNewlineFixer
 
-Each chain method call must be on own line
+`Each` chain method call must be on own line
 
 - class: `Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer`
 
@@ -197,6 +143,87 @@ Each chain method call must be on own line
 -$someClass->firstCall()->secondCall();
 +$someClass->firstCall()
 +->secondCall();
+```
+
+<br>
+
+## ParamReturnAndVarTagMalformsFixer
+
+Fixes @param, @return, `@var` and inline `@var` annotations broken formats
+
+- class: `Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`
+
+```diff
+ /**
+- * @param string
++ * @param string $name
+  */
+ function getPerson($name)
+ {
+ }
+```
+
+<br>
+
+## RemovePHPStormAnnotationFixer
+
+Remove "Created by PhpStorm" annotations
+
+- class: `Symplify\CodingStandard\Fixer\Annotation\RemovePHPStormAnnotationFixer`
+
+```diff
+-/**
+- * Created by PhpStorm.
+- * User: ...
+- * Date: 17/10/17
+- * Time: 8:50 AM
+- */
+ class SomeClass
+ {
+ }
+```
+
+<br>
+
+## RemovePHPStormTodoCommentFixer
+
+Remove "// TODO: Change the autogenerated stub" comment
+
+- class: `Symplify\CodingStandard\Fixer\Commenting\RemovePHPStormTodoCommentFixer`
+
+```diff
+-// TODO: Change the autogenerated stub
+ // TODO some other notes
+```
+
+<br>
+
+## RemovePHPStormTodoImplementMethodCommentFixer
+
+Remove "// TODO: Implement `methodName()` method." comment
+
+- class: `Symplify\CodingStandard\Fixer\Commenting\RemovePHPStormTodoImplementMethodCommentFixer`
+
+```diff
+-// TODO: Implement whatever() method.
+ // TODO: Implement not method.
+```
+
+<br>
+
+## RemoveUselessClassCommentFixer
+
+Remove useless "// Class <Some>" comment
+
+- class: `Symplify\CodingStandard\Fixer\Commenting\RemoveUselessClassCommentFixer`
+
+```diff
+-/**
+- * class SomeClass
+- */
+ class SomeClass
+ {
+ }
 ```
 
 <br>
@@ -220,42 +247,52 @@ Add space after nowdoc and heredoc keyword, to prevent bugs on PHP 7.2 and lower
 
 <br>
 
-## BlankLineAfterStrictTypesFixer
+## StandaloneLineInMultilineArrayFixer
 
-Strict type declaration has to be followed by empty line
+Indexed arrays must have 1 item per line
 
-- class: `Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`
+- class: `Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`
 
 ```diff
- declare(strict_types=1);
-+
- namespace App;
+-$friends = [1 => 'Peter', 2 => 'Paul'];
++$friends = [
++    1 => 'Peter',
++    2 => 'Paul'
++];
 ```
 
 <br>
 
-## CommentedOutCodeSniff
+## StandardizeHereNowDocKeywordFixer
 
-There should be no commented code. Git is good enough for versioning
+Use configured nowdoc and heredoc keyword
 
-- class: `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
+:wrench: **configure it!**
 
-```php
-declare(strict_types=1);
-
-// $one = 1;
-// $two = 2;
-// $three = 3;
-```
-
-:x:
+- class: `Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer`
 
 ```php
-declare(strict_types=1);
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
 
-// note
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(StandardizeHereNowDocKeywordFixer::class)
+        ->call('configure', [[
+            StandardizeHereNowDocKeywordFixer::KEYWORD => 'CODE_SNIPPET',
+        ]]);
+};
 ```
 
-:+1:
+↓
+
+```diff
+-$value = <<<'WHATEVER'
++$value = <<<'CODE_SNIPPET'
+ ...
+-'WHATEVER'
++'CODE_SNIPPET'
+```
 
 <br>

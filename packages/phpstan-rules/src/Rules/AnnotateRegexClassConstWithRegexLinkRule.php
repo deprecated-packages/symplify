@@ -9,7 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -121,13 +121,12 @@ CODE_SAMPLE
 
     private function hasDocBlockWithRegexLink(Node $node): bool
     {
-        if ($node->getDocComment() === null) {
+        $docComment = $node->getDocComment();
+        if ($docComment === null) {
             return false;
         }
 
-        $docCommentText = $node->getDocComment()
-            ->getText();
-
+        $docCommentText = $docComment->getText();
         return Strings::contains($docCommentText, '@see https://regex101.com/r');
     }
 

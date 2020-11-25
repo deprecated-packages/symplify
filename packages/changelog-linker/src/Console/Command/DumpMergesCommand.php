@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
 use Symplify\ChangelogLinker\Application\ChangelogLinkerApplication;
-use Symplify\ChangelogLinker\Configuration\Option;
+use Symplify\ChangelogLinker\Configuration\HighestMergedIdResolver;
 use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\FileSystem\ChangelogPlaceholderGuard;
 use Symplify\ChangelogLinker\Github\GithubApi;
+use Symplify\ChangelogLinker\ValueObject\Option;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
 /**
  * @inspired by https://github.com/weierophinney/changelog_generator
  */
-final class DumpMergesCommand extends Command
+final class DumpMergesCommand extends AbstractSymplifyCommand
 {
     /**
      * @inspiration markdown comment: https://gist.github.com/jonikarppinen/47dc8c1d7ab7e911f4c9#gistcomment-2109856
@@ -33,16 +32,6 @@ final class DumpMergesCommand extends Command
      * @var GithubApi
      */
     private $githubApi;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var IdsAnalyzer
-     */
-    private $idsAnalyzer;
 
     /**
      * @var ChangelogFileSystem
@@ -64,24 +53,27 @@ final class DumpMergesCommand extends Command
      */
     private $changelogLinkerApplication;
 
+    /**
+     * @var HighestMergedIdResolver
+     */
+    private $highestMergedIdResolver;
+
     public function __construct(
         GithubApi $githubApi,
-        SymfonyStyle $symfonyStyle,
-        IdsAnalyzer $idsAnalyzer,
         ChangelogFileSystem $changelogFileSystem,
         PriorityResolver $priorityResolver,
         ChangelogPlaceholderGuard $changelogPlaceholderGuard,
-        ChangelogLinkerApplication $changelogLinkerApplication
+        ChangelogLinkerApplication $changelogLinkerApplication,
+        HighestMergedIdResolver $highestMergedIdResolver
     ) {
         parent::__construct();
 
         $this->githubApi = $githubApi;
-        $this->symfonyStyle = $symfonyStyle;
-        $this->idsAnalyzer = $idsAnalyzer;
         $this->changelogFileSystem = $changelogFileSystem;
         $this->priorityResolver = $priorityResolver;
         $this->changelogPlaceholderGuard = $changelogPlaceholderGuard;
         $this->changelogLinkerApplication = $changelogLinkerApplication;
+        $this->highestMergedIdResolver = $highestMergedIdResolver;
     }
 
     protected function configure(): void
@@ -131,8 +123,7 @@ final class DumpMergesCommand extends Command
 
         $this->changelogPlaceholderGuard->ensurePlaceholderIsPresent($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
-        /** @var int $sinceId */
-        $sinceId = $this->getSinceIdFromInputAndContent($input, $content) ?: 1;
+        $sinceId = $this->highestMergedIdResolver->resolveFromInputAndChangelogContent($input, $content);
 
         /** @var string $baseBranch */
         $baseBranch = $input->getOption(Option::BASE_BRANCH);
@@ -167,39 +158,5 @@ final class DumpMergesCommand extends Command
         $this->symfonyStyle->success('The CHANGELOG.md was updated');
 
         return ShellCode::SUCCESS;
-    }
-
-    private function getSinceIdFromInputAndContent(InputInterface $input, string $content): ?int
-    {
-        /** @var string|int|null $sinceId */
-        $sinceId = $input->getOption(Option::SINCE_ID);
-        if ($sinceId !== null) {
-            return (int) $sinceId;
-        }
-
-        /** @var string $baseBranch */
-        $baseBranch = $input->getOption(Option::BASE_BRANCH);
-        if ($baseBranch !== null) {
-            return $this->findHighestIdMergedInBranch($content, $baseBranch);
-        }
-
-        return $this->idsAnalyzer->getHighestIdInChangelog($content);
-    }
-
-    private function findHighestIdMergedInBranch(string $content, string $branch): ?int
-    {
-        $allIdsInChangelog = $this->idsAnalyzer->getAllIdsInChangelog($content);
-        if ($allIdsInChangelog === null) {
-            return null;
-        }
-
-        rsort($allIdsInChangelog);
-        foreach ($allIdsInChangelog as $id) {
-            $idInt = (int) $id;
-            if ($this->githubApi->isPullRequestMergedToBaseBranch($idInt, $branch)) {
-                return $idInt;
-            }
-        }
-        return null;
     }
 }

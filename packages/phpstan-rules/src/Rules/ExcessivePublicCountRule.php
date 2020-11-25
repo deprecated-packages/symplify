@@ -14,7 +14,7 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\Regex;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -32,7 +32,7 @@ final class ExcessivePublicCountRule extends AbstractSymplifyRule implements Con
      */
     private $maxPublicClassElementCount;
 
-    public function __construct(int $maxPublicClassElementCount)
+    public function __construct(int $maxPublicClassElementCount = 10)
     {
         $this->maxPublicClassElementCount = $maxPublicClassElementCount;
     }

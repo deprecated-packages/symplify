@@ -37,5 +37,5 @@ if ($inputConfigFileInfo !== null) {
     $configFileInfos[] = $inputConfigFileInfo;
 }
 
-$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(MonorepoBuilderKernel::class);
+$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(MonorepoBuilderKernel::class, $configFileInfos);
 $kernelBootAndApplicationRun->run();

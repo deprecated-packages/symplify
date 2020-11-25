@@ -10,7 +10,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -32,12 +32,15 @@ final class NoStaticCallRule extends AbstractSymplifyRule
         'Nette\Utils\Strings',
         'Nette\Utils\DateTime',
         'Nette\Utils\Finder',
+        'Nette\Neon\Neon',
         'Nette\Utils\FileSystem',
         'Nette\Utils\ObjectHelpers',
         'Nette\Utils\Json',
         'Nette\Utils\Arrays',
         'Nette\Utils\Reflection',
+        'Nette\Bridges\ApplicationLatte\UIMacros',
         'Ramsey\Uuid\Uuid',
+        'PhpParser\BuilderHelpers',
         // symfony
         'Symfony\Component\Finder\Finder',
         'Symfony\Component\Yaml\Yaml',
@@ -55,6 +58,8 @@ final class NoStaticCallRule extends AbstractSymplifyRule
         'Jean85\PrettyVersions',
         'DG\BypassFinals',
         'Nette\Utils\Random',
+        'Webmozart\Assert\Assert',
+        'Symfony\Component\DependencyInjection\ContainerBuilder',
     ];
 
     /**

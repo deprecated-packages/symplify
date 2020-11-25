@@ -30,9 +30,10 @@ final class SmartFinder
     }
 
     /**
+     * @param string[] $excludedDirectories
      * @return SmartFileInfo[]
      */
-    public function find(array $directoriesOrFiles, string $name): array
+    public function find(array $directoriesOrFiles, string $name, array $excludedDirectories = []): array
     {
         $directories = $this->fileSystemFilter->filterDirectories($directoriesOrFiles);
 
@@ -44,6 +45,10 @@ final class SmartFinder
                 ->in($directories)
                 ->files()
                 ->sortByName();
+
+            if ($excludedDirectories !== []) {
+                $finder->exclude($excludedDirectories);
+            }
 
             $fileInfos = $this->finderSanitizer->sanitize($finder);
         }

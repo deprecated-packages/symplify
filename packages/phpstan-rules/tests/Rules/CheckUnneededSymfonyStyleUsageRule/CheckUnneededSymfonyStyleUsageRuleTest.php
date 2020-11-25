@@ -21,6 +21,7 @@ final class CheckUnneededSymfonyStyleUsageRuleTest extends AbstractServiceAwareR
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipInCommand.php', []];
         yield [__DIR__ . '/Fixture/SkipTitleUsedSymfonyStyle.php', []];
         yield [__DIR__ . '/Fixture/SkipChildOfSymfonyStyle.php', []];
         yield [__DIR__ . '/Fixture/InvalidType.php', []];

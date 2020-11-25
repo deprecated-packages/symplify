@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -29,7 +29,7 @@ final class TooLongClassLikeRule extends AbstractSymplifyRule implements Configu
      */
     private $maxClassLikeLength;
 
-    public function __construct(int $maxClassLikeLength)
+    public function __construct(int $maxClassLikeLength = 300)
     {
         $this->maxClassLikeLength = $maxClassLikeLength;
     }

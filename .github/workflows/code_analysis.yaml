@@ -6,6 +6,10 @@ on:
         branches:
             - master
 
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-master"
+
 jobs:
     code_analysis:
         strategy:
@@ -17,20 +21,12 @@ jobs:
                         run: composer phpstan
 
                     -
+                        name: Check for Git Concficts
+                        run: packages/easy-ci/bin/easy-ci check-conflicts .
+
+                    -
                         name: Composer Validate
                         run: composer validate --strict
-
-                    -
-                        name: Check Missing Split Tests
-                        run: packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_tests.yaml --ansi
-
-                    -
-                        name: Check Missing Split Unused Packages
-                        run:  packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_unused_packages.yaml --ansi
-
-                    -
-                        name: Check Missing Split Monorepo
-                        run: packages/monorepo-builder/bin/monorepo-builder check-split-test-workflow .github/workflows/split_monorepo.yaml --ansi
 
                     -
                         name: Binary File Run
@@ -58,7 +54,5 @@ jobs:
 
             # composer install cache - https://github.com/ramsey/composer-install
             -   uses: "ramsey/composer-install@v1"
-
-            -   run: composer install --no-progress
 
             -   run: ${{ matrix.actions.run }}

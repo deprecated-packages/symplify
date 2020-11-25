@@ -1,0 +1,10 @@
+{
+    "name": "some/package-prefixed",
+    "description": "Prefixed scoped version of some/package package",
+    "require": {
+        "php": "^7.2"
+    },
+    "replace": {
+        "some/package": "self.version"
+    }
+}
