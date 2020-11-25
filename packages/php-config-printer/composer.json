@@ -21,11 +21,7 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\PhpConfigPrinter\\Tests\\": "tests"
-        },
-        "files": [
-            "tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_objects_function.php",
-            "tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_object_function.php"
-        ]
+        }
     },
     "extra": {
         "branch-alias": {
