@@ -22,5 +22,11 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     }
 }
 
-$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(RuleDocGeneratorKernel::class);
+$extraConfigs = [];
+$extraConfig = getcwd() . '/rule-doc-generator.php';
+if (file_exists($extraConfig)) {
+    $extraConfigs[] = $extraConfig;
+}
+
+$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(RuleDocGeneratorKernel::class, $extraConfigs);
 $kernelBootAndApplicationRun->run();
