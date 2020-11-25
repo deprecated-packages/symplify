@@ -6,6 +6,10 @@ on:
         # https://crontab.guru/#0_16_*_*_* - once a day at 16:00
         -   cron: "0 16 * * *"
 
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-master"
+
 jobs:
     sonar:
         name: Sonar
