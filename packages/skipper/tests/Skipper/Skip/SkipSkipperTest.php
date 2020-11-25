@@ -23,16 +23,17 @@ final class SkipSkipperTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernelWithConfigs(SkipperKernel::class, [__DIR__ . '/config.php']);
-
         $this->skipper = self::$container->get(Skipper::class);
     }
 
     /**
      * @dataProvider provideCheckerAndFile()
+     * @dataProvider provideCodeAndFile()
+     * @dataProvider provideMessageAndFile()
      */
-    public function testCheckerAndFile(string $checker, string $filePath, bool $expectedSkip): void
+    public function test(string $element, string $filePath, bool $expectedSkip): void
     {
-        $resolvedSkip = $this->skipper->shouldSkipElementAndFileInfo($checker, new SmartFileInfo($filePath));
+        $resolvedSkip = $this->skipper->shouldSkipElementAndFileInfo($element, new SmartFileInfo($filePath));
         $this->assertSame($expectedSkip, $resolvedSkip);
     }
 
@@ -48,17 +49,6 @@ final class SkipSkipperTest extends AbstractKernelTestCase
         yield [NotSkippedClass::class, __DIR__ . '/Fixture/someOtherFile', false];
     }
 
-    /**
-     * @dataProvider provideCodeAndFile()
-     */
-    public function testCodeAndFile(string $checker, string $filePath, bool $expected): void
-    {
-        $this->assertSame(
-            $expected,
-            $this->skipper->shouldSkipElementAndFileInfo($checker, new SmartFileInfo($filePath))
-        );
-    }
-
     public function provideCodeAndFile(): Iterator
     {
         yield [AnotherClassToSkip::class . '.someCode', __DIR__ . '/Fixture/someFile', true];
@@ -67,17 +57,6 @@ final class SkipSkipperTest extends AbstractKernelTestCase
 
         yield ['someSniff.someForeignCode', __DIR__ . '/Fixture/someFile', false];
         yield ['someSniff.someOtherCode', __DIR__ . '/Fixture/someFile', false];
-    }
-
-    /**
-     * @dataProvider provideMessageAndFile()
-     */
-    public function testMessageAndFile(string $message, string $filePath, bool $expected): void
-    {
-        $smartFileInfo = new SmartFileInfo($filePath);
-
-        $isSkipped = $this->skipper->shouldSkipElementAndFileInfo($message, $smartFileInfo);
-        $this->assertSame($expected, $isSkipped);
     }
 
     public function provideMessageAndFile(): Iterator
