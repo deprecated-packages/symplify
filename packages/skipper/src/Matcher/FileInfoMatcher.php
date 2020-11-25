@@ -49,6 +49,10 @@ final class FileInfoMatcher
             return false;
         }
 
+        if ($smartFileInfo->startsWith($ignoredPath)) {
+            return true;
+        }
+
         return $smartFileInfo->endsWith($ignoredPath) || $smartFileInfo->doesFnmatch($ignoredPath);
     }
 }
