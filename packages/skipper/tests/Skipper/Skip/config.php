@@ -23,6 +23,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // file paths
         __DIR__ . '/Fixture/AlwaysSkippedPath',
+        '*/PathSkippedWithMask/*',
 
         // messages
         'some fishy code at line 5!' => null,

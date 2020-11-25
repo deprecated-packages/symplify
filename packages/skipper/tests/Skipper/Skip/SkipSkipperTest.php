@@ -80,5 +80,6 @@ final class SkipSkipperTest extends AbstractKernelTestCase
     public function provideAnythingAndFilePath(): Iterator
     {
         yield ['anything', __DIR__ . '/Fixture/AlwaysSkippedPath/some_file.txt', true];
+        yield ['anything', __DIR__ . '/Fixture/PathSkippedWithMask/another_file.txt', true];
     }
 }
