@@ -99,16 +99,19 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::SKIP, [
         ArraySyntaxFixer::class => [
-            # path to file (you can copy this from error report)
+            // path to file (you can copy this from error report)
             __DIR__ . '/packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php',
 
-            # or multiple files by path to match against "fnmatch()"
+            // or multiple files by path to match against "fnmatch()"
             __DIR__ . '/packages/*/src/Command',
         ],
+
         // skip rule completely
-        ArraySyntaxFixer::class => null,
+        ArraySyntaxFixer::class,
+
         // just single one part of the rule?
-        ArraySyntaxFixer::class . '.SomeSingleOption' => null,
+        ArraySyntaxFixer::class . '.SomeSingleOption',
+
         // ignore specific error message
         'Cognitive complexity for method "addAction" is 13 but has to be less than or equal to 8.' => null,
     ]);
