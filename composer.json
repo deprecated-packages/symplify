@@ -131,7 +131,6 @@
             "packages/rule-doc-generator/stubs"
         ],
         "files": [
-
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
