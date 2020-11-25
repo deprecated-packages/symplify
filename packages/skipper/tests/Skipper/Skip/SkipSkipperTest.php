@@ -53,7 +53,10 @@ final class SkipSkipperTest extends AbstractKernelTestCase
      */
     public function testCodeAndFile(string $checker, string $filePath, bool $expected): void
     {
-        $this->assertSame($expected, $this->skipper->shouldSkipCodeAndFile($checker, new SmartFileInfo($filePath)));
+        $this->assertSame(
+            $expected,
+            $this->skipper->shouldSkipElementAndFileInfo($checker, new SmartFileInfo($filePath))
+        );
     }
 
     public function provideCodeAndFile(): Iterator
@@ -73,7 +76,7 @@ final class SkipSkipperTest extends AbstractKernelTestCase
     {
         $smartFileInfo = new SmartFileInfo($filePath);
 
-        $isSkipped = $this->skipper->shouldSkipMessageAndFile($message, $smartFileInfo);
+        $isSkipped = $this->skipper->shouldSkipElementAndFileInfo($message, $smartFileInfo);
         $this->assertSame($expected, $isSkipped);
     }
 

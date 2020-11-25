@@ -69,23 +69,17 @@ final class Skipper
         $this->skipSkipper = $skipSkipper;
     }
 
-    public function shouldSkipElementAndFileInfo($element, SmartFileInfo $fileInfo): bool
+    public function shouldSkipElementAndFileInfo($element, SmartFileInfo $smartFileInfo): bool
     {
         if (is_object($element) || $this->classLikeExistenceChecker->doesClassLikeExist($element)) {
-            return $this->shouldSkipClassAndFile($element, $fileInfo);
+            return $this->shouldSkipClassAndFile($element, $smartFileInfo);
         }
 
-        return false;
-    }
+        if ($this->shouldSkipMatchingRuleAndFile($this->skipRules->getSkippedCodes(), $element, $smartFileInfo)) {
+            return true;
+        }
 
-    public function shouldSkipCodeAndFile(string $code, SmartFileInfo $smartFileInfo): bool
-    {
-        return $this->shouldSkipMatchingRuleAndFile($this->skipRules->getSkippedCodes(), $code, $smartFileInfo);
-    }
-
-    public function shouldSkipMessageAndFile(string $message, SmartFileInfo $smartFileInfo): bool
-    {
-        return $this->shouldSkipMatchingRuleAndFile($this->skipRules->getSkippedMessages(), $message, $smartFileInfo);
+        return $this->shouldSkipMatchingRuleAndFile($this->skipRules->getSkippedMessages(), $element, $smartFileInfo);
     }
 
     public function shouldSkipFileInfo(SmartFileInfo $smartFileInfo): bool
