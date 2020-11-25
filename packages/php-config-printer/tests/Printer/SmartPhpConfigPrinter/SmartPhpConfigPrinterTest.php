@@ -8,7 +8,6 @@ use Iterator;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\UnionType;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\PhpConfigPrinter\HttpKernel\PhpConfigPrinterKernel;
 use Symplify\PhpConfigPrinter\Printer\SmartPhpConfigPrinter;
@@ -17,7 +16,6 @@ use Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\ClassWi
 use Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\FirstClass;
 use Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\SecondClass;
 use Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\ValueObject\Simple;
-use Symplify\PhpConfigPrinter\ValueObject\Option;
 
 final class SmartPhpConfigPrinterTest extends AbstractKernelTestCase
 {
@@ -30,8 +28,6 @@ final class SmartPhpConfigPrinterTest extends AbstractKernelTestCase
     {
         $this->bootKernel(PhpConfigPrinterKernel::class);
         $this->smartPhpConfigPrinter = self::$container->get(SmartPhpConfigPrinter::class);
-
-        $this->configureParameters();
     }
 
     /**
@@ -84,21 +80,5 @@ final class SmartPhpConfigPrinterTest extends AbstractKernelTestCase
                 'some_key' => [new ClassWithType($unionType)],
             ],
         ], __DIR__ . '/Fixture/expected_value_nested_union_objects.php.inc'];
-    }
-
-    private function configureParameters(): void
-    {
-        /** @var ParameterProvider $parameterProvider */
-        $parameterProvider = self::$container->get(ParameterProvider::class);
-
-        $parameterProvider->changeParameter(
-            Option::INLINE_VALUE_OBJECT_FUNC_CALL_NAME,
-            'Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\custom_inline_object_function'
-        );
-
-        $parameterProvider->changeParameter(
-            Option::INLINE_VALUE_OBJECTS_FUNC_CALL_NAME,
-            'Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\custom_inline_objects_function'
-        );
     }
 }

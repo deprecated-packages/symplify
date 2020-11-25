@@ -131,8 +131,7 @@
             "packages/rule-doc-generator/stubs"
         ],
         "files": [
-            "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_object_function.php",
-            "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_objects_function.php",
+
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
