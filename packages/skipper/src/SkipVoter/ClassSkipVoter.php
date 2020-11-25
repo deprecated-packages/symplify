@@ -7,6 +7,7 @@ namespace Symplify\Skipper\SkipVoter;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\Skipper\Contract\SkipVoterInterface;
+use Symplify\Skipper\SkipCriteriaResolver\SkippedClassResolver;
 use Symplify\Skipper\Skipper\OnlySkipper;
 use Symplify\Skipper\Skipper\SkipSkipper;
 use Symplify\Skipper\ValueObject\Option;
@@ -35,21 +36,23 @@ final class ClassSkipVoter implements SkipVoterInterface
     private $onlySkipper;
 
     /**
-     * @var array<string, string[]|null>
+     * @var SkippedClassResolver
      */
-    private $skippedClasses = [];
+    private $skippedClassResolver;
 
     public function __construct(
         ClassLikeExistenceChecker $classLikeExistenceChecker,
         ParameterProvider $parameterProvider,
         SkipSkipper $skipSkipper,
-        OnlySkipper $onlySkipper
+        OnlySkipper $onlySkipper,
+        SkippedClassResolver $skippedClassResolver
     ) {
         $this->classLikeExistenceChecker = $classLikeExistenceChecker;
         $this->parameterProvider = $parameterProvider;
 
         $this->skipSkipper = $skipSkipper;
         $this->onlySkipper = $onlySkipper;
+        $this->skippedClassResolver = $skippedClassResolver;
     }
 
     /**
@@ -76,39 +79,7 @@ final class ClassSkipVoter implements SkipVoterInterface
             return $doesMatchOnly;
         }
 
-        $skippedClasses = $this->resolveSkippedClasses();
+        $skippedClasses = $this->skippedClassResolver->resolve();
         return $this->skipSkipper->doesMatchSkip($element, $smartFileInfo, $skippedClasses);
-    }
-
-    /**
-     * @return array<string, string[]|null>
-     */
-    private function resolveSkippedClasses(): array
-    {
-        if ($this->skippedClasses !== []) {
-            return $this->skippedClasses;
-        }
-
-        $skip = $this->parameterProvider->provideArrayParameter(Option::SKIP);
-
-        foreach ($skip as $key => $value) {
-            // e.g. [SomeClass::class] → shift values to [SomeClass::class => null]
-            if (is_int($key)) {
-                $key = $value;
-                $value = null;
-            }
-
-            if (! is_string($key)) {
-                continue;
-            }
-
-            if (! $this->classLikeExistenceChecker->doesClassLikeExist($key)) {
-                continue;
-            }
-
-            $this->skippedClasses[$key] = $value;
-        }
-
-        return $this->skippedClasses;
     }
 }
