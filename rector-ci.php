@@ -83,6 +83,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::EXCLUDE_PATHS, [
+        __DIR__ . '/tests/Printer/SmartPhpConfigPrinter/Source',
         '*/scoper.inc.php',
         '/vendor/',
         '/init/',
