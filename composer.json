@@ -228,11 +228,6 @@
         "symplify/vendor-patches": "self.version"
     },
     "scripts": {
-        "complete-check": [
-            "phpunit",
-            "@fix-cs",
-            "@phpstan"
-        ],
         "check-cs": "packages/easy-coding-standard/bin/ecs check --ansi",
         "fix-cs": [
             "packages/easy-coding-standard/bin/ecs check --fix --ansi",
