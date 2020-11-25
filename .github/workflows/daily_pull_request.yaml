@@ -4,6 +4,7 @@ on:
     schedule:
         # https://crontab.guru/once-a-day
         -   cron: "0 0 * * *"
+    pull_request: null
 
 jobs:
     daily_pull_requests:
