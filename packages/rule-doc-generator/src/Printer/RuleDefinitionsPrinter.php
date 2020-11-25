@@ -33,8 +33,10 @@ final class RuleDefinitionsPrinter
      */
     public function print(array $ruleDefinitions): array
     {
+        $ruleCount = count($ruleDefinitions);
+
         $lines = [];
-        $lines[] = '# Rules Overview';
+        $lines[] = sprintf('# %d Rules Overview', $ruleCount);
 
         foreach ($ruleDefinitions as $ruleDefinition) {
             $lines[] = '## ' . $ruleDefinition->getRuleShortClass();
