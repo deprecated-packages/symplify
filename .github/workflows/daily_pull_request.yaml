@@ -12,6 +12,11 @@ jobs:
             matrix:
                 actions:
                     -
+                        name: "Re-Generate Docs"
+                        run: "composer docs"
+                        branch: 'automated-re-generate-docs'
+
+                    -
                         name: "Re-Apply Coding Standards"
                         run: "composer fix-cs"
                         branch: 'automated-re-apply-coding-standards'

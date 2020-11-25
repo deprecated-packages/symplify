@@ -28,7 +28,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Move constant expression to "__construct()", "setUp()" method or constant';
+    public const ERROR_MESSAGE = 'Move constant expression to __construct(), setUp() method or constant';
 
     /**
      * @var NodeFinder
