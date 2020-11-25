@@ -41,15 +41,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/easy-ci.php',
     ]);
 
-    $parameters->set(Option::EXCLUDE_PATHS, [
+    $parameters->set(Option::SKIP, [
+        // paths to skip
         '*/Fixture/*',
         '*/Source/*',
         __DIR__ . '/packages/easy-coding-standard/scoper.inc.php',
         __DIR__ . '/packages/easy-hydrator/tests/Fixture/TypedProperty.php',
         __DIR__ . '/packages/easy-hydrator/tests/TypedPropertiesTest.php',
-    ]);
 
-    $parameters->set(Option::SKIP, [
         // full classes
         ArrayDeclarationSniff::class,
         UnaryOperatorSpacesFixer::class,

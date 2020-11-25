@@ -53,6 +53,10 @@ final class FileInfoMatcher
             return true;
         }
 
-        return $smartFileInfo->endsWith($ignoredPath) || $smartFileInfo->doesFnmatch($ignoredPath);
+        if ($smartFileInfo->endsWith($ignoredPath)) {
+            return true;
+        }
+
+        return $smartFileInfo->doesFnmatch($ignoredPath);
     }
 }
