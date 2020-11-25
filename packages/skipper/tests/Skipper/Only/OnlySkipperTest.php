@@ -14,7 +14,7 @@ use Symplify\Skipper\Tests\Skipper\Only\Source\SkipCompletelyToo;
 use Symplify\Skipper\Tests\Skipper\Only\Source\SkipThisClass;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class SkipperOnlyTest extends AbstractKernelTestCase
+final class OnlySkipperTest extends AbstractKernelTestCase
 {
     /**
      * @var Skipper

@@ -22,10 +22,10 @@ final class FileInfoMatcher
     /**
      * @param string[] $filePattern
      */
-    public function doesFileInfoMatchFilePattern(SmartFileInfo $smartFileInfo, array $filePattern): bool
+    public function doesFileInfoMatchPatterns(SmartFileInfo $smartFileInfo, array $filePattern): bool
     {
         foreach ($filePattern as $onlyFile) {
-            if ($this->doesFileMatchPattern($smartFileInfo, $onlyFile)) {
+            if ($this->doesFileInfoMatchPattern($smartFileInfo, $onlyFile)) {
                 return true;
             }
         }
@@ -37,7 +37,7 @@ final class FileInfoMatcher
      * Supports both relative and absolute $file path.
      * They differ for PHP-CS-Fixer and PHP_CodeSniffer.
      */
-    public function doesFileMatchPattern(SmartFileInfo $smartFileInfo, string $ignoredPath): bool
+    private function doesFileInfoMatchPattern(SmartFileInfo $smartFileInfo, string $ignoredPath): bool
     {
         // in ecs.php, the path can be absolute
         if ($smartFileInfo->getRealPath() === $ignoredPath) {
