@@ -386,3 +386,7 @@ parameters:
         -
             message: '#Cognitive complexity for "resolve_argument_values\(\)" is \d+, keep it under 8#'
             path: 'packages/symfony-php-config/functions/functions.php'
+
+        -
+            message: '#Array destruct is not allowed\. Use value object to pass data instead#'
+            path: 'packages/smart-file-system/src/Normalizer/PathNormalizer.php'

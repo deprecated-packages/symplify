@@ -25,5 +25,7 @@ final class SkippedPathsResolverTest extends AbstractKernelTestCase
     {
         $skippedPaths = $this->skippedPathsResolver->resolve();
         $this->assertCount(2, $skippedPaths);
+
+        $this->assertSame('*/Mask/*', $skippedPaths[1]);
     }
 }
