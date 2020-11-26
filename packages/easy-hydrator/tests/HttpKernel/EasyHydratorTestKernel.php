@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\EasyHydrator\Tests\HttpKernel;
 
-use Rector\SimplePhpDocParser\Bundle\SimplePhpDocParserBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\EasyHydrator\EasyHydratorBundle;
+use Symplify\SimplePhpDocParser\Bundle\SimplePhpDocParserBundle;
 use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 

@@ -26,7 +26,6 @@
         "phpstan/phpstan": "^0.12.57",
         "phpunit/phpunit": "^8.5|^9.4",
         "psr/simple-cache": "^1.0",
-        "rector/simple-php-doc-parser": "dev-master",
         "sebastian/diff": "^3.0|^4.0",
         "slevomat/coding-standard": "^6.4",
         "squizlabs/php_codesniffer": "^3.5",
@@ -72,6 +71,7 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
+            "Symplify\\SimplePhpDocParser\\": "packages/simple-php-doc-parser/src",
             "Symplify\\Autodiscovery\\": "packages/autodiscovery/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\ChangelogLinker\\": "packages/changelog-linker/src",
@@ -176,6 +176,7 @@
             "Symplify\\Psr4Switcher\\Tests\\": "packages/psr4-switcher/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
             "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
+            "Symplify\\SimplePhpDocParser\\Tests\\": "packages/simple-php-doc-parser/tests",
             "Symplify\\Skipper\\Tests\\": "packages/skipper/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
             "Symplify\\SnifferFixerToECSConverter\\Tests\\": "packages/sniffer-fixer-to-ecs-converter/tests",
@@ -220,6 +221,7 @@
         "symplify/psr4-switcher": "self.version",
         "symplify/rule-doc-generator": "self.version",
         "symplify/set-config-resolver": "self.version",
+        "symplify/simple-php-doc-parser": "self.version",
         "symplify/skipper": "self.version",
         "symplify/smart-file-system": "self.version",
         "symplify/sniffer-fixer-to-ecs-converter": "self.version",
