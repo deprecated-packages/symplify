@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenCallOnTypeRule;
 
 use Iterator;
+use Nette\Utils\Strings;
 use PHPStan\Rules\Rule;
 use Symfony\Component\DependencyInjection\Container;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenCallOnTypeRule;
-use Nette\Utils\Strings;
 
 final class ForbiddenCallOnTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {

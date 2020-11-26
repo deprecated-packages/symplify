@@ -24,7 +24,7 @@ return [
     Symplify\EasyHydrator\EasyHydratorBundle::class => [
         'all' => true,
     ],
-    Rector\SimplePhpDocParser\Bundle\SimplePhpDocParserBundle::class => [
+    Symplify\SimplePhpDocParser\Bundle\SimplePhpDocParserBundle::class => [
         'all' => true,
     ],
 ];
