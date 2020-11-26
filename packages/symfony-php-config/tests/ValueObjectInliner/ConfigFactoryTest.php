@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\SymfonyPhpConfig\Tests\Functions;
+namespace Symplify\SymfonyPhpConfig\Tests\ValueObjectInliner;
 
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\StringType;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\SymfonyPhpConfig\Tests\Functions\Source\ServiceWithValueObject;
-use Symplify\SymfonyPhpConfig\Tests\Functions\Source\WithType;
 use Symplify\SymfonyPhpConfig\Tests\HttpKernel\SymfonyPhpConfigKernel;
+use Symplify\SymfonyPhpConfig\Tests\ValueObjectInliner\Source\ServiceWithValueObject;
+use Symplify\SymfonyPhpConfig\Tests\ValueObjectInliner\Source\WithType;
 
 final class ConfigFactoryTest extends AbstractKernelTestCase
 {

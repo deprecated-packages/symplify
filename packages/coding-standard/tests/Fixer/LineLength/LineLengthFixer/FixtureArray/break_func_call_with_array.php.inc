@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer\Fixture
 use Rector\MagicDisclosure\Rector\Isset_\UnsetAndIssetToMethodCallRector;
 use Rector\MagicDisclosure\ValueObject\IssetUnsetToMethodCall;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symplify\SymfonyPhpConfig\inline_value_objects;
+use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 final class BreakFuncCallWithArray
 {
@@ -13,7 +13,7 @@ final class BreakFuncCallWithArray
         $services = $containerConfigurator->services();
 
         $services->set(UnsetAndIssetToMethodCallRector::class)
-            ->call('configure', [[UnsetAndIssetToMethodCallRector::ISSET_UNSET_TO_METHOD_CALL => inline_value_objects([new IssetUnsetToMethodCall('SomeContainer', 'hasService', 'removeService')])]]);
+            ->call('configure', [[UnsetAndIssetToMethodCallRector::ISSET_UNSET_TO_METHOD_CALL => ValueObjectInliner::inline([new IssetUnsetToMethodCall('SomeContainer', 'hasService', 'removeService')])]]);
     }
 }
 
@@ -26,7 +26,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer\Fixture
 use Rector\MagicDisclosure\Rector\Isset_\UnsetAndIssetToMethodCallRector;
 use Rector\MagicDisclosure\ValueObject\IssetUnsetToMethodCall;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symplify\SymfonyPhpConfig\inline_value_objects;
+use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 final class BreakFuncCallWithArray
 {
@@ -36,7 +36,7 @@ final class BreakFuncCallWithArray
         $services->set(UnsetAndIssetToMethodCallRector::class)
             ->call(
                 'configure',
-                [[UnsetAndIssetToMethodCallRector::ISSET_UNSET_TO_METHOD_CALL => inline_value_objects([
+                [[UnsetAndIssetToMethodCallRector::ISSET_UNSET_TO_METHOD_CALL => ValueObjectInliner::inline([
                     new IssetUnsetToMethodCall('SomeContainer', 'hasService', 'removeService')
                     ])]]
             );

@@ -69,7 +69,6 @@
     "autoload": {
         "files": [
             "packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php",
-            "packages/symfony-php-config/functions/functions.php",
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {

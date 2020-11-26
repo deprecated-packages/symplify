@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\SymfonyPhpConfig\Tests\Functions\Source;
+namespace Symplify\SymfonyPhpConfig\Tests\ValueObjectInliner\Source;
 
 final class ServiceWithValueObject
 {
