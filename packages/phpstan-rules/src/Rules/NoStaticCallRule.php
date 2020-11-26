@@ -28,6 +28,7 @@ final class NoStaticCallRule extends AbstractSymplifyRule
      * @noRector Rector\Php55\Rector\String_\StringClassNameToClassConstantRector
      */
     private const DEFAULT_ALLOWED_STATIC_CALL_CLASSES = [
+        'Symplify\SymfonyPhpConfig\ValueObjectInliner',
         // nette
         'Nette\Utils\Strings',
         'Nette\Utils\DateTime',

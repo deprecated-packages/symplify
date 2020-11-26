@@ -8,11 +8,11 @@ use PHPStan\Type\UnionType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\ClassWithType;
 use Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\SecondClass;
-use function Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\custom_inline_objects_function;
+use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(SecondClass::class)
-        ->call('configure', [['some_key' => custom_inline_objects_function([new ClassWithType(new UnionType([new IntegerType(), new StringType()]))])]]);
+        ->call('configure', [['some_key' => ValueObjectInliner::inline([new ClassWithType(new UnionType([new IntegerType(), new StringType()]))])]]);
 };

@@ -7,12 +7,11 @@ namespace Symplify\PhpConfigPrinter\Printer\ArrayDecorator;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
-use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name\FullyQualified;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PhpConfigPrinter\NodeFactory\NewValueObjectFactory;
 use Symplify\PhpConfigPrinter\Reflection\ConstantNameFromValueResolver;
-use Symplify\PhpConfigPrinter\ValueObject\Option;
+use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 final class ServiceConfigurationDecorator
 {
@@ -26,19 +25,12 @@ final class ServiceConfigurationDecorator
      */
     private $newValueObjectFactory;
 
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
     public function __construct(
         ConstantNameFromValueResolver $constantNameFromValueResolver,
-        NewValueObjectFactory $newValueObjectFactory,
-        ParameterProvider $parameterProvider
+        NewValueObjectFactory $newValueObjectFactory
     ) {
         $this->constantNameFromValueResolver = $constantNameFromValueResolver;
         $this->newValueObjectFactory = $newValueObjectFactory;
-        $this->parameterProvider = $parameterProvider;
     }
 
     /**
@@ -85,17 +77,15 @@ final class ServiceConfigurationDecorator
         return $configuration;
     }
 
-    private function decorateValueObject(object $value): FuncCall
+    private function decorateValueObject(object $value): StaticCall
     {
         $new = $this->newValueObjectFactory->create($value);
         $args = [new Arg($new)];
 
-        $functionName = $this->parameterProvider->provideStringParameter(Option::INLINE_VALUE_OBJECT_FUNC_CALL_NAME);
-
-        return new FuncCall(new FullyQualified($functionName), $args);
+        return $this->createInlineStaticCall($args);
     }
 
-    private function decorateValueObjects(array $values): FuncCall
+    private function decorateValueObjects(array $values): StaticCall
     {
         $arrayItems = [];
         foreach ($values as $value) {
@@ -106,9 +96,7 @@ final class ServiceConfigurationDecorator
         $array = new Array_($arrayItems);
         $args = [new Arg($array)];
 
-        $functionName = $this->parameterProvider->provideStringParameter(Option::INLINE_VALUE_OBJECTS_FUNC_CALL_NAME);
-
-        return new FuncCall(new FullyQualified($functionName), $args);
+        return $this->createInlineStaticCall($args);
     }
 
     private function isArrayOfObjects($values): bool
@@ -128,5 +116,17 @@ final class ServiceConfigurationDecorator
         }
 
         return true;
+    }
+
+    /**
+     * Depends on symplify/symfony-php-config
+     *
+     * @param Arg[] $args
+     */
+    private function createInlineStaticCall(array $args): StaticCall
+    {
+        $fullyQualified = new FullyQualified(ValueObjectInliner::class);
+
+        return new StaticCall($fullyQualified, 'inline', $args);
     }
 }

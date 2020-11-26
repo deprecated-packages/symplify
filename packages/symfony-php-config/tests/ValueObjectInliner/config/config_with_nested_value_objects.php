@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\SymfonyPhpConfig\Tests\Functions\config;
+namespace Symplify\SymfonyPhpConfig\Tests\ValueObjectInliner\config;
 
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\StringType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\SymfonyPhpConfig\Tests\Functions\Source\ServiceWithValueObject;
-use Symplify\SymfonyPhpConfig\Tests\Functions\Source\WithType;
-use function Symplify\SymfonyPhpConfig\inline_value_object;
-use function Symplify\SymfonyPhpConfig\inline_value_objects;
+use Symplify\SymfonyPhpConfig\Tests\ValueObjectInliner\Source\ServiceWithValueObject;
+use Symplify\SymfonyPhpConfig\Tests\ValueObjectInliner\Source\WithType;
+use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -23,6 +22,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $withType = new WithType(new IntegerType());
 
     $services->set(ServiceWithValueObject::class)
-        ->call('setWithType', [inline_value_object($withType)])
-        ->call('setWithTypes', [inline_value_objects([new WithType(new StringType())])]);
+        ->call('setWithType', [ValueObjectInliner::inline($withType)])
+        ->call('setWithTypes', [ValueObjectInliner::inline([new WithType(new StringType())])]);
 };

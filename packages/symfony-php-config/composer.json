@@ -16,10 +16,7 @@
     "autoload": {
         "psr-4": {
             "Symplify\\SymfonyPhpConfig\\": "src"
-        },
-        "files": [
-            "functions/functions.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
