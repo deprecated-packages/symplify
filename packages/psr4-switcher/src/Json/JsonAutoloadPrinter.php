@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Symplify\Psr4Switcher\Json;
 
 use Nette\Utils\Json;
-use Symplify\Psr4Switcher\FileSystem\PathNormalizer;
+use Symplify\Psr4Switcher\FileSystem\Psr4PathNormalizer;
 use Symplify\Psr4Switcher\ValueObject\Psr4NamespaceToPaths;
 
 final class JsonAutoloadPrinter
 {
     /**
-     * @var PathNormalizer
+     * @var Psr4PathNormalizer
      */
     private $pathNormalizer;
 
-    public function __construct(PathNormalizer $pathNormalizer)
+    public function __construct(Psr4PathNormalizer $pathNormalizer)
     {
         $this->pathNormalizer = $pathNormalizer;
     }

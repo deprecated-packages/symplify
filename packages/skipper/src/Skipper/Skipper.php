@@ -7,6 +7,9 @@ namespace Symplify\Skipper\Skipper;
 use Symplify\Skipper\Contract\SkipVoterInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\Skipper\Tests\Skipper\Skipper\SkipperTest
+ */
 final class Skipper
 {
     /**
@@ -27,11 +30,23 @@ final class Skipper
         $this->skipVoters = $skipVoters;
     }
 
+    /**
+     * @param string|object $element
+     */
+    public function shouldSkipElement($element): bool
+    {
+        $fileInfo = new SmartFileInfo(__FILE__);
+        return $this->shouldSkipElementAndFileInfo($element, $fileInfo);
+    }
+
     public function shouldSkipFileInfo(SmartFileInfo $smartFileInfo): bool
     {
         return $this->shouldSkipElementAndFileInfo(self::FILE_ELEMENT, $smartFileInfo);
     }
 
+    /**
+     * @param string|object $element
+     */
     public function shouldSkipElementAndFileInfo($element, SmartFileInfo $smartFileInfo): bool
     {
         foreach ($this->skipVoters as $skipVoter) {

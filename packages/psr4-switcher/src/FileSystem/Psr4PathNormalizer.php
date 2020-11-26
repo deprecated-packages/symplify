@@ -6,7 +6,7 @@ namespace Symplify\Psr4Switcher\FileSystem;
 
 use Symplify\Psr4Switcher\ValueObject\Psr4NamespaceToPaths;
 
-final class PathNormalizer
+final class Psr4PathNormalizer
 {
     /**
      * @var Psr4PathResolver
