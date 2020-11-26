@@ -18,6 +18,7 @@ use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule\NoClassWithStaticMethodWithoutStaticNameRuleTest
@@ -36,6 +37,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
         // symfony classes with static methods
         EventSubscriberInterface::class,
         Command::class,
+        ValueObjectInliner::class,
     ];
 
     /**
