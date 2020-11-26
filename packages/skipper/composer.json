@@ -1,6 +1,6 @@
 {
     "name": "symplify/skipper",
-    "description": "Skip files by rule, directory, fnmatch or regex",
+    "description": "Skip files by rule class, directory, file or fnmatch",
     "license": "MIT",
     "require": {
         "php": ">=7.2",

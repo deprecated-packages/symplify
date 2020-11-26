@@ -22,8 +22,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         AnotherClassToSkip::class . '.someAnotherCode' => ['someDirectory/*'],
 
         // file paths
-        __DIR__ . '/Fixture/AlwaysSkippedPath',
-        '*/PathSkippedWithMask/*',
+        __DIR__ . '/../Fixture/AlwaysSkippedPath',
+        '*\PathSkippedWithMask\*',
 
         // messages
         'some fishy code at line 5!' => null,

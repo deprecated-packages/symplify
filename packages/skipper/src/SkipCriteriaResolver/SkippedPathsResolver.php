@@ -8,6 +8,9 @@ use Nette\Utils\Strings;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Skipper\ValueObject\Option;
 
+/**
+ * @see \Symplify\Skipper\Tests\SkipCriteriaResolver\SkippedPathsResolver\SkippedPathsResolverTest
+ */
 final class SkippedPathsResolver
 {
     /**
@@ -30,6 +33,10 @@ final class SkippedPathsResolver
      */
     public function resolve(): array
     {
+        if ($this->skippedPaths !== []) {
+            return $this->skippedPaths;
+        }
+
         $skip = $this->parameterProvider->provideArrayParameter(Option::SKIP);
 
         foreach ($skip as $key => $value) {
