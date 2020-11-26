@@ -57,7 +57,7 @@ final class ForbiddenCallOnTypeRule extends AbstractSymplifyRule implements Conf
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var string $typeCaller */
+        /** @var string|null $typeCaller */
         $typeCaller = $this->getType($node, $scope);
         if ($typeCaller === null) {
             return [];
