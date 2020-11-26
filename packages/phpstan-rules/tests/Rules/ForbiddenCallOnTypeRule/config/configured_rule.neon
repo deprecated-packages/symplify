@@ -1,0 +1,9 @@
+services:
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenCallOnTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            types:
+                - Symfony\Component\DependencyInjection\Container
+                - Nette\Utils\Strings
