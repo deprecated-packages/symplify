@@ -77,6 +77,8 @@ Some code doesn't have a clear path - you have more options in Twig, so better t
 
 That's it :)
 
+<br>
+
 ## Report Issues
 
 In case you are experiencing a bug or want to request a new feature head over to the [Symplify monorepo issue tracker](https://github.com/symplify/symplify/issues)
