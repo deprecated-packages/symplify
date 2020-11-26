@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -29,10 +30,16 @@ final class ForbiddenCallOnTypeRule extends AbstractSymplifyRule implements Conf
     private $types = [];
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @param array<string, string> $types
      */
-    public function __construct(array $types = [])
+    public function __construct(SimpleNameResolver $simpleNameResolver, array $types = [])
     {
+        $this->simpleNameResolver = $simpleNameResolver;
         $this->types = $types;
     }
 
@@ -50,15 +57,14 @@ final class ForbiddenCallOnTypeRule extends AbstractSymplifyRule implements Conf
      */
     public function process(Node $node, Scope $scope): array
     {
-        $type = $scope->getType($node->var);
-        if (! $type instanceof ObjectType) {
+        /** @var string $typeCaller */
+        $typeCaller = $this->getType($node, $scope);
+        if ($typeCaller === null) {
             return [];
         }
 
-        /** @var string $className */
-        $className = $type->getClassName();
         foreach ($this->types as $type) {
-            if (is_a($className, $type, true)) {
+            if (is_a($typeCaller, $type, true)) {
                 return [sprintf(self::ERROR_MESSAGE, $type)];
             }
         }
@@ -89,5 +95,23 @@ CODE_SAMPLE
                 ]
             ),
         ]);
+    }
+
+    /**
+     * @param MethodCall|StaticCall $node
+     */
+    private function getType(Node $node, Scope $scope): ?string
+    {
+        if ($node instanceof MethodCall) {
+            $type = $scope->getType($node->var);
+
+            if (! $type instanceof ObjectType) {
+                return null;
+            }
+
+            return $type->getClassName();
+        }
+
+        return $this->simpleNameResolver->getName($node->class);
     }
 }
