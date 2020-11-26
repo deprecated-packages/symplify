@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Issues\Fixture;
 use Rector\MagicDisclosure\Rector\Isset_\UnsetAndIssetToMethodCallRector;
 use Rector\MagicDisclosure\ValueObject\IssetUnsetToMethodCall;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Rector\SymfonyPhpConfig\inline_value_objects;
+use function Symplify\SymfonyPhpConfig\inline_value_objects;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -23,7 +23,7 @@ namespace Symplify\CodingStandard\Tests\Issues\Fixture;
 use Rector\MagicDisclosure\Rector\Isset_\UnsetAndIssetToMethodCallRector;
 use Rector\MagicDisclosure\ValueObject\IssetUnsetToMethodCall;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Rector\SymfonyPhpConfig\inline_value_objects;
+use function Symplify\SymfonyPhpConfig\inline_value_objects;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();

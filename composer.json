@@ -69,6 +69,7 @@
     "autoload": {
         "files": [
             "packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php",
+            "packages/symfony-php-config/functions/functions.php",
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
@@ -117,6 +118,7 @@
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
             "Symplify\\SnifferFixerToECSConverter\\": "packages/sniffer-fixer-to-ecs-converter/src",
             "Symplify\\StaticDetector\\": "packages/static-detector/src",
+            "Symplify\\SymfonyPhpConfig\\": "packages/symfony-php-config/src",
             "Symplify\\SymfonyRouteUsage\\": "packages/symfony-route-usage/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
             "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src",
@@ -132,7 +134,8 @@
         "files": [
             "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_object_function.php",
             "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_objects_function.php",
-            "vendor/squizlabs/php_codesniffer/autoload.php"
+            "vendor/squizlabs/php_codesniffer/autoload.php",
+            "vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php"
         ],
         "psr-4": {
             "Symplify\\Autodiscovery\\Tests\\": "packages/autodiscovery/tests",
@@ -178,6 +181,7 @@
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
             "Symplify\\SnifferFixerToECSConverter\\Tests\\": "packages/sniffer-fixer-to-ecs-converter/tests",
             "Symplify\\StaticDetector\\Tests\\": "packages/static-detector/tests",
+            "Symplify\\SymfonyPhpConfig\\Tests\\": "packages/symfony-php-config/tests",
             "Symplify\\SymfonyRouteUsage\\Tests\\": "packages/symfony-route-usage/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
@@ -221,6 +225,7 @@
         "symplify/smart-file-system": "self.version",
         "symplify/sniffer-fixer-to-ecs-converter": "self.version",
         "symplify/static-detector": "self.version",
+        "symplify/symfony-php-config": "self.version",
         "symplify/symfony-route-usage": "self.version",
         "symplify/symfony-static-dumper": "self.version",
         "symplify/symplify-kernel": "self.version",

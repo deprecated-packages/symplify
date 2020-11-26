@@ -382,3 +382,7 @@ parameters:
         - '#Property Symplify\\SymfonyRouteUsage\\Tests\\EntityRepository\\RouteVisitRepositoryTest\:\:\$routeVisitRepository is never written, only read#'
         - '#Property Symplify\\SymfonyRouteUsage\\Tests\\Routing\\DeadRoutesProviderTest\:\:\$deadRoutesProvider is never written, only read#'
         - '#Method Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:resolve\(\) should return array<string, array<string\>\|null\> but returns array<int\|string, mixed\>#'
+
+        -
+            message: '#Cognitive complexity for "resolve_argument_values\(\)" is \d+, keep it under 8#'
+            path: 'packages/symfony-php-config/functions/functions.php'

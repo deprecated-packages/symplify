@@ -30,6 +30,11 @@
             "Symplify\\TemplateChecker\\Tests\\": "tests"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "9.0-dev"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
