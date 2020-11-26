@@ -28,6 +28,8 @@ Supported:
 
 <br>
 
+<br>
+
 ## Report Issues
 
 In case you are experiencing a bug or want to request a new feature head over to the [Symplify monorepo issue tracker](https://github.com/symplify/symplify/issues)
