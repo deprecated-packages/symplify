@@ -86,10 +86,12 @@ The file will be generated into `/generated` directory. Just rename namespaces a
 
 Do you want to know more about **clean Latte filters**? Read [How to Get Rid of Magic, Static and Chaos from Latte Filters](https://tomasvotruba.com/blog/2020/08/17/how-to-get-rid-of-magic-static-and-chaos-from-latte-filters/)
 
+<br>
+
 ## Report Issues
 
-In case you are experiencing a bug or want to request a new feature head over to the [migrify monorepo issue tracker](https://github.com/symplify/symplify/issues)
+In case you are experiencing a bug or want to request a new feature head over to the [Symplify monorepo issue tracker](https://github.com/symplify/symplify/issues)
 
 ## Contribute
 
-The sources of this package are contained in the migrify monorepo. We welcome contributions for this package on [symplify/migrify](https://github.com/symplify/migrify).
+The sources of this package are contained in the Symplify monorepo. We welcome contributions for this package on [symplify/symplify](https://github.com/symplify/symplify).

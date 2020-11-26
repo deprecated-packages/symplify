@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer\Fixture
 use Rector\MagicDisclosure\Rector\Isset_\UnsetAndIssetToMethodCallRector;
 use Rector\MagicDisclosure\ValueObject\IssetUnsetToMethodCall;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Rector\SymfonyPhpConfig\inline_value_objects;
+use function Symplify\SymfonyPhpConfig\inline_value_objects;
 
 final class BreakFuncCallWithArray
 {
@@ -26,7 +26,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer\Fixture
 use Rector\MagicDisclosure\Rector\Isset_\UnsetAndIssetToMethodCallRector;
 use Rector\MagicDisclosure\ValueObject\IssetUnsetToMethodCall;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Rector\SymfonyPhpConfig\inline_value_objects;
+use function Symplify\SymfonyPhpConfig\inline_value_objects;
 
 final class BreakFuncCallWithArray
 {

@@ -1,0 +1,39 @@
+{
+    "name": "symplify/symfony-php-config",
+    "description": "Tools that easy work with Symfony PHP Configs",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2",
+        "symfony/dependency-injection": "^5.1",
+        "symplify/symplify-kernel": "^9.0",
+        "symplify/package-builder": "^9.0"
+    },
+    "require-dev": {
+        "symfony/http-kernel": "^4.4|^5.1",
+        "phpunit/phpunit": "^8.5|^9.4",
+        "phpstan/phpstan": "^0.12.57"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\SymfonyPhpConfig\\": "src"
+        },
+        "files": [
+            "functions/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\SymfonyPhpConfig\\Tests\\": "tests"
+        },
+        "files": [
+            "vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "9.0-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
