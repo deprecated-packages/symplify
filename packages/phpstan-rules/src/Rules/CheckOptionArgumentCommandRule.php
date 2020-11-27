@@ -147,7 +147,7 @@ CODE_SAMPLE
         $passedArg = $methodCall->args[0]->value;
         $invalidMethodCall = self::METHOD_CALL_INVALID[strtolower($methodCallName)];
 
-        $foundInvalidMethodCall = $this->nodeFinder->findFirst(
+        $foundInvalidMethodCall = (bool) $this->nodeFinder->findFirst(
             (array) $executeClassMethod->stmts,
             function (Node $node) use ($passedArg, $invalidMethodCall, $executeClassMethod): bool {
                 if (! $node instanceof MethodCall) {
