@@ -91,45 +91,7 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
             return [];
         }
 
-        $class = $this->resolveCurrentClass($node);
-        if (! $class instanceof Class_) {
-            return [];
-        }
-
-        $executeClassMethod = $this->nodeFinder->find($class, function (Node $node): bool {
-            return $node instanceof ClassMethod && $node->name instanceof Identifier && strtolower(
-                $node->name->toString()
-            ) === 'execute';
-        });
-
-        $passedArg = $node->args[0]->value;
-        $invalidMethodCall = self::METHOD_CALL_INVALID[strtolower($methodCallName)];
-
-        $foundInvalidMethodCall = $this->nodeFinder->findFirst($executeClassMethod, function (Node $node) use (
-            $passedArg,
-            $invalidMethodCall
-        ): bool {
-            if (! $node instanceof MethodCall) {
-                return false;
-            }
-
-            if (! $node->name instanceof Identifier) {
-                return false;
-            }
-
-            return strtolower($node->name->toString()) === $invalidMethodCall && $this->areNodesEqual(
-                $node->args[0]->value,
-                $passedArg
-            );
-        });
-
-        if ($foundInvalidMethodCall) {
-            return [
-                sprintf(self::ERROR_MESSAGE, $methodCallName, self::METHOD_CALL_VALID[strtolower($methodCallName)]),
-            ];
-        }
-
-        return [];
+        return $this->validateInvalidMethodCall($node, $methodCallName);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -167,6 +129,49 @@ class SomeClass extends Command
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function validateInvalidMethodCall(MethodCall $methodCall, string $methodCallName): array
+    {
+        $class = $this->resolveCurrentClass($methodCall);
+        if (! $class instanceof Class_) {
+            return [];
+        }
+
+        $executeClassMethod = $this->nodeFinder->find($class, function (Node $node): bool {
+            return $node instanceof ClassMethod && $node->name instanceof Identifier && strtolower(
+                $node->name->toString()
+            ) === 'execute';
+        });
+
+        $passedArg = $methodCall->args[0]->value;
+        $invalidMethodCall = self::METHOD_CALL_INVALID[strtolower($methodCallName)];
+
+        $foundInvalidMethodCall = $this->nodeFinder->findFirst($executeClassMethod, function (Node $node) use (
+            $passedArg,
+            $invalidMethodCall
+        ): bool {
+            if (! $node instanceof MethodCall) {
+                return false;
+            }
+
+            if (! $node->name instanceof Identifier) {
+                return false;
+            }
+
+            return strtolower($node->name->toString()) === $invalidMethodCall && $this->areNodesEqual(
+                $node->args[0]->value,
+                $passedArg
+            );
+        });
+
+        if ($foundInvalidMethodCall) {
+            return [
+                sprintf(self::ERROR_MESSAGE, $methodCallName, self::METHOD_CALL_VALID[strtolower($methodCallName)]),
+            ];
+        }
+
+        return [];
     }
 
     private function isInConfigureMethod(MethodCall $methodCall): bool
