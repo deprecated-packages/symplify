@@ -138,32 +138,37 @@ CODE_SAMPLE
             return [];
         }
 
-        $executeClassMethod = $this->nodeFinder->find($class, function (Node $node): bool {
-            return $node instanceof ClassMethod && $node->name instanceof Identifier && strtolower(
-                $node->name->toString()
-            ) === 'execute';
-        });
+        /** @var ClassMethod|null $executeClassMethod */
+        $executeClassMethod = $this->getExecuteClassMethod($class);
+        if ($executeClassMethod === null) {
+            return [];
+        }
 
         $passedArg = $methodCall->args[0]->value;
         $invalidMethodCall = self::METHOD_CALL_INVALID[strtolower($methodCallName)];
 
-        $foundInvalidMethodCall = $this->nodeFinder->findFirst($executeClassMethod, function (Node $node) use (
-            $passedArg,
-            $invalidMethodCall
-        ): bool {
-            if (! $node instanceof MethodCall) {
-                return false;
-            }
+        $foundInvalidMethodCall = $this->nodeFinder->findFirst(
+            (array) $executeClassMethod->stmts,
+            function (Node $node) use ($passedArg, $invalidMethodCall, $executeClassMethod): bool {
+                if (! $node instanceof MethodCall) {
+                    return false;
+                }
 
-            if (! $node->name instanceof Identifier) {
-                return false;
-            }
+                if (! $node->name instanceof Identifier || strtolower($node->name->toString()) !== $invalidMethodCall) {
+                    return false;
+                }
 
-            return strtolower($node->name->toString()) === $invalidMethodCall && $this->areNodesEqual(
-                $node->args[0]->value,
-                $passedArg
-            );
-        });
+                $params = $executeClassMethod->getParams();
+                if ($params === []) {
+                    return false;
+                }
+
+                return $this->areNodesEqual($params[0]->var, $node->var) && $this->areNodesEqual(
+                    $node->args[0]->value,
+                    $passedArg
+                );
+            }
+        );
 
         if ($foundInvalidMethodCall) {
             return [
@@ -172,6 +177,16 @@ CODE_SAMPLE
         }
 
         return [];
+    }
+
+    private function getExecuteClassMethod(Class_ $class): ?ClassMethod
+    {
+        /** @var ClassMethod|null $classMethod */
+        return $this->nodeFinder->findFirst($class, function (Node $node): bool {
+            return $node instanceof ClassMethod && $node->name instanceof Identifier && strtolower(
+                $node->name->toString()
+            ) === 'execute';
+        });
     }
 
     private function isInConfigureMethod(MethodCall $methodCall): bool
@@ -197,7 +212,7 @@ CODE_SAMPLE
             return false;
         }
 
-        return $scope->getType($methodCall) instanceof ThisType && is_a($className, Command::class, true);
+        return $scope->getType($methodCall->var) instanceof ThisType && is_a($className, Command::class, true);
     }
 
     private function areNodesEqual(Node $firstNode, Node $secondNode): bool
