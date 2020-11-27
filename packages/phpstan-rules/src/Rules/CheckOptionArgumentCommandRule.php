@@ -30,7 +30,7 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    private const METHOD_CALL_INVALID = [
+    private const METHOD_CALL_NOTMATCH = [
         'addOption' => 'getArgument',
         'addArgument' => 'getOption',
     ];
@@ -38,7 +38,7 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    private const METHOD_CALL_VALID = [
+    private const METHOD_CALL_MATCH = [
         'addOption' => 'getOption',
         'addArgument' => 'getArgument',
     ];
@@ -87,7 +87,7 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
         }
 
         $methodCallName = $methodCallIdentifier->toString();
-        if (! array_key_exists($methodCallName, self::METHOD_CALL_VALID)) {
+        if (! array_key_exists($methodCallName, self::METHOD_CALL_MATCH)) {
             return [];
         }
 
@@ -145,7 +145,7 @@ CODE_SAMPLE
         }
 
         $passedArg = $methodCall->args[0]->value;
-        $invalidMethodCall = self::METHOD_CALL_INVALID[$methodCallName];
+        $invalidMethodCall = self::METHOD_CALL_NOTMATCH[$methodCallName];
 
         $isFoundInvalidMethodCall = (bool) $this->nodeFinder->findFirst(
             (array) $executeClassMethod->stmts,
@@ -171,7 +171,7 @@ CODE_SAMPLE
         );
 
         if ($isFoundInvalidMethodCall) {
-            return [sprintf(self::ERROR_MESSAGE, $methodCallName, self::METHOD_CALL_VALID[$methodCallName])];
+            return [sprintf(self::ERROR_MESSAGE, $methodCallName, self::METHOD_CALL_MATCH[$methodCallName])];
         }
 
         return [];
