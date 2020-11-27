@@ -1,4 +1,4 @@
-# 102 Rules Overview
+# 103 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -843,6 +843,74 @@ if ($isRandom = mt_rand()) {
 $isRandom = mt_rand();
 if ($isRandom) {
     // ...
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenCallOnTypeRule
+
+Method call or Static Call on %s is not allowed
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenCallOnTypeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenCallOnTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypes:
+                - Symfony\Component\DependencyInjection\Container
+```
+
+↓
+
+```php
+use Symfony\Component\DependencyInjection\Container;class SomeClass
+{
+    /**
+     * @var Container
+     */
+    private $some;
+
+    public function __construct(Container $some)
+    {
+        $this->some = $some;
+    }
+
+    public function call(): void
+    {
+        $this->some->call();
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    /**
+     * @var \Other\Class
+     */
+    private $some;
+
+    public function __construct(\Other\Class $some)
+    {
+        $this->some = $some;
+    }
+
+    public function call()
+    {
+        $this->some->call();
+    }
 }
 ```
 
