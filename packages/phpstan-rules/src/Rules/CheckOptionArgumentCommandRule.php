@@ -21,14 +21,14 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '%s() called in configure(), must be called with %s() in execute() in Symfony\Component\Console\Command\Command class';
+    public const ERROR_MESSAGE = '%s() called in configure(), must be called with %s() in execute() in "Symfony\Component\Console\Command\Command" type';
 
     /**
      * @var string
      */
     private const METHOD_CALL_SUGGESTION = [
-        'addOption'    => 'getOption',
-        'addArguments' => 'getArguments'
+        'addOption' => 'getOption',
+        'addArgument' => 'getArgument'
     ];
 
     /**
@@ -66,7 +66,7 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
         }
 
         $methodCallName = (string) $node->name;
-        if (! in_array(strtolower($methodCallName), ['addoption', 'addarguments'], true)) {
+        if (! in_array(strtolower($methodCallName), ['addoption', 'addargument'], true)) {
             return [];
         }
 
