@@ -6,12 +6,15 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\ThisType;
+use Symfony\Component\Console\Command\Command;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symfony\Component\Console\Command\Command;
-use PhpParser\Node\Stmt\ClassMethod;
-use PHPStan\Type\ThisType;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckOptionArgumentCommandRule\CheckOptionArgumentCommandRuleTest
@@ -26,10 +29,20 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    private const METHOD_CALL_SUGGESTION = [
-        'addOption' => 'getOption',
-        'addArgument' => 'getArgument'
+    private const METHOD_CALL_INVALID = [
+        'addoption' => 'getArgument',
+        'addargument' => 'getOption',
     ];
+
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    public function __construct(NodeFinder $nodeFinder)
+    {
+        $this->nodeFinder = $nodeFinder;
+    }
 
     /**
      * @return string[]
@@ -45,30 +58,32 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $className = $this->getClassName($scope);
-        if (! is_a($className, Command::class, true)) {
+        if (! $this->isInInstanceOfCommand($node, $scope)) {
             return [];
         }
 
-        $classMethod = $this->resolveCurrentClassMethod($node);
-        if (! $classMethod instanceof ClassMethod) {
+        if (! $this->isInConfigureMethod($node)) {
             return [];
         }
 
-        $name = (string) $classMethod->name;
-        if (strtolower($name) !== 'configure') {
+        $methodCallIdentifier = $node->name;
+        if (! $methodCallIdentifier instanceof Identifier) {
             return [];
         }
 
-        $callerType = $scope->getType($node->var);
-        if ($callerType instanceof ThisType) {
-            return [];
-        }
-
-        $methodCallName = (string) $node->name;
+        $methodCallName = $methodCallIdentifier->toString();
         if (! in_array(strtolower($methodCallName), ['addoption', 'addargument'], true)) {
             return [];
         }
+
+        $class = $this->resolveCurrentClass($node);
+        if (! $class instanceof Class_) {
+            return [];
+        }
+
+        $executeClassMethod = $this->nodeFinder->find($class, function (Node $node): bool {
+            return $node instanceof ClassMethod && $node->name instanceof Identifier && $node->name->toString() === 'execute';
+        });
 
         return [];
     }
@@ -108,5 +123,31 @@ class SomeClass extends Command
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function isInConfigureMethod(MethodCall $methodCall): bool
+    {
+        $classMethod = $this->resolveCurrentClassMethod($methodCall);
+        if (! $classMethod instanceof ClassMethod) {
+            return false;
+        }
+
+        $methodNameIdentifier = $classMethod->name;
+        if (! $methodNameIdentifier instanceof Identifier) {
+            return false;
+        }
+
+        $methodName = $methodNameIdentifier->toString();
+        return strtolower($methodName) === 'configure';
+    }
+
+    private function isInInstanceOfCommand(MethodCall $methodCall, Scope $scope): bool
+    {
+        $className = $this->getClassName($scope);
+        if ($className === null) {
+            return false;
+        }
+
+        return $scope->getType($methodCall) instanceof ThisType && is_a($className, Command::class, true);
     }
 }
