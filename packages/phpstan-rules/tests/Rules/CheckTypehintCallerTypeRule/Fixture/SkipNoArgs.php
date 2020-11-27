@@ -6,10 +6,10 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\Fixture;
 
 use PhpParser\Node;
 
-final class SkipParentNotIf
+final class SkipNoArgs
 {
-    public function run(Node $node)
+    public function run()
     {
-        $this->execute($node);
+        $this->execute();
     }
 }

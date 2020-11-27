@@ -23,6 +23,7 @@ final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTest
     {
         yield [__DIR__ . '/Fixture/SkipNotFromThis.php', []];
         yield [__DIR__ . '/Fixture/SkipParentNotIf.php', []];
+        yield [__DIR__ . '/Fixture/SkipNoArgs.php', []];
     }
 
     protected function getRule(): Rule
