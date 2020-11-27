@@ -21,6 +21,12 @@ return [
 ];
 ```
 
+> To make Controller with argument, eg: `/blog/{slug}`, statically dumped, your controler class have to implements `Symplify\SymfonyStaticDumper\Contract\ControllerWithDataProviderInterface` and implements 3 methods:
+> - `getControllerClass()`
+> - `getControllerMethod()`
+> - `getArguments()`
+
+
 ## Use
 
 ```bash
