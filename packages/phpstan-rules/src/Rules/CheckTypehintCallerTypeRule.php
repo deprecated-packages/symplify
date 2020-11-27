@@ -6,9 +6,11 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Stmt\If_;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\CheckTypehintCallerTypeRuleTest
@@ -34,6 +36,12 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        /** @var Node|null $parent */
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $parent instanceof If_) {
+            return [];
+        }
+
         return [];
     }
 
