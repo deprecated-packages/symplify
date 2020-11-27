@@ -182,11 +182,13 @@ CODE_SAMPLE
     private function getExecuteClassMethod(Class_ $class): ?ClassMethod
     {
         /** @var ClassMethod|null $classMethod */
-        return $this->nodeFinder->findFirst($class, function (Node $node): bool {
+        $classMethod = $this->nodeFinder->findFirst($class, function (Node $node): bool {
             return $node instanceof ClassMethod && $node->name instanceof Identifier && strtolower(
                 $node->name->toString()
             ) === 'execute';
         });
+
+        return $classMethod;
     }
 
     private function isInConfigureMethod(MethodCall $methodCall): bool
