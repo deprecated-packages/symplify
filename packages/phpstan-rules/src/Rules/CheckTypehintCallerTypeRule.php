@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\If_;
+use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\ThisType;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
-use PhpParser\Node\Expr\Instanceof_;
-use PhpParser\Node\Expr;
-use PhpParser\PrettyPrinter\Standard;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\CheckTypehintCallerTypeRuleTest
@@ -49,6 +50,11 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        $type = $scope->getType($node->var);
+        if (! $type instanceof ThisType) {
+            return [];
+        }
+
         /** @var Node|null $parent */
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof If_) {
@@ -64,15 +70,6 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
 
         if ($cond instanceof Instanceof_) {
             return $this->validateInstanceOf($cond->expr, $args[0]);
-        }
-
-        return [];
-    }
-
-    private function validateInstanceOf(Expr $expr, Expr $arg0)
-    {
-        if ($this->areNodesEqual($expr, $arg0)) {
-            return [];
         }
 
         return [];
@@ -121,6 +118,15 @@ class SomeClass
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function validateInstanceOf(Expr $expr, Expr $arg0)
+    {
+        if ($this->areNodesEqual($expr, $arg0)) {
+            return [];
+        }
+
+        return [];
     }
 
     private function areNodesEqual(Node $firstNode, Node $secondNode): bool
