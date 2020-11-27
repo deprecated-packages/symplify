@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Stmt\If_;
+use PhpParser\Node\Name;
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\If_;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use PhpParser\Node\Name;
-use PhpParser\Node\Arg;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\CheckTypehintCallerTypeRuleTest
@@ -145,9 +145,24 @@ CODE_SAMPLE
             if (! $classMethod instanceof ClassMethod) {
                 continue;
             }
+
+            /** @var Param[] $params */
+            $params = $classMethod->getParams();
+            $this->validateParam($params, $instanceof->expr);
         }
 
         return [];
+    }
+
+    /**
+     * @return Param[] $params
+     */
+    private function validateParam(array $params, Expr $expr)
+    {
+        foreach ($params as $param) {
+            $type = $param->type;
+            dump($type);
+        }
     }
 
     private function areNodesEqual(Node $firstNode, Node $secondNode): bool
