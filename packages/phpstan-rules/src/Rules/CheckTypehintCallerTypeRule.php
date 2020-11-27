@@ -15,6 +15,7 @@ use PHPStan\Type\ThisType;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use PhpParser\Node\Name;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\CheckTypehintCallerTypeRuleTest
@@ -69,7 +70,7 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
         $cond = $parent->cond;
 
         if ($cond instanceof Instanceof_) {
-            return $this->validateInstanceOf($cond->expr, $args[0]);
+            return $this->validateInstanceOf($cond, $args[0], $node);
         }
 
         return [];
@@ -120,11 +121,18 @@ CODE_SAMPLE
         ]);
     }
 
-    private function validateInstanceOf(Expr $expr, Expr $arg0)
+    private function validateInstanceOf(Instanceof_ $instanceof, Expr $arg0, MethodCall $methodCall)
     {
-        if ($this->areNodesEqual($expr, $arg0)) {
+        if (! $this->areNodesEqual($instanceof->expr, $arg0)) {
             return [];
         }
+
+        $class = $instanceof->class;
+        if (! $class instanceof Name) {
+            return [];
+        }
+
+        $class = $this->resolveCurrentClass($methodCall);
 
         return [];
     }
