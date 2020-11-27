@@ -63,7 +63,7 @@ final class DetectCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $sources = (array) $input->getOption(Option::SOURCES);
+        $sources = (array) $input->getArgument(Option::SOURCES);
         $fileInfos = $this->smartFinder->find($sources, '*.php');
 
         $filterClasses = (array) $this->parameterProvider->provideParameter(Option::FILTER_CLASSES);
