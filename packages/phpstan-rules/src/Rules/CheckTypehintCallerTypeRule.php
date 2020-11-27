@@ -11,6 +11,8 @@ use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use PhpParser\Node\Expr\Instanceof_;
+use PhpParser\Node\Expr;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\CheckTypehintCallerTypeRuleTest
@@ -42,6 +44,22 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
             return [];
         }
 
+        $args = $node->args;
+        if ($args === []) {
+            return [];
+        }
+
+        $cond = $parent->cond;
+
+        if ($cond instanceof Instanceof_) {
+            return $this->validateInstanceOf($cond->expr, $args[0]);
+        }
+
+        return [];
+    }
+
+    private function validateInstanceOf(Expr $expr, Expr $arg0)
+    {
         return [];
     }
 
