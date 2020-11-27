@@ -31,16 +31,16 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
      * @var string
      */
     private const METHOD_CALL_INVALID = [
-        'addoption' => 'getargument',
-        'addargument' => 'getoption',
+        'addOption' => 'getArgument',
+        'addArgument' => 'getOption',
     ];
 
     /**
      * @var string
      */
     private const METHOD_CALL_VALID = [
-        'addoption' => 'getOption',
-        'addargument' => 'getArgument',
+        'addOption' => 'getOption',
+        'addArgument' => 'getArgument',
     ];
 
     /**
@@ -87,7 +87,7 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
         }
 
         $methodCallName = $methodCallIdentifier->toString();
-        if (! in_array(strtolower($methodCallName), ['addoption', 'addargument'], true)) {
+        if (! array_key_exists($methodCallName, self::METHOD_CALL_VALID)) {
             return [];
         }
 
@@ -145,7 +145,7 @@ CODE_SAMPLE
         }
 
         $passedArg = $methodCall->args[0]->value;
-        $invalidMethodCall = self::METHOD_CALL_INVALID[strtolower($methodCallName)];
+        $invalidMethodCall = self::METHOD_CALL_INVALID[$methodCallName];
 
         $isFoundInvalidMethodCall = (bool) $this->nodeFinder->findFirst(
             (array) $executeClassMethod->stmts,
@@ -154,7 +154,7 @@ CODE_SAMPLE
                     return false;
                 }
 
-                if (! $node->name instanceof Identifier || strtolower($node->name->toString()) !== $invalidMethodCall) {
+                if (! $node->name instanceof Identifier || $node->name->toString() !== $invalidMethodCall) {
                     return false;
                 }
 
@@ -171,9 +171,7 @@ CODE_SAMPLE
         );
 
         if ($isFoundInvalidMethodCall) {
-            return [
-                sprintf(self::ERROR_MESSAGE, $methodCallName, self::METHOD_CALL_VALID[strtolower($methodCallName)]),
-            ];
+            return [sprintf(self::ERROR_MESSAGE, $methodCallName, self::METHOD_CALL_VALID[$methodCallName])];
         }
 
         return [];
@@ -182,13 +180,11 @@ CODE_SAMPLE
     private function getExecuteClassMethod(Class_ $class): ?ClassMethod
     {
         /** @var ClassMethod|null $classMethod */
-        $classMethod = $this->nodeFinder->findFirst($class, function (Node $node): bool {
-            return $node instanceof ClassMethod && $node->name instanceof Identifier && strtolower(
-                $node->name->toString()
-            ) === 'execute';
+        return $this->nodeFinder->findFirst($class, function (Node $node): bool {
+            return $node instanceof ClassMethod
+                && $node->name instanceof Identifier
+                && $node->name->toString() === 'execute';
         });
-
-        return $classMethod;
     }
 
     private function isInConfigureMethod(MethodCall $methodCall): bool
@@ -204,7 +200,7 @@ CODE_SAMPLE
         }
 
         $methodName = $methodNameIdentifier->toString();
-        return strtolower($methodName) === 'configure';
+        return $methodName === 'configure';
     }
 
     private function isInInstanceOfCommand(MethodCall $methodCall, Scope $scope): bool
