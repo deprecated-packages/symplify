@@ -177,9 +177,8 @@ CODE_SAMPLE
         return [];
     }
 
-    private function getExecuteClassMethod(Class_ $class): ?ClassMethod
+    private function getExecuteClassMethod(Class_ $class): ?Node
     {
-        /** @var ClassMethod|null $classMethod */
         return $this->nodeFinder->findFirst($class, function (Node $node): bool {
             return $node instanceof ClassMethod
                 && $node->name instanceof Identifier
