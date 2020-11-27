@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckOptionArgumentCommandRule\CheckOptionArgumentCommandRuleTest
@@ -42,6 +43,11 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        $className = $this->getClassName($scope);
+        if (! is_a($className, Command::class, true)) {
+            return [];
+        }
+
         return [];
     }
 

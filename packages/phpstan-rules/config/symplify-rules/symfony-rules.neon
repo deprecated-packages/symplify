@@ -10,3 +10,7 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckOptionArgumentCommandRule
+        tags: [phpstan.rules.rule]
