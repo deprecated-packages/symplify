@@ -9,6 +9,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\If_;
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
@@ -16,6 +17,7 @@ use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use PhpParser\Node\Name;
+use PhpParser\Node\Arg;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\CheckTypehintCallerTypeRuleTest
@@ -70,7 +72,7 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
         $cond = $parent->cond;
 
         if ($cond instanceof Instanceof_) {
-            return $this->validateInstanceOf($cond, $args[0], $node);
+            return $this->validateInstanceOf($cond, $args, $node);
         }
 
         return [];
@@ -121,18 +123,29 @@ CODE_SAMPLE
         ]);
     }
 
-    private function validateInstanceOf(Instanceof_ $instanceof, Expr $arg0, MethodCall $methodCall)
+    /**
+     * @param Arg[] $args
+     */
+    private function validateInstanceOf(Instanceof_ $instanceof, array $args, MethodCall $methodCall)
     {
-        if (! $this->areNodesEqual($instanceof->expr, $arg0)) {
-            return [];
-        }
-
         $class = $instanceof->class;
         if (! $class instanceof Name) {
             return [];
         }
 
-        $class = $this->resolveCurrentClass($methodCall);
+        $currentClass = $this->resolveCurrentClass($methodCall);
+        $methodCallName = $this->getMethodCallName($methodCall);
+
+        foreach ($args as $arg) {
+            if (! $this->areNodesEqual($instanceof->expr, $arg->value)) {
+                continue;
+            }
+
+            $classMethod = $currentClass->getClassMethod($methodCallName);
+            if (! $classMethod instanceof ClassMethod) {
+                continue;
+            }
+        }
 
         return [];
     }
