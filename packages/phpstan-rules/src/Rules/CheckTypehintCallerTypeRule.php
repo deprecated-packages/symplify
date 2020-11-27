@@ -9,6 +9,7 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\If_;
@@ -58,11 +59,16 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var Node|null $parent */
+        /** @var Expression $parent */
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $parent instanceof If_) {
+        /** @var If_null $mayBeif */
+        $mayBeif = $parent->getAttribute(PHPStanAttributeKey::PARENT);
+
+        if (! $mayBeif instanceof If_) {
             return [];
         }
+
+        dump('here');
 
         $args = $node->args;
         if ($args === []) {
@@ -129,7 +135,7 @@ CODE_SAMPLE
     private function validateInstanceOf(Instanceof_ $instanceof, array $args, MethodCall $methodCall)
     {
         $class = $instanceof->class;
-        if (! $class instanceof Name) {
+        if (! $class instanceof Name) { dump('here');
             return [];
         }
 
@@ -137,7 +143,7 @@ CODE_SAMPLE
         $methodCallName = $this->getMethodCallName($methodCall);
 
         foreach ($args as $arg) {
-            if (! $this->areNodesEqual($instanceof->expr, $arg->value)) {
+            if (! $this->areNodesEqual($instanceof->expr, $arg->value)) { dump('here');
                 continue;
             }
 
