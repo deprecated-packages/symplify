@@ -10,6 +10,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symfony\Component\Console\Command\Command;
+use PhpParser\Node\Stmt\ClassMethod;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckOptionArgumentCommandRule\CheckOptionArgumentCommandRuleTest
@@ -45,6 +46,16 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
     {
         $className = $this->getClassName($scope);
         if (! is_a($className, Command::class, true)) {
+            return [];
+        }
+
+        $classMethod = $this->resolveCurrentClassMethod($node);
+        if (! $classMethod instanceof ClassMethod) {
+            return [];
+        }
+
+        $name = (string) $classMethod->name;
+        if (strtolower($name) !== 'configure') {
             return [];
         }
 
