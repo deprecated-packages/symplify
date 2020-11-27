@@ -13,6 +13,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr;
+use PhpParser\PrettyPrinter\Standard;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\CheckTypehintCallerTypeRuleTest
@@ -23,6 +24,16 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Parameter %d should use %s type as already checked';
+
+    /**
+     * @var Standard
+     */
+    private $printerStandard;
+
+    public function __construct(Standard $printerStandard)
+    {
+        $this->printerStandard = $printerStandard;
+    }
 
     /**
      * @return string[]
@@ -60,6 +71,10 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
 
     private function validateInstanceOf(Expr $expr, Expr $arg0)
     {
+        if ($this->areNodesEqual($expr, $arg0)) {
+            return [];
+        }
+
         return [];
     }
 
@@ -106,5 +121,10 @@ class SomeClass
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function areNodesEqual(Node $firstNode, Node $secondNode): bool
+    {
+        return $this->printerStandard->prettyPrint([$firstNode]) === $this->printerStandard->prettyPrint([$secondNode]);
     }
 }
