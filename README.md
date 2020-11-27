@@ -105,7 +105,7 @@ composer install
 
     ```bash
     vendor/bin/phpunit
-    composer phsptan
+    composer phpstan
     ```
 
 We would be happy to merge your feature then :+1:
