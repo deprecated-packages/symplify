@@ -23,7 +23,18 @@ final class CheckOptionArgumentCommandRuleTest extends AbstractServiceAwareRuleT
     {
         yield [__DIR__ . '/Fixture/NotCommand.php', []];
         yield [__DIR__ . '/Fixture/CorrectCommand.php', []];
-       // yield [__DIR__ . '/Fixture/InCorrectCommand1.php', [[sprintf(CheckOptionArgumentCommandRule::ERROR_MESSAGE, 'addOption', 'getOption'), 16]]];
+        yield [
+            __DIR__ . '/Fixture/InCorrectCommand1.php',
+            [
+                [sprintf(CheckOptionArgumentCommandRule::ERROR_MESSAGE, 'addOption', 'getOption'), 16],
+            ],
+        ];
+        yield [
+            __DIR__ . '/Fixture/InCorrectCommand2.php',
+            [
+                [sprintf(CheckOptionArgumentCommandRule::ERROR_MESSAGE, 'addArgument', 'getArgument'), 17],
+            ],
+        ];
     }
 
     protected function getRule(): Rule

@@ -10,6 +10,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
+use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
 use Symfony\Component\Console\Command\Command;
@@ -30,8 +31,16 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
      * @var string
      */
     private const METHOD_CALL_INVALID = [
-        'addoption' => 'getArgument',
-        'addargument' => 'getOption',
+        'addoption' => 'getargument',
+        'addargument' => 'getoption',
+    ];
+
+    /**
+     * @var string
+     */
+    private const METHOD_CALL_VALID = [
+        'addoption' => 'getOption',
+        'addargument' => 'getArgument',
     ];
 
     /**
@@ -39,9 +48,15 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
      */
     private $nodeFinder;
 
-    public function __construct(NodeFinder $nodeFinder)
+    /**
+     * @var Standard
+     */
+    private $printerStandard;
+
+    public function __construct(NodeFinder $nodeFinder, Standard $printerStandard)
     {
         $this->nodeFinder = $nodeFinder;
+        $this->printerStandard = $printerStandard;
     }
 
     /**
@@ -82,8 +97,37 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
         }
 
         $executeClassMethod = $this->nodeFinder->find($class, function (Node $node): bool {
-            return $node instanceof ClassMethod && $node->name instanceof Identifier && $node->name->toString() === 'execute';
+            return $node instanceof ClassMethod && $node->name instanceof Identifier && strtolower(
+                $node->name->toString()
+            ) === 'execute';
         });
+
+        $passedArg = $node->args[0]->value;
+        $invalidMethodCall = self::METHOD_CALL_INVALID[strtolower($methodCallName)];
+
+        $foundInvalidMethodCall = $this->nodeFinder->findFirst($executeClassMethod, function (Node $node) use (
+            $passedArg,
+            $invalidMethodCall
+        ): bool {
+            if (! $node instanceof MethodCall) {
+                return false;
+            }
+
+            if (! $node->name instanceof Identifier) {
+                return false;
+            }
+
+            return strtolower($node->name->toString()) === $invalidMethodCall && $this->areNodesEqual(
+                $node->args[0]->value,
+                $passedArg
+            );
+        });
+
+        if ($foundInvalidMethodCall) {
+            return [
+                sprintf(self::ERROR_MESSAGE, $methodCallName, self::METHOD_CALL_VALID[strtolower($methodCallName)]),
+            ];
+        }
 
         return [];
     }
@@ -149,5 +193,10 @@ CODE_SAMPLE
         }
 
         return $scope->getType($methodCall) instanceof ThisType && is_a($className, Command::class, true);
+    }
+
+    private function areNodesEqual(Node $firstNode, Node $secondNode): bool
+    {
+        return $this->printerStandard->prettyPrint([$firstNode]) === $this->printerStandard->prettyPrint([$secondNode]);
     }
 }
