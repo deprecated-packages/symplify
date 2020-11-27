@@ -11,6 +11,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symfony\Component\Console\Command\Command;
 use PhpParser\Node\Stmt\ClassMethod;
+use PHPStan\Type\ThisType;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckOptionArgumentCommandRule\CheckOptionArgumentCommandRuleTest
@@ -56,6 +57,16 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
 
         $name = (string) $classMethod->name;
         if (strtolower($name) !== 'configure') {
+            return [];
+        }
+
+        $callerType = $scope->getType($node->var);
+        if ($callerType instanceof ThisType) {
+            return [];
+        }
+
+        $methodCallName = (string) $node->name;
+        if (! in_array(strtolower($methodCallName), ['addoption', 'addarguments'], true)) {
             return [];
         }
 
