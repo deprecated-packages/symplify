@@ -149,7 +149,11 @@ CODE_SAMPLE
             return [];
         }
 
+        /** @var string|null $methodCallName */
         $methodCallName = $this->getMethodCallName($methodCall);
+        if ($methodCallName === null) {
+            return [];
+        }
 
         foreach ($args as $position => $arg) {
             if (! $this->areNodesEqual($instanceof->expr, $arg->value)) {
