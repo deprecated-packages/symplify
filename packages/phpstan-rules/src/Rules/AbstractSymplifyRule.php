@@ -6,11 +6,11 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
@@ -168,6 +168,16 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return $reflectionFunction->getName() === $methodName;
     }
 
+    protected function getMethodCallName(MethodCall $methodCall): ?string
+    {
+        $name = $methodCall->name;
+        if (! $name instanceof Identifier) {
+            return null;
+        }
+
+        return $name->toString();
+    }
+
     private function resolveClassLikeName(ClassLike $classLike): ?string
     {
         // anonymous  class
@@ -197,15 +207,5 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return (string) Strings::after($className, '\\', -1);
-    }
-
-    protected function getMethodCallName(MethodCall $methodCall): ?string
-    {
-        $name = $methodCall->name;
-        if (! $name instanceof Identifier) {
-            return null;
-        }
-
-        return $name->toString();
     }
 }

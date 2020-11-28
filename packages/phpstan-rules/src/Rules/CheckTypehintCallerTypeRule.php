@@ -9,9 +9,10 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Name;
-use PhpParser\Node\Stmt\Expression;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
@@ -68,15 +69,12 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
             return [];
         }
 
-        dump('here');
-
         $args = $node->args;
         if ($args === []) {
             return [];
         }
 
-        $cond = $parent->cond;
-
+        $cond = $mayBeif->cond;
         if ($cond instanceof Instanceof_) {
             return $this->validateInstanceOf($cond, $args, $node);
         }
@@ -135,7 +133,7 @@ CODE_SAMPLE
     private function validateInstanceOf(Instanceof_ $instanceof, array $args, MethodCall $methodCall)
     {
         $class = $instanceof->class;
-        if (! $class instanceof Name) { dump('here');
+        if (! $class instanceof Name) {
             return [];
         }
 
@@ -143,18 +141,18 @@ CODE_SAMPLE
         $methodCallName = $this->getMethodCallName($methodCall);
 
         foreach ($args as $arg) {
-            if (! $this->areNodesEqual($instanceof->expr, $arg->value)) { dump('here');
+            if (! $this->areNodesEqual($instanceof->expr, $arg->value)) {
                 continue;
             }
 
-            $classMethod = $currentClass->getClassMethod($methodCallName);
+            $classMethod = $currentClass->getMethod($methodCallName);
             if (! $classMethod instanceof ClassMethod) {
                 continue;
             }
 
             /** @var Param[] $params */
             $params = $classMethod->getParams();
-            $this->validateParam($params, $instanceof->expr);
+            $this->validateParam($params);
         }
 
         return [];
@@ -163,11 +161,13 @@ CODE_SAMPLE
     /**
      * @return Param[] $params
      */
-    private function validateParam(array $params, Expr $expr)
+    private function validateParam(array $params)
     {
         foreach ($params as $param) {
             $type = $param->type;
-            dump($type);
+            if (! $type instanceof FullyQualified) {
+                continue;
+            }
         }
     }
 
