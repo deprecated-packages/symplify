@@ -68,6 +68,12 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
             return [];
         }
 
+        // ensure check prev expression that may override
+        $previous = $parent->getAttribute(PHPStanAttributeKey::PREVIOUS);
+        if (! $previous instanceof Instanceof_) {
+            return [];
+        }
+
         $args = $node->args;
         if ($args === []) {
             return [];
