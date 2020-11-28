@@ -21,6 +21,100 @@ return [
 ];
 ```
 
+## Controller with Argument
+
+To make Controller with argument, eg: `/blog/{slug}`, statically dumped, you have to implements `Symplify\SymfonyStaticDumper\Contract\ControllerWithDataProviderInterface` and implements 3 methods:
+ - `getControllerClass()`
+ - `getControllerMethod()`
+ - `getArguments()`
+
+For example, with the following provider:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace TomasVotruba\SymfonyStaticDump\ControllerWithDataProvider;
+
+use Symplify\SymfonyStaticDumper\Contract\ControllerWithDataProviderInterface;
+use TomasVotruba\Blog\Controller\PostController;
+use TomasVotruba\Blog\Repository\PostRepository;
+
+final class PostControllerWithDataProvider implements ControllerWithDataProviderInterface
+{
+    private PostRepository $postRepository;
+
+    public function __construct(PostRepository $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
+    public function getControllerClass(): string
+    {
+        return PostController::class;
+    }
+
+    public function getControllerMethod(): string
+    {
+        return '__invoke';
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getArguments(): array
+    {
+        $slugs = [];
+
+        foreach ($this->postRepository->getPosts() as $post) {
+            $slugs[] = $post->getSlug();
+        }
+
+        return $slugs;
+    }
+}
+```
+
+For the following controller:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace TomasVotruba\Blog\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use TomasVotruba\Blog\Repository\PostRepository;
+use TomasVotruba\Blog\ValueObject\Post;
+
+final class PostController extends AbstractController
+{
+    private PostRepository $postRepository;
+
+    public function __construct(PostRepository $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
+    /**
+     * @Route(path="/blog/{slug}", name="post_detail", requirements={"slug"="\d+\/\d+.+"})
+     */
+    public function __invoke(string $slug): Response
+    {
+        $post = $this->postRepository->getBySlug($slug);
+
+        return $this->render('blog/post.twig', [
+            'post' => $post,
+            'title' => $post->getTitle(),
+        ]);
+    }
+}
+```
+
 ## Use
 
 ```bash
