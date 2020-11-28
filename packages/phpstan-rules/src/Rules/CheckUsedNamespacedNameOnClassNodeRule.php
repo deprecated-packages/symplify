@@ -65,6 +65,10 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
             return [];
         }
 
+        if (! $next instanceof Identifier) {
+            return [];
+        }
+
         if ($next->name !== 'name') {
             return [];
         }
