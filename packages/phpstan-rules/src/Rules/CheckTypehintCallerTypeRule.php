@@ -164,8 +164,9 @@ CODE_SAMPLE
 
     /**
      * @return Param[] $params
+     * @return string[]
      */
-    private function validateParam(array $params, int $position, FullyQualified $class)
+    private function validateParam(array $params, int $position, FullyQualified $class): array
     {
         foreach ($params as $i => $param) {
             if ($i !== $position) {
@@ -183,6 +184,8 @@ CODE_SAMPLE
 
             return [sprintf(self::ERROR_MESSAGE, $i + 1, $class->toString())];
         }
+
+        return [];
     }
 
     private function areNodesEqual(Node $firstNode, Node $secondNode): bool
