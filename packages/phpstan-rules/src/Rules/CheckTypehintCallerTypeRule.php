@@ -144,6 +144,7 @@ CODE_SAMPLE
                 continue;
             }
 
+            /** @var ClassMethod|null $classMethod */
             $classMethod = $currentClass->getMethod($methodCallName);
             if (! $classMethod instanceof ClassMethod) {
                 continue;
