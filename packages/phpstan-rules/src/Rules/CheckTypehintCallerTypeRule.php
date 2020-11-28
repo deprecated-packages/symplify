@@ -142,7 +142,12 @@ CODE_SAMPLE
             return [];
         }
 
+        /** @var Class_|null $currentClass */
         $currentClass = $this->resolveCurrentClass($methodCall);
+        if (! $currentClass instanceof Class_) {
+            return [];
+        }
+
         $methodCallName = $this->getMethodCallName($methodCall);
 
         foreach ($args as $position => $arg) {
