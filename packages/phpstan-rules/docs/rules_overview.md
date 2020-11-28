@@ -1,4 +1,4 @@
-# 103 Rules Overview
+# 104 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -162,6 +162,50 @@ namespace App\Tests;
 
 class SomeTest
 {
+}
+```
+
+:+1:
+
+<br>
+
+## CheckOptionArgumentCommandRule
+
+`%s()` called in `configure(),` must be called with `%s()` in `execute()` in "Symfony\Component\Console\Command\Command" type
+
+- class: `Symplify\PHPStanRules\Rules\CheckOptionArgumentCommandRule`
+
+```php
+class SomeClass extends Command
+{
+    protected function configure(): void
+    {
+        $this->addOption(Option::CATEGORIZE, null, InputOption::VALUE_NONE, 'Group in categories');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $shouldCategorize = (bool) $input->getArgument(Option::CATEGORIZE);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass extends Command
+{
+    protected function configure(): void
+    {
+        $this->addOption(Option::CATEGORIZE, null, InputOption::VALUE_NONE, 'Group in categories');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $shouldCategorize = (bool) $input->getOption(Option::CATEGORIZE);
+    }
 }
 ```
 
