@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\Fixture;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 
-class AlreadyCorrectType
+class SkipAlreadyCorrectType
 {
     public function run(Node $node)
     {
