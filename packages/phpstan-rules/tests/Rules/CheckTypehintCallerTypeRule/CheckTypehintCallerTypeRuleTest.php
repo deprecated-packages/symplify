@@ -25,6 +25,7 @@ final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTest
         yield [__DIR__ . '/Fixture/SkipNotFromThis.php', []];
         yield [__DIR__ . '/Fixture/SkipParentNotIf.php', []];
         yield [__DIR__ . '/Fixture/SkipNoArgs.php', []];
+        yield [__DIR__ . '/Fixture/AlreadyCorrectType.php', []];
         yield [__DIR__ . '/Fixture/Fixture.php', [
             [sprintf(CheckTypehintCallerTypeRule::ERROR_MESSAGE, 1, MethodCall::class), 15],
         ]];
