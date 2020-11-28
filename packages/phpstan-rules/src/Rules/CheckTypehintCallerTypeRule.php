@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -62,7 +61,7 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
 
         /** @var Expression $parent */
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        /** @var If_null $mayBeif */
+        /** @var If_|null $mayBeif */
         $mayBeif = $parent->getAttribute(PHPStanAttributeKey::PARENT);
 
         if (! $mayBeif instanceof If_) {
@@ -133,14 +132,14 @@ CODE_SAMPLE
     private function validateInstanceOf(Instanceof_ $instanceof, array $args, MethodCall $methodCall)
     {
         $class = $instanceof->class;
-        if (! $class instanceof Name) {
+        if (! $class instanceof FullyQualified) {
             return [];
         }
 
         $currentClass = $this->resolveCurrentClass($methodCall);
         $methodCallName = $this->getMethodCallName($methodCall);
 
-        foreach ($args as $arg) {
+        foreach ($args as $position => $arg) {
             if (! $this->areNodesEqual($instanceof->expr, $arg->value)) {
                 continue;
             }
@@ -152,7 +151,12 @@ CODE_SAMPLE
 
             /** @var Param[] $params */
             $params = $classMethod->getParams();
-            $this->validateParam($params);
+            $validateParam = $this->validateParam($params, $position, $class);
+            if ($validateParam === []) {
+                continue;
+            }
+
+            return $validateParam;
         }
 
         return [];
@@ -161,13 +165,23 @@ CODE_SAMPLE
     /**
      * @return Param[] $params
      */
-    private function validateParam(array $params)
+    private function validateParam(array $params, int $position, FullyQualified $class)
     {
-        foreach ($params as $param) {
+        foreach ($params as $i => $param) {
+            if ($i !== $position) {
+                continue;
+            }
+
             $type = $param->type;
             if (! $type instanceof FullyQualified) {
                 continue;
             }
+
+            if ($this->areNodesEqual($class, $type)) {
+                continue;
+            }
+
+            return [sprintf(self::ERROR_MESSAGE, $i + 1, $class->toString())];
         }
     }
 
