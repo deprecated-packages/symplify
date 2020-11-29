@@ -1,4 +1,4 @@
-# 104 Rules Overview
+# 105 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -426,6 +426,58 @@ trait SomeTrait
     public function someDelegateCall(): void
     {
         $this->singleDelegateCall();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## CheckTypehintCallerTypeRule
+
+Parameter %d should use %s type as already checked
+
+- class: `Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule`
+
+```php
+use PhpParser\Node;
+use PhpParser\Node\Expr\MethodCall;
+
+class SomeClass
+{
+    public function run(Node $node): void
+    {
+        if ($node instanceof MethodCall) {
+            $this->isCheck($node);
+        }
+    }
+
+    private function isCheck(Node $node): void
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use PhpParser\Node;
+use PhpParser\Node\Expr\MethodCall;
+
+class SomeClass
+{
+    public function run(Node $node): void
+    {
+        if ($node instanceof MethodCall) {
+            $this->isCheck($node);
+        }
+    }
+
+    private function isCheck(MethodCall $node): void
+    {
     }
 }
 ```
