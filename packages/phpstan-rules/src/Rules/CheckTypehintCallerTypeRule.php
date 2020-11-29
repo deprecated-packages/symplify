@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Name\FullyQualified;
@@ -14,6 +15,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\If_;
+use PhpParser\NodeFinder;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
@@ -36,9 +38,15 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
      */
     private $printerStandard;
 
-    public function __construct(Standard $printerStandard)
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    public function __construct(Standard $printerStandard, NodeFinder $nodeFinder)
     {
         $this->printerStandard = $printerStandard;
+        $this->nodeFinder = $nodeFinder;
     }
 
     /**
@@ -81,8 +89,8 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
         }
 
         $cond = $mayBeif->cond;
-        if ($cond instanceof Instanceof_) {
-            return $this->validateInstanceOf($cond, $args, $node);
+        if ($cond instanceof Instanceof_ && $cond->class instanceof FullyQualified) {
+            return $this->validateInstanceOf($cond->expr, $cond->class, $args, $node);
         }
 
         return [];
@@ -136,16 +144,19 @@ CODE_SAMPLE
     /**
      * @param Arg[] $args
      */
-    private function validateInstanceOf(Instanceof_ $instanceof, array $args, MethodCall $methodCall)
+    private function validateInstanceOf(Expr $expr, FullyQualified $class, array $args, MethodCall $methodCall)
     {
-        $class = $instanceof->class;
-        if (! $class instanceof FullyQualified) {
-            return [];
-        }
-
         /** @var Class_|null $currentClass */
         $currentClass = $this->resolveCurrentClass($methodCall);
         if (! $currentClass instanceof Class_) {
+            return [];
+        }
+
+        $methodCallUsed = $this->nodeFinder->find($currentClass, function (Node $node) use ($methodCall): bool {
+            return $this->areNodesEqual($node, $methodCall);
+        });
+
+        if (count($methodCallUsed) > 1) {
             return [];
         }
 
@@ -155,19 +166,20 @@ CODE_SAMPLE
             return [];
         }
 
+        /** @var ClassMethod|null $classMethod */
+        $classMethod = $currentClass->getMethod($methodCallName);
+        if (! $classMethod instanceof ClassMethod || ! $classMethod->isPrivate()) {
+            return [];
+        }
+
+        /** @var Param[] $params */
+        $params = $classMethod->getParams();
+
         foreach ($args as $position => $arg) {
-            if (! $this->areNodesEqual($instanceof->expr, $arg->value)) {
+            if (! $this->areNodesEqual($expr, $arg->value)) {
                 continue;
             }
 
-            /** @var ClassMethod|null $classMethod */
-            $classMethod = $currentClass->getMethod($methodCallName);
-            if (! $classMethod instanceof ClassMethod) {
-                continue;
-            }
-
-            /** @var Param[] $params */
-            $params = $classMethod->getParams();
             $validateParam = $this->validateParam($params, $position, $class);
             if ($validateParam === []) {
                 continue;
