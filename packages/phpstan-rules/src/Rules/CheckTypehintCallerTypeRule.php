@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\NodeFinder;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
@@ -36,9 +37,15 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
      */
     private $printerStandard;
 
-    public function __construct(Standard $printerStandard)
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    public function __construct(Standard $printerStandard, NodeFinder $nodeFinder)
     {
         $this->printerStandard = $printerStandard;
+        $this->nodeFinder = $nodeFinder;
     }
 
     /**
@@ -149,6 +156,14 @@ CODE_SAMPLE
             return [];
         }
 
+        $methodCallUsed = $this->nodeFinder->find($currentClass, function (Node $node) use ($methodCall) : bool {
+            return $this->areNodesEqual($node, $methodCall);
+        });
+
+        if (count($methodCallUsed) > 1) {
+            return [];
+        }
+
         /** @var string|null $methodCallName */
         $methodCallName = $this->getMethodCallName($methodCall);
         if ($methodCallName === null) {
@@ -163,7 +178,11 @@ CODE_SAMPLE
             /** @var ClassMethod|null $classMethod */
             $classMethod = $currentClass->getMethod($methodCallName);
             if (! $classMethod instanceof ClassMethod) {
-                continue;
+                return [];
+            }
+
+            if (! $classMethod->isPrivate()) {
+                return [];
             }
 
             /** @var Param[] $params */
