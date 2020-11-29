@@ -170,23 +170,24 @@ CODE_SAMPLE
             return [];
         }
 
+        /** @var ClassMethod|null $classMethod */
+        $classMethod = $currentClass->getMethod($methodCallName);
+        if (! $classMethod instanceof ClassMethod) {
+            return [];
+        }
+
+        if (! $classMethod->isPrivate()) {
+            return [];
+        }
+
+        /** @var Param[] $params */
+        $params = $classMethod->getParams();
+
         foreach ($args as $position => $arg) {
             if (! $this->areNodesEqual($instanceof->expr, $arg->value)) {
                 continue;
             }
 
-            /** @var ClassMethod|null $classMethod */
-            $classMethod = $currentClass->getMethod($methodCallName);
-            if (! $classMethod instanceof ClassMethod) {
-                return [];
-            }
-
-            if (! $classMethod->isPrivate()) {
-                return [];
-            }
-
-            /** @var Param[] $params */
-            $params = $classMethod->getParams();
             $validateParam = $this->validateParam($params, $position, $class);
             if ($validateParam === []) {
                 continue;
