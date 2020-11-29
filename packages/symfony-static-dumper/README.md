@@ -31,10 +31,6 @@ To make Controller with argument, eg: `/blog/{slug}`, statically dumped, you hav
 For example, with the following provider:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 namespace TomasVotruba\SymfonyStaticDump\ControllerWithDataProvider;
 
 use Symplify\SymfonyStaticDumper\Contract\ControllerWithDataProviderInterface;
@@ -79,10 +75,6 @@ final class PostControllerWithDataProvider implements ControllerWithDataProvider
 For the following controller:
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 namespace TomasVotruba\Blog\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
