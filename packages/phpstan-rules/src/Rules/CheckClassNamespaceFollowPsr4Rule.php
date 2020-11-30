@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -19,6 +20,21 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Class namespace %s does not follow PSR-4 configuration in composer.json, use %s instead';
+
+    /**
+     * @var SmartFileSystem
+     */
+    private $smartFileSystem;
+
+    /**
+     * @var string
+     */
+    private $psr4;
+
+    public function __construct(SmartFileSystem $smartFileSystem)
+    {
+        $this->psr4 = $this->getPsr4Autoload($smartFileSystem);
+    }
 
     /**
      * @return string[]
@@ -35,6 +51,20 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         return [];
+    }
+
+    private function getPsr4Autoload(SmartFileSystem $smartFileSystem): array
+    {
+        $composerJsonFile = './composer.json';
+        if (! file_exists($composerJsonFile)) { die('here');
+            return [];
+        }
+
+        $composerJsonContent = json_decode($smartFileSystem->readFile($composerJsonFile), true);
+        $autoloadPsr4 = $composerJsonContent['autoload']['psr-4'] ?? [];
+        $autoloadDevPsr4 = $composerJsonContent['autoload-dev']['psr-4'] ?? [];
+
+        return $autoloadPsr4 + $autoloadDevPsr4;
     }
 
     public function getRuleDefinition(): RuleDefinition
