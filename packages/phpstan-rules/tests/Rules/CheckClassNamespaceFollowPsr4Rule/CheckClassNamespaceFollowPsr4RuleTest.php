@@ -23,16 +23,16 @@ final class CheckClassNamespaceFollowPsr4RuleTest extends AbstractServiceAwareRu
     {
         yield [__DIR__ . '/Fixture/ValidNamespace.php', []];
         yield [__DIR__ . '/Fixture/InvalidNamespace.php', [
-            [
-                sprintf(CheckClassNamespaceFollowPsr4Rule::ERROR_MESSAGE, 'Foo\Bar'),
-                7
-            ]
+            [sprintf(CheckClassNamespaceFollowPsr4Rule::ERROR_MESSAGE, 'Foo\Bar'), 7],
         ]];
         yield [__DIR__ . '/Fixture/MissingFixtureNamespace.php', [
             [
-                sprintf(CheckClassNamespaceFollowPsr4Rule::ERROR_MESSAGE, 'Symplify\PHPStanRules\Tests\Rules\CheckClassNamespaceFollowPsr4Rule'),
-                7
-            ]
+                sprintf(
+                    CheckClassNamespaceFollowPsr4Rule::ERROR_MESSAGE,
+                    'Symplify\PHPStanRules\Tests\Rules\CheckClassNamespaceFollowPsr4Rule'
+                ),
+                7,
+            ],
         ]];
     }
 
