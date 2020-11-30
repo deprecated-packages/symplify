@@ -60,12 +60,11 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
                 return [];
             }
 
-            if ($this->isInDirectoryNamed($scope, $directory) && $this->isClassNamespaceCorrect(
-                $namespace,
-                $directory,
-                $namespaceBeforeClass,
-                $file
-            )) {
+            if (! $this->isInDirectoryNamed($scope, $directory)) {
+                continue;
+            }
+
+            if ($this->isClassNamespaceCorrect($namespace, $directory, $namespaceBeforeClass, $file)) {
                 return [];
             }
         }
