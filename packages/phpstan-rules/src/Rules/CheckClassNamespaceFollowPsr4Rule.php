@@ -20,7 +20,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class namespace %s does not follow PSR-4 configuration in composer.json, use %s instead';
+    public const ERROR_MESSAGE = 'Class namespace %s does not follow PSR-4 configuration in composer.json';
 
     /**
      * @var SmartFileSystem
@@ -59,7 +59,13 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
         $className      = (string) $node->name;
         $namespace      = substr($namespacedName, 0, - (strlen($className) + 1));
 
-        return [];
+        foreach ($this->psr4 as $directory => $psr4) {
+            if (strpos($namespace, $directory) === 0) {
+                return [];
+            }
+        }
+
+        return [sprintf(self::ERROR_MESSAGE, $namespace)];
     }
 
     private function getPsr4Autoload(SmartFileSystem $smartFileSystem): array
