@@ -7,7 +7,7 @@ use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -23,7 +23,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // php-parser
     $services->set(ParserFactory::class);
     $services->set(Parser::class)
-        ->factory([ref(ParserFactory::class), 'create'])
+        ->factory([service(ParserFactory::class), 'create'])
         ->args([ParserFactory::PREFER_PHP7]);
 
     $services->set(Standard::class);

@@ -18,7 +18,7 @@ use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SymplifyKernel\Console\ConsoleApplicationFactory;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -31,7 +31,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // symfony style
     $services->set(SymfonyStyleFactory::class);
     $services->set(SymfonyStyle::class)
-        ->factory([ref(SymfonyStyleFactory::class), 'create']);
+        ->factory([service(SymfonyStyleFactory::class), 'create']);
 
     // filesystem
     $services->set(FinderSanitizer::class);
@@ -41,7 +41,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(FileSystemFilter::class);
 
     $services->set(ParameterProvider::class)
-        ->args([ref(ContainerInterface::class)]);
+        ->args([service(ContainerInterface::class)]);
 
     $services->set(PrivatesAccessor::class);
 

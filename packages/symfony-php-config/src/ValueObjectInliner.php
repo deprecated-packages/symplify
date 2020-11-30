@@ -9,9 +9,8 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\InlineServiceConfi
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symplify\SymfonyPhpConfig\Reflection\ArgumentAndParameterFactory;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\inline;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 final class ValueObjectInliner
 {
@@ -30,10 +29,10 @@ final class ValueObjectInliner
         $argumentValues = self::resolveArgumentValues($reflectionClass, $object);
 
         $servicesConfigurator->set($className)
-            ->factory([ref(ArgumentAndParameterFactory::class), 'create'])
+            ->factory([service(ArgumentAndParameterFactory::class), 'create'])
             ->args([$className, $argumentValues, $propertyValues]);
 
-        return ref($className);
+        return service($className);
     }
 
     /**
@@ -114,13 +113,7 @@ final class ValueObjectInliner
         $className = $reflectionClass->getName();
         $argumentValues = self::resolveArgumentValues($reflectionClass, $object);
 
-        if (function_exists('Symfony\Component\DependencyInjection\Loader\Configurator\inline_service')) {
-            // Symfony 5.1+
-            $inlineServiceConfigurator = inline_service($className);
-        } else {
-            // Symfony 5.0-
-            $inlineServiceConfigurator = inline($className);
-        }
+        $inlineServiceConfigurator = inline_service($className);
 
         if ($argumentValues !== []) {
             $inlineServiceConfigurator->args($argumentValues);

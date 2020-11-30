@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symplify\MarkdownDiff\Diff\Output\CompleteUnifiedDiffOutputBuilderFactory;
 use Symplify\MarkdownDiff\Differ\MarkdownDiffer;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -24,13 +24,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // markdown
     $services->set('markdownDiffOutputBuilder', UnifiedDiffOutputBuilder::class)
-        ->factory([ref(CompleteUnifiedDiffOutputBuilderFactory::class), 'create']);
+        ->factory([service(CompleteUnifiedDiffOutputBuilderFactory::class), 'create']);
 
     $services->set('markdownDiffer', Differ::class)
-        ->arg('$outputBuilder', ref('markdownDiffOutputBuilder'));
+        ->arg('$outputBuilder', service('markdownDiffOutputBuilder'));
 
     $services->set(MarkdownDiffer::class)
-        ->arg('$markdownDiffer', ref('markdownDiffer'));
+        ->arg('$markdownDiffer', service('markdownDiffer'));
 
     $services->set(PrivatesAccessor::class);
 };
