@@ -18,7 +18,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class namespace %s does not follow PSR-4 configuration in composer.json';
+    public const ERROR_MESSAGE = 'Class namespace %s does not follow PSR-4 configuration in composer.json, use %s instead';
 
     /**
      * @return string[]
