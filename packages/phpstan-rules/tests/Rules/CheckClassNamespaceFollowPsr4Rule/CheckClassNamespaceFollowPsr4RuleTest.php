@@ -28,6 +28,12 @@ final class CheckClassNamespaceFollowPsr4RuleTest extends AbstractServiceAwareRu
                 7
             ]
         ]];
+        yield [__DIR__ . '/Fixture/MissingFixtureNamespace.php', [
+            [
+                sprintf(CheckClassNamespaceFollowPsr4Rule::ERROR_MESSAGE, 'Symplify\PHPStanRules\Tests\Rules\CheckClassNamespaceFollowPsr4Rule'),
+                7
+            ]
+        ]];
     }
 
     protected function getRule(): Rule
