@@ -6,12 +6,26 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule;
 
 use Iterator;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
+use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Type\ThisType;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule;
 
 final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
+    public function testProcessNotMethodCall(): void
+    {
+        $scope = $this->createMock(Scope::class);
+        $thisType = $this->createMock(ThisType::class);
+
+        $scope->method('getType')
+            ->willReturn($thisType);
+
+        $this->assertEmpty($this->getRule()->process(new MethodCall(new Variable('this'), 'isCheck'), $scope));
+    }
+
     /**
      * @dataProvider provideData()
      */
