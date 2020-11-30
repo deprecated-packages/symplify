@@ -22,7 +22,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Class namespace %s does not follow PSR-4 configuration in composer.json';
 
     /**
-     * @var string
+     * @var array<string, string>
      */
     private $psr4;
 
@@ -45,13 +45,14 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->psr4 === [] || $node->name === null) {
+        $shortClassName = $node->name;
+        if ($this->psr4 === [] || $shortClassName === null) {
             return [];
         }
 
         $namespacedName = (string) $node->namespacedName;
-        $className = (string) $node->name;
-        $namespaceBeforeClass = substr($namespacedName, 0, - strlen($className));
+        $shortClassName = (string) $shortClassName;
+        $namespaceBeforeClass = substr($namespacedName, 0, - strlen($shortClassName));
         $file = str_replace('\\', '/', $scope->getFile());
 
         foreach ($this->psr4 as $namespace => $directory) {
@@ -103,6 +104,7 @@ CODE_SAMPLE
         string $namespaceBeforeClass,
         string $file
     ): bool {
+        /** @var array<int, string> $paths */
         $paths = explode($directory, $file);
         if (count($paths) === 1) {
             return false;
