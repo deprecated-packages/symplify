@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule;
 use Iterator;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ThisType;
@@ -15,15 +16,25 @@ use Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule;
 
 final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
-    public function testProcessMethodCallNotHasParent(): void
+    /**
+     * @dataProvider provideMethodCallData()
+     */
+    public function testProcessMethodCallNotHasParent($object, $methodName): void
     {
         $scope = $this->createMock(Scope::class);
         $thisType = $this->createMock(ThisType::class);
 
-        $scope->method('getType')
-            ->willReturn($thisType);
+        $type = $scope->method('getType');
+        $type->willReturn($thisType);
 
-        $this->assertEmpty($this->getRule()->process(new MethodCall(new Variable('this'), 'isCheck'), $scope));
+        $rule = $this->getRule();
+        $this->assertEmpty($rule->processNode(new MethodCall(new Variable($object), new Identifier($methodName)), $scope));
+    }
+
+    public function provideMethodCallData()
+    {
+        yield ['this', 'isCheck', []];
+        yield ['obj', 'isCheck', []];
     }
 
     /**
