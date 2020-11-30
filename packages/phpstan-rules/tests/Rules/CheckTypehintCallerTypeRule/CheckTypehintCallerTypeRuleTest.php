@@ -15,7 +15,7 @@ use Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule;
 
 final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
-    public function testProcessNotMethodCall(): void
+    public function testProcessMethodCallNotHasParent(): void
     {
         $scope = $this->createMock(Scope::class);
         $thisType = $this->createMock(ThisType::class);
