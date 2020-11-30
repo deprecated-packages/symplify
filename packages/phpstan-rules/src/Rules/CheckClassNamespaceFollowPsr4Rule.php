@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
@@ -50,13 +51,21 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($this->psr4 === [] || $node->name === null) {
+            return [];
+        }
+
+        $namespacedName = (string) $node->namespacedName;
+        $className      = (string) $node->name;
+        $namespace      = substr($namespacedName, 0, - (strlen($className) + 1));
+
         return [];
     }
 
     private function getPsr4Autoload(SmartFileSystem $smartFileSystem): array
     {
         $composerJsonFile = './composer.json';
-        if (! file_exists($composerJsonFile)) { die('here');
+        if (! file_exists($composerJsonFile)) {
             return [];
         }
 
