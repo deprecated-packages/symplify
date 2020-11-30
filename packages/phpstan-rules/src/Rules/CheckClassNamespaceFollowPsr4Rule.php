@@ -58,6 +58,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
         $namespacedName       = (string) $node->namespacedName;
         $className            = (string) $node->name;
         $namespaceBeforeClass = substr($namespacedName, 0, - strlen($className));
+        $file                 = str_replace('\\', '/', $scope->getFile());
 
         foreach ($this->psr4 as $namespace => $directory) {
             $namespace = rtrim($namespace, '\\') . '\\';
@@ -65,12 +66,29 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
                 return [];
             }
 
-            if (strpos($namespaceBeforeClass, $namespace) === 0) {
-                return [];
+            if ($this->isInDirectoryNamed($scope, $directory)) {
+                if ($this->isClassNamespaceCorrect($namespace, $directory, $namespaceBeforeClass, $file)) {
+                    return [];
+                }
+
+                return [sprintf(self::ERROR_MESSAGE, substr($namespaceBeforeClass, 0, -1))];
             }
         }
 
         return [sprintf(self::ERROR_MESSAGE, substr($namespaceBeforeClass, 0, -1))];
+    }
+
+    private function isClassNamespaceCorrect(string $namespace, string $directory, string $namespaceBeforeClass, string $file): bool
+    {
+        $paths = explode($directory, $file);
+        if (count($paths) === 1) {
+            return false;
+        }
+
+        $namespaceSuffixByDirectoryClass       = ltrim(str_replace('/', '\\', dirname($paths[1])), '\\');
+        $namespaceSuffixByNamespaceBeforeClass = rtrim((string) substr($namespaceBeforeClass, strlen($namespace)), '\\');
+
+        return $namespaceSuffixByDirectoryClass === $namespaceSuffixByNamespaceBeforeClass;
     }
 
     private function getPsr4Autoload(SmartFileSystem $smartFileSystem): array
