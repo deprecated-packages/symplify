@@ -68,8 +68,12 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var Expression $parent */
+        /** @var Expression|null $parent */
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $parent instanceof Node) {
+            return [];
+        }
+
         /** @var If_|null $mayBeif */
         $mayBeif = $parent->getAttribute(PHPStanAttributeKey::PARENT);
 
