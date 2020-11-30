@@ -55,17 +55,17 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
             return [];
         }
 
-        $namespacedName = (string) $node->namespacedName;
-        $className      = (string) $node->name;
-        $namespace      = substr($namespacedName, 0, - (strlen($className) + 1));
+        $namespacedName       = (string) $node->namespacedName;
+        $className            = (string) $node->name;
+        $namespaceBeforeClass = substr($namespacedName, 0, - (strlen($className) + 1));
 
-        foreach ($this->psr4 as $directory => $psr4) {
-            if (strpos($namespace, $directory) === 0) {
+        foreach ($this->psr4 as $namespace => $psr4) {
+            if (strpos($namespaceBeforeClass, $namespace) === 0) {
                 return [];
             }
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $namespace)];
+        return [sprintf(self::ERROR_MESSAGE, $namespaceBeforeClass)];
     }
 
     private function getPsr4Autoload(SmartFileSystem $smartFileSystem): array
