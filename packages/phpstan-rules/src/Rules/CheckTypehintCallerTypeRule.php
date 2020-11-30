@@ -76,7 +76,6 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
 
         /** @var If_|null $mayBeif */
         $mayBeif = $parent->getAttribute(PHPStanAttributeKey::PARENT);
-
         if (! $mayBeif instanceof If_) {
             return [];
         }
