@@ -17,7 +17,7 @@ Add to `config/bundles.php`:
 
 ```php
 return [
-    Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle::class => [
+    Symplify\ComposerJsonManipulator\Bundle\ComposerJsonManipulatorBundle::class => [
         'all' => true,
     ],
 ];

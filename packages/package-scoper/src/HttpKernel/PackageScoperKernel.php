@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PackageScoper\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symplify\ComposerJsonManipulator\ComposerJsonManipulatorBundle;
+use Symplify\ComposerJsonManipulator\Bundle\ComposerJsonManipulatorBundle;
 use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 

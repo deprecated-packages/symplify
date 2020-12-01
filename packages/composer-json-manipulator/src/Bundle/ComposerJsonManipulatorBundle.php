@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ComposerJsonManipulator;
+namespace Symplify\ComposerJsonManipulator\Bundle;
 
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
