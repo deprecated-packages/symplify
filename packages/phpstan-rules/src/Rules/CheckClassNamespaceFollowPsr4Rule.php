@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -19,7 +19,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class namespace %s does not follow PSR-4 configuration in composer.json';
+    public const ERROR_MESSAGE = '%s namespace %s does not follow PSR-4 configuration in composer.json';
 
     /**
      * @var array<string, string>
@@ -36,11 +36,11 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Class_::class];
+        return [ClassLike::class];
     }
 
     /**
-     * @param Class_ $node
+     * @param ClassLike $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
@@ -52,8 +52,8 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
 
         $namespacedName = (string) $node->namespacedName;
         $shortClassName = (string) $shortClassName;
-        $namespaceBeforeClass = substr($namespacedName, 0, - strlen($shortClassName));
         $file = str_replace('\\', '/', $scope->getFile());
+        $namespaceBeforeClass = substr($namespacedName, 0, - strlen($shortClassName));
 
         foreach ($this->psr4 as $namespace => $directory) {
             $namespace = rtrim($namespace, '\\') . '\\';
@@ -70,7 +70,8 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
             }
         }
 
-        return [sprintf(self::ERROR_MESSAGE, substr($namespaceBeforeClass, 0, -1))];
+        $type = $this->getType($namespacedName, $file);
+        return [sprintf(self::ERROR_MESSAGE, $type, substr($namespaceBeforeClass, 0, -1))];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -96,6 +97,24 @@ class Baz
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function getType(string $namespacedName, string $file): string
+    {
+        // totally different namespace needs include file
+        include_once $file;
+
+        $type = 'Class';
+
+        if (trait_exists($namespacedName)) {
+            $type = 'Trait';
+        }
+
+        if (interface_exists($namespacedName)) {
+            $type = 'Interface';
+        }
+
+        return $type;
     }
 
     private function isClassNamespaceCorrect(
