@@ -52,6 +52,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::PHP_70,
         SetList::PHP_71,
         SetList::PHP_72,
+        SetList::PHP_73,
         SetList::TYPE_DECLARATION,
         SetList::PHPUNIT_CODE_QUALITY,
         SetList::NAMING,
@@ -59,13 +60,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
 
-    $parameters->set(Option::EXCLUDE_RECTORS, [
-        // fixed on master 2020-10-16
-        MakeBoolPropertyRespectIsHasWasMethodNamingRector::class,
-        MakeIsserClassMethodNameStartWithIsRector::class,
-    ]);
+//    $parameters->set(Option::SKIP, [
+//        // fixed on master 2020-10-16
+//        MakeBoolPropertyRespectIsHasWasMethodNamingRector::class,
+//        MakeIsserClassMethodNameStartWithIsRector::class,
+//    ]);
 
-    $parameters->set(Option::EXCLUDE_PATHS, [
+    $parameters->set(Option::SKIP, [
         '*/scoper.inc.php',
         '/vendor/',
         '/init/',

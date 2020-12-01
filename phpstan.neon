@@ -40,7 +40,6 @@ parameters:
     paths:
         - packages
         - ecs.php
-        #- rector-ci.php
 
     excludes_analyse:
         # there is some bug

@@ -29,7 +29,7 @@ jobs:
                     -
                         name: "Re-Apply Rector Rules"
                         run: |
-                            vendor/bin/rector rectify --config rector-ci.php --ansi --no-progress-bar
+                            vendor/bin/rector process --ansi --no-progress-bar
                             packages/easy-coding-standard/bin/ecs check --match-git-diff --fix --ansi
                         branch: 'automated-re-apply-rector'
 
