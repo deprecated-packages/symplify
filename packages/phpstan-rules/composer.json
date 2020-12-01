@@ -26,6 +26,7 @@
         }
     },
     "autoload-dev": {
+        "files": ["packages/phpstan-rules/tests/Rules/NoFuncCallInMethodCallRule/Source/Namespaced.php"],
         "psr-4": {
             "Symplify\\PHPStanRules\\Tests\\": "tests",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/object-calisthenics/tests",
