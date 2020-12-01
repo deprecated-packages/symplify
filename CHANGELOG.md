@@ -9,7 +9,188 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## 9.0.0-BETA2 - 2020-11-15
+## Unreleased
+
+### Added
+
+#### CodingStandard
+
+- [#2498] Fixes [#2493] Add RemoveUselessClassCommentFixer, Thanks to [@samsonasik]
+- [#2522] Fixes [#2517] Add Handle useless method comment in RemoveUselessClassCommentFixer, Thanks to [@samsonasik]
+
+#### ComposerJsonManipulator
+
+- [#2494] Add type
+
+#### ConfigTransformer
+
+- [#2539] Add new package
+
+#### EasyCI
+
+- [#2528] Add a new package
+
+#### LatteToTwig
+
+- [#2531] Add a new package
+
+#### PHPConfigPrinter
+
+- [#2527] Add a new package
+
+#### PHPStanRules
+
+- [#2550] Fixes [#2330] Add ForbiddenCallOnTypeRule, Thanks to [@samsonasik]
+- [#2529] Add foreach over nested
+- [#2557] Fixes [#2548] Add CheckOptionArgumentCommandRule, Thanks to [@samsonasik]
+- [#2499] Add configuration to NoChainMethodCallRule
+- [#2559] Fixes [#2327] Add CheckTypehintCallerTypeRule, Thanks to [@samsonasik]
+- [#2515] Add RequireClassTypeInClassMethodByTypeRule
+
+#### PHPUnitUpgrader
+
+- [#2537] Add new package
+
+#### RuleDocGeneator
+
+- [#2510] Add ComposerJsonAwareCodeSample
+
+#### RuleDocGenerator
+
+- [#2511] Add ExtraFileCodeSampler
+- [#2509] Add Rector print support
+- [#2547] Add count to the top + category
+
+#### SimplePhpDocParser
+
+- [#2552] Add new package
+
+#### Skipper
+
+- [#2553] Various paths improvements, add shouldSkipElement() method
+- [#2546] Add SkippedPathsResolver
+- [#2495] Add a fix for PathNormalizer if Path contains "..", Thanks to [@tomasnorre]
+
+#### StaticDetector
+
+- [#2533] Add new package
+
+#### SymfonyPhpConfig
+
+- [#2549] Add a new package
+
+#### TemplateChecker
+
+- [#2535] Add a new package
+
+#### Unknown Package
+
+- [#2544] README: add Symplify 9 packages to list
+- [#2536] [PSR-4 Switcher] Add a new package
+
+#### VendorPatches
+
+- [#2534] Add a new package
+
+### Changed
+
+#### CI
+
+- [#2496] Move coding standards from ci-reivew to daily-prs
+- [#2497] Move ci-review + rector-ci to daily PRs to speedup contributions
+
+#### ClassPresence
+
+- [#2541] Init new packages
+
+#### ConsolePackageBuilder
+
+- [#2542] Init a new package
+
+#### EasyHydrator
+
+- [#2521] ScalarTypeCaster supports float, Thanks to [@janatjak]
+
+#### LatteToTwigConverter
+
+- [#2532] Make name more explicit
+
+#### NeonToYamlConverter
+
+- [#2538] Init a new package
+
+#### PHPStanRules
+
+- [#2513] Make ForbiddenMethodOrStaticCallInIfRule skip trinary logic
+- [#2505] Allow parsing parent classes from phar
+- [#2503] Skip spready in RobotLoader addDirectory
+- [#2500] Make ClassLikeCognitiveComplexityRule configurable by class type
+- [#2512] Allow match in calls
+- [#2568] Improve CheckTypehintCallerTypeRule : skip non private and multiple usages, Thanks to [@samsonasik]
+
+#### RuleDocGenerator
+
+- [#2506] Allow multiple dirs
+
+#### Skipper
+
+- [#2545] Decouple to collector
+- [#2543] decouple FileInfoMatcher, OnlySkipper
+
+#### SnifferFixerToECSConverter
+
+- [#2540] Init a new package
+
+#### SymfonyPhpConfig
+
+- [#2551] Move from functions to static class
+
+#### Unknown Package
+
+- [#2492] Automated Update of Changelog on 2020-11-15, Thanks to [@github-actions][bot]
+- [#2501] Define package as PHPStan Extension, Thanks to [@szepeviktor]
+- [#2558] phpstan typo in readme, Thanks to [@alexcutts]
+- [#2554] normalize readme
+
+#### automated
+
+- [#2566] Re-Generate Docs, Thanks to [@github-actions][bot]
+- [#2562] Re-Apply Coding Standards, Thanks to [@github-actions][bot]
+- [#2561] Re-Generate Docs, Thanks to [@github-actions][bot]
+- [#2556] Re-Generate Docs, Thanks to [@github-actions][bot]
+- [#2504] Re-Apply Rector Rules, Thanks to [@github-actions][bot]
+- [#2567] Re-Apply Coding Standards, Thanks to [@github-actions][bot]
+- [#2514] Re-Apply Rector Rules, Thanks to [@github-actions][bot]
+
+#### phpstan
+
+- [#2525] limit class complexity by type
+
+### Fixed
+
+#### CodingStandard
+
+- [#2519] Fixes [#2517] improve RemoveUselessClassCommentFixer : remove useless constructor comment, Thanks to [@samsonasik]
+
+#### EasyHydrator
+
+- [#2520] ObjectTypeCaster fix indexed array of objects, Thanks to [@janatjak]
+
+#### PHPStanRules
+
+- [#2563] Fixes to ensure check next node instanceof Identifier on CheckUsedNamespacedNameOnClassNodeRule, Thanks to [@samsonasik]
+- [#2564] Fixes node->getAttribute() got null on CheckTypehintCallerTypeRule, Thanks to [@samsonasik]
+
+#### SymfonyStaticDumper
+
+- [#2555] Fixes [#2108] : Document usage for controllers with arguments, Thanks to [@samsonasik]
+
+#### Unknown Package
+
+- [#2502] Fix link in README to work in a monorepo too, Thanks to [@szepeviktor]
+- [#2524] Fix typo in code sample, Thanks to [@staabm]
+
+## [9.0.0-BETA2] - 2020-11-15
 
 ### Added
 
@@ -1579,3 +1760,78 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#2208]: https://github.com/symplify/symplify/pull/2208
 [@github-actions]: https://github.com/github-actions
 [9.0.0-BETA1]: https://github.com/symplify/symplify/compare/8.3.5...9.0.0-BETA1
+[#2568]: https://github.com/symplify/symplify/pull/2568
+[#2567]: https://github.com/symplify/symplify/pull/2567
+[#2566]: https://github.com/symplify/symplify/pull/2566
+[#2564]: https://github.com/symplify/symplify/pull/2564
+[#2563]: https://github.com/symplify/symplify/pull/2563
+[#2562]: https://github.com/symplify/symplify/pull/2562
+[#2561]: https://github.com/symplify/symplify/pull/2561
+[#2559]: https://github.com/symplify/symplify/pull/2559
+[#2558]: https://github.com/symplify/symplify/pull/2558
+[#2557]: https://github.com/symplify/symplify/pull/2557
+[#2556]: https://github.com/symplify/symplify/pull/2556
+[#2555]: https://github.com/symplify/symplify/pull/2555
+[#2554]: https://github.com/symplify/symplify/pull/2554
+[#2553]: https://github.com/symplify/symplify/pull/2553
+[#2552]: https://github.com/symplify/symplify/pull/2552
+[#2551]: https://github.com/symplify/symplify/pull/2551
+[#2550]: https://github.com/symplify/symplify/pull/2550
+[#2549]: https://github.com/symplify/symplify/pull/2549
+[#2548]: https://github.com/symplify/symplify/pull/2548
+[#2547]: https://github.com/symplify/symplify/pull/2547
+[#2546]: https://github.com/symplify/symplify/pull/2546
+[#2545]: https://github.com/symplify/symplify/pull/2545
+[#2544]: https://github.com/symplify/symplify/pull/2544
+[#2543]: https://github.com/symplify/symplify/pull/2543
+[#2542]: https://github.com/symplify/symplify/pull/2542
+[#2541]: https://github.com/symplify/symplify/pull/2541
+[#2540]: https://github.com/symplify/symplify/pull/2540
+[#2539]: https://github.com/symplify/symplify/pull/2539
+[#2538]: https://github.com/symplify/symplify/pull/2538
+[#2537]: https://github.com/symplify/symplify/pull/2537
+[#2536]: https://github.com/symplify/symplify/pull/2536
+[#2535]: https://github.com/symplify/symplify/pull/2535
+[#2534]: https://github.com/symplify/symplify/pull/2534
+[#2533]: https://github.com/symplify/symplify/pull/2533
+[#2532]: https://github.com/symplify/symplify/pull/2532
+[#2531]: https://github.com/symplify/symplify/pull/2531
+[#2529]: https://github.com/symplify/symplify/pull/2529
+[#2528]: https://github.com/symplify/symplify/pull/2528
+[#2527]: https://github.com/symplify/symplify/pull/2527
+[#2525]: https://github.com/symplify/symplify/pull/2525
+[#2524]: https://github.com/symplify/symplify/pull/2524
+[#2522]: https://github.com/symplify/symplify/pull/2522
+[#2521]: https://github.com/symplify/symplify/pull/2521
+[#2520]: https://github.com/symplify/symplify/pull/2520
+[#2519]: https://github.com/symplify/symplify/pull/2519
+[#2517]: https://github.com/symplify/symplify/pull/2517
+[#2515]: https://github.com/symplify/symplify/pull/2515
+[#2514]: https://github.com/symplify/symplify/pull/2514
+[#2513]: https://github.com/symplify/symplify/pull/2513
+[#2512]: https://github.com/symplify/symplify/pull/2512
+[#2511]: https://github.com/symplify/symplify/pull/2511
+[#2510]: https://github.com/symplify/symplify/pull/2510
+[#2509]: https://github.com/symplify/symplify/pull/2509
+[#2506]: https://github.com/symplify/symplify/pull/2506
+[#2505]: https://github.com/symplify/symplify/pull/2505
+[#2504]: https://github.com/symplify/symplify/pull/2504
+[#2503]: https://github.com/symplify/symplify/pull/2503
+[#2502]: https://github.com/symplify/symplify/pull/2502
+[#2501]: https://github.com/symplify/symplify/pull/2501
+[#2500]: https://github.com/symplify/symplify/pull/2500
+[#2499]: https://github.com/symplify/symplify/pull/2499
+[#2498]: https://github.com/symplify/symplify/pull/2498
+[#2497]: https://github.com/symplify/symplify/pull/2497
+[#2496]: https://github.com/symplify/symplify/pull/2496
+[#2495]: https://github.com/symplify/symplify/pull/2495
+[#2494]: https://github.com/symplify/symplify/pull/2494
+[#2493]: https://github.com/symplify/symplify/pull/2493
+[#2492]: https://github.com/symplify/symplify/pull/2492
+[#2330]: https://github.com/symplify/symplify/pull/2330
+[#2327]: https://github.com/symplify/symplify/pull/2327
+[#2108]: https://github.com/symplify/symplify/pull/2108
+[@tomasnorre]: https://github.com/tomasnorre
+[@szepeviktor]: https://github.com/szepeviktor
+[@alexcutts]: https://github.com/alexcutts
+[9.0.0-BETA2]: https://github.com/symplify/symplify/compare/9.0.0-BETA1...9.0.0-BETA2
