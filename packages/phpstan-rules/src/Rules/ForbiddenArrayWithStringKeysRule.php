@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\FuncCall;
@@ -121,6 +122,11 @@ CODE_SAMPLE
 
     private function shouldSkipArray(Array_ $array, Scope $scope): bool
     {
+        // skip part of attribute
+        if ((bool) $this->getFirstParentByType($array, Attribute::class)) {
+            return true;
+        }
+
         if (Strings::match($scope->getFile(), self::TEST_FILE_REGEX)) {
             return true;
         }

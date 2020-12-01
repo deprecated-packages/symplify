@@ -60,13 +60,7 @@ final class CheckerServiceParametersShifter
     public function __construct()
     {
         $this->stringFormatConverter = new StringFormatConverter();
-
-        $reflectionClass = new ReflectionClass(YamlFileLoader::class);
-
-        /** @var string[] $serviceKeywordsProperty */
-        $serviceKeywordsProperty = $reflectionClass->getStaticProperties()['serviceKeywords'];
-
-        $this->serviceKeywords = $serviceKeywordsProperty;
+        $this->initializeServiceKeywords();
     }
 
     /**
@@ -220,5 +214,16 @@ final class CheckerServiceParametersShifter
         }
 
         return Strings::replace($value, '#^@#', '@@');
+    }
+
+    private function initializeServiceKeywords(): void
+    {
+        $reflectionClass = new ReflectionClass(YamlFileLoader::class);
+        /** @var array<string, mixed> $staticProperties */
+        $staticProperties = (array) $reflectionClass->getStaticProperties();
+        /** @var string[] $serviceKeywordsProperty */
+        $serviceKeywordsProperty = $staticProperties['serviceKeywords'];
+
+        $this->serviceKeywords = $serviceKeywordsProperty;
     }
 }

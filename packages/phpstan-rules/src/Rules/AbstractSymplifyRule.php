@@ -146,7 +146,9 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
     {
         /** @var Identifier $name */
         $name = $class->namespacedName;
-        $usedTraits = class_uses($name->toString());
+
+        /** @var string[] $usedTraits */
+        $usedTraits = (array) class_uses($name->toString());
 
         foreach ($usedTraits as $trait) {
             $reflectionClass = new ReflectionClass($trait);

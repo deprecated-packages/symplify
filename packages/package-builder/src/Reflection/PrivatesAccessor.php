@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PackageBuilder\Reflection;
 
 use ReflectionProperty;
+use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 
 /**
  * @see \Symplify\PackageBuilder\Tests\Reflection\PrivatesAccessorTest
@@ -16,7 +17,12 @@ final class PrivatesAccessor
         if (property_exists($object, $propertyName)) {
             $propertyReflection = new ReflectionProperty($object, $propertyName);
         } else {
-            $propertyReflection = new ReflectionProperty(get_parent_class($object), $propertyName);
+            $parentClass = get_parent_class($object);
+            if ($parentClass === false) {
+                throw new ShouldNotHappenException();
+            }
+
+            $propertyReflection = new ReflectionProperty($parentClass, $propertyName);
         }
         $propertyReflection->setAccessible(true);
 
