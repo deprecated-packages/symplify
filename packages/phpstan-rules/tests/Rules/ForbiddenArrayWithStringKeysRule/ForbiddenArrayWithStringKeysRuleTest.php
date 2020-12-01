@@ -19,6 +19,15 @@ final class ForbiddenArrayWithStringKeysRuleTest extends AbstractServiceAwareRul
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @requires PHP 8.0
+     */
+    public function testPhp8Rule(): void
+    {
+        $filePath = __DIR__ . '/FixturePhp80/SkipAttributeArrayKey.php';
+        $this->analyse([$filePath], []);
+    }
+
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/ArrayWithStrings.php', [[ForbiddenArrayWithStringKeysRule::ERROR_MESSAGE, 11]]];
