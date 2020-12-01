@@ -26,6 +26,8 @@ final class NoArrayAccessOnObjectRuleTest extends AbstractServiceAwareRuleTestCa
 
         yield [__DIR__ . '/Fixture/SkipOnArray.php', []];
         yield [__DIR__ . '/Fixture/SkipSplFixedArray.php', []];
+        yield [__DIR__ . '/Fixture/SkipXml.php', []];
+        yield [__DIR__ . '/Fixture/SkipXmlElementForeach.php', []];
     }
 
     protected function getRule(): Rule

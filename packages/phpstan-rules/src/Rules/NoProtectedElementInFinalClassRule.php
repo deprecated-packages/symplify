@@ -110,7 +110,10 @@ CODE_SAMPLE
     {
         /** @var Identifier $name */
         $name = $class->namespacedName;
-        $usedTraits = class_uses($name->toString());
+
+        /** @var string[] $usedTraits */
+        $usedTraits = (array) class_uses($name->toString());
+
         foreach ($usedTraits as $trait) {
             $r = new ReflectionClass($trait);
             if ($r->hasProperty($propertyName)) {

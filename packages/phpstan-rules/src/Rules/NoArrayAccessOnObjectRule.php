@@ -8,7 +8,9 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
+use SimpleXMLElement;
 use SplFixedArray;
+use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -21,6 +23,21 @@ final class NoArrayAccessOnObjectRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Use explicit methods over array access on object';
+
+    /**
+     * @var string[]
+     */
+    private const ALLOWED_CLASSES = [SplFixedArray::class, SimpleXMLElement::class];
+
+    /**
+     * @var ArrayStringAndFnMatcher
+     */
+    private $arrayStringAndFnMatcher;
+
+    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher)
+    {
+        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
+    }
 
     /**
      * @return string[]
@@ -37,11 +54,12 @@ final class NoArrayAccessOnObjectRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $varStaticType = $scope->getType($node->var);
+
         if (! $varStaticType instanceof TypeWithClassName) {
             return [];
         }
 
-        if (is_a($varStaticType->getClassName(), SplFixedArray::class, true)) {
+        if ($this->arrayStringAndFnMatcher->isMatchWithIsA($varStaticType->getClassName(), self::ALLOWED_CLASSES)) {
             return [];
         }
 

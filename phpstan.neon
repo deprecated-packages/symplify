@@ -390,3 +390,6 @@ parameters:
         -
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'
             path: 'packages/smart-file-system/src/Normalizer/PathNormalizer.php'
+
+
+        - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
