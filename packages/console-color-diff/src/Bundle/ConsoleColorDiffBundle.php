@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ConsoleColorDiff;
+namespace Symplify\ConsoleColorDiff\Bundle;
 
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;

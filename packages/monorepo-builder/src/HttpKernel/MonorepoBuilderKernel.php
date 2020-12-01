@@ -8,7 +8,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\ComposerJsonManipulator\Bundle\ComposerJsonManipulatorBundle;
-use Symplify\ConsoleColorDiff\ConsoleColorDiffBundle;
+use Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;

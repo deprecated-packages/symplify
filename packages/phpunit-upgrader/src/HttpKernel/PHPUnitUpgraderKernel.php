@@ -6,7 +6,7 @@ namespace Symplify\PHPUnitUpgrader\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\ConsoleColorDiff\ConsoleColorDiffBundle;
+use Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle;
 use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 

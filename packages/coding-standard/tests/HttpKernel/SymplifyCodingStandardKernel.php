@@ -7,7 +7,7 @@ namespace Symplify\CodingStandard\Tests\HttpKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\CodingStandard\Bundle\SymplifyCodingStandardBundle;
-use Symplify\ConsoleColorDiff\ConsoleColorDiffBundle;
+use Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle;
 use Symplify\EasyCodingStandard\Bundle\EasyCodingStandardBundle;
 
 final class SymplifyCodingStandardKernel extends Kernel

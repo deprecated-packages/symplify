@@ -12,7 +12,7 @@ Add to `config/bundles.php`:
 
 ```php
 return [
-    Symplify\ConsoleColorDiff\ConsoleColorDiffBundle::class => [
+    Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle::class => [
         'all' => true,
     ],
 ];
