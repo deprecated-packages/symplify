@@ -37,6 +37,8 @@ jobs:
 
             -
                 if: "matrix.php >= 8"
-                run: composer install --no-progress --ansi --ignore-platform-reqs
+                uses: "ramsey/composer-install@v1"
+                with:
+                    composer-options: "--ignore-platform-reqs"
 
             -   run: vendor/bin/phpunit

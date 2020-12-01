@@ -53,6 +53,9 @@ jobs:
                     coverage: none
 
             # composer install cache - https://github.com/ramsey/composer-install
-            -   uses: "ramsey/composer-install@v1"
+            -
+                uses: "ramsey/composer-install@v1"
+                with:
+                    composer-options: "--ignore-platform-reqs"
 
             -   run: ${{ matrix.actions.run }}
