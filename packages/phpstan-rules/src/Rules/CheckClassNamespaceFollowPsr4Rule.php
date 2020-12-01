@@ -24,11 +24,11 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     /**
      * @var array<string, string>
      */
-    private $psr4;
+    private $autoloadPsr4Paths = [];
 
     public function __construct(SmartFileSystem $smartFileSystem)
     {
-        $this->psr4 = $this->getPsr4Autoload($smartFileSystem);
+        $this->autoloadPsr4Paths = $this->getPsr4Autoload($smartFileSystem);
     }
 
     /**
@@ -46,7 +46,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $shortClassName = $node->name;
-        if ($this->psr4 === [] || $shortClassName === null) {
+        if ($this->autoloadPsr4Paths === [] || $shortClassName === null) {
             return [];
         }
 
@@ -55,7 +55,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
         $file = str_replace('\\', '/', $scope->getFile());
         $namespaceBeforeClass = substr($namespacedName, 0, - strlen($shortClassName));
 
-        foreach ($this->psr4 as $namespace => $directory) {
+        foreach ($this->autoloadPsr4Paths as $namespace => $directory) {
             $namespace = rtrim($namespace, '\\') . '\\';
             if ($namespaceBeforeClass === $namespace) {
                 return [];
