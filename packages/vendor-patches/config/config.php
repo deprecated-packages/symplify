@@ -6,7 +6,7 @@ use SebastianBergmann\Diff\Differ;
 use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Composer\VendorDirProvider;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -26,7 +26,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(Differ::class)
         ->args([
-            '$outputBuilder' => ref(UnifiedDiffOutputBuilder::class),
+            '$outputBuilder' => service(UnifiedDiffOutputBuilder::class),
         ]);
 
     $services->set(VendorDirProvider::class);

@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
 use Symplify\SymfonyRouteUsage\Tests\Routing\RouterFactory;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/packages/*');
@@ -22,10 +22,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(CacheInterface::class, Psr16Cache::class);
 
     $services->set(Security::class)
-        ->args([ref('service_container')]);
+        ->args([service('service_container')]);
 
     $services->set(RouterFactory::class);
     $services->set(Router::class)
-        ->factory([ref(RouterFactory::class), 'create']);
+        ->factory([service(RouterFactory::class), 'create']);
     $services->alias(RouterInterface::class, Router::class);
 };

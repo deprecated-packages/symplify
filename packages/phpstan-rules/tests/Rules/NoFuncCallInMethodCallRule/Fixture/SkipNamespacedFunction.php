@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NoFuncCallInMethodCallRule\Fixture;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symplify\PHPStanRules\Tests\Rules\NoFuncCallInMethodCallRule\Source\some_function;
 
 final class SkipNamespacedFunction
 {
-    public function something()
+    public function something(): void
     {
-        $this->process(ref('reference'));
+        $this->process(some_function());
     }
 
-    private function process(\Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator $ref)
+    private function process(string $ref)
     {
     }
 }

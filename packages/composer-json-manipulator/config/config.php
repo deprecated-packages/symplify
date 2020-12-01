@@ -8,7 +8,7 @@ use Symplify\ComposerJsonManipulator\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\SmartFileSystem\SmartFileSystem;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
@@ -28,5 +28,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PrivatesCaller::class);
 
     $services->set(ParameterProvider::class)
-        ->args([ref(ContainerInterface::class)]);
+        ->args([service(ContainerInterface::class)]);
 };
