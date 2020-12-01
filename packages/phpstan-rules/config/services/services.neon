@@ -25,3 +25,4 @@ services:
         factory: ['@Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory', 'create']
 
     - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer
+    - Symplify\PHPStanRules\ComposerAutoloadResolver

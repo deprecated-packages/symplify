@@ -7,9 +7,9 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\ComposerAutoloadResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckClassNamespaceFollowPsr4Rule\CheckClassNamespaceFollowPsr4RuleTest
@@ -26,9 +26,9 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
      */
     private $autoloadPsr4Paths = [];
 
-    public function __construct(SmartFileSystem $smartFileSystem)
+    public function __construct(ComposerAutoloadResolver $composerAutoloadResolver)
     {
-        $this->autoloadPsr4Paths = $this->getPsr4Autoload($smartFileSystem);
+        $this->autoloadPsr4Paths = $composerAutoloadResolver->getPsr4Autoload();
     }
 
     /**
@@ -136,19 +136,5 @@ CODE_SAMPLE
         );
 
         return $namespaceSuffixByDirectoryClass === $namespaceSuffixByNamespaceBeforeClass;
-    }
-
-    private function getPsr4Autoload(SmartFileSystem $smartFileSystem): array
-    {
-        $composerJsonFile = './composer.json';
-        if (! file_exists($composerJsonFile)) {
-            return [];
-        }
-
-        $composerJsonContent = json_decode($smartFileSystem->readFile($composerJsonFile), true);
-        $autoloadPsr4 = $composerJsonContent['autoload']['psr-4'] ?? [];
-        $autoloadDevPsr4 = $composerJsonContent['autoload-dev']['psr-4'] ?? [];
-
-        return $autoloadPsr4 + $autoloadDevPsr4;
     }
 }
