@@ -3,7 +3,7 @@
     "description": "Resolve config and sets from configs and cli opptions for CLI applications",
     "license": "MIT",
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "nette/utils": "^3.0",
         "symfony/yaml": "^4.4|^5.1",
         "symfony/config": "^4.4|^5.1",

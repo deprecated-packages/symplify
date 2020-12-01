@@ -6,7 +6,7 @@
         "bin/config-transformer"
     ],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "ext-dom": "*",
         "symfony/dependency-injection": "^5.1",
         "symfony/console": "^4.4|^5.1",

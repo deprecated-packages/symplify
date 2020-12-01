@@ -4,7 +4,7 @@
     "type": "symfony-bundle",
     "license": "MIT",
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "ext-pdo": "*",
         "symplify/package-builder": "^9.0",
         "symplify/smart-file-system": "^9.0",

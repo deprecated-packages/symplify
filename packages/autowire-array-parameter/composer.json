@@ -3,7 +3,7 @@
     "description": "Autowire array parameters for your Symfony applications",
     "license": "MIT",
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "nette/utils": "^3.0",
         "symfony/dependency-injection": "^5.1",
         "symplify/package-builder": "^9.0"

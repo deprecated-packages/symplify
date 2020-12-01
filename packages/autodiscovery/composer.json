@@ -6,7 +6,7 @@
         "bin/autodiscovery"
     ],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "nette/utils": "^3.0",
         "symfony/dependency-injection": "^5.1",
         "symfony/finder": "^4.4|^5.1",

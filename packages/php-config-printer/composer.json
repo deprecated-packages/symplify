@@ -3,7 +3,7 @@
     "description": "Print Symfony services array with configuration to to plain PHP file format thanks to this simple php-parser wrapper",
     "license": "MIT",
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "nette/utils": "^3.0",
         "nikic/php-parser": "^4.10.2",
         "symfony/http-kernel": "^4.4|^5.1",

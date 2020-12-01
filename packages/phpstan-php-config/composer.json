@@ -3,7 +3,7 @@
     "description": "Use PHP config syntax to configure PHPStan in phpstan.php",
     "license": "MIT",
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "phpstan/phpstan": "^0.12.57",
         "symfony/console": "^4.4|^5.1",
         "symplify/smart-file-system": "^9.0",
