@@ -71,7 +71,6 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
-            "Symplify\\SimplePhpDocParser\\": "packages/simple-php-doc-parser/src",
             "Symplify\\Autodiscovery\\": "packages/autodiscovery/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\ChangelogLinker\\": "packages/changelog-linker/src",
@@ -113,6 +112,7 @@
             "Symplify\\Psr4Switcher\\": "packages/psr4-switcher/src",
             "Symplify\\RuleDocGenerator\\": "packages/rule-doc-generator/src",
             "Symplify\\SetConfigResolver\\": "packages/set-config-resolver/src",
+            "Symplify\\SimplePhpDocParser\\": "packages/simple-php-doc-parser/src",
             "Symplify\\Skipper\\": "packages/skipper/src",
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
             "Symplify\\SnifferFixerToECSConverter\\": "packages/sniffer-fixer-to-ecs-converter/src",
@@ -133,6 +133,7 @@
         "files": [
             "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_object_function.php",
             "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_objects_function.php",
+            "packages/phpstan-rules/tests/Rules/NoFuncCallInMethodCallRule/Source/Namespaced.php",
             "vendor/squizlabs/php_codesniffer/autoload.php",
             "vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php"
         ],
