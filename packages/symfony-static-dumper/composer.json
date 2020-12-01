@@ -16,7 +16,8 @@
         "symplify/autowire-array-parameter": "^9.0",
         "symplify/package-builder": "^9.0",
         "symplify/symplify-kernel": "^9.0",
-        "symplify/smart-file-system": "^9.0"
+        "symplify/smart-file-system": "^9.0",
+        "symplify/console-package-builder": "^9.0"
     },
     "require-dev": {
         "doctrine/annotations": "^1.10",
