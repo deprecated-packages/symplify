@@ -176,6 +176,10 @@ CODE_SAMPLE
 
             $dependency = $this->getDependency($property);
 
+            if ($dependency === null) {
+                continue;
+            }
+
             if ($isController && Strings::match($dependency, self::LAYER_NOT_MATCH['Controller'])) {
                 return [sprintf(self::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository')];
             }
