@@ -8,7 +8,9 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 class ComposerAutoloadResolver
 {
-    /** @var SmartFileSystem */
+    /**
+     * @var SmartFileSystem
+     */
     private $smartFileSystem;
 
     public function __construct(SmartFileSystem $smartFileSystem)

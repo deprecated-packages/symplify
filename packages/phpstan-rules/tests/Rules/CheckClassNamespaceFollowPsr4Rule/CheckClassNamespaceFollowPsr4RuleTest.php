@@ -21,9 +21,11 @@ final class CheckClassNamespaceFollowPsr4RuleTest extends AbstractServiceAwareRu
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipAnonymousClass.php', []];
         yield [__DIR__ . '/Fixture/ValidNamespaceClass.php', []];
         yield [__DIR__ . '/Fixture/ValidNamespaceInterface.php', []];
         yield [__DIR__ . '/Fixture/ValidNamespaceTrait.php', []];
+
         yield [__DIR__ . '/Fixture/InvalidNamespaceClass.php', [
             [sprintf(CheckClassNamespaceFollowPsr4Rule::ERROR_MESSAGE, 'Class', 'Foo\Bar'), 7],
         ]];
