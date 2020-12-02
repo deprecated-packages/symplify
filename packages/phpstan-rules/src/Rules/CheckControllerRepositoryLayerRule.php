@@ -200,10 +200,6 @@ CODE_SAMPLE
         }
 
         $text = $docComment->getText();
-        if ($text === null) {
-            return null;
-        }
-
         $match = Strings::match($text, self::DEPENDENCY_VAR_REGEX);
         if ($match) {
             return $match[1];
