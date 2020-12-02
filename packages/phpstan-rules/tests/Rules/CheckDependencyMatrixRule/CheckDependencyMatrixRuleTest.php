@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckControllerRepositoryLayerRule;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckDependencyMatrixRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\CheckControllerRepositoryLayerRule;
+use Symplify\PHPStanRules\Rules\CheckDependencyMatrixRule;
 
-final class CheckControllerRepositoryLayerRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckDependencyMatrixRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -28,7 +28,7 @@ final class CheckControllerRepositoryLayerRuleTest extends AbstractServiceAwareR
         yield [__DIR__ . '/Fixture/Controller/WithFormDependency.php', []];
         yield [__DIR__ . '/Fixture/Controller/WithEntityManagerDependency.php', [
             [
-                sprintf(CheckControllerRepositoryLayerRule::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository'),
+                sprintf(CheckDependencyMatrixRule::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository'),
                 7,
             ],
         ]];
@@ -36,14 +36,14 @@ final class CheckControllerRepositoryLayerRuleTest extends AbstractServiceAwareR
         yield [__DIR__ . '/Fixture/Repository/NoDependency.php', []];
         yield [__DIR__ . '/Fixture/Repository/WithEntityManagerDependency.php', []];
         yield [__DIR__ . '/Fixture/Repository/WithFormDependency.php', [
-            [sprintf(CheckControllerRepositoryLayerRule::ERROR_MESSAGE, 'Repository', 'Form', 'EntityManager'), 7],
+            [sprintf(CheckDependencyMatrixRule::ERROR_MESSAGE, 'Repository', 'Form', 'EntityManager'), 7],
         ]];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            CheckControllerRepositoryLayerRule::class,
+            CheckDependencyMatrixRule::class,
             __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }

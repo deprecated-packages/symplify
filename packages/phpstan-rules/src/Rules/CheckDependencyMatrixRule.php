@@ -16,9 +16,9 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\CheckControllerRepositoryLayerRule\CheckControllerRepositoryLayerRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\CheckDependencyMatrixRule\CheckDependencyMatrixRuleTest
  */
-final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
+final class CheckDependencyMatrixRule extends AbstractSymplifyRule
 {
     /**
      * @var string

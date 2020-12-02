@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckControllerRepositoryLayerRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckDependencyMatrixRule\Fixture;
 
 class NotControllerRepositoryWithExtends extends Form
 {

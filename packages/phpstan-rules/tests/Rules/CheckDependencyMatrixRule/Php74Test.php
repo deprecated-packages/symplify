@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckControllerRepositoryLayerRule;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckDependencyMatrixRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\CheckControllerRepositoryLayerRule;
+use Symplify\PHPStanRules\Rules\CheckDependencyMatrixRule;
 
 /**
  * @requires PHP 7.4
@@ -26,20 +26,20 @@ final class Php74Test extends AbstractServiceAwareRuleTestCase
     {
         yield [__DIR__ . '/FixturePhp74/Controller/WithEntityManagerDependency.php', [
             [
-                sprintf(CheckControllerRepositoryLayerRule::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository'),
+                sprintf(CheckDependencyMatrixRule::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository'),
                 7,
             ],
         ]];
 
         yield [__DIR__ . '/FixturePhp74/Repository/WithFormDependency.php', [
-            [sprintf(CheckControllerRepositoryLayerRule::ERROR_MESSAGE, 'Repository', 'Form', 'EntityManager'), 7],
+            [sprintf(CheckDependencyMatrixRule::ERROR_MESSAGE, 'Repository', 'Form', 'EntityManager'), 7],
         ]];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            CheckControllerRepositoryLayerRule::class,
+            CheckDependencyMatrixRule::class,
             __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }
