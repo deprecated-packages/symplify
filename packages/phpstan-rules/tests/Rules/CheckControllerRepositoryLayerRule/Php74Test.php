@@ -9,7 +9,10 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckControllerRepositoryLayerRule;
 
-final class CheckControllerRepositoryLayerPHP74RuleTest extends AbstractServiceAwareRuleTestCase
+/**
+ * @requires PHP 7.4
+ */
+final class Php74Test extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -21,14 +24,14 @@ final class CheckControllerRepositoryLayerPHP74RuleTest extends AbstractServiceA
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture74/Controller/WithEntityManagerDependency.php', [
+        yield [__DIR__ . '/FixturePhp74/Controller/WithEntityManagerDependency.php', [
             [
                 sprintf(CheckControllerRepositoryLayerRule::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository'),
                 7,
             ],
         ]];
 
-        yield [__DIR__ . '/Fixture74/Repository/WithFormDependency.php', [
+        yield [__DIR__ . '/FixturePhp74/Repository/WithFormDependency.php', [
             [sprintf(CheckControllerRepositoryLayerRule::ERROR_MESSAGE, 'Repository', 'Form', 'EntityManager'), 7],
         ]];
     }
