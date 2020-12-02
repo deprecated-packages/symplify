@@ -72,6 +72,8 @@ parameters:
         - '*/Fixture/*'
         - */vendor/*
         - */stubs/*
+        - packages/easy-coding-standard/packages/changed-files-detector/tests/ChangedFilesDetectorSource/OneClass.php
+        - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php
 
     bootstrapFiles:
         - tests/bootstrap.php
