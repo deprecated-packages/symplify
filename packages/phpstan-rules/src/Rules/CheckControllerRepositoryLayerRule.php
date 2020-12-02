@@ -29,13 +29,13 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
      * @var string
      * @see https://regex101.com/r/x1GflV/1
      */
-    private const ENTITYMANAGER_REGEX = '#EntityManager#';
+    private const ENTITYMANAGER_REGEX = '#EntityManager#i';
 
     /**
      * @var string
      * @see https://regex101.com/r/62rngZ/2
      */
-    private const NOT_ENTITYMANAGER_REGEX = '#(EntityManager)[^\1]*#';
+    private const NOT_ENTITYMANAGER_REGEX = '#(EntityManager)[^\1]*#i';
 
     /**
      * @var string
