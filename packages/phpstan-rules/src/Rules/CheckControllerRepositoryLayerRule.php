@@ -30,9 +30,9 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
 
     /**
      * @var string
-     * @see https://regex101.com/r/ZEkPwa/2
+     * @see https://regex101.com/r/ZEkPwa/3
      */
-    private const CONTROLLER_OR_REPOSITORY_REGEX = '#(Controller$|Repository$)#';
+    private const CONTROLLER_OR_REPOSITORY_REGEX = '#(Controller$|Repository$)|\b(Controller|Repository)\b#';
 
     /**
      * @var string
@@ -59,22 +59,26 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $shortClassName = $node->name;
-        if ($shortClassName === null) {
+        if (! property_exists($node, 'namespacedName')) {
             return [];
         }
 
-        $shortClassName = (string) $shortClassName;
-        $extends = $node->extends;
+        $name = $node->namespacedName;
+        if ($name === null) {
+            return [];
+        }
+
+        $className = (string) $name;
+        $extends   = $node->extends;
 
         if ($extends !== null && ! $extends instanceof FullyQualified) {
             return [];
         }
 
         if (
-            ($extends === null && ! Strings::match($shortClassName, self::CONTROLLER_OR_REPOSITORY_REGEX))
+            ($extends === null && ! Strings::match($className, self::CONTROLLER_OR_REPOSITORY_REGEX))
                 ||
-            ($extends !== null && ! Strings::match($extends->getLast(), self::CONTROLLER_OR_REPOSITORY_REGEX))
+            ($extends !== null && ! Strings::match($extends->toString(), self::CONTROLLER_OR_REPOSITORY_REGEX))
         ) {
             return [];
         }
