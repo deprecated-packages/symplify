@@ -72,6 +72,7 @@ parameters:
         - '*/Fixture/*'
         - */vendor/*
         - */stubs/*
+        - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php
 
     bootstrapFiles:
         - tests/bootstrap.php
@@ -265,6 +266,7 @@ parameters:
                 - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 22
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                 - packages/skipper/src/Skipper/Skipper.php # 50
+                - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php #31
 
         # false positives
         - '#Constant Symplify\\ChangelogLinker\\Tests\\ChangeTree\\ChangeFactory\\ChangeFactoryTest\:\:PULL_REQUEST is unused#'

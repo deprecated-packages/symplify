@@ -22,3 +22,7 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckClassNamespaceFollowPsr4Rule
+        tags: [phpstan.rules.rule]
