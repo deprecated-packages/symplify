@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -65,6 +66,10 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
 
         $shortClassName = (string) $shortClassName;
         $extends = $node->extends;
+
+        if ($extends !== null && ! $extends instanceof FullyQualified) {
+            return [];
+        }
 
         if (
             ($extends === null && ! Strings::match($shortClassName, self::CONTROLLER_OR_REPOSITORY_REGEX))
