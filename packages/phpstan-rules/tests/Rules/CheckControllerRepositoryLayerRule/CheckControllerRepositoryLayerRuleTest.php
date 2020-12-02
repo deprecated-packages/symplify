@@ -22,6 +22,7 @@ final class CheckControllerRepositoryLayerRuleTest extends AbstractServiceAwareR
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/Form.php', []];
+        yield [__DIR__ . '/Fixture/NotControllerRepositoryWithExtends.php', []];
     }
 
     protected function getRule(): Rule
