@@ -21,7 +21,7 @@ jobs:
                         run: composer phpstan
 
                     -
-                        name: Check for Git Concficts
+                        name: Check for Git Conflicts
                         run: packages/easy-ci/bin/easy-ci check-conflicts .
 
                     -
