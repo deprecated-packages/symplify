@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
@@ -19,7 +20,13 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '%s namespace %s does not follow PSR-4 configuration in composer.json';
+    public const ERROR_MESSAGE = '%s namespace "%s" does not follow PSR-4 configuration in composer.json';
+
+    /**
+     * @see https://regex101.com/r/ChpDsj/1
+     * @var string
+     */
+    private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
 
     /**
      * @var array<string, string>
@@ -52,6 +59,12 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
 
         $namespacedName = (string) $node->namespacedName;
         $shortClassName = (string) $shortClassName;
+
+        $isAnonymouClass = (bool) Strings::match($shortClassName, self::ANONYMOUS_CLASS_REGEX);
+        if ($isAnonymouClass) {
+            return [];
+        }
+
         $file = str_replace('\\', '/', $scope->getFile());
         $namespaceBeforeClass = substr($namespacedName, 0, - strlen($shortClassName));
 
@@ -79,7 +92,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-// defined "Foo\\Bar" in composer.json
+// defined "Foo\Bar" namespace in composer.json > autoload > psr-4
 namespace Foo;
 
 class Baz
@@ -88,7 +101,7 @@ class Baz
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-// defined "Foo\\Bar" in composer.json
+// defined "Foo\Bar" namespace in composer.json > autoload > psr-4
 namespace Foo\Bar;
 
 class Baz
@@ -104,17 +117,15 @@ CODE_SAMPLE
         // totally different namespace needs include file
         include_once $file;
 
-        $type = 'Class';
-
         if (trait_exists($namespacedName)) {
-            $type = 'Trait';
+            return 'Trait';
         }
 
         if (interface_exists($namespacedName)) {
-            $type = 'Interface';
+            return 'Interface';
         }
 
-        return $type;
+        return 'Class';
     }
 
     private function isClassNamespaceCorrect(
