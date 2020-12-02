@@ -10,7 +10,7 @@ use Symplify\EasyHydrator\Tests\HttpKernel\EasyHydratorTestKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 /**
- * @requires PHP >= 7.4
+ * @requires PHP 7.4
  */
 final class TypedPropertiesTest extends AbstractKernelTestCase
 {

@@ -58,12 +58,11 @@ final class GenerateCommand extends AbstractSymplifyCommand
         $this->oldToNewFilesFinder = $oldToNewFilesFinder;
         $this->patchDiffer = $patchDiffer;
         $this->composerPatchesConfigurationUpdater = $composerPatchesConfigurationUpdater;
-
-        parent::__construct();
-
         $this->vendorDirProvider = $vendorDirProvider;
         $this->patchFileFactory = $patchFileFactory;
         $this->generateCommandReporter = $generateCommandReporter;
+
+        parent::__construct();
     }
 
     protected function configure(): void

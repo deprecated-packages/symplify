@@ -3,7 +3,7 @@
     "description": "Repository for Symplify packages development.",
     "license": "MIT",
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "ext-dom": "*",
         "ext-pdo": "*",
         "ext-simplexml": "*",
@@ -55,6 +55,7 @@
         "humbug/php-scoper": "^0.13.9",
         "jetbrains/phpstorm-stubs": "2020.2 as dev-master",
         "latte/latte": "^2.9",
+        "rector/rector": "dev-master",
         "nette/application": "^3.0.7",
         "nette/bootstrap": "^3.0",
         "symfony/framework-bundle": "^4.4|^5.1",
@@ -255,7 +256,7 @@
         ],
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
-        "rector": "vendor/bin/rector process --config rector-ci.php --dry-run --ansi",
+        "rector": "vendor/bin/rector process --dry-run --ansi",
         "validate-monorepo": "packages/monorepo-builder/bin/monorepo-builder validate --ansi",
         "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi"
     },
