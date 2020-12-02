@@ -51,6 +51,12 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
 
     /**
      * @var string
+     * @see https://regex101.com/r/EPYQEH/1
+     */
+    private const DEPENDENCY_VAR_REGEX = '#@var\s+(.*)#';
+
+    /**
+     * @var string
      */
     private const LAYER_NOT_MATCH = [
         // Controller allow any other, eg: Form, except EntityManager
@@ -167,18 +173,43 @@ CODE_SAMPLE
         }
 
         foreach ($properties as $property) {
-            $propertyName = $property->props[0]->name->toString();
 
-            if ($isController && Strings::match($propertyName, self::LAYER_NOT_MATCH['Controller'])) {
+            $dependency = $this->getDependency($property);
+
+            if ($isController && Strings::match($dependency, self::LAYER_NOT_MATCH['Controller'])) {
                 return [sprintf(self::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository')];
             }
 
-            if ($isRepository && ! Strings::match($propertyName, self::LAYER_NOT_MATCH['Repository'])) {
-                return [sprintf(self::ERROR_MESSAGE, 'Repository', $propertyName, 'EntityManager')];
+            if ($isRepository && ! Strings::match($dependency, self::LAYER_NOT_MATCH['Repository'])) {
+                return [sprintf(self::ERROR_MESSAGE, 'Repository', $dependency, 'EntityManager')];
             }
         }
 
         return [];
+    }
+
+    private function getDependency(Property $property): ?string
+    {
+        if ($property->type instanceof FullyQualified) {
+            return $property->type->getLast();
+        }
+
+        $docComment = $property->getDocComment();
+        if ($docComment === null) {
+            return $property->props[0]->name->toString();
+        }
+
+        $text = $docComment->getText();
+        if ($text === null) {
+            return null;
+        }
+
+        $match = Strings::match($text, self::DEPENDENCY_VAR_REGEX);
+        if ($match) {
+            return $match[1];
+        }
+
+        return null;
     }
 
     private function isController(string $className, ?FullyQualified $extends): bool
