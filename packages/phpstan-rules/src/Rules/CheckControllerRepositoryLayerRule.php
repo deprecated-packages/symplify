@@ -63,6 +63,14 @@ class CheckboxController extends AbstractController
      */
     private $entityManager;
 }
+
+class CheckboxRepository
+{
+    /**
+     * @var Command
+     */
+    private $command;
+}
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
@@ -72,6 +80,14 @@ class CheckboxController extends AbstractController
      * @var CheckboxRepositoryInterface
      */
     private $repository;
+}
+
+class CheckboxRepository
+{
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 }
 CODE_SAMPLE
             ),
