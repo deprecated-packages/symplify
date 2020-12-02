@@ -29,17 +29,14 @@ final class CheckControllerRepositoryLayerRuleTest extends AbstractServiceAwareR
         yield [__DIR__ . '/Fixture/Controller/WithEntityManagerDependency.php', [
             [
                 sprintf(CheckControllerRepositoryLayerRule::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository'),
-                7
+                7,
             ],
         ]];
 
         yield [__DIR__ . '/Fixture/Repository/NoDependency.php', []];
         yield [__DIR__ . '/Fixture/Repository/WithEntityManagerDependency.php', []];
         yield [__DIR__ . '/Fixture/Repository/WithFormDependency.php', [
-            [
-                sprintf(CheckControllerRepositoryLayerRule::ERROR_MESSAGE, 'Repository', 'form', 'EntityManager'),
-                7
-            ],
+            [sprintf(CheckControllerRepositoryLayerRule::ERROR_MESSAGE, 'Repository', 'form', 'EntityManager'), 7],
         ]];
     }
 

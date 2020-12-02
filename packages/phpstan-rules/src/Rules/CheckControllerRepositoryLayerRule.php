@@ -6,9 +6,9 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -93,7 +93,7 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
         }
 
         $className = (string) $name;
-        $extends   = $node->extends;
+        $extends = $node->extends;
 
         if ($extends !== null && ! $extends instanceof FullyQualified) {
             return [];
@@ -124,24 +124,6 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
         }
 
         return [];
-    }
-
-    private function isController(string $className, ?FullyQualified $extends): bool
-    {
-        if ($extends === null) {
-            return (bool) Strings::match($className, self::CONTROLLER_REGEX);
-        }
-
-        return (bool) Strings::match($extends->toString(), self::CONTROLLER_REGEX);
-    }
-
-    private function isRepository(string $className, ?FullyQualified $extends): bool
-    {
-        if ($extends === null) {
-            return (bool) Strings::match($className, self::REPOSITORY_REGEX);
-        }
-
-        return (bool) Strings::match($extends->toString(), self::REPOSITORY_REGEX);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -185,5 +167,23 @@ class CheckboxRepository
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function isController(string $className, ?FullyQualified $extends): bool
+    {
+        if ($extends === null) {
+            return (bool) Strings::match($className, self::CONTROLLER_REGEX);
+        }
+
+        return (bool) Strings::match($extends->toString(), self::CONTROLLER_REGEX);
+    }
+
+    private function isRepository(string $className, ?FullyQualified $extends): bool
+    {
+        if ($extends === null) {
+            return (bool) Strings::match($className, self::REPOSITORY_REGEX);
+        }
+
+        return (bool) Strings::match($extends->toString(), self::REPOSITORY_REGEX);
     }
 }
