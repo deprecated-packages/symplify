@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
@@ -87,6 +88,7 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
             return [];
         }
 
+        /** @var Identifier|null $name */
         $name = $node->namespacedName;
         if ($name === null) {
             return [];
@@ -106,24 +108,9 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
             return [];
         }
 
+        /** @var Property[] $properties */
         $properties = $this->nodeFinder->findInstanceOf($node, Property::class);
-        if ($properties === []) {
-            return [];
-        }
-
-        foreach ($properties as $property) {
-            $propertyName = $property->props[0]->name->toString();
-
-            if ($isController && Strings::match($propertyName, self::LAYER_NOT_MATCH['Controller'])) {
-                return [sprintf(self::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository')];
-            }
-
-            if ($isRepository && ! Strings::match($propertyName, self::LAYER_NOT_MATCH['Repository'])) {
-                return [sprintf(self::ERROR_MESSAGE, 'Repository', $propertyName, 'EntityManager')];
-            }
-        }
-
-        return [];
+        return $this->checkLayer($properties, $isController, $isRepository);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -167,6 +154,31 @@ class CheckboxRepository
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    /**
+     * @param Property[] $properties
+     * @return string[]
+     */
+    private function checkLayer(array $properties, bool $isController, bool $isRepository): array
+    {
+        if ($properties === []) {
+            return [];
+        }
+
+        foreach ($properties as $property) {
+            $propertyName = $property->props[0]->name->toString();
+
+            if ($isController && Strings::match($propertyName, self::LAYER_NOT_MATCH['Controller'])) {
+                return [sprintf(self::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository')];
+            }
+
+            if ($isRepository && ! Strings::match($propertyName, self::LAYER_NOT_MATCH['Repository'])) {
+                return [sprintf(self::ERROR_MESSAGE, 'Repository', $propertyName, 'EntityManager')];
+            }
+        }
+
+        return [];
     }
 
     private function isController(string $className, ?FullyQualified $extends): bool
