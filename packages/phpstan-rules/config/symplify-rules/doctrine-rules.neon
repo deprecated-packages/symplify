@@ -6,3 +6,7 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckControllerRepositoryLayerRule
+        tags: [phpstan.rules.rule]

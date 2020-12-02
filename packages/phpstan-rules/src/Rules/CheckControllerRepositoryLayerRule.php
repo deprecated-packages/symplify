@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Util\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
@@ -25,6 +26,12 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
      * @see https://regex101.com/r/62rngZ/1
      */
     private const NOT_ENTITYMANAGER_REGEX = '#(EntityManager)[^\1]*#';
+
+    /**
+     * @var string
+     * @see https://regex101.com/r/ZEkPwa/1
+     */
+    private const CONTROLLER_OR_REPOSITORY_REGEX = '#(Controller|Repository)#';
 
     /**
      * @var string
@@ -51,6 +58,15 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        $shortClassName = $this->getShortClassName($scope);
+        if ($shortClassName === null) {
+            return [];
+        }
+
+        if (! Strings::match($shortClassName, self::CONTROLLER_OR_REPOSITORY_REGEX)) {
+            return [];
+        }
+
         return [];
     }
 
