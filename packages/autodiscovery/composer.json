@@ -2,9 +2,6 @@
     "name": "symplify/autodiscovery",
     "description": "Forget manual registration of Doctrine entities, Twig templates and routes. Let autodiscovery handle that for you.",
     "license": "MIT",
-    "bin": [
-        "bin/autodiscovery"
-    ],
     "require": {
         "php": ">=7.3",
         "nette/utils": "^3.0",
