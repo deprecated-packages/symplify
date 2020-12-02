@@ -30,7 +30,10 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
      * @var string
      */
     private const LAYER_NOT_MATCH = [
+        // Controller allow any other, eg: Form, except EntityManager
         'Controller' => 'EntityManager',
+
+        // Repository allow only EntityManager
         'Repository' => self::NOT_ENTITYMANAGER_REGEX,
     ];
 
