@@ -202,7 +202,7 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return true;
     }
 
-    private function resolveShortName(string $className): string
+    protected function resolveShortName(string $className): string
     {
         if (! Strings::contains($className, '\\')) {
             return $className;

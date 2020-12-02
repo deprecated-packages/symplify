@@ -393,8 +393,7 @@ parameters:
             path: 'packages/smart-file-system/src/Normalizer/PathNormalizer.php'
 
         -
-            message: 'Repository type not allowed to use objectRepository type as dependency, use EntityManager instead'
-            path:
-                - packages/symfony-route-usage/src/EntityRepository/RouteVisitRepository.php #12
+            message: 'Repository type not allowed to use ObjectRepository type as dependency, use EntityManager instead'
+            path: 'packages/symfony-route-usage/src/EntityRepository/RouteVisitRepository.php'
 
         - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'

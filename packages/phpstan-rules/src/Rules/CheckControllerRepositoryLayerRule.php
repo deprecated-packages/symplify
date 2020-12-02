@@ -29,13 +29,13 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
      * @var string
      * @see https://regex101.com/r/x1GflV/1
      */
-    private const ENTITYMANAGER_REGEX = '#EntityManager#i';
+    private const ENTITYMANAGER_REGEX = '#EntityManager#';
 
     /**
      * @var string
      * @see https://regex101.com/r/62rngZ/2
      */
-    private const NOT_ENTITYMANAGER_REGEX = '#(EntityManager)[^\1]*#i';
+    private const NOT_ENTITYMANAGER_REGEX = '#(EntityManager)[^\1]*#';
 
     /**
      * @var string
@@ -202,7 +202,7 @@ CODE_SAMPLE
         $text = $docComment->getText();
         $match = Strings::match($text, self::DEPENDENCY_VAR_REGEX);
         if ($match) {
-            return $match[1];
+            return $this->resolveShortName($match[1]);
         }
 
         return null;
