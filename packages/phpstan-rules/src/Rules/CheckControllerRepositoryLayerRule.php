@@ -6,8 +6,10 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -20,30 +22,52 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '%s used in %s, must be used %s in "%s" type';
+    public const ERROR_MESSAGE = '%s type not allowed to use %s type as dependency, use %s instead';
 
     /**
      * @var string
-     * @see https://regex101.com/r/62rngZ/1
+     * @see https://regex101.com/r/x1GflV/1
      */
-    private const NOT_ENTITYMANAGER_REGEX = '#(EntityManager)[^\1]*#';
+    private const ENTITYMANAGER_REGEX = '#EntityManager#i';
 
     /**
      * @var string
-     * @see https://regex101.com/r/ZEkPwa/3
+     * @see https://regex101.com/r/62rngZ/2
      */
-    private const CONTROLLER_OR_REPOSITORY_REGEX = '#(Controller$|Repository$)|\b(Controller|Repository)\b#';
+    private const NOT_ENTITYMANAGER_REGEX = '#(EntityManager)[^\1]*#i';
+
+    /**
+     * @var string
+     * @see https://regex101.com/r/Azledf/2
+     */
+    private const CONTROLLER_REGEX = '#(Controller$)|\b(Controller)\b#';
+
+    /**
+     * @var string
+     * @see https://regex101.com/r/AQG06A/2
+     */
+    private const REPOSITORY_REGEX = '#(Repository$)|\b(Repository)\b#';
 
     /**
      * @var string
      */
     private const LAYER_NOT_MATCH = [
         // Controller allow any other, eg: Form, except EntityManager
-        'Controller' => 'EntityManager',
+        'Controller' => self::ENTITYMANAGER_REGEX,
 
         // Repository allow only EntityManager
         'Repository' => self::NOT_ENTITYMANAGER_REGEX,
     ];
+
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    public function __construct(NodeFinder $nodeFinder)
+    {
+        $this->nodeFinder = $nodeFinder;
+    }
 
     /**
      * @return string[]
@@ -75,15 +99,49 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (
-            ($extends === null && ! Strings::match($className, self::CONTROLLER_OR_REPOSITORY_REGEX))
-                ||
-            ($extends !== null && ! Strings::match($extends->toString(), self::CONTROLLER_OR_REPOSITORY_REGEX))
-        ) {
+        $isController = $this->isController($className, $extends);
+        $isRepository = $this->isRepository($className, $extends);
+
+        if (! $isController && ! $isRepository) {
             return [];
         }
 
+        $properties = $this->nodeFinder->findInstanceOf($node, Property::class);
+        if ($properties === []) {
+            return [];
+        }
+
+        foreach ($properties as $property) {
+            $propertyName = $property->props[0]->name->toString();
+
+            if ($isController && Strings::match($propertyName, self::LAYER_NOT_MATCH['Controller'])) {
+                return [sprintf(self::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository')];
+            }
+
+            if ($isRepository && ! Strings::match($propertyName, self::LAYER_NOT_MATCH['Repository'])) {
+                return [sprintf(self::ERROR_MESSAGE, 'Repository', $propertyName, 'EntityManager')];
+            }
+        }
+
         return [];
+    }
+
+    private function isController(string $className, ?FullyQualified $extends): bool
+    {
+        if ($extends === null) {
+            return (bool) Strings::match($className, self::CONTROLLER_REGEX);
+        }
+
+        return (bool) Strings::match($extends->toString(), self::CONTROLLER_REGEX);
+    }
+
+    private function isRepository(string $className, ?FullyQualified $extends): bool
+    {
+        if ($extends === null) {
+            return (bool) Strings::match($className, self::REPOSITORY_REGEX);
+        }
+
+        return (bool) Strings::match($extends->toString(), self::REPOSITORY_REGEX);
     }
 
     public function getRuleDefinition(): RuleDefinition
