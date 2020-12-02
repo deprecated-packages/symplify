@@ -76,7 +76,7 @@ class SomeClass
 {
     public function someMethod()
     {
-        $mainPath = getcwd() . '/absolute_path;
+        $mainPath = getcwd() . '/absolute_path';
         // ...
         return $mainPath;
     }
