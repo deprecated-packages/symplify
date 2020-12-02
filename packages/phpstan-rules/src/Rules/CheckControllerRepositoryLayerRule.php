@@ -22,10 +22,16 @@ final class CheckControllerRepositoryLayerRule extends AbstractSymplifyRule
 
     /**
      * @var string
+     * @see https://regex101.com/r/62rngZ/1
      */
-    private const LAYER_MATCH = [
-        'Controller' => 'Repository',
-        'Repository' => 'EntityManager',
+    private const NOT_ENTITYMANAGER_REGEX = '#(EntityManager)[^\1]*#';
+
+    /**
+     * @var string
+     */
+    private const LAYER_NOT_MATCH = [
+        'Controller' => 'EntityManager',
+        'Repository' => self::NOT_ENTITYMANAGER_REGEX,
     ];
 
     /**
