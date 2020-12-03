@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -72,6 +73,11 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
     private $nodeFinder;
 
     /**
+     * @var ArrayStringAndFnMatcher
+     */
+    private $arrayStringAndFnMatcher;
+
+    /**
      * @var array<string, array<string, string>>
      */
     private $forbiddenMatrix = [];
@@ -81,9 +87,16 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
      */
     private $allowOnlyMatrix = [];
 
-    public function __construct(NodeFinder $nodeFinder, array $forbiddenMatrix = [], array $allowOnlyMatrix = [])
+    public function __construct(
+        NodeFinder $nodeFinder,
+        ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
+        array $forbiddenMatrix = [],
+        array $allowOnlyMatrix = [
+        ]
+    )
     {
         $this->nodeFinder = $nodeFinder;
+        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
         $this->forbiddenMatrix = $forbiddenMatrix;
         $this->allowOnlyMatrix = $allowOnlyMatrix;
     }
@@ -173,14 +186,12 @@ CODE_SAMPLE
             ),
             [
                 'forbiddenMatrix' => [
-                    '*Controller' => [
-                        '*EntityManager'
-                    ],
+                    '*Controller' => ['*EntityManager'],
                 ],
                 'allowOnlyMatrix' => [
-                    '*Repository' => '*EntityManager'
+                    '*Repository' => '*EntityManager',
                 ],
-            ]
+            ],
         ]);
     }
 
@@ -195,7 +206,6 @@ CODE_SAMPLE
         }
 
         foreach ($properties as $property) {
-
             $dependency = $this->getDependency($property);
 
             if ($dependency === null) {
