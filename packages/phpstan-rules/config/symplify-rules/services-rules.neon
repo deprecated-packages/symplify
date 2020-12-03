@@ -14,3 +14,9 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\CheckDependencyMatrixRule
         tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenMatrix:
+                '*Controller':
+                     - '*EntityManager'
+            allowOnlyMatrix:
+                '*Repository': '*EntityManager'

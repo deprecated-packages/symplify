@@ -71,9 +71,21 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
      */
     private $nodeFinder;
 
-    public function __construct(NodeFinder $nodeFinder)
+    /**
+     * @var array<string, array<string, string>>
+     */
+    private $forbiddenMatrix = [];
+
+    /**
+     * @var array<string, string>
+     */
+    private $allowOnlyMatrix = [];
+
+    public function __construct(NodeFinder $nodeFinder, array $forbiddenMatrix = [], array $allowOnlyMatrix = [])
     {
         $this->nodeFinder = $nodeFinder;
+        $this->forbiddenMatrix = $forbiddenMatrix;
+        $this->allowOnlyMatrix = $allowOnlyMatrix;
     }
 
     /**
