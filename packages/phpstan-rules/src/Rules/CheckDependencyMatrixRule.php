@@ -45,12 +45,6 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
 
     /**
      * @var string
-     * @see https://regex101.com/r/AQG06A/2
-     */
-    private const REPOSITORY_REGEX = '#(Repository$)|\b(Repository)\b#';
-
-    /**
-     * @var string
      * @see https://regex101.com/r/EPYQEH/1
      */
     private const DEPENDENCY_VAR_REGEX = '#@var\s+(.*)#';
