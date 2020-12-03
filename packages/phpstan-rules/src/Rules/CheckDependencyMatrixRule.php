@@ -87,6 +87,10 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
      */
     private $allowOnlyMatrix = [];
 
+    /**
+     * @param array<string, array<string, string>> $forbiddenMatrix
+     * @param array<string, string> $allowOnlyMatrix
+     */
     public function __construct(
         NodeFinder $nodeFinder,
         ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
