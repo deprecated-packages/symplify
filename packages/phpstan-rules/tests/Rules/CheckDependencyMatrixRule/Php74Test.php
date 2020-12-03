@@ -25,14 +25,11 @@ final class Php74Test extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/FixturePhp74/Controller/WithEntityManagerDependency.php', [
-            [
-                sprintf(CheckDependencyMatrixRule::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository'),
-                7,
-            ],
+            [sprintf(CheckDependencyMatrixRule::ERROR_FORBIDDEN_MESSAGE, 'EntityManagerInterface'), 7],
         ]];
 
         yield [__DIR__ . '/FixturePhp74/Repository/WithFormDependency.php', [
-            [sprintf(CheckDependencyMatrixRule::ERROR_MESSAGE, 'Repository', 'Form', 'EntityManager'), 7],
+            [sprintf(CheckDependencyMatrixRule::ERROR_ALLOW_ONLY_MESSAGE, 'EntityManager*'), 7],
         ]];
     }
 

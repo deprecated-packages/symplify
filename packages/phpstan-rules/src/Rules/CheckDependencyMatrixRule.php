@@ -33,29 +33,9 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
 
     /**
      * @var string
-     * @see https://regex101.com/r/x1GflV/1
-     */
-    private const MATCH_DEPENDENCY_REGEX = '#%s#i';
-
-    /**
-     * @var string
-     * @see https://regex101.com/r/62rngZ/2
-     */
-    private const NOT_MATCH_DEPENDENCY_REGEX = '#(%s)[^\1]*#i';
-
-    /**
-     * @var string
      * @see https://regex101.com/r/EPYQEH/1
      */
     private const DEPENDENCY_VAR_REGEX = '#@var\s+(.*)#';
-
-    /**
-     * @var string
-     */
-    private const LAYER_NOT_MATCH = [
-        'forbidden' => self::MATCH_DEPENDENCY_REGEX,
-        'allowOnly' => self::NOT_MATCH_DEPENDENCY_REGEX,
-    ];
 
     /**
      * @var NodeFinder
@@ -125,11 +105,11 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
         }
 
         $forbiddenDependencies = $this->getForbiddenDependencies($className, $extends);
-        $allowOnly             = $this->getAllowOnly($className, $extends);
+        $allowOnlyDependency = $this->getAllowOnly($className, $extends);
 
         /** @var Property[] $properties */
         $properties = $this->nodeFinder->findInstanceOf($node, Property::class);
-        return $this->checkLayer($properties, $forbiddenDependencies, $allowOnly);
+        return $this->checkLayer($properties, $forbiddenDependencies, $allowOnlyDependency);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -187,8 +167,11 @@ CODE_SAMPLE
      * @param Property[] $properties
      * @return string[]
      */
-    private function checkLayer(array $properties, array $forbiddenDependencies, ?string $allowOnly = null): array
-    {
+    private function checkLayer(
+        array $properties,
+        array $forbiddenDependencies,
+        ?string $allowOnlyDependency = null
+    ): array {
         if ($properties === []) {
             return [];
         }
@@ -200,12 +183,18 @@ CODE_SAMPLE
                 continue;
             }
 
-            if ($forbiddenDependencies !== [] && $this->arrayStringAndFnMatcher->isMatch($dependency, $forbiddenDependencies)) {
+            if ($allowOnlyDependency === null && $forbiddenDependencies !== [] && $this->arrayStringAndFnMatcher->isMatch(
+                $dependency,
+                $forbiddenDependencies
+            )) {
                 return [sprintf(self::ERROR_FORBIDDEN_MESSAGE, $dependency)];
             }
 
-            if ($allowOnly !== null && $this->arrayStringAndFnMatcher->isMatch($dependency, [$allowOnly])) {
-                return [sprintf(self::ERROR_ALLOW_ONLY_MESSAGE, $dependency)];
+            if ($forbiddenDependencies === [] && $allowOnlyDependency !== null && ! $this->arrayStringAndFnMatcher->isMatch(
+                $dependency,
+                [$allowOnlyDependency]
+            )) {
+                return [sprintf(self::ERROR_ALLOW_ONLY_MESSAGE, $allowOnlyDependency)];
             }
         }
 
@@ -243,7 +232,7 @@ CODE_SAMPLE
         }
 
         foreach ($this->forbiddenMatrix as $type => $forbiddenDependencies) {
-            if ($this->arrayStringAndFnMatcher->isMatch($className, [$type])) {
+            if ($this->arrayStringAndFnMatcher->isMatch($locate, [$type])) {
                 return $forbiddenDependencies;
             }
         }
@@ -259,7 +248,7 @@ CODE_SAMPLE
         }
 
         foreach ($this->allowOnlyMatrix as $type => $allowOnlyDependency) {
-            if ($this->arrayStringAndFnMatcher->isMatch($className, [$type])) {
+            if ($this->arrayStringAndFnMatcher->isMatch($locate, [$type])) {
                 return $allowOnlyDependency;
             }
         }
