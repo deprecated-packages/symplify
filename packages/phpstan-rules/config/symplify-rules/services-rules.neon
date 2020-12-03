@@ -10,3 +10,14 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckDependencyMatrixRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenMatrix:
+                '*Controller*': # can be App\Controller\Foo or App\FooController
+                     - 'EntityManager*' # can be EntityManager or EntityManagerInterface
+            allowOnlyMatrix:
+                # can be App\Repository\Album or AlbumRepository --> can be EntityManager or EntityManagerInterface
+                '*Repository*': 'EntityManager*'
