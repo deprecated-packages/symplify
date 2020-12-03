@@ -125,15 +125,11 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
         }
 
         $forbiddenDependencies = $this->getForbiddenDependencies($className, $extends);
-        $isAllowOnly = false;
-
-        if ($forbiddenDependencies === [] && ! $isAllowOnly) {
-            return [];
-        }
+        $allowOnly             = $this->getAllowOnly($className, $extends);
 
         /** @var Property[] $properties */
         $properties = $this->nodeFinder->findInstanceOf($node, Property::class);
-        return $this->checkLayer($properties, $forbiddenDependencies, $isAllowOnly);
+        return $this->checkLayer($properties, $forbiddenDependencies, $allowOnly);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -191,7 +187,7 @@ CODE_SAMPLE
      * @param Property[] $properties
      * @return string[]
      */
-    private function checkLayer(array $properties, array $forbiddenDependencies, bool $isAllowOnly): array
+    private function checkLayer(array $properties, array $forbiddenDependencies, ?string $allowOnly = null): array
     {
         if ($properties === []) {
             return [];
@@ -206,6 +202,10 @@ CODE_SAMPLE
 
             if ($forbiddenDependencies !== [] && $this->arrayStringAndFnMatcher->isMatch($dependency, $forbiddenDependencies)) {
                 return [sprintf(self::ERROR_FORBIDDEN_MESSAGE, $dependency)];
+            }
+
+            if ($allowOnly !== null && $this->arrayStringAndFnMatcher->isMatch($dependency, [$allowOnly])) {
+                return [sprintf(self::ERROR_ALLOW_ONLY_MESSAGE, $dependency)];
             }
         }
 
@@ -232,7 +232,10 @@ CODE_SAMPLE
         return null;
     }
 
-    private function getForbiddenDependencies(string $className, ?FullyQualified $extends): ?array
+    /**
+     * @return string[]
+     */
+    private function getForbiddenDependencies(string $className, ?FullyQualified $extends): array
     {
         $locate = $className;
         if ($extends !== null) {
@@ -246,5 +249,21 @@ CODE_SAMPLE
         }
 
         return [];
+    }
+
+    private function getAllowOnly(string $className, ?FullyQualified $extends): ?string
+    {
+        $locate = $className;
+        if ($extends !== null) {
+            $locate = $extends->toString();
+        }
+
+        foreach ($this->allowOnlyMatrix as $type => $allowOnlyDependency) {
+            if ($this->arrayStringAndFnMatcher->isMatch($className, [$type])) {
+                return $allowOnlyDependency;
+            }
+        }
+
+        return null;
     }
 }

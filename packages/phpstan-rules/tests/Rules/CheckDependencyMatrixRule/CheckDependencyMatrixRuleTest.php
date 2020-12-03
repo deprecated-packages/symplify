@@ -24,7 +24,7 @@ final class CheckDependencyMatrixRuleTest extends AbstractServiceAwareRuleTestCa
         yield [__DIR__ . '/Fixture/Form.php', []];
         yield [__DIR__ . '/Fixture/NotControllerRepositoryWithExtends.php', []];
         yield [__DIR__ . '/Fixture/Controller/NoDependency.php', []];
-      //  yield [__DIR__ . '/Fixture/Controller/WithRepositoryDependency.php', []];
+        yield [__DIR__ . '/Fixture/Controller/WithRepositoryDependency.php', []];
         yield [__DIR__ . '/Fixture/Controller/WithFormDependency.php', []];
         yield [__DIR__ . '/Fixture/Controller/WithEntityManagerDependency.php', [
             [
@@ -34,9 +34,9 @@ final class CheckDependencyMatrixRuleTest extends AbstractServiceAwareRuleTestCa
         ]];
 
         yield [__DIR__ . '/Fixture/Repository/NoDependency.php', []];
-        yield [__DIR__ . '/Fixture/Repository/WithEntityManagerDependency.php', []];
+        //yield [__DIR__ . '/Fixture/Repository/WithEntityManagerDependency.php', []];
         //yield [__DIR__ . '/Fixture/Repository/WithFormDependency.php', [
-         //   [sprintf(CheckDependencyMatrixRule::ERROR_ALLOW_ONLY_MESSAGE, 'EntityManager'), 7],
+          //  [sprintf(CheckDependencyMatrixRule::ERROR_ALLOW_ONLY_MESSAGE, 'EntityManager'), 7],
         //]];
     }
 
