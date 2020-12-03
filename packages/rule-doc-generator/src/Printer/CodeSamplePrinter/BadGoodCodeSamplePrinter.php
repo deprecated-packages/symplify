@@ -26,12 +26,12 @@ final class BadGoodCodeSamplePrinter
     {
         $lines = [];
 
-        $lines[] = $this->markdownCodeWrapper->printPhpCode($codeSample->getGoodCode());
+        $lines[] = $this->markdownCodeWrapper->printPhpCode($codeSample->getBadCode());
         $lines[] = ':x:';
 
         $lines[] = '<br>';
 
-        $lines[] = $this->markdownCodeWrapper->printPhpCode($codeSample->getBadCode());
+        $lines[] = $this->markdownCodeWrapper->printPhpCode($codeSample->getGoodCode());
         $lines[] = ':+1:';
 
         return $lines;
