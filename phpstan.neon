@@ -73,6 +73,7 @@ parameters:
         - */vendor/*
         - */stubs/*
         - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php
+        - packages/phpstan-rules/tests/Rules/CheckDependencyMatrixRule/FixturePhp74/*
 
     bootstrapFiles:
         - tests/bootstrap.php
@@ -392,5 +393,14 @@ parameters:
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'
             path: 'packages/smart-file-system/src/Normalizer/PathNormalizer.php'
 
+        -
+            message: '#Repository type not allowed to use ObjectRepository type as dependency, use EntityManager instead#'
+            path: 'packages/symfony-route-usage/src/EntityRepository/RouteVisitRepository.php'
+
+        -
+            message: '#Only EntityManager\* type as dependency is allowed#'
+            paths:
+                - packages/changelog-linker/src/DependencyInjection/CompilerPass/AddRepositoryUrlAndRepositoryNameParametersCompilerPass.php #14
+                - packages/symfony-route-usage/src/EntityRepository/RouteVisitRepository.php #12
 
         - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
