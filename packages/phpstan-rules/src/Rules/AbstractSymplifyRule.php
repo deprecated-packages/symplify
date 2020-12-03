@@ -180,6 +180,15 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return $name->toString();
     }
 
+    protected function resolveShortName(string $className): string
+    {
+        if (! Strings::contains($className, '\\')) {
+            return $className;
+        }
+
+        return (string) Strings::after($className, '\\', -1);
+    }
+
     private function resolveClassLikeName(ClassLike $classLike): ?string
     {
         // anonymous  class
@@ -200,14 +209,5 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return true;
-    }
-
-    protected function resolveShortName(string $className): string
-    {
-        if (! Strings::contains($className, '\\')) {
-            return $className;
-        }
-
-        return (string) Strings::after($className, '\\', -1);
     }
 }
