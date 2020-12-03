@@ -171,6 +171,16 @@ class CheckboxRepository
 }
 CODE_SAMPLE
             ),
+            [
+                'forbiddenMatrix' => [
+                    '*Controller' => [
+                        '*EntityManager'
+                    ],
+                ],
+                'allowOnlyMatrix' => [
+                    '*Repository' => '*EntityManager'
+                ],
+            ]
         ]);
     }
 
