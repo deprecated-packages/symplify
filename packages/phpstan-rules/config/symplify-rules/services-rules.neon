@@ -19,5 +19,5 @@ services:
                 '*Controller*': # can be App\Controller\Foo or App\FooController
                      - 'EntityManager*' # can be EntityManager or EntityManagerInterface
             allowOnlyMatrix:
-                # can be AlbumRepository --> can be EntityManager or EntityManagerInterface
-                '*Repository': 'EntityManager*'
+                # can be App\Repository\Album or AlbumRepository --> can be EntityManager or EntityManagerInterface
+                '*Repository*': 'EntityManager*'
