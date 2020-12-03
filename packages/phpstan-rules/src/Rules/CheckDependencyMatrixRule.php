@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -114,8 +114,8 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition(self::ERROR_MESSAGE, [
-            new CodeSample(
+        return new RuleDefinition('Type dependency disallowed or allowed only', [
+            new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
 class CheckboxController extends AbstractController
 {
@@ -151,15 +151,16 @@ class CheckboxRepository
     private $entityManager;
 }
 CODE_SAMPLE
+            ,
+                [
+                    'forbiddenMatrix' => [
+                        '*Controller*' => ['EntityManager*'],
+                    ],
+                    'allowOnlyMatrix' => [
+                        '*Repository*' => 'EntityManager*',
+                    ],
+                ]
             ),
-            [
-                'forbiddenMatrix' => [
-                    '*Controller' => ['*EntityManager'],
-                ],
-                'allowOnlyMatrix' => [
-                    '*Repository' => '*EntityManager',
-                ],
-            ],
         ]);
     }
 
@@ -183,22 +184,36 @@ CODE_SAMPLE
                 continue;
             }
 
-            if ($allowOnlyDependency === null && $forbiddenDependencies !== [] && $this->arrayStringAndFnMatcher->isMatch(
-                $dependency,
-                $forbiddenDependencies
-            )) {
+            if ($this->isForbidden($forbiddenDependencies, $allowOnlyDependency, $dependency)) {
                 return [sprintf(self::ERROR_FORBIDDEN_MESSAGE, $dependency)];
             }
 
-            if ($forbiddenDependencies === [] && $allowOnlyDependency !== null && ! $this->arrayStringAndFnMatcher->isMatch(
-                $dependency,
-                [$allowOnlyDependency]
-            )) {
+            if ($this->isNotAllowOnly($forbiddenDependencies, $allowOnlyDependency, $dependency)) {
                 return [sprintf(self::ERROR_ALLOW_ONLY_MESSAGE, $allowOnlyDependency)];
             }
         }
 
         return [];
+    }
+
+    private function isForbidden(
+        array $forbiddenDependencies,
+        ?string $allowOnlyDependency = null,
+        string $dependency
+    ): bool {
+        return $allowOnlyDependency === null
+            && $forbiddenDependencies !== []
+            && $this->arrayStringAndFnMatcher->isMatch($dependency, $forbiddenDependencies);
+    }
+
+    private function isNotAllowOnly(
+        array $forbiddenDependencies,
+        ?string $allowOnlyDependency = null,
+        string $dependency
+    ): bool {
+        return $forbiddenDependencies === []
+            && $allowOnlyDependency !== null
+            && ! $this->arrayStringAndFnMatcher->isMatch($dependency, [$allowOnlyDependency]);
     }
 
     private function getDependency(Property $property): ?string
