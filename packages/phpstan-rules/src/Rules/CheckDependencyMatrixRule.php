@@ -91,10 +91,8 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
         NodeFinder $nodeFinder,
         ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         array $forbiddenMatrix = [],
-        array $allowOnlyMatrix = [
-        ]
-    )
-    {
+        array $allowOnlyMatrix = []
+    ) {
         $this->nodeFinder = $nodeFinder;
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
         $this->forbiddenMatrix = $forbiddenMatrix;
