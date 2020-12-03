@@ -24,25 +24,24 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '%s type not allowed to use %s type as dependency, use %s instead';
+    public const ERROR_FORBIDDEN_MESSAGE = '%s type as dependency is not allowed';
+
+    /**
+     * @var string
+     */
+    public const ERROR_ALLOW_ONLY_MESSAGE = 'Only %s type as dependency is allowed';
 
     /**
      * @var string
      * @see https://regex101.com/r/x1GflV/1
      */
-    private const ENTITYMANAGER_REGEX = '#EntityManager#i';
+    private const MATCH_DEPENDENCY_REGEX = '#%s#i';
 
     /**
      * @var string
      * @see https://regex101.com/r/62rngZ/2
      */
-    private const NOT_ENTITYMANAGER_REGEX = '#(EntityManager)[^\1]*#i';
-
-    /**
-     * @var string
-     * @see https://regex101.com/r/Azledf/2
-     */
-    private const CONTROLLER_REGEX = '#(Controller$)|\b(Controller)\b#';
+    private const NOT_MATCH_DEPENDENCY_REGEX = '#(%s)[^\1]*#i';
 
     /**
      * @var string
@@ -60,11 +59,8 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
      * @var string
      */
     private const LAYER_NOT_MATCH = [
-        // Controller allow any other, eg: Form, except EntityManager
-        'Controller' => self::ENTITYMANAGER_REGEX,
-
-        // Repository allow only EntityManager
-        'Repository' => self::NOT_ENTITYMANAGER_REGEX,
+        'forbidden' => self::MATCH_DEPENDENCY_REGEX,
+        'allowOnly' => self::NOT_MATCH_DEPENDENCY_REGEX,
     ];
 
     /**
@@ -134,16 +130,16 @@ final class CheckDependencyMatrixRule extends AbstractSymplifyRule
             return [];
         }
 
-        $isController = $this->isController($className, $extends);
-        $isRepository = $this->isRepository($className, $extends);
+        $isForbidden = $this->isForbidden($className, $extends);
+        $isAllowOnly = $this->isAllowOnly($className, $extends);
 
-        if (! $isController && ! $isRepository) {
+        if (! $isForbidden && ! $isAllowOnly) {
             return [];
         }
 
         /** @var Property[] $properties */
         $properties = $this->nodeFinder->findInstanceOf($node, Property::class);
-        return $this->checkLayer($properties, $isController, $isRepository);
+        return $this->checkLayer($properties, $isForbidden, $isAllowOnly);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -201,7 +197,7 @@ CODE_SAMPLE
      * @param Property[] $properties
      * @return string[]
      */
-    private function checkLayer(array $properties, bool $isController, bool $isRepository): array
+    private function checkLayer(array $properties, bool $isForbidden, bool $isAllowOnly): array
     {
         if ($properties === []) {
             return [];
@@ -214,12 +210,8 @@ CODE_SAMPLE
                 continue;
             }
 
-            if ($isController && Strings::match($dependency, self::LAYER_NOT_MATCH['Controller'])) {
-                return [sprintf(self::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository')];
-            }
-
-            if ($isRepository && ! Strings::match($dependency, self::LAYER_NOT_MATCH['Repository'])) {
-                return [sprintf(self::ERROR_MESSAGE, 'Repository', $dependency, 'EntityManager')];
+            if ($isForbidden && Strings::match($dependency, sprintf(self::LAYER_NOT_MATCH['forbidden'], $dependency))) {
+                return [sprintf(self::ERROR_FORBIDDEN_MESSAGE, $dependency)];
             }
         }
 
@@ -246,21 +238,21 @@ CODE_SAMPLE
         return null;
     }
 
-    private function isController(string $className, ?FullyQualified $extends): bool
+    private function isForbidden(string $className, ?FullyQualified $extends): bool
     {
         if ($extends === null) {
-            return (bool) Strings::match($className, self::CONTROLLER_REGEX);
+            return $this->arrayStringAndFnMatcher->isMatch($className, array_keys($this->forbiddenMatrix));
         }
 
-        return (bool) Strings::match($extends->toString(), self::CONTROLLER_REGEX);
+        return $this->arrayStringAndFnMatcher->isMatch($extends->toString(), array_keys($this->forbiddenMatrix));
     }
 
-    private function isRepository(string $className, ?FullyQualified $extends): bool
+    private function isAllowOnly(string $className, ?FullyQualified $extends): bool
     {
         if ($extends === null) {
-            return (bool) Strings::match($className, self::REPOSITORY_REGEX);
+            return $this->arrayStringAndFnMatcher->isMatch($className, array_keys($this->allowOnlyMatrix));
         }
 
-        return (bool) Strings::match($extends->toString(), self::REPOSITORY_REGEX);
+        return $this->arrayStringAndFnMatcher->isMatch($extends->toString(), array_keys($this->allowOnlyMatrix));
     }
 }

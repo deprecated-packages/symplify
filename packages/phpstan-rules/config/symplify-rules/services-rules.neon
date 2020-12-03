@@ -16,7 +16,8 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenMatrix:
-                '*Controller':
-                     - '*EntityManager'
+                '*Controller*': # can be App\Controller\Foo or App\FooController
+                     - 'EntityManager*' # can be EntityManager or EntityManagerInterface
             allowOnlyMatrix:
-                '*Repository': '*EntityManager'
+                # can be AlbumRepository --> can be EntityManager or EntityManagerInterface
+                '*Repository': 'EntityManager*'

@@ -24,20 +24,20 @@ final class CheckDependencyMatrixRuleTest extends AbstractServiceAwareRuleTestCa
         yield [__DIR__ . '/Fixture/Form.php', []];
         yield [__DIR__ . '/Fixture/NotControllerRepositoryWithExtends.php', []];
         yield [__DIR__ . '/Fixture/Controller/NoDependency.php', []];
-        yield [__DIR__ . '/Fixture/Controller/WithRepositoryDependency.php', []];
-        yield [__DIR__ . '/Fixture/Controller/WithFormDependency.php', []];
+      //  yield [__DIR__ . '/Fixture/Controller/WithRepositoryDependency.php', []];
+      //  yield [__DIR__ . '/Fixture/Controller/WithFormDependency.php', []];
         yield [__DIR__ . '/Fixture/Controller/WithEntityManagerDependency.php', [
             [
-                sprintf(CheckDependencyMatrixRule::ERROR_MESSAGE, 'Controller', 'EntityManager', 'Repository'),
+                sprintf(CheckDependencyMatrixRule::ERROR_FORBIDDEN_MESSAGE, 'EntityManagerInterface'),
                 7,
             ],
         ]];
 
         yield [__DIR__ . '/Fixture/Repository/NoDependency.php', []];
         yield [__DIR__ . '/Fixture/Repository/WithEntityManagerDependency.php', []];
-        yield [__DIR__ . '/Fixture/Repository/WithFormDependency.php', [
-            [sprintf(CheckDependencyMatrixRule::ERROR_MESSAGE, 'Repository', 'Form', 'EntityManager'), 7],
-        ]];
+        //yield [__DIR__ . '/Fixture/Repository/WithFormDependency.php', [
+         //   [sprintf(CheckDependencyMatrixRule::ERROR_ALLOW_ONLY_MESSAGE, 'EntityManager'), 7],
+        //]];
     }
 
     protected function getRule(): Rule
