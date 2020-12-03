@@ -25,7 +25,7 @@ final class DiffCodeSamplePrinter
     public function print(CodeSampleInterface $codeSample): array
     {
         $lines = [];
-        $lines[] = $this->markdownDiffer->diff($codeSample->getGoodCode(), $codeSample->getBadCode());
+        $lines[] = $this->markdownDiffer->diff($codeSample->getBadCode(), $codeSample->getGoodCode());
 
         return $lines;
     }
