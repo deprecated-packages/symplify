@@ -25,7 +25,7 @@ final class CheckDependencyMatrixRuleTest extends AbstractServiceAwareRuleTestCa
         yield [__DIR__ . '/Fixture/NotControllerRepositoryWithExtends.php', []];
         yield [__DIR__ . '/Fixture/Controller/NoDependency.php', []];
       //  yield [__DIR__ . '/Fixture/Controller/WithRepositoryDependency.php', []];
-      //  yield [__DIR__ . '/Fixture/Controller/WithFormDependency.php', []];
+        yield [__DIR__ . '/Fixture/Controller/WithFormDependency.php', []];
         yield [__DIR__ . '/Fixture/Controller/WithEntityManagerDependency.php', [
             [
                 sprintf(CheckDependencyMatrixRule::ERROR_FORBIDDEN_MESSAGE, 'EntityManagerInterface'),
