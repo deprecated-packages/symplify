@@ -1,4 +1,4 @@
-# 105 Rules Overview
+# 106 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -65,6 +65,38 @@ class SomeClass
 
 <br>
 
+## CheckClassNamespaceFollowPsr4Rule
+
+%s namespace "%s" does not follow PSR-4 configuration in `composer.json`
+
+- class: `Symplify\PHPStanRules\Rules\CheckClassNamespaceFollowPsr4Rule`
+
+```php
+// defined "Foo\Bar" namespace in composer.json > autoload > psr-4
+namespace Foo;
+
+class Baz
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+// defined "Foo\Bar" namespace in composer.json > autoload > psr-4
+namespace Foo\Bar;
+
+class Baz
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## CheckConstantExpressionDefinedInConstructOrSetupRule
 
 Move constant expression to `__construct(),` `setUp()` method or constant
@@ -76,9 +108,8 @@ class SomeClass
 {
     public function someMethod()
     {
-        $mainPath = getcwd() . '/absolute_path';
+        return getcwd() . '/absolute_path';
         // ...
-        return $mainPath;
     }
 }
 ```
