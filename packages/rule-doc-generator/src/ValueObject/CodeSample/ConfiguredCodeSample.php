@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\ValueObject\CodeSample;
 
+use Rector\Core\Exception\Configuration\InvalidConfigurationException;
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\ValueObject\AbstractCodeSample;
 
@@ -19,6 +20,10 @@ final class ConfiguredCodeSample extends AbstractCodeSample implements CodeSampl
      */
     public function __construct(string $goodCode, string $badCode, array $configuration)
     {
+        if ($configuration === []) {
+            throw new InvalidConfigurationException('Configuration cannot be empty');
+        }
+
         $this->configuration = $configuration;
 
         parent::__construct($goodCode, $badCode);
