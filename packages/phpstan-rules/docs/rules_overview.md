@@ -1,4 +1,4 @@
-# 106 Rules Overview
+# 107 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -161,6 +161,74 @@ class SomeClass
 class SomeClass
 {
     private const FOO = 'bar';
+}
+```
+
+:+1:
+
+<br>
+
+## CheckDependencyMatrixRule
+
+Type dependency disallowed or allowed only
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\CheckDependencyMatrixRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\CheckDependencyMatrixRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenMatrix:
+                *Controller*:
+                    - EntityManager*
+
+            allowOnlyMatrix:
+                *Repository*: EntityManager*
+```
+
+↓
+
+```php
+class CheckboxController extends AbstractController
+{
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+}
+
+class CheckboxRepository
+{
+    /**
+     * @var Command
+     */
+    private $command;
+}
+```
+
+:x:
+
+<br>
+
+```php
+class CheckboxController extends AbstractController
+{
+    /**
+     * @var CheckboxRepositoryInterface
+     */
+    private $repository;
+}
+
+class CheckboxRepository
+{
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 }
 ```
 
