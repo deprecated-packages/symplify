@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\RegexpException;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\Regex;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -28,21 +30,29 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
      * @var string
      * @see https://regex101.com/r/92F0op/4
      */
-    private const FORMAT_REGEX = '#^[a-z0-9_\.-]+$#';
+    private const ALLOWED_FORMAT_REGEX = '#^[a-z0-9_\.-]+$#';
 
     /**
      * @var string[]
      */
-    private const ALLOWED_CONST_NAMES = ['ERROR_MESSAGE', '*_REGEX', 'ALLOWED_CONST_NAMES'];
+    private const ALLOWED_CONST_NAMES = ['*_REGEX'];
 
     /**
      * @var ArrayStringAndFnMatcher
      */
     private $arrayStringAndFnMatcher;
 
-    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher)
-    {
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(
+        ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
+        SimpleNameResolver $simpleNameResolver
+    ) {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -69,7 +79,12 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
         }
 
         foreach ($consts as $const) {
-            if ($this->arrayStringAndFnMatcher->isMatch($const->name->toString(), self::ALLOWED_CONST_NAMES)) {
+            $constName = $this->simpleNameResolver->getName($const->name);
+            if ($constName === null) {
+                continue;
+            }
+
+            if ($this->arrayStringAndFnMatcher->isMatch($constName, self::ALLOWED_CONST_NAMES)) {
                 continue;
             }
 
@@ -77,14 +92,7 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
                 continue;
             }
 
-            $string = $const->value;
-
-            // should skip string value
-            if ($this->isStringConstantValue($string)) {
-                continue;
-            }
-
-            if (Strings::match($const->value->value, self::FORMAT_REGEX)) {
+            if ($this->shouldSkipStringValue($const->value)) {
                 continue;
             }
 
@@ -125,8 +133,31 @@ CODE_SAMPLE
         return (bool) Strings::match($className, Regex::VALUE_OBJECT_REGEX);
     }
 
-    private function isStringConstantValue(String_ $string): bool
+    private function isUrlString(String_ $string): bool
     {
         return (bool) Strings::startsWith($string->value, 'http');
+    }
+
+    private function shouldSkipStringValue(String_ $string): bool
+    {
+
+        // has a space, not a string value
+        if (Strings::match($string->value, '#\s#')) {
+            return true;
+        }
+
+        // should skip string value
+        if ($this->isUrlString($string)) {
+            return true;
+        }
+
+        // is regular expression?
+        try {
+            Strings::match('', $string->value);
+            return true;
+        } catch (RegexpException $regexpException) {
+        }
+
+        return (bool) Strings::match($string->value, self::ALLOWED_FORMAT_REGEX);
     }
 }
