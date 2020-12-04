@@ -22,9 +22,11 @@ final class CheckConstantStringValueFormatRuleTest extends AbstractServiceAwareR
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipUrl.php', []];
+        yield [__DIR__ . '/Fixture/SkipLowercased.php', []];
+        yield [__DIR__ . '/Fixture/SkipValidStringClassConstant.php', []];
+
         yield [__DIR__ . '/Fixture/ValueObject/SkipThis.php', []];
         yield [__DIR__ . '/Fixture/NotHasStringClassConstant.php', []];
-        yield [__DIR__ . '/Fixture/HasValidStringClassConstant.php', []];
         yield [__DIR__ . '/Fixture/HasArrayClassConstant.php', []];
         yield [__DIR__ . '/Fixture/Invalid.php', [[CheckConstantStringValueFormatRule::ERROR_MESSAGE, 9]]];
     }
