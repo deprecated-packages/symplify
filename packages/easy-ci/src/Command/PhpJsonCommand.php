@@ -60,11 +60,7 @@ final class PhpJsonCommand extends AbstractSymplifyCommand
             throw new ShouldNotHappenException($message);
         }
 
-        $json = [
-            'php' => $supportePhpVersions,
-        ];
-        $jsonContent = Json::encode($json, Json::PRETTY);
-
+        $jsonContent = Json::encode($supportePhpVersions, Json::PRETTY);
         $this->symfonyStyle->writeln($jsonContent);
 
         return ShellCode::SUCCESS;
