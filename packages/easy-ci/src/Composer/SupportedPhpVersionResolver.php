@@ -6,6 +6,7 @@ namespace Symplify\EasyCI\Composer;
 
 use Composer\Semver\Semver;
 use Composer\Semver\VersionParser;
+use DateTimeInterface;
 use Nette\Utils\DateTime;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\EasyCI\ValueObject\PhpVersionList;
@@ -53,20 +54,18 @@ final class SupportedPhpVersionResolver
             throw new ShouldNotHappenException($message);
         }
 
-        return $this->resolveFromConstraints($requirePhpVersion);
+        return $this->resolveFromConstraints($requirePhpVersion, DateTime::from('now'));
     }
 
     /**
      * @return string[]
      */
-    public function resolveFromConstraints(string $phpVersionConstraints): array
+    public function resolveFromConstraints(string $phpVersionConstraints, DateTimeInterface $todayDateTime): array
     {
         // to validate version
         $this->versionParser->parseConstraints($phpVersionConstraints);
 
         $supportedPhpVersion = [];
-
-        $todayDateTime = DateTime::from('now');
 
         foreach (PhpVersionList::VERSIONS_BY_RELEASE_DATE as $releaseDate => $phpVersion) {
             if (! $this->semver->satisfies($phpVersion, $phpVersionConstraints)) {
