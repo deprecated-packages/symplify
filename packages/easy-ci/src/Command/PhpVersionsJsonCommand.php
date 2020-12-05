@@ -13,7 +13,7 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 
-final class PhpJsonCommand extends AbstractSymplifyCommand
+final class PhpVersionsJsonCommand extends AbstractSymplifyCommand
 {
     /**
      * @var string
@@ -60,7 +60,8 @@ final class PhpJsonCommand extends AbstractSymplifyCommand
             throw new ShouldNotHappenException($message);
         }
 
-        $jsonContent = Json::encode($supportePhpVersions, Json::PRETTY);
+        // output must be without spaces, otherwise it breaks the GitHub Actions json
+        $jsonContent = Json::encode($supportePhpVersions);
         $this->symfonyStyle->writeln($jsonContent);
 
         return ShellCode::SUCCESS;
