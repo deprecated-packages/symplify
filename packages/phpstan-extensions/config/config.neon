@@ -2,3 +2,10 @@ includes:
     - php.level.neon
     - symfony.level.neon
     - symplify.error_formatter.neon
+
+services:
+    -
+        class: Symplify\PHPStanExtensions\ReturnTypeExtension\GetServiceReturnTypeExtension
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+
+    - Symplify\PHPStanExtensions\TypeResolver\ClassConstFetchReturnTypeResolver
