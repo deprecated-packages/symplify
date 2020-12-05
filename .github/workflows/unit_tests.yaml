@@ -27,12 +27,12 @@ jobs:
             # here we create the json, we need the "id:" so we can use it in "outputs" bellow
 
             -
-                id: php-versions-json
+                id: output_data
                 run: echo "::set-output name=matrix::$(packages/easy-ci/bin/easy-ci php-versions-json)"
 
         # here, we save the result of this 1st phase to the "outputs"
         outputs:
-            matrix: ${{ steps.php-versions-json.outputs.matrix }}
+            matrix: ${{ steps.output_data.outputs.matrix }}
 
     unit_tests:
         needs: provide_php_versions_json

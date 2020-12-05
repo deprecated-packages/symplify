@@ -19,7 +19,6 @@ jobs:
                 with:
                     php-version: 7.3
                     coverage: none
-                    tools: composer:v2
 
             -   run: composer install --no-progress --ansi
 
@@ -49,7 +48,6 @@ jobs:
                 with:
                     php-version: 7.4
                     coverage: pcov
-                    tools: composer:v2
 
             -   run: composer install --no-progress --ansi
 

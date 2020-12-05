@@ -6,7 +6,6 @@ namespace Symplify\MonorepoBuilder\Command;
 
 use Nette\Utils\Json;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\MonorepoBuilder\Json\PackageJsonProvider;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
@@ -14,11 +13,6 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class PackagesJsonCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var string
-     */
-    private const NAMES = 'names';
-
     /**
      * @var PackageJsonProvider
      */
@@ -33,17 +27,15 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Provides packages in json format. Useful for GitHub Actions Workflow');
-        $this->addOption(self::NAMES, null, InputOption::VALUE_NONE, 'Return package names');
+        $this->setDescription('Provides package paths in json format. Useful for GitHub Actions Workflow');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $names = (bool) $input->getOption(self::NAMES);
+        $packagePaths = $this->packageJsonProvider->providePackages();
 
-        $data = $names ? $this->packageJsonProvider->createPackageNames() : $this->packageJsonProvider->createPackagePaths();
-
-        $json = Json::encode($data);
+        // must be without spaces, otherwise it breaks GitHub Actions json
+        $json = Json::encode($packagePaths);
         $this->symfonyStyle->writeln($json);
 
         return ShellCode::SUCCESS;
