@@ -29,6 +29,10 @@ jobs:
                         run: composer validate --strict
 
                     -
+                        name: Easy CI php-json
+                        run: packages/easy-ci/bin/easy-ci php-json
+
+                    -
                         name: Binary File Run
                         run: |
                             # test run bin files
