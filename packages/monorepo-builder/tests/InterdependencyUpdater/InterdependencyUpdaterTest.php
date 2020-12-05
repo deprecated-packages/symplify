@@ -26,8 +26,8 @@ final class InterdependencyUpdaterTest extends AbstractKernelTestCase
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
-        $this->dependencyUpdater = self::$container->get(DependencyUpdater::class);
-        $this->smartFileSystem = self::$container->get(SmartFileSystem::class);
+        $this->dependencyUpdater = $this->getService(DependencyUpdater::class);
+        $this->smartFileSystem = $this->getService(SmartFileSystem::class);
     }
 
     protected function tearDown(): void

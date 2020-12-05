@@ -19,7 +19,7 @@ final class VendorFilesFinderTest extends AbstractKernelTestCase
     {
         self::bootKernel(VendorPatchesKernel::class);
 
-        $this->vendorFilesFinder = self::$container->get(OldToNewFilesFinder::class);
+        $this->vendorFilesFinder = $this->getService(OldToNewFilesFinder::class);
     }
 
     public function test(): void

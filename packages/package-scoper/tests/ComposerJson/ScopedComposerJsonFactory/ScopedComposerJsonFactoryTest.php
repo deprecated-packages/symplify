@@ -30,10 +30,10 @@ final class ScopedComposerJsonFactoryTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(PackageScoperKernel::class);
-        $this->scopedComposerJsonFactory = self::$container->get(ScopedComposerJsonFactory::class);
+        $this->scopedComposerJsonFactory = $this->getService(ScopedComposerJsonFactory::class);
 
-        $this->composerJsonFactory = self::$container->get(ComposerJsonFactory::class);
-        $this->composerJsonPrinter = self::$container->get(ComposerJsonPrinter::class);
+        $this->composerJsonFactory = $this->getService(ComposerJsonFactory::class);
+        $this->composerJsonPrinter = $this->getService(ComposerJsonPrinter::class);
     }
 
     public function test(): void

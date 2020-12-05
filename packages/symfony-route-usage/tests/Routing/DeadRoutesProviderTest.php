@@ -26,7 +26,7 @@ final class DeadRoutesProviderTest extends AbstractKernelTestCase
         $databaseLoaderHelper->disableDoctrineLogger();
         $databaseLoaderHelper->createDatabase();
 
-        $this->deadRoutesProvider = self::$container->get(DeadRoutesProvider::class);
+        $this->deadRoutesProvider = $this->getService(DeadRoutesProvider::class);
     }
 
     public function test(): void

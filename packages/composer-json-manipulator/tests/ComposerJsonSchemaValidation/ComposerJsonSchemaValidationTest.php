@@ -25,7 +25,7 @@ final class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
     {
         $this->bootKernel(ComposerJsonManipulatorKernel::class);
 
-        $this->jsonFileManager = self::$container->get(JsonFileManager::class);
+        $this->jsonFileManager = $this->getService(JsonFileManager::class);
         $this->smartFileSystem = new SmartFileSystem();
     }
 

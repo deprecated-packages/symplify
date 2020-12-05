@@ -24,7 +24,7 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
             $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/test_config_split.php']);
         }
 
-        $this->changelogFileSystem = self::$container->get(ChangelogFileSystem::class);
+        $this->changelogFileSystem = $this->getService(ChangelogFileSystem::class);
     }
 
     public function testAddToChangelogOnPlaceholder(): void

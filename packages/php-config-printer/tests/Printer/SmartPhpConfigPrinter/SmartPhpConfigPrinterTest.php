@@ -27,7 +27,7 @@ final class SmartPhpConfigPrinterTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(PhpConfigPrinterKernel::class);
-        $this->smartPhpConfigPrinter = self::$container->get(SmartPhpConfigPrinter::class);
+        $this->smartPhpConfigPrinter = $this->getService(SmartPhpConfigPrinter::class);
     }
 
     /**

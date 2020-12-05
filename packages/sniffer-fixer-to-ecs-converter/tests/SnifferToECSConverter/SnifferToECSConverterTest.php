@@ -23,7 +23,7 @@ final class SnifferToECSConverterTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(SnifferFixerToECSKernel::class);
-        $this->snifferToECSConverter = self::$container->get(SnifferToECSConverter::class);
+        $this->snifferToECSConverter = $this->getService(SnifferToECSConverter::class);
     }
 
     /**

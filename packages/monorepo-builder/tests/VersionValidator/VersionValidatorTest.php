@@ -27,8 +27,8 @@ final class VersionValidatorTest extends AbstractKernelTestCase
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
-        $this->versionValidator = self::$container->get(VersionValidator::class);
-        $this->finderSanitizer = self::$container->get(FinderSanitizer::class);
+        $this->versionValidator = $this->getService(VersionValidator::class);
+        $this->finderSanitizer = $this->getService(FinderSanitizer::class);
     }
 
     public function test(): void

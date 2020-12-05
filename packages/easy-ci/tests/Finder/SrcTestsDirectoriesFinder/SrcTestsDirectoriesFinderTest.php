@@ -19,7 +19,7 @@ final class SrcTestsDirectoriesFinderTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(EasyCIKernel::class);
-        $this->srcTestsDirectoriesFinder = self::$container->get(SrcTestsDirectoriesFinder::class);
+        $this->srcTestsDirectoriesFinder = $this->getService(SrcTestsDirectoriesFinder::class);
     }
 
     public function test(): void

@@ -27,7 +27,7 @@ final class RouteVisitRepositoryTest extends AbstractKernelTestCase
         $databaseLoaderHelper->disableDoctrineLogger();
         $databaseLoaderHelper->createDatabase();
 
-        $this->routeVisitRepository = self::$container->get(RouteVisitRepository::class);
+        $this->routeVisitRepository = $this->getService(RouteVisitRepository::class);
     }
 
     public function test(): void

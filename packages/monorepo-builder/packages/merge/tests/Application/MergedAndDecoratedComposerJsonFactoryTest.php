@@ -19,7 +19,7 @@ final class MergedAndDecoratedComposerJsonFactoryTest extends AbstractComposerJs
     {
         parent::setUp();
 
-        $this->mergedAndDecoratedComposerJsonFactory = self::$container->get(
+        $this->mergedAndDecoratedComposerJsonFactory = $this->getService(
             MergedAndDecoratedComposerJsonFactory::class
         );
     }

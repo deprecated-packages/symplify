@@ -18,7 +18,7 @@ final class XmlToYamlTest extends AbstractConfigFormatConverterTest
         parent::setUp();
 
         /** @var Configuration $configuration */
-        $configuration = self::$container->get(Configuration::class);
+        $configuration = $this->getService(Configuration::class);
         $configuration->changeSymfonyVersion(SymfonyVersionFeature::SERVICE_WITHOUT_NAME - 0.1);
     }
 

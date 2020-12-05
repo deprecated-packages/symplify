@@ -19,7 +19,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         parent::setUp();
 
         /** @var Configuration $configuration */
-        $configuration = self::$container->get(Configuration::class);
+        $configuration = $this->getService(Configuration::class);
         $configuration->changeSymfonyVersion(3.4);
     }
 

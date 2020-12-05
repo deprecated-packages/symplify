@@ -20,7 +20,7 @@ final class AssetsCopierTest extends AbstractKernelTestCase
     {
         $this->bootKernel(TestSymfonyStaticDumperKernel::class);
 
-        $this->assetsCopier = self::$container->get(AssetsCopier::class);
+        $this->assetsCopier = $this->getService(AssetsCopier::class);
     }
 
     protected function tearDown(): void

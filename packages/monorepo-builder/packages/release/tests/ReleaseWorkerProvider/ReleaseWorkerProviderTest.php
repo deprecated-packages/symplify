@@ -18,7 +18,7 @@ final class ReleaseWorkerProviderTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernelWithConfigs(MonorepoBuilderKernel::class, [__DIR__ . '/config/all_release_workers.php']);
-        $this->releaseWorkerProvider = self::$container->get(ReleaseWorkerProvider::class);
+        $this->releaseWorkerProvider = $this->getService(ReleaseWorkerProvider::class);
     }
 
     public function test(): void

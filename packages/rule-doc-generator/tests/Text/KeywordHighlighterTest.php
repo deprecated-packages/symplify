@@ -19,7 +19,7 @@ final class KeywordHighlighterTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(RuleDocGeneratorKernel::class);
-        $this->keywordHighlighter = self::$container->get(KeywordHighlighter::class);
+        $this->keywordHighlighter = $this->getService(KeywordHighlighter::class);
     }
 
     /**

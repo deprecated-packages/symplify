@@ -25,7 +25,7 @@ final class OnlySkipperTest extends AbstractKernelTestCase
     {
         $this->bootKernelWithConfigs(SkipperKernel::class, [__DIR__ . '/config/config.php']);
 
-        $this->skipper = self::$container->get(Skipper::class);
+        $this->skipper = $this->getService(Skipper::class);
     }
 
     /**

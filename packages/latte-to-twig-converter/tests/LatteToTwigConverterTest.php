@@ -22,7 +22,7 @@ final class LatteToTwigConverterTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(LatteToTwigConverterKernel::class);
-        $this->LatteToTwigConverter = self::$container->get(LatteToTwigConverter::class);
+        $this->LatteToTwigConverter = $this->getService(LatteToTwigConverter::class);
     }
 
     /**

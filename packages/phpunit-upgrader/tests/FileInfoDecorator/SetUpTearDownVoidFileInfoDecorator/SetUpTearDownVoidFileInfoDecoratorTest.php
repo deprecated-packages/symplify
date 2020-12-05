@@ -22,7 +22,7 @@ final class SetUpTearDownVoidFileInfoDecoratorTest extends AbstractKernelTestCas
     protected function setUp(): void
     {
         $this->bootKernel(PHPUnitUpgraderKernel::class);
-        $this->setUpTearDownVoidFileInfoDecorator = self::$container->get(SetUpTearDownVoidFileInfoDecorator::class);
+        $this->setUpTearDownVoidFileInfoDecorator = $this->getService(SetUpTearDownVoidFileInfoDecorator::class);
     }
 
     /**

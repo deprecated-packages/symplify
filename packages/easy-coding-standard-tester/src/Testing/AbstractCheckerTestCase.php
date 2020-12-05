@@ -63,10 +63,10 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $configs = $this->getValidatedConfigs();
         $this->bootKernelWithConfigs(EasyCodingStandardKernel::class, $configs);
 
-        $this->fixerFileProcessor = self::$container->get(FixerFileProcessor::class);
-        $this->sniffFileProcessor = self::$container->get(SniffFileProcessor::class);
-        $this->errorAndDiffCollector = self::$container->get(ErrorAndDiffCollector::class);
-        $this->errorAndDiffResultFactory = self::$container->get(ErrorAndDiffResultFactory::class);
+        $this->fixerFileProcessor = $this->getService(FixerFileProcessor::class);
+        $this->sniffFileProcessor = $this->getService(SniffFileProcessor::class);
+        $this->errorAndDiffCollector = $this->getService(ErrorAndDiffCollector::class);
+        $this->errorAndDiffResultFactory = $this->getService(ErrorAndDiffResultFactory::class);
 
         // reset error count from previous possibly container cached run
         $this->errorAndDiffCollector->resetCounters();
@@ -269,7 +269,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         }
 
         $this->bootKernel(PhpConfigPrinterKernel::class);
-        self::$yamlToPhpConverter = self::$container->get(YamlToPhpConverter::class);
+        self::$yamlToPhpConverter = $this->getService(YamlToPhpConverter::class);
 
         return self::$yamlToPhpConverter;
     }

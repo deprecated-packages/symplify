@@ -20,7 +20,7 @@ final class VersionUtilsTest extends AbstractKernelTestCase
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
-        $this->versionUtils = self::$container->get(VersionUtils::class);
+        $this->versionUtils = $this->getService(VersionUtils::class);
     }
 
     /**

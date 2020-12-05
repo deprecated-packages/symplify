@@ -23,7 +23,7 @@ final class ConfigFactoryTest extends AbstractKernelTestCase
     public function testInlineValueObjectFunction(): void
     {
         /** @var ServiceWithValueObject $serviceWithValueObject */
-        $serviceWithValueObject = self::$container->get(ServiceWithValueObject::class);
+        $serviceWithValueObject = $this->getService(ServiceWithValueObject::class);
         $withType = $serviceWithValueObject->getWithType();
 
         $this->assertInstanceOf(WithType::class, $withType);
@@ -33,7 +33,7 @@ final class ConfigFactoryTest extends AbstractKernelTestCase
     public function testInlineValueObjectsFunction(): void
     {
         /** @var ServiceWithValueObject $serviceWithValueObject */
-        $serviceWithValueObject = self::$container->get(ServiceWithValueObject::class);
+        $serviceWithValueObject = $this->getService(ServiceWithValueObject::class);
 
         $withTypes = $serviceWithValueObject->getWithTypes();
         $this->assertCount(1, $withTypes);

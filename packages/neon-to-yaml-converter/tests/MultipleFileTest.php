@@ -30,9 +30,9 @@ final class MultipleFileTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(NeonToYamlKernel::class);
-        $this->neonToYamlConverter = self::$container->get(NeonToYamlConverter::class);
+        $this->neonToYamlConverter = $this->getService(NeonToYamlConverter::class);
 
-        $arrayParameterCollector = self::$container->get(ArrayParameterCollector::class);
+        $arrayParameterCollector = $this->getService(ArrayParameterCollector::class);
 
         $this->parametersFileInfo = new SmartFileInfo(__DIR__ . '/MultipleFileSource/neon/parameters.neon');
         $this->servicesFileInfo = new SmartFileInfo(__DIR__ . '/MultipleFileSource/neon/services.neon');

@@ -29,8 +29,8 @@ final class NeonToYamlConverterTest extends AbstractKernelTestCase
     {
         $this->bootKernel(NeonToYamlKernel::class);
 
-        $this->neonToYamlConverter = self::$container->get(NeonToYamlConverter::class);
-        $this->arrayParameterCollector = self::$container->get(ArrayParameterCollector::class);
+        $this->neonToYamlConverter = $this->getService(NeonToYamlConverter::class);
+        $this->arrayParameterCollector = $this->getService(ArrayParameterCollector::class);
     }
 
     /**

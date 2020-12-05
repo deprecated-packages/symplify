@@ -27,7 +27,7 @@ final class SortComposerJsonDecoratorTest extends AbstractKernelTestCase
         $this->bootKernel(MonorepoBuilderKernel::class);
 
         $this->composerJson = $this->createComposerJson();
-        $this->sortComposerJsonDecorator = self::$container->get(SortComposerJsonDecorator::class);
+        $this->sortComposerJsonDecorator = $this->getService(SortComposerJsonDecorator::class);
     }
 
     public function test(): void
@@ -43,7 +43,7 @@ final class SortComposerJsonDecoratorTest extends AbstractKernelTestCase
     private function createComposerJson(): ComposerJson
     {
         /** @var ComposerJsonFactory $composerJsonFactory */
-        $composerJsonFactory = self::$container->get(ComposerJsonFactory::class);
+        $composerJsonFactory = $this->getService(ComposerJsonFactory::class);
 
         return $composerJsonFactory->createFromArray([
             'random-this' => [],

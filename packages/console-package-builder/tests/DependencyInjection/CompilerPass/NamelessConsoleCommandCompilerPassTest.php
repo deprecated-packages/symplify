@@ -19,7 +19,7 @@ final class NamelessConsoleCommandCompilerPassTest extends AbstractKernelTestCas
     public function test(): void
     {
         /** @var Application $application */
-        $application = self::$container->get(Application::class);
+        $application = $this->getService(Application::class);
         $this->assertInstanceOf(Application::class, $application);
 
         $someCommand = $application->get('some');

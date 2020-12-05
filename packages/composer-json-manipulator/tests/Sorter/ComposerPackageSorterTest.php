@@ -20,7 +20,7 @@ final class ComposerPackageSorterTest extends AbstractKernelTestCase
     {
         $this->bootKernel(ComposerJsonManipulatorKernel::class);
 
-        $this->composerPackageSorter = self::$container->get(ComposerPackageSorter::class);
+        $this->composerPackageSorter = $this->getService(ComposerPackageSorter::class);
     }
 
     /**

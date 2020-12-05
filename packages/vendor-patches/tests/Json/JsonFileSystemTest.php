@@ -24,8 +24,8 @@ final class JsonFileSystemTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         self::bootKernel(VendorPatchesKernel::class);
-        $this->jsonFileSystem = self::$container->get(JsonFileSystem::class);
-        $this->smartFileSystem = self::$container->get(SmartFileSystem::class);
+        $this->jsonFileSystem = $this->getService(JsonFileSystem::class);
+        $this->smartFileSystem = $this->getService(SmartFileSystem::class);
     }
 
     public function testLoadFilePathToJson(): void

@@ -26,8 +26,8 @@ final class DevMasterAliasUpdaterTest extends AbstractKernelTestCase
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
-        $this->devMasterAliasUpdater = self::$container->get(DevMasterAliasUpdater::class);
-        $this->smartFileSystem = self::$container->get(SmartFileSystem::class);
+        $this->devMasterAliasUpdater = $this->getService(DevMasterAliasUpdater::class);
+        $this->smartFileSystem = $this->getService(SmartFileSystem::class);
     }
 
     protected function tearDown(): void

@@ -20,7 +20,7 @@ final class PackageNameResolverTest extends AbstractKernelTestCase
     {
         self::bootKernel(VendorPatchesKernel::class);
 
-        $this->packageNameResolver = self::$container->get(PackageNameResolver::class);
+        $this->packageNameResolver = $this->getService(PackageNameResolver::class);
     }
 
     public function test(): void

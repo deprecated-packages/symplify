@@ -19,7 +19,7 @@ final class PossibleTemplatePathsResolverTest extends AbstractKernelTestCase
     {
         self::bootKernel(TemplateCheckerKernel::class);
 
-        $this->templatePathsResolver = self::$container->get(TemplatePathsResolver::class);
+        $this->templatePathsResolver = $this->getService(TemplatePathsResolver::class);
     }
 
     public function test(): void

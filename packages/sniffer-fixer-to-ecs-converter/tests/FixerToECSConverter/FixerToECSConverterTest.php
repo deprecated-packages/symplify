@@ -29,8 +29,8 @@ final class FixerToECSConverterTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(SnifferFixerToECSKernel::class);
-        $this->fixerToECSConverter = self::$container->get(FixerToECSConverter::class);
-        $this->smartFileSystem = self::$container->get(SmartFileSystem::class);
+        $this->fixerToECSConverter = $this->getService(FixerToECSConverter::class);
+        $this->smartFileSystem = $this->getService(SmartFileSystem::class);
     }
 
     /**

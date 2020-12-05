@@ -22,7 +22,7 @@ final class ConfigFactoryNestedTest extends AbstractKernelTestCase
     public function testInlineValueObjectFunction(): void
     {
         /** @var ServiceWithValueObject $serviceWithValueObject */
-        $serviceWithValueObject = self::$container->get(ServiceWithValueObject::class);
+        $serviceWithValueObject = $this->getService(ServiceWithValueObject::class);
         $withType = $serviceWithValueObject->getWithType();
 
         $this->assertInstanceOf(WithType::class, $withType);

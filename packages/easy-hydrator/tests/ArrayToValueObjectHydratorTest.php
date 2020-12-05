@@ -40,7 +40,7 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
     {
         $this->bootKernel(EasyHydratorTestKernel::class);
 
-        $this->arrayToValueObjectHydrator = self::$container->get(ArrayToValueObjectHydrator::class);
+        $this->arrayToValueObjectHydrator = $this->getService(ArrayToValueObjectHydrator::class);
     }
 
     public function test(): void
