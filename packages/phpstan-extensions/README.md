@@ -82,7 +82,7 @@ $kernel->getContainer();
  // Reality: ContainerInterface ✅
 ```
 
-#### `Symplify\PHPStanExtensions\ReturnTypeExtension\SplFileInfoTolerantDynamicMethodReturnTypeExtension`
+#### `Symplify\PHPStanExtensions\ReturnTypeExtension\SplFileInfoTolerantReturnTypeExtension`
 
 Symfony Finder finds only existing files (obviously), so the `getRealPath()` always return `string`:
 

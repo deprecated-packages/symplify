@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * @inspiration https://github.com/phpstan/phpstan-symfony/blob/master/src/Type/Symfony/ServiceDynamicReturnTypeExtension.php
  */
-final class ContainerGetTypeExtension implements DynamicMethodReturnTypeExtension
+final class ContainerGetReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     public function getClass(): string
     {

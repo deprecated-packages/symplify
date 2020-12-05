@@ -19,7 +19,7 @@ use Symfony\Component\Finder\SplFileInfo;
  *
  * This narrows validation only to custom created SplFileInfo.
  */
-final class SplFileInfoTolerantDynamicMethodReturnTypeExtension implements DynamicMethodReturnTypeExtension
+final class SplFileInfoTolerantReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     public function getClass(): string
     {
