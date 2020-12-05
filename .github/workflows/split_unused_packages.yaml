@@ -21,7 +21,6 @@ jobs:
                     # PHP 7.3 is required by "icanhazstring/composer-unused"
                     php-version: 7.3
                     coverage: none
-                    tools: composer:v2
 
             # see https://github.com/composer-unused/composer-unused
             -
@@ -40,7 +39,6 @@ jobs:
                 with:
                     php-version: 7.4
                     coverage: none
-                    tools: composer:v2
 
             -   run: composer install --no-progress --ansi
 
@@ -67,7 +65,6 @@ jobs:
                 with:
                     php-version: 7.3
                     coverage: none
-                    tools: composer:v2
 
             # composer install cache - https://github.com/ramsey/composer-install
             -   uses: "ramsey/composer-install@v1"

@@ -18,25 +18,28 @@ jobs:
                 with:
                     php-version: 7.4
                     coverage: none
-                    tools: composer:v2
 
             -   run: composer install --no-progress --ansi
 
             # get package json list
             -
-                id: set-matrix
+                id: output_data
                 run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json)"
 
         outputs:
-            matrix: ${{ steps.set-matrix.outputs.matrix }}
+            matrix: ${{ steps.output_data.outputs.matrix }}
 
     split_tests:
         needs: provide_packages_json
 
         runs-on: ubuntu-latest
+
         strategy:
             fail-fast: false
-            matrix: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
+            matrix:
+                package: ${{ fromJson(needs.provide_packages_json.outputs.matrix )}}
+
+        name: Split Tests of ${{ matrix.package }}
 
         steps:
             -   uses: actions/checkout@v2
@@ -45,15 +48,13 @@ jobs:
                 with:
                     php-version: 7.3
                     coverage: none
-                    tools: composer:v2
 
             -   run: composer install --no-progress --ansi
 
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths ${{ matrix.package_path }}/composer.json --ansi
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.package }}/composer.json --ansi
 
-            -   run: composer update --no-progress --ansi --working-dir ${{ matrix.package_path }}
+            -   run: composer update --no-progress --ansi --working-dir packages/${{ matrix.package }}
 
             -
-                name: Split Tests of ${{ matrix.package_path }}
-                working-directory: ${{ matrix.package_path }}
+                working-directory: packages/${{ matrix.package }}
                 run: vendor/bin/phpunit
