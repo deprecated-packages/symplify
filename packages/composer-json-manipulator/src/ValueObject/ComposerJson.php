@@ -153,6 +153,11 @@ final class ComposerJson
         return $this->require;
     }
 
+    public function getRequirePhpVersion(): ?string
+    {
+        return $this->require['php'] ?? null;
+    }
+
     /**
      * @return array<string, string>
      */

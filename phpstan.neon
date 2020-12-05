@@ -404,3 +404,5 @@ parameters:
                 - packages/symfony-route-usage/src/EntityRepository/RouteVisitRepository.php #12
 
         - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
+
+        - '#Property (.*?)Test\:\:\$(.*?) does not accept object#'

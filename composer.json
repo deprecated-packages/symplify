@@ -7,6 +7,7 @@
         "ext-dom": "*",
         "ext-pdo": "*",
         "ext-simplexml": "*",
+        "composer/semver": "^3.2",
         "composer/xdebug-handler": "^1.4",
         "cweagans/composer-patches": "^1.6",
         "friendsofphp/php-cs-fixer": "^2.16",
@@ -64,7 +65,7 @@
         "symfony/templating": "^4.4|^5.1",
         "symfony/translation": "^4.4|^5.1",
         "symfony/twig-bundle": "^4.4|^5.1",
-        "tracy/tracy": "^2.7"
+        "tracy/tracy": "^2.7.6"
     },
     "autoload": {
         "files": [

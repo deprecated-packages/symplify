@@ -56,6 +56,6 @@ jobs:
             -
                 uses: "ramsey/composer-install@v1"
                 with:
-                    composer-options: "--ignore-platform-reqs"
+                    composer-options: "--ignore-platform-req php"
 
             -   run: ${{ matrix.actions.run }}

@@ -59,6 +59,18 @@ abstract class AbstractKernelTestCase extends TestCase
         return static::$kernel;
     }
 
+    /**
+     * Syntax sugger to remove static from the test cases vission
+     */
+    protected function getService(string $type): object
+    {
+        if (self::$container === null) {
+            throw new ShouldNotHappenException('First, crewate container with booKernel(KernelClass::class)');
+        }
+
+        return self::$container->get($type);
+    }
+
     protected function bootKernel(string $kernelClass): void
     {
         $this->ensureKernelShutdown();

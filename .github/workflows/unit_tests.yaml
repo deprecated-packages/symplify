@@ -8,13 +8,41 @@ env:
     COMPOSER_ROOT_VERSION: "dev-master"
 
 jobs:
+    provide_php_versions_json:
+        runs-on: ubuntu-latest
+
+        steps:
+            # git clone + use PHP + composer install
+            -   uses: actions/checkout@v2
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.4
+
+            -   run: composer install --no-progress --ansi
+
+            -
+                # to see the output
+                run: packages/easy-ci/bin/easy-ci php-versions-json
+
+            # here we create the json, we need the "id:" so we can use it in "outputs" bellow
+
+            -
+                id: php-versions-json
+                run: echo "::set-output name=matrix::$(packages/easy-ci/bin/easy-ci php-versions-json)"
+
+        # here, we save the result of this 1st phase to the "outputs"
+        outputs:
+            matrix: ${{ steps.php-versions-json.outputs.matrix }}
+
     unit_tests:
+        needs: provide_php_versions_json
+
         runs-on: ubuntu-latest
 
         strategy:
             fail-fast: false
             matrix:
-                php: ['7.3', '7.4', '8.0']
+                php: ${{ fromJson(needs.provide_php_versions_json.outputs.matrix) }}
 
         name: PHP ${{ matrix.php }} tests
 
@@ -33,18 +61,17 @@ jobs:
             # composer install cache - https://github.com/ramsey/composer-install
             -
                 if: "matrix.php == 7.3"
-                uses: "ramsey/composer-install@v1"
-                with:
-                    dependency-versions: "lowest"
+                run: composer update  --no-progress --ansi --prefer-lowest
 
             -
-                if: "matrix.php < 8"
+                if: "matrix.php == 7.4"
                 uses: "ramsey/composer-install@v1"
 
             -
                 if: "matrix.php >= 8"
                 uses: "ramsey/composer-install@v1"
                 with:
-                    composer-options: "--ignore-platform-reqs"
+                    composer-options: "--ignore-platform-req php"
 
-            -   run: vendor/bin/phpunit
+            -
+                run: vendor/bin/phpunit
