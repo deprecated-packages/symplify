@@ -1,0 +1,11 @@
+services:
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenMethodNamesByTypes:
+                PhpParser\Node:
+                    - 'getComments'
+                    - getDocComment

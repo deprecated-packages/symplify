@@ -13,9 +13,9 @@ final class ExtraFileCodeSample extends AbstractCodeSample
      */
     private $extraFile;
 
-    public function __construct(string $goodCode, string $badCode, string $extraFile)
+    public function __construct(string $badCode, string $goodCode, string $extraFile)
     {
-        parent::__construct($goodCode, $badCode);
+        parent::__construct($badCode, $goodCode);
 
         $this->extraFile = $extraFile;
     }

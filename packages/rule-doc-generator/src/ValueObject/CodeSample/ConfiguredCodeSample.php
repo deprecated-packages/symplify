@@ -18,7 +18,7 @@ final class ConfiguredCodeSample extends AbstractCodeSample implements CodeSampl
     /**
      * @param array<string, mixed> $configuration
      */
-    public function __construct(string $goodCode, string $badCode, array $configuration)
+    public function __construct(string $badCode, string $goodCode, array $configuration)
     {
         if ($configuration === []) {
             throw new InvalidConfigurationException('Configuration cannot be empty');
@@ -26,7 +26,7 @@ final class ConfiguredCodeSample extends AbstractCodeSample implements CodeSampl
 
         $this->configuration = $configuration;
 
-        parent::__construct($goodCode, $badCode);
+        parent::__construct($badCode, $goodCode);
     }
 
     /**
