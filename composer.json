@@ -7,6 +7,7 @@
         "ext-dom": "*",
         "ext-pdo": "*",
         "ext-simplexml": "*",
+        "composer/semver": "^3.2",
         "composer/xdebug-handler": "^1.4",
         "cweagans/composer-patches": "^1.6",
         "friendsofphp/php-cs-fixer": "^2.16",
