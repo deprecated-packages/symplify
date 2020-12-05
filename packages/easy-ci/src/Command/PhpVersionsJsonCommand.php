@@ -51,17 +51,17 @@ final class PhpVersionsJsonCommand extends AbstractSymplifyCommand
         $composerJsonFilePath = (string) $input->getArgument(self::COMPOSER_JSON_FILE_PATH);
         $this->fileSystemGuard->ensureFileExists($composerJsonFilePath, __METHOD__);
 
-        $supportePhpVersions = $this->supportedPhpVersionResolver->resolveFromComposerJsonFilePath(
+        $supportedPhpVersions = $this->supportedPhpVersionResolver->resolveFromComposerJsonFilePath(
             $composerJsonFilePath
         );
 
-        if ($supportePhpVersions === []) {
+        if ($supportedPhpVersions === []) {
             $message = sprintf('No PHP versions were resolved from "%s"', $composerJsonFilePath);
             throw new ShouldNotHappenException($message);
         }
 
         // output must be without spaces, otherwise it breaks the GitHub Actions json
-        $jsonContent = Json::encode($supportePhpVersions);
+        $jsonContent = Json::encode($supportedPhpVersions);
         $this->symfonyStyle->writeln($jsonContent);
 
         return ShellCode::SUCCESS;
