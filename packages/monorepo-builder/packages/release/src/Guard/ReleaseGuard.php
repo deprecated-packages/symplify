@@ -127,6 +127,9 @@ final class ReleaseGuard
     {
         $mostRecentVersion = $this->mostRecentTagResolver->resolve(getcwd());
 
+        // normalize to workaround phar-io bug
+        $mostRecentVersion = strtolower($mostRecentVersion);
+
         // no tag yet
         if ($mostRecentVersion === null) {
             return;
