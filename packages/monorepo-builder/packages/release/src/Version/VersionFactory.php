@@ -29,6 +29,9 @@ final class VersionFactory
 
     public function createValidVersion(string $versionArgument, string $stage): Version
     {
+        // normalize to workaround phar-io bug
+        $versionArgument = strtolower($versionArgument);
+
         if (in_array($versionArgument, SemVersion::ALL, true)) {
             return $this->resolveNextVersionByVersionKind($versionArgument);
         }

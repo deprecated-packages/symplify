@@ -132,6 +132,9 @@ final class ReleaseGuard
             return;
         }
 
+        // normalize to workaround phar-io bug
+        $mostRecentVersion = strtolower($mostRecentVersion);
+
         // validation
         $mostRecentVersion = new Version($mostRecentVersion);
         if ($version->isGreaterThan($mostRecentVersion)) {
