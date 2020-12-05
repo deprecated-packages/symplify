@@ -22,7 +22,7 @@ final class ChangelogCleanerTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(ChangelogLinkerKernel::class);
-        $this->changelogCleaner = self::$container->get(ChangelogCleaner::class);
+        $this->changelogCleaner = $this->getService(ChangelogCleaner::class);
     }
 
     /**

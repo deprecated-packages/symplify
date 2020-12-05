@@ -20,7 +20,7 @@ final class NonExistingClassExtractorTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(ClassPresenceKernel::class);
-        $this->nonExistingClassExtractor = self::$container->get(NonExistingClassExtractor::class);
+        $this->nonExistingClassExtractor = $this->getService(NonExistingClassExtractor::class);
     }
 
     /**

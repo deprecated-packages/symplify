@@ -18,7 +18,7 @@ final class SkippedPathsResolverTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernelWithConfigs(SkipperKernel::class, [__DIR__ . '/config/config.php']);
-        $this->skippedPathsResolver = self::$container->get(SkippedPathsResolver::class);
+        $this->skippedPathsResolver = $this->getService(SkippedPathsResolver::class);
     }
 
     public function test(): void

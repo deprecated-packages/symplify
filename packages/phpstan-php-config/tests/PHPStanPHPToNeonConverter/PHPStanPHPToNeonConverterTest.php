@@ -28,8 +28,8 @@ final class PHPStanPHPToNeonConverterTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(PHPStanPHPConfigKernel::class);
-        $this->phpStanPHPToNeonConverter = self::$container->get(PHPStanPHPToNeonConverter::class);
-        $this->smartFileSystem = self::$container->get(SmartFileSystem::class);
+        $this->phpStanPHPToNeonConverter = $this->getService(PHPStanPHPToNeonConverter::class);
+        $this->smartFileSystem = $this->getService(SmartFileSystem::class);
     }
 
     /**

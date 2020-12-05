@@ -44,10 +44,10 @@ abstract class AbstractConfigFormatConverterTest extends AbstractKernelTestCase
     {
         $this->bootKernel(ConfigTransformerKernel::class);
 
-        $this->configFormatConverter = self::$container->get(ConfigFormatConverter::class);
-        $this->containerBuilderCleaner = self::$container->get(ContainerBuilderCleaner::class);
-        $this->smartFileSystem = self::$container->get(SmartFileSystem::class);
-        $this->configuration = self::$container->get(Configuration::class);
+        $this->configFormatConverter = $this->getService(ConfigFormatConverter::class);
+        $this->containerBuilderCleaner = $this->getService(ContainerBuilderCleaner::class);
+        $this->smartFileSystem = $this->getService(SmartFileSystem::class);
+        $this->configuration = $this->getService(Configuration::class);
     }
 
     protected function doTestOutput(SmartFileInfo $fixtureFileInfo, string $inputFormat, string $outputFormat): void

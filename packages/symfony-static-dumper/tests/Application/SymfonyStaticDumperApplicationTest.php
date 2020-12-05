@@ -35,7 +35,7 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
     {
         $this->bootKernel(TestSymfonyStaticDumperKernel::class);
 
-        $this->symfonyStaticDumperApplication = self::$container->get(SymfonyStaticDumperApplication::class);
+        $this->symfonyStaticDumperApplication = $this->getService(SymfonyStaticDumperApplication::class);
 
         $this->smartFileSystem = new SmartFileSystem();
 

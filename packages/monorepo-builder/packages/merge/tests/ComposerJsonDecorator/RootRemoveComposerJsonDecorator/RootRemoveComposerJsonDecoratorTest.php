@@ -23,7 +23,7 @@ final class RootRemoveComposerJsonDecoratorTest extends AbstractComposerJsonDeco
         parent::setUp();
 
         $this->bootKernel(MonorepoBuilderKernel::class);
-        $this->composerJsonMerger = self::$container->get(ComposerJsonMerger::class);
+        $this->composerJsonMerger = $this->getService(ComposerJsonMerger::class);
     }
 
     /**

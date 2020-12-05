@@ -21,10 +21,10 @@ final class SonarConfigGeneratorTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(EasyCIKernel::class);
-        $this->sonarConfigGenerator = self::$container->get(SonarConfigGenerator::class);
+        $this->sonarConfigGenerator = $this->getService(SonarConfigGenerator::class);
 
         /** @var ParameterProvider $parameterProvider */
-        $parameterProvider = self::$container->get(ParameterProvider::class);
+        $parameterProvider = $this->getService(ParameterProvider::class);
         $parameterProvider->changeParameter(Option::SONAR_ORGANIZATION, 'some_organization');
         $parameterProvider->changeParameter(Option::SONAR_PROJECT_KEY, 'some_project');
     }

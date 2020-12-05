@@ -23,7 +23,7 @@ final class AssertContainsInfoDecoratorTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(PHPUnitUpgraderKernel::class);
-        $this->assertContainsInfoDecorator = self::$container->get(AssertContainsInfoDecorator::class);
+        $this->assertContainsInfoDecorator = $this->getService(AssertContainsInfoDecorator::class);
     }
 
     /**

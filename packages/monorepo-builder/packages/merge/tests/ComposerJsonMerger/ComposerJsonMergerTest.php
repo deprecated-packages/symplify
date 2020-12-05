@@ -18,7 +18,7 @@ final class ComposerJsonMergerTest extends AbstractComposerJsonDecoratorTest
     {
         parent::setUp();
 
-        $this->composerJsonMerger = self::$container->get(ComposerJsonMerger::class);
+        $this->composerJsonMerger = $this->getService(ComposerJsonMerger::class);
     }
 
     public function test(): void

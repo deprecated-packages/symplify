@@ -17,7 +17,7 @@ final class AutowiredConsoleApplicationTest extends AbstractKernelTestCase
 
     public function test(): void
     {
-        $application = self::$container->get(Application::class);
+        $application = $this->getService(Application::class);
         $this->assertInstanceOf(Application::class, $application);
     }
 }

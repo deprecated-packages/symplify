@@ -19,7 +19,7 @@ final class AutoloadPathNormalizerTest extends AbstractComposerJsonDecoratorTest
     {
         parent::setUp();
 
-        $this->autoloadPathNormalizer = self::$container->get(AutoloadPathNormalizer::class);
+        $this->autoloadPathNormalizer = $this->getService(AutoloadPathNormalizer::class);
     }
 
     public function test(): void

@@ -28,8 +28,8 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
             __DIR__ . '/config/inlined_section_config.php',
         ]);
 
-        $this->jsonFileManager = self::$container->get(JsonFileManager::class);
-        $this->smartFileSystem = self::$container->get(SmartFileSystem::class);
+        $this->jsonFileManager = $this->getService(JsonFileManager::class);
+        $this->smartFileSystem = $this->getService(SmartFileSystem::class);
     }
 
     protected function tearDown(): void

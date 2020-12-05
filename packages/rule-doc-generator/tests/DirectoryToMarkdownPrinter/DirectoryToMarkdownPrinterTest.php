@@ -24,7 +24,7 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
             __DIR__ . '/config/config_with_category_inferer.php',
         ]);
 
-        $this->directoryToMarkdownPrinter = self::$container->get(DirectoryToMarkdownPrinter::class);
+        $this->directoryToMarkdownPrinter = $this->getService(DirectoryToMarkdownPrinter::class);
     }
 
     /**

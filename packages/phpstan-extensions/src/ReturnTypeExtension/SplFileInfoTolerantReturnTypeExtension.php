@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Symfony\Type;
+namespace Symplify\PHPStanExtensions\ReturnTypeExtension;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -19,7 +19,7 @@ use Symfony\Component\Finder\SplFileInfo;
  *
  * This narrows validation only to custom created SplFileInfo.
  */
-final class SplFileInfoTolerantDynamicMethodReturnTypeExtension implements DynamicMethodReturnTypeExtension
+final class SplFileInfoTolerantReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     public function getClass(): string
     {

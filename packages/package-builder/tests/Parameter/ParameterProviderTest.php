@@ -17,7 +17,7 @@ final class ParameterProviderTest extends AbstractKernelTestCase
             [__DIR__ . '/ParameterProviderSource/config.yml']
         );
 
-        $parameterProvider = self::$container->get(ParameterProvider::class);
+        $parameterProvider = $this->getService(ParameterProvider::class);
 
         $parameters = $parameterProvider->provide();
         $this->assertArrayHasKey('key', $parameters);
@@ -41,7 +41,7 @@ final class ParameterProviderTest extends AbstractKernelTestCase
             [__DIR__ . '/ParameterProviderSource/Yaml/including-config.php']
         );
 
-        $parameterProvider = self::$container->get(ParameterProvider::class);
+        $parameterProvider = $this->getService(ParameterProvider::class);
 
         $parameters = $parameterProvider->provide();
         $this->assertArrayHasKey('one', $parameters);

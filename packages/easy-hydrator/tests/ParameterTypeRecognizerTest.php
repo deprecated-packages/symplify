@@ -23,7 +23,7 @@ class ParameterTypeRecognizerTest extends AbstractKernelTestCase
     {
         $this->bootKernel(EasyHydratorTestKernel::class);
 
-        $this->parameterTypeRecognizer = self::$container->get(ParameterTypeRecognizer::class);
+        $this->parameterTypeRecognizer = $this->getService(ParameterTypeRecognizer::class);
     }
 
     public function test(): void

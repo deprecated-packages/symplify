@@ -29,8 +29,8 @@ final class PHPStanPHPMDDecomposerTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         self::bootKernel(PHPMDDecomposerKernel::class);
-        $this->phpStanConfigFactory = self::$container->get(PHPStanConfigFactory::class);
-        $this->phpStanPrinter = self::$container->get(PHPStanPrinter::class);
+        $this->phpStanConfigFactory = $this->getService(PHPStanConfigFactory::class);
+        $this->phpStanPrinter = $this->getService(PHPStanPrinter::class);
     }
 
     /**

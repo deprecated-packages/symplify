@@ -20,7 +20,7 @@ final class ConflictResolverTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(EasyCIKernel::class);
-        $this->conflictResolver = self::$container->get(ConflictResolver::class);
+        $this->conflictResolver = $this->getService(ConflictResolver::class);
     }
 
     /**

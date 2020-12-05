@@ -19,7 +19,7 @@ final class StringsFilterTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         self::bootKernel(StaticDetectorKernel::class);
-        $this->stringsFilter = self::$container->get(StringsFilter::class);
+        $this->stringsFilter = $this->getService(StringsFilter::class);
     }
 
     /**

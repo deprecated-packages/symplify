@@ -22,7 +22,7 @@ final class MissingClassStaticCallLatteAnalyzerTest extends AbstractKernelTestCa
     protected function setUp(): void
     {
         self::bootKernel(TemplateCheckerKernel::class);
-        $this->missingClassStaticCallLatteAnalyzer = self::$container->get(MissingClassStaticCallLatteAnalyzer::class);
+        $this->missingClassStaticCallLatteAnalyzer = $this->getService(MissingClassStaticCallLatteAnalyzer::class);
     }
 
     /**

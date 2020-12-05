@@ -18,7 +18,7 @@ final class YamlToPhpConverterTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(PhpConfigPrinterKernel::class);
-        $this->yamlToPhpConverter = self::$container->get(YamlToPhpConverter::class);
+        $this->yamlToPhpConverter = $this->getService(YamlToPhpConverter::class);
     }
 
     public function test(): void

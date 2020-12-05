@@ -18,7 +18,7 @@ final class PackageComposerFinderTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernelWithConfigs(MonorepoBuilderKernel::class, [__DIR__ . '/Source/source_config.php']);
-        $this->packageComposerFinder = self::$container->get(PackageComposerFinder::class);
+        $this->packageComposerFinder = $this->getService(PackageComposerFinder::class);
     }
 
     public function test(): void

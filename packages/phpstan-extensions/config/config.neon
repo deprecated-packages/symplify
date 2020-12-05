@@ -1,4 +1,30 @@
 includes:
-    - php.level.neon
-    - symfony.level.neon
     - symplify.error_formatter.neon
+
+services:
+    # Symplify\PackageBuilder\Testing\AbstractKernelTestCase::getService($1) => $1 type
+    -
+        class: Symplify\PHPStanExtensions\ReturnTypeExtension\GetServiceReturnTypeExtension
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+
+    # Symfony Container::get($1) => $1 type
+    -
+        class: Symplify\PHPStanExtensions\ReturnTypeExtension\ContainerGetReturnTypeExtension
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+
+    # Symfony SplFileInfo::getContent() => string type
+    -
+        class: Symplify\PHPStanExtensions\ReturnTypeExtension\SplFileInfoTolerantReturnTypeExtension
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+
+    # Symfony Kernel::getContainer() after Kernel::boot() => ContainerInterface type
+    -
+        class: Symplify\PHPStanExtensions\ReturnTypeExtension\KernelGetContainerAfterBootReturnTypeExtension
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+
+    - Symplify\PHPStanExtensions\TypeResolver\ClassConstFetchReturnTypeResolver
+
+    # getcwd -> returns always "string"
+    -
+        class: Symplify\PHPStanExtensions\Php\Type\NativeFunctionDynamicFunctionReturnTypeExtension
+        tags: [phpstan.broker.dynamicFunctionReturnTypeExtension]

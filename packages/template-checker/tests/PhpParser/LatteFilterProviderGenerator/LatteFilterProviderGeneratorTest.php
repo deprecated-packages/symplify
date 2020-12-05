@@ -21,7 +21,7 @@ final class LatteFilterProviderGeneratorTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         self::bootKernel(TemplateCheckerKernel::class);
-        $this->latteFilterProviderGenerator = self::$container->get(LatteFilterProviderFactory::class);
+        $this->latteFilterProviderGenerator = $this->getService(LatteFilterProviderFactory::class);
     }
 
     public function test(): void

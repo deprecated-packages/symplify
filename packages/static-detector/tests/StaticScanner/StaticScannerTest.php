@@ -67,10 +67,10 @@ final class StaticScannerTest extends AbstractKernelTestCase
 
     private function createStaticReportFromFileInfo(SmartFileInfo $fileInfo): StaticReport
     {
-        $staticScanner = self::$container->get(StaticScanner::class);
+        $staticScanner = $this->getService(StaticScanner::class);
         $staticScanner->scanFileInfos([$fileInfo]);
 
-        $staticNodeCollector = self::$container->get(StaticNodeCollector::class);
+        $staticNodeCollector = $this->getService(StaticNodeCollector::class);
         return $staticNodeCollector->generateStaticReport();
     }
 }

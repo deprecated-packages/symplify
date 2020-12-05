@@ -19,7 +19,7 @@ final class SymplifyStringsTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(Psr4SwitcherKernel::class);
-        $this->symplifyStrings = self::$container->get(SymplifyStrings::class);
+        $this->symplifyStrings = $this->getService(SymplifyStrings::class);
     }
 
     /**

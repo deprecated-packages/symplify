@@ -19,7 +19,7 @@ final class RoutesProviderTest extends AbstractKernelTestCase
     {
         $this->bootKernel(TestSymfonyStaticDumperKernel::class);
 
-        $this->routesProvider = self::$container->get(RoutesProvider::class);
+        $this->routesProvider = $this->getService(RoutesProvider::class);
     }
 
     public function testProvideRoute(): void

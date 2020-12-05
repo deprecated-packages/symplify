@@ -19,7 +19,7 @@ final class GitCommitDateTagResolverTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(ChangelogLinkerKernel::class);
-        $this->gitCommitDateTagResolver = self::$container->get(GitCommitDateTagResolver::class);
+        $this->gitCommitDateTagResolver = $this->getService(GitCommitDateTagResolver::class);
 
         $this->markTestSkipped('Random false positives on Github Actions');
     }

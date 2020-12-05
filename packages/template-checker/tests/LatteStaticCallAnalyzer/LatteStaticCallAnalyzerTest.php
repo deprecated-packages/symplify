@@ -21,7 +21,7 @@ final class LatteStaticCallAnalyzerTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         self::bootKernel(TemplateCheckerKernel::class);
-        $this->latteStaticCallAnalyzer = self::$container->get(LatteStaticCallAnalyzer::class);
+        $this->latteStaticCallAnalyzer = $this->getService(LatteStaticCallAnalyzer::class);
     }
 
     /**

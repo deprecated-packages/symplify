@@ -21,7 +21,7 @@ final class ComposerJsonFactoryTest extends AbstractKernelTestCase
     {
         $this->bootKernel(ComposerJsonManipulatorKernel::class);
 
-        $composerJsonFactory = self::$container->get(ComposerJsonFactory::class);
+        $composerJsonFactory = $this->getService(ComposerJsonFactory::class);
         $composerJsonFilePath = __DIR__ . '/Source/some_composer.json';
 
         $this->composerJson = $composerJsonFactory->createFromFilePath($composerJsonFilePath);

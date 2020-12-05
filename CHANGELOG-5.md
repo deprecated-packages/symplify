@@ -791,7 +791,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### PHPStanExtensions
 
-- [#1123] Add `SplFileInfoTolerantDynamicMethodReturnTypeExtension`
+- [#1123] Add `SplFileInfoTolerantReturnTypeExtension`
 
 #### PackageBuilder
 

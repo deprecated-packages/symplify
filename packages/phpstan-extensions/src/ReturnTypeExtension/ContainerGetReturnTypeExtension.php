@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Symfony\Type;
+namespace Symplify\PHPStanExtensions\ReturnTypeExtension;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * @inspiration https://github.com/phpstan/phpstan-symfony/blob/master/src/Type/Symfony/ServiceDynamicReturnTypeExtension.php
  */
-final class ContainerGetTypeExtension implements DynamicMethodReturnTypeExtension
+final class ContainerGetReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     public function getClass(): string
     {

@@ -21,7 +21,7 @@ abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
-        $this->composerJsonFactory = self::$container->get(ComposerJsonFactory::class);
+        $this->composerJsonFactory = $this->getService(ComposerJsonFactory::class);
     }
 
     /**

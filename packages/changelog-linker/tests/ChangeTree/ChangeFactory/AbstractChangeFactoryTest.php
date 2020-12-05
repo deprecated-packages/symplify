@@ -28,7 +28,7 @@ abstract class AbstractChangeFactoryTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernelWithConfigs(ChangelogLinkerKernel::class, [__DIR__ . '/config/config.php']);
-        $this->changeFactory = self::$container->get(ChangeFactory::class);
+        $this->changeFactory = $this->getService(ChangeFactory::class);
     }
 
     protected function createChangeForTitle(string $title): Change

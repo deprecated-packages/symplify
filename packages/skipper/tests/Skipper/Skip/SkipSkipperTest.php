@@ -23,7 +23,7 @@ final class SkipSkipperTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernelWithConfigs(SkipperKernel::class, [__DIR__ . '/config/config.php']);
-        $this->skipper = self::$container->get(Skipper::class);
+        $this->skipper = $this->getService(Skipper::class);
     }
 
     /**

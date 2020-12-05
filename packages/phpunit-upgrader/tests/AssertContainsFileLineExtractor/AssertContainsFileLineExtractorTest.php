@@ -19,7 +19,7 @@ final class AssertContainsFileLineExtractorTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(PHPUnitUpgraderKernel::class);
-        $this->assertContainsFileLineExtractor = self::$container->get(AssertContainsFileLineExtractor::class);
+        $this->assertContainsFileLineExtractor = $this->getService(AssertContainsFileLineExtractor::class);
     }
 
     public function test(): void

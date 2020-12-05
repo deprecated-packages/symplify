@@ -51,7 +51,7 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
         $this->bootKernel(MonorepoBuilderKernel::class);
 
         /** @var ParameterProvider $parameterProvider */
-        $parameterProvider = self::$container->get(ParameterProvider::class);
+        $parameterProvider = $this->getService(ParameterProvider::class);
         $parameterProvider->changeParameter(Option::DATA_TO_REMOVE, [
             'require' => [
                 'phpunit/phpunit' => '*',
@@ -64,7 +64,7 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
             ],
         ]);
 
-        $this->removerComposerJsonDecorator = self::$container->get(RemoverComposerJsonDecorator::class);
+        $this->removerComposerJsonDecorator = $this->getService(RemoverComposerJsonDecorator::class);
 
         $this->composerJson = $this->createMainComposerJson();
         $this->expectedComposerJson = $this->createExpectedComposerJson();
@@ -80,7 +80,7 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
     private function createMainComposerJson(): ComposerJson
     {
         /** @var ComposerJsonFactory $composerJsonFactory */
-        $composerJsonFactory = self::$container->get(ComposerJsonFactory::class);
+        $composerJsonFactory = $this->getService(ComposerJsonFactory::class);
 
         return $composerJsonFactory->createFromArray(self::COMPOSER_JSON_DATA);
     }
@@ -88,7 +88,7 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
     private function createExpectedComposerJson(): ComposerJson
     {
         /** @var ComposerJsonFactory $composerJsonFactory */
-        $composerJsonFactory = self::$container->get(ComposerJsonFactory::class);
+        $composerJsonFactory = $this->getService(ComposerJsonFactory::class);
 
         $expectedComposerJson = [
             'require' => [

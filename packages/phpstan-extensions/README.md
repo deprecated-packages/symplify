@@ -43,7 +43,7 @@ The config also loads few return type extensions.
 
 ### Return Type Extensions
 
-#### `Symplify\PHPStanExtensions\Symfony\Type\ContainerGetTypeExtension`
+#### `Symplify\PHPStanExtensions\ReturnTypeExtension\ContainerGetTypeExtension`
 
 With Symfony container and type as an argument, you always know **the same type is returned**:
 
@@ -60,7 +60,7 @@ $container->get(Type::class);
 $this->get(Type::class);
 ```
 
-#### `Symplify\PHPStanExtensions\Symfony\Type\KernelGetContainerAfterBootReturnTypeExtension`
+#### `Symplify\PHPStanExtensions\ReturnTypeExtension\KernelGetContainerAfterBootReturnTypeExtension`
 
 After Symfony Kernel boot, `getContainer()` always returns the container:
 
@@ -82,7 +82,7 @@ $kernel->getContainer();
  // Reality: ContainerInterface ✅
 ```
 
-#### `Symplify\PHPStanExtensions\Symfony\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension`
+#### `Symplify\PHPStanExtensions\ReturnTypeExtension\SplFileInfoTolerantReturnTypeExtension`
 
 Symfony Finder finds only existing files (obviously), so the `getRealPath()` always return `string`:
 

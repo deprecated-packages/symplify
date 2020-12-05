@@ -19,7 +19,7 @@ final class MarkdownDifferTest extends AbstractKernelTestCase
     {
         $this->bootKernel(MarkdownDiffKernel::class);
 
-        $this->markdownDiffer = self::$container->get(MarkdownDiffer::class);
+        $this->markdownDiffer = $this->getService(MarkdownDiffer::class);
     }
 
     public function test(): void

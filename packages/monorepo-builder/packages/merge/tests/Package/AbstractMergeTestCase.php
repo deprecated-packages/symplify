@@ -27,8 +27,8 @@ abstract class AbstractMergeTestCase extends AbstractComposerJsonDecoratorTest
     {
         parent::setUp();
 
-        $this->composerJsonMerger = self::$container->get(ComposerJsonMerger::class);
-        $this->finderSanitizer = self::$container->get(FinderSanitizer::class);
+        $this->composerJsonMerger = $this->getService(ComposerJsonMerger::class);
+        $this->finderSanitizer = $this->getService(FinderSanitizer::class);
     }
 
     protected function doTestDirectoryMergeToFile(

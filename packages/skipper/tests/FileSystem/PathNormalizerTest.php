@@ -19,7 +19,7 @@ final class PathNormalizerTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(SkipperKernel::class);
-        $this->pathNormalizer = self::$container->get(PathNormalizer::class);
+        $this->pathNormalizer = $this->getService(PathNormalizer::class);
     }
 
     /**

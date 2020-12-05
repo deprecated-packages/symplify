@@ -20,7 +20,7 @@ final class SimplePhpDocParserTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(SimplePhpDocParserKernel::class);
-        $this->simplePhpDocParser = self::$container->get(SimplePhpDocParser::class);
+        $this->simplePhpDocParser = $this->getService(SimplePhpDocParser::class);
     }
 
     public function testVar(): void
