@@ -8,3 +8,4 @@ namespace PHPSTORM_META;
 
 // $container->get(Type::class) → instance of "Type"
 override(\Psr\Container\ContainerInterface::get(0), type(0));
+override(\Symplify\PackageBuilder\Testing\AbstractKernelTestCase::getService(0), type(0));
