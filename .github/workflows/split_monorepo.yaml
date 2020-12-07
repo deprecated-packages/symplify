@@ -4,8 +4,8 @@ on:
     push:
         branches:
             - master
-
-    tag: null
+        tags:
+            - '*'
 
 jobs:
     provide_packages_json:
