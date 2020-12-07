@@ -1,0 +1,11 @@
+services:
+    -
+         class: Symplify\PHPStanRules\Rules\OnlyOneClassMethodRule
+         tags: [phpstan.rules.rule]
+         arguments:
+             onlyOneMethodsByType:
+                 Symplify\PHPStanRules\Tests\Rules\OnlyOneClassMethodRule\Source\DoubleParentInterface:
+                     - run
+                     - go
+
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver
