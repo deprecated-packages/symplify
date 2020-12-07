@@ -21,6 +21,7 @@ final class CheckConstantStringValueFormatRuleTest extends AbstractServiceAwareR
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipText.php', []];
         yield [__DIR__ . '/Fixture/SkipUrl.php', []];
         yield [__DIR__ . '/Fixture/SkipLowercased.php', []];
         yield [__DIR__ . '/Fixture/SkipValidStringClassConstant.php', []];
