@@ -50,7 +50,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::SONAR_ORGANIZATION, 'symplify');
     $parameters->set(Option::SONAR_PROJECT_KEY, 'symplify_symplify');
     // paths to your source, packages and tests
-    $parameters->set(Option::SONAR_DIRECTORIES, [__DIR__ . '/src', __DIR__ . '/tests', __DIR__ . '/packages']);
+    $parameters->set(Option::SONAR_DIRECTORIES, [__DIR__ . '/src', __DIR__ . '/packages']);
 
     // optional - for extra parameters
     $parameters->set(Option::SONAR_OTHER_PARAMETERS, [
@@ -66,6 +66,67 @@ vendor/bin/easy-ci generate-sonar
 ```
 
 That's it!
+
+### 3. Provide `php-json` for Dynamic GitHub Actions Matrix
+
+[Dynamic Matrix for GitHub Actoins](https://tomasvotruba.com/blog/2020/11/16/how-to-make-dynamic-matrix-in-github-actions/) is one of cool way to simplify CI setup.
+
+Instead of providing PHP versions manually one by one:
+
+```yaml
+        # ...
+        strategy:
+            matrix:
+                php:
+                    - 7.3
+                    - 7.4
+                    - 8.0
+```
+
+Use information from your `composer.json`:
+
+```bash
+vendor/bin/easy-ci php-versions-json
+# "[7.3, 7.4, 8.0]"
+```
+
+Use in GitHub Action Workflow like this:
+
+```yaml
+jobs:
+    provide_php_versions_json:
+        runs-on: ubuntu-latest
+
+        steps:
+            # git clone + use PHP + composer install
+            -   uses: actions/checkout@v2
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.4
+
+            -   run: composer install --no-progress --ansi
+
+            # to see the output
+            -   run: vendor/bin/easy-ci php-versions-json
+
+            # here we create the json, we need the "id:" so we can use it in "outputs" bellow
+            -
+                id: output_data
+                run: echo "::set-output name=matrix::$(vendor/bin/easy-ci php-versions-json)"
+
+        # here, we save the result of this 1st phase to the "outputs"
+        outputs:
+            matrix: ${{ steps.output_data.outputs.matrix }}
+
+    unit_tests:
+        needs: provide_php_versions_json
+        strategy:
+            fail-fast: false
+            matrix:
+                php: ${{ fromJson(needs.provide_php_versions_json.outputs.matrix) }}
+
+        # ...
+```
 
 <br>
 
