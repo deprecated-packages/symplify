@@ -3,6 +3,12 @@
         "php": "^7.1",
         "symfony/dependency-injection": "^4.1"
     },
+    "authors": [
+        {
+            "name": "Original Author",
+            "email": "original@example.com"
+        }
+    ],
     "repositories": [
         {
             "type": "vcs",

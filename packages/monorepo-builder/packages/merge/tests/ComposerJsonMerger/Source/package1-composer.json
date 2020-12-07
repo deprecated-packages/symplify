@@ -2,6 +2,12 @@
     "require": {
         "php": "^7.1"
     },
+    "authors": [
+        {
+            "name": "New Author",
+            "email": "new@example.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Some\\": "some"

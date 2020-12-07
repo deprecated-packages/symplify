@@ -8,6 +8,20 @@
             "Some\\": "some"
         }
     },
+    "authors": [
+        {
+            "name": "Original Author",
+            "email": "original@example.com"
+        },
+        {
+            "name": "New Author",
+            "email": "new@example.com"
+        },
+        {
+            "name": "Package 2 Author",
+            "email": "package2@example.com"
+        }
+    ],
     "repositories": [
         {
             "type": "vcs",
