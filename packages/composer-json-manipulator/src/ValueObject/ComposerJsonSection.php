@@ -107,4 +107,10 @@ final class ComposerJsonSection
      * @var string
      */
     public const TYPE = 'type';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const AUTHORS = 'authors';
 }
