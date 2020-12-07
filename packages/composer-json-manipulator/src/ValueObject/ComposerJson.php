@@ -117,6 +117,11 @@ final class ComposerJson
      */
     private $type;
 
+    /**
+     * @var mixed[]
+     */
+    private $authors = [];
+
     public function __construct()
     {
         $this->composerPackageSorter = new ComposerPackageSorter();
@@ -495,6 +500,22 @@ final class ComposerJson
     public function getLicense(): ?string
     {
         return $this->license;
+    }
+
+    /**
+     * @param mixed[] $authors
+     */
+    public function setAuthors(array $authors): void
+    {
+        $this->authors = $authors;
+    }
+
+    /**
+     * @return mixed[] $authors
+     */
+    public function getAuthors(): array
+    {
+        return $this->authors;
     }
 
     /**
