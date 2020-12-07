@@ -5,6 +5,8 @@ on:
         branches:
             - master
 
+    tag: null
+
 jobs:
     provide_packages_json:
         # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
