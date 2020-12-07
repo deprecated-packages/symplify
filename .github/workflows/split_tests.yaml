@@ -57,4 +57,4 @@ jobs:
 
             -
                 working-directory: packages/${{ matrix.package }}
-                run: vendor/bin/phpunit
+                run: vendor/bin/phpunit --colors=always
