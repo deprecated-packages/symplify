@@ -1,4 +1,4 @@
-# 108 Rules Overview
+# 109 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3187,6 +3187,58 @@ trait SomeTrait
     public function autowire(...)
     {
         // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## OnlyOneClassMethodRule
+
+Allow only one of methods to be implemented on type
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\OnlyOneClassMethodRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\OnlyOneClassMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            onlyOneMethodsByType:
+                CheckedInterface:
+                    - run
+                    - hide
+```
+
+↓
+
+```php
+class SomeClass implements CheckedInterface
+{
+    public function run(): void
+    {
+    }
+
+    public function hide(): void
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass implements CheckedInterface
+{
+    public function run(): void
+    {
     }
 }
 ```
