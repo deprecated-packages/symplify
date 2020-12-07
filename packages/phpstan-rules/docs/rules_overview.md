@@ -1,4 +1,4 @@
-# 107 Rules Overview
+# 108 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1262,6 +1262,55 @@ Method call on new expression is not allowed.
 ```php
 $someClass = new SomeClass();
 $someClass->run();
+```
+
+:+1:
+
+<br>
+
+## ForbiddenMethodCallOnTypeRule
+
+Prevent using certain method calls on certains types
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnTypeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenMethodNamesByTypes:
+                SpecificType:
+                    - nope
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function process(SpecificType $specificType): void
+    {
+        $specificType->nope();
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function process(SpecificType $specificType): void
+    {
+        $specificType->yes();
+    }
+}
 ```
 
 :+1:
