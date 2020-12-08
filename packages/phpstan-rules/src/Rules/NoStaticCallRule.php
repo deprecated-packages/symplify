@@ -47,6 +47,7 @@ final class NoStaticCallRule extends AbstractSymplifyRule
         'Symfony\Component\Yaml\Yaml',
         'Symfony\Component\Process\Process',
         'Symfony\Component\Console\Formatter\OutputFormatter',
+        'Symfony\Component\Uid\Uuid',
         // symplify
         'Symplify\EasyTesting\DataProvider\StaticFixtureFinder',
         'Symplify\EasyTesting\StaticFixtureSplitter',
