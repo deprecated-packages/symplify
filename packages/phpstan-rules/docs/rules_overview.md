@@ -168,18 +168,18 @@ class SomeClass
 
 <br>
 
-## CheckDependencyMatrixRule
+## AllowedExclusiveDependencyRule
 
 Type dependency disallowed or allowed only
 
 :wrench: **configure it!**
 
-- class: `Symplify\PHPStanRules\Rules\CheckDependencyMatrixRule`
+- class: `Symplify\PHPStanRules\Rules\AllowedExclusiveDependencyRule`
 
 ```yaml
 services:
     -
-        class: Symplify\PHPStanRules\Rules\CheckDependencyMatrixRule
+        class: Symplify\PHPStanRules\Rules\AllowedExclusiveDependencyRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenMatrix:
