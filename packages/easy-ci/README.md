@@ -69,7 +69,7 @@ That's it!
 
 ### 3. Provide `php-json` for Dynamic GitHub Actions Matrix
 
-[Dynamic Matrix for GitHub Actoins](https://tomasvotruba.com/blog/2020/11/16/how-to-make-dynamic-matrix-in-github-actions/) is one of cool way to simplify CI setup.
+[Dynamic Matrix for GitHub Actions](https://tomasvotruba.com/blog/2020/11/16/how-to-make-dynamic-matrix-in-github-actions/) is one of cool way to simplify CI setup.
 
 Instead of providing PHP versions manually one by one:
 
