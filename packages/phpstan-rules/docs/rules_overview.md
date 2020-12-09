@@ -1,5 +1,64 @@
 # 109 Rules Overview
 
+## AllowedExclusiveDependencyRule
+
+Dependency of specific type can be used only in specific class types
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\AllowedExclusiveDependencyRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\AllowedExclusiveDependencyRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedExclusiveDependencyInTypes:
+                *EntityManager:
+                    - *Repository
+```
+
+↓
+
+```php
+class CheckboxController
+{
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public fuction __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class CheckboxRepository
+{
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public fuction __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## AnnotateRegexClassConstWithRegexLinkRule
 
 Add regex101.com `link` to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future
@@ -161,74 +220,6 @@ class SomeClass
 class SomeClass
 {
     private const FOO = 'bar';
-}
-```
-
-:+1:
-
-<br>
-
-## AllowedExclusiveDependencyRule
-
-Type dependency disallowed or allowed only
-
-:wrench: **configure it!**
-
-- class: `Symplify\PHPStanRules\Rules\AllowedExclusiveDependencyRule`
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\AllowedExclusiveDependencyRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenMatrix:
-                *Controller*:
-                    - EntityManager*
-
-            allowOnlyMatrix:
-                *Repository*: EntityManager*
-```
-
-↓
-
-```php
-class CheckboxController extends AbstractController
-{
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-}
-
-class CheckboxRepository
-{
-    /**
-     * @var Command
-     */
-    private $command;
-}
-```
-
-:x:
-
-<br>
-
-```php
-class CheckboxController extends AbstractController
-{
-    /**
-     * @var CheckboxRepositoryInterface
-     */
-    private $repository;
-}
-
-class CheckboxRepository
-{
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
 }
 ```
 
