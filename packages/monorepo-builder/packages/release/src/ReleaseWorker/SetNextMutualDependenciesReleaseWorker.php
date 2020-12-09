@@ -17,6 +17,8 @@ final class SetNextMutualDependenciesReleaseWorker extends AbstractMutualDepende
             $this->packageNamesProvider->provide(),
             $versionInString
         );
+
+        die;
     }
 
     public function getDescription(Version $version): string
