@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\SnifferFixerToECSConverter;
 
-use Symplify\EasyCodingStandard\Configuration\Option;
+use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
