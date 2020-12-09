@@ -4,6 +4,9 @@
     "require": {
         "php": "^7.2"
     },
+    "conflicting": [
+        "some/package"
+    ],
     "replace": {
         "some/package": "self.version"
     }
