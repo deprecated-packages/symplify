@@ -21,7 +21,7 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Only %s type can require %s type';
+    public const ERROR_MESSAGE = 'Only "%s" type can require "%s" type';
 
     /**
      * @var ArrayStringAndFnMatcher

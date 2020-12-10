@@ -87,9 +87,14 @@ CODE_SAMPLE
                 <<<'CODE_SAMPLE'
 trait SomeTrait
 {
+    /**
+     * @required
+     */
+    public $someDependency;
+
     public function someDelegateCall()
     {
-        $this->singleDelegateCall();
+        $this->someDependency->singleDelegateCall();
     }
 }
 CODE_SAMPLE

@@ -80,11 +80,11 @@ class SomeClass
 CODE_SAMPLE
             ,
             <<<'CODE_SAMPLE'
-/**
- * @see https://regex101.com/r/SZr0X5/12
- */
 class SomeClass
 {
+    /**
+     * @see https://regex101.com/r/SZr0X5/12
+     */
     private const COMPLICATED_REGEX = '#some_complicated_stu|ff#';
 }
 CODE_SAMPLE
