@@ -14,9 +14,9 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\ForbiddenConstructorDependencyByTypeRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenDependencyByTypeRule\ForbiddenDependencyByTypeRuleTest
  */
-final class ForbiddenConstructorDependencyByTypeRule extends AbstractSymplifyRule
+final class ForbiddenDependencyByTypeRule extends AbstractSymplifyRule
 {
     /**
      * @var string

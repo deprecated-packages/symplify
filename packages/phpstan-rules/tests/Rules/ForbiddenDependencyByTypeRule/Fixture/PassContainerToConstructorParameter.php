@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenConstructorDependencyByTypeRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenDependencyByTypeRule\Fixture;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
