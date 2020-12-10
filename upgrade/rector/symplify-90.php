@@ -33,7 +33,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'Symplify\CodingStandard\Rules\PrefferedMethodCallOverFuncCallRule' => 'Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule',
                 'Symplify\CodingStandard\Rules\ForbiddenMethodCallInIfRule' => 'Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule',
                 // an "PhpParser\Node\Empty_" must be added to the list, see
-                'Symplify\CodingStandard\Rules\NoEmptyRule' => 'Symplify\PHPStanRules\Rules\NoParticularNodeRule'
+                'Symplify\CodingStandard\Rules\NoEmptyRule' => 'Symplify\PHPStanRules\Rules\ForbiddenNodeRule'
             ],
         ]]);
 };

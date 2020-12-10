@@ -14,9 +14,9 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\NoParticularNodeRule\NoParticularNodeRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNodeRule\ForbiddenNodeRuleTest
  */
-final class NoParticularNodeRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ForbiddenNodeRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string

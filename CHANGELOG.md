@@ -310,7 +310,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#2252] Fixes [#2176] : Add No factory in constructor rule, Thanks to [@samsonasik]
 - [#2388] Fixes [#2381] Add ForbiddenMethodCallInIfRule, Thanks to [@samsonasik]
 - [#2280] Add case with curly opener
-- [#2292] Add NoParticularNodeRule
+- [#2292] Add ForbiddenNodeRule
 - [#2298] Fixes [#2226] add PreferredRawDataInTestDataProvider, Thanks to [@samsonasik]
 - [#2317] Add trait/class difference in CheckRequiredMethodTobeAutowireWithClassNameRule
 - [#2379] Fixes [#2378] Add ForbiddenMethodOrFuncCallInForeachRule, Thanks to [@samsonasik]

@@ -9,9 +9,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCI\Composer\SupportedPhpVersionResolver;
+use Symplify\EasyCI\Exception\ShouldNotHappenException;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\EasyCI\Exception\ShouldNotHappenException;
 
 final class PhpVersionsJsonCommand extends AbstractSymplifyCommand
 {
