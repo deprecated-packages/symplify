@@ -9,20 +9,20 @@
         "squizlabs/php_codesniffer": "^3.5",
         "slevomat/coding-standard": "^6.4",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "symplify/symplify-kernel": "^9.0.1",
-        "symplify/package-builder": "^9.0.1",
-        "symplify/autowire-array-parameter": "^9.0.1",
-        "symplify/rule-doc-generator": "^9.0.1"
+        "symplify/symplify-kernel": "^9.0.2",
+        "symplify/package-builder": "^9.0.2",
+        "symplify/autowire-array-parameter": "^9.0.2",
+        "symplify/rule-doc-generator": "^9.0.2"
     },
     "require-dev": {
         "nette/application": "^3.0.7",
         "nette/bootstrap": "^3.0",
-        "symplify/easy-coding-standard-tester": "^9.0.1",
+        "symplify/easy-coding-standard-tester": "^9.0.2",
         "symfony/http-kernel": "^4.4|^5.1",
         "doctrine/orm": "^2.7",
-        "symplify/smart-file-system": "^9.0.1",
+        "symplify/smart-file-system": "^9.0.2",
         "symfony/framework-bundle": "^4.4|^5.1",
-        "symplify/php-config-printer": "^9.0.1",
+        "symplify/php-config-printer": "^9.0.2",
         "phpunit/phpunit": "^8.5|^9.4"
     },
     "autoload": {
