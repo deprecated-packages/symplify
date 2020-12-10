@@ -30,7 +30,6 @@ final class IfNewTypeThenImplementInterfaceRuleTest extends AbstractServiceAware
         );
 
         yield [__DIR__ . '/Fixture/WithNew.php', [[$errorMessage, 9]]];
-
     }
 
     protected function getRule(): Rule

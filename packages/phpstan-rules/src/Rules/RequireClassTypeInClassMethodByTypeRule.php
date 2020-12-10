@@ -11,13 +11,14 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Types\ConstantTypeAnalyzer;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireClassTypeInClassMethodByTypeRule\RequireClassTypeInClassMethodByTypeRuleTest
  */
-final class RequireClassTypeInClassMethodByTypeRule extends AbstractSymplifyRule
+final class RequireClassTypeInClassMethodByTypeRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string

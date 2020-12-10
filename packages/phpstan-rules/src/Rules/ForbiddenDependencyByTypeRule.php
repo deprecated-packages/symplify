@@ -10,13 +10,14 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenDependencyByTypeRule\ForbiddenDependencyByTypeRuleTest
  */
-final class ForbiddenDependencyByTypeRule extends AbstractSymplifyRule
+final class ForbiddenDependencyByTypeRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
