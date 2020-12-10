@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Printer;
 
-use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
+use Symplify\EasyCI\Exception\ShouldNotHappenException;
 
 final class SonarConfigDataPrinter
 {

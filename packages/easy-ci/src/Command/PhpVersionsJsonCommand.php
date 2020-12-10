@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCI\Composer\SupportedPhpVersionResolver;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
+use Symplify\EasyCI\Exception\ShouldNotHappenException;
 
 final class PhpVersionsJsonCommand extends AbstractSymplifyCommand
 {
