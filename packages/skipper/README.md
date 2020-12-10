@@ -57,11 +57,41 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 };
 ```
 
-@todo
+Or for rules and paths specific ignores:
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\Skipper\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+
+    $parameters->set(Option::SKIP, [
+        // specific class
+        SomeClass::class => [__DIR__ . '/src/OnlyHere'],
+
+        // class code in paths
+        SomeSniff::class . '.SomeCode' => ['*Sniff.php', '*YamlFileLoader.php'],
+    ]);
+};
+```
 
 ### 2. Configure with `Option::ONLY` parameter.
 
-@todo
+This is exact invert of `SKIP`. The `SomeFixer` will run **only if** in defined paths:
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\Skipper\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    $parameters->set(Option::ONLY, [
+        // this should be removed in the future, with all dead comments
+        SomeFixer::class => [__DIR__ . '/src/Controller'],
+    ]);
+};
+```
 
 ### 3. Use `Skipper` service in Your Project
 
