@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\ObjectCalisthenics\Rules;
 
 use DateTimeInterface;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use PharIo\Version\Version;
 use PharIo\Version\VersionNumber;
 use PhpParser\Node;
@@ -51,6 +53,9 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
         // also trinary logic ↓
         PassedByReference::class,
         DateTimeInterface::class,
+        // Doctrine
+        QueryBuilder::class,
+        Query::class,
     ];
 
     /**
