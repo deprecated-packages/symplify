@@ -1,0 +1,38 @@
+{
+    "name": "test-package",
+    "description": "Package to load, merge and save composer.json file(s)",
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "require": {
+        "php": ">=7.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5|^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\ComposerJsonManipulator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\ComposerJsonManipulator\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "9.1-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "replace": {
+        "symplify/autodiscovery": "self.version"
+    },
+    "scripts": {
+        "check-cs": "packages/easy-coding-standard/bin/ecs check --ansi"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
