@@ -911,7 +911,9 @@ Only "Type" type can require "Dependency Type" type
 - class: `Symplify\PHPStanRules\Rules\ExclusiveDependencyRule`
 
 ```php
-use Doctrine\ORM\EntityManager;class SomeController
+use Doctrine\ORM\EntityManager;
+
+class SomeController
 {
     public function __construct(EntityManager $entityManager)
     {
