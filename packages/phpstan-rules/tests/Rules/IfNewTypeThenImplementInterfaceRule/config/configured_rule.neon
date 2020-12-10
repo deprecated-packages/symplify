@@ -1,0 +1,11 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            interfacesByNewTypes:
+                Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample: Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface
+
+    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
+    - PhpParser\NodeFinder
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver
