@@ -87,18 +87,22 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
         return new RuleDefinition($description, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
+use Doctrine\ORM\EntityManager;
+
 class SomeController
 {
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager)
     {
     }
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
+use Doctrine\ORM\EntityManager;
+
 class SomeRepository
 {
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager)
     {
     }
 }
