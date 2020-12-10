@@ -13,7 +13,7 @@ final class ApiMethodController extends AbstractController
     /**
      * @Route(path="api.json")
      */
-    public function api(): JsonResponse
+    public function __invoke(): JsonResponse
     {
         return $this->json([
             'key' => 'value',

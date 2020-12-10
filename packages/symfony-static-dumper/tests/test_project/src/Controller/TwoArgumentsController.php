@@ -7,9 +7,8 @@ namespace Symplify\SymfonyStaticDumper\Tests\TestProject\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symplify\SymfonyStaticDumper\Contract\ControllerWithDataProviderInterface;
 
-final class TwoArgumentsController extends AbstractController implements ControllerWithDataProviderInterface
+final class TwoArgumentsController extends AbstractController
 {
     /**
      * @Route(path="/{type}/{param}", name="two_params")
@@ -20,23 +19,5 @@ final class TwoArgumentsController extends AbstractController implements Control
             'type' => $type,
             'param' => $param,
         ]);
-    }
-
-    public function getControllerClass(): string
-    {
-        return self::class;
-    }
-
-    public function getControllerMethod(): string
-    {
-        return '__invoke';
-    }
-
-    /**
-     * @return int[][]|string[][]
-     */
-    public function getArguments(): array
-    {
-        return [['test', 1], ['test', 2], ['foo', 1], ['foo', 2]];
     }
 }
