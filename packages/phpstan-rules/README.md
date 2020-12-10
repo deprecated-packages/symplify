@@ -12,13 +12,39 @@ Set of rules for PHPStan used by Symplify projects
 composer require symplify/phpstan-rules --dev
 ```
 
-Register rules for PHPStan:
+## Add Rules to `phpstan.neon`
+
+Some of rules here require configuration, some not. We recommend to start with rules that do not require any configuration, because there is just one way to use them:
 
 ```yaml
 # phpstan.neon
 includes:
-    - vendor/symplify/phpstan-rules/config/symplify-rules.neon
+    - vendor/symplify/phpstan-rules/config/static-rules.neon
 ```
+
+Give it couple of days, before extending.
+
+## How we use Configurable Rules
+
+Then there are configurable rules with *saints defaults*. That's just polite wording for *opinionated*, like [`AllowedExclusiveDependencyRule`](https://github.com/symplify/phpstan-rules/blob/master/docs/rules_overview.md#allowedexclusivedependencyrule).
+
+You might not like them, but maybe you do:
+
+```yaml
+# phpstan.neon
+includes:
+    - vendor/symplify/phpstan-rules/config/configurable-rules.neon
+```
+
+Give it a trial run... so many erros and unclear feedback.... Would you like to **configure them yourself?**
+That's good! We use one rule by another in other projects too, instead of one big import.
+
+- **Pick one and put it to your `phpstan.neon` manually**.
+- Configure it to your specific needs and re-run PHPStan. Much better, when you're in control, right?
+
+You'll find them all in [rules overview](docs/rules_overview.md).
+
+Happy coding!
 
 <br>
 

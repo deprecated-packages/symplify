@@ -29,7 +29,7 @@ class CheckboxController
      */
     private $entityManager;
 
-    public fuction __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
@@ -48,7 +48,7 @@ class CheckboxRepository
      */
     private $entityManager;
 
-    public fuction __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
@@ -167,8 +167,9 @@ class SomeClass
 {
     public function someMethod()
     {
-        return getcwd() . '/absolute_path';
+        $mainPath = getcwd() . '/absolute_path';
         // ...
+        return $mainPath;
     }
 }
 ```
@@ -312,14 +313,14 @@ Method parameters must be compatible with its parent
 ```php
 class ParentClass
 {
-    public function run(string $someParameter): void
+    public function run(string $someParameter)
     {
     }
 }
 
 class SomeClass extends ParentClass
 {
-    public function run($someParameter): void
+    public function run($someParameter)
     {
     }
 }
@@ -332,14 +333,14 @@ class SomeClass extends ParentClass
 ```php
 class ParentClass
 {
-    public function run(string $someParameter): void
+    public function run(string $someParameter)
     {
     }
 }
 
 class SomeClass extends ParentClass
 {
-    public function run(string $someParameter): void
+    public function run(string $someParameter)
     {
     }
 }
@@ -513,7 +514,7 @@ trait SomeTrait
 ```php
 trait SomeTrait
 {
-    public function someDelegateCall(): void
+    public function someDelegateCall()
     {
         $this->singleDelegateCall();
     }
@@ -536,14 +537,14 @@ use PhpParser\Node\Expr\MethodCall;
 
 class SomeClass
 {
-    public function run(Node $node): void
+    public function run(Node $node)
     {
         if ($node instanceof MethodCall) {
             $this->isCheck($node);
         }
     }
 
-    private function isCheck(Node $node): void
+    private function isCheck(Node $node)
     {
     }
 }
@@ -559,14 +560,14 @@ use PhpParser\Node\Expr\MethodCall;
 
 class SomeClass
 {
-    public function run(Node $node): void
+    public function run(Node $node)
     {
         if ($node instanceof MethodCall) {
             $this->isCheck($node);
         }
     }
 
-    private function isCheck(MethodCall $node): void
+    private function isCheck(MethodCall $node)
     {
     }
 }
@@ -594,7 +595,7 @@ class SomeClass
         $this->symfonyStyle = $symfonyStyle;
     }
 
-    public function run(): void
+    public function run()
     {
         $this->symfonyStyle->writeln('Hi');
     }
@@ -608,9 +609,9 @@ class SomeClass
 ```php
 class SomeClass
 {
-    public function run(): void
+    public function run()
     {
-        echo 'Hi' . PHP_EOL;
+        echo 'Hi'. PHP_EOL;
     }
 }
 ```
@@ -926,7 +927,9 @@ class SomeController
 <br>
 
 ```php
-use Doctrine\ORM\EntityManager;class SomeRepository
+use Doctrine\ORM\EntityManager;
+
+class SomeRepository
 {
     public function __construct(EntityManager $entityManager)
     {
@@ -1059,19 +1062,20 @@ services:
 ↓
 
 ```php
-use Symfony\Component\DependencyInjection\Container;class SomeClass
+
+class SomeClass
 {
     /**
-     * @var Container
+     * @var \Symfony\Component\DependencyInjection\Container
      */
     private $some;
 
-    public function __construct(Container $some)
+    public function __construct(\Symfony\Component\DependencyInjection\Container $some)
     {
         $this->some = $some;
     }
 
-    public function call(): void
+    public function call()
     {
         $this->some->call();
     }
@@ -1285,7 +1289,7 @@ services:
 ```php
 class SomeClass
 {
-    public function process(SpecificType $specificType): void
+    public function process(SpecificType $specificType)
     {
         $specificType->nope();
     }
@@ -1299,7 +1303,7 @@ class SomeClass
 ```php
 class SomeClass
 {
-    public function process(SpecificType $specificType): void
+    public function process(SpecificType $specificType)
     {
         $specificType->yes();
     }
@@ -1462,7 +1466,7 @@ class SomeRule implements Rule
 {
     protected function getRule(): Rule
     {
-        return new self();
+        return new SomeRule();
     }
 }
 ```
@@ -1478,7 +1482,7 @@ class SomeRule implements Rule
 {
     protected function getRule(): Rule
     {
-        return $this->getService(self::class);
+        return $this->getService(SomeRule::class);
     }
 }
 ```
@@ -1510,7 +1514,7 @@ services:
 ```php
 class SomeClass
 {
-    public function process(): void
+    public function process()
     {
         $anotherObject = new AnotherObject();
         // ...
@@ -1525,17 +1529,53 @@ class SomeClass
 ```php
 class SomeClass
 {
-    public function __construt(AnotherObjectFactory $anotherObjectFactory): void
+    public function __construt(AnotherObjectFactory $anotherObjectFactory)
     {
         $this->anotherObjectFactory = $anotherObjectFactory;
     }
 
-    public function process(): void
+    public function process()
     {
         $anotherObject = $this->anotherObjectFactory = $anotherObjectFactory->create();
         // ...
     }
 }
+```
+
+:+1:
+
+<br>
+
+## ForbiddenNodeRule
+
+"%s" is forbidden to use
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenNodeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNodeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenNodes:
+                - PhpParser\Node\Expr\ErrorSuppress
+```
+
+↓
+
+```php
+return @strlen('...');
+```
+
+:x:
+
+<br>
+
+```php
+return strlen('...');
 ```
 
 :+1:
@@ -1609,12 +1649,12 @@ services:
 ```php
 class SomeCommand extends Command
 {
-    public function run(): void
+    public function run()
     {
         $this->somePrivateMethod();
     }
 
-    private function somePrivateMethod(): void
+    private function somePrivateMethod()
     {
         // ...
     }
@@ -1638,7 +1678,7 @@ class SomeCommand extends Command
         $this->externalService = $externalService;
     }
 
-    public function run(): void
+    public function run()
     {
         $this->externalService->someMethod();
     }
@@ -1669,7 +1709,7 @@ class SomeClass
 ```php
 class SomeClass implements RepositoryAwareInterface
 {
-    public function getRepository(): void
+    public function getRepository()
     {
         // ....
     }
@@ -1703,7 +1743,7 @@ class SomeClass
 ```php
 class SomeClass
 {
-    public function run(): void
+    public function run()
     {
         require_once 'Test.php';
     }
@@ -1722,7 +1762,7 @@ Spread operator is not allowed.
 
 ```php
 $args = [$firstValue, $secondValue];
-$message = sprintf('%s', ...$args);
+$message =  sprintf('%s', ...$args);
 ```
 
 :x:
@@ -1730,7 +1770,7 @@ $message = sprintf('%s', ...$args);
 <br>
 
 ```php
-$message = sprintf('%s', $firstValue, $secondValue);
+$message =  sprintf('%s', $firstValue, $secondValue);
 ```
 
 :+1:
@@ -1969,13 +2009,12 @@ final class SomeClass
 
 ## NoChainMethodCallRule
 
-Do not use chained method calls. Put `each` on separated lines.
+Do not use chained method calls. Put each on separated lines.
 
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`
 
 ```php
-$this->runThis()
-    ->runThat();
+$this->runThis()->runThat();
 ```
 
 :x:
@@ -2000,7 +2039,7 @@ Class "%s" with static method must have "Static" in its name it explicit
 ```php
 class SomeClass
 {
-    public static function getSome(): void
+    public static function getSome()
     {
     }
 }
@@ -2013,7 +2052,7 @@ class SomeClass
 ```php
 class SomeStaticClass
 {
-    public static function getSome(): void
+    public static function getSome()
     {
     }
 }
@@ -2046,7 +2085,7 @@ final class SomeTest
 ```php
 final class SomeTest
 {
-    protected function setUp(): void
+    public function setUp()
     {
         // ...
     }
@@ -2106,6 +2145,8 @@ throw new RuntimeException('...');
 <br>
 
 ```php
+use App\Exception\FileNotFoundExceptoin;
+
 throw new FileNotFoundException('...');
 ```
 
@@ -2447,7 +2488,7 @@ class SomeClass
     public function run()
     {
         if (random_int(0, 1)) {
-            $object = new self();
+            $object = new SomeClass();
         }
 
         if (isset($object)) {
@@ -2468,7 +2509,7 @@ class SomeClass
     {
         $object = null;
         if (random_int(0, 1)) {
-            $object = new self();
+            $object = new SomeClass();
         }
 
         if ($object !== null) {
@@ -2494,7 +2535,7 @@ Do not use `@method` tag in class docblock
  */
 class SomeClass
 {
-    public function __call(): void
+    public function __call()
     {
         // more magic
     }
@@ -2562,7 +2603,7 @@ Use value object over multi array assign
 ```php
 final class SomeClass
 {
-    public function run(): void
+    public function run()
     {
         $values = [];
         $values['person']['name'] = 'Tom';
@@ -2578,7 +2619,7 @@ final class SomeClass
 ```php
 final class SomeClass
 {
-    public function run(): void
+    public function run()
     {
         $values = [];
         $values[] = new Person('Tom', 'Dev');
@@ -2665,14 +2706,14 @@ Do not call parent method if parent method is empty
 ```php
 class ParentClass
 {
-    public function someMethod(): void
+    public function someMethod()
     {
     }
 }
 
 class SomeClass extends ParentClass
 {
-    public function someMethod(): void
+    public function someMethod()
     {
         parent::someMethod();
     }
@@ -2686,14 +2727,14 @@ class SomeClass extends ParentClass
 ```php
 class ParentClass
 {
-    public function someMethod(): void
+    public function someMethod()
     {
     }
 }
 
 class SomeClass extends ParentClass
 {
-    public function someMethod(): void
+    public function someMethod()
     {
     }
 }
@@ -2733,42 +2774,6 @@ class SomeClass extends Printer
 
 <br>
 
-## NoParticularNodeRule
-
-"%s" is forbidden to use
-
-:wrench: **configure it!**
-
-- class: `Symplify\PHPStanRules\Rules\NoParticularNodeRule`
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\NoParticularNodeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenNodes:
-                - PhpParser\Node\Expr\ErrorSuppress
-```
-
-↓
-
-```php
-return @strlen('...');
-```
-
-:x:
-
-<br>
-
-```php
-return strlen('...');
-```
-
-:+1:
-
-<br>
-
 ## NoPostIncPostDecRule
 
 Post operation are forbidden, as they make 2 values at the same line. Use pre instead
@@ -2778,7 +2783,7 @@ Post operation are forbidden, as they make 2 values at the same line. Use pre in
 ```php
 class SomeClass
 {
-    public function run($value = 1): void
+    public function run($value = 1)
     {
         // 1 ... 0
         if ($value--) {
@@ -2794,7 +2799,7 @@ class SomeClass
 ```php
 class SomeClass
 {
-    public function run($value = 1): void
+    public function run($value = 1)
     {
         // 0
         if (--$value) {
@@ -2816,7 +2821,7 @@ Instead of protected element in final class use private element or contract meth
 ```php
 final class SomeClass
 {
-    private function run(): void
+    protected function run()
     {
     }
 }
@@ -2829,7 +2834,7 @@ final class SomeClass
 ```php
 final class SomeClass
 {
-    private function run(): void
+    private function run()
     {
     }
 }
@@ -2848,7 +2853,7 @@ Use explicit return value over magic &reference
 ```php
 class SomeClass
 {
-    public function run(&$value): void
+    public function run(&$value)
     {
     }
 }
@@ -2959,7 +2964,7 @@ Setter `"%s()"` is not allowed. Use constructor injection or behavior name inste
 ```php
 final class SomeClass
 {
-    public function setName(string $name): void
+    public function setName(string $name)
     {
         // ...
     }
@@ -3036,7 +3041,7 @@ services:
 ↓
 
 ```php
-function is(): void
+function is()
 {
 }
 ```
@@ -3046,7 +3051,7 @@ function is(): void
 <br>
 
 ```php
-function isClass(): void
+function isClass()
 {
 }
 ```
@@ -3161,7 +3166,7 @@ Do not use trait
 ```php
 trait SomeTrait
 {
-    public function run(): void
+    public function run()
     {
     }
 }
@@ -3213,11 +3218,11 @@ services:
 ```php
 class SomeClass implements CheckedInterface
 {
-    public function run(): void
+    public function run()
     {
     }
 
-    public function hide(): void
+    public function hide()
     {
     }
 }
@@ -3230,7 +3235,7 @@ class SomeClass implements CheckedInterface
 ```php
 class SomeClass implements CheckedInterface
 {
-    public function run(): void
+    public function run()
     {
     }
 }
@@ -3358,7 +3363,7 @@ final class UseDataFromSetupInTestDataProviderTest extends TestCase
 {
     private $data;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->data = true;
     }
@@ -3371,7 +3376,7 @@ final class UseDataFromSetupInTestDataProviderTest extends TestCase
     /**
      * @dataProvider provideFoo
      */
-    public function testFoo($value): void
+    public function testFoo($value)
     {
         $this->assertTrue($value);
     }
@@ -3389,9 +3394,9 @@ final class UseRawDataForTestDataProviderTest
 {
     private $obj;
 
-    private function setUp(): void
+    protected function setUp()
     {
-        $this->obj = new stdClass();
+        $this->obj = new stdClass;
     }
 
     public function provideFoo()
@@ -3402,7 +3407,7 @@ final class UseRawDataForTestDataProviderTest
     /**
      * @dataProvider provideFoo
      */
-    public function testFoo($value): void
+    public function testFoo($value)
     {
         $this->obj->x = $value;
         $this->assertTrue($this->obj->x);
@@ -3501,14 +3506,14 @@ Change `"%s()"` method visibility to "%s" to respect parent method visibility.
 ```php
 class SomeParentClass
 {
-    public function run(): void
+    public function run()
     {
     }
 }
 
 class SomeClass
 {
-    protected function run(): void
+    protected function run()
     {
     }
 }
@@ -3521,14 +3526,14 @@ class SomeClass
 ```php
 class SomeParentClass
 {
-    public function run(): void
+    public function run()
     {
     }
 }
 
 class SomeClass
 {
-    public function run(): void
+    public function run()
     {
     }
 }
@@ -3549,7 +3554,7 @@ class SomeClass
 {
     public const SOME_NAME = '#some\s+name#';
 
-    public function run($value): void
+    public function run($value)
     {
         $somePath = preg_match(self::SOME_NAME, $value);
     }
@@ -3565,7 +3570,7 @@ class SomeClass
 {
     public const SOME_NAME_REGEX = '#some\s+name#';
 
-    public function run($value): void
+    public function run($value)
     {
         $somePath = preg_match(self::SOME_NAME_REGEX, $value);
     }
@@ -3658,7 +3663,7 @@ services:
 ```php
 class SomeClass
 {
-    public function someMethod(SomeType $someType): void
+    public function someMethod(SomeType $someType)
     {
         $someType->someMethod('hey');
     }
@@ -3708,7 +3713,7 @@ services:
 ```php
 class SomeRectorTestCase extends RectorTestCase
 {
-    public function test(): void
+    public function test()
     {
     }
 }
@@ -3724,11 +3729,11 @@ class SomeRectorTestCase extends RectorTestCase
     /**
      * @dataProvider provideData()
      */
-    public function test($value): void
+    public function test($value)
     {
     }
 
-    public function provideData(): void
+    public function provideData()
     {
         // ...
     }
@@ -3764,7 +3769,7 @@ services:
 ```php
 class AnotherClass
 {
-    public function run(SomeClass $someClass): void
+    public function run(SomeClass $someClass)
     {
         $someClass->call('name');
     }
@@ -3891,14 +3896,14 @@ Use "$this-><method>()" instead of "parent::<method>()" unless in the same named
 ```php
 class SomeParentClass
 {
-    public function run(): void
+    public function run()
     {
     }
 }
 
 class SomeClass extends SomeParentClass
 {
-    public function go(): void
+    public function go()
     {
         parent::run();
     }
@@ -3912,14 +3917,14 @@ class SomeClass extends SomeParentClass
 ```php
 class SomeParentClass
 {
-    public function run(): void
+    public function run()
     {
     }
 }
 
 class SomeClass extends SomeParentClass
 {
-    public function go(): void
+    public function go()
     {
         $tihs->run();
     }
@@ -4076,7 +4081,7 @@ trait SomeTrait
 
 ## TooDeepNewClassNestingRule
 
-new <class> is limited to %d "new <class>(new <class>))" nesting to `each` other. You have %d nesting.
+new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
 
 :wrench: **configure it!**
 
@@ -4094,7 +4099,11 @@ services:
 ↓
 
 ```php
-$someObject = new A(new B(new C()));
+$someObject = new A(
+    new B(
+        new C()
+    )
+);
 ```
 
 :x:
@@ -4275,11 +4284,11 @@ services:
 ```php
 class SomeClass
 {
-    public function firstMethod(): void
+    public function firstMethod()
     {
     }
 
-    public function secondMethod(): void
+    public function secondMethod()
     {
     }
 }
@@ -4292,7 +4301,7 @@ class SomeClass
 ```php
 class SomeClass
 {
-    public function firstMethod(): void
+    public function firstMethod()
     {
     }
 }

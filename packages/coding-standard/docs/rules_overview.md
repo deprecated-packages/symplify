@@ -135,7 +135,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ## MethodChainingNewlineFixer
 
-`Each` chain method call must be on own line
+Each chain method call must be on own line
 
 - class: `Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer`
 

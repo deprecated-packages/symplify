@@ -9,8 +9,8 @@ use Composer\Semver\VersionParser;
 use DateTimeInterface;
 use Nette\Utils\DateTime;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
-use Symplify\EasyCI\ValueObject\PhpVersionList;
 use Symplify\EasyCI\Exception\ShouldNotHappenException;
+use Symplify\EasyCI\ValueObject\PhpVersionList;
 
 /**
  * @see \Symplify\EasyCI\Tests\Composer\SupportedPhpVersionResolverTest
