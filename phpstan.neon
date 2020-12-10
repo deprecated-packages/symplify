@@ -406,3 +406,9 @@ parameters:
         - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
         - '#Property (.*?)Test\:\:\$(.*?) does not accept object#'
+
+        -
+            message: '#"Doctrine\\ORM\\EntityManagerInterface" dependency is allowed only in "\*Repository" types#'
+            paths:
+                # database helper
+                 - packages/symfony-route-usage/src/Database/TableInitiator.php
