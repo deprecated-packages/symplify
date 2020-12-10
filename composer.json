@@ -60,6 +60,7 @@
         "nette/application": "^3.0.7",
         "nette/bootstrap": "^3.0",
         "symfony/framework-bundle": "^4.4|^5.1",
+        "symfony/doctrine-bridge": "^5.2",
         "symfony/security-bundle": "^4.4|^5.1",
         "symfony/security-core": "^4.4|^5.1",
         "symfony/templating": "^4.4|^5.1",
