@@ -1,5 +1,12 @@
 services:
     -
+        class: \Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            interfacesByNewTypes:
+                Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample: Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface
+
+    -
         class: Symplify\PHPStanRules\Rules\ForbiddenNodeRule
         tags: [phpstan.rules.rule]
         arguments:

@@ -6,6 +6,8 @@ includes:
     - packages/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
 
 services:
+
+
     -
         class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
