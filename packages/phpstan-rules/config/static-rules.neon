@@ -1,5 +1,9 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\RequireInvokableControllerRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule
         tags: [phpstan.rules.rule]
 
