@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -21,7 +23,12 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Only %s type can require %s type';
+    public const ERROR_MESSAGE = '"%s" dependency is allowed only in "%s" types';
+
+    /**
+     * @var array<string, string[]>
+     */
+    private $allowedExclusiveDependencyInTypes = [];
 
     /**
      * @var ArrayStringAndFnMatcher
@@ -29,17 +36,21 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
     private $arrayStringAndFnMatcher;
 
     /**
-     * @var array<string, string[]>
+     * @var SimpleNameResolver
      */
-    private $allowedTypeByLocations = [];
+    private $simpleNameResolver;
 
     /**
-     * @param array<string, string[]> $allowedTypeByLocations
+     * @param array<string, string[]> $allowedExclusiveDependencyInTypes
      */
-    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher, array $allowedTypeByLocations = [])
-    {
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
+        array $allowedExclusiveDependencyInTypes = []
+    ) {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
-        $this->allowedTypeByLocations = $allowedTypeByLocations;
+        $this->allowedExclusiveDependencyInTypes = $allowedExclusiveDependencyInTypes;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -56,8 +67,7 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
      */
     public function process(Node $node, Scope $scope): array
     {
-        $methodName = (string) $node->name;
-        if ($methodName !== '__construct') {
+        if (! $this->simpleNameResolver->isName($node->name, MethodName::CONSTRUCTOR)) {
             return [];
         }
 
@@ -66,94 +76,103 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
             return [];
         }
 
-        // Use loop on purpose to fetch $location variable
-        // to be re-used in next params check
-        $foundInLocation = false;
-        $location = null;
-        foreach (array_keys($this->allowedTypeByLocations) as $location) {
-            if ($this->arrayStringAndFnMatcher->isMatch($className, [$location])) {
-                $foundInLocation = true;
-                break;
+        $paramTypes = $this->resolveParamTypes($node);
+
+        foreach ($paramTypes as $paramType) {
+            foreach ($this->allowedExclusiveDependencyInTypes as $dependencyType => $allowedTypes) {
+                if ($this->isExclusiveMatchingDependency($paramType, $dependencyType, $className, $allowedTypes)) {
+                    continue;
+                }
+
+                $errorMessage = sprintf(self::ERROR_MESSAGE, $dependencyType, implode('", "', $allowedTypes));
+                return [$errorMessage];
             }
-        }
-
-        return $this->processDependencyCheck($node, $foundInLocation, $location);
-    }
-
-    public function getRuleDefinition(): RuleDefinition
-    {
-        $description = sprintf(self::ERROR_MESSAGE, '"Type"', '"Dependency Type"');
-
-        return new RuleDefinition($description, [
-            new CodeSample(
-                <<<'CODE_SAMPLE'
-use Doctrine\ORM\EntityManager;
-
-class SomeController
-{
-    public function __construct(EntityManager $entityManager)
-    {
-    }
-}
-CODE_SAMPLE
-                ,
-                <<<'CODE_SAMPLE'
-use Doctrine\ORM\EntityManager;
-
-class SomeRepository
-{
-    public function __construct(EntityManager $entityManager)
-    {
-    }
-}
-CODE_SAMPLE
-            ),
-        ]);
-    }
-
-    /**
-     * @return string[]
-     */
-    private function processDependencyCheck(
-        ClassMethod $classMethod,
-        bool $foundInLocation,
-        ?string $location = null
-    ): array {
-        $params = $classMethod->getParams();
-        $allowedTypes = $this->getAllowedTypes();
-        foreach ($params as $param) {
-            $type = $param->type;
-            if (! $type instanceof FullyQualified) {
-                continue;
-            }
-
-            $type = (string) $type;
-            if (! in_array($type, $allowedTypes, true)) {
-                continue;
-            }
-
-            if ($foundInLocation && in_array($type, $this->allowedTypeByLocations[$location], true)) {
-                continue;
-            }
-
-            return [sprintf(self::ERROR_MESSAGE, $location, $type)];
         }
 
         return [];
     }
 
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition('Dependency of specific type can be used only in specific class types', [
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class CheckboxController
+{
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class CheckboxRepository
+{
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+}
+CODE_SAMPLE
+                ,
+                [
+                    'allowedExclusiveDependencyInTypes' => [
+                        'Doctrine\ORM\EntityManager' => ['*Repository'],
+                        'Doctrine\ORM\EntityManagerInterface' => ['*Repository'],
+                    ],
+                ]
+            ),
+        ]);
+    }
+
+    /**
+     * @param string[] $allowedTypes
+     */
+    private function isExclusiveMatchingDependency(
+        string $paramType,
+        string $dependencyType,
+        string $className,
+        array $allowedTypes
+    ): bool {
+        if (! $this->arrayStringAndFnMatcher->isMatch($paramType, [$dependencyType])) {
+            return true;
+        }
+
+        return $this->arrayStringAndFnMatcher->isMatch($className, $allowedTypes);
+    }
+
     /**
      * @return string[]
      */
-    private function getAllowedTypes(): array
+    private function resolveParamTypes(ClassMethod $classMethod): array
     {
-        $allowedTypes = [];
-        foreach ($this->allowedTypeByLocations as $types) {
-            foreach ($types as $type) {
-                $allowedTypes[] = $type;
+        $paramTypes = [];
+
+        foreach ($classMethod->params as $param) {
+            /** @var Param $param */
+            if ($param->type === null) {
+                continue;
             }
+
+            $paramType = $this->simpleNameResolver->getName($param->type);
+            if ($paramType === null) {
+                continue;
+            }
+
+            $paramTypes[] = $paramType;
         }
 
-        return $allowedTypes;
+        return $paramTypes;
     }
 }

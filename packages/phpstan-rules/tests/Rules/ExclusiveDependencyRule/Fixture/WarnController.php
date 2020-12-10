@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\AllowedExclusiveDependencyRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\Fixture;
 
 use Doctrine\ORM\EntityManager;
 
-final class SkipSomeRepository
+final class WarnController
 {
     /**
      * @var EntityManager

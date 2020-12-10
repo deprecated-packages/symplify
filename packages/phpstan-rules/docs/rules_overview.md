@@ -420,7 +420,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ## CheckRequiredInterfaceInContractNamespaceRule
 
-Relocate Interface to a "Contract" namespace
+Interface must be located in a "Contract" namespace
 
 - class: `Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule`
 

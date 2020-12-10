@@ -19,7 +19,7 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method with "@required" annotation need to be named "%s()"';
+    public const ERROR_MESSAGE = 'Method with "@required" must respect "autowire" + class name ("%s()")';
 
     /**
      * @var string
@@ -50,12 +50,11 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
             return [];
         }
 
-        $shortClassName = $this->getShortClassName($scope);
-        if ($shortClassName === null) {
+        $requriedMethodName = $this->resolveRequiredMethodName($scope);
+        if ($requriedMethodName === null) {
             return [];
         }
 
-        $requriedMethodName = 'autowire' . $shortClassName;
         $currentMethodName = (string) $node->name;
 
         if ($currentMethodName === $requriedMethodName) {
@@ -63,15 +62,12 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
         }
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $requriedMethodName);
-
         return [$errorMessage];
     }
 
     public function getRuleDefinition(): RuleDefinition
     {
-        $description = sprintf(self::ERROR_MESSAGE, 'autowire<class-name>');
-
-        return new RuleDefinition($description, [
+        return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
 final class SomeClass
@@ -100,5 +96,15 @@ final class SomeClass
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function resolveRequiredMethodName(Scope $scope): ?string
+    {
+        $shortClassName = $this->getShortClassName($scope);
+        if ($shortClassName === null) {
+            return null;
+        }
+
+        return 'autowire' . $shortClassName;
     }
 }

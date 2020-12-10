@@ -61,10 +61,6 @@ CODE_SAMPLE
 abstract class AbstractClass
 {
 }
-
-class SomeClass
-{
-}
 CODE_SAMPLE
             ),
         ]);
