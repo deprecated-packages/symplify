@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenConstructorDependencyByTypeRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenDependencyByTypeRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Psr\Container\ContainerInterface;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule;
+use Symplify\PHPStanRules\Rules\ForbiddenDependencyByTypeRule;
 
-final class ForbiddenConstructorDependencyByTypeRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenDependencyByTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -28,7 +28,7 @@ final class ForbiddenConstructorDependencyByTypeRuleTest extends AbstractService
         yield [__DIR__ . '/Fixture/SkipNoConstruct.php', []];
         yield [__DIR__ . '/Fixture/SkipNoConstructParameter.php', []];
         yield [__DIR__ . '/Fixture/PassContainerToConstructorParameter.php', [
-            [sprintf(ForbiddenConstructorDependencyByTypeRule::ERROR_MESSAGE, ContainerInterface::class), 9],
+            [sprintf(ForbiddenDependencyByTypeRule::ERROR_MESSAGE, ContainerInterface::class), 9],
         ],
         ];
     }
@@ -36,7 +36,7 @@ final class ForbiddenConstructorDependencyByTypeRuleTest extends AbstractService
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            ForbiddenConstructorDependencyByTypeRule::class,
+            ForbiddenDependencyByTypeRule::class,
             __DIR__ . '/config/configured_rule.neon'
         );
     }

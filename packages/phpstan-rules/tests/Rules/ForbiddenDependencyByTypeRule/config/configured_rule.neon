@@ -1,6 +1,6 @@
 services:
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenDependencyByTypeRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenTypes:
