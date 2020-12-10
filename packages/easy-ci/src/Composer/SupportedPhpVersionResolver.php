@@ -10,7 +10,7 @@ use DateTimeInterface;
 use Nette\Utils\DateTime;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\EasyCI\ValueObject\PhpVersionList;
-use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
+use Symplify\EasyCI\Exception\ShouldNotHappenException;
 
 /**
  * @see \Symplify\EasyCI\Tests\Composer\SupportedPhpVersionResolverTest
