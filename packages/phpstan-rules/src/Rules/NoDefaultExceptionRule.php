@@ -70,7 +70,7 @@ throw new RuntimeException('...');
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-use App\Exception\FileNotFoundExceptoin;
+use App\Exception\FileNotFoundException;
 
 throw new FileNotFoundException('...');
 CODE_SAMPLE

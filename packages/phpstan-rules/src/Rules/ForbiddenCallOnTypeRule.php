@@ -78,14 +78,16 @@ final class ForbiddenCallOnTypeRule extends AbstractSymplifyRule implements Conf
             new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
 
+use Symfony\Component\DependencyInjection\Container;
+
 class SomeClass
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\Container
+     * @var Container
      */
     private $some;
 
-    public function __construct(\Symfony\Component\DependencyInjection\Container $some)
+    public function __construct(Container $some)
     {
         $this->some = $some;
     }
@@ -98,21 +100,23 @@ class SomeClass
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
+use Other\SpecificService;
+
 class SomeClass
 {
     /**
-     * @var \Other\Class
+     * @var SpecificService
      */
-    private $some;
+    private $specificService;
 
-    public function __construct(\Other\Class $some)
+    public function __construct(SpecificService $specificService)
     {
-        $this->some = $some;
+        $this->specificService = $specificService;
     }
 
     public function call()
     {
-        $this->some->call();
+        $this->specificService->call();
     }
 }
 CODE_SAMPLE

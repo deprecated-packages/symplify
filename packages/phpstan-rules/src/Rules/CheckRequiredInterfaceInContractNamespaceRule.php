@@ -21,7 +21,7 @@ final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSympli
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Relocate Interface to a "Contract" namespace';
+    public const ERROR_MESSAGE = 'Interface must be located in "Contract" namespace';
 
     /**
      * @var string

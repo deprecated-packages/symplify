@@ -108,7 +108,7 @@ class SomeClass
     {
         $mainPath = getcwd() . '/absolute_path';
         // ...
-        return $mainPath;
+        return __DIR__ . $mainPath;
     }
 }
 CODE_SAMPLE

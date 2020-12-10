@@ -1,64 +1,5 @@
 # 109 Rules Overview
 
-## AllowedExclusiveDependencyRule
-
-Dependency of specific type can be used only in specific class types
-
-:wrench: **configure it!**
-
-- class: `Symplify\PHPStanRules\Rules\AllowedExclusiveDependencyRule`
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\AllowedExclusiveDependencyRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedExclusiveDependencyInTypes:
-                *EntityManager:
-                    - *Repository
-```
-
-↓
-
-```php
-class CheckboxController
-{
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class CheckboxRepository
-{
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## AnnotateRegexClassConstWithRegexLinkRule
 
 Add regex101.com `link` to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future
@@ -77,11 +18,11 @@ class SomeClass
 <br>
 
 ```php
-/**
- * @see https://regex101.com/r/SZr0X5/12
- */
 class SomeClass
 {
+    /**
+     * @see https://regex101.com/r/SZr0X5/12
+     */
     private const COMPLICATED_REGEX = '#some_complicated_stu|ff#';
 }
 ```
@@ -169,7 +110,7 @@ class SomeClass
     {
         $mainPath = getcwd() . '/absolute_path';
         // ...
-        return $mainPath;
+        return __DIR__ . $mainPath;
     }
 }
 ```
@@ -370,10 +311,6 @@ class AbstractClass
 abstract class AbstractClass
 {
 }
-
-class SomeClass
-{
-}
 ```
 
 :+1:
@@ -420,7 +357,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ## CheckRequiredInterfaceInContractNamespaceRule
 
-Interface must be located in a "Contract" namespace
+Interface must be located in "Contract" namespace
 
 - class: `Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule`
 
@@ -450,7 +387,7 @@ interface ProductRepositoryInterface
 
 ## CheckRequiredMethodNamingRule
 
-Method with "@required" annotation need to be named "autowire<class-name>()"
+Method with "@required" must respect "autowire" + class name `("%s()")`
 
 - class: `Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule`
 
@@ -514,9 +451,14 @@ trait SomeTrait
 ```php
 trait SomeTrait
 {
+    /**
+     * @required
+     */
+    public $someDependency;
+
     public function someDelegateCall()
     {
-        $this->singleDelegateCall();
+        $this->someDependency->singleDelegateCall();
     }
 }
 ```
@@ -611,7 +553,7 @@ class SomeClass
 {
     public function run()
     {
-        echo 'Hi'. PHP_EOL;
+        echo 'Hi' . PHP_EOL;
     }
 }
 ```
@@ -907,17 +849,39 @@ class SomeClass
 
 ## ExclusiveDependencyRule
 
-Only "Type" type can require "Dependency Type" type
+Dependency of specific type can be used only in specific class types
+
+:wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\ExclusiveDependencyRule`
 
-```php
-use Doctrine\ORM\EntityManager;
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ExclusiveDependencyRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedExclusiveDependencyInTypes:
+                Doctrine\ORM\EntityManager:
+                    - *Repository
 
-class SomeController
+                Doctrine\ORM\EntityManagerInterface:
+                    - *Repository
+```
+
+↓
+
+```php
+class CheckboxController
 {
-    public function __construct(EntityManager $entityManager)
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
     }
 }
 ```
@@ -927,12 +891,16 @@ class SomeController
 <br>
 
 ```php
-use Doctrine\ORM\EntityManager;
-
-class SomeRepository
+class CheckboxRepository
 {
-    public function __construct(EntityManager $entityManager)
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
     }
 }
 ```
@@ -1062,15 +1030,16 @@ services:
 ↓
 
 ```php
+use Symfony\Component\DependencyInjection\Container;
 
 class SomeClass
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\Container
+     * @var Container
      */
     private $some;
 
-    public function __construct(\Symfony\Component\DependencyInjection\Container $some)
+    public function __construct(Container $some)
     {
         $this->some = $some;
     }
@@ -1087,21 +1056,23 @@ class SomeClass
 <br>
 
 ```php
+use Other\SpecificService;
+
 class SomeClass
 {
     /**
-     * @var \Other\Class
+     * @var SpecificService
      */
-    private $some;
+    private $specificService;
 
-    public function __construct(\Other\Class $some)
+    public function __construct(SpecificService $specificService)
     {
-        $this->some = $some;
+        $this->specificService = $specificService;
     }
 
     public function call()
     {
-        $this->some->call();
+        $this->specificService->call();
     }
 }
 ```
@@ -1152,18 +1123,18 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 <br>
 
-## ForbiddenConstructorDependencyByTypeRule
+## ForbiddenDependencyByTypeRule
 
 Object instance of "%s" is forbidden to be passed to constructor
 
 :wrench: **configure it!**
 
-- class: `Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule`
+- class: `Symplify\PHPStanRules\Rules\ForbiddenDependencyByTypeRule`
 
 ```yaml
 services:
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenConstructorDependencyByTypeRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenDependencyByTypeRule
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenTypes:
@@ -1462,7 +1433,7 @@ services:
 ```php
 use PHPStan\Rules\Rule;
 
-class SomeRule implements Rule
+class SomeRuleTest implements Rule
 {
     protected function getRule(): Rule
     {
@@ -1478,7 +1449,7 @@ class SomeRule implements Rule
 ```php
 use PHPStan\Rules\Rule;
 
-class SomeRule implements Rule
+class SomeRuleTest implements Rule
 {
     protected function getRule(): Rule
     {
@@ -1762,7 +1733,7 @@ Spread operator is not allowed.
 
 ```php
 $args = [$firstValue, $secondValue];
-$message =  sprintf('%s', ...$args);
+$message = sprintf('%s', ...$args);
 ```
 
 :x:
@@ -1770,7 +1741,7 @@ $message =  sprintf('%s', ...$args);
 <br>
 
 ```php
-$message =  sprintf('%s', $firstValue, $secondValue);
+$message = sprintf('%s', $firstValue, $secondValue);
 ```
 
 :+1:
@@ -1860,6 +1831,54 @@ class SomeClass
         }
 
         return $value === 2;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## IfNewTypeThenImplementInterfaceRule
+
+Class must implement "%s" interface
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            interfacesByNewTypes:
+                ConfiguredCodeSample: ConfiguredRuleInterface
+```
+
+↓
+
+```php
+class SomeRule
+{
+    public function run()
+    {
+        return new ConfiguredCodeSample('...');
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeRule implements ConfiguredRuleInterface
+{
+    public function run()
+    {
+        return new ConfiguredCodeSample('...');
     }
 }
 ```
@@ -2014,7 +2033,8 @@ Do not use chained method calls. Put each on separated lines.
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`
 
 ```php
-$this->runThis()->runThat();
+$this->runThis()
+    ->runThat();
 ```
 
 :x:
@@ -2085,7 +2105,7 @@ final class SomeTest
 ```php
 final class SomeTest
 {
-    public function setUp()
+    protected function setUp()
     {
         // ...
     }
@@ -2145,7 +2165,7 @@ throw new RuntimeException('...');
 <br>
 
 ```php
-use App\Exception\FileNotFoundExceptoin;
+use App\Exception\FileNotFoundException;
 
 throw new FileNotFoundException('...');
 ```
@@ -2286,40 +2306,6 @@ if (...) {
 }
 
 return 2;
-```
-
-:+1:
-
-<br>
-
-## NoEntityManagerInControllerRule
-
-Use specific repository over entity manager in Controller
-
-- class: `Symplify\PHPStanRules\Rules\NoEntityManagerInControllerRule`
-
-```php
-final class SomeController
-{
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeController
-{
-    public function __construct(AnotherRepository $anotherRepository)
-    {
-        // ...
-    }
-}
 ```
 
 :+1:
@@ -2488,7 +2474,7 @@ class SomeClass
     public function run()
     {
         if (random_int(0, 1)) {
-            $object = new SomeClass();
+            $object = new self();
         }
 
         if (isset($object)) {
@@ -2509,7 +2495,7 @@ class SomeClass
     {
         $object = null;
         if (random_int(0, 1)) {
-            $object = new SomeClass();
+            $object = new self();
         }
 
         if ($object !== null) {
@@ -2821,7 +2807,7 @@ Instead of protected element in final class use private element or contract meth
 ```php
 final class SomeClass
 {
-    protected function run()
+    private function run()
     {
     }
 }
@@ -3394,9 +3380,9 @@ final class UseRawDataForTestDataProviderTest
 {
     private $obj;
 
-    protected function setUp()
+    private function setUp()
     {
-        $this->obj = new stdClass;
+        $this->obj = new stdClass();
     }
 
     public function provideFoo()
@@ -3736,6 +3722,50 @@ class SomeRectorTestCase extends RectorTestCase
     public function provideData()
     {
         // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireInvokableControllerRule
+
+Use invokable controller with `__invoke()` method instead
+
+- class: `Symplify\PHPStanRules\Rules\RequireInvokableControllerRule`
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+
+final class SomeController extends AbstractController
+{
+    /**
+     * @Route()
+     */
+    public function someMethod()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+
+final class SomeController extends AbstractController
+{
+    /**
+     * @Route()
+     */
+    public function __invoke()
+    {
     }
 }
 ```
@@ -4099,11 +4129,7 @@ services:
 ↓
 
 ```php
-$someObject = new A(
-    new B(
-        new C()
-    )
-);
+$someObject = new A(new B(new C()));
 ```
 
 :x:

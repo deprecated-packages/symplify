@@ -85,7 +85,7 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule implements Con
                 <<<'CODE_SAMPLE'
 use PHPStan\Rules\Rule;
 
-class SomeRule implements Rule
+class SomeRuleTest implements Rule
 {
     protected function getRule(): Rule
     {
@@ -97,7 +97,7 @@ CODE_SAMPLE
                 <<<'CODE_SAMPLE'
 use PHPStan\Rules\Rule;
 
-class SomeRule implements Rule
+class SomeRuleTest implements Rule
 {
     protected function getRule(): Rule
     {
