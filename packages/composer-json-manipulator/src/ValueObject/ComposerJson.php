@@ -397,12 +397,24 @@ final class ComposerJson
             $array[ComposerJsonSection::LICENSE] = $this->license;
         }
 
+        if ($this->authors !== null) {
+            $array[ComposerJsonSection::AUTHORS] = $this->authors;
+        }
+
+        if ($this->type !== null) {
+            $array[ComposerJsonSection::TYPE] = $this->type;
+        }
+
         if ($this->require !== []) {
             $array[ComposerJsonSection::REQUIRE] = $this->require;
         }
 
         if ($this->requireDev !== []) {
             $array[ComposerJsonSection::REQUIRE_DEV] = $this->requireDev;
+        }
+
+        if ($this->conflicting !== []) {
+            $array[ComposerJsonSection::CONFLICTING] = $this->conflicting;
         }
 
         if ($this->autoload !== []) {

@@ -4,43 +4,56 @@ declare(strict_types=1);
 
 namespace Symplify\ComposerJsonManipulator\Tests\ComposerJsonFactory;
 
+use PHPUnit\Framework\Constraint\JsonMatches;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
+use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\Tests\HttpKernel\ComposerJsonManipulatorKernel;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ComposerJsonFactoryTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ComposerJson
-     */
-    private $composerJson;
-
     protected function setUp(): void
     {
         $this->bootKernel(ComposerJsonManipulatorKernel::class);
-
-        $composerJsonFactory = $this->getService(ComposerJsonFactory::class);
-        $composerJsonFilePath = __DIR__ . '/Source/some_composer.json';
-
-        $this->composerJson = $composerJsonFactory->createFromFilePath($composerJsonFilePath);
     }
 
     public function test(): void
     {
-        $fileInfo = $this->composerJson->getFileInfo();
+        $composerJsonFactory = $this->getService(ComposerJsonFactory::class);
+        $composerJson = $composerJsonFactory->createFromFilePath(__DIR__ . '/Source/some_composer.json');
+
+        $fileInfo = $composerJson->getFileInfo();
         $this->assertInstanceOf(SmartFileInfo::class, $fileInfo);
 
         /** @var SmartFileInfo $fileInfo */
-        $this->assertCount(2, $this->composerJson->getAllClassmaps());
+        $this->assertCount(2, $composerJson->getAllClassmaps());
 
-        $this->assertSame(['directory', 'src'], $this->composerJson->getPsr4AndClassmapDirectories());
+        $this->assertSame(['directory', 'src'], $composerJson->getPsr4AndClassmapDirectories());
 
         $this->assertSame([
             'symplify/autodiscovery' => '^8.3.45',
-        ], $this->composerJson->getReplace());
+        ], $composerJson->getReplace());
 
-        $this->assertSame('project', $this->composerJson->getType());
+        $this->assertSame('project', $composerJson->getType());
+    }
+
+    public function testReadAndWriteToJsonShouldBeEqual(): void
+    {
+        $file = __DIR__ . '/Source/full_composer.json';
+
+        $composerJsonFactory = $this->getService(ComposerJsonFactory::class);
+        $jsonFileManager = $this->getService(JsonFileManager::class);
+
+        $composerJson = $composerJsonFactory->createFromFilePath($file);
+        $actualJson = $jsonFileManager->encodeJsonToFileContent($composerJson->getJsonArray());
+
+        $smartFileSystem = new SmartFileSystem();
+        $expectedJson = $smartFileSystem->readFile($file);
+
+        $this->assertThat($expectedJson, new JsonMatches($actualJson));
+        $this->assertThat($actualJson, new JsonMatches($expectedJson));
     }
 }
