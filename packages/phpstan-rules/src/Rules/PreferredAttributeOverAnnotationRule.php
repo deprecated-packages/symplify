@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -27,13 +28,18 @@ final class PreferredAttributeOverAnnotationRule extends AbstractSymplifyRule im
      * @var string[]
      */
     private $annotations = [];
+    /**
+     * @var ClassAnnotationResolver
+     */
+    private $classAnnotationResolver;
 
     /**
      * @param string[] $annotations
      */
-    public function __construct(array $annotations)
+    public function __construct(ClassAnnotationResolver $classAnnotationResolver, array $annotations)
     {
         $this->annotations = $annotations;
+        $this->classAnnotationResolver = $classAnnotationResolver;
     }
 
     /**
@@ -50,7 +56,7 @@ final class PreferredAttributeOverAnnotationRule extends AbstractSymplifyRule im
      */
     public function process(Node $node, Scope $scope): array
     {
-        $classAnnotations = $this->resolveClassAnnotations($node, $scope);
+        $classAnnotations = $this->classAnnotationResolver->resolveClassAnnotations($node, $scope);
         if ($classAnnotations === []) {
             return [];
         }

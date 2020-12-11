@@ -5,3 +5,5 @@ services:
         arguments:
             annotations:
                 - Symfony\Component\Routing\Annotation\Route
+
+    - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver

@@ -19,6 +19,7 @@ use PhpParser\NodeFinder;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -42,11 +43,19 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
      * @var NodeFinder
      */
     private $nodeFinder;
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
 
-    public function __construct(Standard $printerStandard, NodeFinder $nodeFinder)
-    {
+    public function __construct(
+        Standard $printerStandard,
+        NodeFinder $nodeFinder,
+        SimpleNameResolver $simpleNameResolver
+    ) {
         $this->printerStandard = $printerStandard;
         $this->nodeFinder = $nodeFinder;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -164,7 +173,7 @@ CODE_SAMPLE
         }
 
         /** @var string|null $methodCallName */
-        $methodCallName = $this->getMethodCallName($methodCall);
+        $methodCallName = $this->simpleNameResolver->getName($methodCall->name);
         if ($methodCallName === null) {
             return [];
         }

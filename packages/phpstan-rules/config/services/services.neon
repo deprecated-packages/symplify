@@ -16,8 +16,11 @@ services:
     - Symplify\PHPStanRules\Naming\SimpleNameResolver
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
-    - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
     - Symplify\PHPStanRules\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
+
+    - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
+    - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver
+
     - Symplify\PHPStanRules\Types\ConstantTypeAnalyzer
     - Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory
     -

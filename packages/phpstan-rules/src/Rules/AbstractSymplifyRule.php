@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
@@ -23,12 +21,6 @@ use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 
 abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, DocumentedRuleInterface
 {
-    /**
-     * @var string
-     * @see https://regex101.com/r/x0Qo4x/1
-     */
-    private const SHORT_ANNOTATION_CLASS_REGEX = '#\@(?<short_name>[A-Z]\w+)#';
-
     public function getShortClassName(Scope $scope): ?string
     {
         $className = $this->getClassName($scope);
@@ -58,16 +50,7 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
 
     public function resolveCurrentClassMethod(Node $node): ?ClassMethod
     {
-        $classMethod = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($classMethod) {
-            if ($classMethod instanceof ClassMethod) {
-                return $classMethod;
-            }
-
-            $classMethod = $classMethod->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
-        return null;
+        return $this->getFirstParentByType($node, ClassMethod::class);
     }
 
     public function getFirstParentByType(Node $node, string $nodeClass): ?Node
@@ -90,16 +73,7 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
             return $node;
         }
 
-        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($class) {
-            if ($class instanceof Class_) {
-                return $class;
-            }
-
-            $class = $class->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
-        return null;
+        return $this->getFirstParentByType($node, Class_::class);
     }
 
     protected function getClassName(Scope $scope, ?Node $node = null): ?string
@@ -177,16 +151,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return $reflectionFunction->getName() === $methodName;
     }
 
-    protected function getMethodCallName(MethodCall $methodCall): ?string
-    {
-        $name = $methodCall->name;
-        if (! $name instanceof Identifier) {
-            return null;
-        }
-
-        return $name->toString();
-    }
-
     protected function resolveShortName(string $className): string
     {
         if (! Strings::contains($className, '\\')) {
@@ -194,33 +158,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return (string) Strings::after($className, '\\', -1);
-    }
-
-    /**
-     * @return string[]
-     */
-    protected function resolveClassAnnotations(Node $node, Scope $scope): array
-    {
-        $docComment = $node->getDocComment();
-        if ($docComment === null) {
-            return [];
-        }
-
-        $className = $this->getClassName($scope);
-        if ($className === null) {
-            return [];
-        }
-
-        $matches = Strings::matchAll($docComment->getText(), self::SHORT_ANNOTATION_CLASS_REGEX);
-        $fullyQualifiedAnnotationNames = [];
-        foreach ($matches as $match) {
-            $fullyQualifiedAnnotationNames[] = Reflection::expandClassName(
-                $match['short_name'],
-                new ReflectionClass($className)
-            );
-        }
-
-        return $fullyQualifiedAnnotationNames;
     }
 
     private function resolveClassLikeName(ClassLike $classLike): ?string
