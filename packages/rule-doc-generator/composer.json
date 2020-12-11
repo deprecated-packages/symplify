@@ -17,8 +17,8 @@
         "symplify/php-config-printer": "^9.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5|^9.4",
-        "phpstan/phpstan": "^0.12.57",
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^0.12.59",
         "friendsofphp/php-cs-fixer": "^2.16"
     },
     "autoload": {

@@ -4,7 +4,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.3",
-        "phpunit/phpunit": "^8.5|^9.4",
+        "phpunit/phpunit": "^9.5",
         "symplify/easy-coding-standard": "^9.1",
         "symplify/skipper": "^9.1",
         "symplify/package-builder": "^9.1",
