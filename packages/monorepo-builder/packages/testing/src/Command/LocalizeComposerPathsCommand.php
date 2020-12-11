@@ -56,7 +56,7 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
         $this->fileSystemGuard->ensureFileExists($packageComposerJson, __METHOD__);
 
         $packageComposerJsonFileInfo = new SmartFileInfo($packageComposerJson);
-        $rootFileInfo = $this->composerJsonProvider->getRootFileInfo();
+        $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
 
         // 1. update "require" to "*" for all local packages
         $packagesFileInfos = $this->composerJsonProvider->getPackagesComposerFileInfos();
@@ -65,7 +65,7 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
         }
 
         // 2. update "repository" to "*" for current composer.json
-        $this->composerJsonRepositoriesUpdater->processPackage($packageComposerJsonFileInfo, $rootFileInfo);
+        $this->composerJsonRepositoriesUpdater->processPackage($packageComposerJsonFileInfo, $rootComposerJson);
 
         $message = sprintf(
             'Package paths in "%s" have been updated',

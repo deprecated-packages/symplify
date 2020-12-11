@@ -341,6 +341,16 @@ final class ComposerJson
         return $this->name;
     }
 
+    public function getVendorName(): ?string
+    {
+        if ($this->name === null) {
+            return null;
+        }
+
+        [$vendor] = explode('/', $this->name);
+        return $vendor;
+    }
+
     public function getShortName(): ?string
     {
         if ($this->name === null) {
