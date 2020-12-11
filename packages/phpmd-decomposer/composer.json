@@ -7,12 +7,12 @@
         "nette/utils": "^3.0",
         "nette/neon": "^3.2",
         "symfony/http-kernel": "^4.4|^5.1",
-        "symplify/package-builder": "^9.1",
-        "symplify/php-config-printer": "^9.1",
-        "symplify/symplify-kernel": "^9.1"
+        "symplify/package-builder": "^9.0.4",
+        "symplify/php-config-printer": "^9.0.4",
+        "symplify/symplify-kernel": "^9.0.4"
     },
     "require-dev": {
-        "symplify/easy-testing": "^9.1",
+        "symplify/easy-testing": "^9.0.4",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
