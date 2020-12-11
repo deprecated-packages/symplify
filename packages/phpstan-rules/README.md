@@ -12,7 +12,7 @@ Set of rules for PHPStan used by Symplify projects
 composer require symplify/phpstan-rules --dev
 ```
 
-## Add Rules to `phpstan.neon`
+## 1. Add Static Rules to `phpstan.neon`
 
 Some of rules here require configuration, some not. We recommend to start with rules that do not require any configuration, because there is just one way to use them:
 
@@ -24,9 +24,30 @@ includes:
 
 Give it couple of days, before extending.
 
-## How we use Configurable Rules
+## 2. Pick from Prepared Sets
 
-Then there are configurable rules with *saints defaults*. That's just polite wording for *opinionated*, like [`AllowedExclusiveDependencyRule`](https://github.com/symplify/phpstan-rules/blob/master/docs/rules_overview.md#allowedexclusivedependencyrule).
+Do you know prepared sets from ECS or Rector? Bunch of rules in single set. We use the same approach here:
+
+```yaml
+includes:
+    - vendor/symplify/phpstan-rules/config/array-rules.neon
+    - vendor/symplify/phpstan-rules/config/code-complexity-rules.neon
+    - vendor/symplify/phpstan-rules/config/doctrine-rules.neon
+    - vendor/symplify/phpstan-rules/config/naming-rules.neon
+    - vendor/symplify/phpstan-rules/config/regex-rules.neon
+    - vendor/symplify/phpstan-rules/config/services-rules.neon
+    - vendor/symplify/phpstan-rules/config/size-rules.neon
+    - vendor/symplify/phpstan-rules/config/forbid-static-rules.neon
+    - vendor/symplify/phpstan-rules/config/string-to-constant-rules.neon
+    - vendor/symplify/phpstan-rules/config/symfony-rules.neon
+    - vendor/symplify/phpstan-rules/config/test-rules.neon
+```
+
+Pick waht you need, drop the rest.
+
+## 3. How we use Configurable Rules
+
+Last but not least, configurable rules with *saints defaults*. That's just polite wording for *opinionated*, like [`AllowedExclusiveDependencyRule`](https://github.com/symplify/phpstan-rules/blob/master/docs/rules_overview.md#allowedexclusivedependencyrule).
 
 You might not like them, but maybe you do:
 
@@ -40,7 +61,21 @@ Give it a trial run... so many erros and unclear feedback.... Would you like to 
 That's good! We use one rule by another in other projects too, instead of one big import.
 
 - **Pick one and put it to your `phpstan.neon` manually**.
-- Configure it to your specific needs and re-run PHPStan. Much better, when you're in control, right?
+- Configure it to your specific needs and re-run PHPStan. It's easier to be responsible, when you're in control.
+
+E.g. `ForbiddenNodeRule`:
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNodeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenNodes:
+                - PhpParser\Node\Expr\Empty_
+                - PhpParser\Node\Stmt\Switch_
+                - PhpParser\Node\Expr\ErrorSuppress
+```
 
 You'll find them all in [rules overview](docs/rules_overview.md).
 
