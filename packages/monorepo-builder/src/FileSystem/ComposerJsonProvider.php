@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\FileSystem;
 
+use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Finder\PackageComposerFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
@@ -21,10 +23,19 @@ final class ComposerJsonProvider
      */
     private $packageComposerFinder;
 
-    public function __construct(JsonFileManager $jsonFileManager, PackageComposerFinder $packageComposerFinder)
-    {
+    /**
+     * @var ComposerJsonFactory
+     */
+    private $composerJsonFactory;
+
+    public function __construct(
+        JsonFileManager $jsonFileManager,
+        PackageComposerFinder $packageComposerFinder,
+        ComposerJsonFactory $composerJsonFactory
+    ) {
         $this->jsonFileManager = $jsonFileManager;
         $this->packageComposerFinder = $packageComposerFinder;
+        $this->composerJsonFactory = $composerJsonFactory;
     }
 
     public function getRootFileInfo(): SmartFileInfo
@@ -76,5 +87,10 @@ final class ComposerJsonProvider
         }
 
         throw new ShouldNotHappenException();
+    }
+
+    public function getRootComposerJson(): ComposerJson
+    {
+        return $this->composerJsonFactory->createFromFileInfo($this->getRootFileInfo());
     }
 }
