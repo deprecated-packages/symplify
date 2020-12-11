@@ -1,17 +1,21 @@
 includes:
-    - symplify-rules/array-rules.neon
-    - symplify-rules/code-complexity-rules.neon
-    - symplify-rules/static-rules.neon
-    - symplify-rules/doctrine-rules.neon
-    - symplify-rules/size-rules.neon
-    - symplify-rules/regex-rules.neon
-    - symplify-rules/symfony-rules.neon
-    - symplify-rules/test-rules.neon
-    - symplify-rules/services-rules.neon
-    - symplify-rules/naming-rules.neon
-    - symplify-rules/string-to-constant-rules.neon
-
-    - configurable-rules.neon
+    # 1. basic static sets
     - static-rules.neon
+
+    # 2. prepared sets
+    - array-rules.neon
+    - code-complexity-rules.neon
+    - forbidden-static-rules.neon
+    - doctrine-rules.neon
+    - size-rules.neon
+    - regex-rules.neon
+    - symfony-rules.neon
+    - test-rules.neon
+    - services-rules.neon
+    - naming-rules.neon
+    - string-to-constant-rules.neon
+
+    # 3. custom symplify configuratoin
+    - configurable-rules.neon
 
     - services/services.neon

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ErrorSuppress;
+use PhpParser\Node\Stmt;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -69,6 +71,10 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
                 continue;
             }
 
+            if ($this->hasIntentionallyDocComment($node)) {
+                continue;
+            }
+
             $name = $this->resolveNameFromNode($node);
             $errorMessage = sprintf(self::ERROR_MESSAGE, $name);
 
@@ -100,5 +106,24 @@ CODE_SAMPLE
     private function resolveNameFromNode(Node $node): string
     {
         return $this->standard->prettyPrint([$node]);
+    }
+
+    private function hasIntentionallyDocComment(Node $node): bool
+    {
+        if (! $node instanceof Stmt) {
+            $node = $this->getFirstParentByType($node, Stmt::class);
+        }
+
+        if ($node === null) {
+            return false;
+        }
+
+        foreach ($node->getComments() as $comment) {
+            if (Strings::contains($comment->getText(), 'intention')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

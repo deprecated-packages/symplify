@@ -120,7 +120,7 @@ class SomeClass
 
     public function __construct()
     {
-        $this->mainPath = getcwd() . '/absolute_path;
+        $this->mainPath = getcwd() . '/absolute_path';
     }
 
     public function someMethod()
