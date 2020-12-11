@@ -15,12 +15,12 @@
         "symfony/yaml": "^4.4|^5.1",
         "nette/neon": "^3.2",
         "nette/utils": "^3.0",
-        "nikic/php-parser": "^4.10.2",
+        "nikic/php-parser": "^4.10.3",
         "symplify/php-config-printer": "^9.1"
     },
     "require-dev": {
         "symplify/easy-testing": "^9.1",
-        "phpunit/phpunit": "^8.5|^9.4",
+        "phpunit/phpunit": "^9.5",
         "symfony/framework-bundle": "^4.4|^5.1"
     },
     "autoload": {

@@ -11,7 +11,7 @@
     "require-dev": {
         "symfony/http-kernel": "^4.4|^5.1",
         "symplify/package-builder": "^9.1",
-        "phpunit/phpunit": "^8.5|^9.4"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
