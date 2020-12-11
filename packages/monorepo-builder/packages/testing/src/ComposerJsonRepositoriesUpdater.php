@@ -6,11 +6,13 @@ namespace Symplify\MonorepoBuilder\Testing;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\ConsoleColorDiff\Console\Output\ConsoleDiffer;
 use Symplify\MonorepoBuilder\Package\PackageNamesProvider;
 use Symplify\MonorepoBuilder\Testing\ComposerJson\ComposerJsonSymlinker;
 use Symplify\MonorepoBuilder\Testing\PackageDependency\UsedPackagesResolver;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ComposerJsonRepositoriesUpdater
 {
@@ -60,7 +62,7 @@ final class ComposerJsonRepositoriesUpdater
         $this->consoleDiffer = $consoleDiffer;
     }
 
-    public function processPackage(SmartFileInfo $packageFileInfo, SmartFileInfo $mainComposerJsonFileInfo): void
+    public function processPackage(SmartFileInfo $packageFileInfo, ComposerJson $rootComposerJson): void
     {
         $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
 
@@ -79,10 +81,15 @@ final class ComposerJsonRepositoriesUpdater
 
         $oldComposerJsonContents = $packageFileInfo->getContents();
 
+        $rootComposerJsonFileInfo = $rootComposerJson->getFileInfo();
+        if ($rootComposerJsonFileInfo === null) {
+            throw new ShouldNotHappenException();
+        }
+
         $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
             $packageComposerJson,
             $packageNames,
-            $mainComposerJsonFileInfo
+            $rootComposerJsonFileInfo
         );
 
         $newComposerJsonContents = $this->jsonFileManager->printJsonToFileInfo($packageComposerJson, $packageFileInfo);
