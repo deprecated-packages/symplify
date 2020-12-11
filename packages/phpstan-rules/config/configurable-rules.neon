@@ -1,5 +1,12 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            annotations:
+                - Symfony\Component\Routing\Annotation\Route
+
+    -
         class: \Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule
         tags: [phpstan.rules.rule]
         arguments:

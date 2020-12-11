@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
@@ -51,16 +50,7 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
 
     public function resolveCurrentClassMethod(Node $node): ?ClassMethod
     {
-        $classMethod = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($classMethod) {
-            if ($classMethod instanceof ClassMethod) {
-                return $classMethod;
-            }
-
-            $classMethod = $classMethod->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
-        return null;
+        return $this->getFirstParentByType($node, ClassMethod::class);
     }
 
     public function getFirstParentByType(Node $node, string $nodeClass): ?Node
@@ -83,16 +73,7 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
             return $node;
         }
 
-        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($class) {
-            if ($class instanceof Class_) {
-                return $class;
-            }
-
-            $class = $class->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
-        return null;
+        return $this->getFirstParentByType($node, Class_::class);
     }
 
     protected function getClassName(Scope $scope, ?Node $node = null): ?string
@@ -168,16 +149,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return $reflectionFunction->getName() === $methodName;
-    }
-
-    protected function getMethodCallName(MethodCall $methodCall): ?string
-    {
-        $name = $methodCall->name;
-        if (! $name instanceof Identifier) {
-            return null;
-        }
-
-        return $name->toString();
     }
 
     protected function resolveShortName(string $className): string

@@ -8,6 +8,9 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SymfonyStaticDumper\Routing\RoutesProvider;
 use Symplify\SymfonyStaticDumper\Tests\TestProject\HttpKernel\TestSymfonyStaticDumperKernel;
 
+/**
+ * @requires PHP 8.0
+ */
 final class RoutesProviderTest extends AbstractKernelTestCase
 {
     /**

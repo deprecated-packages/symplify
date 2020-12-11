@@ -412,3 +412,6 @@ parameters:
             paths:
                 # database helper
                  - packages/symfony-route-usage/src/Database/TableInitiator.php
+
+        # generic
+        - '#Method Symplify\\PHPStanRules\\Rules\\AbstractSymplifyRule\:\:(.*?)\(\) should return PhpParser\\Node\\Stmt\\(.*?)\|null but returns PhpParser\\Node\|null#'

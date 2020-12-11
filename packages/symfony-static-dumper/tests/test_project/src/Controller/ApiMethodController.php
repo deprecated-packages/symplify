@@ -10,9 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class ApiMethodController extends AbstractController
 {
-    /**
-     * @Route(path="api.json")
-     */
+    #[Route(path: 'api.json')]
     public function __invoke(): JsonResponse
     {
         return $this->json([
