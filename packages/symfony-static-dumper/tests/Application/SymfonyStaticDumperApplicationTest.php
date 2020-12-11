@@ -9,6 +9,9 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 use Symplify\SymfonyStaticDumper\Tests\TestProject\HttpKernel\TestSymfonyStaticDumperKernel;
 
+/**
+ * @requires PHP 8.0
+ */
 final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
 {
     /**

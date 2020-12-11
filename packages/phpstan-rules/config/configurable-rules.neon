@@ -5,7 +5,6 @@ services:
         arguments:
             annotations:
                 - Symfony\Component\Routing\Annotation\Route
-                -
 
     -
         class: \Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule

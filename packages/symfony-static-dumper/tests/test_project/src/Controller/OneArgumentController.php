@@ -10,9 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class OneArgumentController extends AbstractController
 {
-    /**
-     * @Route(path="/one-param/{param}", name="one_param")
-     */
+    #[Route(path: '/one-param/{param}', name: 'one_param')]
     public function __invoke(string $param): Response
     {
         return $this->render('one_param.twig', [
