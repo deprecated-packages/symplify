@@ -64,11 +64,11 @@ final class BumpInterdependencyCommand extends AbstractSymplifyCommand
         /** @var string $version */
         $version = $input->getArgument(self::VERSION_ARGUMENT);
 
-        $mainComposerJson = $this->composerJsonProvider->getRootJson();
+        $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
 
         // @todo resolve better for only found packages
         // see https://github.com/symplify/symplify/pull/1037/files
-        [$vendor] = explode('/', $mainComposerJson['name']);
+        [$vendor] = explode('/', $rootComposerJson->getName());
 
         $this->dependencyUpdater->updateFileInfosWithVendorAndVersion(
             $this->composerJsonProvider->getPackagesComposerFileInfos(),
