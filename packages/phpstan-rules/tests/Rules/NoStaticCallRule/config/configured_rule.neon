@@ -1,9 +1,0 @@
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\NoStaticCallRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedStaticCallClasses:
-                - Symplify\PHPStanRules\Tests\Rules\NoStaticCallRule\Source\AllowedMethods
-
-    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
