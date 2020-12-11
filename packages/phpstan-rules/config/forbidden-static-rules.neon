@@ -4,10 +4,4 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoStaticCallRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedStaticCallClasses:
-                - 'Symplify\PackageBuilder\Console\Command\CommandNaming'
-                - 'PHPStan\Reflection\ParametersAcceptorSelector'
-                - 'Symplify\PackageBuilder\Configuration\StaticEolConfiguration'
+        class: Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule
