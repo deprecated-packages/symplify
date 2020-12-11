@@ -43,7 +43,7 @@ final class SourcesPresenceValidator
     public function validateRootComposerJsonName(): void
     {
         $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
-        if ($rootComposerJson->getName() !== '') {
+        if ($rootComposerJson->getName() !== null) {
             return;
         }
 
