@@ -113,6 +113,11 @@ CODE_SAMPLE
             return false;
         }
 
+        // skip
+        if (is_a($className, 'EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController', true)) {
+            return false;
+        }
+
         return is_a($className, 'Symfony\Bundle\FrameworkBundle\Controller\AbstractController', true);
     }
 
