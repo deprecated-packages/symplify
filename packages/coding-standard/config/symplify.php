@@ -20,10 +20,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(FinalInternalClassFixer::class);
 
     $services->load('Symplify\CodingStandard\Fixer\\', __DIR__ . '/../src/Fixer')
-        ->exclude([
-            // this must be full path, as PHAR + Symfony fails here
-            __DIR__ . '/../src/Fixer/Annotation',
-        ]);
+        ->exclude([__DIR__ . '/../src/Fixer/Annotation']);
 
     $services->load('Symplify\CodingStandard\Sniffs\\', __DIR__ . '/../src/Sniffs');
 
