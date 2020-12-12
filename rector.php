@@ -56,15 +56,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::TYPE_DECLARATION,
         SetList::PHPUNIT_CODE_QUALITY,
         SetList::NAMING,
+        SetList::EARLY_RETURN,
     ]);
 
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
-
-//    $parameters->set(Option::SKIP, [
-//        // fixed on master 2020-10-16
-//        MakeBoolPropertyRespectIsHasWasMethodNamingRector::class,
-//        MakeIsserClassMethodNameStartWithIsRector::class,
-//    ]);
 
     $parameters->set(Option::SKIP, [
         '*/scoper.inc.php',
