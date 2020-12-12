@@ -17,6 +17,9 @@ final class SetCurrentMutualDependenciesReleaseWorker extends AbstractMutualDepe
             $this->packageNamesProvider->provide(),
             $versionInString
         );
+
+        // give time to propagate values before commit
+        sleep(1);
     }
 
     public function getDescription(Version $version): string
