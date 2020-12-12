@@ -95,9 +95,9 @@ final class UselessDocBlockCleaner
 
         $obviousMethodComment = $matchAnyMethodClass['obvious_method_comment'];
         $obviousMethodComment = $this->removeSpaces($obviousMethodComment);
-        $methodName = $reverseTokens[$index + 6]->getContent();
+        $methodNameContent = $reverseTokens[$index + 6]->getContent();
 
-        if (strtolower($obviousMethodComment) !== strtolower($methodName)) {
+        if (strtolower($obviousMethodComment) !== strtolower($methodNameContent)) {
             return $docContent;
         }
 
