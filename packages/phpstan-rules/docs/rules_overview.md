@@ -126,7 +126,7 @@ class SomeClass
 
     public function __construct()
     {
-        $this->mainPath = getcwd() . '/absolute_path;
+        $this->mainPath = getcwd() . '/absolute_path';
     }
 
     public function someMethod()
@@ -3046,41 +3046,6 @@ function isClass()
 
 <br>
 
-## NoStaticCallRule
-
-Do not use static calls
-
-- class: `Symplify\PHPStanRules\Rules\NoStaticCallRule`
-
-```php
-final class SomeClass
-{
-    public function run()
-    {
-        return AnotherClass::staticMethod();
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    public function run()
-    {
-        $anotherClass = new AnotherClass();
-        return $anotherClass->staticMethod();
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## NoStaticPropertyRule
 
 Do not use static property
@@ -3222,6 +3187,60 @@ class SomeClass implements CheckedInterface
 class SomeClass implements CheckedInterface
 {
     public function run()
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## PreferredAttributeOverAnnotationRule
+
+Use attribute instead of "%s" annotation
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            annotations:
+                - Symfony\Component\Routing\Annotation\Route
+```
+
+↓
+
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+class SomeController
+{
+    /**
+     * @Route()
+     */
+    public function action()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+class SomeController
+{
+    #Route()
+    public function action()
     {
     }
 }
