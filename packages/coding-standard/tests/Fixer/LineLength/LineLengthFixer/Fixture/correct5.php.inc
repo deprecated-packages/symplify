@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-final class RemoveUselessDocBlockFixer
+final class BasicallyAnyClass
 {
     private function shouldSkip()
     {
