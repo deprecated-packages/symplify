@@ -29,3 +29,4 @@ services:
 
     - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer
     - Symplify\PHPStanRules\ComposerAutoloadResolver
+    - Symplify\PHPStanRules\ParentGuard\ParentMethodResolver

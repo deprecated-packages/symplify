@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Naming;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Variable;
@@ -65,7 +66,16 @@ final class SimpleNameResolver
      */
     public function isName($node, string $desiredName): bool
     {
-        return $this->getName($node) === $desiredName;
+        $name = $this->getName($node);
+        if ($name === null) {
+            return false;
+        }
+
+        if (Strings::contains($desiredName, '*')) {
+            return fnmatch($desiredName, $name);
+        }
+
+        return $name === $desiredName;
     }
 
     public function areNamesEqual(Node $firstNode, Node $secondNode): bool

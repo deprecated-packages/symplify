@@ -12,6 +12,8 @@ use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\ParentGuard\ParentMethodResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -36,9 +38,24 @@ final class NoSetterOnServiceRule extends AbstractSymplifyRule
      */
     private $nodeFinder;
 
-    public function __construct(NodeFinder $nodeFinder)
-    {
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
+     * @var ParentMethodResolver
+     */
+    private $parentMethodResolver;
+
+    public function __construct(
+        NodeFinder $nodeFinder,
+        SimpleNameResolver $simpleNameResolver,
+        ParentMethodResolver $parentMethodResolver
+    ) {
         $this->nodeFinder = $nodeFinder;
+        $this->simpleNameResolver = $simpleNameResolver;
+        $this->parentMethodResolver = $parentMethodResolver;
     }
 
     /**
@@ -55,12 +72,7 @@ final class NoSetterOnServiceRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $fullyQualifiedClassName = $this->getClassName($scope);
-        if ($fullyQualifiedClassName === null) {
-            return [];
-        }
-
-        if (Strings::match($fullyQualifiedClassName, self::NOT_A_SERVICE_NAMESPACE_REGEX)) {
+        if ($this->shouldSkipClass($scope)) {
             return [];
         }
 
@@ -68,16 +80,27 @@ final class NoSetterOnServiceRule extends AbstractSymplifyRule
             return [];
         }
 
-        $classMethodName = $node->name->toString();
-        if (! Strings::startsWith($classMethodName, 'set')) {
+        if (! $this->simpleNameResolver->isName($node->name, 'set*')) {
+            return [];
+        }
+
+        /** @var string $methodName */
+        $methodName = $this->simpleNameResolver->getName($node->name);
+
+        $parentMethodReflection = $this->parentMethodResolver->resolve($scope, $methodName);
+        if ($parentMethodReflection !== null) {
             return [];
         }
 
         /** @var Assign[] $assigns */
         $assigns = $this->nodeFinder->findInstanceOf((array) $node->getStmts(), Assign::class);
+
         foreach ($assigns as $assign) {
-            $assignVariable = $assign->var;
-            if ($assignVariable instanceof PropertyFetch || $assignVariable instanceof StaticPropertyFetch) {
+            if ($assign->var instanceof PropertyFetch) {
+                return [self::ERROR_MESSAGE];
+            }
+
+            if ($assign->var instanceof StaticPropertyFetch) {
                 return [self::ERROR_MESSAGE];
             }
         }
@@ -92,7 +115,7 @@ final class NoSetterOnServiceRule extends AbstractSymplifyRule
                 <<<'CODE_SAMPLE'
 class SomeService
 {
-    public function setSomeValue(...)
+    public function setSomeValue($value)
     {
     }
 }
@@ -101,12 +124,22 @@ CODE_SAMPLE
                 <<<'CODE_SAMPLE'
 class SomeEntity
 {
-    public function setSomeValue(...)
+    public function setSomeValue($value)
     {
     }
 }
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function shouldSkipClass(Scope $scope): bool
+    {
+        $className = $this->getClassName($scope);
+        if ($className === null) {
+            return true;
+        }
+
+        return (bool) Strings::match($className, self::NOT_A_SERVICE_NAMESPACE_REGEX);
     }
 }
