@@ -25,10 +25,7 @@ jobs:
                     coverage: none
 
             # composer install cache - https://github.com/ramsey/composer-install
-            -
-                uses: "ramsey/composer-install@v1"
-                with:
-                    composer-options: "--ignore-platform-req php"
+            -   uses: "ramsey/composer-install@v1"
 
             -
                 name: Generate Changelog
