@@ -2028,7 +2028,7 @@ final class SomeClass
 
 ## NoChainMethodCallRule
 
-Do not use chained method calls. Put `each` on separated lines.
+Do not use chained method calls. Put each on separated lines.
 
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`
 
@@ -2984,7 +2984,7 @@ Do not use setter on a service
 ```php
 class SomeService
 {
-    public function setSomeValue(...)
+    public function setSomeValue($value)
     {
     }
 }
@@ -2997,7 +2997,7 @@ class SomeService
 ```php
 class SomeEntity
 {
-    public function setSomeValue(...)
+    public function setSomeValue($value)
     {
     }
 }
@@ -4130,7 +4130,7 @@ trait SomeTrait
 
 ## TooDeepNewClassNestingRule
 
-new <class> is limited to %d "new <class>(new <class>))" nesting to `each` other. You have %d nesting.
+new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
 
 :wrench: **configure it!**
 
