@@ -43,30 +43,6 @@ Strict type declaration has to be followed by empty line
 
 <br>
 
-## CommentedOutCodeSniff
-
-There should be no commented code. Git is good enough for versioning
-
-- class: `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
-
-```php
-// $one = 1;
-// $two = 2;
-// $three = 3;
-```
-
-:x:
-
-<br>
-
-```php
-// note
-```
-
-:+1:
-
-<br>
-
 ## DoctrineAnnotationNewlineInNestedAnnotationFixer
 
 Nested object annotations should start on a standalone line
@@ -161,6 +137,20 @@ Fixes @param, @return, `@var` and inline `@var` annotations broken formats
  function getPerson($name)
  {
  }
+```
+
+<br>
+
+## RemoveCommentedCodeFixer
+
+Remove commented code like "// `$one` = 1000;"
+
+- class: `Symplify\CodingStandard\Fixer\Commenting\RemoveCommentedCodeFixer`
+
+```diff
+-// $one = 1;
+-// $two = 2;
+-// $three = 3;
 ```
 
 <br>
