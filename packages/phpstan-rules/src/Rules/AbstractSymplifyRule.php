@@ -185,7 +185,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
 
     protected function getMethodCallName(MethodCall $methodCall): ?string
     {
-        /** @var Identifier $name */
         $name = $methodCall->name;
 
         if (! $name instanceof Identifier) {
