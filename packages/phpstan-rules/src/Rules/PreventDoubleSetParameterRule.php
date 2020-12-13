@@ -89,6 +89,10 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
             return [];
         }
 
+        if (! isset($methodCalls[2])) {
+            return [];
+        }
+
         return [];
 
 
