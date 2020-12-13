@@ -7,22 +7,25 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Scalar\String_;
+use PhpParser\NodeFinder;
+use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\ObjectType;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ParametersConfigurator;
-use PhpParser\Node\Identifier;
-use PhpParser\PrettyPrinter\Standard;
-use PhpParser\NodeFinder;
-use PhpParser\Node\Name\FullyQualified;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreventDoubleSetParameterRule\PreventDoubleSetParameterRuleTest
  */
 final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
 {
+    /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = 'Set param value is duplicated, use unique value instead';
+
     /**
      * @var NodeFinder
      */
@@ -32,11 +35,6 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
      * @var Standard
      */
     private $printerStandard;
-
-    /**
-     * @var string
-     */
-    public const ERROR_MESSAGE = 'Set param value is duplicated, use unique value instead';
 
     public function __construct(NodeFinder $nodeFinder, Standard $printerStandard)
     {
@@ -93,35 +91,27 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
             return [];
         }
 
-        return [];
+        unset($methodCalls[0]);
+        $values = [];
 
+        foreach ($methodCalls as $methodCall) {
+            $args = $methodCall->args;
+            if (count($args) !== 2) {
+                continue;
+            }
 
-        /*$type = $scope->getType($node->var);
-        if (! $type instanceof ObjectType) {
-            return [];
-        }
+            if (! $args[0]->value instanceof String_) {
+                continue;
+            }
 
-        $className = $type->getClassName();
-        if (! is_a($className, ParametersConfigurator::class, true)) {
-            return [];
-        }
-
-        $methodIdentifier = $node->name;
-        if ($methodIdentifier->toString() !== 'set') {
-            return [];
-        }
-
-        static $values = [];
-        $args = $node->args;
-
-        foreach ($values as $value) {
-            if ($this->areNodesEqual($value, $args[0]->value)) {
+            if (in_array($args[0]->value->value, $values, true)) {
                 return [self::ERROR_MESSAGE];
             }
+
+            $values[] = $args[0]->value->value;
         }
 
-        $values[] = $args[0]->value;
-        return [];*/
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
