@@ -22,8 +22,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->load('Symplify\CodingStandard\Fixer\\', __DIR__ . '/../src/Fixer')
         ->exclude([__DIR__ . '/../src/Fixer/Annotation']);
 
-    $services->load('Symplify\CodingStandard\Sniffs\\', __DIR__ . '/../src/Sniffs');
-
     $services->set(ReferenceUsedNamesOnlySniff::class)
         ->property('searchAnnotations', true)
         ->property('allowFallbackGlobalFunctions', true)

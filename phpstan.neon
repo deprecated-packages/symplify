@@ -334,6 +334,7 @@ parameters:
             message: '#Class cognitive complexity is \d+, keep it under 40#'
             paths:
                 - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
+                - packages/coding-standard/src/Php/PhpContentAnalyzer.php
 
         - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
         - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\CaseConverter\\AliasCaseConverter\:\:convertToMethodCall\(\)" is 10, keep it under 8#'
@@ -415,3 +416,5 @@ parameters:
 
         # generic
         - '#Method Symplify\\PHPStanRules\\Rules\\AbstractSymplifyRule\:\:(.*?)\(\) should return PhpParser\\Node\\Stmt\\(.*?)\|null but returns PhpParser\\Node\|null#'
+
+        - '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'

@@ -52,7 +52,6 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
                     'options' => [
                         'symlink' => false,
                     ],
-                    //                    'canonical' => true,
                 ],
                 [
                     'type' => 'composer',

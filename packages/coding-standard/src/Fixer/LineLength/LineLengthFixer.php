@@ -92,7 +92,7 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
         return $tokens->isAnyTokenKindsFound([
             // "["
             T_ARRAY,
-            // "array"();
+            // "array"()
             CT::T_ARRAY_SQUARE_BRACE_OPEN,
             '(',
             ')',

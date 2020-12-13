@@ -90,8 +90,8 @@ final class GithubApi
             return $mergedPullRequests;
         }
 
-        $sinceMergedAt = $this->getMergedAtByPullRequest($id);
         // include all
+        $sinceMergedAt = $this->getMergedAtByPullRequest($id);
         if ($sinceMergedAt === null) {
             return $mergedPullRequests;
         }

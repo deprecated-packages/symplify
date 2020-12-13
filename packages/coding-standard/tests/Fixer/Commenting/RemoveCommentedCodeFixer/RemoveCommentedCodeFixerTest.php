@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Sniffs\Debug\CommentedOutCode;
+namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveCommentedCodeFixer;
 
 use Iterator;
-use Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff;
+use Symplify\CodingStandard\Fixer\Commenting\RemoveCommentedCodeFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class CommentedOutCodeSniffTest extends AbstractCheckerTestCase
+final class RemoveCommentedCodeFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideData()
@@ -27,6 +27,6 @@ final class CommentedOutCodeSniffTest extends AbstractCheckerTestCase
 
     protected function getCheckerClass(): string
     {
-        return CommentedOutCodeSniff::class;
+        return RemoveCommentedCodeFixer::class;
     }
 }

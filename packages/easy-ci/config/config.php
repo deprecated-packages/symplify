@@ -9,8 +9,6 @@ use Symplify\EasyCI\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
-
-    // default values
     $parameters->set(Option::SONAR_ORGANIZATION, null);
     $parameters->set(Option::SONAR_PROJECT_KEY, null);
     $parameters->set(Option::SONAR_DIRECTORIES, []);
