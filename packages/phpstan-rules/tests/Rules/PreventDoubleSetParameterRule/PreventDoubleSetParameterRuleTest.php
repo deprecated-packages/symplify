@@ -21,7 +21,8 @@ final class PreventDoubleSetParameterRuleTest extends AbstractServiceAwareRuleTe
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/ConfigParameter.php', []];
+        yield [__DIR__ . '/Fixture/SkipOnce.php', []];
+        yield [__DIR__ . '/Fixture/SkipNoDuplicateValue.php', []];
     }
 
     protected function getRule(): Rule
