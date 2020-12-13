@@ -25,7 +25,12 @@ final class PreventDoubleSetParameterRuleTest extends AbstractServiceAwareRuleTe
         yield [__DIR__ . '/Fixture/SkipeOnlyOneMethodCall.php', []];
         yield [__DIR__ . '/Fixture/SkipOnce.php', []];
         yield [__DIR__ . '/Fixture/SkipNoDuplicateValue.php', []];
-        yield [__DIR__ . '/Fixture/DuplicateValue.php', [[PreventDoubleSetParameterRule::ERROR_MESSAGE, 10]]];
+
+        $errorMessage = sprintf(PreventDoubleSetParameterRule::ERROR_MESSAGE, 'a');
+        yield [__DIR__ . '/Fixture/DuplicateValue.php', [[$errorMessage, 10]]];
+
+        $errorMessage = sprintf(PreventDoubleSetParameterRule::ERROR_MESSAGE, 'a');
+        yield [__DIR__ . '/Fixture/DuplicateConstantValue.php', [[$errorMessage, 10]]];
     }
 
     protected function getRule(): Rule

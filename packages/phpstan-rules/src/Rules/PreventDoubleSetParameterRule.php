@@ -21,7 +21,7 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Set param value is duplicated, use unique value instead';
+    public const ERROR_MESSAGE = 'Set param "%s" value is duplicated, use unique value instead';
 
     /**
      * @var SimpleNameResolver
@@ -80,13 +80,15 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
         }
 
         $setParameterName = $this->constExprEvaluator->evaluateDirectly($node->args[0]->value);
-        if ($setParameterName === null) {
+        if (! is_string($setParameterName)) {
             return [];
         }
 
         $previousSetParameterNames = $this->setParametersNamesByFile[$scope->getFile()] ?? [];
+
         if (in_array($setParameterName, $previousSetParameterNames, true)) {
-            return [self::ERROR_MESSAGE];
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $setParameterName);
+            return [$errorMessage];
         }
 
         $this->setParametersNamesByFile[$scope->getFile()][] = $setParameterName;
