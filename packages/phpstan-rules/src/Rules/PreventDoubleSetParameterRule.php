@@ -10,7 +10,6 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeFinder;
-use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -31,15 +30,9 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
      */
     private $nodeFinder;
 
-    /**
-     * @var Standard
-     */
-    private $printerStandard;
-
-    public function __construct(NodeFinder $nodeFinder, Standard $printerStandard)
+    public function __construct(NodeFinder $nodeFinder)
     {
         $this->nodeFinder = $nodeFinder;
-        $this->printerStandard = $printerStandard;
     }
 
     /**
@@ -80,8 +73,8 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
             return [];
         }
 
-        $firstMethodName = (string) $methodCalls[0]->name;
-        $secondMethodName = (string) $methodCalls[1]->name;
+        $firstMethodName = $this->getMethodCallName($methodCalls[0]);
+        $secondMethodName = $this->getMethodCallName($methodCalls[1]);
 
         if ($firstMethodName !== 'parameters' || $secondMethodName !== 'set') {
             return [];
@@ -91,27 +84,7 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
             return [];
         }
 
-        unset($methodCalls[0]);
-        $values = [];
-
-        foreach ($methodCalls as $methodCall) {
-            $args = $methodCall->args;
-            if (count($args) !== 2) {
-                continue;
-            }
-
-            if (! $args[0]->value instanceof String_) {
-                continue;
-            }
-
-            if (in_array($args[0]->value->value, $values, true)) {
-                return [self::ERROR_MESSAGE];
-            }
-
-            $values[] = $args[0]->value->value;
-        }
-
-        return [];
+        return $this->validateDoubleSetParameter($methodCalls);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -143,8 +116,32 @@ CODE_SAMPLE
         ]);
     }
 
-    private function areNodesEqual(Node $firstNode, Node $secondNode): bool
+    /**
+     * @param MethodCall[] $methodCalls
+     * @return string[]
+     */
+    private function validateDoubleSetParameter(array $methodCalls): array
     {
-        return $this->printerStandard->prettyPrint([$firstNode]) === $this->printerStandard->prettyPrint([$secondNode]);
+        unset($methodCalls[0]);
+        $values = [];
+
+        foreach ($methodCalls as $methodCall) {
+            $args = $methodCall->args;
+            if (count($args) !== 2) {
+                continue;
+            }
+
+            if (! $args[0]->value instanceof String_) {
+                continue;
+            }
+
+            if (in_array($args[0]->value->value, $values, true)) {
+                return [self::ERROR_MESSAGE];
+            }
+
+            $values[] = $args[0]->value->value;
+        }
+
+        return [];
     }
 }
