@@ -6,7 +6,11 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\ConstExprEvaluator;
 use PhpParser\Node;
+use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer;
@@ -87,6 +91,7 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
         $previousSetParameterNames = $this->setParametersNamesByFile[$scope->getFile()] ?? [];
 
         if (in_array($setParameterName, $previousSetParameterNames, true)) {
+            $setParameterName = $this->getSetParameterName($node->args[0]->value);
             $errorMessage = sprintf(self::ERROR_MESSAGE, $setParameterName);
             return [$errorMessage];
         }
@@ -122,5 +127,19 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function getSetParameterName(Node $node): string
+    {
+        if ($node instanceof ClassConstFetch && $node->class instanceof FullyQualified && $node->name instanceof Identifier) {
+            $name = $node->name;
+            return (string) $node->class . '::' . (string) $name;
+        }
+
+        if ($node instanceof String_) {
+            return $node->value;
+        }
+
+        return '';
     }
 }

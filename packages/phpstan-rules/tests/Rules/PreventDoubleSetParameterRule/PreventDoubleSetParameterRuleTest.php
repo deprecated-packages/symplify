@@ -29,8 +29,11 @@ final class PreventDoubleSetParameterRuleTest extends AbstractServiceAwareRuleTe
         $errorMessage = sprintf(PreventDoubleSetParameterRule::ERROR_MESSAGE, 'a');
         yield [__DIR__ . '/Fixture/DuplicateValue.php', [[$errorMessage, 10]]];
 
-        $errorMessage = sprintf(PreventDoubleSetParameterRule::ERROR_MESSAGE, 'a');
-        yield [__DIR__ . '/Fixture/DuplicateConstantValue.php', [[$errorMessage, 10]]];
+        $errorMessage = sprintf(
+            PreventDoubleSetParameterRule::ERROR_MESSAGE,
+            'Symplify\PHPStanRules\Tests\Rules\PreventDoubleSetParameterRule\Source\OptionConstants::NAME'
+        );
+        yield [__DIR__ . '/Fixture/DuplicateConstantValue.php', [[$errorMessage, 11]]];
     }
 
     protected function getRule(): Rule
