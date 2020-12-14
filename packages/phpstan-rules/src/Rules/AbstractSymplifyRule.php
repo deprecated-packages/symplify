@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
@@ -181,16 +180,5 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return true;
-    }
-
-    protected function getMethodCallName(MethodCall $methodCall): ?string
-    {
-        $name = $methodCall->name;
-
-        if (! $name instanceof Identifier) {
-            return null;
-        }
-
-        return (string) $name;
     }
 }
