@@ -25,6 +25,7 @@ use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use TwitterAPIExchange;
 
 /**
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#5-use-only-one-object-operator---per-statement
@@ -42,6 +43,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
      * @var string[]
      */
     private const DEFAULT_ALLOWED_CHAIN_TYPES = [
+        TwitterAPIExchange::class,
         AbstractConfigurator::class,
         Alias::class,
         Finder::class,
