@@ -8,9 +8,9 @@
         "symfony/dependency-injection": "^5.1",
         "symfony/finder": "^4.4|^5.1",
         "symfony/routing": "^4.4|^5.1",
-        "symplify/package-builder": "^9.1",
-        "symplify/smart-file-system": "^9.1",
-        "symplify/symplify-kernel": "^9.1"
+        "symplify/package-builder": "^9.0.10",
+        "symplify/smart-file-system": "^9.0.10",
+        "symplify/symplify-kernel": "^9.0.10"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^2.2",
@@ -24,7 +24,7 @@
         "symfony/twig-bundle": "^4.4|^5.1",
         "symfony/templating": "^4.4|^5.1",
         "symfony/translation": "^4.4|^5.1",
-        "symplify/easy-testing": "^9.1",
+        "symplify/easy-testing": "^9.0.10",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
