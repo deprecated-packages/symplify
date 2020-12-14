@@ -3,7 +3,7 @@
     "description": "Converter PHP_CodeSniffer or PHP-CS-Fixer configs to ECS with single Command",
     "license": "MIT",
     "bin": [
-        "bin/sniffer-fixer-to-ecs-conveter"
+        "bin/sniffer-fixer-to-ecs-converter"
     ],
     "require": {
         "php": ">=7.3",
