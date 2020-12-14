@@ -88,10 +88,10 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
             return [];
         }
 
+        $setParameterName = $this->getSetParameterName($node->args[0]->value);
         $previousSetParameterNames = $this->setParametersNamesByFile[$scope->getFile()] ?? [];
 
         if (in_array($setParameterName, $previousSetParameterNames, true)) {
-            $setParameterName = $this->getSetParameterName($node->args[0]->value);
             $errorMessage = sprintf(self::ERROR_MESSAGE, $setParameterName);
             return [$errorMessage];
         }
