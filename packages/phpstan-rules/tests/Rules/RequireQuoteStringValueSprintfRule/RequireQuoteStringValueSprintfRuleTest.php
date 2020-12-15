@@ -28,6 +28,7 @@ final class RequireQuoteStringValueSprintfRuleTest extends AbstractServiceAwareR
         yield [__DIR__ . '/Fixture/SkipHasQuote.php', []];
         yield [__DIR__ . '/Fixture/SkipEmptyString.php', []];
         yield [__DIR__ . '/Fixture/SkipRepetitive.php', []];
+        yield [__DIR__ . '/Fixture/SkipSingleQuote.php', []];
         yield [__DIR__ . '/Fixture/NoQuoteInFirstOrLast.php', [
             [RequireQuoteStringValueSprintfRule::ERROR_MESSAGE, 11],
             [RequireQuoteStringValueSprintfRule::ERROR_MESSAGE, 12],
