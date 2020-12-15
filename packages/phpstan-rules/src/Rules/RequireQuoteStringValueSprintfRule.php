@@ -65,10 +65,6 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->isInFirstOrLast($positionStringFormat, $format->value)) {
-            return [self::ERROR_MESSAGE];
-        }
-
         if (! $this->isNotSpaced($positionStringFormat, $format->value)) {
             return [self::ERROR_MESSAGE];
         }
@@ -101,11 +97,6 @@ class SomeClass
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    private function isInFirstOrLast(int $positionStringFormat, string $formatValue): bool
-    {
-        return $positionStringFormat === 0 || $positionStringFormat === strlen($formatValue) - 1;
     }
 
     private function isNotSpaced(int $positionStringFormat, string $formatValue): bool
