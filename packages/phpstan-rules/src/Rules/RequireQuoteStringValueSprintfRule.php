@@ -60,11 +60,15 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($positionStringFormat === 0 || $positionStringFormat === strlen($format->value) - 1) {
+        if ($this->isRepetitive($positionStringFormat, $format->value)) {
+            return [];
+        }
+
+        if ($this->isInFirstOrLast($positionStringFormat, $format->value)) {
             return [self::ERROR_MESSAGE];
         }
 
-        if (! $this->isQuoted($format->value, $positionStringFormat)) {
+        if (! $this->isQuoted($positionStringFormat, $format->value)) {
             return [self::ERROR_MESSAGE];
         }
 
@@ -98,9 +102,19 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isQuoted(string $formatValue, int $positionStringFormat): bool
+    private function isInFirstOrLast(int $positionStringFormat, string $formatValue): bool
+    {
+        return $positionStringFormat === 0 || $positionStringFormat === strlen($formatValue) - 1;
+    }
+
+    private function isQuoted(int $positionStringFormat, string $formatValue): bool
     {
         return substr($formatValue, $positionStringFormat - 1, 1) === '"'
             && substr($formatValue, $positionStringFormat + 2, 1) !== ' ';
+    }
+
+    private function isRepetitive(int $positionStringFormat, string $formatValue): bool
+    {
+        return substr($formatValue, $positionStringFormat + 2, 2) === '%s';
     }
 }
