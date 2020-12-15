@@ -418,3 +418,8 @@ parameters:
         - '#Method Symplify\\PHPStanRules\\Rules\\AbstractSymplifyRule\:\:(.*?)\(\) should return PhpParser\\Node\\Stmt\\(.*?)\|null but returns PhpParser\\Node\|null#'
 
         - '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
+
+        -
+            message: '#"%s" in sprintf\(\) format must be quoted#'
+            paths:
+                 - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php #110

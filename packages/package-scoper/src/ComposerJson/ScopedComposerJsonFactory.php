@@ -36,7 +36,7 @@ final class ScopedComposerJsonFactory
 
         $scopedPackageComposerJson->setName($packageName . self::SCOPED_PACKAGE_NAME_SUFFIX);
 
-        $description = sprintf('Prefixed scoped version of %s package', $packageName);
+        $description = sprintf('Prefixed scoped version of "%s" package', $packageName);
         $scopedPackageComposerJson->setDescription($description);
         $scopedPackageComposerJson->setBin($composerJson->getBin());
 
