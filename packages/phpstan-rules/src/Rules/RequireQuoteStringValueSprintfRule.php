@@ -98,7 +98,15 @@ CODE_SAMPLE
 
     private function isNotSpaced(int $positionStringFormat, string $formatValue): bool
     {
+        if ($positionStringFormat === 0) {
+            return false;
+        }
+
+        if ($positionStringFormat === strlen($formatValue) - 2) {
+            return false;
+        }
+
         return substr($formatValue, $positionStringFormat - 1, 1) !== ' '
-            && substr($formatValue, $positionStringFormat + 2, 1) !== ' ';
+            || substr($formatValue, $positionStringFormat + 2, 1) !== ' ';
     }
 }
