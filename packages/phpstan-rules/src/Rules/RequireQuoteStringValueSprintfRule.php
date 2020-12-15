@@ -69,7 +69,7 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
             return [self::ERROR_MESSAGE];
         }
 
-        if (! $this->isQuoted($positionStringFormat, $format->value)) {
+        if (! $this->isNotSpaced($positionStringFormat, $format->value)) {
             return [self::ERROR_MESSAGE];
         }
 
@@ -108,9 +108,9 @@ CODE_SAMPLE
         return $positionStringFormat === 0 || $positionStringFormat === strlen($formatValue) - 1;
     }
 
-    private function isQuoted(int $positionStringFormat, string $formatValue): bool
+    private function isNotSpaced(int $positionStringFormat, string $formatValue): bool
     {
-        return substr($formatValue, $positionStringFormat - 1, 1) === '"'
+        return substr($formatValue, $positionStringFormat - 1, 1) !== ' '
             && substr($formatValue, $positionStringFormat + 2, 1) !== ' ';
     }
 }
