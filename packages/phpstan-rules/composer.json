@@ -1,7 +1,6 @@
 {
     "name": "symplify/phpstan-rules",
     "description": "Set of Symplify rules for PHPStan",
-    "type": "phpstan-extension",
     "license": "MIT",
     "require": {
         "php": ">=7.3",
