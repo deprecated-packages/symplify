@@ -9,5 +9,6 @@ class SkipHasQuote
     public function run()
     {
         echo sprintf('a sentence "%s" value', 'value');
+        echo sprintf('a sentence "%s()->execute()" value', 'value');
     }
 }

@@ -101,6 +101,6 @@ CODE_SAMPLE
     private function isQuoted(string $formatValue, int $positionStringFormat): bool
     {
         return substr($formatValue, $positionStringFormat - 1, 1) === '"'
-            && substr($formatValue, $positionStringFormat + 2, 1) === '"';
+            && substr($formatValue, $positionStringFormat + 2, 1) !== ' ';
     }
 }
