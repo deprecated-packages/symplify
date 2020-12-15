@@ -39,11 +39,6 @@
     "extra": {
         "branch-alias": {
             "dev-master": "9.1-dev"
-        },
-        "phpstan": {
-            "includes": [
-                "config/symplify-rules.neon"
-            ]
         }
     },
     "minimum-stability": "dev",
