@@ -55,16 +55,13 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
             return [];
         }
 
-        $multiStringFormat = explode('%s', $format->value);
-        if (count($multiStringFormat) > 2) {
+        $stringFormats = explode('%s', $format->value);
+        $countStringFormats = count($stringFormats);
+        if ($countStringFormats === 1 || $countStringFormats > 2) {
             return [];
         }
 
         $positionStringFormat = strpos($format->value, '%s');
-        if ($positionStringFormat === false) {
-            return [];
-        }
-
         if (! $this->isNotSpaced($positionStringFormat, $format->value)) {
             return [self::ERROR_MESSAGE];
         }
