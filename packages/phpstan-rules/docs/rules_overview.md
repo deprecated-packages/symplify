@@ -3504,7 +3504,7 @@ abstract class AbstractSomeClass
 
 ## PreventDoubleSetParameterRule
 
-Set param value is duplicated, use unique value instead
+Set param "%s" value is duplicated, use unique value instead
 
 - class: `Symplify\PHPStanRules\Rules\PreventDoubleSetParameterRule`
 
@@ -3529,8 +3529,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
-    $parameters->set('some_param', [1]);
-    $parameters->set('some_param_2', [2]);
+    $parameters->set('some_param', [1, 2]);
 };
 ```
 
