@@ -55,12 +55,13 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
             return [];
         }
 
-        $positionStringFormat = strpos($format->value, '%s');
-        if ($positionStringFormat === false) {
+        $multiStringFormat = explode('%s', $format->value);
+        if (count($multiStringFormat) > 2) {
             return [];
         }
 
-        if ($this->isRepetitive($positionStringFormat, $format->value)) {
+        $positionStringFormat = strpos($format->value, '%s');
+        if ($positionStringFormat === false) {
             return [];
         }
 
@@ -111,10 +112,5 @@ CODE_SAMPLE
     {
         return substr($formatValue, $positionStringFormat - 1, 1) === '"'
             && substr($formatValue, $positionStringFormat + 2, 1) !== ' ';
-    }
-
-    private function isRepetitive(int $positionStringFormat, string $formatValue): bool
-    {
-        return substr($formatValue, $positionStringFormat + 2, 2) === '%s';
     }
 }
