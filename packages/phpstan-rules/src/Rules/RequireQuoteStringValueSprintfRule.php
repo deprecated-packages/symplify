@@ -51,7 +51,7 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
         }
 
         $format = $args[0]->value;
-        if (! $format instanceof String_) {
+        if (! $format instanceof String_ || trim($format->value) === '') {
             return [];
         }
 
