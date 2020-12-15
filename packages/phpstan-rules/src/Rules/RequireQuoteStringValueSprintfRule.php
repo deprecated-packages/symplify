@@ -61,6 +61,7 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
             return [];
         }
 
+        /** @var int $positionStringFormat */
         $positionStringFormat = strpos($format->value, '%s');
         if (! $this->isNotSpaced($positionStringFormat, $format->value)) {
             return [self::ERROR_MESSAGE];
