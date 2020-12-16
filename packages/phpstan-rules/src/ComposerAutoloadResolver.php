@@ -24,7 +24,7 @@ class ComposerAutoloadResolver
      */
     public function getPsr4Autoload(): array
     {
-        $composerJsonFile = getcwd() . DIRECTORY_SEPARATOR . 'composer.json';
+        $composerJsonFile = './composer.json';
         if (! file_exists($composerJsonFile)) {
             return [];
         }
