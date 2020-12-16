@@ -1,4 +1,4 @@
-# 110 Rules Overview
+# 111 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3915,6 +3915,40 @@ $inputOption = new InputOption('name', null, 2);
 use Symfony\Component\Console\Input\InputOption;
 
 $inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
+```
+
+:+1:
+
+<br>
+
+## RequireQuoteStringValueSprintfRule
+
+"%s" in `sprintf()` format must be quoted
+
+- class: `Symplify\PHPStanRules\Rules\RequireQuoteStringValueSprintfRule`
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        echo sprintf('%s value', $variable);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        echo sprintf('"%s" value', $variable);
+    }
+}
 ```
 
 :+1:
