@@ -8,6 +8,7 @@ use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\ChangelogLinker\Console\Command\DumpMergesCommand;
 
 final class ChangelogFileSystemTest extends AbstractKernelTestCase
 {
@@ -35,13 +36,13 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
 ## Unreleased
 
 - [#1] Added foo
-CONTENT, '<!-- changelog-linker -->');
+CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
         $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CONTENT
 ## Unreleased
 
 - [#2] Added bar
-CONTENT, '<!-- changelog-linker -->');
+CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
         $fileChangelog = 'tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md';
         $changelogFile = file_exists($fileChangelog)
