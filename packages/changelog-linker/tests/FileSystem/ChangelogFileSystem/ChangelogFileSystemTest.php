@@ -31,8 +31,17 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
     {
         $originalContent = $this->changelogFileSystem->readChangelog();
 
-        $this->changelogFileSystem->addToChangelogOnPlaceholder('## Unreleased - [#1] Added foo', '## Unreleased');
-        $this->changelogFileSystem->addToChangelogOnPlaceholder('## Unreleased - [#2] Added bar', '## Unreleased');
+        $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CONTENT
+## Unreleased
+
+- [#1] Added foo
+CONTENT, '<!-- changelog-linker -->');
+
+        $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CONTENT
+## Unreleased
+
+- [#2] Added bar
+CONTENT, '<!-- changelog-linker -->');
 
         $fileChangelog = 'tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md';
         $changelogFile = file_exists($fileChangelog)
