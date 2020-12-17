@@ -117,6 +117,13 @@ final class ChangelogFileSystem
                 self::UNRELEASED_HEADLINE . PHP_EOL . PHP_EOL . '-',
                 $updatedChangelogContent
             );
+
+            // happen in GH Action
+            $updatedChangelogContent = str_replace(
+                $placeholder . PHP_EOL . PHP_EOL . PHP_EOL,
+                $placeholder . PHP_EOL . PHP_EOL,
+                $updatedChangelogContent
+            );
         }
 
         return $updatedChangelogContent;
