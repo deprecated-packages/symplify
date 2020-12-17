@@ -95,6 +95,12 @@ final class ChangelogFileSystem
         );
 
         // clean up ## Unreleased
+        $updatedChangelogContent = $this->cleanUpUnreleased($updatedChangelogContent, $placeholder);
+        $this->storeChangelog($updatedChangelogContent);
+    }
+
+    private function cleanUpUnreleased(string $updatedChangelogContent, string $placeholder): string
+    {
         $multiUnreleased = explode(self::UNRELEASED_HEADLINE, $updatedChangelogContent);
         if (count($multiUnreleased) > 2) {
             $updatedChangelogContent = str_replace($placeholder, '', $updatedChangelogContent);
@@ -113,7 +119,7 @@ final class ChangelogFileSystem
             );
         }
 
-        $this->storeChangelog($updatedChangelogContent);
+        return $updatedChangelogContent;
     }
 
     private function getChangelogFilePath(): string
