@@ -45,14 +45,16 @@ CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
         $fileChangelog = 'tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md';
+        $smartFileSystem = new SmartFileSystem();
+
         $changelogFile = file_exists($fileChangelog)
             ? $fileChangelog
             : 'packages/changelog-linker/' . $fileChangelog;
-
-        $smartFileSystem = new SmartFileSystem();
         $content = str_replace('\n', PHP_EOL, $smartFileSystem->readFile($changelogFile));
+
+        $expectedListData = str_replace('\n', PHP_EOL, $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md'));
         $this->assertStringContainsString(
-            $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md'),
+            $expectedListData,
             $content
         );
 
