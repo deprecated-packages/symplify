@@ -10,7 +10,24 @@ Package to speed up building command line applications
 composer require symplify/console-package-builder --dev
 ```
 
-@todo
+## Namesless Commands
+
+Do you want to have convention in command naming? Read [The Bullet Proof Symfony Command Naming](https://tomasvotruba.com/blog/2020/10/26/the-bullet-proof-symfony-command-naming/)
+
+```php
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel;
+use Symplify\ConsolePackageBuilder\DependencyInjection\CompilerPass\NamelessConsoleCommandCompilerPass;
+
+//
+class SomeKernel extends Kernel implements CompilerPassInterface
+{
+    public function process(ContainerBuilder $containerBuilder)
+    {
+        $containerBuilder->addCompilerPass(new NamelessConsoleCommandCompilerPass());
+    }
+}
+```
 
 <br>
 
