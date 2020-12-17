@@ -51,11 +51,11 @@ CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
         $smartFileSystem = new SmartFileSystem();
         $content = $smartFileSystem->readFile($changelogFile);
+        $smartFileSystem->dumpFile($changelogFile, $originalContent);
+
         $this->assertStringContainsString(
             $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md'),
             $content
         );
-
-        $smartFileSystem->dumpFile($changelogFile, $originalContent);
     }
 }
