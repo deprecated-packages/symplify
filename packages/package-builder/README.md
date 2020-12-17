@@ -14,19 +14,26 @@ composer require symplify/package-builder
 
 ### Get All Parameters via Service
 
-```yaml
-# app/config/services.yaml
-parameters:
-    source: "src"
+1. Register `ParameterProvider` service in your config:
 
-services:
-    _defaults:
-        autowire: true
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
-    Symplify\PackageBuilder\Parameter\ParameterProvider: ~
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+    $services->defaults()
+        ->autowire();
+
+    $services->set(ParameterProvider::class);
+
+    $parameter = $containerConfigurator->parameters();
+    // will be used later
+    $parameter->set('source', 'src');
+};
 ```
 
-Then require in `__construct()` where needed:
+2. Require `ParameterProvider` in `__construct()` where needed:
 
 ```php
 namespace App\Configuration;
@@ -49,6 +56,9 @@ final class ProjectConfiguration
     {
         // returns "src"
         return $this->parameterProvider->provideParameter('source');
+
+        // use specific typed method to avoid `mixed`
+        return $this->parameterProvider->provideStringParameter('source');
     }
 }
 ```
@@ -58,7 +68,9 @@ final class ProjectConfiguration
 ### Get Vendor Directory from Anywhere
 
 ```php
-$vendorDirProvider = new Symplify\PackageBuilder\Composer\VendorDirProvider();
+use Symplify\PackageBuilder\Composer\VendorDirProvider;
+
+$vendorDirProvider = new VendorDirProvider();
 // returns path to vendor directory
 $vendorDirProvider->provide();
 ```
