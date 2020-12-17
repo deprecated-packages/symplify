@@ -50,10 +50,10 @@ CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
             : 'packages/changelog-linker/' . $fileChangelog;
 
         $smartFileSystem = new SmartFileSystem();
-        $content = $smartFileSystem->readFile($changelogFile);
+        $content = str_replace('\n', PHP_EOL, $smartFileSystem->readFile($changelogFile));
         $this->assertStringContainsString(
             $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md'),
-            str_replace('\n', PHP_EOL, $content)
+            $content
         );
 
         $smartFileSystem->dumpFile($changelogFile, $originalContent);
