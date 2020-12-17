@@ -50,12 +50,14 @@ CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
         $changelogFile = file_exists($fileChangelog)
             ? $fileChangelog
             : 'packages/changelog-linker/' . $fileChangelog;
-        $content          = str_replace('\n', '', $smartFileSystem->readFile($changelogFile));
-        $expectedListData = $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md');
+        $content          = str_replace(PHP_EOL, '', $smartFileSystem->readFile($changelogFile));
+        $content          = trim(str_replace('\n', '', $content));
+        $expectedListData = str_replace(PHP_EOL, '', $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md'));
+        $expectedListData = trim(str_replace('\n', '', $expectedListData));
 
         $smartFileSystem->dumpFile($changelogFile, $originalContent);
 
-        $this->assertStringContainsString(
+        $this->assertEquals(
             $expectedListData,
             $content
         );
