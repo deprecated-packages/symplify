@@ -104,14 +104,14 @@ final class ChangelogFileSystem
         $multiUnreleased = explode(self::UNRELEASED_HEADLINE, $updatedChangelogContent);
         if (count($multiUnreleased) > 2) {
             $updatedChangelogContent = str_replace($placeholder, '', $updatedChangelogContent);
-            $updatedChangelogContent = str_replace(self::UNRELEASED_HEADLINE . PHP_EOL . PHP_EOL, '', $updatedChangelogContent);
-            $updatedChangelogContent = self::UNRELEASED_HEADLINE . $updatedChangelogContent;
-            $updatedChangelogContent = $placeholder . PHP_EOL . PHP_EOL . $updatedChangelogContent;
             $updatedChangelogContent = str_replace(
-                PHP_EOL . '-',
-                '-',
+                self::UNRELEASED_HEADLINE . PHP_EOL . PHP_EOL,
+                '',
                 $updatedChangelogContent
             );
+            $updatedChangelogContent = self::UNRELEASED_HEADLINE . $updatedChangelogContent;
+            $updatedChangelogContent = $placeholder . PHP_EOL . PHP_EOL . $updatedChangelogContent;
+            $updatedChangelogContent = str_replace(PHP_EOL . '-', '-', $updatedChangelogContent);
             $updatedChangelogContent = str_replace(
                 self::UNRELEASED_HEADLINE . PHP_EOL . '-',
                 self::UNRELEASED_HEADLINE . PHP_EOL . PHP_EOL . '-',
