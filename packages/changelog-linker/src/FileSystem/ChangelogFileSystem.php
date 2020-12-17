@@ -17,6 +17,11 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class ChangelogFileSystem
 {
     /**
+     * @var string
+     */
+    private const UNRELEASED_HEADLINE = '## Unreleased';
+
+    /**
      * @var ChangelogLinker
      */
     private $changelogLinker;
@@ -88,6 +93,25 @@ final class ChangelogFileSystem
             $placeholder . PHP_EOL . PHP_EOL . ' -',
             $updatedChangelogContent
         );
+
+        // clean up ## Unreleased
+        $multiUnreleased = explode(self::UNRELEASED_HEADLINE, $updatedChangelogContent);
+        if (count($multiUnreleased) > 2) {
+            $updatedChangelogContent = str_replace($placeholder, '', $updatedChangelogContent);
+            $updatedChangelogContent = str_replace(self::UNRELEASED_HEADLINE . PHP_EOL . PHP_EOL, '', $updatedChangelogContent);
+            $updatedChangelogContent = self::UNRELEASED_HEADLINE . $updatedChangelogContent;
+            $updatedChangelogContent = $placeholder . PHP_EOL . PHP_EOL . $updatedChangelogContent;
+            $updatedChangelogContent = str_replace(
+                PHP_EOL . '-',
+                '-',
+                $updatedChangelogContent
+            );
+            $updatedChangelogContent = str_replace(
+                self::UNRELEASED_HEADLINE . PHP_EOL . '-',
+                self::UNRELEASED_HEADLINE . PHP_EOL . PHP_EOL . '-',
+                $updatedChangelogContent
+            );
+        }
 
         $this->storeChangelog($updatedChangelogContent);
     }
