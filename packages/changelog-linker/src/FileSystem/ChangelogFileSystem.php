@@ -117,7 +117,6 @@ final class ChangelogFileSystem
                 self::UNRELEASED_HEADLINE . PHP_EOL . PHP_EOL . '-',
                 $updatedChangelogContent
             );
-            $updatedChangelogContent = trim($updatedChangelogContent) . PHP_EOL;
         }
 
         return $updatedChangelogContent;

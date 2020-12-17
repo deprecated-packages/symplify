@@ -50,8 +50,8 @@ CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
         $changelogFile = file_exists($fileChangelog)
             ? $fileChangelog
             : 'packages/changelog-linker/' . $fileChangelog;
-        $content          = trim($smartFileSystem->readFile($changelogFile));
-        $expectedListData = trim($smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md'));
+        $content          = str_replace(PHP_EOL, '\n', $smartFileSystem->readFile($changelogFile));
+        $expectedListData = str_replace(PHP_EOL, '\n', $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md'));
 
         $smartFileSystem->dumpFile($changelogFile, $originalContent);
 
