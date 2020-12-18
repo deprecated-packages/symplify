@@ -36,9 +36,9 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private $printerStandard;
 
     /**
-     * @var array<string, string[]>
+     * @var array<string, string>
      */
-    private $contentMethodByNameFile = [];
+    private $contentMethodByName = [];
 
     public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard)
     {
@@ -60,11 +60,26 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->shouldSkip($node, $scope)) {
+        if ($this->isConstructorOrInTestClass($node, $scope)) {
             return [];
         }
 
-        return [];
+        if (! $node->isPublic()) {
+            return [];
+        }
+
+        $classMethodName = $node->name->toString();
+        if (! isset($this->contentMethodByName[$classMethodName])) {
+            $this->contentMethodByName[$classMethodName] = $this->printerStandard->prettyPrint($node->stmts);
+            return [];
+        }
+
+        $printStmts = $this->printerStandard->prettyPrint($node->stmts);
+        if ($printStmts !== $this->contentMethodByName[$classMethodName]) {
+            return [];
+        }
+
+        return [sprintf(self::ERROR_MESSAGE, $classMethodName)];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -110,20 +125,20 @@ CODE_SAMPLE
         ]);
     }
 
-    private function shouldSkip(ClassMethod $classMethod, Scope $scope): bool
+    private function isConstructorOrInTestClass(ClassMethod $classMethod, Scope $scope): bool
     {
         if ($scope->getClassReflection() === null) {
             return true;
         }
 
-        if (! $this->simpleNameResolver->isName($classMethod->name, MethodName::CONSTRUCTOR)) {
+        if ($this->simpleNameResolver->isName($classMethod->name, MethodName::CONSTRUCTOR)) {
             return true;
         }
 
         /** @var Class_|null $class */
         $class = $this->resolveCurrentClass($classMethod);
 
-        if ($class === null || Strings::endWith($class->toString(), 'Test')) {
+        if ($class === null || Strings::endsWith($class->name->toString(), 'Test')) {
             return true;
         }
 
