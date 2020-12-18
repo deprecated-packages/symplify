@@ -58,6 +58,10 @@ final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule i
             return [];
         }
 
+        if (! property_exists($class, 'namespacedName')) {
+            return [];
+        }
+
         /** @var Identifier $classIdentifier */
         $classIdentifier = $class->namespacedName;
         $shortClassName = $classIdentifier->toString();

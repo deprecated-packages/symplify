@@ -54,6 +54,10 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if (! property_exists($node, 'namespacedName')) {
+            return [];
+        }
+
         $fullyQualifiedClassName = (string) $node->namespacedName;
         if ($fullyQualifiedClassName === '') {
             return [];

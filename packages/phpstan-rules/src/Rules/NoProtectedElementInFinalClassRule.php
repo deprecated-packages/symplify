@@ -108,6 +108,10 @@ CODE_SAMPLE
 
     private function isPropertyExistInTraits(Class_ $class, string $propertyName): bool
     {
+        if (! property_exists($class, 'namespacedName')) {
+            return false;
+        }
+
         /** @var Identifier $name */
         $name = $class->namespacedName;
 

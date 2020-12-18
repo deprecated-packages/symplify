@@ -57,6 +57,10 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
             return [];
         }
 
+        if (! property_exists($node, 'namespacedName')) {
+            return [];
+        }
+
         $namespacedName = (string) $node->namespacedName;
         $shortClassName = (string) $shortClassName;
 

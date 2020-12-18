@@ -155,6 +155,10 @@ CODE_SAMPLE
             return null;
         }
 
+        if (! property_exists($class, 'namespacedName')) {
+            return null;
+        }
+
         $className = (string) $class->namespacedName;
         if (! class_exists($className)) {
             return null;

@@ -135,6 +135,10 @@ CODE_SAMPLE
      */
     private function processClass(Class_ $class): array
     {
+        if (! property_exists($class, 'namespacedName')) {
+            return [];
+        }
+
         if ($class->extends === null) {
             return [];
         }
