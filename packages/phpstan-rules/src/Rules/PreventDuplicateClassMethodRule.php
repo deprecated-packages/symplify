@@ -67,7 +67,21 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($this->shouldSkip($node)) {
+            return [];
+        }
+
         return [];
+    }
+
+    private function shouldSkip(ClassMethod $classMethod): bool
+    {
+        $methodName = $classMethod->name->toString();
+        if ($methodName === '__construct') {
+            return true;
+        }
+
+        return false;
     }
 
     public function getRuleDefinition(): RuleDefinition
