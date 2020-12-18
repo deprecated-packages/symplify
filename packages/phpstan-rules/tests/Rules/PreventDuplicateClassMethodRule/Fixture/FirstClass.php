@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixt
 class FirstClass
 {
     public function someMethod()
-	{
-		(new SmartFinder())->run('.php');
-	}
+    {
+        (new SmartFinder())->run('.php');
+    }
 }
