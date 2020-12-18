@@ -23,7 +23,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Content of method "%s" is duplicated, use unique content instead';
+    public const ERROR_MESSAGE = 'Content of method "%s" is duplicated with method in "%s" class, use unique content instead';
 
     /**
      * @var SimpleNameResolver
@@ -34,6 +34,11 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      * @var Standard
      */
     private $printerStandard;
+
+    /**
+     * @var string
+     */
+    private $firstClassByName = [];
 
     /**
      * @var array<string, string>
@@ -60,7 +65,18 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->isConstructorOrInTestClass($node, $scope)) {
+        /** @var Class_|null */
+        $class = $this->resolveCurrentClass($node);
+
+        if ($class === null) {
+            return true;
+        }
+
+        $className = property_exists($class, 'namespacedName')
+            ? $class->namespacedName->toString()
+            : $class->name->toString();
+
+        if ($this->isConstructorOrInTestClass($node, $className)) {
             return [];
         }
 
@@ -71,6 +87,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         $classMethodName = $node->name->toString();
         $printStmts = $this->printerStandard->prettyPrint($node->stmts);
         if (! isset($this->contentMethodByName[$classMethodName])) {
+            $this->firstClassByName[$classMethodName] = $className;
             $this->contentMethodByName[$classMethodName] = $printStmts;
             return [];
         }
@@ -79,7 +96,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $classMethodName)];
+        return [sprintf(self::ERROR_MESSAGE, $classMethodName, $this->firstClassByName[$classMethodName])];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -125,20 +142,13 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isConstructorOrInTestClass(ClassMethod $classMethod, Scope $scope): bool
+    private function isConstructorOrInTestClass(ClassMethod $classMethod, string $className): bool
     {
-        if ($scope->getClassReflection() === null) {
-            return true;
-        }
-
         if ($this->simpleNameResolver->isName($classMethod->name, MethodName::CONSTRUCTOR)) {
             return true;
         }
 
-        /** @var Class_|null $class */
-        $class = $this->resolveCurrentClass($classMethod);
-
-        if ($class === null || Strings::endsWith($class->name->toString(), 'Test')) {
+        if (Strings::endsWith($className, 'Test')) {
             return true;
         }
 

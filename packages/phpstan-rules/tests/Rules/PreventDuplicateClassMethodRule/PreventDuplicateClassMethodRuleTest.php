@@ -25,7 +25,14 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
         yield [__DIR__ . '/Fixture/DuplicateFirstClassMethodInPrivate.php', []];
         yield [__DIR__ . '/Fixture/ATest.php', []];
         yield [__DIR__ . '/Fixture/SecondClassDuplicateFirstClassMethod.php', [
-            [sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'someMethod'), 14],
+            [
+                sprintf(
+                    PreventDuplicateClassMethodRule::ERROR_MESSAGE,
+                    'someMethod',
+                    'Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\FirstClass'
+                ),
+                14,
+            ],
         ]];
     }
 
