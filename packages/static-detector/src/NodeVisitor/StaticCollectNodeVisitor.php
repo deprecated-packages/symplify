@@ -54,13 +54,7 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node)
     {
-        if ($node instanceof ClassLike) {
-            $this->currentClassLike = $node;
-        }
-
-        if ($node instanceof StaticCall) {
-            $this->staticNodeCollector->addStaticCall($node, $this->currentClassLike);
-        }
+        $this->checkisClassLikeOrStaticCall($node);
 
         if ($node instanceof ClassMethod) {
             if (! $node->isStatic()) {
@@ -91,5 +85,16 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
         }
 
         return null;
+    }
+
+    private function checkisClassLikeOrStaticCall(Node $node): void
+    {
+        if ($node instanceof ClassLike) {
+            $this->currentClassLike = $node;
+        }
+
+        if ($node instanceof StaticCall) {
+            $this->staticNodeCollector->addStaticCall($node, $this->currentClassLike);
+        }
     }
 }
