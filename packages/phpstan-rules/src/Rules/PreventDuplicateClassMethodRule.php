@@ -14,6 +14,7 @@ use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use PhpParser\Node\Identifier;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\PreventDuplicateClassMethodRuleTest
@@ -36,7 +37,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private $printerStandard;
 
     /**
-     * @var string
+     * @var array<string, string>
      */
     private $firstClassByName = [];
 
@@ -72,10 +73,11 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        $className = property_exists($class, 'namespacedName')
-            ? $class->namespacedName->toString()
-            : $class->name->toString();
+        if (! property_exists($class, 'namespacedName')) {
+            return [];
+        }
 
+        $className = (string) $class->namespacedName;
         if ($this->isConstructorOrInTestClass($node, $className)) {
             return [];
         }
@@ -84,8 +86,11 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        $classMethodName = $node->name->toString();
-        $printStmts = $this->printerStandard->prettyPrint($node->stmts);
+        /** @var Node[] $stmts */
+        $stmts = $node->stmts;
+        $printStmts = $this->printerStandard->prettyPrint($stmts);
+        $classMethodName = (string) $node->name;
+
         if (! isset($this->contentMethodByName[$classMethodName])) {
             $this->firstClassByName[$classMethodName] = $className;
             $this->contentMethodByName[$classMethodName] = $printStmts;
