@@ -94,7 +94,7 @@ CODE_SAMPLE
     private function resolveClassPublicElementCount(Class_ $class): int
     {
         if (! property_exists($class, 'namespacedName')) {
-            return [];
+            return 0;
         }
 
         $publicElementCount = 0;

@@ -70,7 +70,7 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule implements Con
     public function process(Node $node, Scope $scope): array
     {
         if (! property_exists($node, 'namespacedName')) {
-            return false;
+            return [];
         }
 
         $shortClassName = $node->name;
