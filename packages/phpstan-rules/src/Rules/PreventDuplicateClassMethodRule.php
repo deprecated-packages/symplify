@@ -46,6 +46,14 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     private $contentMethodByName = [];
 
+    /**
+     * @var string[]
+     */
+    private const PHPSTAN_GET_NODE_TYPE_METHODS = [
+        'getNodeType',
+        'getNodeTypes',
+    ];
+
     public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard)
     {
         $this->simpleNameResolver = $simpleNameResolver;
@@ -82,6 +90,11 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
+        $classMethodName = (string) $node->name;
+        if (in_array($classMethodName, self::PHPSTAN_GET_NODE_TYPE_METHODS)) {
+            return [];
+        }
+
         if (! $node->isPublic()) {
             return [];
         }
@@ -89,7 +102,6 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         /** @var Node[] $stmts */
         $stmts = $node->stmts;
         $printStmts = $this->printerStandard->prettyPrint($stmts);
-        $classMethodName = (string) $node->name;
 
         if (! isset($this->contentMethodByName[$classMethodName])) {
             $this->firstClassByName[$classMethodName] = $className;
