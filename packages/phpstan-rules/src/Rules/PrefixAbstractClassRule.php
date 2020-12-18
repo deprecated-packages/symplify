@@ -46,6 +46,10 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if (! property_exists($node, 'namespacedName')) {
+            return [];
+        }
+
         $className = (string) $node->namespacedName;
         if (! class_exists($className)) {
             return [];

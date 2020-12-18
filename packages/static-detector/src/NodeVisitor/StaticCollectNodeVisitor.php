@@ -76,6 +76,10 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
                 throw new ShouldNotHappenException('Class not found for static call');
             }
 
+            if (! property_exists($this->currentClassLike, 'namespacedName')) {
+                return null;
+            }
+
             // is filter match?
             $filterClasses = (array) $this->parameterProvider->provideParameter(Option::FILTER_CLASSES);
             $currentClassName = (string) $this->currentClassLike->namespacedName;

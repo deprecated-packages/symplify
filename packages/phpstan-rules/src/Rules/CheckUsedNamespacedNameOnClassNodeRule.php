@@ -83,6 +83,10 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
             return [];
         }
 
+        if (! property_exists($class, 'namespacedName')) {
+            return [];
+        }
+
         if (in_array($class->namespacedName->toString(), $this->excludedClasses, true)) {
             return [];
         }

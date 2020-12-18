@@ -29,6 +29,10 @@ final class StaticNodeCollector
 
     public function addStaticClassMethod(ClassMethod $classMethod, ClassLike $classLike): void
     {
+        if (! property_exists($classLike, 'namespacedName')) {
+            return;
+        }
+
         $class = (string) $classLike->namespacedName;
         $method = (string) $classMethod->name;
 
@@ -76,11 +80,11 @@ final class StaticNodeCollector
         return $staticClassMethodWithStaticCalls;
     }
 
-    private function resolveClass(Name $staticClassName, ?ClassLike $classLike = null): string
+    private function resolveClass(Name $staticClassName, ?ClassLike $classLike = null): ?string
     {
         $class = (string) $staticClassName;
         if (in_array($class, ['self', 'static'], true)) {
-            if ($classLike === null) {
+            if ($classLike === null || ! property_exists($classLike, 'namespacedName')) {
                 throw new ShouldNotHappenException();
             }
 

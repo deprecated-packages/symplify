@@ -126,6 +126,10 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
 
     protected function doesMethodExistInTraits(Class_ $class, string $methodName): bool
     {
+        if (! property_exists($class, 'namespacedName')) {
+            return false;
+        }
+
         /** @var Identifier $name */
         $name = $class->namespacedName;
 
@@ -163,6 +167,10 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
 
     private function resolveClassLikeName(ClassLike $classLike): ?string
     {
+        if (! property_exists($classLike, 'namespacedName')) {
+            return null;
+        }
+
         // anonymous  class
         if ($classLike->namespacedName === null) {
             return null;

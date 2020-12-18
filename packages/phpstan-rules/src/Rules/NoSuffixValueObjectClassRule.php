@@ -43,6 +43,10 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if (! property_exists($node, 'namespacedName')) {
+            return [];
+        }
+
         $namespacedName = $node->namespacedName;
         if (! $namespacedName instanceof Name) {
             return [];
