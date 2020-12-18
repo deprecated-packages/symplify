@@ -20,21 +20,21 @@ We also need `symplify/monorepo-builder`, so we can work with relative paths of 
 
 ### 1. Generate php-scoper Config
 
-[php-scoper](https://github.com/humbug/php-scoper) is a package that prefixed classes and functions by prefix, so they're unique and don't conflict with same-named class in different version. You can read [the documentation](https://github.com/humbug/php-scoper), or you can generate the config with sain defaults:
+[php-scoper](https://github.com/humbug/php-scoper) is a package that prefixes classes and functions, so they're unique and don't conflict with same-named class in a different version. You can read [the documentation](https://github.com/humbug/php-scoper), or you can generate the config with sane defaults:
 
 ```bash
 vendor/bin/package-scoper generate-php-scoper
 ```
 
-It will create `scoper.inc.php` right in the root of the package. That's the best location, because php-scoper works with path relatively to its location.
+It will create `scoper.inc.php` right in the root of the package. That's the best location, because php-scoper works with path relative to its location.
 
 ### 2. Scope Composer Json
 
-Scoping PHP code with [php-scoper](https://github.com/humbug/php-scoper/) is a just first step. The second is making a `composer.json` with different name than the original package. We got you covered! The following command will:
+Scoping PHP code with [php-scoper](https://github.com/humbug/php-scoper/) is just the first step. The second is making a `composer.json` with a different name than the original package. We got you covered! The following command will:
 
 - update package name to `<original>-prefixed`
 - keep PHP version in `require` section, license and bin files
-- drops the rest
+- drop the rest
 
 It must be run on the scoped package `composer.json`, not the original one:
 
@@ -46,7 +46,7 @@ vendor/bin/package-scoper scope-composer-json packages-scoped/some-package/compo
 
 ### 3. Generate GitHub Action Workflow
 
-The process without automatization would not be much helpful. That why we have GitHub Action to automate it.
+The process without automatization would not be much helpful. That's why we have GitHub Action to automate it.
 
 ```bash
 vendor/bin/package-scoper generate-workflow
@@ -56,7 +56,7 @@ Go to your `.github/workflows` folder, update packages names manually and you're
 
 ### Convention over Configuration in GitHub Action
 
-In the GitHub Workflow you only define package names. To make whole process work, the `<package-name>` must be used in:
+In the GitHub Workflow you only define package names. To make the whole process work, the `<package-name>` must be used in:
 
 1) directory name
 
