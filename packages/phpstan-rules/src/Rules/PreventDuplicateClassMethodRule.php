@@ -69,12 +69,12 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         }
 
         $classMethodName = $node->name->toString();
+        $printStmts = $this->printerStandard->prettyPrint($node->stmts);
         if (! isset($this->contentMethodByName[$classMethodName])) {
-            $this->contentMethodByName[$classMethodName] = $this->printerStandard->prettyPrint($node->stmts);
+            $this->contentMethodByName[$classMethodName] = $printStmts;
             return [];
         }
 
-        $printStmts = $this->printerStandard->prettyPrint($node->stmts);
         if ($printStmts !== $this->contentMethodByName[$classMethodName]) {
             return [];
         }
