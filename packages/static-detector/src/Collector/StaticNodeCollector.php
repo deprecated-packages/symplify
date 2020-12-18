@@ -80,7 +80,7 @@ final class StaticNodeCollector
         return $staticClassMethodWithStaticCalls;
     }
 
-    private function resolveClass(Name $staticClassName, ?ClassLike $classLike = null): ?string
+    private function resolveClass(Name $staticClassName, ?ClassLike $classLike = null): string
     {
         $class = (string) $staticClassName;
         if (in_array($class, ['self', 'static'], true)) {
