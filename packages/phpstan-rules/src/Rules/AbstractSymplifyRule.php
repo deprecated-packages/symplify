@@ -111,7 +111,7 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
 
     protected function isInDirectoryNamed(Scope $scope, string $directoryName): bool
     {
-        $directoryName = str_replace('/', DIRECTORY_SEPARATOR, $directoryName);
+        $directoryName = rtrim(str_replace('/', DIRECTORY_SEPARATOR, $directoryName), '\/');
         return Strings::contains($scope->getFile(), DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR);
     }
 
