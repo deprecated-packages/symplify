@@ -159,5 +159,9 @@ services:
         tags: [phpstan.rules.rule]
 
     -
+        class: Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\RequireQuoteStringValueSprintfRule
         tags: [phpstan.rules.rule]
