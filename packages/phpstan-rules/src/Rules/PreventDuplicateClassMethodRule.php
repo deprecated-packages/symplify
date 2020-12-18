@@ -8,13 +8,13 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Return_;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use PhpParser\Node\Identifier;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\PreventDuplicateClassMethodRuleTest
@@ -25,6 +25,11 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Content of method "%s" is duplicated with method in "%s" class, use unique content instead';
+
+    /**
+     * @var string[]
+     */
+    private const PHPSTAN_GET_NODE_TYPE_METHODS = ['getNodeType', 'getNodeTypes'];
 
     /**
      * @var SimpleNameResolver
@@ -45,14 +50,6 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      * @var array<string, string>
      */
     private $contentMethodByName = [];
-
-    /**
-     * @var string[]
-     */
-    private const PHPSTAN_GET_NODE_TYPE_METHODS = [
-        'getNodeType',
-        'getNodeTypes',
-    ];
 
     public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard)
     {
@@ -101,6 +98,10 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
 
         /** @var Node[] $stmts */
         $stmts = $node->stmts;
+        if (count($stmts) === 1 && $stmts[0] instanceof Return_) {
+            return [];
+        }
+
         $printStmts = $this->printerStandard->prettyPrint($stmts);
 
         if (! isset($this->contentMethodByName[$classMethodName])) {
@@ -125,6 +126,7 @@ class A
 {
     public function someMethod()
     {
+        echo 'statement';
         (new SmartFinder())->run('.php');
     }
 }
@@ -133,6 +135,7 @@ class B
 {
     public function someMethod()
     {
+        echo 'statement';
         (new SmartFinder())->run('.php');
     }
 }
@@ -143,6 +146,7 @@ class A
 {
     public function someMethod()
     {
+        echo 'statement';
         (new SmartFinder())->run('.php');
     }
 }
@@ -151,6 +155,7 @@ class B
 {
     public function someMethod()
     {
+        echo 'statement';
         (new SmartFinder())->run('.js');
     }
 }
