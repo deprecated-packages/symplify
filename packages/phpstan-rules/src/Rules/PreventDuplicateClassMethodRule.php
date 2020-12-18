@@ -69,7 +69,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         $class = $this->resolveCurrentClass($node);
 
         if ($class === null) {
-            return true;
+            return [];
         }
 
         $className = property_exists($class, 'namespacedName')
