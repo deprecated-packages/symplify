@@ -91,7 +91,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         }
 
         $classMethodName = (string) $node->name;
-        if (in_array($classMethodName, self::PHPSTAN_GET_NODE_TYPE_METHODS)) {
+        if (in_array($classMethodName, self::PHPSTAN_GET_NODE_TYPE_METHODS, true)) {
             return [];
         }
 
