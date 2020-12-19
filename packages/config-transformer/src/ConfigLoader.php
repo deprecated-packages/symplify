@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ExtensionFaker;
+use Symplify\ConfigTransformer\DependencyInjection\Loader\CheckerTolerantYamlFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\LoaderFactory\IdAwareXmlFileLoaderFactory;
 use Symplify\ConfigTransformer\ValueObject\ContainerBuilderAndFileContent;
 use Symplify\ConfigTransformer\ValueObject\Format;
@@ -105,12 +106,12 @@ final class ConfigLoader
     {
         $globFileLoader = new GlobFileLoader($containerBuilder, new FileLocator());
         $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator());
-        $yamlFileLoader = new YamlFileLoader($containerBuilder, new FileLocator());
+        $checkerTolerantYamlFileLoader = new CheckerTolerantYamlFileLoader($containerBuilder, new FileLocator());
 
         return new DelegatingLoader(new LoaderResolver([
             $globFileLoader,
             $phpFileLoader,
-            $yamlFileLoader,
+            $checkerTolerantYamlFileLoader,
             $loader,
         ]));
     }
