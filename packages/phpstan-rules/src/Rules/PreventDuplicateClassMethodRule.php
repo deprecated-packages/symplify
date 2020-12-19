@@ -87,7 +87,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
 
 
         /** @var Node[] $stmts */
-        $stmts = $node->stmts;
+        $stmts = (array) $node->stmts;
         if (count($stmts) === 1 && ($stmts[0] instanceof Return_ || $stmts[0] instanceof Expression)) {
             return [];
         }
