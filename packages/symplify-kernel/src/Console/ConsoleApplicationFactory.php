@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\SymplifyKernel\Console;
 
 use Jean85\PrettyVersions;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
@@ -64,8 +63,9 @@ final class ConsoleApplicationFactory
         return $autowiredConsoleApplication;
     }
 
-    private function decorateApplicationWithNameAndVersion(Application $application): void
-    {
+    private function decorateApplicationWithNameAndVersion(
+        AutowiredConsoleApplication $autowiredConsoleApplication
+    ): void {
         $projectDir = $this->parameterProvider->provideStringParameter('kernel.project_dir');
         $packageComposerJsonFilePath = $projectDir . DIRECTORY_SEPARATOR . 'composer.json';
 
@@ -81,7 +81,7 @@ final class ConsoleApplicationFactory
         }
 
         $projectName = $this->stringsConverter->dashedToCamelCaseWithGlue($shortName, ' ');
-        $application->setName($projectName);
+        $autowiredConsoleApplication->setName($projectName);
 
         // version
         $packageName = $composerJson->getName();
@@ -90,7 +90,7 @@ final class ConsoleApplicationFactory
         }
 
         $packageVersion = $this->resolveVersionFromPackageName($packageName);
-        $application->setVersion($packageVersion);
+        $autowiredConsoleApplication->setVersion($packageVersion);
     }
 
     private function resolveVersionFromPackageName(string $packageName): string

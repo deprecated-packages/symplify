@@ -48,7 +48,7 @@ final class TooLongClassLikeRule extends AbstractSymplifyRule implements Configu
      */
     public function process(Node $node, Scope $scope): array
     {
-        $currentClassLenght = $this->getNodeLength($node);
+        $currentClassLenght = $this->getClassLikeLength($node);
         if ($currentClassLenght <= $this->maxClassLikeLength) {
             return [];
         }
@@ -107,8 +107,8 @@ CODE_SAMPLE
         return 'Trait';
     }
 
-    private function getNodeLength(Node $node): int
+    private function getClassLikeLength(ClassLike $classLike): int
     {
-        return $node->getEndLine() - $node->getStartLine();
+        return $classLike->getEndLine() - $classLike->getStartLine();
     }
 }

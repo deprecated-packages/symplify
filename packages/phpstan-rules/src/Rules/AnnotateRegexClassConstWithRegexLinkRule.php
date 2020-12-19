@@ -119,9 +119,9 @@ CODE_SAMPLE
         return true;
     }
 
-    private function hasDocBlockWithRegexLink(Node $node): bool
+    private function hasDocBlockWithRegexLink(ClassConst $classConst): bool
     {
-        $docComment = $node->getDocComment();
+        $docComment = $classConst->getDocComment();
         if ($docComment === null) {
             return false;
         }
