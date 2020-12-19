@@ -76,6 +76,10 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
+        if (interface_exists($className)) {
+            return [];
+        }
+
         if ($this->isConstructorOrInTestClass($node, $className)) {
             return [];
         }

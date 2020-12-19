@@ -27,6 +27,7 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
         yield [__DIR__ . '/Fixture/ValueObject2.php', []];
         yield [__DIR__ . '/Fixture/Entity1.php', []];
         yield [__DIR__ . '/Fixture/Entity2.php', []];
+        yield [__DIR__ . '/Fixture/AnInterface.php', []];
         yield [__DIR__ . '/Fixture/SecondClassDuplicateFirstClassMethod.php', [
             [
                 sprintf(
