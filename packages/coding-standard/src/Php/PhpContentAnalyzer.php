@@ -105,6 +105,16 @@ final class PhpContentAnalyzer
                         return false;
                     }
                 }
+
+                if (in_array($rawToken[0], [T_IF, T_WHILE, T_DO], true)) {
+                    // has expected end?
+                    $lastLineToken = $this->tokenFinder->getSameRowLastToken($rawTokens, $i + 1);
+                    if (! is_array($lastLineToken)) {
+                        return true;
+                    }
+
+                    return in_array($lastLineToken[0], ['{', ')'], true);
+                }
             }
 
             if ($rawToken[0] === T_FUNCTION) {

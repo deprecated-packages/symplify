@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Naming;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
@@ -19,6 +20,10 @@ final class SimpleNameResolver
      */
     public function getName($node): ?string
     {
+        if ($node instanceof ClassConstFetch && $this->isName($node->name, 'class')) {
+            return $this->getName($node->class);
+        }
+
         if ($node instanceof Property) {
             $propertyProperty = $node->props[0];
             return $this->getName($propertyProperty->name);
