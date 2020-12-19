@@ -9,6 +9,8 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -28,6 +30,11 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      * @var string[]
      */
     private const PHPSTAN_GET_NODE_TYPE_METHODS = ['getNodeType', 'getNodeTypes'];
+
+    /**
+     * @var string[]
+     */
+    private const EXCLUDED_TYPES = [Kernel::class, Extension::class];
 
     /**
      * @var SimpleNameResolver
@@ -72,6 +79,12 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         $className = $this->getClassName($scope);
         if ($className === null) {
             return [];
+        }
+
+        foreach (self::EXCLUDED_TYPES as $excludedType) {
+            if (is_a($className, $excludedType, true)) {
+                return [];
+            }
         }
 
         if (interface_exists($className)) {
