@@ -85,9 +85,6 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! $node->isPublic()) {
-            return [];
-        }
 
         /** @var Node[] $stmts */
         $stmts = $node->stmts;
