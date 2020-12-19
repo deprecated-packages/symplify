@@ -6,9 +6,8 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
@@ -72,14 +71,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Class_|null */
-        $class = self::resolveCurrentClassWithNamespacedNameCheck($node);
-
-        if ($class === null) {
-            return [];
-        }
-
-        $className = (string) $class->namespacedName;
+        $className = $this->getClassName($scope);
         if ($this->isConstructorOrInTestClass($node, $className)) {
             return [];
         }
@@ -112,22 +104,6 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         }
 
         return [sprintf(self::ERROR_MESSAGE, $classMethodName, $this->firstClassByName[$classMethodName])];
-    }
-
-    private function resolveCurrentClassWithNamespacedNameCheck(ClassMethod $classMethod): ?Class_
-    {
-        /** @var Class_|null */
-        $class = $this->resolveCurrentClass($classMethod);
-
-        if ($class === null) {
-            return null;
-        }
-
-        if (! property_exists($class, 'namespacedName')) {
-            return null;
-        }
-
-        return $class;
     }
 
     public function getRuleDefinition(): RuleDefinition
