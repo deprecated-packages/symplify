@@ -257,7 +257,6 @@ parameters:
         -
             message: '#Spread operator is not allowed#'
             paths:
-                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 141
                 - packages/package-builder/src/Reflection/PrivatesCaller.php # 19
 
         -

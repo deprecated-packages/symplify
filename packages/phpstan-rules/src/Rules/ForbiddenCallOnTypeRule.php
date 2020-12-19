@@ -77,7 +77,6 @@ final class ForbiddenCallOnTypeRule extends AbstractSymplifyRule implements Conf
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
-
 use Symfony\Component\DependencyInjection\Container;
 
 class SomeClass

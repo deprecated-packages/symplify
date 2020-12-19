@@ -185,7 +185,11 @@ CODE_SAMPLE
         }
 
         // not solveable yet, work with PHP 8 code only
-        if ($argType instanceof UnionType || $argType instanceof IntersectionType) {
+        if ($argType instanceof UnionType) {
+            return null;
+        }
+
+        if ($argType instanceof IntersectionType) {
             return null;
         }
 
@@ -195,12 +199,14 @@ CODE_SAMPLE
         }
 
         // handle weird type substration cases
-        if ($paramType->describe(VerbosityLevel::typeOnly()) === $argType->describe(VerbosityLevel::typeOnly())) {
+        $paramTypeAsString = $paramType->describe(VerbosityLevel::typeOnly());
+        $argTypeAsString = $argType->describe(VerbosityLevel::typeOnly());
+
+        if ($paramTypeAsString === $argTypeAsString) {
             return null;
         }
 
-        $desiredType = $argType->describe(VerbosityLevel::typeOnly());
-        return sprintf(self::ERROR_MESSAGE, $position + 1, $desiredType);
+        return sprintf(self::ERROR_MESSAGE, $position + 1, $argTypeAsString);
     }
 
     /**

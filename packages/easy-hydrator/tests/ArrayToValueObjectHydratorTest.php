@@ -154,7 +154,8 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
 
         $this->assertCount(2, $arrayOfArrays);
         $this->assertContainsOnlyInstancesOf(Arrays::class, $arrayOfArrays);
-        $this->assertArraysHasValidTypes(...$arrayOfArrays);
+
+        $this->assertArraysHasValidTypes($arrayOfArrays);
     }
 
     public function testMultipleRecursiveObjects(): void
@@ -238,7 +239,10 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
         }
     }
 
-    private function assertArraysHasValidTypes(Arrays ...$arrayOfArrays): void
+    /**
+     * @param Arrays[] $arrayOfArrays
+     */
+    private function assertArraysHasValidTypes(array $arrayOfArrays): void
     {
         foreach ($arrayOfArrays as $arrays) {
             $integers = $arrays->getIntegers();

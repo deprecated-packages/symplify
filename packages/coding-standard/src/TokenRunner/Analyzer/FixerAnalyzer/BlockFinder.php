@@ -44,6 +44,7 @@ final class BlockFinder
         // shift "array" to "(", event its position
         if ($token->isGivenKind(T_ARRAY)) {
             $position = $tokens->getNextMeaningfulToken($position);
+            /** @var Token $token */
             $token = $tokens[$position];
         }
 
@@ -65,20 +66,7 @@ final class BlockFinder
 
         $blockType = $this->getBlockTypeByToken($token);
 
-        try {
-            if (in_array($token->getContent(), self::START_EDGES, true)) {
-                $blockStart = $position;
-                $blockEnd = $tokens->findBlockEnd($blockType, $blockStart);
-            } else {
-                $blockEnd = $position;
-                $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
-            }
-        } catch (Throwable $throwable) {
-            // intentionally, no edge found
-            return null;
-        }
-
-        return new BlockInfo($blockStart, $blockEnd);
+        return $this->createBlockInfo($token, $position, $tokens, $blockType);
     }
 
     public function findInTokensByPositionAndContent(Tokens $tokens, int $position, string $content): ?BlockInfo
@@ -117,5 +105,23 @@ final class BlockFinder
             __METHOD__,
             '$contentToBlockType'
         ));
+    }
+
+    private function createBlockInfo(Token $token, int $position, Tokens $tokens, int $blockType): ?BlockInfo
+    {
+        try {
+            if (in_array($token->getContent(), self::START_EDGES, true)) {
+                $blockStart = $position;
+                $blockEnd = $tokens->findBlockEnd($blockType, $blockStart);
+            } else {
+                $blockEnd = $position;
+                $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
+            }
+        } catch (Throwable $throwable) {
+            // intentionally, no edge found
+            return null;
+        }
+
+        return new BlockInfo($blockStart, $blockEnd);
     }
 }
