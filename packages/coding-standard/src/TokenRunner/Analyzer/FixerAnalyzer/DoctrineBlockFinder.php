@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer;
 
 use PhpCsFixer\Doctrine\Annotation\Token;
 use PhpCsFixer\Doctrine\Annotation\Tokens;
+use PhpCsFixer\Tokenizer\Tokens as PhpTokens;
 use Symplify\CodingStandard\Exception\EdgeFindingException;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\CodingStandard\TokenRunner\ValueObject\DocBlockEdgeDefinition;
@@ -29,8 +30,8 @@ final class DoctrineBlockFinder
     public function __construct(BlockFinder $blockFinder)
     {
         $this->docBlockEdgeDefinitions = [
-            new DocBlockEdgeDefinition(\PhpCsFixer\Tokenizer\Tokens::BLOCK_TYPE_CURLY_BRACE, '{', '}'),
-            new DocBlockEdgeDefinition(\PhpCsFixer\Tokenizer\Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, '(', ')'),
+            new DocBlockEdgeDefinition(PhpTokens::BLOCK_TYPE_CURLY_BRACE, '{', '}'),
+            new DocBlockEdgeDefinition(PhpTokens::BLOCK_TYPE_PARENTHESIS_BRACE, '(', ')'),
         ];
 
         $this->blockFinder = $blockFinder;

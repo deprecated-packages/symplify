@@ -10,8 +10,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\PHPUnitUpgrader\PHPUnitUpgrader\VoidPHPUnitUpgrader;
 use Symplify\PHPUnitUpgrader\ValueObject\Option;
-use Symplify\PHPUnitUpgrader\VoidPHPUnitUpgrader;
 
 final class VoidsCommand extends AbstractSymplifyCommand
 {

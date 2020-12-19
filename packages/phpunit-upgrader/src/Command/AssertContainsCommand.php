@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\PHPUnitUpgrader\AssertContainsPHPUnitUpgrader;
+use Symplify\PHPUnitUpgrader\PHPUnitUpgrader\AssertContainsPHPUnitUpgrader;
 use Symplify\PHPUnitUpgrader\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
 

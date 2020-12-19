@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPUnitUpgrader;
+namespace Symplify\PHPUnitUpgrader\PHPUnitUpgrader;
 
 use Symplify\PHPUnitUpgrader\FileInfoDecorator\AssertContainsInfoDecorator;
 use Symplify\PHPUnitUpgrader\ValueObject\FilePathWithContent;

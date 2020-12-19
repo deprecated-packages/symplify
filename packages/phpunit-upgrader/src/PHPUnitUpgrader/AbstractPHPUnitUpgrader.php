@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPUnitUpgrader;
+namespace Symplify\PHPUnitUpgrader\PHPUnitUpgrader;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ConsoleColorDiff\Console\Output\ConsoleDiffer;
