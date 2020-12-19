@@ -166,15 +166,8 @@ CODE_SAMPLE
             return [];
         }
 
-        $methodCallUsed = $this->nodeFinder->find($currentClass, function (Node $node) use ($methodCall): bool {
-            if (! $node instanceof MethodCall) {
-                return false;
-            }
-
-            return $this->nodeComparator->areNodesEqual($node->name, $methodCall->name);
-        });
-
-        if (count($methodCallUsed) > 1) {
+        $methodCallUses = $this->findMethodCallUses($currentClass, $methodCall);
+        if (count($methodCallUses) > 1) {
             return [];
         }
 
@@ -234,5 +227,23 @@ CODE_SAMPLE
         }
 
         return [];
+    }
+
+    /**
+     * @return MethodCall[]
+     */
+    private function findMethodCallUses(Class_ $class, MethodCall $methodCall): array
+    {
+        return $this->nodeFinder->find($class, function (Node $node) use ($methodCall): bool {
+            if (! $node instanceof MethodCall) {
+                return false;
+            }
+
+            if (! $this->nodeComparator->areNodesEqual($node->var, $methodCall->var)) {
+                return false;
+            }
+
+            return $this->nodeComparator->areNodesEqual($node->name, $methodCall->name);
+        });
     }
 }

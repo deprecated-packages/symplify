@@ -31,8 +31,13 @@ final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTest
         yield [__DIR__ . '/Fixture/SkipMayOverrideArg.php', []];
         yield [__DIR__ . '/Fixture/SkipMultipleUsed.php', []];
         yield [__DIR__ . '/Fixture/SkipNotPrivate.php', []];
+
         yield [__DIR__ . '/Fixture/Fixture.php', [
             [sprintf(CheckTypehintCallerTypeRule::ERROR_MESSAGE, 1, MethodCall::class), 15],
+        ]];
+
+        yield [__DIR__ . '/Fixture/DifferentClassSameMethodCallName.php', [
+            [sprintf(CheckTypehintCallerTypeRule::ERROR_MESSAGE, 1, MethodCall::class), 27],
         ]];
     }
 

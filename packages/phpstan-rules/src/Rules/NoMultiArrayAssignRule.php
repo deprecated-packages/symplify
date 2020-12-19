@@ -8,8 +8,8 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt\Expression;
-use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -25,13 +25,13 @@ final class NoMultiArrayAssignRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use value object over multi array assign';
 
     /**
-     * @var Standard
+     * @var NodeComparator
      */
-    private $printerStandard;
+    private $nodeComparator;
 
-    public function __construct(Standard $printerStandard)
+    public function __construct(NodeComparator $nodeComparator)
     {
-        $this->printerStandard = $printerStandard;
+        $this->nodeComparator = $nodeComparator;
     }
 
     /**
@@ -106,7 +106,7 @@ CODE_SAMPLE
             return false;
         }
 
-        return $this->areNodesEqual($singleNestedFirstArrayDimFetch, $singleNestedSecondArrayDimFetch);
+        return $this->nodeComparator->areNodesEqual($singleNestedFirstArrayDimFetch, $singleNestedSecondArrayDimFetch);
     }
 
     private function resolveSingleNestedArrayDimFetch(ArrayDimFetch $arrayDimFetch): ArrayDimFetch
@@ -116,12 +116,6 @@ CODE_SAMPLE
         }
 
         return $arrayDimFetch;
-    }
-
-    private function areNodesEqual(Node $firstNode, Node $secondNode): bool
-    {
-        return $this->printerStandard->prettyPrint([$firstNode]) ===
-        $this->printerStandard->prettyPrint([$secondNode]);
     }
 
     private function matchParentArrayDimFetch(Node $node): ?ArrayDimFetch

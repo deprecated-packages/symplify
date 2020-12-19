@@ -10,10 +10,10 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
-use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
 use Symfony\Component\Console\Command\Command;
+use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -49,14 +49,14 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
     private $nodeFinder;
 
     /**
-     * @var Standard
+     * @var NodeComparator
      */
-    private $printerStandard;
+    private $nodeComparator;
 
-    public function __construct(NodeFinder $nodeFinder, Standard $printerStandard)
+    public function __construct(NodeFinder $nodeFinder, NodeComparator $nodeComparator)
     {
         $this->nodeFinder = $nodeFinder;
-        $this->printerStandard = $printerStandard;
+        $this->nodeComparator = $nodeComparator;
     }
 
     /**
@@ -163,10 +163,11 @@ CODE_SAMPLE
                     return false;
                 }
 
-                return $this->areNodesEqual($params[0]->var, $node->var) && $this->areNodesEqual(
-                    $node->args[0]->value,
-                    $passedArg
-                );
+                if (! $this->nodeComparator->areNodesEqual($params[0]->var, $node->var)) {
+                    return false;
+                }
+
+                return $this->nodeComparator->areNodesEqual($node->args[0]->value, $passedArg);
             }
         );
 
@@ -210,10 +211,5 @@ CODE_SAMPLE
         }
 
         return $scope->getType($methodCall->var) instanceof ThisType && is_a($className, Command::class, true);
-    }
-
-    private function areNodesEqual(Node $firstNode, Node $secondNode): bool
-    {
-        return $this->printerStandard->prettyPrint([$firstNode]) === $this->printerStandard->prettyPrint([$secondNode]);
     }
 }
