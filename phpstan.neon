@@ -425,3 +425,12 @@ parameters:
                  - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php #110
 
         - '#Method Symplify\\PHPStanRules\\Rules\\CheckTypehintCallerTypeRule\:\:findMethodCallUses\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
+
+        -
+            message: '#Content of method ".*" is duplicated with method in ".*" class, use unique content instead#'
+            paths:
+                 - packages/coding-standard/src/TokenRunner/Analyzer/FixerAnalyzer/BlockFinder.php #107
+                 - packages/phpstan-extensions/src/ReturnTypeExtension/ContainerGetReturnTypeExtension.php #52
+                 - packages/smart-file-system/src/Json/JsonFileSystem.php #33
+                 - packages/smart-file-system/src/Json/JsonFileSystem.php #41
+                 - packages/rule-doc-generator/src/RuleCodeSamplePrinter/RectorRuleCodeSamplePrinter.php #73
