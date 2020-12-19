@@ -437,3 +437,9 @@ parameters:
                  - packages/coding-standard/src/TokenRunner/Analyzer/FixerAnalyzer/BlockFinder.php #107
                  - packages/phpstan-extensions/src/ReturnTypeExtension/ContainerGetReturnTypeExtension.php #52
                  - packages/rule-doc-generator/src/RuleCodeSamplePrinter/RectorRuleCodeSamplePrinter.php #73
+                 - packages/latte-to-twig-converter/src/Contract/CaseConverter/CaseConverterInterface.php #14
+                 - packages/monorepo-builder/packages/release/src/Contract/ReleaseWorker/ReleaseWorkerInterface.php #19
+                 - packages/php-config-printer/src/Contract/CaseConverterInterface.php #11
+                 - packages/php-config-printer/src/Contract/CaseConverterInterface.php #13
+                 - packages/php-config-printer/src/Contract/YamlFileContentProviderInterface.php #9
+                 - packages/skipper/src/Contract/SkipVoterInterface.php #14
