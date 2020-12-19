@@ -81,10 +81,8 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        foreach (self::EXCLUDED_TYPES as $excludedType) {
-            if (is_a($className, $excludedType, true)) {
-                return [];
-            }
+        if ($this->isExcludedTypes($className)) {
+            return [];
         }
 
         if (interface_exists($className)) {
@@ -101,12 +99,13 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         }
 
         /** @var Node[] $stmts */
-        $stmtCount = count((array) $node->stmts);
+        $stmts = $node->stmts;
+        $stmtCount = count((array) $stmts);
         if ($stmtCount <= 1) {
             return [];
         }
 
-        $printStmts = $this->printerStandard->prettyPrint($node->stmts);
+        $printStmts = $this->printerStandard->prettyPrint($stmts);
 
         if (! isset($this->contentMethodByName[$classMethodName])) {
             $this->firstClassByName[$classMethodName] = $className;
@@ -166,6 +165,17 @@ class B
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function isExcludedTypes(string $className): bool
+    {
+        foreach (self::EXCLUDED_TYPES as $excludedType) {
+            if (is_a($className, $excludedType, true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function isConstructorOrInTestClass(ClassMethod $classMethod, string $className): bool
