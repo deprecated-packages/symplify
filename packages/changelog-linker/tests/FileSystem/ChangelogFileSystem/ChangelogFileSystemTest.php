@@ -51,15 +51,13 @@ CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
             ? $fileChangelog
             : 'packages/changelog-linker/' . $fileChangelog;
         $content          = $smartFileSystem->readFile($changelogFile);
-        $expectedListData = getenv('CI')
-            ? $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA_GITHUB.md')
-            : $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md');
+        $expectedListData = $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md');
 
         $smartFileSystem->dumpFile($changelogFile, $originalContent);
 
-        $this->assertEquals(
-            $expectedListData,
-            $content
+        $this->assertStringNotContainsString(
+            $content,
+            $expectedListData
         );
     }
 }
