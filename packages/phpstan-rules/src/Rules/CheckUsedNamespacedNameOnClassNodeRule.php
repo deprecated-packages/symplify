@@ -90,15 +90,6 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
         return [self::ERROR_MESSAGE];
     }
 
-    private function isClassNotNamespacedOrInExcludedClasses(Class_ $class): bool
-    {
-        if (! property_exists($class, 'namespacedName')) {
-            return true;
-        }
-
-        return in_array($class->namespacedName->toString(), $this->excludedClasses, true);
-    }
-
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
@@ -130,6 +121,15 @@ final class SomeClass
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function isClassNotNamespacedOrInExcludedClasses(Class_ $class): bool
+    {
+        if (! property_exists($class, 'namespacedName')) {
+            return true;
+        }
+
+        return in_array($class->namespacedName->toString(), $this->excludedClasses, true);
     }
 
     private function isVariableNamedShortClassName(Variable $variable): bool
