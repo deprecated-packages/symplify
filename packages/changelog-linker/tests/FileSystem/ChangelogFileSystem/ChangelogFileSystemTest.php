@@ -35,11 +35,15 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
         $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CONTENT
 ## Unreleased
 
+### Added
+
 - [#1] Added foo
 CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
         $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CONTENT
 ## Unreleased
+
+### Added
 
 - [#2] Added bar
 CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
@@ -55,9 +59,9 @@ CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
         $smartFileSystem->dumpFile($changelogFile, $originalContent);
 
-        $this->assertStringNotContainsString(
-            $content,
-            $expectedListData
+        $this->assertStringContainsString(
+            $expectedListData,
+            $content
         );
     }
 }
