@@ -13,7 +13,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
+use Symplify\PHPStanRules\Matcher\PositionMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -29,11 +29,6 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Parameter argument on position %d must use %s constant';
 
     /**
-     * @var ContainsTypeAnalyser
-     */
-    private $containsTypeAnalyser;
-
-    /**
      * @var array<class-string, mixed[]>
      */
     private $requiredLocalConstantInMethodCall = [];
@@ -42,19 +37,23 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
      * @var array<class-string, mixed[]>
      */
     private $requiredExternalConstantInMethodCall = [];
+    /**
+     * @var PositionMatcher
+     */
+    private $positionMatcher;
 
     /**
      * @param array<class-string, mixed[]> $requiredLocalConstantInMethodCall
      * @param array<class-string, mixed[]> $requiredExternalConstantInMethodCall
      */
     public function __construct(
-        ContainsTypeAnalyser $containsTypeAnalyser,
+        PositionMatcher $positionMatcher,
         array $requiredLocalConstantInMethodCall = [],
         array $requiredExternalConstantInMethodCall = []
     ) {
         $this->requiredLocalConstantInMethodCall = $requiredLocalConstantInMethodCall;
         $this->requiredExternalConstantInMethodCall = $requiredExternalConstantInMethodCall;
-        $this->containsTypeAnalyser = $containsTypeAnalyser;
+        $this->positionMatcher = $positionMatcher;
     }
 
     /**
@@ -148,7 +147,13 @@ CODE_SAMPLE
 
         /** @var class-string $type */
         foreach ($config as $type => $positionsByMethods) {
-            $positions = $this->matchPositions($methodCall, $scope, $type, $positionsByMethods, $methodName);
+            $positions = $this->positionMatcher->matchPositions(
+                $methodCall,
+                $scope,
+                $type,
+                $positionsByMethods,
+                $methodName
+            );
             if ($positions === null) {
                 continue;
             }
@@ -163,24 +168,6 @@ CODE_SAMPLE
         }
 
         return $errorMessages;
-    }
-
-    /**
-     * @param class-string $desiredType
-     * @return mixed|null
-     */
-    private function matchPositions(
-        MethodCall $methodCall,
-        Scope $scope,
-        string $desiredType,
-        array $positionsByMethods,
-        string $methodName
-    ) {
-        if (! $this->containsTypeAnalyser->containsExprTypes($methodCall->var, $scope, [$desiredType])) {
-            return null;
-        }
-
-        return $positionsByMethods[$methodName] ?? null;
     }
 
     /**

@@ -24,9 +24,10 @@ final class ContainerGetReturnTypeExtension implements DynamicMethodReturnTypeEx
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver)
+    public function __construct()
     {
-        $this->simpleNameResolver = $simpleNameResolver;
+        // intentionally manual here, to prevent double service registration caused by nette/di
+        $this->simpleNameResolver = new SimpleNameResolver();
     }
 
     public function getClass(): string
