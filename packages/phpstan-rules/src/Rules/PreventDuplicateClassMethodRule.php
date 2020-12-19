@@ -73,13 +73,9 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         /** @var Class_|null */
-        $class = $this->resolveCurrentClass($node);
+        $class = self::resolveCurrentClassWithNamespacedNameCheck($node);
 
         if ($class === null) {
-            return [];
-        }
-
-        if (! property_exists($class, 'namespacedName')) {
             return [];
         }
 
@@ -116,6 +112,22 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         }
 
         return [sprintf(self::ERROR_MESSAGE, $classMethodName, $this->firstClassByName[$classMethodName])];
+    }
+
+    private function resolveCurrentClassWithNamespacedNameCheck(ClassMethod $classMethod): ?Class_
+    {
+        /** @var Class_|null */
+        $class = $this->resolveCurrentClass($classMethod);
+
+        if ($class === null) {
+            return null;
+        }
+
+        if (! property_exists($class, 'namespacedName')) {
+            return null;
+        }
+
+        return $class;
     }
 
     public function getRuleDefinition(): RuleDefinition
