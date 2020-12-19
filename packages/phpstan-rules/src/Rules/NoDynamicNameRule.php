@@ -13,12 +13,12 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\StaticPropertyFetch;
+use PhpParser\Node\Stmt\Foreach_;
+use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\CallableType;
-use PHPStan\Type\NullType;
 use PHPStan\Type\ObjectType;
-use PHPStan\Type\Type;
-use PHPStan\Type\UnionType;
+use Symplify\PHPStanRules\Types\TypeUnwrapper;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -31,6 +31,22 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Use explicit names over dynamic ones';
+
+    /**
+     * @var Standard
+     */
+    private $standard;
+
+    /**
+     * @var TypeUnwrapper
+     */
+    private $typeUnwrapper;
+
+    public function __construct(Standard $standard, TypeUnwrapper $typeUnwrapper)
+    {
+        $this->standard = $standard;
+        $this->typeUnwrapper = $typeUnwrapper;
+    }
 
     /**
      * @return string[]
@@ -71,7 +87,7 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->isClosureOrCallableType($scope, $node->name)) {
+        if ($this->isClosureOrCallableType($scope, $node->name, $node)) {
             return [];
         }
 
@@ -105,46 +121,39 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isClosureOrCallableType(Scope $scope, Expr $expr): bool
+    private function isClosureOrCallableType(Scope $scope, Expr $expr, Node $node): bool
     {
         $nameStaticType = $scope->getType($expr);
-        $nameStaticType = $this->unwrapNullableType($nameStaticType);
+        $nameStaticType = $this->typeUnwrapper->unwrapNullableType($nameStaticType);
 
         if ($nameStaticType instanceof CallableType) {
             return true;
         }
 
-        if (! $nameStaticType instanceof ObjectType) {
+        if ($nameStaticType instanceof ObjectType && $nameStaticType->getClassName() === Closure::class) {
+            return true;
+        }
+
+        return $this->isForeachedVariable($node);
+    }
+
+    private function isForeachedVariable(Node $node): bool
+    {
+        if (! $node instanceof FuncCall) {
             return false;
         }
 
-        return $nameStaticType->getClassName() === Closure::class;
-    }
+        // possible closure
+        $parentForeach = $this->getFirstParentByType($node, Foreach_::class);
 
-    private function unwrapNullableType(Type $type): Type
-    {
-        if (! $type instanceof UnionType) {
-            return $type;
-        }
-
-        $unionedTypes = $type->getTypes();
-        if (count($unionedTypes) !== 2) {
-            return $type;
-        }
-
-        $nullSuperTypeTrinaryLogic = $type->isSuperTypeOf(new NullType());
-        if (! $nullSuperTypeTrinaryLogic->yes()) {
-            return $type;
-        }
-
-        foreach ($unionedTypes as $unionedType) {
-            if ($unionedType instanceof NullType) {
-                continue;
+        if ($parentForeach instanceof Foreach_) {
+            $nameContent = $this->standard->prettyPrint([$node->name]);
+            $foreachVar = $this->standard->prettyPrint([$parentForeach->valueVar]);
+            if ($nameContent === $foreachVar) {
+                return true;
             }
-
-            return $unionedType;
         }
 
-        return $type;
+        return false;
     }
 }

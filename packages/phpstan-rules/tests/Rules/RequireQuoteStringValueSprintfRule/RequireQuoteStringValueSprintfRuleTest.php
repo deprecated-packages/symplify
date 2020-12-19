@@ -36,11 +36,13 @@ final class RequireQuoteStringValueSprintfRuleTest extends AbstractServiceAwareR
         yield [__DIR__ . '/Fixture/NoQuoteInMiddle.php', [
             [RequireQuoteStringValueSprintfRule::ERROR_MESSAGE, 11],
         ]];
-
     }
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(RequireQuoteStringValueSprintfRule::class, __DIR__ . '/../../../config/symplify-rules.neon');
+        return $this->getRuleFromConfig(
+            RequireQuoteStringValueSprintfRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }
