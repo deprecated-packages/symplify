@@ -425,3 +425,4 @@ parameters:
 
         - '#Method Symplify\\PHPStanRules\\Rules\\CheckTypehintCallerTypeRule\:\:findMethodCallUses\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
         - '#Content of method "resolveClassName\(\)" is duplicated with method in "Symplify\\PHPStanExtensions\\TypeResolver\\ClassConstFetchReturnTypeResolver" class\. Use unique content or abstract service instead#'
+        - '#Content of method "create\(\)" is duplicated with method in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
