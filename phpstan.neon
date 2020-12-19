@@ -424,6 +424,8 @@ parameters:
             paths:
                  - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php #110
 
+        - '#Method Symplify\\PHPStanRules\\Rules\\CheckTypehintCallerTypeRule\:\:findMethodCallUses\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
+
         -
             message: '#Content of method ".*" is duplicated with method in ".*" class, use unique content instead#'
             paths:
