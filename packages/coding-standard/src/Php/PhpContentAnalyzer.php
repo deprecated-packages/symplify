@@ -101,7 +101,7 @@ final class PhpContentAnalyzer
                         return false;
                     }
 
-                    if ($nextToken[0][0] === T_STRING) {
+                    if ($nextToken[0] === T_STRING) {
                         return false;
                     }
                 }
