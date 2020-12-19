@@ -16,10 +16,10 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
-use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -32,30 +32,32 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Parameter %d should use %s type as already checked';
-
-    /**
-     * @var Standard
-     */
-    private $printerStandard;
+    public const ERROR_MESSAGE = 'Parameter %d should use "%s" type as the only type passed to this method';
 
     /**
      * @var NodeFinder
      */
+
     private $nodeFinder;
+
     /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
 
+    /**
+     * @var NodeComparator
+     */
+    private $nodeComparator;
+
     public function __construct(
-        Standard $printerStandard,
+        NodeComparator $nodeComparator,
         NodeFinder $nodeFinder,
         SimpleNameResolver $simpleNameResolver
     ) {
-        $this->printerStandard = $printerStandard;
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->nodeComparator = $nodeComparator;
     }
 
     /**
@@ -164,11 +166,8 @@ CODE_SAMPLE
             return [];
         }
 
-        $methodCallUsed = $this->nodeFinder->find($currentClass, function (Node $node) use ($methodCall): bool {
-            return $this->areNodesEqual($node, $methodCall);
-        });
-
-        if (count($methodCallUsed) > 1) {
+        $methodCallUses = $this->findMethodCallUses($currentClass, $methodCall);
+        if (count($methodCallUses) > 1) {
             return [];
         }
 
@@ -188,7 +187,7 @@ CODE_SAMPLE
         $params = $classMethod->getParams();
 
         foreach ($args as $position => $arg) {
-            if (! $this->areNodesEqual($expr, $arg->value)) {
+            if (! $this->nodeComparator->areNodesEqual($expr, $arg->value)) {
                 continue;
             }
 
@@ -219,18 +218,32 @@ CODE_SAMPLE
                 continue;
             }
 
-            if ($this->areNodesEqual($class, $type)) {
+            if ($this->nodeComparator->areNodesEqual($class, $type)) {
                 continue;
             }
 
-            return [sprintf(self::ERROR_MESSAGE, $i + 1, $class->toString())];
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $i + 1, $class->toString());
+            return [$errorMessage];
         }
 
         return [];
     }
 
-    private function areNodesEqual(Node $firstNode, Node $secondNode): bool
+    /**
+     * @return MethodCall[]
+     */
+    private function findMethodCallUses(Class_ $class, MethodCall $methodCall): array
     {
-        return $this->printerStandard->prettyPrint([$firstNode]) === $this->printerStandard->prettyPrint([$secondNode]);
+        return $this->nodeFinder->find($class, function (Node $node) use ($methodCall): bool {
+            if (! $node instanceof MethodCall) {
+                return false;
+            }
+
+            if (! $this->nodeComparator->areNodesEqual($node->var, $methodCall->var)) {
+                return false;
+            }
+
+            return $this->nodeComparator->areNodesEqual($node->name, $methodCall->name);
+        });
     }
 }
