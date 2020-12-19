@@ -24,6 +24,15 @@ includes:
 
 Give it couple of days, before extending.
 
+<br>
+
+Some rules require extra services. To avoid service duplications, they're in the separate config that you can easily include:
+
+```yaml
+includes:
+    - vendor/symplify/phpstan-rules/config/services/services.neon
+```
+
 ## 2. Pick from Prepared Sets
 
 Do you know prepared sets from ECS or Rector? Bunch of rules in single set. We use the same approach here:

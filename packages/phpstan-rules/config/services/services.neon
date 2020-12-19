@@ -11,7 +11,6 @@ services:
     - Symplify\PHPStanRules\Types\ContainsTypeAnalyser
     - Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer
     - Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver
-    - Symplify\PHPStanRules\NodeComparator
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\Naming\SimpleNameResolver
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
@@ -32,3 +31,4 @@ services:
     - Symplify\PHPStanRules\ParentGuard\ParentMethodResolver
 
     - Symplify\PHPStanRules\Types\TypeUnwrapper
+    - Symplify\PHPStanRules\Printer\NodeComparator
