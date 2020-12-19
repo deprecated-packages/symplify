@@ -6,33 +6,13 @@ namespace Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer;
 
 use PhpCsFixer\Doctrine\Annotation\Token;
 use PhpCsFixer\Doctrine\Annotation\Tokens;
+use PhpCsFixer\Tokenizer\Tokens as PhpTokens;
 use Symplify\CodingStandard\Exception\EdgeFindingException;
-use Symplify\CodingStandard\TokenRunner\Exception\MissingImplementationException;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\CodingStandard\TokenRunner\ValueObject\DocBlockEdgeDefinition;
 
 final class DoctrineBlockFinder
 {
-    /**
-     * @var int
-     */
-    private const BLOCK_TYPE_PARENTHESIS_BRACE = 1;
-
-    /**
-     * @var int
-     */
-    private const BLOCK_TYPE_CURLY_BRACE = 2;
-
-    /**
-     * @var array<string, int>
-     */
-    private const CONTENT_TO_BLOCK_TYPE = [
-        '{' => self::BLOCK_TYPE_CURLY_BRACE,
-        '}' => self::BLOCK_TYPE_CURLY_BRACE,
-        '(' => self::BLOCK_TYPE_PARENTHESIS_BRACE,
-        ')' => self::BLOCK_TYPE_PARENTHESIS_BRACE,
-    ];
-
     /**
      * @var string[]
      */
@@ -42,13 +22,19 @@ final class DoctrineBlockFinder
      * @var DocBlockEdgeDefinition[]
      */
     private $docBlockEdgeDefinitions = [];
+    /**
+     * @var BlockFinder
+     */
+    private $blockFinder;
 
-    public function __construct()
+    public function __construct(BlockFinder $blockFinder)
     {
         $this->docBlockEdgeDefinitions = [
-            new DocBlockEdgeDefinition(self::BLOCK_TYPE_CURLY_BRACE, '{', '}'),
-            new DocBlockEdgeDefinition(self::BLOCK_TYPE_PARENTHESIS_BRACE, '(', ')'),
+            new DocBlockEdgeDefinition(PhpTokens::BLOCK_TYPE_CURLY_BRACE, '{', '}'),
+            new DocBlockEdgeDefinition(PhpTokens::BLOCK_TYPE_PARENTHESIS_BRACE, '(', ')'),
         ];
+
+        $this->blockFinder = $blockFinder;
     }
 
     /**
@@ -75,21 +61,7 @@ final class DoctrineBlockFinder
 
     private function getBlockTypeByToken(Token $token): int
     {
-        return $this->getBlockTypeByContent($token->getContent());
-    }
-
-    private function getBlockTypeByContent(string $content): int
-    {
-        if (isset(self::CONTENT_TO_BLOCK_TYPE[$content])) {
-            return self::CONTENT_TO_BLOCK_TYPE[$content];
-        }
-
-        throw new MissingImplementationException(sprintf(
-            'Implementation is missing for "%s" in "%s". Just add it to "%s" property with proper block type',
-            $content,
-            __METHOD__,
-            '$contentToBlockType'
-        ));
+        return $this->blockFinder->getBlockTypeByContent($token->getContent());
     }
 
     /**

@@ -158,9 +158,9 @@ CODE_SAMPLE
         return [];
     }
 
-    private function getVarTagValueForNode(Node $node): ?VarTagValueNode
+    private function getVarTagValueForNode(ClassConst $classConst): ?VarTagValueNode
     {
-        $docComment = $node->getDocComment();
+        $docComment = $classConst->getDocComment();
         if ($docComment === null) {
             return null;
         }

@@ -118,9 +118,9 @@ CODE_SAMPLE
         return $arrayDimFetch;
     }
 
-    private function matchParentArrayDimFetch(Node $node): ?ArrayDimFetch
+    private function matchParentArrayDimFetch(Assign $assign): ?ArrayDimFetch
     {
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $assign->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof Expression) {
             return null;
         }
@@ -133,11 +133,11 @@ CODE_SAMPLE
             return null;
         }
 
-        $assign = $previous->expr;
-        if (! $assign->var instanceof ArrayDimFetch) {
+        $previousAssign = $previous->expr;
+        if (! $previousAssign->var instanceof ArrayDimFetch) {
             return null;
         }
 
-        return $assign->var;
+        return $previousAssign->var;
     }
 }

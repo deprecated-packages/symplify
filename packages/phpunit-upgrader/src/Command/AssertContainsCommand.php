@@ -10,22 +10,22 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\PHPUnitUpgrader\AssertContainsMethodCallRenamer;
+use Symplify\PHPUnitUpgrader\PHPUnitUpgrader\AssertContainsPHPUnitUpgrader;
 use Symplify\PHPUnitUpgrader\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class AssertContainsCommand extends AbstractSymplifyCommand
 {
     /**
-     * @var AssertContainsMethodCallRenamer
+     * @var AssertContainsPHPUnitUpgrader
      */
-    private $assertContainsMethodCallRenamer;
+    private $assertContainsPHPUnitUpgrader;
 
-    public function __construct(AssertContainsMethodCallRenamer $assertContainsMethodCallRenamer)
+    public function __construct(AssertContainsPHPUnitUpgrader $assertContainsPHPUnitUpgrader)
     {
         parent::__construct();
 
-        $this->assertContainsMethodCallRenamer = $assertContainsMethodCallRenamer;
+        $this->assertContainsPHPUnitUpgrader = $assertContainsPHPUnitUpgrader;
     }
 
     protected function configure(): void
@@ -56,7 +56,7 @@ final class AssertContainsCommand extends AbstractSymplifyCommand
         $this->fileSystemGuard->ensureFileExists($errorReportFile, __METHOD__);
 
         $errorReportFileInfo = new SmartFileInfo($errorReportFile);
-        $this->assertContainsMethodCallRenamer->renameFileInfos($testFileInfos, $errorReportFileInfo);
+        $this->assertContainsPHPUnitUpgrader->renameFileInfos($testFileInfos, $errorReportFileInfo);
 
         $this->symfonyStyle->success('assertContains() was converted to assertStringContainsString() where needed');
 

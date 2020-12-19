@@ -173,15 +173,28 @@ CODE_SAMPLE
         return false;
     }
 
-    private function isHasSameVar(array $nodes, Node $parentOfParentAssignment, Node $var): bool
+    /**
+     * @param Node[] $nodes
+     */
+    private function isHasSameVar(array $nodes, Node $parentOfParentAssignment, Expr $varExpr): bool
     {
         foreach ($nodes as $node) {
             $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
             $parentOfParentNode = $parent->getAttribute(PHPStanAttributeKey::PARENT);
 
-            if (property_exists($node, 'name') && property_exists($var, 'name') && $node->name === $var->name
-                && $parentOfParentNode !== $parentOfParentAssignment
-                ) {
+            if (! property_exists($node, 'name')) {
+                continue;
+            }
+
+            if (! property_exists($varExpr, 'name')) {
+                continue;
+            }
+
+            if ($node->name !== $varExpr->name) {
+                continue;
+            }
+
+            if ($parentOfParentNode !== $parentOfParentAssignment) {
                 return true;
             }
         }

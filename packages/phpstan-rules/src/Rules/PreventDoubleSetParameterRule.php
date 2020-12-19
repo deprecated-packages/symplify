@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\ConstExprEvaluator;
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
@@ -129,15 +130,15 @@ CODE_SAMPLE
         ]);
     }
 
-    private function getSetParameterName(Node $node): string
+    private function getSetParameterName(Expr $expr): string
     {
-        if ($node instanceof ClassConstFetch && $node->class instanceof FullyQualified && $node->name instanceof Identifier) {
-            $name = $node->name;
-            return (string) $node->class . '::' . (string) $name;
+        if ($expr instanceof ClassConstFetch && $expr->class instanceof FullyQualified && $expr->name instanceof Identifier) {
+            $name = $expr->name;
+            return (string) $expr->class . '::' . (string) $name;
         }
 
-        if ($node instanceof String_) {
-            return $node->value;
+        if ($expr instanceof String_) {
+            return $expr->value;
         }
 
         return '';

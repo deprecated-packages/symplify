@@ -36,12 +36,15 @@ final class BlockFinder
      */
     public function findInTokensByEdge(Tokens $tokens, int $position): ?BlockInfo
     {
-        /** @var Token $token */
         $token = $tokens[$position];
+        if (! $token instanceof Token) {
+            return null;
+        }
 
         // shift "array" to "(", event its position
         if ($token->isGivenKind(T_ARRAY)) {
             $position = $tokens->getNextMeaningfulToken($position);
+            /** @var Token $token */
             $token = $tokens[$position];
         }
 
@@ -61,23 +64,9 @@ final class BlockFinder
             return null;
         }
 
-        /** @var Token $token */
         $blockType = $this->getBlockTypeByToken($token);
 
-        try {
-            if (in_array($token->getContent(), self::START_EDGES, true)) {
-                $blockStart = $position;
-                $blockEnd = $tokens->findBlockEnd($blockType, $blockStart);
-            } else {
-                $blockEnd = $position;
-                $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
-            }
-        } catch (Throwable $throwable) {
-            // intentionally, no edge found
-            return null;
-        }
-
-        return new BlockInfo($blockStart, $blockEnd);
+        return $this->createBlockInfo($token, $position, $tokens, $blockType);
     }
 
     public function findInTokensByPositionAndContent(Tokens $tokens, int $position, string $content): ?BlockInfo
@@ -92,6 +81,20 @@ final class BlockFinder
         return new BlockInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
     }
 
+    public function getBlockTypeByContent(string $content): int
+    {
+        if (isset(self::CONTENT_TO_BLOCK_TYPE[$content])) {
+            return self::CONTENT_TO_BLOCK_TYPE[$content];
+        }
+
+        throw new MissingImplementationException(sprintf(
+            'Implementation is missing for "%s" in "%s". Just add it to "%s" property with proper block type',
+            $content,
+            __METHOD__,
+            '$contentToBlockType'
+        ));
+    }
+
     private function getBlockTypeByToken(Token $token): int
     {
         if ($token->isArray()) {
@@ -104,17 +107,21 @@ final class BlockFinder
         return $this->getBlockTypeByContent($token->getContent());
     }
 
-    private function getBlockTypeByContent(string $content): int
+    private function createBlockInfo(Token $token, int $position, Tokens $tokens, int $blockType): ?BlockInfo
     {
-        if (isset(self::CONTENT_TO_BLOCK_TYPE[$content])) {
-            return self::CONTENT_TO_BLOCK_TYPE[$content];
+        try {
+            if (in_array($token->getContent(), self::START_EDGES, true)) {
+                $blockStart = $position;
+                $blockEnd = $tokens->findBlockEnd($blockType, $blockStart);
+            } else {
+                $blockEnd = $position;
+                $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
+            }
+        } catch (Throwable $throwable) {
+            // intentionally, no edge found
+            return null;
         }
 
-        throw new MissingImplementationException(sprintf(
-            'Implementation is missing for "%s" in "%s". Just add it to "%s" property with proper block type',
-            $content,
-            __METHOD__,
-            '$contentToBlockType'
-        ));
+        return new BlockInfo($blockStart, $blockEnd);
     }
 }

@@ -95,17 +95,17 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isParentSelfMethodStaticCall(Node $node, ClassMethod $classMethod): bool
+    private function isParentSelfMethodStaticCall(StaticCall $staticCall, ClassMethod $classMethod): bool
     {
-        if (! $node instanceof StaticCall) {
+        if (! $staticCall instanceof StaticCall) {
             return false;
         }
 
-        if (! $this->simpleNameResolver->isName($node->class, 'parent')) {
+        if (! $this->simpleNameResolver->isName($staticCall->class, 'parent')) {
             return false;
         }
 
-        return $this->simpleNameResolver->areNamesEqual($node->name, $classMethod->name);
+        return $this->simpleNameResolver->areNamesEqual($staticCall->name, $classMethod->name);
     }
 
     private function resolveOnlyNode(ClassMethod $classMethod): ?Node

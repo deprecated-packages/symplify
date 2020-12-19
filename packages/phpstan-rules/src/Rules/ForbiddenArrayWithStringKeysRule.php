@@ -139,8 +139,10 @@ CODE_SAMPLE
         return $this->isPartOfClassConstOrNew($array);
     }
 
-    private function isPartOfClassConstOrNew(Node $currentNode): bool
+    private function isPartOfClassConstOrNew(Array_ $array): bool
     {
+        $currentNode = $array;
+
         while ($currentNode = $currentNode->getAttribute(PHPStanAttributeKey::PARENT)) {
             // constants can have default values
             if ($currentNode instanceof ClassConst) {

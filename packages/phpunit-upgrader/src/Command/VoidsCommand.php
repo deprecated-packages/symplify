@@ -10,17 +10,17 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\PHPUnitUpgrader\PHPUnitUpgrader\VoidPHPUnitUpgrader;
 use Symplify\PHPUnitUpgrader\ValueObject\Option;
-use Symplify\PHPUnitUpgrader\VoidCompleter;
 
 final class VoidsCommand extends AbstractSymplifyCommand
 {
     /**
-     * @var VoidCompleter
+     * @var VoidPHPUnitUpgrader
      */
     private $voidCompleter;
 
-    public function __construct(VoidCompleter $voidCompleter)
+    public function __construct(VoidPHPUnitUpgrader $voidCompleter)
     {
         parent::__construct();
 

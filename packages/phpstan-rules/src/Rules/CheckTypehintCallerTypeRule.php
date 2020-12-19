@@ -6,21 +6,22 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Expression;
-use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\IntersectionType;
+use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\ThisType;
+use PHPStan\Type\Type;
+use PHPStan\Type\UnionType;
+use PHPStan\Type\VerbosityLevel;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Printer\NodeComparator;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -79,35 +80,12 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var Expression|null $parent */
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $parent instanceof Node) {
-            return [];
-        }
-
-        /** @var If_|null $mayBeif */
-        $mayBeif = $parent->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $mayBeif instanceof If_) {
-            return [];
-        }
-
-        // ensure check prev expression that may override
-        $previous = $parent->getAttribute(PHPStanAttributeKey::PREVIOUS);
-        if (! $previous instanceof Instanceof_) {
-            return [];
-        }
-
-        $args = $node->args;
+        $args = (array) $node->args;
         if ($args === []) {
             return [];
         }
 
-        $cond = $mayBeif->cond;
-        if ($cond instanceof Instanceof_ && $cond->class instanceof FullyQualified) {
-            return $this->validateInstanceOf($cond->expr, $cond->class, $args, $node);
-        }
-
-        return [];
+        return $this->validateArgVsParamTypes($args, $node, $scope);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -158,82 +136,90 @@ CODE_SAMPLE
     /**
      * @param Arg[] $args
      */
-    private function validateInstanceOf(Expr $expr, FullyQualified $class, array $args, MethodCall $methodCall)
+    private function validateArgVsParamTypes(array $args, MethodCall $methodCall, Scope $scope)
     {
-        /** @var Class_|null $currentClass */
-        $currentClass = $this->resolveCurrentClass($methodCall);
-        if (! $currentClass instanceof Class_) {
-            return [];
-        }
-
-        $methodCallUses = $this->findMethodCallUses($currentClass, $methodCall);
+        $methodCallUses = $this->findMethodCallUses($methodCall);
         if (count($methodCallUses) > 1) {
             return [];
         }
 
-        /** @var string|null $methodCallName */
-        $methodCallName = $this->simpleNameResolver->getName($methodCall->name);
-        if ($methodCallName === null) {
-            return [];
-        }
-
-        /** @var ClassMethod|null $classMethod */
-        $classMethod = $currentClass->getMethod($methodCallName);
-        if (! $classMethod instanceof ClassMethod || ! $classMethod->isPrivate()) {
+        $classMethod = $this->matchPrivateLocalClassMethod($methodCall);
+        if ($classMethod === null) {
             return [];
         }
 
         /** @var Param[] $params */
         $params = $classMethod->getParams();
 
+        $errorMessages = [];
+
         foreach ($args as $position => $arg) {
-            if (! $this->nodeComparator->areNodesEqual($expr, $arg->value)) {
+            $param = $params[$position] ?? [];
+            if (! $param instanceof Param) {
                 continue;
             }
 
-            $validateParam = $this->validateParam($params, $position, $class);
-            if ($validateParam === []) {
+            $argType = $scope->getType($arg->value);
+            if ($argType instanceof MixedType) {
                 continue;
             }
 
-            return $validateParam;
+            $paramErrorMessage = $this->validateParam($param, $position, $argType);
+            if ($paramErrorMessage === null) {
+                continue;
+            }
+
+            // @todo test double failed type
+            $errorMessages[] = $paramErrorMessage;
         }
 
-        return [];
+        return $errorMessages;
     }
 
-    /**
-     * @return Param[] $params
-     * @return string[]
-     */
-    private function validateParam(array $params, int $position, FullyQualified $class): array
+    private function validateParam(Param $param, int $position, Type $argType): ?string
     {
-        foreach ($params as $i => $param) {
-            if ($i !== $position) {
-                continue;
-            }
-
-            $type = $param->type;
-            if (! $type instanceof FullyQualified) {
-                continue;
-            }
-
-            if ($this->nodeComparator->areNodesEqual($class, $type)) {
-                continue;
-            }
-
-            $errorMessage = sprintf(self::ERROR_MESSAGE, $i + 1, $class->toString());
-            return [$errorMessage];
+        $type = $param->type;
+        // @todo some static type mapper from php-parser to PHPStan?
+        if (! $type instanceof FullyQualified) {
+            return null;
         }
 
-        return [];
+        // not solveable yet, work with PHP 8 code only
+        if ($argType instanceof UnionType) {
+            return null;
+        }
+
+        if ($argType instanceof IntersectionType) {
+            return null;
+        }
+
+        $paramType = new ObjectType($type->toString());
+        if ($paramType->equals($argType)) {
+            return null;
+        }
+
+        // handle weird type substration cases
+        $paramTypeAsString = $paramType->describe(VerbosityLevel::typeOnly());
+        $argTypeAsString = $argType->describe(VerbosityLevel::typeOnly());
+
+        if ($paramTypeAsString === $argTypeAsString) {
+            return null;
+        }
+
+        return sprintf(self::ERROR_MESSAGE, $position + 1, $argTypeAsString);
     }
 
     /**
      * @return MethodCall[]
      */
-    private function findMethodCallUses(Class_ $class, MethodCall $methodCall): array
+    private function findMethodCallUses(MethodCall $methodCall): array
     {
+        /** @var Class_|null $class */
+        $class = $this->resolveCurrentClass($methodCall);
+        if (! $class instanceof Class_) {
+            return [];
+        }
+
         return $this->nodeFinder->find($class, function (Node $node) use ($methodCall): bool {
             if (! $node instanceof MethodCall) {
                 return false;
@@ -245,5 +231,32 @@ CODE_SAMPLE
 
             return $this->nodeComparator->areNodesEqual($node->name, $methodCall->name);
         });
+    }
+
+    private function matchPrivateLocalClassMethod(MethodCall $methodCall): ?ClassMethod
+    {
+        /** @var Class_|null $class */
+        $class = $this->resolveCurrentClass($methodCall);
+        if (! $class instanceof Class_) {
+            return null;
+        }
+
+        /** @var string|null $methodCallName */
+        $methodCallName = $this->simpleNameResolver->getName($methodCall->name);
+        if ($methodCallName === null) {
+            return null;
+        }
+
+        /** @var ClassMethod|null $classMethod */
+        $classMethod = $class->getMethod($methodCallName);
+        if (! $classMethod instanceof ClassMethod) {
+            return null;
+        }
+
+        if (! $classMethod->isPrivate()) {
+            return null;
+        }
+
+        return $classMethod;
     }
 }
