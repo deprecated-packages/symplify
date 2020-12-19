@@ -58,6 +58,19 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
     }
 
     /**
+     * @dataProvider provideDataEcs()
+     */
+    public function testEcs(SmartFileInfo $fileInfo): void
+    {
+        $this->doTestOutputWithExtraDirectory($fileInfo, __DIR__ . '/Fixture/ecs', Format::YAML, Format::PHP);
+    }
+
+    public function provideDataEcs(): Iterator
+    {
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/ecs', '*.yaml');
+    }
+
+    /**
      * @source https://github.com/symfony/maker-bundle/pull/604
      * @dataProvider provideDataMakerBundle()
      */
@@ -118,6 +131,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         require_once $temporaryPath . '/src/SomeClass.php';
 
         $inputFileInfo = new SmartFileInfo($fileTemporaryPath);
+
         $this->doTestFileInfo(
             $inputFileInfo,
             $inputAndExpected->getExpected(),
