@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture;
 
-class ATest
+class Entity1
 {
-    public function someMethod()
+    public function setX(string $x)
     {
-        echo 'statement';
-        (new SmartFinder())->run('.php');
+        $this->x = $x;
     }
 }

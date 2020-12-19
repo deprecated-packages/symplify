@@ -8,6 +8,7 @@ class DuplicateFirstClassMethodInPrivate
 {
     private function someMethod()
     {
+        echo 'statement';
         (new SmartFinder())->run('.php');
     }
 }

@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\PrettyPrinter\Standard;
@@ -98,7 +99,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
 
         /** @var Node[] $stmts */
         $stmts = $node->stmts;
-        if (count($stmts) === 1 && $stmts[0] instanceof Return_) {
+        if (count($stmts) === 1 && ($stmts[0] instanceof Return_ || $stmts[0] instanceof Expression)) {
             return [];
         }
 
