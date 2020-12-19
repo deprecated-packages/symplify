@@ -425,17 +425,3 @@ parameters:
                  - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php #110
 
         - '#Method Symplify\\PHPStanRules\\Rules\\CheckTypehintCallerTypeRule\:\:findMethodCallUses\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
-        -
-            message: '#Content of method ".*" is duplicated with method in ".*" class, use unique content instead#'
-            paths:
-                 - packages/class-presence/src/HttpKernel/ClassPresenceKernel.php #12
-                 - packages/config-transformer/src/HttpKernel/ConfigTransformerKernel.php #15
-                 - packages/console-package-builder/tests/HttpKernel/ConsolePackageBuilderKernel.php #34
-                 - packages/latte-to-twig-converter/src/HttpKernel/LatteToTwigConverterKernel.php #12
-                 - packages/php-config-printer/src/DependencyInjection/Extension/PhpConfigPrinterExtension.php #14
-                 - packages/phpmd-decomposer/src/HttpKernel/PHPMDDecomposerKernel.php #15
-                 - packages/phpstan-rules/src/Rules/PreventDuplicateClassMethodRule.php #72
-                 - packages/skipper/src/DependencyInjection/Extension/SkipperExtension.php #14
-                 - packages/smart-file-system/src/Json/JsonFileSystem.php #33
-                 - packages/smart-file-system/src/Json/JsonFileSystem.php #41
-                 - packages/sniffer-fixer-to-ecs-converter/src/HttpKernel/SnifferFixerToECSKernel.php #15
