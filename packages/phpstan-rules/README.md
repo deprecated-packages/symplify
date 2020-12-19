@@ -52,7 +52,7 @@ includes:
     - vendor/symplify/phpstan-rules/config/test-rules.neon
 ```
 
-Pick waht you need, drop the rest.
+Pick what you need, drop the rest.
 
 ## 3. How we use Configurable Rules
 
