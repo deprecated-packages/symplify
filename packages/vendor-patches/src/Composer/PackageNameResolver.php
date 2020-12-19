@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Symplify\VendorPatches\Composer;
 
 use Symplify\SmartFileSystem\FileSystemGuard;
+use Symplify\SmartFileSystem\Json\JsonFileSystem;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 use Symplify\VendorPatches\FileSystem\PathResolver;
-use Symplify\VendorPatches\Json\JsonFileSystem;
 
 final class PackageNameResolver
 {
