@@ -424,3 +424,4 @@ parameters:
                  - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php #110
 
         - '#Method Symplify\\PHPStanRules\\Rules\\CheckTypehintCallerTypeRule\:\:findMethodCallUses\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
+        - '#Content of method "resolveClassName\(\)" is duplicated with method in "Symplify\\PHPStanExtensions\\TypeResolver\\ClassConstFetchReturnTypeResolver" class\. Use unique content or abstract service instead#'
