@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\RuleCodeSamplePrinter;
 
-use Symplify\PhpConfigPrinter\Printer\SmartPhpConfigPrinter;
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\DiffCodeSamplePrinter;
@@ -27,18 +26,18 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
     private $markdownCodeWrapper;
 
     /**
-     * @var SmartPhpConfigPrinter
+     * @var ConfiguredCodeSamplerPrinter
      */
-    private $smartPhpConfigPrinter;
+    private $configuredCodeSamplerPrinter;
 
     public function __construct(
         DiffCodeSamplePrinter $diffCodeSamplePrinter,
         MarkdownCodeWrapper $markdownCodeWrapper,
-        SmartPhpConfigPrinter $smartPhpConfigPrinter
+        ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter
     ) {
         $this->diffCodeSamplePrinter = $diffCodeSamplePrinter;
         $this->markdownCodeWrapper = $markdownCodeWrapper;
-        $this->smartPhpConfigPrinter = $smartPhpConfigPrinter;
+        $this->configuredCodeSamplerPrinter = $configuredCodeSamplerPrinter;
     }
 
     public function isMatch(string $class): bool
@@ -61,30 +60,10 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
         }
 
         if ($codeSample instanceof ConfiguredCodeSample) {
-            return $this->printConfiguredCodeSample($ruleDefinition, $codeSample);
+            return $this->configuredCodeSamplerPrinter->printConfiguredCodeSample($ruleDefinition, $codeSample);
         }
 
         return $this->diffCodeSamplePrinter->print($codeSample);
-    }
-
-    /**
-     * @return string[]
-     */
-    private function printConfiguredCodeSample(
-        RuleDefinition $ruleDefinition,
-        ConfiguredCodeSample $configuredCodeSample
-    ): array {
-        $lines = [];
-
-        $configPhpCode = $this->smartPhpConfigPrinter->printConfiguredServices([
-            $ruleDefinition->getRuleClass() => $configuredCodeSample->getConfiguration(),
-        ]);
-        $lines[] = $this->markdownCodeWrapper->printPhpCode($configPhpCode);
-
-        $lines[] = '↓';
-
-        $newLines = $this->diffCodeSamplePrinter->print($configuredCodeSample);
-        return array_merge($lines, $newLines);
     }
 
     /**

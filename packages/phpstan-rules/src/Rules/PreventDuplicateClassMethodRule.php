@@ -24,7 +24,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Content of method "%s" is duplicated with method in "%s" class, use unique content instead';
+    public const ERROR_MESSAGE = 'Content of method "%s()" is duplicated with method in "%s" class. Use unique content or abstract service instead';
 
     /**
      * @var string[]
@@ -184,10 +184,6 @@ CODE_SAMPLE
             return true;
         }
 
-        if (Strings::endsWith($className, 'Test')) {
-            return true;
-        }
-
-        return false;
+        return Strings::endsWith($className, 'Test');
     }
 }
