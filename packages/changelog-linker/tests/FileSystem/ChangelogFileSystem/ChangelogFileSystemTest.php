@@ -8,6 +8,7 @@ use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\ChangelogLinker\Console\Command\DumpMergesCommand;
 
 final class ChangelogFileSystemTest extends AbstractKernelTestCase
 {
@@ -31,21 +32,36 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
     {
         $originalContent = $this->changelogFileSystem->readChangelog();
 
-        $this->changelogFileSystem->addToChangelogOnPlaceholder('## Unreleased - [#1] Added foo', '## Unreleased');
-        $this->changelogFileSystem->addToChangelogOnPlaceholder('## Unreleased - [#2] Added bar', '## Unreleased');
+        $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CONTENT
+## Unreleased
+
+### Added
+
+- [#1] Added foo
+CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
+
+        $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CONTENT
+## Unreleased
+
+### Added
+
+- [#2] Added bar
+CONTENT, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
         $fileChangelog = 'tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md';
+        $smartFileSystem = new SmartFileSystem();
+
         $changelogFile = file_exists($fileChangelog)
             ? $fileChangelog
             : 'packages/changelog-linker/' . $fileChangelog;
-
-        $smartFileSystem = new SmartFileSystem();
-        $content = $smartFileSystem->readFile($changelogFile);
-        $this->assertStringContainsString(
-            $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md'),
-            $content
-        );
+        $content          = $smartFileSystem->readFile($changelogFile);
+        $expectedListData = $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md');
 
         $smartFileSystem->dumpFile($changelogFile, $originalContent);
+
+        $this->assertStringContainsString(
+            $expectedListData,
+            $content
+        );
     }
 }

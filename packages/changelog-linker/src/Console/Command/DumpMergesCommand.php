@@ -26,7 +26,7 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
      * @inspiration markdown comment: https://gist.github.com/jonikarppinen/47dc8c1d7ab7e911f4c9#gistcomment-2109856
      * @var string
      */
-    private const CHANGELOG_PLACEHOLDER_TO_WRITE = '<!-- changelog-linker -->';
+    public const CHANGELOG_PLACEHOLDER_TO_WRITE = '<!-- changelog-linker -->';
 
     /**
      * @var GithubApi

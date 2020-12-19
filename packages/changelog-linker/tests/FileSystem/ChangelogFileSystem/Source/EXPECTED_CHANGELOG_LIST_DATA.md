@@ -1,4 +1,9 @@
+<!-- changelog-linker -->
+
 ## Unreleased
 
- - [#2] Added bar
- - [#1] Added foo
+### Added
+- [#2] Added bar
+
+### Added
+- [#1] Added foo
