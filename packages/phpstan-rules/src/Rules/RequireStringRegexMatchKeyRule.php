@@ -85,18 +85,16 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
         while ($parent) {
             $previous = $parent->getAttribute(PHPStanAttributeKey::PREVIOUS);
             while ($previous) {
-                /** @var Assign[] $assigns */
-                $assigns = $this->getArrayDimFetchAssign($previous, $arrayDimFetch);
+                /** @var Assign|null $assign */
+                $assign = $this->getArrayDimFetchAssign($previous, $arrayDimFetch);
 
-                if ($assigns === []) {
+                if ($assign === null) {
                     $previous = $previous->getAttribute(PHPStanAttributeKey::PREVIOUS);
                     continue;
                 }
 
-                // ensure use last assign to ensure use latest assign
-                $lastAssign = $assigns[count($assigns) - 1];
-                if ($this->isExprStringsMatch($lastAssign)) {
-                    return $lastAssign;
+                if ($this->isExprStringsMatch($assign)) {
+                    return $assign;
                 }
 
                 $previous = $previous->getAttribute(PHPStanAttributeKey::PREVIOUS);
@@ -108,13 +106,10 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
         return null;
     }
 
-    /**
-     * @return Assign[]
-     */
-    private function getArrayDimFetchAssign(Node $node, ArrayDimFetch $arrayDimFetch): array
+    private function getArrayDimFetchAssign(Node $node, ArrayDimFetch $arrayDimFetch): ?Assign
     {
-        /** @var Assign[] $assigns */
-        $assigns = $this->nodeFinder->find($node, function (Node $n) use ($arrayDimFetch): bool {
+        /** @var Assign|null $assign */
+        $assign = $this->nodeFinder->findFirst($node, function (Node $n) use ($arrayDimFetch): bool {
             if (! $n instanceof Assign) {
                 return false;
             }
@@ -122,7 +117,32 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
             return $this->nodeComparator->areNodesEqual($n->var, $arrayDimFetch->var);
         });
 
-        return $assigns;
+        return $assign;
+    }
+
+    private function isExprStringsMatch(?Assign $assign): bool
+    {
+        if (! $assign instanceof Assign) {
+            return false;
+        }
+
+        if (! $assign->expr instanceof StaticCall) {
+            return false;
+        }
+
+        if (! $assign->expr->class instanceof FullyQualified) {
+            return false;
+        }
+
+        if ($assign->expr->class->toString() !== Strings::class) {
+            return false;
+        }
+
+        if (! $assign->expr->name instanceof Identifier) {
+            return false;
+        }
+
+        return $assign->expr->name->toString() === 'match';
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -164,30 +184,5 @@ class SomeClass
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    private function isExprStringsMatch(?Assign $assign): bool
-    {
-        if (! $assign instanceof Assign) {
-            return false;
-        }
-
-        if (! $assign->expr instanceof StaticCall) {
-            return false;
-        }
-
-        if (! $assign->expr->class instanceof FullyQualified) {
-            return false;
-        }
-
-        if ($assign->expr->class->toString() !== Strings::class) {
-            return false;
-        }
-
-        if (! $assign->expr->name instanceof Identifier) {
-            return false;
-        }
-
-        return $assign->expr->name->toString() === 'match';
     }
 }
