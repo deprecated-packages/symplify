@@ -57,6 +57,7 @@ services:
                 - 'var_dump'
                 - 'extract'
                 - 'curl_*'
+                - 'method_exists'
 
     -
         class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule

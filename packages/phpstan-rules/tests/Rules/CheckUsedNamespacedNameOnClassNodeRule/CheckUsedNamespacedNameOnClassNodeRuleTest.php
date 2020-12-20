@@ -21,13 +21,15 @@ final class CheckUsedNamespacedNameOnClassNodeRuleTest extends AbstractServiceAw
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipCompare.php', []];
         yield [__DIR__ . '/Fixture/NoGetPropertyFromClass.php', []];
         yield [__DIR__ . '/Fixture/UsedNamespacedClass.php', []];
         yield [__DIR__ . '/Fixture/NotClassVariable.php', []];
-        yield [__DIR__ . '/Fixture/SkippedClass.php', []];
         yield [__DIR__ . '/Fixture/SkippedVariableNamedShortClassName.php', []];
         yield [__DIR__ . '/Fixture/SkipNextNotIdentifier.php', []];
-        yield [__DIR__ . '/Fixture/UsedNameOfClass.php', [[CheckUsedNamespacedNameOnClassNodeRule::ERROR_MESSAGE, 14]]];
+
+        $errorMessage = [CheckUsedNamespacedNameOnClassNodeRule::ERROR_MESSAGE, 14];
+        yield [__DIR__ . '/Fixture/UsedNameOfClass.php', [$errorMessage]];
     }
 
     protected function getRule(): Rule
