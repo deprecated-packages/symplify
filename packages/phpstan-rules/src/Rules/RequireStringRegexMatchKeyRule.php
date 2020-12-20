@@ -97,7 +97,7 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
                 continue;
             }
 
-            // ensure use last assign to ensure no re-assign
+            // ensure use last assign to ensure use latest assign
             $lastAssign = $assigns[count($assigns) - 1];
             if ($this->isExprStringsMatch($lastAssign)) {
                 return $lastAssign;
