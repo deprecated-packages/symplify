@@ -1,3 +1,6 @@
+includes:
+    - ../../../../config/services/services.neon
+
 services:
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
@@ -6,7 +9,3 @@ services:
             requiredTypeInMethodByClass:
                 Symplify\PHPStanRules\Tests\Rules\RequireClassTypeInClassMethodByTypeRule\Source\AnyParentGetTypesInterface:
                     getNodeTypes: 'PhpParser\Node'
-
-    - PhpParser\NodeFinder
-    - Symplify\PHPStanRules\Naming\SimpleNameResolver
-    - Symplify\PHPStanRules\Types\ConstantTypeAnalyzer

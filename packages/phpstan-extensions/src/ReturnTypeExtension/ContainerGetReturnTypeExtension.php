@@ -12,6 +12,8 @@ use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symplify\PHPStanRules\Naming\NameNodeResolver\ClassLikeNameNodeResolver;
+use Symplify\PHPStanRules\Naming\NameNodeResolver\IdentifierNameNodeResolver;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 
 /**
@@ -27,7 +29,10 @@ final class ContainerGetReturnTypeExtension implements DynamicMethodReturnTypeEx
     public function __construct()
     {
         // intentionally manual here, to prevent double service registration caused by nette/di
-        $this->simpleNameResolver = new SimpleNameResolver();
+        $this->simpleNameResolver = new SimpleNameResolver(
+            new ClassLikeNameNodeResolver(),
+            new IdentifierNameNodeResolver()
+        );
     }
 
     public function getClass(): string

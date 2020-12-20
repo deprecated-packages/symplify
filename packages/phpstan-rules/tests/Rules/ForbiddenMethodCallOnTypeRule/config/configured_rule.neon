@@ -1,6 +1,7 @@
-services:
-    - Symplify\PHPStanRules\Naming\SimpleNameResolver
+includes:
+    - ../../../../config/services/services.neon
 
+services:
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnTypeRule
         tags: [phpstan.rules.rule]

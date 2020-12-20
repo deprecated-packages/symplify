@@ -14,6 +14,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use SplFileInfo;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -36,11 +37,17 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
     private $oldToPrefferedClasses = [];
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @param string[] $oldToPreferredClasses
      */
-    public function __construct(array $oldToPreferredClasses)
+    public function __construct(SimpleNameResolver $simpleNameResolver, array $oldToPreferredClasses)
     {
         $this->oldToPrefferedClasses = $oldToPreferredClasses;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -135,13 +142,11 @@ CODE_SAMPLE
      */
     private function processClass(Class_ $class): array
     {
-        if (! property_exists($class, 'namespacedName')) {
-            return [];
-        }
-
         if ($class->extends === null) {
             return [];
         }
+
+        $className = $this->simpleNameResolver->getName($class);
 
         $parentClass = $class->extends->toString();
         foreach ($this->oldToPrefferedClasses as $oldClass => $prefferedClass) {
@@ -150,7 +155,7 @@ CODE_SAMPLE
             }
 
             // check special case, when new class is actually the one we use
-            if ($prefferedClass === (string) $class->namespacedName) {
+            if ($prefferedClass === $className) {
                 return [];
             }
 

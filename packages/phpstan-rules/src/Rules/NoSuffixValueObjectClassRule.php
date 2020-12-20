@@ -6,9 +6,9 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\Regex;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -30,6 +30,16 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
     private const VALUE_OBJECT_SUFFIX_REGEX = '#ValueObject$#';
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
+
+    /**
      * @return string[]
      */
     public function getNodeTypes(): array
@@ -43,17 +53,8 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! property_exists($node, 'namespacedName')) {
-            return [];
-        }
-
-        $namespacedName = $node->namespacedName;
-        if (! $namespacedName instanceof Name) {
-            return [];
-        }
-
-        $className = (string) $namespacedName;
-        if ($className === '') {
+        $className = $this->simpleNameResolver->getName($node);
+        if ($className === null) {
             return [];
         }
 

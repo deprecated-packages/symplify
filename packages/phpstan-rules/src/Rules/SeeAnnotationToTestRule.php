@@ -17,6 +17,7 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\FileTypeMapper;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -52,15 +53,25 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
     private $privatesAccessor;
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @param string[] $requiredSeeTypes
      */
-    public function __construct(Broker $broker, FileTypeMapper $fileTypeMapper, array $requiredSeeTypes = [])
-    {
+    public function __construct(
+        Broker $broker,
+        SimpleNameResolver $simpleNameResolver,
+        FileTypeMapper $fileTypeMapper,
+        array $requiredSeeTypes = []
+    ) {
         $this->fileTypeMapper = $fileTypeMapper;
         $this->broker = $broker;
         $this->requiredSeeTypes = $requiredSeeTypes;
 
         $this->privatesAccessor = new PrivatesAccessor();
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -87,8 +98,9 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
         }
 
         $docComment = $node->getDocComment();
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $classReflection->getName());
         if ($docComment === null) {
-            return [sprintf(self::ERROR_MESSAGE, $classReflection->getName())];
+            return [$errorMessage];
         }
 
         $resolvedPhpDocBlock = $this->resolvePhpDoc($scope, $classReflection, $docComment);
@@ -104,7 +116,7 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $classReflection->getName())];
+        return [$errorMessage];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -150,16 +162,11 @@ CODE_SAMPLE
 
     private function matchClassReflection(Class_ $class): ?ClassReflection
     {
-        $shortClassName = $class->name;
-        if ($shortClassName === null) {
+        $className = $this->simpleNameResolver->getName($class);
+        if ($className === null) {
             return null;
         }
 
-        if (! property_exists($class, 'namespacedName')) {
-            return null;
-        }
-
-        $className = (string) $class->namespacedName;
         if (! class_exists($className)) {
             return null;
         }

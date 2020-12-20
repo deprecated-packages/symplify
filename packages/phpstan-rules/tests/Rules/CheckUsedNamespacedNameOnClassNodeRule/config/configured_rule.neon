@@ -1,7 +1,7 @@
+includes:
+    - ../../../../config/services/services.neon
+
 services:
     -
         class: Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule
         tags: [phpstan.rules.rule]
-        arguments:
-            excludedClasses:
-                - 'Symplify\PHPStanRules\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRule\Fixture\SkippedClass'

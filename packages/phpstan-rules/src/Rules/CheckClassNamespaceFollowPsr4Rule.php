@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ComposerAutoloadResolver;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -33,9 +34,17 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
      */
     private $autoloadPsr4Paths = [];
 
-    public function __construct(ComposerAutoloadResolver $composerAutoloadResolver)
-    {
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        ComposerAutoloadResolver $composerAutoloadResolver
+    ) {
         $this->autoloadPsr4Paths = $composerAutoloadResolver->getPsr4Autoload();
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -52,25 +61,23 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $shortClassName = $node->name;
-        if ($this->autoloadPsr4Paths === [] || $shortClassName === null) {
+        if ($this->autoloadPsr4Paths === []) {
             return [];
         }
 
-        if (! property_exists($node, 'namespacedName')) {
+        $className = $this->simpleNameResolver->getName($node);
+        if ($className === null) {
             return [];
         }
 
-        $namespacedName = (string) $node->namespacedName;
-        $shortClassName = (string) $shortClassName;
+        $shortClassName = (string) $node->name;
 
-        $isAnonymouClass = (bool) Strings::match($shortClassName, self::ANONYMOUS_CLASS_REGEX);
-        if ($isAnonymouClass) {
+        if (Strings::match($shortClassName, self::ANONYMOUS_CLASS_REGEX)) {
             return [];
         }
 
         $file = str_replace('\\', '/', $scope->getFile());
-        $namespaceBeforeClass = substr($namespacedName, 0, - strlen($shortClassName));
+        $namespaceBeforeClass = $this->resolveNamespacePartOfClass($className, $shortClassName);
 
         foreach ($this->autoloadPsr4Paths as $namespace => $directory) {
             $namespace = rtrim($namespace, '\\') . '\\';
@@ -87,8 +94,10 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
             }
         }
 
-        $type = $this->getType($namespacedName, $file);
-        return [sprintf(self::ERROR_MESSAGE, $type, substr($namespaceBeforeClass, 0, -1))];
+        $type = $this->getType($className, $file);
+
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $type, substr($namespaceBeforeClass, 0, -1));
+        return [$errorMessage];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -151,5 +160,10 @@ CODE_SAMPLE
         );
 
         return $namespaceSuffixByDirectoryClass === $namespaceSuffixByNamespaceBeforeClass;
+    }
+
+    private function resolveNamespacePartOfClass(string $className, string $shortClassName): string
+    {
+        return (string) Strings::substring($className, 0, - strlen($shortClassName));
     }
 }

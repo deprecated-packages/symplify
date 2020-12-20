@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\Broker;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -27,9 +28,15 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
      */
     private $broker;
 
-    public function __construct(Broker $broker)
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(Broker $broker, SimpleNameResolver $simpleNameResolver)
     {
         $this->broker = $broker;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -46,12 +53,8 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! property_exists($node, 'namespacedName')) {
-            return [];
-        }
-
-        $className = (string) $node->namespacedName;
-        if (! class_exists($className)) {
+        $className = $this->simpleNameResolver->getName($node);
+        if ($className === null) {
             return [];
         }
 

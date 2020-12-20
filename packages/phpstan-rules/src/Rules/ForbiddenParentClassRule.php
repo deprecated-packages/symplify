@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -37,6 +38,10 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule implements Con
      * Null, if there is no preference. Just forbidden
      */
     private $forbiddenParentClassesWithPreferences = [];
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
 
     /**
      * @param string[] $forbiddenParentClasses
@@ -44,10 +49,13 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule implements Con
      */
     public function __construct(
         ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
+        SimpleNameResolver $simpleNameResolver,
         array $forbiddenParentClasses = [],
         array $forbiddenParentClassesWithPreferences = []
     ) {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
+        $this->simpleNameResolver = $simpleNameResolver;
+
         $this->forbiddenParentClassesWithPreferences = $forbiddenParentClassesWithPreferences;
 
         foreach ($forbiddenParentClasses as $forbiddenParentClass) {
@@ -69,12 +77,8 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule implements Con
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! property_exists($node, 'namespacedName')) {
-            return [];
-        }
-
-        $shortClassName = $node->name;
-        if ($shortClassName === null) {
+        $className = $this->simpleNameResolver->getName($node);
+        if ($className === null) {
             return [];
         }
 
@@ -95,9 +99,7 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule implements Con
                 continue;
             }
 
-            $class = $node->namespacedName->toString();
-
-            $errorMessage = $this->createErrorMessage($preference, $class, $currentParentClass);
+            $errorMessage = $this->createErrorMessage($preference, $className, $currentParentClass);
             return [$errorMessage];
         }
 

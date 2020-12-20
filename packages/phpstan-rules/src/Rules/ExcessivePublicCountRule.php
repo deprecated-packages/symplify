@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\Regex;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -25,16 +26,22 @@ final class ExcessivePublicCountRule extends AbstractSymplifyRule implements Con
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Too many public elements on class - %d. Try narrow it down under %d';
+    public const ERROR_MESSAGE = 'Too many public elements on class - %d. Narrow it down under %d';
 
     /**
      * @var int
      */
     private $maxPublicClassElementCount;
 
-    public function __construct(int $maxPublicClassElementCount = 10)
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver, int $maxPublicClassElementCount = 10)
     {
         $this->maxPublicClassElementCount = $maxPublicClassElementCount;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -93,13 +100,12 @@ CODE_SAMPLE
 
     private function resolveClassPublicElementCount(Class_ $class): int
     {
-        if (! property_exists($class, 'namespacedName')) {
+        $className = $this->simpleNameResolver->getName($class);
+        if ($className === null) {
             return 0;
         }
 
         $publicElementCount = 0;
-
-        $className = (string) $class->namespacedName;
 
         foreach ($class->stmts as $classStmt) {
             if ($this->shouldSkipClassStmt($classStmt, $className)) {

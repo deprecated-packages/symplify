@@ -7,12 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckUsedNamespacedNameOnClassNodeRu
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 
-final class SkippedClass
+final class SkipCompare
 {
-    public function process(Class_ $class, Scope $scope): array
+    public function run(Class_ $class)
     {
-        $class->name;
-
-        return [];
+        if ($class->name === null) {
+            return null;
+        }
     }
 }

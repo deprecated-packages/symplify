@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -39,6 +40,15 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
      * @var string[][]
      */
     private $declaredClassesByShortName = [];
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
 
     /**
      * @return string[]
@@ -54,23 +64,18 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! property_exists($node, 'namespacedName')) {
+        $className = $this->simpleNameResolver->getName($node);
+        if ($className === null) {
             return [];
         }
 
-        $fullyQualifiedClassName = (string) $node->namespacedName;
-        if ($fullyQualifiedClassName === '') {
-            return [];
-        }
-
-        if ($this->isAllowedClass($fullyQualifiedClassName)) {
+        if ($this->isAllowedClass($className)) {
             return [];
         }
 
         $this->prepareDeclaredClassesByShortName();
 
-        /** @var string $shortClassName */
-        $shortClassName = Strings::after($fullyQualifiedClassName, '\\', -1);
+        $shortClassName = $this->simpleNameResolver->getShortClassName($className);
 
         $classesByShortName = $this->declaredClassesByShortName[$shortClassName] ?? [];
         if (count($classesByShortName) <= 1) {

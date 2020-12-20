@@ -426,3 +426,32 @@ parameters:
         - '#Method Symplify\\PHPStanRules\\Rules\\CheckTypehintCallerTypeRule\:\:findMethodCallUses\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
         - '#Content of method "resolveClassName\(\)" is duplicated with method in "Symplify\\PHPStanExtensions\\TypeResolver\\ClassConstFetchReturnTypeResolver" class\. Use unique content or abstract service instead#'
         - '#Content of method "create\(\)" is duplicated with method in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
+
+        -
+            message: '#Function "method_exists\(\)" cannot be used/left in the code#'
+            paths:
+                # PHPUnit 9/10 compat
+                - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
+                # existing method call validator
+                - packages/template-checker/src/Analyzer/MissingClassStaticCallLatteAnalyzer.php
+                # look for parent method
+                - packages/phpstan-rules/src/Rules/PreventParentMethodVisibilityOverrideRule.php
+                # PHP 7/8 compact
+                - packages/easy-hydrator/src/ParameterTypeRecognizer.php
+                - packages/phpstan-rules/src/Rules/CheckParentChildMethodParameterTypeCompatibleRule.php
+                # Symfony 4/5 compat
+                - packages/monorepo-builder/packages/release/src/Process/ProcessRunner.php
+
+        -
+            message: '#Function "property_exists\(\)" cannot be used/left in the code#'
+            paths:
+                # XML magic object
+                - packages/sniffer-fixer-to-ecs-converter/src/SnifferToECSConverter.php
+                # helpers methods; PHPStan without nette di inject
+                - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
+                - packages/phpstan-rules/src/Naming/NameNodeResolver/ClassLikeNameNodeResolver.php
+                # PHP compat
+                - packages/package-builder/src/Reflection/PrivatesAccessor.php
+
+                # @todo refactor
+                - packages/phpstan-rules/src/Rules/CheckConstantExpressionDefinedInConstructOrSetupRule.php

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -13,6 +12,7 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 use Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
@@ -39,12 +39,19 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
      */
     private $classMethodTypeAnalyzer;
 
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
     public function __construct(
         ParentMethodAnalyser $parentMethodAnalyser,
-        ClassMethodTypeAnalyzer $classMethodTypeAnalyzer
+        ClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
+        SimpleNameResolver $simpleNameResolver
     ) {
         $this->parentMethodAnalyser = $parentMethodAnalyser;
         $this->classMethodTypeAnalyzer = $classMethodTypeAnalyzer;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -108,19 +115,17 @@ CODE_SAMPLE
 
     private function isPropertyExistInTraits(Class_ $class, string $propertyName): bool
     {
-        if (! property_exists($class, 'namespacedName')) {
+        $className = $this->simpleNameResolver->getName($class);
+        if ($className === null) {
             return false;
         }
 
-        /** @var Identifier $name */
-        $name = $class->namespacedName;
-
         /** @var string[] $usedTraits */
-        $usedTraits = (array) class_uses($name->toString());
+        $usedTraits = (array) class_uses($className);
 
         foreach ($usedTraits as $trait) {
-            $r = new ReflectionClass($trait);
-            if ($r->hasProperty($propertyName)) {
+            $traitReflectionClass = new ReflectionClass($trait);
+            if ($traitReflectionClass->hasProperty($propertyName)) {
                 return true;
             }
         }

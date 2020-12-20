@@ -163,7 +163,7 @@ CODE_SAMPLE
 
         while ($next) {
             $nextVars = $this->nodeFinder->findInstanceOf($next, $varClass);
-            if ($this->isHasSameVar($nextVars, $parentOfParentAssignment, $var)) {
+            if ($this->hasSameVar($nextVars, $parentOfParentAssignment, $var)) {
                 return true;
             }
 
@@ -176,7 +176,7 @@ CODE_SAMPLE
     /**
      * @param Node[] $nodes
      */
-    private function isHasSameVar(array $nodes, Node $parentOfParentAssignment, Expr $varExpr): bool
+    private function hasSameVar(array $nodes, Node $parentOfParentAssignment, Expr $varExpr): bool
     {
         foreach ($nodes as $node) {
             $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
@@ -208,6 +208,7 @@ CODE_SAMPLE
         if ($classMethod === null) {
             return true;
         }
+
         return $this->simpleNameResolver->isNames($classMethod->name, [MethodName::CONSTRUCTOR, MethodName::SET_UP]);
     }
 }

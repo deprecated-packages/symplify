@@ -1,7 +1,7 @@
-services:
-    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
-    - Symplify\PHPStanRules\Naming\SimpleNameResolver
+includes:
+    - ../../../../config/services/services.neon
 
+services:
     -
         class: Symplify\PHPStanRules\Rules\ExclusiveDependencyRule
         tags: [phpstan.rules.rule]

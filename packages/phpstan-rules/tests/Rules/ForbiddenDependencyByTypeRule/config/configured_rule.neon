@@ -1,3 +1,6 @@
+includes:
+    - ../../../../config/services/services.neon
+
 services:
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenDependencyByTypeRule
@@ -5,5 +8,3 @@ services:
         arguments:
             forbiddenTypes:
                 - Psr\Container\ContainerInterface
-
-    - Symplify\PHPStanRules\Naming\SimpleNameResolver

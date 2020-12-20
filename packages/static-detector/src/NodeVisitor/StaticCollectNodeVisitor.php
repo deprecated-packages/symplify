@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\StaticDetector\Collector\StaticNodeCollector;
 use Symplify\StaticDetector\Strings\StringsFilter;
 use Symplify\StaticDetector\ValueObject\Option;
@@ -42,52 +43,35 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
      */
     private $stringsFilter;
 
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
     public function __construct(
         StaticNodeCollector $staticNodeCollector,
         ParameterProvider $parameterProvider,
-        StringsFilter $stringsFilter
+        StringsFilter $stringsFilter,
+        SimpleNameResolver $simpleNameResolver
     ) {
         $this->staticNodeCollector = $staticNodeCollector;
         $this->parameterProvider = $parameterProvider;
         $this->stringsFilter = $stringsFilter;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     public function enterNode(Node $node)
     {
-        $this->checkisClassLikeOrStaticCall($node);
+        $this->ensureClassLikeOrStaticCall($node);
 
         if ($node instanceof ClassMethod) {
-            if (! $node->isStatic()) {
-                return null;
-            }
-
-            $classMethodName = (string) $node->name;
-            if (in_array($classMethodName, self::ALLOWED_METHOD_NAMES, true)) {
-                return null;
-            }
-
-            if ($this->currentClassLike === null) {
-                throw new ShouldNotHappenException('Class not found for static call');
-            }
-
-            if (! property_exists($this->currentClassLike, 'namespacedName')) {
-                return null;
-            }
-
-            // is filter match?
-            $filterClasses = (array) $this->parameterProvider->provideParameter(Option::FILTER_CLASSES);
-            $currentClassName = (string) $this->currentClassLike->namespacedName;
-            if (! $this->stringsFilter->isMatchOrFnMatch($currentClassName, $filterClasses)) {
-                return null;
-            }
-
-            $this->staticNodeCollector->addStaticClassMethod($node, $this->currentClassLike);
+            $this->enterClassMethod($node);
         }
 
         return null;
     }
 
-    private function checkisClassLikeOrStaticCall(Node $node): void
+    private function ensureClassLikeOrStaticCall(Node $node): void
     {
         if ($node instanceof ClassLike) {
             $this->currentClassLike = $node;
@@ -96,5 +80,35 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
         if ($node instanceof StaticCall) {
             $this->staticNodeCollector->addStaticCall($node, $this->currentClassLike);
         }
+    }
+
+    private function enterClassMethod(ClassMethod $classMethod): void
+    {
+        if (! $classMethod->isStatic()) {
+            return;
+        }
+
+        $classMethodName = (string) $classMethod->name;
+        if (in_array($classMethodName, self::ALLOWED_METHOD_NAMES, true)) {
+            return;
+        }
+
+        if ($this->currentClassLike === null) {
+            $errorMessage = sprintf('Class not found for static call "%s"', $classMethodName);
+            throw new ShouldNotHappenException($errorMessage);
+        }
+
+        $currentClassName = $this->simpleNameResolver->getName($this->currentClassLike);
+        if ($currentClassName === null) {
+            return;
+        }
+
+        // is filter match?
+        $filterClasses = (array) $this->parameterProvider->provideParameter(Option::FILTER_CLASSES);
+        if (! $this->stringsFilter->isMatchOrFnMatch($currentClassName, $filterClasses)) {
+            return;
+        }
+
+        $this->staticNodeCollector->addStaticClassMethod($classMethod, $this->currentClassLike);
     }
 }

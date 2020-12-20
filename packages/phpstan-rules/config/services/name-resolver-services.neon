@@ -1,0 +1,5 @@
+services:
+    # simple name resolver
+    - Symplify\PHPStanRules\Naming\SimpleNameResolver
+    - Symplify\PHPStanRules\Naming\NameNodeResolver\ClassLikeNameNodeResolver
+    - Symplify\PHPStanRules\Naming\NameNodeResolver\IdentifierNameNodeResolver
