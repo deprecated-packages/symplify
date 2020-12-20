@@ -28,6 +28,8 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
 
         yield [[__DIR__ . '/Fixture/AnInterface.php'], []];
 
+        yield [[__DIR__ . '/Fixture/SomeTrait.php', __DIR__ . '/Fixture/ClassWithTrait.php'], []];
+
         $errorMessage = sprintf(
             PreventDuplicateClassMethodRule::ERROR_MESSAGE,
             'someMethod',
