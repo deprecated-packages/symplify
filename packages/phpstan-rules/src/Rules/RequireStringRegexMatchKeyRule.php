@@ -106,45 +106,6 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
         return null;
     }
 
-    private function getArrayDimFetchAssign(Node $node, ArrayDimFetch $arrayDimFetch): ?Assign
-    {
-        /** @var Assign|null $assign */
-        $assign = $this->nodeFinder->findFirst($node, function (Node $n) use ($arrayDimFetch): bool {
-            if (! $n instanceof Assign) {
-                return false;
-            }
-
-            return $this->nodeComparator->areNodesEqual($n->var, $arrayDimFetch->var);
-        });
-
-        return $assign;
-    }
-
-    private function isExprStringsMatch(?Assign $assign): bool
-    {
-        if (! $assign instanceof Assign) {
-            return false;
-        }
-
-        if (! $assign->expr instanceof StaticCall) {
-            return false;
-        }
-
-        if (! $assign->expr->class instanceof FullyQualified) {
-            return false;
-        }
-
-        if ($assign->expr->class->toString() !== Strings::class) {
-            return false;
-        }
-
-        if (! $assign->expr->name instanceof Identifier) {
-            return false;
-        }
-
-        return $assign->expr->name->toString() === 'match';
-    }
-
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
@@ -184,5 +145,42 @@ class SomeClass
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function getArrayDimFetchAssign(Node $node, ArrayDimFetch $arrayDimFetch): ?Assign
+    {
+        /** @var Assign|null $assign */
+        return $this->nodeFinder->findFirst($node, function (Node $n) use ($arrayDimFetch): bool {
+            if (! $n instanceof Assign) {
+                return false;
+            }
+
+            return $this->nodeComparator->areNodesEqual($n->var, $arrayDimFetch->var);
+        });
+    }
+
+    private function isExprStringsMatch(?Assign $assign): bool
+    {
+        if (! $assign instanceof Assign) {
+            return false;
+        }
+
+        if (! $assign->expr instanceof StaticCall) {
+            return false;
+        }
+
+        if (! $assign->expr->class instanceof FullyQualified) {
+            return false;
+        }
+
+        if ($assign->expr->class->toString() !== Strings::class) {
+            return false;
+        }
+
+        if (! $assign->expr->name instanceof Identifier) {
+            return false;
+        }
+
+        return $assign->expr->name->toString() === 'match';
     }
 }
