@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -60,22 +61,17 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
         /** @var Class_|null $class */
         $class = $this->resolveCurrentClass($node);
 
-        // not inside class → skip
-        if ($class === null) {
-            return [];
-        }
-
-        // no extends and no implements → skip
-        if ($class->extends === null && $class->implements === []) {
+        if ($this->shouldSkipClass($class)) {
             return [];
         }
 
         // method name is __construct or not has parent method → skip
         $methodName = (string) $node->name;
-        if ($methodName === '__construct' || ! $this->parentMethodAnalyser->hasParentClassMethodWithSameName(
-            $scope,
-            $methodName
-        )) {
+        if ($methodName === MethodName::CONSTRUCTOR) {
+            return [];
+        }
+
+        if (! $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
             return [];
         }
 
@@ -162,5 +158,21 @@ CODE_SAMPLE
         }
 
         return null;
+    }
+
+    private function shouldSkipClass(?Class_ $class): bool
+    {
+        // not inside class → skip
+        if ($class === null) {
+            return true;
+        }
+
+        // no extends and no implements → skip
+        if ($class->extends !== null) {
+            return false;
+        }
+
+        $implements = (array) $class->implements;
+        return $implements === [];
     }
 }
