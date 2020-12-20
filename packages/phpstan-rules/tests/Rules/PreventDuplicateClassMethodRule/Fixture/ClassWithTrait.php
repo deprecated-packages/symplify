@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture;
 
-class ATest
+class ClassWithTrait
 {
-    public function someMethod()
+    use TraitUsingTrait;
+
+    public function anotherCall()
     {
-        echo 'statement';
-        (new SmartFinder())->run('.php');
+        return $this->anotherMethod();
     }
 }
