@@ -79,33 +79,6 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
         return [sprintf(self::ERROR_MESSAGE, $regex)];
     }
 
-    public function getRegexMatchAssign(ArrayDimFetch $arrayDimFetch): ?Assign
-    {
-        $parent = $arrayDimFetch->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($parent) {
-            $previous = $parent->getAttribute(PHPStanAttributeKey::PREVIOUS);
-            while ($previous) {
-                /** @var Assign|null $assign */
-                $assign = $this->getArrayDimFetchAssign($previous, $arrayDimFetch);
-
-                if ($assign === null) {
-                    $previous = $previous->getAttribute(PHPStanAttributeKey::PREVIOUS);
-                    continue;
-                }
-
-                if ($this->isExprStringsMatch($assign)) {
-                    return $assign;
-                }
-
-                $previous = $previous->getAttribute(PHPStanAttributeKey::PREVIOUS);
-            }
-
-            $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
-        return null;
-    }
-
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
@@ -145,6 +118,33 @@ class SomeClass
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function getRegexMatchAssign(ArrayDimFetch $arrayDimFetch): ?Assign
+    {
+        $parent = $arrayDimFetch->getAttribute(PHPStanAttributeKey::PARENT);
+        while ($parent) {
+            $previous = $parent->getAttribute(PHPStanAttributeKey::PREVIOUS);
+            while ($previous) {
+                /** @var Assign|null $assign */
+                $assign = $this->getArrayDimFetchAssign($previous, $arrayDimFetch);
+
+                if ($assign === null) {
+                    $previous = $previous->getAttribute(PHPStanAttributeKey::PREVIOUS);
+                    continue;
+                }
+
+                if ($this->isExprStringsMatch($assign)) {
+                    return $assign;
+                }
+
+                $previous = $previous->getAttribute(PHPStanAttributeKey::PREVIOUS);
+            }
+
+            $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
+        }
+
+        return null;
     }
 
     private function getArrayDimFetchAssign(Node $node, ArrayDimFetch $arrayDimFetch): ?Assign
