@@ -36,6 +36,7 @@ final class BoolishClassMethodPrefixRule extends AbstractSymplifyRule
         'are',
         'was',
         'will',
+        'must',
         'has',
         'have',
         'had',
