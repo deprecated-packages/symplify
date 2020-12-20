@@ -126,10 +126,9 @@ CODE_SAMPLE
         while ($parent) {
             $previous = $parent->getAttribute(PHPStanAttributeKey::PREVIOUS);
             while ($previous) {
-                /** @var Assign|null $assign */
                 $assign = $this->getArrayDimFetchAssign($previous, $arrayDimFetch);
 
-                if ($assign === null) {
+                if (! $assign instanceof Assign) {
                     $previous = $previous->getAttribute(PHPStanAttributeKey::PREVIOUS);
                     continue;
                 }
@@ -147,9 +146,8 @@ CODE_SAMPLE
         return null;
     }
 
-    private function getArrayDimFetchAssign(Node $node, ArrayDimFetch $arrayDimFetch): ?Assign
+    private function getArrayDimFetchAssign(Node $node, ArrayDimFetch $arrayDimFetch): ?Node
     {
-        /** @var Assign|null $assign */
         return $this->nodeFinder->findFirst($node, function (Node $n) use ($arrayDimFetch): bool {
             if (! $n instanceof Assign) {
                 return false;
