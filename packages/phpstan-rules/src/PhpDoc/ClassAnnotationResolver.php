@@ -43,6 +43,10 @@ final class ClassAnnotationResolver
      */
     private function resolveShortNamesToFullyQualified(array $matches, string $className): array
     {
+        if (! class_exists($className)) {
+            return [];
+        }
+
         $reflectionClass = new ReflectionClass($className);
 
         $fullyQualifiedAnnotationNames = [];

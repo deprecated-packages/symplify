@@ -33,6 +33,7 @@ final class BoolishClassMethodPrefixRuleTest extends AbstractServiceAwareRuleTes
         yield [__DIR__ . '/Fixture/ClassWithEmptyReturn.php', []];
         yield [__DIR__ . '/Fixture/ClassThatImplementsInterface.php', []];
         yield [__DIR__ . '/Fixture/SkipRequiredByInterface.php', []];
+        yield [__DIR__ . '/Fixture/SkipNestedCallback.php', []];
     }
 
     protected function getRule(): Rule

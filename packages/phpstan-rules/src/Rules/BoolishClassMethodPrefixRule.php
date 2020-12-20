@@ -6,14 +6,15 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
-use PhpParser\NodeFinder;
+use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\BooleanType;
+use Symplify\PHPStanRules\NodeTraverser\SimpleCallableNodeTraverser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -55,13 +56,13 @@ final class BoolishClassMethodPrefixRule extends AbstractSymplifyRule
     ];
 
     /**
-     * @var NodeFinder
+     * @var SimpleCallableNodeTraverser
      */
-    private $nodeFinder;
+    private $simpleCallableNodeTraverser;
 
-    public function __construct(NodeFinder $nodeFinder)
+    public function __construct(SimpleCallableNodeTraverser $simpleCallableNodeTraverser)
     {
-        $this->nodeFinder = $nodeFinder;
+        $this->simpleCallableNodeTraverser = $simpleCallableNodeTraverser;
     }
 
     /**
@@ -80,14 +81,15 @@ final class BoolishClassMethodPrefixRule extends AbstractSymplifyRule
     {
         $classReflection = $scope->getClassReflection();
         if ($classReflection === null) {
-            throw new ShouldNotHappenException();
+            return [];
         }
 
         if ($this->shouldSkip($node, $scope, $classReflection)) {
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, (string) $node->name)];
+        $errorMessage = sprintf(self::ERROR_MESSAGE, (string) $node->name);
+        return [$errorMessage];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -147,20 +149,28 @@ CODE_SAMPLE
      */
     private function findReturnsWithValues(ClassMethod $classMethod): array
     {
-        /** @var Return_[] $returns */
-        $returns = $this->nodeFinder->findInstanceOf((array) $classMethod->getStmts(), Return_::class);
+        $returns = [];
 
-        $returnsWithValues = [];
-
-        foreach ($returns as $return) {
-            if ($return->expr === null) {
-                continue;
+        $this->simpleCallableNodeTraverser->traverseNodesWithCallable((array) $classMethod->stmts, function (
+            Node $node
+        ) use (&$returns) {
+            // skip different scope
+            if ($node instanceof FunctionLike) {
+                return NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
             }
 
-            $returnsWithValues[] = $return;
-        }
+            if (! $node instanceof Return_) {
+                return null;
+            }
 
-        return $returnsWithValues;
+            if ($node->expr === null) {
+                return null;
+            }
+
+            $returns[] = $node;
+        });
+
+        return $returns;
     }
 
     /**
