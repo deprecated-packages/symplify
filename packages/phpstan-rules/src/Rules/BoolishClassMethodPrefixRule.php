@@ -52,6 +52,7 @@ final class BoolishClassMethodPrefixRule extends AbstractSymplifyRule
         'exists',
         'supports',
         'provide',
+        'detect',
         # array access
         'offsetExists',
     ];
