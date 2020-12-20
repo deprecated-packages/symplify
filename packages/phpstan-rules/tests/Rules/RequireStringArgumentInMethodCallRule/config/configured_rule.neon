@@ -1,3 +1,6 @@
+includes:
+    - ../../../../config/services/services.neon
+
 services:
     -
         class: Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule
@@ -6,5 +9,3 @@ services:
             stringArgByMethodByType:
                 Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString:
                     callMe: [1]
-
-    - Symplify\PHPStanRules\Naming\SimpleNameResolver

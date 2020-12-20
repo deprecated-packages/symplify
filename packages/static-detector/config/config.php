@@ -6,6 +6,8 @@ use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\PHPStanRules\Naming\NameNodeResolver\ClassLikeNameNodeResolver;
+use Symplify\PHPStanRules\Naming\NameNodeResolver\IdentifierNameNodeResolver;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\StaticDetector\NodeTraverser\StaticCollectNodeTraverser;
 use Symplify\StaticDetector\NodeTraverser\StaticCollectNodeTraverserFactory;
@@ -33,4 +35,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ParameterProvider::class);
 
     $services->set(SimpleNameResolver::class);
+    $services->set(ClassLikeNameNodeResolver::class);
+    $services->set(IdentifierNameNodeResolver::class);
 };

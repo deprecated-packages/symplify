@@ -208,6 +208,7 @@ CODE_SAMPLE
         if ($classMethod === null) {
             return true;
         }
+
         return $this->simpleNameResolver->isNames($classMethod->name, [MethodName::CONSTRUCTOR, MethodName::SET_UP]);
     }
 }

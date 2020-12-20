@@ -9,6 +9,8 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use Symplify\PHPStanRules\Naming\NameNodeResolver\ClassLikeNameNodeResolver;
+use Symplify\PHPStanRules\Naming\NameNodeResolver\IdentifierNameNodeResolver;
 use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 
 final class ClassConstFetchReturnTypeResolver
@@ -21,7 +23,10 @@ final class ClassConstFetchReturnTypeResolver
     public function __construct()
     {
         // intentionally manual here, to prevent double service registration caused by nette/di
-        $this->simpleNameResolver = new SimpleNameResolver();
+        $this->simpleNameResolver = new SimpleNameResolver(
+            new ClassLikeNameNodeResolver(),
+            new IdentifierNameNodeResolver()
+        );
     }
 
     public function resolve(MethodReflection $methodReflection, MethodCall $methodCall): Type

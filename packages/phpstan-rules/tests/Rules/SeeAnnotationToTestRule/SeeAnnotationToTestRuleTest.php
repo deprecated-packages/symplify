@@ -35,6 +35,6 @@ final class SeeAnnotationToTestRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SeeAnnotationToTestRule::class, __DIR__ . '/config/see_rule_config.neon');
+        return $this->getRuleFromConfig(SeeAnnotationToTestRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

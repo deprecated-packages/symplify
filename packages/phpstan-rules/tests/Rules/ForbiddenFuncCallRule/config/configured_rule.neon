@@ -1,5 +1,7 @@
+includes:
+    - ../../../../config/services/services.neon
+
 services:
-    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
         tags: [phpstan.rules.rule]

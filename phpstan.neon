@@ -449,4 +449,9 @@ parameters:
                 - packages/sniffer-fixer-to-ecs-converter/src/SnifferToECSConverter.php
                 # helpers methods; PHPStan without nette di inject
                 - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
+                - packages/phpstan-rules/src/Naming/NameNodeResolver/ClassLikeNameNodeResolver.php
+                # PHP compat
+                - packages/package-builder/src/Reflection/PrivatesAccessor.php
 
+                # @todo refactor
+                - packages/phpstan-rules/src/Rules/CheckConstantExpressionDefinedInConstructOrSetupRule.php

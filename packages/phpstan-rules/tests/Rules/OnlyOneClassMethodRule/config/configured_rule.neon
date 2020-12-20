@@ -1,3 +1,6 @@
+includes:
+    - ../../../../config/services/services.neon
+
 services:
     -
          class: Symplify\PHPStanRules\Rules\OnlyOneClassMethodRule
@@ -7,5 +10,3 @@ services:
                  Symplify\PHPStanRules\Tests\Rules\OnlyOneClassMethodRule\Source\DoubleParentInterface:
                      - run
                      - go
-
-    - Symplify\PHPStanRules\Naming\SimpleNameResolver

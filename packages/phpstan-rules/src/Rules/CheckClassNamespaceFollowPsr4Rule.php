@@ -39,8 +39,10 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, ComposerAutoloadResolver $composerAutoloadResolver)
-    {
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        ComposerAutoloadResolver $composerAutoloadResolver
+    ) {
         $this->autoloadPsr4Paths = $composerAutoloadResolver->getPsr4Autoload();
         $this->simpleNameResolver = $simpleNameResolver;
     }
@@ -62,10 +64,6 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
         if ($this->autoloadPsr4Paths === []) {
             return [];
         }
-
-//        if ($shortClassName === null) {
-//            return [];
-//        }
 
         $className = $this->simpleNameResolver->getName($node);
         if ($className === null) {
@@ -166,6 +164,6 @@ CODE_SAMPLE
 
     private function resolveNamespacePartOfClass(string $className, string $shortClassName): string
     {
-        return Strings::before($className, $shortClassName);
+        return (string) Strings::substring($className, 0, - strlen($shortClassName));
     }
 }

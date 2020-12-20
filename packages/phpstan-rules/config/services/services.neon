@@ -1,3 +1,6 @@
+includes:
+    - name-resolver-services.neon
+
 services:
     - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
@@ -12,7 +15,6 @@ services:
     - Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer
     - Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
-    - Symplify\PHPStanRules\Naming\SimpleNameResolver
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer

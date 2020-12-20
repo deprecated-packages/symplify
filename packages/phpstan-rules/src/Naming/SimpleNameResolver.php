@@ -6,21 +6,46 @@ namespace Symplify\PHPStanRules\Naming;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
-use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Property;
+use Symplify\PHPStanRules\Contract\NameNodeResolver\NameNodeResolverInterface;
+use Symplify\PHPStanRules\Naming\NameNodeResolver\ClassLikeNameNodeResolver;
+use Symplify\PHPStanRules\Naming\NameNodeResolver\IdentifierNameNodeResolver;
 
 final class SimpleNameResolver
 {
+    /**
+     * @var NameNodeResolverInterface[]
+     */
+    private $nameNodeResolvers = [];
+
+    public function __construct(
+        ClassLikeNameNodeResolver $classLikeNameNodeResolver,
+        IdentifierNameNodeResolver $identifierNameNodeResolver
+    ) {
+        // array autowiring for poor people
+        $this->nameNodeResolvers[] = $classLikeNameNodeResolver;
+        $this->nameNodeResolvers[] = $identifierNameNodeResolver;
+    }
+
     /**
      * @param Node|string $node
      */
     public function getName($node): ?string
     {
+        if (is_string($node)) {
+            return $node;
+        }
+
+        foreach ($this->nameNodeResolvers as $nameNodeResolver) {
+            if (! $nameNodeResolver->match($node)) {
+                continue;
+            }
+
+            return $nameNodeResolver->resolve($node);
+        }
+
         if ($node instanceof ClassConstFetch && $this->isName($node->name, 'class')) {
             return $this->getName($node->class);
         }
@@ -32,34 +57,6 @@ final class SimpleNameResolver
 
         if ($node instanceof Variable) {
             return $this->getName($node->name);
-        }
-
-        if ($node instanceof Expr) {
-            return null;
-        }
-
-        if ($node instanceof Identifier) {
-            return (string) $node;
-        }
-
-        if ($node instanceof Name) {
-            return (string) $node;
-        }
-
-        if ($node instanceof ClassLike) {
-            if (property_exists($node, 'namespacedName')) {
-                return (string) $node->namespacedName;
-            }
-
-            if ($node->name === null) {
-                return null;
-            }
-
-            return $this->getName($node->name);
-        }
-
-        if (is_string($node)) {
-            return $node;
         }
 
         return null;
