@@ -1,4 +1,4 @@
-# 111 Rules Overview
+# 112 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -469,7 +469,7 @@ trait SomeTrait
 
 ## CheckTypehintCallerTypeRule
 
-Parameter %d should use %s type as already checked
+Parameter %d should use "%s" type as the only type passed to this method
 
 - class: `Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule`
 
@@ -3531,6 +3531,60 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set('some_param', [1, 2]);
 };
+```
+
+:+1:
+
+<br>
+
+## PreventDuplicateClassMethodRule
+
+Content of method `"%s()"` is duplicated with method in "%s" class. Use unique content or abstract service instead
+
+- class: `Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule`
+
+```php
+class A
+{
+    public function someMethod()
+    {
+        echo 'statement';
+        (new SmartFinder())->run('.php');
+    }
+}
+
+class B
+{
+    public function someMethod()
+    {
+        echo 'statement';
+        (new SmartFinder())->run('.php');
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class A
+{
+    public function someMethod()
+    {
+        echo 'statement';
+        (new SmartFinder())->run('.php');
+    }
+}
+
+class B
+{
+    public function someMethod()
+    {
+        echo 'statement';
+        (new SmartFinder())->run('.js');
+    }
+}
 ```
 
 :+1:
