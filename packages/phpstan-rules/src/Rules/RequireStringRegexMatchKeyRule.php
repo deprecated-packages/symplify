@@ -83,30 +83,46 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
     {
         $parent = $arrayDimFetch->getAttribute(PHPStanAttributeKey::PARENT);
         while ($parent) {
-            /** @var Assign[] $assigns */
-            $assigns = $this->nodeFinder->find($parent, function (Node $node) use ($arrayDimFetch): bool {
-                if (! $node instanceof Assign) {
-                    return false;
+            $previous = $parent->getAttribute(PHPStanAttributeKey::PREVIOUS);
+            while ($previous) {
+                /** @var Assign[] $assigns */
+                $assigns = $this->getArrayDimFetchAssign($previous, $arrayDimFetch);
+
+                if ($assigns === []) {
+                    $previous = $previous->getAttribute(PHPStanAttributeKey::PREVIOUS);
+                    continue;
                 }
 
-                return $this->nodeComparator->areNodesEqual($node->var, $arrayDimFetch->var);
-            });
+                // ensure use last assign to ensure use latest assign
+                $lastAssign = $assigns[count($assigns) - 1];
+                if ($this->isExprStringsMatch($lastAssign)) {
+                    return $lastAssign;
+                }
 
-            if ($assigns === []) {
-                $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
-                continue;
-            }
-
-            // ensure use last assign to ensure use latest assign
-            $lastAssign = $assigns[count($assigns) - 1];
-            if ($this->isExprStringsMatch($lastAssign)) {
-                return $lastAssign;
+                $previous = $previous->getAttribute(PHPStanAttributeKey::PREVIOUS);
             }
 
             $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
         }
 
         return null;
+    }
+
+    /**
+     * @return Assign[]
+     */
+    private function getArrayDimFetchAssign(Node $node, ArrayDimFetch $arrayDimFetch): array
+    {
+        /** @var Assign[] $assigns */
+        $assigns = $this->nodeFinder->find($node, function (Node $n) use ($arrayDimFetch): bool {
+            if (! $n instanceof Assign) {
+                return false;
+            }
+
+            return $this->nodeComparator->areNodesEqual($n->var, $arrayDimFetch->var);
+        });
+
+        return $assigns;
     }
 
     public function getRuleDefinition(): RuleDefinition
