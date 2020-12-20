@@ -7,9 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
-use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -52,27 +50,22 @@ final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule i
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Class_|null $class */
-        $class = $this->resolveCurrentClass($node);
-        if ($class === null) {
+        $className = $this->getClassName($scope);
+        if ($className === null) {
             return [];
         }
 
-        if (! property_exists($class, 'namespacedName')) {
-            return [];
-        }
-
-        /** @var Identifier $classIdentifier */
-        $classIdentifier = $class->namespacedName;
-        $shortClassName = $classIdentifier->toString();
-        if (Strings::endsWith($shortClassName, 'Factory')) {
+        if (Strings::endsWith($className, 'Factory')) {
             return [];
         }
 
         foreach ($this->types as $type) {
-            if ($this->isHaveNewWithTypeInside($node, $type)) {
-                return [sprintf(self::ERROR_MESSAGE, $type)];
+            if (! $this->hasNewWithTypeInside($node, $type)) {
+                continue;
             }
+
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $type);
+            return [$errorMessage];
         }
 
         return [];
@@ -116,7 +109,7 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isHaveNewWithTypeInside(New_ $new, string $type): bool
+    private function hasNewWithTypeInside(New_ $new, string $type): bool
     {
         /** @var FullyQualified $fullyQualifiedName */
         $fullyQualifiedName = $new->class;

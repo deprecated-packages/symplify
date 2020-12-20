@@ -58,6 +58,7 @@ services:
                 - 'extract'
                 - 'curl_*'
                 - 'method_exists'
+                - 'property_exists'
 
     -
         class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule

@@ -10,6 +10,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\StaticDetector\ValueObject\StaticClassMethod;
 use Symplify\StaticDetector\ValueObject\StaticClassMethodWithStaticCalls;
 use Symplify\StaticDetector\ValueObject\StaticReport;
@@ -27,16 +28,26 @@ final class StaticNodeCollector
      */
     private $staticCalls = [];
 
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
+
     public function addStaticClassMethod(ClassMethod $classMethod, ClassLike $classLike): void
     {
-        if (! property_exists($classLike, 'namespacedName')) {
+        $className = $this->simpleNameResolver->getName($classLike);
+        if ($className === null) {
             return;
         }
 
-        $class = (string) $classLike->namespacedName;
-        $method = (string) $classMethod->name;
+        $methodName = (string) $classMethod->name;
 
-        $this->staticClassMethods[] = new StaticClassMethod($class, $method, $classMethod);
+        $this->staticClassMethods[] = new StaticClassMethod($className, $methodName, $classMethod);
     }
 
     public function addStaticCall(StaticCall $staticCall, ?ClassLike $classLike = null): void
@@ -84,11 +95,16 @@ final class StaticNodeCollector
     {
         $class = (string) $staticClassName;
         if (in_array($class, ['self', 'static'], true)) {
-            if ($classLike === null || ! property_exists($classLike, 'namespacedName')) {
+            if ($classLike === null) {
                 throw new ShouldNotHappenException();
             }
 
-            return (string) $classLike->namespacedName;
+            $className = $this->simpleNameResolver->getName($classLike);
+            if ($className === null) {
+                throw new ShouldNotHappenException();
+            }
+
+            return $className;
         }
 
         if ($class === 'parent') {

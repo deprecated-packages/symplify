@@ -441,3 +441,12 @@ parameters:
                 - packages/phpstan-rules/src/Rules/CheckParentChildMethodParameterTypeCompatibleRule.php
                 # Symfony 4/5 compat
                 - packages/monorepo-builder/packages/release/src/Process/ProcessRunner.php
+
+        -
+            message: '#Function "property_exists\(\)" cannot be used/left in the code#'
+            paths:
+                # XML magic object
+                - packages/sniffer-fixer-to-ecs-converter/src/SnifferToECSConverter.php
+                # helpers methods; PHPStan without nette di inject
+                - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
+

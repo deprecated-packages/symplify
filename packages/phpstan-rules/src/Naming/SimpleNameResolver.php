@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Property;
 
 final class SimpleNameResolver
@@ -43,6 +44,18 @@ final class SimpleNameResolver
 
         if ($node instanceof Name) {
             return (string) $node;
+        }
+
+        if ($node instanceof ClassLike) {
+            if (property_exists($node, 'namespacedName')) {
+                return (string) $node->namespacedName;
+            }
+
+            if ($node->name === null) {
+                return null;
+            }
+
+            return $this->getName($node->name);
         }
 
         if (is_string($node)) {
@@ -92,5 +105,14 @@ final class SimpleNameResolver
 
         $secondName = $this->getName($secondNode);
         return $firstName === $secondName;
+    }
+
+    public function getShortClassName(string $className): string
+    {
+        if (! Strings::contains($className, '\\')) {
+            return $className;
+        }
+
+        return (string) Strings::after($className, '\\', -1);
     }
 }
