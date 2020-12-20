@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Scalar\LNumber;
@@ -16,6 +17,9 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 use PhpParser\NodeFinder;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Name\FullyQualified;
+use Nette\Utils\Strings;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireStringRegexMatchKeyRule\RequireStringRegexMatchKeyRuleTest
@@ -93,7 +97,23 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
 
     private function isNotExprStringsMatch(Assign $assign): bool
     {
-        return true;
+        if (! $assign->expr instanceof StaticCall) {
+            return false;
+        }
+
+        if (! $assign->expr->class instanceof FullyQualified) {
+            return false;
+        }
+
+        if ($assign->expr->class->toString() !== Strings::class) {
+            return false;
+        }
+
+        if (! $assign->expr->name instanceof Identifier) {
+            return false;
+        }
+
+        return $assign->expr->name->toString() !== 'match';
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -101,6 +121,8 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
+use Nette\Utils\Strings;
+
 class SomeClass
 {
     private const REGEX = '#(a content)#';
@@ -116,6 +138,8 @@ class SomeClass
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
+use Nette\Utils\Strings;
+
 class SomeClass
 {
     private const REGEX = '#(?<c>a content)#';
