@@ -25,7 +25,7 @@ final class RequireStringRegexMatchKeyRuleTest extends AbstractServiceAwareRuleT
         yield [__DIR__ . '/Fixture/SkipStringDim.php', []];
         yield [__DIR__ . '/Fixture/SkipNotRegexMatchResult.php', []];
         yield [__DIR__ . '/Fixture/NumericDim.php', [
-            [sprintf(RequireStringRegexMatchKeyRule::ERROR_MESSAGE, ''), 17]
+            [sprintf(RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 'self::REGEX'), 17]
         ]];
     }
 

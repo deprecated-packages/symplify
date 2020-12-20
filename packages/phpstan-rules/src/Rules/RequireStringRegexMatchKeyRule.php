@@ -20,6 +20,7 @@ use PhpParser\NodeFinder;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name\FullyQualified;
 use Nette\Utils\Strings;
+use PhpParser\Node\Expr\ClassConstFetch;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireStringRegexMatchKeyRule\RequireStringRegexMatchKeyRuleTest
@@ -62,18 +63,23 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $dim = $node->dim;
-        if ($dim instanceof String_) {
+        if (! $dim instanceof LNumber) {
             return [];
         }
 
-        if ($this->isNotRegexMatchResult($node)) {
+        $regexMatchAssign = $this->getRegexMatchAssign($node);
+        if ($regexMatchAssign === null) {
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, '')];
+        /** @var ClassConstFetch $value */
+        $value = $regexMatchAssign->expr->args[1]->value;
+        $regex = (string) $value->getAttribute('phpstan_cache_printer');
+
+        return [sprintf(self::ERROR_MESSAGE, $regex)];
     }
 
-    public function isNotRegexMatchResult(ArrayDimFetch $arrayDimFetch): bool
+    public function getRegexMatchAssign(ArrayDimFetch $arrayDimFetch): ?Assign
     {
         $parent = $arrayDimFetch->getAttribute(PHPStanAttributeKey::PARENT);
         while ($parent) {
@@ -85,17 +91,17 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
                 return $this->nodeComparator->areNodesEqual($node->var, $arrayDimFetch->var);
             });
 
-            if ($assign instanceof Assign) {
-                return $this->isNotExprStringsMatch($assign);
+            if ($this->isExprStringsMatch($assign)) {
+                return $assign;
             }
 
             $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
         }
 
-        return false;
+        return null;
     }
 
-    private function isNotExprStringsMatch(Assign $assign): bool
+    private function isExprStringsMatch(?Assign $assign): bool
     {
         if (! $assign->expr instanceof StaticCall) {
             return false;
@@ -113,7 +119,7 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
             return false;
         }
 
-        return $assign->expr->name->toString() !== 'match';
+        return $assign->expr->name->toString() === 'match';
     }
 
     public function getRuleDefinition(): RuleDefinition
