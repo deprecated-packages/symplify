@@ -21,6 +21,7 @@ final class CheckUsedNamespacedNameOnClassNodeRuleTest extends AbstractServiceAw
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipAssignInto.php', []];
         yield [__DIR__ . '/Fixture/SkipCompare.php', []];
         yield [__DIR__ . '/Fixture/NoGetPropertyFromClass.php', []];
         yield [__DIR__ . '/Fixture/UsedNamespacedClass.php', []];

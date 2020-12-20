@@ -64,8 +64,7 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
             return [];
         }
 
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        if ($parent instanceof BinaryOp) {
+        if ($this->shouldSkip($node)) {
             return [];
         }
 
@@ -119,5 +118,19 @@ CODE_SAMPLE
         $classNameVariable = $assign->var;
 
         return $this->simpleNameResolver->isName($classNameVariable->name, 'shortClassName');
+    }
+
+    private function shouldSkip(PropertyFetch $propertyFetch): bool
+    {
+        $parent = $propertyFetch->getAttribute(PHPStanAttributeKey::PARENT);
+        if ($parent instanceof BinaryOp) {
+            return true;
+        }
+
+        if ($parent instanceof Assign && $parent->var === $propertyFetch) {
+            return true;
+        }
+
+        return false;
     }
 }
