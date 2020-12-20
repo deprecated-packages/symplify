@@ -81,7 +81,7 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
     {
         $parent = $arrayDimFetch->getAttribute(PHPStanAttributeKey::PARENT);
         while ($parent) {
-            $assign = $this->nodeFinder->findFirst($parent, function (Node $node) use ($arrayDimFetch): bool {
+            $assigns = $this->nodeFinder->find($parent, function (Node $node) use ($arrayDimFetch): bool {
                 if (! $node instanceof Assign) {
                     return false;
                 }
@@ -89,8 +89,15 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
                 return $this->nodeComparator->areNodesEqual($node->var, $arrayDimFetch->var);
             });
 
-            if ($this->isExprStringsMatch($assign)) {
-                return $assign;
+            if ($assigns === []) {
+                $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
+                continue;
+            }
+
+            // ensure use last assign to ensure no re-assign
+            $lastAssign = $assigns[count($assigns) - 1];
+            if ($this->isExprStringsMatch($lastAssign)) {
+                return $lastAssign;
             }
 
             $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
