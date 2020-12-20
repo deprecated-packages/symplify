@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixt
 
 class ClassWithTrait
 {
-    use SomeTrait;
+    use TraitUsingTrait;
 
     public function anotherCall()
     {
