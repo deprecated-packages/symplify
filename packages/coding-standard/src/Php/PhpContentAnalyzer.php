@@ -10,6 +10,11 @@ use Symplify\CodingStandard\Tokens\CommentedContentResolver;
 final class PhpContentAnalyzer
 {
     /**
+     * @var int[]
+     */
+    private const STMT_OPENING_TYPES = [T_IF, T_WHILE, T_DO, T_FOR, T_SWITCH];
+
+    /**
      * @var TokenFinder
      */
     private $tokenFinder;
@@ -53,25 +58,20 @@ final class PhpContentAnalyzer
             }
 
             if ($firstInLineLintedCorrectly === false) {
-                if ($rawToken[0] === T_CONSTANT_ENCAPSED_STRING) {
+                $tokenKind = $rawToken[0];
+
+                if ($tokenKind === T_CONSTANT_ENCAPSED_STRING) {
                     return false;
                 }
 
-                if ($rawToken[0] === T_FOR || $rawToken[0] === T_DO) {
-                    $lastLineToken = $this->tokenFinder->getSameRowLastToken($rawTokens, $i + 1);
-                    if ($lastLineToken !== '{') {
-                        return false;
-                    }
-                }
-
-                if ($rawToken[0] === T_INCLUDE || $rawToken[0] === T_EMPTY) {
+                if ($tokenKind === T_INCLUDE || $tokenKind === T_EMPTY) {
                     $lastLineToken = $this->tokenFinder->getSameRowLastToken($rawTokens, $i + 1);
                     if ($lastLineToken !== ';') {
                         return false;
                     }
                 }
 
-                if ($rawToken[0] === T_DEFAULT) {
+                if ($tokenKind === T_DEFAULT) {
                     $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
                     if (! is_array($nextToken)) {
                         return false;
@@ -83,11 +83,11 @@ final class PhpContentAnalyzer
                 }
 
                 // token id: 311
-                if ($rawToken[0] === T_STRING) {
+                if ($tokenKind === T_STRING) {
                     return false;
                 }
 
-                if ($rawToken[0] === T_NAMESPACE) {
+                if ($tokenKind === T_NAMESPACE) {
                     // is namespace part
                     $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
                     if (! is_array($nextToken)) {
@@ -95,7 +95,7 @@ final class PhpContentAnalyzer
                     }
                 }
 
-                if ($rawToken[0] === T_VARIABLE) {
+                if ($tokenKind === T_VARIABLE) {
                     $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
                     if ($nextToken === [] || ! is_array($nextToken)) {
                         return false;
@@ -104,6 +104,21 @@ final class PhpContentAnalyzer
                     if ($nextToken[0] === T_STRING) {
                         return false;
                     }
+                }
+
+                if (in_array($tokenKind, self::STMT_OPENING_TYPES, true)) {
+                    // has expected end?
+                    $lastLineToken = $this->tokenFinder->getSameRowLastToken($rawTokens, $i + 1);
+                    if (! is_array($lastLineToken)) {
+                        return true;
+                    }
+
+                    return in_array($lastLineToken[0], ['{', ')'], true);
+                }
+
+                // these cannot be in the start of line
+                if (in_array($tokenKind, [T_LOGICAL_AND, T_LOGICAL_OR, T_LOGICAL_XOR], true)) {
+                    return false;
                 }
             }
 

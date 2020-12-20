@@ -4,17 +4,26 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanExtensions\TypeResolver;
 
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Name;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 
 final class ClassConstFetchReturnTypeResolver
 {
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct()
+    {
+        // intentionally manual here, to prevent double service registration caused by nette/di
+        $this->simpleNameResolver = new SimpleNameResolver();
+    }
+
     public function resolve(MethodReflection $methodReflection, MethodCall $methodCall): Type
     {
         $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
@@ -22,24 +31,11 @@ final class ClassConstFetchReturnTypeResolver
             return $returnType;
         }
 
-        $className = $this->resolveClassName($methodCall->args[0]->value);
+        $className = $this->simpleNameResolver->getName($methodCall->args[0]->value);
         if ($className !== null) {
             return new ObjectType($className);
         }
 
         return $returnType;
-    }
-
-    private function resolveClassName(Expr $expr): ?string
-    {
-        if ($expr instanceof ClassConstFetch) {
-            if ($expr->class instanceof Name) {
-                return $expr->class->toString();
-            }
-
-            return null;
-        }
-
-        return null;
     }
 }

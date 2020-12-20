@@ -32,3 +32,4 @@ services:
 
     - Symplify\PHPStanRules\Types\TypeUnwrapper
     - Symplify\PHPStanRules\Printer\NodeComparator
+    - Symplify\PHPStanRules\Matcher\PositionMatcher

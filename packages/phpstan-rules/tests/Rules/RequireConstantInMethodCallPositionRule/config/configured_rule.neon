@@ -11,3 +11,4 @@ services:
                     call: [0]
 
     - Symplify\PHPStanRules\Types\ContainsTypeAnalyser
+    - Symplify\PHPStanRules\Matcher\PositionMatcher

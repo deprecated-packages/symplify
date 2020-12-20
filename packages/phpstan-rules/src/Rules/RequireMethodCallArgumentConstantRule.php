@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
+use Symplify\PHPStanRules\Matcher\PositionMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -32,17 +32,17 @@ final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule i
     private $constantArgByMethodByType = [];
 
     /**
-     * @var ContainsTypeAnalyser
+     * @var PositionMatcher
      */
-    private $containsTypeAnalyser;
+    private $positionMatcher;
 
     /**
      * @param array<class-string, mixed[]> $constantArgByMethodByType
      */
-    public function __construct(ContainsTypeAnalyser $containsTypeAnalyser, array $constantArgByMethodByType = [])
+    public function __construct(PositionMatcher $positionMatcher, array $constantArgByMethodByType = [])
     {
         $this->constantArgByMethodByType = $constantArgByMethodByType;
-        $this->containsTypeAnalyser = $containsTypeAnalyser;
+        $this->positionMatcher = $positionMatcher;
     }
 
     /**
@@ -68,7 +68,7 @@ final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule i
         $methodName = (string) $node->name;
 
         foreach ($this->constantArgByMethodByType as $type => $positionsByMethods) {
-            $positions = $this->matchPositions($node, $scope, $type, $positionsByMethods, $methodName);
+            $positions = $this->positionMatcher->matchPositions($node, $scope, $type, $positionsByMethods, $methodName);
             if ($positions === null) {
                 continue;
             }
@@ -120,24 +120,6 @@ CODE_SAMPLE
                 ]
             ),
         ]);
-    }
-
-    /**
-     * @param class-string $desiredType
-     * @return mixed|null
-     */
-    private function matchPositions(
-        MethodCall $methodCall,
-        Scope $scope,
-        string $desiredType,
-        array $positionsByMethods,
-        string $methodName
-    ) {
-        if (! $this->containsTypeAnalyser->containsExprTypes($methodCall->var, $scope, [$desiredType])) {
-            return null;
-        }
-
-        return $positionsByMethods[$methodName] ?? null;
     }
 
     /**
