@@ -83,11 +83,6 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
             return [];
         }
 
-        $dim = $nextUsedAsArrayDimFetch->dim;
-        if (! $dim instanceof LNumber) {
-            return [];
-        }
-
         /** @var StaticCall $expr */
         $expr = $node->expr;
         /** @var ClassConstFetch $value */
@@ -159,7 +154,7 @@ CODE_SAMPLE
         }
 
         $arrayDimFetch = $this->nodeFinder->findFirst($next, function (Node $n) use ($expr): bool {
-            return $n instanceof ArrayDimFetch && $this->nodeComparator->areNodesEqual($n->var, $expr);
+            return $n instanceof ArrayDimFetch && $n->dim instanceof LNumber && $this->nodeComparator->areNodesEqual($n->var, $expr);
         });
 
         if ($arrayDimFetch instanceof ArrayDimFetch) {
