@@ -70,9 +70,11 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
             return [];
         }
 
+        /** @var StaticCall $expr */
+        $expr = $regexMatchAssign->expr;
         /** @var ClassConstFetch $value */
-        $value = $regexMatchAssign->expr->args[1]->value;
-        $regex = (string) $value->getAttribute('phpstan_cache_printer');
+        $value = $expr->args[1]->value;
+        $regex = (string) $value->getAttribute(PHPStanAttributeKey::PHPSTAN_CACHE_PRINTER);
 
         return [sprintf(self::ERROR_MESSAGE, $regex)];
     }
@@ -81,6 +83,7 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
     {
         $parent = $arrayDimFetch->getAttribute(PHPStanAttributeKey::PARENT);
         while ($parent) {
+            /** @var Assign[] $assigns */
             $assigns = $this->nodeFinder->find($parent, function (Node $node) use ($arrayDimFetch): bool {
                 if (! $node instanceof Assign) {
                     return false;
@@ -149,6 +152,10 @@ CODE_SAMPLE
 
     private function isExprStringsMatch(?Assign $assign): bool
     {
+        if (! $assign instanceof Assign) {
+            return false;
+        }
+
         if (! $assign->expr instanceof StaticCall) {
             return false;
         }
