@@ -67,8 +67,18 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
 
         /** @var Node|null $parent */
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        $nextUsedAsArrayDimFetch = $this->getNextUsedAsArrayDimFetch($parent, $node->var);
 
+        if (! $parent instanceof Node) {
+            return [];
+        }
+
+        // assignment can be inside If_, While_, Do_, we need to locate its stmts
+        /** @var Node[]|Node|null $locate */
+        $locate = property_exists($parent, 'stmts')
+            ? $parent->stmts
+            : $parent;
+
+        $nextUsedAsArrayDimFetch = $this->getNextUsedAsArrayDimFetch($locate, $node->var);
         if ($nextUsedAsArrayDimFetch === null) {
             return [];
         }
@@ -128,17 +138,21 @@ CODE_SAMPLE
         ]);
     }
 
-    private function getNextUsedAsArrayDimFetch(?Node $node, Expr $expr): ?ArrayDimFetch
+    /**
+     * @param Node[]|Node|null $nodes
+     */
+    private function getNextUsedAsArrayDimFetch($nodes, Expr $expr): ?ArrayDimFetch
     {
-        if (! $node instanceof Node) {
+        if (is_array($nodes)) {
+            return $this->getArrayDimFetchInStmts($nodes, $expr);
+        }
+
+        if (! $nodes instanceof Node) {
             return null;
         }
 
-        // assignment can be inside If_, While_, Do_, we need to locate its stmts etc
-        /** @var Node[]|Node $next */
-        $next = property_exists($node, 'stmts')
-            ? $node->stmts
-            : $node->getAttribute(PHPStanAttributeKey::NEXT);
+        /** @var Node|null $next */
+        $next = $nodes->getAttribute(PHPStanAttributeKey::NEXT);
 
         if ($next === null) {
             return null;
@@ -153,6 +167,18 @@ CODE_SAMPLE
         }
 
         return $this->getNextUsedAsArrayDimFetch($next, $expr);
+    }
+
+    private function getArrayDimFetchInStmts(array $array, Expr $expr): ?ArrayDimFetch
+    {
+        foreach ($array as $node) {
+            $arrayDimFetch = $this->getNextUsedAsArrayDimFetch($node, $expr);
+            if ($arrayDimFetch) {
+                return $arrayDimFetch;
+            }
+        }
+
+        return null;
     }
 
     private function shouldSkipExpr(Expr $expr): bool

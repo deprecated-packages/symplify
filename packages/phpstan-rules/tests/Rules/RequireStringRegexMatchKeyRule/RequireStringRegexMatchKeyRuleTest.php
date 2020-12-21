@@ -22,6 +22,7 @@ final class RequireStringRegexMatchKeyRuleTest extends AbstractServiceAwareRuleT
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipNotUsed.php', []];
         yield [__DIR__ . '/Fixture/SkipStringDim.php', []];
         yield [__DIR__ . '/Fixture/SkipNotRegexMatchResult.php', []];
         yield [__DIR__ . '/Fixture/NumericDim.php', [
