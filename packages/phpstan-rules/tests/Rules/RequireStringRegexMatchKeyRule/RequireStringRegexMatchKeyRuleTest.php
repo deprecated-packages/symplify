@@ -34,6 +34,9 @@ final class RequireStringRegexMatchKeyRuleTest extends AbstractServiceAwareRuleT
         yield [__DIR__ . '/Fixture/NumericDimInsideIfCond.php', [
             [sprintf(RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 'self::REGEX'), 15],
         ]];
+        yield [__DIR__ . '/Fixture/NumericDimOtherNameMultipleValues.php', [
+            [sprintf(RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 'self::REGEX'), 15],
+        ]];
     }
 
     protected function getRule(): Rule
