@@ -154,7 +154,13 @@ CODE_SAMPLE
         }
 
         $arrayDimFetch = $this->nodeFinder->findFirst($next, function (Node $n) use ($expr): bool {
-            return $n instanceof ArrayDimFetch && $n->dim instanceof LNumber && $this->nodeComparator->areNodesEqual($n->var, $expr);
+            if (! $n instanceof ArrayDimFetch) {
+                return false;
+            }
+            if (! $n->dim instanceof LNumber) {
+                return false;
+            }
+            return $this->nodeComparator->areNodesEqual($n->var, $expr);
         });
 
         if ($arrayDimFetch instanceof ArrayDimFetch) {
@@ -168,7 +174,7 @@ CODE_SAMPLE
     {
         foreach ($array as $node) {
             $arrayDimFetch = $this->getNextUsedAsArrayDimFetch($node, $expr);
-            if ($arrayDimFetch) {
+            if ($arrayDimFetch !== null) {
                 return $arrayDimFetch;
             }
         }
