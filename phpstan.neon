@@ -455,3 +455,14 @@ parameters:
 
                 # @todo refactor
                 - packages/phpstan-rules/src/Rules/CheckConstantExpressionDefinedInConstructOrSetupRule.php
+
+                # multiple probabilities of Nodes that have stmts
+                - packages/phpstan-rules/src/Rules/RequireStringRegexMatchKeyRule.php #139
+
+        -
+            message: '#"self\:\:.*" regex need to use string named capture group instead of numeric#'
+            paths:
+                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousReturnNameMalformWorker.php #45
+                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php #45
+                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php #50
+                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php #51
