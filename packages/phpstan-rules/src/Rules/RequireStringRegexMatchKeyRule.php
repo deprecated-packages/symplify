@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\ClassConstFetch;
@@ -51,27 +52,34 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [ArrayDimFetch::class];
+        return [Assign::class];
     }
 
     /**
-     * @param ArrayDimFetch $node
+     * @param Assign $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        $dim = $node->dim;
+        if ($this->shouldSkipExpr($node->expr)) {
+            return [];
+        }
+
+        /** @var Node|null $parent */
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $nextUsedAsArrayDimFetch = $this->getNextUsedAsArrayDimFetch($parent, $node->var);
+
+        if ($nextUsedAsArrayDimFetch === null) {
+            return [];
+        }
+
+        $dim = $nextUsedAsArrayDimFetch->dim;
         if (! $dim instanceof LNumber) {
             return [];
         }
 
-        $regexMatchAssign = $this->getRegexMatchAssign($node);
-        if ($regexMatchAssign === null) {
-            return [];
-        }
-
         /** @var StaticCall $expr */
-        $expr = $regexMatchAssign->expr;
+        $expr = $node->expr;
         /** @var ClassConstFetch $value */
         $value = $expr->args[1]->value;
         $regex = (string) $value->getAttribute(PHPStanAttributeKey::PHPSTAN_CACHE_PRINTER);
@@ -120,65 +128,51 @@ CODE_SAMPLE
         ]);
     }
 
-    private function getRegexMatchAssign(ArrayDimFetch $arrayDimFetch): ?Assign
+    private function getNextUsedAsArrayDimFetch(?Node $node, Expr $expr): ?ArrayDimFetch
     {
-        $parent = $arrayDimFetch->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($parent) {
-            $previous = $parent->getAttribute(PHPStanAttributeKey::PREVIOUS);
-            while ($previous) {
-                $assign = $this->getArrayDimFetchAssign($previous, $arrayDimFetch);
-
-                if (! $assign instanceof Assign) {
-                    $previous = $previous->getAttribute(PHPStanAttributeKey::PREVIOUS);
-                    continue;
-                }
-
-                if ($this->isExprStringsMatch($assign)) {
-                    return $assign;
-                }
-
-                $previous = $previous->getAttribute(PHPStanAttributeKey::PREVIOUS);
-            }
-
-            $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $node instanceof Node) {
+            return null;
         }
 
-        return null;
-    }
+        // assignment can be inside If_, While_, Do_, we need to locate its stmts etc
+        /** @var Node[]|Node $next */
+        $next = property_exists($node, 'stmts')
+            ? $node->stmts
+            : $node->getAttribute(PHPStanAttributeKey::NEXT);
 
-    private function getArrayDimFetchAssign(Node $node, ArrayDimFetch $arrayDimFetch): ?Node
-    {
-        return $this->nodeFinder->findFirst($node, function (Node $n) use ($arrayDimFetch): bool {
-            if (! $n instanceof Assign) {
-                return false;
-            }
+        if ($next === null) {
+            return null;
+        }
 
-            return $this->nodeComparator->areNodesEqual($n->var, $arrayDimFetch->var);
+        $arrayDimFetch = $this->nodeFinder->findFirst($next, function (Node $n) use ($expr): bool {
+            return $n instanceof ArrayDimFetch && $this->nodeComparator->areNodesEqual($n->var, $expr);
         });
+
+        if ($arrayDimFetch instanceof ArrayDimFetch) {
+            return $arrayDimFetch;
+        }
+
+        return $this->getNextUsedAsArrayDimFetch($next, $expr);
     }
 
-    private function isExprStringsMatch(?Assign $assign): bool
+    private function shouldSkipExpr(Expr $expr): bool
     {
-        if (! $assign instanceof Assign) {
-            return false;
+        if (! $expr instanceof StaticCall) {
+            return true;
         }
 
-        if (! $assign->expr instanceof StaticCall) {
-            return false;
+        if (! $expr->class instanceof FullyQualified) {
+            return true;
         }
 
-        if (! $assign->expr->class instanceof FullyQualified) {
-            return false;
+        if ($expr->class->toString() !== Strings::class) {
+            return true;
         }
 
-        if ($assign->expr->class->toString() !== Strings::class) {
-            return false;
+        if (! $expr->name instanceof Identifier) {
+            return true;
         }
 
-        if (! $assign->expr->name instanceof Identifier) {
-            return false;
-        }
-
-        return $assign->expr->name->toString() === 'match';
+        return $expr->name->toString() !== 'match';
     }
 }

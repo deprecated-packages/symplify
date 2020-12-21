@@ -14,6 +14,7 @@ class NumericDim
     {
         $matches = Strings::match('a content', self::REGEX);
         if ($matches) {
+            echo 'a statement before';
             echo $matches[1];
         }
     }

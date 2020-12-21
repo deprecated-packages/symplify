@@ -6,16 +6,15 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireQuoteStringValueSprintfRule\F
 
 use Nette\Utils\Strings;
 
-class SkipStringDim
+class NumericDimInsideIfCond
 {
-    private const REGEX = '#(?<c>a content)#';
+    private const REGEX = '#(a content)#';
 
     public function run()
     {
-        $matches = Strings::match('a content', self::REGEX);
-        if ($matches) {
+        if ($matches = Strings::match('a content', self::REGEX)) {
             echo 'a statement before';
-            echo $matches['c'];
+            echo $matches[1];
         }
     }
 }
