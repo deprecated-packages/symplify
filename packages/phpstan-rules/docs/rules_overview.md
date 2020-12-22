@@ -1,4 +1,4 @@
-# 112 Rules Overview
+# 113 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4049,6 +4049,54 @@ class AnotherClass
     public function run(SomeClass $someClass)
     {
         $someClass->someMethod('YetAnotherClass'');
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireStringRegexMatchKeyRule
+
+"%s" regex need to use string named capture group instead of numeric
+
+- class: `Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule`
+
+```php
+use Nette\Utils\Strings;
+
+class SomeClass
+{
+    private const REGEX = '#(a content)#';
+
+    public function run()
+    {
+        $matches = Strings::match('a content', self::REGEX);
+        if ($matches) {
+            echo $matches[1];
+        }
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Utils\Strings;
+
+class SomeClass
+{
+    private const REGEX = '#(?<c>a content)#';
+
+    public function run()
+    {
+        $matches = Strings::match('a content', self::REGEX);
+        if ($matches) {
+            echo $matches['c'];
+        }
     }
 }
 ```
