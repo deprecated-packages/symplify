@@ -73,35 +73,29 @@ final class RequireThisCallOnLocalMethodRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-class SomeParentClass
+class SomeClass
 {
     public function run()
     {
+        self::execute();
     }
-}
 
-class SomeClass extends SomeParentClass
-{
-    public function go()
+    private function execute()
     {
-        parent::run();
     }
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-class SomeParentClass
+class SomeClass
 {
     public function run()
     {
+        $this->execute();
     }
-}
 
-class SomeClass extends SomeParentClass
-{
-    public function go()
+    private function execute()
     {
-        $tihs->run();
     }
 }
 CODE_SAMPLE
