@@ -1,4 +1,4 @@
-# 112 Rules Overview
+# 113 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -564,7 +564,7 @@ class SomeClass
 
 ## CheckUsedNamespacedNameOnClassNodeRule
 
-Use "$class->namespaceName" instead of "$class->name" that only returns short class name
+Use `$class->namespaceName` instead of `$class->name` that only returns short class name
 
 - class: `Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule`
 
@@ -573,10 +573,9 @@ use PhpParser\Node\Stmt\Class_;
 
 final class SomeClass
 {
-    public function run(Class_ $class): bool
+    public function run(Class_ $class)
     {
         $className = (string) $class->name;
-        return class_exists($className);
     }
 }
 ```
@@ -590,10 +589,9 @@ use PhpParser\Node\Stmt\Class_;
 
 final class SomeClass
 {
-    public function run(Class_ $class): bool
+    public function run(Class_ $class)
     {
         $className = (string) $class->namespacedName;
-        return class_exists($className);
     }
 }
 ```
@@ -802,7 +800,7 @@ class SomeClass
 
 ## ExcessivePublicCountRule
 
-Too many public elements on class - %d. Try narrow it down under %d
+Too many public elements on class - %d. Narrow it down under %d
 
 :wrench: **configure it!**
 
@@ -4051,6 +4049,54 @@ class AnotherClass
     public function run(SomeClass $someClass)
     {
         $someClass->someMethod('YetAnotherClass'');
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireStringRegexMatchKeyRule
+
+"%s" regex need to use string named capture group instead of numeric
+
+- class: `Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule`
+
+```php
+use Nette\Utils\Strings;
+
+class SomeClass
+{
+    private const REGEX = '#(a content)#';
+
+    public function run()
+    {
+        $matches = Strings::match('a content', self::REGEX);
+        if ($matches) {
+            echo $matches[1];
+        }
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Utils\Strings;
+
+class SomeClass
+{
+    private const REGEX = '#(?<c>a content)#';
+
+    public function run()
+    {
+        $matches = Strings::match('a content', self::REGEX);
+        if ($matches) {
+            echo $matches['c'];
+        }
     }
 }
 ```
