@@ -37,7 +37,7 @@ final class DefinitionFinder
 
     public function getByType(ContainerBuilder $containerBuilder, string $type): Definition
     {
-        $definition = self::getByTypeIfExists($containerBuilder, $type);
+        $definition = $this->getByTypeIfExists($containerBuilder, $type);
         if ($definition !== null) {
             return $definition;
         }

@@ -26,12 +26,12 @@ final class StringFormatConverter
 
     public function camelCaseToUnderscore(string $input): string
     {
-        return self::camelCaseToGlue($input, '_');
+        return $this->camelCaseToGlue($input, '_');
     }
 
     public function camelCaseToDashed(string $input): string
     {
-        return self::camelCaseToGlue($input, '-');
+        return $this->camelCaseToGlue($input, '-');
     }
 
     /**

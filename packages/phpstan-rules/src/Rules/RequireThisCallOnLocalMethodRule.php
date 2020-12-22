@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -107,6 +108,10 @@ CODE_SAMPLE
     {
         $class = $this->resolveCurrentClass($staticCall);
         if (! $class instanceof Class_) {
+            return null;
+        }
+
+        if (! $staticCall->name instanceof Identifier) {
             return null;
         }
 
