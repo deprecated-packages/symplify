@@ -31,7 +31,7 @@ final class ComposerJsonProvider
     /**
      * @var SmartFileInfo[]|null;
      */
-    private ?array $packageComposerFiles = null;
+    private $packageComposerFiles;
 
     public function __construct(
         JsonFileManager $jsonFileManager,
