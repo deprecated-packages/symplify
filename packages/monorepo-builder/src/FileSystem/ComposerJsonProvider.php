@@ -62,9 +62,14 @@ final class ComposerJsonProvider
         );
     }
 
-    public function getPackageFileInfoByName(string $packageName): SmartFileInfo
+    /**
+     * @param SmartFileInfo[] $packageComposerFiles
+     */
+    public function getPackageFileInfoByName(string $packageName, ?array $packageComposerFiles = null): SmartFileInfo
     {
-        $packageComposerFiles = $this->packageComposerFinder->getPackageComposerFiles();
+        if ($packageComposerFiles === null) {
+            $packageComposerFiles = $this->packageComposerFinder->getPackageComposerFiles();
+        }
         foreach ($packageComposerFiles as $packageComposerFile) {
             $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFile);
             if (! isset($json['name'])) {
