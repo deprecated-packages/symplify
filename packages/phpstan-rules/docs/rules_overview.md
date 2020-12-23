@@ -1,4 +1,4 @@
-# 113 Rules Overview
+# 114 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4097,6 +4097,48 @@ class SomeClass
         if ($matches) {
             echo $matches['c'];
         }
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireThisCallOnLocalMethodRule
+
+Use "$this-><method>()" instead of "self::<method>()" to call local method
+
+- class: `Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule`
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        self::execute();
+    }
+
+    private function execute()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        $this->execute();
+    }
+
+    private function execute()
+    {
     }
 }
 ```
