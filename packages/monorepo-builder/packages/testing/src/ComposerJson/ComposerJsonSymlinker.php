@@ -6,7 +6,6 @@ namespace Symplify\MonorepoBuilder\Testing\ComposerJson;
 
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use Symplify\MonorepoBuilder\Finder\PackageComposerFinder;
 use Symplify\MonorepoBuilder\Testing\PathResolver\PackagePathResolver;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -25,19 +24,10 @@ final class ComposerJsonSymlinker
      */
     private $packagePathResolver;
 
-    /**
-     * @var PackageComposerFinder
-     */
-    private $packageComposerFinder;
-
-    public function __construct(
-        ComposerJsonProvider $composerJsonProvider,
-        PackagePathResolver $packagePathResolver,
-        PackageComposerFinder $packageComposerFinder
-    ) {
+    public function __construct(ComposerJsonProvider $composerJsonProvider, PackagePathResolver $packagePathResolver)
+    {
         $this->composerJsonProvider = $composerJsonProvider;
         $this->packagePathResolver = $packagePathResolver;
-        $this->packageComposerFinder = $packageComposerFinder;
     }
 
     /**
@@ -51,9 +41,8 @@ final class ComposerJsonSymlinker
         SmartFileInfo $mainComposerJsonFileInfo
     ): array {
         // @see https://getcomposer.org/doc/05-repositories.md#path
-        $packageComposerFiles = $this->packageComposerFinder->getPackageComposerFiles();
         foreach ($packageNames as $packageName) {
-            $usedPackageFileInfo = $this->composerJsonProvider->getPackageFileInfoByName($packageName, $packageComposerFiles);
+            $usedPackageFileInfo = $this->composerJsonProvider->getPackageFileInfoByName($packageName);
 
             $relativePathToLocalPackage = $this->packagePathResolver->resolveRelativePathToLocalPackage(
                 $mainComposerJsonFileInfo,
