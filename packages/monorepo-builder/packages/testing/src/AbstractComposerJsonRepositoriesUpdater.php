@@ -9,6 +9,7 @@ use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\ConsoleColorDiff\Console\Output\ConsoleDiffer;
 use Symplify\MonorepoBuilder\Package\PackageNamesProvider;
+use Symplify\MonorepoBuilder\Testing\Contract\ComposerJsonRepositoriesUpdaterInterface;
 use Symplify\MonorepoBuilder\Testing\PackageDependency\UsedPackagesResolver;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;

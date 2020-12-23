@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Testing;
+namespace Symplify\MonorepoBuilder\Testing\Contract;
 
 use Symplify\SmartFileSystem\SmartFileInfo;
 
