@@ -7,7 +7,7 @@ namespace Symplify\MonorepoBuilder\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use Symplify\MonorepoBuilder\Testing\ComposerJsonRepositoriesUpdater;
+use Symplify\MonorepoBuilder\Testing\ComposerJsonRepositoriesRemover;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -20,16 +20,16 @@ final class RemoveSymlinkToLocalPackagesCommand extends AbstractSymplifyCommand
     private $composerJsonProvider;
 
     /**
-     * @var ComposerJsonRepositoriesUpdater
+     * @var ComposerJsonRepositoriesRemover
      */
-    private $composerJsonRepositoriesUpdater;
+    private $composerJsonRepositoriesRemover;
 
     public function __construct(
         ComposerJsonProvider $composerJsonProvider,
-        ComposerJsonRepositoriesUpdater $composerJsonRepositoriesUpdater
+        ComposerJsonRepositoriesRemover $composerJsonRepositoriesRemover
     ) {
         $this->composerJsonProvider = $composerJsonProvider;
-        $this->composerJsonRepositoriesUpdater = $composerJsonRepositoriesUpdater;
+        $this->composerJsonRepositoriesRemover = $composerJsonRepositoriesRemover;
 
         parent::__construct();
     }
@@ -47,7 +47,7 @@ final class RemoveSymlinkToLocalPackagesCommand extends AbstractSymplifyCommand
         foreach ($packagesFileInfos as $packageFileInfo) {
             // $symlink => `true`: when executing a package,
             // any modification to another local package can be seen immediately
-            $this->composerJsonRepositoriesUpdater->processPackage(
+            $this->composerJsonRepositoriesRemover->processPackage(
                 $packageFileInfo,
                 $rootComposerJson,
                 true

@@ -12,7 +12,7 @@ use Symplify\MonorepoBuilder\Testing\ComposerJson\ComposerJsonSymlinker;
 use Symplify\MonorepoBuilder\Testing\PackageDependency\UsedPackagesResolver;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class ComposerJsonRepositoriesUpdater extends AbstractComposerJsonRepositoriesUpdater
+final class ComposerJsonRepositoriesRemover extends AbstractComposerJsonRepositoriesUpdater
 {
     /**
      * @var ComposerJsonSymlinker
@@ -45,11 +45,10 @@ final class ComposerJsonRepositoriesUpdater extends AbstractComposerJsonReposito
      */
     protected function decoratePackageComposerJson(array $packageComposerJson, array $packageNames, SmartFileInfo $rootComposerJsonFileInfo, ?bool $symlink): array
     {
-        return $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
+        return $this->composerJsonSymlinker->removePackageSymlinksFromPackageComposerJson(
             $packageComposerJson,
             $packageNames,
-            $rootComposerJsonFileInfo,
-            $symlink
+            $rootComposerJsonFileInfo
         );
     }
 }
