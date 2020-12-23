@@ -19,7 +19,6 @@ final class Decommenter
      */
     private const LINE_BREAKER_REGEX = '#[\-=\#\*]{2,}#';
 
-
     /**
      * @var CommentedLineTrimmer
      */

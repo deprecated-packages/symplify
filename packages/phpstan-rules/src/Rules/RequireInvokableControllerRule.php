@@ -137,7 +137,6 @@ CODE_SAMPLE
         return $this->hasAttribute($node);
     }
 
-
     private function hasAttribute(ClassMethod $node): bool
     {
         /** @var AttributeGroup $attrGroup */

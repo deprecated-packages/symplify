@@ -38,7 +38,6 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
     /**
      * @var NodeFinder
      */
-
     private $nodeFinder;
 
     /**

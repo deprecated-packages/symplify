@@ -38,6 +38,7 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule implements Con
      * Null, if there is no preference. Just forbidden
      */
     private $forbiddenParentClassesWithPreferences = [];
+
     /**
      * @var SimpleNameResolver
      */
