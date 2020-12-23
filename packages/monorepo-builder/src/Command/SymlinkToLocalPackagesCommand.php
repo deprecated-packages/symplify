@@ -54,15 +54,7 @@ final class SymlinkToLocalPackagesCommand extends AbstractSymplifyCommand
             );
         }
 
-        $message = sprintf(
-            'The composer.json for the following packages has been updated, adding the path to all local packages as repositories: "%s"',
-            implode(', ', array_map(
-                function (SmartFileInfo $packageFileInfo): string {
-                    return $packageFileInfo->getRelativeFilePathFromCwd();
-                },
-                $packagesFileInfos
-            ))
-        );
+        $message = 'The composer.json for all packages has been updated, symlinking to their required local packages';
         $this->symfonyStyle->success($message);
 
         return ShellCode::SUCCESS;
