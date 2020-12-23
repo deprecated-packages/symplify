@@ -70,7 +70,7 @@ final class ComposerJsonProvider
 
     public function getPackageFileInfoByName(string $packageName): SmartFileInfo
     {
-        if (count($this->packageComposerFiles) === 0) {
+        if ($this->packageComposerFiles === []) {
             $this->packageComposerFiles = $this->packageComposerFinder->getPackageComposerFiles();
         }
         foreach ($this->packageComposerFiles as $packageComposerFile) {
