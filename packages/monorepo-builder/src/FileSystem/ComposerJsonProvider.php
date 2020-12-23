@@ -63,7 +63,7 @@ final class ComposerJsonProvider
     }
 
     /**
-     * @param SmartFileInfo[] $packageComposerFiles
+     * @param SmartFileInfo[]|null $packageComposerFiles
      */
     public function getPackageFileInfoByName(string $packageName, ?array $packageComposerFiles = null): SmartFileInfo
     {
