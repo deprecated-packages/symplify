@@ -16,10 +16,12 @@ final class ConfiguredCodeSamplerPrinter
      * @var SmartPhpConfigPrinter
      */
     private $smartPhpConfigPrinter;
+
     /**
      * @var MarkdownCodeWrapper
      */
     private $markdownCodeWrapper;
+
     /**
      * @var DiffCodeSamplePrinter
      */

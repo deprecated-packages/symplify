@@ -26,6 +26,7 @@ final class SupportedPhpVersionResolver
      * @var Semver
      */
     private $semver;
+
     /**
      * @var ComposerJsonFactory
      */
