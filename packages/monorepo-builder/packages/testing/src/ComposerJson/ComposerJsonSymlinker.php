@@ -96,7 +96,10 @@ final class ComposerJsonSymlinker
             $packageComposerJson[ComposerJsonSection::REPOSITORIES] = array_values(array_filter(
                 $packageComposerJson[ComposerJsonSection::REPOSITORIES],
                 function (array $repository) use ($relativePathToLocalPackage): bool {
-                    return ! ($repository['type'] === 'path' && $repository['url'] === $relativePathToLocalPackage);
+                    return ! (
+                        isset($repository['type']) && $repository['type'] === 'path'
+                        && isset($repository['url']) && $repository['url'] === $relativePathToLocalPackage
+                    );
                 }
             ));
         }
