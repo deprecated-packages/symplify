@@ -65,7 +65,13 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
         }
 
         // 2. update "repository" to "*" for current composer.json
-        $this->composerJsonRepositoriesUpdater->processPackage($packageComposerJsonFileInfo, $rootComposerJson);
+        // $symlink => `false`: we need hard copy of files,
+        // as in normal composer install of standalone package
+        $this->composerJsonRepositoriesUpdater->processPackage(
+            $packageComposerJsonFileInfo,
+            $rootComposerJson,
+            false
+        );
 
         $message = sprintf(
             'Package paths in "%s" have been updated',

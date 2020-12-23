@@ -38,7 +38,8 @@ final class ComposerJsonSymlinker
     public function decoratePackageComposerJsonWithPackageSymlinks(
         array $packageComposerJson,
         array $packageNames,
-        SmartFileInfo $mainComposerJsonFileInfo
+        SmartFileInfo $mainComposerJsonFileInfo,
+        ?bool $symlink
     ): array {
         // @see https://getcomposer.org/doc/05-repositories.md#path
         foreach ($packageNames as $packageName) {
@@ -52,11 +53,12 @@ final class ComposerJsonSymlinker
             $repositoriesContent = [
                 'type' => 'path',
                 'url' => $relativePathToLocalPackage,
-                // we need hard copy of files, as in normal composer install of standalone package
-                'options' => [
-                    'symlink' => false,
-                ],
             ];
+            if ($symlink !== null) {
+                $repositoriesContent['options'] = [
+                    'symlink' => $symlink,
+                ];
+            }
 
             if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
                 array_unshift($packageComposerJson[ComposerJsonSection::REPOSITORIES], $repositoriesContent);

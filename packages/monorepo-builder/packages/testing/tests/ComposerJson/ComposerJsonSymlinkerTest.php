@@ -40,7 +40,8 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
             $packageComposerJson,
             ['example/package-two'],
-            $mainComposerJson
+            $mainComposerJson,
+            false
         );
 
         $this->assertSame([
@@ -74,7 +75,8 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
             $packageComposerJson,
             ['example/package-one'],
-            $mainComposerJson
+            $mainComposerJson,
+            false
         );
 
         $this->assertSame([

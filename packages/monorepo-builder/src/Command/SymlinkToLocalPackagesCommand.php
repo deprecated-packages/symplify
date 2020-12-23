@@ -45,7 +45,13 @@ final class SymlinkToLocalPackagesCommand extends AbstractSymplifyCommand
 
         $packagesFileInfos = $this->composerJsonProvider->getPackagesComposerFileInfos();
         foreach ($packagesFileInfos as $packageFileInfo) {
-            $this->composerJsonRepositoriesUpdater->processPackage($packageFileInfo, $rootComposerJson);
+            // $symlink => `true`: when executing a package,
+            // any modification to another local package can be seen immediately
+            $this->composerJsonRepositoriesUpdater->processPackage(
+                $packageFileInfo,
+                $rootComposerJson,
+                true
+            );
         }
 
         $message = sprintf(
