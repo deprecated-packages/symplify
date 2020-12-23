@@ -13,7 +13,7 @@ use Symplify\MonorepoBuilder\Testing\PackageDependency\UsedPackagesResolver;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
-abstract class AbstractComposerJsonRepositoriesUpdater
+abstract class AbstractComposerJsonRepositoriesUpdater implements ComposerJsonRepositoriesUpdaterInterface
 {
     /**
      * @var PackageNamesProvider
@@ -93,11 +93,4 @@ abstract class AbstractComposerJsonRepositoriesUpdater
         $this->consoleDiffer->diffAndPrint($oldComposerJsonContents, $newComposerJsonContents);
         $this->symfonyStyle->newLine(2);
     }
-
-    /**
-     * @param mixed[] $packageComposerJson
-     * @param string[] $packageNames
-     * @return mixed[]
-     */
-    abstract protected function decoratePackageComposerJson(array $packageComposerJson, array $packageNames, SmartFileInfo $rootComposerJsonFileInfo, ?bool $symlink): array;
 }

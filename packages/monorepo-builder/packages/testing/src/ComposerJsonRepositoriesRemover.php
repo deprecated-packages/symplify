@@ -43,7 +43,7 @@ final class ComposerJsonRepositoriesRemover extends AbstractComposerJsonReposito
      * @param string[] $packageNames
      * @return mixed[]
      */
-    protected function decoratePackageComposerJson(array $packageComposerJson, array $packageNames, SmartFileInfo $rootComposerJsonFileInfo, ?bool $symlink): array
+    public function decoratePackageComposerJson(array $packageComposerJson, array $packageNames, SmartFileInfo $rootComposerJsonFileInfo, ?bool $symlink): array
     {
         return $this->composerJsonSymlinker->removePackageSymlinksFromPackageComposerJson(
             $packageComposerJson,
