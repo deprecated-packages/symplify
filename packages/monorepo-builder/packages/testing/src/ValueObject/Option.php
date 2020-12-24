@@ -17,5 +17,5 @@ final class Option
     /**
      * @var string
      */
-    public const USE_DEV_MASTER = 'use_dev_master';
+    public const SKIP_DEV_BRANCH_UPDATE = 'skip-dev-branch-update';
 }

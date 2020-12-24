@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder\Testing\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Testing\ComposerJsonRepositoriesUpdater;
@@ -52,17 +53,17 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
             InputArgument::REQUIRED,
             'Path to package "composer.json"'
         );
-        $this->addArgument(
+        $this->addOption(
             Option::SYMLINK,
-            InputArgument::OPTIONAL,
-            'Localize composer paths with symlinks?',
-            false
+            null,
+            InputOption::VALUE_NONE,
+            'Localize composer paths with symlinks'
         );
-        $this->addArgument(
-            Option::USE_DEV_MASTER,
-            InputArgument::OPTIONAL,
-            'Point all dependencies to local packages to their "dev-master" branch?',
-            true
+        $this->addOption(
+            Option::SKIP_DEV_BRANCH_UPDATE,
+            null,
+            InputOption::VALUE_NONE,
+            'Do not update all "require" and "require-dev" entries to the "dev-master" branch of all local packages'
         );
     }
 
@@ -75,8 +76,8 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
         $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
 
         // 1. update "require" to "*" for all local packages
-        $useDevMaster = (bool) $input->getArgument(Option::USE_DEV_MASTER);
-        if ($useDevMaster) {
+        $skipDevBranchUpdate = (bool) $input->getOption(Option::SKIP_DEV_BRANCH_UPDATE);
+        if (! $skipDevBranchUpdate) {
             $packagesFileInfos = $this->composerJsonProvider->getPackagesComposerFileInfos();
             foreach ($packagesFileInfos as $packageFileInfo) {
                 $this->composerJsonRequireUpdater->processPackage($packageFileInfo);
@@ -89,7 +90,7 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
         // as in normal composer install of standalone package
         // $symlink => `true` is needed to point to local packages
         // during development, avoiding Packagist
-        $symlink = (bool) $input->getArgument(Option::SYMLINK);
+        $symlink = (bool) $input->getOption(Option::SYMLINK);
         $this->composerJsonRepositoriesUpdater->processPackage(
             $packageComposerJsonFileInfo,
             $rootComposerJson,
