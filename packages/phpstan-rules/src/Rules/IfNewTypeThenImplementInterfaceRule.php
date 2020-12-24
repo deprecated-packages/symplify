@@ -72,6 +72,10 @@ final class IfNewTypeThenImplementInterfaceRule extends AbstractSymplifyRule imp
         }
 
         $className = $this->simpleNameResolver->getName($node);
+        if ($className === null) {
+            return [];
+        }
+
         if (is_a($className, $expectedInterface, true)) {
             return [];
         }
