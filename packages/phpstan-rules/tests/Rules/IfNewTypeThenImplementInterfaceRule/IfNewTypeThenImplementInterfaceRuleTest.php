@@ -23,6 +23,7 @@ final class IfNewTypeThenImplementInterfaceRuleTest extends AbstractServiceAware
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipNewWithInterface.php', []];
+        yield [__DIR__ . '/Fixture/SkipNewWithParentInterface.php', []];
 
         $errorMessage = sprintf(
             IfNewTypeThenImplementInterfaceRule::ERROR_MESSAGE,
