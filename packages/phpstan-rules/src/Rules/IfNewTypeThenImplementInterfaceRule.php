@@ -71,10 +71,9 @@ final class IfNewTypeThenImplementInterfaceRule extends AbstractSymplifyRule imp
             return [];
         }
 
-        foreach ((array) $node->implements as $implement) {
-            if ($this->simpleNameResolver->isName($implement, $expectedInterface)) {
-                return [];
-            }
+        $className = $this->simpleNameResolver->getName($node);
+        if (is_a($className, $expectedInterface, true)) {
+            return [];
         }
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $expectedInterface);
