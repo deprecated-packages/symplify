@@ -145,31 +145,4 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
             ],
         ], $packageComposerJson);
     }
-
-    public function testRemovePackageSymlinksFromRepository(): void
-    {
-        $mainComposerJson = new SmartFileInfo(__DIR__ . '/composer.json');
-        $packageFileInfo = new SmartFileInfo(__DIR__ . '/packages/package-three/composer.json');
-
-        $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
-
-        $packageComposerJson = $this->composerJsonSymlinker->removePackageSymlinksFromPackageComposerJson(
-            $packageComposerJson,
-            ['example/package-one'],
-            $mainComposerJson
-        );
-
-        $this->assertSame([
-            'name' => 'example/package-three',
-            'repositories' => [
-                [
-                    'type' => 'composer',
-                    'url' => 'https://repo.packagist.com/acme-companies/',
-                ],
-                [
-                    'packagist.org' => false,
-                ],
-            ],
-        ], $packageComposerJson);
-    }
 }

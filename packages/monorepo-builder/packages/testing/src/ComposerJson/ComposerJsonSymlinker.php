@@ -69,41 +69,4 @@ final class ComposerJsonSymlinker
 
         return $packageComposerJson;
     }
-
-    /**
-     * @param mixed[] $packageComposerJson
-     * @param string[] $packageNames
-     * @return mixed[]
-     */
-    public function removePackageSymlinksFromPackageComposerJson(
-        array $packageComposerJson,
-        array $packageNames,
-        SmartFileInfo $mainComposerJsonFileInfo
-    ): array {
-        // If there are no repositories, then nothing to do
-        if (! array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
-            return $packageComposerJson;
-        }
-        foreach ($packageNames as $packageName) {
-            $usedPackageFileInfo = $this->composerJsonProvider->getPackageFileInfoByName($packageName);
-
-            $relativePathToLocalPackage = $this->packagePathResolver->resolveRelativePathToLocalPackage(
-                $mainComposerJsonFileInfo,
-                $usedPackageFileInfo
-            );
-
-            // Filter out the repositories of type "path" with this URL
-            $packageComposerJson[ComposerJsonSection::REPOSITORIES] = array_values(array_filter(
-                $packageComposerJson[ComposerJsonSection::REPOSITORIES],
-                function (array $repository) use ($relativePathToLocalPackage): bool {
-                    return ! (
-                        isset($repository['type']) && $repository['type'] === 'path'
-                        && isset($repository['url']) && $repository['url'] === $relativePathToLocalPackage
-                    );
-                }
-            ));
-        }
-
-        return $packageComposerJson;
-    }
 }
