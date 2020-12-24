@@ -60,7 +60,10 @@ final class ComposerJsonProvider
      */
     public function getPackagesComposerFileInfos(): array
     {
-        return $this->packageComposerFinder->getPackageComposerFiles();
+        if ($this->packageComposerFiles === []) {
+            $this->packageComposerFiles = $this->packageComposerFinder->getPackageComposerFiles();
+        }
+        return $this->packageComposerFiles;
     }
 
     /**
@@ -76,10 +79,7 @@ final class ComposerJsonProvider
 
     public function getPackageFileInfoByName(string $packageName): SmartFileInfo
     {
-        if ($this->packageComposerFiles === []) {
-            $this->packageComposerFiles = $this->packageComposerFinder->getPackageComposerFiles();
-        }
-        foreach ($this->packageComposerFiles as $packageComposerFile) {
+        foreach ($this->getPackagesComposerFileInfos() as $packageComposerFile) {
             $realPath = $packageComposerFile->getRealPath();
             if (! isset($this->packageComposerFileJSONs[$realPath])) {
                 $this->packageComposerFileJSONs[$realPath] = $this->jsonFileManager->loadFromFileInfo($packageComposerFile);
