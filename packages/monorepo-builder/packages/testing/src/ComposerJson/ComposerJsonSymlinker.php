@@ -60,7 +60,11 @@ final class ComposerJsonSymlinker
                 ];
             }
 
-            $packageComposerJson = $this->addRepositoryToPackageComposerJson($packageComposerJson, $repositoriesContent);
+            if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
+                $packageComposerJson = $this->addRepositoryEntryToPackageComposerJson($packageComposerJson, $repositoriesContent);
+            } else {
+                $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = $repositoriesContent;
+            }
         }
 
         return $packageComposerJson;
@@ -71,30 +75,37 @@ final class ComposerJsonSymlinker
      * @param mixed[] $repositoriesContent
      * @return mixed[]
      */
-    private function addRepositoryToPackageComposerJson(
+    private function addRepositoryEntryToPackageComposerJson(
         array $packageComposerJson,
         array $repositoriesContent
     ): array {
-        if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
-            // First check if this entry already exists. If so, replace it
-            foreach ($packageComposerJson[ComposerJsonSection::REPOSITORIES] as &$repository) {
-                if (isset($repository['type']) && $repository['type'] === $repositoriesContent['type']
-                    && isset($repository['url']) && $repository['url'] === $repositoriesContent['url']
-                ) {
-                    // Just override the "options"
-                    if (isset($repositoriesContent['options'])) {
-                        $repository['options'] = $repositoriesContent['options'];
-                        return $packageComposerJson;
-                    }
-                    unset($repository['options']);
-                    return $packageComposerJson;
+        // First check if this entry already exists. If so, replace it
+        foreach ($packageComposerJson[ComposerJsonSection::REPOSITORIES] as $key => $repository) {
+            if ($this->isSamePackageEntry($repository, $repositoriesContent)) {
+                // Just override the "options"
+                if (isset($repositoriesContent['options'])) {
+                    $packageComposerJson[ComposerJsonSection::REPOSITORIES][$key]['options'] = $repositoriesContent['options'];
+                } else {
+                    unset($packageComposerJson[ComposerJsonSection::REPOSITORIES][$key]['options']);
                 }
+                return $packageComposerJson;
             }
-            // Add the new entry
-            array_unshift($packageComposerJson[ComposerJsonSection::REPOSITORIES], $repositoriesContent);
-            return $packageComposerJson;
         }
-        $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = $repositoriesContent;
+        // Add the new entry
+        array_unshift($packageComposerJson[ComposerJsonSection::REPOSITORIES], $repositoriesContent);
         return $packageComposerJson;
+    }
+
+    /**
+     * @param mixed[] $repository
+     * @param mixed[] $repositoriesContent
+     * @return bool
+     */
+    private function isSamePackageEntry(
+        array $repository,
+        array $repositoriesContent
+    ): bool {
+        return isset($repository['type']) && $repository['type'] === $repositoriesContent['type']
+            && isset($repository['url']) && $repository['url'] === $repositoriesContent['url'];
     }
 }
