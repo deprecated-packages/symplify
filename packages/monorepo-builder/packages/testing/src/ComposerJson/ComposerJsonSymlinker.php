@@ -60,13 +60,41 @@ final class ComposerJsonSymlinker
                 ];
             }
 
-            if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
-                array_unshift($packageComposerJson[ComposerJsonSection::REPOSITORIES], $repositoriesContent);
-            } else {
-                $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = $repositoriesContent;
-            }
+            $packageComposerJson = $this->addRepositoryToPackageComposerJson($packageComposerJson, $repositoriesContent);
         }
 
+        return $packageComposerJson;
+    }
+
+    /**
+     * @param mixed[] $packageComposerJson
+     * @param mixed[] $repositoriesContent
+     * @return mixed[]
+     */
+    private function addRepositoryToPackageComposerJson(
+        array $packageComposerJson,
+        array $repositoriesContent
+    ): array {
+        if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
+            // First check if this entry already exists. If so, replace it
+            foreach ($packageComposerJson[ComposerJsonSection::REPOSITORIES] as &$repository) {
+                if (isset($repository['type']) && $repository['type'] === $repositoriesContent['type']
+                    && isset($repository['url']) && $repository['url'] === $repositoriesContent['url']
+                ) {
+                    // Just override the "options"
+                    if (isset($repositoriesContent['options'])) {
+                        $repository['options'] = $repositoriesContent['options'];
+                        return $packageComposerJson;
+                    }
+                    unset($repository['options']);
+                    return $packageComposerJson;
+                }
+            }
+            // Add the new entry
+            array_unshift($packageComposerJson[ComposerJsonSection::REPOSITORIES], $repositoriesContent);
+            return $packageComposerJson;
+        }
+        $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = $repositoriesContent;
         return $packageComposerJson;
     }
 }
