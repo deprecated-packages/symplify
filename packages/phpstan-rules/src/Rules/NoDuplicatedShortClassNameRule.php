@@ -40,6 +40,7 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
      * @var string[][]
      */
     private $declaredClassesByShortName = [];
+
     /**
      * @var SimpleNameResolver
      */

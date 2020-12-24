@@ -10,6 +10,7 @@ final class StartAndEnd
      * @var int
      */
     private $start;
+
     /**
      * @var int
      */

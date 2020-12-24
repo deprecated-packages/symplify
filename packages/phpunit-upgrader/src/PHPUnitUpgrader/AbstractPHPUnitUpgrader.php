@@ -15,10 +15,12 @@ abstract class AbstractPHPUnitUpgrader
      * @var SymfonyStyle
      */
     private $symfonyStyle;
+
     /**
      * @var ConsoleDiffer
      */
     private $consoleDiffer;
+
     /**
      * @var SmartFileSystem
      */

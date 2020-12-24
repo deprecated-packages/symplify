@@ -22,6 +22,7 @@ final class DoctrineBlockFinder
      * @var DocBlockEdgeDefinition[]
      */
     private $docBlockEdgeDefinitions = [];
+
     /**
      * @var BlockFinder
      */

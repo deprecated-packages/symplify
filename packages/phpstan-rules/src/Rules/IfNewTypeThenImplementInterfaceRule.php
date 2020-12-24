@@ -28,6 +28,7 @@ final class IfNewTypeThenImplementInterfaceRule extends AbstractSymplifyRule imp
      * @var array<string, string>
      */
     private $interfacesByNewTypes = [];
+
     /**
      * @var NodeFinder
      */

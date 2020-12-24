@@ -28,6 +28,7 @@ final class PreferredAttributeOverAnnotationRule extends AbstractSymplifyRule im
      * @var string[]
      */
     private $annotations = [];
+
     /**
      * @var ClassAnnotationResolver
      */

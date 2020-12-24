@@ -37,6 +37,7 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
      * @var array<class-string, mixed[]>
      */
     private $requiredExternalConstantInMethodCall = [];
+
     /**
      * @var PositionMatcher
      */
