@@ -24,6 +24,7 @@ use Symfony\Component\Routing\RouteCollection;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use TwitterAPIExchange;
 
@@ -110,6 +111,21 @@ CODE_SAMPLE
 $this->runThis();
 $this->runThat();
 CODE_SAMPLE
+            ),
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+$fluentClass = new FluentClass();
+$fluentClass->one()->two();
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+$fluentClass = new FluentClass();
+$fluentClass->one()->two();
+CODE_SAMPLE
+                ,
+                [
+                    'allowedChainTypes' => ['FluentClass'],
+                ]
             ),
         ]);
     }
