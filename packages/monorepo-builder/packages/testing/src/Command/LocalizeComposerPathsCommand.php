@@ -47,7 +47,23 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
     protected function configure(): void
     {
         $this->setDescription('Set mutual package paths to local packages - use for pre-split package testing');
-        $this->addArgument(Option::PACKAGE_COMPOSER_JSON, InputArgument::REQUIRED, 'Path to package "composer.json"');
+        $this->addArgument(
+            Option::PACKAGE_COMPOSER_JSON,
+            InputArgument::REQUIRED,
+            'Path to package "composer.json"'
+        );
+        $this->addArgument(
+            Option::SYMLINK,
+            InputArgument::OPTIONAL,
+            'Localize composer paths with symlinks?',
+            false
+        );
+        $this->addArgument(
+            Option::USE_DEV_MASTER,
+            InputArgument::OPTIONAL,
+            'Point all dependencies to local packages to their "dev-master" branch?',
+            true
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -59,18 +75,25 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
         $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
 
         // 1. update "require" to "*" for all local packages
-        $packagesFileInfos = $this->composerJsonProvider->getPackagesComposerFileInfos();
-        foreach ($packagesFileInfos as $packageFileInfo) {
-            $this->composerJsonRequireUpdater->processPackage($packageFileInfo);
+        $useDevMaster = (bool) $input->getArgument(Option::USE_DEV_MASTER);
+        if ($useDevMaster) {
+            $packagesFileInfos = $this->composerJsonProvider->getPackagesComposerFileInfos();
+            foreach ($packagesFileInfos as $packageFileInfo) {
+                $this->composerJsonRequireUpdater->processPackage($packageFileInfo);
+            }
         }
 
         // 2. update "repository" to "*" for current composer.json
-        // $symlink => `false`: we need hard copy of files,
+        // $symlink => `false` is needed for testing on GitHub Actions:
+        // we need hard copy of files,
         // as in normal composer install of standalone package
+        // $symlink => `true` is needed to point to local packages
+        // during development, avoiding Packagist
+        $symlink = (bool) $input->getArgument(Option::SYMLINK);
         $this->composerJsonRepositoriesUpdater->processPackage(
             $packageComposerJsonFileInfo,
             $rootComposerJson,
-            false
+            $symlink
         );
 
         $message = sprintf(
