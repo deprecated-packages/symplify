@@ -24,6 +24,8 @@ final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTest
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipDuplicatedCallOfSameMethodWithComment.php', []];
+
         yield [__DIR__ . '/Fixture/SkipCorrectUnionType.php', []];
         yield [__DIR__ . '/Fixture/SkipRecursive.php', []];
         yield [__DIR__ . '/Fixture/SkipMixed.php', []];
@@ -43,7 +45,6 @@ final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTest
 
         $argErrorMessage = sprintf(CheckTypehintCallerTypeRule::ERROR_MESSAGE, 1, Arg::class);
         $paramErrorMessage = sprintf(CheckTypehintCallerTypeRule::ERROR_MESSAGE, 2, Param::class);
-
         yield [__DIR__ . '/Fixture/DoubleShot.php', [[$argErrorMessage, 13], [$paramErrorMessage, 13]]];
     }
 

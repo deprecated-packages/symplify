@@ -97,11 +97,9 @@ use PhpParser\Node\Expr\MethodCall;
 
 class SomeClass
 {
-    public function run(Node $node)
+    public function run(MethodCall $node)
     {
-        if ($node instanceof MethodCall) {
-            $this->isCheck($node);
-        }
+        $this->isCheck($node);
     }
 
     private function isCheck(Node $node)
@@ -116,11 +114,9 @@ use PhpParser\Node\Expr\MethodCall;
 
 class SomeClass
 {
-    public function run(Node $node)
+    public function run(MethodCall $node)
     {
-        if ($node instanceof MethodCall) {
-            $this->isCheck($node);
-        }
+        $this->isCheck($node);
     }
 
     private function isCheck(MethodCall $node)
