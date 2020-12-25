@@ -154,17 +154,13 @@ CODE_SAMPLE
      */
     private function getParamType(Node $node): ?string
     {
-        if ($node instanceof Identifier) {
-            return $node->name;
+        if ($node instanceof Identifier || $node instanceof Name) {
+            return (string) $node;
         }
 
         if ($node instanceof NullableType) {
             $node = $node->type;
             return $this->getParamType($node);
-        }
-
-        if (method_exists($node, 'toString')) {
-            return $node->toString();
         }
 
         return null;
