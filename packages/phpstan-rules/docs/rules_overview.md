@@ -1,4 +1,4 @@
-# 114 Rules Overview
+# 115 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -479,11 +479,9 @@ use PhpParser\Node\Expr\MethodCall;
 
 class SomeClass
 {
-    public function run(Node $node)
+    public function run(MethodCall $node)
     {
-        if ($node instanceof MethodCall) {
-            $this->isCheck($node);
-        }
+        $this->isCheck($node);
     }
 
     private function isCheck(Node $node)
@@ -497,16 +495,13 @@ class SomeClass
 <br>
 
 ```php
-use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 
 class SomeClass
 {
-    public function run(Node $node)
+    public function run(MethodCall $node)
     {
-        if ($node instanceof MethodCall) {
-            $this->isCheck($node);
-        }
+        $this->isCheck($node);
     }
 
     private function isCheck(MethodCall $node)
@@ -1551,6 +1546,52 @@ return strlen('...');
 
 <br>
 
+## ForbiddenNullableParameterRule
+
+Parameter "%s" cannot be nullable
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbidddenTypes:
+                - PhpParser\Node
+```
+
+↓
+
+```php
+use PhpParser\Node;class SomeClass
+{
+    public function run(?Node $node = null): void
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use PhpParser\Node;class SomeClass
+{
+    public function run(Node $node): void
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenParentClassRule
 
 Class "%s" inherits from forbidden parent class "%s". Use "%s" instead
@@ -1837,6 +1878,54 @@ class SomeClass
 
 <br>
 
+## IfImplementsInterfaceThenNewTypeRule
+
+Class that implements specific interface, must use related class in `new SomeClass`
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\IfImplementsInterfaceThenNewTypeRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\IfImplementsInterfaceThenNewTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            newTypesByInterface:
+                ConfigurableRuleInterface: ConfiguredCodeSample
+```
+
+↓
+
+```php
+class SomeRule implements ConfigurableRuleInterface
+{
+    public function some()
+    {
+        $codeSample = new CodeSample();
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeRule implements ConfigurableRuleInterface
+{
+    public function some()
+    {
+        $configuredCodeSample = new ConfiguredCodeSample();
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## IfNewTypeThenImplementInterfaceRule
 
 Class must implement "%s" interface
@@ -2026,13 +2115,31 @@ final class SomeClass
 
 ## NoChainMethodCallRule
 
-Do not use chained method calls. Put `each` on separated lines.
+Do not use chained method calls. Put each on separated lines.
+
+:wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedChainTypes:
+                - AllowedFluent
+```
+
+↓
 
 ```php
 $this->runThis()
     ->runThat();
+
+$fluentClass = new AllowedFluent();
+$fluentClass->one()
+    ->two();
 ```
 
 :x:
@@ -2042,6 +2149,10 @@ $this->runThis()
 ```php
 $this->runThis();
 $this->runThat();
+
+$fluentClass = new AllowedFluent();
+$fluentClass->one()
+    ->two();
 ```
 
 :+1:
@@ -2641,38 +2752,6 @@ final class SomeFactory
     public function create()
     {
         return new SomeValueObject();
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoNullableParameterRule
-
-Parameter "%s" cannot be nullable
-
-- class: `Symplify\PHPStanRules\Rules\NoNullableParameterRule`
-
-```php
-class SomeClass
-{
-    public function run(?string $value = null): void
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function run(string $value): void
-    {
     }
 }
 ```
@@ -4341,7 +4420,7 @@ trait SomeTrait
 
 ## TooDeepNewClassNestingRule
 
-new <class> is limited to %d "new <class>(new <class>))" nesting to `each` other. You have %d nesting.
+new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
 
 :wrench: **configure it!**
 
