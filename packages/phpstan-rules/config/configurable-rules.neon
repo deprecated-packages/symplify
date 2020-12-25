@@ -1,5 +1,12 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbidddenTypes:
+                - PhpParser\Node
+
+    -
         class: Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule
         tags: [phpstan.rules.rule]
         arguments:

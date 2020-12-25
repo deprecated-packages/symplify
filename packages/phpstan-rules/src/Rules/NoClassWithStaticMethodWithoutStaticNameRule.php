@@ -94,7 +94,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
             return [];
         }
 
-        $currentFullyQualifiedClassName = $this->getClassName($scope, $node);
+        $currentFullyQualifiedClassName = $this->resolveClassLikeName($node);
         if ($currentFullyQualifiedClassName === null) {
             return [];
         }

@@ -71,7 +71,7 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
     {
         $measuredCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeClassLike($node);
 
-        $allowedCognitiveComplexity = $this->resolveAllowedCognitiveComplexity($scope, $node);
+        $allowedCognitiveComplexity = $this->resolveAllowedCognitiveComplexity($node);
         if ($measuredCognitiveComplexity <= $allowedCognitiveComplexity) {
             return [];
         }
@@ -181,9 +181,9 @@ CODE_SAMPLE
         );
     }
 
-    private function resolveAllowedCognitiveComplexity(Scope $scope, ClassLike $classLike): int
+    private function resolveAllowedCognitiveComplexity(ClassLike $classLike): int
     {
-        $className = $this->getClassName($scope, $classLike);
+        $className = $this->resolveClassLikeName($classLike);
         if ($className === null) {
             return $this->maxClassCognitiveComplexity;
         }

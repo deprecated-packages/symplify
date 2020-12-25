@@ -50,7 +50,24 @@ final class StaticNodeCollector
         $this->staticClassMethods[] = new StaticClassMethod($className, $methodName, $classMethod);
     }
 
-    public function addStaticCall(StaticCall $staticCall, ?ClassLike $classLike = null): void
+    public function addStaticCall(StaticCall $staticCall): void
+    {
+        if ($staticCall->class instanceof Expr) {
+            // weird expression, skip
+            return;
+        }
+
+        if ($staticCall->name instanceof Expr) {
+            // weird expression, skip
+            return;
+        }
+
+        $class = (string) $staticCall->class;
+        $method = (string) $staticCall->name;
+        $this->staticCalls[$class][$method][] = $staticCall;
+    }
+
+    public function addStaticCallInsideClass(StaticCall $staticCall, ClassLike $classLike): void
     {
         if ($staticCall->class instanceof Expr) {
             // weird expression, skip
@@ -91,20 +108,11 @@ final class StaticNodeCollector
         return $staticClassMethodWithStaticCalls;
     }
 
-    private function resolveClass(Name $staticClassName, ?ClassLike $classLike = null): string
+    private function resolveClass(Name $staticClassName, ClassLike $classLike): string
     {
         $class = (string) $staticClassName;
         if (in_array($class, ['self', 'static'], true)) {
-            if ($classLike === null) {
-                throw new ShouldNotHappenException();
-            }
-
-            $className = $this->simpleNameResolver->getName($classLike);
-            if ($className === null) {
-                throw new ShouldNotHappenException();
-            }
-
-            return $className;
+            return (string) $this->simpleNameResolver->getName($classLike);
         }
 
         if ($class === 'parent') {

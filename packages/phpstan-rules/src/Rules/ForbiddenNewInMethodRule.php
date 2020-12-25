@@ -57,7 +57,7 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule implements Con
      */
     public function process(Node $node, Scope $scope): array
     {
-        $currentFullyQualifiedClassName = $this->getClassName($scope, $node);
+        $currentFullyQualifiedClassName = $this->getClassName($scope);
         if ($currentFullyQualifiedClassName === null) {
             return [];
         }
