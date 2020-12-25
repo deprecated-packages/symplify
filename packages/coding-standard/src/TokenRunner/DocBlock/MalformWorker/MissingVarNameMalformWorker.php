@@ -14,7 +14,7 @@ final class MissingVarNameMalformWorker extends AbstractMalformWorker
      * @var string
      * @see https://regex101.com/r/QtWnWv/3
      */
-    private const VAR_WITHOUT_NAME_REGEX = '#(?<open>\/\*\* @var )(?<type>[\\\\\w]+)(?<close>\s+\*\/)#';
+    private const VAR_WITHOUT_NAME_REGEX = '#(?<open>\/\*\* @var )(?<type>[\\\\\w\|]+)(?<close>\s+\*\/)#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
