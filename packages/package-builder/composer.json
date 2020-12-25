@@ -12,8 +12,8 @@
         "symfony/finder": "^4.4|^5.1",
         "symfony/http-kernel": "^4.4|^5.1",
         "symfony/yaml": "^4.4|^5.1",
-        "symplify/symplify-kernel": "^9.0.18",
-        "symplify/easy-testing": "^9.0.18",
+        "symplify/symplify-kernel": "^9.1",
+        "symplify/easy-testing": "^9.1",
         "nette/neon": "^3.2"
     },
     "require-dev": {
