@@ -6,9 +6,12 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
@@ -60,6 +63,9 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     {
         /** @var Class_|null $class */
         $class = $this->resolveCurrentClass($node);
+        if ($class === null) {
+            return [];
+        }
 
         if ($this->shouldSkipClass($class)) {
             return [];
@@ -132,20 +138,24 @@ CODE_SAMPLE
     {
         $parameterTypes = [];
         foreach ($params as $param) {
+            /** @var Param $param */
+            if ($param->type === null) {
+                continue;
+            }
+
             $parameterTypes[] = $this->getParamType($param->type);
         }
 
         return $parameterTypes;
     }
 
-    private function getParamType(?Node $node): ?string
+    /**
+     * @param Identifier|Name|NullableType|UnionType $node
+     */
+    private function getParamType(Node $node): ?string
     {
         if ($node instanceof Identifier) {
             return $node->name;
-        }
-
-        if ($node === null) {
-            return null;
         }
 
         if ($node instanceof NullableType) {
@@ -160,13 +170,8 @@ CODE_SAMPLE
         return null;
     }
 
-    private function shouldSkipClass(?Class_ $class): bool
+    private function shouldSkipClass(Class_ $class): bool
     {
-        // not inside class → skip
-        if ($class === null) {
-            return true;
-        }
-
         // no extends and no implements → skip
         if ($class->extends !== null) {
             return false;

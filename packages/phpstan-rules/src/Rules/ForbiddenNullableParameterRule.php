@@ -110,6 +110,9 @@ CODE_SAMPLE
     private function isForbiddenType(NullableType $nullableType): bool
     {
         $nullableTypeName = $this->simpleNameResolver->getName($nullableType->type);
+        if ($nullableTypeName === null) {
+            return false;
+        }
 
         foreach ($this->forbidddenTypes as $forbidddenType) {
             if (is_a($nullableTypeName, $forbidddenType, true)) {

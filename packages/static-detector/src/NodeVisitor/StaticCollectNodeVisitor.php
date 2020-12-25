@@ -78,7 +78,11 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
         }
 
         if ($node instanceof StaticCall) {
-            $this->staticNodeCollector->addStaticCall($node, $this->currentClassLike);
+            if ($this->currentClassLike !== null) {
+                $this->staticNodeCollector->addStaticCallInsideClass($node, $this->currentClassLike);
+            } else {
+                $this->staticNodeCollector->addStaticCall($node);
+            }
         }
     }
 
