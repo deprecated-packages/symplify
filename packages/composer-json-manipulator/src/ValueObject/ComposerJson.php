@@ -424,7 +424,7 @@ final class ComposerJson
         }
 
         if ($this->conflicting !== []) {
-            $array[ComposerJsonSection::CONFLICTING] = $this->conflicting;
+            $array[ComposerJsonSection::CONFLICTS] = $this->conflicting;
         }
 
         if ($this->autoload !== []) {

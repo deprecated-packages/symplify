@@ -28,7 +28,7 @@ final class ComposerJsonSection
      * @api
      * @var string
      */
-    public const CONFLICTING = 'conflicting';
+    public const CONFLICTS = 'conflicts';
 
     /**
      * @api
