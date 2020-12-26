@@ -103,9 +103,9 @@ final class ComposerJson
     private $composerPackageSorter;
 
     /**
-     * @var mixed[]
+     * @var array<string, string>
      */
-    private $conflicting = [];
+    private $conflicts = [];
 
     /**
      * @var mixed[]
@@ -423,8 +423,8 @@ final class ComposerJson
             $array[ComposerJsonSection::REQUIRE_DEV] = $this->requireDev;
         }
 
-        if ($this->conflicting !== []) {
-            $array[ComposerJsonSection::CONFLICT] = $this->conflicting;
+        if ($this->conflicts !== []) {
+            $array[ComposerJsonSection::CONFLICT] = $this->conflicts;
         }
 
         if ($this->autoload !== []) {
@@ -586,19 +586,19 @@ final class ComposerJson
 
     /**
      * @api
-     * @param mixed[] $conflicting
+     * @param array<string, string> $conflicts
      */
-    public function setConflicting(array $conflicting): void
+    public function setConflicts(array $conflicts): void
     {
-        $this->conflicting = $conflicting;
+        $this->conflicts = $conflicts;
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, string>
      */
-    public function getConflicting(): array
+    public function getConflicts(): array
     {
-        return $this->conflicting;
+        return $this->conflicts;
     }
 
     /**

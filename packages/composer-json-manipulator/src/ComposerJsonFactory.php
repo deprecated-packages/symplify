@@ -122,7 +122,7 @@ final class ComposerJsonFactory
         }
 
         if (isset($jsonArray[ComposerJsonSection::CONFLICT])) {
-            $composerJson->setConflicting($jsonArray[ComposerJsonSection::CONFLICT]);
+            $composerJson->setConflicts($jsonArray[ComposerJsonSection::CONFLICT]);
         }
 
         if (isset($jsonArray[ComposerJsonSection::REPOSITORIES])) {
