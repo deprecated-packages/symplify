@@ -30,6 +30,29 @@ final class SmartFinder
     }
 
     /**
+     * @return SmartFileInfo[]
+     */
+    public function findPaths(array $directoriesOrFiles, string $path): array
+    {
+        $directories = $this->fileSystemFilter->filterDirectories($directoriesOrFiles);
+
+        $fileInfos = [];
+
+        if (count($directories) > 0) {
+            $finder = new Finder();
+            $finder->name('*')
+                ->in($directories)
+                ->path($path)
+                ->files()
+                ->sortByName();
+
+            $fileInfos = $this->finderSanitizer->sanitize($finder);
+        }
+
+        return $fileInfos;
+    }
+
+    /**
      * @param string[] $excludedDirectories
      * @return SmartFileInfo[]
      */
