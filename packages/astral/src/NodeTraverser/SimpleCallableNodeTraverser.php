@@ -2,17 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\NodeTraverser;
+namespace Symplify\Astral\NodeTraverser;
 
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
 use PhpParser\NodeVisitorAbstract;
 
-/**
- * Copied from
- * @see https://github.com/rectorphp/rector/blob/master/src/PhpParser/NodeTraverser/CallableNodeTraverser.php
- */
 final class SimpleCallableNodeTraverser
 {
     /**
