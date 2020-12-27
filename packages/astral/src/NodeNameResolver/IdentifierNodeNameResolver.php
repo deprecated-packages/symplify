@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Naming\NameNodeResolver;
+namespace Symplify\Astral\NodeNameResolver;
 
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
-use Symplify\PHPStanRules\Contract\NameNodeResolver\NameNodeResolverInterface;
+use Symplify\Astral\Contract\NodeNameResolverInterface;
 
-final class IdentifierNameNodeResolver implements NameNodeResolverInterface
+final class IdentifierNodeNameResolver implements NodeNameResolverInterface
 {
     public function match(Node $node): bool
     {

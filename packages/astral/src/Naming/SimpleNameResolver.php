@@ -2,31 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Naming;
+namespace Symplify\Astral\Naming;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Property;
-use Symplify\PHPStanRules\Contract\NameNodeResolver\NameNodeResolverInterface;
-use Symplify\PHPStanRules\Naming\NameNodeResolver\ClassLikeNameNodeResolver;
-use Symplify\PHPStanRules\Naming\NameNodeResolver\IdentifierNameNodeResolver;
+use Symplify\Astral\Contract\NodeNameResolverInterface;
 
 final class SimpleNameResolver
 {
     /**
-     * @var NameNodeResolverInterface[]
+     * @var NodeNameResolverInterface[]
      */
-    private $nameNodeResolvers = [];
+    private $nodeNameResolvers = [];
 
-    public function __construct(
-        ClassLikeNameNodeResolver $classLikeNameNodeResolver,
-        IdentifierNameNodeResolver $identifierNameNodeResolver
-    ) {
-        // array autowiring for poor people
-        $this->nameNodeResolvers[] = $classLikeNameNodeResolver;
-        $this->nameNodeResolvers[] = $identifierNameNodeResolver;
+    /**
+     * @param NodeNameResolverInterface[] $nodeNameResolvers
+     */
+    public function __construct(array $nodeNameResolvers)
+    {
+        $this->nodeNameResolvers = $nodeNameResolvers;
     }
 
     /**
@@ -38,12 +35,12 @@ final class SimpleNameResolver
             return $node;
         }
 
-        foreach ($this->nameNodeResolvers as $nameNodeResolver) {
-            if (! $nameNodeResolver->match($node)) {
+        foreach ($this->nodeNameResolvers as $nodeNameResolver) {
+            if (! $nodeNameResolver->match($node)) {
                 continue;
             }
 
-            return $nameNodeResolver->resolve($node);
+            return $nodeNameResolver->resolve($node);
         }
 
         if ($node instanceof ClassConstFetch && $this->isName($node->name, 'class')) {

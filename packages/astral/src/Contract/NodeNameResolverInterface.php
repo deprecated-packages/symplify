@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Contract\NameNodeResolver;
+namespace Symplify\Astral\Contract;
 
 use PhpParser\Node;
 
-interface NameNodeResolverInterface
+interface NodeNameResolverInterface
 {
     public function match(Node $node): bool;
 

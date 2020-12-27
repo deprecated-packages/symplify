@@ -75,6 +75,7 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
+            "Symplify\\Astral\\": "packages/astral/src",
             "Symplify\\Autodiscovery\\": "packages/autodiscovery/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\ChangelogLinker\\": "packages/changelog-linker/src",
@@ -142,6 +143,7 @@
             "vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php"
         ],
         "psr-4": {
+            "Symplify\\Astral\\Tests\\": "packages/astral/tests",
             "Symplify\\Autodiscovery\\Tests\\": "packages/autodiscovery/tests",
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/changelog-linker/tests",
@@ -196,6 +198,7 @@
         }
     },
     "replace": {
+        "symplify/astral": "self.version",
         "symplify/autodiscovery": "9.0.20",
         "symplify/autowire-array-parameter": "9.0.20",
         "symplify/changelog-linker": "9.0.20",

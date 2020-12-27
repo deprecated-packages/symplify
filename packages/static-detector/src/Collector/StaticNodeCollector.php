@@ -10,7 +10,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
-use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\StaticDetector\ValueObject\StaticClassMethod;
 use Symplify\StaticDetector\ValueObject\StaticClassMethodWithStaticCalls;
 use Symplify\StaticDetector\ValueObject\StaticReport;

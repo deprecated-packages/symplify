@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Naming\NameNodeResolver;
+namespace Symplify\Astral\NodeNameResolver;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
-use Symplify\PHPStanRules\Contract\NameNodeResolver\NameNodeResolverInterface;
+use Symplify\Astral\Contract\NodeNameResolverInterface;
 
-final class ClassLikeNameNodeResolver implements NameNodeResolverInterface
+final class ClassLikeNodeNameResolver implements NodeNameResolverInterface
 {
     public function match(Node $node): bool
     {
