@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\Astral\Naming\SimpleNameResolver;
 
 abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
 {

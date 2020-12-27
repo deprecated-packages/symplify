@@ -1,5 +1,5 @@
 services:
     # simple name resolver
-    - Symplify\PHPStanRules\Naming\SimpleNameResolver
-    - Symplify\PHPStanRules\Naming\NameNodeResolver\ClassLikeNameNodeResolver
-    - Symplify\PHPStanRules\Naming\NameNodeResolver\IdentifierNameNodeResolver
+    -
+         class: Symplify\Astral\Naming\SimpleNameResolver
+         factory: ['Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory', 'create']
