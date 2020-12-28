@@ -20,7 +20,7 @@ use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
-use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -38,7 +38,6 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
     /**
      * @var NodeFinder
      */
-
     private $nodeFinder;
 
     /**
@@ -98,11 +97,9 @@ use PhpParser\Node\Expr\MethodCall;
 
 class SomeClass
 {
-    public function run(Node $node)
+    public function run(MethodCall $node)
     {
-        if ($node instanceof MethodCall) {
-            $this->isCheck($node);
-        }
+        $this->isCheck($node);
     }
 
     private function isCheck(Node $node)
@@ -117,11 +114,9 @@ use PhpParser\Node\Expr\MethodCall;
 
 class SomeClass
 {
-    public function run(Node $node)
+    public function run(MethodCall $node)
     {
-        if ($node instanceof MethodCall) {
-            $this->isCheck($node);
-        }
+        $this->isCheck($node);
     }
 
     private function isCheck(MethodCall $node)

@@ -7,8 +7,8 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
-use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -38,6 +38,7 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule implements Con
      * Null, if there is no preference. Just forbidden
      */
     private $forbiddenParentClassesWithPreferences = [];
+
     /**
      * @var SimpleNameResolver
      */

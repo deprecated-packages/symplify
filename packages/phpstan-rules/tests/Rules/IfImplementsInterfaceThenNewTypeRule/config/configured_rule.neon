@@ -1,0 +1,10 @@
+includes:
+    - ../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\IfImplementsInterfaceThenNewTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            newTypesByInterface:
+                Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface: Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample

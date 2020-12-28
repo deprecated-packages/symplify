@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Symplify\StaticDetector\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symplify\Astral\Bundle\AstralBundle;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
+use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class StaticDetectorKernel extends AbstractSymplifyKernel implements ExtraConfigAwareKernelInterface
@@ -22,6 +25,14 @@ final class StaticDetectorKernel extends AbstractSymplifyKernel implements Extra
         foreach ($this->configs as $config) {
             $loader->load($config);
         }
+    }
+
+    /**
+     * @return BundleInterface[]
+     */
+    public function registerBundles(): iterable
+    {
+        return [new SymplifyKernelBundle(), new AstralBundle()];
     }
 
     /**
