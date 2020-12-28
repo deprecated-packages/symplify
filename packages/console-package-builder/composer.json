@@ -23,6 +23,11 @@
             "Symplify\\ConsolePackageBuilder\\Tests\\": "tests"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "9.1-dev"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
