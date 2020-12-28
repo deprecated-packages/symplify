@@ -30,6 +30,11 @@ final class PackageComposerFinder
      */
     private $finderSanitizer;
 
+    /**
+     * @var SmartFileInfo[]
+     */
+    private $cachedPackageComposerFiles = [];
+
     public function __construct(ParameterProvider $parameterProvider, FinderSanitizer $finderSanitizer)
     {
         $this->packageDirectories = $parameterProvider->provideArrayParameter(Option::PACKAGE_DIRECTORIES);
@@ -49,26 +54,29 @@ final class PackageComposerFinder
      */
     public function getPackageComposerFiles(): array
     {
-        $finder = Finder::create()
-            ->files()
-            ->in($this->packageDirectories)
-            // sub-directory for wrapping to phar
-            ->exclude('compiler')
-            // "init" command template data
-            ->exclude('templates')
-            ->exclude('vendor')
-            ->exclude('node_modules')
-            ->name('composer.json');
+        if ($this->cachedPackageComposerFiles === []) {
+            $finder = Finder::create()
+                ->files()
+                ->in($this->packageDirectories)
+                // sub-directory for wrapping to phar
+                ->exclude('compiler')
+                // "init" command template data
+                ->exclude('templates')
+                ->exclude('vendor')
+                ->exclude('node_modules')
+                ->name('composer.json');
 
-        foreach ($this->packageDirectoriesExcludes as $excludeFolder) {
-            $finder->exclude($excludeFolder);
+            foreach ($this->packageDirectoriesExcludes as $excludeFolder) {
+                $finder->exclude($excludeFolder);
+            }
+
+            if (! $this->isPHPUnit()) {
+                $finder->notPath('#tests#');
+            }
+
+            $this->cachedPackageComposerFiles = $this->finderSanitizer->sanitize($finder);
         }
-
-        if (! $this->isPHPUnit()) {
-            $finder->notPath('#tests#');
-        }
-
-        return $this->finderSanitizer->sanitize($finder);
+        return $this->cachedPackageComposerFiles;
     }
 
     private function isPHPUnit(): bool

@@ -32,6 +32,11 @@ final class JsonFileManager
      */
     private $jsonInliner;
 
+    /**
+     * @var mixed[]
+     */
+    private $cachedJSONFiles = [];
+
     public function __construct(
         SmartFileSystem $smartFileSystem,
         JsonCleaner $jsonCleaner,
@@ -47,7 +52,11 @@ final class JsonFileManager
      */
     public function loadFromFileInfo(SmartFileInfo $smartFileInfo): array
     {
-        return Json::decode($smartFileInfo->getContents(), Json::FORCE_ARRAY);
+        $filePath = $smartFileInfo->getRealPath();
+        if (! isset($this->cachedJSONFiles[$filePath])) {
+            $this->cachedJSONFiles[$filePath] = Json::decode($smartFileInfo->getContents(), Json::FORCE_ARRAY);
+        }
+        return $this->cachedJSONFiles[$filePath];
     }
 
     /**
