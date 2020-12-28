@@ -9,7 +9,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -71,10 +71,13 @@ final class IfNewTypeThenImplementInterfaceRule extends AbstractSymplifyRule imp
             return [];
         }
 
-        foreach ((array) $node->implements as $implement) {
-            if ($this->simpleNameResolver->isName($implement, $expectedInterface)) {
-                return [];
-            }
+        $className = $this->simpleNameResolver->getName($node);
+        if ($className === null) {
+            return [];
+        }
+
+        if (is_a($className, $expectedInterface, true)) {
+            return [];
         }
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $expectedInterface);

@@ -12,9 +12,8 @@ use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symplify\PHPStanRules\Naming\NameNodeResolver\ClassLikeNameNodeResolver;
-use Symplify\PHPStanRules\Naming\NameNodeResolver\IdentifierNameNodeResolver;
-use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
 
 /**
  * @inspiration https://github.com/phpstan/phpstan-symfony/blob/master/src/Type/Symfony/ServiceDynamicReturnTypeExtension.php
@@ -29,10 +28,7 @@ final class ContainerGetReturnTypeExtension implements DynamicMethodReturnTypeEx
     public function __construct()
     {
         // intentionally manual here, to prevent double service registration caused by nette/di
-        $this->simpleNameResolver = new SimpleNameResolver(
-            new ClassLikeNameNodeResolver(),
-            new IdentifierNameNodeResolver()
-        );
+        $this->simpleNameResolver = SimpleNameResolverStaticFactory::create();
     }
 
     public function getClass(): string

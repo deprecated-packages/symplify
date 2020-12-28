@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symplify\PHPStanRules\Naming\SimpleNameResolver;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 use Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;

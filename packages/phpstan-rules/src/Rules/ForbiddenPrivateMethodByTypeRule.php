@@ -52,7 +52,7 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
             return [];
         }
 
-        $className = $this->getClassName($scope, $node);
+        $className = $this->getClassName($scope);
         if ($className === null) {
             return [];
         }

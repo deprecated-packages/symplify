@@ -9,8 +9,8 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeVisitorAbstract;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use Symplify\PHPStanRules\Naming\SimpleNameResolver;
 use Symplify\StaticDetector\Collector\StaticNodeCollector;
 use Symplify\StaticDetector\Strings\StringsFilter;
 use Symplify\StaticDetector\ValueObject\Option;
@@ -78,7 +78,11 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
         }
 
         if ($node instanceof StaticCall) {
-            $this->staticNodeCollector->addStaticCall($node, $this->currentClassLike);
+            if ($this->currentClassLike !== null) {
+                $this->staticNodeCollector->addStaticCallInsideClass($node, $this->currentClassLike);
+            } else {
+                $this->staticNodeCollector->addStaticCall($node);
+            }
         }
     }
 

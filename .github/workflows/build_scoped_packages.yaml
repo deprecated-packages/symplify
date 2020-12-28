@@ -2,8 +2,9 @@ name: Build Scoped Packages
 
 on:
     push:
-        branches:
-            - master
+        # see https://github.community/t/how-to-run-github-actions-workflow-only-for-new-tags/16075/10?u=tomasvotruba
+        tags:
+            - '*'
 
 jobs:
     build_scoped_packages:
@@ -50,7 +51,6 @@ jobs:
 
             # 3. run it
             -   run: chmod 777 ./packages-scoped/${{ matrix.scoped_package.directory }}/bin/${{ matrix.scoped_package.binary_file_name }}
-            #-   run: packages-scoped/${{ matrix.scoped_package.directory }}/bin/${{ matrix.scoped_package.binary_file_name }} --ansi
 
             # 4. get tag - see https://github.com/WyriHaximus/github-action-get-previous-tag
             -
