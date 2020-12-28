@@ -120,4 +120,32 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
             ],
         ], $packageComposerJson);
     }
+
+    public function testSymlinkTrue(): void
+    {
+        $mainComposerJson = new SmartFileInfo(__DIR__ . '/composer.json');
+        $packageFileInfo = new SmartFileInfo(__DIR__ . '/packages/package-two/composer.json');
+
+        $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
+
+        $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
+            $packageComposerJson,
+            ['example/package-one'],
+            $mainComposerJson,
+            true
+        );
+
+        $this->assertSame([
+            'name' => 'example/package-two',
+            'repositories' => [
+                [
+                    'type' => 'path',
+                    'url' => '../../packages/package-one',
+                    'options' => [
+                        'symlink' => true,
+                    ],
+                ],
+            ],
+        ], $packageComposerJson);
+    }
 }

@@ -59,12 +59,51 @@ final class ComposerJsonSymlinker
             ];
 
             if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
-                array_unshift($packageComposerJson[ComposerJsonSection::REPOSITORIES], $repositoriesContent);
+                $packageComposerJson = $this->addRepositoryEntryToPackageComposerJson($packageComposerJson, $repositoriesContent);
             } else {
                 $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = $repositoriesContent;
             }
         }
 
         return $packageComposerJson;
+    }
+
+    /**
+     * @param mixed[] $packageComposerJson
+     * @param mixed[] $repositoriesContent
+     * @return mixed[]
+     */
+    private function addRepositoryEntryToPackageComposerJson(
+        array $packageComposerJson,
+        array $repositoriesContent
+    ): array {
+        // First check if this entry already exists. If so, replace it
+        foreach ($packageComposerJson[ComposerJsonSection::REPOSITORIES] as $key => $repository) {
+            if ($this->isSamePackageEntry($repository, $repositoriesContent)) {
+                // Just override the "options"
+                if (isset($repositoriesContent['options'])) {
+                    $packageComposerJson[ComposerJsonSection::REPOSITORIES][$key]['options'] = $repositoriesContent['options'];
+                } else {
+                    unset($packageComposerJson[ComposerJsonSection::REPOSITORIES][$key]['options']);
+                }
+                return $packageComposerJson;
+            }
+        }
+        // Add the new entry
+        array_unshift($packageComposerJson[ComposerJsonSection::REPOSITORIES], $repositoriesContent);
+        return $packageComposerJson;
+    }
+
+    /**
+     * @param mixed[] $repository
+     * @param mixed[] $repositoriesContent
+     * @return bool
+     */
+    private function isSamePackageEntry(
+        array $repository,
+        array $repositoriesContent
+    ): bool {
+        return isset($repository['type']) && $repository['type'] === $repositoriesContent['type']
+            && isset($repository['url']) && $repository['url'] === $repositoriesContent['url'];
     }
 }
