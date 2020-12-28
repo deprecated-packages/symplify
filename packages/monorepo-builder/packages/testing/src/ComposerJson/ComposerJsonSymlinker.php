@@ -77,7 +77,7 @@ final class ComposerJsonSymlinker
         array $packageComposerJson,
         array $repositoriesContent
     ): array {
-        // First check if this entry already exists. If so, replace it
+        // First check if this entry already exists and, if so, replace it
         foreach ($packageComposerJson[ComposerJsonSection::REPOSITORIES] as $key => $repository) {
             if ($this->isSamePackageEntry($repository, $repositoriesContent)) {
                 // Just override the "options"
