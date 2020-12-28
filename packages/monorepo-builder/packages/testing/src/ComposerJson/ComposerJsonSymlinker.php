@@ -39,7 +39,7 @@ final class ComposerJsonSymlinker
         array $packageComposerJson,
         array $packageNames,
         SmartFileInfo $mainComposerJsonFileInfo,
-        ?bool $symlink
+        bool $symlink
     ): array {
         // @see https://getcomposer.org/doc/05-repositories.md#path
         foreach ($packageNames as $packageName) {
@@ -53,12 +53,10 @@ final class ComposerJsonSymlinker
             $repositoriesContent = [
                 'type' => 'path',
                 'url' => $relativePathToLocalPackage,
+                'options' => [
+                    'symlink' => $symlink
+                ],
             ];
-            if ($symlink !== null) {
-                $repositoriesContent['options'] = [
-                    'symlink' => $symlink,
-                ];
-            }
 
             if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
                 $packageComposerJson = $this->addRepositoryEntryToPackageComposerJson($packageComposerJson, $repositoriesContent);

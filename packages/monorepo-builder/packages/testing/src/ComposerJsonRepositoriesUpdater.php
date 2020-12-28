@@ -62,7 +62,7 @@ final class ComposerJsonRepositoriesUpdater
         $this->composerJsonSymlinker = $composerJsonSymlinker;
     }
 
-    public function processPackage(SmartFileInfo $packageFileInfo, ComposerJson $rootComposerJson, ?bool $symlink): void
+    public function processPackage(SmartFileInfo $packageFileInfo, ComposerJson $rootComposerJson, bool $symlink): void
     {
         $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
 
