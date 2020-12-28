@@ -60,6 +60,8 @@ final class CleanDevFilesCommand extends AbstractSymplifyCommand
         $this->symfonyStyle->title('Removing dev files');
         $this->symfonyStyle->listing($devFilePaths);
 
+        $devFileSize = $this->fileMetrics->getFileSizeInKiloBites($devFileInfos);
+
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
         if ($isDryRun) {
             $messsage = sprintf('%d files would be removed [dry-run]', count($devFilePaths));
@@ -69,8 +71,6 @@ final class CleanDevFilesCommand extends AbstractSymplifyCommand
             $message = sprintf('%d files were removed', count($devFilePaths));
             $this->symfonyStyle->success($message);
         }
-
-        $devFileSize = $this->fileMetrics->getFileSizeInKiloBites($devFileInfos);
 
         $message = sprintf('Dev file size: %d.2 Kb', $devFileSize);
         $this->symfonyStyle->note($message);
