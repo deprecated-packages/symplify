@@ -46,7 +46,9 @@ final class ScopedComposerJsonFactory
         }
 
         $scopedPackageComposerJson->setRequire($composerJson->getRequirePhp());
-        $scopedPackageComposerJson->setConflicting([$packageName]);
+        $scopedPackageComposerJson->setConflicts([
+            $packageName => '*',
+        ]);
         $scopedPackageComposerJson->setReplace([
             $packageName => ComposerValues::SELF_VERSION,
         ]);

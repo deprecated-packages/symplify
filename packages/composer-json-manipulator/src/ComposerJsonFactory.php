@@ -121,8 +121,8 @@ final class ComposerJsonFactory
             $composerJson->setPreferStable($jsonArray[ComposerJsonSection::PREFER_STABLE]);
         }
 
-        if (isset($jsonArray[ComposerJsonSection::CONFLICTING])) {
-            $composerJson->setConflicting($jsonArray[ComposerJsonSection::CONFLICTING]);
+        if (isset($jsonArray[ComposerJsonSection::CONFLICT])) {
+            $composerJson->setConflicts($jsonArray[ComposerJsonSection::CONFLICT]);
         }
 
         if (isset($jsonArray[ComposerJsonSection::REPOSITORIES])) {

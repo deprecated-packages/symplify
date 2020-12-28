@@ -35,4 +35,4 @@ services:
     - Symplify\PHPStanRules\Types\TypeUnwrapper
     - Symplify\PHPStanRules\Printer\NodeComparator
     - Symplify\PHPStanRules\Matcher\PositionMatcher
-    - Symplify\PHPStanRules\NodeTraverser\SimpleCallableNodeTraverser
+    - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser

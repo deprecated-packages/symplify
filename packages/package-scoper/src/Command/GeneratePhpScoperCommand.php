@@ -27,7 +27,7 @@ final class GeneratePhpScoperCommand extends AbstractSymplifyCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $packageDirectory = (string) $input->getArgument(Option::PATH);
-        $phpScoperFilePath = $packageDirectory . DIRECTORY_SEPARATOR . 'scoper.inc.php';
+        $phpScoperFilePath = $packageDirectory . '/scoper.inc.php';
 
         if (file_exists($phpScoperFilePath)) {
             $phpScoperFileInfo = new SmartFileInfo($phpScoperFilePath);

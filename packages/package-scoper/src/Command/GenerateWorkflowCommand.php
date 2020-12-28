@@ -19,7 +19,7 @@ final class GenerateWorkflowCommand extends AbstractSymplifyCommand
 
     public function __construct()
     {
-        $this->workflowFilePath = getcwd() . '/.github/workflows/build_scoped_packages.yaml';
+        $this->workflowFilePath = __DIR__ . '/../../templates/.github/workflows/build_scoped_packages.yaml';
 
         parent::__construct();
     }
@@ -44,7 +44,7 @@ final class GenerateWorkflowCommand extends AbstractSymplifyCommand
         }
 
         $this->smartFileSystem->copy(
-            __DIR__ . '/../../templates/github/workflows/build_scoped_packages.yaml',
+            __DIR__ . '/../../templates/.github/workflows/build_scoped_packages.yaml',
             $this->workflowFilePath
         );
 

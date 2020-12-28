@@ -23,7 +23,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\RouteCollection;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use TwitterAPIExchange;
 
@@ -101,15 +101,25 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
-            new CodeSample(
+            new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
 $this->runThis()->runThat();
+
+$fluentClass = new AllowedFluent();
+$fluentClass->one()->two();
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
 $this->runThis();
 $this->runThat();
+
+$fluentClass = new AllowedFluent();
+$fluentClass->one()->two();
 CODE_SAMPLE
+                ,
+                [
+                    'allowedChainTypes' => ['AllowedFluent'],
+                ]
             ),
         ]);
     }

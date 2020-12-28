@@ -67,6 +67,20 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return null;
     }
 
+    public function resolveClassLikeName(ClassLike $classLike): ?string
+    {
+        if (! property_exists($classLike, 'namespacedName')) {
+            return null;
+        }
+
+        // anonymous  class
+        if ($classLike->namespacedName === null) {
+            return null;
+        }
+
+        return (string) $classLike->namespacedName;
+    }
+
     protected function resolveCurrentClass(Node $node): ?Class_
     {
         if ($node instanceof Class_) {
@@ -76,12 +90,8 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return $this->getFirstParentByType($node, Class_::class);
     }
 
-    protected function getClassName(Scope $scope, ?Node $node = null): ?string
+    protected function getClassName(Scope $scope): ?string
     {
-        if ($node instanceof ClassLike) {
-            return $this->resolveClassLikeName($node);
-        }
-
         if ($scope->isInTrait()) {
             $traitReflection = $scope->getTraitReflection();
             if ($traitReflection === null) {
@@ -163,20 +173,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return (string) Strings::after($className, '\\', -1);
-    }
-
-    private function resolveClassLikeName(ClassLike $classLike): ?string
-    {
-        if (! property_exists($classLike, 'namespacedName')) {
-            return null;
-        }
-
-        // anonymous  class
-        if ($classLike->namespacedName === null) {
-            return null;
-        }
-
-        return (string) $classLike->namespacedName;
     }
 
     private function shouldSkipNode(Node $node): bool
