@@ -32,6 +32,11 @@ final class ComposerJsonRepositoriesUpdater
     private $symfonyStyle;
 
     /**
+     * @var ComposerJsonSymlinker
+     */
+    private $composerJsonSymlinker;
+
+    /**
      * @var UsedPackagesResolver
      */
     private $usedPackagesResolver;
@@ -41,25 +46,20 @@ final class ComposerJsonRepositoriesUpdater
      */
     private $consoleDiffer;
 
-    /**
-     * @var ComposerJsonSymlinker
-     */
-    private $composerJsonSymlinker;
-
     public function __construct(
         PackageNamesProvider $packageNamesProvider,
         JsonFileManager $jsonFileManager,
         SymfonyStyle $symfonyStyle,
+        ComposerJsonSymlinker $composerJsonSymlinker,
         UsedPackagesResolver $usedPackagesResolver,
-        ConsoleDiffer $consoleDiffer,
-        ComposerJsonSymlinker $composerJsonSymlinker
+        ConsoleDiffer $consoleDiffer
     ) {
         $this->packageNamesProvider = $packageNamesProvider;
         $this->jsonFileManager = $jsonFileManager;
         $this->symfonyStyle = $symfonyStyle;
+        $this->composerJsonSymlinker = $composerJsonSymlinker;
         $this->usedPackagesResolver = $usedPackagesResolver;
         $this->consoleDiffer = $consoleDiffer;
-        $this->composerJsonSymlinker = $composerJsonSymlinker;
     }
 
     public function processPackage(SmartFileInfo $packageFileInfo, ComposerJson $rootComposerJson, bool $symlink): void
