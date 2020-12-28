@@ -28,11 +28,6 @@ final class ComposerJsonProvider
      */
     private $composerJsonFactory;
 
-    /**
-     * @var SmartFileInfo[]
-     */
-    private $packageComposerFiles;
-
     public function __construct(
         JsonFileManager $jsonFileManager,
         PackageComposerFinder $packageComposerFinder,
@@ -41,7 +36,6 @@ final class ComposerJsonProvider
         $this->jsonFileManager = $jsonFileManager;
         $this->packageComposerFinder = $packageComposerFinder;
         $this->composerJsonFactory = $composerJsonFactory;
-        $this->packageComposerFiles = [];
     }
 
     public function getRootFileInfo(): SmartFileInfo
@@ -54,10 +48,7 @@ final class ComposerJsonProvider
      */
     public function getPackagesComposerFileInfos(): array
     {
-        if ($this->packageComposerFiles === []) {
-            $this->packageComposerFiles = $this->packageComposerFinder->getPackageComposerFiles();
-        }
-        return $this->packageComposerFiles;
+        return $this->packageComposerFinder->getPackageComposerFiles();
     }
 
     /**
