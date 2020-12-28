@@ -35,7 +35,7 @@ final class JsonFileManager
     /**
      * @var mixed[]
      */
-    private $cachedJSONFiles;
+    private $cachedJSONFiles = [];
 
     public function __construct(
         SmartFileSystem $smartFileSystem,
@@ -45,7 +45,6 @@ final class JsonFileManager
         $this->smartFileSystem = $smartFileSystem;
         $this->jsonCleaner = $jsonCleaner;
         $this->jsonInliner = $jsonInliner;
-        $this->cachedJSONFiles = [];
     }
 
     /**
