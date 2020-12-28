@@ -64,8 +64,7 @@ final class ComposerJsonProvider
 
     public function getPackageFileInfoByName(string $packageName): SmartFileInfo
     {
-        $packageComposerFiles = $this->packageComposerFinder->getPackageComposerFiles();
-        foreach ($packageComposerFiles as $packageComposerFile) {
+        foreach ($this->getPackagesComposerFileInfos() as $packageComposerFile) {
             $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFile);
             if (! isset($json['name'])) {
                 continue;
