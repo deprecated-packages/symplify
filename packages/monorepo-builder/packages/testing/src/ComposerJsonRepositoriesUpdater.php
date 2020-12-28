@@ -62,7 +62,7 @@ final class ComposerJsonRepositoriesUpdater
         $this->consoleDiffer = $consoleDiffer;
     }
 
-    public function processPackage(SmartFileInfo $packageFileInfo, ComposerJson $rootComposerJson): void
+    public function processPackage(SmartFileInfo $packageFileInfo, ComposerJson $rootComposerJson, bool $symlink): void
     {
         $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
 
@@ -89,7 +89,8 @@ final class ComposerJsonRepositoriesUpdater
         $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
             $packageComposerJson,
             $packageNames,
-            $rootComposerJsonFileInfo
+            $rootComposerJsonFileInfo,
+            $symlink
         );
 
         $newComposerJsonContents = $this->jsonFileManager->printJsonToFileInfo($packageComposerJson, $packageFileInfo);

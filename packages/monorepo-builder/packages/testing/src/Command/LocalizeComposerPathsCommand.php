@@ -65,7 +65,7 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
         }
 
         // 2. update "repository" to "*" for current composer.json
-        $this->composerJsonRepositoriesUpdater->processPackage($packageComposerJsonFileInfo, $rootComposerJson);
+        $this->composerJsonRepositoriesUpdater->processPackage($packageComposerJsonFileInfo, $rootComposerJson, false);
 
         $message = sprintf(
             'Package paths in "%s" have been updated',
