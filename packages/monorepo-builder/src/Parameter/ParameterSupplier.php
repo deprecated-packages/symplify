@@ -43,7 +43,7 @@ final class ParameterSupplier
             }
             // If the organization is not provided, add the default one
             if (! isset($data['organization'])) {
-                $data['organization'] = $this->githubRepositoryResolver->resolveGitHubRepositoryNameFromRemote();
+                $data['organization'] = $this->githubRepositoryResolver->resolveGitHubRepositoryOwnerFromRemote();
             }
             $completePackageDirectoriesData[$packageDirectory] = $data;
         }

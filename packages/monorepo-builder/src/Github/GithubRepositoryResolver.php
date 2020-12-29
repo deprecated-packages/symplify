@@ -19,6 +19,16 @@ final class GithubRepositoryResolver
     private const GITHUB_URL = 'https://github.com/';
 
     /**
+     * @var string
+     */
+    private $repositoryOriginUrl = '';
+
+    /**
+     * @var array<string, string>
+     */
+    private $repositoryOwners = [];
+
+    /**
      * @var GithubRepositoryFromRemoteResolver
      */
     private $githubRepositoryFromRemoteResolver;
@@ -28,17 +38,27 @@ final class GithubRepositoryResolver
         $this->githubRepositoryFromRemoteResolver = $githubRepositoryFromRemoteResolver;
     }
 
-    public function resolveGitHubRepositoryNameFromRemote(): string
+    public function resolveGitHubRepositoryOwnerFromRemote(): string
     {
-        // Get the remote origin URL, with format: https://github.com/account/package
-        $process = new Process(['git', 'config', '--get', 'remote.origin.url']);
-        $process->run();
-        $repositoryOriginUrl = trim($process->getOutput());
-        return $this->resolveGitHubRepositoryName($repositoryOriginUrl);
+        $repositoryOriginUrl = $this->resolveGitHubRepositoryOriginUrl();
+        return $this->resolveGitHubRepositoryOwner($repositoryOriginUrl);
     }
 
-    public function resolveGitHubRepositoryName(string $repositoryOriginUrl): string
+    public function resolveGitHubRepositoryOriginUrl(): string
     {
+        if ($this->repositoryOriginUrl === '') {
+            $process = new Process(['git', 'config', '--get', 'remote.origin.url']);
+            $process->run();
+            $this->repositoryOriginUrl = trim($process->getOutput());
+        }
+        return $this->repositoryOriginUrl;
+    }
+
+    public function resolveGitHubRepositoryOwner(string $repositoryOriginUrl): string
+    {
+        if (isset($this->repositoryOwners[$repositoryOriginUrl])) {
+            return $this->repositoryOwners[$repositoryOriginUrl];
+        }
         $repositoryUrl = $this->githubRepositoryFromRemoteResolver->resolveFromUrl($repositoryOriginUrl);
         if (! Strings::startsWith($repositoryUrl, self::GITHUB_URL)) {
             throw new ShouldNotHappenException(
@@ -51,6 +71,7 @@ final class GithubRepositoryResolver
         }
         // Extract the account name: everything after "github.com/", and before the next "/"
         $repository = Strings::substring($repositoryUrl, Strings::length(self::GITHUB_URL));
-        return Strings::before($repository, '/');
+        $this->repositoryOwners[$repositoryOriginUrl] = Strings::before($repository, '/');
+        return $this->repositoryOwners[$repositoryOriginUrl];
     }
 }

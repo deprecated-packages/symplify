@@ -32,7 +32,7 @@ final class GithubRepositoryResolverTest extends AbstractKernelTestCase
     {
         $this->assertSame(
             $expectedName,
-            $this->githubRepositoryResolver->resolveGitHubRepositoryName($remoteUrl)
+            $this->githubRepositoryResolver->resolveGitHubRepositoryOwner($remoteUrl)
         );
     }
 
@@ -54,7 +54,7 @@ final class GithubRepositoryResolverTest extends AbstractKernelTestCase
     public function testInvalid(string $remoteUrl): void
     {
         $this->expectException(ShouldNotHappenException::class);
-        $this->githubRepositoryResolver->resolveGitHubRepositoryName($remoteUrl);
+        $this->githubRepositoryResolver->resolveGitHubRepositoryOwner($remoteUrl);
     }
 
     public function provideInvalidData(): Iterator
