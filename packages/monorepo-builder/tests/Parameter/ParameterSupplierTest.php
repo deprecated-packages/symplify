@@ -112,7 +112,7 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
     {
         $this->expectException(ShouldNotHappenException::class);
         $config = [
-            'symplify/monorepo-builder' => 3,
+            'symplify/monorepo-builder' => 'symplify',
         ];
         $this->assertEquals(
             $config,
