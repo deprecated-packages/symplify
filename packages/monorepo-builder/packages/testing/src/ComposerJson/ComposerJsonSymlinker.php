@@ -54,12 +54,15 @@ final class ComposerJsonSymlinker
                 'type' => 'path',
                 'url' => $relativePathToLocalPackage,
                 'options' => [
-                    'symlink' => $symlink
+                    'symlink' => $symlink,
                 ],
             ];
 
             if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
-                $packageComposerJson = $this->addRepositoryEntryToPackageComposerJson($packageComposerJson, $repositoriesContent);
+                $packageComposerJson = $this->addRepositoryEntryToPackageComposerJson(
+                    $packageComposerJson,
+                    $repositoriesContent
+                );
             } else {
                 $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = $repositoriesContent;
             }
@@ -97,12 +100,9 @@ final class ComposerJsonSymlinker
     /**
      * @param mixed[] $repository
      * @param mixed[] $repositoriesContent
-     * @return bool
      */
-    private function isSamePackageEntry(
-        array $repository,
-        array $repositoriesContent
-    ): bool {
+    private function isSamePackageEntry(array $repository, array $repositoriesContent): bool
+    {
         return isset($repository['type']) && $repository['type'] === $repositoriesContent['type']
             && isset($repository['url']) && $repository['url'] === $repositoriesContent['url'];
     }
