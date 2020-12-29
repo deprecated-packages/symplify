@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Validator;
 
-use Symplify\MonorepoBuilder\Exception\Validator\InvalidComposerJsonSetupException;
-use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\MonorepoBuilder\Parameter\ParameterSupplier;
+use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
+use Symplify\MonorepoBuilder\Exception\Validator\InvalidComposerJsonSetupException;
 
 final class SourcesPresenceValidator
 {
@@ -21,10 +22,12 @@ final class SourcesPresenceValidator
      */
     private $composerJsonProvider;
 
-    public function __construct(ComposerJsonProvider $composerJsonProvider, ParameterProvider $parameterProvider)
+    public function __construct(ComposerJsonProvider $composerJsonProvider, ParameterProvider $parameterProvider, ParameterSupplier $parameterSupplier)
     {
         $this->composerJsonProvider = $composerJsonProvider;
-        $this->packageDirectories = $parameterProvider->provideArrayParameter(Option::PACKAGE_DIRECTORIES);
+        $this->packageDirectories = $parameterProvider->provideArrayParameter(
+            array_keys($parameterSupplier->fillPackageDirectoriesWithDefaultData(Option::PACKAGE_DIRECTORIES))
+        );
     }
 
     public function validatePackageComposerJsons(): void

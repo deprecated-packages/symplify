@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Finder;
 
 use Symfony\Component\Finder\Finder;
-use Symplify\MonorepoBuilder\ValueObject\Option;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\MonorepoBuilder\Parameter\ParameterSupplier;
 
 /**
  * @see \Symplify\MonorepoBuilder\Tests\Finder\PackageComposerFinder\PackageComposerFinderTest
@@ -35,9 +36,11 @@ final class PackageComposerFinder
      */
     private $cachedPackageComposerFiles = [];
 
-    public function __construct(ParameterProvider $parameterProvider, FinderSanitizer $finderSanitizer)
+    public function __construct(ParameterProvider $parameterProvider, FinderSanitizer $finderSanitizer, ParameterSupplier $parameterSupplier)
     {
-        $this->packageDirectories = $parameterProvider->provideArrayParameter(Option::PACKAGE_DIRECTORIES);
+        $this->packageDirectories = $parameterProvider->provideArrayParameter(
+            array_keys($parameterSupplier->fillPackageDirectoriesWithDefaultData(Option::PACKAGE_DIRECTORIES))
+        );
         $this->packageDirectoriesExcludes = $parameterProvider->provideArrayParameter(
             Option::PACKAGE_DIRECTORIES_EXCLUDES
         );
