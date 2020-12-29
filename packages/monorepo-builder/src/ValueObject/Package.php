@@ -65,4 +65,9 @@ final class Package
     {
         return $this->rootDirectoryFileInfo->getRelativeFilePathFromCwd();
     }
+
+    public function getRealPath(): string
+    {
+        return $this->rootDirectoryFileInfo->getRealPath();
+    }
 }
