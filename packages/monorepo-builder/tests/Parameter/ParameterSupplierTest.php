@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Tests\Utils;
+namespace Symplify\MonorepoBuilder\Tests\Parameter;
 
-use Iterator;
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Parameter\ParameterSupplier;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
+use Symplify\MonorepoBuilder\Github\GithubRepositoryResolver;
+use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 
 final class ParameterSupplierTest extends AbstractKernelTestCase
 {
@@ -15,26 +15,20 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
      * @var ParameterSupplier
      */
     private $parameterSupplier;
+    /**
+     * @var GithubRepositoryResolver
+     */
+    private $githubRepositoryResolver;
 
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
         $this->parameterSupplier = $this->getService(ParameterSupplier::class);
+        $this->githubRepositoryResolver = $this->getService(GithubRepositoryResolver::class);
     }
 
-    /**
-     * @dataProvider provideData()
-     */
-    public function testPackageDirectoriesAreComplete(array $configBefore, $configAfter): void
-    {
-        $this->assertEquals(
-            $configAfter,
-            $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($configBefore)
-        );
-    }
-
-    public function provideData(): Iterator
+    public function testPackageDirectoriesAreComplete(): void
     {
         $completeConfig = [
             'symplify/monorepo-builder' => [
@@ -47,23 +41,51 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
                 'organization' => 'migrify',
             ],
         ];
-        yield [$completeConfig, $completeConfig];
+        $this->assertEquals(
+            $completeConfig,
+            $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($completeConfig)
+        );
     }
 
-    // public function testFillPackageDirectories(): void
-    // {
-    //     $config = [
-    //         'symplify/monorepo-builder' => [
-    //             'foo' => 'bar',
-    //         ],
-    //         'symplify/package-builder' => [
-    //             'organization' => 'symplify',
-    //         ],
-    //         'symplify/package-for-migrify' => [],
-    //     ];
-    //     $this->assertEquals(
-    //         $config,
-    //         $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($config)
-    //     );
-    // }
+    public function testAddDefaultsToPackageDirectories(): void
+    {
+        $repoOwner = $this->githubRepositoryResolver->resolveGitHubRepositoryOwnerFromRemote();
+        $configBefore = [
+            'symplify/monorepo-builder' => [],
+            'rector/rector' => null,
+            'symplify/package-builder' => [
+                'organization' => 'symplify',
+            ],
+            'symplify/package-for-migrify' => [
+                'branch' => 'main',
+            ],
+            'symplify/package-for-migrify' => [
+                'branch' => 'main',
+                'organization' => 'migrify',
+            ],
+        ];
+        $configAfter = [
+            'symplify/monorepo-builder' => [
+                'organization' => $repoOwner,
+            ],
+            'rector/rector' => [
+                'organization' => $repoOwner,
+            ],
+            'symplify/package-builder' => [
+                'organization' => 'symplify',
+            ],
+            'symplify/package-for-migrify' => [
+                'branch' => 'main',
+                'organization' => $repoOwner,
+            ],
+            'symplify/package-for-migrify' => [
+                'branch' => 'main',
+                'organization' => 'migrify',
+            ],
+        ];
+        $this->assertEquals(
+            $configAfter,
+            $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($configBefore)
+        );
+    }
 }
