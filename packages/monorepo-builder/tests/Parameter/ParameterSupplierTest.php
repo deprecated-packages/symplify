@@ -8,6 +8,7 @@ use Symplify\MonorepoBuilder\Parameter\ParameterSupplier;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\MonorepoBuilder\Github\GithubRepositoryResolver;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ParameterSupplierTest extends AbstractKernelTestCase
 {
@@ -32,9 +33,6 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
     {
         $completeConfig = [
             'symplify/monorepo-builder' => [
-                'organization' => 'symplify',
-            ],
-            'symplify/package-builder' => [
                 'organization' => 'symplify',
             ],
             'symplify/package-for-migrify' => [
@@ -107,6 +105,18 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
         $this->assertEquals(
             $configAfter,
             $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($configBefore)
+        );
+    }
+
+    public function testIncorrectConfig(): void
+    {
+        $this->expectException(ShouldNotHappenException::class);
+        $config = [
+            'symplify/monorepo-builder' => 3,
+        ];
+        $this->assertEquals(
+            $config,
+            $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($config)
         );
     }
 }
