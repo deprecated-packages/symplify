@@ -36,6 +36,10 @@ final class ParameterSupplier
                 $packageDirectory = $data;
                 $data = [];
             }
+            // Empty values: replace with empty array
+            if ($data === null || $data === '') {
+                $data = [];
+            }
             if (! is_string($packageDirectory) || ! is_array($data)) {
                 throw new ShouldNotHappenException(
                     'The package directory must be a string, and its configured data must be an array'
