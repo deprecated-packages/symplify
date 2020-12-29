@@ -4,7 +4,7 @@
 
 Set of rules for PHP_CodeSniffer and PHP-CS-Fixer used by Symplify projects.
 
-**They run best with [EasyCodingStandard](https://github.com/symplify/easy-coding-standard)** and **PHPStan**.
+**They run best with [EasyCodingStandard](https://github.com/symplify/easy-coding-standard)**.
 
 ## Install
 
