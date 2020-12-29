@@ -8,6 +8,7 @@ use Iterator;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\MonorepoBuilder\Github\GithubRepositoryResolver;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 use Symplify\MonorepoBuilder\Exception\Git\InvalidGitRemoteException;
 
 final class GithubRepositoryResolverTest extends AbstractKernelTestCase
@@ -27,9 +28,12 @@ final class GithubRepositoryResolverTest extends AbstractKernelTestCase
     /**
      * @dataProvider provideData()
      */
-    public function test(string $commitHash, string $expectedName): void
+    public function test(string $remoteUrl, string $expectedName): void
     {
-        $this->assertSame($expectedName, $this->githubRepositoryResolver->resolveGitHubRepositoryName($commitHash));
+        $this->assertSame(
+            $expectedName,
+            $this->githubRepositoryResolver->resolveGitHubRepositoryName($remoteUrl)
+        );
     }
 
     public function provideData(): Iterator
@@ -41,15 +45,22 @@ final class GithubRepositoryResolverTest extends AbstractKernelTestCase
             'https://UserName:PassWord@github.com:443/symplify/symplify.git',
             'symplify',
         ];
-        yield ['https://www.my-company.com/symplify/symplify.git', 'symplify'];
-        yield ['https://gitlab.com/my-group/my-user/my-repo.git', 'my-user'];
-        yield ['https://git/user/project.git', 'user'];
         yield ['git@github.com:space/low-orbit.git', 'space'];
     }
 
-    public function testInvalid(): void
+    /**
+     * @dataProvider provideInvalidData()
+     */
+    public function testInvalid(string $remoteUrl): void
     {
-        $this->expectException(InvalidGitRemoteException::class);
-        $this->githubRepositoryResolver->resolveGitHubRepositoryName('http://url.git');
+        $this->expectException(ShouldNotHappenException::class);
+        $this->githubRepositoryResolver->resolveGitHubRepositoryName($remoteUrl);
+    }
+
+    public function provideInvalidData(): Iterator
+    {
+        yield ['https://www.my-company.com/symplify/symplify.git'];
+        yield ['https://gitlab.com/my-group/my-user/my-repo.git'];
+        yield ['https://git/user/project.git'];
     }
 }
