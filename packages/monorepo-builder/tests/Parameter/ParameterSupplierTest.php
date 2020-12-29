@@ -58,9 +58,9 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
             'symplify/package-for-migrify' => [
                 'branch' => 'main',
             ],
-            'symplify/package-for-migrify' => [
+            'symplify/package-for-rector' => [
                 'branch' => 'main',
-                'organization' => 'migrify',
+                'organization' => 'rector',
             ],
         ];
         $configAfter = [
@@ -77,9 +77,9 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
                 'branch' => 'main',
                 'organization' => $repoOwner,
             ],
-            'symplify/package-for-migrify' => [
+            'symplify/package-for-rector' => [
                 'branch' => 'main',
-                'organization' => 'migrify',
+                'organization' => 'rector',
             ],
         ];
         $this->assertSame(

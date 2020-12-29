@@ -19,7 +19,7 @@ final class PackageJsonProvider
     private $packageProvider;
 
     /**
-     * @var string[]
+     * @var array<string, mixed[]>
      */
     private $packageDirectoriesData = [];
 
@@ -51,9 +51,6 @@ final class PackageJsonProvider
         return $packageEntries;
     }
 
-    /**
-     * @return array<string[]>
-     */
     private function getRepoOwnerForPackageDirectory(string $packageRealPath): string
     {
         // Iterate all entries until finding the one for the package's path

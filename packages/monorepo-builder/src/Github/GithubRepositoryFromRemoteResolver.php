@@ -44,16 +44,16 @@ final class GithubRepositoryFromRemoteResolver
             return sprintf('%s://%s%s/%s', $urlScheme, $urlHost, $pathDirname, $pathFilename);
         }
 
-        // turn SSH format to "https"
-        if (Strings::startsWith($url, 'git@')) {
-            $url = Strings::substring($url, 0, -4);
-            $url = str_replace(':', '/', $url);
-            $url = Strings::substring($url, Strings::length('git@'));
-
-            return sprintf('%s://%s', self::HTTPS_SCHEME, $url);
+        if (! Strings::startsWith($url, 'git@')) {
+            $this->throwException($url);
         }
 
-        $this->throwException($url);
+        // turn SSH format to "https"
+        $url = Strings::substring($url, 0, -4);
+        $url = str_replace(':', '/', $url);
+        $url = Strings::substring($url, Strings::length('git@'));
+
+        return sprintf('%s://%s', self::HTTPS_SCHEME, $url);
     }
 
     private function throwException(string $url): void

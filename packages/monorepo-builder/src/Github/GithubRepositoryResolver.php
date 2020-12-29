@@ -74,7 +74,16 @@ final class GithubRepositoryResolver
             );
         }
         $repository = Strings::substring($repositoryUrl, Strings::length(self::GITHUB_URL));
-        $this->repositoryOwners[$repositoryOriginUrl] = Strings::before($repository, '/');
+        $owner = Strings::before($repository, '/');
+        if ($owner === null) {
+            throw new ShouldNotHappenException(
+                sprintf(
+                    'Cannot deduce the owner for remote URL "%s"',
+                    $repositoryUrl
+                )
+            );
+        }
+        $this->repositoryOwners[$repositoryOriginUrl] = $owner;
         return $this->repositoryOwners[$repositoryOriginUrl];
     }
 }
