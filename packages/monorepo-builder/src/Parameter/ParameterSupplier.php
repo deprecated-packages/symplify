@@ -30,13 +30,16 @@ final class ParameterSupplier
     {
         $completePackageDirectoriesData = [];
         foreach ($packageDirectoriesData as $packageDirectory => $data) {
-            // If the key is an int, then the package directory is the value
+            // Check if the array is passed as [ value ] instead of [ key => value]
             if (is_int($packageDirectory)) {
+                // The package directory is the array's value, and it has no data
                 $packageDirectory = $data;
                 $data = [];
             }
             if (! is_string($packageDirectory) || ! is_array($data)) {
-                throw new ShouldNotHappenException();
+                throw new ShouldNotHappenException(
+                    'The package directory must be a string, and its configured data must be an array'
+                );
             }
             // If the organization is not provided, add the default one
             if (! isset($data['organization'])) {
