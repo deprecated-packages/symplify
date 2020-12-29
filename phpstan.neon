@@ -281,6 +281,9 @@ parameters:
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                 - packages/skipper/src/Skipper/Skipper.php # 50
                 - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php #31
+                - packages/monorepo-builder/src/Finder/PackageComposerFinder.php #44
+                - packages/monorepo-builder/src/Json/PackageJsonProvider.php #32
+                - packages/monorepo-builder/src/Validator/SourcesPresenceValidator.php #31
 
         # false positives
         - '#Constant Symplify\\ChangelogLinker\\Tests\\ChangeTree\\ChangeFactory\\ChangeFactoryTest\:\:PULL_REQUEST is unused#'
