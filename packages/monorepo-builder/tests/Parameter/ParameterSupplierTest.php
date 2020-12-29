@@ -88,4 +88,25 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
             $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($configBefore)
         );
     }
+
+    public function testPackageDirectoriesAsKeys(): void
+    {
+        $repoOwner = $this->githubRepositoryResolver->resolveGitHubRepositoryOwnerFromRemote();
+        $configBefore = [
+            'symplify/monorepo-builder',
+            'rector/rector',
+        ];
+        $configAfter = [
+            'symplify/monorepo-builder' => [
+                'organization' => $repoOwner,
+            ],
+            'rector/rector' => [
+                'organization' => $repoOwner,
+            ],
+        ];
+        $this->assertEquals(
+            $configAfter,
+            $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($configBefore)
+        );
+    }
 }
