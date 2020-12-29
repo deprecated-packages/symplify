@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Github;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Exception\Git\InvalidGitRemoteException;
+use Symplify\MonorepoBuilder\Exception\Git\InvalidGitRemoteException;
 use function parse_url;
 use function pathinfo;
 use function sprintf;
