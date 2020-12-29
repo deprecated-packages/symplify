@@ -17,7 +17,7 @@ use const PHP_URL_PATH;
 use const PHP_URL_SCHEME;
 
 /**
- * @see \Symplify\ChangelogLinker\Tests\Github\GithubRepositoryFromRemoteResolverTest
+ * @see \Symplify\MonorepoBuilder\Tests\Github\GithubRepositoryFromRemoteResolverTest
  */
 final class GithubRepositoryFromRemoteResolver
 {

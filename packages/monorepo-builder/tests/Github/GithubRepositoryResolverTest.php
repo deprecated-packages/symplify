@@ -9,7 +9,6 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\MonorepoBuilder\Github\GithubRepositoryResolver;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
-use Symplify\MonorepoBuilder\Exception\Git\InvalidGitRemoteException;
 
 final class GithubRepositoryResolverTest extends AbstractKernelTestCase
 {
@@ -46,6 +45,7 @@ final class GithubRepositoryResolverTest extends AbstractKernelTestCase
             'symplify',
         ];
         yield ['git@github.com:space/low-orbit.git', 'space'];
+        yield ['https://github.com/symplify/symplify', 'symplify'];
     }
 
     /**

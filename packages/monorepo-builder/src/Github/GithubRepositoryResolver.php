@@ -59,7 +59,11 @@ final class GithubRepositoryResolver
         if (isset($this->repositoryOwners[$repositoryOriginUrl])) {
             return $this->repositoryOwners[$repositoryOriginUrl];
         }
+
+        // Extract the owner: everything after "github.com/", and before the next "/"
         $repositoryUrl = $this->githubRepositoryFromRemoteResolver->resolveFromUrl($repositoryOriginUrl);
+
+        // Make sure the format is https://github.com/owner/package
         if (! Strings::startsWith($repositoryUrl, self::GITHUB_URL)) {
             throw new ShouldNotHappenException(
                 sprintf(
@@ -69,7 +73,6 @@ final class GithubRepositoryResolver
                 )
             );
         }
-        // Extract the account name: everything after "github.com/", and before the next "/"
         $repository = Strings::substring($repositoryUrl, Strings::length(self::GITHUB_URL));
         $this->repositoryOwners[$repositoryOriginUrl] = Strings::before($repository, '/');
         return $this->repositoryOwners[$repositoryOriginUrl];
