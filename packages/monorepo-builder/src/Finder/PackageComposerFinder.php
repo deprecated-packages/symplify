@@ -38,9 +38,9 @@ final class PackageComposerFinder
 
     public function __construct(ParameterProvider $parameterProvider, FinderSanitizer $finderSanitizer, ParameterSupplier $parameterSupplier)
     {
-        $this->packageDirectories = $parameterProvider->provideArrayParameter(
-            array_keys($parameterSupplier->fillPackageDirectoriesWithDefaultData(Option::PACKAGE_DIRECTORIES))
-        );
+        $this->packageDirectories = array_keys($parameterSupplier->fillPackageDirectoriesWithDefaultData(
+            $parameterProvider->provideArrayParameter(Option::PACKAGE_DIRECTORIES)
+        ));
         $this->packageDirectoriesExcludes = $parameterProvider->provideArrayParameter(
             Option::PACKAGE_DIRECTORIES_EXCLUDES
         );

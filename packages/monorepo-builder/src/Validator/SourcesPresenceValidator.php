@@ -25,9 +25,9 @@ final class SourcesPresenceValidator
     public function __construct(ComposerJsonProvider $composerJsonProvider, ParameterProvider $parameterProvider, ParameterSupplier $parameterSupplier)
     {
         $this->composerJsonProvider = $composerJsonProvider;
-        $this->packageDirectories = $parameterProvider->provideArrayParameter(
-            array_keys($parameterSupplier->fillPackageDirectoriesWithDefaultData(Option::PACKAGE_DIRECTORIES))
-        );
+        $this->packageDirectories = array_keys($parameterSupplier->fillPackageDirectoriesWithDefaultData(
+            $parameterProvider->provideArrayParameter(Option::PACKAGE_DIRECTORIES)
+        ));
     }
 
     public function validatePackageComposerJsons(): void
