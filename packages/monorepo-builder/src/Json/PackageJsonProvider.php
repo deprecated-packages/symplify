@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Json;
 
 use Nette\Utils\Strings;
-use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\MonorepoBuilder\Package\PackageProvider;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\MonorepoBuilder\Parameter\ParameterSupplier;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class PackageJsonProvider
@@ -17,13 +17,17 @@ final class PackageJsonProvider
      * @var PackageProvider
      */
     private $packageProvider;
+
     /**
      * @var string[]
      */
     private $packageDirectoriesData = [];
 
-    public function __construct(PackageProvider $packageProvider, ParameterProvider $parameterProvider, ParameterSupplier $parameterSupplier)
-    {
+    public function __construct(
+        PackageProvider $packageProvider,
+        ParameterProvider $parameterProvider,
+        ParameterSupplier $parameterSupplier
+    ) {
         $this->packageProvider = $packageProvider;
         $this->packageDirectoriesData = $parameterSupplier->fillPackageDirectoriesWithDefaultData(
             $parameterProvider->provideArrayParameter(Option::PACKAGE_DIRECTORIES)
@@ -60,10 +64,7 @@ final class PackageJsonProvider
         }
 
         throw new ShouldNotHappenException(
-            sprintf(
-                'There is no organization for the package under path "%s"',
-                $packageRealPath
-            )
+            sprintf('There is no organization for the package under path "%s"', $packageRealPath)
         );
     }
 }

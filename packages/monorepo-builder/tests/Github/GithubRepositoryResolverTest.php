@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Tests\Github;
 
 use Iterator;
-use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\MonorepoBuilder\Github\GithubRepositoryResolver;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class GithubRepositoryResolverTest extends AbstractKernelTestCase
@@ -29,10 +29,7 @@ final class GithubRepositoryResolverTest extends AbstractKernelTestCase
      */
     public function test(string $remoteUrl, string $expectedName): void
     {
-        $this->assertSame(
-            $expectedName,
-            $this->githubRepositoryResolver->resolveGitHubRepositoryOwner($remoteUrl)
-        );
+        $this->assertSame($expectedName, $this->githubRepositoryResolver->resolveGitHubRepositoryOwner($remoteUrl));
     }
 
     public function provideData(): Iterator
@@ -40,10 +37,7 @@ final class GithubRepositoryResolverTest extends AbstractKernelTestCase
         yield ['git@github.com:symplify/symplify.git', 'symplify'];
         yield ['https://github.com/symplify/symplify.git', 'symplify'];
         yield ['https://UserName@github.com/symplify/symplify.git', 'symplify'];
-        yield [
-            'https://UserName:PassWord@github.com:443/symplify/symplify.git',
-            'symplify',
-        ];
+        yield ['https://UserName:PassWord@github.com:443/symplify/symplify.git', 'symplify'];
         yield ['git@github.com:space/low-orbit.git', 'space'];
         yield ['https://github.com/symplify/symplify', 'symplify'];
     }

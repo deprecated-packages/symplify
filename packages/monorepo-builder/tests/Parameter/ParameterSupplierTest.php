@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\Parameter;
 
-use Symplify\MonorepoBuilder\Parameter\ParameterSupplier;
-use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\MonorepoBuilder\Github\GithubRepositoryResolver;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\MonorepoBuilder\Parameter\ParameterSupplier;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ParameterSupplierTest extends AbstractKernelTestCase
@@ -16,6 +16,7 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
      * @var ParameterSupplier
      */
     private $parameterSupplier;
+
     /**
      * @var GithubRepositoryResolver
      */
@@ -39,7 +40,7 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
                 'organization' => 'migrify',
             ],
         ];
-        $this->assertEquals(
+        $this->assertSame(
             $completeConfig,
             $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($completeConfig)
         );
@@ -81,7 +82,7 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
                 'organization' => 'migrify',
             ],
         ];
-        $this->assertEquals(
+        $this->assertSame(
             $configAfter,
             $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($configBefore)
         );
@@ -90,10 +91,7 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
     public function testPackageDirectoriesAsKeys(): void
     {
         $repoOwner = $this->githubRepositoryResolver->resolveGitHubRepositoryOwnerFromRemote();
-        $configBefore = [
-            'symplify/monorepo-builder',
-            'rector/rector',
-        ];
+        $configBefore = ['symplify/monorepo-builder', 'rector/rector'];
         $configAfter = [
             'symplify/monorepo-builder' => [
                 'organization' => $repoOwner,
@@ -102,7 +100,7 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
                 'organization' => $repoOwner,
             ],
         ];
-        $this->assertEquals(
+        $this->assertSame(
             $configAfter,
             $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($configBefore)
         );
@@ -114,9 +112,6 @@ final class ParameterSupplierTest extends AbstractKernelTestCase
         $config = [
             'symplify/monorepo-builder' => 'symplify',
         ];
-        $this->assertEquals(
-            $config,
-            $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($config)
-        );
+        $this->assertSame($config, $this->parameterSupplier->fillPackageDirectoriesWithDefaultData($config));
     }
 }
