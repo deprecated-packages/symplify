@@ -19,15 +19,18 @@ final class PackageJsonProvider
     }
 
     /**
-     * @return string[]
+     * @return array<string[]>
      */
-    public function providePackages(): array
+    public function providePackageEntries(): array
     {
-        $packageShortNames = [];
+        $packageEntries = [];
         foreach ($this->packageProvider->provide() as $package) {
-            $packageShortNames[] = $package->getShortName();
+            $packageEntries[] = [
+                'name' => $package->getShortName(),
+                'path' => $package->getRelativePath(),
+            ];
         }
 
-        return $packageShortNames;
+        return $packageEntries;
     }
 }

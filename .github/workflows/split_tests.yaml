@@ -39,7 +39,7 @@ jobs:
             matrix:
                 package: ${{ fromJson(needs.provide_packages_json.outputs.matrix )}}
 
-        name: Split Tests of ${{ matrix.package }}
+        name: Split Tests of ${{ matrix.package.name }}
 
         steps:
             -   uses: actions/checkout@v2
@@ -51,10 +51,10 @@ jobs:
 
             -   run: composer install --no-progress --ansi
 
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.package }}/composer.json --ansi
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths ${{ matrix.package.path }}/composer.json --ansi
 
-            -   run: composer update --no-progress --ansi --working-dir packages/${{ matrix.package }}
+            -   run: composer update --no-progress --ansi --working-dir ${{ matrix.package.path }}
 
             -
-                working-directory: packages/${{ matrix.package }}
+                working-directory: ${{ matrix.package.path }}
                 run: vendor/bin/phpunit
