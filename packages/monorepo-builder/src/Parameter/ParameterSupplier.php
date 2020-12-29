@@ -23,10 +23,10 @@ final class ParameterSupplier
     }
 
     /**
-     * @var mixed[]
+     * @var mixed[] $packageDirectoriesData
      * @return array<string, mixed[]>
      */
-    public function fillPackageDirectoriesWithDefaultData(array $packageDirectoriesData)
+    public function fillPackageDirectoriesWithDefaultData(array $packageDirectoriesData): array
     {
         $completePackageDirectoriesData = [];
         foreach ($packageDirectoriesData as $packageDirectory => $data) {
