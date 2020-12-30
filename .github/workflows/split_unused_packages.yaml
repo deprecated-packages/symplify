@@ -69,13 +69,13 @@ jobs:
             # composer install cache - https://github.com/ramsey/composer-install
             -   uses: "ramsey/composer-install@v1"
 
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths ${{ matrix.package_path }}/composer.json --ansi
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths ${{ matrix.package.path }}/composer.json --ansi
 
-            -   run: composer update --no-progress --ansi --working-dir ${{ matrix.package_path }}
+            -   run: composer update --no-progress --ansi --working-dir ${{ matrix.package.path }}
 
-            -   run: composer require icanhazstring/composer-unused --dev --ansi --working-dir ${{ matrix.package_path }}
+            -   run: composer require icanhazstring/composer-unused --dev --ansi --working-dir ${{ matrix.package.path }}
 
             -
-                name: Unused Packages of ${{ matrix.package_path }}
-                working-directory: ${{ matrix.package_path }}
+                name: Unused Packages of ${{ matrix.package.name }}
+                working-directory: ${{ matrix.package.path }}
                 run: composer unused --ansi

@@ -32,10 +32,10 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $packagePaths = $this->packageJsonProvider->providePackages();
+        $packageEntries = $this->packageJsonProvider->providePackageEntries();
 
         // must be without spaces, otherwise it breaks GitHub Actions json
-        $json = Json::encode($packagePaths);
+        $json = Json::encode($packageEntries);
         $this->symfonyStyle->writeln($json);
 
         return ShellCode::SUCCESS;

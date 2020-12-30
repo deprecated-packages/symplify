@@ -51,13 +51,13 @@ jobs:
 
             -
                 # Uses an action in the root directory
-                name: Monorepo Split of ${{ matrix.package }}
+                name: Monorepo Split of ${{ matrix.package.name }}
                 uses: symplify/github-action-monorepo-split@master
                 env:
                     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
                 with:
-                    package-directory: 'packages/${{ matrix.package }}'
+                    package-directory: '${{ matrix.package.path }}'
                     split-repository-organization: 'symplify'
-                    split-repository-name: '${{ matrix.package }}'
+                    split-repository-name: '${{ matrix.package.name }}'
                     user-name: "kaizen-ci"
                     user-email: "info@kaizen-ci.org"
