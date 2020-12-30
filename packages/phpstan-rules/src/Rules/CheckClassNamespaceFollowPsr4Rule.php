@@ -71,7 +71,6 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
         }
 
         $shortClassName = (string) $node->name;
-
         if (Strings::match($shortClassName, self::ANONYMOUS_CLASS_REGEX)) {
             return [];
         }
@@ -85,18 +84,22 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
                 return [];
             }
 
-            if (! $this->isInDirectoryNamed($scope, $directory)) {
-                continue;
-            }
+            $directories = $this->resolveDirectories($directory);
+            foreach ($directories as $singleDirectory) {
+                if (! $this->isInDirectoryNamed($scope, $singleDirectory)) {
+                    continue;
+                }
 
-            if ($this->isClassNamespaceCorrect($namespace, $directory, $namespaceBeforeClass, $file)) {
-                return [];
+                if ($this->isClassNamespaceCorrect($namespace, $singleDirectory, $namespaceBeforeClass, $file)) {
+                    return [];
+                }
             }
         }
 
         $type = $this->getType($className, $file);
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $type, substr($namespaceBeforeClass, 0, -1));
+        $namespacePart = substr($namespaceBeforeClass, 0, -1);
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $type, $namespacePart);
         return [$errorMessage];
     }
 
@@ -165,5 +168,18 @@ CODE_SAMPLE
     private function resolveNamespacePartOfClass(string $className, string $shortClassName): string
     {
         return (string) Strings::substring($className, 0, - strlen($shortClassName));
+    }
+
+    /**
+     * @param string|string[] $directory
+     * @return string[]
+     */
+    private function resolveDirectories($directory): array
+    {
+        if (! is_array($directory)) {
+            return [$directory];
+        }
+
+        return $directory;
     }
 }
