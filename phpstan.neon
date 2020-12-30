@@ -483,3 +483,8 @@ parameters:
                  - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php #51
 
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\CheckClassNamespaceFollowPsr4Rule\:\:process\(\)" is 11, keep it under 8#'
+
+        -
+            message: '#Anonymous class is not allowed#'
+            paths:
+                 - packages/astral/src/NodeTraverser/SimpleCallableNodeTraverser.php #35
