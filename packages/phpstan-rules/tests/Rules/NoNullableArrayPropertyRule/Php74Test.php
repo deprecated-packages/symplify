@@ -24,7 +24,7 @@ final class Php74Test extends AbstractServiceAwareRuleTestCase
     {
         yield [__DIR__ . '/FixturePhp74/SkipNotArray.php', []];
         yield [__DIR__ . '/FixturePhp74/SkipClassNameProperty.php', []];
-        yield [__DIR__ . '/Fixture/NullableArrayProperty.php', [[NoNullableArrayPropertyRule::ERROR_MESSAGE, 9]]];
+        yield [__DIR__ . '/FixturePhp74/NullableArrayProperty.php', [[NoNullableArrayPropertyRule::ERROR_MESSAGE, 9]]];
     }
 
     protected function getRule(): Rule
