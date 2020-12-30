@@ -22,8 +22,8 @@ final class Php74Test extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SkipNotArray.php', []];
-        yield [__DIR__ . '/Fixture/SkipClassNameProperty.php', []];
+        yield [__DIR__ . '/FixturePhp74/SkipNotArray.php', []];
+        yield [__DIR__ . '/FixturePhp74/SkipClassNameProperty.php', []];
     }
 
     protected function getRule(): Rule

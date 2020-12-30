@@ -7,5 +7,10 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoNullableArrayPropertyRule\Fixture;
 final class NullableArrayProperty
 {
     private ?array $value = [];
+
+    public function run()
+    {
+        $value;
+    }
 }
 
