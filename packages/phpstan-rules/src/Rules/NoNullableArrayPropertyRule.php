@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\Printer\NodeComparator;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use PhpParser\Node\NullableType;
-use PhpParser\Node\Identifier;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoNullableArrayPropertyRule\NoNullableArrayPropertyRuleTest
@@ -38,18 +36,16 @@ final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        // no type
-        if ($node->type === null) {
-            return [];
-        }
-
-        // not array
-        if ($node->type instanceof Identifier && $node->type->toString() !== 'array') {
-            return [];
-        }
-
-        // not nullable
         if (! $node->type instanceof NullableType) {
+            return [];
+        }
+
+        $type = $node->type->type;
+        if (! $type instanceof Identifier) {
+            return [];
+        }
+
+        if ($type->toString() !== 'array') {
             return [];
         }
 

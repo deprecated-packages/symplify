@@ -25,9 +25,7 @@ final class NoNullableArrayPropertyRuleTest extends AbstractServiceAwareRuleTest
         yield [__DIR__ . '/Fixture/SkipNotArray.php', []];
         yield [__DIR__ . '/Fixture/SkipNotNullable.php', []];
         yield [__DIR__ . '/Fixture/SkipClassNameProperty.php', []];
-        yield [__DIR__ . '/Fixture/NullableArrayProperty.php', [
-            [NoNullableArrayPropertyRule::ERROR_MESSAGE, 9]
-        ]];
+        yield [__DIR__ . '/Fixture/NullableArrayProperty.php', [[NoNullableArrayPropertyRule::ERROR_MESSAGE, 9]]];
     }
 
     protected function getRule(): Rule
