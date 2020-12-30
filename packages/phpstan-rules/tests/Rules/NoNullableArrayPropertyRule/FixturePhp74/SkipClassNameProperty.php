@@ -9,10 +9,5 @@ use DateTime;
 final class SkipClassNameProperty
 {
     private ?DateTime $value;
-
-    public function run()
-    {
-        $this->value;
-    }
 }
 

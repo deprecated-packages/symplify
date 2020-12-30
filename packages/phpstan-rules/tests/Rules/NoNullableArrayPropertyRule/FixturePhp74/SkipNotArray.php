@@ -7,10 +7,5 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoNullableArrayPropertyRule\FixtureP
 final class SkipNotArray
 {
     private ?object $value;
-
-    public function run()
-    {
-        $this->value;
-    }
 }
 

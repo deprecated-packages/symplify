@@ -7,10 +7,5 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoNullableArrayPropertyRule\Fixture;
 final class SkipNoType
 {
     private $values = [];
-
-    public function run()
-    {
-        $this->values;
-    }
 }
 
