@@ -38,11 +38,18 @@ final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        // no type
         if ($node->type === null) {
             return [];
         }
 
+        // not array
         if ($node->type instanceof Identifier && $node->type->toString() !== 'array') {
+            return [];
+        }
+
+        // not nullable
+        if (! $node->type instanceof NullableType) {
             return [];
         }
 
