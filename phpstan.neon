@@ -485,6 +485,6 @@ parameters:
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\CheckClassNamespaceFollowPsr4Rule\:\:process\(\)" is 11, keep it under 8#'
 
         -
-            message: '#Anonymous class is not allowed'
+            message: '#Anonymous class is not allowed#'
             paths:
                  - packages/astral/src/NodeTraverser/SimpleCallableNodeTraverser.php #35
