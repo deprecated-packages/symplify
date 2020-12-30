@@ -10,7 +10,7 @@ final class NullableArrayProperty
 
     public function run()
     {
-        $value;
+        $this->value;
     }
 }
 

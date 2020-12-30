@@ -10,7 +10,7 @@ final class SkipNoType
 
     public function run()
     {
-        $values;
+        $this->values;
     }
 }
 

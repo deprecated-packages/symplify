@@ -10,7 +10,7 @@ final class SkipNotArray
 
     public function run()
     {
-        $values;
+        $this->value;
     }
 }
 

@@ -10,7 +10,7 @@ final class SkipNotNullable
 
     public function run()
     {
-        $value;
+        $this->value;
     }
 }
 
