@@ -88,7 +88,6 @@ parameters:
         - */stubs/*
         - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php
         - packages/phpstan-rules/tests/Rules/AllowedExclusiveDependencyRule/FixturePhp74/*
-        - packages/phpstan-rules/tests/Rules/NoNullableArrayPropertyRule/FixturePhp74/*
 
     bootstrapFiles:
         - tests/bootstrap.php
