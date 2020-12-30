@@ -9,9 +9,10 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNullableArrayPropertyRule;
 
-final class NoNullableArrayPropertyRuleTest extends AbstractServiceAwareRuleTestCase
+final class Php74Test extends AbstractServiceAwareRuleTestCase
 {
     /**
+     * @requires PHP 7.4
      * @dataProvider provideData()
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
@@ -21,9 +22,8 @@ final class NoNullableArrayPropertyRuleTest extends AbstractServiceAwareRuleTest
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SkipNoType.php', []];
-        yield [__DIR__ . '/Fixture/SkipNotNullable.php', []];
-        yield [__DIR__ . '/Fixture/NullableArrayProperty.php', [[NoNullableArrayPropertyRule::ERROR_MESSAGE, 9]]];
+        yield [__DIR__ . '/Fixture/SkipNotArray.php', []];
+        yield [__DIR__ . '/Fixture/SkipClassNameProperty.php', []];
     }
 
     protected function getRule(): Rule
