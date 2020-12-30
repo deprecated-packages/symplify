@@ -36,7 +36,7 @@ final class ForbiddenAnonymousClassRule extends AbstractSymplifyRule
     }
 
     /**
-     * @param ClassMethod $node
+     * @param Class_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
