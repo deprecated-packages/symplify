@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NoNullableArrayPropertyRule\Fixture;
 
-final class SkipNotArray
+use DateTime;
+
+final class SkipClassNameProperty
 {
-    private ?object $value;
+    private ?DateTime $value;
 }
 
