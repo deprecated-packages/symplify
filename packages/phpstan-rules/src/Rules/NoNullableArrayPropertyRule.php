@@ -12,6 +12,7 @@ use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use PhpParser\Node\NullableType;
+use PhpParser\Node\Identifier;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoNullableArrayPropertyRule\NoNullableArrayPropertyRuleTest
@@ -38,6 +39,10 @@ final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         if ($node->type === null) {
+            return [];
+        }
+
+        if ($node->type instanceof Identifier && $node->type->toString() !== 'array') {
             return [];
         }
 
