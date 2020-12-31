@@ -66,6 +66,8 @@ services:
                 - 'curl_*'
                 - 'method_exists'
                 - 'property_exists'
+                - 'spl_autoload_register'
+                - 'spl_autoload_unregister'
 
     -
         class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule

@@ -23,6 +23,12 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Class "%s" should have suffix "%s" by parent class/interface';
 
     /**
+     * @see https://regex101.com/r/ChpDsj/1
+     * @var string
+     */
+    private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
+
+    /**
      * @var string[]
      */
     private const DEFAULT_PARENT_CLASSES = [
@@ -78,11 +84,15 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
             return [];
         }
 
+        $class = (string) $shortClassName;
+        if (Strings::match($class, self::ANONYMOUS_CLASS_REGEX)) {
+            return [];
+        }
+
         if ($node->extends !== null) {
             return $this->processParent($node, $node->extends);
         }
 
-        $class = (string) $shortClassName;
         foreach ($node->implements as $implement) {
             $errorMessages = $this->processClassNameAndShort($class, $implement->getLast());
             if ($errorMessages !== []) {
