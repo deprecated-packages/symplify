@@ -1,4 +1,4 @@
-# 115 Rules Overview
+# 117 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -896,6 +896,33 @@ class CheckboxRepository
         $this->entityManager = $entityManager;
     }
 }
+```
+
+:+1:
+
+<br>
+
+## ForbiddenAnonymousClassRule
+
+Anonymous class is not allowed.
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule`
+
+```php
+new class() {
+};
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+}
+
+new SomeClass();
 ```
 
 :+1:
@@ -2757,6 +2784,34 @@ final class SomeFactory
     {
         return new SomeValueObject();
     }
+}
+```
+
+:+1:
+
+<br>
+
+## NoNullableArrayPropertyRule
+
+Use required typed property over of nullable property
+
+- class: `Symplify\PHPStanRules\Rules\NoNullableArrayPropertyRule`
+
+```php
+final class SomeClass
+{
+    private ?array $property = null;
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    private array $property;
 }
 ```
 
