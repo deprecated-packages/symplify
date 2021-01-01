@@ -1,4 +1,6 @@
-# Changelog
+<!-- changelog-linker -->
+
+## Unreleased# Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -7,416 +9,307 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/symplify/changelog-linker).
 
-<!-- changelog-linker -->
-
-## 9.0.11 - 2020-12-15
-
 ### Added
 
-#### EasyCI
+#### Astral
+- [#2710] Add new package- [#2719] Add builders
 
-- [#2607] Add php-json to README
-- [#2592] Add php-json command to provide currently support PHP versions
+#### ConfigTransformer
+- [#2673] Add support for sniff/fixer parameters
 
 #### PHPStanRules
+- [#2666] Add PreventDuplicateClassMethodRule, Thanks to [@samsonasik]- [#2701] Add IfImplementsInterfaceThenNewTypeRule- [#2703] Add ForbiddenNullableParameterRule, replaces overly strict NoNullableParameterRule- [#2689] Add RequireThisCallOnLocalMethodRule, Thanks to [@samsonasik]- [#2705] Add null default check to forbidden null type- [#2706] Add variable mallform fix of inlined var without variable name- [#2679] Add RequireStringRegexMatchKeyRule, Thanks to [@samsonasik]- [#2723] Add NoNullableArrayPropertyRule, Thanks to [@samsonasik]- [#2653] Add RequireQuoteStringValueSprintfRule, Thanks to [@samsonasik]- [#2725] Add ForbiddenAnonymousClassRule, Thanks to [@samsonasik]
 
-- [#2601] Add OnlyOneClassMethodRule
-- [#2628] Skip EAB parent class + Add on release update of composer.json replace
-- [#2643] Add PreventDoubleSetParameterRule, Thanks to [@samsonasik]
-- [#2576] Fixes [#2037] Add CheckDependencyMatrixRule, Thanks to [@samsonasik]
-- [#2610] Add CheckConstantStringValueFormatRule
-- [#2569] Fixes [#2523] Add CheckClassNamespaceFollowPsr4Rule, Thanks to [@samsonasik]
-- [#2623] Add IfNewTypeThenImplementInterfaceRule
-- [#2626] Add RequireInvokableControllerRule
-- [#2591] Add ForbiddenMethodCallOnTypeRule
-- [#2630] Add PreferredAttributeOverAnnotationRule
+#### PackageScoper
+- [#2708] Add clean-dev-files command
 
 #### Unknown Package
+- [#2711] Added "branch-alias", Thanks to [@leoloso]
 
-- [#2604] Add AuthorComposerKeyMerger, Thanks to [@ruudk]
-- [#2616] Add ShouldNotHappenException for EasyCI, Thanks to [@ruudk]
+#### cs
+- [#2696] add back class separation rules
 
 ### Changed
 
-#### CI
-
-- [#2594] Handle packges-json in key-aware approach
-
 #### CodingStandard
-
-- [#2638] Merge split dead commenting remover Fixers to one
-
-#### ComposerJsonManipulator
-
-- [#2605] Export `authors`, `type` and `conflicting`, Thanks to [@ruudk]
-
-#### MonorepoBuilder
-
-- [#2629] Make use of ComposerJsonManipulator
+- [#2675] Skip if without end- [#2676] Skip impossible start
 
 #### PHPStanRules
-
-- [#2577] Skip anonymous class in CheckClassNamespaceFollowPsr4Rule
-- [#2645] Refactor PreventDoubleSetParameterRule to use SymfonyPhpConfigClosureAnalyzer
-- [#2611] Change CheckDependencyMatrixRule to AllowedExclusiveDependencyRule
-- [#2632] Move set up
-- [#2573] Skip attribute in array string keys
-- [#2619] Rename NoParticularNodeRule to ForbiddenNodeRule to respect common wording
-- [#2620] Rename ForbiddenConstructorDependencyByTypeRule to ForbiddenDependencyByTypeRule
-- [#2636] Improve NoSetterOnServiceRule, skip parent setter interface
-- [#2590] Skip strings with spaces in CheckConstantStringValueFormatRule
-- [#2633] Skip intentionally comment in ForbiddenNodeRule
-
-#### PackageBuilder
-
-- [#2595] Use getService() object API
-
-#### RuleDocGenerator
-
-- [#2588] Configuratoin cannot be empty
-
-#### Skipper
-
-- [#2624] Complete docs
+- [#2672] Refactor CheckTypehintCallerTypeRule from instanceof to PHPStan types- [#2645] Refactor PreventDoubleSetParameterRule to use SymfonyPhpConfigClosureAnalyzer- [#2670] Skip callables in dynamic naming- [#2668] Skip callables in dynamic naming- [#2680] Refactor CheckUsedNamespacedNameOnClassNodeRule to skip null compare- [#2663] ensure no superflous / or \ in check isInDirectoryNamed(), Thanks to [@samsonasik]- [#2724] Skip ClassNameRespectsParentSuffixRule on anonymous class, Thanks to [@samsonasik]
 
 #### Unknown Package
-
-- [#2572] Automated Update of Changelog on 2020-12-01, Thanks to [@github-actions][bot]
-- [#2640] typo
-- [#2603] run split on tag
-- [#2575] Bump min version to PHP 7.3
+- [#2660] Failing test case for multiple ## Unreleased against , Thanks to [@samsonasik]- [#2649] Automated Update of Changelog on 2020-12-15, Thanks to [@github-actions][bot]- [#2665] Ensure namespacedName property exists when call $Class_->namespacedName, Thanks to [@samsonasik]- [#2685] Duplicate trait- [#2690] Improved documentation (to avoid error), Thanks to [@leoloso]- [#2692] [monorepo-builder "localize-composer-paths"] Extract $packageComposerFiles from out of loop, Thanks to [@leoloso]- [#2714] [Monorepo Builder] Avoid duplicating entries in composer.json's repositories, Thanks to [@leoloso]
 
 #### automated
+- [#2726] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2677] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2686] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2687] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2651] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2691] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2657] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2709] Re-Generate Docs, Thanks to [@github-actions][bot]
 
-- [#2597] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2585] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2646] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2598] Re-Propagate Composer Dependencies to Packages, Thanks to [@github-actions][bot]
-- [#2602] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2613] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2627] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2567] Re-Apply Coding Standards, Thanks to [@github-actions][bot]
-- [#2635] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2566] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2642] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2582] Re-Generate Docs, Thanks to [@github-actions][bot]
-
-### Deprecated
-
-#### EasyCodingStandard
-
-- [#2614] Remove deprecated Option class
+#### monorepo-builder
+- [#2712] Enable symlink => true in composer.json repository for local package, Thanks to [@leoloso]
 
 ### Fixed
 
-- [#2625] Fix init command
-
 #### PHPStanRules
-
-- [#2564] Fixes node->getAttribute() got null on CheckTypehintCallerTypeRule, Thanks to [@samsonasik]
-- [#2617] Fix doc typo
-
-#### RuleDocGenerator
-
-- [#2583] Fixes rectorphp/rector[#4756] AbstractCodeSample parameter order, Thanks to [@samsonasik]
+- [#2720] Fix CheckClassNamespaceFollowPsr4Rule for multi-dir- [#2659] Fixes CheckClassNamespaceFollowPsr4Rule check is in named directory in Windows Operating System, Thanks to [@samsonasik]- [#2681] Fix BoolishClassMethodPrefixRule for nested scope- [#2704] Fix commented print node- [#2684] Fix CheckUsedNamespacedNameOnClassNodeRule for being assigned into- [#2671] Fix comparing node calls- [#2688] Fix duplicate methods for traits- [#2699] Fix parent interface require by new
 
 #### Unknown Package
-
-- [#2580] Fix typo in Github Action, Thanks to [@ruudk]
-- [#2596] Fix typo, Thanks to [@staabm]
-- [#2615] Fix typo, Thanks to [@staabm]
-- [#2609] Fix typo, Thanks to [@staabm]
+- [#2667] Fixed some typos in Package Scoper's README, Thanks to [@leoloso]
 
 ### Removed
 
 #### PHPStanRules
+- [#2656] Remove composer type, Thanks to [@enumag]- [#2655] Remove auto-installation with phpstan/extension-installer, Thanks to [@enumag]
 
-- [#2621] Drop NoEntityManagerInControllerRule, use AllowedExclusiveDependencyRule instead; merge duplicate AllowsExclusiveDependencyRule to ExclusiveDependencyRule
-- [#2634] Remove NoStaticCallRule, completely useless
+## [9.0.11] - 2020-12-15
+
+### Added
+
+#### EasyCI
+- [#2607] Add php-json to README- [#2592] Add php-json command to provide currently support PHP versions
+
+#### PHPStanRules
+- [#2601] Add OnlyOneClassMethodRule- [#2628] Skip EAB parent class + Add on release update of composer.json replace- [#2643] Add PreventDoubleSetParameterRule, Thanks to [@samsonasik]- [#2576] Fixes [#2037] Add CheckDependencyMatrixRule, Thanks to [@samsonasik]- [#2610] Add CheckConstantStringValueFormatRule- [#2569] Fixes [#2523] Add CheckClassNamespaceFollowPsr4Rule, Thanks to [@samsonasik]- [#2623] Add IfNewTypeThenImplementInterfaceRule- [#2626] Add RequireInvokableControllerRule- [#2591] Add ForbiddenMethodCallOnTypeRule- [#2630] Add PreferredAttributeOverAnnotationRule
 
 #### Unknown Package
+- [#2604] Add AuthorComposerKeyMerger, Thanks to [@ruudk]- [#2616] Add ShouldNotHappenException for EasyCI, Thanks to [@ruudk]
 
-- [#2571] Drop support for ref() and inline(), Thanks to [@marforon]
-- [#2641] drop ignore-platform-reqs
+### Changed
+
+#### CI
+- [#2594] Handle packges-json in key-aware approach
+
+#### CodingStandard
+- [#2638] Merge split dead commenting remover Fixers to one
+
+#### ComposerJsonManipulator
+- [#2605] Export `authors`, `type` and `conflicting`, Thanks to [@ruudk]
+
+#### MonorepoBuilder
+- [#2629] Make use of ComposerJsonManipulator
+
+#### PHPStanRules
+- [#2577] Skip anonymous class in CheckClassNamespaceFollowPsr4Rule- [#2645] Refactor PreventDoubleSetParameterRule to use SymfonyPhpConfigClosureAnalyzer- [#2611] Change CheckDependencyMatrixRule to AllowedExclusiveDependencyRule- [#2632] Move set up- [#2573] Skip attribute in array string keys- [#2619] Rename NoParticularNodeRule to ForbiddenNodeRule to respect common wording- [#2620] Rename ForbiddenConstructorDependencyByTypeRule to ForbiddenDependencyByTypeRule- [#2636] Improve NoSetterOnServiceRule, skip parent setter interface- [#2590] Skip strings with spaces in CheckConstantStringValueFormatRule- [#2633] Skip intentionally comment in ForbiddenNodeRule
+
+#### PackageBuilder
+- [#2595] Use getService() object API
+
+#### RuleDocGenerator
+- [#2588] Configuratoin cannot be empty
+
+#### Skipper
+- [#2624] Complete docs
+
+#### Unknown Package
+- [#2572] Automated Update of Changelog on 2020-12-01, Thanks to [@github-actions][bot]- [#2640] typo- [#2603] run split on tag- [#2575] Bump min version to PHP 7.3
+
+#### automated
+- [#2597] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2585] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2646] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2598] Re-Propagate Composer Dependencies to Packages, Thanks to [@github-actions][bot]- [#2602] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2613] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2627] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2567] Re-Apply Coding Standards, Thanks to [@github-actions][bot]- [#2635] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2566] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2642] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2582] Re-Generate Docs, Thanks to [@github-actions][bot]
+
+### Deprecated
+
+#### EasyCodingStandard
+- [#2614] Remove deprecated Option class
+
+### Fixed
+- [#2625] Fix init command
+
+#### PHPStanRules
+- [#2564] Fixes node->getAttribute() got null on CheckTypehintCallerTypeRule, Thanks to [@samsonasik]- [#2617] Fix doc typo
+
+#### RuleDocGenerator
+- [#2583] Fixes rectorphp/rector[#4756] AbstractCodeSample parameter order, Thanks to [@samsonasik]
+
+#### Unknown Package
+- [#2580] Fix typo in Github Action, Thanks to [@ruudk]- [#2596] Fix typo, Thanks to [@staabm]- [#2615] Fix typo, Thanks to [@staabm]- [#2609] Fix typo, Thanks to [@staabm]
+
+### Removed
+
+#### PHPStanRules
+- [#2621] Drop NoEntityManagerInControllerRule, use AllowedExclusiveDependencyRule instead; merge duplicate AllowsExclusiveDependencyRule to ExclusiveDependencyRule- [#2634] Remove NoStaticCallRule, completely useless
+
+#### Unknown Package
+- [#2571] Drop support for ref() and inline(), Thanks to [@marforon]- [#2641] drop ignore-platform-reqs
 
 ## [9.0.0-rc1] - 2020-12-05
 
 ### Added
 
 #### CodingStandard
-
-- [#2498] Fixes [#2493] Add RemoveUselessClassCommentFixer, Thanks to [@samsonasik]
-- [#2522] Fixes [#2517] Add Handle useless method comment in RemoveUselessClassCommentFixer, Thanks to [@samsonasik]
+- [#2498] Fixes [#2493] Add RemoveUselessClassCommentFixer, Thanks to [@samsonasik]- [#2522] Fixes [#2517] Add Handle useless method comment in RemoveUselessClassCommentFixer, Thanks to [@samsonasik]
 
 #### ComposerJsonManipulator
-
 - [#2494] Add type
 
 #### ConfigTransformer
-
 - [#2539] Add new package
 
 #### EasyCI
-
 - [#2528] Add a new package
 
 #### LatteToTwig
-
 - [#2531] Add a new package
 
 #### PHPConfigPrinter
-
 - [#2527] Add a new package
 
 #### PHPStanRules
-
-- [#2550] Fixes [#2330] Add ForbiddenCallOnTypeRule, Thanks to [@samsonasik]
-- [#2529] Add foreach over nested
-- [#2557] Fixes [#2548] Add CheckOptionArgumentCommandRule, Thanks to [@samsonasik]
-- [#2499] Add configuration to NoChainMethodCallRule
-- [#2559] Fixes [#2327] Add CheckTypehintCallerTypeRule, Thanks to [@samsonasik]
-- [#2515] Add RequireClassTypeInClassMethodByTypeRule
+- [#2550] Fixes [#2330] Add ForbiddenCallOnTypeRule, Thanks to [@samsonasik]- [#2529] Add foreach over nested- [#2557] Fixes [#2548] Add CheckOptionArgumentCommandRule, Thanks to [@samsonasik]- [#2499] Add configuration to NoChainMethodCallRule- [#2559] Fixes [#2327] Add CheckTypehintCallerTypeRule, Thanks to [@samsonasik]- [#2515] Add RequireClassTypeInClassMethodByTypeRule
 
 #### PHPUnitUpgrader
-
 - [#2537] Add new package
 
 #### RuleDocGeneator
-
 - [#2510] Add ComposerJsonAwareCodeSample
 
 #### RuleDocGenerator
-
-- [#2511] Add ExtraFileCodeSampler
-- [#2509] Add Rector print support
-- [#2547] Add count to the top + category
+- [#2511] Add ExtraFileCodeSampler- [#2509] Add Rector print support- [#2547] Add count to the top + category
 
 #### SimplePhpDocParser
-
 - [#2552] Add new package
 
 #### Skipper
-
-- [#2553] Various paths improvements, add shouldSkipElement() method
-- [#2546] Add SkippedPathsResolver
-- [#2495] Add a fix for PathNormalizer if Path contains "..", Thanks to [@tomasnorre]
+- [#2553] Various paths improvements, add shouldSkipElement() method- [#2546] Add SkippedPathsResolver- [#2495] Add a fix for PathNormalizer if Path contains "..", Thanks to [@tomasnorre]
 
 #### StaticDetector
-
 - [#2533] Add new package
 
 #### SymfonyPhpConfig
-
 - [#2549] Add a new package
 
 #### TemplateChecker
-
 - [#2535] Add a new package
 
 #### Unknown Package
-
-- [#2544] README: add Symplify 9 packages to list
-- [#2536] [PSR-4 Switcher] Add a new package
+- [#2544] README: add Symplify 9 packages to list- [#2536] [PSR-4 Switcher] Add a new package
 
 #### VendorPatches
-
 - [#2534] Add a new package
 
 ### Changed
 
 #### CI
-
-- [#2496] Move coding standards from ci-reivew to daily-prs
-- [#2497] Move ci-review + rector-ci to daily PRs to speedup contributions
+- [#2496] Move coding standards from ci-reivew to daily-prs- [#2497] Move ci-review + rector-ci to daily PRs to speedup contributions
 
 #### ClassPresence
-
 - [#2541] Init new packages
 
 #### ConsolePackageBuilder
-
 - [#2542] Init a new package
 
 #### EasyHydrator
-
 - [#2521] ScalarTypeCaster supports float, Thanks to [@janatjak]
 
 #### LatteToTwigConverter
-
 - [#2532] Make name more explicit
 
 #### NeonToYamlConverter
-
 - [#2538] Init a new package
 
 #### PHPStanRules
-
-- [#2513] Make ForbiddenMethodOrStaticCallInIfRule skip trinary logic
-- [#2505] Allow parsing parent classes from phar
-- [#2503] Skip spready in RobotLoader addDirectory
-- [#2500] Make ClassLikeCognitiveComplexityRule configurable by class type
-- [#2512] Allow match in calls
-- [#2568] Improve CheckTypehintCallerTypeRule : skip non private and multiple usages, Thanks to [@samsonasik]
+- [#2513] Make ForbiddenMethodOrStaticCallInIfRule skip trinary logic- [#2505] Allow parsing parent classes from phar- [#2503] Skip spready in RobotLoader addDirectory- [#2500] Make ClassLikeCognitiveComplexityRule configurable by class type- [#2512] Allow match in calls- [#2568] Improve CheckTypehintCallerTypeRule : skip non private and multiple usages, Thanks to [@samsonasik]
 
 #### RuleDocGenerator
-
 - [#2506] Allow multiple dirs
 
 #### Skipper
-
-- [#2545] Decouple to collector
-- [#2543] decouple FileInfoMatcher, OnlySkipper
+- [#2545] Decouple to collector- [#2543] decouple FileInfoMatcher, OnlySkipper
 
 #### SnifferFixerToECSConverter
-
 - [#2540] Init a new package
 
 #### SymfonyPhpConfig
-
 - [#2551] Move from functions to static class
 
 #### Unknown Package
-
-- [#2492] Automated Update of Changelog on 2020-11-15, Thanks to [@github-actions][bot]
-- [#2501] Define package as PHPStan Extension, Thanks to [@szepeviktor]
-- [#2558] phpstan typo in readme, Thanks to [@alexcutts]
-- [#2554] normalize readme
+- [#2492] Automated Update of Changelog on 2020-11-15, Thanks to [@github-actions][bot]- [#2501] Define package as PHPStan Extension, Thanks to [@szepeviktor]- [#2558] phpstan typo in readme, Thanks to [@alexcutts]- [#2554] normalize readme
 
 #### automated
-
-- [#2566] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2562] Re-Apply Coding Standards, Thanks to [@github-actions][bot]
-- [#2561] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2556] Re-Generate Docs, Thanks to [@github-actions][bot]
-- [#2504] Re-Apply Rector Rules, Thanks to [@github-actions][bot]
-- [#2567] Re-Apply Coding Standards, Thanks to [@github-actions][bot]
-- [#2514] Re-Apply Rector Rules, Thanks to [@github-actions][bot]
+- [#2566] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2562] Re-Apply Coding Standards, Thanks to [@github-actions][bot]- [#2561] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2556] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2504] Re-Apply Rector Rules, Thanks to [@github-actions][bot]- [#2567] Re-Apply Coding Standards, Thanks to [@github-actions][bot]- [#2514] Re-Apply Rector Rules, Thanks to [@github-actions][bot]
 
 #### phpstan
-
 - [#2525] limit class complexity by type
 
 ### Fixed
 
 #### CodingStandard
-
 - [#2519] Fixes [#2517] improve RemoveUselessClassCommentFixer : remove useless constructor comment, Thanks to [@samsonasik]
 
 #### EasyHydrator
-
 - [#2520] ObjectTypeCaster fix indexed array of objects, Thanks to [@janatjak]
 
 #### PHPStanRules
-
-- [#2563] Fixes to ensure check next node instanceof Identifier on CheckUsedNamespacedNameOnClassNodeRule, Thanks to [@samsonasik]
-- [#2564] Fixes node->getAttribute() got null on CheckTypehintCallerTypeRule, Thanks to [@samsonasik]
+- [#2563] Fixes to ensure check next node instanceof Identifier on CheckUsedNamespacedNameOnClassNodeRule, Thanks to [@samsonasik]- [#2564] Fixes node->getAttribute() got null on CheckTypehintCallerTypeRule, Thanks to [@samsonasik]
 
 #### SymfonyStaticDumper
-
 - [#2555] Fixes [#2108] : Document usage for controllers with arguments, Thanks to [@samsonasik]
 
 #### Unknown Package
-
-- [#2502] Fix link in README to work in a monorepo too, Thanks to [@szepeviktor]
-- [#2524] Fix typo in code sample, Thanks to [@staabm]
+- [#2502] Fix link in README to work in a monorepo too, Thanks to [@szepeviktor]- [#2524] Fix typo in code sample, Thanks to [@staabm]
 
 ## [9.0.0-BETA2] - 2020-11-15
 
 ### Added
 
 #### CI
-
 - [#2468] Drop coding standard doc check, will be replaced by RuleDocGenerator + add rule definitions for sniffs/fixers
 
 #### CodingStandard
-
-- [#2457] Fixes [#2208] Add CheckConstantExpressionDefinedInConstructOrSetupRule, Thanks to [@samsonasik]
-- [#2483] Fixes [#2482] Add RemovePHPStormTodoImplementMethodCommentFixer, Thanks to [@samsonasik]
-- [#2481] Fixes [#2480] Add RemovePHPStormTodoCommentFixer, Thanks to [@samsonasik]
+- [#2457] Fixes [#2208] Add CheckConstantExpressionDefinedInConstructOrSetupRule, Thanks to [@samsonasik]- [#2483] Fixes [#2482] Add RemovePHPStormTodoImplementMethodCommentFixer, Thanks to [@samsonasik]- [#2481] Fixes [#2480] Add RemovePHPStormTodoCommentFixer, Thanks to [@samsonasik]
 
 #### PHPStanRules
-
-- [#2456] Fixes [#2404] Add ForbiddenPrivateMethodByTypeRule, Thanks to [@samsonasik]
-- [#2466] Fixes [#2405] Add ForbiddenMethodCallByTypeInLocationRule, Thanks to [@samsonasik]
-- [#2476] Add ExclusiveDependencyRule, Thanks to [@samsonasik]
+- [#2456] Fixes [#2404] Add ForbiddenPrivateMethodByTypeRule, Thanks to [@samsonasik]- [#2466] Fixes [#2405] Add ForbiddenMethodCallByTypeInLocationRule, Thanks to [@samsonasik]- [#2476] Add ExclusiveDependencyRule, Thanks to [@samsonasik]
 
 #### Unknown Package
-
 - [#2475] add missing nette/neon package
 
 ### Changed
 
 #### CI
-
-- [#2453] What if Github Actions can handle the split of packages?
-- [#2448] Automated CHANGELOG generation once 2 weeks
+- [#2453] What if Github Actions can handle the split of packages?- [#2448] Automated CHANGELOG generation once 2 weeks
 
 #### CodingStandard
-
-- [#2469] Generate rules_overview file
-- [#2455] Improve CheckConstantStringValueFormatRule : Allow array constant value, Thanks to [@samsonasik]
+- [#2469] Generate rules_overview file- [#2455] Improve CheckConstantStringValueFormatRule : Allow array constant value, Thanks to [@samsonasik]
 
 #### DX
-
 - [#2478] Decouple private methods from commands
 
 #### EasyCodingStandard
-
 - [#2442] Switch prefixed ecs.phar to automated package scoping in GitHub Action
 
 #### MarkdownDiffer
-
 - [#2470] Init new package
 
 #### MonorepoBuilder
-
-- [#2477] Move from manual package list to json list
-- [#2454] Prepare for split command deprectaion
+- [#2477] Move from manual package list to json list- [#2454] Prepare for split command deprectaion
 
 #### PHPStanPHPConfig
-
 - [#2464] Init new package with phpstan.php
 
 #### PHPStanRules
-
-- [#2445] update ManyNodeRuleInterface location
-- [#2462] Decorated with Rule Doc Generator interface and move examples to the code
-- [#2458] Fail for CheckConstantExpressionDefinedInConstructOrSetupRule
-- [#2461] Improve CheckConstantExpressionDefinedInConstructOrSetupRule
-- [#2473] Generate the docs
+- [#2445] update ManyNodeRuleInterface location- [#2462] Decorated with Rule Doc Generator interface and move examples to the code- [#2458] Fail for CheckConstantExpressionDefinedInConstructOrSetupRule- [#2461] Improve CheckConstantExpressionDefinedInConstructOrSetupRule- [#2473] Generate the docs
 
 #### PackageBuilder
-
 - [#2452] Accept also file info configs
 
 #### Unknown Package
-
 - [#2449] Automated Update of Changelog on 2020-11-03, Thanks to [@github-actions][bot]
 
 ### Fixed
 
 #### CodingStandard
-
 - [#2467] Fixes [#2425] Register RemoveUselessJustForSakeInterfaceRector into rector-ci.php, Thanks to [@samsonasik]
 
 #### DX
-
 - [#2486] Fixes [#2485] enable PreferThisOrSelfMethodCallRector, Thanks to [@samsonasik]
 
 #### Unknown Package
-
-- [#2459] fix typo, Thanks to [@staabm]
-- [#2460] Fix typos, Thanks to [@staabm]
-- [#2474] Markdown format fixes
+- [#2459] fix typo, Thanks to [@staabm]- [#2460] Fix typos, Thanks to [@staabm]- [#2474] Markdown format fixes
 
 ### Removed
 
 #### MonorepoBuilder
-
 - [#2490] Drop split command, delegate to GitHub Action with less magic
 
 #### Unknown Package
-
 - [#2451] drop manual setName(), let applicaton handle that
 
 ## [9.0.0-BETA1] - 2020-11-14
@@ -424,289 +317,132 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 ### Added
 
 #### CodingStandard
-
-- [#2362] Fixes [#2301] Add ForbiddenNewInMethodRule, Thanks to [@samsonasik]
-- [#2394] Fixes [#2372] Add forbidden curl functions to symplify-rules.neon, Thanks to [@samsonasik]
-- [#2265] Fixes [#2261] Add Check Required `abstract` Keyword for Class Name Start with Abstract, Thanks to [@samsonasik]
-- [#2266] Fixes [#2238] : Add Check Unneeded SymfonyStyle usage for only newline, write(ln) rule, Thanks to [@samsonasik]
-- [#2357] Add NoSuffixValueObjectClassRule
-- [#2403] Fixes [#2373] : Add CheckParentChildMethodParameterTypeCompatibleRule, Thanks to [@samsonasik]
-- [#2270] Add MethodChainingNewlineFixer
-- [#2401] Fixes [#2349] : Add ForbiddenConstructorDependencyByTypeRule, Thanks to [@samsonasik]
-- [#2274] Add function call skip to MethodChainingNewlineFixer
-- [#2275] Add skip for opened call to MethodChainingNewlineFixer
-- [#2395] Fixes [#2347] Add CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule, Thanks to [@samsonasik]
-- [#2276] Fixes [#2207] : Add NoParentMethodCallOnEmptyStatementInParentMethod rule, Thanks to [@samsonasik]
-- [#2252] Fixes [#2176] : Add No factory in constructor rule, Thanks to [@samsonasik]
-- [#2388] Fixes [#2381] Add ForbiddenMethodCallInIfRule, Thanks to [@samsonasik]
-- [#2280] Add case with curly opener
-- [#2292] Add ForbiddenNodeRule
-- [#2298] Fixes [#2226] add PreferredRawDataInTestDataProvider, Thanks to [@samsonasik]
-- [#2317] Add trait/class difference in CheckRequiredMethodTobeAutowireWithClassNameRule
-- [#2379] Fixes [#2378] Add ForbiddenMethodOrFuncCallInForeachRule, Thanks to [@samsonasik]
-- [#2377] Add other exprs to PreferredClassConstantOverVariableConstantRule
-- [#2366] Fixes [#2365] Add ForbidNewOutsideFactoryServiceRule, Thanks to [@samsonasik]
-- [#2355] Add failing class with anonymous
-- [#2356] Fixes [#2331] Add ForbiddenProtectedPropertyRule, Thanks to [@samsonasik]
-- [#2264] Add ArrayListItemNewlineFixer
-- [#2269] Fixes [#2207] : Add No Parent Method Call On No Override Process Rule, Thanks to [@samsonasik]
-- [#2250] Add SuffixInterfaceRule
-- [#2229] Fixes [#2172] : Add NoTraitExceptItsMethodsRequired Rule, Thanks to [@samsonasik]
-- [#2206] Fix [#2199] : add NoScalarAndArrayConstructorParameterRule to prevent config coding, Thanks to [@samsonasik]
-- [#2443] Fixes [#2350] Add CheckConstantStringValueFormatRule, Thanks to [@samsonasik]
-- [#2212] Add allowed classes to NoScalarAndArrayConstructorParameterRule
-- [#2436] Fixes [#2417] Add CheckRequiredInterfaceInContractNamespaceRule, Thanks to [@samsonasik]
-- [#2215] Improve performance for ArrayOpenerNewlineFixer + add closer support
-- [#2433] Fixes [#2432] : Add ForbiddenSpreadOperatorRule, Thanks to [@samsonasik]
-- [#2424] Fixes [#2352] : Add RequireNewArgumentConstantRule, Thanks to [@samsonasik]
-- [#2419] Fixes [#2204] : Add CheckTraitMethodOnlyDelegateOtherClassRule, Thanks to [@samsonasik]
-- [#2249] Add SuffixTraitRule
-- [#2423] Fixes [#2422] : Add ForbiddenMethodCallOnNewRule, Thanks to [@samsonasik]
-- [#2248] Add PrefixAbstractClassRule
-- [#2241] add markdown array open/close fixutre
+- [#2362] Fixes [#2301] Add ForbiddenNewInMethodRule, Thanks to [@samsonasik]- [#2394] Fixes [#2372] Add forbidden curl functions to symplify-rules.neon, Thanks to [@samsonasik]- [#2265] Fixes [#2261] Add Check Required `abstract` Keyword for Class Name Start with Abstract, Thanks to [@samsonasik]- [#2266] Fixes [#2238] : Add Check Unneeded SymfonyStyle usage for only newline, write(ln) rule, Thanks to [@samsonasik]- [#2357] Add NoSuffixValueObjectClassRule- [#2403] Fixes [#2373] : Add CheckParentChildMethodParameterTypeCompatibleRule, Thanks to [@samsonasik]- [#2270] Add MethodChainingNewlineFixer- [#2401] Fixes [#2349] : Add ForbiddenConstructorDependencyByTypeRule, Thanks to [@samsonasik]- [#2274] Add function call skip to MethodChainingNewlineFixer- [#2275] Add skip for opened call to MethodChainingNewlineFixer- [#2395] Fixes [#2347] Add CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule, Thanks to [@samsonasik]- [#2276] Fixes [#2207] : Add NoParentMethodCallOnEmptyStatementInParentMethod rule, Thanks to [@samsonasik]- [#2252] Fixes [#2176] : Add No factory in constructor rule, Thanks to [@samsonasik]- [#2388] Fixes [#2381] Add ForbiddenMethodCallInIfRule, Thanks to [@samsonasik]- [#2280] Add case with curly opener- [#2292] Add ForbiddenNodeRule- [#2298] Fixes [#2226] add PreferredRawDataInTestDataProvider, Thanks to [@samsonasik]- [#2317] Add trait/class difference in CheckRequiredMethodTobeAutowireWithClassNameRule- [#2379] Fixes [#2378] Add ForbiddenMethodOrFuncCallInForeachRule, Thanks to [@samsonasik]- [#2377] Add other exprs to PreferredClassConstantOverVariableConstantRule- [#2366] Fixes [#2365] Add ForbidNewOutsideFactoryServiceRule, Thanks to [@samsonasik]- [#2355] Add failing class with anonymous- [#2356] Fixes [#2331] Add ForbiddenProtectedPropertyRule, Thanks to [@samsonasik]- [#2264] Add ArrayListItemNewlineFixer- [#2269] Fixes [#2207] : Add No Parent Method Call On No Override Process Rule, Thanks to [@samsonasik]- [#2250] Add SuffixInterfaceRule- [#2229] Fixes [#2172] : Add NoTraitExceptItsMethodsRequired Rule, Thanks to [@samsonasik]- [#2206] Fix [#2199] : add NoScalarAndArrayConstructorParameterRule to prevent config coding, Thanks to [@samsonasik]- [#2443] Fixes [#2350] Add CheckConstantStringValueFormatRule, Thanks to [@samsonasik]- [#2212] Add allowed classes to NoScalarAndArrayConstructorParameterRule- [#2436] Fixes [#2417] Add CheckRequiredInterfaceInContractNamespaceRule, Thanks to [@samsonasik]- [#2215] Improve performance for ArrayOpenerNewlineFixer + add closer support- [#2433] Fixes [#2432] : Add ForbiddenSpreadOperatorRule, Thanks to [@samsonasik]- [#2424] Fixes [#2352] : Add RequireNewArgumentConstantRule, Thanks to [@samsonasik]- [#2419] Fixes [#2204] : Add CheckTraitMethodOnlyDelegateOtherClassRule, Thanks to [@samsonasik]- [#2249] Add SuffixTraitRule- [#2423] Fixes [#2422] : Add ForbiddenMethodCallOnNewRule, Thanks to [@samsonasik]- [#2248] Add PrefixAbstractClassRule- [#2241] add markdown array open/close fixutre
 
 #### DX
-
 - [#2316] Fixes [#2287] Add regex links to PHPStan reported constants, Thanks to [@samsonasik]
 
 #### EasyCI
-
 - [#2211] Add Sonar config generator
 
 #### EasyCodingStandard
-
 - [#2409] Add --match-git-diff option
 
 #### EasyHydrator
-
-- [#2430] ParameterTypeRecognizer added support for array|null union type, Thanks to [@janatjak]
-- [#2431] added ArrayTypeCaster - allow retype array of scalars, Thanks to [@janatjak]
+- [#2430] ParameterTypeRecognizer added support for array|null union type, Thanks to [@janatjak]- [#2431] added ArrayTypeCaster - allow retype array of scalars, Thanks to [@janatjak]
 
 #### EasyTesting
-
 - [#2222] Add splitFileInfoToLocalInputAndExpected()
 
 #### MonorepoBuilder
-
-- [#2302] Add validation for directories and repositories parameter for split
-- [#2437] Add scoped-only prefixed version + New package for package scoping
-- [#2389] Add DIRECTORIES_TO_REPOSITORIES_CONVERT_FORMAT option for pascal case directory names
-- [#2391] Add number test
-- [#2398] Add check-split-test-workflow command
+- [#2302] Add validation for directories and repositories parameter for split- [#2437] Add scoped-only prefixed version + New package for package scoping- [#2389] Add DIRECTORIES_TO_REPOSITORIES_CONVERT_FORMAT option for pascal case directory names- [#2391] Add number test- [#2398] Add check-split-test-workflow command
 
 #### PHPStanRules
-
 - [#2447] Add example, fix typo, Thanks to [@staabm]
 
 #### PackageBuilder
-
 - [#2202] Add provideIntParameter()
 
 #### PackageScoper
-
 - [#2439] Add 2 more commands for config generating
 
 #### Packages
-
 - [#2232] Add paypal sponsor link
 
 #### Unknown Package
-
-- [#2239] Fixes [#2177] : add CheckRequiredMethodTobeAutowireWithClassName rule, Thanks to [@samsonasik]
-- [#2257] Fixes [#2243] : Add No Setter on Service rule, Thanks to [@samsonasik]
-- [#2320] add init command to ECS, Thanks to [@Kerrialn]
-- [#2324] remove .idea and add it to .gitignore, Thanks to [@samsonasik]
-- [#2340] Fixes [#2332] Add RequireThisOnParentMethodCallRule, Thanks to [@samsonasik]
-- [#2344] Fixes [#2247] : Add ForbiddenNestedForeachWithEmptyStatementRule, Thanks to [@samsonasik]
-- [#2348] Fixes [#2167] add RequireConstantInMethodCallPositionRule, Thanks to [@samsonasik]
-- [#2351] Fixes [#2343] : Add ForbiddenMultipleClassLikeInOneFileRule, Thanks to [@samsonasik]
-- - [#2361] Fixes [#2342] : Add NoMethodTagInClassDocblockRule, Thanks to [@samsonasik]
+- [#2239] Fixes [#2177] : add CheckRequiredMethodTobeAutowireWithClassName rule, Thanks to [@samsonasik]- [#2257] Fixes [#2243] : Add No Setter on Service rule, Thanks to [@samsonasik]- [#2320] add init command to ECS, Thanks to [@Kerrialn]- [#2324] remove .idea and add it to .gitignore, Thanks to [@samsonasik]- [#2340] Fixes [#2332] Add RequireThisOnParentMethodCallRule, Thanks to [@samsonasik]- [#2344] Fixes [#2247] : Add ForbiddenNestedForeachWithEmptyStatementRule, Thanks to [@samsonasik]- [#2348] Fixes [#2167] add RequireConstantInMethodCallPositionRule, Thanks to [@samsonasik]- [#2351] Fixes [#2343] : Add ForbiddenMultipleClassLikeInOneFileRule, Thanks to [@samsonasik]- - [#2361] Fixes [#2342] : Add NoMethodTagInClassDocblockRule, Thanks to [@samsonasik]
 
 #### ci
-
-- [#2410] make rector_ci run use auto commit action + add ci-review
-- [#2427] add composer install cache
+- [#2410] make rector_ci run use auto commit action + add ci-review- [#2427] add composer install cache
 
 #### cs
-
-- [#2319] Fixes [#2214] : add PrefferedMethodCallOverFuncCallRule, Thanks to [@samsonasik]
-- [#2375] Fixes [#2329] Add TooDeepNewClassNestingRule, Thanks to [@samsonasik]
-- [#2341] Fixes [#2328] Add ForbiddenAssignInIfRule, Thanks to [@samsonasik]
+- [#2319] Fixes [#2214] : add PrefferedMethodCallOverFuncCallRule, Thanks to [@samsonasik]- [#2375] Fixes [#2329] Add TooDeepNewClassNestingRule, Thanks to [@samsonasik]- [#2341] Fixes [#2328] Add ForbiddenAssignInIfRule, Thanks to [@samsonasik]
 
 ### Changed
 
 #### CodingStandard
-
-- [#2385] Rename Forbid to Forbidden prefix in Rule name, Thanks to [@samsonasik]
-- [#2315] Skip array return if required by parent method of class/interface
-- [#2223] Skip Event and Entity for scalar in constructor
-- [#2267] Rename ForceMethodCallArgumentConstantRule to RequireMethodCallArgumentConstantRule
-- [#2384] Protected rules improvements
-- [#2407] Improve line lenght fixer + array break fixer combination
-- [#2237] Make symplify-rules easier to copy
-- [#2288] Skip variable in RequireMethodCallArgumentConstantRule
-- [#2286] PHPStan rules improvoments
-- [#2285] Get rules from container for tests if possible
-- [#2282] Various PHPStan rules improvements
-- [#2387] Improve ForbiddenMethodOrFuncCallInForeachRule : Allow empty args, Thanks to [@samsonasik]
-- [#2291] Skip exception in NoParentMethodCallOnEmptyStatementInParentMethodRule
-- [#2307] Allow uuid factory static call
-- [#2339] Skip array square wrap over multi chain call
-- [#2209] Update NoScalarAndArrayConstructorParameterRule to work with doc types
-- [#2203] Resolve FQN name for class in NoProtectedElementInFinalClassRule
+- [#2385] Rename Forbid to Forbidden prefix in Rule name, Thanks to [@samsonasik]- [#2315] Skip array return if required by parent method of class/interface- [#2223] Skip Event and Entity for scalar in constructor- [#2267] Rename ForceMethodCallArgumentConstantRule to RequireMethodCallArgumentConstantRule- [#2384] Protected rules improvements- [#2407] Improve line lenght fixer + array break fixer combination- [#2237] Make symplify-rules easier to copy- [#2288] Skip variable in RequireMethodCallArgumentConstantRule- [#2286] PHPStan rules improvoments- [#2285] Get rules from container for tests if possible- [#2282] Various PHPStan rules improvements- [#2387] Improve ForbiddenMethodOrFuncCallInForeachRule : Allow empty args, Thanks to [@samsonasik]- [#2291] Skip exception in NoParentMethodCallOnEmptyStatementInParentMethodRule- [#2307] Allow uuid factory static call- [#2339] Skip array square wrap over multi chain call- [#2209] Update NoScalarAndArrayConstructorParameterRule to work with doc types- [#2203] Resolve FQN name for class in NoProtectedElementInFinalClassRule
 
 #### EasyCodingStandard
-
-- [#2213] Enable debug progress bar on -v
-- [#2313] Make system errors in separated stream with SystemError object
-- [#2245] Use i/o json testing
+- [#2213] Enable debug progress bar on -v- [#2313] Make system errors in separated stream with SystemError object- [#2245] Use i/o json testing
 
 #### EasyHydrator
-
-- [#2360] Make use rector split package
-- [#2255] DateTimeImmutable resolver (symplify[#2254]), Thanks to [@vyacheslav-startsev]
-- [#2416] Support for objects with default constructor values, Thanks to [@JanMikes]
-- [#2195] Support for hydrating nested objects and typed arrays, Thanks to [@JanMikes]
+- [#2360] Make use rector split package- [#2255] DateTimeImmutable resolver (symplify[#2254]), Thanks to [@vyacheslav-startsev]- [#2416] Support for objects with default constructor values, Thanks to [@JanMikes]- [#2195] Support for hydrating nested objects and typed arrays, Thanks to [@JanMikes]
 
 #### MonorepoBuilder
-
-- [#2259] Composer repository priority, Thanks to [@NoorAdiana]
-- [#2392] Merge ConvertFormat to main test
+- [#2259] Composer repository priority, Thanks to [@NoorAdiana]- [#2392] Merge ConvertFormat to main test
 
 #### PHPStanRules
-
-- [#2444] Split PHPStan rules only package from CodingStandard package
-- [#2445] update ManyNodeRuleInterface location
+- [#2444] Split PHPStan rules only package from CodingStandard package- [#2445] update ManyNodeRuleInterface location
 
 #### Skipper
-
 - [#2420] Decouple new package
 
 #### SmartFileSystem
-
-- [#2227] Sort names by SmartFinder
-- [#2231] Sort names by SmartFinder
+- [#2227] Sort names by SmartFinder- [#2231] Sort names by SmartFinder
 
 #### SymplifyKernel
-
 - [#2294] Init
 
 #### Unknown Package
-
-- [#2359] improve CheckUsedNamespacedNameOnClassNodeRule, Thanks to [@samsonasik]
-- [#2402] Provisional support for PHP 8.0, Thanks to [@zingimmick]
-- [#2408] make sure it passes
-- [#2358] improve ForbiddenProtectedPropertyRule, Thanks to [@samsonasik]
-- [#2435] Various changes
-- [#2311] use DI over manual instantiation
-- - [#2364] Update README.md, Thanks to [@ThomasLandauer]
-- [#2303] various static improvement
-- [#2368] Update README.md, Thanks to [@ThomasLandauer]
-- [#2369] Update README.md, Thanks to [@ThomasLandauer]
-- [#2289] change HelpfulApplicationTrait to AbstractSymplifyConsoleApplication
-- [#2370] reactivate coverage report, Thanks to [@samsonasik]
-- [#2386] Use DIRECTORY_SEPARATOR constant instead of `/`, Thanks to [@ComiR]
-- [#2374] improve ForbiddenProtectedPropertyRule : handle injection with [@required] and autowire, Thanks to [@samsonasik]
-- [#2304] typo
-- [#2210] update regex link
+- [#2359] improve CheckUsedNamespacedNameOnClassNodeRule, Thanks to [@samsonasik]- [#2402] Provisional support for PHP 8.0, Thanks to [@zingimmick]- [#2408] make sure it passes- [#2358] improve ForbiddenProtectedPropertyRule, Thanks to [@samsonasik]- [#2435] Various changes- [#2311] use DI over manual instantiation- - [#2364] Update README.md, Thanks to [@ThomasLandauer]- [#2303] various static improvement- [#2368] Update README.md, Thanks to [@ThomasLandauer]- [#2369] Update README.md, Thanks to [@ThomasLandauer]- [#2289] change HelpfulApplicationTrait to AbstractSymplifyConsoleApplication- [#2370] reactivate coverage report, Thanks to [@samsonasik]- [#2386] Use DIRECTORY_SEPARATOR constant instead of `/`, Thanks to [@ComiR]- [#2374] improve ForbiddenProtectedPropertyRule : handle injection with [@required] and autowire, Thanks to [@samsonasik]- [#2304] typo- [#2210] update regex link
 
 #### cs
-
 - [#2335] Enable CheckUnneededSymfonyStyleUsageRule in symplify-rules.neon, Thanks to [@samsonasik]
 
 #### travis
-
 - [#2429] use composer v2 for phar compilers
 
 ### Deprecated
 
 #### AutoBindParameter
-
 - [#2235] Deprecate, use ParameterProvider instead
 
 #### Autodiscovery
-
 - [#2446] Deprecate ConvertYamlCommand, already part of symplify/config-feature-bumper
 
 #### EasyCodingStandard
-
 - [#2412] Deprecate YAML configs, use PHP instead
 
 ### Fixed
 
 #### ChangelogLinker
-
 - [#2333] Fixes [#2013] Fixes multiple Unreleased sections, Thanks to [@samsonasik]
 
 #### CodingStandard
-
-- [#2284] Fixes [#2253] : Prefer class::constant over $variable::constant, Thanks to [@samsonasik]
-- [#2290] Fix chain indenxt on multi with arg
-- [#2314] Fix intersection for RequireMethodCallArgumentConstantRule
-- [#2380] Protected and factory PHPStan fixes
-- [#2308] Various PHPStan rule fixes
-- [#2325] Fixes [#2318] : Bug with CheckUnneededSymfonyStyleUsageRule that requires to use MethodCall with $scope context, Thanks to [@samsonasik]
-- [#2383] fix NoProtectedElementInFinalClassRule for trait
-- [#2293] Fix previous func call in chain
-- [#2281] Fixes [#2277] Fixes false positive CheckUnneededSymfonyStyleUsageRule, Thanks to [@samsonasik]
-- [#2279] Fixes [#2278] handle False positive in case of parent interface/trait in NoProtectedElementInFinalClassRule, Thanks to [@samsonasik]
-- [#2371] fix new anonymous for ForbiddenNewInMethodRule
-- [#2216] Improve memory on array fixes
+- [#2284] Fixes [#2253] : Prefer class::constant over $variable::constant, Thanks to [@samsonasik]- [#2290] Fix chain indenxt on multi with arg- [#2314] Fix intersection for RequireMethodCallArgumentConstantRule- [#2380] Protected and factory PHPStan fixes- [#2308] Various PHPStan rule fixes- [#2325] Fixes [#2318] : Bug with CheckUnneededSymfonyStyleUsageRule that requires to use MethodCall with $scope context, Thanks to [@samsonasik]- [#2383] fix NoProtectedElementInFinalClassRule for trait- [#2293] Fix previous func call in chain- [#2281] Fixes [#2277] Fixes false positive CheckUnneededSymfonyStyleUsageRule, Thanks to [@samsonasik]- [#2279] Fixes [#2278] handle False positive in case of parent interface/trait in NoProtectedElementInFinalClassRule, Thanks to [@samsonasik]- [#2371] fix new anonymous for ForbiddenNewInMethodRule- [#2216] Improve memory on array fixes
 
 #### EasyCodingStandard
-
-- [#2297] Fix missing exception
-- [#2224] Fixes [#2219] : Fixes StandardizeHereNowDocKeywordFixer indentation closing heredoc/nowdoc to not be removed, Thanks to [@samsonasik]
+- [#2297] Fix missing exception- [#2224] Fixes [#2219] : Fixes StandardizeHereNowDocKeywordFixer indentation closing heredoc/nowdoc to not be removed, Thanks to [@samsonasik]
 
 #### EasyHydrator
-
-- [#2396] Fixes [#2393] AutowireArrayParameterCompilerPass, Thanks to [@janatjak]
-- [#2428] fix TypeCastersCollector::$typeCasters sort, Thanks to [@janatjak]
-- [#2397] fix missing ParameterTypeRecognizer dependencies, Thanks to [@janatjak]
+- [#2396] Fixes [#2393] AutowireArrayParameterCompilerPass, Thanks to [@janatjak]- [#2428] fix TypeCastersCollector::$typeCasters sort, Thanks to [@janatjak]- [#2397] fix missing ParameterTypeRecognizer dependencies, Thanks to [@janatjak]
 
 #### MonorepoBuilder
-
-- [#2337] Fix propagate
-- [#2246] Fixes [#2139] ensure check file exists of monorepo-builder.yaml, fallback to monorepo-builder.php, Thanks to [@samsonasik]
-- [#2353] Fix absolute to relative paths
+- [#2337] Fix propagate- [#2246] Fixes [#2139] ensure check file exists of monorepo-builder.yaml, fallback to monorepo-builder.php, Thanks to [@samsonasik]- [#2353] Fix absolute to relative paths
 
 #### PackageBuilder
-
 - [#2438] fix DefinitionFinder class not found, Thanks to [@janatjak]
 
 #### SFS
-
 - [#2413] Fixed skipping rules fails on Windows system ([#2399]), Thanks to [@BoGnY]
 
 #### Unknown Package
-
-- [#2336] Fixes [#2234] use namespaceName on $class node, Thanks to [@samsonasik]
-- [#2441] ecs/readme: fix fdefault typo, Thanks to [@glensc]
-- [#2305] fixes
-- [#2310] Typo fix: errorMessaeg -> errorMessage, Thanks to [@samsonasik]
-- [#2271] Typo fix: NoAbstactMethodRule should be NoAbstractMethodRule, Thanks to [@samsonasik]
-- [#2299] various fixes
-- [#2272] Fixes [#2225] : No __construct, only setUp() in tests, Thanks to [@samsonasik]
+- [#2336] Fixes [#2234] use namespaceName on $class node, Thanks to [@samsonasik]- [#2441] ecs/readme: fix fdefault typo, Thanks to [@glensc]- [#2305] fixes- [#2310] Typo fix: errorMessaeg -> errorMessage, Thanks to [@samsonasik]- [#2271] Typo fix: NoAbstactMethodRule should be NoAbstractMethodRule, Thanks to [@samsonasik]- [#2299] various fixes- [#2272] Fixes [#2225] : No __construct, only setUp() in tests, Thanks to [@samsonasik]
 
 ### Removed
 
 #### ChangelogLinker
-
 - [#2418] Drop YAML, use PHP
 
 #### EasyCodingStandard
-
 - [#2411] drop YAML support
 
 #### EasyHydrator
-
 - [#2426] Drop unused ParameterValueGetterInterface
 
 #### Unknown Package
-
-- [#2300] remove ctor factory
-- [#2323] Init command feature - remove .idea, Thanks to [@Kerrialn]
-- [#2406] Drop dependency on Composer
+- [#2300] remove ctor factory- [#2323] Init command feature - remove .idea, Thanks to [@Kerrialn]- [#2406] Drop dependency on Composer
 
 [#4756]: https://github.com/symplify/symplify/pull/4756
 [#2646]: https://github.com/symplify/symplify/pull/2646
@@ -1100,3 +836,57 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@BoGnY]: https://github.com/BoGnY
 [9.0.0-rc1]: https://github.com/symplify/symplify/compare/9.0.0-BETA2...9.0.0-rc1
 [9.0.0-BETA2]: https://github.com/symplify/symplify/compare/9.0.0-BETA1...9.0.0-BETA2
+[#2726]: https://github.com/symplify/symplify/pull/2726
+[#2725]: https://github.com/symplify/symplify/pull/2725
+[#2724]: https://github.com/symplify/symplify/pull/2724
+[#2723]: https://github.com/symplify/symplify/pull/2723
+[#2720]: https://github.com/symplify/symplify/pull/2720
+[#2719]: https://github.com/symplify/symplify/pull/2719
+[#2714]: https://github.com/symplify/symplify/pull/2714
+[#2712]: https://github.com/symplify/symplify/pull/2712
+[#2711]: https://github.com/symplify/symplify/pull/2711
+[#2710]: https://github.com/symplify/symplify/pull/2710
+[#2709]: https://github.com/symplify/symplify/pull/2709
+[#2708]: https://github.com/symplify/symplify/pull/2708
+[#2706]: https://github.com/symplify/symplify/pull/2706
+[#2705]: https://github.com/symplify/symplify/pull/2705
+[#2704]: https://github.com/symplify/symplify/pull/2704
+[#2703]: https://github.com/symplify/symplify/pull/2703
+[#2701]: https://github.com/symplify/symplify/pull/2701
+[#2699]: https://github.com/symplify/symplify/pull/2699
+[#2696]: https://github.com/symplify/symplify/pull/2696
+[#2692]: https://github.com/symplify/symplify/pull/2692
+[#2691]: https://github.com/symplify/symplify/pull/2691
+[#2690]: https://github.com/symplify/symplify/pull/2690
+[#2689]: https://github.com/symplify/symplify/pull/2689
+[#2688]: https://github.com/symplify/symplify/pull/2688
+[#2687]: https://github.com/symplify/symplify/pull/2687
+[#2686]: https://github.com/symplify/symplify/pull/2686
+[#2685]: https://github.com/symplify/symplify/pull/2685
+[#2684]: https://github.com/symplify/symplify/pull/2684
+[#2681]: https://github.com/symplify/symplify/pull/2681
+[#2680]: https://github.com/symplify/symplify/pull/2680
+[#2679]: https://github.com/symplify/symplify/pull/2679
+[#2677]: https://github.com/symplify/symplify/pull/2677
+[#2676]: https://github.com/symplify/symplify/pull/2676
+[#2675]: https://github.com/symplify/symplify/pull/2675
+[#2673]: https://github.com/symplify/symplify/pull/2673
+[#2672]: https://github.com/symplify/symplify/pull/2672
+[#2671]: https://github.com/symplify/symplify/pull/2671
+[#2670]: https://github.com/symplify/symplify/pull/2670
+[#2668]: https://github.com/symplify/symplify/pull/2668
+[#2667]: https://github.com/symplify/symplify/pull/2667
+[#2666]: https://github.com/symplify/symplify/pull/2666
+[#2665]: https://github.com/symplify/symplify/pull/2665
+[#2663]: https://github.com/symplify/symplify/pull/2663
+[#2660]: https://github.com/symplify/symplify/pull/2660
+[#2659]: https://github.com/symplify/symplify/pull/2659
+[#2657]: https://github.com/symplify/symplify/pull/2657
+[#2656]: https://github.com/symplify/symplify/pull/2656
+[#2655]: https://github.com/symplify/symplify/pull/2655
+[#2653]: https://github.com/symplify/symplify/pull/2653
+[#2651]: https://github.com/symplify/symplify/pull/2651
+[#2649]: https://github.com/symplify/symplify/pull/2649
+[@leoloso]: https://github.com/leoloso
+[@enumag]: https://github.com/enumag
+[9.0.11]: https://github.com/symplify/symplify/compare/9.0.0-rc1...9.0.11
