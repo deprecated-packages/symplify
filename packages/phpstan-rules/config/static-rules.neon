@@ -181,3 +181,7 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\RequireQuoteStringValueSprintfRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule
+        tags: [phpstan.rules.rule]
