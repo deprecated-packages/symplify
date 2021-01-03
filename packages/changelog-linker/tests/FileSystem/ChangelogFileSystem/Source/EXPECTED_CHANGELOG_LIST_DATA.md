@@ -3,7 +3,16 @@
 ## Unreleased
 
 ### Added
-- [#2] Added bar
+
+- [#6] Added y
+- [#5] Added x
 
 ### Added
-- [#1] Added foo
+
+- [#4] Added bar
+- [#3] Added baz
+
+### Added
+
+- [#2] Added foo
+- [#1] Added woo
