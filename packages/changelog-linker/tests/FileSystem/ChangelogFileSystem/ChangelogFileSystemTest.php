@@ -37,8 +37,8 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
 
 ### Added
 
-- [#4] Added bar
-- [#3] Added baz
+- [#2] Added bar
+- [#1] Added baz
 CODE_SAMPLE
 , DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
