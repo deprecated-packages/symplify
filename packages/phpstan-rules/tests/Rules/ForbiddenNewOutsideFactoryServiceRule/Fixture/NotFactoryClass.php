@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenNewOutsideFactoryServiceRule\Fixture;
 
-final class NotAFactoryClassNonStar
+final class NotFactoryClass
 {
     public function create()
     {

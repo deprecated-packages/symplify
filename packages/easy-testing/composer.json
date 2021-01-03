@@ -7,7 +7,11 @@
         "php": ">=7.3",
         "nette/utils": "^3.0",
         "symfony/finder": "^4.4|^5.1",
+        "symfony/http-kernel": "^4.4|^5.1",
+        "symfony/console": "^4.4|^5.1",
+        "symfony/dependency-injection": "^4.4|^5.1",
         "symplify/package-builder": "^9.1",
+        "symplify/console-package-builder": "^9.1",
         "symplify/smart-file-system": "^9.1",
         "symplify/symplify-kernel": "^9.1"
     },
