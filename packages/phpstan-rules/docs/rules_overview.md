@@ -1,4 +1,4 @@
-# 117 Rules Overview
+# 118 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4137,6 +4137,70 @@ class SomeClass
     public function run()
     {
         echo sprintf('"%s" value', $variable);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireSkipPrefixForRuleSkippedFixtureRule
+
+`File` "%s" should have prefix "skip"
+
+- class: `Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule`
+
+```php
+use PHPStan\Testing\RuleTestCase;
+
+final class SomeRuleTest extends RuleTestCase
+{
+    /**
+     * @dataProvider provideData()
+     */
+    public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
+    {
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
+    }
+
+    public function provideData(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/NewWithInterface.php', []];
+    }
+
+    protected function getRule(): Rule
+    {
+        return new SomeRule());
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use PHPStan\Testing\RuleTestCase;
+
+final class SomeRuleTest extends RuleTestCase
+{
+    /**
+     * @dataProvider provideData()
+     */
+    public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
+    {
+        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
+    }
+
+    public function provideData(): Iterator
+    {
+        yield [__DIR__ . '/Fixture/SkipNewWithInterface.php', []];
+    }
+
+    protected function getRule(): Rule
+    {
+        return new SomeRule());
     }
 }
 ```
