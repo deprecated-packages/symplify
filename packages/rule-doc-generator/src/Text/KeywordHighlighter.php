@@ -52,6 +52,12 @@ final class KeywordHighlighter
     private const METHOD_NAME_REGEX = '#\w+\(\)#';
 
     /**
+     * @var string
+     * @see https://regex101.com/r/18wjck/2
+     */
+    private const COMMA_SPLIT_REGEX = '#(?<call>\w+\(.*\))(\s{0,})(?<comma>,)(?<quote>\`)#';
+
+    /**
      * @var ClassLikeExistenceChecker
      */
     private $classLikeExistenceChecker;
@@ -69,7 +75,13 @@ final class KeywordHighlighter
                 continue;
             }
 
-            $words[$key] = '`' . $word . '`';
+            $words[$key] = Strings::replace(
+                '`' . $word . '`',
+                self::COMMA_SPLIT_REGEX,
+                function (array $match): string {
+                    return $match['call'] . $match['quote'] . $match['comma'];
+                }
+            );
         }
 
         return implode(' ', $words);
