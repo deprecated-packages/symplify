@@ -70,12 +70,12 @@ final class ValidateFixtureSkipNamingCommand extends AbstractSymplifyCommand
 
             if ($isSkipped) {
                 // A. file has incorrect "skip"
-                $baseMessage = 'The file "%s" should start with "skip/keep" prefix';
+                $baseMessage = 'The file "%s" should drop the "skip/keep" prefix';
             }
 
             if (! $isSkipped) {
                 // B. file is missing "skip"
-                $baseMessage = 'The file "%s" should drop the "skip/keep" prefix';
+                $baseMessage = 'The file "%s" should start with "skip/keep" prefix';
             }
 
             $errorMessage = sprintf($baseMessage, $missplacedFixtureFileInfo->getRelativeFilePathFromCwd());
