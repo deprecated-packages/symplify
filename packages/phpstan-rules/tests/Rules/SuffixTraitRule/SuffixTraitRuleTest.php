@@ -22,7 +22,7 @@ final class SuffixTraitRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/CorrectlyNameTrait.php', []];
+        yield [__DIR__ . '/Fixture/SkipCorrectlyNameTrait.php', []];
 
         $errorMessage = sprintf(SuffixTraitRule::ERROR_MESSAGE, 'TraitWithoutSuffix');
         yield [__DIR__ . '/Fixture/TraitWithoutSuffix.php', [[$errorMessage, 7]]];

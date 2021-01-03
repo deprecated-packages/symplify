@@ -43,7 +43,7 @@ final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSympli
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Namespace_|null */
+        /** @var Namespace_|null $namespace */
         $namespace = $node->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $namespace instanceof Namespace_) {
             return [];

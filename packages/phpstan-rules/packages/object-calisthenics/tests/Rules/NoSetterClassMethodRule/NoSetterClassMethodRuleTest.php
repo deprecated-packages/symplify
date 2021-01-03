@@ -21,10 +21,10 @@ final class NoSetterClassMethodRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipAllowedClass.php', []];
+
         $errorMessage = sprintf(NoSetterClassMethodRule::ERROR_MESSAGE, 'setName');
         yield [__DIR__ . '/Fixture/SetterMethod.php', [[$errorMessage, 9]]];
-
-        yield [__DIR__ . '/Fixture/AllowedClass.php', []];
     }
 
     protected function getRule(): Rule

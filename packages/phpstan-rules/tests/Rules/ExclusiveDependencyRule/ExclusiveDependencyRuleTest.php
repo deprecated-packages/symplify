@@ -28,8 +28,6 @@ final class ExclusiveDependencyRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipNotSpecified.php', []];
         yield [__DIR__ . '/Fixture/SkipSomeRepository.php', []];
 
-        yield [__DIR__ . '/Fixture/SomeRepository.php', []];
-
         $errorMessage = sprintf(ExclusiveDependencyRule::ERROR_MESSAGE, EntityManager::class, '*Repository');
 
         yield [__DIR__ . '/Fixture/SomeController.php', [[$errorMessage, 9]]];

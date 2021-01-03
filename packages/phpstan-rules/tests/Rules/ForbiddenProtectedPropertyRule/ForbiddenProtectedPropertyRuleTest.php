@@ -21,12 +21,13 @@ final class ForbiddenProtectedPropertyRuleTest extends AbstractServiceAwareRuleT
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/HasNonProtectedPropertyAndConstant.php', []];
-        yield [__DIR__ . '/Fixture/AbstractClassWithConstructorInjection.php', []];
+        yield [__DIR__ . '/Fixture/SkipHasNonProtectedPropertyAndConstant.php', []];
+        yield [__DIR__ . '/Fixture/SkipAbstractClassWithConstructorInjection.php', []];
         yield [__DIR__ . '/Fixture/SkipAbstractClassWithConstructorSetValues.php', []];
-        yield [__DIR__ . '/Fixture/AbstractClassWithAutowireInjection.php', []];
-        yield [__DIR__ . '/Fixture/AbstractClassWithTestCaseSetUp.php', []];
-        yield [__DIR__ . '/Fixture/AbstractAnyTestCase.php', []];
+        yield [__DIR__ . '/Fixture/SkipAbstractClassWithAutowireInjection.php', []];
+        yield [__DIR__ . '/Fixture/SkipAbstractClassWithTestCaseSetUp.php', []];
+        yield [__DIR__ . '/Fixture/SkipAbstractAnyTestCase.php', []];
+
         yield [__DIR__ . '/Fixture/HasProtectedPropertyAndConstant.php',
             [
                 [ForbiddenProtectedPropertyRule::ERROR_MESSAGE, 11],

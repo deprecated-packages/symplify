@@ -21,7 +21,8 @@ final class CheckTraitMethodOnlyDelegateOtherClassRuleTest extends AbstractServi
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/Delegate.php', []];
+        yield [__DIR__ . '/Fixture/SkipDelegate.php', []];
+
         yield [
             __DIR__ . '/Fixture/CallThisType.php',
             [[sprintf(CheckTraitMethodOnlyDelegateOtherClassRule::ERROR_MESSAGE, 'run'), 9]], ];

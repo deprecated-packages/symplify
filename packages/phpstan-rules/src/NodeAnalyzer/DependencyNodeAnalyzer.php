@@ -76,6 +76,7 @@ final class DependencyNodeAnalyzer
         }
 
         $shortClassName = (string) $classLike->name;
+
         $autowireMethodName = 'autowire' . $shortClassName;
 
         $classMethod = $classLike->getMethod($autowireMethodName);

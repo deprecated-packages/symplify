@@ -4,4 +4,4 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             allowedSetterClasses:
-                - '*\AllowedClass'
+                - '*\SkipAllowedClass'

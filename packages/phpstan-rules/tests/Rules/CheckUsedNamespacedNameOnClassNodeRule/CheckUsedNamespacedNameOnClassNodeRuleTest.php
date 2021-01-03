@@ -23,9 +23,9 @@ final class CheckUsedNamespacedNameOnClassNodeRuleTest extends AbstractServiceAw
     {
         yield [__DIR__ . '/Fixture/SkipAssignInto.php', []];
         yield [__DIR__ . '/Fixture/SkipCompare.php', []];
-        yield [__DIR__ . '/Fixture/NoGetPropertyFromClass.php', []];
-        yield [__DIR__ . '/Fixture/UsedNamespacedClass.php', []];
-        yield [__DIR__ . '/Fixture/NotClassVariable.php', []];
+        yield [__DIR__ . '/Fixture/SkipNoGetPropertyFromClass.php', []];
+        yield [__DIR__ . '/Fixture/SkipUsedNamespacedClass.php', []];
+        yield [__DIR__ . '/Fixture/SkipNotClassVariable.php', []];
         yield [__DIR__ . '/Fixture/SkippedVariableNamedShortClassName.php', []];
         yield [__DIR__ . '/Fixture/SkipNextNotIdentifier.php', []];
 

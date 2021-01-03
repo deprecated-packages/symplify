@@ -36,3 +36,5 @@ services:
     - Symplify\PHPStanRules\Printer\NodeComparator
     - Symplify\PHPStanRules\Matcher\PositionMatcher
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
+
+    - Symplify\Astral\NodeValue\NodeValueResolver

@@ -22,11 +22,11 @@ final class NoSetterOnServiceRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/Service/SkipInterfaceRequired.php', []];
-        yield [__DIR__ . '/Fixture/Entity/SomeEntity.php', []];
-        yield [__DIR__ . '/Fixture/Event/SomeEvent.php', []];
-        yield [__DIR__ . '/Fixture/ValueObject/SomeValueObject.php', []];
-        yield [__DIR__ . '/Fixture/Service/SomeService.php', []];
-        yield [__DIR__ . '/Fixture/Service/SomeServiceWithPrivateSetter.php', []];
+        yield [__DIR__ . '/Fixture/Entity/SkipSomeEntity.php', []];
+        yield [__DIR__ . '/Fixture/Event/SkipSomeEvent.php', []];
+        yield [__DIR__ . '/Fixture/ValueObject/SkipSomeValueObject.php', []];
+        yield [__DIR__ . '/Fixture/Service/SkipSomeService.php', []];
+        yield [__DIR__ . '/Fixture/Service/SkipSomeServiceWithPrivateSetter.php', []];
 
         yield [__DIR__ . '/Fixture/Service/SomeServiceWithSetter.php', [[NoSetterOnServiceRule::ERROR_MESSAGE, 11]]];
         yield [

@@ -21,8 +21,7 @@ final class NoConstructorInTestRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SomeClass.php', []];
-        yield [__DIR__ . '/Fixture/Test1/SomeTest.php', []];
+        yield [__DIR__ . '/Fixture/Test1/SkipTestWithoutConstructTest.php', []];
         yield [__DIR__ . '/Fixture/Test2/SomeTest.php', [[NoConstructorInTestRule::ERROR_MESSAGE, 11]]];
     }
 

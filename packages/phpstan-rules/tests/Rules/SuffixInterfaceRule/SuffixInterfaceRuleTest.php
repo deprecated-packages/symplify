@@ -22,7 +22,7 @@ final class SuffixInterfaceRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/CorrectlyNameInterface.php', []];
+        yield [__DIR__ . '/Fixture/SkipCorrectlyNameInterface.php', []];
 
         $errorMessage = sprintf(SuffixInterfaceRule::ERROR_MESSAGE, 'InterfaceWithoutSuffix');
         yield [__DIR__ . '/Fixture/InterfaceWithoutSuffix.php', [[$errorMessage, 7]]];

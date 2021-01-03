@@ -24,7 +24,7 @@ final class RequireClassTypeInClassMethodByTypeRuleTest extends AbstractServiceA
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipCorrectReturnRector.php', []];
-        yield [__DIR__ . '/Fixture/SomeRector.php', []];
+        yield [__DIR__ . '/Fixture/SkipNonRector.php', []];
         yield [__DIR__ . '/Fixture/SkipInterface.php', []];
 
         $errorMessage = sprintf(

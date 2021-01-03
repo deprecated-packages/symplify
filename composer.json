@@ -67,7 +67,7 @@
         "symfony/templating": "^4.4|^5.1",
         "symfony/translation": "^4.4|^5.1",
         "symfony/twig-bundle": "^4.4|^5.1",
-        "tracy/tracy": "^2.7.6"
+        "tracy/tracy": "^2.8"
     },
     "autoload": {
         "files": [

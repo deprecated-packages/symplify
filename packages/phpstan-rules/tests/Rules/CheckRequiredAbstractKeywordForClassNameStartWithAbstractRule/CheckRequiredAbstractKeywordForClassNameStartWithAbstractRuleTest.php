@@ -22,7 +22,7 @@ final class CheckRequiredAbstractKeywordForClassNameStartWithAbstractRuleTest ex
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/AbstractClass.php', []];
-        yield [__DIR__ . '/Fixture/SomeClass.php', []];
+        yield [__DIR__ . '/Fixture/SkipSomeClass.php', []];
 
         yield [
             __DIR__ . '/Fixture/NonAbstractClassWithAbstractPrefix.php',

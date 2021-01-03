@@ -21,10 +21,11 @@ final class CheckParentChildMethodParameterTypeCompatibleRuleTest extends Abstra
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/NoParent.php', []];
-        yield [__DIR__ . '/Fixture/NotHasParentMethod.php', []];
-        yield [__DIR__ . '/Fixture/HasSameParameterWithParentMethod.php', []];
-        yield [__DIR__ . '/Fixture/HasSameParameterWithInterfaceMethod.php', []];
+        yield [__DIR__ . '/Fixture/SkipNoParent.php', []];
+        yield [__DIR__ . '/Fixture/SkipNotHasParentMethod.php', []];
+        yield [__DIR__ . '/Fixture/SkipHasSameParameterWithParentMethod.php', []];
+        yield [__DIR__ . '/Fixture/SkipHasSameParameterWithInterfaceMethod.php', []];
+
         yield [
             __DIR__ . '/Fixture/HasDifferentParameterWithParentMethod.php',
             [[CheckParentChildMethodParameterTypeCompatibleRule::ERROR_MESSAGE, 9]],

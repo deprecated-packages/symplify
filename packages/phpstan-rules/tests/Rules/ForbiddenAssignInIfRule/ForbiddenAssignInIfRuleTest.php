@@ -21,8 +21,8 @@ final class ForbiddenAssignInIfRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/AssignBeforeIf.php', []];
-        yield [__DIR__ . '/Fixture/AssignAfterIf.php', []];
+        yield [__DIR__ . '/Fixture/SkipAssignBeforeIf.php', []];
+        yield [__DIR__ . '/Fixture/SkipAssignAfterIf.php', []];
         yield [__DIR__ . '/Fixture/AssignInsideIf.php', [[ForbiddenAssignInIfRule::ERROR_MESSAGE, 12]]];
     }
 

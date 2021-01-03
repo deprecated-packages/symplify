@@ -25,9 +25,9 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRuleTest extends Abs
         yield [__DIR__ . '/Fixture/SkipInConstructOrSetUpMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipPropertySetter.php', []];
 
-        yield [__DIR__ . '/Fixture/InsideOtherMethodInsideIf.php', []];
-        yield [__DIR__ . '/Fixture/AllowInsideOtherMethodUsedAfterDefinition.php', []];
-        yield [__DIR__ . '/Fixture/AllowMagicConstantWithConcatMethodCall.php', []];
+        yield [__DIR__ . '/Fixture/SkipInsideOtherMethodInsideIf.php', []];
+        yield [__DIR__ . '/Fixture/SkipAllowInsideOtherMethodUsedAfterDefinition.php', []];
+        yield [__DIR__ . '/Fixture/SkipAllowMagicConstantWithConcatMethodCall.php', []];
 
         yield [__DIR__ . '/Fixture/SkipFuncCallInConcat.php', []];
 

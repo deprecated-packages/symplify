@@ -21,7 +21,7 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest extends Abstract
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/tests/TestsNamespaceInsideTestsDirectoryClass.php', []];
+        yield [__DIR__ . '/Fixture/tests/SkipTestsNamespaceInsideTestsDirectoryClass.php', []];
     }
 
     protected function getRule(): Rule
