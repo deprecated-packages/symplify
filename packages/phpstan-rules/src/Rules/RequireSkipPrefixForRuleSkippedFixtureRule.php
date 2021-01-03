@@ -6,9 +6,9 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
-use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
 use PHPStan\Testing\RuleTestCase;
 use Symplify\Astral\NodeValue\NodeValueResolver;
@@ -23,7 +23,12 @@ final class RequireSkipPrefixForRuleSkippedFixtureRule extends AbstractSymplifyR
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'File "%s" should have prefix "skip"';
+    public const ERROR_MESSAGE = 'File "%s" should have prefix "Skip" prefix';
+
+    /**
+     * @var string
+     */
+    public const INVERTED_ERROR_MESSAGE = 'File "%s" should not have "Skip" prefix';
 
     /**
      * @var NodeValueResolver
@@ -67,25 +72,11 @@ final class RequireSkipPrefixForRuleSkippedFixtureRule extends AbstractSymplifyR
             return [];
         }
 
-        if (! $secondItem->value instanceof Array_) {
-            return [];
+        if ($this->isEmptyArray($secondItem->value)) {
+            return $this->processSkippedFile($firstItem->value);
         }
 
-        if (count($secondItem->value->items) !== 0) {
-            return [];
-        }
-
-        if (! $firstItem->value instanceof Concat) {
-            return [];
-        }
-
-        $filePath = $this->nodeValueResolver->resolve($firstItem->value->right);
-        $fileBaseName = (string) Strings::after($filePath, '/', -1);
-        if (Strings::startsWith($fileBaseName, 'Skip')) {
-            return [];
-        }
-
-        return [sprintf(self::ERROR_MESSAGE, $fileBaseName)];
+        return $this->processMatchingFile($firstItem->value);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -155,5 +146,50 @@ CODE_SAMPLE
         }
 
         return ! is_a($className, RuleTestCase::class, true);
+    }
+
+    private function isEmptyArray(Expr $expr): bool
+    {
+        if (! $expr instanceof Array_) {
+            return false;
+        }
+
+        return count($expr->items) === 0;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processSkippedFile(Expr $expr): array
+    {
+        $filePath = $this->nodeValueResolver->resolve($expr);
+        if (! is_string($filePath)) {
+            return [];
+        }
+
+        $fileBaseName = (string) Strings::after($filePath, '/', -1);
+        if (Strings::startsWith($fileBaseName, 'Skip')) {
+            return [];
+        }
+
+        return [sprintf(self::ERROR_MESSAGE, $fileBaseName)];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processMatchingFile(Expr $expr): array
+    {
+        $filePath = $this->nodeValueResolver->resolve($expr);
+        if (! is_string($filePath)) {
+            return [];
+        }
+
+        $fileBaseName = (string) Strings::after($filePath, '/', -1);
+        if (! Strings::startsWith($fileBaseName, 'Skip')) {
+            return [];
+        }
+
+        return [sprintf(self::INVERTED_ERROR_MESSAGE, $fileBaseName)];
     }
 }

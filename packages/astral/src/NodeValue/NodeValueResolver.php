@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\Astral\NodeValue;
 
+use PhpParser\ConstExprEvaluationException;
 use PhpParser\ConstExprEvaluator;
 use PhpParser\Node\Expr;
 
@@ -24,6 +25,10 @@ final class NodeValueResolver
      */
     public function resolve(Expr $expr)
     {
-        return $this->constExprEvaluator->evaluateDirectly($expr);
+        try {
+            return $this->constExprEvaluator->evaluateDirectly($expr);
+        } catch (ConstExprEvaluationException $constExprEvaluationException) {
+            return null;
+        }
     }
 }

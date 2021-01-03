@@ -26,6 +26,9 @@ final class RequireSkipPrefixForRuleSkippedFixtureRuleTest extends AbstractServi
 
         $errorMessage = sprintf(RequireSkipPrefixForRuleSkippedFixtureRule::ERROR_MESSAGE, 'CorrectNaming.php');
         yield [__DIR__ . '/Fixture/MissingPrefix.php', [[$errorMessage, 14]]];
+
+        $errorMessage = sprintf(RequireSkipPrefixForRuleSkippedFixtureRule::INVERTED_ERROR_MESSAGE, 'SkipNaming.php');
+        yield [__DIR__ . '/Fixture/ExtraPrefix.php', [[$errorMessage, 14]]];
     }
 
     protected function getRule(): Rule
