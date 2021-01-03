@@ -61,7 +61,10 @@ final class ValidateFixtureSkipNamingCommand extends AbstractSymplifyCommand
                 $missplacedFixtureFileInfo->getBasenameWithoutSuffix(),
                 Prefix::SKIP_PREFIX_REGEX
             );
-            $hasSplit = strpos((string) file_get_contents((string) $missplacedFixtureFileInfo), '-----') !== false;
+            $hasSplit = strpos(
+                (string) $this->smartFileSystem->readFile((string) $missplacedFixtureFileInfo),
+                '-----'
+            ) !== false;
 
             if ($isSkipped && $hasSplit) {
                 unset($missplacedFixtureFileInfos[$key]);
@@ -71,9 +74,7 @@ final class ValidateFixtureSkipNamingCommand extends AbstractSymplifyCommand
             if ($isSkipped) {
                 // A. file has incorrect "skip"
                 $baseMessage = 'The file "%s" should drop the "skip/keep" prefix';
-            }
-
-            if (! $isSkipped) {
+            } else {
                 // B. file is missing "skip"
                 $baseMessage = 'The file "%s" should start with "skip/keep" prefix';
             }
