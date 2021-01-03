@@ -4,6 +4,11 @@
 
 ### Added
 
+- [#6] Added y
+- [#5] Added x
+
+### Added
+
 - [#4] Added bar
 - [#3] Added baz
 

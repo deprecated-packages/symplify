@@ -22,6 +22,12 @@ final class ChangelogFileSystem
     private const UNRELEASED_HEADLINE = '## Unreleased';
 
     /**
+     * @var string
+     * @see https://regex101.com/r/MTJC7T/3
+     */
+    private const TRIMMED_NEW_ENTRY_DASH_REGEX = '#(?<prevlist>\w+)(?<newlist>- \[\#\d\])#';
+
+    /**
      * @var ChangelogLinker
      */
     private $changelogLinker;
@@ -118,7 +124,9 @@ final class ChangelogFileSystem
             );
         }
 
-        return $updatedChangelogContent;
+        return Strings::replace($updatedChangelogContent, self::TRIMMED_NEW_ENTRY_DASH_REGEX, function (array $match): string {
+            return $match['prevlist'] . PHP_EOL . $match['newlist'];
+        });
     }
 
     private function getChangelogFilePath(): string

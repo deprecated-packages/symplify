@@ -37,8 +37,7 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
 
 ### Added
 
-- [#2] Added foo
-- [#1] Added woo
+- [#2] Added foo- [#1] Added woo
 CODE_SAMPLE
 , DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
@@ -47,8 +46,17 @@ CODE_SAMPLE
 
 ### Added
 
-- [#4] Added bar
-- [#3] Added baz
+- [#4] Added bar- [#3] Added baz
+CODE_SAMPLE
+, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
+
+        $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CODE_SAMPLE
+## Unreleased
+
+### Added
+
+- [#6] Added y
+- [#5] Added x
 CODE_SAMPLE
 , DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
