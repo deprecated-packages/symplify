@@ -1,6 +1,6 @@
 <!-- changelog-linker -->
 
-## Unreleased# Changelog
+## 9.0.24 - 2021-01-03# Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -38,7 +38,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#2672] Refactor CheckTypehintCallerTypeRule from instanceof to PHPStan types- [#2645] Refactor PreventDoubleSetParameterRule to use SymfonyPhpConfigClosureAnalyzer- [#2670] Skip callables in dynamic naming- [#2668] Skip callables in dynamic naming- [#2680] Refactor CheckUsedNamespacedNameOnClassNodeRule to skip null compare- [#2663] ensure no superflous / or \ in check isInDirectoryNamed(), Thanks to [@samsonasik]- [#2724] Skip ClassNameRespectsParentSuffixRule on anonymous class, Thanks to [@samsonasik]
 
 #### Unknown Package
-- [#2660] Failing test case for multiple ## Unreleased against , Thanks to [@samsonasik]- [#2649] Automated Update of Changelog on 2020-12-15, Thanks to [@github-actions][bot]- [#2665] Ensure namespacedName property exists when call $Class_->namespacedName, Thanks to [@samsonasik]- [#2685] Duplicate trait- [#2690] Improved documentation (to avoid error), Thanks to [@leoloso]- [#2692] [monorepo-builder "localize-composer-paths"] Extract $packageComposerFiles from out of loop, Thanks to [@leoloso]- [#2714] [Monorepo Builder] Avoid duplicating entries in composer.json's repositories, Thanks to [@leoloso]
+- [#2660] Failing test case for multiple ## 9.0.24 - 2021-01-03 against , Thanks to [@samsonasik]- [#2649] Automated Update of Changelog on 2020-12-15, Thanks to [@github-actions][bot]- [#2665] Ensure namespacedName property exists when call $Class_->namespacedName, Thanks to [@samsonasik]- [#2685] Duplicate trait- [#2690] Improved documentation (to avoid error), Thanks to [@leoloso]- [#2692] [monorepo-builder "localize-composer-paths"] Extract $packageComposerFiles from out of loop, Thanks to [@leoloso]- [#2714] [Monorepo Builder] Avoid duplicating entries in composer.json's repositories, Thanks to [@leoloso]
 
 #### automated
 - [#2726] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2677] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2686] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2687] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2651] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2691] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2657] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2709] Re-Generate Docs, Thanks to [@github-actions][bot]
