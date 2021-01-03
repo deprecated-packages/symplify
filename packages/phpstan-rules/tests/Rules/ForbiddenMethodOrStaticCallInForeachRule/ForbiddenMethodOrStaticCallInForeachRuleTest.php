@@ -21,9 +21,9 @@ final class ForbiddenMethodOrStaticCallInForeachRuleTest extends AbstractService
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/WithoutMethodOrStaticCall.php', []];
-        yield [__DIR__ . '/Fixture/WithMethodCallWithoutParameter.php', []];
-        yield [__DIR__ . '/Fixture/WithStaticCallWithoutParameter.php', []];
+        yield [__DIR__ . '/Fixture/SkipWithoutMethodOrStaticCall.php', []];
+        yield [__DIR__ . '/Fixture/SkipWithMethodCallWithoutParameter.php', []];
+        yield [__DIR__ . '/Fixture/SkipWithStaticCallWithoutParameter.php', []];
         yield [
             __DIR__ . '/Fixture/WithMethodCallWithParameter.php',
             [[ForbiddenMethodOrStaticCallInForeachRule::ERROR_MESSAGE, 16]],

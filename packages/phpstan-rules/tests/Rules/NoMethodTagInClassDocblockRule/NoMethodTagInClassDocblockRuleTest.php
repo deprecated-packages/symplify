@@ -21,8 +21,8 @@ final class NoMethodTagInClassDocblockRuleTest extends AbstractServiceAwareRuleT
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/ClassWithNoDocblock.php', []];
-        yield [__DIR__ . '/Fixture/ClassWithNoMethodTag.php', []];
+        yield [__DIR__ . '/Fixture/SkipClassWithNoMethodTag.php', []];
+
         yield [__DIR__ . '/Fixture/ClassWithMethodTag.php', [[NoMethodTagInClassDocblockRule::ERROR_MESSAGE, 10]]];
     }
 

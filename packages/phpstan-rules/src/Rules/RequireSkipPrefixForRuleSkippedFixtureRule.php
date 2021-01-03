@@ -49,12 +49,7 @@ final class RequireSkipPrefixForRuleSkippedFixtureRule extends AbstractSymplifyR
      */
     public function process(Node $node, Scope $scope): array
     {
-        $className = $this->getClassName($scope);
-        if ($className === null) {
-            return [];
-        }
-
-        if (! is_a($className, RuleTestCase::class, true)) {
+        if ($this->shouldSkipClassName($scope)) {
             return [];
         }
 
@@ -85,7 +80,7 @@ final class RequireSkipPrefixForRuleSkippedFixtureRule extends AbstractSymplifyR
         }
 
         $filePath = $this->nodeValueResolver->resolve($firstItem->value->right);
-        $fileBaseName = Strings::after($filePath, '/', -1);
+        $fileBaseName = (string) Strings::after($filePath, '/', -1);
         if (Strings::startsWith($fileBaseName, 'Skip')) {
             return [];
         }
@@ -150,5 +145,15 @@ final class SomeRuleTest extends RuleTestCase
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function shouldSkipClassName(Scope $scope): bool
+    {
+        $className = $this->getClassName($scope);
+        if ($className === null) {
+            return true;
+        }
+
+        return ! is_a($className, RuleTestCase::class, true);
     }
 }

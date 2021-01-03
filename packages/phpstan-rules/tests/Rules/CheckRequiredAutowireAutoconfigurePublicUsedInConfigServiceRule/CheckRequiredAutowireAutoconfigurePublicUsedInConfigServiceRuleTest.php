@@ -21,8 +21,9 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRuleTest 
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/ConfigParameter.php', []];
-        yield [__DIR__ . '/Fixture/ConfigServiceHasAutowireAutoConfigurePublicMethodCall.php', []];
+        yield [__DIR__ . '/Fixture/SkipConfigParameter.php', []];
+        yield [__DIR__ . '/Fixture/SkipConfigServiceHasAutowireAutoConfigurePublicMethodCall.php', []];
+
         yield [
             __DIR__ . '/Fixture/ConfigServiceMissingMethodCall.php',
             [[CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule::ERROR_MESSAGE, 9]],

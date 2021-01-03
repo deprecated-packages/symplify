@@ -27,9 +27,9 @@ final class RequireStringArgumentInMethodCallRuleTest extends AbstractServiceAwa
         $errorMessage = sprintf(RequireStringArgumentInMethodCallRule::ERROR_MESSAGE, 'callMe', 1);
         yield [__DIR__ . '/Fixture/WithClassConstant.php', [[$errorMessage, 15]]];
 
-        yield [__DIR__ . '/Fixture/WithConstant.php', []];
-        yield [__DIR__ . '/Fixture/WithString.php', []];
-        yield [__DIR__ . '/Fixture/WithVariable.php', []];
+        yield [__DIR__ . '/Fixture/SkipWithConstant.php', []];
+        yield [__DIR__ . '/Fixture/SkipWithString.php', []];
+        yield [__DIR__ . '/Fixture/SkipWithVariable.php', []];
     }
 
     protected function getRule(): Rule

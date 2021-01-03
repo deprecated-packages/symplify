@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use PhpParser\ConstExprEvaluator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -18,4 +19,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/../src/StaticFactory',
             __DIR__ . '/../src/ValueObject',
         ]);
+
+    $services->set(ConstExprEvaluator::class);
 };

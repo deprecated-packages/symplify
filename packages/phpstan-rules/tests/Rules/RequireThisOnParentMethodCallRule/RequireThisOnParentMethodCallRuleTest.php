@@ -22,8 +22,9 @@ final class RequireThisOnParentMethodCallRuleTest extends AbstractServiceAwareRu
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/CallParentMethodStaticallySameMethod.php', []];
-        yield [__DIR__ . '/Fixture/CallParentMethodStaticallyWhenMethodOverriden.php', []];
+        yield [__DIR__ . '/Fixture/SkipCallParentMethodStaticallySameMethod.php', []];
+        yield [__DIR__ . '/Fixture/SkipCallParentMethodStaticallyWhenMethodOverriden.php', []];
+
         yield [
             __DIR__ . '/Fixture/CallParentMethodStatically.php',
             [[RequireThisOnParentMethodCallRule::ERROR_MESSAGE, 11], [

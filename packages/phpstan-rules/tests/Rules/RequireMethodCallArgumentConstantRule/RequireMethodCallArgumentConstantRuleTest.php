@@ -21,15 +21,15 @@ final class RequireMethodCallArgumentConstantRuleTest extends AbstractServiceAwa
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipWithConstant.php', []];
+        yield [__DIR__ . '/Fixture/SkipWithVariable.php', []];
+
         $errorMessage = sprintf(RequireMethodCallArgumentConstantRule::ERROR_MESSAGE, 0);
         yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstant.php', [[$errorMessage, 14]]];
         yield [__DIR__ . '/Fixture/SymfonyPHPConfigParameterSetter.php', [[$errorMessage, 14]]];
 
         yield [__DIR__ . '/Fixture/NestedNode.php', [[$errorMessage, 14], [$errorMessage, 19]]];
         yield [__DIR__ . '/Fixture/IntersectionNode.php', [[$errorMessage, 17]]];
-
-        yield [__DIR__ . '/Fixture/WithConstant.php', []];
-        yield [__DIR__ . '/Fixture/SkipWithVariable.php', []];
     }
 
     protected function getRule(): Rule

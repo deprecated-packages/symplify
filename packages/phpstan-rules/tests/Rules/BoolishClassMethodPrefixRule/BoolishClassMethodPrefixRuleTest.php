@@ -21,6 +21,11 @@ final class BoolishClassMethodPrefixRuleTest extends AbstractServiceAwareRuleTes
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipClassWithEmptyReturn.php', []];
+        yield [__DIR__ . '/Fixture/SkipClassThatImplementsInterface.php', []];
+        yield [__DIR__ . '/Fixture/SkipRequiredByInterface.php', []];
+        yield [__DIR__ . '/Fixture/SkipNestedCallback.php', []];
+
         $firstErrorMessage = sprintf(BoolishClassMethodPrefixRule::ERROR_MESSAGE, 'honesty');
         $secondErrorMessage = sprintf(BoolishClassMethodPrefixRule::ERROR_MESSAGE, 'thatWasGreat');
 
@@ -28,12 +33,6 @@ final class BoolishClassMethodPrefixRuleTest extends AbstractServiceAwareRuleTes
             __DIR__ . '/Fixture/ClassWithBoolishMethods.php',
             [[$firstErrorMessage, 9], [$secondErrorMessage, 14]],
         ];
-
-        // no erros
-        yield [__DIR__ . '/Fixture/ClassWithEmptyReturn.php', []];
-        yield [__DIR__ . '/Fixture/ClassThatImplementsInterface.php', []];
-        yield [__DIR__ . '/Fixture/SkipRequiredByInterface.php', []];
-        yield [__DIR__ . '/Fixture/SkipNestedCallback.php', []];
     }
 
     protected function getRule(): Rule

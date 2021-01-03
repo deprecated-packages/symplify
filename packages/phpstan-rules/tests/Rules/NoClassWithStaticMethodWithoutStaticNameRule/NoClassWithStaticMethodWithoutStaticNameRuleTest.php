@@ -26,7 +26,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRuleTest extends AbstractSer
         yield [__DIR__ . '/Fixture/ClassWithMethod.php', [[$errorMessage, 7]]];
 
         yield [__DIR__ . '/Fixture/SkipEventSubscriber.php', []];
-        yield [__DIR__ . '/Fixture/EventSubscriberWithAnotherStaticMethod.php', []];
+        yield [__DIR__ . '/Fixture/SkipEventSubscriberWithAnotherStaticMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipValueObjectFactory.php', []];
     }
 

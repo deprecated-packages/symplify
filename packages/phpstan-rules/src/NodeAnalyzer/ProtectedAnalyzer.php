@@ -33,6 +33,7 @@ final class ProtectedAnalyzer
         if ($this->dependencyNodeAnalyzer->isInsideClassAndPassedAsDependencyViaAutowireMethod($property)) {
             return true;
         }
+
         return $this->typeNodeAnalyzer->isStaticAndContainerOrKernelType($property);
     }
 }

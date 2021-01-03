@@ -22,7 +22,7 @@ final class ForbiddenMethodCallOnNewRuleTest extends AbstractServiceAwareRuleTes
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/MethodCallOnNew.php', [[ForbiddenMethodCallOnNewRule::ERROR_MESSAGE, 7]]];
-        yield [__DIR__ . '/Fixture/MethodCallOnVariable.php', []];
+        yield [__DIR__ . '/Fixture/SkipMethodCallOnVariable.php', []];
     }
 
     protected function getRule(): Rule

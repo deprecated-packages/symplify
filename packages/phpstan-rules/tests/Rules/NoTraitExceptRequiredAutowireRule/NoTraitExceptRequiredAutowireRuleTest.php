@@ -21,7 +21,8 @@ final class NoTraitExceptRequiredAutowireRuleTest extends AbstractServiceAwareRu
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SomeTraitWithPublicMethodRequired.php', []];
+        yield [__DIR__ . '/Fixture/SkipTraitWithPublicMethodRequired.php', []];
+
         yield [__DIR__ . '/Fixture/SomeTrait.php', [[NoTraitExceptRequiredAutowireRule::ERROR_MESSAGE, 7]]];
         yield [
             __DIR__ . '/Fixture/SomeTraitWithoutMethod.php',

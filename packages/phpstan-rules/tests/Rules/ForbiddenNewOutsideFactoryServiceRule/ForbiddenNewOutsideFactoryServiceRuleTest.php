@@ -21,9 +21,10 @@ final class ForbiddenNewOutsideFactoryServiceRuleTest extends AbstractServiceAwa
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/StarFactory.php', []];
-        yield [__DIR__ . '/Fixture/NonStarFactory.php', []];
-        yield [__DIR__ . '/Fixture/NotAFactoryClassNonStar.php', [
+        yield [__DIR__ . '/Fixture/SkipStarFactory.php', []];
+        yield [__DIR__ . '/Fixture/SkipNonStarFactory.php', []];
+
+        yield [__DIR__ . '/Fixture/SkipNotAFactoryClassNonStar.php', [
             [sprintf(ForbiddenNewOutsideFactoryServiceRule::ERROR_MESSAGE, 'Foo'), 11],
         ]];
         yield [__DIR__ . '/Fixture/NotAFactoryClassStar.php', [

@@ -24,7 +24,8 @@ final class ForbiddenCallOnTypeRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/CallOnOtherClass.php', []];
+        yield [__DIR__ . '/Fixture/SkipCallOnOtherClass.php', []];
+
         yield [
             __DIR__ . '/Fixture/CallOnContainer.php',
             [[sprintf(ForbiddenCallOnTypeRule::ERROR_MESSAGE, Container::class), 23]],
