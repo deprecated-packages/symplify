@@ -111,7 +111,6 @@ final class ChangelogFileSystem
             );
             $updatedChangelogContent = self::UNRELEASED_HEADLINE . $updatedChangelogContent;
             $updatedChangelogContent = $placeholder . PHP_EOL . PHP_EOL . $updatedChangelogContent;
-            $updatedChangelogContent = str_replace(PHP_EOL . '-', '-', $updatedChangelogContent);
             $updatedChangelogContent = str_replace(
                 self::UNRELEASED_HEADLINE . PHP_EOL . '-',
                 self::UNRELEASED_HEADLINE . PHP_EOL . PHP_EOL . '-',
