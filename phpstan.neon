@@ -489,5 +489,5 @@ parameters:
             paths:
                  - packages/astral/src/NodeTraverser/SimpleCallableNodeTraverser.php #35
 
-        - '#File "AbstractSomeAbstractClass\.php" should have prefix "skip"#'
-        - '#File "AbstractClass\.php" should have prefix "skip"#'
+        - '#File "AbstractSomeAbstractClass\.php" should have prefix "Skip" prefix#'
+        - '#File "AbstractClass\.php" should have prefix "Skip" prefix#'
