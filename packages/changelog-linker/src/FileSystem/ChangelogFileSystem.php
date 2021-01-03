@@ -124,9 +124,13 @@ final class ChangelogFileSystem
             );
         }
 
-        return Strings::replace($updatedChangelogContent, self::TRIMMED_NEW_ENTRY_DASH_REGEX, function (array $match): string {
-            return $match['prevlist'] . PHP_EOL . $match['newlist'];
-        });
+        return Strings::replace(
+            $updatedChangelogContent,
+            self::TRIMMED_NEW_ENTRY_DASH_REGEX,
+            function (array $match): string {
+                return $match['prevlist'] . PHP_EOL . $match['newlist'];
+            }
+        );
     }
 
     private function getChangelogFilePath(): string
