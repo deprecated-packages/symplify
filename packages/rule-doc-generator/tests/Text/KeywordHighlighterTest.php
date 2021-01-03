@@ -38,7 +38,7 @@ final class KeywordHighlighterTest extends AbstractKernelTestCase
         yield ['some @var and @param text', 'some `@var` and `@param` text'];
         yield [
             'autowire(), autoconfigure(), and public() are required in config service',
-            '`autowire(),` `autoconfigure(),` and `public()` are required in config service',
+            '`autowire()`, `autoconfigure()`, and `public()` are required in config service',
         ];
     }
 }
