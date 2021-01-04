@@ -99,7 +99,7 @@ class Baz
 
 ## CheckConstantExpressionDefinedInConstructOrSetupRule
 
-Move constant expression to `__construct(),` `setUp()` method or constant
+Move constant expression to `__construct()`, `setUp()` method or constant
 
 - class: `Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule`
 
@@ -203,7 +203,7 @@ class SomeTest
 
 ## CheckOptionArgumentCommandRule
 
-`%s()` called in `configure(),` must be called with `%s()` in `execute()` in "Symfony\Component\Console\Command\Command" type
+`%s()` called in `configure()`, must be called with `%s()` in `execute()` in "Symfony\Component\Console\Command\Command" type
 
 - class: `Symplify\PHPStanRules\Rules\CheckOptionArgumentCommandRule`
 
@@ -319,7 +319,7 @@ abstract class AbstractClass
 
 ## CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
 
-`autowire(),` `autoconfigure(),` and `public()` are required in config service
+`autowire()`, `autoconfigure()`, and `public()` are required in config service
 
 - class: `Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule`
 
@@ -4147,7 +4147,7 @@ class SomeClass
 
 ## RequireSkipPrefixForRuleSkippedFixtureRule
 
-`File` "%s" should have prefix "skip"
+`File` "%s" should have prefix "Skip" prefix
 
 - class: `Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule`
 
