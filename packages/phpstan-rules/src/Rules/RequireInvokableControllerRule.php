@@ -17,7 +17,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireInvokableControllerRule\RequireInvokableControllerRuleTest
  */
-final class RequireInvokableControllerRule extends AbstractInvokableController
+final class RequireInvokableControllerRule extends AbstractInvokableControllerRule
 {
     /**
      * @var string

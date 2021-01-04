@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PHPStan\Analyser\Scope;
 
-abstract class AbstractInvokableController extends AbstractSymplifyRule
+abstract class AbstractInvokableControllerRule extends AbstractSymplifyRule
 {
     protected function isInControllerClass(Scope $scope): bool
     {
