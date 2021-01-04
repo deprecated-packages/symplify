@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -15,6 +16,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
 {
+    /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = 'Use controller class name based on route name instead';
+
     /**
      * @return string[]
      */
@@ -29,7 +35,12 @@ final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        return [];
+        $classMethodName = (string) $node->name;
+        if ($classMethodName !== MethodName::INVOKE) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
