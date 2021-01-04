@@ -3,6 +3,9 @@
     "description": "Testing made easy",
     "license": "MIT",
     "type": "symfony-bundle",
+    "bin": [
+        "bin/easy-testing"
+    ],
     "require": {
         "php": ">=7.3",
         "nette/utils": "^3.0",
