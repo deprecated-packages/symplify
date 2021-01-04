@@ -18,15 +18,15 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
 {
     /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = 'Use controller class name based on route name instead';
+
+    /**
      * @see https://regex101.com/r/ChpDsj/1
      * @var string
      */
     private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
-
-    /**
-     * @var string
-     */
-    public const ERROR_MESSAGE = 'Use controller class name based on route name instead';
 
     /**
      * @return string[]
@@ -47,19 +47,19 @@ final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var string|null $shortClassName */
-        $shortClassName = $this->getShortClassName($scope);
-
-        if ($shortClassName === null) {
+        $classLike = $this->resolveCurrentClass($node);
+        if ($classLike === null) {
             return [];
         }
 
+        /** @var string $shortClassName */
+        $shortClassName = $this->getShortClassName($scope);
         if (Strings::match($shortClassName, self::ANONYMOUS_CLASS_REGEX)) {
             return [];
         }
 
         /** @var string $className */
-        $className = $this->resolveClassLikeName($node);
+        $className = $this->resolveClassLikeName($classLike);
         if (strpos($className, 'Tests') !== false) {
             return [];
         }
