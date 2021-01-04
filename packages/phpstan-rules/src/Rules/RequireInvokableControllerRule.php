@@ -17,7 +17,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireInvokableControllerRule\RequireInvokableControllerRuleTest
  */
-final class RequireInvokableControllerRule extends AbstractSymplifyRule
+final class RequireInvokableControllerRule extends AbstractInvokableController
 {
     /**
      * @var string
@@ -104,21 +104,6 @@ final class SomeController extends AbstractController
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    private function isInControllerClass(Scope $scope): bool
-    {
-        $className = $this->getClassName($scope);
-        if ($className === null) {
-            return false;
-        }
-
-        // skip
-        if (is_a($className, 'EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController', true)) {
-            return false;
-        }
-
-        return is_a($className, 'Symfony\Bundle\FrameworkBundle\Controller\AbstractController', true);
     }
 
     private function isRouteMethod(ClassMethod $node): bool
