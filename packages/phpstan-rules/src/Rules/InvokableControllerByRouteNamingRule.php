@@ -59,7 +59,7 @@ final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
         }
 
         /** @var string $className */
-        $className = $this->resolveClassLikeName($className);
+        $className = $this->resolveClassLikeName($node);
         if (strpos($className, 'Tests') !== false) {
             return [];
         }
