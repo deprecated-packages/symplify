@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -16,6 +17,12 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
 {
+    /**
+     * @see https://regex101.com/r/ChpDsj/1
+     * @var string
+     */
+    private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
+
     /**
      * @var string
      */
@@ -37,6 +44,23 @@ final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
     {
         $classMethodName = (string) $node->name;
         if ($classMethodName !== MethodName::INVOKE) {
+            return [];
+        }
+
+        /** @var string|null $shortClassName */
+        $shortClassName = $this->getShortClassName($scope);
+
+        if ($shortClassName === null) {
+            return [];
+        }
+
+        if (Strings::match($shortClassName, self::ANONYMOUS_CLASS_REGEX)) {
+            return [];
+        }
+
+        /** @var string $className */
+        $className = $this->resolveClassLikeName($className);
+        if (strpos($className, 'Tests') !== false) {
             return [];
         }
 
