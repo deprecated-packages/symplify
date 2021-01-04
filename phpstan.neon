@@ -183,6 +183,12 @@ parameters:
                 - packages/autodiscovery/src/Doctrine/DoctrineEntityMappingAutodiscoverer.php
                 - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
 
+                - packages/vendor-patches/src/Composer/ComposerPatchesConfigurationUpdater.php
+                 # yaml array construction
+                - packages/neon-to-yaml-converter/src/ConverterWorker/*ConverterWorker.php
+                - */packages/neon-to-yaml-converter/src/NeonToYamlConverter.php
+                - packages/easy-testing/src/MissplacedSkipPrefixResolver.php #23
+
         -
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'
             paths:
@@ -358,14 +364,6 @@ parameters:
             path: packages/easy-ci/src/Finder/SrcTestsDirectoriesFinder.php
 
         - '#The path "/JsonFileSystemSource/temp_file\.json" was not found#'
-
-        -
-            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
-            paths:
-                 - packages/vendor-patches/src/Composer/ComposerPatchesConfigurationUpdater.php
-                 # yaml array construction
-                 - packages/neon-to-yaml-converter/src/ConverterWorker/*ConverterWorker.php
-                 - */packages/neon-to-yaml-converter/src/NeonToYamlConverter.php
 
         - '#Parameter \#1 \$type of method PhpParser\\Builder\\FunctionLike\:\:setReturnType\(\) expects PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|string, PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType given#'
         - '#Cannot cast array<string\>\|bool\|string\|null to string#'

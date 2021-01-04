@@ -16,7 +16,7 @@ final class MissplacedSkipPrefixResolver
 {
     /**
      * @param SmartFileInfo[] $fixtureFileInfos
-     * @return SmartFileInfo[]
+     * @return array<string, SmartFileInfo[]>
      */
     public function resolve(array $fixtureFileInfos): array
     {
