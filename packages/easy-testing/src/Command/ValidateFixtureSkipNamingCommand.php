@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\EasyTesting\Command;
 
-use Nette\Utils\Strings;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyTesting\Finder\FixtureFinder;
 use Symplify\EasyTesting\MissplacedSkipPrefixResolver;
 use Symplify\EasyTesting\ValueObject\Option;
-use Symplify\EasyTesting\ValueObject\Prefix;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
@@ -56,23 +54,32 @@ final class ValidateFixtureSkipNamingCommand extends AbstractSymplifyCommand
             return ShellCode::SUCCESS;
         }
 
-        foreach ($missplacedFixtureFileInfos as $missplacedFixtureFileInfo) {
-            if (Strings::match(
-                $missplacedFixtureFileInfo->getBasenameWithoutSuffix(),
-                Prefix::SKIP_PREFIX_REGEX
-            )) {
-                // A. file has incorrect "skip"
-                $baseMessage = 'The file "%s" should drop the "skip/keep" prefix';
-            } else {
-                // B. file is missing "skip"
-                $baseMessage = 'The file "%s" should start with "skip/keep" prefix';
-            }
-
-            $errorMessage = sprintf($baseMessage, $missplacedFixtureFileInfo->getRelativeFilePathFromCwd());
+        foreach ($missplacedFixtureFileInfos['incorrect_skips'] as $missplacedFixtureFileInfo) {
+            $errorMessage = sprintf(
+                'The file "%s" should drop the "skip/keep" prefix',
+                $missplacedFixtureFileInfo->getRelativeFilePathFromCwd()
+            );
             $this->symfonyStyle->note($errorMessage);
         }
 
-        $errorMessage = sprintf('Found %d test file fixtures with wrong prefix', count($missplacedFixtureFileInfos));
+        foreach ($missplacedFixtureFileInfos['missing_skips'] as $missplacedFixtureFileInfo) {
+            $errorMessage = sprintf(
+                'The file "%s" should start with "skip/keep" prefix',
+                $missplacedFixtureFileInfo->getRelativeFilePathFromCwd()
+            );
+            $this->symfonyStyle->note($errorMessage);
+        }
+
+        $countError = count($missplacedFixtureFileInfos['incorrect_skips']) + count(
+            $missplacedFixtureFileInfos['missing_skips']
+        );
+        if ($countError === 0) {
+            $message = sprintf('All %d fixture files have valid names', count($fixtureFileInfos));
+            $this->symfonyStyle->success($message);
+            return ShellCode::SUCCESS;
+        }
+
+        $errorMessage = sprintf('Found %d test file fixtures with wrong prefix', $countError);
         $this->symfonyStyle->error($errorMessage);
 
         return ShellCode::ERROR;
