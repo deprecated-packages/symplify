@@ -4,10 +4,28 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use PhpParser\Node\AttributeGroup;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 
 abstract class AbstractInvokableControllerRule extends AbstractSymplifyRule
 {
+    /**
+     * @var string
+     */
+    private const ROUTE_ATTRIBUTE = 'Symfony\Component\Routing\Annotation\Route';
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
+
     protected function isInControllerClass(Scope $scope): bool
     {
         $className = $this->getClassName($scope);
@@ -21,5 +39,20 @@ abstract class AbstractInvokableControllerRule extends AbstractSymplifyRule
         }
 
         return is_a($className, 'Symfony\Bundle\FrameworkBundle\Controller\AbstractController', true);
+    }
+
+    protected function hasAttribute(ClassMethod $node): bool
+    {
+        /** @var AttributeGroup $attrGroup */
+        foreach ((array) $node->attrGroups as $attrGroup) {
+            foreach ($attrGroup->attrs as $attribute) {
+                $attributeClass = $this->simpleNameResolver->getName($attribute->name);
+                if ($attributeClass === self::ROUTE_ATTRIBUTE) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

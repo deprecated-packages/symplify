@@ -50,7 +50,7 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
             return [];
         }
 
-        if ($node->attrGroups === []) {
+        if (! $this->hasAttribute($node)) {
             return [];
         }
 
