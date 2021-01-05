@@ -7,9 +7,9 @@ namespace Symplify\PHPStanRules\Tests\Rules\InvokableControllerByRouteNamingRule
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class SecurityController extends AbstractController
+final class ValidController extends AbstractController
 {
-    #[Route(path: '/logout', name: 'logout')]
+    #[Route(path: '/valid', name: 'valid')]
     public function __invoke(): Response
     {
     }

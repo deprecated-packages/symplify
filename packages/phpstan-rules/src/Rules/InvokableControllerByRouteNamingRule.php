@@ -69,8 +69,8 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
             $argName       = (string) $argIdentifier;
 
             if ($argName === 'name') {
-                $next = $routeAttribute->getAttribute(PHPStanAttributeKey::NEXT);
-                if ($next instanceof PhpParser\Node\Scalar\String_) {
+                $next = $argIdentifier->getAttribute(PHPStanAttributeKey::NEXT);
+                if ($next instanceof \PhpParser\Node\Scalar\String_) {
                     return $this->validateName($scope, $next->value);
                 }
             }
