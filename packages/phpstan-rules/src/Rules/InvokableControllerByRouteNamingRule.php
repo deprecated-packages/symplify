@@ -6,10 +6,9 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Identifier;
-use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\MethodName;
@@ -57,7 +56,7 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
             return [];
         }
 
-        /** @var Attribute|null */
+        /** @var Attribute|null $parent */
         $parent = $routeAttribute->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof Attribute) {
             return [];
@@ -66,31 +65,17 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
         foreach ($parent->args as $arg) {
             /** @var Identifier $argIdentifier */
             $argIdentifier = $arg->name;
-            $argName       = (string) $argIdentifier;
+            $argName = (string) $argIdentifier;
 
             if ($argName === 'name') {
                 $next = $argIdentifier->getAttribute(PHPStanAttributeKey::NEXT);
-                if ($next instanceof \PhpParser\Node\Scalar\String_) {
+                if ($next instanceof String_) {
                     return $this->validateName($scope, $next->value);
                 }
             }
         }
 
         return [];
-    }
-
-    private function validateName(Scope $scope, string $string): array
-    {
-        $shortClassName = $this->getShortClassName($scope);
-        $name           = (bool) Strings::endsWith($shortClassName, 'Controller')
-            ? substr($shortClassName, 0, -10)
-            : $shortClassName;
-
-        if (strtolower($name) === strtolower($string)) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -122,5 +107,19 @@ final class LogoutController extends AbstractController
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function validateName(Scope $scope, string $string): array
+    {
+        $shortClassName = $this->getShortClassName($scope);
+        $name = (bool) Strings::endsWith($shortClassName, 'Controller')
+            ? substr($shortClassName, 0, -10)
+            : $shortClassName;
+
+        if (strtolower($name) === strtolower($string)) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
     }
 }
