@@ -11,6 +11,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use PhpParser\Node\Name\FullyQualified;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireInvokableControllerRule\RequireInvokableControllerRuleTest
@@ -102,6 +103,6 @@ CODE_SAMPLE
             }
         }
 
-        return $this->hasAttribute($node);
+        return $this->getRouteAttribute($node) instanceof FullyQualified;
     }
 }

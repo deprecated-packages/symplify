@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\AttributeGroup;
+use PhpParser\Node\Attribute;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -50,7 +52,41 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
             return [];
         }
 
-        if (! $this->hasAttribute($node)) {
+        $routeAttribute = $this->getRouteAttribute($node);
+        if ($routeAttribute === null) {
+            return [];
+        }
+
+        /** @var Attribute|null */
+        $parent = $routeAttribute->getAttribute(PHPStanAttributeKey::PARENT);
+        if (! $parent instanceof Attribute) {
+            return [];
+        }
+
+        foreach ($parent->args as $arg) {
+            /** @var Identifier $argIdentifier */
+            $argIdentifier = $arg->name;
+            $argName       = (string) $argIdentifier;
+
+            if ($argName === 'name') {
+                $next = $routeAttribute->getAttribute(PHPStanAttributeKey::NEXT);
+                if ($next instanceof PhpParser\Node\Scalar\String_) {
+                    return $this->validateName($scope, $next->value);
+                }
+            }
+        }
+
+        return [];
+    }
+
+    private function validateName(Scope $scope, string $string): array
+    {
+        $shortClassName = $this->getShortClassName($scope);
+        $name           = (bool) Strings::endsWith($shortClassName, 'Controller')
+            ? substr($shortClassName, 0, -10)
+            : $shortClassName;
+
+        if (strtolower($name) === strtolower($string)) {
             return [];
         }
 

@@ -8,6 +8,7 @@ use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use PhpParser\Node\Name\FullyQualified;
 
 abstract class AbstractInvokableControllerRule extends AbstractSymplifyRule
 {
@@ -19,7 +20,7 @@ abstract class AbstractInvokableControllerRule extends AbstractSymplifyRule
     /**
      * @var SimpleNameResolver
      */
-    private $simpleNameResolver;
+    protected $simpleNameResolver;
 
     public function __construct(SimpleNameResolver $simpleNameResolver)
     {
@@ -41,18 +42,22 @@ abstract class AbstractInvokableControllerRule extends AbstractSymplifyRule
         return is_a($className, 'Symfony\Bundle\FrameworkBundle\Controller\AbstractController', true);
     }
 
-    protected function hasAttribute(ClassMethod $node): bool
+    protected function getRouteAttribute(ClassMethod $node): ?FullyQualified
     {
         /** @var AttributeGroup $attrGroup */
         foreach ((array) $node->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attribute) {
+                if (! $attribute->name instanceof FullyQualified) {
+                    continue;
+                }
+
                 $attributeClass = $this->simpleNameResolver->getName($attribute->name);
                 if ($attributeClass === self::ROUTE_ATTRIBUTE) {
-                    return true;
+                    return $attribute->name;
                 }
             }
         }
 
-        return false;
+        return null;
     }
 }
