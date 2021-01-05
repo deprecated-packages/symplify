@@ -25,6 +25,7 @@ final class InvokableControllerByRouteNamingRuleTest extends AbstractServiceAwar
         yield [__DIR__ . '/Fixture/SkipRandomPublicMethodController.php', []];
         yield [__DIR__ . '/Fixture/SkipAtAnnotationController.php', []];
         yield [__DIR__ . '/Fixture/ValidController.php', []];
+        yield [__DIR__ . '/Fixture/Valid.php', []];
         yield [__DIR__ . '/Fixture/InValidController.php', [
             [InvokableControllerByRouteNamingRule::ERROR_MESSAGE, 12],
         ]];
