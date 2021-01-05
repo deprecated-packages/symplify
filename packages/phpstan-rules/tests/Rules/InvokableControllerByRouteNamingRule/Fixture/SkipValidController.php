@@ -7,9 +7,9 @@ namespace Symplify\PHPStanRules\Tests\Rules\InvokableControllerByRouteNamingRule
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class Valid extends AbstractController
+final class SkipValidController extends AbstractController
 {
-    #[Route(path: '/valid', name: 'valid')]
+    #[Route(path: '/valid', name: 'skipvalid')]
     public function __invoke(): Response
     {
     }
