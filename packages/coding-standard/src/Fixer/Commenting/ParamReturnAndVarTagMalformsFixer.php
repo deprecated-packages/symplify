@@ -66,7 +66,7 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound([T_DOC_COMMENT, T_COMMENT]) &&
+        return $tokens->isAnyTokenKindsFound([T_DOC_COMMENT, T_COMMENT, T_SR]) &&
             $tokens->isAnyTokenKindsFound([T_FUNCTION, T_VARIABLE]);
     }
 
