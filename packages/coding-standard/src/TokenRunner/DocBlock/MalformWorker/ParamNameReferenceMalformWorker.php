@@ -11,7 +11,7 @@ final class ParamNameReferenceMalformWorker extends AbstractMalformWorker
 {
     /**
      * @var string
-     * @see https://regex101.com/r/B4rWNk/2
+     * @see https://regex101.com/r/B4rWNk/3
      */
     private const PARAM_NAME_REGEX = '#(?<param>@param(.*?))&(?<paramName>\$\w+)#';
 
