@@ -20,7 +20,7 @@ abstract class AbstractInvokableControllerRule extends AbstractSymplifyRule
     /**
      * @var SimpleNameResolver
      */
-    protected $simpleNameResolver;
+    private $simpleNameResolver;
 
     public function __construct(SimpleNameResolver $simpleNameResolver)
     {
