@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\MethodName;
@@ -52,6 +53,16 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
         $previous = $classMethodIdentifier->getAttribute(PHPStanAttributeKey::PREVIOUS);
         if (! $previous instanceof AttributeGroup) {
             return [];
+        }
+
+        foreach ($previous->attrs as $attr) {
+            if (! $attr->name instanceof FullyQualified) {
+                continue;
+            }
+
+            if ($attr->name->toString() !== 'Symfony\Component\Routing\Annotation\Route') {
+                continue;
+            }
         }
 
         return [self::ERROR_MESSAGE];

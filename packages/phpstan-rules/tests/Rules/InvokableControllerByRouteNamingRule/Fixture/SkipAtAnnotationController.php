@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\InvokableControllerByRouteNamingRule
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class AtAnnotationController extends AbstractController
+final class SkipAtAnnotationController extends AbstractController
 {
     /**
      * @Route()
