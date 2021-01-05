@@ -62,20 +62,7 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
             return [];
         }
 
-        foreach ($parent->args as $arg) {
-            /** @var Identifier $argIdentifier */
-            $argIdentifier = $arg->name;
-            $argName = (string) $argIdentifier;
-
-            if ($argName === 'name') {
-                $next = $argIdentifier->getAttribute(PHPStanAttributeKey::NEXT);
-                if ($next instanceof String_) {
-                    return $this->validateName($scope, $next->value);
-                }
-            }
-        }
-
-        return [];
+        return $this->validateInvokable($scope, $parent->args);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -109,9 +96,34 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * @return string[]
+     */
+    private function validateInvokable(Scope $scope, array $array): array
+    {
+        foreach ($array as $arg) {
+            /** @var Identifier $argIdentifier */
+            $argIdentifier = $arg->name;
+            $argName = (string) $argIdentifier;
+
+            if ($argName === 'name') {
+                $next = $argIdentifier->getAttribute(PHPStanAttributeKey::NEXT);
+                if ($next instanceof String_) {
+                    return $this->validateName($scope, $next->value);
+                }
+            }
+        }
+
+        return [];
+    }
+
     private function validateName(Scope $scope, string $string): array
     {
         $shortClassName = $this->getShortClassName($scope);
+        if ($shortClassName === null) {
+            return [];
+        }
+
         $name = (bool) Strings::endsWith($shortClassName, 'Controller')
             ? substr($shortClassName, 0, -10)
             : $shortClassName;
