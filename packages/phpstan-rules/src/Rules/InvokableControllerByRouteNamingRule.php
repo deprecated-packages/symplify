@@ -50,19 +50,8 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
             return [];
         }
 
-        $previous = $classMethodIdentifier->getAttribute(PHPStanAttributeKey::PREVIOUS);
-        if (! $previous instanceof AttributeGroup) {
+        if ($node->attrGroups === []) {
             return [];
-        }
-
-        foreach ($previous->attrs as $attr) {
-            if (! $attr->name instanceof FullyQualified) {
-                continue;
-            }
-
-            if ($attr->name->toString() !== 'Symfony\Component\Routing\Annotation\Route') {
-                continue;
-            }
         }
 
         return [self::ERROR_MESSAGE];

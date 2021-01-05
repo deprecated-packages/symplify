@@ -24,6 +24,7 @@ final class InvokableControllerByRouteNamingRuleTest extends AbstractServiceAwar
     {
         yield [__DIR__ . '/Fixture/SkipRandomPublicMethodController.php', []];
         yield [__DIR__ . '/Fixture/SkipAtAnnotationController.php', []];
+        yield [__DIR__ . '/Fixture/SecurityController.php', []];
     }
 
     protected function getRule(): Rule
