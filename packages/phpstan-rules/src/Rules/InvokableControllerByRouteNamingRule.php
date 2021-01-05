@@ -4,29 +4,25 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\AttributeGroup;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\InvokableControllerByRouteNamingRule\InvokableControllerByRouteNamingRuleTest
  */
-final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
+final class InvokableControllerByRouteNamingRule extends AbstractInvokableControllerRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Use controller class name based on route name instead';
-
-    /**
-     * @see https://regex101.com/r/ChpDsj/1
-     * @var string
-     */
-    private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
 
     /**
      * @return string[]
@@ -42,25 +38,19 @@ final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $classMethodName = (string) $node->name;
+        if (! $this->isInControllerClass($scope)) {
+            return [];
+        }
+
+        /** @var Identifier $classMethodIdentifier */
+        $classMethodIdentifier = $node->name;
+        $classMethodName = (string) $classMethodIdentifier;
         if ($classMethodName !== MethodName::INVOKE) {
             return [];
         }
 
-        $classLike = $this->resolveCurrentClass($node);
-        if ($classLike === null) {
-            return [];
-        }
-
-        /** @var string $shortClassName */
-        $shortClassName = $this->getShortClassName($scope);
-        if (Strings::match($shortClassName, self::ANONYMOUS_CLASS_REGEX)) {
-            return [];
-        }
-
-        /** @var string $className */
-        $className = $this->resolveClassLikeName($classLike);
-        if (strpos($className, 'Tests') !== false) {
+        $previous = $classMethodIdentifier->getAttribute(PHPStanAttributeKey::PREVIOUS);
+        if (! $previous instanceof AttributeGroup) {
             return [];
         }
 
@@ -72,6 +62,8 @@ final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
+use Symfony\Component\Routing\Annotation\Route;
+
 final class SecurityController extends AbstractController
 {
     #[Route(path: '/logout', name: 'logout')]
@@ -82,6 +74,8 @@ final class SecurityController extends AbstractController
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
+use Symfony\Component\Routing\Annotation\Route;
+
 final class LogoutController extends AbstractController
 {
     #[Route(path: '/logout', name: 'logout')]

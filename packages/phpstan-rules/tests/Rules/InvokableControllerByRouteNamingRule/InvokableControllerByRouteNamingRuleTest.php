@@ -23,6 +23,7 @@ final class InvokableControllerByRouteNamingRuleTest extends AbstractServiceAwar
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipRandomPublicMethodController.php', []];
+        yield [__DIR__ . '/Fixture/AtAnnotationController.php', []];
     }
 
     protected function getRule(): Rule
