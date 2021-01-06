@@ -125,7 +125,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        $printStmts = $this->getPrintStmts($node, $stmts);
+        $printStmts = $this->getPrintStmts($node);
 
         if (! isset($this->contentMethodByName[$classMethodName])) {
             $this->firstClassByName[$classMethodName] = $className;
@@ -187,33 +187,44 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @param Node[] $stmts
-     */
-    private function getPrintStmts(ClassMethod $classMethod, array $stmts): string
+    private function getPrintStmts(ClassMethod $classMethod): string
     {
-        $newStmts = $stmts;
-        $maskName = 'a';
-        foreach ($classMethod->params as $param) {
+        $newClassMethod = clone $classMethod;
+        /** @var Node[] $stmts */
+        $stmts          = $newClassMethod->stmts;
+        $maskName       = 'a';
+
+        $oldVariablesNames = [];
+        $newVariableNames  = [];
+        foreach ($newClassMethod->params as $param) {
             $paramVariable = $param->var;
             if (! $paramVariable instanceof Variable) {
                 continue;
             }
 
-            $this->nodeFinder->find($newStmts, function (Node $node) use ($paramVariable, $maskName): void {
-                if (! $this->nodeComparator->areNodesEqual($node, $paramVariable)) {
-                    return;
-                }
-
-                if (isset($node->name)) {
-                    $node->name = $maskName;
+            $this->nodeFinder->find($stmts, function (Node $n) use ($paramVariable, $maskName, &$oldVariablesNames, &$newVariableNames): void {
+                if ($this->nodeComparator->areNodesEqual($n, $paramVariable) && isset($n->name)) {
+                    $oldVariablesNames[]           = $n->name;
+                    $newVariableNames[$n->name]    = $maskName . '_' . substr(sha1($maskName), 0, 10);
+                    $n->name                       = $maskName . '_' . substr(sha1($maskName), 0, 10);
                 }
             });
 
             ++$maskName;
         }
 
-        return $this->printerStandard->prettyPrint($newStmts);
+        foreach ($newClassMethod->params as $param) {
+            $paramVariable = $param->var;
+            if (! $paramVariable instanceof Variable) {
+                continue;
+            }
+
+            if (is_string($paramVariable->name) && in_array($paramVariable->name, $oldVariablesNames, true)) {
+                $paramVariable->name = $newVariableNames[$paramVariable->name];
+            }
+        }
+
+        return $this->printerStandard->prettyPrint($stmts);
     }
 
     private function isExcludedTypes(string $className): bool
