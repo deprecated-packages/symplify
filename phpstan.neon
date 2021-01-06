@@ -489,3 +489,10 @@ parameters:
 
         - '#File "AbstractSomeAbstractClass\.php" should have prefix "Skip" prefix#'
         - '#File "AbstractClass\.php" should have prefix "Skip" prefix#'
+
+        -
+            message: '#Use controller class name based on route name instead#'
+            paths:
+                 - packages/symfony-static-dumper/tests/test_project/src/Controller/OneArgumentController.php #13
+                 - packages/symfony-static-dumper/tests/test_project/src/Controller/SomeController.php #13
+                 - packages/symfony-static-dumper/tests/test_project/src/Controller/TwoArgumentsController.php #13

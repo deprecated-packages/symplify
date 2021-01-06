@@ -6,38 +6,22 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use PhpParser\Node\Name\FullyQualified;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireInvokableControllerRule\RequireInvokableControllerRuleTest
  */
-final class RequireInvokableControllerRule extends AbstractSymplifyRule
+final class RequireInvokableControllerRule extends AbstractInvokableControllerRule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Use invokable controller with __invoke() method instead';
-
-    /**
-     * @var string
-     */
-    private const ROUTE_ATTRIBUTE = 'Symfony\Component\Routing\Annotation\Route';
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-    }
 
     /**
      * @return string[]
@@ -106,21 +90,6 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isInControllerClass(Scope $scope): bool
-    {
-        $className = $this->getClassName($scope);
-        if ($className === null) {
-            return false;
-        }
-
-        // skip
-        if (is_a($className, 'EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController', true)) {
-            return false;
-        }
-
-        return is_a($className, 'Symfony\Bundle\FrameworkBundle\Controller\AbstractController', true);
-    }
-
     private function isRouteMethod(ClassMethod $node): bool
     {
         if (! $node->isPublic()) {
@@ -134,21 +103,6 @@ CODE_SAMPLE
             }
         }
 
-        return $this->hasAttribute($node);
-    }
-
-    private function hasAttribute(ClassMethod $node): bool
-    {
-        /** @var AttributeGroup $attrGroup */
-        foreach ((array) $node->attrGroups as $attrGroup) {
-            foreach ($attrGroup->attrs as $attribute) {
-                $attributeClass = $this->simpleNameResolver->getName($attribute->name);
-                if ($attributeClass === self::ROUTE_ATTRIBUTE) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return $this->getRouteAttribute($node) instanceof FullyQualified;
     }
 }
