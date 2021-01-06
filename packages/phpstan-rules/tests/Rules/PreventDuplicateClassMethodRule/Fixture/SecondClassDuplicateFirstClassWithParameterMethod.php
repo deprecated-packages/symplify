@@ -6,7 +6,10 @@ namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixt
 
 class SecondClassDuplicateFirstClassWithParameterMethod
 {
-    public function method($y)
+    /**
+     * @param object $y
+     */
+    public function method(object $y)
     {
         echo 'statement';
         return $y->execute() && $y->getResult();

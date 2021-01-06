@@ -6,7 +6,10 @@ namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixt
 
 class FirstClassWithParameter
 {
-    public function method($x)
+    /**
+     * @param object $x
+     */
+    public function method(object $x)
     {
         echo 'statement';
         return $x->execute() && $x->getResult();
