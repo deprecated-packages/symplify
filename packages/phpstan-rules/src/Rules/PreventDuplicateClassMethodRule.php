@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
@@ -15,6 +16,8 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use PhpParser\NodeFinder;
+use Symplify\PHPStanRules\Printer\NodeComparator;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\PreventDuplicateClassMethodRuleTest
@@ -47,6 +50,16 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private $printerStandard;
 
     /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    /**
+     * @var NodeComparator
+     */
+    private $nodeComparator;
+
+    /**
      * @var array<string, string>
      */
     private $firstClassByName = [];
@@ -56,10 +69,12 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     private $contentMethodByName = [];
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard)
+    public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard, NodeFinder $nodeFinder, NodeComparator $nodeComparator)
     {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->printerStandard = $printerStandard;
+        $this->nodeFinder = $nodeFinder;
+        $this->nodeComparator = $nodeComparator;
     }
 
     /**
@@ -106,7 +121,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        $printStmts = $this->printerStandard->prettyPrint($stmts);
+        $printStmts = $this->printerStandard->prettyPrint($stmts); //$this->getPrintStmts($node, $stmts);
 
         if (! isset($this->contentMethodByName[$classMethodName])) {
             $this->firstClassByName[$classMethodName] = $className;
@@ -119,6 +134,41 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         }
 
         return [sprintf(self::ERROR_MESSAGE, $classMethodName, $this->firstClassByName[$classMethodName])];
+    }
+
+    /**
+     * @param Node[] $stmts
+     */
+    private function getPrintStmts(ClassMethod $classMethod, array $stmts): string
+    {
+        if ($classMethod->params === []) {
+            return $this->printerStandard->prettyPrint($stmts);
+        }
+
+        $maskName = 'a';
+        foreach ($classMethod->params as $key => $param) {
+            $paramVariable = $param->var;
+            if (! $paramVariable instanceof Variable) {
+                continue;
+            }
+
+            $newParamVariableName      = $maskName;
+            $this->nodeFinder->find($classMethod->stmts, function (Node &$node) use ($paramVariable, $newParamVariableName) : void {
+                if (! $this->nodeComparator->areNodesEqual($node, $paramVariable)) {
+                    return;
+                }
+
+                $node->name = $newParamVariableName;
+            });
+
+            $param->var->name = $newParamVariableName;
+
+            ++$maskName;
+        }
+
+        dump($this->printerStandard->prettyPrint($classMethod->stmts));
+
+        return $this->printerStandard->prettyPrint($classMethod->stmts);
     }
 
     public function getRuleDefinition(): RuleDefinition
