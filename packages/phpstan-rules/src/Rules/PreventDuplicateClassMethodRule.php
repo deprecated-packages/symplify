@@ -108,6 +108,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
+        /** @var ClassMethd $node */
         if ($this->isConstructorOrInTestClass($node, $className)) {
             return [];
         }
@@ -205,14 +206,16 @@ CODE_SAMPLE
             $this->nodeFinder->find($stmts, function (Node $n) use ($paramVariable, $maskName, &$oldVariablesNames, &$newVariableNames): void {
                 if ($this->nodeComparator->areNodesEqual($n, $paramVariable) && isset($n->name)) {
                     $oldVariablesNames[]           = $n->name;
-                    $newVariableNames[$n->name]    = $maskName . '_' . substr(sha1($maskName), 0, 10);
-                    $n->name                       = $maskName . '_' . substr(sha1($maskName), 0, 10);
+                    $maskedName                    = $maskName . '_' . substr(sha1($maskName), 0, 10);
+                    $newVariableNames[$n->name]    = $maskedName;
+                    $n->name                       = $maskedName;
                 }
             });
 
             ++$maskName;
         }
 
+        $oldVariablesNames = array_unique($oldVariablesNames);
         foreach ($newClassMethod->params as $param) {
             $paramVariable = $param->var;
             if (! $paramVariable instanceof Variable) {
@@ -224,7 +227,7 @@ CODE_SAMPLE
             }
         }
 
-        return $this->printerStandard->prettyPrint($stmts);
+        return $this->printerStandard->prettyPrint([$newClassMethod]);
     }
 
     private function isExcludedTypes(string $className): bool
