@@ -6,9 +6,9 @@ namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixt
 
 class SecondClassDuplicateFirstClassWithParameterMethod
 {
-    public function method($b)
+    public function method($y)
     {
         echo 'statement';
-        return $b->execute() && $b->getResult();
+        return $y->execute() && $y->getResult();
     }
 }
