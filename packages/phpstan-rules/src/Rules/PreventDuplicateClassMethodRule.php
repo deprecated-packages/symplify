@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\PHPStanRules\ValueObject\PhpParserAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -192,23 +194,28 @@ CODE_SAMPLE
     {
         $newClassMethod = clone $classMethod;
         /** @var Node[] $stmts */
-        $stmts          = $newClassMethod->stmts;
-        $maskName       = 'a';
+        $stmts = $newClassMethod->stmts;
+        $maskName = 'a';
 
         $oldVariablesNames = [];
-        $newVariableNames  = [];
+        $newVariableNames = [];
         foreach ($newClassMethod->params as $param) {
             $paramVariable = $param->var;
             if (! $paramVariable instanceof Variable) {
                 continue;
             }
 
-            $this->nodeFinder->find($stmts, function (Node $n) use ($paramVariable, $maskName, &$oldVariablesNames, &$newVariableNames): void {
+            $this->nodeFinder->find($stmts, function (Node $n) use (
+                $paramVariable,
+                $maskName,
+                &$oldVariablesNames,
+                &$newVariableNames
+            ): void {
                 if ($this->nodeComparator->areNodesEqual($n, $paramVariable) && isset($n->name)) {
-                    $oldVariablesNames[]           = $n->name;
-                    $maskedName                    = $maskName . '_' . substr(sha1($maskName), 0, 10);
-                    $newVariableNames[$n->name]    = $maskedName;
-                    $n->name                       = $maskedName;
+                    $oldVariablesNames[] = $n->name;
+                    $maskedName = $maskName . '_' . substr(sha1($maskName), 0, 10);
+                    $newVariableNames[$n->name] = $maskedName;
+                    $n->name = $maskedName;
                 }
             });
 
@@ -227,6 +234,20 @@ CODE_SAMPLE
             }
         }
 
+        $comments = $newClassMethod->getAttribute(PhpParserAttributeKey::COMMENTS);
+        foreach ($oldVariablesNames as $oldVariablesName) {
+            foreach ($comments as &$comment) {
+                if (! $comment instanceof Doc) {
+                    continue;
+                }
+
+                $text = (string) $comment->getText();
+                $text = str_replace($oldVariablesName, $newVariableNames[$oldVariablesName], $text);
+                $comment = new Doc($text);
+            }
+        }
+
+        $newClassMethod->setAttribute(PhpParserAttributeKey::COMMENTS, $comments);
         return $this->printerStandard->prettyPrint([$newClassMethod]);
     }
 
