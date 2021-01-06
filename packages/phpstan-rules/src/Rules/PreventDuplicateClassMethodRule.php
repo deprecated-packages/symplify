@@ -192,6 +192,7 @@ CODE_SAMPLE
      */
     private function getPrintStmts(ClassMethod $classMethod, array $stmts): string
     {
+        $newStmts = $stmts;
         $maskName = 'a';
         foreach ($classMethod->params as $param) {
             $paramVariable = $param->var;
@@ -199,7 +200,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $this->nodeFinder->find($stmts, function (Node &$node) use ($paramVariable, $maskName): void {
+            $this->nodeFinder->find($newStmts, function (Node $node) use ($paramVariable, $maskName): void {
                 if (! $this->nodeComparator->areNodesEqual($node, $paramVariable)) {
                     return;
                 }
@@ -210,7 +211,7 @@ CODE_SAMPLE
             ++$maskName;
         }
 
-        return $this->printerStandard->prettyPrint($classMethod->stmts);
+        return $this->printerStandard->prettyPrint($newStmts);
     }
 
     private function isExcludedTypes(string $className): bool
