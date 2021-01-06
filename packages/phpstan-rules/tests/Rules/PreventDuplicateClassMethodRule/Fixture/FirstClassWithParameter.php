@@ -8,6 +8,7 @@ class FirstClassWithParameter
 {
     public function someMethod($a)
     {
+        echo 'statement';
         return $a->execute();
     }
 }

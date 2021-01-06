@@ -8,6 +8,7 @@ class SecondClassDuplicateFirstClassWithParameterMethod
 {
     public function someMethod($b)
     {
+        echo 'statement';
         return $b->execute();
     }
 }
