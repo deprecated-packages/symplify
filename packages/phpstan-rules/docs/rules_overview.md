@@ -1,4 +1,4 @@
-# 118 Rules Overview
+# 119 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1997,6 +1997,44 @@ class SomeRule implements ConfiguredRuleInterface
     public function run()
     {
         return new ConfiguredCodeSample('...');
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## InvokableControllerByRouteNamingRule
+
+Use controller class name based on route name instead
+
+- class: `Symplify\PHPStanRules\Rules\InvokableControllerByRouteNamingRule`
+
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+final class SecurityController extends AbstractController
+{
+    #[Route(path: '/logout', name: 'logout')]
+    public function __invoke(): Response
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+final class LogoutController extends AbstractController
+{
+    #[Route(path: '/logout', name: 'logout')]
+    public function __invoke(): Response
+    {
     }
 }
 ```
