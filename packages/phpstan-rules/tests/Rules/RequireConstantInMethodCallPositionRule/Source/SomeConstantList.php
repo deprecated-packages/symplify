@@ -6,5 +6,8 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireConstantInMethodCallPositionR
 
 final class SomeConstantList
 {
-
+    /**
+     * @var string
+     */
+    private const TYPE = 'type';
 }

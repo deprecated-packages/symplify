@@ -29,11 +29,11 @@ final class NoFactoryInConstructorRuleTest extends AbstractServiceAwareRuleTestC
 
         yield [
             __DIR__ . '/Fixture/WithConstructorWithFactoryWithAssignment.php',
-            [[NoFactoryInConstructorRule::ERROR_MESSAGE, 18]],
+            [[NoFactoryInConstructorRule::ERROR_MESSAGE, 13]],
         ];
         yield [
             __DIR__ . '/Fixture/WithConstructorWithFactoryWithMutliAssignment.php',
-            [[NoFactoryInConstructorRule::ERROR_MESSAGE, 18]],
+            [[NoFactoryInConstructorRule::ERROR_MESSAGE, 11]],
         ];
 
         yield [__DIR__ . '/Fixture/SkipParameterProvider.php', []];

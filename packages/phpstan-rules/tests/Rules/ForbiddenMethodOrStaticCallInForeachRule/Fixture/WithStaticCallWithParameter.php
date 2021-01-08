@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\Fixture;
 
-class WithStaticCall
+class WithStaticCallWithParameter
 {
     public static function getData($arg)
     {

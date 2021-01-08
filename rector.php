@@ -6,20 +6,14 @@ use PHPUnit\Framework\TestCase;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\Core\Configuration\Option;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
-use Rector\Restoration\Rector\Class_\RemoveUselessJustForSakeInterfaceRector;
 use Rector\Set\ValueObject\SetList;
-use Rector\SOLID\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddArrayParamDocTypeRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set(ChangeReadOnlyPropertyWithDefaultValueToConstantRector::class);
-
     $services->set(AddArrayParamDocTypeRector::class);
-
-    $services->set(RemoveUselessJustForSakeInterfaceRector::class);
 
     $services->set(StringClassNameToClassConstantRector::class)
         ->call('configure', [[
@@ -46,6 +40,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::SETS, [
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
+        SetList::DEAD_CLASSES,
         SetList::CODING_STYLE,
         SetList::PHP_70,
         SetList::PHP_71,
@@ -54,6 +49,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::TYPE_DECLARATION,
         SetList::PHPUNIT_CODE_QUALITY,
         SetList::NAMING,
+        SetList::PRIVATIZATION,
         SetList::EARLY_RETURN,
     ]);
 
@@ -61,11 +57,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::SKIP, [
         '*/scoper.inc.php',
-        '/vendor/',
-        '/init/',
-        '/Source/',
-        '/Fixture/',
-        '/ChangedFilesDetectorSource/',
+        '*/vendor/*',
+        '*/init/*',
+        '*/Source/*',
+        '*/Fixture/*',
+        '*/ChangedFilesDetectorSource/*',
         # parameter Symfony autowire hack
         __DIR__ . '/packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php',
         __DIR__ . '/packages/monorepo-builder/packages/init/templates',

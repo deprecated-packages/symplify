@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NoFactoryInConstructorRule\Fixture;
 
-class Factory2
-{
-    public function build()
-    {
-    }
-}
+use Symplify\PHPStanRules\Tests\Rules\NoFactoryInConstructorRule\Source\SomeFactory;
 
 final class WithConstructorWithFactoryWithAssignment
 {
-    public function __construct(Factory2 $factory)
+    public function __construct(SomeFactory $someFactory)
     {
-        $this->property = $factory->build();
+        $property = $someFactory->create();
     }
+
 }
