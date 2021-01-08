@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node\AttributeGroup;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use PhpParser\Node\Name\FullyQualified;
 
 abstract class AbstractInvokableControllerRule extends AbstractSymplifyRule
 {
