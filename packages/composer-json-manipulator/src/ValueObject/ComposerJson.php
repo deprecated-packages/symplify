@@ -403,79 +403,26 @@ final class ComposerJson
      */
     public function getJsonArray(): array
     {
-        $array = [];
-
-        if ($this->name !== null) {
-            $array[ComposerJsonSection::NAME] = $this->name;
-        }
-
-        if ($this->description !== null) {
-            $array[ComposerJsonSection::DESCRIPTION] = $this->description;
-        }
-
-        if ($this->keywords !== []) {
-            $array[ComposerJsonSection::KEYWORDS] = $this->keywords;
-        }
-
-        if ($this->homepage !== null) {
-            $array[ComposerJsonSection::HOMEPAGE] = $this->homepage;
-        }
-
-        if ($this->license !== null) {
-            $array[ComposerJsonSection::LICENSE] = $this->license;
-        }
-
-        if ($this->authors !== null) {
-            $array[ComposerJsonSection::AUTHORS] = $this->authors;
-        }
-
-        if ($this->type !== null) {
-            $array[ComposerJsonSection::TYPE] = $this->type;
-        }
-
-        if ($this->require !== []) {
-            $array[ComposerJsonSection::REQUIRE] = $this->require;
-        }
-
-        if ($this->requireDev !== []) {
-            $array[ComposerJsonSection::REQUIRE_DEV] = $this->requireDev;
-        }
-
-        if ($this->conflicts !== []) {
-            $array[ComposerJsonSection::CONFLICT] = $this->conflicts;
-        }
-
-        if ($this->autoload !== []) {
-            $array[ComposerJsonSection::AUTOLOAD] = $this->autoload;
-        }
-
-        if ($this->autoloadDev !== []) {
-            $array[ComposerJsonSection::AUTOLOAD_DEV] = $this->autoloadDev;
-        }
-
-        if ($this->repositories !== []) {
-            $array[ComposerJsonSection::REPOSITORIES] = $this->repositories;
-        }
-
-        if ($this->extra !== []) {
-            $array[ComposerJsonSection::EXTRA] = $this->extra;
-        }
-
-        if ($this->bin !== null) {
-            $array[ComposerJsonSection::BIN] = $this->bin;
-        }
-
-        if ($this->scripts !== []) {
-            $array[ComposerJsonSection::SCRIPTS] = $this->scripts;
-        }
-
-        if ($this->config !== []) {
-            $array[ComposerJsonSection::CONFIG] = $this->config;
-        }
-
-        if ($this->replace !== []) {
-            $array[ComposerJsonSection::REPLACE] = $this->replace;
-        }
+        $array = array_filter([
+            ComposerJsonSection::NAME => $this->name,
+            ComposerJsonSection::DESCRIPTION => $this->description,
+            ComposerJsonSection::KEYWORDS => $this->keywords,
+            ComposerJsonSection::HOMEPAGE => $this->homepage,
+            ComposerJsonSection::LICENSE => $this->license,
+            ComposerJsonSection::AUTHORS => $this->authors,
+            ComposerJsonSection::TYPE => $this->type,
+            ComposerJsonSection::REQUIRE => $this->require,
+            ComposerJsonSection::REQUIRE_DEV => $this->requireDev,
+            ComposerJsonSection::CONFLICT => $this->conflicts,
+            ComposerJsonSection::AUTOLOAD => $this->autoload,
+            ComposerJsonSection::AUTOLOAD_DEV => $this->autoloadDev,
+            ComposerJsonSection::REPOSITORIES => $this->repositories,
+            ComposerJsonSection::EXTRA => $this->extra,
+            ComposerJsonSection::BIN => $this->bin,
+            ComposerJsonSection::SCRIPTS => $this->scripts,
+            ComposerJsonSection::CONFIG => $this->config,
+            ComposerJsonSection::REPLACE => $this->replace,
+        ]);
 
         if ($this->minimumStability !== null) {
             $array[ComposerJsonSection::MINIMUM_STABILITY] = $this->minimumStability;
