@@ -110,7 +110,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var ClassMethod $node */
+        /** @var ClassMethd $node */
         if ($this->isConstructorOrInTestClass($node, $className)) {
             return [];
         }
@@ -192,15 +192,7 @@ CODE_SAMPLE
 
     private function getPrintStmts(ClassMethod $classMethod): string
     {
-        $newClassMethod = new ClassMethod(
-            (string) $classMethod->name,
-            [
-                'params' => $classMethod->params,
-                'stmts' => $classMethod->stmts,
-            ],
-            $classMethod->getAttributes()
-        );
-
+        $newClassMethod = clone $classMethod;
         /** @var Node[] $stmts */
         $stmts = $newClassMethod->stmts;
         $maskName = 'a';
@@ -257,6 +249,8 @@ CODE_SAMPLE
 
         $newClassMethod->setAttribute(PhpParserAttributeKey::ORIGINAL_NODE, null);
         $newClassMethod->setAttribute(PhpParserAttributeKey::COMMENTS, $comments);
+
+        dump($newClassMethod->getAttribute(PhpParserAttributeKey::COMMENTS));
 
         return $this->printerStandard->prettyPrint([$newClassMethod]);
     }
