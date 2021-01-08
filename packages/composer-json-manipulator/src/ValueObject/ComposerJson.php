@@ -417,7 +417,7 @@ final class ComposerJson
             $array[ComposerJsonSection::KEYWORDS] = $this->keywords;
         }
 
-        if ($this->homepage !== []) {
+        if ($this->homepage !== null) {
             $array[ComposerJsonSection::HOMEPAGE] = $this->homepage;
         }
 
@@ -624,35 +624,28 @@ final class ComposerJson
         return isset($this->requireDev[$packageName]);
     }
 
-    public function addRequiredPackage(string $packageName, string $version): bool
+    public function addRequiredPackage(string $packageName, string $version): void
     {
         if (!$this->hasPackage($packageName)) {
             $this->require[$packageName] = $version;
-            return true;
         }
-        return false;
     }
 
-    public function addRequiredDevPackage(string $packageName, string $version): bool
+    public function addRequiredDevPackage(string $packageName, string $version): void
     {
         if (!$this->hasPackage($packageName)) {
             $this->requireDev[$packageName] = $version;
-            return true;
         }
-        return false;
     }
 
-    public function changePackageVersion(string $packageName, string $version): bool
+    public function changePackageVersion(string $packageName, string $version): void
     {
         if ($this->hasRequiredPackage($packageName)) {
             $this->require[$packageName] = $version;
-            return true;
         }
         if ($this->hasRequiredDevPackage($packageName)) {
             $this->requireDev[$packageName] = $version;
-            return true;
         }
-        return false;
     }
 
     public function movePackageToRequire(string $packageName): void
@@ -678,19 +671,16 @@ final class ComposerJson
         unset($this->require[$packageName], $this->requireDev[$packageName]);
     }
 
-    public function replacePackage(string $oldPackageName, string $newPackageName, string $targetVersion): bool
+    public function replacePackage(string $oldPackageName, string $newPackageName, string $targetVersion): void
     {
         if ($this->hasRequiredPackage($oldPackageName)) {
             unset($this->require[$oldPackageName]);
             $this->addRequiredPackage($newPackageName, $targetVersion);
-            return true;
         }
         if ($this->hasRequiredDevPackage($oldPackageName)) {
             unset($this->requireDev[$oldPackageName]);
             $this->addRequiredDevPackage($newPackageName, $targetVersion);
-            return true;
         }
-        return false;
     }
 
     public function getFileInfo(): ?SmartFileInfo
