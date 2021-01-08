@@ -119,12 +119,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return $class->isAbstract();
     }
 
-    protected function isInDirectoryNamed(Scope $scope, string $directoryName): bool
-    {
-        $directoryName = rtrim(str_replace('/', DIRECTORY_SEPARATOR, $directoryName), '\/');
-        return Strings::contains($scope->getFile(), DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR);
-    }
-
     protected function containsNamespace(Namespace_ $namespace, string $part): bool
     {
         if ($namespace->name === null) {

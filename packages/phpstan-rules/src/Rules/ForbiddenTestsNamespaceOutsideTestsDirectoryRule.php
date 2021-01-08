@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Location\DirectoryChecker;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -19,6 +20,16 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule extends AbstractSym
      * @var string
      */
     private const ERROR_MESSAGE = '"Tests" namespace cannot be used outside of "tests" directory';
+
+    /**
+     * @var DirectoryChecker
+     */
+    private $directoryChecker;
+
+    public function __construct(DirectoryChecker $directoryChecker)
+    {
+        $this->directoryChecker = $directoryChecker;
+    }
 
     /**
      * @return string[]
@@ -38,7 +49,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule extends AbstractSym
             return [];
         }
 
-        if ($this->isInDirectoryNamed($scope, 'tests')) {
+        if ($this->directoryChecker->isInDirectoryNamed($scope, 'tests')) {
             return [];
         }
 
