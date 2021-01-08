@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -14,7 +13,6 @@ use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
-use ReflectionClass;
 use Symplify\PHPStanRules\Contract\ManyNodeRuleInterface;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -126,28 +124,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return in_array($part, $namespace->name->parts, true);
-    }
-
-    protected function doesMethodExistInTraits(Class_ $class, string $methodName): bool
-    {
-        if (! property_exists($class, 'namespacedName')) {
-            return false;
-        }
-
-        /** @var Identifier $name */
-        $name = $class->namespacedName;
-
-        /** @var string[] $usedTraits */
-        $usedTraits = (array) class_uses($name->toString());
-
-        foreach ($usedTraits as $trait) {
-            $reflectionClass = new ReflectionClass($trait);
-            if ($reflectionClass->hasMethod($methodName)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     protected function isInClassMethodNamed(Scope $scope, string $methodName): bool

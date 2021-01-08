@@ -14,6 +14,7 @@ use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\PHPStanRules\Reflection\TraitMethodAnalyser;
 use Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -44,14 +45,21 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
      */
     private $simpleNameResolver;
 
+    /**
+     * @var TraitMethodAnalyser
+     */
+    private $traitMethodAnalyser;
+
     public function __construct(
         ParentMethodAnalyser $parentMethodAnalyser,
         ClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
-        SimpleNameResolver $simpleNameResolver
+        SimpleNameResolver $simpleNameResolver,
+        TraitMethodAnalyser $traitMethodAnalyser
     ) {
         $this->parentMethodAnalyser = $parentMethodAnalyser;
         $this->classMethodTypeAnalyzer = $classMethodTypeAnalyzer;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->traitMethodAnalyser = $traitMethodAnalyser;
     }
 
     /**
@@ -150,7 +158,7 @@ CODE_SAMPLE
         }
 
         $methodName = (string) $classMethod->name;
-        if ($this->doesMethodExistInTraits($class, $methodName)
+        if ($this->traitMethodAnalyser->doesMethodExistInClassTraits($class, $methodName)
             || $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
             return [];
         }
