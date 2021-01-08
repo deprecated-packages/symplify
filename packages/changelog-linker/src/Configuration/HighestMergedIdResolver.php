@@ -14,7 +14,7 @@ final class HighestMergedIdResolver
     /**
      * @var int
      */
-    private const FALLBACK_ID = 1;
+    private const FALLBACK_ID = 0;
 
     /**
      * @var IdsAnalyzer

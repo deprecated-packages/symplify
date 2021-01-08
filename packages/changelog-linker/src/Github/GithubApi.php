@@ -86,7 +86,7 @@ final class GithubApi
         $mergedPullRequests = $this->filterMergedPullRequests($pullRequests);
 
         // include all
-        if ($id <= 1) {
+        if ($id === 0) {
             return $mergedPullRequests;
         }
 

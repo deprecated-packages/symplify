@@ -130,7 +130,10 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
 
         $pullRequests = $this->githubApi->getMergedPullRequestsSinceId($sinceId, $baseBranch);
         if (count($pullRequests) === 0) {
-            $message = sprintf('There are no new pull requests to be added since ID "%d".', $sinceId);
+            $message = 'No pull requests have been merged.';
+            if ($sinceId > 0) {
+                $message = sprintf('No new pull requests have been merged since ID "%d".', $sinceId);
+            }
             $this->symfonyStyle->note($message);
 
             return ShellCode::SUCCESS;
