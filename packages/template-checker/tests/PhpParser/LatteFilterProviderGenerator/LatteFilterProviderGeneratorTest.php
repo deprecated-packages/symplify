@@ -16,12 +16,12 @@ final class LatteFilterProviderGeneratorTest extends AbstractKernelTestCase
     /**
      * @var LatteFilterProviderFactory
      */
-    private $latteFilterProviderGenerator;
+    private $latteFilterProviderFactory;
 
     protected function setUp(): void
     {
-        self::bootKernel(TemplateCheckerKernel::class);
-        $this->latteFilterProviderGenerator = $this->getService(LatteFilterProviderFactory::class);
+        $this->bootKernel(TemplateCheckerKernel::class);
+        $this->latteFilterProviderFactory = $this->getService(LatteFilterProviderFactory::class);
     }
 
     public function test(): void
@@ -30,7 +30,7 @@ final class LatteFilterProviderGeneratorTest extends AbstractKernelTestCase
             __DIR__ . '/Source/SomeHelper.php'
         ));
 
-        $generatedContent = $this->latteFilterProviderGenerator->createFromClassMethodName($classMethodName);
+        $generatedContent = $this->latteFilterProviderFactory->createFromClassMethodName($classMethodName);
         $this->assertStringEqualsFile(__DIR__ . '/Fixture/expected_filter_provider.php.inc', $generatedContent);
     }
 }

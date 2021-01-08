@@ -58,6 +58,7 @@ final class SonarConfigGenerator
 
     /**
      * @param array<string, mixed|mixed[]> $extraParameters
+     * @return array<string, mixed>
      */
     private function createSonarFileData(SrcAndTestsDirectories $srcAndTestsDirectories, array $extraParameters): array
     {

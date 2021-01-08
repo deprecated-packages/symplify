@@ -52,7 +52,7 @@ final class LatteFilterManager
     {
         $uniqueMethodNames = $this->filterUniqueClassMethodNames($classMethodNames);
 
-        if ($isFix === false) {
+        if (! $isFix) {
             $this->symfonyStyle->error(
                 'We found some static calls in your templates. Do you want to extract them to latte filter provider? Just re-run command with `--fix` option'
             );
@@ -64,7 +64,7 @@ final class LatteFilterManager
         }
     }
 
-    public function reportOnVariableStaticCall(ClassMethodName $classMethodName): void
+    private function reportOnVariableStaticCall(ClassMethodName $classMethodName): void
     {
         $message = sprintf(
             'Method "%s()" has unknown class, so it cannot be generated. Handle this case manually by replacing variable by the known class first, then re-running this command.',

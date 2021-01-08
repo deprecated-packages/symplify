@@ -28,7 +28,7 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = '%s() called in configure(), must be called with %s() in execute() in "Symfony\Component\Console\Command\Command" type';
 
     /**
-     * @var string
+     * @var array<string, string>
      */
     private const METHOD_CALL_NOTMATCH = [
         'addOption' => 'getArgument',
@@ -36,7 +36,7 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
     ];
 
     /**
-     * @var string
+     * @var array<string, string>
      */
     private const METHOD_CALL_MATCH = [
         'addOption' => 'getOption',
@@ -131,6 +131,9 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * @return string[]
+     */
     private function validateInvalidMethodCall(MethodCall $methodCall, string $methodCallName): array
     {
         $class = $this->resolveCurrentClass($methodCall);

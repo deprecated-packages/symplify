@@ -14,7 +14,7 @@ final class MissingSkipPrefixResolverTest extends AbstractKernelTestCase
     /**
      * @var MissplacedSkipPrefixResolver
      */
-    private $missingSkipPrefixResolver;
+    private $missplacedSkipPrefixResolver;
 
     /**
      * @var FixtureFinder
@@ -24,14 +24,14 @@ final class MissingSkipPrefixResolverTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(EasyTestingKernel::class);
-        $this->missingSkipPrefixResolver = $this->getService(MissplacedSkipPrefixResolver::class);
+        $this->missplacedSkipPrefixResolver = $this->getService(MissplacedSkipPrefixResolver::class);
         $this->fixtureFinder = $this->getService(FixtureFinder::class);
     }
 
     public function test(): void
     {
         $fileInfos = $this->fixtureFinder->find([__DIR__ . '/Fixture']);
-        $invalidFileInfos = $this->missingSkipPrefixResolver->resolve($fileInfos);
+        $invalidFileInfos = $this->missplacedSkipPrefixResolver->resolve($fileInfos);
 
         $this->assertCount(2, $invalidFileInfos);
     }

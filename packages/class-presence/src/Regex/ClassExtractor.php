@@ -24,6 +24,11 @@ final class ClassExtractor
     private const STATIC_CALL_CLASS_REGEX = '#(?<class_name>[A-Z][\w\\\\]+)::#';
 
     /**
+     * @var string
+     */
+    private const NEXT_CHAR = 'next_char';
+
+    /**
      * @return string[]
      */
     public function extractFromFileInfo(SmartFileInfo $fileInfo): array
@@ -33,7 +38,7 @@ final class ClassExtractor
 
         $matches = Strings::matchAll($fileContent, self::CLASS_NAME_REGEX);
         foreach ($matches as $match) {
-            if (isset($match['next_char']) && ($match['next_char'] === '\\' || $match['next_char'] === '\\:')) {
+            if (isset($match[self::NEXT_CHAR]) && ($match[self::NEXT_CHAR] === '\\' || $match[self::NEXT_CHAR] === '\\:')) {
                 // is Symfony autodiscovery → skip
                 continue;
             }

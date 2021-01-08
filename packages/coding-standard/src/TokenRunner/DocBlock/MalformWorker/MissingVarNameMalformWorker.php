@@ -29,7 +29,7 @@ final class MissingVarNameMalformWorker extends AbstractMalformWorker
 
         return Strings::replace($docContent, self::VAR_WITHOUT_NAME_REGEX, function (array $match) use (
             $nextVariableToken
-        ) {
+        ): string {
             return $match['open'] . $match['type'] . ' ' . $nextVariableToken->getContent() . $match['close'];
         });
     }

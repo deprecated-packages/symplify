@@ -73,7 +73,7 @@ final class CheckConstantStringValueFormatRule extends AbstractSymplifyRule
             return [];
         }
 
-        $consts = (array) $node->consts;
+        $consts = $node->consts;
         if ($consts === []) {
             return [];
         }
@@ -135,7 +135,7 @@ CODE_SAMPLE
 
     private function isUrlString(String_ $string): bool
     {
-        return (bool) Strings::startsWith($string->value, 'http');
+        return Strings::startsWith($string->value, 'http');
     }
 
     private function shouldSkipStringValue(String_ $string): bool

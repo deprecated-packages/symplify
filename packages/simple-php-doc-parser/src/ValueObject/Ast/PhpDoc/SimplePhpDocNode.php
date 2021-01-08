@@ -9,7 +9,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 
 /**
- * @notfinal on purpose, so it can be extended by 3rd party
+ * @noRector final on purpose, so it can be extended by 3rd party
  */
 class SimplePhpDocNode extends PhpDocNode
 {

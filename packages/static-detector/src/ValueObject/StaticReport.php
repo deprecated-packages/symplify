@@ -32,7 +32,7 @@ final class StaticReport
         usort($staticClassMethodsWithStaticCalls, function (
             StaticClassMethodWithStaticCalls $firstStaticClassMethodWithStaticCalls,
             StaticClassMethodWithStaticCalls $secondStaticClassMethodWithStaticCalls
-        ) {
+        ): int {
             return $secondStaticClassMethodWithStaticCalls->getStaticCallsCount() <=> $firstStaticClassMethodWithStaticCalls->getStaticCallsCount();
         });
 

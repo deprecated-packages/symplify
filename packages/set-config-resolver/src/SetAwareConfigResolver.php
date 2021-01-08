@@ -41,6 +41,9 @@ final class SetAwareConfigResolver extends AbstractConfigResolver
         return $this->setsParameterResolver->resolveFromFileInfos($fileInfos);
     }
 
+    /**
+     * @api
+     */
     public function resolveSetFromInput(InputInterface $input): ?SmartFileInfo
     {
         return $this->setResolver->detectFromInput($input);

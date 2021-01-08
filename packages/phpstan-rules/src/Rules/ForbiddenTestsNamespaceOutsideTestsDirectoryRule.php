@@ -22,6 +22,11 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule extends AbstractSym
     private const ERROR_MESSAGE = '"Tests" namespace cannot be used outside of "tests" directory';
 
     /**
+     * @var string
+     */
+    private const DESCRIPTION = '"Tests" namespace can be only in "/tests" directory';
+
+    /**
      * @var DirectoryChecker
      */
     private $directoryChecker;
@@ -58,8 +63,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule extends AbstractSym
 
     public function getRuleDefinition(): RuleDefinition
     {
-        $description = '"Tests" namespace can be only in "/tests" directory';
-        return new RuleDefinition($description, [
+        return new RuleDefinition(self::DESCRIPTION, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
 // file path: "src/SomeClass.php

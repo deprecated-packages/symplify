@@ -48,6 +48,9 @@ final class RoutingConfiguratorReturnClosureFactory
         return $this->createNodesFromCaseConverters($arrayData);
     }
 
+    /**
+     * @return mixed[]
+     */
     private function removeEmptyValues(array $yamlData): array
     {
         return array_filter($yamlData);

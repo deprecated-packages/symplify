@@ -73,6 +73,9 @@ final class Configuration implements SymfonyVersionFeatureGuardInterface
         return $this->outputFormat;
     }
 
+    /**
+     * @return string[]
+     */
     public function getSource(): array
     {
         return $this->source;

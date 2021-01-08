@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
+use Symfony\Component\DependencyInjection\Container;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -121,7 +122,7 @@ class SomeClass
 CODE_SAMPLE
                 ,
                 [
-                    'forbiddenTypes' => ['Symfony\Component\DependencyInjection\Container'],
+                    'forbiddenTypes' => [Container::class],
                 ]
             ),
         ]);

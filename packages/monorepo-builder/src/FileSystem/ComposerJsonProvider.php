@@ -38,11 +38,6 @@ final class ComposerJsonProvider
         $this->composerJsonFactory = $composerJsonFactory;
     }
 
-    public function getRootFileInfo(): SmartFileInfo
-    {
-        return $this->packageComposerFinder->getRootPackageComposerFile();
-    }
-
     /**
      * @return SmartFileInfo[]
      */
@@ -64,8 +59,8 @@ final class ComposerJsonProvider
 
     public function getPackageFileInfoByName(string $packageName): SmartFileInfo
     {
-        foreach ($this->getPackagesComposerFileInfos() as $packageComposerFile) {
-            $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFile);
+        foreach ($this->getPackagesComposerFileInfos() as $packagesComposerFileInfo) {
+            $json = $this->jsonFileManager->loadFromFileInfo($packagesComposerFileInfo);
             if (! isset($json['name'])) {
                 continue;
             }
@@ -74,7 +69,7 @@ final class ComposerJsonProvider
                 continue;
             }
 
-            return $packageComposerFile;
+            return $packagesComposerFileInfo;
         }
 
         throw new ShouldNotHappenException();
@@ -83,5 +78,10 @@ final class ComposerJsonProvider
     public function getRootComposerJson(): ComposerJson
     {
         return $this->composerJsonFactory->createFromFileInfo($this->getRootFileInfo());
+    }
+
+    private function getRootFileInfo(): SmartFileInfo
+    {
+        return $this->packageComposerFinder->getRootPackageComposerFile();
     }
 }

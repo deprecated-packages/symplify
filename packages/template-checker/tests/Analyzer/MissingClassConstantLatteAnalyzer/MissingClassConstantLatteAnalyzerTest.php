@@ -19,7 +19,7 @@ final class MissingClassConstantLatteAnalyzerTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        self::bootKernel(TemplateCheckerKernel::class);
+        $this->bootKernel(TemplateCheckerKernel::class);
         $this->missingClassConstantLatteAnalyzer = $this->getService(MissingClassConstantLatteAnalyzer::class);
     }
 

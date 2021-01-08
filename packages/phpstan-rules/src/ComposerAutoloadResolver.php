@@ -7,8 +7,13 @@ namespace Symplify\PHPStanRules;
 use Nette\Utils\Json;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-class ComposerAutoloadResolver
+final class ComposerAutoloadResolver
 {
+    /**
+     * @var string
+     */
+    private const COMPOSER_JSON_FILE = './composer.json';
+
     /**
      * @var SmartFileSystem
      */
@@ -24,12 +29,11 @@ class ComposerAutoloadResolver
      */
     public function getPsr4Autoload(): array
     {
-        $composerJsonFile = './composer.json';
-        if (! file_exists($composerJsonFile)) {
+        if (! file_exists(self::COMPOSER_JSON_FILE)) {
             return [];
         }
 
-        $fileContent = $this->smartFileSystem->readFile($composerJsonFile);
+        $fileContent = $this->smartFileSystem->readFile(self::COMPOSER_JSON_FILE);
         $composerJsonContent = Json::decode($fileContent, Json::FORCE_ARRAY);
 
         $autoloadPsr4 = $composerJsonContent['autoload']['psr-4'] ?? [];

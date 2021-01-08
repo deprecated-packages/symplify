@@ -62,7 +62,7 @@ final class NonExistingClassExtractor
      */
     private function filterNonExistingClasses(array $classes): array
     {
-        return array_filter($classes, function (string $class) {
+        return array_filter($classes, function (string $class): bool {
             return ! $this->doesClassExists($class);
         });
     }

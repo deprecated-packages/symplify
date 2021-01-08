@@ -51,13 +51,13 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
             return [];
         }
 
-        $routeAttribute = $this->getRouteAttribute($node);
-        if ($routeAttribute === null) {
+        $fullyQualified = $this->getRouteAttribute($node);
+        if ($fullyQualified === null) {
             return [];
         }
 
         /** @var Attribute|null $parent */
-        $parent = $routeAttribute->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $fullyQualified->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof Attribute) {
             return [];
         }
@@ -117,6 +117,9 @@ CODE_SAMPLE
         return [];
     }
 
+    /**
+     * @return string[]
+     */
     private function validateName(Scope $scope, string $string): array
     {
         $shortClassName = $this->getShortClassName($scope);
@@ -124,7 +127,7 @@ CODE_SAMPLE
             return [];
         }
 
-        $name = (bool) Strings::endsWith($shortClassName, 'Controller')
+        $name = Strings::endsWith($shortClassName, 'Controller')
             ? substr($shortClassName, 0, -10)
             : $shortClassName;
 

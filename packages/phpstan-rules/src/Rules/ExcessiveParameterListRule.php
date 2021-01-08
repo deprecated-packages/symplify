@@ -49,7 +49,7 @@ final class ExcessiveParameterListRule extends AbstractSymplifyRule implements C
      */
     public function process(Node $node, Scope $scope): array
     {
-        $currentParameterCount = count((array) $node->getParams());
+        $currentParameterCount = count($node->getParams());
         if ($currentParameterCount <= $this->maxParameterCount) {
             return [];
         }

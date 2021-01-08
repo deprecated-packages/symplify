@@ -47,7 +47,7 @@ final class TemplatePathsResolver
      * @param SmartFileInfo[] $twigTemplateFileInfos
      * @return string[]
      */
-    private function resolveTemplatePathsWithBundle(array $twigTemplateFileInfos)
+    private function resolveTemplatePathsWithBundle(array $twigTemplateFileInfos): array
     {
         $templatePathsWithBundle = [];
         foreach ($twigTemplateFileInfos as $templateFileInfo) {
@@ -62,10 +62,7 @@ final class TemplatePathsResolver
         return $templatePathsWithBundle;
     }
 
-    /**
-     * @return string
-     */
-    private function findBundlePrefix(SmartFileInfo $templateFileInfo)
+    private function findBundlePrefix(SmartFileInfo $templateFileInfo): string
     {
         $templateRealPath = $templateFileInfo->getRealPath();
 

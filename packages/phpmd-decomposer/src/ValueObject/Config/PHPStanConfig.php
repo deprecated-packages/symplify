@@ -90,6 +90,9 @@ final class PHPStanConfig extends AbstractConfig
         return $this->rules === [];
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getMatchingParameters(): array
     {
         return $this->matchingParameters;

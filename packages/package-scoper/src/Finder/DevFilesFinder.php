@@ -7,6 +7,9 @@ namespace Symplify\PackageScoper\Finder;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\PackageScoper\Tests\Finder\DevFilesFinder\DevFilesFinderTest
+ */
 final class DevFilesFinder
 {
     /**

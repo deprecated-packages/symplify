@@ -19,7 +19,7 @@ final class PatchDifferTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        self::bootKernel(VendorPatchesKernel::class);
+        $this->bootKernel(VendorPatchesKernel::class);
 
         $this->patchDiffer = $this->getService(PatchDiffer::class);
     }

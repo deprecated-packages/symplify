@@ -121,7 +121,7 @@ CODE_SAMPLE
     {
         $expectedInterface = null;
 
-        $this->nodeFinder->findFirst($class, function (Node $node) use (&$expectedInterface) {
+        $this->nodeFinder->findFirst($class, function (Node $node) use (&$expectedInterface): bool {
             if (! $node instanceof New_) {
                 return false;
             }

@@ -20,7 +20,7 @@ jobs:
                     php-version: 7.3
                     coverage: none
 
-            -   run: composer install --no-progress --ansi
+            -   uses: "ramsey/composer-install@v1"
 
             # generate sonar file configuration
             -   run: packages/easy-ci/bin/easy-ci generate-sonar --ansi
@@ -49,7 +49,7 @@ jobs:
                     php-version: 7.4
                     coverage: pcov
 
-            -   run: composer install --no-progress --ansi
+            -   uses: "ramsey/composer-install@v1"
 
             -   run: |
                     vendor/bin/phpunit --coverage-clover build/logs/clover.xml

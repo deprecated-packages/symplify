@@ -9,6 +9,11 @@ use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
 
 final class ExtraComposerKeyMerger extends AbstractComposerKeyMerger implements ComposerKeyMergerInterface
 {
+    /**
+     * @var string
+     */
+    private const PHPSTAN = 'phpstan';
+
     public function merge(ComposerJson $mainComposerJson, ComposerJson $newComposerJson): void
     {
         if ($newComposerJson->getExtra() === []) {
@@ -18,11 +23,11 @@ final class ExtraComposerKeyMerger extends AbstractComposerKeyMerger implements 
         // clean content not desired to merge
         $newComposerJsonExtra = $newComposerJson->getExtra();
         // part of the plugin only
-        if (isset($newComposerJsonExtra['phpstan']['includes'])) {
-            unset($newComposerJsonExtra['phpstan']['includes']);
+        if (isset($newComposerJsonExtra[self::PHPSTAN]['includes'])) {
+            unset($newComposerJsonExtra[self::PHPSTAN]['includes']);
 
-            if ($newComposerJsonExtra['phpstan'] === []) {
-                unset($newComposerJsonExtra['phpstan']);
+            if ($newComposerJsonExtra[self::PHPSTAN] === []) {
+                unset($newComposerJsonExtra[self::PHPSTAN]);
             }
         }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Fixer\Naming;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -19,13 +20,18 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\Naming\StandardizeHereNowDocKeywordFixer\StandardizeHereNowDocKeywordFixerTest
  */
-final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer implements ConfigurableRuleInterface, DocumentedRuleInterface
+final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer implements ConfigurableRuleInterface, DocumentedRuleInterface, ConfigurableFixerInterface
 {
     /**
      * @api
      * @var string
      */
     public const KEYWORD = 'keyword';
+
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Use configured nowdoc and heredoc keyword';
 
     /**
      * @api
@@ -38,11 +44,6 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
      * @var string
      */
     private const START_HEREDOC_NOWDOC_NAME_REGEX = '#(<<<(\')?)(?<name>.*?)((\')?\s)#';
-
-    /**
-     * @var string
-     */
-    private const ERROR_MESSAGE = 'Use configured nowdoc and heredoc keyword';
 
     /**
      * @var string
@@ -76,14 +77,6 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
         }
     }
 
-    /**
-     * @param mixed[]|null $configuration
-     */
-    public function configure(?array $configuration = null): void
-    {
-        $this->keyword = $configuration[self::KEYWORD] ?? self::DEFAULT_KEYWORD;
-    }
-
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
@@ -105,6 +98,14 @@ CODE_SAMPLE
                 ]
             ),
         ]);
+    }
+
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        $this->keyword = $configuration[self::KEYWORD] ?? self::DEFAULT_KEYWORD;
     }
 
     private function fixStartToken(Tokens $tokens, Token $token, int $position): void

@@ -16,6 +16,11 @@ final class LinksToReferencesWorker implements WorkerInterface
     /**
      * @var string
      */
+    private const ID = 'id';
+
+    /**
+     * @var string
+     */
     private $repositoryUrl;
 
     /**
@@ -37,8 +42,8 @@ final class LinksToReferencesWorker implements WorkerInterface
     {
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\]#m');
         foreach ($matches as $match) {
-            $link = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->repositoryUrl, $match['id']);
-            $this->linkAppender->add($match['id'], $link);
+            $link = sprintf('[#%d]: %s/pull/%d', $match[self::ID], $this->repositoryUrl, $match[self::ID]);
+            $this->linkAppender->add($match[self::ID], $link);
         }
 
         return $content;

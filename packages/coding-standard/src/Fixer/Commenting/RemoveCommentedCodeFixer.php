@@ -124,14 +124,14 @@ CODE_SAMPLE
     /**
      * Remove the indent space ahead of comments
      */
-    private function resolveRealStart(StartAndEnd $contentWithPosition, Tokens $tokens): int
+    private function resolveRealStart(StartAndEnd $startAndEnd, Tokens $tokens): int
     {
-        $preStartPosition = $contentWithPosition->getStart() - 1;
+        $preStartPosition = $startAndEnd->getStart() - 1;
 
         /** @var Token $preStartToken */
         $preStartToken = $tokens[$preStartPosition];
 
-        $realStart = $contentWithPosition->getStart();
+        $realStart = $startAndEnd->getStart();
         if ($preStartToken->getContent() === PHP_EOL) {
             return $realStart - 1;
         }

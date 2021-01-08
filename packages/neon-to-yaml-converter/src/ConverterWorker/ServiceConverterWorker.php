@@ -8,9 +8,6 @@ use Nette\Neon\Entity;
 use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * @see \Symplify\NeonToYamlConverter\Tests\NeonToYamlTest
- */
 final class ServiceConverterWorker
 {
     /**
@@ -71,6 +68,9 @@ final class ServiceConverterWorker
         return $servicesData;
     }
 
+    /**
+     * @return mixed[]
+     */
     private function convertStringNameServices(array $servicesData): array
     {
         foreach ($servicesData as $name => $service) {

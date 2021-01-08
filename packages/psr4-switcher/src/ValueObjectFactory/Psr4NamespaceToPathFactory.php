@@ -9,38 +9,41 @@ use Symplify\Psr4Switcher\Configuration\Psr4SwitcherConfiguration;
 use Symplify\Psr4Switcher\Utils\SymplifyStrings;
 use Symplify\Psr4Switcher\ValueObject\Psr4NamespaceToPath;
 
+/**
+ * @see \Symplify\Psr4Switcher\Tests\ValueObjectFactory\Psr4NamespaceToPathFactory\Psr4NamespaceToPathFactoryTest
+ */
 final class Psr4NamespaceToPathFactory
 {
     /**
      * @var SymplifyStrings
      */
-    private $migrifyStrings;
+    private $symplifyStrings;
 
     /**
      * @var Psr4SwitcherConfiguration
      */
     private $psr4SwitcherConfiguration;
 
-    public function __construct(SymplifyStrings $migrifyStrings, Psr4SwitcherConfiguration $psr4SwitcherConfiguration)
+    public function __construct(SymplifyStrings $symplifyStrings, Psr4SwitcherConfiguration $psr4SwitcherConfiguration)
     {
-        $this->migrifyStrings = $migrifyStrings;
+        $this->symplifyStrings = $symplifyStrings;
         $this->psr4SwitcherConfiguration = $psr4SwitcherConfiguration;
     }
 
     public function createFromClassAndFile(string $class, string $file): ?Psr4NamespaceToPath
     {
-        $sharedSuffix = $this->migrifyStrings->findSharedSlashedSuffix([$class . '.php', $file]);
+        $sharedSuffix = $this->symplifyStrings->findSharedSlashedSuffix([$class . '.php', $file]);
 
-        $uniqueFilePath = $this->migrifyStrings->subtractFromRight($file, $sharedSuffix);
-        $uniqueNamespace = $this->migrifyStrings->subtractFromRight($class . '.php', $sharedSuffix);
+        $uniqueFilePath = $this->symplifyStrings->subtractFromRight($file, $sharedSuffix);
+        $uniqueNamespace = $this->symplifyStrings->subtractFromRight($class . '.php', $sharedSuffix);
 
         // fallback for identical namespace + file directory
         if ($uniqueNamespace === '') {
             // shorten shared suffix by "Element/"
             $sharedSuffix = '/' . Strings::after($sharedSuffix, '/');
 
-            $uniqueFilePath = $this->migrifyStrings->subtractFromRight($file, $sharedSuffix);
-            $uniqueNamespace = $this->migrifyStrings->subtractFromRight($class . '.php', $sharedSuffix);
+            $uniqueFilePath = $this->symplifyStrings->subtractFromRight($file, $sharedSuffix);
+            $uniqueNamespace = $this->symplifyStrings->subtractFromRight($class . '.php', $sharedSuffix);
         }
 
         $commonFilePathPrefix = Strings::findPrefix(
@@ -49,7 +52,7 @@ final class Psr4NamespaceToPathFactory
 
         $uniqueNamespace = rtrim($uniqueNamespace, '\\');
 
-        $relativeDirectory = $this->migrifyStrings->subtractFromLeft($uniqueFilePath, $commonFilePathPrefix);
+        $relativeDirectory = $this->symplifyStrings->subtractFromLeft($uniqueFilePath, $commonFilePathPrefix);
 
         $relativeDirectory = rtrim($relativeDirectory, '/');
 

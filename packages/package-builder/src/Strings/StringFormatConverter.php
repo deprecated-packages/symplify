@@ -29,11 +29,6 @@ final class StringFormatConverter
         return $this->camelCaseToGlue($input, '_');
     }
 
-    public function camelCaseToDashed(string $input): string
-    {
-        return $this->camelCaseToGlue($input, '-');
-    }
-
     /**
      * @param mixed[] $items
      * @return mixed[]

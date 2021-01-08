@@ -12,6 +12,9 @@ use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\EasyCI\Tests\Finder\SrcTestsDirectoriesFinder\SrcTestsDirectoriesFinderTest
+ */
 final class SrcTestsDirectoriesFinder
 {
     /**
@@ -83,7 +86,7 @@ final class SrcTestsDirectoriesFinder
 
         if (! $allowTestingDirectory) {
             // exclude tests/src directory nested in /tests, e.g. real project for testing
-            $finder->filter(function (SplFileInfo $fileInfo) {
+            $finder->filter(function (SplFileInfo $fileInfo): bool {
                 $srcCounter = count(Strings::matchAll($fileInfo->getPathname(), self::SRC_ONLY_REGEX));
                 $testsCounter = count(Strings::matchAll($fileInfo->getPathname(), self::TESTS_ONLY_REGEX));
 
@@ -103,7 +106,7 @@ final class SrcTestsDirectoriesFinder
      */
     private function filterExistingDirectories(array $directories): array
     {
-        return array_filter($directories, function (string $directory) {
+        return array_filter($directories, function (string $directory): bool {
             return file_exists($directory);
         });
     }

@@ -13,6 +13,21 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class DevMasterAliasUpdater
 {
     /**
+     * @var string
+     */
+    private const EXTRA = 'extra';
+
+    /**
+     * @var string
+     */
+    private const BRANCH_ALIAS = 'branch-alias';
+
+    /**
+     * @var string
+     */
+    private const DEV_MASTER = 'dev-master';
+
+    /**
      * @var JsonFileManager
      */
     private $jsonFileManager;
@@ -33,7 +48,7 @@ final class DevMasterAliasUpdater
                 continue;
             }
 
-            $json['extra']['branch-alias']['dev-master'] = $alias;
+            $json[self::EXTRA][self::BRANCH_ALIAS][self::DEV_MASTER] = $alias;
 
             $this->jsonFileManager->printJsonToFileInfo($json, $fileInfo);
         }
@@ -45,11 +60,11 @@ final class DevMasterAliasUpdater
     private function shouldSkip(array $json, string $alias): bool
     {
         // update only when already present
-        if (! isset($json['extra']['branch-alias']['dev-master'])) {
+        if (! isset($json[self::EXTRA][self::BRANCH_ALIAS][self::DEV_MASTER])) {
             return true;
         }
 
-        $currentAlias = $json['extra']['branch-alias']['dev-master'];
+        $currentAlias = $json[self::EXTRA][self::BRANCH_ALIAS][self::DEV_MASTER];
 
         return $currentAlias === $alias;
     }

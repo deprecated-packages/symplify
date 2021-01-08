@@ -104,7 +104,7 @@ jobs:
                 with:
                     php-version: 7.4
 
-            -   run: composer install --no-progress --ansi
+            -   uses: "ramsey/composer-install@v1"
 
             # to see the output
             -   run: vendor/bin/easy-ci php-versions-json

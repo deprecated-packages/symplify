@@ -51,6 +51,13 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return $this->getFirstParentByType($node, ClassMethod::class);
     }
 
+    /**
+     * @see https://phpstan.org/blog/generics-in-php-using-phpdocs for template
+     *
+     * @template T of Node
+     * @param class-string<T> $nodeClass
+     * @return T|null
+     */
     public function getFirstParentByType(Node $node, string $nodeClass): ?Node
     {
         $node = $node->getAttribute(PHPStanAttributeKey::PARENT);

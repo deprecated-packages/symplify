@@ -45,7 +45,7 @@ final class DefinitionFinder
         throw new DefinitionForTypeNotFoundException(sprintf('Definition for type "%s" was not found.', $type));
     }
 
-    public function getByTypeIfExists(ContainerBuilder $containerBuilder, string $type): ?Definition
+    private function getByTypeIfExists(ContainerBuilder $containerBuilder, string $type): ?Definition
     {
         $containerBuilderDefinitions = $containerBuilder->getDefinitions();
         foreach ($containerBuilderDefinitions as $name => $definition) {

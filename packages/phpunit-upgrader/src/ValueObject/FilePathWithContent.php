@@ -27,6 +27,9 @@ final class FilePathWithContent
         return $this->filePath;
     }
 
+    /**
+     * @return string[]
+     */
     public function getContentLines(): array
     {
         return $this->contentLines;

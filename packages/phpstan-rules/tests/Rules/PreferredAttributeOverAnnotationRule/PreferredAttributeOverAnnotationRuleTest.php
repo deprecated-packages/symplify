@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\PreferredAttributeOverAnnotationRule
 
 use Iterator;
 use PHPStan\Rules\Rule;
+use Symfony\Component\Routing\Annotation\Route;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule;
 
@@ -25,10 +26,7 @@ final class PreferredAttributeOverAnnotationRuleTest extends AbstractServiceAwar
     {
         yield [__DIR__ . '/Fixture/SkipAttributeRoute.php', []];
 
-        $errorMessage = sprintf(
-            PreferredAttributeOverAnnotationRule::ERROR_MESSAGE,
-            'Symfony\Component\Routing\Annotation\Route'
-        );
+        $errorMessage = sprintf(PreferredAttributeOverAnnotationRule::ERROR_MESSAGE, Route::class);
 
         yield [__DIR__ . '/Fixture/SomeAnnotatedController.php', [[$errorMessage, 14]]];
     }

@@ -21,7 +21,7 @@ final class StaticCallWithFilterReplacerTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        self::bootKernel(TemplateCheckerKernel::class);
+        $this->bootKernel(TemplateCheckerKernel::class);
         $this->staticCallWithFilterReplacer = $this->getService(StaticCallWithFilterReplacer::class);
     }
 

@@ -68,7 +68,7 @@ final class CommentedContentResolver
             $tokenContent = trim($token->getContent());
             $hasBlockCommentCloser = Strings::endsWith($tokenContent, '*/');
 
-            if ($hasBlockCommentCloser === true) {
+            if ($hasBlockCommentCloser) {
                 // Closer of a block comment found
                 break;
             }
@@ -86,11 +86,9 @@ final class CommentedContentResolver
             return true;
         }
 
-        if ($lastLineSeen < $tokenLine) {
-            // next line is not a comment
-            if (! Strings::startsWith($token->getContent(), '//')) {
-                return true;
-            }
+        // next line is not a comment
+        if ($lastLineSeen < $tokenLine && ! Strings::startsWith($token->getContent(), '//')) {
+            return true;
         }
 
         // Blank line breaks a '//' style comment block.

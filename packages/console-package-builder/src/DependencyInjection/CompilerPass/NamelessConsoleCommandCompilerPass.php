@@ -9,6 +9,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
+/**
+ * @see \Symplify\ConsolePackageBuilder\Tests\DependencyInjection\CompilerPass\NamelessConsoleCommandCompilerPassTest
+ */
 final class NamelessConsoleCommandCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $containerBuilder): void

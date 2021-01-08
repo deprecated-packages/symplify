@@ -173,7 +173,7 @@ CODE_SAMPLE
             return false;
         }
 
-        $implements = (array) $class->implements;
+        $implements = $class->implements;
         return $implements === [];
     }
 }

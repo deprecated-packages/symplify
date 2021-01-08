@@ -58,7 +58,6 @@ final class DecomposeCommand extends AbstractSymplifyCommand
 
         $decomposedFileConfigs = $this->phpmdDecomposer->decompose($phpmdXmlFileInfo);
 
-        // @todo for all files
         $this->phpStanConfigPrinter->printPHPStanConfig($decomposedFileConfigs, $phpmdXmlFileInfo);
 
         $this->symfonyStyle->success('Done');

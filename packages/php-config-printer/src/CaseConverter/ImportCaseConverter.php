@@ -48,11 +48,6 @@ final class ImportCaseConverter implements CaseConverterInterface
         $this->commonNodeFactory = $commonNodeFactory;
     }
 
-    public function getKey(): string
-    {
-        return YamlKey::IMPORTS;
-    }
-
     public function match(string $rootKey, $key, $values): bool
     {
         return $rootKey === YamlKey::IMPORTS;
@@ -125,6 +120,9 @@ final class ImportCaseConverter implements CaseConverterInterface
         return isset($arguments[YamlKey::IGNORE_ERRORS]) && $arguments[YamlKey::IGNORE_ERRORS] === false;
     }
 
+    /**
+     * @return mixed|string
+     */
     private function replaceImportedFileSuffix($value)
     {
         if (! is_string($value)) {

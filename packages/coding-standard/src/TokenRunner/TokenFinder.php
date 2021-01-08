@@ -40,7 +40,8 @@ final class TokenFinder
     public function getNextMeaninfulTokens(array $tokens, int $position, int $count): array
     {
         $foundTokens = [];
-        for ($i = $position; $i < count($tokens); ++$i) {
+        $tokensCount = count($tokens);
+        for ($i = $position; $i < $tokensCount; ++$i) {
             $token = $tokens[$i];
             if ($token[0] === T_WHITESPACE) {
                 continue;
@@ -63,7 +64,8 @@ final class TokenFinder
     public function getSameRowLastToken(array $rawTokens, int $position)
     {
         $lastToken = null;
-        for ($i = $position; $i < count($rawTokens); ++ $i) {
+        $rawTokensCount = count($rawTokens);
+        for ($i = $position; $i < $rawTokensCount; ++ $i) {
             $token = $rawTokens[$i];
 
             if (is_array($token) && Strings::contains($token[1], PHP_EOL)) {

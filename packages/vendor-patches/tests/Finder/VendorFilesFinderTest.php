@@ -13,18 +13,18 @@ final class VendorFilesFinderTest extends AbstractKernelTestCase
     /**
      * @var OldToNewFilesFinder
      */
-    private $vendorFilesFinder;
+    private $oldToNewFilesFinder;
 
     protected function setUp(): void
     {
-        self::bootKernel(VendorPatchesKernel::class);
+        $this->bootKernel(VendorPatchesKernel::class);
 
-        $this->vendorFilesFinder = $this->getService(OldToNewFilesFinder::class);
+        $this->oldToNewFilesFinder = $this->getService(OldToNewFilesFinder::class);
     }
 
     public function test(): void
     {
-        $files = $this->vendorFilesFinder->find(__DIR__ . '/VendorFilesFinderSource');
+        $files = $this->oldToNewFilesFinder->find(__DIR__ . '/VendorFilesFinderSource');
 
         $this->assertCount(1, $files);
     }

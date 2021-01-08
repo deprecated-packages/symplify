@@ -60,20 +60,6 @@ final class ParameterTypeRecognizer
         return $this->getTypeFromDocBlock($reflectionParameter);
     }
 
-    public function getTypeFromTypeHint(ReflectionParameter $reflectionParameter): ?string
-    {
-        $parameterType = $reflectionParameter->getType();
-        if ($parameterType === null) {
-            return null;
-        }
-
-        if (method_exists($parameterType, 'getName')) {
-            return $parameterType->getName();
-        }
-
-        return (string) $parameterType;
-    }
-
     public function isParameterOfClass(ReflectionParameter $reflectionParameter, string $class): bool
     {
         $parameterType = $this->getType($reflectionParameter);
@@ -120,6 +106,20 @@ final class ParameterTypeRecognizer
         }
 
         return null;
+    }
+
+    private function getTypeFromTypeHint(ReflectionParameter $reflectionParameter): ?string
+    {
+        $parameterType = $reflectionParameter->getType();
+        if ($parameterType === null) {
+            return null;
+        }
+
+        if (method_exists($parameterType, 'getName')) {
+            return $parameterType->getName();
+        }
+
+        return (string) $parameterType;
     }
 
     private function findFirstNonNullNodeType(UnionTypeNode $unionTypeNode): ?TypeNode

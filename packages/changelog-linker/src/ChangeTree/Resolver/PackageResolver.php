@@ -28,6 +28,11 @@ final class PackageResolver
     public const PACKAGE_NAME_REGEX = '#\[(?<package>[-\w\\\\]+)\]( ){1,}#';
 
     /**
+     * @var string
+     */
+    private const PACKAGE = 'package';
+
+    /**
      * @var string[]
      */
     private $packageAliases = [];
@@ -43,10 +48,10 @@ final class PackageResolver
     public function resolvePackage(string $message): string
     {
         $match = Strings::match($message, self::PACKAGE_NAME_REGEX);
-        if (! isset($match['package'])) {
+        if (! isset($match[self::PACKAGE])) {
             return PackageName::UNKNOWN;
         }
 
-        return $this->packageAliases[$match['package']] ?? $match['package'];
+        return $this->packageAliases[$match[self::PACKAGE]] ?? $match[self::PACKAGE];
     }
 }

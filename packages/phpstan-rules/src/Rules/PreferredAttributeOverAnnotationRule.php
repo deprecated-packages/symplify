@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use Symfony\Component\Routing\Annotation\Route;
 use Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -103,7 +104,7 @@ class SomeController
 CODE_SAMPLE
                 ,
                 [
-                    'annotations' => ['Symfony\Component\Routing\Annotation\Route'],
+                    'annotations' => [Route::class],
                 ]
             ),
         ]);

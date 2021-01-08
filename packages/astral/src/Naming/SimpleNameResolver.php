@@ -11,6 +11,9 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Property;
 use Symplify\Astral\Contract\NodeNameResolverInterface;
 
+/**
+ * @see \Symplify\Astral\Tests\Naming\SimpleNameResolverTest
+ */
 final class SimpleNameResolver
 {
     /**

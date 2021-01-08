@@ -90,7 +90,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
         }
 
         // already has "Static" in the name
-        if (Strings::contains((string) $shortClassName, 'Static')) {
+        if (Strings::contains($shortClassName, 'Static')) {
             return [];
         }
 

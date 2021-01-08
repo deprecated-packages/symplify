@@ -12,7 +12,7 @@ use Symplify\EasyHydrator\Tests\Fixture\Person;
 use Symplify\EasyHydrator\Tests\HttpKernel\EasyHydratorTestKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
-class ParameterTypeRecognizerTest extends AbstractKernelTestCase
+final class ParameterTypeRecognizerTest extends AbstractKernelTestCase
 {
     /**
      * @var ParameterTypeRecognizer

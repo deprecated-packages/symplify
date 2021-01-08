@@ -10,6 +10,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 use Symplify\VendorPatches\FileSystem\PathResolver;
 
+/**
+ * @see \Symplify\VendorPatches\Tests\Composer\PackageNameResolverTest
+ */
 final class PackageNameResolver
 {
     /**

@@ -6,6 +6,9 @@ namespace Symplify\Skipper\FileSystem;
 
 use Nette\Utils\Strings;
 
+/**
+ * @see \Symplify\Skipper\Tests\FileSystem\PathNormalizerTest
+ */
 final class PathNormalizer
 {
     /**

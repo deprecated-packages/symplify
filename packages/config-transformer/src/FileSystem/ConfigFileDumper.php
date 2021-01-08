@@ -38,9 +38,9 @@ final class ConfigFileDumper
 
     public function dumpFile(ConvertedContent $convertedContent): void
     {
-        $fileRealPathWithoutSuffix = $convertedContent->getOriginalFilePathWithoutSuffix();
+        $originalFilePathWithoutSuffix = $convertedContent->getOriginalFilePathWithoutSuffix();
 
-        $newFileRealPath = $fileRealPathWithoutSuffix . '.' . $this->configuration->getOutputFormat();
+        $newFileRealPath = $originalFilePathWithoutSuffix . '.' . $this->configuration->getOutputFormat();
 
         $relativeFilePath = $this->getRelativePathOfNonExistingFile($newFileRealPath);
 

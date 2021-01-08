@@ -16,6 +16,9 @@ final class ConsolePackageBuilderKernel extends Kernel implements ExtraConfigAwa
      */
     private $configs = [];
 
+    /**
+     * @return NamelessConsoleCommandBundle[]
+     */
     public function registerBundles(): iterable
     {
         return [new NamelessConsoleCommandBundle()];

@@ -124,7 +124,7 @@ CODE_SAMPLE
             return true;
         }
 
-        return count((array) $classConst->consts) !== 1;
+        return count($classConst->consts) !== 1;
     }
 
     private function resolveOnlyVarAnnotationType(ClassConst $classConst): ?string

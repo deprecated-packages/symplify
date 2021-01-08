@@ -118,7 +118,7 @@ CODE_SAMPLE
         }
 
         $errorMessages = [];
-        foreach ((array) $node->params as $param) {
+        foreach ($node->params as $param) {
             /** @var Param $param */
             if (! $param->byRef) {
                 continue;

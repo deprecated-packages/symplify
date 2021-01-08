@@ -16,13 +16,13 @@ final class LinkifyWorker implements WorkerInterface
      * @var string
      * @see https://regex101.com/r/pgBBZ4/1
      */
-    public const SPACE_START_REGEX = '#^\s+$#';
+    private const SPACE_START_REGEX = '#^\s+$#';
 
     /**
      * @var string
      * @see https://regex101.com/r/0VwAu1/1
      */
-    public const LINKS_REGEX = '#^\-(\s+)?\[\#\d+#';
+    private const LINKS_REGEX = '#^\-(\s+)?\[\#\d+#';
 
     /**
      * @var array<string, string>

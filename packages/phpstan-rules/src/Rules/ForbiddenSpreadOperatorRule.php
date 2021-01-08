@@ -94,7 +94,7 @@ CODE_SAMPLE
      */
     private function hasVariadicParam(Node $node): bool
     {
-        foreach ((array) $node->params as $param) {
+        foreach ($node->params as $param) {
             if ($param->variadic) {
                 return true;
             }

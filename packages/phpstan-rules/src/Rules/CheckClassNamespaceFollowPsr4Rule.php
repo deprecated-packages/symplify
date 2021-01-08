@@ -175,7 +175,7 @@ CODE_SAMPLE
 
     private function resolveNamespacePartOfClass(string $className, string $shortClassName): string
     {
-        return (string) Strings::substring($className, 0, - strlen($shortClassName));
+        return Strings::substring($className, 0, - strlen($shortClassName));
     }
 
     /**

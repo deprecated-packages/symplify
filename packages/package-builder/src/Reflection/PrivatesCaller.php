@@ -17,6 +17,7 @@ final class PrivatesCaller
      * @param object|string $object
      * @param mixed[] $arguments
      */
+    // @todo ariadic hceck
     public function callPrivateMethod($object, string $methodName, ...$arguments)
     {
         $this->ensureIsNotNull($object, __METHOD__);

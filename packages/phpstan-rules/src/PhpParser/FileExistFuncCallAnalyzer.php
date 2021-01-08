@@ -29,20 +29,6 @@ final class FileExistFuncCallAnalyzer
         return $this->isFileCheckingFuncCall($parentParent);
     }
 
-    public function isFileCheckingFuncCall(Node $node): bool
-    {
-        if (! $node instanceof FuncCall) {
-            return false;
-        }
-
-        if ($node->name instanceof Expr) {
-            return false;
-        }
-
-        $funcCallName = (string) $node->name;
-        return in_array($funcCallName, ['is_file', 'file_exists', 'is_dir'], true);
-    }
-
     public function hasParentIfWithFileExistCheck(Concat $concat): bool
     {
         $parent = $concat->getAttribute(PHPStanAttributeKey::PARENT);
@@ -55,5 +41,19 @@ final class FileExistFuncCallAnalyzer
         }
 
         return false;
+    }
+
+    private function isFileCheckingFuncCall(Node $node): bool
+    {
+        if (! $node instanceof FuncCall) {
+            return false;
+        }
+
+        if ($node->name instanceof Expr) {
+            return false;
+        }
+
+        $funcCallName = (string) $node->name;
+        return in_array($funcCallName, ['is_file', 'file_exists', 'is_dir'], true);
     }
 }

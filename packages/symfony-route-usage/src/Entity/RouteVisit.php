@@ -36,6 +36,7 @@ class RouteVisit implements TimestampableInterface
     private $controller;
 
     /**
+     * @noRector
      * @ORM\Column(type="string", unique=true)
      * @var string
      */
@@ -90,10 +91,5 @@ class RouteVisit implements TimestampableInterface
     public function getMethod(): string
     {
         return $this->method;
-    }
-
-    public function getRouteHash(): string
-    {
-        return $this->routeHash;
     }
 }

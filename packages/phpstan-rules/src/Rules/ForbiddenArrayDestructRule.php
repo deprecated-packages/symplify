@@ -32,7 +32,7 @@ final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
      * @var string
      * @see https://regex101.com/r/dhGhYp/1
      */
-    public const VENDOR_DIRECTORY_REGEX = '#/vendor/#';
+    private const VENDOR_DIRECTORY_REGEX = '#/vendor/#';
 
     /**
      * @var SimpleNameResolver

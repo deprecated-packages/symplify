@@ -15,6 +15,11 @@ use Symplify\ChangelogLinker\ValueObject\RegexPattern;
 final class UserReferencesWorker implements WorkerInterface
 {
     /**
+     * @var string
+     */
+    private const REFERENCE = 'reference';
+
+    /**
      * @var LinkAppender
      */
     private $linkAppender;
@@ -34,11 +39,11 @@ final class UserReferencesWorker implements WorkerInterface
 
             $markdownUserLink = sprintf(
                 '[%s]: https://github.com/%s',
-                $match['reference'],
-                ltrim($match['reference'], '@')
+                $match[self::REFERENCE],
+                ltrim($match[self::REFERENCE], '@')
             );
 
-            $this->linkAppender->add($match['reference'], $markdownUserLink);
+            $this->linkAppender->add($match[self::REFERENCE], $markdownUserLink);
         }
 
         return $content;
@@ -54,6 +59,6 @@ final class UserReferencesWorker implements WorkerInterface
      */
     private function shouldSkip(array $match): bool
     {
-        return $this->linkAppender->hasId($match['reference']);
+        return $this->linkAppender->hasId($match[self::REFERENCE]);
     }
 }

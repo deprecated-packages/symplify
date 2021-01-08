@@ -18,13 +18,13 @@ final class VoidsCommand extends AbstractSymplifyCommand
     /**
      * @var VoidPHPUnitUpgrader
      */
-    private $voidCompleter;
+    private $voidPHPUnitUpgrader;
 
-    public function __construct(VoidPHPUnitUpgrader $voidCompleter)
+    public function __construct(VoidPHPUnitUpgrader $voidPHPUnitUpgrader)
     {
         parent::__construct();
 
-        $this->voidCompleter = $voidCompleter;
+        $this->voidPHPUnitUpgrader = $voidPHPUnitUpgrader;
     }
 
     protected function configure(): void
@@ -40,7 +40,7 @@ final class VoidsCommand extends AbstractSymplifyCommand
         $this->fileSystemGuard->ensureDirectoryExists($source);
 
         $testFileInfos = $this->smartFinder->find([$source], '#Test\.php#');
-        $this->voidCompleter->completeFileInfos($testFileInfos);
+        $this->voidPHPUnitUpgrader->completeFileInfos($testFileInfos);
 
         $this->symfonyStyle->success('void is at in all setUp()/tearDown() methods now');
 

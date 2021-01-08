@@ -21,20 +21,7 @@ final class DatabaseLoaderHelper
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-    }
-
-    public function disableDoctrineLogger(): void
-    {
-        // @see https://stackoverflow.com/a/35222045/1348344
-        // disable Doctrine logs in tests output
-        /** @var EntityManagerInterface $entityManager */
-        $entityManager = $this->container->get('doctrine.orm.entity_manager');
-
-        $connection = $entityManager->getConnection();
-
-        /** @var Configuration $configuration */
-        $configuration = $connection->getConfiguration();
-        $configuration->setSQLLogger(null);
+        $this->disableDoctrineLogger();
     }
 
     /**
@@ -64,5 +51,19 @@ final class DatabaseLoaderHelper
         /** @var AbstractSchemaManager $schemaManager */
         $schemaManager = $connection->getSchemaManager();
         $schemaManager->createDatabase($databaseName);
+    }
+
+    private function disableDoctrineLogger(): void
+    {
+        // @see https://stackoverflow.com/a/35222045/1348344
+        // disable Doctrine logs in tests output
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $this->container->get('doctrine.orm.entity_manager');
+
+        $connection = $entityManager->getConnection();
+
+        /** @var Configuration $configuration */
+        $configuration = $connection->getConfiguration();
+        $configuration->setSQLLogger(null);
     }
 }

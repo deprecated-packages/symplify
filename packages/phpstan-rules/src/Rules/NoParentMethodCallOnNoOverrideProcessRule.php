@@ -63,8 +63,8 @@ final class NoParentMethodCallOnNoOverrideProcessRule extends AbstractSymplifyRu
             return [];
         }
 
-        $methodCallArgs = (array) $onlyNode->args;
-        $classMethodParams = (array) $node->params;
+        $methodCallArgs = $onlyNode->args;
+        $classMethodParams = $node->params;
 
         if (! $this->nodeComparator->areArgsAndParamsSame($methodCallArgs, $classMethodParams)) {
             return [];

@@ -42,7 +42,7 @@ final class AnnotateRegexClassConstWithRegexLinkRule extends AbstractSymplifyRul
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (count((array) $node->consts) !== 1) {
+        if (count($node->consts) !== 1) {
             return [];
         }
 
@@ -132,6 +132,6 @@ CODE_SAMPLE
 
     private function isRegexPatternConstantName(string $constantName): bool
     {
-        return (bool) Strings::endsWith($constantName, '_REGEX');
+        return Strings::endsWith($constantName, '_REGEX');
     }
 }

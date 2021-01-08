@@ -54,6 +54,7 @@ parameters:
     paths:
         - packages
         - ecs.php
+        - rector.php
 
     excludes_analyse:
         # there is some bug
@@ -496,3 +497,7 @@ parameters:
                  - packages/symfony-static-dumper/tests/test_project/src/Controller/OneArgumentController.php #13
                  - packages/symfony-static-dumper/tests/test_project/src/Controller/SomeController.php #13
                  - packages/symfony-static-dumper/tests/test_project/src/Controller/TwoArgumentsController.php #13
+
+        - '#Property Symplify\\SymfonyRouteUsage\\Entity\\RouteVisit\:\:\$routeHash is never read, only written#'
+
+        - '#Method Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:parseCodeToTokens\(\) should return array<array<int\|string\>\> but returns array<int, array<int, int\|string\>\|string\>#'

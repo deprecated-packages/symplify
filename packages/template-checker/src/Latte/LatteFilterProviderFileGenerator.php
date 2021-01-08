@@ -14,7 +14,7 @@ final class LatteFilterProviderFileGenerator
     /**
      * @var LatteFilterProviderFactory
      */
-    private $latteFilterProviderGenerator;
+    private $latteFilterProviderFactory;
 
     /**
      * @var SmartFileSystem
@@ -27,18 +27,18 @@ final class LatteFilterProviderFileGenerator
     private $symfonyStyle;
 
     public function __construct(
-        LatteFilterProviderFactory $latteFilterProviderGenerator,
+        LatteFilterProviderFactory $latteFilterProviderFactory,
         SmartFileSystem $smartFileSystem,
         SymfonyStyle $symfonyStyle
     ) {
-        $this->latteFilterProviderGenerator = $latteFilterProviderGenerator;
+        $this->latteFilterProviderFactory = $latteFilterProviderFactory;
         $this->smartFileSystem = $smartFileSystem;
         $this->symfonyStyle = $symfonyStyle;
     }
 
     public function generate(ClassMethodName $classMethodName): void
     {
-        $generatedContent = $this->latteFilterProviderGenerator->createFromClassMethodName($classMethodName);
+        $generatedContent = $this->latteFilterProviderFactory->createFromClassMethodName($classMethodName);
 
         $filterProviderClassName = $classMethodName->getFilterProviderClassName();
         $shortFilePath = 'generated/' . $filterProviderClassName . '.php';

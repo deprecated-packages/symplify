@@ -20,6 +20,9 @@ use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 
+/**
+ * @see \Symplify\SimplePhpDocParser\Tests\SimplePhpDocNodeTraverser\PhpDocNodeTraverserTest
+ */
 final class PhpDocNodeTraverser
 {
     public function traverseWithCallable(PhpDocNode $phpDocNode, string $docContent, callable $callable): void

@@ -8,6 +8,9 @@ use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 use Symplify\LatteToTwigConverter\Exception\ConfigurationException;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\LatteToTwigConverter\Tests\LatteToTwigConverterTest
+ */
 final class LatteToTwigConverter
 {
     /**

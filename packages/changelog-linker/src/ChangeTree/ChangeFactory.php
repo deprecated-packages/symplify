@@ -24,6 +24,11 @@ final class ChangeFactory
     private const ASTERISK_REGEX = '#(\*)#';
 
     /**
+     * @var string
+     */
+    private const TITLE = 'title';
+
+    /**
      * @var string[]
      */
     private $authorsToIgnore = [];
@@ -60,7 +65,7 @@ final class ChangeFactory
      */
     public function createFromPullRequest(array $pullRequest): Change
     {
-        $message = sprintf('- [#%s] %s', $pullRequest['number'], $this->escapeMarkdown($pullRequest['title']));
+        $message = sprintf('- [#%s] %s', $pullRequest['number'], $this->escapeMarkdown($pullRequest[self::TITLE]));
 
         $author = $pullRequest['user']['login'] ?? '';
 
@@ -69,8 +74,8 @@ final class ChangeFactory
             $message .= ', Thanks to @' . $author;
         }
 
-        $category = $this->categoryResolver->resolveCategory($pullRequest['title']);
-        $package = $this->packageResolver->resolvePackage($pullRequest['title']);
+        $category = $this->categoryResolver->resolveCategory($pullRequest[self::TITLE]);
+        $package = $this->packageResolver->resolvePackage($pullRequest[self::TITLE]);
         $messageWithoutPackage = $this->resolveMessageWithoutPackage($message, $package);
 
         // @todo 'merge_commit_sha' || 'head'
