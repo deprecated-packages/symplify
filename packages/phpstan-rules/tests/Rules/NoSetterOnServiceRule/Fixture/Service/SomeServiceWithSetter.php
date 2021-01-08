@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\NoStaticPropertyRule\Fixture\Service;
+namespace Symplify\PHPStanRules\Tests\Rules\NoSetterOnServiceRule\Fixture\Service;
 
 final class SomeServiceWithSetter
 {

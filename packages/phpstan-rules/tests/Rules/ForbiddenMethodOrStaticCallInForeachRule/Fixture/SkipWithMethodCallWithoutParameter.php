@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\Fixture;
 
-class WithMethodCallWithoutParameter
+class SkipWithMethodCallWithoutParameter
 {
     public function getData()
     {

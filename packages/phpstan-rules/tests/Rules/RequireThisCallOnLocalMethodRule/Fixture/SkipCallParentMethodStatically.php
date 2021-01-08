@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\RequireThisOnParentMethodCallRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\RequireThisCallOnLocalMethodRule\Fixture;
 
 class SkipCallParentMethodStatically extends ParentClass
 {
