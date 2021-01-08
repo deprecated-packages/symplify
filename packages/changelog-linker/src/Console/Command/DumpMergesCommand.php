@@ -132,7 +132,7 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
         if (count($pullRequests) === 0) {
             $message = 'No pull requests have been merged.';
             if ($sinceId > 0) {
-                $message = sprintf('No new pull requests have been merged since ID "%d".', $sinceId );
+                $message = sprintf('No new pull requests have been merged since ID "%d".', $sinceId);
             }
             $this->symfonyStyle->note($message);
 
