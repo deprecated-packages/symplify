@@ -4,17 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NoFactoryInConstructorRule\Fixture;
 
-class Factory3
-{
-    public function build()
-    {
-    }
-}
-
 final class WithConstructorWithFactoryWithMutliAssignment
 {
-    public function __construct(Factory3 $factory)
+    public function __construct(ThirdFactory $thirdFactory)
     {
-        $this->property = $property = $factory->build();
+        $anotherProperty = $property = $thirdFactory->build();
     }
 }

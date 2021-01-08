@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rule\ForbiddenMethodCallOnTypeRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodCallOnTypeRule\Fixture;
 
 use ReflectionProperty;
 

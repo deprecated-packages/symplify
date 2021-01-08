@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\NoStaticPropertyRule\Fixture\Entity;
+namespace Symplify\PHPStanRules\Tests\Rules\NoSetterOnServiceRule\Fixture\Entity;
 
 final class SkipSomeEntity
 {

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckRequireMethodTobeAutowireWithClassName\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule\Fixture;
 
-final class AbstractFoo
+final class AbstractPrefixOnNonAbstractClass
 {
 }

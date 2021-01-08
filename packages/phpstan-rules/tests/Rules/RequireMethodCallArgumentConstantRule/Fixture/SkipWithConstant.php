@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireMethodCallArgumentConstantRul
 
 use Symplify\PHPStanRules\Tests\Rules\RequireMethodCallArgumentConstantRule\Source\AlwaysCallMeWithConstant;
 
-final class WithConstant
+final class SkipWithConstant
 {
     /**
      * @var string
