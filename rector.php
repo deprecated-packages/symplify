@@ -56,10 +56,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::EARLY_RETURN,
     ]);
 
-    $parameters->set(Option::PATHS, [
-        __DIR__ . '/packages',
-        __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
-    ]);
+    $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
 
     $parameters->set(Option::SKIP, [
         '*/scoper.inc.php',
