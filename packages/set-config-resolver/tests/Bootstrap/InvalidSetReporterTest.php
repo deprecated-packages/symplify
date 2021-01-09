@@ -20,6 +20,9 @@ final class InvalidSetReporterTest extends TestCase
         $this->invalidSetReporter = new InvalidSetReporter();
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function test(): void
     {
         $setNotFoundException = new SetNotFoundException('not found', 'one', ['two', 'three']);
