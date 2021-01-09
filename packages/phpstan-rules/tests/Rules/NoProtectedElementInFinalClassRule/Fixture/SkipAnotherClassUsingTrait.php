@@ -4,13 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule\Fixture;
 
-final class SomeFinalClassUsesTrait
+final class SkipAnotherClassUsingTrait
 {
-    use SkipTrait;
-
-    protected $x;
-
-    protected function run()
-    {
-    }
+    use SkipSomeAutowiredTrait;
 }

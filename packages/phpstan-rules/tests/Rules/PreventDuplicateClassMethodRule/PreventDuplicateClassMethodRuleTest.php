@@ -23,20 +23,22 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
 
     public function provideData(): Iterator
     {
-        yield [[__DIR__ . '/Fixture/FirstClass.php'], []];
-        yield [[__DIR__ . '/Fixture/ValueObject1.php', __DIR__ . '/Fixture/ValueObject2.php'], []];
-        yield [[__DIR__ . '/Fixture/Entity1.php', __DIR__ . '/Fixture/Entity2.php'], []];
+        yield [[__DIR__ . '/Fixture/ValueObject/SkipChair.php', __DIR__ . '/Fixture/ValueObject/SkipTable.php'], []];
+        yield [[__DIR__ . '/Fixture/Entity/SkipApple.php', __DIR__ . '/Fixture/Entity/SkipCar.php'], []];
 
-        yield [[__DIR__ . '/Fixture/AnInterface.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipInterface.php'], []];
 
         yield [[
-            __DIR__ . '/Fixture/ClassWithTrait.php',
-            __DIR__ . '/Fixture/TraitUsingTrait.php',
-            __DIR__ . '/Fixture/SomeTrait.php',
+            __DIR__ . '/Fixture/SkipClassWithTrait.php',
+            __DIR__ . '/Fixture/SkipTraitUsingTrait.php',
+            __DIR__ . '/Fixture/SkipSomeTrait.php',
         ], []];
 
         $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'someMethod', FirstClass::class);
-        yield [[__DIR__ . '/Fixture/SecondClassDuplicateFirstClassMethod.php'], [[$errorMessage, 15]]];
+        yield [[
+            __DIR__ . '/Fixture/FirstClass.php',
+            __DIR__ . '/Fixture/SecondClassDuplicateFirstClassMethod.php',
+        ], [[$errorMessage, 15]]];
     }
 
     protected function getRule(): Rule

@@ -13,22 +13,38 @@ final class RequireSkipPrefixForRuleSkippedFixtureRuleTest extends AbstractServi
 {
     /**
      * @dataProvider provideData()
+     * @param string[] $filePaths
      * @param mixed[] $expectedErrorMessagesWithLines
      */
-    public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
+    public function testRule(array $filePaths, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
+        $this->analyse($filePaths, $expectedErrorMessagesWithLines);
     }
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SkipCorrectNaming.php', []];
+        yield [[__DIR__ . '/Fixture/SkipCorrectNamingTest.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipCorrectDoubleNamingTest.php'], []];
 
-        $errorMessage = sprintf(RequireSkipPrefixForRuleSkippedFixtureRule::ERROR_MESSAGE, 'CorrectNaming.php');
-        yield [__DIR__ . '/Fixture/MissingPrefix.php', [[$errorMessage, 14]]];
+        yield [
+            [__DIR__ . '/Fixture/MissingPrefixTest.php'],
+            [[RequireSkipPrefixForRuleSkippedFixtureRule::ERROR_MESSAGE, 14]],
+        ];
 
-        $errorMessage = sprintf(RequireSkipPrefixForRuleSkippedFixtureRule::INVERTED_ERROR_MESSAGE, 'SkipNaming.php');
-        yield [__DIR__ . '/Fixture/ExtraPrefix.php', [[$errorMessage, 14]]];
+        yield [
+            [__DIR__ . '/Fixture/ExtraPrefixTest.php'],
+            [[RequireSkipPrefixForRuleSkippedFixtureRule::INVERTED_ERROR_MESSAGE, 14]],
+        ];
+
+        yield [
+            [__DIR__ . '/Fixture/MissingNestedPrefixTest.php'],
+            [[RequireSkipPrefixForRuleSkippedFixtureRule::ERROR_MESSAGE, 11]],
+        ];
+
+        yield [
+            [__DIR__ . '/Fixture/MissingDoubleTest.php'],
+            [[RequireSkipPrefixForRuleSkippedFixtureRule::ERROR_MESSAGE, 14]],
+        ];
     }
 
     protected function getRule(): Rule

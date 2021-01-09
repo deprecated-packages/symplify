@@ -7,6 +7,9 @@ namespace Symplify\Astral\NodeValue;
 use PhpParser\ConstExprEvaluationException;
 use PhpParser\ConstExprEvaluator;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\MagicConst\Dir;
+use PHPStan\Analyser\Scope;
+use Symplify\Astral\Exception\ShouldNotHappenException;
 
 final class NodeValueResolver
 {
@@ -15,16 +18,34 @@ final class NodeValueResolver
      */
     private $constExprEvaluator;
 
-    public function __construct(ConstExprEvaluator $constExprEvaluator)
+    /**
+     * @var Scope
+     */
+    private $currentScope;
+
+    public function __construct()
     {
-        $this->constExprEvaluator = $constExprEvaluator;
+        $this->constExprEvaluator = new ConstExprEvaluator(function (Expr $expr): ?string {
+            if ($expr instanceof Dir) {
+                if ($this->currentScope === null) {
+                    throw new ShouldNotHappenException();
+                }
+
+                $currentFile = $this->currentScope->getFile();
+                return dirname($currentFile, 2);
+            }
+
+            return null;
+        });
     }
 
     /**
      * @return array|bool|float|int|mixed|string|null
      */
-    public function resolve(Expr $expr)
+    public function resolve(Expr $expr, Scope $scope)
     {
+        $this->currentScope = $scope;
+
         try {
             return $this->constExprEvaluator->evaluateDirectly($expr);
         } catch (ConstExprEvaluationException $constExprEvaluationException) {

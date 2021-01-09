@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture;
 
-class ClassWithTrait
+trait SkipSomeTrait
 {
-    use TraitUsingTrait;
-
-    public function anotherCall()
+    public function anotherMethod()
     {
-        return $this->anotherMethod();
+        if (true) {
+            return '1';
+        }
+
+        return '2';
     }
 }

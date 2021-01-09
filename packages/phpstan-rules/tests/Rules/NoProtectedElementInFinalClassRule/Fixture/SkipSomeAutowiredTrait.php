@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule\Fixture;
 
-trait SomeAutowiredTrait
+trait SkipSomeAutowiredTrait
 {
     protected $someDependency;
 

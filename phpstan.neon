@@ -504,3 +504,10 @@ parameters:
              message: '#Function "method_exists\(\)" cannot be used/left in the code#'
              paths:
                  - packages/monorepo-builder/packages/release/src/Process/ProcessRunner.php
+
+        # the file must start with "Abstract" to be correct
+        -
+            message: '#Skipped tested file must start with "Skip" prefix#'
+            paths:
+                 - packages/phpstan-rules/tests/Rules/PrefixAbstractClassRule/PrefixAbstractClassRuleTest.php
+                 - packages/phpstan-rules/tests/Rules/CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule/CheckRequiredAbstractKeywordForClassNameStartWithAbstractRuleTest.php

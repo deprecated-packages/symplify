@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredMethodNamingRule\Fixture;
 
-final class WithRequiredAutowire
+final class SkipCorretName
 {
     /**
      * @required
      */
-    public function autowireWithRequiredAutowire()
+    public function autowireSkipCorretName()
     {
     }
 }
