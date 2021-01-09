@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -30,9 +31,15 @@ final class CheckTraitMethodOnlyDelegateOtherClassRule extends AbstractSymplifyR
      */
     private $nodeFinder;
 
-    public function __construct(NodeFinder $nodeFinder)
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
     {
         $this->nodeFinder = $nodeFinder;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -53,7 +60,7 @@ final class CheckTraitMethodOnlyDelegateOtherClassRule extends AbstractSymplifyR
         $classMethods = $this->nodeFinder->findInstanceOf($node, ClassMethod::class);
 
         foreach ($classMethods as $classMethod) {
-            $classMethodName = $classMethod->name->toString();
+            $classMethodName = $this->simpleNameResolver->getName($classMethod);
 
             if ($this->hasMethodCallFromThis($classMethod)) {
                 return [sprintf(self::ERROR_MESSAGE, $classMethodName)];

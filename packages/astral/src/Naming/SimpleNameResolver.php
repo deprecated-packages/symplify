@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Contract\NodeNameResolverInterface;
@@ -101,8 +102,7 @@ final class SimpleNameResolver
             return false;
         }
 
-        $secondName = $this->getName($secondNode);
-        return $firstName === $secondName;
+        return $this->isName($secondNode, $firstName);
     }
 
     public function getShortClassName(string $className): string
@@ -122,6 +122,16 @@ final class SimpleNameResolver
         }
 
         return $this->resolveShortName($className);
+    }
+
+    public function getShortClassNameFromNode(ClassLike $classLike): ?string
+    {
+        $className = $this->getName($classLike);
+        if ($className === null) {
+            return null;
+        }
+
+        return $this->getShortClassName($className);
     }
 
     public function getClassNameFromScope(Scope $scope): ?string

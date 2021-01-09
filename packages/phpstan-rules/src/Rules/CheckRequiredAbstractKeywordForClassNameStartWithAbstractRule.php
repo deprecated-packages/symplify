@@ -6,9 +6,9 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -20,7 +20,17 @@ final class CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule extend
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class name start with Abstract must have abstract keyword';
+    public const ERROR_MESSAGE = 'Class name starting with "Abstract" must have an `abstract` keyword';
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
 
     /**
      * @return string[]
@@ -36,13 +46,16 @@ final class CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule extend
      */
     public function process(Node $node, Scope $scope): array
     {
-        /** @var Identifier $shortClassName */
-        $shortClassName = $node->name;
-        $className = ucfirst($shortClassName->toString());
         if ($node->isAbstract()) {
             return [];
         }
-        if (! Strings::startsWith($className, 'Abstract')) {
+
+        $shortClassName = $this->simpleNameResolver->getShortClassNameFromNode($node);
+        if ($shortClassName === null) {
+            return [];
+        }
+
+        if (! Strings::startsWith($shortClassName, 'Abstract')) {
             return [];
         }
 

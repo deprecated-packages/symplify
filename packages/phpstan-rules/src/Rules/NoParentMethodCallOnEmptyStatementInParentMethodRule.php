@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Nop;
 use PHPStan\Analyser\Scope;
@@ -57,12 +56,7 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends Abstrac
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node->class instanceof Expr) {
-            return [];
-        }
-
-        $className = $node->class->toString();
-        if ($className !== 'parent') {
+        if (! $this->simpleNameResolver->isName($node->class, 'parent')) {
             return [];
         }
 
