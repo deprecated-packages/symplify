@@ -88,6 +88,18 @@ final class ComposerJsonSection
      * @api
      * @var string
      */
+    public const KEYWORDS = 'keywords';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const HOMEPAGE = 'homepage';
+
+    /**
+     * @api
+     * @var string
+     */
     public const LICENSE = 'license';
 
     /**

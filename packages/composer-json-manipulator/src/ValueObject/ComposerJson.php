@@ -28,7 +28,17 @@ final class ComposerJson
     private $description;
 
     /**
-     * @var string|null
+     * @var array
+     */
+    private $keywords = [];
+
+    /**
+     * @var string
+     */
+    private $homepage;
+
+    /**
+     * @var string|array|null
      */
     private $license;
 
@@ -393,71 +403,26 @@ final class ComposerJson
      */
     public function getJsonArray(): array
     {
-        $array = [];
-
-        if ($this->name !== null) {
-            $array[ComposerJsonSection::NAME] = $this->name;
-        }
-
-        if ($this->description !== null) {
-            $array[ComposerJsonSection::DESCRIPTION] = $this->description;
-        }
-
-        if ($this->license !== null) {
-            $array[ComposerJsonSection::LICENSE] = $this->license;
-        }
-
-        if ($this->authors !== null) {
-            $array[ComposerJsonSection::AUTHORS] = $this->authors;
-        }
-
-        if ($this->type !== null) {
-            $array[ComposerJsonSection::TYPE] = $this->type;
-        }
-
-        if ($this->require !== []) {
-            $array[ComposerJsonSection::REQUIRE] = $this->require;
-        }
-
-        if ($this->requireDev !== []) {
-            $array[ComposerJsonSection::REQUIRE_DEV] = $this->requireDev;
-        }
-
-        if ($this->conflicts !== []) {
-            $array[ComposerJsonSection::CONFLICT] = $this->conflicts;
-        }
-
-        if ($this->autoload !== []) {
-            $array[ComposerJsonSection::AUTOLOAD] = $this->autoload;
-        }
-
-        if ($this->autoloadDev !== []) {
-            $array[ComposerJsonSection::AUTOLOAD_DEV] = $this->autoloadDev;
-        }
-
-        if ($this->repositories !== []) {
-            $array[ComposerJsonSection::REPOSITORIES] = $this->repositories;
-        }
-
-        if ($this->extra !== []) {
-            $array[ComposerJsonSection::EXTRA] = $this->extra;
-        }
-
-        if ($this->bin !== null) {
-            $array[ComposerJsonSection::BIN] = $this->bin;
-        }
-
-        if ($this->scripts !== []) {
-            $array[ComposerJsonSection::SCRIPTS] = $this->scripts;
-        }
-
-        if ($this->config !== []) {
-            $array[ComposerJsonSection::CONFIG] = $this->config;
-        }
-
-        if ($this->replace !== []) {
-            $array[ComposerJsonSection::REPLACE] = $this->replace;
-        }
+        $array = array_filter([
+            ComposerJsonSection::NAME => $this->name,
+            ComposerJsonSection::DESCRIPTION => $this->description,
+            ComposerJsonSection::KEYWORDS => $this->keywords,
+            ComposerJsonSection::HOMEPAGE => $this->homepage,
+            ComposerJsonSection::LICENSE => $this->license,
+            ComposerJsonSection::AUTHORS => $this->authors,
+            ComposerJsonSection::TYPE => $this->type,
+            ComposerJsonSection::REQUIRE => $this->require,
+            ComposerJsonSection::REQUIRE_DEV => $this->requireDev,
+            ComposerJsonSection::CONFLICT => $this->conflicts,
+            ComposerJsonSection::AUTOLOAD => $this->autoload,
+            ComposerJsonSection::AUTOLOAD_DEV => $this->autoloadDev,
+            ComposerJsonSection::REPOSITORIES => $this->repositories,
+            ComposerJsonSection::EXTRA => $this->extra,
+            ComposerJsonSection::BIN => $this->bin,
+            ComposerJsonSection::SCRIPTS => $this->scripts,
+            ComposerJsonSection::CONFIG => $this->config,
+            ComposerJsonSection::REPLACE => $this->replace,
+        ]);
 
         if ($this->minimumStability !== null) {
             $array[ComposerJsonSection::MINIMUM_STABILITY] = $this->minimumStability;
@@ -509,17 +474,55 @@ final class ComposerJson
         $this->description = $description;
     }
 
-    public function setLicense(string $license): void
-    {
-        $this->license = $license;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function getLicense(): ?string
+    /**
+     * @param array $keywords
+     */
+    public function setKeywords(array $keywords): void
+    {
+        $this->keywords = $keywords;
+    }
+
+    /**
+     * @return array
+     */
+    public function getKeywords(): array
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * @param string $homepage
+     */
+    public function setHomepage(string $homepage): void
+    {
+        $this->homepage = $homepage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHomepage(): string
+    {
+        return $this->homepage;
+    }
+
+    /**
+     * @param string|array $license
+     */
+    public function setLicense($license): void
+    {
+        $this->license = $license;
+    }
+
+    /**
+     * @return string|array|null
+     */
+    public function getLicense()
     {
         return $this->license;
     }
@@ -566,6 +569,65 @@ final class ComposerJson
     public function hasRequiredDevPackage(string $packageName): bool
     {
         return isset($this->requireDev[$packageName]);
+    }
+
+    public function addRequiredPackage(string $packageName, string $version): void
+    {
+        if (!$this->hasPackage($packageName)) {
+            $this->require[$packageName] = $version;
+        }
+    }
+
+    public function addRequiredDevPackage(string $packageName, string $version): void
+    {
+        if (!$this->hasPackage($packageName)) {
+            $this->requireDev[$packageName] = $version;
+        }
+    }
+
+    public function changePackageVersion(string $packageName, string $version): void
+    {
+        if ($this->hasRequiredPackage($packageName)) {
+            $this->require[$packageName] = $version;
+        }
+        if ($this->hasRequiredDevPackage($packageName)) {
+            $this->requireDev[$packageName] = $version;
+        }
+    }
+
+    public function movePackageToRequire(string $packageName): void
+    {
+        if ($this->hasRequiredDevPackage($packageName)) {
+            $version = $this->requireDev[$packageName];
+            $this->removePackage($packageName);
+            $this->addRequiredPackage($packageName, $version);
+        }
+    }
+
+    public function movePackageToRequireDev(string $packageName): void
+    {
+        if ($this->hasRequiredPackage($packageName)) {
+            $version = $this->require[$packageName];
+            $this->removePackage($packageName);
+            $this->addRequiredDevPackage($packageName, $version);
+        }
+    }
+
+    public function removePackage(string $packageName): void
+    {
+        unset($this->require[$packageName], $this->requireDev[$packageName]);
+    }
+
+    public function replacePackage(string $oldPackageName, string $newPackageName, string $targetVersion): void
+    {
+        if ($this->hasRequiredPackage($oldPackageName)) {
+            unset($this->require[$oldPackageName]);
+            $this->addRequiredPackage($newPackageName, $targetVersion);
+        }
+        if ($this->hasRequiredDevPackage($oldPackageName)) {
+            unset($this->requireDev[$oldPackageName]);
+            $this->addRequiredDevPackage($newPackageName, $targetVersion);
+        }
     }
 
     public function getFileInfo(): ?SmartFileInfo

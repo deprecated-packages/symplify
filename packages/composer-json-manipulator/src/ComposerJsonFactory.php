@@ -73,6 +73,14 @@ final class ComposerJsonFactory
             $composerJson->setDescription($jsonArray[ComposerJsonSection::DESCRIPTION]);
         }
 
+        if (isset($jsonArray[ComposerJsonSection::KEYWORDS])) {
+            $composerJson->setKeywords($jsonArray[ComposerJsonSection::KEYWORDS]);
+        }
+
+        if (isset($jsonArray[ComposerJsonSection::HOMEPAGE])) {
+            $composerJson->setHomepage($jsonArray[ComposerJsonSection::HOMEPAGE]);
+        }
+
         if (isset($jsonArray[ComposerJsonSection::LICENSE])) {
             $composerJson->setLicense($jsonArray[ComposerJsonSection::LICENSE]);
         }
