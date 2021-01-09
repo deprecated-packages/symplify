@@ -83,24 +83,24 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
     {
         $path = $this->locator->locate($resource);
 
-        $xml = $this->privatesCaller->callPrivateMethod($this, 'parseFileToDOM', $path);
+        $xml = $this->privatesCaller->callPrivateMethod($this, 'parseFileToDOM', [$path]);
         $this->container->fileExists($path);
 
-        $defaults = $this->privatesCaller->callPrivateMethod($this, 'getServiceDefaults', $xml, $path);
+        $defaults = $this->privatesCaller->callPrivateMethod($this, 'getServiceDefaults', [$xml, $path]);
         $this->processAnonymousServices($xml, $path);
 
         // imports
-        $this->privatesCaller->callPrivateMethod($this, 'parseImports', $xml, $path);
+        $this->privatesCaller->callPrivateMethod($this, 'parseImports', [$xml, $path]);
 
         // parameters
-        $this->privatesCaller->callPrivateMethod($this, 'parseParameters', $xml, $path);
+        $this->privatesCaller->callPrivateMethod($this, 'parseParameters', [$xml, $path]);
 
         // extensions
-        $this->privatesCaller->callPrivateMethod($this, 'loadFromExtensions', $xml);
+        $this->privatesCaller->callPrivateMethod($this, 'loadFromExtensions', [$xml]);
 
         // services
         try {
-            $this->privatesCaller->callPrivateMethod($this, 'parseDefinitions', $xml, $path, $defaults);
+            $this->privatesCaller->callPrivateMethod($this, 'parseDefinitions', [$xml, $path, $defaults]);
         } finally {
             $this->instanceof = [];
             $this->registerAliasesForSinglyImplementedInterfaces();
@@ -141,9 +141,7 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
             $definition = $this->privatesCaller->callPrivateMethod(
                 $this,
                 'parseDefinition',
-                $domElement,
-                $file,
-                new Definition()
+                [$domElement, $file, new Definition()]
             );
 
             if ($definition !== null) {
@@ -176,7 +174,7 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
                 // @see https://stackoverflow.com/a/28944/1348344
                 $parentServiceId = $parentNode->getAttribute('id');
 
-                $services = $this->privatesCaller->callPrivateMethod($this, 'getChildren', $node, 'service');
+                $services = $this->privatesCaller->callPrivateMethod($this, 'getChildren', [$node, 'service']);
                 if ($services !== []) {
                     $id = $this->createUniqueServiceNameFromClass($services[0], $parentServiceId);
 

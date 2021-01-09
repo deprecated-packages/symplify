@@ -68,6 +68,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/packages/monorepo-builder/packages/init/templates',
         __DIR__ . '/packages/phpstan-rules/tests/Rules/CheckClassNamespaceFollowPsr4Rule',
 
+        // many false positives related to file class autoload
+        __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
+
         # tests
         __DIR__ . '/packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php',
 

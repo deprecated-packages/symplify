@@ -36,7 +36,7 @@ final class ComposerJson
     private $description;
 
     /**
-     * @var array
+     * @var string[]
      */
     private $keywords = [];
 
@@ -46,7 +46,7 @@ final class ComposerJson
     private $homepage;
 
     /**
-     * @var string|array|null
+     * @var string|string[]|null
      */
     private $license;
 
@@ -468,11 +468,17 @@ final class ComposerJson
         return $this->description;
     }
 
+    /**
+     * @param string[] $keywords
+     */
     public function setKeywords(array $keywords): void
     {
         $this->keywords = $keywords;
     }
 
+    /**
+     * @return string[]
+     */
     public function getKeywords(): array
     {
         return $this->keywords;

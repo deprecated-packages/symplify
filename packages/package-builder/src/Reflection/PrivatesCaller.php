@@ -17,7 +17,7 @@ final class PrivatesCaller
      * @param object|string $object
      * @param mixed[] $arguments
      */
-    public function callPrivateMethod($object, string $methodName, ...$arguments)
+    public function callPrivateMethod($object, string $methodName, array $arguments)
     {
         $this->ensureIsNotNull($object, __METHOD__);
 

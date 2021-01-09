@@ -165,10 +165,7 @@ CODE_SAMPLE
         }
 
         $namespaceSuffixByDirectoryClass = ltrim(str_replace('/', '\\', dirname($paths[1])), '\\');
-        $namespaceSuffixByNamespaceBeforeClass = rtrim(
-            (string) substr($namespaceBeforeClass, strlen($namespace)),
-            '\\'
-        );
+        $namespaceSuffixByNamespaceBeforeClass = rtrim(substr($namespaceBeforeClass, strlen($namespace)), '\\');
 
         return $namespaceSuffixByDirectoryClass === $namespaceSuffixByNamespaceBeforeClass;
     }
