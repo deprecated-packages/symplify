@@ -6,10 +6,10 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Throw_;
 use PHPStan\Analyser\Scope;
 use ReflectionClass;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Throwable;
@@ -25,6 +25,16 @@ final class NoDefaultExceptionRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use custom exceptions instead of native "%s"';
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
+
+    /**
      * @return string[]
      */
     public function getNodeTypes(): array
@@ -38,27 +48,26 @@ final class NoDefaultExceptionRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->expr instanceof New_) {
+        $thrownExpr = $node->expr;
+        if (! $thrownExpr instanceof New_) {
             return [];
         }
 
-        /** @var New_ $new */
-        $new = $node->expr;
-        if (! $new->class instanceof Name) {
+        $className = $this->simpleNameResolver->getName($thrownExpr->class);
+        if ($className === null) {
             return [];
         }
 
-        $exceptionClass = (string) $new->class;
-        if (! is_a($exceptionClass, Throwable::class, true)) {
+        if (! is_a($className, Throwable::class, true)) {
             return [];
         }
 
-        $reflectionClass = new ReflectionClass($exceptionClass);
+        $reflectionClass = new ReflectionClass($className);
         if (! $reflectionClass->isInternal()) {
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $exceptionClass)];
+        return [sprintf(self::ERROR_MESSAGE, $className)];
     }
 
     public function getRuleDefinition(): RuleDefinition

@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
-use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\BooleanType;
-use Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser;
+use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Naming\BoolishNameAnalyser;
+use Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -29,42 +28,28 @@ final class BoolishClassMethodPrefixRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Method "%s()" returns bool type, so the name should start with is/has/was...';
 
     /**
-     * @var string[]
+     * @var SimpleNameResolver
      */
-    private const BOOL_PREFIXES = [
-        'is',
-        'are',
-        'was',
-        'will',
-        'must',
-        'has',
-        'have',
-        'had',
-        'do',
-        'does',
-        'di',
-        'can',
-        'could',
-        'should',
-        'starts',
-        'contains',
-        'ends',
-        'exists',
-        'supports',
-        'provide',
-        'detect',
-        # array access
-        'offsetExists',
-    ];
+    private $simpleNameResolver;
 
     /**
-     * @var SimpleCallableNodeTraverser
+     * @var BoolishNameAnalyser
      */
-    private $simpleCallableNodeTraverser;
+    private $boolishNameAnalyser;
 
-    public function __construct(SimpleCallableNodeTraverser $simpleCallableNodeTraverser)
-    {
-        $this->simpleCallableNodeTraverser = $simpleCallableNodeTraverser;
+    /**
+     * @var ReturnNodeFinder
+     */
+    private $returnNodeFinder;
+
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        BoolishNameAnalyser $boolishNameAnalyser,
+        ReturnNodeFinder $returnNodeFinder
+    ) {
+        $this->simpleNameResolver = $simpleNameResolver;
+        $this->boolishNameAnalyser = $boolishNameAnalyser;
+        $this->returnNodeFinder = $returnNodeFinder;
     }
 
     /**
@@ -123,56 +108,28 @@ CODE_SAMPLE
 
     private function shouldSkip(ClassMethod $classMethod, Scope $scope, ClassReflection $classReflection): bool
     {
-        $methodName = $classMethod->name->toString();
+        /** @var string $classMethodName */
+        $classMethodName = $this->simpleNameResolver->getName($classMethod);
 
-        $returns = $this->findReturnsWithValues($classMethod);
+        $returns = $this->returnNodeFinder->findReturnsWithValues($classMethod);
         // nothing was returned
         if ($returns === []) {
             return true;
         }
 
-        $methodReflection = $classReflection->getNativeMethod($methodName);
+        $methodReflection = $classReflection->getNativeMethod($classMethodName);
         $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())
             ->getReturnType();
         if (! $returnType instanceof BooleanType && ! $this->areOnlyBoolReturnNodes($returns, $scope)) {
             return true;
         }
 
-        if ($this->isMethodNameMatchingBoolPrefixes($methodName)) {
+        if ($this->boolishNameAnalyser->isBoolish($classMethodName)) {
             return true;
         }
 
         // is required by an interface
-        return $this->isMethodRequiredByParentInterface($classReflection, $methodName);
-    }
-
-    /**
-     * @return Return_[]
-     */
-    private function findReturnsWithValues(ClassMethod $classMethod): array
-    {
-        $returns = [];
-
-        $this->simpleCallableNodeTraverser->traverseNodesWithCallable((array) $classMethod->stmts, function (
-            Node $node
-        ) use (&$returns) {
-            // skip different scope
-            if ($node instanceof FunctionLike) {
-                return NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
-            }
-
-            if (! $node instanceof Return_) {
-                return null;
-            }
-
-            if ($node->expr === null) {
-                return null;
-            }
-
-            $returns[] = $node;
-        });
-
-        return $returns;
+        return $this->isMethodRequiredByParentInterface($classReflection, $classMethodName);
     }
 
     /**
@@ -192,13 +149,6 @@ CODE_SAMPLE
         }
 
         return true;
-    }
-
-    private function isMethodNameMatchingBoolPrefixes(string $methodName): bool
-    {
-        $prefixesPattern = '#^(' . implode('|', self::BOOL_PREFIXES) . ')#';
-
-        return (bool) Strings::match($methodName, $prefixesPattern);
     }
 
     private function isMethodRequiredByParentInterface(ClassReflection $classReflection, string $methodName): bool

@@ -71,7 +71,7 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
             return [];
         }
 
-        $className = $this->getClassName($scope);
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
             return [];
         }

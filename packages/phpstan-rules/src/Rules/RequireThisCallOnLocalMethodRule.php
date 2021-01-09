@@ -6,8 +6,6 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -49,10 +47,6 @@ final class RequireThisCallOnLocalMethodRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->class instanceof Name) {
-            return [];
-        }
-
         if (! $this->simpleNameResolver->isName($node->class, 'self')) {
             return [];
         }
@@ -111,10 +105,11 @@ CODE_SAMPLE
             return null;
         }
 
-        if (! $staticCall->name instanceof Identifier) {
+        $staticCallName = $this->simpleNameResolver->getName($staticCall->name);
+        if ($staticCallName === null) {
             return null;
         }
 
-        return $class->getMethod((string) $staticCall->name);
+        return $class->getMethod($staticCallName);
     }
 }

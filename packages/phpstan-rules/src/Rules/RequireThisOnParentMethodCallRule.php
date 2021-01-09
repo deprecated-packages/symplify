@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -48,10 +47,6 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->class instanceof Name) {
-            return [];
-        }
-
         if (! $this->simpleNameResolver->isName($node->class, 'parent')) {
             return [];
         }

@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -35,12 +36,21 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule implements Con
     private $forbiddenClassMethods = [];
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @param array<string, string[]> $forbiddenClassMethods
      */
-    public function __construct(NodeFinder $nodeFinder, array $forbiddenClassMethods = [])
-    {
+    public function __construct(
+        NodeFinder $nodeFinder,
+        SimpleNameResolver $simpleNameResolver,
+        array $forbiddenClassMethods = []
+    ) {
         $this->nodeFinder = $nodeFinder;
         $this->forbiddenClassMethods = $forbiddenClassMethods;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -57,7 +67,7 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule implements Con
      */
     public function process(Node $node, Scope $scope): array
     {
-        $currentFullyQualifiedClassName = $this->getClassName($scope);
+        $currentFullyQualifiedClassName = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($currentFullyQualifiedClassName === null) {
             return [];
         }

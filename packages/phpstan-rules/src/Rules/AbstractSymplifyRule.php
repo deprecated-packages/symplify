@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
@@ -19,16 +18,6 @@ use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 
 abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, DocumentedRuleInterface
 {
-    public function getShortClassName(Scope $scope): ?string
-    {
-        $className = $this->getClassName($scope);
-        if ($className === null) {
-            return null;
-        }
-
-        return $this->resolveShortName($className);
-    }
-
     public function getNodeType(): string
     {
         return Node::class;
@@ -95,25 +84,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return $this->getFirstParentByType($node, Class_::class);
     }
 
-    protected function getClassName(Scope $scope): ?string
-    {
-        if ($scope->isInTrait()) {
-            $traitReflection = $scope->getTraitReflection();
-            if ($traitReflection === null) {
-                return null;
-            }
-
-            return $traitReflection->getName();
-        }
-
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
-            return null;
-        }
-
-        return $classReflection->getName();
-    }
-
     protected function isInAbstractClass(Node $node): bool
     {
         $class = $this->resolveCurrentClass($node);
@@ -141,15 +111,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return $reflectionFunction->getName() === $methodName;
-    }
-
-    protected function resolveShortName(string $className): string
-    {
-        if (! Strings::contains($className, '\\')) {
-            return $className;
-        }
-
-        return (string) Strings::after($className, '\\', -1);
     }
 
     private function shouldSkipNode(Node $node): bool

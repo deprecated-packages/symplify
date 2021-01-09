@@ -1,5 +1,7 @@
+includes:
+    - ../../../../config/services/services.neon
+
 services:
-    - PhpParser\NodeFinder
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule
         tags: [phpstan.rules.rule]

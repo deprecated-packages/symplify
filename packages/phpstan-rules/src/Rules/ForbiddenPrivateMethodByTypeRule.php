@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -27,11 +28,17 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
     private $forbiddenTypes = [];
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @param array<string, string> $forbiddenTypes
      */
-    public function __construct(array $forbiddenTypes = [])
+    public function __construct(SimpleNameResolver $simpleNameResolver, array $forbiddenTypes = [])
     {
         $this->forbiddenTypes = $forbiddenTypes;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -52,7 +59,7 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
             return [];
         }
 
-        $className = $this->getClassName($scope);
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
             return [];
         }

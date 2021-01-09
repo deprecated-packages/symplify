@@ -174,7 +174,10 @@ CODE_SAMPLE
     private function processProperty(Class_ $class, Property $property): array
     {
         $extends = $class->extends;
-        $propertyName = $property->props[0]->name->toString();
+
+        /** @var string $propertyName */
+        $propertyName = $this->simpleNameResolver->getName($property);
+
         if ($this->isPropertyExistInTraits($class, $propertyName)) {
             return [];
         }

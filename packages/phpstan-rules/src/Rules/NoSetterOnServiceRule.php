@@ -135,7 +135,7 @@ CODE_SAMPLE
 
     private function shouldSkipClass(Scope $scope): bool
     {
-        $className = $this->getClassName($scope);
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
             return true;
         }

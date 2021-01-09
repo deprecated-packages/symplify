@@ -11,11 +11,10 @@ use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -41,10 +40,19 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
      */
     private $nodeComparator;
 
-    public function __construct(NodeFinder $nodeFinder, NodeComparator $nodeComparator)
-    {
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(
+        NodeFinder $nodeFinder,
+        NodeComparator $nodeComparator,
+        SimpleNameResolver $simpleNameResolver
+    ) {
         $this->nodeFinder = $nodeFinder;
         $this->nodeComparator = $nodeComparator;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -67,7 +75,6 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
 
         /** @var Node|null $parent */
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-
         if (! $parent instanceof Node) {
             return [];
         }
@@ -188,18 +195,10 @@ CODE_SAMPLE
             return true;
         }
 
-        if (! $expr->class instanceof FullyQualified) {
+        if (! $this->simpleNameResolver->isName($expr->class, Strings::class)) {
             return true;
         }
 
-        if ($expr->class->toString() !== Strings::class) {
-            return true;
-        }
-
-        if (! $expr->name instanceof Identifier) {
-            return true;
-        }
-
-        return $expr->name->toString() !== 'match';
+        return ! $this->simpleNameResolver->isName($expr->name, 'match');
     }
 }

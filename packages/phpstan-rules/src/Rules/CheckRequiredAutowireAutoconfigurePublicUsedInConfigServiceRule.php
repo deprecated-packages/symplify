@@ -6,10 +6,10 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -28,6 +28,16 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule exte
      * @var string[]
      */
     private const REQUIRED_METHODS = ['autowire', 'autoconfigure', 'public'];
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
 
     /**
      * @return string[]
@@ -53,17 +63,13 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule exte
             return [];
         }
 
-        /** @var Identifier $methodIdentifier */
-        $methodIdentifier = $node->name;
-
-        // ensure start with ->defaults()
-        if ($methodIdentifier->toString() !== 'defaults') {
+        if (! $this->simpleNameResolver->isName($node->name, 'defaults')) {
             return [];
         }
 
         $methodCallNames = $this->getMethodCallNames($node);
-        foreach (self::REQUIRED_METHODS as $method) {
-            if (! in_array($method, $methodCallNames, true)) {
+        foreach (self::REQUIRED_METHODS as $requireMethod) {
+            if (! in_array($requireMethod, $methodCallNames, true)) {
                 return [self::ERROR_MESSAGE];
             }
         }
@@ -109,8 +115,13 @@ CODE_SAMPLE
     {
         $methodCalls = [];
         while ($methodCall) {
-            if ($methodCall instanceof MethodCall && $methodCall->name instanceof Identifier) {
-                $methodCalls[] = $methodCall->name->toString();
+            if ($methodCall instanceof MethodCall) {
+                $methodCallName = $this->simpleNameResolver->getName($methodCall->name);
+                if ($methodCallName === null) {
+                    continue;
+                }
+
+                $methodCalls[] = $methodCallName;
             }
 
             $methodCall = $methodCall->getAttribute(PHPStanAttributeKey::PARENT);

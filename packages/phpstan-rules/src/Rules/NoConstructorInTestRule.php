@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -23,6 +24,16 @@ final class NoConstructorInTestRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Do not use constructor in tests. Move to setUp() method';
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
+
+    /**
      * @return string[]
      */
     public function getNodeTypes(): array
@@ -36,11 +47,11 @@ final class NoConstructorInTestRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ((string) $node->name !== MethodName::CONSTRUCTOR) {
+        if (! $this->simpleNameResolver->isName($node, MethodName::CONSTRUCTOR)) {
             return [];
         }
 
-        $className = $this->getClassName($scope);
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
             return [];
         }

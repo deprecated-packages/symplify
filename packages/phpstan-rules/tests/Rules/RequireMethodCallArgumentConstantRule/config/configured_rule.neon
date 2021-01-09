@@ -1,3 +1,6 @@
+includes:
+    - ../../../../config/services/services.neon
+
 services:
     -
         class: Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule
@@ -11,6 +14,3 @@ services:
                 PhpParser\Node:
                     getAttribute: [0]
                     setAttribute: [0]
-
-    - Symplify\PHPStanRules\Types\ContainsTypeAnalyser
-    - Symplify\PHPStanRules\Matcher\PositionMatcher

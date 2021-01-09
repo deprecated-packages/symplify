@@ -9,8 +9,8 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Matcher\PositionMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -37,12 +37,21 @@ final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule i
     private $positionMatcher;
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @param array<class-string, mixed[]> $constantArgByMethodByType
      */
-    public function __construct(PositionMatcher $positionMatcher, array $constantArgByMethodByType = [])
-    {
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        PositionMatcher $positionMatcher,
+        array $constantArgByMethodByType = []
+    ) {
         $this->constantArgByMethodByType = $constantArgByMethodByType;
         $this->positionMatcher = $positionMatcher;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -59,16 +68,21 @@ final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule i
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->name instanceof Identifier) {
+        $methodCallName = $this->simpleNameResolver->getName($node->name);
+        if ($methodCallName === null) {
             return [];
         }
 
         $errorMessages = [];
 
-        $methodName = (string) $node->name;
-
         foreach ($this->constantArgByMethodByType as $type => $positionsByMethods) {
-            $positions = $this->positionMatcher->matchPositions($node, $scope, $type, $positionsByMethods, $methodName);
+            $positions = $this->positionMatcher->matchPositions(
+                $node,
+                $scope,
+                $type,
+                $positionsByMethods,
+                $methodCallName
+            );
             if ($positions === null) {
                 continue;
             }

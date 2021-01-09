@@ -6,8 +6,8 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -34,12 +34,21 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
     private $forbiddenFunctions = [];
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @param string[] $forbiddenFunctions
      */
-    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher, array $forbiddenFunctions)
-    {
+    public function __construct(
+        ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
+        SimpleNameResolver $simpleNameResolver,
+        array $forbiddenFunctions
+    ) {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
         $this->forbiddenFunctions = $forbiddenFunctions;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -56,11 +65,11 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->name instanceof Name) {
+        $funcName = $this->simpleNameResolver->getName($node);
+        if ($funcName === null) {
             return [];
         }
 
-        $funcName = $node->name->toString();
         if (! $this->arrayStringAndFnMatcher->isMatch($funcName, $this->forbiddenFunctions)) {
             return [];
         }

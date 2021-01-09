@@ -14,6 +14,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Autodiscovery\Discovery;
 use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 use Symplify\FlexLoader\Flex\FlexLoader;
@@ -66,12 +67,19 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractSymplifyRul
      */
     private $scalarTypeAnalyser;
 
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
     public function __construct(
         VariableAsParamAnalyser $variableAsParamAnalyser,
-        ScalarTypeAnalyser $scalarTypeAnalyser
+        ScalarTypeAnalyser $scalarTypeAnalyser,
+        SimpleNameResolver $simpleNameResolver
     ) {
         $this->variableAsParamAnalyser = $variableAsParamAnalyser;
         $this->scalarTypeAnalyser = $scalarTypeAnalyser;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -158,7 +166,7 @@ CODE_SAMPLE
 
     private function isClassAllowed(Scope $scope): bool
     {
-        $className = $this->getClassName($scope);
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
             return false;
         }
