@@ -12,6 +12,7 @@ use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
@@ -76,7 +77,7 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->isInClassMethodNamed($scope, MethodName::CONSTRUCTOR)) {
+        if (! $this->isInConstructor($scope)) {
             return [];
         }
 
@@ -156,5 +157,15 @@ CODE_SAMPLE
         $className = $classReflection->getName();
 
         return $this->arrayStringAndFnMatcher->isMatch($className, self::SKIP_CLASS_NAMES);
+    }
+
+    private function isInConstructor(Scope $scope): bool
+    {
+        $reflectionFunction = $scope->getFunction();
+        if (! $reflectionFunction instanceof MethodReflection) {
+            return false;
+        }
+
+        return $reflectionFunction->getName() === MethodName::CONSTRUCTOR;
     }
 }

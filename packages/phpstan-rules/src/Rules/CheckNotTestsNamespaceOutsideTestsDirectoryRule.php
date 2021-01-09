@@ -8,6 +8,8 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\ValueObject\Regex;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -20,6 +22,16 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymp
      * @var string
      */
     private const ERROR_MESSAGE = '"*Test.php" file cannot be located outside "Tests" namespace';
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
 
     /**
      * @return string[]
@@ -35,7 +47,7 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymp
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->containsNamespace($node, 'Tests')) {
+        if ($this->simpleNameResolver->isNameMatch($node, Regex::TESTS_PART_REGEX)) {
             return [];
         }
 
