@@ -9,13 +9,10 @@ use Rector\DeadCode\Rector\Class_\RemoveUnusedClassesRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Privatization\Rector\ClassMethod\PrivatizeLocalOnlyMethodRector;
 use Rector\Set\ValueObject\SetList;
-use Rector\TypeDeclaration\Rector\ClassMethod\AddArrayParamDocTypeRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
-
-    $services->set(AddArrayParamDocTypeRector::class);
 
     $services->set(StringClassNameToClassConstantRector::class)
         ->call('configure', [[
