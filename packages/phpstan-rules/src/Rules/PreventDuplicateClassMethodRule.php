@@ -95,7 +95,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var ClassMethd $node */
+        /** @var ClassMethod $node */
         if ($this->isConstructorOrInTestClass($node, $className)) {
             return [];
         }
@@ -177,7 +177,7 @@ CODE_SAMPLE
 
     private function getPrintStmts(ClassMethod $classMethod): string
     {
-        $content = $this->printerStandard->prettyPrint($classMethod->stmts);
+        $content = $this->printerStandard->prettyPrint((array) $classMethod->stmts);
         return Strings::replace($content, self::VARIABLE_REGEX, function (array $match): string {
             return '$a';
         });
