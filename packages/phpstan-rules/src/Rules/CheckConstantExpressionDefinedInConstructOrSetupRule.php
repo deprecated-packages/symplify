@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use PhpParser\ConstExprEvaluationException;
-use PhpParser\ConstExprEvaluator;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
@@ -15,6 +13,7 @@ use PhpParser\Node\Stmt\For_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
@@ -37,11 +36,6 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     private $nodeFinder;
 
     /**
-     * @var ConstExprEvaluator
-     */
-    private $constExprEvaluator;
-
-    /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
@@ -51,16 +45,21 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
      */
     private $parentNodeFinder;
 
+    /**
+     * @var NodeValueResolver
+     */
+    private $nodeValueResolver;
+
     public function __construct(
         NodeFinder $nodeFinder,
         SimpleNameResolver $simpleNameResolver,
-        ConstExprEvaluator $constExprEvaluator,
+        NodeValueResolver $nodeValueResolver,
         ParentNodeFinder $parentNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->constExprEvaluator = $constExprEvaluator;
         $this->parentNodeFinder = $parentNodeFinder;
+        $this->nodeValueResolver = $nodeValueResolver;
     }
 
     /**
@@ -102,7 +101,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        if (! $this->isConstantExpr($node->expr)) {
+        if (! $this->isConstantExpr($node->expr, $scope)) {
             return [];
         }
 
@@ -146,14 +145,14 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isConstantExpr(Expr $expr): bool
+    private function isConstantExpr(Expr $expr, Scope $scope): bool
     {
-        try {
-            $this->constExprEvaluator->evaluateDirectly($expr);
-            return true;
-        } catch (ConstExprEvaluationException $constExprEvaluationException) {
+        $value = $this->nodeValueResolver->resolve($expr, $scope);
+        if ($value === null) {
             return false;
         }
+
+        return $value !== '';
     }
 
     private function isNotInsideClassMethodDirectly(Node $node): bool
@@ -213,7 +212,7 @@ CODE_SAMPLE
     private function isInInstatiationClassMethod(Assign $assign): bool
     {
         $classMethod = $this->parentNodeFinder->getFirstParentByType($assign, ClassMethod::class);
-        if ($classMethod === null) {
+        if (! $classMethod instanceof ClassMethod) {
             return true;
         }
 

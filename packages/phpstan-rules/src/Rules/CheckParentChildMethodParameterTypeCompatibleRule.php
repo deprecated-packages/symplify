@@ -13,6 +13,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
@@ -45,14 +46,21 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
      */
     private $parentNodeFinder;
 
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
     public function __construct(
         ParentMethodAnalyser $parentMethodAnalyser,
         ParentClassMethodNodeResolver $parentClassMethodNodeResolver,
-        ParentNodeFinder $parentNodeFinder
+        ParentNodeFinder $parentNodeFinder,
+        SimpleNameResolver $simpleNameResolver
     ) {
         $this->parentMethodAnalyser = $parentMethodAnalyser;
         $this->parentClassMethodNodeResolver = $parentClassMethodNodeResolver;
         $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -162,18 +170,11 @@ CODE_SAMPLE
      */
     private function getParamType(Node $node): ?string
     {
-        if ($node instanceof Identifier) {
-            return (string) $node;
-        }
-        if ($node instanceof Name) {
-            return (string) $node;
-        }
         if ($node instanceof NullableType) {
             $node = $node->type;
-            return $this->getParamType($node);
         }
 
-        return null;
+        return $this->simpleNameResolver->getName($node);
     }
 
     private function shouldSkipClass(Class_ $class): bool
