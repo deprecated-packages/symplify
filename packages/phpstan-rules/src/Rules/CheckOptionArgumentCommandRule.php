@@ -209,12 +209,12 @@ CODE_SAMPLE
 
     private function isInvalidMethodCallFound(
         ClassMethod $executeClassMethod,
-        Expr $passedArg,
+        Expr $argExpr,
         string $invalidMethodCall
     ): bool {
         return (bool) $this->nodeFinder->findFirst(
             (array) $executeClassMethod->stmts,
-            function (Node $node) use ($passedArg, $invalidMethodCall, $executeClassMethod): bool {
+            function (Node $node) use ($argExpr, $invalidMethodCall, $executeClassMethod): bool {
                 if (! $node instanceof MethodCall) {
                     return false;
                 }
@@ -234,9 +234,8 @@ CODE_SAMPLE
                     return false;
                 }
 
-                return $this->nodeComparator->areNodesEqual($node->args[0]->value, $passedArg);
+                return $this->nodeComparator->areNodesEqual($node->args[0]->value, $argExpr);
             }
         );
-        return $isFoundInvalidMethodCall;
     }
 }

@@ -151,7 +151,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
             );
             $this->easyCodingStandardStyle->error($errorMessage);
         }
-        if (! $fileDiffsCount) {
+        if ($fileDiffsCount === 0) {
             return;
         }
         if ($this->configuration->isFixer()) {

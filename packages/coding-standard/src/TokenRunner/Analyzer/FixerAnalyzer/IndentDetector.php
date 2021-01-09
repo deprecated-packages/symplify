@@ -33,7 +33,7 @@ final class IndentDetector
                 return substr_count($token->getContent(), $indent, (int) $lastNewlinePos);
             }
             if ($lastNewlinePos !== false) {
-                return substr_count($token->getContent(), $indent, (int) $lastNewlinePos);
+                return substr_count($token->getContent(), $indent, $lastNewlinePos);
             }
         }
 
