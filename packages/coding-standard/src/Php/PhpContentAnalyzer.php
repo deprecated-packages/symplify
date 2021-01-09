@@ -102,7 +102,10 @@ final class PhpContentAnalyzer
 
                 if ($tokenKind === T_VARIABLE) {
                     $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
-                    if ($nextToken === [] || ! is_array($nextToken)) {
+                    if ($nextToken === []) {
+                        return false;
+                    }
+                    if (! is_array($nextToken)) {
                         return false;
                     }
 

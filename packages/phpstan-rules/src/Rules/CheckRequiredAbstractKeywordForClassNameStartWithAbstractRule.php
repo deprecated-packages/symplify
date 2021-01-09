@@ -39,8 +39,10 @@ final class CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule extend
         /** @var Identifier $shortClassName */
         $shortClassName = $node->name;
         $className = ucfirst($shortClassName->toString());
-
-        if ($node->isAbstract() || ! Strings::startsWith($className, 'Abstract')) {
+        if ($node->isAbstract()) {
+            return [];
+        }
+        if (! Strings::startsWith($className, 'Abstract')) {
             return [];
         }
 

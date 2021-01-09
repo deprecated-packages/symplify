@@ -116,8 +116,10 @@ CODE_SAMPLE
         if ($reflectionMethod->isProtected() && $classMethod->isProtected()) {
             return true;
         }
-
-        return $reflectionMethod->isPrivate() && $classMethod->isPrivate();
+        if (! $reflectionMethod->isPrivate()) {
+            return false;
+        }
+        return $classMethod->isPrivate();
     }
 
     private function resolveReflectionMethodVisibilityAsStrings(ReflectionMethod $reflectionMethod): string

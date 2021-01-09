@@ -35,15 +35,20 @@ final class WhitespacesFixerConfigFactory
     private function resolveIndentation(): string
     {
         $indentation = $this->parameterProvider->provideParameter('indentation');
-        if ($indentation === 'tab' || $indentation === Spacing::ONE_TAB) {
+        if ($indentation === 'tab') {
+            return Spacing::ONE_TAB;
+        }
+        if ($indentation === Spacing::ONE_TAB) {
             return Spacing::ONE_TAB;
         }
 
         if ($indentation === Spacing::TWO_SPACES) {
             return Spacing::TWO_SPACES;
         }
-
-        if ($indentation === 'spaces' || $indentation === Spacing::FOUR_SPACES) {
+        if ($indentation === 'spaces') {
+            return Spacing::FOUR_SPACES;
+        }
+        if ($indentation === Spacing::FOUR_SPACES) {
             return Spacing::FOUR_SPACES;
         }
 

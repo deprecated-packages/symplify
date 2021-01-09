@@ -115,9 +115,11 @@ final class ImportCaseConverter implements CaseConverterInterface
         if ($value !== null) {
             return false;
         }
-
         // follow by default value for "ignore_errors"
-        return isset($arguments[YamlKey::IGNORE_ERRORS]) && $arguments[YamlKey::IGNORE_ERRORS] === false;
+        if (! isset($arguments[YamlKey::IGNORE_ERRORS])) {
+            return false;
+        }
+        return $arguments[YamlKey::IGNORE_ERRORS] === false;
     }
 
     /**
@@ -134,10 +136,12 @@ final class ImportCaseConverter implements CaseConverterInterface
 
     private function resolveExpr($value): Expr
     {
-        if (is_bool($value) || in_array($value, ['annotations', 'directory', 'glob'], true)) {
+        if (is_bool($value)) {
             return BuilderHelpers::normalizeValue($value);
         }
-
+        if (in_array($value, ['annotations', 'directory', 'glob'], true)) {
+            return BuilderHelpers::normalizeValue($value);
+        }
         if ($value === 'not_found') {
             return new String_('not_found');
         }

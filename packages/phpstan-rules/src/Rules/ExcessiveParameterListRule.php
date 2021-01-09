@@ -92,10 +92,12 @@ CODE_SAMPLE
 
     private function resolveName(FunctionLike $functionLike): string
     {
-        if ($functionLike instanceof ClassMethod || $functionLike instanceof Function_) {
+        if ($functionLike instanceof ClassMethod) {
             return (string) $functionLike->name;
         }
-
+        if ($functionLike instanceof Function_) {
+            return (string) $functionLike->name;
+        }
         if ($functionLike instanceof ArrowFunction) {
             return 'arrow function';
         }

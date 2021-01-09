@@ -69,10 +69,12 @@ final class CheckerServiceParametersShifter
      */
     public function process(array $configuration): array
     {
-        if (! isset($configuration[self::SERVICES_KEY]) || ! is_array($configuration[self::SERVICES_KEY])) {
+        if (! isset($configuration[self::SERVICES_KEY])) {
             return $configuration;
         }
-
+        if (! is_array($configuration[self::SERVICES_KEY])) {
+            return $configuration;
+        }
         $configuration[self::SERVICES_KEY] = $this->processServices($configuration[self::SERVICES_KEY]);
 
         return $configuration;

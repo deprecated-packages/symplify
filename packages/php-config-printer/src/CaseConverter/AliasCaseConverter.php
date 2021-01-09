@@ -136,8 +136,10 @@ final class AliasCaseConverter implements CaseConverterInterface
         if (Strings::match($key, self::NAMED_ALIAS_REGEX)) {
             return true;
         }
-
-        return is_string($values) && $values[0] === '@';
+        if (! is_string($values)) {
+            return false;
+        }
+        return $values[0] === '@';
     }
 
     private function createAliasNode(string $key, string $fullClassName, $serviceValues): MethodCall

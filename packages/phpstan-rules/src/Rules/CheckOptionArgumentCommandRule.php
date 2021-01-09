@@ -156,8 +156,10 @@ CODE_SAMPLE
                 if (! $node instanceof MethodCall) {
                     return false;
                 }
-
-                if (! $node->name instanceof Identifier || $node->name->toString() !== $invalidMethodCall) {
+                if (! $node->name instanceof Identifier) {
+                    return false;
+                }
+                if ($node->name->toString() !== $invalidMethodCall) {
                     return false;
                 }
 
@@ -184,9 +186,13 @@ CODE_SAMPLE
     private function getExecuteClassMethod(Class_ $class): ?Node
     {
         return $this->nodeFinder->findFirst($class, function (Node $node): bool {
-            return $node instanceof ClassMethod
-                && $node->name instanceof Identifier
-                && $node->name->toString() === 'execute';
+            if (! $node instanceof ClassMethod) {
+                return false;
+            }
+            if (! $node->name instanceof Identifier) {
+                return false;
+            }
+            return $node->name->toString() === 'execute';
         });
     }
 
@@ -212,7 +218,9 @@ CODE_SAMPLE
         if ($className === null) {
             return false;
         }
-
-        return $scope->getType($methodCall->var) instanceof ThisType && is_a($className, Command::class, true);
+        if (! $scope->getType($methodCall->var) instanceof ThisType) {
+            return false;
+        }
+        return is_a($className, Command::class, true);
     }
 }

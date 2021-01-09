@@ -50,7 +50,10 @@ final class ComposerPackageSorter
                 self::REQUIREMENT_TYPE_REGEX,
                 function (array $match): string {
                     $name = $match['name'];
-                    if ($name === 'php' || $name === 'hhvm') {
+                    if ($name === 'php') {
+                        return '0-' . $name;
+                    }
+                    if ($name === 'hhvm') {
                         return '0-' . $name;
                     }
                     if ($name === 'ext') {

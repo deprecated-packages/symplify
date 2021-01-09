@@ -198,8 +198,10 @@ final class LineLengthTransformer
         if ($nextNextToken->isComment()) {
             return true;
         }
-
         // if next token is just space, turn it to newline
-        return $nextToken->isWhitespace(' ') && $nextNextToken->isComment();
+        if (! $nextToken->isWhitespace(' ')) {
+            return false;
+        }
+        return $nextNextToken->isComment();
     }
 }

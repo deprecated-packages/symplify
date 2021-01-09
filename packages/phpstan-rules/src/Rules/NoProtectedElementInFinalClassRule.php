@@ -158,8 +158,10 @@ CODE_SAMPLE
         }
 
         $methodName = (string) $classMethod->name;
-        if ($this->traitMethodAnalyser->doesMethodExistInClassTraits($class, $methodName)
-            || $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
+        if ($this->traitMethodAnalyser->doesMethodExistInClassTraits($class, $methodName)) {
+            return [];
+        }
+        if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
             return [];
         }
 
@@ -173,8 +175,10 @@ CODE_SAMPLE
     {
         $extends = $class->extends;
         $propertyName = $property->props[0]->name->toString();
-        if ($this->isPropertyExistInTraits($class, $propertyName)
-            || ($extends && $this->isPropertyExistInParentClass($extends, $propertyName))) {
+        if ($this->isPropertyExistInTraits($class, $propertyName)) {
+            return [];
+        }
+        if ($extends && $this->isPropertyExistInParentClass($extends, $propertyName)) {
             return [];
         }
 

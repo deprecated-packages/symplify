@@ -144,6 +144,9 @@ CODE_SAMPLE
 
     private function isSkippedType(Type $callerType, string $allowedChainType): bool
     {
-        return $callerType instanceof TypeWithClassName && is_a($callerType->getClassName(), $allowedChainType, true);
+        if (! $callerType instanceof TypeWithClassName) {
+            return false;
+        }
+        return is_a($callerType->getClassName(), $allowedChainType, true);
     }
 }

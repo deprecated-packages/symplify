@@ -92,9 +92,11 @@ final class KeywordHighlighter
         if (Strings::match($word, self::ANNOTATION_REGEX)) {
             return true;
         }
-
         // already in code quotes
-        if (Strings::startsWith($word, '`') || Strings::endsWith($word, '`')) {
+        if (Strings::startsWith($word, '`')) {
+            return false;
+        }
+        if (Strings::endsWith($word, '`')) {
             return false;
         }
 
@@ -123,8 +125,10 @@ final class KeywordHighlighter
         if (Strings::match($word, self::METHOD_NAME_REGEX)) {
             return true;
         }
-
-        if (function_exists($word) || function_exists(trim($word, '()'))) {
+        if (function_exists($word)) {
+            return true;
+        }
+        if (function_exists(trim($word, '()'))) {
             return true;
         }
 

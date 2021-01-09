@@ -114,9 +114,11 @@ CODE_SAMPLE
         if ($assign->expr instanceof FuncCall && $this->simpleNameResolver->isName($assign->expr->name, 'explode')) {
             return true;
         }
-
         // Strings::split() is allowed
-        return $assign->expr instanceof StaticCall && $this->simpleNameResolver->isName($assign->expr->name, 'split');
+        if (! $assign->expr instanceof StaticCall) {
+            return false;
+        }
+        return $this->simpleNameResolver->isName($assign->expr->name, 'split');
     }
 
     private function isVendorProvider(Assign $assign, Scope $scope): bool

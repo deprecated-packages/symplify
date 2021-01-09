@@ -118,7 +118,15 @@ final class ComposerJsonSymlinker
      */
     private function isSamePackageEntry(array $repository, array $repositoriesContent): bool
     {
-        return isset($repository[self::TYPE]) && $repository[self::TYPE] === $repositoriesContent[self::TYPE]
-            && isset($repository[self::URL]) && $repository[self::URL] === $repositoriesContent[self::URL];
+        if (! isset($repository[self::TYPE])) {
+            return false;
+        }
+        if ($repository[self::TYPE] !== $repositoriesContent[self::TYPE]) {
+            return false;
+        }
+        if (! isset($repository[self::URL])) {
+            return false;
+        }
+        return $repository[self::URL] === $repositoriesContent[self::URL];
     }
 }

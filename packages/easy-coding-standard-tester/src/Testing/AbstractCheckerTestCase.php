@@ -190,6 +190,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         string $fixedFile,
         SmartFileInfo $fixtureFileInfo
     ): void {
+        $processedFileContent = null;
         $this->ensureSomeCheckersAreRegistered();
 
         if ($this->fixerFileProcessor->getCheckers() !== []) {

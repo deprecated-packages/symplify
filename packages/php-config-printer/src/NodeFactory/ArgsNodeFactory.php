@@ -235,8 +235,10 @@ final class ArgsNodeFactory
         }
 
         $value = ltrim($value, '\\');
-
-        if (ctype_upper($value[0]) && class_exists($value) || interface_exists($value)) {
+        if (ctype_upper($value[0]) && class_exists($value)) {
+            return $this->resolveClassType($skipClassesToConstantReference, $value);
+        }
+        if (interface_exists($value)) {
             return $this->resolveClassType($skipClassesToConstantReference, $value);
         }
 

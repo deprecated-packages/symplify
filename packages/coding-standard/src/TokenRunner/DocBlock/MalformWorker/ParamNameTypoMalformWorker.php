@@ -33,9 +33,11 @@ final class ParamNameTypoMalformWorker extends AbstractMalformWorker
                 unset($argumentNames[$key]);
             }
         }
-
         // nothing to edit, all arguments are correct or there are no more @param annotations
-        if ($argumentNames === [] || $paramNames === []) {
+        if ($argumentNames === []) {
+            return $docContent;
+        }
+        if ($paramNames === []) {
             return $docContent;
         }
 
