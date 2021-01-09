@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
@@ -57,20 +56,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         }
 
         return null;
-    }
-
-    public function resolveClassLikeName(ClassLike $classLike): ?string
-    {
-        if (! property_exists($classLike, 'namespacedName')) {
-            return null;
-        }
-
-        // anonymous  class
-        if ($classLike->namespacedName === null) {
-            return null;
-        }
-
-        return (string) $classLike->namespacedName;
     }
 
     protected function resolveCurrentClass(Node $node): ?Class_

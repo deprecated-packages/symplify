@@ -94,16 +94,16 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
             return [];
         }
 
-        $currentFullyQualifiedClassName = $this->resolveClassLikeName($node);
-        if ($currentFullyQualifiedClassName === null) {
+        $className = $this->simpleNameResolver->getName($node);
+        if ($className === null) {
             return [];
         }
 
-        if ($this->shouldSkipClassName($currentFullyQualifiedClassName)) {
+        if ($this->shouldSkipClassName($className)) {
             return [];
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $currentFullyQualifiedClassName);
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $className);
         return [$errorMessage];
     }
 
