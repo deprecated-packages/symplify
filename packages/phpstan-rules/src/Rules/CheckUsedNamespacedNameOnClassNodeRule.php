@@ -13,6 +13,7 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -32,9 +33,15 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver)
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver, ParentNodeFinder $parentNodeFinder)
     {
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -109,7 +116,7 @@ CODE_SAMPLE
     private function isVariableNamedShortClassName(PropertyFetch $propertyFetch): bool
     {
         /** @var Assign|null $assign */
-        $assign = $this->getFirstParentByType($propertyFetch, Assign::class);
+        $assign = $this->parentNodeFinder->getFirstParentByType($propertyFetch, Assign::class);
         if (! $assign instanceof Assign) {
             return false;
         }

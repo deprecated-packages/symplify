@@ -13,6 +13,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 use Symplify\PHPStanRules\ValueObject\MethodName;
@@ -39,12 +40,19 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
      */
     private $parentClassMethodNodeResolver;
 
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
     public function __construct(
         ParentMethodAnalyser $parentMethodAnalyser,
-        ParentClassMethodNodeResolver $parentClassMethodNodeResolver
+        ParentClassMethodNodeResolver $parentClassMethodNodeResolver,
+        ParentNodeFinder $parentNodeFinder
     ) {
         $this->parentMethodAnalyser = $parentMethodAnalyser;
         $this->parentClassMethodNodeResolver = $parentClassMethodNodeResolver;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -62,7 +70,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     public function process(Node $node, Scope $scope): array
     {
         /** @var Class_|null $class */
-        $class = $this->resolveCurrentClass($node);
+        $class = $this->parentNodeFinder->getFirstParentByType($node, Class_::class);
         if ($class === null) {
             return [];
         }

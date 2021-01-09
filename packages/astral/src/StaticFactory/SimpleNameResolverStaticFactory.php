@@ -9,6 +9,7 @@ use Symplify\Astral\NodeNameResolver\ClassLikeNodeNameResolver;
 use Symplify\Astral\NodeNameResolver\ClassMethodNodeNameResolver;
 use Symplify\Astral\NodeNameResolver\FuncCallNodeNameResolver;
 use Symplify\Astral\NodeNameResolver\IdentifierNodeNameResolver;
+use Symplify\Astral\NodeNameResolver\NamespaceNodeNameResolver;
 
 /**
  * This would be normally handled by standard Symfony or Nette DI,
@@ -21,6 +22,7 @@ final class SimpleNameResolverStaticFactory
         $nameResolvers = [
             new ClassLikeNodeNameResolver(),
             new IdentifierNodeNameResolver(),
+            new NamespaceNodeNameResolver(),
             new ClassMethodNodeNameResolver(),
             new FuncCallNodeNameResolver(),
         ];

@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 use Symfony\Component\Console\Command\Command;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -43,16 +44,23 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
     private $limitsByTypes = [];
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @param array<string, int> $limitsByTypes
      */
     public function __construct(
         AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
+        SimpleNameResolver $simpleNameResolver,
         int $maxClassCognitiveComplexity = 50,
         array $limitsByTypes = []
     ) {
         $this->maxClassCognitiveComplexity = $maxClassCognitiveComplexity;
         $this->astCognitiveComplexityAnalyzer = $astCognitiveComplexityAnalyzer;
         $this->limitsByTypes = $limitsByTypes;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -183,7 +191,7 @@ CODE_SAMPLE
 
     private function resolveAllowedCognitiveComplexity(ClassLike $classLike): int
     {
-        $className = $this->resolveClassLikeName($classLike);
+        $className = $this->simpleNameResolver->getName($classLike);
         if ($className === null) {
             return $this->maxClassCognitiveComplexity;
         }

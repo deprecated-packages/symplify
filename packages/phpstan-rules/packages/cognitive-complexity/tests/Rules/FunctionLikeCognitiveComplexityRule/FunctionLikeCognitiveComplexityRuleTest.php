@@ -47,7 +47,7 @@ final class FunctionLikeCognitiveComplexityRuleTest extends AbstractServiceAware
     {
         return $this->getRuleFromConfig(
             FunctionLikeCognitiveComplexityRule::class,
-            __DIR__ . '/../../../../../packages/cognitive-complexity/config/cognitive-complexity-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

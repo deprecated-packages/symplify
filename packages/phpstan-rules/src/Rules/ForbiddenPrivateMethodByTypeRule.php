@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -33,12 +35,21 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
     private $simpleNameResolver;
 
     /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
+    /**
      * @param array<string, string> $forbiddenTypes
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $forbiddenTypes = [])
-    {
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        ParentNodeFinder $parentNodeFinder,
+        array $forbiddenTypes = []
+    ) {
         $this->forbiddenTypes = $forbiddenTypes;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -64,7 +75,13 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
             return [];
         }
 
-        if ($this->isInAbstractClass($node)) {
+        /** @var Class_|null $class */
+        $class = $this->parentNodeFinder->getFirstParentByType($node, Class_::class);
+        if ($class === null) {
+            return [];
+        }
+
+        if ($class->isAbstract()) {
             return [];
         }
 

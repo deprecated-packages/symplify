@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -28,9 +29,15 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver)
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver, ParentNodeFinder $parentNodeFinder)
     {
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -51,8 +58,8 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        $classMethod = $this->resolveCurrentClassMethod($node);
-        if ($classMethod === null) {
+        $classMethod = $this->parentNodeFinder->getFirstParentByType($node, ClassMethod::class);
+        if (! $classMethod instanceof ClassMethod) {
             return [];
         }
 
@@ -112,7 +119,7 @@ CODE_SAMPLE
 
     private function isMethodNameExistsInCurrentClass(ClassMethod $classMethod, string $methodName): bool
     {
-        $class = $this->resolveCurrentClass($classMethod);
+        $class = $this->parentNodeFinder->getFirstParentByType($classMethod, Class_::class);
         if (! $class instanceof Class_) {
             return false;
         }

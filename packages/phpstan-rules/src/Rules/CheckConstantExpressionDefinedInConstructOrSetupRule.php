@@ -15,6 +15,7 @@ use PhpParser\Node\Stmt\For_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -45,14 +46,21 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
      */
     private $simpleNameResolver;
 
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
     public function __construct(
         NodeFinder $nodeFinder,
         SimpleNameResolver $simpleNameResolver,
-        ConstExprEvaluator $constExprEvaluator
+        ConstExprEvaluator $constExprEvaluator,
+        ParentNodeFinder $parentNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
         $this->constExprEvaluator = $constExprEvaluator;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -204,7 +212,7 @@ CODE_SAMPLE
 
     private function isInInstatiationClassMethod(Assign $assign): bool
     {
-        $classMethod = $this->resolveCurrentClassMethod($assign);
+        $classMethod = $this->parentNodeFinder->getFirstParentByType($assign, ClassMethod::class);
         if ($classMethod === null) {
             return true;
         }

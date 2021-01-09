@@ -7,7 +7,9 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Location\DirectoryChecker;
+use Symplify\PHPStanRules\ValueObject\Regex;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -31,9 +33,15 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule extends AbstractSym
      */
     private $directoryChecker;
 
-    public function __construct(DirectoryChecker $directoryChecker)
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(DirectoryChecker $directoryChecker, SimpleNameResolver $simpleNameResolver)
     {
         $this->directoryChecker = $directoryChecker;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -50,7 +58,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule extends AbstractSym
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->containsNamespace($node, 'Tests')) {
+        if (! $this->simpleNameResolver->isNameMatch($node, Regex::TESTS_PART_REGEX)) {
             return [];
         }
 

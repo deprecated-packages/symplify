@@ -1,0 +1,3 @@
+includes:
+    - ../../../../../packages/cognitive-complexity/config/cognitive-complexity-rules.neon
+    - ../../../../../config/services/services.neon

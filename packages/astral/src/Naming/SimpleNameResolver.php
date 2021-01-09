@@ -105,6 +105,16 @@ final class SimpleNameResolver
         return $this->isName($secondNode, $firstName);
     }
 
+    public function getShortClassNameFromNode(ClassLike $classLike): ?string
+    {
+        $className = $this->getName($classLike);
+        if ($className === null) {
+            return null;
+        }
+
+        return $this->getShortClassName($className);
+    }
+
     public function getShortClassName(string $className): string
     {
         if (! Strings::contains($className, '\\')) {
@@ -124,16 +134,6 @@ final class SimpleNameResolver
         return $this->resolveShortName($className);
     }
 
-    public function getShortClassNameFromNode(ClassLike $classLike): ?string
-    {
-        $className = $this->getName($classLike);
-        if ($className === null) {
-            return null;
-        }
-
-        return $this->getShortClassName($className);
-    }
-
     public function getClassNameFromScope(Scope $scope): ?string
     {
         if ($scope->isInTrait()) {
@@ -151,6 +151,16 @@ final class SimpleNameResolver
         }
 
         return $classReflection->getName();
+    }
+
+    public function isNameMatch(Node $node, string $desiredNameRegex): bool
+    {
+        $name = $this->getName($node);
+        if ($name === null) {
+            return false;
+        }
+
+        return (bool) Strings::match($name, $desiredNameRegex);
     }
 
     private function resolveShortName(string $className): string

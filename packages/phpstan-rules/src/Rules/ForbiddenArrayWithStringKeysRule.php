@@ -18,6 +18,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
@@ -56,12 +57,19 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
      */
     private $parentMethodReturnTypeResolver;
 
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
     public function __construct(
         ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
-        SimpleNameResolver $simpleNameResolver
+        SimpleNameResolver $simpleNameResolver,
+        ParentNodeFinder $parentNodeFinder
     ) {
         $this->parentMethodReturnTypeResolver = $parentMethodReturnTypeResolver;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -132,7 +140,8 @@ CODE_SAMPLE
     private function shouldSkipArray(Array_ $array, Scope $scope): bool
     {
         // skip part of attribute
-        if ((bool) $this->getFirstParentByType($array, Attribute::class)) {
+        $parentAttribute = $this->parentNodeFinder->getFirstParentByType($array, Attribute::class);
+        if ($parentAttribute !== null) {
             return true;
         }
 
