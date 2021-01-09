@@ -36,9 +36,8 @@ final class CheckRequiredMethodNamingRuleTest extends AbstractServiceAwareRuleTe
             [[$errorMessage, 12]],
         ];
 
-        yield [[__DIR__ . '/Fixture/EmptyDocblock.php'], []];
-        yield [[__DIR__ . '/Fixture/WithoutRequired.php'], []];
-        yield [[__DIR__ . '/Fixture/WithRequiredAutowire.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipWithoutRequired.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipCorretName.php'], []];
 
         $errorMessage = sprintf(CheckRequiredMethodNamingRule::ERROR_MESSAGE, 'autowireWithRequiredNotAutowire');
         yield [[__DIR__ . '/Fixture/WithRequiredNotAutowire.php'], [[$errorMessage, 12]]];

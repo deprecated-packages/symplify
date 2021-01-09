@@ -6,5 +6,4 @@ namespace Symplify\PHPStanRules\Tests\Rules\PrefixAbstractClassRule\Fixture;
 
 abstract class AbstractSomeAbstractClass
 {
-
 }

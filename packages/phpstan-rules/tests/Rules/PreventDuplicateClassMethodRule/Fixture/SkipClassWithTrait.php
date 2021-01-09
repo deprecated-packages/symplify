@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture;
 
-class Entity1
+final class SkipClassWithTrait
 {
-    public function setX(string $x)
+    use SkipTraitUsingTrait;
+
+    public function anotherCall()
     {
-        $this->x = $x;
+        return $this->anotherMethod();
     }
 }

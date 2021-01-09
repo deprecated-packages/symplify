@@ -9,8 +9,11 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
+use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Expr\Yield_;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PHPStan\Testing\RuleTestCase;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -23,21 +26,36 @@ final class RequireSkipPrefixForRuleSkippedFixtureRule extends AbstractSymplifyR
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'File "%s" should have prefix "Skip" prefix';
+    public const ERROR_MESSAGE = 'Skipped tested file must start with "Skip" prefix';
 
     /**
      * @var string
      */
-    public const INVERTED_ERROR_MESSAGE = 'File "%s" should not have "Skip" prefix';
+    public const INVERTED_ERROR_MESSAGE = 'File with error cannot start with "Skip" prefix';
 
     /**
      * @var NodeValueResolver
      */
     private $nodeValueResolver;
 
-    public function __construct(NodeValueResolver $nodeValueResolver)
-    {
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        NodeValueResolver $nodeValueResolver,
+        NodeFinder $nodeFinder
+    ) {
         $this->nodeValueResolver = $nodeValueResolver;
+        $this->nodeFinder = $nodeFinder;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -45,38 +63,50 @@ final class RequireSkipPrefixForRuleSkippedFixtureRule extends AbstractSymplifyR
      */
     public function getNodeTypes(): array
     {
-        return [Array_::class];
+        return [Yield_::class];
     }
 
     /**
-     * @param Array_ $node
+     * @param Yield_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
+        if (! $node->value instanceof Array_) {
+            return [];
+        }
+
+        // is yield array in test?
         if ($this->shouldSkipClassName($scope)) {
             return [];
         }
 
-        if (count($node->items) !== 2) {
+        $array = $node->value;
+
+        if (count($array->items) !== 2) {
             return [];
         }
 
-        $firstItem = $node->items[0];
+        $firstItem = $array->items[0];
         if (! $firstItem instanceof ArrayItem) {
             return [];
         }
 
-        $secondItem = $node->items[1];
+        $shortFilePath = $this->resolveShortFileName($firstItem, $scope);
+        if ($shortFilePath === null) {
+            return [];
+        }
+
+        $secondItem = $array->items[1];
         if (! $secondItem instanceof ArrayItem) {
             return [];
         }
 
         if ($this->isEmptyArray($secondItem->value)) {
-            return $this->processSkippedFile($firstItem->value);
+            return $this->processSkippedFile($shortFilePath);
         }
 
-        return $this->processMatchingFile($firstItem->value);
+        return $this->processMatchingFile($shortFilePath);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -140,12 +170,12 @@ CODE_SAMPLE
 
     private function shouldSkipClassName(Scope $scope): bool
     {
-        $className = $this->getClassName($scope);
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
             return true;
         }
 
-        return ! is_a($className, RuleTestCase::class, true);
+        return ! Strings::endsWith($className, 'Test');
     }
 
     private function isEmptyArray(Expr $expr): bool
@@ -160,36 +190,41 @@ CODE_SAMPLE
     /**
      * @return string[]
      */
-    private function processSkippedFile(Expr $expr): array
+    private function processSkippedFile(string $shortFileName): array
     {
-        $filePath = $this->nodeValueResolver->resolve($expr);
-        if (! is_string($filePath)) {
+        if (Strings::startsWith($shortFileName, 'Skip')) {
             return [];
         }
 
-        $fileBaseName = (string) Strings::after($filePath, '/', -1);
-        if (Strings::startsWith($fileBaseName, 'Skip')) {
-            return [];
-        }
-
-        return [sprintf(self::ERROR_MESSAGE, $fileBaseName)];
+        return [self::ERROR_MESSAGE];
     }
 
     /**
      * @return string[]
      */
-    private function processMatchingFile(Expr $expr): array
+    private function processMatchingFile(string $shortFileName): array
     {
-        $filePath = $this->nodeValueResolver->resolve($expr);
-        if (! is_string($filePath)) {
+        if (! Strings::startsWith($shortFileName, 'Skip')) {
             return [];
         }
 
-        $fileBaseName = (string) Strings::after($filePath, '/', -1);
-        if (! Strings::startsWith($fileBaseName, 'Skip')) {
-            return [];
+        return [self::INVERTED_ERROR_MESSAGE];
+    }
+
+    private function resolveShortFileName(ArrayItem $arrayItem, Scope $scope): ?string
+    {
+        /** @var Concat[] $concats */
+        $concats = $this->nodeFinder->findInstanceOf($arrayItem, Concat::class);
+
+        foreach ($concats as $concat) {
+            $resolvedValue = $this->nodeValueResolver->resolve($concat, $scope);
+            if (! is_string($resolvedValue)) {
+                continue;
+            }
+
+            return Strings::after($resolvedValue, DIRECTORY_SEPARATOR, -1);
         }
 
-        return [sprintf(self::INVERTED_ERROR_MESSAGE, $fileBaseName)];
+        return null;
     }
 }

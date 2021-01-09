@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture;
 
-class ValueObject2
+trait SkipTraitUsingTrait
 {
-    public function someMethod(string $x)
-    {
-        return $x;
-    }
+    use SkipSomeTrait;
 }

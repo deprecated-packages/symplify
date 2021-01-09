@@ -7,15 +7,10 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireSkipPrefixForRuleSkippedFixtu
 use PHPStan\Rules\DeadCode\UnusedPrivateConstantRule;
 use PHPStan\Testing\RuleTestCase;
 
-final class ExtraPrefix extends RuleTestCase
+final class MissingPrefixTest
 {
     public function provideData(): \Iterator
     {
-        yield [__DIR__ . '/Fixture/SkipNaming.php', [['message', 100]]];
-    }
-
-    protected function getRule(): \PHPStan\Rules\Rule
-    {
-        return new UnusedPrivateConstantRule();
+        yield [__DIR__ . '/Fixture/CorrectNaming.php', []];
     }
 }
