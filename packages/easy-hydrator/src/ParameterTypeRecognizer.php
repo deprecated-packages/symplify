@@ -76,8 +76,10 @@ final class ParameterTypeRecognizer
         $docNode = $this->getDocNode($reflectionParameter);
 
         $declaringClass = $reflectionParameter->getDeclaringClass();
-
-        if ($declaringClass === null || $docNode === null) {
+        if ($declaringClass === null) {
+            return null;
+        }
+        if ($docNode === null) {
             return null;
         }
 

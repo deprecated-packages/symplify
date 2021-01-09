@@ -57,7 +57,10 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
 
         $stringFormats = explode('%s', $format->value);
         $countStringFormats = count($stringFormats);
-        if ($countStringFormats === 1 || $countStringFormats > 2) {
+        if ($countStringFormats === 1) {
+            return [];
+        }
+        if ($countStringFormats > 2) {
             return [];
         }
 

@@ -33,36 +33,13 @@ final class CheckClassNamespaceFollowPsr4RuleTest extends AbstractServiceAwareRu
         yield [__DIR__ . '/Fixture/InvalidNamespaceTrait.php', [
             [sprintf(CheckClassNamespaceFollowPsr4Rule::ERROR_MESSAGE, 'Trait', 'Foo\Bar'), 7],
         ]];
-        yield [__DIR__ . '/Fixture/MissingFixtureNamespaceClass.php', [
-            [
-                sprintf(
-                    CheckClassNamespaceFollowPsr4Rule::ERROR_MESSAGE,
-                    'Class',
-                    'Symplify\PHPStanRules\Tests\Rules\CheckClassNamespaceFollowPsr4Rule'
-                ),
-                7,
-            ],
-        ]];
-        yield [__DIR__ . '/Fixture/MissingFixtureNamespaceInterface.php', [
-            [
-                sprintf(
-                    CheckClassNamespaceFollowPsr4Rule::ERROR_MESSAGE,
-                    'Interface',
-                    'Symplify\PHPStanRules\Tests\Rules\CheckClassNamespaceFollowPsr4Rule'
-                ),
-                7,
-            ],
-        ]];
-        yield [__DIR__ . '/Fixture/MissingFixtureNamespaceTrait.php', [
-            [
-                sprintf(
-                    CheckClassNamespaceFollowPsr4Rule::ERROR_MESSAGE,
-                    'Trait',
-                    'Symplify\PHPStanRules\Tests\Rules\CheckClassNamespaceFollowPsr4Rule'
-                ),
-                7,
-            ],
-        ]];
+
+        $errorMessage = sprintf(
+            CheckClassNamespaceFollowPsr4Rule::ERROR_MESSAGE,
+            'Class',
+            'Symplify\PHPStanRules\Tests\Rules\CheckClassNamespaceFollowPsr4Rule'
+        );
+        yield [__DIR__ . '/Fixture/MissingFixtureNamespaceClass.php', [[$errorMessage, 7]]];
     }
 
     protected function getRule(): Rule

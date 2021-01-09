@@ -107,7 +107,10 @@ final class UselessDocBlockCleaner
 
     private function isNextFunction(array $reverseTokens, int $index): bool
     {
-        return isset($reverseTokens[$index + 4]) && $reverseTokens[$index + 4]->getContent() === 'function';
+        if (! isset($reverseTokens[$index + 4])) {
+            return false;
+        }
+        return $reverseTokens[$index + 4]->getContent() === 'function';
     }
 
     private function removeSpaces(string $content): string

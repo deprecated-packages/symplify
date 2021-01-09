@@ -228,15 +228,11 @@ final class ArgsNodeFactory
 
         // do not print "\n" as empty space, but use string value instead
         if (in_array($value, ["\r", "\n", "\r\n"], true)) {
-            $string = new String_($value);
-            $string->setAttribute(self::KIND, String_::KIND_DOUBLE_QUOTED);
-
-            return $string;
+            return $this->keepNewline($value);
         }
 
         $value = ltrim($value, '\\');
-
-        if (ctype_upper($value[0]) && class_exists($value) || interface_exists($value)) {
+        if ($this->isClassType($value)) {
             return $this->resolveClassType($skipClassesToConstantReference, $value);
         }
 
@@ -307,5 +303,26 @@ final class ArgsNodeFactory
         }
 
         return $this->commonNodeFactory->createClassReference($value);
+    }
+
+    private function isClassType(string $value): bool
+    {
+        if (! ctype_upper($value[0])) {
+            return false;
+        }
+
+        if (class_exists($value)) {
+            return true;
+        }
+
+        return interface_exists($value);
+    }
+
+    private function keepNewline(string $value): String_
+    {
+        $string = new String_($value);
+        $string->setAttribute(self::KIND, String_::KIND_DOUBLE_QUOTED);
+
+        return $string;
     }
 }

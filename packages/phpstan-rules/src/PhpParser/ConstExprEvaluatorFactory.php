@@ -31,8 +31,10 @@ final class ConstExprEvaluatorFactory
             if ($node instanceof MagicConst) {
                 return get_class($node);
             }
-
-            if ($node instanceof ClassConstFetch || $node instanceof ConstFetch) {
+            if ($node instanceof ClassConstFetch) {
+                return get_class($node);
+            }
+            if ($node instanceof ConstFetch) {
                 return get_class($node);
             }
 

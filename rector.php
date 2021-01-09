@@ -9,13 +9,10 @@ use Rector\DeadCode\Rector\Class_\RemoveUnusedClassesRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Privatization\Rector\ClassMethod\PrivatizeLocalOnlyMethodRector;
 use Rector\Set\ValueObject\SetList;
-use Rector\TypeDeclaration\Rector\ClassMethod\AddArrayParamDocTypeRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
-
-    $services->set(AddArrayParamDocTypeRector::class);
 
     $services->set(StringClassNameToClassConstantRector::class)
         ->call('configure', [[
@@ -43,6 +40,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
         SetList::CODING_STYLE,
+        SetList::PHP_54,
+        SetList::PHP_55,
+        SetList::PHP_56,
         SetList::PHP_70,
         SetList::PHP_71,
         SetList::PHP_72,
@@ -53,13 +53,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::PRIVATIZATION,
         // enable later
         // SetList::DEAD_CLASSES,
-        // SetList::EARLY_RETURN,
+        SetList::EARLY_RETURN,
     ]);
 
-    $parameters->set(Option::PATHS, [
-        __DIR__ . '/packages',
-        __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
-    ]);
+    $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
 
     $parameters->set(Option::SKIP, [
         '*/scoper.inc.php',
@@ -69,7 +66,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/Fixture/*',
         '*/ChangedFilesDetectorSource/*',
         __DIR__ . '/packages/monorepo-builder/packages/init/templates',
-        __DIR__ . '/packages/phpstan-rules/tests/Rules/CheckClassNamespaceFollowPsr4Rule',
+
+        // many false positives related to file class autoload
+        __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
 
         # tests
         __DIR__ . '/packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php',

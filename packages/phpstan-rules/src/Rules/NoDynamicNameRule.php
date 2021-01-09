@@ -76,14 +76,14 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
 
             return [self::ERROR_MESSAGE];
         }
-
         if ($node instanceof StaticPropertyFetch) {
             if (! $node->class instanceof Expr) {
                 return [];
             }
-
             return [self::ERROR_MESSAGE];
-        } elseif (! $node->name instanceof Expr) {
+        }
+
+        if (! $node->name instanceof Expr) {
             return [];
         }
 

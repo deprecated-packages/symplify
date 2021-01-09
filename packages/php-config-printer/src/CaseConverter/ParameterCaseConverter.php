@@ -88,7 +88,10 @@ final class ParameterCaseConverter implements CaseConverterInterface
         $configDirectory = dirname($filePath);
 
         $possibleConfigPath = $configDirectory . '/' . $value;
-        if (is_file($possibleConfigPath) || is_dir($possibleConfigPath)) {
+        if (is_file($possibleConfigPath)) {
+            return $this->commonNodeFactory->createAbsoluteDirExpr($value);
+        }
+        if (is_dir($possibleConfigPath)) {
             return $this->commonNodeFactory->createAbsoluteDirExpr($value);
         }
 

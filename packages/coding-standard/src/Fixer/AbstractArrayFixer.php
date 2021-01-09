@@ -50,8 +50,10 @@ abstract class AbstractArrayFixer extends AbstractSymplifyFixer implements Array
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS)
-            && $tokens->isTokenKindFound(T_DOUBLE_ARROW);
+        if (! $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS)) {
+            return false;
+        }
+        return $tokens->isTokenKindFound(T_DOUBLE_ARROW);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void

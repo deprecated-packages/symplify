@@ -65,7 +65,10 @@ final class DefinitionFinder
     private function isClassExists(?string $class): bool
     {
         try {
-            return is_string($class) && class_exists($class);
+            if (! is_string($class)) {
+                return false;
+            }
+            return class_exists($class);
         } catch (Throwable $throwable) {
             return false;
         }

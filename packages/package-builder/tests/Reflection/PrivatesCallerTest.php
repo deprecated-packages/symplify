@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PackageBuilder\Tests\Reflection;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PackageBuilder\Tests\Reflection\Source\SomeClassWithPrivateMethods;
@@ -17,34 +18,36 @@ final class PrivatesCallerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->privatesCaller = (new PrivatesCaller());
+        $this->privatesCaller = new PrivatesCaller();
     }
 
-    public function testCallPrivateMethod(): void
+    /**
+     * @dataProvider provideData()
+     */
+    public function test($object, string $methodName, array $arguments, int $expectedResult): void
     {
-        $this->assertSame(5, $this->privatesCaller->callPrivateMethod(
-            SomeClassWithPrivateMethods::class,
-            'getNumber'
-        ));
-
-        $this->assertSame(5, $this->privatesCaller->callPrivateMethod(
-            new SomeClassWithPrivateMethods(),
-            'getNumber'
-        ));
-
-        $this->assertSame(40, $this->privatesCaller->callPrivateMethod(
-            new SomeClassWithPrivateMethods(),
-            'plus10',
-            30
-        ));
+        $result = $this->privatesCaller->callPrivateMethod($object, $methodName, $arguments);
+        $this->assertSame($expectedResult, $result);
     }
 
-    public function testCallPrivateMethodWithReference(): void
+    public function provideData(): Iterator
     {
-        $this->assertSame(20, $this->privatesCaller->callPrivateMethodWithReference(
-            new SomeClassWithPrivateMethods(),
-            'multipleByTwo',
-            10
-        ));
+        yield [SomeClassWithPrivateMethods::class, 'getNumber', [], 5];
+        yield [new SomeClassWithPrivateMethods(), 'getNumber', [], 5];
+        yield [new SomeClassWithPrivateMethods(), 'plus10', [30], 40];
+    }
+
+    /**
+     * @dataProvider provideDataReference()
+     */
+    public function testReference($object, string $methodName, $referencedArgument, int $expectedResult): void
+    {
+        $result = $this->privatesCaller->callPrivateMethodWithReference($object, $methodName, $referencedArgument);
+        $this->assertSame($expectedResult, $result);
+    }
+
+    public function provideDataReference(): Iterator
+    {
+        yield [new SomeClassWithPrivateMethods(), 'multipleByTwo', 10, 20];
     }
 }

@@ -29,30 +29,21 @@ final class ParamNameTypoMalformWorker extends AbstractMalformWorker
         // remove correct params
         foreach ($argumentNames as $key => $argumentName) {
             if (in_array($argumentName, $paramNames, true)) {
-                unset($paramNames[array_search($argumentName, $paramNames, true)]);
+                $paramPosition = array_search($argumentName, $paramNames, true);
+                unset($paramNames[$paramPosition]);
                 unset($argumentNames[$key]);
             }
         }
 
         // nothing to edit, all arguments are correct or there are no more @param annotations
-        if ($argumentNames === [] || $paramNames === []) {
+        if ($argumentNames === []) {
+            return $docContent;
+        }
+        if ($paramNames === []) {
             return $docContent;
         }
 
-        // let's try to fix the typos
-        foreach ($argumentNames as $key => $argumentName) {
-            // 1. the same position
-            if (isset($paramNames[$key])) {
-                $typoName = $paramNames[$key];
-                $replacePattern = '#@param(.*?)' . preg_quote($typoName, '#') . '#';
-
-                $docContent = Strings::replace($docContent, $replacePattern, '@param$1' . $argumentName);
-            }
-
-            // @todo other cases
-        }
-
-        return $docContent;
+        return $this->fixTypos($argumentNames, $paramNames, $docContent);
     }
 
     /**
@@ -81,5 +72,26 @@ final class ParamNameTypoMalformWorker extends AbstractMalformWorker
         $docBlock = new DocBlock($docContent);
 
         return $docBlock->getAnnotationsOfType($type);
+    }
+
+    /**
+     * @param string[] $argumentNames
+     * @param string[] $paramNames
+     */
+    private function fixTypos(array $argumentNames, array $paramNames, string $docContent): string
+    {
+        foreach ($argumentNames as $key => $argumentName) {
+            // 1. the same position
+            if (! isset($paramNames[$key])) {
+                continue;
+            }
+
+            $typoName = $paramNames[$key];
+            $replacePattern = '#@param(.*?)' . preg_quote($typoName, '#') . '#';
+
+            $docContent = Strings::replace($docContent, $replacePattern, '@param$1' . $argumentName);
+        }
+
+        return $docContent;
     }
 }

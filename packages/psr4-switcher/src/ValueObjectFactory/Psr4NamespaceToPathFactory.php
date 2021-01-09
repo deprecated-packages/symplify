@@ -55,8 +55,11 @@ final class Psr4NamespaceToPathFactory
         $relativeDirectory = $this->symplifyStrings->subtractFromLeft($uniqueFilePath, $commonFilePathPrefix);
 
         $relativeDirectory = rtrim($relativeDirectory, '/');
-
-        if ($uniqueNamespace === '' || $relativeDirectory === '') {
+        if ($uniqueNamespace === '') {
+            // skip
+            return null;
+        }
+        if ($relativeDirectory === '') {
             // skip
             return null;
         }

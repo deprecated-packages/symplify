@@ -103,10 +103,12 @@ final class ChangelogDumper
 
     private function displayPackageIfDesired(Change $change, bool $withPackages, ?string $priority): void
     {
-        if (! $withPackages || $this->previousPackage === $change->getPackage()) {
+        if (! $withPackages) {
             return;
         }
-
+        if ($this->previousPackage === $change->getPackage()) {
+            return;
+        }
         $headlineLevel = $priority === ChangeSorter::PRIORITY_CATEGORIES ? 4 : 3;
         $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getPackage() . PHP_EOL;
         $this->previousPackage = $change->getPackage();
@@ -114,10 +116,12 @@ final class ChangelogDumper
 
     private function displayCategoryIfDesired(Change $change, bool $withCategories, ?string $priority): void
     {
-        if (! $withCategories || $this->previousCategory === $change->getCategory()) {
+        if (! $withCategories) {
             return;
         }
-
+        if ($this->previousCategory === $change->getCategory()) {
+            return;
+        }
         $headlineLevel = $priority === ChangeSorter::PRIORITY_PACKAGES ? 4 : 3;
         $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getCategory() . PHP_EOL;
         $this->previousCategory = $change->getCategory();

@@ -109,6 +109,9 @@ final class ServiceConverterWorker
         ];
     }
 
+    /**
+     * @return mixed[]
+     */
     private function convertNamedService(array $service): array
     {
         if (! isset($service['class'])) {
@@ -126,6 +129,9 @@ final class ServiceConverterWorker
         return $service;
     }
 
+    /**
+     * @return mixed|mixed[]
+     */
     private function convertSetupToCalls($service)
     {
         if (! is_array($service)) {
@@ -150,6 +156,9 @@ final class ServiceConverterWorker
         return $service;
     }
 
+    /**
+     * @return mixed|mixed[]
+     */
     private function convertArguments($service)
     {
         if (! is_array($service)) {
@@ -208,6 +217,7 @@ final class ServiceConverterWorker
 
     /**
      * @param mixed|null $service
+     * @return mixed[]
      */
     private function convertStringNameService(array $servicesData, int $name, $service): array
     {

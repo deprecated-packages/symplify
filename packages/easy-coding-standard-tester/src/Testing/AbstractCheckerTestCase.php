@@ -19,6 +19,7 @@ use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 {
@@ -190,6 +191,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         string $fixedFile,
         SmartFileInfo $fixtureFileInfo
     ): void {
+        $processedFileContent = null;
         $this->ensureSomeCheckersAreRegistered();
 
         if ($this->fixerFileProcessor->getCheckers() !== []) {
@@ -200,6 +202,10 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
         if ($this->sniffFileProcessor->getCheckers() !== []) {
             $processedFileContent = $this->sniffFileProcessor->processFile($wrongFileInfo);
+        }
+
+        if ($processedFileContent === null) {
+            throw new ShouldNotHappenException();
         }
 
         $this->assertStringEqualsWithFileLocation($fixedFile, $processedFileContent, $fixtureFileInfo);

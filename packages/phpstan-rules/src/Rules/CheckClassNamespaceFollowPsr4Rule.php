@@ -164,9 +164,13 @@ CODE_SAMPLE
             return false;
         }
 
-        $namespaceSuffixByDirectoryClass = ltrim(str_replace('/', '\\', dirname($paths[1])), '\\');
+        $directoryInNamespacedRoot = dirname($paths[1]);
+        $directoryInNamespacedRoot = $this->normalizePath($directoryInNamespacedRoot);
+
+        $namespaceSuffixByDirectoryClass = ltrim($directoryInNamespacedRoot, '\\');
+
         $namespaceSuffixByNamespaceBeforeClass = rtrim(
-            (string) substr($namespaceBeforeClass, strlen($namespace)),
+            Strings::substring($namespaceBeforeClass, strlen($namespace)),
             '\\'
         );
 
@@ -189,5 +193,10 @@ CODE_SAMPLE
         }
 
         return $directory;
+    }
+
+    private function normalizePath(string $path): string
+    {
+        return str_replace('/', '\\', $path);
     }
 }

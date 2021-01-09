@@ -118,6 +118,9 @@ CODE_SAMPLE
     private function isMethodNameExistsInCurrentClass(ClassMethod $classMethod, string $methodName): bool
     {
         $class = $this->resolveCurrentClass($classMethod);
-        return $class instanceof Class_ && $class->getMethod($methodName) instanceof ClassMethod;
+        if (! $class instanceof Class_) {
+            return false;
+        }
+        return $class->getMethod($methodName) instanceof ClassMethod;
     }
 }

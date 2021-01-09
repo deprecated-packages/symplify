@@ -61,7 +61,9 @@ final class ClassServiceCaseConverter implements CaseConverterInterface
         if (is_array($values) && count($values) !== 1) {
             return false;
         }
-
-        return isset($values[YamlKey::CLASS_KEY]) && ! isset($values[YamlKey::ALIAS]);
+        if (! isset($values[YamlKey::CLASS_KEY])) {
+            return false;
+        }
+        return ! isset($values[YamlKey::ALIAS]);
     }
 }
