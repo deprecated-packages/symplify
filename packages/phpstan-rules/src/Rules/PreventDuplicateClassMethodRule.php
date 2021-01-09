@@ -5,19 +5,14 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
-use PhpParser\Comment\Doc;
 use PhpParser\Node;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\NodeFinder;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\PHPStanRules\ValueObject\MethodName;
-use Symplify\PHPStanRules\ValueObject\PhpParserAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -42,6 +37,12 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private const EXCLUDED_TYPES = [Kernel::class, Extension::class];
 
     /**
+     * @var string
+     * @see https://regex101.com/r/cJZZgC/1
+     */
+    private const VARIABLE_REGEX = '#\$\w+[^\s]#';
+
+    /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
@@ -50,16 +51,6 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      * @var Standard
      */
     private $printerStandard;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var NodeComparator
-     */
-    private $nodeComparator;
 
     /**
      * @var array<string, string>
@@ -71,16 +62,10 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     private $contentMethodByName = [];
 
-    public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        Standard $printerStandard,
-        NodeFinder $nodeFinder,
-        NodeComparator $nodeComparator
-    ) {
+    public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard)
+    {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->printerStandard = $printerStandard;
-        $this->nodeFinder = $nodeFinder;
-        $this->nodeComparator = $nodeComparator;
     }
 
     /**
@@ -193,9 +178,9 @@ CODE_SAMPLE
     private function getPrintStmts(ClassMethod $classMethod): string
     {
         $content = $this->printerStandard->prettyPrint($classMethod->stmts);
-        return preg_replace_callback('#\$\w+[^\s]#', function ($match) {
+        return Strings::replace($content, self::VARIABLE_REGEX, function (array $match): string {
             return '$a';
-        }, $content);
+        });
     }
 
     private function isExcludedTypes(string $className): bool
