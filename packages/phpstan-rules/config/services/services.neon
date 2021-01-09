@@ -42,3 +42,4 @@ services:
     - Symplify\PHPStanRules\Reflection\TraitMethodAnalyser
     - Symplify\PHPStanRules\Naming\BoolishNameAnalyser
     - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
+    - Symplify\PHPStanRules\NodeFinder\ParentNodeFinder

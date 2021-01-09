@@ -10,12 +10,14 @@ use PhpParser\Node\Expr\ErrorSuppress;
 use PhpParser\Node\Stmt;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
+use Webmozart\Assert\Assert;
 
 /**
+ * @template T as Node
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNodeRule\ForbiddenNodeRuleTest
  */
 final class ForbiddenNodeRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
@@ -26,7 +28,7 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
     public const ERROR_MESSAGE = '"%s" is forbidden to use';
 
     /**
-     * @var string[]
+     * @var class-string<T>[]
      */
     private $forbiddenNodes = [];
 
@@ -36,21 +38,20 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
     private $standard;
 
     /**
-     * @param string[] $forbiddenNodes
+     * @var ParentNodeFinder
      */
-    public function __construct(Standard $standard, array $forbiddenNodes = [])
-    {
-        foreach ($forbiddenNodes as $forbiddenNode) {
-            if (is_a($forbiddenNode, Node::class, true)) {
-                continue;
-            }
+    private $parentNodeFinder;
 
-            $message = sprintf('"%s" must be child of "%s"', $forbiddenNode, Node::class);
-            throw new ShouldNotHappenException($message);
-        }
+    /**
+     * @param class-string<T>[] $forbiddenNodes
+     */
+    public function __construct(Standard $standard, ParentNodeFinder $parentNodeFinder, array $forbiddenNodes = [])
+    {
+        Assert::allIsAOf($forbiddenNodes, Node::class);
 
         $this->forbiddenNodes = $forbiddenNodes;
         $this->standard = $standard;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -111,7 +112,7 @@ CODE_SAMPLE
     private function hasIntentionallyDocComment(Node $node): bool
     {
         if (! $node instanceof Stmt) {
-            $node = $this->getFirstParentByType($node, Stmt::class);
+            $node = $this->parentNodeFinder->getFirstParentByType($node, Stmt::class);
         }
 
         if ($node === null) {

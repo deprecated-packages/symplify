@@ -21,6 +21,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -50,14 +51,21 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
      */
     private $nodeComparator;
 
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
     public function __construct(
         NodeComparator $nodeComparator,
         NodeFinder $nodeFinder,
-        SimpleNameResolver $simpleNameResolver
+        SimpleNameResolver $simpleNameResolver,
+        ParentNodeFinder $parentNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
         $this->nodeComparator = $nodeComparator;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -210,8 +218,7 @@ CODE_SAMPLE
      */
     private function findMethodCallUses(MethodCall $methodCall): array
     {
-        /** @var Class_|null $class */
-        $class = $this->resolveCurrentClass($methodCall);
+        $class = $this->parentNodeFinder->getFirstParentByType($methodCall, Class_::class);
         if (! $class instanceof Class_) {
             return [];
         }
@@ -231,8 +238,7 @@ CODE_SAMPLE
 
     private function matchPrivateLocalClassMethod(MethodCall $methodCall): ?ClassMethod
     {
-        /** @var Class_|null $class */
-        $class = $this->resolveCurrentClass($methodCall);
+        $class = $this->parentNodeFinder->getFirstParentByType($methodCall, Class_::class);
         if (! $class instanceof Class_) {
             return null;
         }

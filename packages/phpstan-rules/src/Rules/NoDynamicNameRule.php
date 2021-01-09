@@ -18,6 +18,7 @@ use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\CallableType;
 use PHPStan\Type\ObjectType;
+use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\Types\TypeUnwrapper;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -42,10 +43,16 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
      */
     private $typeUnwrapper;
 
-    public function __construct(Standard $standard, TypeUnwrapper $typeUnwrapper)
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
+    public function __construct(Standard $standard, TypeUnwrapper $typeUnwrapper, ParentNodeFinder $parentNodeFinder)
     {
         $this->standard = $standard;
         $this->typeUnwrapper = $typeUnwrapper;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -144,7 +151,7 @@ CODE_SAMPLE
         }
 
         // possible closure
-        $parentForeach = $this->getFirstParentByType($node, Foreach_::class);
+        $parentForeach = $this->parentNodeFinder->getFirstParentByType($node, Foreach_::class);
 
         if ($parentForeach instanceof Foreach_) {
             $nameContent = $this->standard->prettyPrint([$node->name]);

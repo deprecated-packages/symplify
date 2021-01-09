@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use Nette\Utils\Strings;
-use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
@@ -16,8 +15,8 @@ use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\ValueObject\MethodName;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 final class DependencyNodeAnalyzer
 {
@@ -37,15 +36,24 @@ final class DependencyNodeAnalyzer
      */
     private $simpleNameResolver;
 
-    public function __construct(NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
-    {
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
+    public function __construct(
+        NodeFinder $nodeFinder,
+        SimpleNameResolver $simpleNameResolver,
+        ParentNodeFinder $parentNodeFinder
+    ) {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     public function isInsideAbstractClassAndPassedAsDependencyViaConstructorOrSetUp(Property $property): bool
     {
-        $classLike = $this->resolveCurrentClass($property);
+        $classLike = $this->parentNodeFinder->getFirstParentByType($property, Class_::class);
         if (! $classLike instanceof Class_) {
             return false;
         }
@@ -70,7 +78,7 @@ final class DependencyNodeAnalyzer
 
     public function isInsideClassAndPassedAsDependencyViaAutowireMethod(Property $property): bool
     {
-        $classLike = $this->resolveCurrentClass($property);
+        $classLike = $this->parentNodeFinder->getFirstParentByType($property, ClassLike::class);
         if (! $classLike instanceof Class_ && ! $classLike instanceof Trait_) {
             return false;
         }
@@ -113,20 +121,6 @@ final class DependencyNodeAnalyzer
         }
 
         return false;
-    }
-
-    private function resolveCurrentClass(Node $node): ?ClassLike
-    {
-        $class = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        while ($class) {
-            if ($class instanceof ClassLike) {
-                return $class;
-            }
-
-            $class = $class->getAttribute(PHPStanAttributeKey::PARENT);
-        }
-
-        return null;
     }
 
     private function isPropertyFetchAndPropertyMatch(PropertyFetch $propertyFetch, Property $property): bool

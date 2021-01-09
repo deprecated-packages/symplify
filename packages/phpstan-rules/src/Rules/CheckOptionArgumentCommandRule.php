@@ -14,6 +14,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
 use Symfony\Component\Console\Command\Command;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -59,14 +60,21 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
      */
     private $simpleNameResolver;
 
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
     public function __construct(
         NodeFinder $nodeFinder,
         NodeComparator $nodeComparator,
-        SimpleNameResolver $simpleNameResolver
+        SimpleNameResolver $simpleNameResolver,
+        ParentNodeFinder $parentNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->nodeComparator = $nodeComparator;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -145,7 +153,7 @@ CODE_SAMPLE
      */
     private function validateInvalidMethodCall(MethodCall $methodCall, string $methodCallName): array
     {
-        $class = $this->resolveCurrentClass($methodCall);
+        $class = $this->parentNodeFinder->getFirstParentByType($methodCall, Class_::class);
         if (! $class instanceof Class_) {
             return [];
         }
@@ -184,7 +192,7 @@ CODE_SAMPLE
 
     private function isInConfigureMethod(MethodCall $methodCall): bool
     {
-        $classMethod = $this->resolveCurrentClassMethod($methodCall);
+        $classMethod = $this->parentNodeFinder->getFirstParentByType($methodCall, ClassMethod::class);
         if (! $classMethod instanceof ClassMethod) {
             return false;
         }
