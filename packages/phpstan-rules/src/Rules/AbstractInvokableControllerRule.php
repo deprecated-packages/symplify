@@ -22,7 +22,7 @@ abstract class AbstractInvokableControllerRule extends AbstractSymplifyRule
     /**
      * @var SimpleNameResolver
      */
-    private $simpleNameResolver;
+    protected $simpleNameResolver;
 
     public function __construct(SimpleNameResolver $simpleNameResolver)
     {
@@ -31,7 +31,7 @@ abstract class AbstractInvokableControllerRule extends AbstractSymplifyRule
 
     protected function isInControllerClass(Scope $scope): bool
     {
-        $className = $this->getClassName($scope);
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
             return false;
         }

@@ -114,6 +114,16 @@ final class SimpleNameResolver
         return (string) Strings::after($className, '\\', -1);
     }
 
+    public function getShortClassNameFromScope(Scope $scope): ?string
+    {
+        $className = $this->getClassNameFromScope($scope);
+        if ($className === null) {
+            return null;
+        }
+
+        return $this->resolveShortName($className);
+    }
+
     public function getClassNameFromScope(Scope $scope): ?string
     {
         if ($scope->isInTrait()) {
@@ -131,5 +141,14 @@ final class SimpleNameResolver
         }
 
         return $classReflection->getName();
+    }
+
+    private function resolveShortName(string $className): string
+    {
+        if (! Strings::contains($className, '\\')) {
+            return $className;
+        }
+
+        return (string) Strings::after($className, '\\', -1);
     }
 }

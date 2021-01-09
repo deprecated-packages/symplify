@@ -122,7 +122,7 @@ CODE_SAMPLE
      */
     private function validateName(Scope $scope, string $string): array
     {
-        $shortClassName = $this->getShortClassName($scope);
+        $shortClassName = $this->simpleNameResolver->getShortClassNameFromScope($scope);
         if ($shortClassName === null) {
             return [];
         }

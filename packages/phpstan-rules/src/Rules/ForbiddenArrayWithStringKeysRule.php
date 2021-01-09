@@ -17,6 +17,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
@@ -46,13 +47,21 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
     private const ARRAY_EXPECTED_CLASS_NAMES_REGEX = '#(yaml|json|neon)#i';
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @var ParentMethodReturnTypeResolver
      */
     private $parentMethodReturnTypeResolver;
 
-    public function __construct(ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver)
-    {
+    public function __construct(
+        ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
+        SimpleNameResolver $simpleNameResolver
+    ) {
         $this->parentMethodReturnTypeResolver = $parentMethodReturnTypeResolver;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -194,7 +203,7 @@ CODE_SAMPLE
 
     private function shouldSkipClass(Scope $scope): bool
     {
-        $shortClassName = $this->getShortClassName($scope);
+        $shortClassName = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($shortClassName === null) {
             return false;
         }

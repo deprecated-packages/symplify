@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -26,6 +27,16 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
      * @see https://regex101.com/r/gn2P0C/1
      */
     private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@required\n?#';
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
 
     /**
      * @return string[]
@@ -100,7 +111,7 @@ CODE_SAMPLE
 
     private function resolveRequiredMethodName(Scope $scope): ?string
     {
-        $shortClassName = $this->getShortClassName($scope);
+        $shortClassName = $this->simpleNameResolver->getShortClassNameFromScope($scope);
         if ($shortClassName === null) {
             return null;
         }
