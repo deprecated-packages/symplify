@@ -11,7 +11,7 @@ use Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\FirstClass;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\FirstClassWithParameter;
 
-final class MaskedContent extends AbstractServiceAwareRuleTestCase
+final class MaskedContentTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @param string[] $filePaths
