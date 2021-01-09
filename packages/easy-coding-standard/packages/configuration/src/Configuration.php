@@ -115,6 +115,9 @@ final class Configuration
         return $this->showErrorTable;
     }
 
+    /**
+     * @api
+     */
     public function setFirstResolvedConfigFileInfo(?SmartFileInfo $firstResolverConfigFileInfo): void
     {
         $this->firstResolvedConfigFileInfo = $firstResolverConfigFileInfo;
