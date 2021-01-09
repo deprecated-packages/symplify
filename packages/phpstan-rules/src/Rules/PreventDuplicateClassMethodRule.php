@@ -76,7 +76,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $className = $this->getClassName($scope);
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
             return [];
         }

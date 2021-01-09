@@ -84,25 +84,6 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
         return $this->getFirstParentByType($node, Class_::class);
     }
 
-    protected function getClassName(Scope $scope): ?string
-    {
-        if ($scope->isInTrait()) {
-            $traitReflection = $scope->getTraitReflection();
-            if ($traitReflection === null) {
-                return null;
-            }
-
-            return $traitReflection->getName();
-        }
-
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
-            return null;
-        }
-
-        return $classReflection->getName();
-    }
-
     protected function isInAbstractClass(Node $node): bool
     {
         $class = $this->resolveCurrentClass($node);

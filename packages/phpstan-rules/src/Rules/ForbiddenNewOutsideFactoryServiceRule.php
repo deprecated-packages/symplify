@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -29,11 +30,17 @@ final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule i
     private $types = [];
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @param array<string, string> $types
      */
-    public function __construct(array $types = [])
+    public function __construct(SimpleNameResolver $simpleNameResolver, array $types = [])
     {
         $this->types = $types;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -50,7 +57,7 @@ final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule i
      */
     public function process(Node $node, Scope $scope): array
     {
-        $className = $this->getClassName($scope);
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
             return [];
         }

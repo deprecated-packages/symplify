@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
@@ -66,17 +65,15 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
      */
     public function process(Node $node, Scope $scope): array
     {
-        // unknown method name
-        if (! $node->name instanceof Identifier) {
+        $methodCallName = $this->simpleNameResolver->getName($node->name);
+        if ($methodCallName === null) {
             return [];
         }
 
         $errorMessages = [];
 
-        $methodName = (string) $node->name;
-
         foreach ($this->stringArgByMethodByType as $type => $positionsByMethods) {
-            $positions = $this->matchPositions($node, $scope, $type, $positionsByMethods, $methodName);
+            $positions = $this->matchPositions($node, $scope, $type, $positionsByMethods, $methodCallName);
             if ($positions === null) {
                 continue;
             }
@@ -86,7 +83,7 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
                     continue;
                 }
 
-                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $methodName, $key);
+                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $methodCallName, $key);
             }
         }
 

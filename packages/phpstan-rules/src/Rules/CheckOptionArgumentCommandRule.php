@@ -7,13 +7,13 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
 use Symfony\Component\Console\Command\Command;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -54,10 +54,19 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
      */
     private $nodeComparator;
 
-    public function __construct(NodeFinder $nodeFinder, NodeComparator $nodeComparator)
-    {
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(
+        NodeFinder $nodeFinder,
+        NodeComparator $nodeComparator,
+        SimpleNameResolver $simpleNameResolver
+    ) {
         $this->nodeFinder = $nodeFinder;
         $this->nodeComparator = $nodeComparator;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -82,12 +91,11 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
             return [];
         }
 
-        $methodCallIdentifier = $node->name;
-        if (! $methodCallIdentifier instanceof Identifier) {
+        $methodCallName = $this->simpleNameResolver->getName($node->name);
+        if ($methodCallName === null) {
             return [];
         }
 
-        $methodCallName = $methodCallIdentifier->toString();
         if (! array_key_exists($methodCallName, self::METHOD_CALL_MATCH)) {
             return [];
         }
@@ -169,10 +177,8 @@ CODE_SAMPLE
             if (! $node instanceof ClassMethod) {
                 return false;
             }
-            if (! $node->name instanceof Identifier) {
-                return false;
-            }
-            return $node->name->toString() === 'execute';
+
+            return $this->simpleNameResolver->isName($node, 'execute');
         });
     }
 
@@ -183,18 +189,12 @@ CODE_SAMPLE
             return false;
         }
 
-        $methodNameIdentifier = $classMethod->name;
-        if (! $methodNameIdentifier instanceof Identifier) {
-            return false;
-        }
-
-        $methodName = $methodNameIdentifier->toString();
-        return $methodName === 'configure';
+        return $this->simpleNameResolver->isName($classMethod, 'configure');
     }
 
     private function isInInstanceOfCommand(MethodCall $methodCall, Scope $scope): bool
     {
-        $className = $this->getClassName($scope);
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
             return false;
         }
@@ -218,10 +218,8 @@ CODE_SAMPLE
                 if (! $node instanceof MethodCall) {
                     return false;
                 }
-                if (! $node->name instanceof Identifier) {
-                    return false;
-                }
-                if ($node->name->toString() !== $invalidMethodCall) {
+
+                if (! $this->simpleNameResolver->isName($node->name, $invalidMethodCall)) {
                     return false;
                 }
 

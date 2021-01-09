@@ -7,6 +7,7 @@ namespace Symplify\Astral\StaticFactory;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeNameResolver\ClassLikeNodeNameResolver;
 use Symplify\Astral\NodeNameResolver\ClassMethodNodeNameResolver;
+use Symplify\Astral\NodeNameResolver\FuncCallNodeNameResolver;
 use Symplify\Astral\NodeNameResolver\IdentifierNodeNameResolver;
 
 /**
@@ -21,6 +22,7 @@ final class SimpleNameResolverStaticFactory
             new ClassLikeNodeNameResolver(),
             new IdentifierNodeNameResolver(),
             new ClassMethodNodeNameResolver(),
+            new FuncCallNodeNameResolver(),
         ];
         return new SimpleNameResolver($nameResolvers);
     }

@@ -6,9 +6,9 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -21,6 +21,16 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = '"%s" in sprintf() format must be quoted';
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
 
     /**
      * @return string[]
@@ -36,12 +46,7 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->name instanceof Name) {
-            return [];
-        }
-
-        $funcName = $node->name->toString();
-        if ($funcName !== 'sprintf') {
+        if (! $this->simpleNameResolver->isName($node, 'sprintf')) {
             return [];
         }
 

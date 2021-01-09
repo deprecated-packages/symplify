@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -21,6 +21,16 @@ final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Use required typed property over of nullable property';
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
 
     /**
      * @return string[]
@@ -41,11 +51,7 @@ final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
         }
 
         $type = $node->type->type;
-        if (! $type instanceof Identifier) {
-            return [];
-        }
-
-        if ($type->toString() !== 'array') {
+        if (! $this->simpleNameResolver->isName($type, 'array')) {
             return [];
         }
 

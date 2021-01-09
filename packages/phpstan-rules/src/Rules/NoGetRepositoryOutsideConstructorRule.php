@@ -6,8 +6,8 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -23,6 +23,16 @@ final class NoGetRepositoryOutsideConstructorRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Do not use "$entityManager->getRepository()" outside of the constructor of repository service or setUp() method in test case';
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
+
+    /**
      * @return string[]
      */
     public function getNodeTypes(): array
@@ -36,12 +46,7 @@ final class NoGetRepositoryOutsideConstructorRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->name instanceof Identifier) {
-            return [];
-        }
-
-        $methodCallName = (string) $node->name;
-        if ($methodCallName !== 'getRepository') {
+        if (! $this->simpleNameResolver->isName($node->name, 'getRepository')) {
             return [];
         }
 
@@ -50,7 +55,7 @@ final class NoGetRepositoryOutsideConstructorRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (in_array($functionReflection->getName(), [MethodName::CONSTRUCTOR, 'setUp'], true)) {
+        if (in_array($functionReflection->getName(), [MethodName::CONSTRUCTOR, MethodName::SET_UP], true)) {
             return [];
         }
 
