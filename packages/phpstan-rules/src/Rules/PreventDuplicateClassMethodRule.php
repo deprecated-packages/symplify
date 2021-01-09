@@ -192,67 +192,10 @@ CODE_SAMPLE
 
     private function getPrintStmts(ClassMethod $classMethod): string
     {
-        $newClassMethod = clone $classMethod;
-        /** @var Node[] $stmts */
-        $stmts = $newClassMethod->stmts;
-        $maskName = 'a';
-
-        $oldVariablesNames = [];
-        $newVariableNames = [];
-        foreach ($newClassMethod->params as $param) {
-            $paramVariable = $param->var;
-            if (! $paramVariable instanceof Variable) {
-                continue;
-            }
-
-            $this->nodeFinder->find($stmts, function (Node $n) use (
-                $paramVariable,
-                $maskName,
-                &$oldVariablesNames,
-                &$newVariableNames
-            ): void {
-                if ($this->nodeComparator->areNodesEqual($n, $paramVariable) && isset($n->name)) {
-                    $oldVariablesNames[] = $n->name;
-                    $maskedName = $maskName . '_' . substr(sha1($maskName), 0, 10);
-                    $newVariableNames[$n->name] = $maskedName;
-                    $n->name = $maskedName;
-                }
-            });
-
-            ++$maskName;
-        }
-
-        $oldVariablesNames = array_unique($oldVariablesNames);
-        foreach ($newClassMethod->params as $param) {
-            $paramVariable = $param->var;
-            if (! $paramVariable instanceof Variable) {
-                continue;
-            }
-
-            if (is_string($paramVariable->name) && in_array($paramVariable->name, $oldVariablesNames, true)) {
-                $paramVariable->name = $newVariableNames[$paramVariable->name];
-            }
-        }
-
-        $comments = $newClassMethod->getAttribute(PhpParserAttributeKey::COMMENTS);
-        foreach ($oldVariablesNames as $oldVariablesName) {
-            foreach ($comments as &$comment) {
-                if (! $comment instanceof Doc) {
-                    continue;
-                }
-
-                $text = (string) $comment->getText();
-                $text = str_replace($oldVariablesName, $newVariableNames[$oldVariablesName], $text);
-                $comment = new Doc($text);
-            }
-        }
-
-        $newClassMethod->setAttribute(PhpParserAttributeKey::ORIGINAL_NODE, null);
-        $newClassMethod->setAttribute(PhpParserAttributeKey::COMMENTS, $comments);
-
-        dump($newClassMethod->getAttribute(PhpParserAttributeKey::COMMENTS));
-
-        return $this->printerStandard->prettyPrint([$newClassMethod]);
+        $content = $this->printerStandard->prettyPrint($classMethod->stmts);
+        return preg_replace_callback('#\$\w+[^\s]#', function ($match) {
+            return '$a';
+        }, $content);
     }
 
     private function isExcludedTypes(string $className): bool
