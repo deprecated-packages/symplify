@@ -60,7 +60,7 @@ final class CommandNaming
     {
         $classParts = explode('\\', $class);
 
-        return (string) array_pop($classParts);
+        return array_pop($classParts);
     }
 
     private static function isFollowedByUpperCaseLetterOrNothing(string $string, int $position): bool

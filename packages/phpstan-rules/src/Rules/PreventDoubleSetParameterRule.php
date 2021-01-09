@@ -134,7 +134,7 @@ CODE_SAMPLE
     {
         if ($expr instanceof ClassConstFetch && $expr->class instanceof FullyQualified && $expr->name instanceof Identifier) {
             $name = $expr->name;
-            return (string) $expr->class . '::' . (string) $name;
+            return $expr->class . '::' . $name;
         }
 
         if ($expr instanceof String_) {

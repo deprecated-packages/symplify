@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRul
 
 use Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString;
 
-final class WithString
+final class SkipWithString
 {
     public function run(): void
     {

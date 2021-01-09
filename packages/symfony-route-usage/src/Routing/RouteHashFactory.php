@@ -11,7 +11,7 @@ final class RouteHashFactory
     public function createFromRequest(Request $request): string
     {
         $route = (string) $request->get('_route');
-        $method = (string) $request->getMethod();
+        $method = $request->getMethod();
 
         return sha1($route . '_' . $method);
     }

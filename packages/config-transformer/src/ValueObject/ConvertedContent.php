@@ -29,11 +29,6 @@ final class ConvertedContent
         return $this->convertedContent;
     }
 
-    public function getOriginalFileInfo(): SmartFileInfo
-    {
-        return $this->originalFileInfo;
-    }
-
     public function getOriginalFilePathWithoutSuffix(): string
     {
         return $this->originalFileInfo->getRealPathWithoutSuffix();

@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckTraitMethodOnlyDelegateOtherCla
 
 use DateTime;
 
-trait CalllThisType
+trait CallThisType
 {
     public function run()
     {

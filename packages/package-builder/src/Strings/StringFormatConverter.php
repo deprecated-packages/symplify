@@ -7,6 +7,7 @@ namespace Symplify\PackageBuilder\Strings;
 use Nette\Utils\Strings;
 
 /**
+ * @api
  * @see \Symplify\PackageBuilder\Tests\Strings\StringFormatConverterTest
  */
 final class StringFormatConverter

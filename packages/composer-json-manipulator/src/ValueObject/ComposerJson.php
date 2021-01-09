@@ -10,12 +10,20 @@ use Symplify\ComposerJsonManipulator\Sorter\ComposerPackageSorter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
+/**
+ * @api
+ */
 final class ComposerJson
 {
     /**
      * @var string
      */
     private const CLASSMAP_KEY = 'classmap';
+
+    /**
+     * @var string
+     */
+    private const PHP = 'php';
 
     /**
      * @var string|null
@@ -170,7 +178,7 @@ final class ComposerJson
 
     public function getRequirePhpVersion(): ?string
     {
-        return $this->require['php'] ?? null;
+        return $this->require[self::PHP] ?? null;
     }
 
     /**
@@ -178,12 +186,12 @@ final class ComposerJson
      */
     public function getRequirePhp(): array
     {
-        $requiredPhpVersion = $this->require['php'] ?? null;
+        $requiredPhpVersion = $this->require[self::PHP] ?? null;
         if ($requiredPhpVersion === null) {
             return [];
         }
         return [
-            'php' => $requiredPhpVersion,
+            self::PHP => $requiredPhpVersion,
         ];
     }
 
@@ -222,17 +230,6 @@ final class ComposerJson
     public function getAutoload(): array
     {
         return $this->autoload;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getPsr4AndClassmapDirectories(): array
-    {
-        $psr4Directories = array_values($this->autoload['psr-4'] ?? []);
-        $classmapDirectories = $this->autoload['classmap'] ?? [];
-
-        return array_merge($psr4Directories, $classmapDirectories);
     }
 
     /**
@@ -446,14 +443,6 @@ final class ComposerJson
     }
 
     /**
-     * @return mixed[]
-     */
-    public function getScripts(): array
-    {
-        return $this->scripts;
-    }
-
-    /**
      * @param mixed[] $config
      */
     public function setConfig(array $config): void
@@ -479,33 +468,21 @@ final class ComposerJson
         return $this->description;
     }
 
-    /**
-     * @param array $keywords
-     */
     public function setKeywords(array $keywords): void
     {
         $this->keywords = $keywords;
     }
 
-    /**
-     * @return array
-     */
     public function getKeywords(): array
     {
         return $this->keywords;
     }
 
-    /**
-     * @param string $homepage
-     */
     public function setHomepage(string $homepage): void
     {
         $this->homepage = $homepage;
     }
 
-    /**
-     * @return string
-     */
     public function getHomepage(): string
     {
         return $this->homepage;
@@ -543,9 +520,6 @@ final class ComposerJson
         return $this->authors;
     }
 
-    /**
-     * @api
-     */
     public function hasPackage(string $packageName): bool
     {
         if ($this->hasRequiredPackage($packageName)) {
@@ -555,17 +529,11 @@ final class ComposerJson
         return $this->hasRequiredDevPackage($packageName);
     }
 
-    /**
-     * @api
-     */
     public function hasRequiredPackage(string $packageName): bool
     {
         return isset($this->require[$packageName]);
     }
 
-    /**
-     * @api
-     */
     public function hasRequiredDevPackage(string $packageName): bool
     {
         return isset($this->requireDev[$packageName]);
@@ -573,14 +541,14 @@ final class ComposerJson
 
     public function addRequiredPackage(string $packageName, string $version): void
     {
-        if (!$this->hasPackage($packageName)) {
+        if (! $this->hasPackage($packageName)) {
             $this->require[$packageName] = $version;
         }
     }
 
     public function addRequiredDevPackage(string $packageName, string $version): void
     {
-        if (!$this->hasPackage($packageName)) {
+        if (! $this->hasPackage($packageName)) {
             $this->requireDev[$packageName] = $version;
         }
     }
@@ -636,31 +604,11 @@ final class ComposerJson
     }
 
     /**
-     * @return string[]
-     */
-    public function getAllClassmaps(): array
-    {
-        $autoloadClassmaps = $this->autoload[self::CLASSMAP_KEY] ?? [];
-        $autoloadDevClassmaps = $this->autoloadDev[self::CLASSMAP_KEY] ?? [];
-
-        return array_merge($autoloadClassmaps, $autoloadDevClassmaps);
-    }
-
-    /**
-     * @api
      * @param array<string, string> $conflicts
      */
     public function setConflicts(array $conflicts): void
     {
         $this->conflicts = $conflicts;
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public function getConflicts(): array
-    {
-        return $this->conflicts;
     }
 
     /**
@@ -679,6 +627,47 @@ final class ComposerJson
         return $this->bin;
     }
 
+    /**
+     * @return string[]
+     */
+    public function getPsr4AndClassmapDirectories(): array
+    {
+        $psr4Directories = array_values($this->autoload['psr-4'] ?? []);
+        $classmapDirectories = $this->autoload['classmap'] ?? [];
+
+        return array_merge($psr4Directories, $classmapDirectories);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getScripts(): array
+    {
+        return $this->scripts;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAllClassmaps(): array
+    {
+        $autoloadClassmaps = $this->autoload[self::CLASSMAP_KEY] ?? [];
+        $autoloadDevClassmaps = $this->autoloadDev[self::CLASSMAP_KEY] ?? [];
+
+        return array_merge($autoloadClassmaps, $autoloadDevClassmaps);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getConflicts(): array
+    {
+        return $this->conflicts;
+    }
+
+    /**
+     * @api
+     */
     public function getType(): ?string
     {
         return $this->type;
@@ -687,7 +676,7 @@ final class ComposerJson
     /**
      * @return string[]
      */
-    private function getAutoloadDirectories(): array
+    public function getAutoloadDirectories(): array
     {
         $autoloadDirectories = array_merge(
             $this->getPsr4AndClassmapDirectories(),
@@ -700,7 +689,7 @@ final class ComposerJson
     /**
      * @return string[]
      */
-    private function getPsr4AndClassmapDevDirectories(): array
+    public function getPsr4AndClassmapDevDirectories(): array
     {
         $psr4Directories = array_values($this->autoloadDev['psr-4'] ?? []);
         $classmapDirectories = $this->autoloadDev['classmap'] ?? [];

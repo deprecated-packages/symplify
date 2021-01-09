@@ -19,7 +19,7 @@ jobs:
                     php-version: 7.4
                     coverage: none
 
-            -   run: composer install --no-progress --ansi
+            -   uses: "ramsey/composer-install@v1"
 
             # get package json list
             -
@@ -49,7 +49,7 @@ jobs:
                     php-version: 7.3
                     coverage: none
 
-            -   run: composer install --no-progress --ansi
+            -   uses: "ramsey/composer-install@v1"
 
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.package }}/composer.json --ansi
 

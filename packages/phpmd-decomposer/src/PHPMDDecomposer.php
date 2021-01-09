@@ -23,7 +23,6 @@ final class PHPMDDecomposer
     public function decompose(SmartFileInfo $smartFileInfo): DecomposedFileConfigs
     {
         $phpStanConfig = $this->phpStanConfigFactory->decompose($smartFileInfo);
-
-        return new DecomposedFileConfigs($phpStanConfig, '', '');
+        return new DecomposedFileConfigs($phpStanConfig);
     }
 }

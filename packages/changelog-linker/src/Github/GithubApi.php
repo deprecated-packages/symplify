@@ -42,6 +42,11 @@ final class GithubApi
     /**
      * @var string
      */
+    private const MERGED_AT = 'merged_at';
+
+    /**
+     * @var string
+     */
     private $repositoryName;
 
     /**
@@ -144,7 +149,7 @@ final class GithubApi
     private function filterMergedPullRequests(array $pullRequests): array
     {
         return array_filter($pullRequests, function (array $pullRequest): bool {
-            return isset($pullRequest['merged_at']) && $pullRequest['merged_at'] !== null;
+            return isset($pullRequest[self::MERGED_AT]) && $pullRequest[self::MERGED_AT] !== null;
         });
     }
 
@@ -152,7 +157,7 @@ final class GithubApi
     {
         $json = $this->getSinglePullRequestJson($id);
 
-        return $json['merged_at'] ?? null;
+        return $json[self::MERGED_AT] ?? null;
     }
 
     /**
@@ -162,7 +167,7 @@ final class GithubApi
     private function filterPullRequestsNewerThanMergedAt(array $pullRequests, string $mergedAt): array
     {
         return array_filter($pullRequests, function (array $pullRequest) use ($mergedAt): bool {
-            return $pullRequest['merged_at'] > $mergedAt;
+            return $pullRequest[self::MERGED_AT] > $mergedAt;
         });
     }
 

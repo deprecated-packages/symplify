@@ -68,6 +68,9 @@ final class ServiceOptionNodeFactory
         return true;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function unNestArguments(array $servicesValues): array
     {
         if (! $this->isNestedArguments($servicesValues)) {

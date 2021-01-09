@@ -9,6 +9,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\SetConfigResolver\Exception\SetNotFoundException;
 
+/**
+ * @see \Symplify\SetConfigResolver\Tests\Bootstrap\InvalidSetReporterTest
+ */
 final class InvalidSetReporter
 {
     /**

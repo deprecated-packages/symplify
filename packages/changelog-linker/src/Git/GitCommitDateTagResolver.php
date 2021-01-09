@@ -39,7 +39,7 @@ final class GitCommitDateTagResolver
      */
     public function __construct()
     {
-        $datesWithTags = (array) explode(PHP_EOL, $this->getDatesWithTagsInString());
+        $datesWithTags = explode(PHP_EOL, $this->getDatesWithTagsInString());
 
         foreach ($datesWithTags as $datesWithTag) {
             $dateMatch = Strings::match($datesWithTag, self::DATE_REGEX);

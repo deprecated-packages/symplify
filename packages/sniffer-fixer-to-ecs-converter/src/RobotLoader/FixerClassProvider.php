@@ -28,8 +28,17 @@ final class FixerClassProvider
         $robotLoader->acceptFiles = ['*Fixer.php'];
         $robotLoader->rebuild();
 
-        $this->fixerClasses = array_keys($robotLoader->getIndexedClasses());
+        $fixedClasses = [];
+        foreach (array_keys($robotLoader->getIndexedClasses()) as $class) {
+            if (! is_string($class)) {
+                continue;
+            }
 
-        return $this->fixerClasses;
+            $fixedClasses[] = $class;
+        }
+
+        $this->fixerClasses = $fixedClasses;
+
+        return $fixedClasses;
     }
 }

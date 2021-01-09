@@ -45,18 +45,18 @@ final class FixerToECSConverter
     /**
      * @var FixerClassProvider
      */
-    private $fixerClassesProvider;
+    private $fixerClassProvider;
 
     public function __construct(
         YamlToPhpConverter $yamlToPhpConverter,
         SymfonyConfigFormatFactory $symfonyConfigFormatFactory,
         PrivatesAccessor $privatesAccessor,
-        FixerClassProvider $fixerClassesProvider
+        FixerClassProvider $fixerClassProvider
     ) {
         $this->yamlToPhpConverter = $yamlToPhpConverter;
         $this->symfonyConfigFormatFactory = $symfonyConfigFormatFactory;
         $this->privatesAccessor = $privatesAccessor;
-        $this->fixerClassesProvider = $fixerClassesProvider;
+        $this->fixerClassProvider = $fixerClassProvider;
     }
 
     public function convertFile(SmartFileInfo $phpcsFileInfo): string
@@ -86,7 +86,7 @@ final class FixerToECSConverter
     {
         $fixerShortClassName = $this->resolveFixerShortClassName($ruleName);
 
-        foreach ($this->fixerClassesProvider->provide() as $coreFixerClass) {
+        foreach ($this->fixerClassProvider->provide() as $coreFixerClass) {
             if (Strings::endsWith($coreFixerClass, '\\' . $fixerShortClassName)) {
                 return $coreFixerClass;
             }

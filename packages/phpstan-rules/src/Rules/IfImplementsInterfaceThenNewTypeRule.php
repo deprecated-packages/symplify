@@ -126,7 +126,7 @@ CODE_SAMPLE
 
     private function hasNewType(Class_ $class, string $type): bool
     {
-        return (bool) $this->nodeFinder->find((array) $class->stmts, function (Node $node) use ($type): bool {
+        return (bool) $this->nodeFinder->find($class->stmts, function (Node $node) use ($type): bool {
             if (! $node instanceof New_) {
                 return false;
             }

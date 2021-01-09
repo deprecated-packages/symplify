@@ -6,7 +6,7 @@ namespace Symplify\PackageBuilder\Console\Input;
 
 use Symfony\Component\Console\Input\ArgvInput;
 
-class StaticInputDetector
+final class StaticInputDetector
 {
     public static function isDebug(): bool
     {

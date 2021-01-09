@@ -43,7 +43,7 @@ final class VariableAsParamAnalyser
             return false;
         }
 
-        $variableName = (string) $variable->name;
+        $variableName = $variable->name;
 
         foreach ($constructorClassMethod->params as $param) {
             $paramName = (string) $param->var->name;

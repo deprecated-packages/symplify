@@ -11,7 +11,8 @@ final class SkipAttributeArrayKey
     #[Route('/blog/{slug}', name: 'post_detail', requirements: [
         'slug' => '\d+\/\d+.+',
     ])]
-    public function run(): void
+    public function run(): string
     {
+        return 'some_content';
     }
 }

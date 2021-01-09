@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireConstantInMethodCallPositionR
 
 use Symplify\PHPStanRules\Tests\Rules\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstantLocal;
 
-final class WithConstantLocal
+final class SkipWithConstantLocal
 {
     /**
      * @var string

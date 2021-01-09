@@ -8,6 +8,9 @@ use Nette\Utils\Strings;
 use Symplify\PHPUnitUpgrader\ValueObject\FileLine;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\PHPUnitUpgrader\Tests\AssertContainsFileLineExtractor\AssertContainsFileLineExtractorTest
+ */
 final class AssertContainsFileLineExtractor
 {
     /**

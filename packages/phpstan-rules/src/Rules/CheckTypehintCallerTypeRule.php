@@ -79,7 +79,7 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
             return [];
         }
 
-        $args = (array) $node->args;
+        $args = $node->args;
         if ($args === []) {
             return [];
         }
@@ -130,8 +130,9 @@ CODE_SAMPLE
 
     /**
      * @param Arg[] $args
+     * @return string[]
      */
-    private function validateArgVsParamTypes(array $args, MethodCall $methodCall, Scope $scope)
+    private function validateArgVsParamTypes(array $args, MethodCall $methodCall, Scope $scope): array
     {
         $methodCallUses = $this->findMethodCallUses($methodCall);
         if (count($methodCallUses) > 1) {
@@ -188,13 +189,13 @@ CODE_SAMPLE
             return null;
         }
 
-        $paramType = new ObjectType($type->toString());
-        if ($paramType->equals($argType)) {
+        $objectType = new ObjectType($type->toString());
+        if ($objectType->equals($argType)) {
             return null;
         }
 
         // handle weird type substration cases
-        $paramTypeAsString = $paramType->describe(VerbosityLevel::typeOnly());
+        $paramTypeAsString = $objectType->describe(VerbosityLevel::typeOnly());
         $argTypeAsString = $argType->describe(VerbosityLevel::typeOnly());
 
         if ($paramTypeAsString === $argTypeAsString) {

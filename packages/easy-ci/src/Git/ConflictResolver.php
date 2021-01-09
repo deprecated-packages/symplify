@@ -29,7 +29,7 @@ final class ConflictResolver
      * @param SmartFileInfo[] $fileInfos
      * @return int[]
      */
-    public function extractFromFileInfos(array $fileInfos)
+    public function extractFromFileInfos(array $fileInfos): array
     {
         $conflictCountsByFilePath = [];
 

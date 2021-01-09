@@ -13,11 +13,11 @@ final class JsonAutoloadPrinter
     /**
      * @var Psr4PathNormalizer
      */
-    private $pathNormalizer;
+    private $psr4PathNormalizer;
 
-    public function __construct(Psr4PathNormalizer $pathNormalizer)
+    public function __construct(Psr4PathNormalizer $psr4PathNormalizer)
     {
-        $this->pathNormalizer = $pathNormalizer;
+        $this->psr4PathNormalizer = $psr4PathNormalizer;
     }
 
     /**
@@ -25,7 +25,9 @@ final class JsonAutoloadPrinter
      */
     public function createJsonAutoloadContent(array $psr4NamespaceToPaths): string
     {
-        $normalizedJsonArray = $this->pathNormalizer->normalizePsr4NamespaceToPathsToJsonsArray($psr4NamespaceToPaths);
+        $normalizedJsonArray = $this->psr4PathNormalizer->normalizePsr4NamespaceToPathsToJsonsArray(
+            $psr4NamespaceToPaths
+        );
         $composerData = [
             'autoload' => [
                 'psr-4' => $normalizedJsonArray,

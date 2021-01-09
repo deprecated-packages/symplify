@@ -8,6 +8,7 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule;
+use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\FirstClass;
 
 final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -34,11 +35,7 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
             __DIR__ . '/Fixture/SomeTrait.php',
         ], []];
 
-        $errorMessage = sprintf(
-            PreventDuplicateClassMethodRule::ERROR_MESSAGE,
-            'someMethod',
-            'Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\FirstClass'
-        );
+        $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'someMethod', FirstClass::class);
         yield [[__DIR__ . '/Fixture/SecondClassDuplicateFirstClassMethod.php'], [[$errorMessage, 15]]];
     }
 

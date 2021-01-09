@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ComposerAutoloadResolver;
+use Symplify\PHPStanRules\Location\DirectoryChecker;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -39,12 +40,19 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
      */
     private $simpleNameResolver;
 
+    /**
+     * @var DirectoryChecker
+     */
+    private $directoryChecker;
+
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
-        ComposerAutoloadResolver $composerAutoloadResolver
+        ComposerAutoloadResolver $composerAutoloadResolver,
+        DirectoryChecker $directoryChecker
     ) {
         $this->autoloadPsr4Paths = $composerAutoloadResolver->getPsr4Autoload();
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->directoryChecker = $directoryChecker;
     }
 
     /**
@@ -86,7 +94,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
 
             $directories = $this->resolveDirectories($directory);
             foreach ($directories as $singleDirectory) {
-                if (! $this->isInDirectoryNamed($scope, $singleDirectory)) {
+                if (! $this->directoryChecker->isInDirectoryNamed($scope, $singleDirectory)) {
                     continue;
                 }
 
@@ -167,7 +175,7 @@ CODE_SAMPLE
 
     private function resolveNamespacePartOfClass(string $className, string $shortClassName): string
     {
-        return (string) Strings::substring($className, 0, - strlen($shortClassName));
+        return Strings::substring($className, 0, - strlen($shortClassName));
     }
 
     /**

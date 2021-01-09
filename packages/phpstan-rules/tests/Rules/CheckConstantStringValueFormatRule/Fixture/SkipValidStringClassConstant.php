@@ -6,6 +6,6 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantStringValueFormatRule\F
 
 class SkipValidStringClassConstant
 {
-    private const ERROR_MESSAGE = 'this is a';
+    public const ERROR_MESSAGE = 'this is a';
     private const A_REGEX = '';
 }

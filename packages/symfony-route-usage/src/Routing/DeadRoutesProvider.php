@@ -10,6 +10,9 @@ use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symplify\SymfonyRouteUsage\EntityRepository\RouteVisitRepository;
 
+/**
+ * @see \Symplify\SymfonyRouteUsage\Tests\Routing\DeadRoutesProviderTest
+ */
 final class DeadRoutesProvider
 {
     /**

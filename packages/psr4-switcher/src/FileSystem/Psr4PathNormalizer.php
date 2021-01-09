@@ -20,6 +20,7 @@ final class Psr4PathNormalizer
 
     /**
      * @param Psr4NamespaceToPaths[] $psr4NamespacesToPaths
+     * @return string[][]|string[]
      */
     public function normalizePsr4NamespaceToPathsToJsonsArray(array $psr4NamespacesToPaths): array
     {

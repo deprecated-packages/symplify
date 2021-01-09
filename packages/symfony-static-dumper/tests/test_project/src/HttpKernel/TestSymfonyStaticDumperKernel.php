@@ -61,6 +61,11 @@ final class TestSymfonyStaticDumperKernel extends Kernel
         return sys_get_temp_dir() . '/test_symfony_static_dumper_kernel_log';
     }
 
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
+    }
+
     protected function configureRoutes(RouteCollectionBuilder $routeCollectionBuilder): void
     {
         $this->discovery->discoverRoutes($routeCollectionBuilder);
@@ -71,10 +76,5 @@ final class TestSymfonyStaticDumperKernel extends Kernel
     {
         $this->flexLoader->loadConfigs($containerBuilder, $loader);
         $this->discovery->discoverTemplates($containerBuilder);
-    }
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
     }
 }

@@ -7,7 +7,10 @@ namespace Symplify\PHPMDDecomposer\Blueprint;
 use Symplify\PHPMDDecomposer\ValueObject\Config\MatchToPHPStanConfig;
 use Symplify\PHPMDDecomposer\ValueObject\Config\PHPStanConfig;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule;
+use Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule;
 use Symplify\PHPStanRules\Rules\NoDefaultParameterValueRule;
+use Symplify\PHPStanRules\Rules\TooLongVariableRule;
+use Symplify\PHPStanRules\Rules\UppercaseConstantRule;
 
 final class PHPMDToPHPStanBluerprint
 {
@@ -75,12 +78,12 @@ final class PHPMDToPHPStanBluerprint
         // https://github.com/symplify/coding-standard/blob/master/docs/phpstan_rules.md
         $this->matchesToPHPStanConfigs[] = new MatchToPHPStanConfig(
             'rulesets/naming.xml/BooleanGetMethodName',
-            new PHPStanConfig(['Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule'])
+            new PHPStanConfig([BoolishClassMethodPrefixRule::class])
         );
 
         $this->matchesToPHPStanConfigs[] = new MatchToPHPStanConfig(
             'rulesets/naming.xml/LongVariable',
-            new PHPStanConfig(['Symplify\PHPStanRules\Rules\TooLongVariableRule'])
+            new PHPStanConfig([TooLongVariableRule::class])
         );
 
         $this->matchesToPHPStanConfigs[] = new MatchToPHPStanConfig(
@@ -90,7 +93,7 @@ final class PHPMDToPHPStanBluerprint
 
         $this->matchesToPHPStanConfigs[] = new MatchToPHPStanConfig(
             'rulesets/naming.xml/ConstantNamingConventions',
-            new PHPStanConfig(['Symplify\PHPStanRules\Rules\UppercaseConstantRule'])
+            new PHPStanConfig([UppercaseConstantRule::class])
         );
 
         $this->matchesToPHPStanConfigs[] = new MatchToPHPStanConfig('rulesets/codesize.xml/TooManyFields', new PHPStanConfig(

@@ -9,6 +9,9 @@ use Doctrine\Persistence\ObjectRepository;
 use Symplify\SymfonyRouteUsage\Database\TableInitiator;
 use Symplify\SymfonyRouteUsage\Entity\RouteVisit;
 
+/**
+ * @see \Symplify\SymfonyRouteUsage\Tests\EntityRepository\RouteVisitRepositoryTest
+ */
 final class RouteVisitRepository
 {
     /**

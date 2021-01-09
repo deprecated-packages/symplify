@@ -152,6 +152,9 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         }
     }
 
+    /**
+     * @return mixed[]
+     */
     private function processAnonymousServicesInArguments(
         DOMXPath $domxPath,
         string $suffix,

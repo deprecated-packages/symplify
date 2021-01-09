@@ -16,13 +16,13 @@ final class TypeNodeAnalyzer
      * @var string
      * @see https://regex101.com/r/Wy4mO2/2
      */
-    public const KERNEL_REGEX = '#@var\s+(\\\\Symfony\\\\Component\\\\HttpKernel\\\\)?KernelInterface\n?#';
+    private const KERNEL_REGEX = '#@var\s+(\\\\Symfony\\\\Component\\\\HttpKernel\\\\)?KernelInterface\n?#';
 
     /**
      * @var string
      * @see https://regex101.com/r/eCXekv/3
      */
-    public const CONTAINER_REGEX = '#@var\s+(\\\\Psr\\\\Container\\\\)?ContainerInterface|(\\\\Symfony\\\\Component\\\\DependencyInjection\\\\)?Container\n?$#';
+    private const CONTAINER_REGEX = '#@var\s+(\\\\Psr\\\\Container\\\\)?ContainerInterface|(\\\\Symfony\\\\Component\\\\DependencyInjection\\\\)?Container\n?$#';
 
     /**
      * @param Property|ClassConst $node

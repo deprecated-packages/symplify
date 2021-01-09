@@ -62,7 +62,7 @@ final class PhpContentAnalyzer
                 continue;
             }
 
-            if ($firstInLineLintedCorrectly === false) {
+            if (! $firstInLineLintedCorrectly) {
                 $tokenKind = $rawToken[0];
 
                 if ($tokenKind === T_CONSTANT_ENCAPSED_STRING) {
@@ -127,13 +127,11 @@ final class PhpContentAnalyzer
                 }
             }
 
-            if ($rawToken[0] === T_FUNCTION) {
-                if (! $this->isFunctionStart($rawTokens, $i)) {
-                    return false;
-                }
+            if ($rawToken[0] === T_FUNCTION && ! $this->isFunctionStart($rawTokens, $i)) {
+                return false;
             }
 
-            if ($firstInLineLintedCorrectly === false) {
+            if (! $firstInLineLintedCorrectly) {
                 $firstInLineLintedCorrectly = true;
             }
 
@@ -193,6 +191,10 @@ final class PhpContentAnalyzer
         return false;
     }
 
+    /**
+     * @noRector
+     * @return string[][]|int[][]|string[]
+     */
     private function parseCodeToTokens(string $content): array
     {
         $phpContent = '<?php ' . PHP_EOL . $content;

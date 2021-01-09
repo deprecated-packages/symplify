@@ -176,7 +176,7 @@ CODE_SAMPLE
     /**
      * @param Node[] $nodes
      */
-    private function hasSameVar(array $nodes, Node $parentOfParentAssignment, Expr $varExpr): bool
+    private function hasSameVar(array $nodes, Node $parentOfParentAssignNode, Expr $varExpr): bool
     {
         foreach ($nodes as $node) {
             $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
@@ -194,7 +194,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            if ($parentOfParentNode !== $parentOfParentAssignment) {
+            if ($parentOfParentNode !== $parentOfParentAssignNode) {
                 return true;
             }
         }

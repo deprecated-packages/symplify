@@ -199,6 +199,9 @@ final class CheckerServiceParametersShifter
         return $serviceDefinition;
     }
 
+    /**
+     * @return mixed|mixed[]|string
+     */
     private function escapeValue($value)
     {
         if (! is_array($value) && ! is_string($value)) {
@@ -220,7 +223,7 @@ final class CheckerServiceParametersShifter
     {
         $reflectionClass = new ReflectionClass(YamlFileLoader::class);
         /** @var array<string, mixed> $staticProperties */
-        $staticProperties = (array) $reflectionClass->getStaticProperties();
+        $staticProperties = $reflectionClass->getStaticProperties();
         /** @var string[] $serviceKeywordsProperty */
         $serviceKeywordsProperty = $staticProperties['serviceKeywords'];
 

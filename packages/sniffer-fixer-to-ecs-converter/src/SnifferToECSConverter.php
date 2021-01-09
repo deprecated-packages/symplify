@@ -199,6 +199,9 @@ final class SnifferToECSConverter
         return $serviceConfiguration;
     }
 
+    /**
+     * @return int|string
+     */
     private function resolvePropertyValue($property)
     {
         $value = (string) $property->attributes()['value'];

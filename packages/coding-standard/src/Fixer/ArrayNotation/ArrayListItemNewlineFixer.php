@@ -18,7 +18,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayListItemNewlineFixer\ArrayListItemNewlineFixerTest
  */
-class ArrayListItemNewlineFixer extends AbstractArrayFixer implements DocumentedRuleInterface
+final class ArrayListItemNewlineFixer extends AbstractArrayFixer implements DocumentedRuleInterface
 {
     /**
      * @var string

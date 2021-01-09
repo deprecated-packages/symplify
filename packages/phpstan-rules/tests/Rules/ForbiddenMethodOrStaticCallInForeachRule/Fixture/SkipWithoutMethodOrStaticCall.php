@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\Fixture;
 
-class WithoutMethodOrStaticCall
+class SkipWithoutMethodOrStaticCall
 {
     public function execute($arg)
     {
@@ -13,5 +13,4 @@ class WithoutMethodOrStaticCall
 
         }
     }
-
 }

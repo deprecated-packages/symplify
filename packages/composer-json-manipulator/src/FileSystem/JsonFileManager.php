@@ -52,11 +52,11 @@ final class JsonFileManager
      */
     public function loadFromFileInfo(SmartFileInfo $smartFileInfo): array
     {
-        $filePath = $smartFileInfo->getRealPath();
-        if (! isset($this->cachedJSONFiles[$filePath])) {
-            $this->cachedJSONFiles[$filePath] = Json::decode($smartFileInfo->getContents(), Json::FORCE_ARRAY);
+        $realPath = $smartFileInfo->getRealPath();
+        if (! isset($this->cachedJSONFiles[$realPath])) {
+            $this->cachedJSONFiles[$realPath] = Json::decode($smartFileInfo->getContents(), Json::FORCE_ARRAY);
         }
-        return $this->cachedJSONFiles[$filePath];
+        return $this->cachedJSONFiles[$realPath];
     }
 
     /**

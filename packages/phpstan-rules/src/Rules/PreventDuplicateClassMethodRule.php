@@ -100,7 +100,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
 
         /** @var Node[] $stmts */
         $stmts = $node->stmts;
-        $stmtCount = count((array) $stmts);
+        $stmtCount = count($stmts);
         if ($stmtCount <= 1) {
             return [];
         }

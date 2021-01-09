@@ -10,8 +10,8 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
+use Symplify\PhpConfigPrinter\CaseConverter\InstanceOfNestedCaseConverter;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
-use Symplify\PhpConfigPrinter\Contract\NestedCaseConverterInterface;
 use Symplify\PhpConfigPrinter\PhpParser\NodeFactory\ConfiguratorClosureNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\MethodName;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
@@ -30,22 +30,21 @@ final class ContainerConfiguratorReturnClosureFactory
     private $caseConverters = [];
 
     /**
-     * @var NestedCaseConverterInterface[]
+     * @var InstanceOfNestedCaseConverter
      */
-    private $nestedCaseConverters = [];
+    private $instanceOfNestedCaseConverter;
 
     /**
      * @param CaseConverterInterface[] $caseConverters
-     * @param NestedCaseConverterInterface[] $nestedCaseConverters
      */
     public function __construct(
         ConfiguratorClosureNodeFactory $configuratorClosureNodeFactory,
         array $caseConverters,
-        array $nestedCaseConverters
+        InstanceOfNestedCaseConverter $instanceOfNestedCaseConverter
     ) {
         $this->configuratorClosureNodeFactory = $configuratorClosureNodeFactory;
         $this->caseConverters = $caseConverters;
-        $this->nestedCaseConverters = $nestedCaseConverters;
+        $this->instanceOfNestedCaseConverter = $instanceOfNestedCaseConverter;
     }
 
     public function createFromYamlArray(array $arrayData): Return_
@@ -83,14 +82,14 @@ final class ContainerConfiguratorReturnClosureFactory
 
                 if (is_array($nestedValues)) {
                     foreach ($nestedValues as $subNestedKey => $subNestedValue) {
-                        foreach ($this->nestedCaseConverters as $nestedCaseConverter) {
-                            if (! $nestedCaseConverter->match($key, $nestedKey)) {
-                                continue;
-                            }
-
-                            $expression = $nestedCaseConverter->convertToMethodCall($subNestedKey, $subNestedValue);
-                            $nestedNodes[] = $expression;
+                        if (! $this->instanceOfNestedCaseConverter->isMatch($key, $nestedKey)) {
+                            continue;
                         }
+
+                        $nestedNodes[] = $this->instanceOfNestedCaseConverter->convertToMethodCall(
+                            $subNestedKey,
+                            $subNestedValue
+                        );
                     }
                 }
 
@@ -130,6 +129,9 @@ final class ContainerConfiguratorReturnClosureFactory
         return new Expression($assign);
     }
 
+    /**
+     * @return mixed[]
+     */
     private function createInitializeNode(string $key, array $nodes): array
     {
         if ($key === YamlKey::SERVICES) {

@@ -8,7 +8,6 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Expression;
-use Symplify\PhpConfigPrinter\Contract\NestedCaseConverterInterface;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\Service\ServiceOptionNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\MethodName;
@@ -21,7 +20,7 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
  * services:
  *     _instanceof: <---
  */
-final class InstanceOfNestedCaseConverter implements NestedCaseConverterInterface
+final class InstanceOfNestedCaseConverter
 {
     /**
      * @var CommonNodeFactory
@@ -57,7 +56,7 @@ final class InstanceOfNestedCaseConverter implements NestedCaseConverterInterfac
         return new Expression($instanceofMethodCall);
     }
 
-    public function match(string $rootKey, $subKey): bool
+    public function isMatch(string $rootKey, $subKey): bool
     {
         if ($rootKey !== YamlKey::SERVICES) {
             return false;

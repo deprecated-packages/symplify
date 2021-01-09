@@ -51,7 +51,7 @@ final class TooLongVariableRule extends AbstractSymplifyRule implements Configur
             return [];
         }
 
-        $variableName = (string) $node->name;
+        $variableName = $node->name;
         $currentVariableLenght = Strings::length($variableName);
 
         if ($currentVariableLenght < $this->maxVariableLength) {

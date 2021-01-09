@@ -48,11 +48,6 @@ final class ParameterCaseConverter implements CaseConverterInterface
         $this->commonNodeFactory = $commonNodeFactory;
     }
 
-    public function getKey(): string
-    {
-        return YamlKey::PARAMETERS;
-    }
-
     public function match(string $rootKey, $key, $values): bool
     {
         return $rootKey === YamlKey::PARAMETERS;

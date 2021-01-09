@@ -36,7 +36,7 @@ final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
         $this->setDescription('Analyze missing classes, constant and static calls in Latte templates');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sources = (array) $input->getArgument(Option::SOURCES);
         $latteFileInfos = $this->smartFinder->find($sources, '*.latte');

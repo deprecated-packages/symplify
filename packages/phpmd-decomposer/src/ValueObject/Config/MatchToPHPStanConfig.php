@@ -32,7 +32,7 @@ final class MatchToPHPStanConfig
         }
 
         if ($domElement->hasAttribute('name')) {
-            return Strings::endsWith($this->match, (string) $domElement->getAttribute('name'));
+            return Strings::endsWith($this->match, $domElement->getAttribute('name'));
         }
 
         return false;

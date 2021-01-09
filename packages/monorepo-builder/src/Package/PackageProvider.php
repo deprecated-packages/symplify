@@ -31,22 +31,12 @@ final class PackageProvider
     /**
      * @return Package[]
      */
-    public function provideWithTests(): array
-    {
-        return array_filter($this->provide(), function (Package $package): bool {
-            return $package->hasTests();
-        });
-    }
-
-    /**
-     * @return Package[]
-     */
     public function provide(): array
     {
         $packages = [];
         foreach ($this->composerJsonProvider->getPackagesComposerFileInfos() as $packagesComposerFileInfo) {
             $packageName = $this->detectNameFromFileInfo($packagesComposerFileInfo);
-            $packages[] = new Package($packageName, $packagesComposerFileInfo);
+            $packages[] = new Package($packageName);
         }
 
         usort($packages, function (Package $firstPackage, Package $secondPackage): int {

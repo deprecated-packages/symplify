@@ -87,8 +87,8 @@ final class NoSetterOnServiceRule extends AbstractSymplifyRule
         /** @var string $methodName */
         $methodName = $this->simpleNameResolver->getName($node->name);
 
-        $parentMethodReflection = $this->parentMethodResolver->resolve($scope, $methodName);
-        if ($parentMethodReflection !== null) {
+        $phpMethodReflection = $this->parentMethodResolver->resolve($scope, $methodName);
+        if ($phpMethodReflection !== null) {
             return [];
         }
 

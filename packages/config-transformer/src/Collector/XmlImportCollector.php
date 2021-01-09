@@ -21,6 +21,9 @@ final class XmlImportCollector
         ];
     }
 
+    /**
+     * @return mixed[]
+     */
     public function provide(): array
     {
         return $this->imports;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\RequireThisOnParentMethodCallRule\Fixture;
 
-class CallParentMethodStaticallySameMethod extends ParentClass
+class SkipCallParentMethodStaticallySameMethod extends ParentClass
 {
     public function foo()
     {

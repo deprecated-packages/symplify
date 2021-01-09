@@ -80,6 +80,9 @@ final class FlexLoader
         }
     }
 
+    /**
+     * @api
+     */
     public function loadBundles(): Iterator
     {
         $contents = require $this->getBundlesFilePath();

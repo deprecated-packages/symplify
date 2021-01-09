@@ -90,19 +90,17 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isRouteMethod(ClassMethod $node): bool
+    private function isRouteMethod(ClassMethod $classMethod): bool
     {
-        if (! $node->isPublic()) {
+        if (! $classMethod->isPublic()) {
             return false;
         }
 
-        $docComment = $node->getDocComment();
-        if ($docComment !== null) {
-            if (Strings::contains($docComment->getText(), '@Route')) {
-                return true;
-            }
+        $docComment = $classMethod->getDocComment();
+        if ($docComment !== null && Strings::contains($docComment->getText(), '@Route')) {
+            return true;
         }
 
-        return $this->getRouteAttribute($node) instanceof FullyQualified;
+        return $this->getRouteAttribute($classMethod) instanceof FullyQualified;
     }
 }

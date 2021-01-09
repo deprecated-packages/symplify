@@ -38,3 +38,5 @@ services:
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
 
     - Symplify\Astral\NodeValue\NodeValueResolver
+    - Symplify\PHPStanRules\Location\DirectoryChecker
+    - Symplify\PHPStanRules\Reflection\TraitMethodAnalyser

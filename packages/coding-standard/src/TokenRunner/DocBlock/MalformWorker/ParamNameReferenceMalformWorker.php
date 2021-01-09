@@ -17,7 +17,7 @@ final class ParamNameReferenceMalformWorker extends AbstractMalformWorker
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
-        return Strings::replace($docContent, self::PARAM_NAME_REGEX, function ($match) {
+        return Strings::replace($docContent, self::PARAM_NAME_REGEX, function ($match): string {
             return $match['param'] . $match['paramName'];
         });
     }

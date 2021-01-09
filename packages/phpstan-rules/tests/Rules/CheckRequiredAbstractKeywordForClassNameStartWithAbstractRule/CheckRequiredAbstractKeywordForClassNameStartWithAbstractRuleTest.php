@@ -25,7 +25,7 @@ final class CheckRequiredAbstractKeywordForClassNameStartWithAbstractRuleTest ex
         yield [__DIR__ . '/Fixture/SkipSomeClass.php', []];
 
         yield [
-            __DIR__ . '/Fixture/NonAbstractClassWithAbstractPrefix.php',
+            __DIR__ . '/Fixture/AbstractPrefixOnNonAbstractClass.php',
             [[CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule::ERROR_MESSAGE, 7]],
         ];
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\RequireThisOnParentMethodCallRule\Fixture;
 
-class CallParentMethodStaticallyWhenMethodOverriden extends ParentClass
+class SkipCallParentMethodStaticallyWhenMethodOverriden extends ParentClass
 {
     public function run()
     {

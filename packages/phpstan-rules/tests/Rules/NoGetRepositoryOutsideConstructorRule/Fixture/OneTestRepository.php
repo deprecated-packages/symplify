@@ -11,7 +11,7 @@ use Symplify\PHPStanRules\Tests\Rules\NoGetRepositoryOutsideConstructorRule\Sour
 final class OneTestRepository
 {
     /**
-     * @var EntityRepository $entityManager
+     * @var EntityManagerInterface $entityManager
      */
     private $entityManager;
 

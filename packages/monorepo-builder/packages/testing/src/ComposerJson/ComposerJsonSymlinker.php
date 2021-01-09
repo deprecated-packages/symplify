@@ -15,6 +15,21 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class ComposerJsonSymlinker
 {
     /**
+     * @var string
+     */
+    private const TYPE = 'type';
+
+    /**
+     * @var string
+     */
+    private const URL = 'url';
+
+    /**
+     * @var string
+     */
+    private const OPTIONS = 'options';
+
+    /**
      * @var ComposerJsonProvider
      */
     private $composerJsonProvider;
@@ -51,9 +66,9 @@ final class ComposerJsonSymlinker
             );
 
             $repositoriesContent = [
-                'type' => 'path',
-                'url' => $relativePathToLocalPackage,
-                'options' => [
+                self::TYPE => 'path',
+                self::URL => $relativePathToLocalPackage,
+                self::OPTIONS => [
                     'symlink' => $symlink,
                 ],
             ];
@@ -84,10 +99,10 @@ final class ComposerJsonSymlinker
         foreach ($packageComposerJson[ComposerJsonSection::REPOSITORIES] as $key => $repository) {
             if ($this->isSamePackageEntry($repository, $repositoriesContent)) {
                 // Just override the "options"
-                if (isset($repositoriesContent['options'])) {
-                    $packageComposerJson[ComposerJsonSection::REPOSITORIES][$key]['options'] = $repositoriesContent['options'];
+                if (isset($repositoriesContent[self::OPTIONS])) {
+                    $packageComposerJson[ComposerJsonSection::REPOSITORIES][$key][self::OPTIONS] = $repositoriesContent[self::OPTIONS];
                 } else {
-                    unset($packageComposerJson[ComposerJsonSection::REPOSITORIES][$key]['options']);
+                    unset($packageComposerJson[ComposerJsonSection::REPOSITORIES][$key][self::OPTIONS]);
                 }
                 return $packageComposerJson;
             }
@@ -103,7 +118,7 @@ final class ComposerJsonSymlinker
      */
     private function isSamePackageEntry(array $repository, array $repositoriesContent): bool
     {
-        return isset($repository['type']) && $repository['type'] === $repositoriesContent['type']
-            && isset($repository['url']) && $repository['url'] === $repositoriesContent['url'];
+        return isset($repository[self::TYPE]) && $repository[self::TYPE] === $repositoriesContent[self::TYPE]
+            && isset($repository[self::URL]) && $repository[self::URL] === $repositoriesContent[self::URL];
     }
 }

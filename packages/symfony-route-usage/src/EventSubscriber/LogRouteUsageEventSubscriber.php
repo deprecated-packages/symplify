@@ -100,7 +100,7 @@ final class LogRouteUsageEventSubscriber implements EventSubscriberInterface
         }
 
         // is probably some debug-route
-        if (Strings::startsWith((string) $route, '_')) {
+        if (Strings::startsWith($route, '_')) {
             return true;
         }
 

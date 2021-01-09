@@ -13,6 +13,11 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class ChangelogFileSystemTest extends AbstractKernelTestCase
 {
     /**
+     * @var string
+     */
+    private const FILE_CHANGELOG = 'tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md';
+
+    /**
      * @var ChangelogFileSystem
      */
     private $changelogFileSystem;
@@ -59,13 +64,11 @@ CODE_SAMPLE
 - [#5] Added x
 CODE_SAMPLE
 , DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
-
-        $fileChangelog = 'tests/FileSystem/ChangelogFileSystem/Source/CHANGELOG.md';
         $smartFileSystem = new SmartFileSystem();
 
-        $changelogFile = file_exists($fileChangelog)
-            ? $fileChangelog
-            : 'packages/changelog-linker/' . $fileChangelog;
+        $changelogFile = file_exists(self::FILE_CHANGELOG)
+            ? self::FILE_CHANGELOG
+            : 'packages/changelog-linker/' . self::FILE_CHANGELOG;
         $content = $smartFileSystem->readFile($changelogFile);
         $expectedListData = $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md');
 

@@ -71,7 +71,7 @@ final class NoReturnArrayVariableListRule extends AbstractSymplifyRule
         /** @var Array_ $array */
         $array = $node->expr;
 
-        $itemCount = count((array) $array->items);
+        $itemCount = count($array->items);
         if ($itemCount < 2) {
             return [];
         }
@@ -143,7 +143,7 @@ CODE_SAMPLE
     private function resolveExprCount(Array_ $array): int
     {
         $exprCount = 0;
-        foreach ((array) $array->items as $item) {
+        foreach ($array->items as $item) {
             if (! $item instanceof ArrayItem) {
                 continue;
             }

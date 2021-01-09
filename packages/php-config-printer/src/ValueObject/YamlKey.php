@@ -9,11 +9,6 @@ final class YamlKey
     /**
      * @var string
      */
-    public const DEFAULTS = '_defaults';
-
-    /**
-     * @var string
-     */
     public const SERVICES = 'services';
 
     /**

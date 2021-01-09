@@ -134,7 +134,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $this->separator();
 
         // ignored path
-        $regexMessage = $this->regexMessage((string) $error->getMessage());
+        $regexMessage = $this->regexMessage($error->getMessage());
         $itemMessage = sprintf(" - '%s'", $regexMessage);
         $this->writeln($itemMessage);
 
