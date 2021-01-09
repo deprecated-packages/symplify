@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ConsolePackageBuilder\Tests\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\ConsolePackageBuilder\Bundle\NamelessConsoleCommandBundle;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
@@ -17,7 +18,7 @@ final class ConsolePackageBuilderKernel extends Kernel implements ExtraConfigAwa
     private $configs = [];
 
     /**
-     * @return NamelessConsoleCommandBundle[]
+     * @return BundleInterface[]
      */
     public function registerBundles(): iterable
     {

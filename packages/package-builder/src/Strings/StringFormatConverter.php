@@ -7,6 +7,7 @@ namespace Symplify\PackageBuilder\Strings;
 use Nette\Utils\Strings;
 
 /**
+ * @api
  * @see \Symplify\PackageBuilder\Tests\Strings\StringFormatConverterTest
  */
 final class StringFormatConverter
@@ -27,6 +28,11 @@ final class StringFormatConverter
     public function camelCaseToUnderscore(string $input): string
     {
         return $this->camelCaseToGlue($input, '_');
+    }
+
+    public function camelCaseToDashed(string $input): string
+    {
+        return $this->camelCaseToGlue($input, '-');
     }
 
     /**

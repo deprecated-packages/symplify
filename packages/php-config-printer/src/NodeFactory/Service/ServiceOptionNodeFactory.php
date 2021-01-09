@@ -69,7 +69,7 @@ final class ServiceOptionNodeFactory
     }
 
     /**
-     * @return mixed[]<string, mixed[]>
+     * @return array<string, mixed>
      */
     private function unNestArguments(array $servicesValues): array
     {

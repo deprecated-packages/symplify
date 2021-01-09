@@ -219,7 +219,6 @@ parameters:
             message: '#PHPDoc tag @return with type mixed is not subtype of native type array#'
             paths:
                 - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
-                - packages/package-builder/src/Http/BetterGuzzleClient.php
 
         -
             message: '#Do not use static property#'
@@ -453,8 +452,6 @@ parameters:
                 # PHP 7/8 compact
                 - packages/easy-hydrator/src/ParameterTypeRecognizer.php
                 - packages/phpstan-rules/src/Rules/CheckParentChildMethodParameterTypeCompatibleRule.php
-                # Symfony 4/5 compat
-                - packages/monorepo-builder/packages/release/src/Process/ProcessRunner.php
 
         -
             message: '#Function "property_exists\(\)" cannot be used/left in the code#'
@@ -501,3 +498,9 @@ parameters:
         - '#Property Symplify\\SymfonyRouteUsage\\Entity\\RouteVisit\:\:\$routeHash is never read, only written#'
 
         - '#Method Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:parseCodeToTokens\(\) should return array<array<int\|string\>\> but returns array<int, array<int, int\|string\>\|string\>#'
+
+
+        -
+             message: '#Function "method_exists\(\)" cannot be used/left in the code#'
+             paths:
+                 - packages/monorepo-builder/packages/release/src/Process/ProcessRunner.php

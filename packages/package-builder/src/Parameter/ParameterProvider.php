@@ -28,6 +28,7 @@ final class ParameterProvider
     }
 
     /**
+     * @api
      * @return mixed|null
      */
     public function provideParameter(string $name)
@@ -35,6 +36,9 @@ final class ParameterProvider
         return $this->parameters[$name] ?? null;
     }
 
+    /**
+     * @api
+     */
     public function provideStringParameter(string $name): string
     {
         $this->ensureParameterIsSet($name);
@@ -43,6 +47,7 @@ final class ParameterProvider
     }
 
     /**
+     * @api
      * @return mixed[]
      */
     public function provideArrayParameter(string $name): array
@@ -52,6 +57,9 @@ final class ParameterProvider
         return $this->parameters[$name];
     }
 
+    /**
+     * @api
+     */
     public function provideBoolParameter(string $parameterName): bool
     {
         return $this->parameters[$parameterName] ?? false;
