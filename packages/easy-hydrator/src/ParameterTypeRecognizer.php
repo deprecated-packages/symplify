@@ -46,13 +46,13 @@ final class ParameterTypeRecognizer
         if ($typeNode instanceof ArrayTypeNode) {
             return true;
         }
+
         return $typeNode instanceof GenericTypeNode;
     }
 
     public function getType(ReflectionParameter $reflectionParameter): ?string
     {
         $type = $this->getTypeFromTypeHint($reflectionParameter);
-
         if ($type) {
             return $type;
         }

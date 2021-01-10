@@ -78,7 +78,8 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
             return [];
         }
 
-        $shortClassName = (string) $node->name;
+        /** @var string $shortClassName */
+        $shortClassName = $this->simpleNameResolver->getShortClassNameFromNode($node);
         if (Strings::match($shortClassName, self::ANONYMOUS_CLASS_REGEX)) {
             return [];
         }
