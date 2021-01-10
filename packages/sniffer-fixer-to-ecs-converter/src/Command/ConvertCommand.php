@@ -65,10 +65,12 @@ final class ConvertCommand extends AbstractSymplifyCommand
             throw new NotImplementedYetException($message);
         }
 
-        $outputFileName = $sourceFileInfo->getPath() . DIRECTORY_SEPARATOR . 'converted-ecs.php';
+        $outputFileName = $sourceFileInfo->getRealPathDirectory() . DIRECTORY_SEPARATOR . 'converted-ecs.php';
         $this->smartFileSystem->dumpFile($outputFileName, $convertedECSFileContent);
 
-        $message = sprintf('"%s" was converted into "%s"', $source, $outputFileName);
+        $outputFileInfo = new SmartFileInfo($outputFileName);
+
+        $message = sprintf('"%s" was converted into "%s"', $source, $outputFileInfo->getRelativeFilePathFromCwd());
         $this->symfonyStyle->success($message);
 
         return ShellCode::SUCCESS;
