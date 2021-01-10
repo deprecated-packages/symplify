@@ -8,7 +8,6 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreventDoubleSetParameterRule;
-use Symplify\PHPStanRules\Tests\Rules\PreventDoubleSetParameterRule\Source\OptionConstants;
 
 final class PreventDoubleSetParameterRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -27,11 +26,8 @@ final class PreventDoubleSetParameterRuleTest extends AbstractServiceAwareRuleTe
         yield [__DIR__ . '/Fixture/SkipOnce.php', []];
         yield [__DIR__ . '/Fixture/SkipNoDuplicateValue.php', []];
 
-        $errorMessage = sprintf(PreventDoubleSetParameterRule::ERROR_MESSAGE, 'a');
-        yield [__DIR__ . '/Fixture/DuplicateValue.php', [[$errorMessage, 10]]];
-
-        $errorMessage = sprintf(PreventDoubleSetParameterRule::ERROR_MESSAGE, OptionConstants::class . '::NAME');
-        yield [__DIR__ . '/Fixture/DuplicateConstantValue.php', [[$errorMessage, 11]]];
+        yield [__DIR__ . '/Fixture/DuplicateValue.php', [[PreventDoubleSetParameterRule::ERROR_MESSAGE, 10]]];
+        yield [__DIR__ . '/Fixture/DuplicateConstantValue.php', [[PreventDoubleSetParameterRule::ERROR_MESSAGE, 11]]];
     }
 
     protected function getRule(): Rule
