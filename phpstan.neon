@@ -190,6 +190,8 @@ parameters:
                 - */packages/neon-to-yaml-converter/src/NeonToYamlConverter.php
                 - packages/easy-testing/src/MissplacedSkipPrefixResolver.php #23
 
+                - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php #11
+
         -
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'
             paths:
