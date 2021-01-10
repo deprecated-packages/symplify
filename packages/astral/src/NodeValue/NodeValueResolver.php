@@ -21,6 +21,9 @@ use PhpParser\Node\Scalar\MagicConst\File;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
+/**
+ * @see \Symplify\Astral\Tests\NodeValue\NodeValueResolverTest
+ */
 final class NodeValueResolver
 {
     /**
@@ -85,10 +88,7 @@ final class NodeValueResolver
         return constant($className . '::' . $constantName);
     }
 
-    /**
-     * @return mixed|null
-     */
-    private function resolveMagicConst(MagicConst $magicConst)
+    private function resolveMagicConst(MagicConst $magicConst): ?string
     {
         if ($magicConst instanceof Dir) {
             return dirname($this->currentFilePath, 2);
