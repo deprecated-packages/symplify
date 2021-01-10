@@ -35,20 +35,6 @@ final class ForbiddenArrayWithStringKeysRuleTest extends AbstractServiceAwareRul
         yield [__DIR__ . '/Fixture/SkipDefaultValueInConstructor.php', []];
     }
 
-    /**
-     * @requires PHP 8.0
-     * @dataProvider provideDataPhp80()
-     */
-    public function testPhp8Rule(string $filePath, array $expectedErrorMessagesWithLines): void
-    {
-        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
-    }
-
-    public function provideDataPhp80(): Iterator
-    {
-        yield [__DIR__ . '/FixturePhp80/SkipAttributeArrayKey.php', []];
-    }
-
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(

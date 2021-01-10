@@ -141,7 +141,7 @@ CODE_SAMPLE
     {
         // skip part of attribute
         $parentAttribute = $this->parentNodeFinder->getFirstParentByType($array, Attribute::class);
-        if (! $parentAttribute instanceof Attribute) {
+        if ($parentAttribute instanceof Attribute) {
             return true;
         }
 
