@@ -41,7 +41,7 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
             __DIR__ . '/Fixture/SecondClassDuplicateFirstClassMethod.php',
         ], [[$errorMessage, 15]]];
 
-        $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'method', FirstClassWithParameter::class);
+        $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'someMethod', FirstClassWithParameter::class);
         yield [[
             __DIR__ . '/Fixture/FirstClassWithParameter.php',
             __DIR__ . '/Fixture/SecondClassDuplicateFirstClassWithParameterMethod.php',

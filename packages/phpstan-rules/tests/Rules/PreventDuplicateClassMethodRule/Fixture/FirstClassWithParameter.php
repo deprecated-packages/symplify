@@ -9,7 +9,7 @@ class FirstClassWithParameter
     /**
      * @param object $x
      */
-    public function method(object $x)
+    public function someMethod(object $x)
     {
         echo 'statement';
         return $x->execute() && $x->getResult();

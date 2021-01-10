@@ -62,6 +62,11 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     private $contentMethodByName = [];
 
+    /**
+     * @var string
+     */
+    private const PHPSTAN_RULES_METHOD_PARAM_COUNT = 'PHPSTAN_RULES_METHOD_PARAM_COUNT_%d';
+
     public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard)
     {
         $this->simpleNameResolver = $simpleNameResolver;
@@ -114,18 +119,19 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         }
 
         $printStmts = $this->getPrintStmts($node);
+        $append     = sprintf(self::PHPSTAN_RULES_METHOD_PARAM_COUNT, count($node->params));
 
-        if (! isset($this->contentMethodByName[$classMethodName])) {
-            $this->firstClassByName[$classMethodName] = $className;
-            $this->contentMethodByName[$classMethodName] = $printStmts;
+        if (! isset($this->contentMethodByName[$classMethodName . $append])) {
+            $this->firstClassByName[$classMethodName . $append] = $className;
+            $this->contentMethodByName[$classMethodName . $append] = $printStmts;
             return [];
         }
 
-        if ($printStmts !== $this->contentMethodByName[$classMethodName]) {
+        if ($printStmts !== $this->contentMethodByName[$classMethodName . $append]) {
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $classMethodName, $this->firstClassByName[$classMethodName])];
+        return [sprintf(self::ERROR_MESSAGE, $classMethodName, $this->firstClassByName[$classMethodName . $append])];
     }
 
     public function getRuleDefinition(): RuleDefinition
