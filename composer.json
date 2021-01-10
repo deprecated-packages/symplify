@@ -71,8 +71,7 @@
     },
     "autoload": {
         "files": [
-            "packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php",
-            "vendor/squizlabs/php_codesniffer/autoload.php"
+            "packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php"
         ],
         "psr-4": {
             "Symplify\\Astral\\": "packages/astral/src",
