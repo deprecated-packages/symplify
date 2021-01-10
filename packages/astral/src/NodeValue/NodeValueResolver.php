@@ -88,9 +88,6 @@ final class NodeValueResolver
         return constant($className . '::' . $constantName);
     }
 
-    /**
-     * @return mixed|null
-     */
     private function resolveMagicConst(MagicConst $magicConst): ?string
     {
         if ($magicConst instanceof Dir) {
