@@ -7,20 +7,20 @@ namespace Symplify\Astral\NodeValue;
 use PhpParser\ConstExprEvaluationException;
 use PhpParser\ConstExprEvaluator;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\BinaryOp\Identical;
-use PhpParser\Node\Expr\BinaryOp\NotIdentical;
-use PhpParser\Node\Expr\BooleanNot;
+use PhpParser\Node\Expr\Cast;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\MagicConst\File;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PackageBuilder\Php\TypeChecker;
 
 final class NodeValueResolver
 {
@@ -39,13 +39,19 @@ final class NodeValueResolver
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver)
+    /**
+     * @var TypeChecker
+     */
+    private $typeChecker;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver, TypeChecker $typeChecker)
     {
         $this->simpleNameResolver = $simpleNameResolver;
 
         $this->constExprEvaluator = new ConstExprEvaluator(function (Expr $expr): ?string {
             return $this->resolveByNode($expr);
         });
+        $this->typeChecker = $typeChecker;
     }
 
     /**
@@ -54,14 +60,6 @@ final class NodeValueResolver
     public function resolve(Expr $expr, Scope $scope)
     {
         $this->currentScope = $scope;
-
-        if ($expr instanceof Identical || $expr instanceof NotIdentical) {
-            return null;
-        }
-
-        if ($expr instanceof BooleanNot) {
-            return null;
-        }
 
         try {
             return $this->constExprEvaluator->evaluateDirectly($expr);
@@ -140,15 +138,10 @@ final class NodeValueResolver
             return $this->resolveClassConstFetch($expr);
         }
 
-        if ($expr instanceof Variable) {
-            throw new ConstExprEvaluationException();
-        }
-
-        if ($expr instanceof MethodCall) {
-            throw new ConstExprEvaluationException();
-        }
-
-        if ($expr instanceof Instanceof_) {
+        if ($this->typeChecker->isInstanceOf(
+            $expr,
+            [Variable::class, Cast::class, MethodCall::class, PropertyFetch::class, Instanceof_::class]
+        )) {
             throw new ConstExprEvaluationException();
         }
 
