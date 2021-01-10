@@ -182,7 +182,7 @@ CODE_SAMPLE
             return ! Strings::endsWith($className, 'Test');
         }
 
-        return ! is_a($className, RuleTestCase::class);
+        return ! is_a($className, RuleTestCase::class, true);
     }
 
     private function isEmptyArray(Expr $expr): bool
