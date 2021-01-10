@@ -150,7 +150,7 @@ CODE_SAMPLE
             return false;
         }
 
-        $value = $this->nodeValueResolver->resolve($expr, $scope);
+        $value = $this->nodeValueResolver->resolve($expr, $scope->getFile());
         if ($value === null) {
             return false;
         }

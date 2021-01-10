@@ -224,7 +224,7 @@ CODE_SAMPLE
         $concats = $this->nodeFinder->findInstanceOf($arrayItem, Concat::class);
 
         foreach ($concats as $concat) {
-            $resolvedValue = $this->nodeValueResolver->resolve($concat, $scope);
+            $resolvedValue = $this->nodeValueResolver->resolve($concat, $scope->getFile());
             if (! is_string($resolvedValue)) {
                 continue;
             }
