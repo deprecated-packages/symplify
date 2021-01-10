@@ -6,13 +6,13 @@ namespace Symplify\SymplifyKernel\Tests\Console\AbstractSymplifyConsoleApplicati
 
 use Symfony\Component\Console\Application;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\SymplifyKernel\Tests\HttpKernel\PackageBuilderTestingKernel;
+use Symplify\SymplifyKernel\Tests\HttpKernel\OnlyForTestsKernel;
 
 final class AutowiredConsoleApplicationTest extends AbstractKernelTestCase
 {
     protected function setUp(): void
     {
-        $this->bootKernel(PackageBuilderTestingKernel::class);
+        $this->bootKernel(OnlyForTestsKernel::class);
     }
 
     public function test(): void

@@ -87,7 +87,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/packages/easy-coding-standard/packages/sniff-runner/tests/Application/FixerSource/SomeFile.php',
             __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
             __DIR__ . '/packages/template-checker/tests/SomeBundle/RealClassBundle.php',
-            __DIR__ . '/packages/easy-coding-standard/packages/sniff-runner/tests/Error/ErrorSorterSource/SomeFile.php',
         ],
 
         __DIR__ . '/packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php',
