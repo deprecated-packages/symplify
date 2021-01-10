@@ -20,7 +20,6 @@ use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\MagicConst\File;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\Fixture\StaticCall;
 
 final class NodeValueResolver
 {

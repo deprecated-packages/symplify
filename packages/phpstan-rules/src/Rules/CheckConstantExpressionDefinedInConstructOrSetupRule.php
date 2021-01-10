@@ -192,9 +192,7 @@ CODE_SAMPLE
             $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
             $parentOfParentNode = $parent->getAttribute(PHPStanAttributeKey::PARENT);
 
-            $firstName = $this->simpleNameResolver->getName($node);
-            $secondName = $this->simpleNameResolver->getName($varExpr);
-            if ($firstName !== $secondName) {
+            if (! $this->simpleNameResolver->areNamesEqual($node, $varExpr)) {
                 continue;
             }
 
