@@ -18,7 +18,6 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\MagicConst\File;
-use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
@@ -30,11 +29,6 @@ final class NodeValueResolver
     private $constExprEvaluator;
 
     /**
-     * @var Scope
-     */
-    private $currentScope;
-
-    /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
@@ -43,6 +37,11 @@ final class NodeValueResolver
      * @var TypeChecker
      */
     private $typeChecker;
+
+    /**
+     * @var string
+     */
+    private $currentFilePath;
 
     public function __construct(SimpleNameResolver $simpleNameResolver, TypeChecker $typeChecker)
     {
@@ -57,9 +56,9 @@ final class NodeValueResolver
     /**
      * @return array|bool|float|int|mixed|string|null
      */
-    public function resolve(Expr $expr, Scope $scope)
+    public function resolve(Expr $expr, string $filePath)
     {
-        $this->currentScope = $scope;
+        $this->currentFilePath = $filePath;
 
         try {
             return $this->constExprEvaluator->evaluateDirectly($expr);
@@ -92,13 +91,11 @@ final class NodeValueResolver
     private function resolveMagicConst(MagicConst $magicConst)
     {
         if ($magicConst instanceof Dir) {
-            $currentFile = $this->currentScope->getFile();
-            return dirname($currentFile, 2);
+            return dirname($this->currentFilePath, 2);
         }
 
         if ($magicConst instanceof File) {
-            $currentFile = $this->currentScope->getFile();
-            return dirname($currentFile);
+            return dirname($this->currentFilePath);
         }
 
         return null;
@@ -127,7 +124,7 @@ final class NodeValueResolver
         }
 
         if ($expr instanceof FuncCall && $this->simpleNameResolver->isName($expr, 'getcwd')) {
-            return dirname($this->currentScope->getFile());
+            return dirname($this->currentFilePath);
         }
 
         if ($expr instanceof ConstFetch) {

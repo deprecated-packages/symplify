@@ -10,7 +10,6 @@ use PhpParser\Node\Scalar\String_;
 use PHPUnit\Framework\TestCase;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
-use Symplify\Astral\Tests\NodeValue\Source\FakeScope;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
 final class NodeValueResolverTest extends TestCase
@@ -32,8 +31,7 @@ final class NodeValueResolverTest extends TestCase
      */
     public function test(Expr $expr, $expectedValue): void
     {
-        $fakeScope = new FakeScope();
-        $resolvedValue = $this->nodeValueResolver->resolve($expr, $fakeScope);
+        $resolvedValue = $this->nodeValueResolver->resolve($expr, __FILE__);
         $this->assertSame($expectedValue, $resolvedValue);
     }
 
