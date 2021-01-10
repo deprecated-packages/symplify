@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\For_;
@@ -118,7 +119,6 @@ class SomeClass
     public function someMethod()
     {
         $mainPath = getcwd() . '/absolute_path';
-        // ...
         return __DIR__ . $mainPath;
     }
 }
@@ -136,7 +136,6 @@ class SomeClass
 
     public function someMethod()
     {
-        // ...
         return $this->mainPath;
     }
 }
@@ -147,6 +146,10 @@ CODE_SAMPLE
 
     private function isConstantExpr(Expr $expr, Scope $scope): bool
     {
+        if ($expr instanceof ClassConstFetch) {
+            return false;
+        }
+
         $value = $this->nodeValueResolver->resolve($expr, $scope);
         if ($value === null) {
             return false;
@@ -157,8 +160,8 @@ CODE_SAMPLE
 
     private function isNotInsideClassMethodDirectly(Node $node): bool
     {
-        $parentStatement = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        return ! $parentStatement instanceof ClassMethod;
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        return ! $parent instanceof ClassMethod;
     }
 
     private function isUsedInNextStatement(Assign $assign, Node $node): bool
@@ -189,15 +192,9 @@ CODE_SAMPLE
             $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
             $parentOfParentNode = $parent->getAttribute(PHPStanAttributeKey::PARENT);
 
-            if (! property_exists($node, 'name')) {
-                continue;
-            }
-
-            if (! property_exists($varExpr, 'name')) {
-                continue;
-            }
-
-            if ($node->name !== $varExpr->name) {
+            $firstName = $this->simpleNameResolver->getName($node);
+            $secondName = $this->simpleNameResolver->getName($varExpr);
+            if ($firstName !== $secondName) {
                 continue;
             }
 

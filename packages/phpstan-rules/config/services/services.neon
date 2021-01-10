@@ -23,10 +23,6 @@ services:
     - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver
 
     - Symplify\PHPStanRules\Types\ConstantTypeAnalyzer
-    - Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory
-    -
-        class: PhpParser\ConstExprEvaluator
-        factory: ['@Symplify\PHPStanRules\PhpParser\ConstExprEvaluatorFactory', 'create']
 
     - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer
     - Symplify\PHPStanRules\ComposerAutoloadResolver

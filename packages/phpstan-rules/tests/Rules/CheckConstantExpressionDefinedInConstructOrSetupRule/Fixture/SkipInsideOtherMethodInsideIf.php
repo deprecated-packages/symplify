@@ -6,12 +6,10 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInCons
 
 class SkipInsideOtherMethodInsideIf
 {
-    private const A = 'a';
-
     public function otherMethodInsideIf($a)
     {
         if (true) {
-            $a = self::A;
+            $a = 'very static string';
         }
 
         return $a;
