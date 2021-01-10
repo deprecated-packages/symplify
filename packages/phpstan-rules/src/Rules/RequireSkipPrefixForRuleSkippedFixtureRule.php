@@ -182,7 +182,7 @@ CODE_SAMPLE
             return ! Strings::endsWith($className, 'Test');
         }
 
-        return ! is_a($className, RuleTestCase::class);
+        return ! is_a($className, RuleTestCase::class, true);
     }
 
     private function isEmptyArray(Expr $expr): bool
@@ -224,7 +224,7 @@ CODE_SAMPLE
         $concats = $this->nodeFinder->findInstanceOf($arrayItem, Concat::class);
 
         foreach ($concats as $concat) {
-            $resolvedValue = $this->nodeValueResolver->resolve($concat, $scope);
+            $resolvedValue = $this->nodeValueResolver->resolve($concat, $scope->getFile());
             if (! is_string($resolvedValue)) {
                 continue;
             }

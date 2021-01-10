@@ -79,7 +79,7 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
             return [];
         }
 
-        $setParameterName = $this->nodeValueResolver->resolve($node->args[0]->value, $scope);
+        $setParameterName = $this->nodeValueResolver->resolve($node->args[0]->value, $scope->getFile());
         if ($setParameterName === null) {
             return [];
         }
