@@ -39,3 +39,4 @@ services:
     - Symplify\PHPStanRules\Naming\BoolishNameAnalyser
     - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
     - Symplify\PHPStanRules\NodeFinder\ParentNodeFinder
+    - Symplify\PackageBuilder\Php\TypeChecker
