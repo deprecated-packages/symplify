@@ -66,7 +66,7 @@ final class ChangelogFileSystem
         $this->smartFileSystem = $smartFileSystem;
     }
 
-    private function readChangelog(): string
+    public function readChangelog(): string
     {
         $changelogFilePath = $this->getChangelogFilePath();
         $this->fileSystemGuard->ensureFileExists($changelogFilePath, __METHOD__);
@@ -74,12 +74,12 @@ final class ChangelogFileSystem
         return $this->smartFileSystem->readFile($changelogFilePath);
     }
 
-    private function storeChangelog(string $content): void
+    public function storeChangelog(string $content): void
     {
         $this->smartFileSystem->dumpFile($this->getChangelogFilePath(), $content);
     }
 
-    private function addToChangelogOnPlaceholder(string $newContent, string $placeholder): void
+    public function addToChangelogOnPlaceholder(string $newContent, string $placeholder): void
     {
         $changelogContent = $this->readChangelog();
 
