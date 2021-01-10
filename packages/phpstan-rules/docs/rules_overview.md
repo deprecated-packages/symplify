@@ -293,7 +293,7 @@ class SomeClass extends ParentClass
 
 ## CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule
 
-Class name start with Abstract must have abstract keyword
+Class name starting with "Abstract" must have an `abstract` keyword
 
 - class: `Symplify\PHPStanRules\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule`
 
@@ -4185,7 +4185,7 @@ class SomeClass
 
 ## RequireSkipPrefixForRuleSkippedFixtureRule
 
-`File` "%s" should have prefix "Skip" prefix
+Skipped tested file must start with "Skip" prefix
 
 - class: `Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule`
 
