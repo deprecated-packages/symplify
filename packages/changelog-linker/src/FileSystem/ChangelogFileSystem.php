@@ -101,7 +101,7 @@ final class ChangelogFileSystem
         );
 
         // clean up ## Unreleased
-        $updatedChangelogContent = $this->cleanUpUnreleased($updatedChangelogContent, $placeholder);
+        $updatedChangelogContent = $this->cleanUpUnreleased($updatedChangelogContent);
         $this->storeChangelog($updatedChangelogContent);
     }
 

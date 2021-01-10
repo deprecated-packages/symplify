@@ -86,7 +86,7 @@ final class NodeValueResolver
     }
 
     /**
-     * @return mixed|null
+     * @return string|null
      */
     private function resolveMagicConst(MagicConst $magicConst)
     {
