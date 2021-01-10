@@ -105,7 +105,7 @@ final class ChangelogFileSystem
         $this->storeChangelog($updatedChangelogContent);
     }
 
-    private function cleanUpUnreleased(string $updatedChangelogContent): string
+    private function cleanUpUnreleased(string $updatedChangelogContent, string $placeholder): string
     {
         $updatedChangelogContent = Strings::replace(
             $updatedChangelogContent,
