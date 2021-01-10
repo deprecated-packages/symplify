@@ -13,6 +13,7 @@ use PhpParser\Node\Expr\BooleanNot;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\MagicConst;
@@ -59,10 +60,6 @@ final class NodeValueResolver
         }
 
         if ($expr instanceof BooleanNot) {
-            return null;
-        }
-
-        if ($expr instanceof Variable) {
             return null;
         }
 
@@ -148,6 +145,10 @@ final class NodeValueResolver
         }
 
         if ($expr instanceof MethodCall) {
+            throw new ConstExprEvaluationException();
+        }
+
+        if ($expr instanceof Instanceof_) {
             throw new ConstExprEvaluationException();
         }
 
