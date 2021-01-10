@@ -13,8 +13,10 @@ use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\Yield_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -175,7 +177,12 @@ CODE_SAMPLE
             return true;
         }
 
-        return ! Strings::endsWith($className, 'Test');
+        // in tests, there should be no nested test, that would be run by PHPUnit
+        if (StaticPHPUnitEnvironment::isPHPUnitRun()) {
+            return ! Strings::endsWith($className, 'Test');
+        }
+
+        return ! is_a($className, RuleTestCase::class);
     }
 
     private function isEmptyArray(Expr $expr): bool
