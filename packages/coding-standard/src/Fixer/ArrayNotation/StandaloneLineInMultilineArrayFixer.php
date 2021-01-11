@@ -10,7 +10,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\Fixer\AbstractArrayFixer;
-use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
+use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\TokensNewliner;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\CodingStandard\TokenRunner\ValueObject\LineKind;
 use Symplify\CodingStandard\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
@@ -29,19 +29,19 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractArrayFixer imple
     private const ERROR_MESSAGE = 'Indexed arrays must have 1 item per line';
 
     /**
-     * @var LineLengthTransformer
-     */
-    private $lineLengthTransformer;
-
-    /**
      * @var ArrayWrapperFactory
      */
     private $arrayWrapperFactory;
 
-    public function __construct(LineLengthTransformer $lineLengthTransformer, ArrayWrapperFactory $arrayWrapperFactory)
+    /**
+     * @var TokensNewliner
+     */
+    private $tokensNewliner;
+
+    public function __construct(ArrayWrapperFactory $arrayWrapperFactory, TokensNewliner $tokensNewliner)
     {
-        $this->lineLengthTransformer = $lineLengthTransformer;
         $this->arrayWrapperFactory = $arrayWrapperFactory;
+        $this->tokensNewliner = $tokensNewliner;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -55,7 +55,7 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractArrayFixer imple
             return;
         }
 
-        $this->lineLengthTransformer->breakItems($blockInfo, $tokens, LineKind::ARRAYS);
+        $this->tokensNewliner->breakItems($blockInfo, $tokens, LineKind::ARRAYS);
     }
 
     public function getPriority(): int
