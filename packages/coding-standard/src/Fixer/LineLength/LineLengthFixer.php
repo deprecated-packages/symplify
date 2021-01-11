@@ -271,12 +271,7 @@ CODE_SAMPLE
             return true;
         }
 
-        // heredoc/nowdoc => skip
-        $nextTokenPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
-        /** @var Token $nextToken */
-        $nextToken = $tokens[$nextTokenPosition];
-
-        if (Strings::contains($nextToken->getContent(), '<<<')) {
+        if ($this->isHerenowDoc($tokens, $blockInfo)) {
             return true;
         }
 
@@ -288,5 +283,16 @@ CODE_SAMPLE
 
         // has comments => dangerous to change: https://github.com/symplify/symplify/issues/973
         return (bool) $tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd());
+    }
+
+    private function isHerenowDoc(Tokens $tokens, BlockInfo $blockInfo): bool
+    {
+        // heredoc/nowdoc => skip
+        $nextTokenPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
+
+        /** @var Token $nextToken */
+        $nextToken = $tokens[$nextTokenPosition];
+
+        return Strings::contains($nextToken->getContent(), '<<<');
     }
 }
