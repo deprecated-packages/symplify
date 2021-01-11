@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -106,6 +107,10 @@ final class LineLengthTransformer
 
         $fullLineLength = $this->lineLengthResolver->getLengthFromStartEnd($tokens, $blockInfo);
         if ($fullLineLength <= $lineLength && $inlineShortLine) {
+            if ($this->hasPromotedProperty($tokens, $blockInfo)) {
+                return;
+            }
+
             $this->tokensInliner->inlineItems($tokens, $blockInfo);
             return;
         }
@@ -203,5 +208,16 @@ final class LineLengthTransformer
             return false;
         }
         return $nextNextToken->isComment();
+    }
+
+    private function hasPromotedProperty(Tokens $tokens, BlockInfo $blockInfo): bool
+    {
+        $resultByKind = $tokens->findGivenKind([
+            CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PUBLIC,
+            CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PROTECTED,
+            CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PRIVATE,
+        ], $blockInfo->getStart(), $blockInfo->getEnd());
+
+        return (bool) array_filter($resultByKind);
     }
 }
