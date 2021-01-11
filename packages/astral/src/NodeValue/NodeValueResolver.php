@@ -50,7 +50,7 @@ final class NodeValueResolver
     {
         $this->simpleNameResolver = $simpleNameResolver;
 
-        $this->constExprEvaluator = new ConstExprEvaluator(function (Expr $expr): ?string {
+        $this->constExprEvaluator = new ConstExprEvaluator(function (Expr $expr) {
             return $this->resolveByNode($expr);
         });
         $this->typeChecker = $typeChecker;
@@ -115,7 +115,7 @@ final class NodeValueResolver
     }
 
     /**
-     * @return mixed|string|null
+     * @return mixed|string|int|bool|null
      */
     private function resolveByNode(Expr $expr)
     {
