@@ -26,6 +26,7 @@ final class RequireClassTypeInClassMethodByTypeRuleTest extends AbstractServiceA
         yield [__DIR__ . '/Fixture/SkipCorrectReturnRector.php', []];
         yield [__DIR__ . '/Fixture/SkipNonRector.php', []];
         yield [__DIR__ . '/Fixture/SkipInterface.php', []];
+        yield [__DIR__ . '/Fixture/SkipEmptyArray.php', []];
 
         $errorMessage = sprintf(
             RequireClassTypeInClassMethodByTypeRule::ERROR_MESSAGE,

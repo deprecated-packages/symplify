@@ -158,12 +158,14 @@ CODE_SAMPLE
     ): bool {
         /** @var Return_[] $returns */
         $returns = $this->nodeFinder->findInstanceOf((array) $classMethod->stmts, Return_::class);
+
         foreach ($returns as $return) {
             if ($return->expr === null) {
                 return false;
             }
 
             $returnedExprType = $scope->getType($return->expr);
+
             if (! $this->constantTypeAnalyzer->isConstantClassStringType($returnedExprType, $requiredClassString)) {
                 return false;
             }
