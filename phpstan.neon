@@ -511,3 +511,9 @@ parameters:
             paths:
                  - packages/phpstan-rules/tests/Rules/PrefixAbstractClassRule/PrefixAbstractClassRuleTest.php
                  - packages/phpstan-rules/tests/Rules/CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule/CheckRequiredAbstractKeywordForClassNameStartWithAbstractRuleTest.php
+
+        -
+            message: '#Argument "name" must be a constant#'
+            paths:
+                - packages/symfony-static-dumper/tests/test_project
+                - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php

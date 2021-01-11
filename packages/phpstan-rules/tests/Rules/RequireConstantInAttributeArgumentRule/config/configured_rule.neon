@@ -1,0 +1,11 @@
+includes:
+    - ../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            attributeWithNames:
+                Symfony\Component\Routing\Annotation\Route:
+                    - name
