@@ -1,4 +1,4 @@
-# 119 Rules Overview
+# 120 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -109,7 +109,6 @@ class SomeClass
     public function someMethod()
     {
         $mainPath = getcwd() . '/absolute_path';
-        // ...
         return __DIR__ . $mainPath;
     }
 }
@@ -131,7 +130,6 @@ class SomeClass
 
     public function someMethod()
     {
-        // ...
         return $this->mainPath;
     }
 }
@@ -2490,6 +2488,35 @@ return 2;
 
 <br>
 
+## NoEmptyClassRule
+
+There should be no empty class
+
+- class: `Symplify\PHPStanRules\Rules\NoEmptyClassRule`
+
+```php
+class SomeClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function getSome()
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## NoFactoryInConstructorRule
 
 Do not use factory/method call in constructor. Put factory in config and get service with dependency injection
@@ -3678,7 +3705,7 @@ abstract class AbstractSomeClass
 
 ## PreventDoubleSetParameterRule
 
-Set param "%s" value is duplicated, use unique value instead
+Set param value is overriden. Merge it to previous set above
 
 - class: `Symplify\PHPStanRules\Rules\PreventDoubleSetParameterRule`
 
