@@ -33,7 +33,7 @@ Or in case of no change at all:
 echo 'just this content';
 ```
 
-The code is separated by `-----`. Top half of the file is input, the 2nd half is excpeted output.
+The code is separated by `-----`. Top half of the file is input, the 2nd half is expected output.
 
 It is common to organize test fixture in the test directory:
 
