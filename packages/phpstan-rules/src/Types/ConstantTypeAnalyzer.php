@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Types;
 
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 
@@ -26,6 +27,14 @@ final class ConstantTypeAnalyzer
 
     private function isConstantArrayType(ConstantArrayType $constantArrayType, string $classString): bool
     {
+        if (count($constantArrayType->getValueTypes()) === 0) {
+            /*
+             * If no value types have been derived, it means the array is empty and in that case,
+             * technically, the array returns only types of the given class string.
+             */
+            return true;
+        }
+
         $itemType = $constantArrayType->getItemType();
 
         if ($itemType instanceof ConstantStringType) {
