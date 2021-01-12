@@ -498,7 +498,8 @@ parameters:
         - '#Property Symplify\\SymfonyRouteUsage\\Entity\\RouteVisit\:\:\$routeHash is never read, only written#'
 
         - '#Method Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:parseCodeToTokens\(\) should return array<array<int\|string\>\> but returns array<int, array<int, int\|string\>\|string\>#'
-
+        - '#Class Symplify\\PHPStanRules\\Tests\\Rules\\PreventDuplicateClassMethodRule\\Fixture\\WithNoParameter1 not found#'
+        - '#Class Symplify\\PHPStanRules\\Tests\\Rules\\PreventDuplicateClassMethodRule\\Fixture\\WithParameter1 not found#'
 
         -
              message: '#Function "method_exists\(\)" cannot be used/left in the code#'
