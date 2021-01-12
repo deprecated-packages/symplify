@@ -10,6 +10,8 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\FirstClass;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\FirstClassWithParameter;
+use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\WithNoParameter1;
+use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\WithParameter1;
 
 final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -46,6 +48,15 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
             __DIR__ . '/Fixture/FirstClassWithParameter.php',
             __DIR__ . '/Fixture/SecondClassDuplicateFirstClassWithParameterMethod.php',
         ], [[$errorMessage, 12]]];
+
+        $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'diff', WithNoParameter1::class);
+        $errorMessage2 = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'diff', WithParameter1::class);
+        yield [[
+            __DIR__ . '/Fixture/DifferentCountParameters.php',
+        ], [
+            [$errorMessage, 18],
+            [$errorMessage2, 36]
+        ]];
     }
 
     protected function getRule(): Rule
