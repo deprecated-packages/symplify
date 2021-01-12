@@ -57,11 +57,6 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     private $contentMethodByCountParamName = [];
 
-    /**
-     * @var string
-     */
-    private const PHPSTAN_RULES_METHOD_PARAM_COUNT = 'PHPSTAN_RULES_METHOD_PARAM_COUNT_%d';
-
     public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard)
     {
         $this->simpleNameResolver = $simpleNameResolver;
