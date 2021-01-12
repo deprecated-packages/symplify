@@ -8,6 +8,7 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule;
+use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\DifferentMethodName1;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\FirstClass;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\FirstClassWithParameter;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\WithNoParameter1;
@@ -37,26 +38,19 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
             __DIR__ . '/Fixture/SkipSomeTrait.php',
         ], []];
 
-        $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'someMethod', FirstClass::class);
-        yield [[
-            __DIR__ . '/Fixture/FirstClass.php',
-            __DIR__ . '/Fixture/SecondClassDuplicateFirstClassMethod.php',
-        ], [[$errorMessage, 15]]];
-
-        $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'someMethod', FirstClassWithParameter::class);
-        yield [[
-            __DIR__ . '/Fixture/FirstClassWithParameter.php',
-            __DIR__ . '/Fixture/SecondClassDuplicateFirstClassWithParameterMethod.php',
-        ], [[$errorMessage, 12]]];
-
-        $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'diff', WithNoParameter1::class);
-        $errorMessage2 = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'diff', WithParameter1::class);
+        $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'diff', 'diff', WithNoParameter1::class);
+        $errorMessage2 = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'diff', 'diff', WithParameter1::class);
         yield [[
             __DIR__ . '/Fixture/DifferentCountParameters.php',
         ], [
             [$errorMessage, 18],
             [$errorMessage2, 36]
         ]];
+
+        $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'sleep', 'go', DifferentMethodName1::class);
+        yield [[
+            __DIR__ . '/Fixture/DifferentMethodName.php',
+        ], [[$errorMessage, 18]]];
     }
 
     protected function getRule(): Rule

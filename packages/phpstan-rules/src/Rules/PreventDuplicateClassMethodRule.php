@@ -24,7 +24,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Content of method "%s()" is duplicated with method in "%s" class. Use unique content or abstract service instead';
+    public const ERROR_MESSAGE = 'Content of method "%s()" is duplicated with method "%s()" in "%s" class. Use unique content or abstract service instead';
 
     /**
      * @var string[]
@@ -53,14 +53,9 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private $printerStandard;
 
     /**
-     * @var array<string, string>
+     * @var array<int, array<string, string>>
      */
-    private $firstClassByName = [];
-
-    /**
-     * @var array<string, string>
-     */
-    private $contentMethodByName = [];
+    private $contentMethodByCountParamName = [];
 
     /**
      * @var string
@@ -119,19 +114,31 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         }
 
         $printStmts = $this->getPrintStmts($node);
-        $append     = sprintf(self::PHPSTAN_RULES_METHOD_PARAM_COUNT, count($node->params));
+        $countParam = count($node->params);
 
-        if (! isset($this->contentMethodByName[$classMethodName . $append])) {
-            $this->firstClassByName[$classMethodName . $append] = $className;
-            $this->contentMethodByName[$classMethodName . $append] = $printStmts;
+        if (! isset($this->contentMethodByCountParamName[$countParam])) {
+            $this->contentMethodByCountParamName[$countParam][] = [
+                'class'   => $className,
+                'method'  => $classMethodName,
+                'content' => $printStmts,
+            ];
+
             return [];
         }
 
-        if ($printStmts !== $this->contentMethodByName[$classMethodName . $append]) {
-            return [];
+        foreach ($this->contentMethodByCountParamName[$countParam] as $contentMethod) {
+            if ($contentMethod['content'] === $printStmts) {
+                return [sprintf(self::ERROR_MESSAGE, $classMethodName, $contentMethod['method'], $contentMethod['class'])];
+            }
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $classMethodName, $this->firstClassByName[$classMethodName . $append])];
+        $this->contentMethodByCountParamName[$countParam][] = [
+            'class'   => $className,
+            'method'  => $classMethodName,
+            'content' => $printStmts,
+        ];
+
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
