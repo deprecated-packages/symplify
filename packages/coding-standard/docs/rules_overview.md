@@ -1,4 +1,4 @@
-# 13 Rules Overview
+# 14 Rules Overview
 
 ## ArrayListItemNewlineFixer
 
@@ -231,6 +231,27 @@ Indexed arrays must have 1 item per line
 +    1 => 'Peter',
 +    2 => 'Paul'
 +];
+```
+
+<br>
+
+## StandaloneLinePromotedPropertyFixer
+
+Promoted property should be on standalone line
+
+- class: `Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer`
+
+```diff
+ final class PromotedProperties
+ {
+-    public function __construct(public int $age, private string $name)
+-    {
++    public function __construct(
++        public int $age,
++        private string $name
++    ) {
+     }
+ }
 ```
 
 <br>

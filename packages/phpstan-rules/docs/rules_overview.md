@@ -1,4 +1,4 @@
-# 120 Rules Overview
+# 121 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3925,6 +3925,59 @@ class SomeClass implements SomeTypeInterface
     public function someMethod(): array
     {
         return [String_::class];
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireConstantInAttributeArgumentRule
+
+Argument "%s" must be a constant
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            attributeWithNames:
+                Symfony\Component\Routing\Annotation\Route:
+                    - name
+```
+
+↓
+
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+final class SomeClass
+{
+    #[Route(path: '/archive', name: 'blog_archive')]
+    public function __invoke()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+final class SomeClass
+{
+    #[Route(path: '/archive', name: RouteName::BLOG_ARCHIVE)]
+    public function __invoke()
+    {
     }
 }
 ```
