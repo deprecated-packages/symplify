@@ -13,11 +13,11 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Symplify\AutowireArrayParameter\DocBlock\ParamTypeDocBlockResolver;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 
 /**
  * @inspiration https://github.com/nette/di/pull/178
- * Not final just for BC with previous class location
  * @see \Symplify\AutowireArrayParameter\Tests\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPassTest
  */
 final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
@@ -50,11 +50,18 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
     private $definitionFinder;
 
     /**
+     * @var ParamTypeDocBlockResolver
+     */
+    private $paramTypeDocBlockResolver;
+
+    /**
      * @param string[] $excludedFatalClasses
      */
     public function __construct(array $excludedFatalClasses = [])
     {
         $this->definitionFinder = new DefinitionFinder();
+        $this->paramTypeDocBlockResolver = new ParamTypeDocBlockResolver();
+
         $this->excludedFatalClasses = array_merge($this->excludedFatalClasses, $excludedFatalClasses);
     }
 
@@ -178,20 +185,23 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 
     private function resolveParameterType(string $parameterName, ReflectionMethod $reflectionMethod): ?string
     {
-        $parameterDocTypeRegex = '#@param[ \t]+(?<type>[\w\\\\]+)\[\][ \t]+\$' . $parameterName . '#';
+        $docComment = $reflectionMethod->getDocComment();
+        if ($docComment === false) {
+            return null;
+        }
 
-        // copied from https://github.com/nette/di/blob/d1c0598fdecef6d3b01e2ace5f2c30214b3108e6/src/DI/Autowiring.php#L215
-        $result = Strings::match((string) $reflectionMethod->getDocComment(), $parameterDocTypeRegex);
-        if ($result === null) {
+        $resolvedType = $this->paramTypeDocBlockResolver->resolve($docComment, $parameterName);
+
+        if ($resolvedType === null) {
             return null;
         }
 
         // not a class|interface type
-        if (ctype_lower($result['type'][0])) {
+        if (ctype_lower($resolvedType[0])) {
             return null;
         }
 
-        return Reflection::expandClassName($result['type'], $reflectionMethod->getDeclaringClass());
+        return Reflection::expandClassName($resolvedType, $reflectionMethod->getDeclaringClass());
     }
 
     /**
