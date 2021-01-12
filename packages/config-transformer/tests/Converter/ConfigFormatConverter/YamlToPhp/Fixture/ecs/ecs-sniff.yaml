@@ -1,17 +1,17 @@
 services:
-    SlevomatCodingStandard\Sniffs\ControlStructures\UselessTernaryOperatorSniff:
+    Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp\Source\SomeSniff:
         lineLengthLimit: 100
 -----
 <?php
 
 declare(strict_types=1);
 
-use SlevomatCodingStandard\Sniffs\ControlStructures\UselessTernaryOperatorSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp\Source\SomeSniff;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set(UselessTernaryOperatorSniff::class)
+    $services->set(SomeSniff::class)
         ->property('lineLengthLimit', 100);
 };
