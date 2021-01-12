@@ -41,16 +41,20 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
         $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'diff', 'diff', WithNoParameter1::class);
         $errorMessage2 = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'diff', 'diff', WithParameter1::class);
         yield [[
-            __DIR__ . '/Fixture/DifferentCountParameters.php',
+            __DIR__ . '/Fixture/WithNoParameter1.php',
+            __DIR__ . '/Fixture/WithNoParameter2.php',
+            __DIR__ . '/Fixture/WithParameter1.php',
+            __DIR__ . '/Fixture/WithParameter2.php',
         ], [
-            [$errorMessage, 18],
-            [$errorMessage2, 36]
+            [$errorMessage, 9],
+            [$errorMessage2, 9]
         ]];
 
         $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'sleep', 'go', DifferentMethodName1::class);
         yield [[
-            __DIR__ . '/Fixture/DifferentMethodName.php',
-        ], [[$errorMessage, 18]]];
+            __DIR__ . '/Fixture/DifferentMethodName1.php',
+            __DIR__ . '/Fixture/DifferentMethodName2.php',
+        ], [[$errorMessage, 9]]];
     }
 
     protected function getRule(): Rule
