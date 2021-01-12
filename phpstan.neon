@@ -529,3 +529,4 @@ parameters:
                 - packages/phpstan-rules/src/Rules/ForbiddenNullableParameterRule.php #163
                 - packages/phpstan-rules/src/Rules/NoContainerInjectionInConstructorRule.php #94
                 - packages/phpstan-rules/packages/cognitive-complexity/src/NodeVisitor/AbstractComplexityNodeVisitor.php #54
+                - packages/class-presence/src/Regex/NonExistingClassExtractor.php #70
