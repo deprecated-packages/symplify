@@ -25,7 +25,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::SYMPLIFY,
         SetList::COMMON,
         SetList::PSR_12,
-        SetList::DEAD_CODE,
         SetList::DOCTRINE_ANNOTATIONS,
         SetList::ARRAY,
     ]);
