@@ -53,7 +53,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private $printerStandard;
 
     /**
-     * @var array<int, array<string, string>>
+     * @var array<int, array<int, array<string, string>>>
      */
     private $contentMethodByCountParamName = [];
 
@@ -82,16 +82,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->isExcludedTypes($className)) {
-            return [];
-        }
-
-        if (interface_exists($className)) {
-            return [];
-        }
-
-        /** @var ClassMethod $node */
-        if ($this->isConstructorOrInTestClass($node, $className)) {
+        if ($this->isExcludedTypesOrInterfaceOrInTest($node, $className)) {
             return [];
         }
 
@@ -113,8 +104,8 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
 
         if (! isset($this->contentMethodByCountParamName[$countParam])) {
             $this->contentMethodByCountParamName[$countParam][] = [
-                'class'   => $className,
-                'method'  => $classMethodName,
+                'class' => $className,
+                'method' => $classMethodName,
                 'content' => $printStmts,
             ];
 
@@ -123,13 +114,15 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
 
         foreach ($this->contentMethodByCountParamName[$countParam] as $contentMethod) {
             if ($contentMethod['content'] === $printStmts) {
-                return [sprintf(self::ERROR_MESSAGE, $classMethodName, $contentMethod['method'], $contentMethod['class'])];
+                return [
+                    sprintf(self::ERROR_MESSAGE, $classMethodName, $contentMethod['method'], $contentMethod['class']),
+                ];
             }
         }
 
         $this->contentMethodByCountParamName[$countParam][] = [
-            'class'   => $className,
-            'method'  => $classMethodName,
+            'class' => $className,
+            'method' => $classMethodName,
             'content' => $printStmts,
         ];
 
@@ -181,6 +174,19 @@ class B
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function isExcludedTypesOrInterfaceOrInTest(ClassMethod $classMethod, string $className): bool
+    {
+        if ($this->isExcludedTypes($className)) {
+            return true;
+        }
+
+        if (interface_exists($className)) {
+            return true;
+        }
+
+        return $this->isConstructorOrInTestClass($classMethod, $className);
     }
 
     private function getPrintStmts(ClassMethod $classMethod): string
