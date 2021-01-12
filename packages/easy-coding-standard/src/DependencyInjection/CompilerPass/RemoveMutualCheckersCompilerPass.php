@@ -88,16 +88,25 @@ final class RemoveMutualCheckersCompilerPass implements CompilerPassInterface
         [OrderedImportsFixer::class, 'SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff'],
         [NoUnusedImportsFixer::class, 'SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff'],
         [TrailingCommaInMultilineArrayFixer::class, 'SlevomatCodingStandard\Sniffs\Arrays\TrailingArrayCommaSniff'],
-        [NoUnneededControlParenthesesFixer::class, 'SlevomatCodingStandard\Sniffs\ControlStructures\LanguageConstructWithParenthesesSniff'],
+        [
+            NoUnneededControlParenthesesFixer::class,
+            'SlevomatCodingStandard\Sniffs\ControlStructures\LanguageConstructWithParenthesesSniff',
+        ],
         [Psr4Fixer::class, 'SlevomatCodingStandard\Sniffs\Files\TypeNameMatchesFileNameSniff'],
         [ReturnTypeDeclarationFixer::class, 'SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSpacingSniff'],
         [FunctionTypehintSpaceFixer::class, 'SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSpacingSniff'],
         [FunctionTypehintSpaceFixer::class, FunctionDeclarationArgumentSpacingSniff::class],
-        [GeneralPhpdocAnnotationRemoveFixer::class, 'SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff'],
+        [
+            GeneralPhpdocAnnotationRemoveFixer::class,
+            'SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff',
+        ],
         [NoExtraConsecutiveBlankLinesFixer::class, SuperfluousWhitespaceSniff::class],
         [NoExtraBlankLinesFixer::class, SuperfluousWhitespaceSniff::class],
         [IncludeFixer::class, LanguageConstructSpacingSniff::class],
-        [AssignmentInConditionSniff::class, 'SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff'],
+        [
+            AssignmentInConditionSniff::class,
+            'SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff',
+        ],
         [SingleQuoteFixer::class, DoubleQuoteUsageSniff::class],
 
         // PSR2
