@@ -499,7 +499,6 @@ parameters:
 
         - '#Method Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:parseCodeToTokens\(\) should return array<array<int\|string\>\> but returns array<int, array<int, int\|string\>\|string\>#'
 
-
         -
              message: '#Function "method_exists\(\)" cannot be used/left in the code#'
              paths:
@@ -517,3 +516,14 @@ parameters:
             paths:
                 - packages/symfony-static-dumper/tests/test_project
                 - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
+
+        -
+            message: '#Content of method "\w+\(\)" is duplicated with method "\w+\(\)" in ".*" class\. Use unique content or abstract service instead#'
+            paths:
+                - packages/astral/src/Naming/SimpleNameResolver.php #166
+                - packages/console-color-diff/src/Diff/Output/CompleteUnifiedDiffOutputBuilderFactory.php #28
+                - packages/php-config-printer/src/NodeFactory/Service/ServiceOptionNodeFactory.php #56
+                - packages/phpstan-rules/src/Rules/ForbiddenNullableParameterRule.php #163
+                - packages/phpstan-rules/src/Rules/NoContainerInjectionInConstructorRule.php #94
+                - packages/phpstan-rules/packages/cognitive-complexity/src/NodeVisitor/AbstractComplexityNodeVisitor.php #54
+                - packages/class-presence/src/Regex/NonExistingClassExtractor.php #70

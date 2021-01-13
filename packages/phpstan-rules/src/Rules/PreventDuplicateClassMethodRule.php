@@ -24,7 +24,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Content of method "%s()" is duplicated with method in "%s" class. Use unique content or abstract service instead';
+    public const ERROR_MESSAGE = 'Content of method "%s()" is duplicated with method "%s()" in "%s" class. Use unique content or abstract service instead';
 
     /**
      * @var string[]
@@ -37,6 +37,12 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private const EXCLUDED_TYPES = [Kernel::class, Extension::class];
 
     /**
+     * @var string
+     * @see https://regex101.com/r/cJZZgC/1
+     */
+    private const VARIABLE_REGEX = '#\$\w+[^\s]#';
+
+    /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
@@ -47,14 +53,9 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private $printerStandard;
 
     /**
-     * @var array<string, string>
+     * @var array<int, array<int, array<string, string>>>
      */
-    private $firstClassByName = [];
-
-    /**
-     * @var array<string, string>
-     */
-    private $contentMethodByName = [];
+    private $contentMethodByCountParamName = [];
 
     public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard)
     {
@@ -81,15 +82,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->isExcludedTypes($className)) {
-            return [];
-        }
-
-        if (interface_exists($className)) {
-            return [];
-        }
-
-        if ($this->isConstructorOrInTestClass($node, $className)) {
+        if ($this->isExcludedTypesOrInterfaceOrInTest($node, $className)) {
             return [];
         }
 
@@ -106,19 +99,25 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        $printStmts = $this->printerStandard->prettyPrint($stmts);
+        $printStmts = $this->getPrintStmts($node);
+        $countParam = count($node->params);
+        $this->contentMethodByCountParamName[$countParam] = $this->contentMethodByCountParamName[$countParam] ?? [];
 
-        if (! isset($this->contentMethodByName[$classMethodName])) {
-            $this->firstClassByName[$classMethodName] = $className;
-            $this->contentMethodByName[$classMethodName] = $printStmts;
-            return [];
+        foreach ($this->contentMethodByCountParamName[$countParam] as $contentMethod) {
+            if ($contentMethod['content'] === $printStmts) {
+                return [
+                    sprintf(self::ERROR_MESSAGE, $classMethodName, $contentMethod['method'], $contentMethod['class']),
+                ];
+            }
         }
 
-        if ($printStmts !== $this->contentMethodByName[$classMethodName]) {
-            return [];
-        }
+        $this->contentMethodByCountParamName[$countParam][] = [
+            'class' => $className,
+            'method' => $classMethodName,
+            'content' => $printStmts,
+        ];
 
-        return [sprintf(self::ERROR_MESSAGE, $classMethodName, $this->firstClassByName[$classMethodName])];
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -166,6 +165,27 @@ class B
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function isExcludedTypesOrInterfaceOrInTest(ClassMethod $classMethod, string $className): bool
+    {
+        if ($this->isExcludedTypes($className)) {
+            return true;
+        }
+
+        if (interface_exists($className)) {
+            return true;
+        }
+
+        return $this->isConstructorOrInTestClass($classMethod, $className);
+    }
+
+    private function getPrintStmts(ClassMethod $classMethod): string
+    {
+        $content = $this->printerStandard->prettyPrint((array) $classMethod->stmts);
+        return Strings::replace($content, self::VARIABLE_REGEX, function (array $match): string {
+            return '$a';
+        });
     }
 
     private function isExcludedTypes(string $className): bool

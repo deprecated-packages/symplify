@@ -4,15 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture;
 
-class SecondClassDuplicateFirstClassMethod
+final class WithNoParameter1
 {
-    public function __construct()
-    {
-        echo '__construct';
-        echo 'statement';
-    }
-
-    public function someMethod()
+    public function diff()
     {
         echo 'statement';
         (new SmartFinder())->run('.php');
