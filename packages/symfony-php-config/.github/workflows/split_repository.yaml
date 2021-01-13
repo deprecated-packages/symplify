@@ -2,8 +2,7 @@
 name: 'Split Repository'
 
 on:
-    pull_request:
-        types: opened
+    pull_request: null
 
 jobs:
     lockdown:
