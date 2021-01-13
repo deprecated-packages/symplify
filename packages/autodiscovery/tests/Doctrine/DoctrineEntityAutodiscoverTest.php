@@ -26,7 +26,7 @@ final class DoctrineEntityAutodiscoverTest extends AbstractKernelTestCase
         $this->bootKernel(AudiscoveryTestingKernel::class);
 
         /** @var Registry $registry */
-        $registry = static::$container->get('doctrine');
+        $registry = $this->getService('doctrine');
 
         /** @var EntityManager $entityManager */
         $entityManager = $registry->getManager();

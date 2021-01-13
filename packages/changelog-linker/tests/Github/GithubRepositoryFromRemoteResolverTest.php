@@ -26,7 +26,8 @@ final class GithubRepositoryFromRemoteResolverTest extends TestCase
      */
     public function test(string $commitHash, string $expectedHttpsUrl): void
     {
-        $this->assertSame($expectedHttpsUrl, $this->githubRepositoryFromRemoteResolver->resolveFromUrl($commitHash));
+        $resolvedGitHubRepository = $this->githubRepositoryFromRemoteResolver->resolveFromUrl($commitHash);
+        $this->assertSame($expectedHttpsUrl, $resolvedGitHubRepository);
     }
 
     public function provideData(): Iterator

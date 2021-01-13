@@ -25,9 +25,10 @@ final class PathNormalizerTest extends AbstractKernelTestCase
     /**
      * @dataProvider providePaths
      */
-    public function testPaths(string $path, string $expected): void
+    public function testPaths(string $path, string $expectedNormalizedPath): void
     {
-        $this->assertSame($expected, $this->pathNormalizer->normalizeForFnmatch($path));
+        $normalizedPath = $this->pathNormalizer->normalizeForFnmatch($path);
+        $this->assertSame($expectedNormalizedPath, $normalizedPath);
     }
 
     public function providePaths(): Iterator

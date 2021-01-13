@@ -22,8 +22,9 @@ final class TranslationPathAutodiscoverTest extends AbstractKernelTestCase
     public function test(): void
     {
         /** @var Translator $translator */
-        $translator = static::$container->get('translator');
+        $translator = $this->getService('translator');
 
-        $this->assertSame('two', $translator->trans('one'));
+        $translatedOne = $translator->trans('one');
+        $this->assertSame('two', $translatedOne);
     }
 }

@@ -22,7 +22,7 @@ final class AnnotationRoutesAutodiscovererTest extends AbstractKernelTestCase
     public function test(): void
     {
         /** @var Router $router */
-        $router = static::$container->get('router');
+        $router = $this->getService('router');
 
         $routeCollection = $router->getRouteCollection();
         $annotationNames = array_keys($routeCollection->all());
