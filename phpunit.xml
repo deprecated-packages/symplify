@@ -1,8 +1,16 @@
+<?xml version="1.0"?>
 <phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     bootstrap="tests/bootstrap.php"
     colors="true"
     verbose="true"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">packages/*/src</directory>
+        </include>
+    </coverage>
     <testsuite name="all">
         <directory>packages/**/tests</directory>
         <directory>packages/**/packages/**/tests</directory>
@@ -12,11 +20,6 @@
             <group>api</group>
         </exclude>
     </groups>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">packages/*/src</directory>
-        </whitelist>
-    </filter>
     <!-- to differentiate cache directory of EasyCodingStandards in tests -->
     <php>
         <env name="TEST_SUFFIX" value="_tests"/>
