@@ -31,7 +31,8 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
         yield [[__DIR__ . '/Fixture/Entity/SkipApple.php', __DIR__ . '/Fixture/Entity/SkipCar.php'], []];
 
         yield [[__DIR__ . '/Fixture/SkipInterface.php'], []];
-        yield [[__DIR__ . '/Fixture/SkipCOnstruct.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipConstruct.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipTest.php'], []];
 
         yield [[
             __DIR__ . '/Fixture/SkipClassWithTrait.php',
