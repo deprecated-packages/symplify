@@ -86,11 +86,8 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var string|null $classMethodName */
+        /** @var string $classMethodName */
         $classMethodName = $this->simpleNameResolver->getName($node);
-        if ($classMethodName === null) {
-            return [];
-        }
         if (in_array($classMethodName, self::PHPSTAN_GET_NODE_TYPE_METHODS, true)) {
             return [];
         }
