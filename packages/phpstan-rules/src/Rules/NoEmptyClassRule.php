@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
-use ReflectionClass;
+use PHPStan\Reflection\ReflectionProvider;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -30,9 +30,15 @@ final class NoEmptyClassRule extends AbstractSymplifyRule
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver)
+    /**
+     * @var ReflectionProvider
+     */
+    private $reflectionProvider;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver, ReflectionProvider $reflectionProvider)
     {
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     /**
@@ -124,7 +130,7 @@ CODE_SAMPLE
             return false;
         }
 
-        $reflectionClass = new ReflectionClass($parentClass);
-        return $reflectionClass->isAbstract();
+        $parentClassReflection = $this->reflectionProvider->getClass($parentClass);
+        return $parentClassReflection->isAbstract();
     }
 }

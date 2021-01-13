@@ -8,15 +8,30 @@ use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
-use ReflectionClass;
+use PHPStan\Reflection\ReflectionProvider;
 
 final class ClassAnnotationResolver
 {
     /**
      * @var string
+     */
+    private const SHORT_NAME_PART = 'short_name';
+
+    /**
+     * @var string
      * @see https://regex101.com/r/x0Qo4x/1
      */
-    private const SHORT_ANNOTATION_CLASS_REGEX = '#\@(?<short_name>[A-Z]\w+)#';
+    private const SHORT_ANNOTATION_CLASS_REGEX = '#\@(?<' . self::SHORT_NAME_PART . '>[A-Z]\w+)#';
+
+    /**
+     * @var ReflectionProvider
+     */
+    private $reflectionProvider;
+
+    public function __construct(ReflectionProvider $reflectionProvider)
+    {
+        $this->reflectionProvider = $reflectionProvider;
+    }
 
     /**
      * @return string[]
@@ -47,11 +62,14 @@ final class ClassAnnotationResolver
             return [];
         }
 
-        $reflectionClass = new ReflectionClass($className);
+        $classReflection = $this->reflectionProvider->getClass($className);
 
         $fullyQualifiedAnnotationNames = [];
         foreach ($matches as $match) {
-            $fullyQualifiedAnnotationNames[] = Reflection::expandClassName($match['short_name'], $reflectionClass);
+            $fullyQualifiedAnnotationNames[] = Reflection::expandClassName(
+                $match[self::SHORT_NAME_PART],
+                $classReflection->getNativeReflection()
+            );
         }
 
         return $fullyQualifiedAnnotationNames;

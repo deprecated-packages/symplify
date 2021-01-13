@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Throw_;
 use PHPStan\Analyser\Scope;
-use ReflectionClass;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -62,8 +62,8 @@ final class NoDefaultExceptionRule extends AbstractSymplifyRule
             return [];
         }
 
-        $reflectionClass = new ReflectionClass($className);
-        if (! $reflectionClass->isInternal()) {
+        // fast way to detect native exceptions
+        if (Strings::contains($className, '\\')) {
             return [];
         }
 

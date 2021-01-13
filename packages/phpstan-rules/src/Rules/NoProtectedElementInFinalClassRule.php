@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
-use ReflectionClass;
+use PHPStan\Reflection\ReflectionProvider;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
@@ -50,16 +50,23 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
      */
     private $traitMethodAnalyser;
 
+    /**
+     * @var ReflectionProvider
+     */
+    private $reflectionProvider;
+
     public function __construct(
         ParentMethodAnalyser $parentMethodAnalyser,
         ClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
         SimpleNameResolver $simpleNameResolver,
-        TraitMethodAnalyser $traitMethodAnalyser
+        TraitMethodAnalyser $traitMethodAnalyser,
+        ReflectionProvider $reflectionProvider
     ) {
         $this->parentMethodAnalyser = $parentMethodAnalyser;
         $this->classMethodTypeAnalyzer = $classMethodTypeAnalyzer;
         $this->simpleNameResolver = $simpleNameResolver;
         $this->traitMethodAnalyser = $traitMethodAnalyser;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     /**
@@ -132,8 +139,8 @@ CODE_SAMPLE
         $usedTraits = (array) class_uses($className);
 
         foreach ($usedTraits as $trait) {
-            $traitReflectionClass = new ReflectionClass($trait);
-            if ($traitReflectionClass->hasProperty($propertyName)) {
+            $traitReflection = $this->reflectionProvider->getClass($trait);
+            if ($traitReflection->hasProperty($propertyName)) {
                 return true;
             }
         }
@@ -143,7 +150,7 @@ CODE_SAMPLE
 
     private function isPropertyExistInParentClass(Name $name, string $propertyName): bool
     {
-        $reflectionClass = new ReflectionClass((string) $name);
+        $reflectionClass = $this->reflectionProvider->getClass((string) $name);
         return $reflectionClass->hasProperty($propertyName);
     }
 
@@ -181,6 +188,7 @@ CODE_SAMPLE
         if ($this->isPropertyExistInTraits($class, $propertyName)) {
             return [];
         }
+
         if ($extends && $this->isPropertyExistInParentClass($extends, $propertyName)) {
             return [];
         }

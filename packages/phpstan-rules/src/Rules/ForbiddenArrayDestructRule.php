@@ -12,8 +12,8 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\ObjectType;
-use ReflectionClass;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -39,9 +39,15 @@ final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver)
+    /**
+     * @var ReflectionProvider
+     */
+    private $reflectionProvider;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver, ReflectionProvider $reflectionProvider)
     {
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     /**
@@ -132,7 +138,12 @@ CODE_SAMPLE
             return false;
         }
 
-        $reflectionClass = new ReflectionClass($callerType->getClassName());
-        return (bool) Strings::match((string) $reflectionClass->getFileName(), self::VENDOR_DIRECTORY_REGEX);
+        $classReflection = $this->reflectionProvider->getClass($callerType->getClassName());
+        $fileName = $classReflection->getFileName();
+        if ($fileName === false) {
+            return true;
+        }
+
+        return (bool) Strings::match($fileName, self::VENDOR_DIRECTORY_REGEX);
     }
 }
