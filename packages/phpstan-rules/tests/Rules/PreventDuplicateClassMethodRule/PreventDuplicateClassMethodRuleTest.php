@@ -40,6 +40,12 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
             __DIR__ . '/Fixture/SkipSomeTrait.php',
         ], []];
 
+        yield [[
+            __DIR__ . '/Fixture/SkipSomeTrait.php',
+            __DIR__ . '/Fixture/SkipClassUseTrait1.php',
+            __DIR__ . '/Fixture/SkipClassUseTrait2.php',
+        ], []];
+
         $errorMessage = sprintf(
             PreventDuplicateClassMethodRule::ERROR_MESSAGE,
             'diff',
