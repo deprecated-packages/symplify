@@ -18,5 +18,4 @@ includes:
     # 3. custom symplify configuratoin
     - configurable-rules.neon
 
-
     - services/services.neon

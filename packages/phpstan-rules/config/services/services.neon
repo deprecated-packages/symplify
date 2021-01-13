@@ -40,3 +40,4 @@ services:
     - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
     - Symplify\PHPStanRules\NodeFinder\ParentNodeFinder
     - Symplify\PackageBuilder\Php\TypeChecker
+    - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser

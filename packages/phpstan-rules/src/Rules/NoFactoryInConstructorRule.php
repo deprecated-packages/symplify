@@ -12,14 +12,13 @@ use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -58,9 +57,17 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
      */
     private $arrayStringAndFnMatcher;
 
-    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher)
-    {
+    /**
+     * @var MethodNodeAnalyser
+     */
+    private $methodNodeAnalyser;
+
+    public function __construct(
+        ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
+        MethodNodeAnalyser $methodNodeAnalyser
+    ) {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
+        $this->methodNodeAnalyser = $methodNodeAnalyser;
     }
 
     /**
@@ -77,7 +84,7 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->isInConstructor($scope)) {
+        if (! $this->methodNodeAnalyser->isInConstructor($scope)) {
             return [];
         }
 
@@ -157,15 +164,5 @@ CODE_SAMPLE
         $className = $classReflection->getName();
 
         return $this->arrayStringAndFnMatcher->isMatch($className, self::SKIP_CLASS_NAMES);
-    }
-
-    private function isInConstructor(Scope $scope): bool
-    {
-        $reflectionFunction = $scope->getFunction();
-        if (! $reflectionFunction instanceof MethodReflection) {
-            return false;
-        }
-
-        return $reflectionFunction->getName() === MethodName::CONSTRUCTOR;
     }
 }
