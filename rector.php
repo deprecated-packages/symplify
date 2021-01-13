@@ -90,7 +90,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
 
         __DIR__ . '/packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php',
-
-        __DIR__ . '/packages/phpstan-rules/src/Rules/PreventDuplicateClassMethodRule.php',
     ]);
 };

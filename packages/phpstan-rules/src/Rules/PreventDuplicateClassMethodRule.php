@@ -86,8 +86,11 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var string $classMethodName */
+        /** @var string|null $classMethodName */
         $classMethodName = $this->simpleNameResolver->getName($node);
+        if ($classMethodName === null) {
+            return [];
+        }
         if (in_array($classMethodName, self::PHPSTAN_GET_NODE_TYPE_METHODS, true)) {
             return [];
         }
@@ -101,16 +104,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
 
         $printStmts = $this->getPrintStmts($node);
         $countParam = count($node->params);
-
-        if (! isset($this->contentMethodByCountParamName[$countParam])) {
-            $this->contentMethodByCountParamName[$countParam][] = [
-                'class' => $className,
-                'method' => $classMethodName,
-                'content' => $printStmts,
-            ];
-
-            return [];
-        }
+        $this->contentMethodByCountParamName[$countParam] = $this->contentMethodByCountParamName[$countParam] ?? [];
 
         foreach ($this->contentMethodByCountParamName[$countParam] as $contentMethod) {
             if ($contentMethod['content'] === $printStmts) {
