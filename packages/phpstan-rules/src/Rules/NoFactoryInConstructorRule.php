@@ -18,6 +18,7 @@ use PHPStan\Type\TypeWithClassName;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -57,13 +58,13 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
     private $arrayStringAndFnMatcher;
 
     /**
-     * @var \Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
+     * @var MethodNodeAnalyser
      */
     private $methodNodeAnalyser;
 
     public function __construct(
         ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
-        \Symplify\PHPStanRules\Reflection\MethodNodeAnalyser $methodNodeAnalyser
+        MethodNodeAnalyser $methodNodeAnalyser
     ) {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
         $this->methodNodeAnalyser = $methodNodeAnalyser;
