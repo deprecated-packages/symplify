@@ -10,7 +10,7 @@
     },
     "require-dev": {
         "symfony/framework-bundle": "^4.4|^5.1",
-        "symplify/package-builder": "^9.0.34",
+        "symplify/package-builder": "^9.1",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
