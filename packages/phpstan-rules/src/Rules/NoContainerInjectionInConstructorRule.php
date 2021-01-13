@@ -7,11 +7,10 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\MethodReflection;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
 use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
-use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -30,9 +29,15 @@ final class NoContainerInjectionInConstructorRule extends AbstractSymplifyRule
      */
     private $containsTypeAnalyser;
 
-    public function __construct(ContainsTypeAnalyser $containsTypeAnalyser)
+    /**
+     * @var MethodNodeAnalyser
+     */
+    private $methodNodeAnalyser;
+
+    public function __construct(ContainsTypeAnalyser $containsTypeAnalyser, MethodNodeAnalyser $methodNodeAnalyser)
     {
         $this->containsTypeAnalyser = $containsTypeAnalyser;
+        $this->methodNodeAnalyser = $methodNodeAnalyser;
     }
 
     /**
@@ -49,7 +54,7 @@ final class NoContainerInjectionInConstructorRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->isInConstructMethod($scope)) {
+        if (! $this->methodNodeAnalyser->isInConstructor($scope)) {
             return [];
         }
 
@@ -89,15 +94,5 @@ class SomeClass
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    private function isInConstructMethod(Scope $scope): bool
-    {
-        $reflectionFunction = $scope->getFunction();
-        if (! $reflectionFunction instanceof MethodReflection) {
-            return false;
-        }
-
-        return $reflectionFunction->getName() === MethodName::CONSTRUCTOR;
     }
 }
