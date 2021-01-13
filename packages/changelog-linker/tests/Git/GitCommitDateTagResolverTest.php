@@ -29,7 +29,8 @@ final class GitCommitDateTagResolverTest extends AbstractKernelTestCase
      */
     public function test(string $commitHash, string $expectedTag): void
     {
-        $this->assertSame($expectedTag, $this->gitCommitDateTagResolver->resolveCommitToTag($commitHash));
+        $tagByCommitHash = $this->gitCommitDateTagResolver->resolveCommitToTag($commitHash);
+        $this->assertSame($expectedTag, $tagByCommitHash);
     }
 
     public function provideData(): Iterator
@@ -43,9 +44,10 @@ final class GitCommitDateTagResolverTest extends AbstractKernelTestCase
     /**
      * @dataProvider provideDataResolveDateForTag()
      */
-    public function testResolveDateForTag(string $tag, ?string $expectedTag): void
+    public function testResolveDateForTag(string $tag, ?string $expectedDate): void
     {
-        $this->assertSame($expectedTag, $this->gitCommitDateTagResolver->resolveDateForTag($tag));
+        $resvoledDate = $this->gitCommitDateTagResolver->resolveDateForTag($tag);
+        $this->assertSame($expectedDate, $resvoledDate);
     }
 
     public function provideDataResolveDateForTag(): Iterator

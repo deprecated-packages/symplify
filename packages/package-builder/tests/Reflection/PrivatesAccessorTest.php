@@ -15,14 +15,10 @@ final class PrivatesAccessorTest extends TestCase
         $privatesAccessor = new PrivatesAccessor();
         $someClassWithPrivateProperty = new SomeClassWithPrivateProperty();
 
-        $this->assertSame(
-            $someClassWithPrivateProperty->getValue(),
-            $privatesAccessor->getPrivateProperty($someClassWithPrivateProperty, 'value')
-        );
+        $fetchedValue = $privatesAccessor->getPrivateProperty($someClassWithPrivateProperty, 'value');
+        $this->assertSame($someClassWithPrivateProperty->getValue(), $fetchedValue);
 
-        $this->assertSame(
-            $someClassWithPrivateProperty->getParentValue(),
-            $privatesAccessor->getPrivateProperty($someClassWithPrivateProperty, 'parentValue')
-        );
+        $fetchedParentValue = $privatesAccessor->getPrivateProperty($someClassWithPrivateProperty, 'parentValue');
+        $this->assertSame($someClassWithPrivateProperty->getParentValue(), $fetchedParentValue);
     }
 }

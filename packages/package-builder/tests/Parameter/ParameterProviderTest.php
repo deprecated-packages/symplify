@@ -28,10 +28,12 @@ final class ParameterProviderTest extends AbstractKernelTestCase
         $this->assertSame('Lion', $parameters['camelCase']);
         $this->assertSame('Celsius', $parameters['pascal_case']);
 
-        $this->assertSame('value', $parameterProvider->provideParameter('key'));
+        $keyParameter = $parameterProvider->provideParameter('key');
+        $this->assertSame('value', $keyParameter);
 
         $parameterProvider->changeParameter('key', 'anotherKey');
-        $this->assertSame('anotherKey', $parameterProvider->provideParameter('key'));
+        $keyParameter = $parameterProvider->provideParameter('key');
+        $this->assertSame('anotherKey', $keyParameter);
     }
 
     public function testIncludingYaml(): void

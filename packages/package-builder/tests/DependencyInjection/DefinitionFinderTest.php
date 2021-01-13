@@ -32,14 +32,16 @@ final class DefinitionFinderTest extends TestCase
     {
         $definition = $this->containerBuilder->autowire(stdClass::class);
 
-        $this->assertSame($definition, $this->definitionFinder->getByType($this->containerBuilder, stdClass::class));
+        $stdClassDefinition = $this->definitionFinder->getByType($this->containerBuilder, stdClass::class);
+        $this->assertSame($definition, $stdClassDefinition);
     }
 
     public function testNonAutowired(): void
     {
         $definition = $this->containerBuilder->register(stdClass::class);
 
-        $this->assertSame($definition, $this->definitionFinder->getByType($this->containerBuilder, stdClass::class));
+        $foundStdClass = $this->definitionFinder->getByType($this->containerBuilder, stdClass::class);
+        $this->assertSame($definition, $foundStdClass);
     }
 
     public function testMissing(): void
