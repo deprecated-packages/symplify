@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Reflection;
 
 use PhpParser\Node\Stmt\Class_;
-use ReflectionClass;
+use PHPStan\Reflection\ReflectionProvider;
 use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class TraitMethodAnalyser
@@ -15,9 +15,15 @@ final class TraitMethodAnalyser
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver)
+    /**
+     * @var ReflectionProvider
+     */
+    private $reflectionProvider;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver, ReflectionProvider $reflectionProvider)
     {
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     public function doesMethodExistInClassTraits(Class_ $class, string $methodName): bool
@@ -27,12 +33,14 @@ final class TraitMethodAnalyser
             return false;
         }
 
-        /** @var string[] $usedTraits */
-        $usedTraits = (array) class_uses($className);
+        $usedTraits = class_uses($className);
+        if ($usedTraits === false) {
+            return false;
+        }
 
         foreach ($usedTraits as $trait) {
-            $reflectionClass = new ReflectionClass($trait);
-            if ($reflectionClass->hasMethod($methodName)) {
+            $traitReflectoin = $this->reflectionProvider->getClass($trait);
+            if ($traitReflectoin->hasMethod($methodName)) {
                 return true;
             }
         }

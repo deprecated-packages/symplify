@@ -9,8 +9,6 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\DifferentMethodName1;
-use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\FirstClass;
-use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\FirstClassWithParameter;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\WithNoParameter1;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\WithParameter1;
 
@@ -42,19 +40,26 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
             __DIR__ . '/Fixture/SkipSomeTrait.php',
         ], []];
 
-        $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'diff', 'diff', WithNoParameter1::class);
+        $errorMessage = sprintf(
+            PreventDuplicateClassMethodRule::ERROR_MESSAGE,
+            'diff',
+            'diff',
+            WithNoParameter1::class
+        );
         $errorMessage2 = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'diff', 'diff', WithParameter1::class);
         yield [[
             __DIR__ . '/Fixture/WithNoParameter1.php',
             __DIR__ . '/Fixture/WithNoParameter2.php',
             __DIR__ . '/Fixture/WithParameter1.php',
             __DIR__ . '/Fixture/WithParameter2.php',
-        ], [
-            [$errorMessage, 9],
-            [$errorMessage2, 9]
-        ]];
+        ], [[$errorMessage, 9], [$errorMessage2, 9]]];
 
-        $errorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'sleep', 'go', DifferentMethodName1::class);
+        $errorMessage = sprintf(
+            PreventDuplicateClassMethodRule::ERROR_MESSAGE,
+            'sleep',
+            'go',
+            DifferentMethodName1::class
+        );
         yield [[
             __DIR__ . '/Fixture/DifferentMethodName1.php',
             __DIR__ . '/Fixture/DifferentMethodName2.php',

@@ -52,6 +52,7 @@ final class PreventParentMethodVisibilityOverrideRule extends AbstractSymplifyRu
                 continue;
             }
 
+            // must be manual ReflectionMethod, as PHPStan does not provide "isProtected()" method
             $parentReflectionMethod = new ReflectionMethod($parentClassName, $methodName);
             if ($this->isClassMethodCompatibleWithParentReflectionMethod($node, $parentReflectionMethod)) {
                 return [];
