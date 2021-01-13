@@ -24,7 +24,7 @@ final class TwigPathAutodiscoveryTest extends AbstractKernelTestCase
         $this->bootKernel(AudiscoveryTestingKernel::class);
 
         /** @var Environment $twigEnvironment */
-        $twigEnvironment = static::$container->get('twig');
+        $twigEnvironment = $this->getService('twig');
 
         $this->twigFilesystemLoader = $twigEnvironment->getLoader();
     }

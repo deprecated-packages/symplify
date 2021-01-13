@@ -24,6 +24,8 @@ final class MicroKernelTraitTest extends TestCase
         $this->assertTrue($container->has(ExtraService::class));
         $this->assertTrue($container->hasParameter('default.parameter'));
         $this->assertTrue($container->hasParameter('dev.environment.parameter'));
-        $this->assertSame('app_level_value', $container->getParameter('package_param_overridable_on_app_level'));
+
+        $appLevelValueParameter = $container->getParameter('package_param_overridable_on_app_level');
+        $this->assertSame('app_level_value', $appLevelValueParameter);
     }
 }

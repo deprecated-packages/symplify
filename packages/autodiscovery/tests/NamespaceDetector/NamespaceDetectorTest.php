@@ -16,9 +16,7 @@ final class NamespaceDetectorTest extends TestCase
         $namespaceDetector = new NamespaceDetector(new SmartFileSystem());
         $directoryFileInfo = new SmartFileInfo(__DIR__ . '/Source');
 
-        $this->assertSame(
-            'Symplify\Autodiscovery\Tests\NamespaceDetector\Source',
-            $namespaceDetector->detectFromDirectory($directoryFileInfo)
-        );
+        $resolvedNamespace = $namespaceDetector->detectFromDirectory($directoryFileInfo);
+        $this->assertSame('Symplify\Autodiscovery\Tests\NamespaceDetector\Source', $resolvedNamespace);
     }
 }

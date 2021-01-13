@@ -22,7 +22,7 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
     {
         $this->bootKernel(AutodiscoveryKernel::class);
 
-        $this->explicitToAutodiscoveryConverter = static::$container->get(ExplicitToAutodiscoveryConverter::class);
+        $this->explicitToAutodiscoveryConverter = $this->getService(ExplicitToAutodiscoveryConverter::class);
     }
 
     public function test(): void
@@ -49,10 +49,8 @@ final class ExplicitToAutodiscoveryConverterTest extends AbstractKernelTestCase
         $originalYaml = Yaml::parse($inputAndExpected->getInput());
         $expectedYaml = Yaml::parse($inputAndExpected->getExpected());
 
-        $this->assertSame(
-            $expectedYaml,
-            $this->explicitToAutodiscoveryConverter->convert($originalYaml, $file, $nestingLevel, ''),
-            $file
-        );
+        $convertedYaml = $this->explicitToAutodiscoveryConverter->convert($originalYaml, $file, $nestingLevel, '');
+
+        $this->assertSame($expectedYaml, $convertedYaml, $file);
     }
 }

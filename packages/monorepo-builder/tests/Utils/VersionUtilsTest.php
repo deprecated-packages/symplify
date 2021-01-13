@@ -28,7 +28,8 @@ final class VersionUtilsTest extends AbstractKernelTestCase
      */
     public function testAlias(string $currentVersion, string $expectedVersion): void
     {
-        $this->assertSame($expectedVersion, $this->versionUtils->getNextAliasFormat($currentVersion));
+        $nextAliasVersion = $this->versionUtils->getNextAliasFormat($currentVersion);
+        $this->assertSame($expectedVersion, $nextAliasVersion);
     }
 
     public function provideDataAlias(): Iterator
@@ -44,7 +45,8 @@ final class VersionUtilsTest extends AbstractKernelTestCase
      */
     public function testRequiredNextVersion(string $currentVersion, string $expectedVersion): void
     {
-        $this->assertSame($expectedVersion, $this->versionUtils->getRequiredNextFormat($currentVersion));
+        $nextRequiredVersion = $this->versionUtils->getRequiredNextFormat($currentVersion);
+        $this->assertSame($expectedVersion, $nextRequiredVersion);
     }
 
     public function provideDataForRequiredNextVersion(): Iterator
@@ -59,7 +61,8 @@ final class VersionUtilsTest extends AbstractKernelTestCase
      */
     public function testRequiredVersion(string $currentVersion, string $expectedVersion): void
     {
-        $this->assertSame($expectedVersion, $this->versionUtils->getRequiredFormat($currentVersion));
+        $requiredVersion = $this->versionUtils->getRequiredFormat($currentVersion);
+        $this->assertSame($expectedVersion, $requiredVersion);
     }
 
     public function provideDataForRequiredVersion(): Iterator
