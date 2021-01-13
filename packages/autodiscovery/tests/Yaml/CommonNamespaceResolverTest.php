@@ -30,7 +30,8 @@ final class CommonNamespaceResolverTest extends TestCase
     {
         $serviceConfig = new ServiceConfig($classes);
 
-        $this->assertSame($expectedNamespaces, $this->commonNamespaceResolver->resolve($serviceConfig, $level));
+        $resolvedNamespaces = $this->commonNamespaceResolver->resolve($serviceConfig, $level);
+        $this->assertSame($expectedNamespaces, $resolvedNamespaces);
     }
 
     public function provideData(): Iterator

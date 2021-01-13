@@ -14,3 +14,7 @@ services:
     -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule
+        tags: [phpstan.rules.rule]

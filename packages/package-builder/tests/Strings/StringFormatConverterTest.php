@@ -23,9 +23,10 @@ final class StringFormatConverterTest extends TestCase
     /**
      * @dataProvider provideCasesForCamelCaseToUnderscore()
      */
-    public function testCamelCaseToUnderscore(string $input, string $expected): void
+    public function testCamelCaseToUnderscore(string $input, string $expectedUnderscored): void
     {
-        $this->assertSame($expected, $this->stringFormatConverter->camelCaseToUnderscore($input));
+        $underscoredString = $this->stringFormatConverter->camelCaseToUnderscore($input);
+        $this->assertSame($expectedUnderscored, $underscoredString);
     }
 
     public function provideCasesForCamelCaseToUnderscore(): Iterator
@@ -40,7 +41,8 @@ final class StringFormatConverterTest extends TestCase
      */
     public function testUnderscoreAndHyphenToCamelCase(string $input, string $expected): void
     {
-        $this->assertSame($expected, $this->stringFormatConverter->underscoreAndHyphenToCamelCase($input));
+        $camelCaseString = $this->stringFormatConverter->underscoreAndHyphenToCamelCase($input);
+        $this->assertSame($expected, $camelCaseString);
     }
 
     public function provideCasesForUnderscoreAndHyphenToCamelCase(): Iterator
