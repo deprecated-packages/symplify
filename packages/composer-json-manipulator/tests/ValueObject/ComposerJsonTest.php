@@ -34,4 +34,16 @@ final class ComposerJsonTest extends TestCase
             'symfony/http-kernel' => '^5.5',
         ], $composerJson->getRequireDev());
     }
+
+    public function testReplacePacage(): void
+    {
+        $composerJson = new ComposerJson();
+        $composerJson->addRequiredPackage('symfony/console', '^5.5');
+
+        $composerJson->replacePackage('symfony/console', 'symfony/http-kernel', '^5.0');
+
+        $this->assertSame([
+            'symfony/http-kernel' => '^5.0',
+        ], $composerJson->getRequire());
+    }
 }
