@@ -82,7 +82,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->isExcludedTypesOrInterfaceOrInTest($node, $className)) {
+        if ($this->shouldSkip($node, $className)) {
             return [];
         }
 
@@ -167,13 +167,17 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isExcludedTypesOrInterfaceOrInTest(ClassMethod $classMethod, string $className): bool
+    private function shouldSkip(ClassMethod $classMethod, string $className): bool
     {
         if ($this->isExcludedTypes($className)) {
             return true;
         }
 
         if (interface_exists($className)) {
+            return true;
+        }
+
+        if (trait_exists($className)) {
             return true;
         }
 
