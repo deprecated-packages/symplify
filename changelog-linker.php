@@ -17,8 +17,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'ECS' => 'EasyCodingStandard',
         'ECST' => 'EasyCodingStandardTester',
         'CL' => 'ChangelogLinker',
-        'Flex Loader' => 'FlexLoader',
-        'FL' => 'FlexLoader',
         'LT' => 'LatteToTwigConverter',
         'SSD' => 'SymfonyStaticDumper',
         'EH' => 'EasyHydrator',
