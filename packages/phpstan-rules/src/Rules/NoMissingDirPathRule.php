@@ -33,6 +33,12 @@ final class NoMissingDirPathRule extends AbstractSymplifyRule
     private const VENDOR_REGEX = '#(vendor|autoload\.php)#';
 
     /**
+     * @see https://regex101.com/r/LS39sv/1
+     * @var string
+     */
+    private const BRACKET_PATH_REGEX = '#\{(.*?)\}#';
+
+    /**
      * @var FileExistFuncCallAnalyzer
      */
     private $fileExistFuncCallAnalyzer;
@@ -65,7 +71,6 @@ final class NoMissingDirPathRule extends AbstractSymplifyRule
         }
 
         $relativeDirPath = $parent->right->value;
-
         if ($this->shouldSkip($relativeDirPath, $parent, $scope)) {
             return [];
         }
@@ -135,6 +140,10 @@ CODE_SAMPLE
         }
 
         if ($this->fileExistFuncCallAnalyzer->isBeingCheckedIfExists($concat)) {
+            return true;
+        }
+
+        if (Strings::match($relativeDirPath, self::BRACKET_PATH_REGEX)) {
             return true;
         }
 
