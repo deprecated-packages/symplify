@@ -17,7 +17,6 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Autodiscovery\Discovery;
 use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
-use Symplify\FlexLoader\Flex\FlexLoader;
 use Symplify\PHPStanRules\Types\ScalarTypeAnalyser;
 use Symplify\PHPStanRules\VariableAsParamAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -49,7 +48,6 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractSymplifyRul
         // part of before construction of dependency injeciton
         Kernel::class,
         CompilerPassInterface::class,
-        FlexLoader::class,
         AutodiscoveryFinder::class,
         Discovery::class,
         AutodiscoveryFinder::class,

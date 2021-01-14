@@ -45,6 +45,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
     private const DEFAULT_ALLOWED_CHAIN_TYPES = [
         TwitterAPIExchange::class,
         AbstractConfigurator::class,
+        \Symfony\Component\Routing\Loader\Configurator\RouteConfigurator::class,
         Alias::class,
         Finder::class,
         Definition::class,

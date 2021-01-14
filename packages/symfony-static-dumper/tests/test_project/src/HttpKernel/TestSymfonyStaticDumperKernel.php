@@ -9,21 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symplify\Autodiscovery\Discovery;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\FlexLoader\Flex\FlexLoader;
 use Symplify\SymfonyStaticDumper\SymfonyStaticDumperBundle;
 
 final class TestSymfonyStaticDumperKernel extends Kernel
 {
     use MicroKernelTrait;
-
-    /**
-     * @var FlexLoader
-     */
-    private $flexLoader;
 
     /**
      * @var Discovery
@@ -34,7 +29,6 @@ final class TestSymfonyStaticDumperKernel extends Kernel
     {
         parent::__construct($environment, $debug);
 
-        $this->flexLoader = new FlexLoader($environment, $this->getProjectDir());
         $this->discovery = new Discovery($this->getProjectDir());
     }
 
@@ -44,7 +38,7 @@ final class TestSymfonyStaticDumperKernel extends Kernel
     }
 
     /**
-     * @return FrameworkBundle[]|TwigBundle[]|SymfonyStaticDumperBundle[]
+     * @return BundleInterface[]
      */
     public function registerBundles(): array
     {
@@ -61,6 +55,17 @@ final class TestSymfonyStaticDumperKernel extends Kernel
         return sys_get_temp_dir() . '/test_symfony_static_dumper_kernel_log';
     }
 
+    public function registerContainerConfiguration(LoaderInterface $loader): void
+    {
+        $loader->load(__DIR__ . '/../../config/services.php');
+        $loader->load(__DIR__ . '/../../config/packages/twig.php');
+    }
+
+    protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
+    {
+        $this->discovery->discoverTemplates($containerBuilder);
+    }
+
     protected function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
@@ -68,13 +73,6 @@ final class TestSymfonyStaticDumperKernel extends Kernel
 
     protected function configureRoutes(RouteCollectionBuilder $routeCollectionBuilder): void
     {
-        $this->discovery->discoverRoutes($routeCollectionBuilder);
-        $this->flexLoader->loadRoutes($routeCollectionBuilder);
-    }
-
-    protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
-    {
-        $this->flexLoader->loadConfigs($containerBuilder, $loader);
-        $this->discovery->discoverTemplates($containerBuilder);
+        $routeCollectionBuilder->import(__DIR__ . '/../../config/routes.php');
     }
 }
