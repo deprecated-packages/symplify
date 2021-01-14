@@ -74,7 +74,6 @@
         ],
         "psr-4": {
             "Symplify\\Astral\\": "packages/astral/src",
-            "Symplify\\Autodiscovery\\": "packages/autodiscovery/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\ChangelogLinker\\": "packages/changelog-linker/src",
             "Symplify\\ClassPresence\\": "packages/class-presence/src",
@@ -129,7 +128,6 @@
     },
     "autoload-dev": {
         "classmap": [
-            "packages/autodiscovery/tests/Source/KernelProjectDir",
             "packages/rule-doc-generator/stubs"
         ],
         "files": [
@@ -141,7 +139,6 @@
         ],
         "psr-4": {
             "Symplify\\Astral\\Tests\\": "packages/astral/tests",
-            "Symplify\\Autodiscovery\\Tests\\": "packages/autodiscovery/tests",
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/changelog-linker/tests",
             "Symplify\\ClassPresence\\Tests\\": "packages/class-presence/tests",
@@ -195,7 +192,6 @@
     },
     "replace": {
         "symplify/astral": "9.0.34",
-        "symplify/autodiscovery": "9.0.34",
         "symplify/autowire-array-parameter": "9.0.34",
         "symplify/changelog-linker": "9.0.34",
         "symplify/class-presence": "9.0.34",

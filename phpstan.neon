@@ -181,7 +181,6 @@ parameters:
                 - */scoper.inc.php
 
                 # Symfony API
-                - packages/autodiscovery/src/Doctrine/DoctrineEntityMappingAutodiscoverer.php
                 - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
 
                 - packages/vendor-patches/src/Composer/ComposerPatchesConfigurationUpdater.php
@@ -191,18 +190,12 @@ parameters:
                 - packages/easy-testing/src/MissplacedSkipPrefixResolver.php #23
 
         -
-            message: '#Array destruct is not allowed\. Use value object to pass data instead#'
-            paths:
-                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
-
-        -
             message: '#Use value object over return of values#'
             paths:
                 # php scoper config array
                 - */scoper.inc.php
 
                 # Symfony API
-                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
                 - packages/config-transformer/src/Configuration/Configuration.php
 
@@ -213,12 +206,6 @@ parameters:
              paths:
                  - packages/smart-file-system/src/Finder/FinderSanitizer.php
                  - packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
-
-        # 3rd party code
-        -
-            message: '#PHPDoc tag @return with type mixed is not subtype of native type array#'
-            paths:
-                - packages/autodiscovery/src/Yaml/YamlServiceProcessor.php
 
         -
             message: '#Do not use static property#'
