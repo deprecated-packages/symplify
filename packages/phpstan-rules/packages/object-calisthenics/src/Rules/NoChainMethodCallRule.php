@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Routing\Loader\Configurator\RouteConfigurator;
 use Symfony\Component\Routing\RouteCollection;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -45,7 +46,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
     private const DEFAULT_ALLOWED_CHAIN_TYPES = [
         TwitterAPIExchange::class,
         AbstractConfigurator::class,
-        \Symfony\Component\Routing\Loader\Configurator\RouteConfigurator::class,
+        RouteConfigurator::class,
         Alias::class,
         Finder::class,
         Definition::class,
