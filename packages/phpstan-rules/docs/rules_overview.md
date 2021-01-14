@@ -1,4 +1,4 @@
-# 121 Rules Overview
+# 123 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -744,6 +744,40 @@ class SomeCommand extends Command
 
 <br>
 
+## DifferentMethodNameToParameterRule
+
+Method name should be different to its parameter name, in a verb form
+
+- class: `Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule`
+
+```php
+class SomeClass
+{
+    public function apple(string $apple)
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function eatApple(string $apple)
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## ExcessiveParameterListRule
 
 Method `"%s()"` is using too many parameters - %d. Make it under %d
@@ -1388,6 +1422,45 @@ class SomeClass
 // SomeInterface.php
 interface SomeInterface
 {
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenNestedCallInAssertMethodCallRule
+
+Decouple method call in `assert` to standalone line to make test core more readable
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule`
+
+```php
+use PHPUnit\Framework\TestCase;
+
+final class SomeClass extends TestCase
+{
+    public function test()
+    {
+        $this->assetSame('oooo', $this->someMethodCall());
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use PHPUnit\Framework\TestCase;
+
+final class SomeClass extends TestCase
+{
+    public function test()
+    {
+        $result = $this->someMethodCall();
+        $this->assetSame('oooo', $result);
+    }
 }
 ```
 
@@ -3740,7 +3813,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ## PreventDuplicateClassMethodRule
 
-Content of method `"%s()"` is duplicated with method in "%s" class. Use unique content or abstract service instead
+Content of method `"%s()"` is duplicated with method `"%s()"` in "%s" class. Use unique content or abstract service instead
 
 - class: `Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule`
 
