@@ -2,8 +2,8 @@ name: Daily Pull Requests
 
 on:
     schedule:
-        # https://crontab.guru/once-a-day
-        -   cron: "0 0 * * *"
+        # https://crontab.guru/once-a-week
+        -   cron: "0 0 * * 0"
 
 jobs:
     daily_pull_requests:
@@ -12,16 +12,14 @@ jobs:
             matrix:
                 actions:
                     -
-                        name: "Re-Propagate Composer Dependencies to Packages"
-                        run: "composer propagate"
-                        branch: 'automated-re-propagate-dependencies'
+                        name: "Re-Generate Docs"
+                        run: "composer docs"
+                        branch: 'automated-re-generate-docs'
 
                     -
-                        name: "Re-Apply Rector Rules"
-                        run: |
-                            vendor/bin/rector process --ansi --no-progress-bar --dry-run
-                            packages/easy-coding-standard/bin/ecs check --match-git-diff --fix --ansi
-                        branch: 'automated-re-apply-rector'
+                        name: "Re-Apply Coding Standards"
+                        run: "composer fix-cs"
+                        branch: 'automated-re-apply-coding-standards'
 
         name: ${{ matrix.actions.name }}
 
@@ -55,3 +53,5 @@ jobs:
                     branch: ${{ matrix.actions.branch }}
                     title: '[automated] ${{ matrix.actions.name }}'
                     delete-branch: true
+
+
