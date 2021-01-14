@@ -24,6 +24,7 @@ final class NoMissingDirPathRuleTest extends AbstractServiceAwareRuleTestCase
         $message = sprintf(NoMissingDirPathRule::ERROR_MESSAGE, '/not_here.php');
         yield [__DIR__ . '/Fixture/FileMissing.php', [[$message, 11]]];
 
+        yield [__DIR__ . '/Fixture/SkipBracketPathFromSymfonyConfigImport.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingFile.php', []];
         yield [__DIR__ . '/Fixture/SkipVendorAutoload.php', []];
         yield [__DIR__ . '/Fixture/SkipAssertMethod.php', []];
