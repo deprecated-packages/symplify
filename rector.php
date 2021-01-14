@@ -75,7 +75,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         PrivatizeLocalOnlyMethodRector::class => [
             // @api + used in test
-            __DIR__ . '/packages/autodiscovery/src/Discovery.php',
             __DIR__ . '/packages/symfony-static-dumper/tests/test_project/src/HttpKernel/TestSymfonyStaticDumperKernel.php',
             __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
         ],

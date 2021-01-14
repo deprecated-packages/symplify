@@ -1,0 +1,12 @@
+{
+    "name": "example/package-two",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../packages/package-one",
+            "options": {
+                "symlink": true
+            }
+        }
+    ]
+}

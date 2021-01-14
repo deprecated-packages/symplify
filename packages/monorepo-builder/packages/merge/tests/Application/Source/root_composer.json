@@ -2,11 +2,6 @@
     "name": "symplify/symplify",
     "description": "Repository for Symplify packages development.",
     "license": "MIT",
-    "autoload-dev": {
-        "classmap": [
-            "packages/autodiscovery/tests/Source/KernelProjectDir"
-        ]
-    },
     "scripts": {
         "complete-check": [
             "phpunit",

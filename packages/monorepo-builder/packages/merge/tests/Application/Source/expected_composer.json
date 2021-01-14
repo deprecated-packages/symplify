@@ -25,9 +25,6 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "packages/autodiscovery/tests/Source/KernelProjectDir"
-        ],
         "psr-4": {
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/monorepo-builder/packages/merge/tests/Application/Source/packages/tests",
             "Symplify\\SetConfigResolver\\Tests\\": "packages/monorepo-builder/packages/merge/tests/Application/Source/packages/tests"

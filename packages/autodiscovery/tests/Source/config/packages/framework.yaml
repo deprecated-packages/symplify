@@ -1,4 +1,0 @@
-framework:
-    # for translations
-    translator:
-        fallbacks: ["en"]

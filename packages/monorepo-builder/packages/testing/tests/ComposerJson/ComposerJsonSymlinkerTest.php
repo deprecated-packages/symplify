@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Testing\Tests\ComposerJson;
 
+use Iterator;
+use Nette\Utils\Json;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Testing\ComposerJson\ComposerJsonSymlinker;
@@ -30,122 +32,59 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $this->composerJsonSymlinker = $this->getService(ComposerJsonSymlinker::class);
     }
 
-    public function testItCanAppendPathRepository(): void
-    {
+    /**
+     * @dataProvider provideData()
+     */
+    public function testItCanAppendPathRepository(
+        string $packagePath,
+        string $packageName,
+        bool $symlink,
+        string $expectedJsonFile
+    ): void {
         $mainComposerJson = new SmartFileInfo(__DIR__ . '/composer.json');
-        $packageFileInfo = new SmartFileInfo(__DIR__ . '/packages/package-one/composer.json');
+        $packageFileInfo = new SmartFileInfo($packagePath);
 
         $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
 
         $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
             $packageComposerJson,
-            ['example/package-two'],
+            [$packageName],
             $mainComposerJson,
-            false
+            $symlink
         );
 
-        $this->assertSame([
-            'name' => 'example/package-one',
-            'repositories' => [
-                [
-                    'type' => 'path',
-                    'url' => '../../packages/package-two',
-                    'options' => [
-                        'symlink' => false,
-                    ],
-                ],
-                [
-                    'type' => 'composer',
-                    'url' => 'https://repo.packagist.com/acme-companies/',
-                ],
-                [
-                    'packagist.org' => false,
-                ],
-            ],
-        ], $packageComposerJson);
+        $jsonString = Json::encode($packageComposerJson, Json::PRETTY);
+        $this->assertJsonStringEqualsJsonFile($expectedJsonFile, $jsonString);
     }
 
-    public function testItCanAddPathRepository(): void
+    public function provideData(): Iterator
     {
-        $mainComposerJson = new SmartFileInfo(__DIR__ . '/composer.json');
-        $packageFileInfo = new SmartFileInfo(__DIR__ . '/packages/package-two/composer.json');
+        yield [
+            __DIR__ . '/packages/package-one/composer.json',
+            'example/package-two',
+            false,
+            __DIR__ . '/Fixture/expected_path_repository.json',
+        ];
 
-        $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
+        yield [
+            __DIR__ . '/packages/package-two/composer.json',
+            'example/package-one',
+            false,
+            __DIR__ . '/Fixture/expected_repository.json',
+        ];
 
-        $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
-            $packageComposerJson,
-            ['example/package-one'],
-            $mainComposerJson,
-            false
-        );
+        yield [
+            __DIR__ . '/packages/package-two/composer.json',
+            'example/package-one',
+            true,
+            __DIR__ . '/Fixture/expected_symlink_true.json',
+        ];
 
-        $this->assertSame([
-            'name' => 'example/package-two',
-            'repositories' => [
-                [
-                    'type' => 'path',
-                    'url' => '../../packages/package-one',
-                    'options' => [
-                        'symlink' => false,
-                    ],
-                ],
-            ],
-        ], $packageComposerJson);
-    }
-
-    public function testSymlinkTrue(): void
-    {
-        $mainComposerJson = new SmartFileInfo(__DIR__ . '/composer.json');
-        $packageFileInfo = new SmartFileInfo(__DIR__ . '/packages/package-two/composer.json');
-
-        $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
-
-        $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
-            $packageComposerJson,
-            ['example/package-one'],
-            $mainComposerJson,
-            true
-        );
-
-        $this->assertSame([
-            'name' => 'example/package-two',
-            'repositories' => [
-                [
-                    'type' => 'path',
-                    'url' => '../../packages/package-one',
-                    'options' => [
-                        'symlink' => true,
-                    ],
-                ],
-            ],
-        ], $packageComposerJson);
-    }
-
-    public function testReusesExistingRepositoryEntry(): void
-    {
-        $mainComposerJson = new SmartFileInfo(__DIR__ . '/composer.json');
-        $packageFileInfo = new SmartFileInfo(__DIR__ . '/packages/package-three/composer.json');
-
-        $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
-
-        $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
-            $packageComposerJson,
-            ['example/package-one'],
-            $mainComposerJson,
-            false
-        );
-
-        $this->assertSame([
-            'name' => 'example/package-three',
-            'repositories' => [
-                [
-                    'type' => 'path',
-                    'url' => '../../packages/package-one',
-                    'options' => [
-                        'symlink' => false,
-                    ],
-                ],
-            ],
-        ], $packageComposerJson);
+        yield [
+            __DIR__ . '/packages/package-three/composer.json',
+            'example/package-one',
+            false,
+            __DIR__ . '/Fixture/expected_reuse_existing_repository.json',
+        ];
     }
 }

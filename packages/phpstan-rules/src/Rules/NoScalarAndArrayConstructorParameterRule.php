@@ -15,8 +15,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Autodiscovery\Discovery;
-use Symplify\Autodiscovery\Finder\AutodiscoveryFinder;
 use Symplify\PHPStanRules\Types\ScalarTypeAnalyser;
 use Symplify\PHPStanRules\VariableAsParamAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -48,9 +46,6 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractSymplifyRul
         // part of before construction of dependency injeciton
         Kernel::class,
         CompilerPassInterface::class,
-        AutodiscoveryFinder::class,
-        Discovery::class,
-        AutodiscoveryFinder::class,
         ExtensionInterface::class,
         Application::class,
     ];
