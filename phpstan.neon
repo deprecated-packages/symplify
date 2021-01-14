@@ -527,3 +527,5 @@ parameters:
                 - packages/phpstan-rules/src/Rules/NoContainerInjectionInConstructorRule.php #94
                 - packages/phpstan-rules/packages/cognitive-complexity/src/NodeVisitor/AbstractComplexityNodeVisitor.php #54
                 - packages/class-presence/src/Regex/NonExistingClassExtractor.php #70
+
+        - '#Content of method "doesClassLikeExist\(\)" is duplicated with method "doesClassExists\(\)" in "Symplify\\ClassPresence\\Regex\\NonExistingClassExtractor" class\. Use unique content or abstract service instead#'
