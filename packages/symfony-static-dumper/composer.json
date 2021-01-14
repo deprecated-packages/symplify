@@ -26,8 +26,7 @@
         "phpunit/phpunit": "^9.5",
         "symfony/framework-bundle": "^4.4|^5.1",
         "symfony/twig-bundle": "^4.4|^5.1",
-        "symplify/autodiscovery": "^9.1",
-        "symplify/flex-loader": "^9.1"
+        "symplify/autodiscovery": "^9.1"
     },
     "autoload": {
         "psr-4": {

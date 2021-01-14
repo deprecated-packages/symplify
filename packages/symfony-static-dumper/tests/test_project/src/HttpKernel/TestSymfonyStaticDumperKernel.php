@@ -9,34 +9,15 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
-use Symplify\Autodiscovery\Discovery;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\FlexLoader\Flex\FlexLoader;
 use Symplify\SymfonyStaticDumper\SymfonyStaticDumperBundle;
 
 final class TestSymfonyStaticDumperKernel extends Kernel
 {
     use MicroKernelTrait;
-
-    /**
-     * @var FlexLoader
-     */
-    private $flexLoader;
-
-    /**
-     * @var Discovery
-     */
-    private $discovery;
-
-    public function __construct(string $environment, bool $debug)
-    {
-        parent::__construct($environment, $debug);
-
-        $this->flexLoader = new FlexLoader($environment, $this->getProjectDir());
-        $this->discovery = new Discovery($this->getProjectDir());
-    }
 
     public function getProjectDir(): string
     {
@@ -44,7 +25,7 @@ final class TestSymfonyStaticDumperKernel extends Kernel
     }
 
     /**
-     * @return FrameworkBundle[]|TwigBundle[]|SymfonyStaticDumperBundle[]
+     * @return BundleInterface[]
      */
     public function registerBundles(): array
     {
@@ -61,20 +42,18 @@ final class TestSymfonyStaticDumperKernel extends Kernel
         return sys_get_temp_dir() . '/test_symfony_static_dumper_kernel_log';
     }
 
-    protected function build(ContainerBuilder $containerBuilder): void
+    protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
     {
-        $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
+        $loader->load(__DIR__ . '/../../config/services.php');
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routeCollectionBuilder): void
     {
-        $this->discovery->discoverRoutes($routeCollectionBuilder);
-        $this->flexLoader->loadRoutes($routeCollectionBuilder);
+        $routeCollectionBuilder->import(__DIR__ . '/../../config/routes.php');
     }
 
-    protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
+    protected function build(ContainerBuilder $containerBuilder): void
     {
-        $this->flexLoader->loadConfigs($containerBuilder, $loader);
-        $this->discovery->discoverTemplates($containerBuilder);
+        $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
     }
 }

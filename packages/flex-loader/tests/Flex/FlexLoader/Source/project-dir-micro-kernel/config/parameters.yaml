@@ -1,5 +1,0 @@
-parameters:
-    # framework bundle required parameters
-    kernel.secret: '123'
-    kernel.charset: 'UTF8'
-    default.parameter: 'default parameter value'
