@@ -28,7 +28,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 - [Autodiscovery](https://github.com/symplify/autodiscovery)
 - [Autowire Array Parameter](https://github.com/symplify/autowire-array-parameter)
-- [Flex Loader](https://github.com/symplify/flex-loader)
 - [PHP Config Printer](https://github.com/symplify/php-config-printer)
 - [Symfony Route Usage](https://github.com/symplify/symfony-route-usage)
 
