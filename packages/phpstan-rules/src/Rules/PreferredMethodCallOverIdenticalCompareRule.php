@@ -24,7 +24,7 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Use "%s->%s(\'value\')" method call over "%s->%s() === \'value\'" comparison';
+    public const ERROR_MESSAGE = 'Use "%s->%s(\'value\')" method call over "%s->%s() === \'value\'" comparison';
 
     /**
      * @var SimpleNameResolver
