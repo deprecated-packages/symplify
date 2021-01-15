@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\PrefferedMethodCallOverIdenticalCompareRule;
+namespace Symplify\PHPStanRules\Tests\Rules\PreferredMethodCallOverIdenticalCompareRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\PrefferedMethodCallOverIdenticalCompareRule;
+use Symplify\PHPStanRules\Rules\PreferredMethodCallOverIdenticalCompareRule;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class PrefferedMethodCallOverIdenticalCompareRuleTest extends AbstractServiceAwareRuleTestCase
+final class PreferredMethodCallOverIdenticalCompareRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -24,7 +24,7 @@ final class PrefferedMethodCallOverIdenticalCompareRuleTest extends AbstractServ
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(
-            PrefferedMethodCallOverIdenticalCompareRule::ERROR_MESSAGE,
+            PreferredMethodCallOverIdenticalCompareRule::ERROR_MESSAGE,
             'Rector\Core\Rector\AbstractRector->isName',
             'Rector\Core\Rector\AbstractRector->getName'
         );
@@ -33,7 +33,7 @@ final class PrefferedMethodCallOverIdenticalCompareRuleTest extends AbstractServ
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            PrefferedMethodCallOverIdenticalCompareRule::class,
+            PreferredMethodCallOverIdenticalCompareRule::class,
             __DIR__ . '/config/configured_rule.neon'
         );
     }

@@ -3,7 +3,7 @@ includes:
 
 services:
     -
-        class: Symplify\PHPStanRules\Rules\PrefferedMethodCallOverIdenticalCompareRule
+        class: Symplify\PHPStanRules\Rules\PreferredMethodCallOverIdenticalCompareRule
         tags: [phpstan.rules.rule]
         arguments:
             identicalToPreferredMethodCalls:
