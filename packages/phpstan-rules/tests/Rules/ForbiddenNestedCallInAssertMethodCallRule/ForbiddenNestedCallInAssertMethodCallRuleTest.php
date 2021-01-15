@@ -21,6 +21,7 @@ final class ForbiddenNestedCallInAssertMethodCallRuleTest extends AbstractServic
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipAssertNothing.php', []];
         yield [__DIR__ . '/Fixture/SkipCleanAssert.php', []];
         yield [__DIR__ . '/Fixture/SkipSimpleGetter.php', []];
         yield [__DIR__ . '/Fixture/SkipAssertTrue.php', []];
