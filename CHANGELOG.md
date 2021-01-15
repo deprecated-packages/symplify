@@ -1,6 +1,6 @@
 <!-- changelog-linker -->
 
-## Unreleased
+## 9.0.36 - 2021-01-15
 
 ### Added
 
