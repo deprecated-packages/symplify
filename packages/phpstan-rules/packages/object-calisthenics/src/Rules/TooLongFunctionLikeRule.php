@@ -48,8 +48,8 @@ final class TooLongFunctionLikeRule extends AbstractSymplifyRule implements Conf
      */
     public function process(Node $node, Scope $scope): array
     {
-        $currentFunctionLikeLenght = $this->getNodeLength($node);
-        if ($currentFunctionLikeLenght <= $this->maxFunctionLikeLength) {
+        $currentFunctionLikeLength = $this->getNodeLength($node);
+        if ($currentFunctionLikeLength <= $this->maxFunctionLikeLength) {
             return [];
         }
 
@@ -58,7 +58,7 @@ final class TooLongFunctionLikeRule extends AbstractSymplifyRule implements Conf
         $errorMessage = sprintf(
             self::ERROR_MESSAGE,
             $functionLikeType,
-            $currentFunctionLikeLenght,
+            $currentFunctionLikeLength,
             $this->maxFunctionLikeLength
         );
 

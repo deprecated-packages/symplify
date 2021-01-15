@@ -3591,7 +3591,7 @@ services:
             funcCallToPreferredMethodCalls:
                 strlen:
                     - Nette\Utils\Strings
-                    - lenght
+                    - length
 ```
 
 ↓
@@ -3622,7 +3622,7 @@ class SomeClass
 
     public function run($value)
     {
-        return $this->strings->lenght($value);
+        return $this->strings->length($value);
     }
 }
 ```
@@ -3715,7 +3715,7 @@ services:
             funcCallToPreferredStaticCalls:
                 strlen:
                     - Nette\Utils\Strings
-                    - lenght
+                    - length
 ```
 
 ↓
@@ -3741,7 +3741,7 @@ class SomeClass
 {
     public function run($value)
     {
-        return Strings::lenght($value);
+        return Strings::length($value);
     }
 }
 ```
