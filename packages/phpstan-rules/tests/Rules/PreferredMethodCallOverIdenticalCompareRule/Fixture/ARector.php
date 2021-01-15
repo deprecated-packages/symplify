@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Tests\Rules\PreferredMethodCallOverIdenticalCompareRule\Fixture;
 
 use PhpParser\Node;
-use Rector\Core\Rector\AbstractRector;
 
 final class ARector extends AbstractRector
 {

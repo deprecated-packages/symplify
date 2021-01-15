@@ -17,7 +17,6 @@
         "symplify/easy-testing": "^9.1",
         "symplify/phpstan-extensions": "^9.1",
         "phpunit/phpunit": "^9.5",
-        "rector/rector": "^0.9.6",
         "symfony/framework-bundle": "^4.4|^5.1"
     },
     "autoload": {

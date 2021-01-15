@@ -7,5 +7,5 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             identicalToPreferredMethodCalls:
-                Rector\Core\Rector\AbstractRector:
+                Symplify\PHPStanRules\Tests\Rules\PreferredMethodCallOverIdenticalCompareRule\Fixture\AbstractRector:
                     getName: isName
