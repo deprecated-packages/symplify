@@ -58,11 +58,7 @@ final class ForbiddenNestedCallInAssertMethodCallRule extends AbstractSymplifyRu
             return [];
         }
 
-        if (! Strings::startsWith($methodName, 'assert')) {
-            return [];
-        }
-
-        if (in_array($methodName, ['assertTrue', 'assertFalse'], true)) {
+        if ($this->shouldSkipMethodName($methodName, $node)) {
             return [];
         }
 
@@ -109,5 +105,18 @@ final class SomeClass extends TestCase
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function shouldSkipMethodName(string $methodName, MethodCall $methodCall): bool
+    {
+        if (! Strings::startsWith($methodName, 'assert')) {
+            return true;
+        }
+
+        if (in_array($methodName, ['assertTrue', 'assertFalse'], true)) {
+            return true;
+        }
+
+        return count($methodCall->args) <= 1;
     }
 }
