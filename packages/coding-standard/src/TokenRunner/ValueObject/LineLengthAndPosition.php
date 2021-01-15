@@ -9,22 +9,22 @@ final class LineLengthAndPosition
     /**
      * @var int
      */
-    private $lineLenght;
+    private $lineLength;
 
     /**
      * @var int
      */
     private $currentPosition;
 
-    public function __construct(int $lineLenght, int $currentPosition)
+    public function __construct(int $lineLength, int $currentPosition)
     {
-        $this->lineLenght = $lineLenght;
+        $this->lineLength = $lineLength;
         $this->currentPosition = $currentPosition;
     }
 
     public function getLineLength(): int
     {
-        return $this->lineLenght;
+        return $this->lineLength;
     }
 
     public function getCurrentPosition(): int

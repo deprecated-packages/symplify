@@ -82,14 +82,14 @@ class SomeClass
 
     public function run($value)
     {
-        return $this->strings->lenght($value);
+        return $this->strings->length($value);
     }
 }
 CODE_SAMPLE
                 ,
                 [
                     'funcCallToPreferredMethodCalls' => [
-                        'strlen' => [Strings::class, 'lenght'],
+                        'strlen' => [Strings::class, 'length'],
                     ],
                 ]
             ),
