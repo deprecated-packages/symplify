@@ -1,6 +1,145 @@
 <!-- changelog-linker -->
 
-## 9.0.24 - 2021-01-03# Changelog
+## Unreleased
+
+### Added
+
+#### Astral
+
+- [#2768] Add NodeValueResolverTest, add TypeChecker
+- [#2769] Add NodeValueResolverTest, add TypeChecker
+
+#### AutowireArrayParameter
+
+- [#2786] Add array shape support
+
+#### CI
+
+- [#2754] add split_repository lockdown with message
+
+#### CodingStandard
+
+- [#2774] Add promoted property newliner
+
+#### EasyTesting
+
+- [#2733] Add validate fixture skip naming command
+
+#### PHPStanRules
+
+- [#2740] Add InvokableControllerByRouteNamingRule, Thanks to [@samsonasik]
+- [#2771] Add NoEmptyClassRule
+- [#2732] Add unskipped test fixture
+- [#2777] Add RequireConstantInAttributeArgumentRule
+- [#2792] Add DifferentMethodNameToParameterRule
+- [#2729] Add RequireSkipPrefixForRuleSkippedFixtureRule
+- [#2788] Add ForbiddenNestedCallInAssertMethodCallRule
+
+#### Unknown Package
+
+- [#2753] Added methods to manipulate json + fix license type, Thanks to [@lulco]
+
+### Changed
+
+#### CI
+
+- [#2755] reword lockdown and disable lockign to allow chat
+
+#### ChangeLogLinker
+
+- [#2767] Failing test ChangelogFileSystem with changelog file has previous text before , Thanks to [@samsonasik]
+
+#### ChangelogLinker
+
+- [#2731] Failing fixture multi list data changelog should not trimmed, Thanks to [@samsonasik]
+
+#### EasyTesting
+
+- [#2735] Update wording error on ValidateFixtureSkipNamingCommand, Thanks to [@samsonasik]
+- [#2736] Check ---- in ValidateFixtureSkipNaming Command, Thanks to [@samsonasik]
+
+#### PHPStanRules
+
+- [#2744] Improve PreventDuplicateClassMethodRule with mask names, Thanks to [@samsonasik]
+- [#2800] Skip bracket path for NoMissingDirPathRule
+- [#2795] Skip check trait method content on PreventDuplicateClassMethodRule, Thanks to [@samsonasik]
+- [#2791] use ReflectionProvider where possible
+- [#2779] Don't trigger an error when the method returns an empty array, Thanks to [@matthiasnoback]
+- [#2763] Re-use naming service
+
+#### PHPUnit
+
+- [#2789] Migrate phpunit.xml configuration with --migrate-configuration, Thanks to [@samsonasik]
+
+#### PackageBuilder
+
+- [#2742] Warn about null call on private
+
+#### Rector
+
+- [#2761] Apply early return set
+
+#### RuleDocGenerator
+
+- [#2734] Split comma on KeywordHighlighter, Thanks to [@samsonasik]
+
+#### Unknown Package
+
+- [#2739] typo, Thanks to [@dakur]
+- [#2727] Automated Update of Changelog on 2021-01-01, Thanks to [@github-actions][bot]
+- [#2756] Apply Rector rules
+- [#2778] Tests for issue [#2776], Thanks to [@annuh]
+- [#2764] Re-use node name resolver
+- [#2765] use node value resolver
+
+#### automated
+
+- [#2737] Re-Generate Docs, Thanks to [@github-actions][bot]
+- [#2796] Re-Generate Docs, Thanks to [@github-actions][bot]
+- [#2730] Re-Generate Docs, Thanks to [@github-actions][bot]
+- [#2783] Re-Generate Docs, Thanks to [@github-actions][bot]
+- [#2772] Re-Generate Docs, Thanks to [@github-actions][bot]
+- [#2738] Re-Propagate Composer Dependencies to Packages, Thanks to [@github-actions][bot]
+- [#2745] Re-Generate Docs, Thanks to [@github-actions][bot]
+- [#2766] Re-Generate Docs, Thanks to [@github-actions][bot]
+
+#### changelog-linker
+
+- [#2747] Include none if no pull requests have been merged since provided last id, Thanks to [@alexbrouwer]
+- [#2750] Prevent duplication in changelog when only PR no. 1 was merged, Thanks to [@alexbrouwer]
+
+### Deprecated
+
+#### Autodiscovery
+
+- [#2802] Deprecated package
+
+#### FlexLoader
+
+- [#2801] Deprecate unused package
+
+### Fixed
+
+#### Unknown Package
+
+- [#2762] various fixes
+- [#2780] Fix typo: excpeted → expected, Thanks to [@alexislefebvre]
+
+### Removed
+
+#### Astral
+
+- [#2770] Remove dependnecy on phpstan
+
+#### CodingStandard
+
+- [#2741] Remove reference on [@param] for ParamReturnAndVarTagMalformsFixer, Thanks to [@samsonasik]
+
+#### Unknown Package
+
+- [#2785] Remove direct dependency on slevomat/coding-standard for breaking installs and PHP 8 code
+
+## [9.0.24] - 2021-01-03# Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -38,7 +177,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#2672] Refactor CheckTypehintCallerTypeRule from instanceof to PHPStan types- [#2645] Refactor PreventDoubleSetParameterRule to use SymfonyPhpConfigClosureAnalyzer- [#2670] Skip callables in dynamic naming- [#2668] Skip callables in dynamic naming- [#2680] Refactor CheckUsedNamespacedNameOnClassNodeRule to skip null compare- [#2663] ensure no superflous / or \ in check isInDirectoryNamed(), Thanks to [@samsonasik]- [#2724] Skip ClassNameRespectsParentSuffixRule on anonymous class, Thanks to [@samsonasik]
 
 #### Unknown Package
-- [#2660] Failing test case for multiple ## 9.0.24 - 2021-01-03 against , Thanks to [@samsonasik]- [#2649] Automated Update of Changelog on 2020-12-15, Thanks to [@github-actions][bot]- [#2665] Ensure namespacedName property exists when call $Class_->namespacedName, Thanks to [@samsonasik]- [#2685] Duplicate trait- [#2690] Improved documentation (to avoid error), Thanks to [@leoloso]- [#2692] [monorepo-builder "localize-composer-paths"] Extract $packageComposerFiles from out of loop, Thanks to [@leoloso]- [#2714] [Monorepo Builder] Avoid duplicating entries in composer.json's repositories, Thanks to [@leoloso]
+- [#2660] Failing test case for multiple ## [9.0.24] - 2021-01-03 against , Thanks to [@samsonasik]- [#2649] Automated Update of Changelog on 2020-12-15, Thanks to [@github-actions][bot]- [#2665] Ensure namespacedName property exists when call $Class_->namespacedName, Thanks to [@samsonasik]- [#2685] Duplicate trait- [#2690] Improved documentation (to avoid error), Thanks to [@leoloso]- [#2692] [monorepo-builder "localize-composer-paths"] Extract $packageComposerFiles from out of loop, Thanks to [@leoloso]- [#2714] [Monorepo Builder] Avoid duplicating entries in composer.json's repositories, Thanks to [@leoloso]
 
 #### automated
 - [#2726] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2677] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2686] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2687] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2651] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2691] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2657] Re-Generate Docs, Thanks to [@github-actions][bot]- [#2709] Re-Generate Docs, Thanks to [@github-actions][bot]
@@ -890,3 +1029,64 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@leoloso]: https://github.com/leoloso
 [@enumag]: https://github.com/enumag
 [9.0.11]: https://github.com/symplify/symplify/compare/9.0.0-rc1...9.0.11
+[#2802]: https://github.com/symplify/symplify/pull/2802
+[#2801]: https://github.com/symplify/symplify/pull/2801
+[#2800]: https://github.com/symplify/symplify/pull/2800
+[#2796]: https://github.com/symplify/symplify/pull/2796
+[#2795]: https://github.com/symplify/symplify/pull/2795
+[#2792]: https://github.com/symplify/symplify/pull/2792
+[#2791]: https://github.com/symplify/symplify/pull/2791
+[#2789]: https://github.com/symplify/symplify/pull/2789
+[#2788]: https://github.com/symplify/symplify/pull/2788
+[#2786]: https://github.com/symplify/symplify/pull/2786
+[#2785]: https://github.com/symplify/symplify/pull/2785
+[#2783]: https://github.com/symplify/symplify/pull/2783
+[#2780]: https://github.com/symplify/symplify/pull/2780
+[#2779]: https://github.com/symplify/symplify/pull/2779
+[#2778]: https://github.com/symplify/symplify/pull/2778
+[#2777]: https://github.com/symplify/symplify/pull/2777
+[#2776]: https://github.com/symplify/symplify/pull/2776
+[#2774]: https://github.com/symplify/symplify/pull/2774
+[#2772]: https://github.com/symplify/symplify/pull/2772
+[#2771]: https://github.com/symplify/symplify/pull/2771
+[#2770]: https://github.com/symplify/symplify/pull/2770
+[#2769]: https://github.com/symplify/symplify/pull/2769
+[#2768]: https://github.com/symplify/symplify/pull/2768
+[#2767]: https://github.com/symplify/symplify/pull/2767
+[#2766]: https://github.com/symplify/symplify/pull/2766
+[#2765]: https://github.com/symplify/symplify/pull/2765
+[#2764]: https://github.com/symplify/symplify/pull/2764
+[#2763]: https://github.com/symplify/symplify/pull/2763
+[#2762]: https://github.com/symplify/symplify/pull/2762
+[#2761]: https://github.com/symplify/symplify/pull/2761
+[#2756]: https://github.com/symplify/symplify/pull/2756
+[#2755]: https://github.com/symplify/symplify/pull/2755
+[#2754]: https://github.com/symplify/symplify/pull/2754
+[#2753]: https://github.com/symplify/symplify/pull/2753
+[#2750]: https://github.com/symplify/symplify/pull/2750
+[#2747]: https://github.com/symplify/symplify/pull/2747
+[#2745]: https://github.com/symplify/symplify/pull/2745
+[#2744]: https://github.com/symplify/symplify/pull/2744
+[#2742]: https://github.com/symplify/symplify/pull/2742
+[#2741]: https://github.com/symplify/symplify/pull/2741
+[#2740]: https://github.com/symplify/symplify/pull/2740
+[#2739]: https://github.com/symplify/symplify/pull/2739
+[#2738]: https://github.com/symplify/symplify/pull/2738
+[#2737]: https://github.com/symplify/symplify/pull/2737
+[#2736]: https://github.com/symplify/symplify/pull/2736
+[#2735]: https://github.com/symplify/symplify/pull/2735
+[#2734]: https://github.com/symplify/symplify/pull/2734
+[#2733]: https://github.com/symplify/symplify/pull/2733
+[#2732]: https://github.com/symplify/symplify/pull/2732
+[#2731]: https://github.com/symplify/symplify/pull/2731
+[#2730]: https://github.com/symplify/symplify/pull/2730
+[#2729]: https://github.com/symplify/symplify/pull/2729
+[#2727]: https://github.com/symplify/symplify/pull/2727
+[@param]: https://github.com/param
+[@matthiasnoback]: https://github.com/matthiasnoback
+[@lulco]: https://github.com/lulco
+[@dakur]: https://github.com/dakur
+[@annuh]: https://github.com/annuh
+[@alexislefebvre]: https://github.com/alexislefebvre
+[@alexbrouwer]: https://github.com/alexbrouwer
+[9.0.24]: https://github.com/symplify/symplify/compare/9.0.11...9.0.24
