@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\SmartFileSystem\Tests\SmartFileSystem;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class SmartFileSystemTest extends TestCase
 {
@@ -22,9 +22,7 @@ final class SmartFileSystemTest extends TestCase
 
     public function testReadFileToSmartFileInfo(): void
     {
-        $this->assertInstanceof(
-            SmartFileInfo::class,
-            $this->smartFileSystem->readFileToSmartFileInfo(__DIR__ . '/Source/file.txt')
-        );
+        $readFileToSmartFileInfo = $this->smartFileSystem->readFileToSmartFileInfo(__DIR__ . '/Source/file.txt');
+        $this->assertInstanceof(SmartFileInfo::class, $readFileToSmartFileInfo);
     }
 }
