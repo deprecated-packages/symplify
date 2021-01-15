@@ -13,9 +13,9 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\PrefferedMethodCallToIdenticalCompareRule\PrefferedMethodCallToIdenticalCompareRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\PrefferedMethodCallOverIdenticalCompareRule\PrefferedMethodCallOverIdenticalCompareRuleTest
  */
-final class PrefferedMethodCallToIdenticalCompareRule extends AbstractPrefferedCallOverFuncRule implements ConfigurableRuleInterface
+final class PrefferedMethodCallOverIdenticalCompareRule extends AbstractPrefferedCallOverFuncRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
