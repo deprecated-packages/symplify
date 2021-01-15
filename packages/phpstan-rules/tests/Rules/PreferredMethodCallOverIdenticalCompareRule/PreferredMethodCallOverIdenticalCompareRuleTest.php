@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\PreferredMethodCallOverIdenticalCompareRule;
 
+use Symplify\PHPStanRules\Tests\Rules\PreferredMethodCallOverIdenticalCompareRule\Fixture\AbstractRector;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
@@ -25,9 +26,9 @@ final class PreferredMethodCallOverIdenticalCompareRuleTest extends AbstractServ
     {
         $errorMessage = sprintf(
             PreferredMethodCallOverIdenticalCompareRule::ERROR_MESSAGE,
-            'Symplify\PHPStanRules\Tests\Rules\PreferredMethodCallOverIdenticalCompareRule\Fixture\AbstractRector',
+            AbstractRector::class,
             'isName',
-            'Symplify\PHPStanRules\Tests\Rules\PreferredMethodCallOverIdenticalCompareRule\Fixture\AbstractRector',
+            AbstractRector::class,
             'getName'
         );
 
