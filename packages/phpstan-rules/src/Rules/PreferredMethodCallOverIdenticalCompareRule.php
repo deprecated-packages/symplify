@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Rector\Core\Rector\AbstractRector;
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\Identical;
 use PhpParser\Node\Expr\BinaryOp\NotIdentical;
@@ -12,6 +11,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\ThisType;
+use Rector\Core\Rector\AbstractRector;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -80,43 +80,6 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
         return $this->validateIdenticalCompare($type, $methodCall);
     }
 
-    /**
-     * @return string[]
-     */
-    private function validateIdenticalCompare(ObjectType $objectType, MethodCall $methodCall): array
-    {
-        $className = $objectType->getClassName();
-        foreach ($this->identicalToPreferredMethodCalls as $class => $methodCalls) {
-            if (! is_a($className, $class, true)) {
-                continue;
-            }
-
-            foreach ($methodCalls as $old => $new) {
-                if (! $this->simpleNameResolver->isName($methodCall->name, $old)) {
-                    continue;
-                }
-
-                return [sprintf(self::ERROR_MESSAGE, $class, $new, $class, $old)];
-            }
-        }
-
-        return [];
-    }
-
-    private function getMethodCallType(MethodCall $methodCall, Scope $scope): ?ObjectType
-    {
-        $type = $scope->getType($methodCall->var);
-        if ($type instanceof ThisType) {
-            $type = $type->getStaticObjectType();
-        }
-
-        if (! $type instanceof ObjectType) {
-            return null;
-        }
-
-        return $type;
-    }
-
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
@@ -154,5 +117,42 @@ CODE_SAMPLE
                 ]
             ),
         ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function validateIdenticalCompare(ObjectType $objectType, MethodCall $methodCall): array
+    {
+        $className = $objectType->getClassName();
+        foreach ($this->identicalToPreferredMethodCalls as $class => $methodCalls) {
+            if (! is_a($className, $class, true)) {
+                continue;
+            }
+
+            foreach ($methodCalls as $old => $new) {
+                if (! $this->simpleNameResolver->isName($methodCall->name, $old)) {
+                    continue;
+                }
+
+                return [sprintf(self::ERROR_MESSAGE, $class, $new, $class, $old)];
+            }
+        }
+
+        return [];
+    }
+
+    private function getMethodCallType(MethodCall $methodCall, Scope $scope): ?ObjectType
+    {
+        $type = $scope->getType($methodCall->var);
+        if ($type instanceof ThisType) {
+            $type = $type->getStaticObjectType();
+        }
+
+        if (! $type instanceof ObjectType) {
+            return null;
+        }
+
+        return $type;
     }
 }
