@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Rector\Core\Rector\AbstractRector;
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\Identical;
 use PhpParser\Node\Expr\MethodCall;
@@ -23,7 +24,7 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use "%s->%s(\'value\')" method call over "%s->%s() === \'value\'" comparison';
+    private const ERROR_MESSAGE = 'Use "%s->%s(\'value\')" method call over "%s->%s() === \'value\'" comparison';
 
     /**
      * @var SimpleNameResolver
@@ -83,7 +84,7 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
      */
     private function validateIdenticalCompare(ObjectType $objectType, MethodCall $methodCall): array
     {
-        $className = (string) $objectType->getClassName();
+        $className = $objectType->getClassName();
         foreach ($this->identicalToPreferredMethodCalls as $class => $methodCalls) {
             if (! is_a($className, $class, true)) {
                 continue;
@@ -143,7 +144,7 @@ CODE_SAMPLE
                 ,
                 [
                     'identicalToPreferredMethodCalls' => [
-                        'Rector\Core\Rector\AbstractRector' => [
+                        AbstractRector::class => [
                             'getName' => 'isName',
                         ],
                     ],
