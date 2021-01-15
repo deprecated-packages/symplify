@@ -36,7 +36,7 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
     private $identicalToPreferredMethodCalls = [];
 
     /**
-     * @param array<string, string[]> $simpleNameResolver
+     * @param array<string, string[]> $identicalToPreferredMethodCalls
      */
     public function __construct(SimpleNameResolver $simpleNameResolver, array $identicalToPreferredMethodCalls = [])
     {
@@ -65,20 +65,25 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
             return [];
         }
 
+        /** @var MethodCall $methodCall */
         $methodCall = $left instanceof MethodCall
             ? $left
             : $right;
 
-        $type = $scope->getType($methodCall->var);
-        if ($type instanceof ThisType) {
-            $type = $type->getStaticObjectType();
-        }
-
-        if (! $type instanceof ObjectType) {
+        $type = $this->getMethodCallType($methodCall, $scope);
+        if ($type === null) {
             return [];
         }
 
-        $className = (string) $type->getClassName();
+        return $this->validateIdenticalCompare($type, $methodCall);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function validateIdenticalCompare(ObjectType $objectType, MethodCall $methodCall): array
+    {
+        $className = (string) $objectType->getClassName();
         foreach ($this->identicalToPreferredMethodCalls as $class => $methodCalls) {
             if (! is_a($className, $class, true)) {
                 continue;
@@ -94,6 +99,20 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
         }
 
         return [];
+    }
+
+    private function getMethodCallType(MethodCall $methodCall, Scope $scope): ?ObjectType
+    {
+        $type = $scope->getType($methodCall->var);
+        if ($type instanceof ThisType) {
+            $type = $type->getStaticObjectType();
+        }
+
+        if (! $type instanceof ObjectType) {
+            return null;
+        }
+
+        return $type;
     }
 
     public function getRuleDefinition(): RuleDefinition
