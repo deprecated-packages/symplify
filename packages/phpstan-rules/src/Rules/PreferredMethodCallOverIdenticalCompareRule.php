@@ -8,6 +8,8 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\Identical;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\ThisType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -62,6 +64,21 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
         if (! $left instanceof MethodCall && ! $right instanceof MethodCall) {
             return [];
         }
+
+        $methodCall = $left instanceof MethodCall
+            ? $left
+            : $right;
+
+        $type = $scope->getType($methodCall->var);
+        if ($type instanceof ThisType) {
+            $type = $type->getStaticObjectType();
+        }
+
+        if (! $type instanceof ObjectType) {
+            return [];
+        }
+
+        dump($type);
 
         return [self::ERROR_MESSAGE];
     }
