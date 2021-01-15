@@ -33,12 +33,12 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
     private $simpleNameResolver;
 
     /**
-     * @var array<string, string[]>
+     * @var array<string, array<string, string>>
      */
     private $identicalToPreferredMethodCalls = [];
 
     /**
-     * @param array<string, string[]> $identicalToPreferredMethodCalls
+     * @param array<string, array<string, string>> $identicalToPreferredMethodCalls
      */
     public function __construct(SimpleNameResolver $simpleNameResolver, array $identicalToPreferredMethodCalls = [])
     {
