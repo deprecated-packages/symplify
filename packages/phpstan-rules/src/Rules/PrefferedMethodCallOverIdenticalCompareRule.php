@@ -20,7 +20,7 @@ final class PrefferedMethodCallOverIdenticalCompareRule extends AbstractPreffere
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use "%s->%s(\'value\')" method call over "%s() === \'value\'" comparison';
+    public const ERROR_MESSAGE = 'Use "%s(\'value\')" method call over "%s() === \'value\'" comparison';
 
     /**
      * @var array<string, string[]>

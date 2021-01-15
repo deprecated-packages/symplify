@@ -1,0 +1,11 @@
+includes:
+    - ../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PrefferedMethodCallOverIdenticalCompareRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            identicalToPreferredMethodCalls:
+                Rector\Core\Rector\AbstractRector:
+                    getName: isName
