@@ -6,11 +6,18 @@ namespace Symplify\PHPStanRules\Tests\Rules\PreferredMethodCallOverIdenticalComp
 
 use PhpParser\Node;
 
-final class ARector extends AbstractRector
+final class DependencyInjectionRector
 {
+    private $rector;
+
+    public function __construct(AbstractRector $rector)
+    {
+        $this->rector = $rector;
+    }
+
     public function refactor(Node $node): ?Node
     {
-        $this->getName($node) === 'hey';
+        $this->rector->getName($node) === 'hey';
         return null;
     }
 }

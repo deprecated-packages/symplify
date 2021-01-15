@@ -33,6 +33,7 @@ final class PreferredMethodCallOverIdenticalCompareRuleTest extends AbstractServ
 
         yield [__DIR__ . '/Fixture/SkipNotMethodCall.php', []];
         yield [__DIR__ . '/Fixture/ARector.php', [[$errorMessage, 13]]];
+        yield [__DIR__ . '/Fixture/DependencyInjectionRector.php', [[$errorMessage, 20]]];
     }
 
     protected function getRule(): Rule
