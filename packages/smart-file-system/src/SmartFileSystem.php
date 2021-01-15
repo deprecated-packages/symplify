@@ -9,6 +9,9 @@ use Nette\Utils\Strings;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * @see \Symplify\SmartFileSystem\Tests\SmartFileSystem\SmartFileSystemTest
+ */
 final class SmartFileSystem extends Filesystem
 {
     /**
