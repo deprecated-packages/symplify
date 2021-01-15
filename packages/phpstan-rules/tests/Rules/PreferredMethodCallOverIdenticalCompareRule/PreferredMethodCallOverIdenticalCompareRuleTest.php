@@ -28,6 +28,8 @@ final class PreferredMethodCallOverIdenticalCompareRuleTest extends AbstractServ
             'Rector\Core\Rector\AbstractRector->isName',
             'Rector\Core\Rector\AbstractRector->getName'
         );
+
+        yield [__DIR__ . '/Fixture/SkipNotMethodCall.php', []];
     }
 
     protected function getRule(): Rule
