@@ -501,7 +501,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### CodingStandard
 
-- [#790] Add inline support to `LineLenghtFixer` for arrays to be consistent with other structures - function, method arguments, new arguments etc. already do
+- [#790] Add inline support to `LineLengthFixer` for arrays to be consistent with other structures - function, method arguments, new arguments etc. already do
 
 - [#766] Make class-renaming checkers inform only
     - `Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`
@@ -532,8 +532,8 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### CodingStandard
 
-- [#825] Fix LineLenghtFixer in-string
-- [#815] Fix LineLenghtFixer in functions body
+- [#825] Fix LineLengthFixer in-string
+- [#815] Fix LineLengthFixer in functions body
 
 ### Deprecated
 

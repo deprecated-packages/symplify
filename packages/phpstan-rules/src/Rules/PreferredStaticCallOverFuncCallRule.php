@@ -77,14 +77,14 @@ class SomeClass
 {
     public function run($value)
     {
-        return Strings::lenght($value);
+        return Strings::length($value);
     }
 }
 CODE_SAMPLE
                 ,
                 [
                     'funcCallToPreferredStaticCalls' => [
-                        'strlen' => [Strings::class, 'lenght'],
+                        'strlen' => [Strings::class, 'length'],
                     ],
                 ]
             ),
