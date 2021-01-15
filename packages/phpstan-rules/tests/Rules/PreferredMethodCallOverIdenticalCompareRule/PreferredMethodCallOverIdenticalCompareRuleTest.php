@@ -25,12 +25,14 @@ final class PreferredMethodCallOverIdenticalCompareRuleTest extends AbstractServ
     {
         $errorMessage = sprintf(
             PreferredMethodCallOverIdenticalCompareRule::ERROR_MESSAGE,
-            'Rector\Core\Rector\AbstractRector->isName',
-            'Rector\Core\Rector\AbstractRector->getName'
+            'Rector\Core\Rector\AbstractRector',
+            'isName',
+            'Rector\Core\Rector\AbstractRector',
+            'getName'
         );
 
         yield [__DIR__ . '/Fixture/SkipNotMethodCall.php', []];
-        yield [__DIR__ . '/Fixture/ARector.php', [[$errorMessage, 11]]];
+        yield [__DIR__ . '/Fixture/ARector.php', [[$errorMessage, 14]]];
     }
 
     protected function getRule(): Rule

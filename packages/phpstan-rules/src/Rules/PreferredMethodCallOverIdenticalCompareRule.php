@@ -23,7 +23,7 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use "%s(\'value\')" method call over "%s() === \'value\'" comparison';
+    public const ERROR_MESSAGE = 'Use "%s->%s(\'value\')" method call over "%s->%s() === \'value\'" comparison';
 
     /**
      * @var SimpleNameResolver
@@ -78,9 +78,22 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
             return [];
         }
 
-        dump($type);
+        $className = (string) $type->getClassName();
+        foreach ($this->identicalToPreferredMethodCalls as $class => $methodCalls) {
+            if (! is_a($className, $class, true)) {
+                continue;
+            }
 
-        return [self::ERROR_MESSAGE];
+            foreach ($methodCalls as $old => $new) {
+                if (! $this->simpleNameResolver->isName($methodCall->name, $old)) {
+                    continue;
+                }
+
+                return [sprintf(self::ERROR_MESSAGE, $class, $new, $class, $old)];
+            }
+        }
+
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
