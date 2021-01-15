@@ -11,6 +11,7 @@ final class ARector extends AbstractRector
     public function refactor(Node $node): ?Node
     {
         $this->getName($node) === 'hey';
+        $this->getName($node) !== 'hey';
         return null;
     }
 }

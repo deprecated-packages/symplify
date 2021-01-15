@@ -18,6 +18,7 @@ final class DependencyInjectionRector
     public function refactor(Node $node): ?Node
     {
         $this->rector->getName($node) === 'hey';
+        $this->rector->getName($node) !== 'hey';
         return null;
     }
 }

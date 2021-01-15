@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use Rector\Core\Rector\AbstractRector;
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\Identical;
+use PhpParser\Node\Expr\BinaryOp\NotIdentical;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
@@ -50,11 +51,11 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
      */
     public function getNodeTypes(): array
     {
-        return [Identical::class];
+        return [Identical::class, NotIdentical::class];
     }
 
     /**
-     * @param Identical $node
+     * @param Identical|NotIdentical $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
@@ -126,6 +127,7 @@ class SomeClass
     public function run()
     {
         $this->getName($node) === 'hey';
+        $this->getName($node) !== 'hey';
     }
 }
 CODE_SAMPLE
@@ -138,6 +140,7 @@ class SomeClass
     public function run($value)
     {
         $this->isName($node, 'hey');
+        ! $this->isName($node, 'hey');
     }
 }
 CODE_SAMPLE
