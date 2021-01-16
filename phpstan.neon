@@ -517,3 +517,4 @@ parameters:
                 - packages/class-presence/src/Regex/NonExistingClassExtractor.php #70
 
         - '#Content of method "doesClassLikeExist\(\)" is duplicated with method "doesClassExists\(\)" in "Symplify\\ClassPresence\\Regex\\NonExistingClassExtractor" class\. Use unique content or abstract service instead#'
+        - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'

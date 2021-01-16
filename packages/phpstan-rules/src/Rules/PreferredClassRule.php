@@ -11,11 +11,10 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use SplFileInfo;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\PHPStanRules\ParentGuard\ParentParamTypeGuard;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -42,12 +41,21 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
     private $simpleNameResolver;
 
     /**
+     * @var ParentParamTypeGuard
+     */
+    private $parentParamTypeGuard;
+
+    /**
      * @param string[] $oldToPreferredClasses
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $oldToPreferredClasses)
-    {
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        ParentParamTypeGuard $parentParamTypeGuard,
+        array $oldToPreferredClasses
+    ) {
         $this->oldToPrefferedClasses = $oldToPreferredClasses;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->parentParamTypeGuard = $parentParamTypeGuard;
     }
 
     /**
@@ -119,19 +127,9 @@ CODE_SAMPLE
      */
     private function processNew(New_ $new, Scope $scope): array
     {
-        $newClass = $new->class;
-        if ($newClass instanceof Expr) {
+        $className = $this->simpleNameResolver->getName($new->class);
+        if ($className === null) {
             return [];
-        }
-
-        if ($newClass instanceof Class_) {
-            $shortClassName = $newClass->name;
-            if ($shortClassName === null) {
-                return [];
-            }
-            $className = $shortClassName->toString();
-        } else {
-            $className = (string) $newClass;
         }
 
         return $this->processClassName($className, $new, $scope);
@@ -171,7 +169,7 @@ CODE_SAMPLE
      */
     private function processClassName(string $className, Node $node, Scope $scope): array
     {
-        if ($this->isTypeRequiredByParentClassOrContract($node, $scope)) {
+        if ($this->parentParamTypeGuard->isRequiredByContract($node, $scope)) {
             return [];
         }
 
@@ -185,38 +183,6 @@ CODE_SAMPLE
         }
 
         return [];
-    }
-
-    private function isTypeRequiredByParentClassOrContract(Node $node, Scope $scope): bool
-    {
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $parent instanceof Param) {
-            return false;
-        }
-
-        // possibly protected by parent class
-        $parentParent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $parentParent instanceof ClassMethod) {
-            return false;
-        }
-
-        /** @var string $methodName */
-        $methodName = (string) $parentParent->name;
-
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
-            return false;
-        }
-
-        $parentClassLikes = array_merge($classReflection->getInterfaces(), $classReflection->getParents());
-
-        foreach ($parentClassLikes as $parentClassLike) {
-            if ($parentClassLike->hasMethod($methodName)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
