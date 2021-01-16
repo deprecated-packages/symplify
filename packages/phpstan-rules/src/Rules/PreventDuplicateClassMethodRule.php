@@ -57,6 +57,11 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     private $contentMethodByCountParamName = [];
 
+    /**
+     * @var string[]
+     */
+    private $reportedClassWithMethodDuplicate = [];
+
     public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard)
     {
         $this->simpleNameResolver = $simpleNameResolver;
@@ -103,8 +108,14 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         $countParam = count($node->params);
         $this->contentMethodByCountParamName[$countParam] = $this->contentMethodByCountParamName[$countParam] ?? [];
 
+        $duplicationPlaceholder = $className . $classMethodName;
         foreach ($this->contentMethodByCountParamName[$countParam] as $contentMethod) {
             if ($contentMethod['content'] === $printStmts) {
+                if (in_array($duplicationPlaceholder, $this->reportedClassWithMethodDuplicate, true)) {
+                    continue;
+                }
+
+                $this->reportedClassWithMethodDuplicate[] = $duplicationPlaceholder;
                 return [
                     sprintf(self::ERROR_MESSAGE, $classMethodName, $contentMethod['method'], $contentMethod['class']),
                 ];
