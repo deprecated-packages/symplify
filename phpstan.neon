@@ -30,9 +30,10 @@ services:
         class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
-            maxClassCognitiveComplexity: 40
+            maxClassCognitiveComplexity: 35
             limitsByTypes:
-                PHPStan\Rules\Rule: 30
+                PHPStan\Rules\Rule: 20
+                Symplify\CodingStandard\Fixer\AbstractArrayFixer: 30
 
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
@@ -338,7 +339,7 @@ parameters:
         - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ContainerConfiguratorReturnClosureFactory\:\:createNodesFromCaseConverters\(\)" is \d+, keep it under 8#'
 
         -
-            message: '#Class cognitive complexity is \d+, keep it under 40#'
+            message: '#Class cognitive complexity is \d+, keep it under \d+#'
             paths:
                 - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
                 - packages/coding-standard/src/Php/PhpContentAnalyzer.php
