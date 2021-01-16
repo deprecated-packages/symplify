@@ -57,6 +57,11 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     private $contentMethodByCountParamName = [];
 
+    /**
+     * @var string[]
+     */
+    private $reportedClassWithMethodDuplicate = [];
+
     public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard)
     {
         $this->simpleNameResolver = $simpleNameResolver;
@@ -103,12 +108,9 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         $countParam = count($node->params);
         $this->contentMethodByCountParamName[$countParam] = $this->contentMethodByCountParamName[$countParam] ?? [];
 
-        foreach ($this->contentMethodByCountParamName[$countParam] as $contentMethod) {
-            if ($contentMethod['content'] === $printStmts) {
-                return [
-                    sprintf(self::ERROR_MESSAGE, $classMethodName, $contentMethod['method'], $contentMethod['class']),
-                ];
-            }
+        $validateDuplication = $this->validateDuplication($countParam, $className, $classMethodName, $printStmts);
+        if ($validateDuplication !== []) {
+            return $validateDuplication;
         }
 
         $this->contentMethodByCountParamName[$countParam][] = [
@@ -165,6 +167,32 @@ class B
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function validateDuplication(
+        int $countParam,
+        string $className,
+        string $classMethodName,
+        string $printStmts
+    ): array {
+        $duplicationPlaceholder = $className . $classMethodName;
+        foreach ($this->contentMethodByCountParamName[$countParam] as $contentMethod) {
+            if ($contentMethod['content'] === $printStmts) {
+                if (in_array($duplicationPlaceholder, $this->reportedClassWithMethodDuplicate, true)) {
+                    continue;
+                }
+
+                $this->reportedClassWithMethodDuplicate[] = $duplicationPlaceholder;
+                return [
+                    sprintf(self::ERROR_MESSAGE, $classMethodName, $contentMethod['method'], $contentMethod['class']),
+                ];
+            }
+        }
+
+        return [];
     }
 
     private function shouldSkip(ClassMethod $classMethod, string $className): bool
