@@ -40,7 +40,7 @@ final class ImportFullyQualifiedNamesNodeTraverser
     public function traverseNodes(array $nodes): array
     {
         $nameImports = $this->collectNameImportsFromNodes($nodes);
-        if (count($nameImports) === 0) {
+        if ($nameImports === []) {
             return $nodes;
         }
 
@@ -54,7 +54,7 @@ final class ImportFullyQualifiedNamesNodeTraverser
      */
     private function addUseImportsToNamespace(array $nodes, array $nameImports): array
     {
-        if (count($nameImports) === 0) {
+        if ($nameImports === []) {
             return $nodes;
         }
 

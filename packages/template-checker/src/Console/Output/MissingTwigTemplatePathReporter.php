@@ -24,7 +24,7 @@ final class MissingTwigTemplatePathReporter
      */
     public function report(array $errorMessages): int
     {
-        if (count($errorMessages) === 0) {
+        if ($errorMessages === []) {
             $this->symfonyStyle->success('All templates exists');
             return ShellCode::SUCCESS;
         }

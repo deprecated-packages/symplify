@@ -88,11 +88,11 @@ final class SrcTestsDirectoriesFinder
             // exclude tests/src directory nested in /tests, e.g. real project for testing
             $finder->filter(function (SplFileInfo $fileInfo): bool {
                 $srcCounter = count(Strings::matchAll($fileInfo->getPathname(), self::SRC_ONLY_REGEX));
-                $testsCounter = count(Strings::matchAll($fileInfo->getPathname(), self::TESTS_ONLY_REGEX));
 
                 if ($srcCounter > 1) {
                     return false;
                 }
+                $testsCounter = count(Strings::matchAll($fileInfo->getPathname(), self::TESTS_ONLY_REGEX));
                 return $testsCounter <= 1;
             });
         }

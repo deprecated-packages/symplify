@@ -126,7 +126,7 @@ final class GithubApi
 
             // already no more pages → stop
             $newPullRequests = $this->responseFormatter->formatToJson($response);
-            if (count($newPullRequests) === 0) {
+            if ($newPullRequests === []) {
                 break;
             }
 

@@ -38,6 +38,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::SETS, [
         SetList::CODE_QUALITY,
+        SetList::CODE_QUALITY_STRICT,
         SetList::DEAD_CODE,
         SetList::CODING_STYLE,
         SetList::PHP_54,

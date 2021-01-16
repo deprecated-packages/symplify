@@ -26,9 +26,9 @@ final class RequireConstantInMethodCallPositionRuleTest extends AbstractServiceA
         yield [__DIR__ . '/Fixture/SkipWithVariable.php', []];
 
         $errorMessageLocal = sprintf(RequireConstantInMethodCallPositionRule::ERROR_MESSAGE, 0, 'local');
-        $errorMessageExternal = sprintf(RequireConstantInMethodCallPositionRule::ERROR_MESSAGE, 0, 'external');
 
         yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstantLocal.php', [[$errorMessageLocal, 14]]];
+        $errorMessageExternal = sprintf(RequireConstantInMethodCallPositionRule::ERROR_MESSAGE, 0, 'external');
         yield [__DIR__ . '/Fixture/SomeMethodCallWithoutConstantExternal.php', [[$errorMessageExternal, 14]]];
     }
 

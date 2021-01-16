@@ -46,9 +46,8 @@ final class FilePathResolver
         }
         $i = 0;
         return Strings::replace($filePath, self::FILE_PATH_REGEX, function () use (&$i, $arguments) {
-            $value = $arguments[$i];
-
             ++$i;
+            $value = $arguments[$i];
 
             return $value;
         });
