@@ -25,9 +25,9 @@ final class ComposerJsonMergerTest extends AbstractComposerJsonDecoratorTest
     {
         $mainComposerJson = $this->createComposerJson(__DIR__ . '/Source/main-composer.json');
         $package1Json = $this->createComposerJson(__DIR__ . '/Source/package1-composer.json');
-        $package2Json = $this->createComposerJson(__DIR__ . '/Source/package2-composer.json');
 
         $this->composerJsonMerger->mergeJsonToRoot($mainComposerJson, $package1Json);
+        $package2Json = $this->createComposerJson(__DIR__ . '/Source/package2-composer.json');
         $this->composerJsonMerger->mergeJsonToRoot($mainComposerJson, $package2Json);
 
         $this->assertComposerJsonEquals(__DIR__ . '/Source/expected-root.json', $mainComposerJson);

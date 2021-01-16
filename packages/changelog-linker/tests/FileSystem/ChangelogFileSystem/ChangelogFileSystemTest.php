@@ -70,9 +70,9 @@ CODE_SAMPLE
             ? self::FILE_CHANGELOG
             : 'packages/changelog-linker/' . self::FILE_CHANGELOG;
         $content = $smartFileSystem->readFile($changelogFile);
-        $expectedListData = $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md');
 
         $smartFileSystem->dumpFile($changelogFile, $originalContent);
+        $expectedListData = $smartFileSystem->readFile(__DIR__ . '/Source/EXPECTED_CHANGELOG_LIST_DATA.md');
 
         $this->assertStringContainsString($expectedListData, $content);
     }

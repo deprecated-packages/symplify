@@ -55,7 +55,7 @@ final class ServiceOptionNodeFactory
 
     private function isNestedArguments(array $servicesValues): bool
     {
-        if (count($servicesValues) === 0) {
+        if ($servicesValues === []) {
             return false;
         }
 

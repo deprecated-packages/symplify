@@ -42,7 +42,7 @@ final class ConflictingVersionsGuard
             $this->composerJsonProvider->getPackagesComposerFileInfos()
         );
 
-        if (count($conflictingPackageVersions) === 0) {
+        if ($conflictingPackageVersions === []) {
             return;
         }
 

@@ -191,7 +191,7 @@ CODE_SAMPLE
             return false;
         }
 
-        return count($expr->items) === 0;
+        return $expr->items === [];
     }
 
     /**

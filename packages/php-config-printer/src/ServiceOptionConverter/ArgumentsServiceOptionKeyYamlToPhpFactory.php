@@ -45,7 +45,7 @@ final class ArgumentsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsK
 
     private function hasNamedArguments(array $data): bool
     {
-        if (count($data) === 0) {
+        if ($data === []) {
             return false;
         }
 
