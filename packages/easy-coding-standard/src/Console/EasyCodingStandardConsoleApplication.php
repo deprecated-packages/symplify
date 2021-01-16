@@ -93,8 +93,6 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
         $hasNoArguments = $input->getFirstArgument() === null;
         $hasVersionOption = $input->hasParameterOption('--version');
 
-        $outputFormat = $input->getParameterOption('--' . Option::OUTPUT_FORMAT);
-
         if ($hasVersionOption) {
             return false;
         }
@@ -102,6 +100,7 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
         if ($hasNoArguments) {
             return false;
         }
+        $outputFormat = $input->getParameterOption('--' . Option::OUTPUT_FORMAT);
 
         return $outputFormat === ConsoleOutputFormatter::NAME;
     }
