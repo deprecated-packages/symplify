@@ -102,9 +102,8 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
         if ($hasNoArguments) {
             return false;
         }
-        $isConsoleOutput = $outputFormat === ConsoleOutputFormatter::NAME;
 
-        return $isConsoleOutput;
+        return $outputFormat === ConsoleOutputFormatter::NAME;
     }
 
     private function addExtraOptions(InputDefinition $inputDefinition): void

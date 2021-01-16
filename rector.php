@@ -92,7 +92,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php',
 
         MoveVariableDeclarationNearReferenceRector::class => [
-            __DIR__ . 'packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php',
+            __DIR__ . '/packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php',
         ],
     ]);
 };

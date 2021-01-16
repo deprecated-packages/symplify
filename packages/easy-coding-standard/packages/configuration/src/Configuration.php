@@ -170,8 +170,7 @@ final class Configuration
         if (! $notJsonOutput) {
             return false;
         }
-        $progressBarEnabled = ! (bool) $input->getOption(Option::NO_PROGRESS_BAR);
-        return $progressBarEnabled;
+        return ! (bool) $input->getOption(Option::NO_PROGRESS_BAR);
     }
 
     /**
