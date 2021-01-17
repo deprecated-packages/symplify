@@ -1,0 +1,20 @@
+{
+    "name": "symplify/amnesia",
+    "description": "Relief for your long-term memory",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\Amnesia\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "9.1-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

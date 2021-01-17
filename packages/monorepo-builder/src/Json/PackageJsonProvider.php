@@ -30,4 +30,21 @@ final class PackageJsonProvider
 
         return $packageShortNames;
     }
+
+    /**
+     * @return string[]
+     */
+    public function providePackagesWithTests(): array
+    {
+        $packageShortNames = [];
+        foreach ($this->packageProvider->provide() as $package) {
+            if (! $package->hasTests()) {
+                continue;
+            }
+
+            $packageShortNames[] = $package->getShortName();
+        }
+
+        return $packageShortNames;
+    }
 }
