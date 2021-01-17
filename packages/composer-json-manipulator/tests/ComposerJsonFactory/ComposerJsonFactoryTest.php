@@ -33,7 +33,7 @@ final class ComposerJsonFactoryTest extends AbstractKernelTestCase
         $this->assertSame(['directory', 'src'], $composerJson->getPsr4AndClassmapDirectories());
 
         $this->assertSame([
-            'symplify/autodiscovery' => '^8.3.45',
+            'symplify/between' => '^8.3.45',
         ], $composerJson->getReplace());
 
         $this->assertSame('project', $composerJson->getType());

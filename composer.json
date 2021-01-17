@@ -73,6 +73,7 @@
             "packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php"
         ],
         "psr-4": {
+            "Symplify\\Amnesia\\": "packages/amnesia/src",
             "Symplify\\Astral\\": "packages/astral/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\ChangelogLinker\\": "packages/changelog-linker/src",
@@ -189,6 +190,7 @@
         }
     },
     "replace": {
+        "symplify/amnesia": "self.version",
         "symplify/astral": "9.0.38",
         "symplify/autowire-array-parameter": "9.0.38",
         "symplify/changelog-linker": "9.0.38",
