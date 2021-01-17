@@ -25,12 +25,17 @@ final class CheckOptionArgumentCommandRuleTest extends AbstractServiceAwareRuleT
         yield [__DIR__ . '/Fixture/SkipCorrectCommand.php', []];
 
         yield [
-            __DIR__ . '/Fixture/InCorrectCommand1.php',
+            __DIR__ . '/Fixture/NonExecuteClassMethodCommand.php',
+            [[sprintf(CheckOptionArgumentCommandRule::ERROR_MESSAGE, 'addOption', 'getOption'), 16]],
+        ];
+
+        yield [
+            __DIR__ . '/Fixture/IncorrectCommand1.php',
             [[sprintf(CheckOptionArgumentCommandRule::ERROR_MESSAGE, 'addOption', 'getOption'), 16]],
         ];
         yield [
-            __DIR__ . '/Fixture/InCorrectCommand2.php',
-            [[sprintf(CheckOptionArgumentCommandRule::ERROR_MESSAGE, 'addArgument', 'getArgument'), 17]],
+            __DIR__ . '/Fixture/IncorrectCommand2.php',
+            [[sprintf(CheckOptionArgumentCommandRule::ERROR_MESSAGE, 'addArgument', 'getArgument'), 15]],
         ];
     }
 

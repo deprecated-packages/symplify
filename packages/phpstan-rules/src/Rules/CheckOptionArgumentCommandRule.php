@@ -91,7 +91,7 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->isInInstanceOfCommand($node, $scope)) {
+        if (! $this->isInInstanceOfCommand($scope)) {
             return [];
         }
 
@@ -172,11 +172,13 @@ CODE_SAMPLE
             $passedArg,
             $invalidMethodCall
         );
-        if ($isFoundInvalidMethodCall) {
-            return [sprintf(self::ERROR_MESSAGE, $methodCallName, self::METHOD_CALL_MATCH[$methodCallName])];
+
+        if (! $isFoundInvalidMethodCall) {
+            return [];
         }
 
-        return [];
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $methodCallName, self::METHOD_CALL_MATCH[$methodCallName]);
+        return [$errorMessage];
     }
 
     private function getExecuteClassMethod(Class_ $class): ?Node
@@ -200,15 +202,10 @@ CODE_SAMPLE
         return $this->simpleNameResolver->isName($classMethod, 'configure');
     }
 
-    private function isInInstanceOfCommand(MethodCall $methodCall, Scope $scope): bool
+    private function isInInstanceOfCommand(Scope $scope): bool
     {
         $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
-            return false;
-        }
-
-        $callerType = $scope->getType($methodCall->var);
-        if (! $callerType instanceof ThisType) {
             return false;
         }
 
