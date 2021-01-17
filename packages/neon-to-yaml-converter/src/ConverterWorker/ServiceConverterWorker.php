@@ -21,12 +21,23 @@ final class ServiceConverterWorker
     private const SETUP = 'setup';
 
     /**
+     * @var EntityConverterWorker
+     */
+    private $entityConverterWorker;
+
+    public function __construct(
+        \Symplify\NeonToYamlConverter\ConverterWorker\EntityConverterWorker $entityConverterWorker
+    ) {
+        $this->entityConverterWorker = $entityConverterWorker;
+    }
+
+    /**
      * @param mixed[] $servicesData
      * @return mixed[]
      */
     public function convert(array $servicesData): array
     {
-        $servicesData = $this->convertServiceNeonEntities($servicesData);
+        $servicesData = $this->entityConverterWorker->convertServiceNeonEntities($servicesData);
         $servicesData = $this->convertStringNameServices($servicesData);
 
         foreach ($servicesData as $name => $service) {
@@ -46,23 +57,6 @@ final class ServiceConverterWorker
             $service = $this->convertArguments($service);
 
             $servicesData[$name] = $service;
-        }
-
-        return $servicesData;
-    }
-
-    /**
-     * @param mixed[] $servicesData
-     * @return mixed[]
-     */
-    private function convertServiceNeonEntities(array $servicesData): array
-    {
-        foreach ($servicesData as $name => $service) {
-            if (! $service instanceof Entity) {
-                continue;
-            }
-
-            $servicesData = $this->convertServiceEntity($servicesData, $name, $service);
         }
 
         return $servicesData;
@@ -182,37 +176,6 @@ final class ServiceConverterWorker
         }
 
         return $service;
-    }
-
-    /**
-     * @param int|string $name
-     * @return mixed[]
-     */
-    private function convertServiceEntity(array $servicesData, $name, Entity $entity): array
-    {
-        $class = $entity->value;
-
-        $serviceData = [
-            'class' => $class,
-            self::ARGUMENTS => $entity->attributes,
-        ];
-
-        // class-named service
-        if (is_int($name)) {
-            // is namespaced class?
-            if (Strings::contains($serviceData['class'], '\\')) {
-                unset($serviceData['class']);
-            }
-
-            // remove old name
-            unset($servicesData[$name]);
-
-            $name = $class;
-        }
-
-        $servicesData[$name] = $serviceData;
-
-        return $servicesData;
     }
 
     /**
