@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\NeonToYamlConverter\ConverterWorker;
 
 use Nette\Neon\Entity;
-use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
 
 final class ServiceConverterWorker
@@ -21,13 +20,31 @@ final class ServiceConverterWorker
     private const SETUP = 'setup';
 
     /**
+     * @var EntityConverterWorker
+     */
+    private $entityConverterWorker;
+
+    /**
+     * @var StringNamedServiceConverterWorker
+     */
+    private $stringNamedServiceConverterWorker;
+
+    public function __construct(
+        EntityConverterWorker $entityConverterWorker,
+        \Symplify\NeonToYamlConverter\ConverterWorker\StringNamedServiceConverterWorker $stringNamedServiceConverterWorker
+    ) {
+        $this->entityConverterWorker = $entityConverterWorker;
+        $this->stringNamedServiceConverterWorker = $stringNamedServiceConverterWorker;
+    }
+
+    /**
      * @param mixed[] $servicesData
      * @return mixed[]
      */
     public function convert(array $servicesData): array
     {
-        $servicesData = $this->convertServiceNeonEntities($servicesData);
-        $servicesData = $this->convertStringNameServices($servicesData);
+        $servicesData = $this->entityConverterWorker->convertServiceNeonEntities($servicesData);
+        $servicesData = $this->stringNamedServiceConverterWorker->convert($servicesData);
 
         foreach ($servicesData as $name => $service) {
             if (is_string($service)) {
@@ -36,7 +53,7 @@ final class ServiceConverterWorker
                     continue;
                 }
 
-                $service = $this->convertStringService($service);
+                $service = $this->stringNamedServiceConverterWorker->convertSingle($service);
             } elseif (is_array($service)) {
                 // named service
                 $service = $this->convertNamedService($service);
@@ -49,64 +66,6 @@ final class ServiceConverterWorker
         }
 
         return $servicesData;
-    }
-
-    /**
-     * @param mixed[] $servicesData
-     * @return mixed[]
-     */
-    private function convertServiceNeonEntities(array $servicesData): array
-    {
-        foreach ($servicesData as $name => $service) {
-            if (! $service instanceof Entity) {
-                continue;
-            }
-
-            $servicesData = $this->convertServiceEntity($servicesData, $name, $service);
-        }
-
-        return $servicesData;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function convertStringNameServices(array $servicesData): array
-    {
-        foreach ($servicesData as $name => $service) {
-            if (! is_int($name)) {
-                continue;
-            }
-
-            $servicesData = $this->convertStringNameService($servicesData, $name, $service);
-        }
-
-        return $servicesData;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function convertStringService(string $service): array
-    {
-        // probably factory, @see https://symfony.com/doc/current/service_container/factories.html
-        if (Strings::contains($service, '::')) {
-            return [
-                'factory' => explode('::', $service),
-            ];
-            // probably alias, @see https://symfony.com/doc/current/service_container/alias_private.html#aliasing
-        }
-
-        if (Strings::startsWith($service, '@')) {
-            return [
-                'alias' => $service,
-            ];
-            // probably service
-        }
-
-        return [
-            'class' => $service,
-        ];
     }
 
     /**
@@ -182,56 +141,5 @@ final class ServiceConverterWorker
         }
 
         return $service;
-    }
-
-    /**
-     * @param int|string $name
-     * @return mixed[]
-     */
-    private function convertServiceEntity(array $servicesData, $name, Entity $entity): array
-    {
-        $class = $entity->value;
-
-        $serviceData = [
-            'class' => $class,
-            self::ARGUMENTS => $entity->attributes,
-        ];
-
-        // class-named service
-        if (is_int($name)) {
-            // is namespaced class?
-            if (Strings::contains($serviceData['class'], '\\')) {
-                unset($serviceData['class']);
-            }
-
-            // remove old name
-            unset($servicesData[$name]);
-
-            $name = $class;
-        }
-
-        $servicesData[$name] = $serviceData;
-
-        return $servicesData;
-    }
-
-    /**
-     * @param mixed|null $service
-     * @return mixed[]
-     */
-    private function convertStringNameService(array $servicesData, int $name, $service): array
-    {
-        if (! is_string($service)) {
-            return $servicesData;
-        }
-
-        // just single-class
-        unset($servicesData[$name]);
-
-        $name = $service;
-
-        $servicesData[$name] = null;
-
-        return $servicesData;
     }
 }

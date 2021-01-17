@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Spacing;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -14,6 +13,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenAnalyzer\ChainMethodCallAnalyzer;
+use Symplify\CodingStandard\TokenAnalyzer\NewlineAnalyzer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -44,10 +45,26 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer implements 
      */
     private $bracketNesting = 0;
 
-    public function __construct(WhitespacesFixerConfig $whitespacesFixerConfig, BlockFinder $blockFinder)
-    {
+    /**
+     * @var ChainMethodCallAnalyzer
+     */
+    private $chainMethodCallAnalyzer;
+
+    /**
+     * @var NewlineAnalyzer
+     */
+    private $newlineAnalyzer;
+
+    public function __construct(
+        WhitespacesFixerConfig $whitespacesFixerConfig,
+        BlockFinder $blockFinder,
+        ChainMethodCallAnalyzer $chainMethodCallAnalyzer,
+        NewlineAnalyzer $newlineAnalyzer
+    ) {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->blockFinder = $blockFinder;
+        $this->chainMethodCallAnalyzer = $chainMethodCallAnalyzer;
+        $this->newlineAnalyzer = $newlineAnalyzer;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -146,7 +163,7 @@ CODE_SAMPLE
             $currentToken = $tokens[$i];
 
             // break
-            if ($this->isNewlineToken($currentToken)) {
+            if ($this->newlineAnalyzer->isNewlineToken($currentToken)) {
                 return false;
             }
 
@@ -160,43 +177,6 @@ CODE_SAMPLE
         }
 
         return false;
-    }
-
-    /**
-     * Matches e..g:
-     * - return app()->some()
-     * - app()->some()
-     * - (clone app)->some()
-     */
-    private function isPreceededByFuncCall(Tokens $tokens, int $position): bool
-    {
-        for ($i = $position; $i >= 0; --$i) {
-            /** @var Token $currentToken */
-            $currentToken = $tokens[$i];
-
-            if ($currentToken->getContent() === 'clone') {
-                return true;
-            }
-
-            if ($currentToken->getContent() === '(') {
-                return $this->doesContentBeforeBracketRequireNewline($tokens, $i);
-            }
-
-            if ($this->isNewlineToken($currentToken)) {
-                return false;
-            }
-        }
-
-        return false;
-    }
-
-    private function isNewlineToken(Token $currentToken): bool
-    {
-        if (! $currentToken->isWhitespace()) {
-            return false;
-        }
-
-        return Strings::contains($currentToken->getContent(), "\n");
     }
 
     /**
@@ -224,7 +204,7 @@ CODE_SAMPLE
             return false;
         }
 
-        if ($this->isPreceededByFuncCall($tokens, $position)) {
+        if ($this->chainMethodCallAnalyzer->isPreceededByFuncCall($tokens, $position)) {
             return false;
         }
 
@@ -266,31 +246,5 @@ CODE_SAMPLE
         }
 
         return false;
-    }
-
-    private function doesContentBeforeBracketRequireNewline(Tokens $tokens, int $i): bool
-    {
-        $previousMeaningfulTokenPosition = $tokens->getPrevNonWhitespace($i);
-        if ($previousMeaningfulTokenPosition === null) {
-            return false;
-        }
-
-        $previousToken = $tokens[$previousMeaningfulTokenPosition];
-        if (! $previousToken->isGivenKind(T_STRING)) {
-            return false;
-        }
-
-        $previousPreviousMeaningfulTokenPosition = $tokens->getPrevNonWhitespace($previousMeaningfulTokenPosition);
-        if ($previousPreviousMeaningfulTokenPosition === null) {
-            return false;
-        }
-
-        $previousPreviousToken = $tokens[$previousPreviousMeaningfulTokenPosition];
-        if ($previousPreviousToken->getContent() === '{') {
-            return true;
-        }
-
-        // is a function
-        return $previousPreviousToken->isGivenKind([T_RETURN, T_DOUBLE_COLON, T_OPEN_CURLY_BRACKET]);
     }
 }

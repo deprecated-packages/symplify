@@ -30,10 +30,9 @@ services:
         class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
-            maxClassCognitiveComplexity: 35
+            maxClassCognitiveComplexity: 25
             limitsByTypes:
                 PHPStan\Rules\Rule: 18
-                Symplify\CodingStandard\Fixer\AbstractArrayFixer: 25
 
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
@@ -146,6 +145,7 @@ parameters:
         # cognitive complexity
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is \d+, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is \d+, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\SnifferFixerToECSConverter\\ParameterCollector\\SkipParameterCollector::collectSkipParameter\(\)" is \d+, keep it under 8#'
 
         - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
         - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
@@ -519,3 +519,9 @@ parameters:
         - '#Content of method "doesClassLikeExist\(\)" is duplicated with method "doesClassExists\(\)" in "Symplify\\ClassPresence\\Regex\\NonExistingClassExtractor" class\. Use unique content or abstract service instead#'
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\ParentNodeFinder\:\:getFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
+
+        # manually constructored for Symfony compiler pass, before DI is created
+        -
+             message: '#Do not use scalar or array as constructor parameter\. Use "Symplify\\PackageBuilder\\Parameter\\ParameterProvider" service instead#'
+             paths:
+                 - packages/autowire-array-parameter/src/Skipper/ParameterSkipper.php
