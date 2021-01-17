@@ -19,7 +19,6 @@ final class ComposerPackageSorterTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(ComposerJsonManipulatorKernel::class);
-
         $this->composerPackageSorter = $this->getService(ComposerPackageSorter::class);
     }
 

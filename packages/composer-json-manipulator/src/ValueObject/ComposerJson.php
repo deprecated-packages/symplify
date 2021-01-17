@@ -102,7 +102,7 @@ final class ComposerJson
     private $replace = [];
 
     /**
-     * @var mixed[]
+     * @var array<string, string|string[]>
      */
     private $scripts = [];
 
@@ -140,6 +140,11 @@ final class ComposerJson
      * @var mixed[]
      */
     private $authors = [];
+
+    /**
+     * @var array<string, string>
+     */
+    private $scriptsDescriptions = [];
 
     public function __construct()
     {
@@ -418,6 +423,7 @@ final class ComposerJson
             ComposerJsonSection::EXTRA => $this->extra,
             ComposerJsonSection::BIN => $this->bin,
             ComposerJsonSection::SCRIPTS => $this->scripts,
+            ComposerJsonSection::SCRIPTS_DESCRIPTIONS => $this->scriptsDescriptions,
             ComposerJsonSection::CONFIG => $this->config,
             ComposerJsonSection::REPLACE => $this->replace,
         ]);
@@ -436,7 +442,7 @@ final class ComposerJson
     }
 
     /**
-     * @param mixed[] $scripts
+     * @param array<string, string|string[]> $scripts
      */
     public function setScripts(array $scripts): void
     {
@@ -653,11 +659,19 @@ final class ComposerJson
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, string|string[]>
      */
     public function getScripts(): array
     {
         return $this->scripts;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getScriptsDescriptions(): array
+    {
+        return $this->scriptsDescriptions;
     }
 
     /**
@@ -709,6 +723,14 @@ final class ComposerJson
         $classmapDirectories = $this->autoloadDev['classmap'] ?? [];
 
         return array_merge($psr4Directories, $classmapDirectories);
+    }
+
+    /**
+     * @param array<string, string> $scriptsDescriptions
+     */
+    public function setScriptsDescriptions(array $scriptsDescriptions): void
+    {
+        $this->scriptsDescriptions = $scriptsDescriptions;
     }
 
     private function moveValueToBack(string $valueName): void

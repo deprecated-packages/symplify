@@ -26,7 +26,6 @@ final class ComposerJsonTest extends TestCase
         $composerJson = new ComposerJson();
         $composerJson->addRequiredPackage('symfony/console', '^5.5');
         $composerJson->addRequiredDevPackage('symfony/http-kernel', '^5.5');
-
         $composerJson->movePackageToRequireDev('symfony/console');
 
         $this->assertSame([
@@ -39,7 +38,6 @@ final class ComposerJsonTest extends TestCase
     {
         $composerJson = new ComposerJson();
         $composerJson->addRequiredPackage('symfony/console', '^5.5');
-
         $composerJson->replacePackage('symfony/console', 'symfony/http-kernel', '^5.0');
 
         $this->assertSame([
