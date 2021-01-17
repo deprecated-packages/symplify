@@ -13,13 +13,12 @@ final class SkipCorrectCommand extends Command
 {
     protected function configure(): void
     {
-        $this->addOption(Option::CATEGORIZE, null, InputOption::VALUE_NONE, 'Group in categories');
+        $this->addOption(Option::CATEGORIZE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $shouldCategorize = (bool) $input->getOption(Option::CATEGORIZE);
-
         return 0;
     }
 }

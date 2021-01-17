@@ -13,11 +13,13 @@ final class IncorrectCommand2 extends Command
     protected function configure(): void
     {
         $this->addArgument('sources');
+        $this->addOption('enabled');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $shouldCategorize = $input->getOption('sources');
+        $enabled = $input->getArgument('enabled');
 
         return 0;
     }

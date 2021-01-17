@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\RuleDocGenerator\ValueObject\Option;
 
-final class InCorrectNonExecute extends Command
+final class NonExecuteClassMethodCommand extends Command
 {
     protected function configure(): void
     {
@@ -18,7 +18,7 @@ final class InCorrectNonExecute extends Command
 
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        $shouldCategorize = (bool) $input->getOption(Option::CATEGORIZE);
+        $shouldCategorize = $input->getArgument(Option::CATEGORIZE);
 
         return 0;
     }
