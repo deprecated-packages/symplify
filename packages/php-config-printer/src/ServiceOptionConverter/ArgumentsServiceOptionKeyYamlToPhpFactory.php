@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\ServiceOptionConverter;
 
-use Nette\Utils\Strings;
 use PhpParser\Node\Expr\MethodCall;
 use Symplify\PhpConfigPrinter\Contract\Converter\ServiceOptionsKeyYamlToPhpFactoryInterface;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
+use Symplify\PhpConfigPrinter\ServiceOptionAnalyzer\ServiceOptionAnalyzer;
 use Symplify\PhpConfigPrinter\ValueObject\YamlServiceKey;
 
 final class ArgumentsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
@@ -17,14 +17,20 @@ final class ArgumentsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsK
      */
     private $argsNodeFactory;
 
-    public function __construct(ArgsNodeFactory $argsNodeFactory)
+    /**
+     * @var ServiceOptionAnalyzer
+     */
+    private $serviceOptionAnalyzer;
+
+    public function __construct(ArgsNodeFactory $argsNodeFactory, ServiceOptionAnalyzer $serviceOptionAnalyzer)
     {
         $this->argsNodeFactory = $argsNodeFactory;
+        $this->serviceOptionAnalyzer = $serviceOptionAnalyzer;
     }
 
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
     {
-        if (! $this->hasNamedArguments($yaml)) {
+        if (! $this->serviceOptionAnalyzer->hasNamedArguments($yaml)) {
             $args = $this->argsNodeFactory->createFromValuesAndWrapInArray($yaml);
             return new MethodCall($methodCall, 'args', $args);
         }
@@ -41,20 +47,5 @@ final class ArgumentsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsK
     public function isMatch($key, $values): bool
     {
         return $key === YamlServiceKey::ARGUMENTS;
-    }
-
-    private function hasNamedArguments(array $data): bool
-    {
-        if ($data === []) {
-            return false;
-        }
-
-        foreach (array_keys($data) as $key) {
-            if (! Strings::startsWith((string) $key, '$')) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

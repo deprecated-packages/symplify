@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Fixer\TokenAnalyzer;
+namespace Symplify\CodingStandard\TokenAnalyzer;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
