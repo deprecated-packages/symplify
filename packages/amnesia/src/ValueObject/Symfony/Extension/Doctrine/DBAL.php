@@ -16,7 +16,51 @@ final class DBAL
 
     /**
      * @var string
-     * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/namingstrategy.html#implementing-a-namingstrategy
      */
-    public const NAMING_STRATEGY = 'naming_strategy';
+    public const DRIVER = 'driver';
+
+    /**
+     * @var string
+     */
+    public const SERVER_VERSION = 'server_version';
+
+    /**
+     * @var string
+     */
+    public const HOST = 'host';
+
+    /**
+     * @var string
+     */
+    public const PORT = 'port';
+
+    /**
+     * @var string
+     */
+    public const DBNAME = 'dbname';
+
+    /**
+     * @var string
+     */
+    public const USER = 'user';
+
+    /**
+     * @var string
+     */
+    public const PASSWORD = 'password';
+
+    /**
+     * @var string
+     */
+    public const CHARSET = 'charset';
+
+    /**
+     * @var string
+     */
+    public const TYPES = 'types';
+
+    /**
+     * @var string
+     */
+    public const UUID = 'uuid';
 }

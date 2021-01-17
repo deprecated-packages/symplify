@@ -16,6 +16,7 @@ final class ORM
 
     /**
      * @var string
+     * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/namingstrategy.html#implementing-a-namingstrategy
      */
     public const NAMING_STRATEGY = 'naming_strategy';
 
