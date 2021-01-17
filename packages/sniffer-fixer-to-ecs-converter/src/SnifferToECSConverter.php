@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\SnifferFixerToECSConverter;
 
 use SimpleXMLElement;
-use Symplify\EasyCodingStandard\Configuration\Option;
 use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -29,12 +28,26 @@ final class SnifferToECSConverter
      */
     private $symfonyConfigFormatFactory;
 
+    /**
+     * @var ValueResolver\ClassFromKeyResolver
+     */
+    private $classFromKeyResolver;
+
+    /**
+     * @var ParameterCollector\SkipParameterCollector
+     */
+    private $skipParameterCollector;
+
     public function __construct(
         YamlToPhpConverter $yamlToPhpConverter,
-        SymfonyConfigFormatFactory $symfonyConfigFormatFactory
+        SymfonyConfigFormatFactory $symfonyConfigFormatFactory,
+        \Symplify\SnifferFixerToECSConverter\ValueResolver\ClassFromKeyResolver $classFromKeyResolver,
+        \Symplify\SnifferFixerToECSConverter\ParameterCollector\SkipParameterCollector $skipParameterCollector
     ) {
         $this->yamlToPhpConverter = $yamlToPhpConverter;
         $this->symfonyConfigFormatFactory = $symfonyConfigFormatFactory;
+        $this->classFromKeyResolver = $classFromKeyResolver;
+        $this->skipParameterCollector = $skipParameterCollector;
     }
 
     public function convertFile(SmartFileInfo $phpcsFileInfo): string
@@ -62,7 +75,7 @@ final class SnifferToECSConverter
         }
 
         $sniffClasses = $this->collectSniffClasses($simpleXml);
-        $skipParameter = $this->collectSkipParameter($simpleXml);
+        $skipParameter = $this->skipParameterCollector->collectSkipParameter($simpleXml);
 
         $yaml = $this->symfonyConfigFormatFactory->createSymfonyConfigFormat(
             $sniffClasses,
@@ -73,25 +86,6 @@ final class SnifferToECSConverter
         );
 
         return $this->yamlToPhpConverter->convertYamlArray($yaml);
-    }
-
-    private function resolveClassFromStringName(string $ruleId): string
-    {
-        $ruleIdParts = explode('.', $ruleId);
-
-        $ruleNameParts = [$ruleIdParts[0], 'Sniffs', $ruleIdParts[1], $ruleIdParts[2] . 'Sniff'];
-
-        $sniffClass = implode('\\', $ruleNameParts);
-        if (class_exists($sniffClass)) {
-            return $sniffClass;
-        }
-
-        $coreSniffClass = 'PHP_CodeSniffer\Standards\\' . $sniffClass;
-        if (class_exists($coreSniffClass)) {
-            return $coreSniffClass;
-        }
-
-        return $sniffClass;
     }
 
     /**
@@ -111,7 +105,7 @@ final class SnifferToECSConverter
                 continue;
             }
 
-            $sniffClass = $this->resolveClassFromStringName($ruleId);
+            $sniffClass = $this->classFromKeyResolver->resolveFromStringName($ruleId);
             $sniffClasses[$sniffClass] = $this->resolveServiceConfiguration($child);
         }
 
@@ -121,61 +115,6 @@ final class SnifferToECSConverter
     private function isRuleStringReference(string $ruleId): bool
     {
         return substr_count($ruleId, '.') === 2;
-    }
-
-    /**
-     * @return array<string, string[]|null>
-     */
-    private function collectSkipParameter(SimpleXMLElement $simpleXml): array
-    {
-        $skipParameter = [];
-
-        foreach ($simpleXml->children() as $name => $child) {
-            if ($name === 'rule' && (property_exists($child, 'exclude') && $child->exclude !== null)) {
-                $id = (string) $child->exclude['name'];
-                $className = $this->resolveClassFromStringName($id);
-                $skipParameter[$className] = null;
-            }
-
-            if (! isset($child[self::REF])) {
-                continue;
-            }
-
-            $ruleId = (string) $child[self::REF];
-            if (! $this->isRuleStringReference($ruleId)) {
-                continue;
-            }
-
-            $className = $this->resolveClassFromStringName($ruleId);
-
-            $excludePatterns = $this->resolveExcludedPatterns($child);
-            if ($excludePatterns === []) {
-                continue;
-            }
-
-            /** @var string[] $uniqueClassNames */
-            $uniqueClassNames = array_unique($excludePatterns);
-            $skipParameter[$className] = $uniqueClassNames;
-        }
-
-        return $skipParameter;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function resolveExcludedPatterns(SimpleXMLElement $child): array
-    {
-        $excludePatterns = [];
-        foreach ($child->children() as $childKey => $childValue) {
-            if ($childKey !== 'exclude-pattern') {
-                continue;
-            }
-
-            $excludePatterns[] = (string) $childValue;
-        }
-
-        return $excludePatterns;
     }
 
     private function resolveServiceConfiguration(SimpleXMLElement $child): ?array
@@ -206,7 +145,7 @@ final class SnifferToECSConverter
     {
         $value = (string) $property->attributes()['value'];
 
-        // retype
+        // retype number
         if (strlen((string) (int) $value) === strlen($value)) {
             $value = (int) $value;
         }
