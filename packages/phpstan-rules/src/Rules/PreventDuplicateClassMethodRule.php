@@ -44,9 +44,9 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private $simpleNameResolver;
 
     /**
-     * @var array<int, array<int, array<string, string>>>
+     * @var array<array<string, string>>
      */
-    private $contentMethodByCountParamName = [];
+    private $classMethodContent = [];
 
     /**
      * @var string[]
@@ -103,15 +103,15 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         }
 
         $printStmts = $this->duplicatedClassMethodPrinter->printClassMethod($node);
-        $countParam = count($node->params);
-        $this->contentMethodByCountParamName[$countParam] = $this->contentMethodByCountParamName[$countParam] ?? [];
+//        $countParam = count($node->params);
+//        $this->contentMethodByCountParamName[$countParam] = $this->contentMethodByCountParamName[$countParam] ?? [];
 
-        $validateDuplication = $this->validateDuplication($countParam, $className, $classMethodName, $printStmts);
+        $validateDuplication = $this->validateDuplication($className, $classMethodName, $printStmts);
         if ($validateDuplication !== []) {
             return $validateDuplication;
         }
 
-        $this->contentMethodByCountParamName[$countParam][] = [
+        $this->classMethodContent[] = [
             'class' => $className,
             'method' => $classMethodName,
             'content' => $printStmts,
@@ -171,15 +171,14 @@ CODE_SAMPLE
      * @return string[]
      */
     private function validateDuplication(
-        int $countParam,
         string $className,
         string $classMethodName,
-        string $printStmts
+        string $currentPrintedClassMethod
     ): array {
         $duplicationPlaceholder = $className . $classMethodName;
 
-        foreach ($this->contentMethodByCountParamName[$countParam] as $contentMethod) {
-            if ($contentMethod['content'] !== $printStmts) {
+        foreach ($this->classMethodContent as $contentMethod) {
+            if ($contentMethod['content'] !== $currentPrintedClassMethod) {
                 continue;
             }
 
@@ -188,9 +187,14 @@ CODE_SAMPLE
             }
 
             $this->reportedClassWithMethodDuplicate[] = $duplicationPlaceholder;
-            return [
-                sprintf(self::ERROR_MESSAGE, $classMethodName, $contentMethod['method'], $contentMethod['class']),
-            ];
+            $errorMessage = sprintf(
+                self::ERROR_MESSAGE,
+                $classMethodName,
+                $contentMethod['method'],
+                $contentMethod['class']
+            );
+
+            return [$errorMessage];
         }
 
         return [];
