@@ -30,7 +30,7 @@ services:
         class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
-            maxClassCognitiveComplexity: 35
+            maxClassCognitiveComplexity: 30
             limitsByTypes:
                 PHPStan\Rules\Rule: 18
                 Symplify\CodingStandard\Fixer\AbstractArrayFixer: 25
