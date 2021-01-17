@@ -42,7 +42,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     private $parentClassMethodNodeResolver;
 
     /**
-     * @var \Symplify\Astral\NodeFinder\ParentNodeFinder
+     * @var ParentNodeFinder
      */
     private $parentNodeFinder;
 

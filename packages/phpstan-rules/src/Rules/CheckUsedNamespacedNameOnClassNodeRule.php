@@ -34,7 +34,7 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
     private $simpleNameResolver;
 
     /**
-     * @var \Symplify\Astral\NodeFinder\ParentNodeFinder
+     * @var ParentNodeFinder
      */
     private $parentNodeFinder;
 

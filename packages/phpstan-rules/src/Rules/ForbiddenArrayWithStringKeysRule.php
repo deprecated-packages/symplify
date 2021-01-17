@@ -56,7 +56,7 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
     private $parentMethodReturnTypeResolver;
 
     /**
-     * @var \Symplify\Astral\NodeFinder\ParentNodeFinder
+     * @var ParentNodeFinder
      */
     private $parentNodeFinder;
 

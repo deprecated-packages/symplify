@@ -44,7 +44,7 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
     private $typeUnwrapper;
 
     /**
-     * @var \Symplify\Astral\NodeFinder\ParentNodeFinder
+     * @var ParentNodeFinder
      */
     private $parentNodeFinder;
 

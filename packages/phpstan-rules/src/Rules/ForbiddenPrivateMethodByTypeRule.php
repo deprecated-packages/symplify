@@ -35,7 +35,7 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
     private $simpleNameResolver;
 
     /**
-     * @var \Symplify\Astral\NodeFinder\ParentNodeFinder
+     * @var ParentNodeFinder
      */
     private $parentNodeFinder;
 
