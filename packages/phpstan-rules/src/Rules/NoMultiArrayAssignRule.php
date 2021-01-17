@@ -100,11 +100,11 @@ CODE_SAMPLE
         ArrayDimFetch $secondArrayDimFetch
     ): bool {
         $singleNestedFirstArrayDimFetch = $this->resolveSingleNestedArrayDimFetch($firstArrayDimFetch);
-        $singleNestedSecondArrayDimFetch = $this->resolveSingleNestedArrayDimFetch($secondArrayDimFetch);
 
         if ($singleNestedFirstArrayDimFetch->dim === null) {
             return false;
         }
+        $singleNestedSecondArrayDimFetch = $this->resolveSingleNestedArrayDimFetch($secondArrayDimFetch);
 
         return $this->nodeComparator->areNodesEqual($singleNestedFirstArrayDimFetch, $singleNestedSecondArrayDimFetch);
     }

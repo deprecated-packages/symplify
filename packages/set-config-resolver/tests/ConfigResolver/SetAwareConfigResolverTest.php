@@ -68,9 +68,8 @@ final class SetAwareConfigResolverTest extends TestCase
 
     public function testSetsNotFound(): void
     {
-        $basicConfigFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/missing_set_config.php');
-
         $this->expectException(SetNotFoundException::class);
+        $basicConfigFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/missing_set_config.php');
         $this->setAwareConfigResolver->resolveFromParameterSetsFromConfigFiles([$basicConfigFileInfo]);
     }
 

@@ -49,7 +49,7 @@ final class PackageAliasCommand extends AbstractSymplifyCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $composerPackageFiles = $this->packageComposerFinder->getPackageComposerFiles();
-        if (count($composerPackageFiles) === 0) {
+        if ($composerPackageFiles === []) {
             $this->symfonyStyle->error('No "composer.json" were found in packages.');
             return ShellCode::ERROR;
         }

@@ -38,7 +38,7 @@ final class SmartFinder
 
         $fileInfos = [];
 
-        if (count($directories) > 0) {
+        if ($directories !== []) {
             $finder = new Finder();
             $finder->name('*')
                 ->in($directories)
@@ -62,7 +62,7 @@ final class SmartFinder
 
         $fileInfos = [];
 
-        if (count($directories) > 0) {
+        if ($directories !== []) {
             $finder = new Finder();
             $finder->name($name)
                 ->in($directories)
