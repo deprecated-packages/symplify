@@ -13,6 +13,11 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class ComposerJsonFactoryTest extends AbstractKernelTestCase
 {
     /**
+     * @var string
+     */
+    private const FULL_COMPOSER_JSON_FILE_PATH = __DIR__ . '/Source/full_composer.json';
+
+    /**
      * @var ComposerJsonFactory
      */
     private $composerJsonFactory;
@@ -48,13 +53,11 @@ final class ComposerJsonFactoryTest extends AbstractKernelTestCase
         $this->assertSame('project', $composerJson->getType());
     }
 
-    public function testReadAndWriteToJsonShouldBeEqual(): void
+    public function testReprint(): void
     {
-        $file = __DIR__ . '/Source/full_composer.json';
-
-        $composerJson = $this->composerJsonFactory->createFromFilePath($file);
+        $composerJson = $this->composerJsonFactory->createFromFilePath(self::FULL_COMPOSER_JSON_FILE_PATH);
         $actualJson = $this->jsonFileManager->encodeJsonToFileContent($composerJson->getJsonArray());
 
-        $this->assertJsonStringEqualsJsonFile($file, $actualJson);
+        $this->assertJsonStringEqualsJsonFile(self::FULL_COMPOSER_JSON_FILE_PATH, $actualJson);
     }
 }

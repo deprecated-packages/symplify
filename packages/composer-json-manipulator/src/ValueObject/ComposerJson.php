@@ -141,6 +141,11 @@ final class ComposerJson
      */
     private $authors = [];
 
+    /**
+     * @var array<string, string>
+     */
+    private $scriptsDescriptions = [];
+
     public function __construct()
     {
         $this->composerPackageSorter = new ComposerPackageSorter();
@@ -418,6 +423,7 @@ final class ComposerJson
             ComposerJsonSection::EXTRA => $this->extra,
             ComposerJsonSection::BIN => $this->bin,
             ComposerJsonSection::SCRIPTS => $this->scripts,
+            ComposerJsonSection::SCRIPTS_DESCRIPTIONS => $this->scriptsDescriptions,
             ComposerJsonSection::CONFIG => $this->config,
             ComposerJsonSection::REPLACE => $this->replace,
         ]);
@@ -709,6 +715,14 @@ final class ComposerJson
         $classmapDirectories = $this->autoloadDev['classmap'] ?? [];
 
         return array_merge($psr4Directories, $classmapDirectories);
+    }
+
+    /**
+     * @param array<string, string> $scriptsDescriptions
+     */
+    public function setScriptsDescriptions(array $scriptsDescriptions): void
+    {
+        $this->scriptsDescriptions = $scriptsDescriptions;
     }
 
     private function moveValueToBack(string $valueName): void
