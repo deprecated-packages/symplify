@@ -44,3 +44,4 @@ services:
     - Symplify\PHPStanRules\ParentGuard\ParentParamTypeGuard
     - Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder
     - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
+    - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer

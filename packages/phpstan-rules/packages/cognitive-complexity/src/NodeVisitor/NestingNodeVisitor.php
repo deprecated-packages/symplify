@@ -13,9 +13,12 @@ use PhpParser\Node\Stmt\For_;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\While_;
+use PhpParser\NodeVisitorAbstract;
+use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
+use Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer\ComplexityAffectingNodeFinder;
 
-final class NestingNodeVisitor extends AbstractComplexityNodeVisitor
+final class NestingNodeVisitor extends NodeVisitorAbstract
 {
     /**
      * @var class-string[]
@@ -46,9 +49,24 @@ final class NestingNodeVisitor extends AbstractComplexityNodeVisitor
      */
     private $cognitiveComplexityDataCollector;
 
-    public function __construct(CognitiveComplexityDataCollector $cognitiveComplexityDataCollector)
-    {
+    /**
+     * @var ComplexityAffectingNodeFinder
+     */
+    private $complexityAffectingNodeFinder;
+
+    /**
+     * @var TypeChecker
+     */
+    private $typeChecker;
+
+    public function __construct(
+        CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,
+        ComplexityAffectingNodeFinder $complexityAffectingNodeFinder,
+        TypeChecker $typeChecker
+    ) {
         $this->cognitiveComplexityDataCollector = $cognitiveComplexityDataCollector;
+        $this->complexityAffectingNodeFinder = $complexityAffectingNodeFinder;
+        $this->typeChecker = $typeChecker;
     }
 
     public function reset(): void
@@ -62,11 +80,11 @@ final class NestingNodeVisitor extends AbstractComplexityNodeVisitor
             ++$this->measuredNestingLevel;
         }
 
-        if (! $this->isIncrementingNode($node)) {
+        if (! $this->complexityAffectingNodeFinder->isIncrementingNode($node)) {
             return null;
         }
 
-        if ($this->isBreakingNode($node)) {
+        if ($this->complexityAffectingNodeFinder->isBreakingNode($node)) {
             $this->previousNestingLevel = $this->measuredNestingLevel;
             return null;
         }
@@ -94,6 +112,6 @@ final class NestingNodeVisitor extends AbstractComplexityNodeVisitor
 
     private function isNestingNode(Node $node): bool
     {
-        return $this->isNodeOfTypes($node, self::NESTING_NODE_TYPES);
+        return $this->typeChecker->isInstanceOf($node, self::NESTING_NODE_TYPES);
     }
 }
