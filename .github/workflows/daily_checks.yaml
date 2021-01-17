@@ -1,4 +1,3 @@
-# see https://sonarcloud.io/dashboard?id=symplify_symplify
 name: Daily Checks
 
 on:
@@ -7,32 +6,6 @@ on:
         -   cron: "0 16 * * *"
 
 jobs:
-    sonar:
-        name: Sonar
-        runs-on: ubuntu-latest
-
-        steps:
-            -   uses: actions/checkout@v2
-
-            # see https://github.com/shivammathur/setup-php
-            -   uses: shivammathur/setup-php@v2
-                with:
-                    php-version: 7.3
-                    coverage: none
-
-            -   uses: "ramsey/composer-install@v1"
-
-            # generate sonar file configuration
-            -   run: packages/easy-ci/bin/easy-ci generate-sonar --ansi
-
-            -
-                name: Sonar Cube
-                uses: sonarsource/sonarcloud-github-action@master
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                    # get token here: https://sonarcloud.io/account/security/
-                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
     code_coverage:
         name: Code Coverage
         runs-on: ubuntu-latest

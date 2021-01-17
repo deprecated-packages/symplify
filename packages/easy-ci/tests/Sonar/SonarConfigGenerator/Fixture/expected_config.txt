@@ -1,5 +1,0 @@
-sonar.organization=some_organization
-
-sonar.projectKey=some_project
-
-sonar.sources=%sests/Sonar/SonarConfigGenerator/Fixture/src
