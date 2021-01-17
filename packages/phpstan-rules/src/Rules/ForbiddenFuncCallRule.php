@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\PHPStanRules\Types\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -39,16 +40,23 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
     private $simpleNameResolver;
 
     /**
+     * @var ObjectTypeAnalyzer
+     */
+    private $objectTypeAnalyzer;
+
+    /**
      * @param string[] $forbiddenFunctions
      */
     public function __construct(
         ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         SimpleNameResolver $simpleNameResolver,
+        ObjectTypeAnalyzer $objectTypeAnalyzer,
         array $forbiddenFunctions
     ) {
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
         $this->forbiddenFunctions = $forbiddenFunctions;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
     }
 
     /**
@@ -71,6 +79,11 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
         }
 
         if (! $this->arrayStringAndFnMatcher->isMatch($funcName, $this->forbiddenFunctions)) {
+            return [];
+        }
+
+        // special cases
+        if ($this->shouldAllowSpecialCase($node, $scope, $funcName)) {
             return [];
         }
 
@@ -100,5 +113,17 @@ CODE_SAMPLE
                 ]
             ),
         ]);
+    }
+
+    private function shouldAllowSpecialCase(FuncCall $funcCall, Scope $scope, string $functionName): bool
+    {
+        if ($functionName !== 'property_exists') {
+            return false;
+        }
+
+        $firstArgValue = $funcCall->args[0]->value;
+        $firstArgType = $scope->getType($firstArgValue);
+
+        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectType($firstArgType, 'SimpleXMLElement');
     }
 }

@@ -29,6 +29,11 @@ final class ForbiddenFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
 
         $errorMessage = sprintf(ForbiddenFuncCallRule::ERROR_MESSAGE, 'curl_init');
         yield [__DIR__ . '/Fixture/CurlCall.php', [[$errorMessage, 11]]];
+
+        $errorMessage = sprintf(ForbiddenFuncCallRule::ERROR_MESSAGE, 'property_exists');
+        yield [__DIR__ . '/Fixture/PropertyExists.php', [[$errorMessage, 11]]];
+
+        yield [__DIR__ . '/Fixture/SkipPropertyExistsOnXml.php', []];
     }
 
     protected function getRule(): Rule

@@ -45,3 +45,4 @@ services:
     - Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder
     - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
     - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
+    - Symplify\PHPStanRules\Types\ObjectTypeAnalyzer

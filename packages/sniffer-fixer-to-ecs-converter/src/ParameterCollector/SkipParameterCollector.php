@@ -32,6 +32,10 @@ final class SkipParameterCollector
         $skipParameter = [];
 
         foreach ($simpleXml->children() as $name => $child) {
+            if (! $child instanceof SimpleXMLElement) {
+                continue;
+            }
+
             if ($name === 'rule' && (property_exists($child, 'exclude') && $child->exclude !== null)) {
                 $id = (string) $child->exclude['name'];
                 $className = $this->classFromKeyResolver->resolveFromStringName($id);

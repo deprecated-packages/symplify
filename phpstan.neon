@@ -30,10 +30,9 @@ services:
         class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
-            maxClassCognitiveComplexity: 28
+            maxClassCognitiveComplexity: 25
             limitsByTypes:
                 PHPStan\Rules\Rule: 18
-                Symplify\CodingStandard\Fixer\AbstractArrayFixer: 25
 
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
@@ -146,6 +145,7 @@ parameters:
         # cognitive complexity
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is \d+, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is \d+, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\SnifferFixerToECSConverter\\ParameterCollector\\SkipParameterCollector::collectSkipParameter\(\)" is \d+, keep it under 8#'
 
         - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
         - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'

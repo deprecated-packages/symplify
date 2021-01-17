@@ -10,3 +10,4 @@ services:
                 - 'extract'
                 - 'dump'
                 - 'curl_*'
+                - 'property_exists'
