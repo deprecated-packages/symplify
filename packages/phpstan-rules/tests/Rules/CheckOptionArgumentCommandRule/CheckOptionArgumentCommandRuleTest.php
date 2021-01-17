@@ -22,6 +22,7 @@ final class CheckOptionArgumentCommandRuleTest extends AbstractServiceAwareRuleT
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipCorrectCommand.php', []];
+        yield [__DIR__ . '/Fixture/SkipCorrectSelfConstantCommand.php', []];
 
         yield [
             __DIR__ . '/Fixture/NonExecuteClassMethodCommand.php',

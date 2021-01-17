@@ -103,8 +103,6 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
         }
 
         $printStmts = $this->duplicatedClassMethodPrinter->printClassMethod($node);
-//        $countParam = count($node->params);
-//        $this->contentMethodByCountParamName[$countParam] = $this->contentMethodByCountParamName[$countParam] ?? [];
 
         $validateDuplication = $this->validateDuplication($className, $classMethodName, $printStmts);
         if ($validateDuplication !== []) {

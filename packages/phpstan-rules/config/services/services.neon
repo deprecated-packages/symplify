@@ -48,3 +48,4 @@ services:
     - Symplify\PHPStanRules\Types\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
+    - Symplify\PHPStanRules\NodeFinder\StatementFinder
