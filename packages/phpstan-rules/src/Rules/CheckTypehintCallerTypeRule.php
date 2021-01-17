@@ -9,9 +9,6 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
-use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
@@ -20,9 +17,8 @@ use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
-use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
-use Symplify\PHPStanRules\Printer\NodeComparator;
+use Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder;
+use Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -37,35 +33,21 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Parameter %d should use "%s" type as the only type passed to this method';
 
     /**
-     * @var NodeFinder
+     * @var MethodCallNodeFinder
      */
-    private $nodeFinder;
+    private $methodCallNodeFinder;
 
     /**
-     * @var SimpleNameResolver
+     * @var ClassMethodNodeFinder
      */
-    private $simpleNameResolver;
-
-    /**
-     * @var NodeComparator
-     */
-    private $nodeComparator;
-
-    /**
-     * @var ParentNodeFinder
-     */
-    private $parentNodeFinder;
+    private $classMethodNodeFinder;
 
     public function __construct(
-        NodeComparator $nodeComparator,
-        NodeFinder $nodeFinder,
-        SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder
+        MethodCallNodeFinder $methodCallNodeFinder,
+        ClassMethodNodeFinder $classMethodNodeFinder
     ) {
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->nodeComparator = $nodeComparator;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->methodCallNodeFinder = $methodCallNodeFinder;
+        $this->classMethodNodeFinder = $classMethodNodeFinder;
     }
 
     /**
@@ -142,12 +124,12 @@ CODE_SAMPLE
      */
     private function validateArgVsParamTypes(array $args, MethodCall $methodCall, Scope $scope): array
     {
-        $methodCallUses = $this->findMethodCallUses($methodCall);
+        $methodCallUses = $this->methodCallNodeFinder->findUsages($methodCall);
         if (count($methodCallUses) > 1) {
             return [];
         }
 
-        $classMethod = $this->matchPrivateLocalClassMethod($methodCall);
+        $classMethod = $this->classMethodNodeFinder->findByMethodCall($methodCall);
         if ($classMethod === null) {
             return [];
         }
@@ -211,54 +193,5 @@ CODE_SAMPLE
         }
 
         return sprintf(self::ERROR_MESSAGE, $position + 1, $argTypeAsString);
-    }
-
-    /**
-     * @return MethodCall[]
-     */
-    private function findMethodCallUses(MethodCall $methodCall): array
-    {
-        $class = $this->parentNodeFinder->getFirstParentByType($methodCall, Class_::class);
-        if (! $class instanceof Class_) {
-            return [];
-        }
-
-        return $this->nodeFinder->find($class, function (Node $node) use ($methodCall): bool {
-            if (! $node instanceof MethodCall) {
-                return false;
-            }
-
-            if (! $this->nodeComparator->areNodesEqual($node->var, $methodCall->var)) {
-                return false;
-            }
-
-            return $this->nodeComparator->areNodesEqual($node->name, $methodCall->name);
-        });
-    }
-
-    private function matchPrivateLocalClassMethod(MethodCall $methodCall): ?ClassMethod
-    {
-        $class = $this->parentNodeFinder->getFirstParentByType($methodCall, Class_::class);
-        if (! $class instanceof Class_) {
-            return null;
-        }
-
-        /** @var string|null $methodCallName */
-        $methodCallName = $this->simpleNameResolver->getName($methodCall->name);
-        if ($methodCallName === null) {
-            return null;
-        }
-
-        /** @var ClassMethod|null $classMethod */
-        $classMethod = $class->getMethod($methodCallName);
-        if (! $classMethod instanceof ClassMethod) {
-            return null;
-        }
-
-        if (! $classMethod->isPrivate()) {
-            return null;
-        }
-
-        return $classMethod;
     }
 }

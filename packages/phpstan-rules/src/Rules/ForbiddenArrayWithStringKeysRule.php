@@ -8,20 +8,18 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
 use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver;
 use Symplify\PHPStanRules\ValueObject\MethodName;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -62,14 +60,21 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
      */
     private $parentNodeFinder;
 
+    /**
+     * @var ArrayAnalyzer
+     */
+    private $arrayAnalyzer;
+
     public function __construct(
         ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
         SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder
+        ParentNodeFinder $parentNodeFinder,
+        ArrayAnalyzer $arrayAnalyzer
     ) {
         $this->parentMethodReturnTypeResolver = $parentMethodReturnTypeResolver;
         $this->simpleNameResolver = $simpleNameResolver;
         $this->parentNodeFinder = $parentNodeFinder;
+        $this->arrayAnalyzer = $arrayAnalyzer;
     }
 
     /**
@@ -94,7 +99,7 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! $this->isArrayWithStringKey($node)) {
+        if (! $this->arrayAnalyzer->isArrayWithStringKey($node)) {
             return [];
         }
 
@@ -159,55 +164,13 @@ CODE_SAMPLE
 
     private function isPartOfClassConstOrNew(Array_ $array): bool
     {
-        $currentNode = $array;
-
-        while ($currentNode = $currentNode->getAttribute(PHPStanAttributeKey::PARENT)) {
-            // constants can have default values
-            if ($currentNode instanceof ClassConst) {
-                return true;
-            }
-
-            // the array with string keys is required by the object parameters
-            if ($currentNode instanceof New_) {
-                return true;
-            }
-
-            if ($currentNode instanceof MethodCall) {
-                return true;
-            }
-
-            if ($currentNode instanceof StaticCall) {
-                return true;
-            }
-
-            if ($currentNode instanceof FuncCall) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function isArrayWithStringKey(Array_ $array): bool
-    {
-        foreach ($array->items as $arrayItem) {
-            if ($arrayItem === null) {
-                continue;
-            }
-
-            /** @var ArrayItem $arrayItem */
-            if ($arrayItem->key === null) {
-                continue;
-            }
-
-            if (! $arrayItem->key instanceof String_) {
-                continue;
-            }
-
-            return true;
-        }
-
-        return false;
+        return (bool) $this->parentNodeFinder->getFirstParentByTypes($array, [
+            ClassConst::class,
+            New_::class,
+            MethodCall::class,
+            StaticCall::class,
+            FuncCall::class,
+        ]);
     }
 
     private function shouldSkipClass(Scope $scope): bool

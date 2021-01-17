@@ -41,3 +41,7 @@ services:
     - Symplify\PHPStanRules\NodeFinder\ParentNodeFinder
     - Symplify\PackageBuilder\Php\TypeChecker
     - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
+    - Symplify\PHPStanRules\ParentGuard\ParentParamTypeGuard
+    - Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder
+    - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
+    - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer

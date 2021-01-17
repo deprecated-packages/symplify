@@ -5,23 +5,33 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor;
 
 use PhpParser\Node;
+use PhpParser\NodeVisitorAbstract;
 use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
+use Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer\ComplexityAffectingNodeFinder;
 
-final class ComplexityNodeVisitor extends AbstractComplexityNodeVisitor
+final class ComplexityNodeVisitor extends NodeVisitorAbstract
 {
     /**
      * @var CognitiveComplexityDataCollector
      */
     private $cognitiveComplexityDataCollector;
 
-    public function __construct(CognitiveComplexityDataCollector $cognitiveComplexityDataCollector)
-    {
+    /**
+     * @var ComplexityAffectingNodeFinder
+     */
+    private $complexityAffectingNodeFinder;
+
+    public function __construct(
+        CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,
+        ComplexityAffectingNodeFinder $complexityAffectingNodeFinder
+    ) {
         $this->cognitiveComplexityDataCollector = $cognitiveComplexityDataCollector;
+        $this->complexityAffectingNodeFinder = $complexityAffectingNodeFinder;
     }
 
     public function enterNode(Node $node): ?Node
     {
-        if (! $this->isIncrementingNode($node)) {
+        if (! $this->complexityAffectingNodeFinder->isIncrementingNode($node)) {
             return null;
         }
 

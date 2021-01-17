@@ -14,6 +14,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -39,12 +40,21 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
     private $simpleNameResolver;
 
     /**
+     * @var TypeChecker
+     */
+    private $typeChecker;
+
+    /**
      * @param string[] $forbidddenTypes
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $forbidddenTypes)
-    {
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        TypeChecker $typeChecker,
+        array $forbidddenTypes
+    ) {
         $this->forbidddenTypes = $forbidddenTypes;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->typeChecker = $typeChecker;
     }
 
     /**
@@ -137,7 +147,7 @@ CODE_SAMPLE
             return false;
         }
 
-        return $this->isAMatch($typeName, $this->forbidddenTypes);
+        return $this-> typeChecker->isInstanceOf($typeName, $this->forbidddenTypes);
     }
 
     private function isNullableParam(Param $param): bool
@@ -155,19 +165,5 @@ CODE_SAMPLE
         }
 
         return $param->default->name->toLowerString() === 'null';
-    }
-
-    /**
-     * @param string[] $forbidddenTypes
-     */
-    private function isAMatch(string $desiredType, array $forbidddenTypes): bool
-    {
-        foreach ($forbidddenTypes as $forbidddenType) {
-            if (is_a($desiredType, $forbidddenType, true)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

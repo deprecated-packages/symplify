@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor;
+namespace Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\BooleanAnd;
@@ -19,9 +19,9 @@ use PhpParser\Node\Stmt\Goto_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\Switch_;
 use PhpParser\Node\Stmt\While_;
-use PhpParser\NodeVisitorAbstract;
+use Symplify\PackageBuilder\Php\TypeChecker;
 
-abstract class AbstractComplexityNodeVisitor extends NodeVisitorAbstract
+final class ComplexityAffectingNodeFinder
 {
     /**
      * B1. Increments
@@ -49,23 +49,19 @@ abstract class AbstractComplexityNodeVisitor extends NodeVisitorAbstract
     ];
 
     /**
-     * @param class-string[] $nodeTypes
+     * @var TypeChecker
      */
-    protected function isNodeOfTypes(Node $node, array $nodeTypes): bool
-    {
-        foreach ($nodeTypes as $nodeType) {
-            if (is_a($node, $nodeType, true)) {
-                return true;
-            }
-        }
+    private $typeChecker;
 
-        return false;
+    public function __construct(TypeChecker $typeChecker)
+    {
+        $this->typeChecker = $typeChecker;
     }
 
-    protected function isIncrementingNode(Node $node): bool
+    public function isIncrementingNode(Node $node): bool
     {
         // B1. ternary operator
-        if ($this->isNodeOfTypes($node, self::INCREASING_NODE_TYPES)) {
+        if ($this->typeChecker->isInstanceOf($node, self::INCREASING_NODE_TYPES)) {
             return true;
         }
 
@@ -77,10 +73,10 @@ abstract class AbstractComplexityNodeVisitor extends NodeVisitorAbstract
         return $this->isBreakingNode($node);
     }
 
-    protected function isBreakingNode(Node $node): bool
+    public function isBreakingNode(Node $node): bool
     {
         // B1. goto LABEL, break LABEL, continue LABEL
-        if ($this->isNodeOfTypes($node, self::BREAKING_NODE_TYPES)) {
+        if ($this->typeChecker->isInstanceOf($node, self::BREAKING_NODE_TYPES)) {
             // skip empty breaks
             /** @var Goto_|Break_|Continue_ $node */
             if ($node instanceof Goto_ && $node->name !== null) {
