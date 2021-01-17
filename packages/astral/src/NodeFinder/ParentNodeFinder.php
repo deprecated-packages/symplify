@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\Astral\NodeFinder;
 
 use PhpParser\Node;
+use Symplify\Astral\ValueObject\CommonAttributeKey;
 use Symplify\PackageBuilder\Php\TypeChecker;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 final class ParentNodeFinder
 {
@@ -29,13 +29,13 @@ final class ParentNodeFinder
      */
     public function getFirstParentByType(Node $node, string $nodeClass): ?Node
     {
-        $node = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $node = $node->getAttribute(CommonAttributeKey::PARENT);
         while ($node) {
             if (is_a($node, $nodeClass, true)) {
                 return $node;
             }
 
-            $node = $node->getAttribute(PHPStanAttributeKey::PARENT);
+            $node = $node->getAttribute(\Symplify\Astral\ValueObject\CommonAttributeKey::PARENT);
         }
 
         return null;
@@ -48,13 +48,13 @@ final class ParentNodeFinder
      */
     public function getFirstParentByTypes(Node $node, array $nodeTypes): ?Node
     {
-        $node = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $node = $node->getAttribute(CommonAttributeKey::PARENT);
         while ($node) {
             if ($this->typeChecker->isInstanceOf($node, $nodeTypes)) {
                 return $node;
             }
 
-            $node = $node->getAttribute(PHPStanAttributeKey::PARENT);
+            $node = $node->getAttribute(CommonAttributeKey::PARENT);
         }
 
         return null;
