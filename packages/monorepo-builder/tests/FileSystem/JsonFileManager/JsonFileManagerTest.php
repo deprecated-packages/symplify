@@ -58,7 +58,7 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
         $jsonContent = $this->jsonFileManager->encodeJsonToFileContent([
             'another_key' => 'another_value',
         ]);
-        $this->assertStringEqualsFile(__DIR__ . '/Source/expected-second.json', $jsonContent);
+        $this->assertJsonStringEqualsJsonFile(__DIR__ . '/Source/expected-second.json', $jsonContent);
     }
 
     public function testSaveWithInlinedSections(): void
@@ -68,6 +68,6 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
             'normal_section' => [1, 2, 3],
         ]);
 
-        $this->assertStringEqualsFile(__DIR__ . '/Source/expected-inlined.json', $fileContent);
+        $this->assertJsonStringEqualsJsonFile(__DIR__ . '/Source/expected-inlined.json', $fileContent);
     }
 }
