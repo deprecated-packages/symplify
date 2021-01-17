@@ -102,7 +102,7 @@ final class ComposerJson
     private $replace = [];
 
     /**
-     * @var mixed[]
+     * @var array<string, string|string[]>
      */
     private $scripts = [];
 
@@ -442,7 +442,7 @@ final class ComposerJson
     }
 
     /**
-     * @param mixed[] $scripts
+     * @param array<string, string|string[]> $scripts
      */
     public function setScripts(array $scripts): void
     {
@@ -659,11 +659,19 @@ final class ComposerJson
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, string|string[]>
      */
     public function getScripts(): array
     {
         return $this->scripts;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getScriptsDescriptions(): array
+    {
+        return $this->scriptsDescriptions;
     }
 
     /**
