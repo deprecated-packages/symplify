@@ -59,9 +59,29 @@ final class TwigExtension
 
     /**
      * @var string
+     */
+    public const DATE_FORMAT = 'format';
+
+    /**
+     * @var string
      * @see https://symfony.com/doc/current/reference/configuration/twig.html#number-format
      */
     public const NUMBER_FORMAT = 'number_format';
+
+    /**
+     * @var string
+     */
+    public const NUMBER_FORMAT_DECIMALS = 'decimals';
+
+    /**
+     * @var string
+     */
+    public const DECIMAL_POINT = 'decimal_point';
+
+    /**
+     * @var string
+     */
+    public const THOUSANDS_SEPARATOR = 'thousands_separator';
 
     /**
      * @var string
