@@ -37,7 +37,7 @@ final class PackageProvider
         foreach ($this->composerJsonProvider->getPackagesComposerFileInfos() as $packagesComposerFileInfo) {
             $packageName = $this->detectNameFromFileInfo($packagesComposerFileInfo);
 
-            $hasTests = (bool) file_exists($packagesComposerFileInfo->getRealPathDirectory() . '/tests');
+            $hasTests = file_exists($packagesComposerFileInfo->getRealPathDirectory() . '/tests');
             $packages[] = new Package($packageName, $hasTests);
         }
 
