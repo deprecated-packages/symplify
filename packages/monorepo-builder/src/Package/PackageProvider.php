@@ -36,7 +36,9 @@ final class PackageProvider
         $packages = [];
         foreach ($this->composerJsonProvider->getPackagesComposerFileInfos() as $packagesComposerFileInfo) {
             $packageName = $this->detectNameFromFileInfo($packagesComposerFileInfo);
-            $packages[] = new Package($packageName);
+
+            $hasTests = (bool) file_exists($packagesComposerFileInfo->getRealPathDirectory() . '/tests');
+            $packages[] = new Package($packageName, $hasTests);
         }
 
         usort($packages, function (Package $firstPackage, Package $secondPackage): int {

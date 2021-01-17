@@ -101,4 +101,10 @@ final class Option
      * @var string
      */
     public const GITHUB_TOKEN = 'github_token';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const TESTS = 'tests';
 }
