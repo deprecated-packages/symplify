@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
+use SimpleXMLElement;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PHPStanRules\Types\ObjectTypeAnalyzer;
@@ -124,6 +125,6 @@ CODE_SAMPLE
         $firstArgValue = $funcCall->args[0]->value;
         $firstArgType = $scope->getType($firstArgValue);
 
-        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectType($firstArgType, 'SimpleXMLElement');
+        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectType($firstArgType, SimpleXMLElement::class);
     }
 }

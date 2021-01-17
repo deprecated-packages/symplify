@@ -7,6 +7,8 @@ namespace Symplify\SnifferFixerToECSConverter;
 use SimpleXMLElement;
 use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SnifferFixerToECSConverter\ParameterCollector\SkipParameterCollector;
+use Symplify\SnifferFixerToECSConverter\ValueResolver\ClassFromKeyResolver;
 
 /**
  * @see \Symplify\SnifferFixerToECSConverter\Tests\SnifferToECSConverter\SnifferToECSConverterTest
@@ -29,20 +31,20 @@ final class SnifferToECSConverter
     private $symfonyConfigFormatFactory;
 
     /**
-     * @var ValueResolver\ClassFromKeyResolver
+     * @var ClassFromKeyResolver
      */
     private $classFromKeyResolver;
 
     /**
-     * @var ParameterCollector\SkipParameterCollector
+     * @var SkipParameterCollector
      */
     private $skipParameterCollector;
 
     public function __construct(
         YamlToPhpConverter $yamlToPhpConverter,
         SymfonyConfigFormatFactory $symfonyConfigFormatFactory,
-        \Symplify\SnifferFixerToECSConverter\ValueResolver\ClassFromKeyResolver $classFromKeyResolver,
-        \Symplify\SnifferFixerToECSConverter\ParameterCollector\SkipParameterCollector $skipParameterCollector
+        ClassFromKeyResolver $classFromKeyResolver,
+        SkipParameterCollector $skipParameterCollector
     ) {
         $this->yamlToPhpConverter = $yamlToPhpConverter;
         $this->symfonyConfigFormatFactory = $symfonyConfigFormatFactory;
