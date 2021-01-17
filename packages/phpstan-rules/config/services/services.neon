@@ -46,3 +46,4 @@ services:
     - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
     - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
     - Symplify\PHPStanRules\Types\ObjectTypeAnalyzer
+    - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter

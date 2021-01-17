@@ -6,12 +6,14 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PackageBuilder\Php\TypeChecker;
+use Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -37,20 +39,9 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private const EXCLUDED_TYPES = [Kernel::class, Extension::class];
 
     /**
-     * @var string
-     * @see https://regex101.com/r/cJZZgC/1
-     */
-    private const VARIABLE_REGEX = '#\$\w+[^\s]#';
-
-    /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
-
-    /**
-     * @var Standard
-     */
-    private $printerStandard;
 
     /**
      * @var array<int, array<int, array<string, string>>>
@@ -62,10 +53,24 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     private $reportedClassWithMethodDuplicate = [];
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, Standard $printerStandard)
-    {
+    /**
+     * @var DuplicatedClassMethodPrinter
+     */
+    private $duplicatedClassMethodPrinter;
+
+    /**
+     * @var TypeChecker
+     */
+    private $typeChecker;
+
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        DuplicatedClassMethodPrinter $duplicatedClassMethodPrinter,
+        TypeChecker $typeChecker
+    ) {
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->printerStandard = $printerStandard;
+        $this->duplicatedClassMethodPrinter = $duplicatedClassMethodPrinter;
+        $this->typeChecker = $typeChecker;
     }
 
     /**
@@ -87,7 +92,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->shouldSkip($node, $className)) {
+        if ($this->shouldSkip($node, $scope, $className)) {
             return [];
         }
 
@@ -97,14 +102,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var Node[] $stmts */
-        $stmts = (array) $node->stmts;
-        $stmtCount = count($stmts);
-        if ($stmtCount <= 1) {
-            return [];
-        }
-
-        $printStmts = $this->getPrintStmts($node);
+        $printStmts = $this->duplicatedClassMethodPrinter->printClassMethod($node);
         $countParam = count($node->params);
         $this->contentMethodByCountParamName[$countParam] = $this->contentMethodByCountParamName[$countParam] ?? [];
 
@@ -179,56 +177,46 @@ CODE_SAMPLE
         string $printStmts
     ): array {
         $duplicationPlaceholder = $className . $classMethodName;
-        foreach ($this->contentMethodByCountParamName[$countParam] as $contentMethod) {
-            if ($contentMethod['content'] === $printStmts) {
-                if (in_array($duplicationPlaceholder, $this->reportedClassWithMethodDuplicate, true)) {
-                    continue;
-                }
 
-                $this->reportedClassWithMethodDuplicate[] = $duplicationPlaceholder;
-                return [
-                    sprintf(self::ERROR_MESSAGE, $classMethodName, $contentMethod['method'], $contentMethod['class']),
-                ];
+        foreach ($this->contentMethodByCountParamName[$countParam] as $contentMethod) {
+            if ($contentMethod['content'] !== $printStmts) {
+                continue;
             }
+
+            if (in_array($duplicationPlaceholder, $this->reportedClassWithMethodDuplicate, true)) {
+                continue;
+            }
+
+            $this->reportedClassWithMethodDuplicate[] = $duplicationPlaceholder;
+            return [
+                sprintf(self::ERROR_MESSAGE, $classMethodName, $contentMethod['method'], $contentMethod['class']),
+            ];
         }
 
         return [];
     }
 
-    private function shouldSkip(ClassMethod $classMethod, string $className): bool
+    private function shouldSkip(ClassMethod $classMethod, Scope $scope, string $className): bool
     {
-        if ($this->isExcludedTypes($className)) {
+        if ($scope->isInTrait()) {
             return true;
         }
 
-        if (interface_exists($className)) {
+        if (! $scope->isInClass()) {
             return true;
         }
 
-        if (trait_exists($className)) {
+        if ($this->typeChecker->isInstanceOf($className, self::EXCLUDED_TYPES)) {
+            return true;
+        }
+
+        /** @var Stmt[] $stmts */
+        $stmts = (array) $classMethod->stmts;
+        if (count($stmts) <= 1) {
             return true;
         }
 
         return $this->isConstructorOrInTestClass($classMethod, $className);
-    }
-
-    private function getPrintStmts(ClassMethod $classMethod): string
-    {
-        $content = $this->printerStandard->prettyPrint((array) $classMethod->stmts);
-        return Strings::replace($content, self::VARIABLE_REGEX, function (array $match): string {
-            return '$a';
-        });
-    }
-
-    private function isExcludedTypes(string $className): bool
-    {
-        foreach (self::EXCLUDED_TYPES as $excludedType) {
-            if (is_a($className, $excludedType, true)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private function isConstructorOrInTestClass(ClassMethod $classMethod, string $className): bool
