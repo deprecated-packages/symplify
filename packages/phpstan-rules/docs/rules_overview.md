@@ -1,4 +1,4 @@
-# 123 Rules Overview
+# 124 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3623,6 +3623,57 @@ class SomeClass
     public function run($value)
     {
         return $this->strings->length($value);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## PreferredMethodCallOverIdenticalCompareRule
+
+Use "%s->%s('value')" method call over `"%s->%s()` === 'value'" comparison
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\PreferredMethodCallOverIdenticalCompareRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredMethodCallOverIdenticalCompareRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            identicalToPreferredMethodCalls:
+                Rector\Core\Rector\AbstractRector:
+                    getName: isName
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        $this->getName($node) === 'hey';
+        $this->getName($node) !== 'hey';
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function run($value)
+    {
+        $this->isName($node, 'hey');
+        ! $this->isName($node, 'hey');
     }
 }
 ```
