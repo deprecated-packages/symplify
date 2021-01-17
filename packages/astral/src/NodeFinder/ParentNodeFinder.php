@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\NodeFinder;
+namespace Symplify\Astral\NodeFinder;
 
 use PhpParser\Node;
 use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
-/**
- * @see https://phpstan.org/blog/generics-in-php-using-phpdocs for template
- */
 final class ParentNodeFinder
 {
     /**

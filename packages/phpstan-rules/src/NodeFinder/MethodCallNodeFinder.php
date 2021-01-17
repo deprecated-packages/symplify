@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 
 final class MethodCallNodeFinder
@@ -50,7 +51,7 @@ final class MethodCallNodeFinder
      */
     public function findByName(Node $node, string $methodName): array
     {
-        return $this->nodeFinder->find([$node], function (Node $node) use ($methodName) {
+        return $this->nodeFinder->find([$node], function (Node $node) use ($methodName): bool {
             if (! $node instanceof MethodCall) {
                 return false;
             }

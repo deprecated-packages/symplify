@@ -518,7 +518,7 @@ parameters:
 
         - '#Content of method "doesClassLikeExist\(\)" is duplicated with method "doesClassExists\(\)" in "Symplify\\ClassPresence\\Regex\\NonExistingClassExtractor" class\. Use unique content or abstract service instead#'
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
-        - '#Method Symplify\\PHPStanRules\\NodeFinder\\ParentNodeFinder\:\:getFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
+        - '#Method Symplify\\Astral\\NodeFinder\\ParentNodeFinder\:\:getFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
 
         # manually constructored for Symfony compiler pass, before DI is created
         -

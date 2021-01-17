@@ -8,10 +8,10 @@ use Iterator;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar\String_;
 use PHPUnit\Framework\TestCase;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
 use Symplify\PackageBuilder\Php\TypeChecker;
-use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
 
 final class NodeValueResolverTest extends TestCase
 {

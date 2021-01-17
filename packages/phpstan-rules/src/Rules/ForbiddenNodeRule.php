@@ -10,7 +10,7 @@ use PhpParser\Node\Expr\ErrorSuppress;
 use PhpParser\Node\Stmt;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
