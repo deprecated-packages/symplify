@@ -12,16 +12,11 @@ use Symplify\AutowireArrayParameter\TypeResolver\ParameterTypeResolver;
 final class ParameterSkipper
 {
     /**
-     * @var ParameterTypeResolver
-     */
-    private $parameterTypeResolver;
-
-    /**
      * Classes that create circular dependencies
      * @var string[]
      * @noRector
      */
-    private $excludedFatalClasses = [
+    private const DEFAULT_EXCLUDED_FATAL_CLASSES = [
         'Symfony\Component\Form\FormExtensionInterface',
         'Symfony\Component\Asset\PackageInterface',
         'Symfony\Component\Config\Loader\LoaderInterface',
@@ -32,9 +27,23 @@ final class ParameterSkipper
         'Sonata\Twig\Extension\TemplateExtension',
     ];
 
-    public function __construct(ParameterTypeResolver $parameterTypeResolver)
+    /**
+     * @var ParameterTypeResolver
+     */
+    private $parameterTypeResolver;
+
+    /**
+     * @var string[]
+     */
+    private $excludedFatalClasses = [];
+
+    /**
+     * @param string[] $excludedFatalClasses
+     */
+    public function __construct(ParameterTypeResolver $parameterTypeResolver, array $excludedFatalClasses)
     {
         $this->parameterTypeResolver = $parameterTypeResolver;
+        $this->excludedFatalClasses = array_merge(self::DEFAULT_EXCLUDED_FATAL_CLASSES, $excludedFatalClasses);
     }
 
     public function shouldSkipParameter(
@@ -56,6 +65,7 @@ final class ParameterSkipper
             $reflectionParameter->getName(),
             $reflectionMethod
         );
+
         if ($parameterType === null) {
             return true;
         }

@@ -15,6 +15,11 @@ final class ParameterTypeResolver
      */
     private $paramTypeDocBlockResolver;
 
+    /**
+     * @var array<string, string>
+     */
+    private $resolvedParameterTypesCached = [];
+
     public function __construct(ParamTypeDocBlockResolver $paramTypeDocBlockResolver)
     {
         $this->paramTypeDocBlockResolver = $paramTypeDocBlockResolver;
@@ -22,15 +27,18 @@ final class ParameterTypeResolver
 
     public function resolveParameterType(string $parameterName, ReflectionMethod $reflectionMethod): ?string
     {
-        // @todo apply cache here to avoid double resolving
-
         $docComment = $reflectionMethod->getDocComment();
         if ($docComment === false) {
             return null;
         }
 
-        $resolvedType = $this->paramTypeDocBlockResolver->resolve($docComment, $parameterName);
+        $declaringClassReflection = $reflectionMethod->getDeclaringClass();
+        $uniqueKey = $declaringClassReflection->getName() . $reflectionMethod->getName();
+        if (isset($this->resolvedParameterTypesCached[$uniqueKey])) {
+            return $this->resolvedParameterTypesCached[$uniqueKey];
+        }
 
+        $resolvedType = $this->paramTypeDocBlockResolver->resolve($docComment, $parameterName);
         if ($resolvedType === null) {
             return null;
         }
@@ -40,6 +48,9 @@ final class ParameterTypeResolver
             return null;
         }
 
-        return Reflection::expandClassName($resolvedType, $reflectionMethod->getDeclaringClass());
+        $resolvedClass = Reflection::expandClassName($resolvedType, $declaringClassReflection);
+        $this->resolvedParameterTypesCached[$uniqueKey] = $resolvedClass;
+
+        return $resolvedClass;
     }
 }

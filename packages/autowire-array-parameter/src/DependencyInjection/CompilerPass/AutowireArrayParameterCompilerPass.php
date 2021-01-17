@@ -68,9 +68,8 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 
         $paramTypeDocBlockResolver = new ParamTypeDocBlockResolver();
         $this->parameterTypeResolver = new ParameterTypeResolver($paramTypeDocBlockResolver);
-        $this->parameterSkipper = new ParameterSkipper($this->parameterTypeResolver);
 
-        $this->excludedFatalClasses = array_merge($this->excludedFatalClasses, $excludedFatalClasses);
+        $this->parameterSkipper = new ParameterSkipper($this->parameterTypeResolver, $excludedFatalClasses);
     }
 
     public function process(ContainerBuilder $containerBuilder): void
