@@ -5,17 +5,11 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\ThisType;
 use Symfony\Component\Console\Command\Command;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
-use Symplify\PHPStanRules\Printer\NodeComparator;
+use Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -27,33 +21,7 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '%s() called in configure(), must be called with %s() in execute() in "Symfony\Component\Console\Command\Command" type';
-
-    /**
-     * @var array<string, string>
-     */
-    private const METHOD_CALL_NOTMATCH = [
-        'addOption' => 'getArgument',
-        'addArgument' => 'getOption',
-    ];
-
-    /**
-     * @var array<string, string>
-     */
-    private const METHOD_CALL_MATCH = [
-        'addOption' => 'getOption',
-        'addArgument' => 'getArgument',
-    ];
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var NodeComparator
-     */
-    private $nodeComparator;
+    public const ERROR_MESSAGE = 'Argument and options "%s" got confused';
 
     /**
      * @var SimpleNameResolver
@@ -61,20 +29,16 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
     private $simpleNameResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var MethodCallArgValueResolver
      */
-    private $parentNodeFinder;
+    private $methodCallArgValueResolver;
 
     public function __construct(
-        NodeFinder $nodeFinder,
-        NodeComparator $nodeComparator,
         SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder
+        MethodCallArgValueResolver $methodCallArgValueResolver
     ) {
-        $this->nodeFinder = $nodeFinder;
-        $this->nodeComparator = $nodeComparator;
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->methodCallArgValueResolver = $methodCallArgValueResolver;
     }
 
     /**
@@ -82,33 +46,31 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [MethodCall::class];
+        return [Class_::class];
     }
 
     /**
-     * @param MethodCall $node
+     * @param Class_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->isInInstanceOfCommand($node, $scope)) {
+        if (! $this->isCommand($node)) {
             return [];
         }
 
-        if (! $this->isInConfigureMethod($node)) {
+        $extraArgumentNames = $this->resolveNotMatchingMethodCallUsages($node, $scope, 'addArgument', 'getArgument');
+        $extraOptionNames = $this->resolveNotMatchingMethodCallUsages($node, $scope, 'addOption', 'getOption');
+
+        if ($extraArgumentNames === [] && $extraOptionNames === []) {
             return [];
         }
 
-        $methodCallName = $this->simpleNameResolver->getName($node->name);
-        if ($methodCallName === null) {
-            return [];
-        }
+        $incorrectNames = array_merge($extraOptionNames, $extraArgumentNames);
+        $incorrectNamesString = implode('", "', $incorrectNames);
 
-        if (! array_key_exists($methodCallName, self::METHOD_CALL_MATCH)) {
-            return [];
-        }
-
-        return $this->validateInvalidMethodCall($node, $methodCallName);
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $incorrectNamesString);
+        return [$errorMessage];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -120,12 +82,12 @@ class SomeClass extends Command
 {
     protected function configure(): void
     {
-        $this->addOption(Option::CATEGORIZE, null, InputOption::VALUE_NONE, 'Group in categories');
+        $this->addOption('source');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $shouldCategorize = (bool) $input->getArgument(Option::CATEGORIZE);
+        $source = $input->getArgument('source');
     }
 }
 CODE_SAMPLE
@@ -135,12 +97,12 @@ class SomeClass extends Command
 {
     protected function configure(): void
     {
-        $this->addOption(Option::CATEGORIZE, null, InputOption::VALUE_NONE, 'Group in categories');
+        $this->addArgument('source');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $shouldCategorize = (bool) $input->getOption(Option::CATEGORIZE);
+        $source = $input->getArgument('source');
     }
 }
 CODE_SAMPLE
@@ -148,100 +110,33 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @return string[]
-     */
-    private function validateInvalidMethodCall(MethodCall $methodCall, string $methodCallName): array
+    private function isCommand(Class_ $class): bool
     {
-        $class = $this->parentNodeFinder->getFirstParentByType($methodCall, Class_::class);
-        if (! $class instanceof Class_) {
-            return [];
-        }
-
-        /** @var ClassMethod|null $executeClassMethod */
-        $executeClassMethod = $this->getExecuteClassMethod($class);
-        if ($executeClassMethod === null) {
-            return [];
-        }
-
-        $passedArg = $methodCall->args[0]->value;
-        $invalidMethodCall = self::METHOD_CALL_NOTMATCH[$methodCallName];
-
-        $isFoundInvalidMethodCall = $this->isInvalidMethodCallFound(
-            $executeClassMethod,
-            $passedArg,
-            $invalidMethodCall
-        );
-        if ($isFoundInvalidMethodCall) {
-            return [sprintf(self::ERROR_MESSAGE, $methodCallName, self::METHOD_CALL_MATCH[$methodCallName])];
-        }
-
-        return [];
-    }
-
-    private function getExecuteClassMethod(Class_ $class): ?Node
-    {
-        return $this->nodeFinder->findFirst($class, function (Node $node): bool {
-            if (! $node instanceof ClassMethod) {
-                return false;
-            }
-
-            return $this->simpleNameResolver->isName($node, 'execute');
-        });
-    }
-
-    private function isInConfigureMethod(MethodCall $methodCall): bool
-    {
-        $classMethod = $this->parentNodeFinder->getFirstParentByType($methodCall, ClassMethod::class);
-        if (! $classMethod instanceof ClassMethod) {
-            return false;
-        }
-
-        return $this->simpleNameResolver->isName($classMethod, 'configure');
-    }
-
-    private function isInInstanceOfCommand(MethodCall $methodCall, Scope $scope): bool
-    {
-        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
+        $className = $this->simpleNameResolver->getName($class);
         if ($className === null) {
-            return false;
-        }
-
-        $callerType = $scope->getType($methodCall->var);
-        if (! $callerType instanceof ThisType) {
             return false;
         }
 
         return is_a($className, Command::class, true);
     }
 
-    private function isInvalidMethodCallFound(
-        ClassMethod $executeClassMethod,
-        Expr $argExpr,
-        string $invalidMethodCall
-    ): bool {
-        return (bool) $this->nodeFinder->findFirst(
-            (array) $executeClassMethod->stmts,
-            function (Node $node) use ($argExpr, $invalidMethodCall, $executeClassMethod): bool {
-                if (! $node instanceof MethodCall) {
-                    return false;
-                }
-
-                if (! $this->simpleNameResolver->isName($node->name, $invalidMethodCall)) {
-                    return false;
-                }
-
-                $params = $executeClassMethod->getParams();
-                if ($params === []) {
-                    return false;
-                }
-
-                if (! $this->nodeComparator->areNodesEqual($params[0]->var, $node->var)) {
-                    return false;
-                }
-
-                return $this->nodeComparator->areNodesEqual($node->args[0]->value, $argExpr);
-            }
+    /**
+     * @return string[]
+     */
+    private function resolveNotMatchingMethodCallUsages(
+        Class_ $class,
+        Scope $scope,
+        string $setMethodName,
+        string $getMethodName
+    ): array {
+        $allowedValues = $this->methodCallArgValueResolver->resolveFirstArgInMethodCalls(
+            $class,
+            $scope,
+            $setMethodName
         );
+
+        $usedValues = $this->methodCallArgValueResolver->resolveFirstArgInMethodCalls($class, $scope, $getMethodName);
+
+        return array_diff($usedValues, $allowedValues);
     }
 }

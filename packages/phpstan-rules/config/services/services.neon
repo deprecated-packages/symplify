@@ -38,7 +38,7 @@ services:
     - Symplify\PHPStanRules\Reflection\TraitMethodAnalyser
     - Symplify\PHPStanRules\Naming\BoolishNameAnalyser
     - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
-    - Symplify\PHPStanRules\NodeFinder\ParentNodeFinder
+    - Symplify\Astral\NodeFinder\ParentNodeFinder
     - Symplify\PackageBuilder\Php\TypeChecker
     - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
     - Symplify\PHPStanRules\ParentGuard\ParentParamTypeGuard
@@ -46,3 +46,6 @@ services:
     - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
     - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
     - Symplify\PHPStanRules\Types\ObjectTypeAnalyzer
+    - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
+    - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
+    - Symplify\PHPStanRules\NodeFinder\StatementFinder

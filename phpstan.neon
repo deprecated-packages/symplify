@@ -32,7 +32,7 @@ services:
         arguments:
             maxClassCognitiveComplexity: 25
             limitsByTypes:
-                PHPStan\Rules\Rule: 18
+                PHPStan\Rules\Rule: 16
 
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
@@ -518,10 +518,11 @@ parameters:
 
         - '#Content of method "doesClassLikeExist\(\)" is duplicated with method "doesClassExists\(\)" in "Symplify\\ClassPresence\\Regex\\NonExistingClassExtractor" class\. Use unique content or abstract service instead#'
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
-        - '#Method Symplify\\PHPStanRules\\NodeFinder\\ParentNodeFinder\:\:getFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
+        - '#Method Symplify\\Astral\\NodeFinder\\ParentNodeFinder\:\:getFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
 
         # manually constructored for Symfony compiler pass, before DI is created
         -
              message: '#Do not use scalar or array as constructor parameter\. Use "Symplify\\PackageBuilder\\Parameter\\ParameterProvider" service instead#'
              paths:
                  - packages/autowire-array-parameter/src/Skipper/ParameterSkipper.php
+        - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findByName\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'

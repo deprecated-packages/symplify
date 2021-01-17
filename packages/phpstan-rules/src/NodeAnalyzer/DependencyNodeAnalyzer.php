@@ -15,7 +15,7 @@ use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 
 final class DependencyNodeAnalyzer

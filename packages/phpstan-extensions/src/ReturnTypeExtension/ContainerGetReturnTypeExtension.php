@@ -7,13 +7,10 @@ namespace Symplify\PHPStanExtensions\ReturnTypeExtension;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
+use Symplify\PHPStanExtensions\TypeResolver\ClassConstFetchReturnTypeResolver;
 
 /**
  * @inspiration https://github.com/phpstan/phpstan-symfony/blob/master/src/Type/Symfony/ServiceDynamicReturnTypeExtension.php
@@ -21,14 +18,13 @@ use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
 final class ContainerGetReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     /**
-     * @var SimpleNameResolver
+     * @var ClassConstFetchReturnTypeResolver
      */
-    private $simpleNameResolver;
+    private $classConstFetchReturnTypeResolver;
 
     public function __construct()
     {
-        // intentionally manual here, to prevent double service registration caused by nette/di
-        $this->simpleNameResolver = SimpleNameResolverStaticFactory::create();
+        $this->classConstFetchReturnTypeResolver = new ClassConstFetchReturnTypeResolver();
     }
 
     public function getClass(): string
@@ -46,16 +42,6 @@ final class ContainerGetReturnTypeExtension implements DynamicMethodReturnTypeEx
         MethodCall $methodCall,
         Scope $scope
     ): Type {
-        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
-        if (! isset($methodCall->args[0])) {
-            return $returnType;
-        }
-
-        $className = $this->simpleNameResolver->getName($methodCall->args[0]->value);
-        if ($className !== null) {
-            return new ObjectType($className);
-        }
-
-        return $returnType;
+        return $this->classConstFetchReturnTypeResolver->resolve($methodReflection, $methodCall);
     }
 }

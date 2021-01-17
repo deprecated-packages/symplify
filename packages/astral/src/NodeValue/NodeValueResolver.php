@@ -18,7 +18,10 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\MagicConst\File;
+use PhpParser\Node\Stmt\ClassLike;
+use ReflectionClassConstant;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
 /**
@@ -46,14 +49,23 @@ final class NodeValueResolver
      */
     private $currentFilePath;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, TypeChecker $typeChecker)
-    {
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        TypeChecker $typeChecker,
+        ParentNodeFinder $parentNodeFinder
+    ) {
         $this->simpleNameResolver = $simpleNameResolver;
 
         $this->constExprEvaluator = new ConstExprEvaluator(function (Expr $expr) {
             return $this->resolveByNode($expr);
         });
         $this->typeChecker = $typeChecker;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -76,6 +88,15 @@ final class NodeValueResolver
     private function resolveClassConstFetch(ClassConstFetch $classConstFetch)
     {
         $className = $this->simpleNameResolver->getName($classConstFetch->class);
+
+        if ($className === 'self') {
+            $classLike = $this->parentNodeFinder->getFirstParentByType($classConstFetch, ClassLike::class);
+            if ($classLike === null) {
+                return null;
+            }
+            $className = $this->simpleNameResolver->getName($classLike);
+        }
+
         if ($className === null) {
             return null;
         }
@@ -85,7 +106,8 @@ final class NodeValueResolver
             return null;
         }
 
-        return constant($className . '::' . $constantName);
+        $reflectionClassConstant = new ReflectionClassConstant($className, $constantName);
+        return $reflectionClassConstant->getValue();
     }
 
     private function resolveMagicConst(MagicConst $magicConst): ?string

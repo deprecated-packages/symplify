@@ -18,7 +18,7 @@ use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\CallableType;
 use PHPStan\Type\ObjectType;
-use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\Types\TypeUnwrapper;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;

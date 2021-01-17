@@ -8,6 +8,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
 
 final class ClassMethodNodeFinder
 {

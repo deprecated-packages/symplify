@@ -11,11 +11,11 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\For_;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\PHPStanRules\NodeFinder\ParentNodeFinder;
+use Symplify\PHPStanRules\NodeFinder\StatementFinder;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -32,11 +32,6 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     public const ERROR_MESSAGE = 'Move constant expression to __construct(), setUp() method or constant';
 
     /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
@@ -51,16 +46,21 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
      */
     private $nodeValueResolver;
 
+    /**
+     * @var StatementFinder
+     */
+    private $statementFinder;
+
     public function __construct(
-        NodeFinder $nodeFinder,
         SimpleNameResolver $simpleNameResolver,
         NodeValueResolver $nodeValueResolver,
-        ParentNodeFinder $parentNodeFinder
+        ParentNodeFinder $parentNodeFinder,
+        StatementFinder $statementFinder
     ) {
-        $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
         $this->parentNodeFinder = $parentNodeFinder;
         $this->nodeValueResolver = $nodeValueResolver;
+        $this->statementFinder = $statementFinder;
     }
 
     /**
@@ -94,7 +94,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        if ($this->isUsedInNextStatement($node, $parent)) {
+        if ($this->statementFinder->isUsedInNextStatement($node, $parent)) {
             return [];
         }
 
@@ -162,46 +162,6 @@ CODE_SAMPLE
     {
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
         return ! $parent instanceof ClassMethod;
-    }
-
-    private function isUsedInNextStatement(Assign $assign, Node $node): bool
-    {
-        $var = $assign->var;
-        $varClass = get_class($var);
-        $next = $node->getAttribute(PHPStanAttributeKey::NEXT);
-        $parentOfParentAssignment = $node->getAttribute(PHPStanAttributeKey::PARENT);
-
-        while ($next) {
-            $nextVars = $this->nodeFinder->findInstanceOf($next, $varClass);
-            if ($this->hasSameVar($nextVars, $parentOfParentAssignment, $var)) {
-                return true;
-            }
-
-            $next = $next->getAttribute(PHPStanAttributeKey::NEXT);
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Node[] $nodes
-     */
-    private function hasSameVar(array $nodes, Node $parentOfParentAssignNode, Expr $varExpr): bool
-    {
-        foreach ($nodes as $node) {
-            $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-            $parentOfParentNode = $parent->getAttribute(PHPStanAttributeKey::PARENT);
-
-            if (! $this->simpleNameResolver->areNamesEqual($node, $varExpr)) {
-                continue;
-            }
-
-            if ($parentOfParentNode !== $parentOfParentAssignNode) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private function isInInstatiationClassMethod(Assign $assign): bool

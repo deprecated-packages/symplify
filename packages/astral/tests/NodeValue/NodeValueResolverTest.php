@@ -8,6 +8,7 @@ use Iterator;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar\String_;
 use PHPUnit\Framework\TestCase;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
 use Symplify\PackageBuilder\Php\TypeChecker;
@@ -22,7 +23,8 @@ final class NodeValueResolverTest extends TestCase
     protected function setUp(): void
     {
         $simpleNameResolver = SimpleNameResolverStaticFactory::create();
-        $this->nodeValueResolver = new NodeValueResolver($simpleNameResolver, new TypeChecker());
+        $parentNodeFinder = new ParentNodeFinder(new TypeChecker());
+        $this->nodeValueResolver = new NodeValueResolver($simpleNameResolver, new TypeChecker(), $parentNodeFinder);
     }
 
     /**
