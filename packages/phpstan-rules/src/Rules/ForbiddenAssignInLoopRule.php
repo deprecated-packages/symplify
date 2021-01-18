@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Do_;
@@ -15,6 +16,8 @@ use PHPStan\Analyser\Scope;
 use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use PhpParser\NodeFinder;
+use Symplify\Astral\Naming\SimpleNameResolver;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenAssignInLoopRule\ForbiddenAssignInLoopRuleTest
@@ -36,9 +39,21 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     private $parentNodeFinder;
 
-    public function __construct(ParentNodeFinder $parentNodeFinder)
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(ParentNodeFinder $parentNodeFinder, NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
     {
         $this->parentNodeFinder = $parentNodeFinder;
+        $this->nodeFinder = $nodeFinder;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -57,6 +72,36 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     {
         $loop = $this->parentNodeFinder->getFirstParentByTypes($node, self::LOOP_STMTS);
         if (! $loop instanceof Stmt) {
+            return [];
+        }
+
+        if ($loop instanceof Foreach_) {
+            return $this->validateForeach($node, $loop);
+        }
+
+        return [self::ERROR_MESSAGE];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function validateForeach(Assign $assign, Foreach_ $foreach): array
+    {
+        $isInAssign = (bool) $this->nodeFinder->findFirst($assign, function (Node $node) use ($foreach): bool {
+            $isExprInAssign = $foreach->expr instanceof Expr && $this->simpleNameResolver->areNamesEqual($node, $foreach->expr);
+            if ($isExprInAssign) {
+                return true;
+            }
+
+            $isKeyVarInAssign = $foreach->keyVar instanceof Expr && $this->simpleNameResolver->areNamesEqual($node, $foreach->keyVar);
+            if ($isKeyVarInAssign) {
+                return true;
+            }
+
+            return $foreach->valueVar instanceof Expr && $this->simpleNameResolver->areNamesEqual($node, $foreach->valueVar);
+        });
+
+        if ($isInAssign) {
             return [];
         }
 
