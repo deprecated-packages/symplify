@@ -7,10 +7,10 @@
         "nette/utils": "^3.0",
         "nikic/php-parser": "^4.10.4",
         "symfony/http-kernel": "^4.4|^5.1",
-        "symplify/symplify-kernel": "^9.0.40"
+        "symplify/symplify-kernel": "^9.1"
     },
     "require-dev": {
-        "symplify/easy-testing": "^9.0.40",
+        "symplify/easy-testing": "^9.1",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
