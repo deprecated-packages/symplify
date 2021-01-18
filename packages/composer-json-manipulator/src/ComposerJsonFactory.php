@@ -57,6 +57,10 @@ final class ComposerJsonFactory
     {
         $composerJson = new ComposerJson();
 
+        if (isset($jsonArray[ComposerJsonSection::CONFIG])) {
+            $composerJson->setConfig($jsonArray[ComposerJsonSection::CONFIG]);
+        }
+
         if (isset($jsonArray[ComposerJsonSection::NAME])) {
             $composerJson->setName($jsonArray[ComposerJsonSection::NAME]);
         }
@@ -107,10 +111,6 @@ final class ComposerJsonFactory
 
         if (isset($jsonArray[ComposerJsonSection::REPLACE])) {
             $composerJson->setReplace($jsonArray[ComposerJsonSection::REPLACE]);
-        }
-
-        if (isset($jsonArray[ComposerJsonSection::CONFIG])) {
-            $composerJson->setConfig($jsonArray[ComposerJsonSection::CONFIG]);
         }
 
         if (isset($jsonArray[ComposerJsonSection::EXTRA])) {
