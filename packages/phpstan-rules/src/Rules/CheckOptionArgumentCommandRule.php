@@ -55,6 +55,10 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($node->isAbstract()) {
+            return [];
+        }
+
         if (! $this->isCommand($node)) {
             return [];
         }

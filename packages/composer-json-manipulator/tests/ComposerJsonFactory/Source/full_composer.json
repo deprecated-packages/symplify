@@ -32,6 +32,9 @@
     "scripts": {
         "check-cs": "packages/easy-coding-standard/bin/ecs check --ansi"
     },
+    "scripts-descriptions": {
+        "check-cs": "some-description"
+    },
     "config": {
         "sort-packages": true
     }

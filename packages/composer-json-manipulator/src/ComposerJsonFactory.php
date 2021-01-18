@@ -121,6 +121,10 @@ final class ComposerJsonFactory
             $composerJson->setScripts($jsonArray[ComposerJsonSection::SCRIPTS]);
         }
 
+        if (isset($jsonArray[ComposerJsonSection::SCRIPTS_DESCRIPTIONS])) {
+            $composerJson->setScriptsDescriptions($jsonArray[ComposerJsonSection::SCRIPTS_DESCRIPTIONS]);
+        }
+
         if (isset($jsonArray[ComposerJsonSection::MINIMUM_STABILITY])) {
             $composerJson->setMinimumStability($jsonArray[ComposerJsonSection::MINIMUM_STABILITY]);
         }
