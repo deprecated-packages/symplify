@@ -22,6 +22,7 @@ final class ForbiddenAssignInLoopRuleTest extends AbstractServiceAwareRuleTestCa
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipAssignNotInLoop.php', []];
+        yield [__DIR__ . '/Fixture/SkipAssignExprUseLoopVar.php', []];
         yield [__DIR__ . '/Fixture/AssignInLoop.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 12]]];
     }
 
