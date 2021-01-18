@@ -526,3 +526,9 @@ parameters:
              paths:
                  - packages/autowire-array-parameter/src/Skipper/ParameterSkipper.php
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findByName\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
+
+        -
+             message: '#Do not use static property#'
+             paths:
+                 - packages/phpstan-rules/src/Rules/PreventDuplicateClassMethodRule.php #183
+                 - packages/phpstan-rules/src/Rules/PreventDuplicateClassMethodRule.php #187
