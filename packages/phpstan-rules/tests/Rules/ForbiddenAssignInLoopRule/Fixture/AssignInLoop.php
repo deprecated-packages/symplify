@@ -8,8 +8,10 @@ final class AssignInLoop
 {
     public function run()
     {
-        for ($i = 1; $i < 10; ++$i) {
-            $value = new \stdClass;
+        foreach ($queries as $query) {
+            $value = new SmartFileInfo('a.php');
+            if ($value) {
+            }
         }
     }
 }

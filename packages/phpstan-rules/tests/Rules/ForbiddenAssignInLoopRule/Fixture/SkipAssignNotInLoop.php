@@ -8,6 +8,6 @@ final class SkipAssignNotInLoop
 {
     public function run()
     {
-        $value = new \stdClass;
+        $value = new SmartFileInfo('a.php');
     }
 }
