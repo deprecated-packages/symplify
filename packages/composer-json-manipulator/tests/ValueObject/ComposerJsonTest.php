@@ -16,8 +16,8 @@ final class ComposerJsonTest extends TestCase
         $composerJson->addRequiredPackage('nette/utils', '^3.2');
 
         $this->assertSame([
-            'nette/utils' => '^3.2',
             'symfony/console' => '^5.5',
+            'nette/utils' => '^3.2',
         ], $composerJson->getRequire());
     }
 
@@ -29,8 +29,8 @@ final class ComposerJsonTest extends TestCase
         $composerJson->movePackageToRequireDev('symfony/console');
 
         $this->assertSame([
-            'symfony/console' => '^5.5',
             'symfony/http-kernel' => '^5.5',
+            'symfony/console' => '^5.5',
         ], $composerJson->getRequireDev());
     }
 

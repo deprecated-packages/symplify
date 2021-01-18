@@ -783,6 +783,9 @@ final class ComposerJson
         return $autoloadDirectory;
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function sortPackagesIfNeeded(array $packages): array
     {
         $sortPackages = $this->config['sort-packages'] ?? false;
