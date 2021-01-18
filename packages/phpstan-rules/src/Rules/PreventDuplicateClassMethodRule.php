@@ -51,7 +51,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     /**
      * @var string[]
      */
-    private $reportedClassWithMethodDuplicate = [];
+    private static $reportedClassWithMethodDuplicate = [];
 
     /**
      * @var DuplicatedClassMethodPrinter
@@ -180,11 +180,11 @@ CODE_SAMPLE
                 continue;
             }
 
-            if (in_array($duplicationPlaceholder, $this->reportedClassWithMethodDuplicate, true)) {
+            if (in_array($duplicationPlaceholder, self::$reportedClassWithMethodDuplicate, true)) {
                 continue;
             }
 
-            $this->reportedClassWithMethodDuplicate[] = $duplicationPlaceholder;
+            self::$reportedClassWithMethodDuplicate[] = $duplicationPlaceholder;
             $errorMessage = sprintf(
                 self::ERROR_MESSAGE,
                 $classMethodName,
