@@ -6,15 +6,15 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\Do_;
+use PhpParser\Node\Stmt\For_;
+use PhpParser\Node\Stmt\Foreach_;
+use PhpParser\Node\Stmt\While_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use PhpParser\Node\Stmt;
-use PhpParser\Node\Stmt\For_;
-use PhpParser\Node\Stmt\While_;
-use PhpParser\Node\Stmt\Do_;
-use PhpParser\Node\Stmt\Foreach_;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenAssignInLoopRule\ForbiddenAssignInLoopRuleTest
@@ -27,19 +27,14 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Assign in loop is not allowed.';
 
     /**
+     * @var string[]
+     */
+    private const LOOP_STMTS = [Do_::class, For_::class, Foreach_::class, While_::class];
+
+    /**
      * @var ParentNodeFinder
      */
     private $parentNodeFinder;
-
-    /**
-     * @var string[]
-     */
-    private const LOOP_STMTS = [
-        Do_::class,
-        For_::class,
-        Foreach_::class,
-        While_::class,
-    ];
 
     public function __construct(ParentNodeFinder $parentNodeFinder)
     {
