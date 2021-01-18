@@ -49,6 +49,11 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     private $simpleNameResolver;
 
+    /**
+     * @var Expr
+     */
+    private $assignVariable;
+
     public function __construct(ParentNodeFinder $parentNodeFinder, NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
     {
         $this->parentNodeFinder = $parentNodeFinder;
@@ -102,6 +107,15 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
         });
 
         if ($isInAssign) {
+            $this->assignVariable = $assign->var;
+            return [];
+        }
+
+        $isUsingPrevAssignVariable = (bool) $this->nodeFinder->findFirst($assign, function (Node $node) : bool {
+            return $this->simpleNameResolver->areNamesEqual($node, $this->assignVariable);
+        });
+
+        if ($isUsingPrevAssignVariable) {
             return [];
         }
 
