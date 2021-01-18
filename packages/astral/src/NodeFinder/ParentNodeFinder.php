@@ -35,7 +35,7 @@ final class ParentNodeFinder
                 return $node;
             }
 
-            $node = $node->getAttribute(\Symplify\Astral\ValueObject\CommonAttributeKey::PARENT);
+            $node = $node->getAttribute(CommonAttributeKey::PARENT);
         }
 
         return null;
