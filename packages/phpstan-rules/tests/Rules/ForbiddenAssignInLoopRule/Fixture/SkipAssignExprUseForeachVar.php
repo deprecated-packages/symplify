@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenAssignInLoopRule\Fixture;
 
-final class SkipAssignExprUseLoopVar
+final class SkipAssignExprUseForeachVar
 {
     public function run()
     {
